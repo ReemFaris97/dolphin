@@ -19,6 +19,8 @@ use Illuminate\Http\Request;
         Route::post('login/{role?}', 'AuthController@Login');
         Route::post('reset', 'AuthController@reset_password');
         Route::post('forget', 'AuthController@forget_password');
+
+        Route::post('/register/{role?}','AuthController@register');
     });
 
 
