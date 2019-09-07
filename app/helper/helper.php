@@ -58,7 +58,17 @@ function getimg($filename)
 {
     $base_url = url('/');
     return $base_url . '/' . $filename;
-}/**
+}
+
+function deleteImg($img_name)
+{
+    \Storage::disk('public')->delete(uploadpath(),$img_name);
+    return True;
+}
+
+
+
+/**
  * Get Image
  * @param $filename
  * @return string

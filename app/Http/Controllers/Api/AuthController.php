@@ -37,6 +37,8 @@ class AuthController extends Controller
         if($validation instanceof Response){return $validation;}
         if ($role == "distributor")
             $credentials = ['phone'=>$request->phone,'password'=>$request->password];
+        elseif ($role == "supplier")
+            $credentials = ['phone'=>$request->phone,'password'=>$request->password];
         else
             $credentials = ['phone'=>$request->phone,'password'=>$request->password];
 
