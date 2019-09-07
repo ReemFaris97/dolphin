@@ -1,0 +1,9 @@
+[20-May-2019 20:43:16 UTC] PHP Fatal error:  Cannot redeclare App\Models\Task::images() in /home/panoramaq/dolphin-system.panorama-q.com/dolpin-system/app/Models/Task.php on line 66
+[20-May-2019 20:43:49 UTC] PHP Fatal error:  Cannot redeclare App\Models\Task::images() in /home/panoramaq/dolphin-system.panorama-q.com/dolpin-system/app/Models/Task.php on line 66
+[20-May-2019 20:54:41 UTC] PHP Fatal error:  Cannot redeclare App\Models\Task::images() in /home/panoramaq/dolphin-system.panorama-q.com/dolpin-system/app/Models/Task.php on line 66
+[20-May-2019 20:54:59 UTC] PHP Fatal error:  Cannot redeclare App\Models\Task::images() in /home/panoramaq/dolphin-system.panorama-q.com/dolpin-system/app/Models/Task.php on line 66
+[20-May-2019 20:55:23 UTC] PHP Fatal error:  Cannot redeclare App\Models\Task::currentTask() in /home/panoramaq/dolphin-system.panorama-q.com/dolpin-system/app/Models/Task.php on line 68
+[21-May-2019 13:41:40 UTC] PHP Fatal error:  Cannot redeclare App\Models\TaskUser::findNext() in /home/panoramaq/dolphin-system.panorama-q.com/dolpin-system/app/Models/TaskUser.php on line 21
+[21-May-2019 13:42:14 UTC] PHP Fatal error:  Cannot redeclare App\Models\TaskUser::findNext() in /home/panoramaq/dolphin-system.panorama-q.com/dolpin-system/app/Models/TaskUser.php on line 21
+[30-May-2019 11:11:10 UTC] PHP Parse error:  syntax error, unexpected '<<' (T_SL) in /home/panoramaq/dolphin-system.panorama-q.com/dolpin-system/app/helper/helper.php on line 131
+[30-May-2019 11:11:39 UTC] PHP Parse error:  syntax error, unexpected '<<' (T_SL) in /home/panoramaq/dolphin-system.panorama-q.com/dolpin-system/app/helper/helper.php on line 131

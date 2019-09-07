@@ -1,0 +1,447 @@
+@extends('admin.layouts.app')
+@section('title')
+@endsection
+
+@section('header')
+@endsection
+
+@section('breadcrumb') @php($breadcrumbs=['المهمات'=>route('admin.tasks.index'),$task->name=>route('admin.tasks.show',$task->id)])
+@includeWhen(isset($breadcrumbs),'admin.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
+@endsection
+
+@section('content')
+
+
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <h3 class="m-portlet__head-text">
+
+                        {!! $task->name !!}
+                    </h3>
+                </div>
+            </div>
+            <div class="m-portlet__head-tools">
+                <ul class="m-portlet__nav">
+
+                </ul>
+            </div>
+        </div>
+        <div class="m-portlet__body">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#" data-target="#task_info">المعلومات
+                        الرئيسيه</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#task_users">المنفذون</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " data-toggle="tab" href="#task_log">سجل تغير الموظفين</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " data-toggle="tab" href="#task_notes">ملاحظات المهمات </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " data-toggle="tab" href="#images">المرفقات</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="task_info" role="tabpanel">
+                    <table class="table table-striped- table-bordered table-hover table-checkable datatable">
+                        <thead>
+                        <tr>
+                            <th>الاسم</th>
+                            <th>القيمه</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr>
+                            <td>الاسم</td>
+                            <td colspan="2">{!!$task->name!!}</td>
+                        </tr>
+                        <tr>
+                            <td>النوع</td>
+
+                            <td colspan="2">{!!\App\Models\Task::$types[$task->type]!!}</td>
+                        </tr>
+                        <tr>
+                            <td>الوصف</td>
+                            <td colspan="2">{!!$task->description!!}</td>
+                        </tr>
+
+                        @if($task->type=='date')
+                            <tr>
+                                <td> التاريخ</td>
+                                <td>{!!optional($task->date)->toDateString()!!}</td>
+
+                            </tr>
+                        @endif
+
+                        <tr>
+                            <td>وقت بدايه المهمه</td>
+                            <td colspan="2">{!!$task->time_from!!}</td>
+                        </tr>
+
+                        @if($task->type=='depends')
+                            <tr>
+                                <td> البند</td>
+                                <td colspan="2">{!!$task->clause->name!!}</td>
+
+                            </tr>
+                            <tr>
+                                <td> المعادله</td>
+                                <td colspan="2">{!!$task->equation_mark .' ',$task->clause_amount!!}</td>
+                            </tr>
+
+                        @endif
+                        @if($task->type=='period')
+                            <tr>
+                                <td>الفتره بالايام</td>
+                                <td colspan="2">{!!$task->period!!}</td>
+                            </tr>
+
+                        @endif
+                        @if($task->type=='after_task'))
+                        <tr>
+                            <td>المهمه المعتمده عليها</td>
+                            <td colspan="2">{!!optional($task->afterTask)->name!!}</td>
+                        </tr>
+
+                        @endif
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+                <div class="tab-pane " id="task_users" role="tabpanel">
+                    <table class="table table-striped- table-bordered table-hover table-checkable datatable">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>المده</th>
+                            <th>التقيم</th>
+                            <th>الموظف</th>
+                            <th>القائم على التقيم</th>
+                            <th>القائم على انهاء المهمه</th>
+                            <th>تاريخ الانتهاء</th>
+                            <th>تاريخ التقيم</th>
+                            <th>الاعدادت</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($task->task_users as $user)
+                            <tr>
+                                <td>{!! $loop->iteration !!}</td>
+                                <td>{!!$user->duration!!}</td>
+                                <td>{!!$user->rate!!} /5</td>
+                                <td>{!!optional($user->user)->name!!}</td>
+                                <td>{!!optional($user->rater)->name!!}</td>
+                                <td>{!!optional($user->finisher)->name!!}</td>
+                                <td>{!!\Carbon\Carbon::parse($user->finished_at)->toDateString()!!}</td>
+                                <td>{!!\Carbon\Carbon::parse($user->rated_at)->toDateString()!!}</td>
+                                <td>
+
+                                    @can('replace_tasks')
+                                        <a class="btn btn-info" data-toggle="modal"
+                                           data-target="#edit_task_{!! $user->id !!}">
+                                            <i class="fas fa-pen"></i>
+                                            تعديل
+                                        </a>
+                                    @endif
+                                    @if($user->rate==null&& $user->rater_id==Auth::user()->id &&$user->finished_at!=null)
+                                        <a class="btn btn-primary" data-toggle="modal"
+                                           data-target="#rate_task_{!! $user->id !!}">
+                                            <i class="fas fa-star"></i>
+                                            تقيم
+                                        </a>
+                                    @endif
+                                    @if($user->finished_at==null && $user->finisher_id==Auth::user()->id && $user->can_finish )
+                                        <form method="POST" action="{!!route('admin.tasks.finish',$user->id)!!}">
+                                            @csrf()
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="fas fa-check"></i>
+                                                انهاء
+                                            </button>
+                                        </form>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+                <div class="tab-pane " id="task_log" role="tabpanel">
+                    <table class="table table-striped- table-bordered table-hover table-checkable datatable">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>الموظف السابق</th>
+                            <th>الموظف الحالى</th>
+                            <th>تاريخ التغير</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($task->task_users_logs as $log)
+                            <tr>
+                                <td>{!! $loop->iteration !!}</td>
+
+                                <td>{!!optional($log->old_user)->name!!}</td>
+                                <td>{!!optional($log->new_user)->name!!}</td>
+                                <td>{!!optional($log->created_at)->toDateString()!!}</td>
+                            </tr>
+                        @endforeach
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <div class="tab-pane " id="task_notes" role="tabpanel">
+
+                    <button type="button" class="btn btn-warning" data-toggle="modal"
+                            data-target="#task_notes_create_modal">اضافه ملاحظه
+                    </button>
+                    <!--begin::Portlet-->
+                    @foreach($task->notes as $note)
+                        <div class="m-portlet m-portlet--bordered m-portlet--unair">
+                            <div class="m-portlet__head">
+                                <div class="m-portlet__head-caption">
+                                    <div class="m-portlet__head-title">
+                                        <h3 class="m-portlet__head-text">
+                                            {!! optional($note->user)->name !!}
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="m-portlet__body">
+
+                                @if($note->image)
+
+                                    <img src="{!! asset($note->image) !!}" width="200" height="200"
+                                         class="mx-auto d-block rounded">
+
+                                @endif
+                                <div class="col-md-12 card-body ">
+                                    <p> {!! $note->description !!}
+                                    </p>
+                                </div>
+                            </div>
+
+
+                        </div>
+                @endforeach
+                <!--end::Portlet-->
+
+                </div>
+                <div class="tab-pane " id="images" role="tabpanel">
+
+                    <button type="button" class="btn btn-warning" data-toggle="modal"
+                            data-target="#task_images_create_modal">اضافه مرفق
+                    </button>
+                    <!--begin::Portlet-->
+                    <div class="m-portlet m-portlet--bordered m-portlet--unair">
+
+                        <div class="m-portlet__body">
+                            <div class="row">
+                                @foreach($task->images as $image)
+                                    <a href="{!! asset($image->image) !!}" class="mr-2" data-fancybox="images">
+                                        <img src="{!! asset($image->image) !!}" width="200" height="200"
+                                             class="mx-auto d-block rounded">
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <!--end::Portlet-->
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+    {{--modals--}}
+    @php($users=\App\User::pluck('name','id'))
+    @foreach($task->task_users as $user)
+
+        @can('replace_tasks')
+            <!--begin:: edit task user Modal-->
+            <div class="modal fade" id="edit_task_{!! $user->id !!}" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+
+                        {!! Form::model($user,['method'=>'put','route'=>['admin.task_user.update',$user->id]]) !!}
+
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">التقيم</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="form-group m-form__group">
+                                <label>الموظف </label>
+                                {!! Form::select('user_id',$users,null,['class'=>'form-control m-input select2','placeholder'=>'ادخل اسم الموظف'])!!}
+                            </div>
+
+                            <div class="form-group m-form__group ">
+                                <div class="col-md-3 d-inline-block">
+                                    <label> الايام </label>
+                                    {!! Form::number('days',null,['class'=>'form-control m-input '])!!}
+                                </div>
+                                <div class="col-md-3 d-inline-block">
+                                    <label> الساعات </label>
+                                    {!! Form::number('hours',null,['class'=>'form-control m-input ','min'=>0,'max'=>24])!!}
+                                </div>
+                                <div class="col-md-3 d-inline-block ">
+                                    <label> الدقائق </label>
+                                    {!! Form::number('minutes',null,['class'=>'form-control m-input','min'=>0,'max'=>60])!!}
+                                </div>
+
+                            </div>
+                            <div class="form-group m-form__group">
+                                <label>اختار الموظفين المقييم </label>
+                                {!! Form::select('rater_id',$users,null,['class'=>'form-control m-input select2','placeholder'=>'ادخل اسم المقيم'])!!}
+                            </div>
+
+
+                            <div class="form-group m-form__group">
+                                <label>اختيار الموظفين لبلاغ الانتهاء </label>
+                                {!! Form::select('finisher_id',$users,null,['class'=>'form-control m-input select2','placeholder'=>'ادخل اسم المنشئ'])!!}
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">غلق</button>
+                            <button type="submit" class="btn btn-primary">انهاء</button>
+                        </div>
+
+                        {!! Form::close() !!}
+                    </div>
+                </div>
+            </div>
+            <!--end::edit task user Modal-->
+        @endcan
+        @if($user->rate==null&& $user->rater_id==Auth::user()->id &&$user->finished_at!=null)
+
+            <!--begin:: edit task user Modal-->
+            <div class="modal fade" id="rate_task_{!! $user->id !!}" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <form method="post" action="{!! route('admin.tasks.rate',$user->id) !!}">
+                            @csrf
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">التقيم</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+
+                                <div class="form-group">
+                                    <label for="recipient-name" class="form-control-label">التقيم</label>
+                                    {!! Form::select('rate',[1=>1,2=>2,3=>3,4=>4,5=>5],null,['class'=>'from-control select2','style'=>'width:100%']) !!}
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">غلق</button>
+                                <button type="submit" class="btn btn-primary">انهاء</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--end::edit task user Modal-->
+        @endif
+    @endforeach
+    {{--end modals--}}
+    <!--begin::Modal-->
+    <div class="modal fade" id="task_notes_create_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <form method="post" action="{!! route('admin.task.note.store',$task->id) !!}"
+                      enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">اضافه ملاحظه</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="message-text" class="form-control-label">الملاحظه</label>
+                            <textarea class="form-control" name="description" id="message-text"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="note-image" class="form-control-label">الصوره المرفقة</label>
+                            <input id="note-image" type="file" name="image" class="form-control">
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+                        <button type="submit" class="btn btn-primary">حفظ</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--end::Modal-->  <!--begin::Modal-->
+    <div class="modal fade" id="task_images_create_modal" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <form method="post" action="{!! route('admin.task.images.store',$task->id) !!}"
+                      enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">اضافه مرفق</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label for="note-image" class="form-control-label">الصوره المرفقة</label>
+                            <input id="note-image" type="file" name="image" class="form-control">
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+                        <button type="submit" class="btn btn-primary">حفظ</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--end::Modal-->
+@endsection
+@section('scripts')
+@endsection
