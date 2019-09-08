@@ -7,9 +7,12 @@ use App\Models\SupplierOffer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\ApiResponses;
+use App\Traits\Supplier\OffersOperations;
+use Illuminate\Http\Response;
+
 class OffersController extends Controller
 {
-    use ApiResponses;
+    use ApiResponses,OffersOperations;
     /**
      * Display a listing of the resource.
      *
@@ -39,7 +42,24 @@ class OffersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request['products'] = json_decode($request->products,TRUE);
+        $rules = [
+            'products'=>'required|array',
+            'products.*.product_id' =>'required|integer|exists:products,id',
+            "products.*.quantity" => "required|integer",
+            "products.*.price" => "required|integer",
+        ];
+        $validation = $this->apiValidation($request,$rules);
+
+        if ($validation instanceof Response) {
+            return $validation;
+        }
+
+
+        $this->RegisterOffer($request);
+        return "success";
+
+
     }
 
     /**

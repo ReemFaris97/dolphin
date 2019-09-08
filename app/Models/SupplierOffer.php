@@ -3,14 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 class SupplierOffer extends Model
 {
-    public function products(){
-        return $this->hasMany(Product::class,'product_id');
-    }
+    use SoftDeletes;
+    protected $fillable = ['user_id'];
 
-    public function offerValue(){
-        return $this->products->count('price');
+    public function offer_products(){
+        return $this->hasMany(OfferProduct::class,'supplier_offer_id');
     }
 }
