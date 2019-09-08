@@ -26,4 +26,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
 
     Route::get('/inventory','InventoryController@index');
 
+    Route::resource('/offers','OffersController');
+
+
 });
