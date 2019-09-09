@@ -55,9 +55,8 @@ class OffersController extends Controller
             return $validation;
         }
 
-
         $this->RegisterOffer($request);
-        return "success";
+        return $this->apiResponse(null,"تم الإضافة بنجاح");
 
 
     }

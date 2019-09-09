@@ -19,7 +19,7 @@ class InventoryResource extends ResourceCollection
                 return [
                     'id'=>$q->id,
                     'name'=>$q->name,
-                    'quantity_per_unit'=>(int)$q->quantity_per_unit,
+                    'quantity'=>(int)$q->quantity(),
                     'min_quantity'=>(int)$q->min_quantity,
                     'max_quantity'=>(int)$q->max_quantity,
 

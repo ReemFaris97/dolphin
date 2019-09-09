@@ -25,6 +25,39 @@ class AuthController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
+
+
+    public function register(Request $request){
+        $rules = [
+            'name' =>'required|string|max:191',
+            'phone'      =>'required|string|unique:users',
+            'email'      =>'nullable|email|max:191|unique:users',
+            'tax_number' =>'required|numeric|max:191',
+            'lat'      =>'required|string',
+            'lng'      =>'required|string',
+            'bank_account_number'=>'required|numeric',
+            'bank_name'=>'required|string',
+            'password'   =>'required|string|confirmed|max:191',
+            'fcm_token_android'=>'required_without:fcm_token_ios',
+            'fcm_token_ios'=>'required_without:fcm_token_android',
+            'supplier_type'=>'required|in:dolphin,romana',
+        ];
+
+        $validation = $this->apiValidation($request,$rules);
+
+        if ($validation instanceof Response) {
+            return $validation;
+        }
+
+        return $user =$this->RegisterUser($request);
+//        $token = JWTAuth::fromUser($user);
+//        $user['token'] = $token;
+//        $user =  new UserResource($user);
+//        if ($token && $user) {return $this->createdResponse($user);}
+//        $this->unKnowError();
+    }
+
+
     public function login(Request $request,$role=null)
     {
         $rules = [

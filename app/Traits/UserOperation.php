@@ -19,6 +19,8 @@ trait UserOperation
               $inputs['image'] = saveImage($request->image,'users');
           }
       }
+
+      $inputs['is_supplier'] = 1;
        return User::create($inputs);
   }
 
