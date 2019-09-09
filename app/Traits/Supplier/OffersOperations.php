@@ -15,7 +15,6 @@ trait OffersOperations
 
         DB::beginTransaction();
         try {
-            $inputs = $request->all();
             $offer = SupplierOffer::create(['user_id'=>auth()->id()]);
             foreach ($request->products as $item)
             {
@@ -31,6 +30,19 @@ trait OffersOperations
             dd($e);
             return false;
         }
+
+    }
+
+    public function UpdateOffer($request,$offer){
+        $offer->offer_products()->delete();
+
+        foreach ($request->products as $item)
+        {
+            $product = Product::find($item['product_id']);
+            $offer->offer_products()->create(['product_id'=>$item['product_id'],'quantity'=> $item['quantity'],'price'=>$item['price']]);
+        }
+
+        return $offer;
 
     }
 }
