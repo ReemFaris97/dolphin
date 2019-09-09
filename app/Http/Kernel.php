@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\DistributorMiddleware;
+use App\Http\Middleware\SupplierMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -62,6 +63,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'distributor'=>DistributorMiddleware::class,
+        'supplier'=>SupplierMiddleware::class,
     ];
 
     /**

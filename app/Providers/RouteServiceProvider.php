@@ -19,6 +19,7 @@ class RouteServiceProvider extends ServiceProvider
     protected $apiNamespace = 'App\Http\Controllers\Api';
     protected $apiDistributorNamespace = 'App\Http\Controllers\Api\Distributor';
     protected $apiSupplierNamespace = 'App\Http\Controllers\Api\Supplier';
+    protected $supplierNameSpace = 'App\Http\Controllers\Supplier';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -45,6 +46,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapAdminRoutes();
         $this->mapDistributorRoutes();
         $this->mapDistributorAdminRoutes();
+        $this->mapSupplierAdminRoutes();
         $this->mapSupplierRoutes();
 
         //
@@ -118,5 +120,17 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware('api')
             ->namespace($this->apiSupplierNamespace)
             ->group(base_path('routes/Api/supplier.php'));
+
     }
+
+    protected function mapSupplierAdminRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->supplierNameSpace)
+            ->as('supplier.')
+            ->prefix('supplier')
+            ->group(base_path('routes/supplier.php'));
+    }
+
+
 }

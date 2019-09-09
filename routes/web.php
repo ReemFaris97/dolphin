@@ -19,7 +19,12 @@ Route::get('/check',function(){
     if(auth()->check()){
         if(auth()->user()->is_distributor == 1){
             return redirect('/distributor/home');
-        }else{
+        }
+
+    elseif(auth()->user()->is_supplier == 1) {
+        return redirect('/supplier/home');
+    }
+    else{
             return redirect('/admin');
         }
     }else{
