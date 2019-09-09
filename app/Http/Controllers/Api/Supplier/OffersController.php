@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Supplier;
 
 use App\Http\Resources\Supplier\OffersResource;
+use App\Http\Resources\Supplier\SingleOfferResource;
 use App\Models\SupplierOffer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -20,7 +21,8 @@ class OffersController extends Controller
      */
     public function index()
     {
-        $offers = SupplierOffer::paginate($this->paginateNumber);
+        $offers = SupplierOffer::where('user_id',auth()->id())->paginate($this->paginateNumber);
+
         return $this->apiResponse(new OffersResource($offers));
     }
 
@@ -55,9 +57,8 @@ class OffersController extends Controller
             return $validation;
         }
 
-
-        $this->RegisterOffer($request);
-        return "success";
+        $offer =  $this->RegisterOffer($request);
+        return $this->apiResponse(new SingleOfferResource($offer));
 
 
     }

@@ -16,15 +16,17 @@ use Illuminate\Http\Request;
 
 
     Route::group(['prefix'=>'auth'],function () {
+        Route::post('/register','AuthController@register');
         Route::post('login/{role?}', 'AuthController@Login');
+
         Route::post('reset', 'AuthController@reset_password');
         Route::post('forget', 'AuthController@forget_password');
 
-        Route::post('/register/{role?}','AuthController@register');
     });
 
 
 Route::group(['middleware' => ['jwt.auth']], function () {
+    Route::post('auth/activate', 'AuthController@phone_activation');
 
     Route::group(['prefix' => 'user'], function () {
         Route::get('logout','AuthController@Logout');

@@ -19,6 +19,9 @@ trait UserOperation
               $inputs['image'] = saveImage($request->image,'users');
           }
       }
+
+      $inputs['is_supplier'] = 1;
+      $inputs['verification_code'] = 1234;
        return User::create($inputs);
   }
 

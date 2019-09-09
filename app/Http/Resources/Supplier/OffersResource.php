@@ -18,8 +18,8 @@ class OffersResource extends ResourceCollection
             'offers'=>$this->collection->transform(function ($q){
                 return [
                     'id'=>$q->id,
-                    'created_at'=>$this->created_at->toDateString(),
-                    'offer_value'=>$q->offerValue(),
+                    'created_at'=>$q->created_at->toDateString(),
+                    'offer_value'=>$q->totalOffer(),
                 ];
             }),
             'paginate'=>[

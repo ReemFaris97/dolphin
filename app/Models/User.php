@@ -31,7 +31,7 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $fillable = [
         'name', 'phone', 'email', 'password', 'image', 'job', 'nationality', 'company_name', 'blocked_at', 'is_admin', 'remember_token'
-,'is_distributor'
+,'is_distributor','is_supplier','supplier_type','tex_number','lat','lng','bank_account_number','bank_name','verification_code'
     ];
 
     /**
@@ -95,7 +95,13 @@ class User extends Authenticatable implements JWTSubject
 
     public function IsDistributor():bool
     {
-        return $this->is_distributor;
+
+        return $this->is_distributor?1:0;
+    }
+
+    public function IsSupplier():bool
+    {
+        return $this->is_supplier?1:0;
     }
 
     public function getTypeAttribute()
