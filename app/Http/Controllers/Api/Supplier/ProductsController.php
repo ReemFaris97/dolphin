@@ -30,6 +30,11 @@ class ProductsController extends Controller
         return $this->apiResponse(new ProductsResource($products));
     }
 
+    public function productsList($id){
+        $products = Product::where('store_id',$id)->pluck('id','name');
+        return $this->apiResponse($products);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -149,7 +154,7 @@ class ProductsController extends Controller
 
 
     public function getAllStores($id){
-        $stores = Store::where('store_category_id',$id)->paginate($this->paginateNumber);
+        $stores = Store::where('store_category_id',$id)->get();
         return $this->apiResponse(new StoreResource($stores));
     }
 
