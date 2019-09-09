@@ -21,8 +21,9 @@ Route::post('auth/register/{role}','AuthController@register');
 Route::group(['middleware' => ['jwt.auth']], function () {
 
     Route::resource('/products','ProductsController');
-    Route::post('/stores/{id}','ProductsController@getAllStores');
+    Route::get('/products/list/{id}','ProductsController@productsList');
     Route::get('stores/categories','ProductsController@getStoresCategories');
+    Route::get('stores/{id}','ProductsController@getAllStores');
 
     Route::get('/inventory','InventoryController@index');
 
