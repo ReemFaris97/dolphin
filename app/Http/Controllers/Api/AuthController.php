@@ -32,7 +32,7 @@ class AuthController extends Controller
             'name' =>'required|string|max:191',
             'phone'      =>'required|string|unique:users',
             'email'      =>'nullable|email|max:191|unique:users',
-            'tax_number' =>'required|numeric|max:191',
+            'tax_number' =>'required|numeric',
             'lat'      =>'required|string',
             'lng'      =>'required|string',
             'bank_account_number'=>'required|numeric',
@@ -49,12 +49,12 @@ class AuthController extends Controller
             return $validation;
         }
 
-        return $user =$this->RegisterUser($request);
-//        $token = JWTAuth::fromUser($user);
-//        $user['token'] = $token;
-//        $user =  new UserResource($user);
-//        if ($token && $user) {return $this->createdResponse($user);}
-//        $this->unKnowError();
+         $user =$this->RegisterUser($request);
+        $token = JWTAuth::fromUser($user);
+        $user['token'] = $token;
+        $user =  new UserResource($user);
+        if ($token && $user) {return $this->createdResponse($user);}
+        $this->unKnowError();
     }
 
 
@@ -206,6 +206,27 @@ class AuthController extends Controller
         if (!$notification) return $this->notFoundResponse();
         $notification->delete();
         return $this->apiResponse('تم الحذف بنجاح');
+    }
+
+    public function phone_activation(Request $request){
+
+
+        $rules = [
+            'verification_code'=>'required'
+        ];
+        $validation=$this->apiValidation($request,$rules);
+        if($validation instanceof Response)return $validation;
+
+        $user=User::where('phone',auth()->user()->phone)->where('verification_code',$request['verification_code'])->first();
+
+        if ($user){
+            $user->is_verified=1;
+            $user->verification_code=1234;
+            $user->save();
+            return $this->apiResponse("الكود صحيح ..");
+        }else{
+            return $this->apiResponse('',"الكود خطأ .. ",'402');
+        }
     }
 
 }

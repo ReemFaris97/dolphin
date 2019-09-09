@@ -25,7 +25,7 @@ trait OffersOperations
 
             DB::commit();
 
-            return true;
+            return $offer;
         } catch (\Exception $e) {
             DB::rollback();
             dd($e);
