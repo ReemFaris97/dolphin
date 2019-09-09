@@ -94,7 +94,21 @@ class OffersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $offer = SupplierOffer::find($id);
+        if(!$offer) return $this->apiResponse(null,'العرض غير موجود');
+
+        $request['products'] = json_decode($request->products,TRUE);
+        $rules = [
+            'products'=>'required|array',
+            'products.*.product_id' =>'required|integer|exists:products,id',
+            "products.*.quantity" => "required|integer",
+            "products.*.price" => "required|integer",
+        ];
+        $validation = $this->apiValidation($request,$rules);
+
+        $offer =  $this->UpdateOffer($request,$offer);
+        return $this->apiResponse(new SingleOfferResource($offer));
+
     }
 
     /**
@@ -105,6 +119,13 @@ class OffersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $offer = SupplierOffer::find($id);
+        if($offer){
+            $offer->delete();
+            return $this->apiResponse('تم حذف العرض بنجاح');
+        }
+        else{
+            return $this->apiResponse(null,"العرض غير موجود",404);
+        }
     }
 }
