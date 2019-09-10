@@ -197,11 +197,11 @@ class Task extends Model
 
     public function taskStatus($id)
     {
-        $task =  Task::present(auth()->user()->id,1)->where('id',$id)->first();
+        $task =  Task::present(auth()->user()->id)->where('id',$id)->first();
         if ($task) return "present";
-        $task =  Task::future(auth()->user()->id,1)->where('id',$id)->first();
+        $task =  Task::future(auth()->user()->id)->where('id',$id)->first();
         if ($task)  return "future";
-        $task =  Task::old(auth()->user()->id,1)->where('id',$id)->first();
+        $task =  Task::old(auth()->user()->id)->where('id',$id)->first();
         if ($task)  return "old";
         $task =  Task::toFinish(auth()->user()->id)->where('id',$id)->first();
         if ($task)  return "to_finish";
