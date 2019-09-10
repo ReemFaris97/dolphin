@@ -17,6 +17,8 @@ class SingleOfferResource extends JsonResource
         return [
             'id' => $this->id,
             'user_id' =>(int)$this->user_id,
+            'user_name' =>$this->user->name,
+            'created_at'=>$this->created_at->toDateString(),
             'products'=>$this->offer_products->transform(function ($q){
                 return [
                     'supplier_offer_id'=>$q->supplier_offer_id,

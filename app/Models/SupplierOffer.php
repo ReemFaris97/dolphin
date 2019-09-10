@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 class SupplierOffer extends Model
@@ -22,5 +23,9 @@ class SupplierOffer extends Model
         }
 
         return $total;
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class,'user_id');
     }
 }
