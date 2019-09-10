@@ -26,4 +26,8 @@ class Product extends Model
         $count = $this->quantities()->where(['is_confirmed'=>1,'type'=>'in'])->sum('quantity');
         return $count??0;
     }
+    public function images()
+    {
+        return $this->morphMany(Image::class,'model');
+    }
 }

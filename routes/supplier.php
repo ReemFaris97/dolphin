@@ -11,5 +11,7 @@ Route::middleware('supplier')->group(function () {
     Route::resource('/suppliers', 'SupplierController');
     Route::patch('suppliers/block/{user}', 'SupplierController@block')->name('suppliers.block');
 
+    Route::resource('/offers', 'OfferProductController');
+
 });
 
