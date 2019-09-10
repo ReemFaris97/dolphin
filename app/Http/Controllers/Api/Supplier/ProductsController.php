@@ -137,6 +137,14 @@ class ProductsController extends Controller
             }
 
             $product->update($inputs);
+
+            if($request->has('images') && $request->images !=null) {
+                $product->images()->delete();
+                foreach ($request->images as $image) {
+                    $product->images()->create(['image' => saveImage($image, 'users')]);
+                }
+            }
+
             return $this->apiResponse(new SingleProduct($product));
 
         }
