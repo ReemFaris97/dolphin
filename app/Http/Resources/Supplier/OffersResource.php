@@ -25,7 +25,7 @@ class OffersResource extends ResourceCollection
                         return [
                             'supplier_offer_id'=>$qu->supplier_offer_id,
                             'product'=>[
-                                'product_name'=>$qu->product->name,
+                                'product_name'=>optional($qu->product)->name?$qu->product->name:"",
                                 'price'=>$qu->price,
                                 'quantity'=>$qu->quantity,
                             ],
