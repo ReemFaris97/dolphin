@@ -34,7 +34,7 @@
                     <!--begin::Form-->
 
                     {!! Form::open(['method'=>'post','route'=>'supplier.offers.store','files'=>'true','class'=>'clearfix m-form m-form--fit m-form--label-align-right'])!!}
-                    @include('supplier.offers._form')
+                    @include('suppliers.offers._form')
 
                     <div class="m-portlet__foot m-portlet__foot--fit full--width">
                         <div class="m-form__actions">

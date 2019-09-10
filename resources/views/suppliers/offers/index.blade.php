@@ -1,11 +1,12 @@
-@extends('distributor.layouts.app')
-@section('title') الاعضاء
+@extends('suppliers.layouts.app')
+@section('title')
+    العروض
 @endsection
 
 @section('header')
 @endsection
 
-@section('breadcrumb') @php($breadcrumbs=['العملاء'=>route('supplier.offers.index'),])
+@section('breadcrumb') @php($breadcrumbs=['العروض'=>route('supplier.offers.index'),])
 @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
 
@@ -16,7 +17,7 @@
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-title">
                     <h3 class="m-portlet__head-text">
-                        كل العملاء
+                        كل العروض
                     </h3>
                 </div>
             </div>
@@ -27,7 +28,7 @@
                            class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">
                         <span>
                             <i class="fas fa-plus"></i>
-                            <span>اضافه عميل جديد</span>
+                            <span>اضافه عرض  جديد</span>
                         </span>
                         </a>
                     </li>
@@ -37,7 +38,7 @@
             </div>
         </div>
         <div class="m-portlet__body">
-            @include('supplier.offers._table')
+            @include('suppliers.offers._table')
         </div>
     </div>
 @endsection

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Supplier;
 
+use App\Models\OfferProduct;
+use App\Models\Product;
+use App\Models\SupplierOffer;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -11,7 +14,7 @@ use App\Traits\Viewable;
 class OfferProductController extends Controller
 {
     use Viewable;
-    private $viewable = 'suppliers.suppliers.';
+    private $viewable = 'suppliers.offers.';
     /**
      * Display a listing of the resource.
      *
@@ -19,8 +22,8 @@ class OfferProductController extends Controller
      */
     public function index()
     {
-        $suppliers = User::where('is_supplier',1)->get()->reverse();
-        return $this->toIndex(compact('suppliers'));
+        $offers = SupplierOffer::all()->reverse();
+        return $this->toIndex(compact('offers'));
     }
 
     /**
@@ -30,7 +33,9 @@ class OfferProductController extends Controller
      */
     public function create()
     {
-        return $this->toCreate();
+        $products=Product::all();
+      //  $product=[];
+        return $this->toCreate(compact('products'));
     }
 
     /**
@@ -42,24 +47,33 @@ class OfferProductController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name'=>'required|string|max:191',
-            'phone'=>'required|numeric|unique:users,phone',
-            'email'=>'required|string|unique:users,email',
-            'password'=>'required|string|confirmed|max:191',
-            'image'=>'nullable|sometimes|image',
-        ];
+            'products'=>'required|array',
+            'qtys'=>'required|array',
+            'prices'=>'required|array',
 
+
+        ];
         $this->validate($request,$rules);
 
-        $requests = $request->except('image');
-        if ($request->hasFile('image')) {
-            $requests['image'] = saveImage($request->image, 'users');
-        }
-        $requests['is_supplier'] = 1;
-        $user = User::create($requests);
+        $inputs = $request->all();
+     $offer = SupplierOffer::create(['user_id'=>auth()->id()]);
+        $collection = collect([$inputs]);
+
+        $products = collect($inputs['products']);
+        $qtys = collect($inputs['qtys']);
+        $prices = collect($inputs['prices']);
+       $merges = $products->zip($qtys,$prices);
+
+       foreach ($merges as $merge)
+
+       {
+          $offerProduct= OfferProduct::create(['product_id'=>$merge['0'],'quantity'=> $merge['1'],'price'=>$merge['2'],'supplier_offer_id'=>$offer->id]);
+
+       }
+
 
         toast('تم الاضافه بنجاح', 'success', 'top-right');
-        return redirect()->route('supplier.suppliers.index');
+        return redirect()->route('supplier.offers.index');
     }
 
     /**
@@ -81,8 +95,10 @@ class OfferProductController extends Controller
      */
     public function edit($id)
     {
-        $user = User::findOrFail($id);
-        return $this->toEdit(compact('user'));
+        $supplieroffer= SupplierOffer::findOrFail($id);
+        $products=Product::all();
+       $supplieroffer->offer_products;
+        return $this->toEdit(compact('supplieroffer','products'));
     }
 
     /**
@@ -125,27 +141,28 @@ class OfferProductController extends Controller
      */
     public function destroy($id)
     {
-//        if (!auth()->user()->hasPermissionTo('delete_workers')) {
-//            return abort(401);
-//        }
 
-        User::find($id)->forceDelete();
+       $dd=  SupplierOffer::find($id);
+    $dd->delete();
         toast('تم الحذف', 'success', 'top-right');
         return back();
     }
 
-    public function block($id)
+    public function remove($id)
     {
-        $user = User::find($id);
 
-        $blocked_at = $user->blocked_at;
-        if ($blocked_at == null) {
-            $user->fill(['blocked_at' => Carbon::now(env('TIME_ZONE','Africa/Cairo'))]);
-        } else {
-            $user->fill(['blocked_at' => null]);
-        }
-        $user->save();
-        toast('تم التعديل', 'success', 'top-right');
+        $dd=  OfferProduct::find($id);
+        $dd->delete();
+        toast('تم الحذف', 'success', 'top-right');
         return back();
     }
+    public function getAjaxProductQty(Request $request){
+        $product = Product::find($request->id);
+        return response()->json([
+            'data'=>$product->qty
+        ]);
+    }
 }
+
+
+

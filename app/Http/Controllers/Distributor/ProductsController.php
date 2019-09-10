@@ -66,7 +66,7 @@ class ProductsController extends Controller
        // dd($inputs);
         $inputs['expired_at'] = Carbon::parse($request->expired_at);
         $inputs['image'] =  saveImage($request->image, 'products');
-        $image[]=$inputs['images'];
+
 
 
         $product=Product::create($inputs);

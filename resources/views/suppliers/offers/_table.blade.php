@@ -7,25 +7,29 @@
     <thead>
     <tr>
         <th>#</th>
-        <th>الاسم</th>
-        <th>الهاتف</th>
-        <th>البريد الالكترونى</th>
-        <th>إسم المخزن</th>
+        <th>رقم العرض </th>
+        <th>تاريخ العرض</th>
+        <th> قيمته</th>
+
 
         <th>الاعدادت</th>
     </tr>
     </thead>
     <tbody>
-    @foreach($clients as $user)
+    @foreach($offers as $offer)
+        <?php
+                $total=\App\Models\OfferProduct::where('supplier_offer_id',$offer->id)->sum('price');
+        ?>
+
         <tr>
             <td>{!!$loop->iteration!!}</td>
-            <td>{!!$user->name!!}</td>
-            <td>{!!$user->phone!!}</td>
-            <td>{!!$user->email!!}</td>
-            <td>{!!$user->store_name !!}</td>
+            <td>{!!$offer-> id!!}</td>
+            <td>{!!$offer->created_at!!}</td>
+            <td>{!!$total !!}</td>
+
             <td>
-                <a href="{!!route('supplier.offers..edit',$user->id)!!}" class="btn btn-primary"> <i class="fas fa-pen"></i> تعديل</a>
-                <form method="POST" action="{!!route('supplier.offers.destroy',$user->id)!!}">
+                <a href="{!!route('supplier.offers.edit',$offer->id)!!}" class="btn btn-primary"> <i class="fas fa-pen"></i> تعديل</a>
+                <form method="POST" action="{!!route('supplier.offers.destroy',$offer->id)!!}">
                     @csrf() @method('delete')
                     <button type="submit" class="btn btn-danger">
                         <i class="fas fa-trash"></i>
@@ -34,31 +38,6 @@
                 </form>
 
 
-{{--                <form method="POST" action="{{route('distributor.clients.block',$user->id)}}">--}}
-{{--                    @csrf() @method('patch')--}}
-{{--                    @if($user->blocked_at==null)--}}
-{{--                        <button type="submit" class="btn btn-warning">--}}
-{{--                            <i class="fas fa-skull"></i>--}}
-{{--                            حظر--}}
-{{--                        </button>--}}
-{{--                        <button type="submit" class="btn btn-warning"--}}
-{{--                                onclick="if(!confirm('هل انت متاكد من حظر العميل')) event.preventDefault() ">--}}
-{{--                            <i class="fas fa-skull"></i>--}}
-{{--                            حظر--}}
-{{--                        </button>--}}
-{{--                    @else--}}
-{{--                        <button type="submit" class="btn btn-success">--}}
-{{--                            <i class="far fa-thumbs-up"></i>--}}
-{{--                            تفعيل--}}
-{{--                        </button>--}}
-{{--                        <button type="submit" class="btn btn-success"--}}
-{{--                                onclick="if(!confirm('هل انت متاكد من تفعيل العميل')) event.preventDefault() ">--}}
-{{--                            <i class="far fa-thumbs-up"></i>--}}
-{{--                            تفعيل--}}
-{{--                        </button>--}}
-{{--                    @endif--}}
-{{--                </form>--}}
-            </td>
 
         </tr>
     @endforeach
@@ -66,10 +45,9 @@
     <tfoot>
     <tr>
         <th>#</th>
-        <th>الصوره</th>
-        <th>الاسم</th>
-        <th>الهاتف</th>
-        <th>البريد الالكترونى</th>
+        <th>رقم العرض </th>
+        <th>تاريخ العرض</th>
+        <th> قيمته</th>
         <th>الاعدادت</th>
     </tr>
     </tfoot>
