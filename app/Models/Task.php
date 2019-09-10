@@ -203,9 +203,9 @@ class Task extends Model
         if ($task)  return "future";
         $task =  Task::old(auth()->user()->id,1)->where('id',$id)->first();
         if ($task)  return "old";
-        $task =  Task::to_finish(auth()->user()->id)->where('id',$id)->first();
+        $task =  Task::toFinish(auth()->user()->id)->where('id',$id)->first();
         if ($task)  return "to_finish";
-        $task =  Task::to_rate(auth()->user()->id)->where('id',$id)->first();
+        $task =  Task::toRate(auth()->user()->id)->where('id',$id)->first();
         if ($task)  return "to_rate";
     }
 
