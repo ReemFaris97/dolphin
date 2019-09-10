@@ -22,6 +22,12 @@ class ProductsResource extends ResourceCollection
                     'price'=>$q->price,
                     'bar_code'=>$q->bar_code,
                     'image'=>$q->image?getimg($q->image):"",
+                    'images' => $q->images->transform(function ($qu){
+                        return [
+                            'id'=>$qu->id,
+                            'image'=>getimg($qu->image)
+                        ];
+                    }),
                 ];
             }),
             'paginate'=>[

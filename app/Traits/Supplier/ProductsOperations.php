@@ -15,7 +15,12 @@ trait ProductsOperations
         $inputs = $request->all();
         $inputs['expired_at'] = Carbon::parse($request->expired_at);
         $inputs['image'] =  saveImage($request->image, 'products');
+
         $product= Product::create($inputs);
+        foreach ($request->images as $image)
+        {
+            $product->images()->create(['image'=>saveImage($image,'users')]);
+        }
         return $product;
     }
 
