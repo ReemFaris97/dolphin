@@ -31,7 +31,9 @@ class ProductsController extends Controller
     }
 
     public function productsList($id){
-        $products = Product::where('store_id',$id)->pluck('id','name');
+        $products = Product::where('store_id',$id)->get()->map(function($q){
+            return ['id'=>$q->id,'name'=>$q->name];
+        });
         return $this->apiResponse($products);
     }
 
@@ -154,12 +156,16 @@ class ProductsController extends Controller
 
 
     public function getAllStores($id){
-        $stores = Store::where('store_category_id',$id)->get();
-        return $this->apiResponse(new StoreResource($stores));
+        $stores = Store::where('store_category_id',$id)->get()->map(function($q){
+            return ['id'=>$q->id,'name'=>$q->name];
+        });
+        return $this->apiResponse($stores);
     }
 
     public function getStoresCategories(){
-        $categories = StoreCategory::paginate($this->paginateNumber);
-        return $this->apiResponse(new StoreCategoriesResource($categories));
+        $categories = StoreCategory::all()->map(function($q){
+            return ['id'=>$q->id,'name'=>$q->name];
+        });
+        return $this->apiResponse($categories);
     }
 }
