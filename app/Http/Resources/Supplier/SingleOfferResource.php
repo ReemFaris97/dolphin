@@ -24,7 +24,7 @@ class SingleOfferResource extends JsonResource
                     return [
                         'supplier_offer_id'=>$q->supplier_offer_id,
                         'product'=>[
-                            'product_name'=>$q->product->name,
+                            'product_name'=>optional($q->product)->name?$q->product->name:"",
                             'price'=>$q->price,
                             'quantity'=>$q->quantity,
                         ],
