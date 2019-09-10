@@ -42,7 +42,7 @@ class TaskController extends Controller
             $tasks = Task::toFinish(auth()->user()->id)->orderby('id','desc')->paginate($this->paginateNumber);
         elseif (\request('type') == "to_rate")
             $tasks = Task::toRate(auth()->user()->id)->orderby('id','desc')->paginate($this->paginateNumber);
-        elseif (\request('type') == "all")
+        elseif (\request('type') == "mine")
             $tasks = Task::Mine(auth()->user()->id)->orderby('id','desc')->paginate($this->paginateNumber);
         else
             $tasks = Task::whereUserId(auth()->user()->id)->orderby('id','desc')->paginate($this->paginateNumber);
