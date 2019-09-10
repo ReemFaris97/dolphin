@@ -1,510 +1,174 @@
 <div class="m-portlet__body a-smaller-input-wrapper">
+
     <div class="form-group m-form__group">
-        <label>الاسم</label>
-        {!! Form::text('name',null,['class'=>'form-control m-input','placeholder'=>'ادخل الاسم'])!!}
+        <label>اسم المنتج</label>
+        <select class="form-control"
+                id="product"
+                data-parsley-trigger="select"
+                data-parsley-required-message="@lang('system.field_required')">
+            <option value="" selected disabled>@lang('system.choose_product')</option>
+            @foreach ($products  as $product)
+                <option data-name="{{$product->name}}" data-price="{{$product->price}}" value="{{$product->id}}">{{$product->name}}</option>
+            @endforeach
+        </select>
+
+        @if($errors->has('products'))
+            <p class="help-block" style="color: #FF0000;">
+                {{ $errors->first('products') }}
+            </p>
+        @endif
     </div>
 
     <div class="form-group m-form__group">
-        <label>الهاتف</label>
-        {!! Form::text('phone',null,['class'=>'form-control m-input','placeholder'=>'ادخل الهاتف'])!!}
+        <label>الكمية</label>
+        <input id="qty" type="number" value="{{old('qty')}}"
+               data-parsley-trigger="keyup"
+               oninput="this.value = Math.abs(this.value)"
+               class="form-control m-input" placeholder="ادخل الكمية">
+        @if($errors->has('qty'))
+            <p class="help-block">
+                {{ $errors->first('qty') }}
+            </p>
+        @endif
     </div>
 
     <div class="form-group m-form__group">
-        <label>البريد الالكترونى</label>
-        {!! Form::email('email',null,['class'=>'form-control m-input','placeholder'=>'ادخل البريد الالكترونى'])!!}
+        <label>السعر</label>
+        <input id="price" type="number" value="{{old('price')}}"
+               data-parsley-trigger="keyup"
+               oninput="this.value = Math.abs(this.value)"
+               class="form-control m-input" placeholder="ادخل السعر">
+        @if($errors->has('price'))
+            <p class="help-block">
+                {{ $errors->first('price') }}
+            </p>
+        @endif
     </div>
 
-    <div class="form-group m-form__group">
-        <label>إسم المخزن</label>
-        {!! Form::text('store_name',null,['class'=>'form-control m-input','placeholder'=>'ادخل إسم المخزن'])!!}
+
+
+    <div class="col-md-2">
+        <button id="addProduct" class="btn btn-primary waves-effect waves-light m-t-20"  type="button">
+        اضافة
+        </button>
     </div>
 
-    <div class="form-group m-form__group">
-        <label>العنوان</label>
-        {!! Form::text('address',null,['class'=>'form-control m-input','placeholder'=>'ادخل العنوان'])!!}
+
+    <div class="table-responsive">
+        <table id="productsTable" class="table m-0">
+            <thead>
+            <tr>
+                <th> اسم المنتج</th>
+                <th> الكمية</th>
+                <th> السعر</th>
+                <th>حذف</th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (isset($supplieroffer))
+
+
+
+                    @foreach ($supplieroffer->offer_products as $sup)
+                        <tr>
+                        <td>{{$sup->product->name}} </td>
+                            <td>{{$sup->quantity}} </td>
+                            <td>{{$sup->price}} </td>
+                        <td>
+                            <a href="javascript:;" id="{{$sup->id}}" class="removeProduct btn btn-danger waves-effect waves-light btn-xs m-b-5">حذف</a>
+
+                        </td>
+
+                        <input type="hidden" name="products[]" value="id" />
+                        </tr>
+                    @endforeach
+
+
+            @endif
+
+
+            </tbody>
+        </table>
     </div>
-
-
-        <div id="map" style="width: 100%; height: 450px;"></div>
-        <input type="hidden" name="lat" id="lat" @if(isset($user)) value="{{ $user->lat }}" @endif />
-        <input type="hidden" name="lng" id="lng" @if(isset($user)) value="{{ $user->lng }}" @endif />
 
 </div>
+
+
+
 @push('scripts')
     <script>
         $('#check-all').change(function () {
             $("input:checkbox").prop("checked", $(this).prop("checked"))
         })
     </script>
-        @if(isset($user))
-            <script type="text/javascript">
-
-                function initAutocomplete() {
-                    var map = new google.maps.Map(document.getElementById('map'), {
-                        center: {lat: 24.686246996081948, lng: 46.66859652100288},
-                        zoom: 8,
-                        mapTypeId: 'roadmap'
-                    });
+    <script>
+        $('body').delegate('#addProduct','click', function(){
 
 
-                    var marker;
-                    google.maps.event.addListener(map, 'click', function (event) {
-                        map.setZoom();
-                        var mylocation = event.latLng;
-                        map.setCenter(mylocation);
+            var product_name   = $('#product').find("option:selected").attr('data-name');
+            var product_id = $('#product').find("option:selected").val();
+            var deleteId = "removeProduct"+product_id;
+            var trId = "tr"+product_id;
+
+            var qty = $('#qty').val();
+            var price = $('#price').val();
+
+            if(product_name == null || qty <= 0 || qty == "" ){
+                $('#addProduct').attr('disabled')==true;
+            }else {
+                $('#addProduct').attr('disabled')==false;
+                $('#productsTable > tbody:last-child').append(
+                    '<tr id="'+trId+'">' +
+                    '<td>' + product_name + '</td>'+
+                    '<td>' + qty + '</td>'+
+                    '<td>' + price + '</td>'+
+                    '<td>' +
+                    '<a href="javascript:;" id="' +deleteId +'" data-id="'+product_id+'"  class="removeProduct btn btn-danger waves-effect waves-light btn-xs m-b-5">'+'حذف'+'</a>' + '</td>'+
+                    '<input type="hidden" name="products[]" value="' + product_id + '" />' +
+                    '<input type="hidden" name="qtys[]" value="' + qty + '" />' +
+                    '<input type="hidden" name="prices[]" value="' + price + '" />' +
+                    '</tr>');
+
+                $('#product').prop('selectedIndex',0);
+                $('#qty').val('');
+                $('#price').val('');
+            }
 
 
-                        $('#lat').val(event.latLng.lat());
-                        $('#lng').val(event.latLng.lng());
+//
+        });
 
 
-                        codeLatLng(event.latLng.lat(), event.latLng.lng());
+        $('body').on('click', '.removeProduct', function () {
+            var id = $(this).attr('data-id');
+            var tr = $(this).closest($('#removeProduct' + id).parent().parent());
 
-                        setTimeout(function () {
-                            if (!marker)
-                                marker = new google.maps.Marker({position: mylocation, map: map});
-                            else
-                                marker.setPosition(mylocation);
-                        }, 600);
+            tr.find('td').fadeOut(500, function () {
+                tr.remove();
+            });
+        });
 
-                    });
+        $('#product').change(function () {
+            var id = $(this).val();
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('supplier.getAjaxProductQty') }}',
+                data: {id: id},
+                dataType: 'json',
 
-
-                    // Create the search box and link it to the UI element.
-                    var input = document.getElementById('pac-input');
-                    var searchBox = new google.maps.places.SearchBox(input);
-                    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-                    // Bias the SearchBox results towards current map's viewport.
-                    map.addListener('bounds_changed', function () {
-                        searchBox.setBounds(map.getBounds());
-                    });
-
-
-                    var markers = [];
-                    // Listen for the event fired when the user selects a prediction and retrieve
-                    // more details for that place.
-                    searchBox.addListener('places_changed', function () {
-                        var places = searchBox.getPlaces();
-                        // var location = place.geometry.location;
-                        // var lat = location.lat();
-                        // var lng = location.lng();
-                        if (places.length == 0) {
-                            return;
-                        }
-
-                        // Clear out the old markers.
-                        markers.forEach(function (marker) {
-                            marker.setMap(null);
-                        });
-                        markers = [];
-
-
-                        // For each place, get the icon, name and location.
-                        var bounds = new google.maps.LatLngBounds();
-                        places.forEach(function (place) {
-                            if (!place.geometry) {
-                                console.log("Returned place contains no geometry");
-                                return;
-                            }
-                            var icon = {
-                                url: place.icon,
-                                size: new google.maps.Size(71, 71),
-                                origin: new google.maps.Point(0, 0),
-                                anchor: new google.maps.Point(17, 34),
-                                scaledSize: new google.maps.Size(25, 25)
-                            };
-
-                            // Create a marker for each place.
-                            markers.push(new google.maps.Marker({
-                                map: map,
-                                icon: icon,
-                                title: place.name,
-                                position: place.geometry.location
-                            }));
-
-                            if (place.geometry.viewport) {
-                                // Only geocodes have viewport.
-                                bounds.union(place.geometry.viewport);
-                            } else {
-                                bounds.extend(place.geometry.location);
-                            }
-                            $('#lat').val(place.geometry.location.lat());
-                            $('#lng').val(place.geometry.location.lng());
-                            $('#address').val(place.formatted_address);
-
-                        });
-
-
-                        map.fitBounds(bounds);
-                    });
-
-
+                success: function (data) {
+//                    $.each(data.data, function (element, ele) {
+//                        console.log(ele);
+//                        $('#students').append("<option value='"+ele.id+"'>" + ele.name + "</option>");
+//                    });
+//                    $('#full_degree').html("الدرجة الكلية "+data.data);
+                    $('#qty').attr("data-parsley-max",data.data);
+                    $('#qty').attr("data-parsley-max-message","@lang('system.allowed_qty') "+data.data);
                 }
+            });
+        });
 
 
-                function showPosition(position) {
 
-                    map.setCenter({lat: position.coords.latitude, lng: position.coords.longitude});
-                    codeLatLng(position.coords.latitude, position.coords.longitude);
-
-
-                }
-
-
-                function codeLatLng(lat, lng) {
-
-                    var geocoder = new google.maps.Geocoder();
-                    var latlng = new google.maps.LatLng(lat, lng);
-                    geocoder.geocode({
-                        'latLng': latlng
-                    }, function (results, status) {
-                        if (status === google.maps.GeocoderStatus.OK) {
-                            if (results[1]) {
-                                // console.log(results[1].formatted_address);
-                                $("#demo").html(results[1].formatted_address);
-
-                                $("#addressProfile").val(results[1].formatted_address);
-                                $("#pac-input").val(results[1].formatted_address);
-
-                            } else {
-                            }
-                        } else {
-                            alert('Geocoder failed due to: ' + status);
-                        }
-                    });
-                }
-
-
-                {{--$(".company_name").attr({--}}
-                {{--"data-parsley-trigger": "focusout",--}}
-                {{--"data-parsley-required-message": "<?php __('trans.field_required') ?>",--}}
-                {{--"data-parsley-maxlength": "15",--}}
-                {{--"data-parsley-maxlength-message": "تجاوزت الحد الأقصى لعدد الحروف المسموحة وهى 15 ",--}}
-                {{--"data-parsley-minlength": "3",--}}
-                {{--"data-parsley-minlength-message": "اقل عدد حروف مسموح به هو 3 حروف"--}}
-
-                {{--});--}}
-
-
-                {{--@include('validate')--}}
-
-            </script>
-            <script>
-
-
-
-
-
-                var lat = 24.774265;
-                var lng = 46.738586;
-
-
-                var newLat = $("#lat").val();
-                var newLng = $("#lng").val();
-
-
-                if (newLat != '' && newLng != '') {
-                    lat = Number(newLat);
-                    lng = Number(newLng);
-                }
-
-
-                function initAutocomplete() {
-
-
-                    var map = new google.maps.Map(document.getElementById('map'), {
-                        center: {lat: lat, lng: lng},
-                        zoom: 8,
-                        mapTypeId: 'roadmap'
-                    });
-
-                    var mylocation = {lat: lat, lng:lng};
-
-                    var marker;
-
-                    google.maps.event.addListener(map, 'click', function (event) {
-                        map.setZoom();
-                        var mylocation = event.latLng;
-                        map.setCenter(mylocation);
-
-
-
-                        $('#lat').val(event.latLng.lat());
-                        $('#lng').val(event.latLng.lng());
-
-
-                        // marker = new google.maps.Marker({position: mylocation, map: map});
-
-                        codeLatLng(event.latLng.lat(), event.latLng.lng());
-
-                        setTimeout(function () {
-                            if (!marker)
-                                marker = new google.maps.Marker({position: mylocation, map: map});
-                            else
-                                marker.setPosition(mylocation);
-                        }, 600);
-
-                    });
-
-                    marker = new google.maps.Marker({position: mylocation, map: map});
-
-
-
-
-                    // Create the search box and link it to the UI element.
-                    var input = document.getElementById('pac-input');
-                    var searchBox = new google.maps.places.SearchBox(input);
-                    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-                    // Bias the SearchBox results towards current map's viewport.
-                    map.addListener('bounds_changed', function () {
-                        searchBox.setBounds(map.getBounds());
-                    });
-
-
-                    var markers = [];
-                    // Listen for the event fired when the user selects a prediction and retrieve
-                    // more details for that place.
-                    searchBox.addListener('places_changed', function () {
-                        var places = searchBox.getPlaces();
-                        // var location = place.geometry.location;
-                        // var lat = location.lat();
-                        // var lng = location.lng();
-                        if (places.length == 0) {
-                            return;
-                        }
-
-                        // Clear out the old markers.
-                        markers.forEach(function (marker) {
-                            marker.setMap(null);
-                        });
-                        markers = [];
-
-
-                        // For each place, get the icon, name and location.
-                        var bounds = new google.maps.LatLngBounds();
-                        places.forEach(function (place) {
-                            if (!place.geometry) {
-                                console.log("Returned place contains no geometry");
-                                return;
-                            }
-                            var icon = {
-                                url: place.icon,
-                                size: new google.maps.Size(71, 71),
-                                origin: new google.maps.Point(0, 0),
-                                anchor: new google.maps.Point(17, 34),
-                                scaledSize: new google.maps.Size(25, 25)
-                            };
-
-                            // Create a marker for each place.
-                            markers.push(new google.maps.Marker({
-                                map: map,
-                                icon: icon,
-                                title: place.name,
-                                position: place.geometry.location
-                            }));
-
-                            if (place.geometry.viewport) {
-                                // Only geocodes have viewport.
-                                bounds.union(place.geometry.viewport);
-                            } else {
-                                bounds.extend(place.geometry.location);
-                            }
-                            $('#lat').val(place.geometry.location.lat());
-                            $('#lng').val(place.geometry.location.lng());
-                            $('#address').val(place.formatted_address);
-
-                        });
-
-
-                        map.fitBounds(bounds);
-                    });
-
-
-                }
-
-
-                function showPosition(position) {
-
-                    map.setCenter({lat: position.coords.latitude, lng: position.coords.longitude});
-                    codeLatLng(position.coords.latitude, position.coords.longitude);
-
-
-                }
-
-
-                function codeLatLng(lat, lng) {
-
-                    var geocoder = new google.maps.Geocoder();
-                    var latlng = new google.maps.LatLng(lat, lng);
-                    geocoder.geocode({
-                        'latLng': latlng
-                    }, function (results, status) {
-                        if (status === google.maps.GeocoderStatus.OK) {
-                            if (results[1]) {
-                                // console.log(results[1].formatted_address);
-                                $("#demo").html(results[1].formatted_address);
-
-                                $("#addressProfile").val(results[1].formatted_address);
-                                $("#pac-input").val(results[1].formatted_address);
-
-                            } else {
-                            }
-                        } else {
-                            alert('Geocoder failed due to: ' + status);
-                        }
-                    });
-                }
-
-
-
-
-
-            </script>
-
-        @else
-            <script>
-                function initAutocomplete() {
-                    var map = new google.maps.Map(document.getElementById('map'), {
-                        center: {lat: 24.774265, lng: 46.738586},
-                        zoom: 8,
-                        mapTypeId: 'roadmap'
-                    });
-
-
-                    var marker;
-                    google.maps.event.addListener(map, 'click', function (event) {
-                        map.setZoom();
-                        var mylocation = event.latLng;
-                        map.setCenter(mylocation);
-
-
-                        $('#lat').val(event.latLng.lat());
-                        $('#lng').val(event.latLng.lng());
-
-
-                        codeLatLng(event.latLng.lat(), event.latLng.lng());
-
-                        setTimeout(function () {
-                            if (!marker)
-                                marker = new google.maps.Marker({position: mylocation, map: map});
-                            else
-                                marker.setPosition(mylocation);
-                        }, 600);
-
-                    });
-
-
-                    // Create the search box and link it to the UI element.
-                    var input = document.getElementById('pac-input');
-                    var searchBox = new google.maps.places.SearchBox(input);
-                    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-                    // Bias the SearchBox results towards current map's viewport.
-                    map.addListener('bounds_changed', function () {
-                        searchBox.setBounds(map.getBounds());
-                    });
-
-
-                    var markers = [];
-                    // Listen for the event fired when the user selects a prediction and retrieve
-                    // more details for that place.
-                    searchBox.addListener('places_changed', function () {
-                        var places = searchBox.getPlaces();
-                        // var location = place.geometry.location;
-                        // var lat = location.lat();
-                        // var lng = location.lng();
-                        if (places.length == 0) {
-                            return;
-                        }
-
-                        // Clear out the old markers.
-                        markers.forEach(function (marker) {
-                            marker.setMap(null);
-                        });
-                        markers = [];
-
-
-                        // For each place, get the icon, name and location.
-                        var bounds = new google.maps.LatLngBounds();
-                        places.forEach(function (place) {
-                            if (!place.geometry) {
-                                console.log("Returned place contains no geometry");
-                                return;
-                            }
-                            var icon = {
-                                url: place.icon,
-                                size: new google.maps.Size(71, 71),
-                                origin: new google.maps.Point(0, 0),
-                                anchor: new google.maps.Point(17, 34),
-                                scaledSize: new google.maps.Size(25, 25)
-                            };
-
-                            // Create a marker for each place.
-                            markers.push(new google.maps.Marker({
-                                map: map,
-                                icon: icon,
-                                title: place.name,
-                                position: place.geometry.location
-                            }));
-
-                            if (place.geometry.viewport) {
-                                // Only geocodes have viewport.
-                                bounds.union(place.geometry.viewport);
-                            } else {
-                                bounds.extend(place.geometry.location);
-                            }
-                            $('#lat').val(place.geometry.location.lat());
-                            $('#lng').val(place.geometry.location.lng());
-                            $('#address').val(place.formatted_address);
-
-                        });
-
-
-                        map.fitBounds(bounds);
-                    });
-
-                }
-
-
-                function showPosition(position) {
-
-                    map.setCenter({lat: position.coords.latitude, lng: position.coords.longitude});
-                    codeLatLng(position.coords.latitude, position.coords.longitude);
-
-
-                }
-
-
-                function codeLatLng(lat, lng) {
-
-                    var geocoder = new google.maps.Geocoder();
-                    var latlng = new google.maps.LatLng(lat, lng);
-                    geocoder.geocode({
-                        'latLng': latlng
-                    }, function (results, status) {
-                        if (status === google.maps.GeocoderStatus.OK) {
-                            if (results[1]) {
-                                // console.log(results[1].formatted_address);
-                                $("#demo").html(results[1].formatted_address);
-
-                                $("#addressProfile").val(results[1].formatted_address);
-                                $("#pac-input").val(results[1].formatted_address);
-
-                            } else {
-                            }
-                        } else {
-                            alert('Geocoder failed due to: ' + status);
-                        }
-                    });
-                }
-
-
-
-            </script>
-        @endif
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBjBZsq9Q11itd0Vjz_05CtBmnxoQIEGK8&language=ar&libraries=places&callback=initAutocomplete"
-            async defer></script>
-
+    </script>
 @endpush

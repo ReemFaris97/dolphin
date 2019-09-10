@@ -1,12 +1,12 @@
 @extends('suppliers.layouts.app')
-@section('title') تعديل بيانات {!!$user->name!!}
+@section('title') تعديل عرض رقم {!!$supplieroffer->id!!}
 @endsection
 
 @section('header')
 @endsection
 
 @section('breadcrumb')
-@php($breadcrumbs=['العروض'=>route('supplier.home'),'تعديل'=>route('supplier.offers.edit',$user->id)])
+@php($breadcrumbs=['العروض'=>route('supplier.home'),'تعديل'=>route('supplier.offers.edit',$supplieroffer->id)])
     @includeWhen(isset($breadcrumbs),'suppliers.layouts._breadcrumb',
 ['breadcrumbs' =>$breadcrumbs ])
 @endsection
@@ -27,7 +27,7 @@
                                 <i class="la la-gear"></i>
                             </span>
                             <h3 class="m-portlet__head-text">
-                                تعديل {!! $user->name!!}
+                                    تعديل عرض{!! $supplieroffer->id!!}
                             </h3>
                         </div>
                     </div>
@@ -35,8 +35,8 @@
 
                 <!--begin::Form-->
 
-                {!! Form::model($user,['method'=>'put','route'=>['supplier.offers.update',$user->id],'files'=>'true','class'=>'m-form m-form--fit m-form--label-align-right'])!!}
-    @include('supplier.offers._form')
+                {!! Form::model($supplieroffer,['method'=>'put','route'=>['supplier.offers.update',$supplieroffer->id],'files'=>'true','class'=>'m-form m-form--fit m-form--label-align-right'])!!}
+               @include('suppliers.offers._form')
 
                 <div class="m-portlet__foot m-portlet__foot--fit">
                     <div class="m-form__actions">

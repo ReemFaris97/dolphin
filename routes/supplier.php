@@ -12,6 +12,7 @@ Route::middleware('supplier')->group(function () {
     Route::patch('suppliers/block/{user}', 'SupplierController@block')->name('suppliers.block');
 
     Route::resource('/offers', 'OfferProductController');
-
+    Route::patch('offer/{id}', 'OfferProductController@remove')->name('offers.remove');
+    Route::post('/product','OfferProductController@getAjaxProductQty')->name('getAjaxProductQty');
 });
 
