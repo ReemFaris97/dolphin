@@ -30,7 +30,7 @@ class SingleProduct extends JsonResource
                     'image'=>getimg($qu->image)
                 ];
             }),
-            'expired_at'=>$this->expired_at,
+            'expired_at'=>$this->expired_at->toDateString(),
         ];
     }
 }

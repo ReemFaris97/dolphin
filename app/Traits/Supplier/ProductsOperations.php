@@ -30,7 +30,17 @@ trait ProductsOperations
         if($request->has('image') && $request->image !=null){
             $inputs['image'] =  saveImage($request->image, 'products');
         }
-        return $product->update($inputs);
+        $product->update($inputs);
+
+
+        if($request->has('images') && $request->images !=null) {
+
+            $product->images()->delete();
+            foreach ($request->images as $image) {
+                $product->images()->create(['image' => saveImage($image, 'users')]);
+            }
+        }
+        return $product;
 
     }
 
