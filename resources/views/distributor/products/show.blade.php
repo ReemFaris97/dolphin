@@ -72,12 +72,20 @@
                     <h5>تاريخ الصلاحية</h5>
                     <h3>{{$product->expired_at}}</h3>
                 </div>
-        
+
 
 
                 <div class="col-xs-4">
-                    <h5>الصورة</h5>
+                    <h5> الصورة الرئيسية</h5>
                     <h3><img src="{!!asset($product->image)!!}" style="width: 300px; height: 300px;"></h3>
+                </div>
+
+
+                <div class="col-xs-4">
+                    <h5> صور المنتج</h5>
+                    @foreach(\App\Models\Image::where('model_type','App\Models\Product')->where('model_id',$product->id)->get() as $image)
+                  <img src="{!!asset($image->image)!!}" style="width: 300px; height: 300px;">
+                        @endforeach
                 </div>
 
             </div>

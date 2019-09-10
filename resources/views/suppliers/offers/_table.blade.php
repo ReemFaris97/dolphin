@@ -24,8 +24,8 @@
             <td>{!!$user->email!!}</td>
             <td>{!!$user->store_name !!}</td>
             <td>
-                <a href="{!!route('distributor.clients.edit',$user->id)!!}" class="btn btn-primary"> <i class="fas fa-pen"></i> تعديل</a>
-                <form method="POST" action="{!!route('distributor.clients.destroy',$user->id)!!}">
+                <a href="{!!route('supplier.offers..edit',$user->id)!!}" class="btn btn-primary"> <i class="fas fa-pen"></i> تعديل</a>
+                <form method="POST" action="{!!route('supplier.offers.destroy',$user->id)!!}">
                     @csrf() @method('delete')
                     <button type="submit" class="btn btn-danger">
                         <i class="fas fa-trash"></i>
