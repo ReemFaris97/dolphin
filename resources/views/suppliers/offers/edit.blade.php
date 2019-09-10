@@ -1,4 +1,4 @@
-@extends('distributor.layouts.app')
+@extends('suppliers.layouts.app')
 @section('title') تعديل بيانات {!!$user->name!!}
 @endsection
 
@@ -6,8 +6,8 @@
 @endsection
 
 @section('breadcrumb')
-@php($breadcrumbs=['العملاء'=>route('distributor.home'),'تعديل'=>route('distributor.clients.edit',$user->id)])
-    @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb',
+@php($breadcrumbs=['العروض'=>route('supplier.home'),'تعديل'=>route('supplier.offers.edit',$user->id)])
+    @includeWhen(isset($breadcrumbs),'suppliers.layouts._breadcrumb',
 ['breadcrumbs' =>$breadcrumbs ])
 @endsection
 
@@ -35,8 +35,8 @@
 
                 <!--begin::Form-->
 
-                {!! Form::model($user,['method'=>'put','route'=>['distributor.clients.update',$user->id],'files'=>'true','class'=>'m-form m-form--fit m-form--label-align-right'])!!}
-    @include('distributor.clients._form')
+                {!! Form::model($user,['method'=>'put','route'=>['supplier.offers.update',$user->id],'files'=>'true','class'=>'m-form m-form--fit m-form--label-align-right'])!!}
+    @include('supplier.offers._form')
 
                 <div class="m-portlet__foot m-portlet__foot--fit">
                     <div class="m-form__actions">

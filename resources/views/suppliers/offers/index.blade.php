@@ -5,7 +5,7 @@
 @section('header')
 @endsection
 
-@section('breadcrumb') @php($breadcrumbs=['العملاء'=>route('distributor.clients.index'),])
+@section('breadcrumb') @php($breadcrumbs=['العملاء'=>route('supplier.offers.index'),])
 @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
 
@@ -23,7 +23,7 @@
             <div class="m-portlet__head-tools">
                 <ul class="m-portlet__nav">
                     <li class="m-portlet__nav-item">
-                        <a href="{!!route('distributor.clients.create')!!}"
+                        <a href="{!!route('supplier.offers.create')!!}"
                            class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">
                         <span>
                             <i class="fas fa-plus"></i>
@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="m-portlet__body">
-            @include('distributor.clients._table')
+            @include('supplier.offers._table')
         </div>
     </div>
 @endsection

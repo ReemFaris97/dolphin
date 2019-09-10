@@ -139,6 +139,14 @@ class ProductsController extends Controller
         }
 
         $product->update($inputs);
+
+        if($request->has('images') && $request->images !=null) {
+            $product->images()->delete();
+            foreach ($request->images as $image) {
+                $product->images()->create(['image' => saveImage($image, 'users')]);
+            }
+        }
+
         toast('تم التعديل بنجاح','success','top-right');
         return redirect()->route('distributor.products.index');
     }

@@ -62,7 +62,7 @@
                                         class="m-menu__link-text">عروض المنتجات</span></span></li>
                         {{--                            @if(auth()->user()->hasPermissionTo('view_workers'))--}}
                         <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
-                                    href="{!! route('supplier.suppliers.index') !!}" class="m-menu__link "><i
+                                    href="{!! route('supplier.offers.index') !!}" class="m-menu__link "><i
                                         class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
                                         class="m-menu__link-text">كل العروض </span></a></li>
 
@@ -70,7 +70,7 @@
                         {{--                            @endif--}}
                         {{--                            @if(auth()->user()->hasPermissionTo('add_workers'))--}}
                         <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
-                                    href="{!! route('supplier.suppliers.create') !!}" class="m-menu__link "><i
+                                    href="{!! route('supplier.offers.create') !!}" class="m-menu__link "><i
                                         class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
                                         class="m-menu__link-text">اضافه  عرض جديد </span></a></li>
                         {{--                            @endif--}}
