@@ -37,6 +37,7 @@ function uploader($request, $img_name)
     return $path;
 }
 
+
 function routeActive($path, $active = 'active')
 {
 

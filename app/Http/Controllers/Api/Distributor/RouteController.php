@@ -102,7 +102,6 @@ class RouteController extends Controller
 
     public function attachImages(Request $request)
     {
-
         $rules = [
             "trip_id" => "required|required|integer|exists:route_trips,id",
             'images'=>'required|array',

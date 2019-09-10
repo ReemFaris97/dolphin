@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Distributor;
 
 use App\Models\Product;
+use App\Models\ProductImage;
 use App\Models\Store;
 use App\Models\StoreCategory;
+use App\Traits\Supplier\ProductsOperations;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -14,6 +16,7 @@ use App\Traits\Viewable;
 class ProductsController extends Controller
 {
     use Viewable;
+    use ProductsOperations;
     private $viewable='distributor.products.';
     /**
      * Display a listing of the resource.
@@ -55,13 +58,26 @@ class ProductsController extends Controller
             'bar_code'=>'required|string|unique:products,bar_code',
             'expired_at'=>'required|date|after_or_equal:today',
             'image'=>'required|image',
+            'images'=>'required|array',
         ];
 
         $this->validate($request,$rules);
         $inputs = $request->all();
+       // dd($inputs);
         $inputs['expired_at'] = Carbon::parse($request->expired_at);
         $inputs['image'] =  saveImage($request->image, 'products');
-        Product::create($inputs);
+        $image[]=$inputs['images'];
+
+
+        $product=Product::create($inputs);
+
+        foreach ($request->images as $image)
+        {
+            $product->images()->create(['image'=>saveImage($image,'users')]);
+        }
+
+         //  multipleUploader($request,$product);
+
         toast('تم الإضافة بنجاح','success','top-right');
         return redirect()->route('distributor.products.index');
     }

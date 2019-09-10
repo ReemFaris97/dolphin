@@ -85,7 +85,7 @@
 
 
     <div class="form-group m-form__group">
-        <label> الصوره </label>
+        <label> الصوره الرئيسة </label>
         @if(isset($product))
 
             <img src="{!! url($product->image)!!}" width="250" height="250">
@@ -99,6 +99,12 @@
         {!! Form::text('expired_at',isset($product)?old('expired_at')??optional($product->expire_at)->format('m-d-Y'):old('expired_at'),['class'=>'form-control m-input datepicker','autocomplete'=>'off'])!!}
     </div>
 
+
+
+    <div class="form-group col-md-6 pull-left">
+        <label>الصور </label>
+        <input type="file" name="images[]" multiple>
+    </div>
 
 
 </div>
