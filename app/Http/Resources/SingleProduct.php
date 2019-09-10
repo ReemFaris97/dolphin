@@ -24,6 +24,12 @@ class SingleProduct extends JsonResource
             'price'=>$this->price,
             'bar_code'=>$this->bar_code,
             'image'=>$this->image==null?"":getimg($this->image),
+            'images' => $this->images->transform(function ($qu){
+                return [
+                    'id'=>$qu->id,
+                    'image'=>getimg($qu->image)
+                ];
+            }),
             'expired_at'=>$this->expired_at,
         ];
     }

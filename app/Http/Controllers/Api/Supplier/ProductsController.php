@@ -65,6 +65,8 @@ class ProductsController extends Controller
             'bar_code'=>'required|string|unique:products,bar_code',
             'expired_at'=>'required|date|after_or_equal:today',
             'image'=>'required|image',
+            'images'=>"required|array",
+            'images.*'=>'image',
         ];
         $validation = $this->apiValidation($request,$rules);
 
@@ -84,7 +86,11 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = Product::find($id);
+        if(!$product) return $this->apiResponse(null,'عفواً هذا المنتج غير متوفر');
+
+        return $this->apiResponse(new SingleProduct($product));
+
     }
 
     /**
