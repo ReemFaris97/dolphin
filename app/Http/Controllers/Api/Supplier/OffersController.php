@@ -71,7 +71,10 @@ class OffersController extends Controller
      */
     public function show($id)
     {
-        //
+        $offer = SupplierOffer::find($id);
+        if(!$offer) return $this->apiResponse(null,"العرض غير متوفر");
+
+        return $this->apiResponse(new SingleOfferResource($offer));
     }
 
     /**
