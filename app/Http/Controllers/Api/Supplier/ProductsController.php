@@ -147,7 +147,7 @@ class ProductsController extends Controller
                     $product->images()->create(['image' => saveImage($image, 'users')]);
                 }
             }
-            return $product;
+
             return $this->apiResponse(new SingleProduct($product));
 
         }
