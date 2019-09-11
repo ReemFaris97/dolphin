@@ -118,7 +118,7 @@ class ProductsController extends Controller
         else {
             $rules = [
                 'name'=>"required|string|max:191",
-                'store_id'=>'required|numeric|exists:stores,id',
+                'store_id'=>'sometimes|numeric|exists:stores,id',
                 'quantity_per_unit'=>'required|numeric',
                 'min_quantity'=>'required|numeric|lt:max_quantity',
                 'max_quantity'=>'required|numeric|gt:min_quantity',
