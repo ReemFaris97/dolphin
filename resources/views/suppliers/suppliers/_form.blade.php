@@ -14,6 +14,17 @@
 
         {!! Form::text('phone',null,['class'=>'form-control m-input','placeholder'=>'ادخل الهاتف'])!!}
     </div>
+
+    <div class="form-group m-form__group">
+        <label> اسم البنك</label>
+        {!! Form::select('bank_id',$banks,null,['class'=>'form-control m-input select2','placeholder'=>'ادخل اسم البنك'])!!}
+    </div>
+
+    <div class="form-group m-form__group">
+        <label>رقم الحساب</label>
+
+        {!! Form::text('bank_account_number',null,['class'=>'form-control m-input','placeholder'=>'ادخل رقم الحساب'])!!}
+    </div>
     @if(isset($user))
         <div class="form-group m-form__group">
             <label>كلمه المرور القديمه</label>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Supplier;
 
+use App\Models\Bank;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -30,7 +31,9 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        return $this->toCreate();
+
+        $banks=Bank::pluck('name','id')->toArray();
+        return $this->toCreate(compact('banks'));
     }
 
     /**
@@ -84,7 +87,8 @@ class SupplierController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        return $this->toEdit(compact('user'));
+        $banks=Bank::pluck('name','id')->toArray();
+        return $this->toEdit(compact('user','banks'));
     }
 
     /**
