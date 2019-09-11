@@ -66,9 +66,6 @@
             </thead>
             <tbody>
             @if (isset($supplieroffer))
-
-
-
                     @foreach ($supplieroffer->offer_products as $sup)
                         <tr>
                         <td>{{$sup->product->name}} </td>
