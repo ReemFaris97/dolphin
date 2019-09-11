@@ -57,6 +57,8 @@ class SupplierController extends Controller
         }
         $requests['is_supplier'] = 1;
         $user = User::create($requests);
+        $user->update(['parent_user_id'=>auth()->id()]);
+
 
         toast('تم الاضافه بنجاح', 'success', 'top-right');
         return redirect()->route('supplier.suppliers.index');
@@ -111,6 +113,7 @@ class SupplierController extends Controller
             return back()->withInput()->withErrors(['old_password' => 'كلمه المرور القديمه غير صحيحه']);
         }
         $user->fill($requests);
+        $user->update(['parent_user_id'=>auth()->id()]);
 //        $user->syncPermissions($request->permissions);
         $user->save();
         toast('تم التعديل بنجاح', 'success', 'top-right');

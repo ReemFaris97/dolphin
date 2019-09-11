@@ -14,5 +14,7 @@ Route::middleware('supplier')->group(function () {
     Route::resource('/offers', 'OfferProductController');
     Route::patch('offer/{id}', 'OfferProductController@remove')->name('offers.remove');
     Route::post('/product','OfferProductController@getAjaxProductQty')->name('getAjaxProductQty');
+
+    Route::resource('/banks', 'BankController');
 });
 
