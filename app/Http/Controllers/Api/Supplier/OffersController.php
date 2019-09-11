@@ -21,7 +21,7 @@ class OffersController extends Controller
      */
     public function index()
     {
-        $offers = SupplierOffer::where('user_id',auth()->id())->paginate($this->paginateNumber);
+        $offers = SupplierOffer::where('user_id',auth()->id())->orderBy('id','desc')->paginate($this->paginateNumber);
 
         return $this->apiResponse(new OffersResource($offers));
     }
