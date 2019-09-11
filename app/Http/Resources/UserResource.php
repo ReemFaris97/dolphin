@@ -37,7 +37,7 @@ class UserResource extends JsonResource
                  'lat'=>$this->lat?$this->lat:"",
                  'lng'=>$this->lng?$this->lng:"",
                  'bank_id'=>optional($this->bank)->id?optional($this->bank)->id:"",
-                 'bank_account_number'=>optional($this->bank)->bank_account_number?optional($this->bank)->bank_account_number:"",
+                 'bank_account_number'=>$this->bank_account_number?$this->bank_account_number:"",
                  'bank_name'=>optional($this->bank)->name?optional($this->bank)->name:"",
 
 

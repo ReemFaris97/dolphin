@@ -35,11 +35,12 @@ class AuthController extends Controller
             'tax_number' =>'required|numeric',
             'lat'      =>'required|string',
             'lng'      =>'required|string',
-            'bank_id'=>'required|numeric|exists:banks,id',
+            'bank_account_number'=>'required|numeric|unique:users',
             'password'   =>'required|string|confirmed|max:191',
             'fcm_token_android'=>'required_without:fcm_token_ios',
             'fcm_token_ios'=>'required_without:fcm_token_android',
             'supplier_type'=>'required|in:dolphin,romana',
+            'bank_id'=>'required|numeric|exists:banks,id',
         ];
 
         $validation = $this->apiValidation($request,$rules);
@@ -111,6 +112,7 @@ class AuthController extends Controller
             'token'=>'sometimes|string',
             'device'=>'sometimes|in:ios,android',
             'bank_id'=>'sometimes|numeric|exists:banks,id',
+            'bank_account_number'=>'sometimes|numeric|unique:users,bank_account_number,'.$user->id,
         ];
         $validation=$this->apiValidation($request,$rules);
         if($validation instanceof Response){return $validation;}
