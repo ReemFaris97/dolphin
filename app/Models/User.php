@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Http\Traits\FirebasOperation;
+use App\Models\Bank;
 use App\Models\Charge;
 use App\Models\FcmToken;
 use App\Models\Message;
@@ -31,7 +32,7 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $fillable = [
         'name', 'phone', 'email', 'password', 'image', 'job', 'nationality', 'company_name', 'blocked_at', 'is_admin', 'remember_token'
-,'is_distributor','is_supplier','supplier_type','tex_number','lat','lng','bank_account_number','bank_name','verification_code','parent_user_id'
+,'is_distributor','is_supplier','supplier_type','tex_number','lat','lng','bank_id','verification_code','parent_user_id'
     ];
 
     /**
@@ -201,6 +202,10 @@ class User extends Authenticatable implements JWTSubject
         if ($messages == 0) return 0 ;
         $pagniation = $this->paginateNumber;
         return ceil($messages/$pagniation);
+    }
+
+    public function bank(){
+        return $this->belongsTo(Bank::class,'bank_id');
     }
 
 }
