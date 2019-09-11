@@ -16,7 +16,7 @@ class EditBankColumnsInUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn(['bank_account_number','bank_name']);
             $table->unsignedBigInteger('bank_id')->nullable();
-            $table->foreign('bank_id')->references('id')->on('banks')->onDelete('cascade');
+//            $table->foreign('bank_id')->references('id')->on('banks')->onDelete('cascade');
         });
     }
 
