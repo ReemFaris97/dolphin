@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 
 
 Route::post('auth/register/{role}','AuthController@register');
-
+Route::get('spinner/banks','BanksController@getBanksSpinner');
 
 Route::group(['middleware' => ['jwt.auth']], function () {
 
@@ -29,7 +29,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
 
     Route::resource('/offers','OffersController');
 
-    Route::get('spinner/banks','BanksController@getBanksSpinner');
+
 
 
 });
