@@ -131,10 +131,13 @@ class ProductsController extends Controller
             if ($validation instanceof Response) {
                 return $validation;
             }
+
+            $inputs = $request->all();
             $inputs['expired_at'] = Carbon::parse($request->expired_at);
             if($request->has('image') && $request->image !=null){
                 $inputs['image'] =  saveImage($request->image, 'products');
             }
+
 
             $product->update($inputs);
 
@@ -144,7 +147,7 @@ class ProductsController extends Controller
                     $product->images()->create(['image' => saveImage($image, 'users')]);
                 }
             }
-
+            return $product;
             return $this->apiResponse(new SingleProduct($product));
 
         }
