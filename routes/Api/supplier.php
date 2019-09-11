@@ -29,5 +29,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
 
     Route::resource('/offers','OffersController');
 
+    Route::get('spinner/banks','BanksController@getBanksSpinner');
+
 
 });
