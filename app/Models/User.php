@@ -8,6 +8,7 @@ use App\Models\Charge;
 use App\Models\FcmToken;
 use App\Models\Message;
 use App\Models\Notification;
+use App\Models\SupplierLog;
 use App\Models\TaskUser;
 use App\Traits\ApiResponses;
 use App\Traits\HashPassword;
@@ -209,6 +210,9 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Bank::class,'bank_id');
     }
 
+    public function supplierLog(){
+        return $this->hasMany(SupplierLog::class,'user_id');
+    }
 
 
 }

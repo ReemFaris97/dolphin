@@ -37,4 +37,13 @@ trait UserOperation
         return $user->update(Arr::except($inputs,['image','password']));
     }
 
+    public function RegisterSupplierEmployee($request){
+        $inputs = $request->all();
+        $inputs['parent_user_id']= auth()->id();
+        $inputs['is_supplier'] = 1;
+        $user = User::create($inputs);
+        $user->syncPermissions($request->permissions);
+        return $user;
+    }
+
 }

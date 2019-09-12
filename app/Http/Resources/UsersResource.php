@@ -15,16 +15,16 @@ class UsersResource extends ResourceCollection
     public function toArray($request)
     {
         return [
-            "employees" => $this->collection->transform(function ($q){
+            "users" => $this->collection->transform(function ($q){
                 return [
                 'id' => $q->id,
                 'name' => $q->name,
                 'phone' => $q->phone,
                 'email' => $q->email,
                 'image' => getimg($q->image),
-                $this->mergeWhen(($q->IsSupplier()),[
+                "supplier_data"=>$this->mergeWhen(($q->IsSupplier()),[
                     'supplier_type'=>$q->supplier_type,
-                    'tax_number'=>$q->tax_number,
+                    'tax_number'=>$q->tax_number??"",
                     'lat'=>$q->lat?$q->lat:"",
                     'lng'=>$q->lng?$q->lng:"",
                     'bank_id'=>optional($q->bank)->id?optional($q->bank)->id:"",
