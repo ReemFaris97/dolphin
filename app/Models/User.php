@@ -209,4 +209,6 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Bank::class,'bank_id');
     }
 
+
+
 }

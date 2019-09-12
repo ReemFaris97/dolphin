@@ -52,6 +52,10 @@ class AuthController extends Controller
          $user =$this->RegisterUser($request);
         $token = JWTAuth::fromUser($user);
         $user['token'] = $token;
+        if($user->IsSupplier()){
+            $user->syncPermissions(['33','34','35','36','37','38']);
+        }
+
         $user =  new UserResource($user);
         if ($token && $user) {return $this->createdResponse($user);}
         $this->unKnowError();
