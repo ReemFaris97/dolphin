@@ -49,7 +49,7 @@ class AuthController extends Controller
             return $validation;
         }
 
-         $user =$this->RegisterUser($request);
+        $user =$this->RegisterUser($request);
         $token = JWTAuth::fromUser($user);
         $user['token'] = $token;
         if($user->IsSupplier()){
