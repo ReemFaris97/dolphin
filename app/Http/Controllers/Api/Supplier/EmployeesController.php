@@ -31,7 +31,7 @@ class EmployeesController extends Controller
         $rules = [
             'name' =>'required|string|max:191',
             'phone'      =>'required|string|unique:users',
-            'email'      =>'nullable|email|max:191|unique:users',
+            'email'      =>'required|email|max:191|unique:users',
             'password'   =>'required|string|confirmed|max:191',
             'permissions'=>'required|array',
             'permissions.*'=>'numeric|exists:permissions,id',
@@ -47,6 +47,29 @@ class EmployeesController extends Controller
     }
 
     public function update(Request $request,$id){
+        $user = User::find($id);
+        if(!$user) return $this->apiResponse(null,"المستخدم غير موجود");
+
+        $rules = [
+            'name' =>'sometimes|string|max:191',
+            'phone'      =>'sometimes|string|unique:users,phone,'. $user->id,
+            "email" => "sometimes|email|min:1|max:255|unique:users,email,".$user->id,
+            'password'   =>'sometimes|string|confirmed|max:191',
+            'permissions'=>'sometimes|array',
+            'permissions.*'=>'numeric|exists:permissions,id',
+        ];
+
+        $validation = $this->apiValidation($request,$rules);
+        if ($validation instanceof Response) {
+            return $validation;
+        }
+
+        $user = $this->UpdateSupplierEmployee($request,$user);
+
+        return $this->apiResponse(new UserResource($user));
+
+
+
 
     }
 }
