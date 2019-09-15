@@ -10,10 +10,11 @@ use App\Http\Controllers\Controller;
 use App\Traits\ApiResponses;
 use App\Traits\Supplier\OffersOperations;
 use Illuminate\Http\Response;
+use App\Traits\Supplier\SuppliersLogOperations;
 
 class OffersController extends Controller
 {
-    use ApiResponses,OffersOperations;
+    use ApiResponses,OffersOperations ,SuppliersLogOperations;
     /**
      * Display a listing of the resource.
      *
@@ -58,6 +59,7 @@ class OffersController extends Controller
         }
 
         $offer =  $this->RegisterOffer($request);
+        $this->RegisterLog("إضافة عرض");
         return $this->apiResponse(new SingleOfferResource($offer));
 
 
@@ -110,6 +112,7 @@ class OffersController extends Controller
         $validation = $this->apiValidation($request,$rules);
 
         $offer =  $this->UpdateOffer($request,$offer);
+        $this->RegisterLog('تعديل عرض');
         return $this->apiResponse(new SingleOfferResource($offer));
 
     }
@@ -125,7 +128,9 @@ class OffersController extends Controller
         $offer = SupplierOffer::find($id);
         if($offer){
             $offer->delete();
+            $this->RegisterLog("حذف عرض");
             return $this->apiResponse('تم حذف العرض بنجاح');
+
         }
         else{
             return $this->apiResponse(null,"العرض غير موجود",404);
