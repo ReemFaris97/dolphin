@@ -25,7 +25,6 @@ class MessageController extends Controller
     }
 
 
-
     public function sendPrivateMessage(Request $request,User $user)
     {
         if(request()->has('file')){
