@@ -15,10 +15,11 @@ use App\Http\Controllers\Controller;
 use App\Traits\ApiResponses;
 use App\Traits\Supplier\ProductsOperations;
 use Illuminate\Http\Response;
+use App\Traits\Supplier\SuppliersLogOperations;
 
 class ProductsController extends Controller
 {
-    use ApiResponses , ProductsOperations;
+    use ApiResponses , ProductsOperations, SuppliersLogOperations;
     /**
      * Display a listing of the resource.
      *
@@ -74,6 +75,7 @@ class ProductsController extends Controller
             return $validation;
         }
             $product = $this->RegisterProduct($request);
+            $this->RegisterLog("إضافة منتج");
             return $this->apiResponse(new SingleProduct($product));
 
     }
@@ -148,6 +150,8 @@ class ProductsController extends Controller
                 }
             }
 
+            $this->RegisterLog("تعديل منتج");
+
             return $this->apiResponse(new SingleProduct($product));
 
         }
@@ -164,6 +168,7 @@ class ProductsController extends Controller
         $product = Product::find($id);
         if($product){
             $product->delete();
+            $this->RegisterLog("حذف منتج");
             return $this->apiResponse('تم حذف المنتج بنجاح');
         }
         else{

@@ -12,10 +12,11 @@ use App\Http\Controllers\Controller;
 use App\Traits\ApiResponses;
 use Illuminate\Http\Response;
 use App\Traits\UserOperation;
+use App\Traits\Supplier\SuppliersLogOperations;
 
 class EmployeesController extends Controller
 {
-    use ApiResponses, UserOperation;
+    use ApiResponses, UserOperation , SuppliersLogOperations;
     public function index(){
          $employees = User::where('is_supplier',1)->where('parent_user_id','!=',null)->paginate($this->paginateNumber);
         return $this->apiResponse(new UsersResource($employees));
@@ -42,6 +43,7 @@ class EmployeesController extends Controller
             return $validation;
         }
         $user = $this->RegisterSupplierEmployee($request);
+        $this->RegisterLog("إضافة موظف");
         return $this->apiResponse(new UserResource($user));
 
     }
@@ -65,6 +67,7 @@ class EmployeesController extends Controller
         }
 
         $user = $this->UpdateSupplierEmployee($request,$user);
+        $this->RegisterLog("تعديل موظف");
 
         return $this->apiResponse(new UserResource($user));
 
