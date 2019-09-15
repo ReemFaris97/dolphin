@@ -70,15 +70,10 @@ Route::middleware('auth')->group(function () {
     Route::get('clauses/add/log/{id}', 'ClausesController@getAddLog')->name('clauses.getAddLog');
     Route::post('clauses/post/log/{id}', 'ClausesController@AddLog')->name('clauses.AddLog');
     Route::patch('clauses/block/{clause}', 'ClausesController@block')->name('clauses.block');
-
     Route::patch('clauses/block/{clause}', 'ClausesController@block')->name('clauses.block');
-
     Route::get('clauses/user/change-numbers','ClausesController@getEnterNumbersPage')->name('clauses.change.numbers');
     Route::post('clauses/user/post/change-numbers','ClausesController@postChangeNunmbers')->name('clauses.post.change.numbers');
-
-
     /*end clauses routes*/
-
 
     Route::delete('note/{id}/delete','HomeController@deleteNote')->name('notes.destroy');
     Route::delete('images/{id}/delete','HomeController@deleteImage')->name('images.destroy');

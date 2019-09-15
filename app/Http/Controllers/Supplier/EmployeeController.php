@@ -9,10 +9,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
 
-class SupplierController extends Controller
+class EmployeeController extends Controller
 {
     use Viewable;
-    private $viewable = 'suppliers.suppliers.';
+    private $viewable = 'suppliers.employes.';
     /**
      * Display a listing of the resource.
      *
@@ -20,8 +20,9 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        $suppliers = User::where('is_supplier',1)->where('parent_user_id','!=',Null)->get()->reverse();
-        return $this->toIndex(compact('suppliers'));
+        $employes = User::where('is_supplier',1)->where('parent_user_id','!=',Null)->get()->reverse();
+      //  dd($suppliers);
+        return $this->toIndex(compact('employes'));
     }
 
     /**
@@ -33,7 +34,8 @@ class SupplierController extends Controller
     {
 
         $banks=Bank::pluck('name','id')->toArray();
-        return $this->toCreate(compact('banks'));
+        $suppliers=User::where('is_supplier',1)->where('parent_user_id',Null)->pluck('name','id')->toArray();
+        return $this->toCreate(compact('suppliers','banks'));
     }
 
     /**
@@ -54,15 +56,13 @@ class SupplierController extends Controller
         ];
 
         $this->validate($request,$rules);
-
         $requests = $request->except('image');
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'users');
         }
         $requests['is_supplier'] = 1;
         $user = User::create($requests);
-
-
+//        $user->update(['parent_user_id'=>auth()->id()]);
         toast('تم الاضافه بنجاح', 'success', 'top-right');
         return redirect()->route('supplier.suppliers.index');
     }
@@ -86,9 +86,11 @@ class SupplierController extends Controller
      */
     public function edit($id)
     {
-        $user = User::findOrFail($id);
+        $employe= User::findOrFail($id);
         $banks=Bank::pluck('name','id')->toArray();
-        return $this->toEdit(compact('user','banks'));
+        $suppliers=User::where('is_supplier',1)->where('parent_user_id',Null)->pluck('name','id')->toArray();
+
+        return $this->toEdit(compact('employe','banks','suppliers'));
     }
 
     /**
@@ -117,6 +119,7 @@ class SupplierController extends Controller
             return back()->withInput()->withErrors(['old_password' => 'كلمه المرور القديمه غير صحيحه']);
         }
         $user->fill($requests);
+//        $user->update(['parent_user_id'=>auth()->id()]);
 //        $user->syncPermissions($request->permissions);
         $user->save();
         toast('تم التعديل بنجاح', 'success', 'top-right');
