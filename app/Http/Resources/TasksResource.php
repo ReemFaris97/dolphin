@@ -26,6 +26,7 @@ class TasksResource extends ResourceCollection
                     'type'=>Task::$types[$q->type],
                     'is_worker_completed'=>is_null($is_worker_completed)?0:1,
                     'actual_type'=>$q->type,
+                    'status'=>$q->taskStatus($q->id)??"",
               ];
             }),
             'paginate'=>[

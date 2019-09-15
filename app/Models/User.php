@@ -3,10 +3,13 @@
 namespace App;
 
 use App\Http\Traits\FirebasOperation;
+use App\Models\Bank;
 use App\Models\Charge;
 use App\Models\FcmToken;
 use App\Models\Message;
 use App\Models\Notification;
+use App\Models\SupplierBill;
+use App\Models\SupplierLog;
 use App\Models\TaskUser;
 use App\Traits\ApiResponses;
 use App\Traits\HashPassword;
@@ -31,7 +34,8 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $fillable = [
         'name', 'phone', 'email', 'password', 'image', 'job', 'nationality', 'company_name', 'blocked_at', 'is_admin', 'remember_token'
-,'is_distributor'
+,'is_distributor','is_supplier','supplier_type','tex_number','lat','lng','bank_id','verification_code','parent_user_id','bank_account_number',
+
     ];
 
     /**
@@ -95,7 +99,13 @@ class User extends Authenticatable implements JWTSubject
 
     public function IsDistributor():bool
     {
-        return $this->is_distributor;
+
+        return $this->is_distributor?1:0;
+    }
+
+    public function IsSupplier():bool
+    {
+        return $this->is_supplier?1:0;
     }
 
     public function getTypeAttribute()
@@ -196,5 +206,18 @@ class User extends Authenticatable implements JWTSubject
         $pagniation = $this->paginateNumber;
         return ceil($messages/$pagniation);
     }
+
+    public function bank(){
+        return $this->belongsTo(Bank::class,'bank_id');
+    }
+
+    public function supplierLog(){
+        return $this->hasMany(SupplierLog::class,'user_id');
+    }
+
+    public function supplierBills(){
+        return $this->hasMany(SupplierBill::class,'user_id');
+    }
+
 
 }

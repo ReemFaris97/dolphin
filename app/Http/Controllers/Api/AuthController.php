@@ -25,6 +25,43 @@ class AuthController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
+
+
+    public function register(Request $request){
+        $rules = [
+            'name' =>'required|string|max:191',
+            'phone'      =>'required|string|unique:users',
+            'email'      =>'nullable|email|max:191|unique:users',
+            'tax_number' =>'required|numeric',
+            'lat'      =>'required|string',
+            'lng'      =>'required|string',
+            'bank_account_number'=>'required|numeric|unique:users',
+            'password'   =>'required|string|confirmed|max:191',
+            'fcm_token_android'=>'required_without:fcm_token_ios',
+            'fcm_token_ios'=>'required_without:fcm_token_android',
+            'supplier_type'=>'required|in:dolphin,romana',
+            'bank_id'=>'required|numeric|exists:banks,id',
+        ];
+
+        $validation = $this->apiValidation($request,$rules);
+
+        if ($validation instanceof Response) {
+            return $validation;
+        }
+
+        $user =$this->RegisterUser($request);
+        $token = JWTAuth::fromUser($user);
+        $user['token'] = $token;
+        if($user->IsSupplier()){
+            $user->syncPermissions(['33','34','35','36','37','38']);
+        }
+
+        $user =  new UserResource($user);
+        if ($token && $user) {return $this->createdResponse($user);}
+        $this->unKnowError();
+    }
+
+
     public function login(Request $request,$role=null)
     {
         $rules = [
@@ -36,6 +73,8 @@ class AuthController extends Controller
         $validation=$this->apiValidation($request,$rules);
         if($validation instanceof Response){return $validation;}
         if ($role == "distributor")
+            $credentials = ['phone'=>$request->phone,'password'=>$request->password];
+        elseif ($role == "supplier")
             $credentials = ['phone'=>$request->phone,'password'=>$request->password];
         else
             $credentials = ['phone'=>$request->phone,'password'=>$request->password];
@@ -75,7 +114,9 @@ class AuthController extends Controller
             "company_name" => "sometimes|string",
             "is_admin" => "sometimes|integer|in:0,1",
             'token'=>'sometimes|string',
-            'device'=>'sometimes|in:ios,android'
+            'device'=>'sometimes|in:ios,android',
+            'bank_id'=>'sometimes|numeric|exists:banks,id',
+            'bank_account_number'=>'sometimes|numeric|unique:users,bank_account_number,'.$user->id,
         ];
         $validation=$this->apiValidation($request,$rules);
         if($validation instanceof Response){return $validation;}
@@ -171,6 +212,27 @@ class AuthController extends Controller
         if (!$notification) return $this->notFoundResponse();
         $notification->delete();
         return $this->apiResponse('تم الحذف بنجاح');
+    }
+
+    public function phone_activation(Request $request){
+
+
+        $rules = [
+            'verification_code'=>'required'
+        ];
+        $validation=$this->apiValidation($request,$rules);
+        if($validation instanceof Response)return $validation;
+
+        $user=User::where('phone',auth()->user()->phone)->where('verification_code',$request['verification_code'])->first();
+
+        if ($user){
+            $user->is_verified=1;
+            $user->verification_code=1234;
+            $user->save();
+            return $this->apiResponse("الكود صحيح ..");
+        }else{
+            return $this->apiResponse('',"الكود خطأ .. ",'402');
+        }
     }
 
 }

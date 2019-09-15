@@ -19,6 +19,9 @@ trait UserOperation
               $inputs['image'] = saveImage($request->image,'users');
           }
       }
+
+      $inputs['is_supplier'] = 1;
+      $inputs['verification_code'] = 1234;
        return User::create($inputs);
   }
 
@@ -32,6 +35,22 @@ trait UserOperation
         }
         if($request->password != null) {return $user->update( Arr::except($inputs,['image']));}
         return $user->update(Arr::except($inputs,['image','password']));
+    }
+
+
+    public function RegisterSupplierEmployee($request){
+        $inputs = $request->all();
+        $inputs['parent_user_id']= auth()->id();
+        $inputs['is_supplier'] = 1;
+        $user = User::create($inputs);
+        $user->syncPermissions($request->permissions);
+        return $user;
+    }
+
+    public function UpdateSupplierEmployee($request,$user){
+        $user->update($request->all());
+        $user->syncPermissions($request->permissions);
+        return $user;
     }
 
 }
