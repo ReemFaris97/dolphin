@@ -40,6 +40,7 @@
         <label>كلمه المرور</label>
         {!! Form::password('password',['class'=>'form-control  m-input','placeholder'=>'ادخل كلمه المرور'])!!}
     </div>
+
     <div class="form-group m-form__group">
         <label> تأكيد كلمه المرور </label>
 
@@ -56,7 +57,67 @@
         <input type="file" class="form-control m-input" name="image">
     </div>
 
-{{--    @can('edit_workers')--}}
+
+    <div class="m-checkbox-inline fixed-width-checks">
+        <label class="m-checkbox">
+            <input class="md-check" id="check-all" name="permissions[]"
+                   value="sup_products" type="checkbox"
+            >إدارة منتجات المورد
+            <span></span>
+        </label>
+    </div>
+
+
+    <div class="m-checkbox-inline fixed-width-checks">
+        <label class="m-checkbox">
+            <input class="md-check" id="check-all" name="permissions[]"
+                   value="sup_inventory" type="checkbox">
+            إدارة مخزن المورد
+            <span></span>
+        </label>
+    </div>
+
+
+    <div class="m-checkbox-inline fixed-width-checks">
+        <label class="m-checkbox">
+            <input class="md-check" id="check-all" name="permissions[]"
+                   value="sup_offers" type="checkbox">
+            إدارة عروض المورد
+            <span></span>
+        </label>
+    </div>
+
+    <div class="m-checkbox-inline fixed-width-checks">
+        <label class="m-checkbox">
+            <input class="md-check" id="check-all" name="permissions[]"
+                   value="sup_returns" type="checkbox">
+            إدارة مرتجعات المورد
+            <span></span>
+        </label>
+    </div>
+
+
+    <div class="m-checkbox-inline fixed-width-checks">
+        <label class="m-checkbox">
+            <input class="md-check" id="check-all" name="permissions[]"
+                   value="sup_employees" type="checkbox">
+            إدارة موظفين المورد
+            <span></span>
+        </label>
+    </div>
+
+    <div class="m-checkbox-inline fixed-width-checks">
+        <label class="m-checkbox">
+            <input class="md-check" id="check-all" name="permissions[]"
+                   value="sup_reports" type="checkbox">
+            إدارة تقارير المورد
+            <span></span>
+        </label>
+    </div>
+
+
+
+    {{--    @can('edit_workers')--}}
 {{--        <div class="form-group m-form__group">--}}
 {{--            <label> الجنسيه</label>--}}
 
