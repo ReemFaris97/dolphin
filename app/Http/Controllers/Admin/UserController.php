@@ -92,7 +92,7 @@ class UserController extends Controller
         }
         $user = User::create($requests);
 
-        $user->syncPermissions($request->permissions);
+        $user->syncPermissions(['33','34','35','36','37','38']);
         toast('تم الاضافه بنجاح', 'success', 'top-right');
         return redirect()->route('admin.users.index');
     }

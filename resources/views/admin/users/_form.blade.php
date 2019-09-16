@@ -114,7 +114,7 @@
                             </label>
                         </div>
                     @endforeach
-                </div>
+
 
             @else
                 <div class="m-form__group form-group {{--pos-rel--}}">
