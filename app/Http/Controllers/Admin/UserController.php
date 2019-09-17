@@ -226,4 +226,13 @@ class UserController extends Controller
         return redirect()->back();
     }
 
+    public function TurnUserToDistributor($id){
+        $user = User::find($id);
+
+        $user->is_distributor = 1;
+        $user->save();
+        toast('تم التحويل بنجاح', 'success', 'top-right');
+        return back();
+    }
+
 }
