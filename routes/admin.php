@@ -11,6 +11,7 @@ Route::middleware('auth')->group(function () {
     Route::get('users/edit/profile','UserController@editProfile')->name('users.edit.profile');
     Route::post('users/update/profile','UserController@updateProfile')->name('users.update.profile');
     Route::patch('users/block/{user}', 'UserController@block')->name('users.block');
+    Route::patch('users/distributor/{user}', 'UserController@TurnUserToDistributor')->name('users.turn.distributor');
     Route::resource('notifications-category', 'NotificationsCategory');
     Route::post('notifications/read', 'NotificationsCategory@readNotifications')->name('notification.read');
     Route::resource('tasks', 'TaskController');

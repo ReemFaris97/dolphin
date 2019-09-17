@@ -23,8 +23,20 @@ trait ExpenseOperation
      */
     public function AddExpense($request)
   {
-      $inputs = $request->all();
-     $clause = Expense::create($inputs);
+//      $inputs = $request->all();
+//      $clause = Expense::create($inputs);
+
+      $inputs=$request->all();
+
+      if ($request->hasFile('image')&& $request->image !=null) {
+
+          $inputs['image'] =  saveImage($request->image, 'photos');
+      }
+      if ($request->hasFile('reader_image')&& $request->reader_image !=null) {
+          $inputs['reader_image'] = saveImage($request->reader_image, 'photos');
+      }
+
+      $clause=  Expense::create($inputs);
        return $clause;
   }
 
