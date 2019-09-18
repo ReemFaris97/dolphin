@@ -17,7 +17,7 @@ class SingleProduct extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'store' => $this->store->name,
+            'store' => optional($this->store)->name,
             'quantity_per_unit' =>(int) $this->quantity_per_unit,
             'min_quantity'=>(int)$this->min_quantity,
             'max_quantity'=>(int)$this->max_quantity,

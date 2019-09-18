@@ -8,8 +8,10 @@ use App\Models\Charge;
 use App\Models\FcmToken;
 use App\Models\Message;
 use App\Models\Notification;
+use App\Models\Product;
 use App\Models\SupplierBill;
 use App\Models\SupplierLog;
+use App\Models\SupplierPrice;
 use App\Models\TaskUser;
 use App\Traits\ApiResponses;
 use App\Traits\HashPassword;
@@ -217,6 +219,18 @@ class User extends Authenticatable implements JWTSubject
 
     public function supplierBills(){
         return $this->hasMany(SupplierBill::class,'user_id');
+    }
+
+    public function supplierProducts(){
+        $ids = SupplierPrice::where('user_id',$this->id)->pluck('id');
+        $products = Product::whereIn('id',$ids)->get();
+        return $products;
+    }
+
+    public function checkIfProductAddedBefore ($productId) {
+        $check = SupplierPrice::where('product_id',$productId)->where('user_id',$this->id)->first();
+        if($check) return 1 ;
+        else return 0;
     }
 
 

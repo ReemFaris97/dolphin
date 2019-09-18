@@ -9,6 +9,7 @@ use App\Http\Resources\StoreCategoriesResource;
 use App\Models\Product;
 use App\Models\Store;
 use App\Models\StoreCategory;
+use App\Models\SupplierPrice;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -31,9 +32,9 @@ class ProductsController extends Controller
         return $this->apiResponse(new ProductsResource($products));
     }
 
-    public function productsList($id){
-        $products = Product::where('store_id',$id)->get()->map(function($q){
-            return ['id'=>$q->id,'name'=>$q->name];
+    public function productsList(){
+        $products = SupplierPrice::where('user_id',auth()->id())->get()->map(function($q){
+            return ['id'=>$q->id,'name'=>$q->product->name,'price'=>$q->price];
         });
         return $this->apiResponse($products);
     }
@@ -56,27 +57,51 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [
-            'name'=>"required|string|max:191",
-            'store_id'=>'required|numeric|exists:stores,id',
-            'quantity_per_unit'=>'required|numeric',
-            'min_quantity'=>'required|numeric|lt:max_quantity',
-            'max_quantity'=>'required|numeric|gt:min_quantity',
-            'price'=>'required|numeric',
-            'bar_code'=>'required|string|unique:products,bar_code',
-            'expired_at'=>'required|date|after_or_equal:today',
-            'image'=>'required|image',
-            'images'=>"required|array",
-            'images.*'=>'image',
-        ];
-        $validation = $this->apiValidation($request,$rules);
+        if($request->has('product_id') && $request->product_id != null){
+            $rules = [
+                'product_id'=>'required|numeric|exists:products,id',
+                'price'=>'required|numeric',
+            ];
+            $validation = $this->apiValidation($request,$rules);
 
-        if ($validation instanceof Response) {
-            return $validation;
-        }
+            if ($validation instanceof Response) {
+                return $validation;
+            }
+
+            $result=  $this->assignProductToUser($request->product_id,$request->price);
+            if($result == false) {
+                return $this->apiResponse("هذا المنتج تم تعيينه من قبل");
+            }
+            $this->RegisterLog("إضافة منتج");
+            return $this->apiResponse("تم تعيين المنتج بنجاح");
+        }else{
+
+            $rules = [
+                'name'=>"required|string|max:191",
+                'store_id'=>'nullable|numeric|exists:stores,id',
+                'quantity_per_unit'=>'required|numeric',
+                'min_quantity'=>'required|numeric|lt:max_quantity',
+                'max_quantity'=>'required|numeric|gt:min_quantity',
+                'price'=>'required|numeric',
+                'bar_code'=>'required|string|unique:products,bar_code',
+                'expired_at'=>'required|date|after_or_equal:today',
+                'image'=>'required|image',
+                'images'=>"nullable|array",
+                'images.*'=>'image',
+            ];
+
+            $validation = $this->apiValidation($request,$rules);
+
+            if ($validation instanceof Response) {
+                return $validation;
+            }
             $product = $this->RegisterProduct($request);
+            $this->assignProductToUser($product->id,$request->price);
             $this->RegisterLog("إضافة منتج");
             return $this->apiResponse(new SingleProduct($product));
+        }
+
+
 
     }
 
@@ -189,5 +214,17 @@ class ProductsController extends Controller
             return ['id'=>$q->id,'name'=>$q->name];
         });
         return $this->apiResponse($categories);
+    }
+
+
+    public function search(Request $request){
+
+        $products = Product::where(function ($q)use ($request) {
+            $q->where('name','Like','%'.$request->text.'%')
+                ->orWhere('name','Like','%'.$request->text)
+                ->orWhere('name','Like',$request->text.'%');
+        })->where('type','supplier')->get();
+
+        return $this->apiResponse($products);
     }
 }
