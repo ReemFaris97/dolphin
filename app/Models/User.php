@@ -227,5 +227,11 @@ class User extends Authenticatable implements JWTSubject
         return $products;
     }
 
+    public function checkIfProductAddedBefore ($productId) {
+        $check = SupplierPrice::where('product_id',$productId)->where('user_id',$this->id)->first();
+        if($check) return 1 ;
+        else return 0;
+    }
+
 
 }

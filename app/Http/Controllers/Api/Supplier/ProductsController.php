@@ -57,27 +57,51 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [
-            'name'=>"required|string|max:191",
-            'store_id'=>'required|numeric|exists:stores,id',
-            'quantity_per_unit'=>'required|numeric',
-            'min_quantity'=>'required|numeric|lt:max_quantity',
-            'max_quantity'=>'required|numeric|gt:min_quantity',
-            'price'=>'required|numeric',
-            'bar_code'=>'required|string|unique:products,bar_code',
-            'expired_at'=>'required|date|after_or_equal:today',
-            'image'=>'required|image',
-            'images'=>"required|array",
-            'images.*'=>'image',
-        ];
-        $validation = $this->apiValidation($request,$rules);
+        if($request->has('product_id') && $request->product_id != null){
+            $rules = [
+                'product_id'=>'required|numeric|exists:products,id',
+                'price'=>'required|numeric',
+            ];
+            $validation = $this->apiValidation($request,$rules);
 
-        if ($validation instanceof Response) {
-            return $validation;
-        }
+            if ($validation instanceof Response) {
+                return $validation;
+            }
+
+            $result=  $this->assignProductToUser($request->product_id,$request->price);
+            if($result == false) {
+                return $this->apiResponse("هذا المنتج تم تعيينه من قبل");
+            }
+            $this->RegisterLog("إضافة منتج");
+            return $this->apiResponse("تم تعيين المنتج بنجاح");
+        }else{
+
+            $rules = [
+                'name'=>"required|string|max:191",
+                'store_id'=>'nullable|numeric|exists:stores,id',
+                'quantity_per_unit'=>'required|numeric',
+                'min_quantity'=>'required|numeric|lt:max_quantity',
+                'max_quantity'=>'required|numeric|gt:min_quantity',
+                'price'=>'required|numeric',
+                'bar_code'=>'required|string|unique:products,bar_code',
+                'expired_at'=>'required|date|after_or_equal:today',
+                'image'=>'required|image',
+                'images'=>"nullable|array",
+                'images.*'=>'image',
+            ];
+
+            $validation = $this->apiValidation($request,$rules);
+
+            if ($validation instanceof Response) {
+                return $validation;
+            }
             $product = $this->RegisterProduct($request);
+            $this->assignProductToUser($product->id,$request->price);
             $this->RegisterLog("إضافة منتج");
             return $this->apiResponse(new SingleProduct($product));
+        }
+
+
 
     }
 
