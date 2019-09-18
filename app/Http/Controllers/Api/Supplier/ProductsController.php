@@ -191,4 +191,16 @@ class ProductsController extends Controller
         });
         return $this->apiResponse($categories);
     }
+
+
+    public function search(Request $request){
+
+        $products = Product::where(function ($q)use ($request) {
+            $q->where('name','Like','%'.$request->text.'%')
+                ->orWhere('name','Like','%'.$request->text)
+                ->orWhere('name','Like',$request->text.'%');
+        })->where('type','supplier')->get();
+
+        return $this->apiResponse($products);
+    }
 }
