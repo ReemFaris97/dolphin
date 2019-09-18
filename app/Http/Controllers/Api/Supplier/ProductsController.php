@@ -9,6 +9,7 @@ use App\Http\Resources\StoreCategoriesResource;
 use App\Models\Product;
 use App\Models\Store;
 use App\Models\StoreCategory;
+use App\Models\SupplierPrice;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -31,9 +32,9 @@ class ProductsController extends Controller
         return $this->apiResponse(new ProductsResource($products));
     }
 
-    public function productsList($id){
-        $products = Product::where('store_id',$id)->get()->map(function($q){
-            return ['id'=>$q->id,'name'=>$q->name];
+    public function productsList(){
+        $products = SupplierPrice::where('user_id',auth()->id())->get()->map(function($q){
+            return ['id'=>$q->id,'name'=>$q->product->name,'price'=>$q->price];
         });
         return $this->apiResponse($products);
     }

@@ -21,7 +21,7 @@ Route::get('spinner/banks','BanksController@getBanksSpinner');
 Route::group(['middleware' => ['jwt.auth']], function () {
 
         Route::resource('/products','ProductsController');
-        Route::get('/products/list/{id}','ProductsController@productsList');
+        Route::get('/products/spinner/list','ProductsController@productsList');
 
         Route::get('stores/categories','ProductsController@getStoresCategories');
         Route::get('stores/{id}','ProductsController@getAllStores');
