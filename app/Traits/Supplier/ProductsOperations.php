@@ -17,6 +17,7 @@ trait ProductsOperations
         $inputs = $request->all();
         $inputs['expired_at'] = Carbon::parse($request->expired_at);
         $inputs['image'] =  saveImage($request->image, 'products');
+        $inputs['type'] = "supplier";
 
         $product= Product::create($inputs);
         if($request->has('images') && $request->images != null){
