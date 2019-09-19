@@ -72,7 +72,7 @@ trait ProductsOperations
         $inputs['user_id'] = auth()->id();
         $inputs['product_id'] = $product_id;
         $inputs['price'] = $price;
-        if(!auth()->ussser()->checkIfProductAddedBefore($product_id)){
+        if(!auth()->user()->checkIfProductAddedBefore($product_id)){
             $product = SupplierPrice::create($inputs);
             return $product;
 
