@@ -34,7 +34,7 @@ class ProductsController extends Controller
 
     public function productsList(){
         $products = SupplierPrice::where('user_id',auth()->id())->get()->map(function($q){
-            return ['id'=>$q->id,'name'=>$q->product->name,'price'=>$q->price];
+            return ['id'=>$q->id,'name'=>optional($q->product)->name,'price'=>$q->price];
         });
         return $this->apiResponse($products);
     }
