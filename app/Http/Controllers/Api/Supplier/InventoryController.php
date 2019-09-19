@@ -14,7 +14,7 @@ class InventoryController extends Controller
     use ApiResponses;
 
     public function index(){
-        $products = Product::paginate($this->paginateNumber);
+        $products = auth()->user()->supplierProductsPaginated();
         return $this->apiResponse(new InventoryResource($products));
     }
 }
