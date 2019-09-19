@@ -221,15 +221,18 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(SupplierBill::class,'user_id');
     }
 
+
+
     public function supplierProducts(){
-        $ids = SupplierPrice::where('user_id',$this->id)->pluck('id');
+
+        $ids = SupplierPrice::where('user_id',$this->id)->pluck('product_id');
         $products = Product::whereIn('id',$ids)->get();
         return $products;
     }
 
     public function supplierProductsPaginated(){
-        $ids = SupplierPrice::where('user_id',$this->id)->pluck('id');
-        $products = Product::whereIn('id',$ids)->paginate(9);
+        $ids = SupplierPrice::where('user_id',$this->id)->pluck('product_id');
+        $products = Product::whereIn('id',$ids)->paginate(10);
         return $products;
     }
 

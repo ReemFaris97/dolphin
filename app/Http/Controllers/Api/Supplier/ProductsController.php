@@ -6,6 +6,7 @@ use App\Http\Resources\Distributor\StoreResource;
 use App\Http\Resources\ProductsResource;
 use App\Http\Resources\SingleProduct;
 use App\Http\Resources\StoreCategoriesResource;
+use App\Http\Resources\Supplier\SupplierProductsResource;
 use App\Models\Product;
 use App\Models\Store;
 use App\Models\StoreCategory;
@@ -28,13 +29,14 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = Product::paginate($this->paginateNumber);
-        return $this->apiResponse(new ProductsResource($products));
+
+       $products = auth()->user()->supplierProductsPaginated();
+        return $this->apiResponse(new SupplierProductsResource($products));
     }
 
     public function productsList(){
-        $products = SupplierPrice::where('user_id',auth()->id())->get()->map(function($q){
-            return ['id'=>optional($q->product)->id,'name'=>optional($q->product)->name,'price'=>$q->price];
+        $products =auth()->user()->supplierProducts()->map(function($q){
+            return ['id'=>$q->id,'name'=>$q->name,'price'=>$q->price];
         });
         return $this->apiResponse($products);
     }
@@ -195,7 +197,7 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        $product = Product::find($id);
+        $product = SupplierPrice::find($id);
         if($product){
             $product->delete();
             $this->RegisterLog("حذف منتج");
