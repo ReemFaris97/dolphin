@@ -30,4 +30,13 @@ class Product extends Model
     {
         return $this->morphMany(Image::class,'model');
     }
+
+    public function prices(){
+        return $this->hasMany(SupplierPrice::class,'product_id');
+    }
+
+    public function authSupplierPriceId(){
+        $id = SupplierPrice::where('user_id',auth()->id())->where('product_id',$this->id)->first()->id;
+        return $id;
+    }
 }
