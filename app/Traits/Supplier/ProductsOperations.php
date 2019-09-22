@@ -68,9 +68,10 @@ trait ProductsOperations
        }
    }
 
-   public function assignProductToUser($product_id,$price){
+   public function assignProductToUser($product_id,$price,$expired_at){
         $inputs['user_id'] = auth()->id();
         $inputs['product_id'] = $product_id;
+        $inputs['expired_at'] = Carbon::parse($expired_at);
         $inputs['price'] = $price;
         if(!auth()->user()->checkIfProductAddedBefore($product_id)){
             $product = SupplierPrice::create($inputs);

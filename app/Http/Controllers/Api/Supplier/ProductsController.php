@@ -36,7 +36,7 @@ class ProductsController extends Controller
 
     public function productsList(){
         $products =auth()->user()->supplierProducts()->map(function($q){
-            return ['id'=>$q->id,'name'=>$q->name,'price'=>$q->price];
+            return ['id'=>$q->id,'name'=>$q->name,'price'=>$q->authSupplierPrice()];
         });
         return $this->apiResponse($products);
     }
@@ -70,7 +70,7 @@ class ProductsController extends Controller
                 return $validation;
             }
 
-            $result=  $this->assignProductToUser($request->product_id,$request->price);
+            $result=  $this->assignProductToUser($request->product_id,$request->price,$request->expired_at);
             if($result == false) {
                 return $this->apiResponse("هذا المنتج تم تعيينه من قبل");
             }
@@ -98,7 +98,7 @@ class ProductsController extends Controller
                 return $validation;
             }
             $product = $this->RegisterProduct($request);
-            $this->assignProductToUser($product->id,$request->price);
+            $this->assignProductToUser($product->id,$request->price,$request->expired_at);
             $this->RegisterLog("إضافة منتج");
             return $this->apiResponse(new SingleProduct($product));
         }
@@ -142,51 +142,25 @@ class ProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $product = Product::find($id);
-        if(!$product) return $this->apiResponse(null,"المنتج غير موجود يبشه");
-        else {
             $rules = [
                 'price'=>'required|numeric',
-//                'name'=>"required|string|max:191",
-//                'store_id'=>'sometimes|numeric|exists:stores,id',
-//                'quantity_per_unit'=>'required|numeric',
-//                'min_quantity'=>'required|numeric|lt:max_quantity',
-//                'max_quantity'=>'required|numeric|gt:min_quantity',
-//                'bar_code'=>'required|string|unique:products,bar_code,'.$product->id,
-//                'expired_at'=>'required|date|after_or_equal:today',
-//                'image'=>'nullable|image',
             ];
+
             $validation = $this->apiValidation($request,$rules);
             if ($validation instanceof Response) {
                 return $validation;
             }
 
-            $inputs = $request->all();
-
-            $productPrice = SupplierPrice::where('product_id',$product->id)->where('user_id',auth()->id())->first();
+            $productPrice = SupplierPrice::where('id',$id)->where('user_id',auth()->id())->first();
             if(!$productPrice) return $this->apiResponse(null,'لم يتم تعيين المنتج لديك');
             else{
-                $productPrice->update(['price'=>$request->price]);
+                $productPrice->update(['price'=>$request->price,'expired_at'=>Carbon::parse($request->expired_at)]);
             }
 
-//            $inputs['expired_at'] = Carbon::parse($request->expired_at);
-//            if($request->has('image') && $request->image !=null){
-//                $inputs['image'] =  saveImage($request->image, 'products');
-//            }
-
-
-//            $product->update($inputs);
-//
-//            if($request->has('images') && $request->images !=null) {
-//                $product->images()->delete();
-//                foreach ($request->images as $image) {
-//                    $product->images()->create(['image' => saveImage($image, 'users')]);
-//                }
-//            }
             $this->RegisterLog("تعديل سعر منتج");
             return $this->apiResponse(null,'تم تعديل المنتج بنجاح');
 
-        }
+
     }
 
     /**

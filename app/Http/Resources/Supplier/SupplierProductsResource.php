@@ -19,7 +19,7 @@ class SupplierProductsResource extends ResourceCollection
                 return [
                     'id'=>$q->authSupplierPriceId(),
                     'name'=>$q->name,
-                    'price'=>$q->price,
+                    'price'=>$q->authSupplierPrice(),
                     'bar_code'=>$q->bar_code,
                     'image'=>$q->image?getimg($q->image):"",
                     'images' => $q->images->transform(function ($qu){
