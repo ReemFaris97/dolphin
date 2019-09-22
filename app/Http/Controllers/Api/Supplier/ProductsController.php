@@ -70,7 +70,7 @@ class ProductsController extends Controller
                 return $validation;
             }
 
-            $result=  $this->assignProductToUser($request->product_id,$request->price);
+            $result=  $this->assignProductToUser($request->product_id,$request->price,$request->expired_at);
             if($result == false) {
                 return $this->apiResponse("هذا المنتج تم تعيينه من قبل");
             }
@@ -98,7 +98,7 @@ class ProductsController extends Controller
                 return $validation;
             }
             $product = $this->RegisterProduct($request);
-            $this->assignProductToUser($product->id,$request->price);
+            $this->assignProductToUser($product->id,$request->price,$request->expired_at);
             $this->RegisterLog("إضافة منتج");
             return $this->apiResponse(new SingleProduct($product));
         }
@@ -154,7 +154,7 @@ class ProductsController extends Controller
             $productPrice = SupplierPrice::where('id',$id)->where('user_id',auth()->id())->first();
             if(!$productPrice) return $this->apiResponse(null,'لم يتم تعيين المنتج لديك');
             else{
-                $productPrice->update(['price'=>$request->price]);
+                $productPrice->update(['price'=>$request->price,'expired_at'=>Carbon::parse($request->expired_at)]);
             }
 
             $this->RegisterLog("تعديل سعر منتج");
