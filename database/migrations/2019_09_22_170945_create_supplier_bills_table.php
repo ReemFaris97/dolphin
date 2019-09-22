@@ -15,12 +15,17 @@ class CreateSupplierBillsTable extends Migration
     {
         Schema::create('supplier_bills', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('user_id')->unsigned();
-            $table->float('vat');
-            $table->float('amount_paid');
-            $table->enum('payment_method',['cash','term','online','transaction']);
+            $table->string('bill_number');
+            $table->date('date');
+            $table->unsignedBigInteger('supplier_id');
+            $table->foreign('supplier_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('offer_id');
+            $table->foreign('offer_id')->references('id')->on('supplier_offers')->onDelete('cascade');
+            $table->enum('payment_method',['cash','postpaid']);
+            $table->decimal('vat');
+            $table->decimal('amount_paid')->default(0);
+            $table->decimal('amount_rest')->default(0);
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

@@ -30,6 +30,9 @@ Route::group(['middleware' => ['jwt.auth']], function () {
         Route::get('/inventory','InventoryController@index');
 
         Route::resource('/offers','OffersController');
+        Route::resource('/bills','BillsController');
+
+
 
     /* Employees .... */
         Route::get('/employees','EmployeesController@index');            // all emp
