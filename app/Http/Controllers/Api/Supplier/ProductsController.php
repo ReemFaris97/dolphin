@@ -72,7 +72,7 @@ class ProductsController extends Controller
 
             $result=  $this->assignProductToUser($request->product_id,$request->price,$request->expired_at);
             if($result == false) {
-                return $this->apiResponse("هذا المنتج تم تعيينه من قبل");
+                return $this->apiResponse("","هذا المنتج تم تعيينه من قبل",false);
             }
             $this->RegisterLog("إضافة منتج");
             return $this->apiResponse("تم تعيين المنتج بنجاح");
@@ -116,7 +116,7 @@ class ProductsController extends Controller
     public function show($id)
     {
         $product = Product::find($id);
-        if(!$product) return $this->apiResponse(null,'عفواً هذا المنتج غير متوفر');
+        if(!$product) return $this->apiResponse(null,'عفواً هذا المنتج غير متوفر',false);
 
         return $this->apiResponse(new SingleProduct($product));
 
@@ -152,7 +152,7 @@ class ProductsController extends Controller
             }
 
             $productPrice = SupplierPrice::where('id',$id)->where('user_id',auth()->id())->first();
-            if(!$productPrice) return $this->apiResponse(null,'لم يتم تعيين المنتج لديك');
+            if(!$productPrice) return $this->apiResponse(null,'لم يتم تعيين المنتج لديك',false);
             else{
                 $productPrice->update(['price'=>$request->price,'expired_at'=>Carbon::parse($request->expired_at)]);
             }
@@ -178,7 +178,7 @@ class ProductsController extends Controller
             return $this->apiResponse('تم حذف المنتج بنجاح');
         }
         else{
-            return $this->apiResponse(null,"المنتج غير موجود",404);
+            return $this->apiResponse(null,"المنتج غير موجود",false);
         }
     }
 
