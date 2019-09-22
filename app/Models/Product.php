@@ -39,4 +39,8 @@ class Product extends Model
         $id = SupplierPrice::where('user_id',auth()->id())->where('product_id',$this->id)->first()->id;
         return $id;
     }
+    public function authSupplierPrice(){
+        $price = SupplierPrice::where('user_id',auth()->id())->where('product_id',$this->id)->first()->price;
+        return $price;
+    }
 }
