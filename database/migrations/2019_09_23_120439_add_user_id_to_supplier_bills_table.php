@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSupplierBillsTable extends Migration
+class AddUserIdToSupplierBillsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,8 @@ class CreateSupplierBillsTable extends Migration
      */
     public function up()
     {
-        Schema::create('supplier_bills', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('user_id')->unsigned();
-            $table->float('vat');
-            $table->float('amount_paid');
-            $table->enum('payment_method',['cash','term','online','transaction']);
-            $table->timestamps();
+        Schema::table('supplier_bills', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id')->after('id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
@@ -31,6 +26,9 @@ class CreateSupplierBillsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('supplier_bills');
+        Schema::table('supplier_bills', function (Blueprint $table) {
+            $table->dropForeign('user_id');
+            $table->dropColumn('user_id');
+        });
     }
 }
