@@ -21,7 +21,15 @@ class SingleDiscardResource extends JsonResource
             'return_type'=>$this->return_type,
             'date'=>$this->date,
             'total'=>$this->total(),
-            'products'=>$this->discard_products,
+            'products'=>$this->discard_products->transform(function($pro){
+                return [
+                    'discard_id'=>$pro->discard_id,
+                    'product_name'=>$pro->product->name,
+                    'quantity'=>$pro->quanitity,
+                    'price'=>(float)$pro->price,
+                    'type'=>$pro->type,
+                ];
+            }),
         ];
     }
 }
