@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Api\Supplier;
 
+use App\Http\Resources\Supplier\BillsResource;
+use App\Http\Resources\Supplier\SingleBillResource;
 use App\Models\SupplierBill;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Traits\ApiResponses;
 
 class BillsController extends Controller
 {
+    use ApiResponses;
     /**
      * Display a listing of the resource.
      *
@@ -15,8 +19,8 @@ class BillsController extends Controller
      */
     public function index()
     {
-        $bills =SupplierBill::where('supplier_id',auth()->id())->get();
-        return $bills;
+        $bills =SupplierBill::where('supplier_id',auth()->id())->paginate($this->paginateNumber);
+        return $this->apiResponse(new BillsResource($bills));
     }
 
     /**
@@ -48,7 +52,10 @@ class BillsController extends Controller
      */
     public function show($id)
     {
-        //
+        $bill = SupplierBill::find($id);
+        if(!$bill) return $this->apiResponse(null,'الفاتورة غير متوفرة حالياً',false);
+        return $this->apiResponse(new SingleBillResource($bill));
+
     }
 
     /**
