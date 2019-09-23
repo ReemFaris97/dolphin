@@ -23,7 +23,15 @@ class DiscardsResources extends ResourceCollection
                     'return_type'=>$q->return_type,
                     'date'=>$q->date,
                     'total'=>$q->total(),
-                    'products'=>$q->discard_products,
+                    'products'=>$q->discard_products->transform(function($pro){
+                        return [
+                            'discard_id'=>$pro->discard_id,
+                            'product_name'=>$pro->product->name,
+                            'quantity'=>$pro->quanitity,
+                            'price'=>(float)$pro->price,
+                            'type'=>$pro->type,
+                        ];
+                    }),
 
                 ];
             }),
