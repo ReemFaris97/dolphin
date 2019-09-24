@@ -12,6 +12,7 @@ use App\Models\Product;
 use App\Models\SupplierBill;
 use App\Models\SupplierLog;
 use App\Models\SupplierPrice;
+use App\Models\SupplierTransaction;
 use App\Models\TaskUser;
 use App\Traits\ApiResponses;
 use App\Traits\HashPassword;
@@ -213,14 +214,25 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Bank::class,'bank_id');
     }
 
+
+//    ************************************************
+    /*
+     *
+     * @Supplier Functions ....
+     *
+     */
+
+    public function supplier_staff(){
+        return $this->hasMany(User::class,'parent_user_id');
+    }
+
     public function supplierLog(){
         return $this->hasMany(SupplierLog::class,'user_id');
     }
 
     public function supplierBills(){
-        return $this->hasMany(SupplierBill::class,'user_id');
+        return $this->hasMany(SupplierBill::class,'supplier_id');
     }
-
 
 
     public function supplierProducts(){
@@ -241,6 +253,44 @@ class User extends Authenticatable implements JWTSubject
         if($check) return 1 ;
         else return 0;
     }
+
+    public function supplier_transactions(){
+        return $this->hasMany(SupplierTransaction::class,'supplier_id');
+    }
+
+    public function supplierTotalBills(){
+        $amount = $this->supplierBills()->sum('vat');
+        $amount += $this->supplierBills()->sum('amount_paid');
+        $amount += $this->supplierBills()->sum('amount_rest');
+        return $amount;
+    }
+
+    public function totalPaidMoneyInBill():float {
+       return  $amount = $this->supplierBills()->sum('amount_paid');
+
+    }
+
+    public function supplierPaidMoneyInTransactions() :float {
+        return $this->supplier_transactions()->sum('amount');
+    }
+
+    public function supplierTotalPaidMoney() :float {
+        return $this->totalPaidMoneyInBill() + $this->supplierPaidMoneyInTransactions();
+    }
+
+    public function totalRestMoneyInBill(){
+        return $this->supplierBills()->sum('amount_rest');
+    }
+
+
+
+    public function TotalOfSupplierReceivables() : float {
+        $amount_rest = $this->totalRestMoneyInBill();
+        $paid = $this->supplierPaidMoneyInTransactions() + $this->totalPaidMoneyInBill();
+        return $amount_rest - $paid;
+    }
+
+
 
 
 }

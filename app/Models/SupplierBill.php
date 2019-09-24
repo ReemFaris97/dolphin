@@ -19,9 +19,8 @@ class SupplierBill extends Model
         return $this->belongsTo(SupplierOffer::class,'offer_id');
     }
 
-    public function total():int {
-        $offer = $this->offer()->first();
-        $total = $offer->totalOffer() + $this->vat;
+    public function total():float {
+        $total = $this->amount_paid + $this->amount_rest + $this->vat;
         return $total;
     }
 
