@@ -32,6 +32,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
         Route::resource('/offers','OffersController');
         Route::resource('/bills','BillsController');
         Route::resource('/discards','DiscardsController');
+        Route::get('/filter/discards','DiscardsController@filteredDiscards');
 
         route::get('/reports/index','ReportsController@index');
 
