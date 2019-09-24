@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Supplier;
 use App\Http\Resources\Supplier\DiscardsResources;
 use App\Http\Resources\Supplier\SingleDiscardResource;
 use App\Models\SupplierDiscard;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\ApiResponses;
@@ -19,6 +20,13 @@ class DiscardsController extends Controller
     public function index()
     {
         $discards = SupplierDiscard::where('supplier_id',auth()->id())->paginate($this->paginateNumber);
+        return $this->apiResponse(new DiscardsResources($discards));
+    }
+
+    public function filteredDiscards(Request $request){
+
+        $discards = SupplierDiscard::where('supplier_id',auth()->id())->whereBetween('date',[Carbon::parse($request->from),Carbon::parse($request->to)])
+            ->paginate($this->paginateNumber);
         return $this->apiResponse(new DiscardsResources($discards));
     }
 
