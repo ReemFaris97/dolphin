@@ -33,7 +33,7 @@ class UserResource extends JsonResource
              ]),
              $this->mergeWhen(($this->IsSupplier()),[
                  'supplier_type'=>$this->supplier_type,
-                 'tax_number'=>$this->tax_number,
+                 'tax_number'=>$this->tax_number??"",
                  'lat'=>$this->lat?$this->lat:"",
                  'lng'=>$this->lng?$this->lng:"",
                  'bank_id'=>optional($this->bank)->id?optional($this->bank)->id:"",
@@ -42,7 +42,7 @@ class UserResource extends JsonResource
 
 
              ]),
-             'token' => $this->token,
+             'token' =>$this->token??"",
             ];
     }
 }

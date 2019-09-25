@@ -19,7 +19,7 @@ Route::post('auth/register/{role}','AuthController@register');
 Route::get('spinner/banks','BanksController@getBanksSpinner');
 
 Route::group(['middleware' => ['jwt.auth']], function () {
-
+        Route::post('update/password','ProfileController@reset_password');
         Route::resource('/products','ProductsController');
         Route::get('/products/spinner/list','ProductsController@productsList');
         Route::post('/products/search/name','ProductsController@search');
