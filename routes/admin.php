@@ -92,6 +92,18 @@ Route::middleware('auth')->group(function () {
     Route::get('reports/worker/details', 'ReportsController@workerReport')->name('workerReport');
     /*end reports routes*/
 
+    /*suppliers discards routes*/
+    route::resource('/suppliers-discards','DiscardsController');
+    Route::post('/suppliers/discards/get-products','DiscardsController@getAjaxSupplierProducts')->name('getAjaxSupplierProducts');
+    /*end suppliers discards routes*/
+
+
+
+    /*suppliers bills routes*/
+
+    /*end suppliers bills routes*/
+
+
 
     /*save token*/
 
