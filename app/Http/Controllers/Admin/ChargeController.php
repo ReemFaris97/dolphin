@@ -36,7 +36,7 @@ $page_title = 'كل العهد';
 
     public function UserCharges()
     {
-        $charges = Charge::where('worker_id', \Auth::id())->get()->reverse();;
+        $charges = Charge::where('worker_id', \Auth::id())->get()->reverse();
 
         $page_title = 'العهد المسندة الى';
         return $this->toIndex(compact('charges', 'page_title'));
