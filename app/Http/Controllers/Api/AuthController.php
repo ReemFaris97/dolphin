@@ -83,6 +83,10 @@ class AuthController extends Controller
             return $this->apiResponse(null,'البيانات التي ادخلتها غير صحيحة',406);
         $user = User::where('phone',$request->phone)->first();
         if (!is_null($user->blocked_at)) return $this->apiResponse(null,'لقد تم حظر عضويتك الرجاء التواصل مع الاداره',420);
+
+        if($role == 'supplier' && $user->is_supplier == 0) return $this->apiResponse(null,"عفواً المستخدم ليس مندوب",401);
+
+
         $user->updateFcmToken($request->token,$request->device);
         $user['token'] = $token;
         $user =  new UserResource($user);
