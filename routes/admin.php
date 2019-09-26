@@ -93,14 +93,13 @@ Route::middleware('auth')->group(function () {
     /*end reports routes*/
 
     /*suppliers discards routes*/
-    route::resource('/suppliers-discards','DiscardsController');
+    Route::resource('/suppliers-discards','DiscardsController');
     Route::post('/suppliers/discards/get-products','DiscardsController@getAjaxSupplierProducts')->name('getAjaxSupplierProducts');
     /*end suppliers discards routes*/
 
 
-
     /*suppliers bills routes*/
-
+    Route::resource('/suppliers-bills','SuppliersBillsController');
     /*end suppliers bills routes*/
 
 
