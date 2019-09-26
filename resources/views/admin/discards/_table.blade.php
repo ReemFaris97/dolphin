@@ -32,6 +32,14 @@
             <td>{{$row->date}}</td>
             <td>
                 <a href="{!!route('admin.suppliers-discards.show',$row->id)!!}" class="btn btn-info"> <i class="fas fa-eye"></i>مشاهده</a>
+                <form method="POST" action="{!!route('admin.suppliers-discards.destroy',$row->id)!!}">
+                    @csrf() @method('delete')
+                    <button type="submit" class="btn btn-danger"
+                            onclick="if(!confirm('هل انت متاكد من حذف هذا الرتجع')) event.preventDefault() ">
+                        <i class="fas fa-trash"></i>
+                        حذف
+                    </button>
+                </form>
             </td>
         </tr>
     @endforeach
