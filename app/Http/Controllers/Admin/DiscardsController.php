@@ -97,6 +97,7 @@ class DiscardsController extends Controller
        $products = $supplier->supplierProducts();
        return response()->json([
            'status'=>true,
+           'receivables'=>$supplier->TotalOfSupplierReceivables(),
            'data'=>view('admin.discards.supplier_products',compact('products'))->render()
        ]);
     }

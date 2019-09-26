@@ -70,6 +70,7 @@
                     success: function (data) {
                         $('#product_id').html(data.data);
                         $('#switch_product_id').html(data.data);
+                        $('#receivable_amount').val(data.receivables);
                     }
                 });
             });
@@ -83,7 +84,33 @@
         $(document).ready(function(){
             $('#return_type').on('change',function(){
                 var val = $(this).val();
-                alert(val);
+                if(val == 'switch'){
+                    $('#switch_products_section').show();
+                }else{
+                    $('#switch_products_section').hide();
+                }
+
+                if(val == 'decrease'){
+                    $('#receivables_sections').show();
+                }else{
+                    $('#receivables_sections').hide();
+                }
+
+            });
+
+            $('#paid_amount').on('keyup',function () {
+
+                var receivable = $('#receivable_amount').val();
+                var paid = $(this).val();
+                var current = receivable - paid;
+
+                if(current < 0 ){
+                    alert("عفواً القيمة اكبر من المديونية ");
+                    $(this).val(receivable);
+                    $('#current_receivable').val(0);
+                }else{
+                    $('#current_receivable').val(current);
+                }
             });
         });
 
@@ -125,6 +152,7 @@
                        '<td>'+'<a href="javascript:;" id="' + deleteId +'" data-id="'+product_id+'"  class="removeProduct btn btn-danger waves-effect waves-light btn-xs m-b-5">'+'حذف'+'</a>'+'</td>' +
                        '<input type="hidden" name="products[]" value="' + product_id + '" />' +
                        '<input type="hidden" name="qtys[]" value="' + quantity + '" />' +
+                       '<input type="hidden" name="prices[]" value="' + price + '" />' +
                        '</tr>');
                }
 
@@ -178,6 +206,7 @@
                         '<td>'+'<a href="javascript:;" id="' + deleteId +'" data-id="'+product_id+'"  class="switch_removeProduct btn btn-danger waves-effect waves-light btn-xs m-b-5">'+'حذف'+'</a>'+'</td>' +
                         '<input type="hidden" name="switch_products[]" value="' + product_id + '" />' +
                         '<input type="hidden" name="switch_qtys[]" value="' + quantity + '" />' +
+                        '<input type="hidden" name="switch_prices[]" value="' + price + '" />' +
                         '</tr>');
                 }
 

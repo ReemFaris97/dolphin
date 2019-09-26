@@ -13,12 +13,12 @@
 
     <div class="form-group m-form__group">
         <label>الكمية</label>
-        {!! Form::number('switch_quantity',null,['id'=>'switch_product_quantity','class'=>'form-control m-input','placeholder'=>'الكمية'])!!}
+        {!! Form::number('',null,['id'=>'switch_product_quantity','class'=>'form-control m-input','placeholder'=>'الكمية'])!!}
     </div>
 
     <div class="form-group m-form__group">
         <label>السعر</label>
-        {!! Form::number('switch_price',null,['id'=>'switch_product_price','class'=>'form-control m-input','placeholder'=>'السعر'])!!}
+        {!! Form::number('',null,['id'=>'switch_product_price','class'=>'form-control m-input','placeholder'=>'السعر'])!!}
     </div>
 
     <div class="form-group m-form__group">
