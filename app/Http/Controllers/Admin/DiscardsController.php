@@ -3,15 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\SupplierDiscard;
+use App\Traits\Distributor\DistributorOperation;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Traits\Supplier\DiscardsOperations;
 use App\Traits\Viewable;
 
 class DiscardsController extends Controller
 {
 
-    use Viewable;
+    use Viewable,DiscardsOperations;
     private  $viewable = 'admin.discards.';
     /**
      * Display a listing of the resource.
@@ -43,7 +45,37 @@ class DiscardsController extends Controller
      */
     public function store(Request $request)
     {
-        return $request->all();
+
+        $rules = [
+            'supplier_id'=>'required|numeric|exists:users,id',
+            'reason'=>'required|string|max:191',
+            'date'=>"required|date",
+            'return_type'=>"required",
+            'products'=>'required|array',
+            'products.*'=>"required|numeric|exists:products,id",
+        ];
+            if($request->return_type === 'switch'){
+                $rules['switch_products'] ='required|array';
+                $rules['switch_products.*'] ="required|numeric|exists:products,id";
+            }
+            if($request->return_type === 'decrease'){
+                $rules['paid_amount'] = 'required|numeric|min:1';
+            }
+
+            $this->validate($request,$rules);
+            $discard = $this->RegisterDiscard($request);
+            $this->RegisterDiscardProducts($discard,$request,'discard');
+
+        if($request->has('return_type') && $request->return_type == 'switch'){
+                $this->RegisterDiscardProducts($discard,$request,'switch');
+        }
+
+        if($request->has('return_type') && $request->return_type=='decrease'){
+            $this->RegisterTransaction($request);
+        }
+
+        toast('تم الحفظ بنجاح', 'success', 'top-right');
+        return redirect()->route('admin.suppliers-discards.index');
     }
 
     /**

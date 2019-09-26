@@ -18,7 +18,7 @@
     </div>
     <div class="form-group m-form__group">
         <label>المديونية الحالية</label>
-        {!! Form::number('',null,['id'=>'current_receivable','class'=>'form-control m-input','placeholder'=>'المديونية الحالية'])!!}
+        {!! Form::number('',0,['id'=>'current_receivable','class'=>'form-control m-input','placeholder'=>'المديونية الحالية'])!!}
     </div>
 
 

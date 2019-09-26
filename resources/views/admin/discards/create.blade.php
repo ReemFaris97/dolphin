@@ -154,6 +154,10 @@
                        '<input type="hidden" name="qtys[]" value="' + quantity + '" />' +
                        '<input type="hidden" name="prices[]" value="' + price + '" />' +
                        '</tr>');
+
+                   $('#product_id').selected("");
+                   $('#discard_product_quantity').val("");
+                   $('#discard_product_price').val("");
                }
 
 
@@ -208,6 +212,9 @@
                         '<input type="hidden" name="switch_qtys[]" value="' + quantity + '" />' +
                         '<input type="hidden" name="switch_prices[]" value="' + price + '" />' +
                         '</tr>');
+                    $('#switch_product_id').selected("");
+                    $('#switch_product_quantity').val("");
+                    $('#switch_product_price').val("");
                 }
 
 
