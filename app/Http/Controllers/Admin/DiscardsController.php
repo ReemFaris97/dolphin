@@ -86,7 +86,8 @@ class DiscardsController extends Controller
      */
     public function show($id)
     {
-        //
+        $discard = SupplierDiscard::findOrFail($id);
+        return $this->toShow(compact('discard'));
     }
 
     /**
@@ -120,7 +121,12 @@ class DiscardsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $discard = SupplierDiscard::find($id);
+        if($discard){
+            $discard->delete();
+        }
+        toast('تم الحذف بنجاح', 'success', 'top-right');
+        return redirect()->route('admin.suppliers-discards.index');
     }
 
 
