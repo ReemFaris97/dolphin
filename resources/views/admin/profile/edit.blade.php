@@ -81,7 +81,6 @@
                     </div>
 
 
-
                     @push('scripts')
                         <script>
                             $('#check-all').change(function () {

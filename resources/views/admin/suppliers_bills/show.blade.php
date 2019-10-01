@@ -66,32 +66,32 @@
 
 
 
-        <div class="m-portlet__head-tools">
-            <h3>المنتجات المستبدله</h3>
-        </div>
+    <div class="m-portlet__head-tools">
+        <h3>المنتجات المضافة</h3>
+    </div>
 
-        <table class="table table-striped- table-bordered table-hover table-checkable" >
-            <thead>
+    <table class="table table-striped- table-bordered table-hover table-checkable">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>المنتج</th>
+            <th>الكمية</th>
+            <th>السعر</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($bill->offer->offer_products as $product)
             <tr>
-                <th>#</th>
-                <th>المنتج</th>
-                <th>الكمية</th>
-                <th>السعر</th>
+                <td>{{$loop->iteration}}</td>
+                <td>{{$product->product->name}}</td>
+                <td>{{$product->quantity}}</td>
+                <td>{{$product->price}}</td>
             </tr>
-            </thead>
-            <tbody>
-{{--            @foreach($discard->discard_products->where('type','switch') as $product)--}}
-{{--                <tr>--}}
-{{--                    <td>{{$loop->iteration}}</td>--}}
-{{--                    <td>{{$product->product->name}}</td>--}}
-{{--                    <td>{{$product->quantity}}</td>--}}
-{{--                    <td>{{$product->price}}</td>--}}
-{{--                </tr>--}}
-{{--            @endforeach--}}
+        @endforeach
 
-            </tbody>
+        </tbody>
 
-        </table>
+    </table>
 
 
 
