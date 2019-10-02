@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\SupplierBill;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
@@ -29,7 +30,8 @@ class SuppliersBillsController extends Controller
      */
     public function create()
     {
-        //
+        $suppliers = User::where('is_supplier',1)->where('supplier_type','dolphin')->pluck('name', 'id');
+        return $this->toCreate(compact('suppliers'));
     }
 
     /**
@@ -40,7 +42,7 @@ class SuppliersBillsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $request->all();
     }
 
     /**
