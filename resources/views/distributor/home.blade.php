@@ -7,7 +7,7 @@
         <div class="m-subheader ">
             <div class="d-flex align-items-center">
                 <div class="mr-auto">
-                    <h3 class="m-subheader__title ">الموزعون / الرئيسية</h3>
+                    <h3 class="m-subheader__title ">المندوبين / الرئيسية</h3>
                 </div>
 
             </div>
@@ -30,7 +30,7 @@
                             <div class="m-widget24">
                                 <div class="m-widget24__item">
                                     <h4 class="m-widget24__title">
-                                        عدد الموزعون
+                                        عدد المندوبين
                                     </h4><br>
                                     <span class="m-widget24__desc">
 

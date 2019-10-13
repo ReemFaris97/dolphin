@@ -24,4 +24,14 @@ class AjaxDataController extends Controller
             'data'=>view('distributor.storeTransferRequest.getAjaxProducts')->with('products',$products)->render()
         ]);
     }
+
+
+    public function getsender(Request $request){
+        //dd($request->all());
+        $users =\App\User::where('id','!=',$request->id)->get();
+        return response()->json([
+            'status'=>true,
+            'data'=>view('distributor.transactions.getAjaxSenders')->with('users',$users)->render()
+        ]);
+    }
 }

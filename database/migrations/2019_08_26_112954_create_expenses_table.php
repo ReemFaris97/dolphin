@@ -45,9 +45,11 @@ class CreateExpensesTable extends Migration
 
             $table->text('notes')->nullable();
 
-            $table->string('reader_name')->nullable();
-            $table->string('reader_number')->nullable();
-            $table->string('reader_image')->nullable();
+
+
+//            $table->string('reader_name')->nullable();
+//            $table->string('reader_number')->nullable();
+//            $table->string('reader_image')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

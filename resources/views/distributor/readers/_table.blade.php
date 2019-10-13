@@ -8,24 +8,23 @@
     <tr>
         <th>#</th>
 
-        <th>اسم المسار</th>
-        <th>العنوان </th>
-        <th> الترتيب</th>
+        <th>اسم  العداد</th>
+        <th>صورة  العداد</th>
         <th>الاعدادت</th>
     </tr>
     </thead>
     <tbody>
-    @foreach($trips as $row)
+    @foreach($readers as $row)
         <tr>
             <td>{!!$loop->iteration!!}</td>
-            <td>{!!$row->route->name!!}</td>
-            <td>{!!$row->address!!}</td>
-            <td>{!!$row->arrange!!}</td>
+
+            <td>{!!$row->name!!}</td>
+            <td><img src="{!!asset($row->image)!!}" height="100" width="100"/></td>
 
             <td>
-                <a href="{!!route('distributor.trips.edit',$row->id)!!}" class="btn btn-primary"> <i class="fas fa-pen"></i> تعديل</a>
+                <a href="{!!route('distributor.readers.edit',$row->id)!!}" class="btn btn-primary"> <i class="fas fa-pen"></i> تعديل</a>
                 <a href="#"  onclick="Delete({{$row->id}})"  data-original-title="حذف" class="btn btn-danger btn-circle"><i  class="fa fa-trash-o"></i> حذف</a>
-                {!!Form::open( ['route' => ['distributor.trips.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
+                {!!Form::open( ['route' => ['distributor.readers.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
                 {!!Form::close() !!}
 
             </td>
@@ -35,7 +34,8 @@
     <tfoot>
     <tr>
         <th>#</th>
-        <th>الاسم</th>
+        <th>اسم العداد</th>
+        <th>صورة  العداد</th>
         <th>الاعدادت</th>
     </tr>
     </tfoot>

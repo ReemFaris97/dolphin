@@ -1,11 +1,11 @@
 @extends('distributor.layouts.app')
-@section('title') اضافه مندوب
+@section('title') اضافه عداد جديد
 @endsection
 
 @section('header')
 @endsection
 
-@section('breadcrumb') @php($breadcrumbs=['المندوبين'=>route('distributor.distributors.index'),'اضافه'=>route('distributor.distributors.create')])
+@section('breadcrumb') @php($breadcrumbs=[' اسماء العدادات'=>route('distributor.expenditureTypes.index'),'اضافه'=>route('distributor.readers.create')])
 @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
 
@@ -25,7 +25,7 @@
                                 <i class="la la-gear"></i>
                             </span>
                                 <h3 class="m-portlet__head-text">
-                                    اضافه مندوب
+                                    اضافه عداد
                                 </h3>
                             </div>
                         </div>
@@ -33,8 +33,8 @@
 
                     <!--begin::Form-->
 
-                    {!! Form::open(['method'=>'post','route'=>'distributor.distributors.store','files'=>'true','class'=>'clearfix m-form m-form--fit m-form--label-align-right'])!!}
-                    @include('distributor.distributors._form')
+                    {!! Form::open(['method'=>'post','route'=>'distributor.readers.store','files'=>'true','class'=>'clearfix m-form m-form--fit m-form--label-align-right'])!!}
+                    @include('distributor.readers._form')
 
                     <div class="m-portlet__foot m-portlet__foot--fit full--width">
                         <div class="m-form__actions">

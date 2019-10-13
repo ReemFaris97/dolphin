@@ -1,12 +1,12 @@
 @extends('distributor.layouts.app')
-@section('title') تعديل بيانات {!!$user->name!!}
+@section('title') تعديل بيانات {!!$reader->name!!}
 @endsection
 
 @section('header')
 @endsection
 
 @section('breadcrumb')
-@php($breadcrumbs=['المندوبين'=>route('distributor.home'),'تعديل'=>route('distributor.distributors.edit',$user->id)])
+@php($breadcrumbs=['العداد'=>route('distributor.readers.index'),'تعديل'=>route('distributor.expenditureTypes.edit',$reader->id)])
     @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb',
 ['breadcrumbs' =>$breadcrumbs ])
 @endsection
@@ -27,7 +27,7 @@
                                 <i class="la la-gear"></i>
                             </span>
                             <h3 class="m-portlet__head-text">
-                                تعديل {!! $user->name!!}
+                                تعديل {!! $reader->name!!}
                             </h3>
                         </div>
                     </div>
@@ -35,8 +35,8 @@
 
                 <!--begin::Form-->
 
-                {!! Form::model($user,['method'=>'put','route'=>['distributor.distributors.update',$user->id],'files'=>'true','class'=>'m-form m-form--fit m-form--label-align-right'])!!}
-    @include('distributor.distributors._form')
+                {!! Form::model($reader,['method'=>'put','route'=>['distributor.readers.update',$reader->id],'files'=>'true','class'=>'m-form m-form--fit m-form--label-align-right'])!!}
+             @include('distributor.readers._form')
 
                 <div class="m-portlet__foot m-portlet__foot--fit">
                     <div class="m-form__actions">
