@@ -20,7 +20,7 @@ class CreateAccountingMoneyClausesTable extends Migration
             $table->string('en_description')->nullable();
             $table->string('ar_description')->nullable();
             $table->decimal('default')->default(0);
-            $table->enum('type',['revenue','expenses'])->default(0);
+            $table->enum('type',['revenue','expenses']);
             $table->timestamps();
         });
     }
