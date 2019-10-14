@@ -87,119 +87,55 @@
                     </div>
                 </div>
             </li>
-
             <li class="dropdown">
-                <a href="#" data-toggle="dropdown" class="dropdown-toggle">
-                    <i class="icon-make-group position-left"></i> Custom <span class="caret"></span>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-tree5 position-left"></i>
+                    إدارة الشركات
+                    <span class="caret"></span>
                 </a>
 
-                <div class="dropdown-menu dropdown-content width-300">
-                    <div class="dropdown-content-heading">
-                        Custom components
-                        <ul class="icons-list">
-                            <li><a href="#"><i class="icon-gear"></i></a></li>
-                        </ul>
-                    </div>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="{{route('accounting.companies.index')}}"><i class="icon-IE"></i> عرض الشركات</a></li>
+                    <li><a href="{{route('accounting.companies.create')}}"><i class="icon-chrome"></i> اضافة شركة جديدة</a></li>
+                    {{--<li class="dropdown-submenu dropdown-submenu-left">--}}
+                        {{--<a href="#"><i class="icon-firefox"></i> Has child</a>--}}
+                        {{--<ul class="dropdown-menu">--}}
+                            {{--<li><a href="#"><i class="icon-android"></i> Third level</a></li>--}}
+                            {{--<li class="dropdown-submenu dropdown-submenu-left">--}}
+                                {{--<a href="#"><i class="icon-apple2"></i> Has child</a>--}}
+                                {{--<ul class="dropdown-menu">--}}
+                                    {{--<li><a href="#"><i class="icon-html5"></i> Fourth level</a></li>--}}
+                                    {{--<li><a href="#"><i class="icon-css3"></i> Fourth level</a></li>--}}
+                                {{--</ul>--}}
+                            {{--</li>--}}
+                            {{--<li><a href="#"><i class="icon-windows"></i> Third level</a></li>--}}
+                        {{--</ul>--}}
+                    {{--</li>--}}
 
-                    <ul class="nav nav-lg nav-tabs nav-justified no-margin">
-                        <li class="active">
-                            <a href="#demo-tab1" data-toggle="tab"><i class="icon-mention position-left"></i> Form</a>
-                        </li>
+                </ul>
+            </li>
 
-                        <li>
-                            <a href="#demo-tab2" data-toggle="tab">
-                                <i class="icon-list-unordered position-left"></i> Options <span class="badge badge-warning position-right">99+</span>
-                            </a>
-                        </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-tree5 position-left"></i>
+                    إدارة فروع الشركات
+                    <span class="caret"></span>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="{{route('accounting.branches.index')}}"><i class="icon-IE"></i> عرض فروع الشركات</a></li>
+                    <li><a href="{{route('accounting.branches.create')}}"><i class="icon-chrome"></i> اضافة فرع جديدة</a></li>
+                    <li class="dropdown-submenu dropdown-submenu-left">
+                    <a href="#"><i class="icon-firefox"></i> الورديات </a>
+                    <ul class="dropdown-menu">
+                    <li><a href="{{route('accounting.shifts.index')}}"><i class="icon-android"></i> عرض الوديات بجميع  الفروع</a></li>
+                    <li class="dropdown-submenu dropdown-submenu-left">
+                    <a href="{{route('accounting.shifts.create')}}"><i class="icon-apple2"></i> اضافة وردية جديده</a>
+                    </li>
                     </ul>
+                    </li>
 
-                    <div class="tab-content">
-                        <div class="tab-pane no-padding active" id="demo-tab1">
-                            <form class="dropdown-content-body" action="#">
-                                <div class="form-group has-feedback">
-                                    <input type="text" class="form-control" placeholder="Your email">
-                                    <div class="form-control-feedback">
-                                        <i class="icon-mention text-muted"></i>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <select name="select" data-placeholder="Subscription plan" class="select">
-                                        <option></option>
-                                        <option value="updates">Website updates</option>
-                                        <option value="discounts">Discount offers</option>
-                                        <option value="catalog">Catalog</option>
-                                        <option value="prints">Prints</option>
-                                        <option value="promo">Promotions</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <textarea class="form-control" cols="3" rows="3" placeholder="Your message"></textarea>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-xs-6">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" class="styled" checked="checked">
-                                                Remember me
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-xs-6 text-right">
-                                        <button type="submit" class="btn bg-info"><i class="icon-paperplane position-left"></i> Submit</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="tab-pane has-padding" id="demo-tab2">
-                            <div class="checkbox checkbox-switchery checkbox-right switchery-sm">
-                                <label class="display-block">
-                                    <input type="checkbox" class="switchery" checked="checked">
-                                    Allow direct changes
-                                </label>
-                            </div>
-
-                            <div class="checkbox checkbox-switchery checkbox-right switchery-sm">
-                                <label class="display-block">
-                                    <input type="checkbox" class="switchery">
-                                    Allow new registrations
-                                </label>
-                            </div>
-
-                            <div class="checkbox checkbox-switchery checkbox-right switchery-sm">
-                                <label class="display-block">
-                                    <input type="checkbox" class="switchery" checked="checked">
-                                    Navbar is visible to users
-                                </label>
-                            </div>
-
-                            <div class="checkbox checkbox-switchery checkbox-right switchery-sm">
-                                <label class="display-block">
-                                    <input type="checkbox" class="switchery" checked="checked">
-                                    Enable sessions
-                                </label>
-                            </div>
-
-                            <div class="checkbox checkbox-switchery checkbox-right switchery-sm">
-                                <label class="display-block">
-                                    <input type="checkbox" class="switchery">
-                                    Save without reload
-                                </label>
-                            </div>
-
-                            <div class="checkbox checkbox-switchery checkbox-right switchery-sm">
-                                <label class="display-block">
-                                    <input type="checkbox" class="switchery" checked="checked">
-                                    Allow layout changes
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </ul>
             </li>
         </ul>
 
@@ -364,18 +300,25 @@
 
             <li class="dropdown dropdown-user">
                 <a class="dropdown-toggle" data-toggle="dropdown">
-                    <img src="assets/images/placeholder.jpg" alt="">
-                    <span>Victoria</span>
+                    <img src="{!! asset(Auth::user()->image )!!}" alt="">
+                    <span>{!! Auth::user()->name !!}</span>
                     <i class="caret"></i>
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li><a href="#"><i class="icon-user-plus"></i> My profile</a></li>
-                    <li><a href="#"><i class="icon-coins"></i> My balance</a></li>
-                    <li><a href="#"><span class="badge badge-warning pull-right">58</span> <i class="icon-comment-discussion"></i> Messages</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#"><i class="icon-cog5"></i> Account settings</a></li>
-                    <li><a href="#"><i class="icon-switch2"></i> Logout</a></li>
+                    {{--<li><a href="#"><i class="icon-user-plus"></i> My profile</a></li>--}}
+                    {{--<li><a href="#"><i class="icon-coins"></i> My balance</a></li>--}}
+                    {{--<li><a href="#"><span class="badge badge-warning pull-right">58</span> <i class="icon-comment-discussion"></i> Messages</a></li>--}}
+                    {{--<li class="divider"></li>--}}
+                    {{--<li><a href="#"><i class="icon-cog5"></i> Account settings</a></li>--}}
+                    <li><a href="#" onclick="event.preventDefault();
+
+                                                     document.getElementById('logout-form').submit();"><i class="icon-switch2"></i> تسجيل خروج</a>
+                        <form id="logout-form" action="{{ route('admin.logout') }}"
+                              method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </li>
                 </ul>
             </li>
         </ul>

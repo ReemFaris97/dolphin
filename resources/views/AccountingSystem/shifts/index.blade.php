@@ -1,5 +1,5 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض الشركات')
+@section('title','عرض الورديات')
 
 @section('styles')
 
@@ -8,7 +8,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">عرض كل الشركات</h5>
+            <h5 class="panel-title">عرض كل الورديات</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -23,29 +23,29 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th> اسم الشركة </th>
-                    <th> جوال الشركة </th>
-                    <th> ايميل الشركة </th>
-                    <th> صورة الشركة </th>
+                    <th> اسم الوردية </th>
+                    <th> الفرع التابعة له </th>
+                    <th> من  </th>
+                    <th> الى </th>
                     <th class="text-center">العمليات</th>
                 </tr>
                 </thead>
                 <tbody>
 
-                @foreach($companies as $row)
+                @foreach($shifts as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->name!!}</td>
-                        <td>{!! $row->phone!!}</td>
-                        <td>{!! $row->email!!}</td>
-                        <td><img src="{!! getimg($row->image)!!}" style="width:100px; height:100px"> </td>
+                        <td>{!! $row->branch->name!!}</td>
+                        <td>{!! $row->from!!}</td>
+                        <td>{!! $row->to!!}</td>
 
 
                         <td class="text-center">
-                            <a href="{{route('accounting.companies.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.shifts.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
 
-                            {!!Form::open( ['route' => ['accounting.companies.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
+                            {!!Form::open( ['route' => ['accounting.shifts.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
                             {!!Form::close() !!}
 
                         </td>

@@ -5,9 +5,12 @@ Route::get('/',function (){
 return redirect()->route('accounting.home');
 });
 
-Route::get('/home', 'HomeController@index')->name('home');
 
-Route::middleware('accounting')->group(function () {
+Route::middleware('admin')->group(function () {
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::resource('companies', 'CompanyController');
+    Route::resource('branches', 'BranchController');
+    Route::resource('shifts', 'ShiftController');
 
 
 });

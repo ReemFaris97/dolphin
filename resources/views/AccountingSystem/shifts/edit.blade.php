@@ -1,5 +1,5 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تعديل الشركة')
+@section('title','تعديل الوردية')
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
@@ -14,9 +14,9 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::model($company, ['route' => ['accounting.companies.update' ,$company->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
+            {!!Form::model($shift, ['route' => ['accounting.shifts.update' ,$shift->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
 
-            @include('AccountingSystem.companies.form')
+            @include('AccountingSystem.shifts.form')
 
             {!!Form::close() !!}
         </div>

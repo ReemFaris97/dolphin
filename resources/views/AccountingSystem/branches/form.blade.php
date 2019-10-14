@@ -9,13 +9,19 @@
 @endif
 
 <div class="form-group col-md-6 pull-left">
-    <label>اسم الشركة  </label>
-    {!! Form::text("name",null,['class'=>'form-control','placeholder'=>'  اسم الشركة  '])!!}
+    <label> اسم الشركة التابع لها الفرع </label>
+    {!! Form::select("company_id",$companies,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الشركة التابع لها الفرع '])!!}
+</div>
+
+
+<div class="form-group col-md-6 pull-left">
+    <label>اسم الفرع  </label>
+    {!! Form::text("name",null,['class'=>'form-control','placeholder'=>'  اسم الفرع  '])!!}
 </div>
 
 <div class="form-group col-md-6 pull-left">
-    <label>جوال الشركة  </label>
-    {!! Form::text("phone",null,['class'=>'form-control','placeholder'=>'  جوال الشركة  '])!!}
+    <label>جوال الفرع  </label>
+    {!! Form::text("phone",null,['class'=>'form-control','placeholder'=>'  جوال الفرع  '])!!}
 </div>
 
 <div class="form-group col-md-6 pull-left">
@@ -29,11 +35,11 @@
     <input type="password" class="form-control" name="password" placeholder="اكتب هنا الباسورد" >
 </div>
 
-@if( isset($company))
+@if( isset($branch))
 
     <div class="form-group col-md-6 pull-left">
-        <label>صوره الشركة الحالية : </label>
-        <img src="{{getimg($company->image)}}" style="width:100px; height:100px">
+        <label>صوره الفرع الحالية : </label>
+        <img src="{{getimg($branch->image)}}" style="width:100px; height:100px">
     </div>
 
 
@@ -41,7 +47,7 @@
 
 
 <div class="form-group col-md-6 pull-left">
-    <label>صوره الشركة  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+    <label>صوره الفرع  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
     {!! Form::file("image",null,['class'=>'form-control'])!!}
 </div>
 
@@ -50,3 +56,14 @@
         <button type="submit" id="register" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i></button>
     </div>
 </div>
+
+@section('scripts')
+
+    <script>
+
+        $(document).ready(function() {
+            $('.js-example-basic-single').select2();
+        });
+
+    </script>
+@endsection

@@ -1,14 +1,9 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','إنشاء شركة  جديد')
-
-@section('styles')
-
-@endsection
-
+@section('title','تعديل  الفرع')
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">Mega menu options</h5>
+
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -19,19 +14,13 @@
         </div>
 
         <div class="panel-body">
-            <h6 class="text-semibold">Mega menu components</h6>
+            {!!Form::model($branch, ['route' => ['accounting.branches.update' ,$branch->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
 
+            @include('AccountingSystem.branches.form')
 
-            <div class="row">
-                <div class="col-md-6">
-
-                </div>
-
-
-            </div>
-
-
+            {!!Form::close() !!}
         </div>
-    </div>
 
- @endsection
+
+    </div>
+@endsection

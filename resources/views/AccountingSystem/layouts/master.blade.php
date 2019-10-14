@@ -15,12 +15,10 @@
 
     <!-- Core JS files -->
 @include('AccountingSystem.layouts.scripts')
-
-    <!-- /core JS files -->
-
-    <!-- Theme JS files -->
-
-    <!-- /theme JS files -->
+    @include('AccountingSystem.layouts.data-table')
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    @include('sweet::alert')
+    @yield('scripts')
 
 </head>
 
@@ -48,18 +46,7 @@
             <!-- Content area -->
             <div class="content">
 
-
-
-
             @yield('content')
-
-                <!-- Mega menu component -->
-
-                <!-- /mega menu component -->
-
-
-
-
 
                 <!-- Footer -->
             @include('AccountingSystem.layouts.footer')

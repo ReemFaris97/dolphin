@@ -15,9 +15,9 @@
 
     <div class="breadcrumb-line">
         <ul class="breadcrumb">
-            <li><a href="index.html"><i class="icon-home2 position-left"></i> Home</a></li>
+            <li><a href="{{route("accounting.home")}}"><i class="icon-home2 position-left"></i> الرئيسية</a></li>
             <li><a href="navigation_horizontal_mega.html">Horizontal nav</a></li>
-            <li class="active">Mega menu</li>
+            <li class="active">@yield('title') </li>
         </ul>
 
         <ul class="breadcrumb-elements">
