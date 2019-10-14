@@ -8,13 +8,13 @@
 
     <!-- Global stylesheets -->
 
-@include('admin.layouts.styles')
+@include('AccountingSystem.layouts.styles')
 
 
     <!-- /global stylesheets -->
 
     <!-- Core JS files -->
-@include('admin.layouts.scripts')
+@include('AccountingSystem.layouts.scripts')
 
     <!-- /core JS files -->
 
@@ -27,7 +27,7 @@
 <body>
 
 <!-- Main navbar -->
-@include('admin.layouts.nav')
+@include('AccountingSystem.layouts.nav')
 <!-- /main navbar -->
 
 
@@ -41,7 +41,7 @@
         <div class="content-wrapper">
 
             <!-- Page header -->
-        @include('admin.layouts.header')
+        @include('AccountingSystem.layouts.header')
             <!-- /page header -->
 
 
@@ -62,7 +62,7 @@
 
 
                 <!-- Footer -->
-            @include('admin.layout.footer')
+            @include('AccountingSystem.layouts.footer')
                 <!-- /footer -->
 
             </div>
