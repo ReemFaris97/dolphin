@@ -25,7 +25,7 @@
             <td>{!!$loop->iteration!!}</td>
             <td><img src="{!!asset($row->image)!!}" height="100" width="100"/></td>
             <td>{!! $row->name !!}</td>
-            <td>{!! $row->store->name !!}</td>
+            <td>{!!optional($row->store) ->name !!}</td>
 {{--            <td>{!! $row->quantity_per_unit !!}</td>--}}
             <td>{!! $row->min_quantity !!}</td>
             <td>{!! $row->max_quantity !!}</td>
@@ -38,13 +38,11 @@
             <td>
                 <a href="{!!route('distributor.products.show',$row->id)!!}" class="btn btn-warning"> <i class="fas fa-book"></i> تفاصيل</a>
                 <a href="{!!route('distributor.products.edit',$row->id)!!}" class="btn btn-primary"> <i class="fas fa-pen"></i> تعديل</a>
-                <form method="POST" action="{!!route('distributor.products.destroy',$row->id)!!}">
-                    @csrf() @method('delete')
-                    <button type="submit" class="btn btn-danger">
-                        <i class="fas fa-trash"></i>
-                        حذف
-                    </button>
-                </form>
+
+                <a href="#"  onclick="Delete({{$row->id}})"  data-original-title="حذف" class="btn btn-danger btn-circle"><i  class="fa fa-trash-o"></i> حذف</a>
+                {!!Form::open( ['route' => ['distributor.products.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
+                {!!Form::close() !!}
+
                 <a href="{!! route('distributor.products.quantity.form',$row->id) !!}" class="btn btn-primary"> <i class="fas fa-pen"></i>إضافة كمية</a>
             </td>
         </tr>

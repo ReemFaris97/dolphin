@@ -5,7 +5,7 @@
 @section('header')
 @endsection
 
-@section('breadcrumb') @php($breadcrumbs=['سيارات الموزعين'=>route('distributor.cars.index'),'اضافه'=>route('distributor.cars.create')])
+@section('breadcrumb') @php($breadcrumbs=['سيارات المندوبين'=>route('distributor.cars.index'),'اضافه'=>route('distributor.cars.create')])
 @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
 

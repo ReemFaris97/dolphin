@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Distributor;
 
-use App\Models\DistributorRoute;
-use App\Models\DistributorTransaction;
+use App\Models\DistributorCar;
+use App\Models\Reader;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
 
-class DistributorRoutesController extends Controller
+class ReaderController extends Controller
 {
+
     use Viewable;
-    private $viewable= 'distributor.routes.';
+    private  $viewable = 'distributor.readers.';
     /**
      * Display a listing of the resource.
      *
@@ -20,8 +21,9 @@ class DistributorRoutesController extends Controller
      */
     public function index()
     {
-        $routes= DistributorRoute::all()->reverse();
-        return $this->toIndex(compact('routes'));
+        $readers = Reader::all()->reverse();
+       // dd($readers);
+        return $this->toIndex(compact('readers'));
     }
 
     /**
@@ -31,8 +33,8 @@ class DistributorRoutesController extends Controller
      */
     public function create()
     {
-        $users=User::where('is_distributor','1')->pluck('name','id');
-        return $this->toCreate(compact('users'));
+
+        return $this->toCreate();
     }
 
     /**
@@ -44,16 +46,19 @@ class DistributorRoutesController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'user_id'=>'required|exists:users,id',
-            'name'=>'required|string',
-            'is_active'=>'required|numeric',
+
+            'name'=>'required|string|max:191',
 
         ];
-
         $this->validate($request,$rules);
-        DistributorRoute::create($request->all());
-        toast('تم المسار بنجاح','success','top-right');
-        return redirect()->route('distributor.routes.index');
+
+        $requests = $request->except('image');
+        if ($request->hasFile('image')) {
+            $requests['image'] = saveImage($request->image, 'users');
+        }
+        Reader::create($requests);
+        toast('تم إضافة العداد بنجاح','success','top-right');
+        return redirect()->route('distributor.readers.index');
     }
 
     /**
@@ -75,9 +80,9 @@ class DistributorRoutesController extends Controller
      */
     public function edit($id)
     {
-        $route = DistributorRoute::findOrFail($id);
-        $users = User::whereIsDistributor(1)->get();
-        return $this->toEdit(compact('route','users'));
+        $reader = Reader::findOrFail($id);
+
+        return $this->toEdit(compact('reader'));
     }
 
     /**
@@ -89,19 +94,21 @@ class DistributorRoutesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $route = DistributorRoute::find($id);
+        $reader= Reader::find($id);
+
         $rules = [
-            'user_id'=>'required|exists:users,id',
-            'name'=>'required|string',
-            'is_active'=>'required|numeric',
+
+            'name'=>'required|string|max:191',
 
         ];
-
         $this->validate($request,$rules);
-        $route->update($request->all());
-        toast('تم تعديل المسار بنجاح','success','top-right');
-        return redirect()->route('distributor.routes.index');
-
+        $requests = $request->except('image');
+        if ($request->hasFile('image')) {
+            $requests['image'] = saveImage($request->image, 'users');
+        }
+        $reader->update($requests);
+        toast('تم تعديل  العداد بنجاح','success','top-right');
+        return redirect()->route('distributor.readers.index');
     }
 
     /**
@@ -112,9 +119,8 @@ class DistributorRoutesController extends Controller
      */
     public function destroy($id)
     {
-        $route = DistributorRoute::find($id);
-        $route->delete();
-        toast('تم حذف التحويل بنجاح','success','top-right');
-        return redirect()->route('distributor.routes.index');
+        Reader::find($id)->delete();
+        toast('تم حذف العداد بنجاح','success','top-right');
+        return redirect()->route('distributor.readers.index');
     }
 }

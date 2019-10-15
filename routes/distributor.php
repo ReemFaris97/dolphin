@@ -32,7 +32,7 @@ Route::middleware('distributor')->group(function () {
 
 
 
-
+    Route::resource('/readers', 'ReaderController');
     Route::resource('/expenditureClauses', 'ExpenditureClausesController');
     Route::resource('/expenditureTypes', 'ExpenditureTypesController');
     Route::resource('/expenses', 'ExpensesController');
@@ -41,5 +41,12 @@ Route::middleware('distributor')->group(function () {
     Route::get('/map', 'TripsController@trips')->name('trips.map');
     Route::post('/get/ajax/stores', 'AjaxDataController@getAllStoresById')->name('getAjaxStores');
     Route::post('/get/ajax/products', 'AjaxDataController@getAllProducts')->name('getAjaxProducts');
+
+    Route::post('/get/ajax/sender', 'AjaxDataController@getsender')->name('getAjaxSender');
+
+
+    Route::get('/active_client/{id}', 'ClientsController@active')->name('client.active');
+    Route::get('/disactive_client/{id}', 'ClientsController@disactive')->name('client.dis_active');
+    Route::get('/activation', 'ClientsController@activation')->name('clients.activation');
 
 });

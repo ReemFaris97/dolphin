@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Distributor;
 use App\Models\ExpenditureClause;
 use App\Models\ExpenditureType;
 use App\Models\Expense;
+use App\Models\Reader;
 use App\Models\Store;
 use App\Models\StoreCategory;
 use App\User;
@@ -36,8 +37,9 @@ class ExpensesController extends Controller
     {
         $expenditure_clauses=ExpenditureClause::pluck('name','id');
         $expenditure_types=ExpenditureType::pluck('name','id');
-        $users=User::pluck('name','id');
-        return $this->toCreate(compact('expenditure_clauses','expenditure_types','users'));
+        $readers=Reader::pluck('name','id');
+        $users=User::where('is_distributor',1)->pluck('name','id');
+        return $this->toCreate(compact('expenditure_clauses','expenditure_types','users','readers'));
     }
 
     /**

@@ -18,7 +18,7 @@
 
     <div id="userPanel" style="display: none;" class="form-group m-form_group ">
                 <select id="userSelect"  class="form-control m-input select2">
-                    <option disabled selected>إختار الموزع</option>
+                    <option disabled selected>إختار المندوب</option>
                     @forelse($users as $user)
                         <option value="{{$user->id}}" >{{$user->name}}</option>
                     @empty

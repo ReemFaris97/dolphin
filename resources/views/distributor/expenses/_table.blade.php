@@ -25,19 +25,17 @@
             <td>{!!$row->clause->name!!}</td>
             <td>{!!$row->type->name!!}</td>
             <td>{!!$row->date!!}</td>
-            <td>{!!$row->reader_name!!}</td>
+
+            <td>{!! $row->reader->name!!}</td>
+
             <td>{!!$row->reader_number!!}</td>
-            <td><img src="{!!asset($row->reader_image)!!}" height="100" width="100"/></td>
+            <td><img src="{!!asset($row->reader->image)!!}" height="100" width="100"/></td>
 
             <td>
                 <a href="{!!route('distributor.expenses.edit',$row->id)!!}" class="btn btn-primary"> <i class="fas fa-pen"></i> تعديل</a>
-                <form method="POST" action="{!!route('distributor.expenses.destroy',$row->id)!!}">
-                    @csrf() @method('delete')
-                    <button type="submit" class="btn btn-danger">
-                        <i class="fas fa-trash"></i>
-                        حذف
-                    </button>
-                </form>
+                <a href="#"  onclick="Delete({{$row->id}})"  data-original-title="حذف" class="btn btn-danger btn-circle"><i  class="fa fa-trash-o"></i> حذف</a>
+                {!!Form::open( ['route' => ['distributor.expenses.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
+                {!!Form::close() !!}
 
             </td>
         </tr>

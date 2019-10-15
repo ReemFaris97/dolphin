@@ -54,7 +54,12 @@ class ClientsController extends Controller
              'lng.required'=>"الموقع على الخريطة مطلوب",
          ];
                 $this->validate($request,$rules,$messages);
-                Client::create($request->all());
+        $requests = $request->except('image');
+        if ($request->hasFile('image')) {
+            $requests['image'] = saveImage($request->image, 'users');
+        }
+
+        Client::create($requests);
                 toast('تم الاضافه بنجاح', 'success', 'top-right');
                 return redirect()->route('distributor.clients.index');
     }
@@ -65,9 +70,11 @@ class ClientsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function activation()
     {
-        //
+        $clients = Client::where('is_active',0)->get()->reverse();
+        return $this->toShow(compact('clients'));
+
     }
 
     /**
@@ -127,7 +134,26 @@ class ClientsController extends Controller
         return back();
     }
 
-    public function block($id){
+    public function active($id)
+    {
+        $client =Client::find($id);
+        $client->update([
+            'is_active' => '1'
+        ]);
+        toast('تم تفعيل العميل', 'success', 'top-right');
 
+        return back();
+    }
+
+
+    public function confirm($id)
+    {
+        $client =Client::find($id);
+        $client->update([
+            'is_active' => '1'
+        ]);
+        toast('تم الغاء تفعيل العميل', 'success', 'top-right');
+
+        return back();
     }
 }
