@@ -31,6 +31,8 @@ class TransactionController extends Controller
            'distributor_id' => 'required|integer|exists:users,id',
             'amount'=>'required|integer',
             'type'=>'required|in:send,receive',
+            'signature'=>'nullable|string',
+            'transaction_id'=>'nullable|exists:distributor_transactions,id'
         ];
         $validation = $this->apiValidation($request,$rules);
         if ($validation instanceof Response) {
@@ -47,13 +49,13 @@ class TransactionController extends Controller
 
             $request['sender_id'] = auth()->user()->id;
             $request['receiver_id'] = $request->distributor_id;
+            $this->AddTransaction($request);
         }
-        else
+    else
         {
-            $request['sender_id'] = $request->distributor_id;
-            $request['receiver_id'] = auth()->user()->id;
+            $transaction = DistributorTransaction::find($request->transaction_id);
+            $transaction->update(['is_received'=>1]);
         }
-       $this->AddTransaction($request);
         return $this->apiResponse('العملية تمت بنجاح');
     }
 
