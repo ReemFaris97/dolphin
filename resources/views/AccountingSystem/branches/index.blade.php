@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','عرض الفروع')
-
+@section('parent_title','إدارة فروع الشركات')
 @section('styles')
 
 @endsection

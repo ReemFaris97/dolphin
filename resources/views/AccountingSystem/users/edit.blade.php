@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تعديل  الفرع')
-@section('parent_title','إدارة فروع الشركات')
+@section('title','تعديل العضو')
+@section('parent_title','إدارة اعضاء الادارة')
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
@@ -15,9 +15,9 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::model($branch, ['route' => ['accounting.branches.update' ,$branch->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
+            {!!Form::model($user, ['route' => ['accounting.users.update' ,$user->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
 
-            @include('AccountingSystem.branches.form')
+            @include('AccountingSystem.users.form')
 
             {!!Form::close() !!}
         </div>

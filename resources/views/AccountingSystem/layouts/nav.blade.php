@@ -87,6 +87,20 @@
                     </div>
                 </div>
             </li>
+
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-tree5 position-left"></i>
+                    إدارة  عضويات الادارة
+                    <span class="caret"></span>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="{{route('accounting.users.index')}}"><i class="icon-IE"></i> عرض العضويات</a></li>
+                    <li><a href="{{route('accounting.users.create')}}"><i class="icon-chrome"></i> اضافة عضو جديد</a></li>
+
+                </ul>
+            </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-tree5 position-left"></i>
@@ -97,20 +111,6 @@
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li><a href="{{route('accounting.companies.index')}}"><i class="icon-IE"></i> عرض الشركات</a></li>
                     <li><a href="{{route('accounting.companies.create')}}"><i class="icon-chrome"></i> اضافة شركة جديدة</a></li>
-                    {{--<li class="dropdown-submenu dropdown-submenu-left">--}}
-                        {{--<a href="#"><i class="icon-firefox"></i> Has child</a>--}}
-                        {{--<ul class="dropdown-menu">--}}
-                            {{--<li><a href="#"><i class="icon-android"></i> Third level</a></li>--}}
-                            {{--<li class="dropdown-submenu dropdown-submenu-left">--}}
-                                {{--<a href="#"><i class="icon-apple2"></i> Has child</a>--}}
-                                {{--<ul class="dropdown-menu">--}}
-                                    {{--<li><a href="#"><i class="icon-html5"></i> Fourth level</a></li>--}}
-                                    {{--<li><a href="#"><i class="icon-css3"></i> Fourth level</a></li>--}}
-                                {{--</ul>--}}
-                            {{--</li>--}}
-                            {{--<li><a href="#"><i class="icon-windows"></i> Third level</a></li>--}}
-                        {{--</ul>--}}
-                    {{--</li>--}}
 
                 </ul>
             </li>

@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','إنشاء شركة  جديد')
-
+@section('parent_title','إدارة الشركات')
 @section('styles')
 
 @endsection

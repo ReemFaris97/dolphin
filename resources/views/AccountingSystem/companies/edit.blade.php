@@ -1,5 +1,6 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','تعديل الشركة')
+@section('parent_title','إدارة الشركات')
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">

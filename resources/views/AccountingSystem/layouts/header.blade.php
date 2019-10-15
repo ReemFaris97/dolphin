@@ -1,7 +1,7 @@
 <div class="page-header page-header-default">
     <div class="page-header-content">
         <div class="page-title">
-            <h4><i class="icon-arrow-right6 position-left"></i> <span class="text-semibold">Horizontal Nav</span> - Mega Menu</h4>
+            <h4>   <a href="{{Session::get('_previous')['url']}}" ><i class="icon-arrow-right6 position-left"></i></a> <span class="text-semibold"> </span> </h4>
         </div>
 
         <div class="heading-elements">
@@ -16,7 +16,7 @@
     <div class="breadcrumb-line">
         <ul class="breadcrumb">
             <li><a href="{{route("accounting.home")}}"><i class="icon-home2 position-left"></i> الرئيسية</a></li>
-            <li><a href="navigation_horizontal_mega.html">Horizontal nav</a></li>
+            <li><a href="#"> @yield('parent_title')</a></li>
             <li class="active">@yield('title') </li>
         </ul>
 

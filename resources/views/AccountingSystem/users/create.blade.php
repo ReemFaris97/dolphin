@@ -1,10 +1,14 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تعديل  الفرع')
-@section('parent_title','إدارة فروع الشركات')
+@section('title','إنشاء عضو  جديد')
+@section('parent_title','إدارة اعضاء الادارة')
+@section('styles')
+
+@endsection
+
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-
+            <h5 class="panel-title">إضافة عضو جديدة</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -15,13 +19,12 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::model($branch, ['route' => ['accounting.branches.update' ,$branch->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
-
-            @include('AccountingSystem.branches.form')
-
+            {!!Form::open( ['route' => 'accounting.users.store' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
+            @include('AccountingSystem.users.form')
             {!!Form::close() !!}
         </div>
 
-
+        </div>
     </div>
-@endsection
+
+ @endsection

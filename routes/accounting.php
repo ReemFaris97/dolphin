@@ -11,7 +11,6 @@ Route::middleware('admin')->group(function () {
     Route::resource('companies', 'CompanyController');
     Route::resource('branches', 'BranchController');
     Route::resource('shifts', 'ShiftController');
-
-
+    Route::resource('users', 'UserController');
 });
 
