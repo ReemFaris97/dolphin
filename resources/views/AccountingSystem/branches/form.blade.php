@@ -42,13 +42,14 @@
         <img src="{{getimg($branch->image)}}" style="width:100px; height:100px" class="file-styled">
     </div>
 
-
+/
 @endif
 
 
-<div class="form-group col-md-6 pull-left ">
+<div class=" media-body">
     <label>صوره الفرع  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
     {!! Form::file("image",null,['class'=>'file-styled'])!!}
+    
 </div>
 
 <div class="text-center col-md-12">

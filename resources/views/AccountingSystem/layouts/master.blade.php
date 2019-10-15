@@ -20,6 +20,7 @@
     @include('sweet::alert')
     @yield('scripts')
 
+
 </head>
 
 <body>
