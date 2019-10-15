@@ -4,10 +4,14 @@ namespace App\Http\Controllers\Api\Distributor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Distributor\ProductsSpinnerModelResource;
+use App\Http\Resources\Distributor\TransactionsSpinnerModelResource;
 use App\Http\Resources\GeneralModelResource;
+use App\Models\DistributorTransaction;
 use App\Models\ExpenditureClause;
 use App\Models\ExpenditureType;
 use App\Models\Product;
+use App\Models\Reader;
+use App\Models\ReasonRefuseDistributor;
 use App\Models\Store;
 use App\Traits\ApiResponses;
 use App\User;
@@ -30,6 +34,31 @@ class SpinnerController extends Controller
         return $this->apiResponse(GeneralModelResource::collection($distributors));
     }
 
+    /**
+     * Return List of Distributors
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
+     */
+    public function getReceivedMoneyTransactions(){
+
+        $distributors = DistributorTransaction::where('receiver_id',auth()->user()->id)->where('is_received',0)->get();
+
+        return $this->apiResponse(TransactionsSpinnerModelResource::collection($distributors));
+    }
+
+   /**
+     * Return List of Distributors
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
+     */
+    public function getStoresByDistributorId($id){
+
+        $stores = Store::where('distributor_id',$id)->get();
+
+        return $this->apiResponse(TransactionsSpinnerModelResource::collection($stores));
+    }
+
+
 
     /**
      * Return List of Stores
@@ -37,8 +66,28 @@ class SpinnerController extends Controller
      * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
      */
     public function getAllStores(){
-        $stores = Store::all();
+        $stores = Store::where('distributor_id',auth()->user()->id)->get();
         return $this->apiResponse(GeneralModelResource::collection($stores));
+    }
+
+    /**
+     * Return List of Stores
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
+     */
+    public function getAllReaders(){
+        $readers = Reader::get();
+        return $this->apiResponse(GeneralModelResource::collection($readers));
+    }
+  /**
+   *
+     * Return List of Reasons
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
+     */
+    public function getAllDistributorsRefuseReason(){
+        $readers = ReasonRefuseDistributor::get();
+        return $this->apiResponse(GeneralModelResource::collection($readers));
     }
 
     /**
