@@ -19,7 +19,7 @@ class TransactionsSpinnerModelResource extends JsonResource
             'sender_id'=>$this->sender_id,
             'sender'=>$this->sender->name,
             'amount'=>$this->amount,
-            'signature'=>$this->signature,
+            'signature'=>$this->signature??"",
         ];
     }
 }
