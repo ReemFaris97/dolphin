@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AccountingSystem;
 
 use App\Models\AccountingSystem\AccountingBranch;
+use App\Models\AccountingSystem\AccountingBranchShift;
 use App\Models\AccountingSystem\AccountingCompany;
 
 use Illuminate\Http\Request;
@@ -72,7 +73,9 @@ class BranchController extends Controller
      */
     public function show($id)
     {
-        //
+        $branch =AccountingBranch::findOrFail($id);
+        $shifts=AccountingBranchShift::where('branch_id',$id)->get();
+        return $this->toShow(compact('branch','shifts'));
     }
 
     /**

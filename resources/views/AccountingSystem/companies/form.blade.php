@@ -9,17 +9,17 @@
 @endif
 
 <div class="form-group col-md-6 pull-left">
-    <label>اسم الشركة  </label>
+    <label>اسم الشركة:  </label>
     {!! Form::text("name",null,['class'=>'form-control','placeholder'=>'  اسم الشركة  '])!!}
 </div>
 
 <div class="form-group col-md-6 pull-left">
-    <label>جوال الشركة  </label>
+    <label>جوال الشركة:  </label>
     {!! Form::text("phone",null,['class'=>'form-control','placeholder'=>'  جوال الشركة  '])!!}
 </div>
 
 <div class="form-group col-md-6 pull-left">
-    <label> إيميل الشركة </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+    <label> إيميل الشركة: </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
     {!! Form::email("email",null,['class'=>'form-control','placeholder'=>'  إيميل الشركة'])!!}
 </div>
 
@@ -41,7 +41,7 @@
 
 
 <div class="form-group col-md-6 pull-left">
-    <label>صوره الشركة  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+    <label>صوره الشركة:  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
     {!! Form::file("image",null,['class'=>'form-control'])!!}
 </div>
 

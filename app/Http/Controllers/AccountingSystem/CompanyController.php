@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
+use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingCompany;
 
 use Illuminate\Http\Request;
@@ -68,7 +69,9 @@ class CompanyController extends Controller
      */
     public function show($id)
     {
-        //
+        $company =AccountingCompany::findOrFail($id);
+        $branches=AccountingBranch::where('company_id',$id)->get();
+        return $this->toShow(compact('company','branches'));
     }
 
     /**
