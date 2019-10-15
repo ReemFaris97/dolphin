@@ -37,6 +37,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
 
     Route::group(['prefix' => 'spinner'], function () {
         Route::get('/distributors','SpinnerController@getAllDistributors');
+        Route::get('/distributors_transactions','SpinnerController@getReceivedMoneyTransactions');
         Route::post('/product_by_code','SpinnerController@getProductByBarCode');
         Route::get('/products/{store_id}','SpinnerController@getProductsByStore');
         Route::get('/stores','SpinnerController@getAllStores');
