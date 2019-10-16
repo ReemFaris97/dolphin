@@ -134,16 +134,9 @@
                     </li>
                     </ul>
                     </li>
-
-
-
-
-
                 </ul>
-
-
-
             </li>
+
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-tree5 position-left"></i>
@@ -170,12 +163,67 @@
                     <li><a href="{{route('accounting.categories.create')}}"><i class="icon-chrome"></i> اضافة تصنيف جديد</a></li>
                 </ul>
             </li>
+
+
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-tree5 position-left"></i>
+                    إدارة البنود
+                    <span class="caret"></span>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-right">
+
+                    <li><a href="{{route('accounting.clauses.index')}}"><i class="icon-IE"></i> عرض البنود</a></li>
+                    <li><a href="{{route('accounting.clauses.create')}}"><i class="icon-chrome"></i> اضافة بند جديد</a></li>
+
+
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-tree5 position-left"></i>
+                    إدارة المنتجات
+                    <span class="caret"></span>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-right">
+
+                    <li class="dropdown-submenu dropdown-submenu-left">
+                        <a href="#"><i class="icon-firefox"></i> الاوجه </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{route('accounting.faces.index')}}"><i class="icon-android"></i> عرض  الاوجة</a></li>
+                            <li class="dropdown-submenu dropdown-submenu-left">
+                                <a href="{{route('accounting.faces.create')}}"><i class="icon-apple2"></i> اضافة وجة جديد</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown-submenu dropdown-submenu-left">
+                        <a href="#"><i class="icon-firefox"></i> الاعمده </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{route('accounting.columns.index')}}"><i class="icon-android"></i> عرض الاعمده </a></li>
+                            <li class="dropdown-submenu dropdown-submenu-left">
+                                <a href="{{route('accounting.columns.create')}}"><i class="icon-apple2"></i> اضافة عمود جديده</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown-submenu dropdown-submenu-left">
+                        <a href="#"><i class="icon-firefox"></i> الخلايا </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{route('accounting.cells.index')}}"><i class="icon-android"></i> عرض الخلايا   </a></li>
+                            <li class="dropdown-submenu dropdown-submenu-left">
+                                <a href="{{route('accounting.cells.create')}}"><i class="icon-apple2"></i> اضافة خلية جديد</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </li>
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
-
-
-
             <li class="dropdown dropdown-user">
                 <a class="dropdown-toggle" data-toggle="dropdown">
                     <img src="{!! asset(Auth::user()->image )!!}" alt="">

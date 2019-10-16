@@ -1,6 +1,7 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تعديل  المخزن')
-@section('parent_title','إدارة  المخازن')
+@section('title','تعديل الوجه')
+@section('parent_title','إدارة  المنتجات')
+
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
@@ -15,8 +16,9 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::model($store, ['route' => ['accounting.stores.update' ,$store->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
-            @include('AccountingSystem.stores.form')
+            {!!Form::model($face, ['route' => ['accounting.faces.update' ,$face->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
+
+            @include('AccountingSystem.faces.form')
 
             {!!Form::close() !!}
         </div>

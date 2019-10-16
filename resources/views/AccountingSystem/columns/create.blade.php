@@ -1,10 +1,15 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تعديل  المخزن')
-@section('parent_title','إدارة  المخازن')
+@section('title','إنشاء عمود  جديد')
+@section('parent_title','إدارة  المنتجات')
+
+@section('styles')
+
+@endsection
+
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-
+            <h5 class="panel-title">إضافة عمود جديدة</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -15,12 +20,12 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::model($store, ['route' => ['accounting.stores.update' ,$store->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
-            @include('AccountingSystem.stores.form')
-
+            {!!Form::open( ['route' => 'accounting.columns.store' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
+            @include('AccountingSystem.columns.form')
             {!!Form::close() !!}
         </div>
 
-
+        </div>
     </div>
-@endsection
+
+ @endsection

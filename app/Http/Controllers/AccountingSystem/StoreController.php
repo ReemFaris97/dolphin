@@ -108,7 +108,10 @@ class StoreController extends Controller
     {
 
 
-
+        $store =AccountingStore::findOrFail($id);
+        $companies=AccountingCompany::pluck('name','id')->toArray();
+        $branches=AccountingBranch::pluck('name','id')->toArray();
+        return $this->toEdit(compact('store','companies','branches'));
     }
 
     /**

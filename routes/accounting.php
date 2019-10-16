@@ -14,5 +14,12 @@ Route::middleware('admin')->group(function () {
     Route::resource('users', 'UserController');
     Route::resource('stores', 'StoreController');
     Route::resource('categories', 'CategoryController');
+
+    Route::resource('faces', 'FaceController');
+    Route::resource('columns', 'ColumnController');
+    Route::resource('cells', 'CellController');
+
+    Route::resource('clauses', 'ClauseController');
+
 });
 
