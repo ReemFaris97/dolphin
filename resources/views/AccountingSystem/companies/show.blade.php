@@ -38,9 +38,23 @@
             </div>
             <h4>عرض الفروع</h4>
             <div class="form-group col-md-6 pull-left">
-                @foreach($branches  as $branch)
-                    <a href="{{route('accounting.branches.show',$branch->id)}}"> <span>-{!! $branch->name !!}</span></a><br>
-                    @endforeach
+
+                    {{--<a href="{{route('accounting.branches.show',$branch->id)}}"> <span>-{!! $branch->name !!}</span></a><br>--}}
+                    <table class="table init-basic">
+                        <thead>
+                        <tr>
+                            <th>اسم الفرع </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($branches  as $branch)
+                            <tr>
+                        <td><a href="{{route('accounting.branches.show',$branch->id)}}">{!! $branch->name !!}</a></td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+
             </div>
 
         </div>

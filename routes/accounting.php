@@ -21,5 +21,8 @@ Route::middleware('admin')->group(function () {
 
     Route::resource('clauses', 'ClauseController');
 
+    Route::resource('products', 'ProductController');
+
+
 });
 
