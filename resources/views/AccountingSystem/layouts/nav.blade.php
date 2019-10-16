@@ -134,170 +134,96 @@
                     </li>
                     </ul>
                     </li>
+                </ul>
+            </li>
+
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-tree5 position-left"></i>
+                    إدارة  المخازن
+                    <span class="caret"></span>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="{{route('accounting.stores.index')}}"><i class="icon-IE"></i> عرض المخازن</a></li>
+                    <li><a href="{{route('accounting.stores.create')}}"><i class="icon-chrome"></i> اضافة مخزن جديدة</a></li>
+                </ul>
+            </li>
+
+
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-tree5 position-left"></i>
+                    إدارة  تصنيفات  الاقسام
+                    <span class="caret"></span>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="{{route('accounting.categories.index')}}"><i class="icon-IE"></i> عرض تصنيفات الاقسام</a></li>
+                    <li><a href="{{route('accounting.categories.create')}}"><i class="icon-chrome"></i> اضافة تصنيف جديد</a></li>
+                </ul>
+            </li>
+
+
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-tree5 position-left"></i>
+                    إدارة البنود
+                    <span class="caret"></span>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-right">
+
+                    <li><a href="{{route('accounting.clauses.index')}}"><i class="icon-IE"></i> عرض البنود</a></li>
+                    <li><a href="{{route('accounting.clauses.create')}}"><i class="icon-chrome"></i> اضافة بند جديد</a></li>
+
+
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-tree5 position-left"></i>
+                    إدارة المنتجات
+                    <span class="caret"></span>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-right">
+
+                    <li class="dropdown-submenu dropdown-submenu-left">
+                        <a href="#"><i class="icon-firefox"></i> الاوجه </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{route('accounting.faces.index')}}"><i class="icon-android"></i> عرض  الاوجة</a></li>
+                            <li class="dropdown-submenu dropdown-submenu-left">
+                                <a href="{{route('accounting.faces.create')}}"><i class="icon-apple2"></i> اضافة وجة جديد</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown-submenu dropdown-submenu-left">
+                        <a href="#"><i class="icon-firefox"></i> الاعمده </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{route('accounting.columns.index')}}"><i class="icon-android"></i> عرض الاعمده </a></li>
+                            <li class="dropdown-submenu dropdown-submenu-left">
+                                <a href="{{route('accounting.columns.create')}}"><i class="icon-apple2"></i> اضافة عمود جديده</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown-submenu dropdown-submenu-left">
+                        <a href="#"><i class="icon-firefox"></i> الخلايا </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{route('accounting.cells.index')}}"><i class="icon-android"></i> عرض الخلايا   </a></li>
+                            <li class="dropdown-submenu dropdown-submenu-left">
+                                <a href="{{route('accounting.cells.create')}}"><i class="icon-apple2"></i> اضافة خلية جديد</a>
+                            </li>
+                        </ul>
+                    </li>
 
                 </ul>
             </li>
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="icon-people"></i>
-                    <span class="visible-xs-inline-block position-right">Users</span>
-                </a>
-
-                <div class="dropdown-menu dropdown-content">
-                    <div class="dropdown-content-heading">
-                        Users online
-                        <ul class="icons-list">
-                            <li><a href="#"><i class="icon-gear"></i></a></li>
-                        </ul>
-                    </div>
-
-                    <ul class="media-list dropdown-content-body width-300">
-                        <li class="media">
-                            <div class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></div>
-                            <div class="media-body">
-                                <a href="#" class="media-heading text-semibold">Jordana Ansley</a>
-                                <span class="display-block text-muted text-size-small">Lead web developer</span>
-                            </div>
-                            <div class="media-right media-middle"><span class="status-mark border-success"></span></div>
-                        </li>
-
-                        <li class="media">
-                            <div class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></div>
-                            <div class="media-body">
-                                <a href="#" class="media-heading text-semibold">Will Brason</a>
-                                <span class="display-block text-muted text-size-small">Marketing manager</span>
-                            </div>
-                            <div class="media-right media-middle"><span class="status-mark border-danger"></span></div>
-                        </li>
-
-                        <li class="media">
-                            <div class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></div>
-                            <div class="media-body">
-                                <a href="#" class="media-heading text-semibold">Hanna Walden</a>
-                                <span class="display-block text-muted text-size-small">Project manager</span>
-                            </div>
-                            <div class="media-right media-middle"><span class="status-mark border-success"></span></div>
-                        </li>
-
-                        <li class="media">
-                            <div class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></div>
-                            <div class="media-body">
-                                <a href="#" class="media-heading text-semibold">Dori Laperriere</a>
-                                <span class="display-block text-muted text-size-small">Business developer</span>
-                            </div>
-                            <div class="media-right media-middle"><span class="status-mark border-warning-300"></span></div>
-                        </li>
-
-                        <li class="media">
-                            <div class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></div>
-                            <div class="media-body">
-                                <a href="#" class="media-heading text-semibold">Vanessa Aurelius</a>
-                                <span class="display-block text-muted text-size-small">UX expert</span>
-                            </div>
-                            <div class="media-right media-middle"><span class="status-mark border-grey-400"></span></div>
-                        </li>
-                    </ul>
-
-                    <div class="dropdown-content-footer">
-                        <a href="#" data-popup="tooltip" title="All users"><i class="icon-menu display-block"></i></a>
-                    </div>
-                </div>
-            </li>
-
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="icon-bubbles4"></i>
-                    <span class="visible-xs-inline-block position-right">Messages</span>
-                    <span class="badge bg-warning-400">2</span>
-                </a>
-
-                <div class="dropdown-menu dropdown-content width-350">
-                    <div class="dropdown-content-heading">
-                        Messages
-                        <ul class="icons-list">
-                            <li><a href="#"><i class="icon-compose"></i></a></li>
-                        </ul>
-                    </div>
-
-                    <ul class="media-list dropdown-content-body">
-                        <li class="media">
-                            <div class="media-left">
-                                <img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
-                                <span class="badge bg-danger-400 media-badge">5</span>
-                            </div>
-
-                            <div class="media-body">
-                                <a href="#" class="media-heading">
-                                    <span class="text-semibold">James Alexander</span>
-                                    <span class="media-annotation pull-right">04:58</span>
-                                </a>
-
-                                <span class="text-muted">who knows, maybe that would be the best thing for me...</span>
-                            </div>
-                        </li>
-
-                        <li class="media">
-                            <div class="media-left">
-                                <img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt="">
-                                <span class="badge bg-danger-400 media-badge">4</span>
-                            </div>
-
-                            <div class="media-body">
-                                <a href="#" class="media-heading">
-                                    <span class="text-semibold">Margo Baker</span>
-                                    <span class="media-annotation pull-right">12:16</span>
-                                </a>
-
-                                <span class="text-muted">That was something he was unable to do because...</span>
-                            </div>
-                        </li>
-
-                        <li class="media">
-                            <div class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></div>
-                            <div class="media-body">
-                                <a href="#" class="media-heading">
-                                    <span class="text-semibold">Jeremy Victorino</span>
-                                    <span class="media-annotation pull-right">22:48</span>
-                                </a>
-
-                                <span class="text-muted">But that would be extremely strained and suspicious...</span>
-                            </div>
-                        </li>
-
-                        <li class="media">
-                            <div class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></div>
-                            <div class="media-body">
-                                <a href="#" class="media-heading">
-                                    <span class="text-semibold">Beatrix Diaz</span>
-                                    <span class="media-annotation pull-right">Tue</span>
-                                </a>
-
-                                <span class="text-muted">What a strenuous career it is that I've chosen...</span>
-                            </div>
-                        </li>
-
-                        <li class="media">
-                            <div class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></div>
-                            <div class="media-body">
-                                <a href="#" class="media-heading">
-                                    <span class="text-semibold">Richard Vango</span>
-                                    <span class="media-annotation pull-right">Mon</span>
-                                </a>
-
-                                <span class="text-muted">Other travelling salesmen live a life of luxury...</span>
-                            </div>
-                        </li>
-                    </ul>
-
-                    <div class="dropdown-content-footer">
-                        <a href="#" data-popup="tooltip" title="All messages"><i class="icon-menu display-block"></i></a>
-                    </div>
-                </div>
-            </li>
-
             <li class="dropdown dropdown-user">
                 <a class="dropdown-toggle" data-toggle="dropdown">
                     <img src="{!! asset(Auth::user()->image )!!}" alt="">
