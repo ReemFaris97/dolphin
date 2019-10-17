@@ -22,7 +22,9 @@ Route::middleware('admin')->group(function () {
     Route::resource('clauses', 'ClauseController');
 
     Route::resource('products', 'ProductController');
+    Route::get('/company_branch/{id}', 'ProductController@getBranch')->name('company.branch');
 
+    Route::get('/branches_store/{id}', 'ProductController@getStores');
 
 });
 

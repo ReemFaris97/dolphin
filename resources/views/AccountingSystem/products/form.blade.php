@@ -8,11 +8,21 @@
     </div>
 @endif
 
-{{--<div class="form-group col-md-6 pull-left">--}}
-    {{--<label> اسم الفرع التابع له الوجه </label>--}}
-    {{--{!! Form::select("branch_id",$branches,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الفرع التابع له الوجه '])!!}--}}
-{{--</div>--}}
 
+<div class="form-group col-md-6 pull-left">
+<label> اسم الشركة </label>
+{!! Form::select("company_id",companies(),null,['class'=>'form-control js-example-basic-single','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له الوجه '])!!}
+</div>
+
+<div class="form-group col-md-6 pull-left">
+    <label> اسم الفرع التابع له الوجه </label>
+    {!! Form::select("branch_id",branches(),null,['class'=>'form-control selectpicker','id'=>'branch_id','multiple','placeholder'=>' اختر اسم الفرع التابع له الوجه '])!!}
+</div>
+
+<div class="form-group col-md-6 pull-left" id="store_id">
+    <label> اسم المخزن  </label>
+    {!! Form::select("store_id",stores(),null,['class'=>'form-control js-example-basic-single','id'=>'store_id','placeholder'=>' اختر اسم الشركة التابع له الوجه '])!!}
+</div>
 <div class="form-group col-md-6 pull-left">
     <label>اسم المنتج  </label>
     {!! Form::text("name",null,['class'=>'form-control','placeholder'=>'  اسم المنتج  '])!!}
@@ -108,3 +118,18 @@
         <button type="submit" id="register" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i></button>
     </div>
 </div>
+
+@section('scripts')
+    <script>
+
+        $(document).ready(function() {
+            $('.js-example-basic-single').select2();
+        });
+
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
+
+    <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
+    <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
+
+@endsection
