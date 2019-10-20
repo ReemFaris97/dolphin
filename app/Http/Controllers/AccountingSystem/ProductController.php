@@ -8,6 +8,8 @@ use App\Models\AccountingSystem\AccountingBranchShift;
 use App\Models\AccountingSystem\AccountingCompany;
 
 use App\Models\AccountingSystem\AccountingProduct;
+use App\Models\AccountingSystem\AccountingProductCategory;
+use App\Models\AccountingSystem\AccountingProductSubUnit;
 use App\Models\AccountingSystem\AccountingStore;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -37,7 +39,9 @@ class ProductController extends Controller
     {
 
         $branches=AccountingBranch::pluck('name','id')->toArray();
-        return $this->toCreate(compact('branches'));
+        $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
+        $products=AccountingProduct::all();
+        return $this->toCreate(compact('branches','categories','products'));
     }
 
     /**
@@ -50,19 +54,59 @@ class ProductController extends Controller
     {
         $rules = [
 
-            'name'=>'required|string|max:191',
 
-            'branch_id'=>'required|numeric|exists:accounting_branches,id',
+            'description'=>'sometimes|string',
+            'category_id'=>'sometimes|numeric|exists:accounting_product_categories,id',
+
+            'bar_code'=>'required|string',
+            'main_unit'=>'required|string',
+            'selling_price'=>'required',
+            'purchasing_price'=>'required',
+            'min_quantity'=>'required|string|numeric',
+            'max_quantity'=>'required|string|numeric',
+            'expired_at'=>'required|string|date',
+            'size'=>'sometimes|string',
+            'color'=>'sometimes|string',
+            'height'=>'sometimes|string',
+            'width'=>'sometimes|string',
+            'num_days_recession'=>'sometimes|string',
 
         ];
         $this->validate($request,$rules);
-        $requests = $request->all();
+        $inputs = $request->except('name','par_codes','main_unit_present','selling_price','purchasing_price');
+ // dd($inputs);
 
-        AccountingProduct::create($requests);
+       $product= AccountingProduct::create($inputs);
+
+        $names = collect($request['name']);
+        $par_codes = collect($request['par_codes']);
+        $main_unit_presents= collect($request['main_unit_present']);
+        $selling_price= collect($request['selling_price']);
+        $purchasing_price= collect($request['purchasing_price']);
+        $merges = $names->zip($par_codes,$purchasing_price,$selling_price,$main_unit_presents);
+
+        foreach ($merges as $merge)
+
+        {
+            $offerProduct= AccountingProductSubUnit::create([
+                'name'=>$merge['0'],
+                'bar_code'=> $merge['1'],
+                'main_unit_present'=>$merge['2'],
+                'selling_price'=>$merge['3'],
+                'purchasing_price'=>$merge['4'],
+                'product_id'=>$product->id
+            ]);
+
+        }
         alert()->success('تم اضافة المنتج بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.products.index');
     }
 
+
+    public  function subunit(){
+
+
+    }
     /**
      * Display the specified resource.
      *
@@ -84,8 +128,9 @@ class ProductController extends Controller
     {
         $face =AccountingBranchFace::findOrFail($id);
         $branches=AccountingBranch::pluck('name','id')->toArray();
+        $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
 
-        return $this->toEdit(compact('face','branches'));
+        return $this->toEdit(compact('face','branches','categories'));
 
 
     }
