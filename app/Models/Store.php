@@ -15,7 +15,7 @@ class Store extends Model
         return $this->hasMany(Product::class);
     }
 
-    public function
+
     public function category()
     {
         return $this->belongsTo(StoreCategory::class,'store_category_id');
