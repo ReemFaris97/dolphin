@@ -6,7 +6,7 @@
 <!-- /core JS files -->
 
 <!-- Theme JS files -->
-<script type="text/javascript" src="{{asset('admin/assets/js/plugins/forms/styling/switchery.min.js')}}"></script>
+{{--<script type="text/javascript" src="{{asset('admin/assets/js/plugins/forms/styling/switchery.min.js')}}"></script>--}}
 <script type="text/javascript" src="{{asset('admin/assets/js/plugins/forms/styling/uniform.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('admin/assets/js/plugins/forms/selects/select2.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('admin/assets/js/plugins/ui/prism.min.js')}}"></script>

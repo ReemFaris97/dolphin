@@ -55,7 +55,7 @@ class SpinnerController extends Controller
 
         $stores = Store::where('distributor_id',$id)->get();
 
-        return $this->apiResponse(TransactionsSpinnerModelResource::collection($stores));
+        return $this->apiResponse(GeneralModelResource::collection($stores));
     }
 
 
