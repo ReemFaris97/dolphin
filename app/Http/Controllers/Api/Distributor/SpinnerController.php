@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Distributor;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Distributor\DistributorSpinnerModelResource;
 use App\Http\Resources\Distributor\ProductsSpinnerModelResource;
 use App\Http\Resources\Distributor\TransactionsSpinnerModelResource;
 use App\Http\Resources\GeneralModelResource;
@@ -31,7 +32,7 @@ class SpinnerController extends Controller
      */
     public function getAllDistributors(){
         $distributors = User::where('is_distributor',1)->get();
-        return $this->apiResponse(GeneralModelResource::collection($distributors));
+        return $this->apiResponse(DistributorSpinnerModelResource::collection($distributors));
     }
 
     /**
@@ -55,7 +56,7 @@ class SpinnerController extends Controller
 
         $stores = Store::where('distributor_id',$id)->get();
 
-        return $this->apiResponse(TransactionsSpinnerModelResource::collection($stores));
+        return $this->apiResponse(GeneralModelResource::collection($stores));
     }
 
 

@@ -2,9 +2,10 @@
 
 namespace App\Http\Resources\Distributor;
 
+use App\Models\Store;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductsSpinnerModelResource extends JsonResource
+class DistributorSpinnerModelResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,12 +15,11 @@ class ProductsSpinnerModelResource extends JsonResource
      */
     public function toArray($request)
     {
+        $has_store = Store::where('distributor_id',$this->id)->first();
         return [
             'id'=>$this->id,
             'name'=>$this->name,
-            'price'=>$this->price,
-            'quantity_per_unit'=>(int)$this->quantity_per_unit,
-            'quantity'=>(int)$this->quantity()
+            'has_store'=>$has_store?true:false,
         ];
     }
 }
