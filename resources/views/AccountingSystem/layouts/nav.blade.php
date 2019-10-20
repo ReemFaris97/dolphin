@@ -190,34 +190,52 @@
                 <ul class="dropdown-menu dropdown-menu-right">
 
                     <li class="dropdown-submenu dropdown-submenu-left">
-                        <a href="#"><i class="icon-firefox"></i> الاوجه </a>
+                        <a href="#"><i class="icon-firefox"></i> المنتجات </a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{route('accounting.faces.index')}}"><i class="icon-android"></i> عرض  الاوجة</a></li>
+                            <li><a href="{{route('accounting.products.index')}}"><i class="icon-android"></i> عرض  المنتجات</a></li>
                             <li class="dropdown-submenu dropdown-submenu-left">
-                                <a href="{{route('accounting.faces.create')}}"><i class="icon-apple2"></i> اضافة وجة جديد</a>
+                                <a href="{{route('accounting.products.create')}}"><i class="icon-apple2"></i> اضافة منتج جديد</a>
                             </li>
                         </ul>
                     </li>
 
                     <li class="dropdown-submenu dropdown-submenu-left">
-                        <a href="#"><i class="icon-firefox"></i> الاعمده </a>
+                        <a href="#"><i class="icon-firefox"></i> الارفف  </a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{route('accounting.columns.index')}}"><i class="icon-android"></i> عرض الاعمده </a></li>
+
                             <li class="dropdown-submenu dropdown-submenu-left">
-                                <a href="{{route('accounting.columns.create')}}"><i class="icon-apple2"></i> اضافة عمود جديده</a>
+                                <a href="#"><i class="icon-firefox"></i> الاوجه </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{route('accounting.faces.index')}}"><i class="icon-android"></i> عرض  الاوجة</a></li>
+                                    <li class="dropdown-submenu dropdown-submenu-left">
+                                        <a href="{{route('accounting.faces.create')}}"><i class="icon-apple2"></i> اضافة وجة جديد</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown-submenu dropdown-submenu-left">
+                                <a href="#"><i class="icon-firefox"></i> الاعمده </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{route('accounting.columns.index')}}"><i class="icon-android"></i> عرض الاعمده </a></li>
+                                    <li class="dropdown-submenu dropdown-submenu-left">
+                                        <a href="{{route('accounting.columns.create')}}"><i class="icon-apple2"></i> اضافة عمود جديده</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown-submenu dropdown-submenu-left">
+                                <a href="#"><i class="icon-firefox"></i> الخلايا </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{route('accounting.cells.index')}}"><i class="icon-android"></i> عرض الخلايا   </a></li>
+                                    <li class="dropdown-submenu dropdown-submenu-left">
+                                        <a href="{{route('accounting.cells.create')}}"><i class="icon-apple2"></i> اضافة خلية جديد</a>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                     </li>
 
-                    <li class="dropdown-submenu dropdown-submenu-left">
-                        <a href="#"><i class="icon-firefox"></i> الخلايا </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{{route('accounting.cells.index')}}"><i class="icon-android"></i> عرض الخلايا   </a></li>
-                            <li class="dropdown-submenu dropdown-submenu-left">
-                                <a href="{{route('accounting.cells.create')}}"><i class="icon-apple2"></i> اضافة خلية جديد</a>
-                            </li>
-                        </ul>
-                    </li>
+
 
                 </ul>
             </li>

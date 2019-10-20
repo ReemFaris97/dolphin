@@ -132,13 +132,28 @@ class StoreController extends Controller
             'image'=>'nullable|sometimes|image',
             'company_id'=>'nullable|numeric|exists:accounting_companies,id',
         ];
+     //   dd($request->all());
         $this->validate($request,$rules);
+        $requests = $request->except('image');
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'photos');
         }
 
 
         $store->update($requests);
+
+        if (array_key_exists('company_id',$requests)) {
+
+            $store->update([
+                'model_id' => $requests['company_id']
+            ]);
+        }elseif(array_key_exists('branch_id',$requests)) {
+
+
+            $store->update([
+                'model_id' => $requests['branch_id']
+            ]);
+        }
         alert()->success('تم تعديل  المخزن بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.stores.index');
 
