@@ -114,19 +114,13 @@ class BranchController extends Controller
             'company_id'=>'required|numeric|exists:accounting_companies,id',
         ];
         $this->validate($request,$rules);
+        $requests = $request->except('image');
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'photos');
-        }
-
-        if ($request->password != null && !\Hash::check($request->old_password, $branch->password)) {
-            return back()->withInput()->withErrors(['old_password' => 'كلمه المرور القديمه غير صحيحه']);
         }
         $branch->update($requests);
         alert()->success('تم تعديل  الفرع بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.branches.index');
-
-
-
     }
 
     /**

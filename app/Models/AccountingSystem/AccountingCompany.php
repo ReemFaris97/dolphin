@@ -2,12 +2,13 @@
 
     namespace App\Models\AccountingSystem;
 
+use App\Traits\HashPassword;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AccountingCompany extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes,HashPassword;
     
     protected $fillable = ['name', 'phone', 'password', 'email', 'image'];
 

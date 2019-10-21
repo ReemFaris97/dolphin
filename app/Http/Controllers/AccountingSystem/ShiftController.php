@@ -48,7 +48,8 @@ class ShiftController extends Controller
         $rules = [
 
             'name'=>'required|string|max:191',
-
+            'from'=>'required|string',
+            'to'=>'required|string',
             'branch_id'=>'required|numeric|exists:accounting_branches,id',
 
         ];
@@ -99,9 +100,9 @@ class ShiftController extends Controller
         $shift =AccountingBranchShift::findOrFail($id);
 
         $rules = [
-
             'name'=>'required|string|max:191',
-
+            'from'=>'required|string',
+            'to'=>'required|string',
             'branch_id'=>'required|numeric|exists:accounting_branches,id',
         ];
         $this->validate($request,$rules);

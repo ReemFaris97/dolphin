@@ -126,7 +126,6 @@ class StoreController extends Controller
         $store =AccountingStore::findOrFail($id);
 
         $rules = [
-
             'ar_name'=>'required|string|max:191',
             'en_name'=>'nullable|string|max:191',
             'image'=>'nullable|sometimes|image',
