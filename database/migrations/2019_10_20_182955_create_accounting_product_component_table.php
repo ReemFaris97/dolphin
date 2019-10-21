@@ -13,7 +13,7 @@ class CreateAccountingProductComponentTable extends Migration
      */
     public function up()
     {
-        Schema::create('accounting_product_component', function (Blueprint $table) {
+        Schema::create('accounting_product_components', function (Blueprint $table) {
             $table->bigIncrements('id');
 
             $table->unsignedBigInteger('product_id')->nullable();

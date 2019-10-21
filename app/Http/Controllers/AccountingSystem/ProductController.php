@@ -9,6 +9,7 @@ use App\Models\AccountingSystem\AccountingCompany;
 
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
+use App\Models\AccountingSystem\AccountingProductComponent;
 use App\Models\AccountingSystem\AccountingProductSubUnit;
 use App\Models\AccountingSystem\AccountingStore;
 use Illuminate\Http\Request;
@@ -73,31 +74,50 @@ class ProductController extends Controller
 
         ];
         $this->validate($request,$rules);
-        $inputs = $request->except('name','par_codes','main_unit_present','selling_price','purchasing_price');
- // dd($inputs);
+        $inputs = $request->except('name','par_codes','main_unit_present','selling_price','purchasing_price','component_names','qtys','main_units');
+
 
        $product= AccountingProduct::create($inputs);
-
+        ///////  /// / //////subunits Arrays//////////////////////////////
         $names = collect($request['name']);
         $par_codes = collect($request['par_codes']);
         $main_unit_presents= collect($request['main_unit_present']);
         $selling_price= collect($request['selling_price']);
         $purchasing_price= collect($request['purchasing_price']);
-        $merges = $names->zip($par_codes,$purchasing_price,$selling_price,$main_unit_presents);
+        $units = $names->zip($par_codes,$purchasing_price,$selling_price,$main_unit_presents);
 
-        foreach ($merges as $merge)
+        foreach ($units as $unit)
 
         {
-            $offerProduct= AccountingProductSubUnit::create([
-                'name'=>$merge['0'],
-                'bar_code'=> $merge['1'],
-                'main_unit_present'=>$merge['2'],
-                'selling_price'=>$merge['3'],
-                'purchasing_price'=>$merge['4'],
+            AccountingProductSubUnit::create([
+                'name'=>$unit['0'],
+                'bar_code'=> $unit['1'],
+                'main_unit_present'=>$unit['2'],
+                'selling_price'=>$unit['3'],
+                'purchasing_price'=>$unit['4'],
                 'product_id'=>$product->id
             ]);
 
         }
+////////////////////components Arrays////////////////////////////////
+        $component_names= collect($request['component_names']);
+        $qtys= collect($request['qtys']);
+        $main_units= collect($request['main_units']);
+        $components= $component_names->zip($qtys,$main_units);
+
+        foreach ($components as $component)
+
+        {
+            AccountingProductComponent::create([
+                'name'=>$component['0'],
+                'quantity'=> $component['1'],
+                'main_unit'=>$component['2'],
+                'product_id'=>$product->id
+            ]);
+
+        }
+
+
         alert()->success('تم اضافة المنتج بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.products.index');
     }
