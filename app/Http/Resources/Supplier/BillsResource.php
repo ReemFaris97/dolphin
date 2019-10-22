@@ -19,7 +19,7 @@ class BillsResource extends ResourceCollection
                 return [
                     'id'=>$q->id,
                     'user_name'=>$q->user->name,
-                    'bill_number'=>optional($q->name) != null ?$q->name :0,
+                    'bill_number'=>$q->name == null ? 0: $q->name,
                     'date'=>$q->date,
                     'supplier_id'=>$q->supplier_id,
                     'payment_method'=>$q->payment_method,
