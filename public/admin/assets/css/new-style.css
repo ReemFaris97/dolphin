@@ -1,0 +1,11 @@
+.nav-logo{
+    padding:10px;
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+}
+.nav-logo img{
+    max-height: 120px;
+    max-width: 100%;
+
+}

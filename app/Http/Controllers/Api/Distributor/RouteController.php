@@ -129,6 +129,7 @@ class RouteController extends Controller
                  "name" => "required|string|min:1|max:255",
                  "email" => "required|email|min:1|max:255|unique:users,email",
                  'phone'      =>'required|string|unique:users,phone',
+                 "image"=>"required|image",
                  "store_name" => "required|string|min:1|max:255",
                  "address" => "required|string|min:1|max:255",
                  "lat" => "required|string|min:1|max:255",

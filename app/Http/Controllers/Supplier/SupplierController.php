@@ -20,7 +20,7 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        $suppliers = User::where('is_supplier',1)->get()->reverse();
+        $suppliers = User::where('is_supplier',1)->where('parent_user_id','!=',Null)->get()->reverse();
         return $this->toIndex(compact('suppliers'));
     }
 
@@ -50,6 +50,7 @@ class SupplierController extends Controller
             'email'=>'required|string|unique:users,email',
             'password'=>'required|string|confirmed|max:191',
             'image'=>'nullable|sometimes|image',
+
         ];
 
         $this->validate($request,$rules);
@@ -60,7 +61,6 @@ class SupplierController extends Controller
         }
         $requests['is_supplier'] = 1;
         $user = User::create($requests);
-        $user->update(['parent_user_id'=>auth()->id()]);
 
 
         toast('تم الاضافه بنجاح', 'success', 'top-right');
@@ -117,7 +117,6 @@ class SupplierController extends Controller
             return back()->withInput()->withErrors(['old_password' => 'كلمه المرور القديمه غير صحيحه']);
         }
         $user->fill($requests);
-        $user->update(['parent_user_id'=>auth()->id()]);
 //        $user->syncPermissions($request->permissions);
         $user->save();
         toast('تم التعديل بنجاح', 'success', 'top-right');

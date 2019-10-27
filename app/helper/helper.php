@@ -14,6 +14,36 @@ function responseJson($status, $msg, $data = null, $state = 200)
     return response()->json($response, $state);
 }
 
+function companies()
+{
+    $companies = \App\Models\AccountingSystem\AccountingCompany::all()->mapWithKeys(function ($q) {
+        return [$q['id'] => $q['name']];
+    });
+    return $companies;
+}
+
+function branches($company = null)
+{
+
+    if ($company != null) {
+        $branches = App\Models\AccountingSystem\AccountingCompany::find($company)->branches->mapWithKeys(function ($item) {
+            return [$item['id'] => $item['name'],'all' => 'كل الفروع'];
+        });
+    } else {
+        $branches = \App\Models\AccountingSystem\AccountingBranch::all()->mapWithKeys(function ($item) {
+            return [$item['id'] => $item['name']];
+        });
+    }
+    return $branches;
+}
+
+
+function stores($branch=null){
+
+    $stores=[];
+    return $stores;
+}
+
 
 function saveImage($file, $folder = '/')
 {

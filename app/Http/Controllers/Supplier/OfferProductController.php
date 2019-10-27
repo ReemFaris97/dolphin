@@ -56,7 +56,7 @@ class OfferProductController extends Controller
         $this->validate($request,$rules);
 
         $inputs = $request->all();
-     $offer = SupplierOffer::create(['user_id'=>auth()->id()]);
+        $offer = SupplierOffer::create(['user_id'=>auth()->id()]);
         $collection = collect([$inputs]);
 
         $products = collect($inputs['products']);

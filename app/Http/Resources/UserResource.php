@@ -33,16 +33,15 @@ class UserResource extends JsonResource
              ]),
              $this->mergeWhen(($this->IsSupplier()),[
                  'supplier_type'=>$this->supplier_type,
-                 'tax_number'=>$this->tax_number,
+                 'tax_number'=>$this->tax_number??"",
                  'lat'=>$this->lat?$this->lat:"",
                  'lng'=>$this->lng?$this->lng:"",
                  'bank_id'=>optional($this->bank)->id?optional($this->bank)->id:"",
                  'bank_account_number'=>$this->bank_account_number?$this->bank_account_number:"",
                  'bank_name'=>optional($this->bank)->name?optional($this->bank)->name:"",
-
-
              ]),
-             'token' => $this->token,
+             'is_verified'=>$this->is_verified,
+             'token' =>$this->token??"",
             ];
     }
 }

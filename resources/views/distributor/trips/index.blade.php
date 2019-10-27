@@ -43,5 +43,27 @@
     </div>
 @endsection
 
-@section('scripts')
-@endsection
+
+@push('scripts')
+    <script>
+        function Delete(id) {
+            var item_id=id;
+            console.log(item_id);
+            swal({
+                title: "هل أنت متأكد ",
+                text: "هل تريد حذف هذا الرحلة ؟",
+                icon: "warning",
+                buttons: ["الغاء", "موافق"],
+                dangerMode: true,
+
+            }).then(function(isConfirm){
+                if(isConfirm){
+                    document.getElementById('delete-form'+item_id).submit();
+                }
+                else{
+                    swal("تم االإلفاء", "حذف  الرحلة تم الغاؤه",'info',{buttons:'موافق'});
+                }
+            });
+        }
+    </script>
+@endpush

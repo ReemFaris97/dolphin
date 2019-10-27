@@ -16,6 +16,14 @@
 
 
 
+
+
+
+
+
+
+
+
     <div class="form-group m-form__group">
         <label>تاريخ الصرف</label>
         {!! Form::date('date',null,['class'=>'form-control m-input'])!!}
@@ -47,10 +55,17 @@
     </div>
 
 
+    {{--<div class="form-group m-form__group">--}}
+        {{--<label>اسم  العداد</label>--}}
+        {{--{!! Form::text('reader_name',null,['class'=>'form-control m-input','placeholder'=>'ادخل  اسم العداد'])!!}--}}
+    {{--</div>--}}
+
+
     <div class="form-group m-form__group">
-        <label>اسم  العداد</label>
-        {!! Form::text('reader_name',null,['class'=>'form-control m-input','placeholder'=>'ادخل  اسم العداد'])!!}
+        <label> اسم العداد</label>
+        {!! Form::select('reader_id',$readers,null,['class'=>'form-control m-input select2','placeholder'=>'ادخل اسم العداد'])!!}
     </div>
+
 
     <div class="form-group m-form__group">
         <label>  اصل  قراءه العداد</label>
@@ -58,14 +73,14 @@
     </div>
 
 
-    <div class="form-group m-form__group">
-        <label> صوره العداد </label>
-        @if(isset($expense))
+    {{--<div class="form-group m-form__group">--}}
+        {{--<label> صوره العداد </label>--}}
+        {{--@if(isset($expense))--}}
 
-            <img src="{!! url($expense->reader_image)!!}" width="250" height="250">
-        @endif
-        <input type="file" class="form-control m-input" name="reader_image">
-    </div>
+            {{--<img src="{!! url($expense->reader_image)!!}" width="250" height="250">--}}
+        {{--@endif--}}
+        {{--<input type="file" class="form-control m-input" name="reader_image">--}}
+    {{--</div>--}}
 </div>
 
 @push('scripts')

@@ -11,6 +11,7 @@ Route::middleware('auth')->group(function () {
     Route::get('users/edit/profile','UserController@editProfile')->name('users.edit.profile');
     Route::post('users/update/profile','UserController@updateProfile')->name('users.update.profile');
     Route::patch('users/block/{user}', 'UserController@block')->name('users.block');
+    Route::patch('users/distributor/{user}', 'UserController@TurnUserToDistributor')->name('users.turn.distributor');
     Route::resource('notifications-category', 'NotificationsCategory');
     Route::post('notifications/read', 'NotificationsCategory@readNotifications')->name('notification.read');
     Route::resource('tasks', 'TaskController');
@@ -70,15 +71,10 @@ Route::middleware('auth')->group(function () {
     Route::get('clauses/add/log/{id}', 'ClausesController@getAddLog')->name('clauses.getAddLog');
     Route::post('clauses/post/log/{id}', 'ClausesController@AddLog')->name('clauses.AddLog');
     Route::patch('clauses/block/{clause}', 'ClausesController@block')->name('clauses.block');
-
     Route::patch('clauses/block/{clause}', 'ClausesController@block')->name('clauses.block');
-
     Route::get('clauses/user/change-numbers','ClausesController@getEnterNumbersPage')->name('clauses.change.numbers');
     Route::post('clauses/user/post/change-numbers','ClausesController@postChangeNunmbers')->name('clauses.post.change.numbers');
-
-
     /*end clauses routes*/
-
 
     Route::delete('note/{id}/delete','HomeController@deleteNote')->name('notes.destroy');
     Route::delete('images/{id}/delete','HomeController@deleteImage')->name('images.destroy');
@@ -95,6 +91,17 @@ Route::middleware('auth')->group(function () {
     Route::get('reports/tasks', 'ReportsController@TaskSearch')->name('TaskSearch');
     Route::get('reports/worker/details', 'ReportsController@workerReport')->name('workerReport');
     /*end reports routes*/
+
+    /*suppliers discards routes*/
+    Route::resource('/suppliers-discards','DiscardsController');
+    Route::post('/suppliers/discards/get-products','DiscardsController@getAjaxSupplierProducts')->name('getAjaxSupplierProducts');
+    /*end suppliers discards routes*/
+
+
+    /*suppliers bills routes*/
+    Route::resource('/suppliers-bills','SuppliersBillsController');
+    /*end suppliers bills routes*/
+
 
 
     /*save token*/

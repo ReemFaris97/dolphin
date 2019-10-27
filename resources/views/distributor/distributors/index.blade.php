@@ -16,7 +16,7 @@
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-title">
                     <h3 class="m-portlet__head-text">
-                        كل الموزعين
+                        كل المندوبين
                     </h3>
                 </div>
             </div>
@@ -27,7 +27,7 @@
                            class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">
                         <span>
                             <i class="fas fa-plus"></i>
-                            <span>اضافه موزع</span>
+                            <span>اضافه مندوب</span>
                         </span>
                         </a>
                     </li>
@@ -42,5 +42,26 @@
     </div>
 @endsection
 
-@section('scripts')
-@endsection
+@push('scripts')
+    <script>
+        function Delete(id) {
+            var item_id=id;
+            console.log(item_id);
+            swal({
+                title: "هل أنت متأكد ",
+                text: "هل تريد حذف هذا المندوب ؟",
+                icon: "warning",
+                buttons: ["الغاء", "موافق"],
+                dangerMode: true,
+
+            }).then(function(isConfirm){
+                if(isConfirm){
+                    document.getElementById('delete-form'+item_id).submit();
+                }
+                else{
+                    swal("تم االإلفاء", "حذف  المندوب الغاؤه",'info',{buttons:'موافق'});
+                }
+            });
+        }
+    </script>
+@endpush

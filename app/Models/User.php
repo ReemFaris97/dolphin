@@ -8,8 +8,11 @@ use App\Models\Charge;
 use App\Models\FcmToken;
 use App\Models\Message;
 use App\Models\Notification;
+use App\Models\Product;
 use App\Models\SupplierBill;
 use App\Models\SupplierLog;
+use App\Models\SupplierPrice;
+use App\Models\SupplierTransaction;
 use App\Models\TaskUser;
 use App\Traits\ApiResponses;
 use App\Traits\HashPassword;
@@ -35,7 +38,7 @@ class User extends Authenticatable implements JWTSubject
     protected $fillable = [
         'name', 'phone', 'email', 'password', 'image', 'job', 'nationality', 'company_name', 'blocked_at', 'is_admin', 'remember_token'
 ,'is_distributor','is_supplier','supplier_type','tex_number','lat','lng','bank_id','verification_code','parent_user_id','bank_account_number',
-
+'distributor_status','settle_commission','sell_commission','reword_value','store_id','route_id'
     ];
 
     /**
@@ -211,13 +214,83 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Bank::class,'bank_id');
     }
 
+
+//    ************************************************
+    /*
+     *
+     * @Supplier Functions ....
+     *
+     */
+
+    public function supplier_staff(){
+        return $this->hasMany(User::class,'parent_user_id');
+    }
+
     public function supplierLog(){
         return $this->hasMany(SupplierLog::class,'user_id');
     }
 
     public function supplierBills(){
-        return $this->hasMany(SupplierBill::class,'user_id');
+        return $this->hasMany(SupplierBill::class,'supplier_id');
     }
+
+
+    public function supplierProducts(){
+
+        $ids = SupplierPrice::where('user_id',$this->id)->pluck('product_id');
+        $products = Product::whereIn('id',$ids)->get();
+        return $products;
+    }
+
+    public function supplierProductsPaginated(){
+        $ids = SupplierPrice::where('user_id',$this->id)->pluck('product_id');
+        $products = Product::whereIn('id',$ids)->paginate(10);
+        return $products;
+    }
+
+    public function checkIfProductAddedBefore ($productId) {
+        $check = SupplierPrice::where('product_id',$productId)->where('user_id',$this->id)->first();
+        if($check) return 1 ;
+        else return 0;
+    }
+
+    public function supplier_transactions(){
+        return $this->hasMany(SupplierTransaction::class,'supplier_id');
+    }
+
+    public function supplierTotalBills(){
+        $amount = $this->supplierBills()->sum('vat');
+        $amount += $this->supplierBills()->sum('amount_paid');
+        $amount += $this->supplierBills()->sum('amount_rest');
+        return $amount;
+    }
+
+    public function totalPaidMoneyInBill():float {
+       return  $amount = $this->supplierBills()->sum('amount_paid');
+
+    }
+
+    public function supplierPaidMoneyInTransactions() :float {
+        return $this->supplier_transactions()->sum('amount');
+    }
+
+    public function supplierTotalPaidMoney() :float {
+        return $this->totalPaidMoneyInBill() + $this->supplierPaidMoneyInTransactions();
+    }
+
+    public function totalRestMoneyInBill(){
+        return $this->supplierBills()->sum('amount_rest');
+    }
+
+
+    public function TotalOfSupplierReceivables() : float {
+        $amount_rest = $this->totalRestMoneyInBill();
+        $paid = $this->supplierPaidMoneyInTransactions() + $this->totalPaidMoneyInBill();
+        return $amount_rest - $paid;
+    }
+
+//    ******************************************************
+
 
 
 }

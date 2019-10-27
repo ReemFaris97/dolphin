@@ -42,6 +42,7 @@ trait UserOperation
         $inputs = $request->all();
         $inputs['parent_user_id']= auth()->id();
         $inputs['is_supplier'] = 1;
+        $inputs['supplier_type'] = 'dolphin';
         $user = User::create($inputs);
         $user->syncPermissions($request->permissions);
         return $user;

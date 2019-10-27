@@ -4,7 +4,7 @@
 	<label>الموظف {{$i }}</label>
 	{!! Form::select('users['.$i.'][user_id]',$users,"",['class'=>'form-control m-input select2','placeholder'=>'ادخل اسم الموظف'])!!}
 
-</div>
+    </div>
 
 {{--
 <div class="form-group m-form__group date-task

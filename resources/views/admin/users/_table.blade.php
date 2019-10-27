@@ -29,7 +29,7 @@
             <td>{!!$user->job!!}</td>
             <td>{!! chooseNationality($user->nationality)!!}</td>
             <td>{!!$user->company_name!!}</td>
-            <td>{!!$user->type!!}</td>
+            <td>{!!$user->type!!} @if($user->is_distributor == 1) -- موزع @endif</td>
 
             <td>
                 @if(auth()->user()->hasPermissionTo('edit_workers'))
@@ -55,7 +55,7 @@
                         {{--</button>--}}
                         <button type="submit" class="btn btn-warning"
 								onclick="if(!confirm('هل انت متاكد من حظر العضو')) event.preventDefault() ">
-									
+
 									<i class="fas fa-skull"></i>
 									حظر
 								</button>
@@ -74,6 +74,18 @@
 
                     @endif
                 </form>
+
+                    @if($user->is_distributor == 0)
+                    <form method="POST" action="{!!route('admin.users.turn.distributor',$user->id)!!}">
+                        @csrf() @method('patch')
+                            <button type="submit" class="btn btn-primary"
+                                    onclick="if(!confirm('هل انت متاكد من تحويل الموظف لموزع')) event.preventDefault() ">
+                                <i class="far fa-thumbs-up"></i>
+                                تحويل لموزع
+                            </button>
+                    </form>
+                    @endif
+
             </td>
 
         </tr>

@@ -31,7 +31,7 @@ class DistributorRoutesController extends Controller
      */
     public function create()
     {
-        $users=User::pluck('name','id');
+        $users=User::where('is_distributor','1')->pluck('name','id');
         return $this->toCreate(compact('users'));
     }
 
@@ -47,12 +47,12 @@ class DistributorRoutesController extends Controller
             'user_id'=>'required|exists:users,id',
             'name'=>'required|string',
             'is_active'=>'required|numeric',
-            'is_finished'=>'required|numeric',
+
         ];
 
         $this->validate($request,$rules);
         DistributorRoute::create($request->all());
-        toast('تم التحويل بنجاح','success','top-right');
+        toast('تم المسار بنجاح','success','top-right');
         return redirect()->route('distributor.routes.index');
     }
 
@@ -94,12 +94,12 @@ class DistributorRoutesController extends Controller
             'user_id'=>'required|exists:users,id',
             'name'=>'required|string',
             'is_active'=>'required|numeric',
-            'is_finished'=>'required|numeric',
+
         ];
 
         $this->validate($request,$rules);
         $route->update($request->all());
-        toast('تم تعديل التحويل بنجاح','success','top-right');
+        toast('تم تعديل المسار بنجاح','success','top-right');
         return redirect()->route('distributor.routes.index');
 
     }
