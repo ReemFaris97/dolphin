@@ -36,6 +36,11 @@ return [
     */
 
     'guards' => [
+        'accounting_companies' => [
+            'driver' => 'session',
+            'provider' => 'accounting_companies',
+        ],
+
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
@@ -66,6 +71,11 @@ return [
     */
 
     'providers' => [
+        'accounting_companies' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\AccountingSystem\AccountingCompany::class,
+        ],
+
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
@@ -93,6 +103,12 @@ return [
     */
 
     'passwords' => [
+        'accounting_companies' => [
+            'provider' => 'accounting_companies',
+            'table' => 'company_password_resets',
+            'expire' => 60,
+        ],
+
         'users' => [
             'provider' => 'users',
             'table' => 'password_resets',
