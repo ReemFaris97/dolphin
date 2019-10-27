@@ -7,10 +7,7 @@
     <title>  @yield('title')</title>
 
     <!-- Global stylesheets -->
-
 @include('AccountingSystem.layouts.styles')
-
-
     <!-- /global stylesheets -->
 
     <!-- Core JS files -->
@@ -19,8 +16,6 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     @include('sweet::alert')
     @yield('scripts')
-
-
 </head>
 
 <body>
@@ -28,7 +23,6 @@
 <!-- Main navbar -->
 @include('AccountingSystem.layouts.nav')
 <!-- /main navbar -->
-
 
 <!-- Page container -->
 <div class="page-container">

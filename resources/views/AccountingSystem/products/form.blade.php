@@ -8,113 +8,159 @@
     </div>
 @endif
 
+<div class="panel-group">
+    <div class="panel">
+        <div class="panel-heading" style="background: #2ecc71">
+            <h6 class="panel-title">
+                <a data-toggle="collapse" href="#collapsible-styled-group1">بيانات المكان</a>
+            </h6>
+        </div>
+        <div id="collapsible-styled-group1" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <div class="form-group col-md-4 pull-left">
+                    <label> اسم الشركة </label>
+                    {!! Form::select("company_id",companies(),null,['class'=>'form-control js-example-basic-single','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له الوجه '])!!}
+                </div>
 
-<div class="form-group col-md-6 pull-left">
-    <label> اسم الشركة </label>
-    {!! Form::select("company_id",companies(),null,['class'=>'form-control js-example-basic-single','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له الوجه '])!!}
-</div>
+                <div class="form-group col-md-4 pull-left">
+                    <label> اسم الفرع التابع </label>
+                    {!! Form::select("branch_id",branches(),null,['class'=>'form-control selectpicker','id'=>'branch_id','multiple','placeholder'=>' اختر اسم الفرع التابع له الوجه '])!!}
+                </div>
 
-<div class="form-group col-md-6 pull-left">
-    <label> اسم الفرع التابع </label>
-    {!! Form::select("branch_id",branches(),null,['class'=>'form-control selectpicker','id'=>'branch_id','multiple','placeholder'=>' اختر اسم الفرع التابع له الوجه '])!!}
-</div>
+                <div class="form-group col-md-4 pull-left" id="store_id">
+                    <label> اسم المخزن </label>
+                    {!! Form::select("store_id",stores(),null,['class'=>'form-control js-example-basic-single','id'=>'store_id','placeholder'=>' اختر اسم الشركة التابع له الوجه '])!!}
+                </div>
 
-<div class="form-group col-md-6 pull-left" id="store_id">
-    <label> اسم المخزن </label>
-    {!! Form::select("store_id",stores(),null,['class'=>'form-control js-example-basic-single','id'=>'store_id','placeholder'=>' اختر اسم الشركة التابع له الوجه '])!!}
-</div>
-<div class="form-group col-md-6 pull-left">
-    <label>اسم المنتج </label>
-    {!! Form::text("name",null,['class'=>'form-control','placeholder'=>'  اسم المنتج  '])!!}
-</div>
-<div class="form-group col-md-6 pull-left">
-    <label> اسم التصنيف </label>
-    {!! Form::select("category_id",$categories,null,['class'=>'form-control js-example-basic-single','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له الوجه '])!!}
-</div>
+            </div>
+        </div>
+    </div>
 
-<div class="form-group col-md-6 pull-left">
-    <label>النوع </label>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2" id="components_button">
-        المكونات
-    </button>
-    {!! Form::select("type",['store'=>'مخزون','service'=>'خدمه','offer'=>'مجموعة منتجات ','creation'=>'تصنيع','product_expiration'=>'منتج بتاريخ صلاحيه'],null,['class'=>'form-control js-example-basic-single','placeholder'=>'  نوع المنتج   ','id'=>'type'])!!}
-</div>
-<div class="form-group col-md-6 pull-left">
-    <label>وصف المنتج </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
-    {!! Form::textarea("description",null,['class'=>'form-control','placeholder'=>'  وصف المنتج  '])!!}
-</div>
+    <div class="panel">
+        <div class="panel-heading" style="background: #e74c3c">
+            <h6 class="panel-title">
+                <a class="collapsed" data-toggle="collapse" href="#collapsible-styled-group2">بيانات المنتج</a>
+            </h6>
+        </div>
+        <div id="collapsible-styled-group2" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div class="form-group col-md-6 pull-left">
+                    <label>اسم المنتج </label>
+                    {!! Form::text("name",null,['class'=>'form-control','placeholder'=>'  اسم المنتج  '])!!}
+                </div>
+                <div class="form-group col-md-6 pull-left">
+                    <label> اسم التصنيف </label>
+                    {!! Form::select("category_id",$categories,null,['class'=>'form-control js-example-basic-single','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له الوجه '])!!}
+                </div>
+                <div class="form-group col-md-6 pull-left">
+                    <label>النوع </label>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2" id="components_button">
+                        المكونات
+                    </button>
+                    {!! Form::select("type",['store'=>'مخزون','service'=>'خدمه','offer'=>'مجموعة منتجات ','creation'=>'تصنيع','product_expiration'=>'منتج بتاريخ صلاحيه'],null,['class'=>'form-control js-example-basic-single','placeholder'=>'  نوع المنتج   ','id'=>'type'])!!}
+                </div>
+                <div class="form-group col-md-6 pull-left">
+                    <label>الوحدة الاساسية </label><span style="color: #ff0000; margin-right: 15px;">[جرام -كيلو-لتر]</span>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        الوحدات الفرعية
+                    </button>
 
-<div class="form-group col-md-6 pull-left">
-    <label>مفعل </label>
-    {!! Form::radio("is_active",1,['class'=>'form-control'])!!}
-
-    <label>غير مفعل </label>
-    {!! Form::radio("is_active",0,['class'=>'form-control'])!!}
-</div>
-<div class="form-group col-md-6 pull-left">
-    <label>الوحدة الاساسية </label><span style="color: #ff0000; margin-right: 15px;">[جرام -كيلو-لتر]</span>
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-        الوحدات الفرعية
-    </button>
-
-    {!! Form::text("main_unit",null,['class'=>'form-control','placeholder'=>'  الوحدة الاساسية '])!!}
-</div>
-
-<div class="form-group col-md-6 pull-left">
-    <label>الباركود </label>
-    {!! Form::text("bar_code",null,['class'=>'form-control','placeholder'=>' الباركود '])!!}
-</div>
+                    {!! Form::text("main_unit",null,['class'=>'form-control','placeholder'=>'  الوحدة الاساسية '])!!}
+                </div>
+                <div class="form-group col-md-12 pull-left">
+                    <label>وصف المنتج </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+                    {!! Form::textarea("description",null,['class'=>'form-control','placeholder'=>'  وصف المنتج  '])!!}
+                </div>
 
 
-<div class="form-group col-md-6 pull-left">
-    <label>سعر البيع </label>
-    {!! Form::text("selling_price",null,['class'=>'form-control','placeholder'=>'  سعر البيع   '])!!}
-</div>
-<div class="form-group col-md-6 pull-left">
-    <label>سعر الشراء </label>
-    {!! Form::text("purchasing_price",null,['class'=>'form-control','placeholder'=>'سعر الشراء  '])!!}
-</div>
+            </div>
+        </div>
+    </div>
 
-<div class="form-group col-md-6 pull-left">
-    <label>الحد الادنى من الكمية </label>
-    {!! Form::text("min_quantity",null,['class'=>'form-control','placeholder'=>'الحد الادنى  من الكمية'])!!}
-</div>
+    <div class="panel">
+        <div class="panel-heading" style="background: #3498db">
+            <h6 class="panel-title">
+                <a class="collapsed" data-toggle="collapse" href="#collapsible-styled-group3">بيانات البيع</a>
+            </h6>
+        </div>
+        <div id="collapsible-styled-group3" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div class="form-group col-md-6 pull-left">
+                    <label>مفعل </label>
+                    {!! Form::radio("is_active",1,['class'=>'form-control'])!!}
 
-<div class="form-group col-md-6 pull-left">
-    <label> الحد الاقصى من الكمية </label>
-    {!! Form::text("max_quantity",null,['class'=>'form-control','placeholder'=>' الحد الاقصى من الكمية '])!!}
-</div>
+                    <label>غير مفعل </label>
+                    {!! Form::radio("is_active",0,['class'=>'form-control'])!!}
+                </div>
+                <div class="form-group col-md-6 pull-left">
+                    <label>الباركود </label>
+                    {!! Form::text("bar_code",null,['class'=>'form-control','placeholder'=>' الباركود '])!!}
+                </div>
+                <div class="form-group col-md-6 pull-left">
+                    <label>سعر البيع </label>
+                    {!! Form::text("selling_price",null,['class'=>'form-control','placeholder'=>'  سعر البيع   '])!!}
+                </div>
+                <div class="form-group col-md-6 pull-left">
+                    <label>سعر الشراء </label>
+                    {!! Form::text("purchasing_price",null,['class'=>'form-control','placeholder'=>'سعر الشراء  '])!!}
+                </div>
+                <div class="form-group col-md-6 pull-left">
+                    <label>الحد الادنى من الكمية </label>
+                    {!! Form::text("min_quantity",null,['class'=>'form-control','placeholder'=>'الحد الادنى  من الكمية'])!!}
+                </div>
+                <div class="form-group col-md-6 pull-left">
+                    <label> الحد الاقصى من الكمية </label>
+                    {!! Form::text("max_quantity",null,['class'=>'form-control','placeholder'=>' الحد الاقصى من الكمية '])!!}
+                </div>
 
-<div class="form-group col-md-6 pull-left">
-    <label> الحجم </label><span style="color: #ff0000; margin-right: 15px;">  اختيارى ويكون بالسنتمتر المكعب</span>
-    {!! Form::text("size",null,['class'=>'form-control','placeholder'=>' الحجم  '])!!}
-</div>
-<div class="form-group col-md-6 pull-left">
-    <label> اللون </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
-    {!! Form::text("color",null,['class'=>'form-control','placeholder'=>'  اللون '])!!}
-</div>
+            </div>
+        </div>
+    </div>
 
-<div class="form-group col-md-6 pull-left">
-    <label> الارتفاع </label><span style="color: #ff0000; margin-right: 15px;">اختيارى ويكون بالسنتمتر</span>
-    {!! Form::text("height",null,['class'=>'form-control','placeholder'=>'الارتفاع  '])!!}
+    <div class="panel">
+        <div class="panel-heading " style="background: #f1c40f">
+            <h6 class="panel-title">
+                <a class="collapsed" data-toggle="collapse" href="#collapsible-styled-group4">مواصفات أخرى (إختياري)</a>
+            </h6>
+        </div>
+        <div id="collapsible-styled-group4" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div class="form-group col-md-6 pull-left">
+                    <label> الحجم </label><span style="color: #ff0000; margin-right: 15px;">  اختيارى ويكون بالسنتمتر المكعب</span>
+                    {!! Form::text("size",null,['class'=>'form-control','placeholder'=>' الحجم  '])!!}
+                </div>
+                <div class="form-group col-md-6 pull-left">
+                    <label> اللون </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+                    {!! Form::text("color",null,['class'=>'form-control','placeholder'=>'  اللون '])!!}
+                </div>
+                <div class="form-group col-md-6 pull-left">
+                    <label> الارتفاع </label><span style="color: #ff0000; margin-right: 15px;">اختيارى ويكون بالسنتمتر</span>
+                    {!! Form::text("height",null,['class'=>'form-control','placeholder'=>'الارتفاع  '])!!}
+                </div>
+                <div class="form-group col-md-6 pull-left">
+                    <label> العرض </label><span style="color: #ff0000; margin-right: 15px;">اختيارى ويكون بالسنتمتر المربع</span>
+                    {!! Form::text("width",null,['class'=>'form-control','placeholder'=>'  العرض '])!!}
+                </div>
+                <div class="form-group col-md-6 pull-left">
+                    <label> تاريخ الانتهاء </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+                    {!! Form::date("expired_at",null,['class'=>'form-control'])!!}
+                </div>
+                <div class="form-group col-md-6 pull-left">
+                    <label>عدد أيام فترة الركود</label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+                    {!! Form::number("num_days_recession",null,['class'=>'form-control'])!!}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-<div class="form-group col-md-6 pull-left">
-    <label> العرض </label><span style="color: #ff0000; margin-right: 15px;">اختيارى ويكون بالسنتمتر المربع</span>
-    {!! Form::text("width",null,['class'=>'form-control','placeholder'=>'  العرض '])!!}
+<div class="text-center col-md-12 m--margin-bottom-5">
+    <div class="text-center">
+        <button type="submit" id="register" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i>
+        </button>
+    </div>
 </div>
-
-<div class="form-group col-md-6 pull-left">
-    <label> تاريخ الانتهاء </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
-    {!! Form::date("expired_at",null,['class'=>'form-control'])!!}
-</div>
-
-<div class="form-group col-md-6 pull-left">
-    <label>عدد أيام فترة الركود</label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
-    {!! Form::number("num_days_recession",null,['class'=>'form-control'])!!}
-</div>
-
+<!-- /collapsible with different panel styling -->
 <!-- unit table-->
 <table id="productsTable" class="table table-striped table-bordered">
     <thead>
@@ -154,12 +200,7 @@
 </table>
 
 <!-- end table-->
-<div class="text-center col-md-12">
-    <div class="text-right">
-        <button type="submit" id="register" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i>
-        </button>
-    </div>
-</div>
+
 
 
 <!-- Modal1 -->
@@ -169,7 +210,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">الوحدات الفرعية</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" id="the-sub-unit-link" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
