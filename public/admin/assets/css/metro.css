@@ -344,10 +344,17 @@ div[class^="metro"]  .hoverable-icons:hover{
 	}
 	.form-group label , 
 	.media-body label{
-    color: #2ECC71;
     font-size: 14px;
     font-weight: 700;
 }
+		.form-group label:not(.info-label) , 
+	.media-body label:not(.info-label){
+    color: #2ECC71;
+	}
+	.form-group label.info-label) , 
+	.media-body label.info-label){
+    color: #fff;
+	}
 	.navbar-inverse .navbar-nav > li > a {
     color: #fff;
     padding-right: 4px;
