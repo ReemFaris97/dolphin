@@ -9,8 +9,8 @@
 @endif
 
 
-@if( isset($store))
-    @if($store->model_type=='App\Models\AccountingSystem\AccountingBranch')
+@if( isset( $transaction))
+    @if( $transaction->model_type=='App\Models\AccountingSystem\AccountingBranch')
         <div class="form-group">
             <label class="display-block text-semibold">التحويل تابع الى</label>
             <label class="radio-inline">
@@ -23,7 +23,7 @@
                 فرع
             </label>
         </div>
-    @elseif($store->model_type=='App\Models\AccountingSystem\AccountingCompany')
+    @elseif( $transaction->model_type=='App\Models\AccountingSystem\AccountingCompany')
         <div class="form-group">
             <label class="display-block text-semibold">التحويل تابع الى</label>
             <label class="radio-inline">
@@ -56,13 +56,13 @@
 
 
 
-@if( isset($store))
-    @if($store->model_type=='App\Models\AccountingSystem\AccountingBranch')
+@if( isset( $transaction))
+    @if( $transaction->model_type=='App\Models\AccountingSystem\AccountingBranch')
         <div class="form-group col-md-6 pull-left branches">
             <label> اسم الفرع التابع لها التحويل: </label>
-            {!! Form::select("branch_id",$branches,$store->model_id,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الفرع التابع لها المخزن '])!!}
+            {!! Form::select("branch_id",$branches, $transaction->model_id,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الفرع التابع لها المخزن '])!!}
         </div>
-    @elseif($store->model_type=='App\Models\AccountingSystem\AccountingCompany')
+    @elseif( $transaction->model_type=='App\Models\AccountingSystem\AccountingCompany')
         <div class="form-group col-md-6 pull-left companies">
             <label> التحويل تابع الى الشركة مباشرا</label>
             <input name="company_id" type="hidden" value="{{auth('accounting_companies')->user()->id}}">
@@ -85,12 +85,18 @@
 
 <div class="form-group col-md-6 pull-left">
     <label>المبلغ </label>
-    {!! Form::text("default",null,['class'=>'form-control','placeholder'=>' المبلغ    '])!!}
+    {!! Form::text("amount",null,['class'=>'form-control','placeholder'=>' المبلغ    '])!!}
 </div>
 <div class="form-group col-md-6 pull-left">
-    <label>نوع البند </label>
-    {!! Form::select("type",['revenue'=>'ايراد','expenses'=>'مصروف'],null,['class'=>'form-control','placeholder'=>' نوع البند  '])!!}
+    <label>اسم البند </label>
+    {!! Form::select("clause_id",$clauses,null,['class'=>'form-control','placeholder'=>' اسم  البند  '])!!}
 </div>
+
+<div class="form-group col-md-6 pull-left">
+    <label>ملاحظات </label>
+    {!! Form::textarea("notes",null,['class'=>'form-control','placeholder'=>' ملاحظات    '])!!}
+</div>
+
 
 
 <div class="text-center col-md-12">
@@ -98,3 +104,56 @@
         <button type="submit" id="register" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i></button>
     </div>
 </div>
+@section('scripts')
+
+    <script>
+
+        $(document).ready(function() {
+
+            $('.companies').show();
+            $('.branches').hide();
+
+            $('.js-example-basic-single').select2();
+        });
+
+    </script>
+
+    <script>
+        function myFunction() {
+
+
+            $(".companies").show();
+            $(".branches").hide();
+
+        }
+
+        function myFunction2() {
+
+            $(".companies").hide();
+            $(".branches").show();
+        }
+
+    </script>
+
+    @if (isset( $transaction))
+        @if( $transaction->model_type=='App\Models\AccountingSystem\AccountingBranch')
+
+            <script>
+                $(document).ready(function() {
+                    $(".companies").hide();
+                    $(".branches").show();
+                });
+
+
+            </script>
+        @elseif( $transaction->model_type=='App\Models\AccountingSystem\AccountingCompany')
+            <script>
+                $(document).ready(function() {
+                    $(".companies").show();
+                    $(".branches").hide();
+                });
+            </script>
+
+        @endif
+    @endif
+@endsection
