@@ -26,7 +26,8 @@
             <label class="display-block text-semibold">المخزن تابع الى</label>
             <label class="radio-inline">
                 <input type="radio" name="radio-inline-left" class="styled" id="company" checked="checked" onclick="myFunction()" disabled>
-                شركة
+                {!! auth('accounting_companies')->user()->name !!}
+
             </label>
 
             <label class="radio-inline">
@@ -40,7 +41,7 @@
         <label class="display-block text-semibold">المخزن تابع الى</label>
         <label class="radio-inline">
             <input type="radio" name="radio-inline-left" class="styled" id="company" checked="checked" onclick="myFunction()">
-            شركة
+            {!! auth('accounting_companies')->user()->name !!}
         </label>
 
         <label class="radio-inline">
@@ -62,15 +63,15 @@
     </div>
 @elseif($store->model_type=='App\Models\AccountingSystem\AccountingCompany')
     <div class="form-group col-md-6 pull-left companies">
-        <label> اسم الشركة التابع لها المخزن: </label>
-        {!! Form::select("company_id",$companies,$store->model_id,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الشركة التابع لها المخزن '])!!}
-    </div>
+        <label> المخزن تابع الى الشركة مباشرا</label>
+        <input name="company_id" type="hidden" value="{{auth('accounting_companies')->user()->id}}">
+          </div>
 @endif
 
     @else
     <div class="form-group col-md-6 pull-left companies">
-        <label> اسم الشركة التابع لها المخزن: </label>
-        {!! Form::select("company_id",$companies,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الشركة التابع لها المخزن '])!!}
+        <label> المخزن تابع الى الشركة مباشرا </label>
+        <input name="company_id" type="hidden" value="{{auth('accounting_companies')->user()->id}}">
     </div>
     <div class="form-group col-md-6 pull-left branches">
     <label> اسم الفرع التابع لها المخزن: </label>

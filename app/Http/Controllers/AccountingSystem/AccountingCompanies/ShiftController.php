@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\AccountingSystem\AccountingCompanies;
 
 use App\Models\AccountingSystem\AccountingBranch;
-use App\Models\AccountingSystem\AccountingBranchFace;
 use App\Models\AccountingSystem\AccountingBranchShift;
 use App\Models\AccountingSystem\AccountingCompany;
 
@@ -11,10 +10,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
 
-class FaceController extends Controller
+class ShiftController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.AccountingCompanies.faces.';
+    private $viewable = 'AccountingSystem.AccountingCompanies.shifts.';
     /**
      * Display a listing of the resource.
      *
@@ -22,8 +21,10 @@ class FaceController extends Controller
      */
     public function index()
     {
-        $faces =AccountingBranchFace::where('company_id',auth('accounting_companies')->user()->id)->get();
-        return $this->toIndex(compact('faces'));
+        $shifts =auth('accounting_companies')->user()->shifts;
+
+        return $this->toIndex(compact('shifts'));
+
     }
 
     /**
@@ -33,6 +34,7 @@ class FaceController extends Controller
      */
     public function create()
     {
+
         $branches=AccountingBranch::where('company_id',auth('accounting_companies')->user()->id)->pluck('name','id')->toArray();
         return $this->toCreate(compact('branches'));
     }
@@ -48,16 +50,17 @@ class FaceController extends Controller
         $rules = [
 
             'name'=>'required|string|max:191',
-
+            'from'=>'required|string',
+            'to'=>'required|string',
             'branch_id'=>'required|numeric|exists:accounting_branches,id',
 
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
 
-        AccountingBranchFace::create($requests);
-        alert()->success('تم اضافة   الوجه  بنجاح !')->autoclose(5000);
-        return redirect()->route('company.faces.index');
+        AccountingBranchShift::create($requests);
+        alert()->success('تم اضافة  الوردية للفرع  بنجاح !')->autoclose(5000);
+        return redirect()->route('company.shifts.index');
     }
 
     /**
@@ -79,10 +82,10 @@ class FaceController extends Controller
      */
     public function edit($id)
     {
-        $face =AccountingBranchFace::findOrFail($id);
-        $branches=AccountingBranch::pluck('name','id')->toArray();
+        $shift =AccountingBranchShift::findOrFail($id);
+        $branches=AccountingBranch::where('company_id',auth('accounting_companies')->user()->id)->pluck('name','id')->toArray();
 
-        return $this->toEdit(compact('face','branches'));
+        return $this->toEdit(compact('shift','branches'));
 
 
     }
@@ -96,19 +99,19 @@ class FaceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $face =AccountingBranchFace::findOrFail($id);
+        $shift =AccountingBranchShift::findOrFail($id);
 
         $rules = [
-
             'name'=>'required|string|max:191',
-
+            'from'=>'required|string',
+            'to'=>'required|string',
             'branch_id'=>'required|numeric|exists:accounting_branches,id',
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
-        $face->update($requests);
-        alert()->success('تم تعديل الوجه  بنجاح !')->autoclose(5000);
-        return redirect()->route('company.faces.index');
+        $shift->update($requests);
+        alert()->success('تم تعديل  الوردية بنجاح !')->autoclose(5000);
+        return redirect()->route('company.shifts.index');
 
 
 
@@ -122,9 +125,9 @@ class FaceController extends Controller
      */
     public function destroy($id)
     {
-        $face =AccountingBranchFace::findOrFail($id);
-        $face->delete();
-        alert()->success('تم حذف  الوجة بنجاح !')->autoclose(5000);
+        $shift =AccountingBranchShift::findOrFail($id);
+        $shift->delete();
+        alert()->success('تم حذف  الوردية بنجاح !')->autoclose(5000);
             return back();
 
 

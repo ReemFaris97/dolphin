@@ -22,7 +22,12 @@ class StoreController extends Controller
      */
     public function index()
     {
-        $stores =AccountingStore::all()->reverse();
+        $branches_id =AccountingBranch::where('company_id',auth('accounting_companies')->user()->id)->pluck('id','id')->toArray();
+        $stores_company=AccountingStore::where('model_type','App\Models\AccountingSystem\AccountingCompany')->where('model_id',auth('accounting_companies')->user()->id)->get();
+        $stores_branch=AccountingStore::where('model_type','App\Models\AccountingSystem\AccountingBranch')->whereIn('model_id',$branches_id)->get();
+
+        $stores=$stores_company->merge($stores_branch);
+       // dd($stores);
         return $this->toIndex(compact('stores'));
     }
 
@@ -34,9 +39,9 @@ class StoreController extends Controller
     public function create()
     {
 
-        $companies=AccountingCompany::pluck('name','id')->toArray();
-        $branches=AccountingBranch::pluck('name','id')->toArray();
-        return $this->toCreate(compact('companies','branches'));
+
+        $branches=AccountingBranch::where('company_id',auth('accounting_companies')->user()->id)->pluck('name','id')->toArray();
+        return $this->toCreate(compact('branches'));
     }
 
     /**
@@ -108,9 +113,9 @@ class StoreController extends Controller
 
 
         $store =AccountingStore::findOrFail($id);
-        $companies=AccountingCompany::pluck('name','id')->toArray();
-        $branches=AccountingBranch::pluck('name','id')->toArray();
-        return $this->toEdit(compact('store','companies','branches'));
+
+        $branches=AccountingBranch::where('company_id',auth('accounting_companies')->user()->id)->pluck('name','id')->toArray();
+        return $this->toEdit(compact('store','branches'));
     }
 
     /**

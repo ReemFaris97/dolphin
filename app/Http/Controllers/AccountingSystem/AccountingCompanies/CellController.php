@@ -59,7 +59,7 @@ class CellController extends Controller
 
         AccountingColumnCell::create($requests);
         alert()->success('تم اضافة  الصف بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.columns.index');
+        return redirect()->route('company.columns.index');
     }
 
     /**
@@ -109,7 +109,7 @@ class CellController extends Controller
         $requests = $request->all();
         $cell->update($requests);
         alert()->success('تم تعديل  الصف بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.cells.index');
+        return redirect()->route('company.cells.index');
 
 
 
@@ -123,8 +123,8 @@ class CellController extends Controller
      */
     public function destroy($id)
     {
-        $shift =AccountingBranchShift::findOrFail($id);
-        $shift->delete();
+        $cell =AccountingColumnCell::findOrFail($id);
+        $cell->delete();
         alert()->success('تم حذف  الوردية بنجاح !')->autoclose(5000);
             return back();
 

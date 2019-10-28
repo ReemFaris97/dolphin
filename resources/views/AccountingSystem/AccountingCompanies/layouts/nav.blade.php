@@ -156,6 +156,24 @@
 
                 </ul>
             </li>
+
+
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-tree5 position-left"></i>
+                    إدارة الايرادات والمصروفات
+                    <span class="caret"></span>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-right">
+
+                    <li><a href="{{route('company.transactions.index')}}"><i class="icon-IE"></i> عرض الايرادات والمصروفات</a></li>
+                    <li><a href="{{route('company.transactions.create')}}"><i class="icon-chrome"></i> اضافة تحويل جديد</a></li>
+
+
+                </ul>
+            </li>
+
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-tree5 position-left"></i>
@@ -234,7 +252,7 @@
                     <li><a href="#" onclick="event.preventDefault();
 
                                                      document.getElementById('logout-form').submit();"><i class="icon-switch2"></i> تسجيل خروج</a>
-                        <form id="logout-form" action="{{ route('company.logout') }}"
+                        <form id="logout-form" action="{{ route('admin.logout') }}"
                               method="POST" style="display: none;">
                             @csrf
                         </form>

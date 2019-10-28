@@ -27,4 +27,28 @@ class AccountingCompany extends Authenticatable
         $this->notify(new CompanyResetPassword($token));
     }
 
+
+
+    public function shifts()
+    {
+
+       // dd("FF");
+        return $this->hasManyThrough(
+            'App\Models\AccountingSystem\AccountingBranchShift',
+            'App\Models\AccountingSystem\AccountingBranch',
+            'company_id',
+            'branch_id'
+
+        );
+    }
+
+
+    public function stores()
+    {
+
+
+        return $this->hasMany();
+    }
+
+
 }

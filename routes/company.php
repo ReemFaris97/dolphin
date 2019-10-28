@@ -21,6 +21,7 @@ Route::middleware('company')->group(function () {
     Route::resource('clauses', 'ClauseController');
 
     Route::resource('products', 'ProductController');
+    Route::resource('transactions', 'TranscationController');
 
     Route::post('/logout', 'CompanyAuth\LoginController@logout')->name('logout');
 
