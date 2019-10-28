@@ -22,31 +22,31 @@
                     <div class="dropdown-content-body">
                         <div class="row all-shortcuts-wrapper">
                             <div class="single-shortcut">
-                                <a href="#">
+                                <a href="{{route('accounting.products.create')}}">
                                 	<img src="{{asset('admin/assets/images/shopping-bag.png')}}" alt="">
                                 	<span>إضافة منتج</span>
                                 </a>
                             </div>
                             <div class="single-shortcut">
-                                <a href="#">
+                                <a href="{{route('accounting.stores.create')}}">
                                 	<img src="{{asset('admin/assets/images/shop.png')}}" alt="">
                                 	<span>إضافة مخزن</span>
                                 </a>
                             </div>
                             <div class="single-shortcut">
-                                <a href="#">
+                                <a href="{{route('accounting.categories.create')}}">
                                 	<img src="{{asset('admin/assets/images/interface.png')}}" alt="">
                                 	<span>إضافة تصنيف</span>
                                 </a>
                             </div>
                             <div class="single-shortcut">
-                                <a href="#">
+                                <a href="{{route('accounting.clauses.create')}}">
                                 	<img src="{{asset('admin/assets/images/terms.png')}}" alt="">
                                 	<span>إضافة بند</span>
                                 </a>
                             </div>
                             <div class="single-shortcut">
-                                <a href="#">
+                                <a href="{{route('accounting.shifts.create')}}">
                                 	<img src="{{asset('admin/assets/images/shift.png')}}" alt="">
                                 	<span>إضافة وردية</span>
                                 </a>

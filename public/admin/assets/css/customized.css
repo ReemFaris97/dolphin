@@ -80,7 +80,10 @@ ul.dropdown-menu.dropdown-menu-right li a:hover {
     box-shadow: 0px 0px 25px rgba(40,40,40,0.15);
 }
 .panel-flat > .panel-heading > .panel-title {
-    color: #fff;
+    color: #333;
+    font-size: 25px;
+    border-right: 4px solid #2ECC71;
+    padding-right: 10px;
 }
 .breadcrumb > .active {
     color: #2ecc71;
@@ -563,6 +566,32 @@ form.form.phone_validate .panel-title > a {
     width: 100%;
     display: inline-block;
     height: 100%;
+}
+.dash-link{
+	color: #333;
+	transition: 0.4s all ease-in-out;
+	font-size: 18px
+}
+.dash-link:hover{
+	color: #2ECC71
+}
+@media(max-width:991px){
+	.single-shortcut a img {
+    width: 90px;
+}
+}
+@media(max-width:767px){
+	.single-shortcut a span {
+    font-size: 14px;
+    color: #fff;
+	}
+	.row.all-shortcuts-wrapper {
+    flex-wrap: wrap;
+}
+	.single-shortcut a img {
+    width: 40px;
+		padding: 5px
+}
 }
 /*27/10/2019*/
 
