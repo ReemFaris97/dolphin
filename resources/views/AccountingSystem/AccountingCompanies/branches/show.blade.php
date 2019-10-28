@@ -45,7 +45,7 @@
 
             </div>
             <h4>عرض الورديات بالفرع</h4>
-            <div class="form-group col-md-6 pull-left">
+            <div class="form-group col-md-12 pull-left">
                 @foreach($shifts  as $shift)
                    <table class="table init-basic">
                        <thead>

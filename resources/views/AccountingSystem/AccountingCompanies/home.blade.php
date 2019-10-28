@@ -6,7 +6,7 @@
 @endsection
 
 @section('content')
-    <div class="panel panel-flat">
+    <div class="panel panel-flat the-home-bggg">
         <div class="panel-heading">
             <h5 class="panel-title">الصفحة الرئيسة</h5>
             <div class="heading-elements">
@@ -19,18 +19,133 @@
         </div>
 
         <div class="panel-body">
-            <h6 class="text-semibold">You are logged in as Company! {{auth('accounting_companies')->user()->name}}</h6>
-
-
             <div class="row">
-                <div class="col-md-6">
+                <div class="wrap all-meteor-wrapper">
+                    <div class="metro-huge productsm">
+                        <a href="{{route('company.products.create')}}" class="bigger-link">
+                            <img src="{{asset('admin/assets/images/metro/shopping-cart.png')}}" alt="">
+                            <span class="label bottom">إضافة منتج </span>
+                        </a>
+                        <div class="hoverable-icons">
+                            <a href="{{route('company.products.index')}}">
+								<span>
+									<i class="icon-eye"></i>
+								</span>
+                            </a>
+                        </div>
+                    </div>
+{{--                    <div class="metro-huge companiesm">--}}
+{{--                        <a href="{{route('company.companies.index')}}" class="bigger-link">--}}
+{{--                            <img src="{{asset('admin/assets/images/metro/factory.png')}}" alt="">--}}
+{{--                            <span class="label bottom">الشركات </span>--}}
+{{--                        </a>--}}
+{{--                        <div class="hoverable-icons">--}}
+{{--                            <a href="{{route('company.companies.create')}}">--}}
+{{--								<span>--}}
+{{--									<i class="icon-add"></i>--}}
+{{--								</span>--}}
+{{--                            </a>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+                    <div class="metro-big branchesm">
+                        <a href="{{route('company.branches.index')}}" class="bigger-link">
+                            <img src="{{asset('admin/assets/images/metro/company.png')}}" alt="">
+                            <span class="label bottom">الفروع </span>
+                        </a>
+                        <div class="hoverable-icons">
+                            <a href="{{route('company.branches.create')}}">
+				<span>
+					<i class="icon-add"></i>
+				</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="metro-big warhousesm">
+                        <a href="{{route('company.stores.create')}}" class="bigger-link">
+                            <img src="{{asset('admin/assets/images/metro/warehouse.png')}}" alt="">
+                            <span class="label bottom">إضافة مخزن </span>
+                        </a>
+                        <div class="hoverable-icons">
+                            <a href="{{route('company.stores.index')}}">
+				<span>
+					<i class="icon-eye"></i>
+				</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="metro-big categoriesm">
+                        <a href="{{route('company.categories.create')}}" class="bigger-link">
+                            <img src="{{asset('admin/assets/images/metro/list.png')}}" alt="">
+                            <span class="label bottom">إضافة تصنيف </span>
+                        </a>
+                        <div class="hoverable-icons">
+                            <a href="{{route('company.categories.index')}}">
+				<span>
+					<i class="icon-eye"></i>
+				</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="metro-small shiftsm">
+                        <a href="{{route('company.shifts.create')}}" class="bigger-link">
+                            <img src="{{asset('admin/assets/images/metro/shift.png')}}" alt="">
+                            <span class="label bottom">إضافة وردية </span>
+                        </a>
+                        <div class="hoverable-icons">
+                            <a href="{{route('company.shifts.index')}}">
+				<span>
+					<i class="icon-eye"></i>
+				</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="metro-small termssm">
+                        <a href="{{route('company.clauses.create')}}" class="bigger-link">
+                            <img src="{{asset('admin/assets/images/metro/list.png')}}" alt="">
+                            <span class="label bottom">إضافة بند </span>
+                        </a>
+                        <div class="hoverable-icons">
+                            <a href="{{route('company.clauses.index')}}">
+				<span>
+					<i class="icon-eye"></i>
+				</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="metro-big statisticssm">
+                        <a href="" class="bigger-link">
+                            <img src="{{asset('admin/assets/images/metro/diagram.png')}}" alt="">
+                            <span class="label bottom">الإحصائيات</span>
+                        </a>
+                        <div class="hoverable-icons">
+                            <a href="#">
+				<span>
+					<i class="icon-eye"></i>
+				</span>
+                            </a>
+                        </div>
+                    </div>
+
+{{--                    <div class="metro-big adminsm">--}}
+{{--                        <a href="{{route('company.users.index')}}" class="bigger-link">--}}
+{{--                            <img src="{{asset('admin/assets/images/metro/employee.png')}}" alt="">--}}
+{{--                            <span class="label bottom">أعضاء الإدارة</span>--}}
+{{--                        </a>--}}
+{{--                        <div class="hoverable-icons">--}}
+{{--                            <a href="{{route('company.users.create')}}">--}}
+{{--				<span>--}}
+{{--					<i class="icon-add"></i>--}}
+{{--				</span>--}}
+{{--                            </a>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+
 
                 </div>
-
-
             </div>
-
-
         </div>
     </div>
 

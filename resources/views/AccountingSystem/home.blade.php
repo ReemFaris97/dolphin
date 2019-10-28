@@ -108,7 +108,7 @@
         	<span class="label bottom">إضافة بند </span>
         </a>
         <div class="hoverable-icons">
-        	<a href="{{route('accounting.clauses.create')}}">
+        	<a href="{{route('accounting.clauses.index')}}">
 				<span>
 					<i class="icon-eye"></i>
 				</span>

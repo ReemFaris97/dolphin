@@ -254,7 +254,7 @@ div[class^="metro"] > a{
 	flex-direction: column;
 	    width: 100%;
     height: 100%;
-	
+
 }
 
 .hoverable-icons {
@@ -295,11 +295,11 @@ div[class^="metro"] > a span.label {
 .metro-big.statisticssm {
     background: #3498db;
 }
-div.metro-big > a span.label , 
+div.metro-big > a span.label ,
 div.metro-small > a span.label{
     margin-top: 0;
 }
-div.metro-big > a img , 
+div.metro-big > a img ,
 div.metro-small > a img {
     width: 50px;
 }
@@ -310,7 +310,7 @@ div.metro-small > a img {
     background: #7f8c8d;
 }
 
-div[class^="metro"] > a:hover + .hoverable-icons , 
+div[class^="metro"] > a:hover + .hoverable-icons ,
 div[class^="metro"]  .hoverable-icons:hover{
     visibility: visible;
     top: 25px;
@@ -342,17 +342,17 @@ div[class^="metro"]  .hoverable-icons:hover{
 	.wrap, .wrap2, .start{
 		margin-top: 40px
 	}
-	.form-group label , 
+	.form-group label ,
 	.media-body label{
     font-size: 14px;
     font-weight: 700;
 }
-		.form-group label:not(.info-label) , 
-	.media-body label:not(.info-label){
+		.form-group label:not(.label-info) ,
+	.media-body label:not(.label-info){
     color: #2ECC71;
 	}
-	.form-group label.info-label) , 
-	.media-body label.info-label){
+	.form-group label.label-info ,
+	.media-body label.label-info{
     color: #fff;
 	}
 	.navbar-inverse .navbar-nav > li > a {
