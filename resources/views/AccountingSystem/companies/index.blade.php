@@ -26,6 +26,7 @@
                     <th> اسم الشركة </th>
                     <th> جوال الشركة </th>
                     <th> ايميل الشركة </th>
+                    <th> فروع الشركة </th>
                     <th> صورة الشركة </th>
                     <th class="text-center">العمليات</th>
                 </tr>
@@ -38,6 +39,7 @@
                         <td>{!! $row->name!!}</td>
                         <td>{!! $row->phone!!}</td>
                         <td>{!! $row->email!!}</td>
+                        <td>{!! $row->branches->count()!!}</td>
                         <td><img src="{!! getimg($row->image)!!}" style="width:100px; height:100px"> </td>
 
 

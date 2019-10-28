@@ -36,7 +36,7 @@
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->name!!}</td>
-                        <td>{!! $row->branch->name!!}</td>
+                        <td><a href="{{route('accounting.branches.show',['id'=>$row->branch_id])}}">{!! $row->branch->name!!}</a></td>
                         <td>{!! $row->from!!}</td>
                         <td>{!! $row->to!!}</td>
 

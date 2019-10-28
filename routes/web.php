@@ -25,7 +25,7 @@ Route::get('/check',function(){
         return redirect('/supplier/home');
     }
     else{
-            return redirect('/admin');
+            return redirect('/accounting/home');
         }
     }else{
         Auth::logout();
