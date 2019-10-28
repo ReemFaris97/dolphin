@@ -151,7 +151,7 @@
 
     </script>
 
-   @if (isset($store))
+   @if (isset( $store))
        @if($store->model_type=='App\Models\AccountingSystem\AccountingBranch')
 
        <script>

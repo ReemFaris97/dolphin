@@ -15,9 +15,9 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::model($clause, ['route' => ['company.transaction.update' ,$clause->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
+            {!!Form::model($clause, ['route' => ['company.transactions.update' ,$clause->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
 
-            @include('AccountingSystem.AccountingCompanies.transaction.form')
+            @include('AccountingSystem.AccountingCompanies.transactions.form')
 
             {!!Form::close() !!}
         </div>

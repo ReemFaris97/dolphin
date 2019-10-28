@@ -9,7 +9,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">إضافة   جديدة</h5>
+            <h5 class="panel-title">إضافة  تحويل جديدة</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -20,8 +20,8 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::open( ['route' => 'company.transaction.store' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
-            @include('AccountingSystem.AccountingCompanies.transaction.form')
+            {!!Form::open( ['route' => 'company.transactions.store' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
+            @include('AccountingSystem.AccountingCompanies.transactions.form')
             {!!Form::close() !!}
         </div>
 

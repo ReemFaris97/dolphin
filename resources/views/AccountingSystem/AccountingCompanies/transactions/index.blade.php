@@ -1,6 +1,6 @@
 @extends('AccountingSystem.AccountingCompanies.layouts.master')
-@section('title','عرض البنود ')
-@section('parent_title','إدارة  البنود')
+@section('title','عرض  التحويلات ')
+@section('parent_title','إدارة  الايرادات والمصروفات')
 @section('styles')
 
 @endsection
@@ -8,7 +8,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">عرض كل بنود </h5>
+            <h5 class="panel-title">عرض كل التحويلات </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -23,40 +23,46 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th> اسم  البند باللغة العربية </th>
-                    <th> اسم  البند باللغة الانجليزية </th>
-                    <th> وصف  البند باللغة العربية </th>
-                    <th> وصف  البند باللغة الانجليزية </th>
-                    <th> المبلغ  </th>
+
+                    <th> مبلغ الايراد </th>
+                    <th> اسم البند</th>
                     <th> نوع البند  </th>
+                    <th> البند تابع الى  </th>
                     <th class="text-center">العمليات</th>
                 </tr>
                 </thead>
                 <tbody>
 
-                @foreach($clauses as $row)
+                @foreach($transactions as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
-                        <td>{!! $row->ar_name!!}</td>
-                        <td>{!! $row->en_name!!}</td>
-                        <td>{!! $row->ar_description!!}</td>
-                        <td>{!! $row->en_description!!}</td>
-                        <td>{!! $row->default!!}</td>
+                        <td>{!! $row->amount!!}</td>
+                        <td>{!! $row->clause->ar_name!!}</td>
 
-                        <td>@if ($row->type=="expenses")
+                        <td>@if ($row->clause->type=="expenses")
 
                                 <label class="label label-info"> مصروف</label>
                                 @else
                                 <label class="label label-success"> ايراد</label>
                         @endif
 
+                        <td>@if ($row->model_type=="App\Models\AccountingSystem\AccountingCompany")
+
+                                <label class="label label-info"> {!! auth('accounting_companies')->user()->name !!}</label>
+                            @else
+                                @php( $branch=App\Models\AccountingSystem\AccountingBranch::find($row->model_id))
+                                <label class="label label-success">{{$branch->name}} </label>
+                            @endif
+
+                        </td>
+
                         </td>
 
                         <td class="text-center">
-                            <a href="{{route('company.clauses.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('company.transactions.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
 
-                            {!!Form::open( ['route' => ['company.clauses.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
+                            {!!Form::open( ['route' => ['company.transactions.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
                             {!!Form::close() !!}
 
                         </td>
