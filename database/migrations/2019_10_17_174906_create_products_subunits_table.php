@@ -23,12 +23,12 @@ class CreateProductsSubunitsTable extends Migration
                 ->on('accounting_products')->onDelete('cascade')
                 ->onUpdate('cascade');
 
-            $table->string('name');
-            $table->string('par_code');
-            $table->string('main_unit_present');
+            $table->string('name')->nullable();
+            $table->string('bar_code')->nullable();
+            $table->string('main_unit_present')->nullable();
 
-            $table->decimal('selling_price');
-            $table->decimal('purchasing_price');
+            $table->decimal('selling_price')->nullable();
+            $table->decimal('purchasing_price')->nullable();
 
 
             $table->timestamps();

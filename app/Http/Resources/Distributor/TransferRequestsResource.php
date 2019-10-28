@@ -19,6 +19,7 @@ class TransferRequestsResource extends ResourceCollection
                 return [
                     'id'=>$q->id,
                     'name'=>$q->sender->name,
+                    ''
                 ];
             }),
             'paginate'=>[

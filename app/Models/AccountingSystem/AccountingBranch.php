@@ -2,17 +2,18 @@
 
 namespace App\Models\AccountingSystem;
 
+use App\Traits\HashPassword;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AccountingBranch extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes,HashPassword;
 
     protected $fillable = ['company_id', 'name', 'phone', 'password', 'email', 'image' ];
 
     public function company()
     {
-        return $this->belongsTo(AccountingBranch::class);
+        return $this->belongsTo(AccountingCompany::class,'company_id');
     }
 }

@@ -25,6 +25,8 @@ Route::middleware('admin')->group(function () {
     Route::get('/company_branch/{id}', 'ProductController@getBranch')->name('company.branch');
 
     Route::get('/branches_store/{id}', 'ProductController@getStores');
+    Route::post('/subunit', 'ProductController@subunit')->name('subunit');
+
 
 });
 

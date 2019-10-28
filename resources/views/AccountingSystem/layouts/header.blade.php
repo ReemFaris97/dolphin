@@ -1,4 +1,5 @@
 <div class="page-header page-header-default">
+<!--
     <div class="page-header-content">
         <div class="page-title">
             <h4>   <a href="{{Session::get('_previous')['url']}}" ><i class="icon-arrow-right6 position-left"></i></a> <span class="text-semibold"> </span> </h4>
@@ -12,6 +13,7 @@
             </div>
         </div>
     </div>
+-->
 
     <div class="breadcrumb-line">
         <ul class="breadcrumb">

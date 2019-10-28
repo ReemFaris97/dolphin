@@ -44,7 +44,6 @@ class CompanyController extends Controller
     public function store(Request $request)
     {
         $rules = [
-
             'name'=>'required|string|max:191',
             'phone'=>'required|numeric|unique:accounting_companies,phone',
             'email'=>'required|string|unique:accounting_companies,email',
@@ -108,12 +107,9 @@ class CompanyController extends Controller
             'image'=>'nullable|sometimes|image'
         ];
         $this->validate($request,$rules);
+        $requests = $request->except('image');
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'photos');
-        }
-
-        if ($request->password != null && !\Hash::check($request->old_password, $company->password)) {
-            return back()->withInput()->withErrors(['old_password' => 'كلمه المرور القديمه غير صحيحه']);
         }
         $company->update($requests);
         alert()->success('تم تعديل  الشركة بنجاح !')->autoclose(5000);

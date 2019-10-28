@@ -20,41 +20,30 @@
 
         <div class="panel-body">
             <div class="form-group col-md-6 pull-left">
-                <label class="label label-info">  اسم الشركة  : </label>
+                <label class="label">  اسم الشركة  : </label>
                 <span>{!! $company->name !!}</span>
             </div>
 
             <div class="form-group col-md-6 pull-left">
-                <label class="label label-info">  جوال الشركة  : </label>
+                <label class="label">  جوال الشركة  : </label>
                 <span>{!! $company->phone !!}</span>
             </div>
             <div class="form-group col-md-6 pull-left">
-                <label class="label label-info">  ايميل الشركة  : </label>
+                <label class="label">  ايميل الشركة  : </label>
                 <span>{!! $company->email !!}</span>
             </div>
             <div class="form-group col-md-6 pull-left">
-                <label class="label label-info">  صورة الشركة  : </label>
+                <label class="label">  صورة الشركة  : </label>
                 <span><img src="{!! getimg($company->image)!!}" style="width:100px; height:100px"> </span>
             </div>
             <h4>عرض الفروع</h4>
-            <div class="form-group col-md-6 pull-left">
-
+            <div class="form-group col-md-12 pull-left">
                     {{--<a href="{{route('accounting.branches.show',$branch->id)}}"> <span>-{!! $branch->name !!}</span></a><br>--}}
-                    <table class="table init-basic">
-                        <thead>
-                        <tr>
-                            <th>اسم الفرع </th>
-                        </tr>
-                        </thead>
-                        <tbody>
+                    <ol>
                         @foreach($branches  as $branch)
-                            <tr>
-                        <td><a href="{{route('accounting.branches.show',$branch->id)}}">{!! $branch->name !!}</a></td>
-                            </tr>
+							<li><a class="dash-link" href="{{route('accounting.branches.show',$branch->id)}}">{!! $branch->name !!}</a></li>
                         @endforeach
-                        </tbody>
-                    </table>
-
+                    </ol>
             </div>
 
         </div>

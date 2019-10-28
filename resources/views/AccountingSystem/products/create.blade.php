@@ -2,7 +2,15 @@
 @section('title','إنشاء منتج  جديد')
 @section('parent_title','إدارة  المنتجات')
 @section('styles')
-
+    <style>
+        .dd{
+            width: 130px;
+            height: 50px;
+            padding: 15px;
+            margin: 15px;
+            background-color: green;
+        }
+    </style>
 @endsection
 
 @section('content')

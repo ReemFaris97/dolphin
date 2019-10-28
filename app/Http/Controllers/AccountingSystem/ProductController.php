@@ -8,6 +8,9 @@ use App\Models\AccountingSystem\AccountingBranchShift;
 use App\Models\AccountingSystem\AccountingCompany;
 
 use App\Models\AccountingSystem\AccountingProduct;
+use App\Models\AccountingSystem\AccountingProductCategory;
+use App\Models\AccountingSystem\AccountingProductComponent;
+use App\Models\AccountingSystem\AccountingProductSubUnit;
 use App\Models\AccountingSystem\AccountingStore;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -37,7 +40,9 @@ class ProductController extends Controller
     {
 
         $branches=AccountingBranch::pluck('name','id')->toArray();
-        return $this->toCreate(compact('branches'));
+        $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
+        $products=AccountingProduct::all();
+        return $this->toCreate(compact('branches','categories','products'));
     }
 
     /**
@@ -50,19 +55,78 @@ class ProductController extends Controller
     {
         $rules = [
 
-            'name'=>'required|string|max:191',
 
-            'branch_id'=>'required|numeric|exists:accounting_branches,id',
+            'description'=>'sometimes|string',
+            'category_id'=>'sometimes|numeric|exists:accounting_product_categories,id',
+
+            'bar_code'=>'required|string',
+            'main_unit'=>'required|string',
+            'selling_price'=>'required',
+            'purchasing_price'=>'required',
+            'min_quantity'=>'required|string|numeric',
+            'max_quantity'=>'required|string|numeric',
+            'expired_at'=>'required|string|date',
+            'size'=>'sometimes|string',
+            'color'=>'sometimes|string',
+            'height'=>'sometimes|string',
+            'width'=>'sometimes|string',
+            'num_days_recession'=>'sometimes|string',
 
         ];
         $this->validate($request,$rules);
-        $requests = $request->all();
+        $inputs = $request->except('name','par_codes','main_unit_present','selling_price','purchasing_price','component_names','qtys','main_units');
 
-        AccountingProduct::create($requests);
+
+       $product= AccountingProduct::create($inputs);
+        ///////  /// / //////subunits Arrays//////////////////////////////
+        $names = collect($request['name']);
+        $par_codes = collect($request['par_codes']);
+        $main_unit_presents= collect($request['main_unit_present']);
+        $selling_price= collect($request['selling_price']);
+        $purchasing_price= collect($request['purchasing_price']);
+        $units = $names->zip($par_codes,$purchasing_price,$selling_price,$main_unit_presents);
+
+        foreach ($units as $unit)
+
+        {
+            AccountingProductSubUnit::create([
+                'name'=>$unit['0'],
+                'bar_code'=> $unit['1'],
+                'main_unit_present'=>$unit['2'],
+                'selling_price'=>$unit['3'],
+                'purchasing_price'=>$unit['4'],
+                'product_id'=>$product->id
+            ]);
+
+        }
+////////////////////components Arrays////////////////////////////////
+        $component_names= collect($request['component_names']);
+        $qtys= collect($request['qtys']);
+        $main_units= collect($request['main_units']);
+        $components= $component_names->zip($qtys,$main_units);
+
+        foreach ($components as $component)
+
+        {
+            AccountingProductComponent::create([
+                'name'=>$component['0'],
+                'quantity'=> $component['1'],
+                'main_unit'=>$component['2'],
+                'product_id'=>$product->id
+            ]);
+
+        }
+
+
         alert()->success('تم اضافة المنتج بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.products.index');
     }
 
+
+    public  function subunit(){
+
+
+    }
     /**
      * Display the specified resource.
      *
@@ -84,8 +148,9 @@ class ProductController extends Controller
     {
         $face =AccountingBranchFace::findOrFail($id);
         $branches=AccountingBranch::pluck('name','id')->toArray();
+        $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
 
-        return $this->toEdit(compact('face','branches'));
+        return $this->toEdit(compact('face','branches','categories'));
 
 
     }

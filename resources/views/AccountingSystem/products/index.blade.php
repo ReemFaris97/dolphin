@@ -24,7 +24,7 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th> اسم الوجه </th>
+                    <th> اسم المنتج </th>
                     <th> الفرع التابعة له </th>
 
                     <th class="text-center">العمليات</th>
@@ -32,11 +32,11 @@
                 </thead>
                 <tbody>
 
-                @foreach($faces as $row)
+                @foreach($products as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->name!!}</td>
-                        <td>{!! $row->branch->name!!}</td>
+                        <td>{!! $row->type!!}</td>
 
 
 

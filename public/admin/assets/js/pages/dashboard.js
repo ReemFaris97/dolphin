@@ -89,7 +89,7 @@ $(function() {
         var formatDate = d3.time.format("%H:%M");
 
         // Colors
-        var colorrange = ['#03A9F4', '#29B6F6', '#4FC3F7', '#81D4FA', '#B3E5FC', '#E1F5FE'];
+        var colorrange = ['#03A9F4', '#29B6F6', '#2ecc71', '#81D4FA', '#B3E5FC', '#E1F5FE'];
 
 
 
