@@ -19,7 +19,6 @@
         </div>
 
         <div class="panel-body">
-            <h6 class="text-semibold">الصفحة الرئيسة</h6>
             <div class="row">
   				<div class="wrap all-meteor-wrapper">
 					<div class="metro-huge productsm">

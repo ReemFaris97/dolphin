@@ -22,6 +22,7 @@
             <li class="active">@yield('title') </li>
         </ul>
 
+<!--
         <ul class="breadcrumb-elements">
             <li><a href="#"><i class="icon-comment-discussion position-left"></i> Support</a></li>
             <li class="dropdown">
@@ -40,5 +41,6 @@
                 </ul>
             </li>
         </ul>
+-->
     </div>
 </div>
