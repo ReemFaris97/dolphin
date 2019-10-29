@@ -41,7 +41,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
         Route::get('/distributors_reasons','SpinnerController@getAllDistributorsRefuseReason');
         Route::get('/readers','SpinnerController@getAllReaders');
         Route::post('/product_by_code','SpinnerController@getProductByBarCode');
-        Route::get('/products/{store_id}','SpinnerController@getProductsByStore');
+        Route::get('/products/{store_id?}','SpinnerController@getProductsByStore');
         Route::get('/stores','SpinnerController@getAllStores');
         Route::get('/stores/{distributor_id}','SpinnerController@getStoresByDistributorId');
         Route::get('/expenditure_clauses','SpinnerController@getExpenditureClauses');
