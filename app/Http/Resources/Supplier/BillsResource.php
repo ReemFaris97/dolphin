@@ -19,7 +19,7 @@ class BillsResource extends ResourceCollection
                 return [
                     'id'=>$q->id,
                     'user_name'=>$q->user->name,
-                    'bill_number'=>$q->name,
+                    'bill_number'=>$q->name == null ? 0: $q->name,
                     'date'=>$q->date,
                     'supplier_id'=>$q->supplier_id,
                     'payment_method'=>$q->payment_method,
@@ -30,10 +30,10 @@ class BillsResource extends ResourceCollection
                         'id'=>$q->offer->id,
                         'products'=>$q->offer->offer_products->transform(function ($qu){
                             return [
-                                'product_id'=>optional($qu->product)->id,
-                                'product_name'=>optional($qu->product)->name,
-                                'quantity'=>$qu->quantity,
-                                'price'=>(float)$qu->price,
+                                'product_id'=>optional($qu->product)->id != null?$qu->product->id:0,
+                                'product_name'=>optional($qu->product)->name != null?$qu->product->name:"",
+                                'quantity'=>optional($qu->quantity) != null? $qu->quantity:0,
+                                'price'=>optional($qu->price) != null?(float)$qu->price:0,
                             ];
                         }),
                         ],

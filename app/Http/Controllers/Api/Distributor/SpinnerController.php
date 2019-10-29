@@ -96,8 +96,15 @@ class SpinnerController extends Controller
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
      */
-    public function getProductsByStore($store_id){
-        $distributors = Product::whereStoreId($store_id)->get();
+    public function getProductsByStore($store_id=null){
+        if (is_null($store_id))
+        {
+            $distributors = Product::get();
+        }
+        else
+        {
+            $distributors = Product::whereStoreId($store_id)->get();
+        }
         return $this->apiResponse(ProductsSpinnerModelResource::collection($distributors));
     }
 

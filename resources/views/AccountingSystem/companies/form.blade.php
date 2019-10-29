@@ -19,7 +19,7 @@
 </div>
 
 <div class="form-group col-md-6 pull-left">
-    <label> إيميل الشركة: </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+    <label> إيميل الشركة: </label><span style="color: #ff0000; margin-right: 15px;"></span>
     {!! Form::email("email",null,['class'=>'form-control','placeholder'=>'  إيميل الشركة'])!!}
 </div>
 

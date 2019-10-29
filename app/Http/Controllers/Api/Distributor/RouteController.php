@@ -139,6 +139,7 @@ class RouteController extends Controller
         if ($validation instanceof Response) {
             return $validation;
         }
+        $request['is_active']=0;
         $client = Client::create($request->all());
 
         $max_trips = RouteTrips::where('route_id',$route_id)->max('arrange');
