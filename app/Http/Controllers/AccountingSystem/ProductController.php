@@ -56,21 +56,21 @@ class ProductController extends Controller
         $rules = [
 
 
-            'description'=>'sometimes|string',
-            'category_id'=>'sometimes|numeric|exists:accounting_product_categories,id',
+            'description'=>'nullable|string',
+            'category_id'=>'nullable|numeric|exists:accounting_product_categories,id',
 
-            'bar_code'=>'required|string',
+            'bar_code'=>'nullable|string',
             'main_unit'=>'required|string',
             'selling_price'=>'required',
             'purchasing_price'=>'required',
             'min_quantity'=>'required|string|numeric',
             'max_quantity'=>'required|string|numeric',
-            'expired_at'=>'required|string|date',
-            'size'=>'sometimes|string',
-            'color'=>'sometimes|string',
-            'height'=>'sometimes|string',
-            'width'=>'sometimes|string',
-            'num_days_recession'=>'sometimes|string',
+            'expired_at'=>'nullable|string|date',
+            'size'=>'nullable|string',
+            'color'=>'nullable|string',
+            'height'=>'nullable|string',
+            'width'=>'nullable|string',
+            'num_days_recession'=>'nullable|string',
 
         ];
         $this->validate($request,$rules);
