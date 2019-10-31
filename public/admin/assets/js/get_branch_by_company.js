@@ -5,12 +5,34 @@ $(function(){
         }
     });
     var branches;
-    $("#company_id").on('change', function() {
+    $(".company_id").on('change', function() {
         var id = $(this).val();
         console.log(id);
+
+
+
+
+
+
+
+        ////////////////////////////////////////////////////////////
         $.ajax({
-            url:"/accounting/company_branch/"+id,
+            url:"/accounting/companes_store/"+id,
             type:"GET",
+
+        }).done(function (data) {
+            // var newOption = new Option(data.text, data.id, false, false);
+            // $('#city_id').append(newOption).trigger('change');
+            $('.store_id').html(data.data);
+        }).fail(function (error) {
+            console.log(error);
+        });
+
+///////////////////////////////
+
+        $.ajax({
+            url: "/accounting/company_branch/" + id,
+            type: "GET",
             // error:function (data) {
             //     // console.log();
             //     if (data.status==401){
@@ -20,28 +42,32 @@ $(function(){
         }).done(function (data) {
             // var newOption = new Option(data.text, data.id, false, false);
             // $('#city_id').append(newOption).trigger('change');
-            branches=[];
-            if(data.length ==0)
+            branches = [];
+            if (data.length == 0)
                 data.push('لا توجد فروع فى هذه الشركة');
             var val;
 
-            $.each(data, function(i,n){
+            $.each(data, function (i, n) {
                 val = i;
 
-                branches.push('<option value='+i+'>'+n+'</option>');
+                branches.push('<option value=' + i + '>' + n + '</option>');
             });
-            if(val==0)
-                $('#branch_id').attr('disabled',true);
+            if (val == 0)
+                $('.branch_id').attr('disabled', true);
             else
 
-                $('#branch_id').attr('disabled',false);
-            $('#branch_id').find('option').remove().end().append(branches ).attr('placeholder',"__('website.e-select-city')");
-            $("#branch_id").selectpicker('refresh');
+                $('.branch_id').attr('disabled', false);
+            $('.branch_id').find('option').remove().end().append(branches).attr('placeholder', "__('website.e-select-city')");
+            $(".branch_id").selectpicker('refresh');
             // console.log(data);
         }).fail(function (error) {
             console.log(error);
         });
-    });
 
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    });
     
 });

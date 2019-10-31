@@ -58,7 +58,6 @@ class ProductController extends Controller
 
             'description'=>'nullable|string',
             'category_id'=>'nullable|numeric|exists:accounting_product_categories,id',
-
             'bar_code'=>'nullable|string',
             'main_unit'=>'required|string',
             'selling_price'=>'required',
@@ -233,6 +232,27 @@ class ProductController extends Controller
         return response()->json([
             'status'=>true,
             'data'=>view('AccountingSystem.products.getAjaxStores')->with('stores',$stores)->render()
+        ]);
+    }
+
+
+    public function getStoresbycompany($id)
+
+    {
+        $stores=[];
+
+//        dd("dsssssssssss");
+
+        $stores_company=AccountingStore::where('model_type','App\Models\AccountingSystem\AccountingCompany')->where('model_id',$id)->get();
+
+
+
+
+
+//        return $stores;
+        return response()->json([
+            'status'=>true,
+            'data'=>view('AccountingSystem.products.getAjaxStores')->with('stores',$stores_company)->render()
         ]);
     }
 }

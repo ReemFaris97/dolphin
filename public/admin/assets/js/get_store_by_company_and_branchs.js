@@ -36,4 +36,32 @@ $(function() {
     });
 
     });
+
+    // $("#company_id").on('change', function() {
+    //     var company_id = $(this).val();
+    //     console.log(company_id);
+    //
+    //
+    //         var id = $(this).val();
+    //         console.log(id);
+    //         $.ajax({
+    //             url:"/accounting/companes_store/"+id,
+    //             type:"GET",
+    //
+    //         }).done(function (data) {
+    //             // var newOption = new Option(data.text, data.id, false, false);
+    //             // $('#city_id').append(newOption).trigger('change');
+    //             $('#store_id').html(data.data);
+    //         }).fail(function (error) {
+    //             console.log(error);
+    //         });
+    //     });
+
+
+
+
+
+
 });
+
+
