@@ -1,6 +1,7 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','عرض التصنيفات')
 @section('parent_title','إدارة تصنيفات الاقسام')
+@section('action', URL::route('accounting.categories.index'))
 @section('styles')
 
 @endsection
@@ -23,6 +24,7 @@
                 <thead>
                 <tr>
                     <th>#</th>
+                    <th>اسم الشركة</th>
                     <th> اسم  التصنيف باللغة العربية </th>
                     <th> اسم  التصنيف باللغة الانجليزية </th>
                     <th> وصف  التصنيف باللغة العربية </th>
@@ -36,6 +38,7 @@
                 @foreach($categories as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
+                        <td>{!! $row->company->name!!}</td>
                         <td>{!! $row->ar_name!!}</td>
                         <td>{!! $row->en_name!!}</td>
                         <td>{!! $row->ar_description!!}</td>
@@ -75,7 +78,7 @@
             console.log(item_id);
             swal({
                 title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذة الشركة ؟",
+                text: "هل تريد حذف هذة التصنيف ؟",
                 icon: "warning",
                 buttons: ["الغاء", "موافق"],
                 dangerMode: true,
@@ -85,7 +88,7 @@
                     document.getElementById('delete-form'+item_id).submit();
                 }
                 else{
-                    swal("تم االإلفاء", "حذف  الشركة  تم الغاؤه",'info',{buttons:'موافق'});
+                    swal("تم االإلفاء", "حذف  التصنيف  تم الغاؤه",'info',{buttons:'موافق'});
                 }
             });
         }

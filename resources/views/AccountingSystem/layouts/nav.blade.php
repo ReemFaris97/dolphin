@@ -144,7 +144,7 @@
                 <ul class="dropdown-menu dropdown-menu-right">
 
                     <li><a href="{{route('accounting.clauses.index')}}"><i class="icon-eye"></i> عرض البنود</a></li>
-                    <li><a href="{{route('accounting.clauses.create')}}"><i class="icon-add-to-list"></i> اضافة بند جديد</a></li>
+                    <li><a href="{{route('accounting.clauses.create')}}"><i class="icon-add-to-list"></i> تسجيل بيان</a></li>
 
 
                 </ul>

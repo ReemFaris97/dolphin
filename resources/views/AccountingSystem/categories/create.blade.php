@@ -2,6 +2,7 @@
 
 @section('title','إنشاء تصنيف  جديد')
 @section('parent_title','إدارة تصنيفات الاقسام')
+@section('action', URL::route('accounting.categories.index'))
 @section('styles')
 
 @endsection

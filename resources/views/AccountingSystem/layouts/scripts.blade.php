@@ -16,3 +16,4 @@
 <script type="text/javascript" src="{{asset('admin/assets/js/core/app.js')}}"></script>
 <script type="text/javascript" src="{{asset('admin/assets/js/pages/navigation_horizontal_mega.js')}}"></script>
 <!-- /theme JS files -->
+

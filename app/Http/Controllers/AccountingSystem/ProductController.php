@@ -145,11 +145,12 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $face =AccountingBranchFace::findOrFail($id);
         $branches=AccountingBranch::pluck('name','id')->toArray();
         $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
+        $product=AccountingProduct::find($id);
 
-        return $this->toEdit(compact('face','branches','categories'));
+
+        return $this->toEdit(compact('face','branches','categories','id'));
 
 
     }

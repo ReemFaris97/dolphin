@@ -107,17 +107,18 @@ class UserController extends Controller
             'image'=>'nullable|sometimes|image'
         ];
         $this->validate($request,$rules);
+        $requests = $request->except('image','password');
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'photos');
         }
-
-        if ($request->password != null && !\Hash::check($request->old_password, $user->password)) {
-            return back()->withInput()->withErrors(['old_password' => 'كلمه المرور القديمه غير صحيحه']);
-        }
         $requests['is_admin']=1;
-        $user->update($requests);
-        alert()->success('تم تعديل  الشركة بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.companies.index');
+        if($request->password != null) {$user->update(['password'=>bcrypt($request->password),]);}
+
+        $user->update(array_except($requests,['password']));
+
+
+        alert()->success('تم تعديل  العضو بنجاح !')->autoclose(5000);
+        return redirect()->route('accounting.users.index');
 
 
 

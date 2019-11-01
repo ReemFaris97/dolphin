@@ -1,6 +1,8 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','إنشاء وجه  جديد')
 @section('parent_title','إدارة  المنتجات')
+@section('action', URL::route('accounting.products.index'))
+
 @section('styles')
 
 @endsection

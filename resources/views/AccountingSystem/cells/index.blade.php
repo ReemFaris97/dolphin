@@ -1,6 +1,7 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','عرض الخلايا')
 @section('parent_title','إدارة  المنتجات')
+@section('action', URL::route('accounting.products.index'))
 
 @section('styles')
 
@@ -71,7 +72,7 @@
             console.log(item_id);
             swal({
                 title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذة الشركة ؟",
+                text: "هل تريد حذف هذة الخلية ؟",
                 icon: "warning",
                 buttons: ["الغاء", "موافق"],
                 dangerMode: true,
@@ -81,7 +82,7 @@
                     document.getElementById('delete-form'+item_id).submit();
                 }
                 else{
-                    swal("تم االإلفاء", "حذف  الشركة  تم الغاؤه",'info',{buttons:'موافق'});
+                    swal("تم االإلفاء", "حذف  الخلية  تم الغاؤه",'info',{buttons:'موافق'});
                 }
             });
         }

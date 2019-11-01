@@ -24,9 +24,10 @@
 </div>
 
 
+
 <div class="form-group col-md-6 pull-left">
-    <label>باسورد </label>
-    <input type="password" class="form-control" name="password" placeholder="اكتب هنا الباسورد" >
+    <label>كلمه المرور</label>
+    {!! Form::password('password',['class'=>'form-control  m-input','placeholder'=>'ادخل كلمه المرور'])!!}
 </div>
 
 @if( isset($user))

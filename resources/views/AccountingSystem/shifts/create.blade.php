@@ -1,5 +1,8 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','إنشاء وردية  جديد')
+@section('parent_title','إدارة  الورديات')
+@section('action', URL::route('accounting.shifts.index'))
+
 
 @section('styles')
 

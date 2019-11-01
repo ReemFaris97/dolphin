@@ -232,7 +232,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
-                <button class="btn btn-primary" id="subunit" onclick="myFun(event)">اضافة الوحده</button>
+                <button class="btn btn-primary" id="subunit" onclick="myFun(event)" data-dismiss="modal" >اضافة الوحده</button>
 
             </div>
         </div>
@@ -286,6 +286,9 @@
         $(document).ready(function () {
             $('.js-example-basic-single').select2();
             $("#components_button").hide();
+
+
+
 
         });
         var bigData = [];
@@ -348,6 +351,7 @@ var bigDataComponent=[];
             });
             console.log(appendComponent);
             $('.add-components').empty().append(appendComponent);
+            $("#name").val(" ");
 
         }
     </script>

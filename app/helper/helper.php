@@ -38,6 +38,23 @@ function branches($company = null)
 }
 
 
+
+function branches_only($company = null)
+{
+
+    if ($company != null) {
+        $branches = App\Models\AccountingSystem\AccountingCompany::find($company)->branches->mapWithKeys(function ($item) {
+            return [$item['id'] => $item['name']];
+        });
+    } else {
+        $branches = \App\Models\AccountingSystem\AccountingBranch::all()->mapWithKeys(function ($item) {
+            return [$item['id'] => $item['name']];
+        });
+    }
+    return $branches;
+}
+
+
 function stores($branch=null){
 
     $stores=[];

@@ -1,5 +1,7 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','تعديل الوردية')
+@section('parent_title','إدارة  الورديات')
+@section('action', URL::route('accounting.shifts.index'))
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">

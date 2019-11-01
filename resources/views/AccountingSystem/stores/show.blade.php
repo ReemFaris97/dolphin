@@ -1,6 +1,9 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض بيانات فرع'.' '. $branch->name )
-@section('parent_title','إدارة فروع الشركات')
+@section('title','عرض بيانات مخزن'.' '. $store->name )
+@section('parent_title','إدارة  المخازن')
+
+@section('action', URL::route('accounting.stores.index'))
+
 @section('styles')
 
 @endsection
@@ -8,7 +11,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">  عرض بيانات الفرع  {!! $branch->name !!}</h5>
+            <h5 class="panel-title">  عرض بيانات المخزن  {!! $store->name !!}</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -19,50 +22,55 @@
         </div>
 
         <div class="panel-body">
+
+            @if ($store->model_type=="App\Models\AccountingSystem\AccountingCompany")
+
+                <div class="form-group col-md-6 pull-left">
+                    <label class="label label-info">  المخزن تابع الى شركة: </label>
+                    <span>
+                        <?php
+                        $company=App\Models\AccountingSystem\AccountingCompany::find($store->model_id)
+                        ?>
+                        {!! $company->name  !!}
+                    </span>
+                </div>
+
+                @elseif ($store->model_type=="App\Models\AccountingSystem\AccountingBranch")
+                <div class="form-group col-md-6 pull-left">
+                    <label class="label label-info">  المخزن تابع الى فرع: </label>
+                    <span>
+                        <?php
+                        $branch=App\Models\AccountingSystem\AccountingBranch::find($store->model_id)
+                        ?>
+                        {!! $branch->name  !!}
+                    </span>
+                </div>
+
+            @endif
+
             <div class="form-group col-md-6 pull-left">
-                <label class="label label-info">  اسم الشركة التابع  لها   الفرع  : </label>
-                <span>{!! $branch->company->name !!}</span>
-            </div>
-            <div class="form-group col-md-6 pull-left">
-                <label class="label label-info">  اسم الفرع  : </label>
-                <span>{!! $branch->name !!}</span>
+                <label class="label label-info">  اسم المخزن باللغة العربيه  : </label>
+                <span>{!! $store->ar_name !!}</span>
             </div>
 
             <div class="form-group col-md-6 pull-left">
-                <label class="label label-info">  جوال الفرع  : </label>
-                <span>{!! $branch->phone !!}</span>
+                <label class="label label-info"> اسم المخزن باللغة الانجليزية   : </label>
+                <span>{!! $store->en_name !!}</span>
             </div>
             <div class="form-group col-md-6 pull-left">
-                <label class="label label-info">  ايميل الفرع  : </label>
-                <span>{!! $branch->email !!}</span>
+                <label class="label label-info">  جوال المخزن : </label>
+                <span>{!! $store->address !!}</span>
             </div>
 
             <div class="form-group col-md-6 pull-left">
-                <label class="label label-info">  صورة الفرع  : </label>
-                <span><img src="{!! getimg($branch->image)!!}" style="width:100px; height:100px"> </span>
+                <label class="label label-info">  صورة المخزن  : </label>
+                <span><img src="{!! getimg($store->image)!!}" style="width:100px; height:100px"> </span>
             </div>
             <div class="clearfix">
 
             </div>
-            <h4>عرض الورديات بالفرع</h4>
-            <div class="form-group col-md-6 pull-left">
-                @foreach($shifts  as $shift)
-                   <table class="table init-basic">
-                       <thead>
-                       <tr>
-                           <th>اسم الوردية </th>
-                           <th>من </th>
-                           <th>الى </th>
-                       </tr>
-                       </thead>
-                       <tbody>
-                       <td>{!! $shift->name !!}</td>
-                       <td>{!! $shift->from !!}</td>
-                       <td>{!! $shift->to !!}</td>
-                       </tbody>
-                   </table>
-                    @endforeach
-            </div>
+
+     
 
         </div>
 

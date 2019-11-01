@@ -7,14 +7,16 @@
     <title>  @yield('title')</title>
 
     <!-- Global stylesheets -->
-@include('AccountingSystem.layouts.styles')
+   @include('AccountingSystem.layouts.styles')
     <!-- /global stylesheets -->
 
     <!-- Core JS files -->
-@include('AccountingSystem.layouts.scripts')
-    @include('AccountingSystem.layouts.data-table')
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     @include('sweet::alert')
+
+    @include('AccountingSystem.layouts.scripts')
+    @include('AccountingSystem.layouts.data-table')
+
     @yield('scripts')
 </head>
 

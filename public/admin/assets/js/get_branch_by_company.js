@@ -48,7 +48,8 @@ $(function(){
                 $('#branch_id').attr('disabled',true);
             else
 
-                $('.branch_id').attr('disabled',false);
+                $('#branch_id').attr('disabled',false);
+            $('.branch_id').attr('data-live-search',true);
             $('#branch_id').find('option').remove().end().append(branches);
             $("#branch_id").selectpicker('refresh');
             // console.log(data);

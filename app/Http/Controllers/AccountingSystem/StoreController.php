@@ -93,9 +93,9 @@ class StoreController extends Controller
      */
     public function show($id)
     {
-        $branch =AccountingBranch::findOrFail($id);
-        $shifts=AccountingBranchShift::where('branch_id',$id)->get();
-        return $this->toShow(compact('branch','shifts'));
+        $store =AccountingStore::findOrFail($id);
+
+        return $this->toShow(compact('store'));
     }
 
     /**

@@ -1,6 +1,7 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','إنشاء فرع  جديد')
 @section('parent_title','إدارة فروع الشركات')
+@section('action', URL::route('accounting.branches.index'))
 @section('styles')
 
 @endsection

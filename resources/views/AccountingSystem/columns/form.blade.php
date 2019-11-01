@@ -25,3 +25,14 @@
         <button type="submit" id="register" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i></button>
     </div>
 </div>
+@section('scripts')
+    <script>
+        $(document).ready(function () {
+            $('.js-example-basic-single').select2();
+
+
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
+
+@endsection
