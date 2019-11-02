@@ -69,13 +69,18 @@ class ProductController extends Controller
             'size'=>'nullable|string',
             'color'=>'nullable|string',
             'height'=>'nullable|string',
+            'image'=>'nullable|sometimes|image',
             'width'=>'nullable|string',
             'num_days_recession'=>'nullable|string',
 
         ];
         $this->validate($request,$rules);
-        $inputs = $request->except('name','bar_code','main_unit_present','component_names','qtys','main_units');
+        $inputs = $request->except('name','image','bar_code','main_unit_present','component_names','qtys','main_units');
         $inputs['name']=$inputs['name_product'];
+
+        if ($request->hasFile('image')) {
+            $inputs['image'] = saveImage($request->image, 'photos');
+        }
        $product= AccountingProduct::create($inputs);
 
        if (isset($inputs['store_id']))
@@ -148,7 +153,7 @@ class ProductController extends Controller
         $product=AccountingProduct::find($id);
         $products=AccountingProduct::all();
         $storeproduct=AccountingProductStore::where('product_id',$id)->first();
-        $store=AccountingStore::find($storeproduct->store_id);
+        $store=AccountingStore::find(optional($storeproduct)->store_id??1);
         return $this->toShow(compact('branches','categories','product','store'));
 
     }
@@ -184,9 +189,24 @@ class ProductController extends Controller
 
         $rules = [
 
-            'name'=>'required|string|max:191',
 
-            'branch_id'=>'required|numeric|exists:accounting_branches,id',
+            'description'=>'nullable|string',
+            'category_id'=>'nullable|numeric|exists:accounting_product_categories,id',
+            'bar_code'=>'nullable|string',
+            'main_unit'=>'required|string',
+            'selling_price'=>'required',
+            'purchasing_price'=>'required',
+            'min_quantity'=>'required|string|numeric',
+            'max_quantity'=>'required|string|numeric',
+            'expired_at'=>'nullable|string|date',
+            'size'=>'nullable|string',
+            'color'=>'nullable|string',
+            'height'=>'nullable|string',
+            'image'=>'nullable|sometimes|image',
+            'width'=>'nullable|string',
+            'num_days_recession'=>'nullable|string',
+
+
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
