@@ -29,7 +29,7 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::open( ['route' => 'accounting.products.store' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
+            {!!Form::open( ['route' => 'accounting.products.store' ,'class'=>'form novalidate','novalidate', 'method' => 'Post','files' => true]) !!}
             @include('AccountingSystem.products.form')
             {!!Form::close() !!}
         </div>

@@ -35,7 +35,7 @@
 
                             <div class="form-group col-md-4 pull-left" id="store_id">
                                 <label> اسم المخزن </label>
-                               {!! $store->ar_name !!}
+                               {!! optional($store)->ar_name??"" !!}
                             </div>
 
                         </div>
