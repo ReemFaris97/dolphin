@@ -1,6 +1,7 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','تعديل الشركة')
 @section('parent_title','إدارة الشركات')
+@section('action', URL::route('accounting.companies.index'))
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">

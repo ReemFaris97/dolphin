@@ -30,10 +30,12 @@
     {!! Form::textarea("en_description",null,['class'=>'form-control','placeholder'=>' وصف البند باللغة الانجليزية    '])!!}
 </div>
 
-<div class="form-group col-md-6 pull-left">
-    <label>المبلغ </label>
-    {!! Form::text("default",null,['class'=>'form-control','placeholder'=>' المبلغ    '])!!}
-</div>
+{{--<div class="form-group col-md-6 pull-left">--}}
+    {{--<label>المبلغ </label>--}}
+    {{--{!! Form::text("default",null,['class'=>'form-control','placeholder'=>' المبلغ    '])!!}--}}
+{{--</div>--}}
+
+
 <div class="form-group col-md-6 pull-left">
     <label>نوع البند </label>
     {!! Form::select("type",['revenue'=>'ايراد','expenses'=>'مصروف'],null,['class'=>'form-control','placeholder'=>' نوع البند  '])!!}

@@ -1,6 +1,7 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','تعديل التصنيف')
 @section('parent_title','إدارة تصنيفات الاقسام')
+@section('action', URL::route('accounting.categories.index'))
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">

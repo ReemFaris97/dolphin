@@ -1,8 +1,7 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','إنشاء وجه  جديد')
-@section('parent_title','إدارة  المنتجات')
-@section('action', URL::route('accounting.products.index'))
 
+@section('title','تسجيل بيان   جديد')
+@section('parent_title','إدارة  البنود')
 @section('styles')
 
 @endsection
@@ -10,7 +9,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">إضافة وجه جديدة</h5>
+            <h5 class="panel-title">إضافة بيان  جديدة</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -21,8 +20,8 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::open( ['route' => 'accounting.faces.store' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
-            @include('AccountingSystem.faces.form')
+            {!!Form::open( ['route' => 'accounting.benods.store' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
+            @include('AccountingSystem.benods.form')
             {!!Form::close() !!}
         </div>
 

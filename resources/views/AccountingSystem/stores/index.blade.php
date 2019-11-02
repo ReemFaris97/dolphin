@@ -1,6 +1,8 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','عرض المخازن')
 @section('parent_title','إدارة  المخازن')
+
+@section('action', URL::route('accounting.stores.index'))
 @section('styles')
 
 @endsection
@@ -46,7 +48,7 @@
 
 
                         <td class="text-center">
-                            {{--<a href="{{route('accounting.stores.show',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>--}}
+                            <a href="{{route('accounting.stores.show',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>
 
                             <a href="{{route('accounting.stores.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>

@@ -27,7 +27,7 @@
                     <th> اسم  البند باللغة الانجليزية </th>
                     <th> وصف  البند باللغة العربية </th>
                     <th> وصف  البند باللغة الانجليزية </th>
-                    <th> المبلغ  </th>
+                    {{--<th> المبلغ  </th>--}}
                     <th> نوع البند  </th>
                     <th class="text-center">العمليات</th>
                 </tr>
@@ -41,7 +41,7 @@
                         <td>{!! $row->en_name!!}</td>
                         <td>{!! $row->ar_description!!}</td>
                         <td>{!! $row->en_description!!}</td>
-                        <td>{!! $row->default!!}</td>
+                        {{--<td>{!! $row->default!!}</td>--}}
 
                         <td>@if ($row->type=="expenses")
 

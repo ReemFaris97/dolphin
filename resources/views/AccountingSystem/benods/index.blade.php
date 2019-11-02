@@ -1,7 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض الفروع')
-@section('parent_title','إدارة فروع الشركات')
-@section('action', URL::route('accounting.branches.index'))
+@section('title','عرض البنود ')
+@section('parent_title','إدارة  البنود')
 @section('styles')
 
 @endsection
@@ -9,7 +8,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">عرض كل الفروع</h5>
+            <h5 class="panel-title">عرض كل بنود </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -24,34 +23,40 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th> اسم الفرع </th>
-                    <th> اسم الشركة التابع  لها  </th>
-                    <th> جوال الفرع </th>
-                    <th> ايميل الفرع </th>
-                    <th> صورة الفرع </th>
+                    <th> اسم  البند باللغة العربية </th>
+                    <th> اسم  البند باللغة الانجليزية </th>
+                    <th> وصف  البند باللغة العربية </th>
+                    <th> وصف  البند باللغة الانجليزية </th>
+                    <th> المبلغ  </th>
+                    <th> نوع البند  </th>
                     <th class="text-center">العمليات</th>
                 </tr>
                 </thead>
                 <tbody>
 
-                @foreach($branches as $row)
+                @foreach($benods as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
-                        <td>{!! $row->name!!}</td>
+                        <td>{!! $row->ar_name!!}</td>
+                        <td>{!! $row->en_name!!}</td>
+                        <td>{!! $row->ar_description!!}</td>
+                        <td>{!! $row->en_description!!}</td>
+                        <td>{!! $row->default!!}</td>
 
-                        <td><a href="{{route('accounting.companies.show',['id'=>$row->company_id])}}">{!! $row->company->name!!}</a></td>
-                        <td>{!! $row->phone!!}</td>
-                        <td>{!! $row->email!!}</td>
-                        <td><img src="{!! getimg($row->image)!!}" style="width:100px; height:100px"> </td>
+                        <td>@if ($row->type=="expenses")
 
+                                <label class="label label-info"> مصروف</label>
+                                @else
+                                <label class="label label-success"> ايراد</label>
+                        @endif
+
+                        </td>
 
                         <td class="text-center">
-                            <a href="{{route('accounting.branches.show',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>
-
-                            <a href="{{route('accounting.branches.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.clauses.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
 
-                            {!!Form::open( ['route' => ['accounting.branches.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
+                            {!!Form::open( ['route' => ['accounting.clauses.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
                             {!!Form::close() !!}
 
                         </td>
@@ -78,7 +83,7 @@
             console.log(item_id);
             swal({
                 title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذا الفرع ؟",
+                text: "هل تريد حذف هذة الشركة ؟",
                 icon: "warning",
                 buttons: ["الغاء", "موافق"],
                 dangerMode: true,
@@ -88,7 +93,7 @@
                     document.getElementById('delete-form'+item_id).submit();
                 }
                 else{
-                    swal("تم االإلفاء", "حذف  الفرع  تم الغاؤه",'info',{buttons:'موافق'});
+                    swal("تم االإلفاء", "حذف  الشركة  تم الغاؤه",'info',{buttons:'موافق'});
                 }
             });
         }

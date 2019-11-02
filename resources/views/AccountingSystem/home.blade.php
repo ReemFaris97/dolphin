@@ -29,7 +29,7 @@
 						<div class="hoverable-icons">
 							<a href="{{route('accounting.products.index')}}">
 								<span>
-									<i class="icon-eye"></i>
+									<i class="icon-add"></i>
 								</span>
 							</a>
 						</div>
@@ -42,7 +42,7 @@
 						<div class="hoverable-icons">
 							<a href="{{route('accounting.companies.create')}}">
 								<span>
-									<i class="icon-add"></i>
+									<i class="icon-eye"></i>
 								</span>
 							</a>
 						</div>
@@ -55,7 +55,7 @@
         <div class="hoverable-icons">
         	<a href="{{route('accounting.branches.create')}}">
 				<span>
-					<i class="icon-add"></i>
+					<i class="icon-eye"></i>
 				</span>
         	</a>
         </div>
@@ -68,7 +68,7 @@
         <div class="hoverable-icons">
         	<a href="{{route('accounting.stores.index')}}">
 				<span>
-					<i class="icon-eye"></i>
+					<i class="icon-add"></i>
 				</span>
         	</a>
         </div>
@@ -82,7 +82,7 @@
         <div class="hoverable-icons">
         	<a href="{{route('accounting.categories.index')}}">
 				<span>
-					<i class="icon-eye"></i>
+					<i class="icon-add"></i>
 				</span>
         	</a>
         </div>
@@ -91,12 +91,12 @@
          <div class="metro-small shiftsm">
         <a href="{{route('accounting.shifts.create')}}" class="bigger-link">
         	<img src="{{asset('admin/assets/images/metro/shift.png')}}" alt="">
-        	<span class="label bottom">إضافة وردية </span>
+        	<span class="label bottom">اضافة وردية </span>
         </a>
         <div class="hoverable-icons">
-        	<a href="{{route('accounting.shifts.index')}}">
+        	<a href="{{route('accounting.shifts.create')}}">
 				<span>
-					<i class="icon-eye"></i>
+					<i class="icon-add"></i>
 				</span>
         	</a>
         </div>
@@ -107,9 +107,9 @@
         	<span class="label bottom">إضافة بند </span>
         </a>
         <div class="hoverable-icons">
-        	<a href="{{route('accounting.clauses.index')}}">
+        	<a href="{{route('accounting.clauses.create')}}">
 				<span>
-					<i class="icon-eye"></i>
+					<i class="icon-add"></i>
 				</span>
         	</a>
         </div>

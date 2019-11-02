@@ -2,17 +2,22 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
+use App\Models\AccountingSystem\AccountingBenod;
+use App\Models\AccountingSystem\AccountingBranch;
+use App\Models\AccountingSystem\AccountingBranchCategory;
+use App\Models\AccountingSystem\AccountingBranchShift;
 use App\Models\AccountingSystem\AccountingCompany;
 
-use App\User;
+use App\Models\AccountingSystem\AccountingMoneyClause;
+use App\Models\AccountingSystem\AccountingProductCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
 
-class UserController extends Controller
+class BenodController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.users.';
+    private $viewable = 'AccountingSystem.benods.';
     /**
      * Display a listing of the resource.
      *
@@ -20,8 +25,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::where('is_admin',1)->get()->reverse();
-        return $this->toIndex(compact('users'));
+
+        return $this->toIndex();
     }
 
     /**
@@ -31,8 +36,10 @@ class UserController extends Controller
      */
     public function create()
     {
+        $clauses=AccountingMoneyClause::pluck('ar_name','id')->toArray();
 
-        return $this->toCreate();
+
+        return $this->toCreate(compact('clauses'));
     }
 
     /**
@@ -45,21 +52,22 @@ class UserController extends Controller
     {
         $rules = [
 
-            'name'=>'required|string|max:191',
-            'phone'=>'required|numeric|unique:users,phone',
-            'email'=>'required|string|unique:users,email',
-            'password'=>'required|string|max:191',
+
+            'desc'=>'nullable|string',
             'image'=>'nullable|sometimes|image',
+
+
+
         ];
         $this->validate($request,$rules);
         $requests = $request->except('image');
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'photos');
         }
-        $requests['is_admin']=1;
-        User::create($requests);
-        alert()->success('تم اضافة المستخدم بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.users.index');
+        AccountingBenod::create($requests);
+        alert()->success('تم تسجيل البيان   بنجاح !')->autoclose(5000);
+        return back();
+
     }
 
     /**
@@ -81,9 +89,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user =User::findOrFail($id);
+        $category =AccountingProductCategory::findOrFail($id);
 
-        return $this->toEdit(compact('user'));
+        return $this->toEdit(compact('category'));
 
 
     }
@@ -97,28 +105,23 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user =User::findOrFail($id);
+        $category =AccountingProductCategory::findOrFail($id);
 
         $rules = [
-
-            'name'=>'required|string|max:191',
-            'phone'=>'required|numeric|unique:users,phone,'.$user->id,
-            'email'=>'required|string|unique:users,email,'.$user->id,
-            'image'=>'nullable|sometimes|image'
+            'ar_name'=>'required|string|max:191',
+            'en_name'=>'nullable|string|max:191',
+            'ar_description'=>'nullable|string',
+            'en_description'=>'nullable|string',
+            'image'=>'nullable|sometimes|image',
         ];
         $this->validate($request,$rules);
-        $requests = $request->except('image','password');
+        $requests = $request->except('image');
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'photos');
         }
-        $requests['is_admin']=1;
-        if($request->password != null) {$user->update(['password'=>bcrypt($request->password),]);}
-
-        $user->update(array_except($requests,['password']));
-
-
-        alert()->success('تم تعديل  العضو بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.users.index');
+        $category->update($requests);
+        alert()->success('تم تعديل  القسم بنجاح !')->autoclose(5000);
+        return redirect()->route('accounting.categories.index');
 
 
 
@@ -132,9 +135,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user =User::findOrFail($id);
-        $user->delete();
-        alert()->success('تم حذف  العضو بنجاح !')->autoclose(5000);
+        $category =AccountingProductCategory::findOrFail($id);
+        $category->delete();
+        alert()->success('تم حذف  التصنيف بنجاح !')->autoclose(5000);
             return back();
 
 
