@@ -75,8 +75,10 @@ class ProductController extends Controller
 
         ];
         $this->validate($request,$rules);
-        $inputs = $request->except('name','image','bar_code','main_unit_present','component_names','qtys','main_units');
+        $inputs = $request->except('name','image','bar_code','main_unit_present','purchasing_price','selling_price','component_names','qtys','main_units');
         $inputs['name']=$inputs['name_product'];
+        $inputs['selling_price']=$inputs['product_selling_price'];
+        $inputs['purchasing_price']=$inputs['product_purchasing_price'];
 
         if ($request->hasFile('image')) {
             $inputs['image'] = saveImage($request->image, 'photos');
