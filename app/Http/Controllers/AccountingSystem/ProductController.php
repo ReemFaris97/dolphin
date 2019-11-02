@@ -74,14 +74,17 @@ class ProductController extends Controller
 
         ];
         $this->validate($request,$rules);
-        $inputs = $request->except('name','par_codes','main_unit_present','selling_price','purchasing_price','component_names','qtys','main_units');
-//dd($inputs);
+        $inputs = $request->except('name','bar_code','main_unit_present','component_names','qtys','main_units');
         $inputs['name']=$inputs['name_product'];
        $product= AccountingProduct::create($inputs);
-       AccountingProductStore::create([
-        'store_id'=>$inputs['store_id'] ,
-         'product_id'=>$product->id,
-       ]);
+
+       if (isset($inputs['store_id']))
+       {
+           AccountingProductStore::create([
+               'store_id'=>$inputs['store_id'] ,
+               'product_id'=>$product->id,
+           ]);
+       }
         $product->name=$inputs['name_product'];
         ///////  /// / //////subunits Arrays//////////////////////////////
         $names = collect($request['name']);
