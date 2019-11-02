@@ -248,11 +248,6 @@
 	</div>
 </div>
 <!-- end model1-->
-
-
-
-
-
 <!-- Modal2 -->
 <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
@@ -297,11 +292,8 @@
 		$("#components_button").hide();
 		$('#exampleModal').on('hidden.bs.modal', function(e) {
 			$(this).removeData();
-
 			$('#exampleModal input').val('');
-
 		});
-
 	});
 	var bigData = [];
 	var bigDataComponent = [];
@@ -315,6 +307,7 @@
 		data.selling_price = $('#selling_price').val();
 		data.purchasing_price = $('#purchasing_price').val();
 		if (data.name !== '' && data.main_unit_present !== '' && data.selling_price !== '' && data.purchasing_price !== '') {
+			$("tr.editted-row").remove();
 			swal({
 				title: "تم إضافة الوحدة الفرعية بنجاح",
 				text: "",
@@ -323,6 +316,7 @@
 				dangerMode: true,
 			})
 			bigData.push(data);
+
 			var appendProducts = bigData.map(function(product) {
 				return (`
                 <tr class="single-product">
@@ -332,6 +326,9 @@
                     <td class="prod-spri">${product.selling_price}</td>
                     <td class="prod-ppri">${product.purchasing_price}</td>
    					<td>
+						<a href="#" data-toggle="modal" class="edit-this-row" data-target="#exampleModal" data-original-title="تعديل">
+							<i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i>
+						</a>
 						<a href="#" data-toggle="tooltip" class="delete-this-row" data-original-title="حذف"> 
 							<i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i>
 						</a>
@@ -344,10 +341,10 @@
                 </tr>
                 `);
 			});
-			console.log(appendProducts);
 			$('.add-products').empty().append(appendProducts);
 			$('.delete-this-row').click(function(e) {
 				var $this = $(this);
+				var row_index = $(this).parents('tr').index();
 				e.preventDefault();
 				swal({
 					title: "هل أنت متأكد ",
@@ -359,6 +356,7 @@
 				}).then(function(isConfirm) {
 					if (isConfirm) {
 						$this.parents('tr').remove();
+						bigData.splice(row_index, 1);
 					} else {
 						swal("تم االإلفاء", "حذف  الوحدة الفرعية  تم الغاؤه", 'info', {
 							buttons: 'موافق'
@@ -366,26 +364,19 @@
 					}
 				});
 			});
-			//			$('.edit-this-row').click(function(e){
-			//				var $this = $(this);
-			//				e.preventDefault();
-			//				$('#exampleModal #name').val($this.parents('tr').find('.prod-nam').html());
-			//				$('#exampleModal #par_code').val($this.parents('tr').find('.prod-bar').html());
-			//				$('#exampleModal #main_unit_present').val($this.parents('tr').find('.prod-pre').html());
-			//				$('#exampleModal #selling_price').val($this.parents('tr').find('.prod-spri').html());
-			//				$('#exampleModal #purchasing_price').val($this.parents('tr').find('.prod-ppri').html());
-			//				$this.parents('tr').remove();
-			//			});
-
-
-			//  alert("sdasd");
+			$('.edit-this-row').click(function(e) {
+				var $this = $(this);
+				e.preventDefault();
+				$this.parents('tr').addClass('editted-row');
+				$('#exampleModal #name').val($this.parents('tr').find('.prod-nam').html());
+				$('#exampleModal #par_code').val($this.parents('tr').find('.prod-bar').html());
+				$('#exampleModal #main_unit_present').val($this.parents('tr').find('.prod-pre').html());
+				$('#exampleModal #selling_price').val($this.parents('tr').find('.prod-spri').html());
+				$('#exampleModal #purchasing_price').val($this.parents('tr').find('.prod-ppri').html());
+				var row_index_edit = $(this).parents('tr').index();
+				bigData.splice(row_index_edit, 1);
+			});
 			document.getElementById("name").val = " ";
-
-			//            $('#exampleModal').modal({
-			//                remote: url,
-			//                refresh: true
-			//            });
-
 			$('[data-dismiss=modal]').on('click', function(e) {
 				var $t = $(this),
 					target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
@@ -422,7 +413,6 @@
                     <td>${component.component_name}</td>
                     <td>${component.component_quantity}</td>
                     <td>${component.main_unit}</td>
-
             <input type="hidden" name="component_names[]" value="${component.component_name}" >
             <input type="hidden" name="qtys[]" value="${component.component_quantity}" >
             <input type="hidden"name="main_units[]" value="${component.main_unit}" >
@@ -430,10 +420,8 @@
                 </tr>
                 `);
 		});
-		console.log(appendComponent);
 		$('.add-components').empty().append(appendComponent);
 		$("#name").val(" ");
-
 	}
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
@@ -441,6 +429,4 @@
 <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
 <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
 <script src="{{asset('admin/assets/js/creation.js')}}"></script>
-
-
 @endsection
