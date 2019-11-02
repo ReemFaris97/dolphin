@@ -167,15 +167,15 @@
 </div>
 <!-- /collapsible with different panel styling -->
 <!-- unit table-->
-<table id="productsTable" class="table table-striped table-bordered">
+<table id="productsTable" class="table datatable-button-init-basic all">
     <thead>
     <tr>
         <th> اسم الوحده</th>
         <th>الباركود</th>
-
         <th>المقدارمن الوحدة الاساسية</th>
         <th>سعر البيع</th>
         <th>سعر الشراء</th>
+        <th>العمليات</th>
     </tr>
     </thead>
     <tbody class="add-products">
@@ -223,15 +223,20 @@
 
 
                 <label> اسم الوحده</label>
-                <input type="text" class="form-control" id="name">
+                <span class="required--in">*</span>
+                <input type="text" class="form-control the-unit-name" id="name" required>
+                
                 <label> باركود</label>
-                <input type="text" class="form-control" id="par_code">
+                <input type="text" class="form-control the-unit-bar" id="par_code" required>
                 <label>مقدارها بالنسبة للوحده الاساسية</label>
-                <input type="text" class="form-control" id="main_unit_present">
+                <span class="required--in">*</span>
+                <input type="text" class="form-control the-unit-pre" id="main_unit_present" required>
                 <label> سعرالبيع</label>
-                <input type="text" class="form-control" id="selling_price">
+                <span class="required--in">*</span>
+                <input type="text" class="form-control the-unit-spri" id="selling_price" required>
                 <label>سعر الشراء</label>
-                <input type="text" class="form-control" id="purchasing_price">
+                <span class="required--in">*</span>
+                <input type="text" class="form-control the-unit-ppri" id="purchasing_price" required>
 
 
             </div>
@@ -244,6 +249,8 @@
     </div>
 </div>
 <!-- end model1-->
+
+
 
 
 
@@ -294,6 +301,9 @@
             $('#exampleModal').on('hidden.bs.modal', function(e)
             {
                 $(this).removeData();
+				
+				$('#exampleModal input').val('');
+				
             }) ;
 
         });
@@ -307,18 +317,30 @@ var bigDataComponent=[];
             data.main_unit_present = $('#main_unit_present').val();
             data.selling_price = $('#selling_price').val();
             data.purchasing_price = $('#purchasing_price').val();
+			if (data.name !== '' && data.main_unit_present !== '' && data.selling_price !== '' && data.purchasing_price !== ''){
+				
+				swal({
+					title: "تم إضافة الوحدة الفرعية بنجاح",
+					text: "",
+					icon: "success",
+					buttons: ["موافق"],
+					dangerMode: true,
+
+				})
             bigData.push(data);
             var appendProducts = bigData.map(function (product) {
                 return (`
                 <tr class="single-product">
-                    <td>${product.name}</td>
-                    <td>${product.par_code}</td>
-                    <td>${product.main_unit_present}</td>
-                    <td>${product.selling_price}</td>
-                    <td>${product.purchasing_price}</td>
-   <td>
-
-                        </td>
+                    <td class="prod-nam">${product.name}</td>
+                    <td class="prod-bar">${product.par_code}</td>
+                    <td class="prod-pre">${product.main_unit_present}</td>
+                    <td class="prod-spri">${product.selling_price}</td>
+                    <td class="prod-ppri">${product.purchasing_price}</td>
+   					<td>
+						<a href="#" data-toggle="tooltip" class="delete-this-row" data-original-title="حذف"> 
+							<i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i>
+						</a>
+                    </td>
             <input type="hidden" name="name[]" value="${product.name}" >
             <input type="hidden" name="par_codes[]" value="${product.par_code}" >
             <input type="hidden"name="main_unit_present[]" value="${product.main_unit_present}" >
@@ -329,13 +351,44 @@ var bigDataComponent=[];
             });
             console.log(appendProducts);
             $('.add-products').empty().append(appendProducts);
+			$('.delete-this-row').click(function(e){
+				var $this = $(this);
+				e.preventDefault();
+				swal({
+					title: "هل أنت متأكد ",
+					text: "هل تريد حذف هذة الوحدة الفرعية ؟",
+					icon: "warning",
+					buttons: ["الغاء", "موافق"],
+					dangerMode: true,
+
+				}).then(function(isConfirm){
+					if(isConfirm){
+						$this.parents('tr').remove();
+					}
+					else{
+						swal("تم االإلفاء", "حذف  الوحدة الفرعية  تم الغاؤه",'info',{buttons:'موافق'});
+					}
+				});
+			});
+//			$('.edit-this-row').click(function(e){
+//				var $this = $(this);
+//				e.preventDefault();
+//				$('#exampleModal #name').val($this.parents('tr').find('.prod-nam').html());
+//				$('#exampleModal #par_code').val($this.parents('tr').find('.prod-bar').html());
+//				$('#exampleModal #main_unit_present').val($this.parents('tr').find('.prod-pre').html());
+//				$('#exampleModal #selling_price').val($this.parents('tr').find('.prod-spri').html());
+//				$('#exampleModal #purchasing_price').val($this.parents('tr').find('.prod-ppri').html());
+//				$this.parents('tr').remove();
+//			});
+		
+			
           //  alert("sdasd");
             document.getElementById("name").val=" ";
 
-            $('#exampleModal').modal({
-                remote: url,
-                refresh: true
-            });
+//            $('#exampleModal').modal({
+//                remote: url,
+//                refresh: true
+//            });
 
             $('[data-dismiss=modal]').on('click', function (e) {
                 var $t = $(this),
@@ -349,7 +402,17 @@ var bigDataComponent=[];
                     .prop("checked", "")
                     .end();
             })
+		}
+				else{
+				swal({
+					title: "من فضلك قم بملئ كل البيانات المميزة بالعلامة الحمراء",
+					text: "",
+					icon: "warning",
+					buttons: ["موافق"],
+					dangerMode: true,
 
+				})
+				}
         }
 
 
