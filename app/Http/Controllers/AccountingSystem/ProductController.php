@@ -172,8 +172,9 @@ class ProductController extends Controller
         $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
         $product=AccountingProduct::find($id);
         $products=AccountingProduct::all();
+        $is_edit = 1;
 
-        return $this->toEdit(compact('face','branches','categories','id','product','products'));
+        return $this->toEdit(compact('face','branches','categories','id','product','products','is_edit'));
 
 
     }
@@ -196,8 +197,8 @@ class ProductController extends Controller
             'category_id'=>'nullable|numeric|exists:accounting_product_categories,id',
             'bar_code'=>'nullable|string',
             'main_unit'=>'required|string',
-            'selling_price'=>'required',
-            'purchasing_price'=>'required',
+            'selling_price'=>'sometimes',
+            'purchasing_price'=>'sometimes',
             'min_quantity'=>'required|string|numeric',
             'max_quantity'=>'required|string|numeric',
             'expired_at'=>'nullable|string|date',
@@ -210,9 +211,71 @@ class ProductController extends Controller
 
 
         ];
+
+
         $this->validate($request,$rules);
         $requests = $request->all();
-        $product->update($requests);
+
+        $inputs = $request->except('name','image','bar_code','main_unit_present','purchasing_price','selling_price','component_names','qtys','main_units');
+        $inputs['name']=$inputs['name_product'];
+        $inputs['selling_price']=$inputs['product_selling_price'];
+        $inputs['purchasing_price']=$inputs['product_purchasing_price'];
+
+        if ($request->hasFile('image')) {
+            $inputs['image'] = saveImage($request->image, 'photos');
+        }
+        $product->update($inputs);
+
+        if (isset($inputs['store_id']))
+        {
+            AccountingProductStore::create([
+                'store_id'=>$inputs['store_id'] ,
+                'product_id'=>$product->id,
+            ]);
+        }
+        $product->name=$inputs['name_product'];
+        ///////  /// / //////subunits Arrays//////////////////////////////
+        $names = collect($request['name']);
+        $par_codes = collect($request['par_codes']);
+        $main_unit_presents= collect($request['main_unit_present']);
+        $selling_price= collect($request['selling_price']);
+        $purchasing_price= collect($request['purchasing_price']);
+        $units = $names->zip($par_codes,$purchasing_price,$selling_price,$main_unit_presents);
+
+        foreach ($units as $unit)
+
+        {
+            AccountingProductSubUnit::create([
+                'name'=>$unit['0'],
+                'bar_code'=> $unit['1'],
+                'main_unit_present'=>$unit['2'],
+                'selling_price'=>$unit['3'],
+                'purchasing_price'=>$unit['4'],
+                'product_id'=>$product->id
+            ]);
+
+        }
+////////////////////components Arrays////////////////////////////////
+        $component_names= collect($request['component_names']);
+        $qtys= collect($request['qtys']);
+        $main_units= collect($request['main_units']);
+        $components= $component_names->zip($qtys,$main_units);
+
+        foreach ($components as $component)
+
+        {
+            AccountingProductComponent::create([
+                'name'=>$component['0'],
+                'quantity'=> $component['1'],
+                'main_unit'=>$component['2'],
+                'product_id'=>$product->id
+            ]);
+
+        }
+
+
+
+
         alert()->success('تم تعديل المنتج  بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.products.index');
 
