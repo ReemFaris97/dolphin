@@ -51,7 +51,7 @@
 			<div class="panel-body">
 				<div class="form-group col-md-6 pull-left">
 					<label>اسم المنتج </label>
-					{!! Form::text("name_product",null,['class'=>'form-control','placeholder'=>' اسم المنتج '])!!}
+					{!! Form::text("name_product",isset($is_edit)?$product->name:null,['class'=>'form-control','placeholder'=>' اسم المنتج '])!!}
 				</div>
 				<div class="form-group col-md-6 pull-left">
 					<label> اسم التصنيف </label>
@@ -115,11 +115,11 @@
 				</div>
 				<div class="form-group col-md-6 pull-left">
 					<label>سعر البيع </label>
-					{!! Form::text("product_selling_price",null,['class'=>'form-control','placeholder'=>' سعر البيع '])!!}
+					{!! Form::text("product_selling_price",isset($is_edit)?$product->selling_price:null,['class'=>'form-control','placeholder'=>' سعر البيع '])!!}
 				</div>
 				<div class="form-group col-md-6 pull-left">
 					<label>سعر الشراء </label>
-					{!! Form::text("product_purchasing_price",null,['class'=>'form-control','placeholder'=>'سعر الشراء '])!!}
+					{!! Form::text("product_purchasing_price",isset($is_edit)?$product->purchasing_price:null,['class'=>'form-control','placeholder'=>'سعر الشراء '])!!}
 				</div>
 				<div class="form-group col-md-6 pull-left">
 					<label>الحد الادنى من الكمية </label>
