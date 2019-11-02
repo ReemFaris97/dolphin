@@ -78,6 +78,17 @@
 					{!! Form::textarea("description",null,['class'=>'form-control','placeholder'=>' وصف المنتج '])!!}
 				</div>
 
+				@if( isset($product))
+
+					<div class="form-group col-md-6 pull-left">
+						<label>صوره المنتج الحالية : </label>
+						<img src="{{getimg($product->image)}}" style="width:100px; height:100px">
+					</div>
+				@endif
+				<div class="form-group col-md-6 pull-left">
+					<label>صوره المنتج:  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+					{!! Form::file("image",null,['class'=>'form-control'])!!}
+				</div>
 
 			</div>
 		</div>
