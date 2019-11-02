@@ -17,7 +17,7 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::model($product, ['route' => ['accounting.products.update' ,$product->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
+            {!!Form::model($product, ['route' => ['accounting.products.update' ,$product->id] ,'class'=>'novalidate','novalidate','method' => 'PATCH','files'=>true]) !!}
 
             @include('AccountingSystem.products.form')
 
