@@ -22,6 +22,8 @@ function companies()
     return $companies;
 }
 
+
+
 function branches($company = null)
 {
 
@@ -59,6 +61,20 @@ function stores($branch=null){
 
     $stores=[];
     return $stores;
+}
+
+
+function cells($branch=null){
+    if ($branch != null) {
+
+        $cells=$branch->cells()->mapWithKeys(function ($item) {
+            return [$item['id'] => $item['name']];
+        });
+    }else{
+        $cells=[];
+    }
+
+    return $cells;
 }
 
 

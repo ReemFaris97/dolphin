@@ -32,6 +32,11 @@
                     {!! Form::select("store_id",stores(),null,['class'=>'form-control js-example-basic-single store_id','id'=>'store_id','placeholder'=>' اختر اسم المخزن التابع له المنتج '])!!}
                 </div>
 
+                <div class="form-group col-md-4 pull-left">
+                    <label> اسم الرف   </label>
+                    {!! Form::select("cell_id",cells(),null,['class'=>'form-control selectpicker cell_id','id'=>'cell_id','placeholder'=>' اختر  رف  للمنتج '])!!}
+                </div>
+
             </div>
         </div>
     </div>
@@ -46,7 +51,7 @@
             <div class="panel-body">
                 <div class="form-group col-md-6 pull-left">
                     <label>اسم المنتج </label>
-                    {!! Form::text("name",null,['class'=>'form-control','placeholder'=>'  اسم المنتج  '])!!}
+                    {!! Form::text("name_product",null,['class'=>'form-control','placeholder'=>'  اسم المنتج  '])!!}
                 </div>
                 <div class="form-group col-md-6 pull-left">
                     <label> اسم التصنيف </label>
@@ -273,7 +278,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
-                <button class="btn btn-primary" id="subunit" onclick="myFun2(event)">اضافة المكونات للمنتج</button>
+                <button class="btn btn-primary" id="subunit"  data-dismiss="modal" onclick="myFun2(event)">اضافة المكونات للمنتج</button>
 
             </div>
         </div>
@@ -286,9 +291,10 @@
         $(document).ready(function () {
             $('.js-example-basic-single').select2();
             $("#components_button").hide();
-
-
-
+            $('#exampleModal').on('hidden.bs.modal', function(e)
+            {
+                $(this).removeData();
+            }) ;
 
         });
         var bigData = [];
@@ -310,6 +316,9 @@ var bigDataComponent=[];
                     <td>${product.main_unit_present}</td>
                     <td>${product.selling_price}</td>
                     <td>${product.purchasing_price}</td>
+   <td>
+
+                        </td>
             <input type="hidden" name="name[]" value="${product.name}" >
             <input type="hidden" name="par_codes[]" value="${product.par_code}" >
             <input type="hidden"name="main_unit_present[]" value="${product.main_unit_present}" >
@@ -320,6 +329,13 @@ var bigDataComponent=[];
             });
             console.log(appendProducts);
             $('.add-products').empty().append(appendProducts);
+          //  alert("sdasd");
+            document.getElementById("name").val=" ";
+
+            $('#exampleModal').modal({
+                remote: url,
+                refresh: true
+            });
 
         }
 
@@ -359,6 +375,7 @@ var bigDataComponent=[];
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
+    <script src="{{asset('admin/assets/js/get_cell_by_branch.js')}}"></script>
 
     <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
     <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>

@@ -20,11 +20,14 @@ Route::middleware('admin')->group(function () {
     Route::resource('cells', 'CellController');
 
     Route::resource('clauses', 'ClauseController');
+    Route::resource('benods', 'BenodController');
 
     Route::resource('products', 'ProductController');
     Route::get('/company_branch/{id}', 'ProductController@getBranch')->name('company.branch');
 
     Route::get('/branches_store/{id}', 'ProductController@getStores');
+
+    Route::get('/cells_branch/{id}', 'ProductController@getcells')->name('cells_branch');
 
     Route::get('/companes_store/{id}', 'ProductController@getStoresbycompany');
 
