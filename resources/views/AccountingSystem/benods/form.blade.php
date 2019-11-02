@@ -15,7 +15,7 @@
 </div>
 <div class="form-group col-md-6 pull-left">
     <label>اسم البند  </label>
-    {!! Form::select("clause_id",$clauses,null,['class'=>'form-control','placeholder'=>' اختر اسم البند     '])!!}
+    {!! Form::select("clause_id",$clauses,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم البند     '])!!}
 </div>
 
 
@@ -61,3 +61,14 @@
         <button type="submit" id="register" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i></button>
     </div>
 </div>
+
+@section('scripts')
+
+    <script>
+
+        $(document).ready(function() {
+            $('.js-example-basic-single').select2();
+        });
+
+    </script>
+@endsection
