@@ -115,11 +115,11 @@
 				</div>
 				<div class="form-group col-md-6 pull-left">
 					<label>سعر البيع </label>
-					{!! Form::text("selling_price",null,['class'=>'form-control','placeholder'=>' سعر البيع '])!!}
+					{!! Form::text("product_selling_price",null,['class'=>'form-control','placeholder'=>' سعر البيع '])!!}
 				</div>
 				<div class="form-group col-md-6 pull-left">
 					<label>سعر الشراء </label>
-					{!! Form::text("purchasing_price",null,['class'=>'form-control','placeholder'=>'سعر الشراء '])!!}
+					{!! Form::text("product_purchasing_price",null,['class'=>'form-control','placeholder'=>'سعر الشراء '])!!}
 				</div>
 				<div class="form-group col-md-6 pull-left">
 					<label>الحد الادنى من الكمية </label>
