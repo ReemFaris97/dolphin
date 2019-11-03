@@ -8,8 +8,7 @@ class AccountingColumnCell extends Model
 {
     protected $fillable = ['column_id','name','empty'];
 
-    public function column()
-    {
-        return $this->belongsTo(AccountingFaceColumn::class,'column_id');
-    }
+
+
+
 }

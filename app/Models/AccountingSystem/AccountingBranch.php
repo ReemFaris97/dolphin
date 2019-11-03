@@ -22,4 +22,11 @@ class AccountingBranch extends Model
     public function cells() {
         return $this->hasManyDeep(AccountingColumnCell::class, [AccountingBranchFace::class, AccountingFaceColumn::class]);
     }
+
+    public function faces()
+    {
+
+        return $this->hasMany(AccountingBranchFace::class,'branch_id');
+    }
+
 }

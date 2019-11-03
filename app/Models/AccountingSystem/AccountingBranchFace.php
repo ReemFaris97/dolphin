@@ -12,4 +12,10 @@ class AccountingBranchFace extends Model
     {
         return $this->belongsTo(AccountingBranch::class,'branch_id');
     }
+
+
+    public function columns()
+    {
+        return $this->hasMany(AccountingFaceColumn::class,'face_id');
+    }
 }

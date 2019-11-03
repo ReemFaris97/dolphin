@@ -26,8 +26,11 @@ Route::middleware('admin')->group(function () {
     Route::get('/company_branch/{id}', 'ProductController@getBranch')->name('company.branch');
 
     Route::get('/branches_store/{id}', 'ProductController@getStores');
+    Route::get('/columns_face/{id}', 'ProductController@getcolums')->name('columns_face');
+    Route::get('/cells_column/{id}', 'ProductController@getcells')->name('cells_column');
 
-    Route::get('/cells_branch/{id}', 'ProductController@getcells')->name('cells_branch');
+    Route::get('/faces_branch/{id}', 'ProductController@getfaces')->name('faces_branch');
+    Route::get('/type_benods/{id}', 'BenodController@getbenods')->name('type_benods');
 
     Route::get('/companes_store/{id}', 'ProductController@getStoresbycompany');
 

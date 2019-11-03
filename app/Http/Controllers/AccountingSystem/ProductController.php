@@ -42,7 +42,7 @@ class ProductController extends Controller
 
         $branches=AccountingBranch::pluck('name','id')->toArray();
         $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
-        $products=AccountingProduct::all();
+        $products=AccountingProduct::pluck('name','id')->toArray();
         return $this->toCreate(compact('branches','categories','products'));
     }
 
@@ -61,8 +61,8 @@ class ProductController extends Controller
             'category_id'=>'nullable|numeric|exists:accounting_product_categories,id',
             'bar_code'=>'nullable|string',
             'main_unit'=>'required|string',
-            'selling_price'=>'required',
-            'purchasing_price'=>'required',
+            'product_selling_price'=>'required',
+            'product_purchasing_price'=>'required',
             'min_quantity'=>'required|string|numeric',
             'max_quantity'=>'required|string|numeric',
             'expired_at'=>'nullable|string|date',
@@ -305,12 +305,30 @@ class ProductController extends Controller
         return branches($id);
     }
 
+    public function getfaces($id)
+    {
+
+
+        return faces($id);
+    }
+
+
+
+    public function getcolums($id)
+    {
+
+
+        return colums($id);
+    }
+
+
     public function getcells($id)
     {
 
 
-        return cells($id);
+        return cell($id);
     }
+
 
     public function getStores($branches)
 

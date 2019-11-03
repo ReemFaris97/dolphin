@@ -33,9 +33,18 @@
 				</div>
 
 				<div class="form-group col-md-4 pull-left">
-					<label> اسم الرف </label>
-					{!! Form::select("cell_id",cells(),null,['class'=>'form-control selectpicker cell_id','id'=>'cell_id','placeholder'=>' اختر رف للمنتج '])!!}
+					<label> اسم الوجه </label>
+					{!! Form::select("face_id",faces(),null,['class'=>'form-control selectpicker face_id','id'=>'face_id','placeholder'=>' اختر رف للمنتج '])!!}
 				</div>
+
+				<div class="form-group col-md-4 pull-left">
+					<label> اسم العمود التابع للوجه </label>
+					{!! Form::select("column_id",colums(),null,['class'=>'form-control selectpicker column_id','id'=>'column_id','placeholder'=>' اختر رف للمنتج '])!!}
+				</div>
+				<div class="form-group col-md-4 pull-left">
+					<label> اسم  الخلية  </label>
+					{!! Form::select("cell_id",cells(),null,['class'=>'form-control selectpicker cell_id','id'=>'cell_id','placeholder'=>' اختر رف للمنتج '])!!}
+				</div>التابع للوجه
 
 			</div>
 		</div>
@@ -55,14 +64,14 @@
 				</div>
 				<div class="form-group col-md-6 pull-left">
 					<label> اسم التصنيف </label>
-					{!! Form::select("category_id",$categories,null,['class'=>'form-control js-example-basic-single','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له الوجه '])!!}
+					{!! Form::select("category_id",$categories,null,['class'=>'form-control js-example-basic-single','id'=>'company_id','placeholder'=>' اختر اسم التصنيف التابع له المنتج '])!!}
 				</div>
 				<div class="form-group col-md-6 pull-left">
 					<label>النوع </label>
 					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2" id="components_button">
 						المكونات
 					</button>
-					{!! Form::select("type",['store'=>'مخزون','service'=>'خدمه','offer'=>'مجموعة منتجات ','creation'=>'تصنيع','product_expiration'=>'منتج بتاريخ صلاحيه'],null,['class'=>'form-control js-example-basic-single','placeholder'=>' نوع المنتج ','id'=>'type'])!!}
+					{!! Form::select("type",['store'=>'مخزون','service'=>'خدمه','offer'=>'مجموعة منتجات ','creation'=>'تصنيع','product_expiration'=>'منتج بتاريخ صلاحيه'],null,['class'=>'form-control js-example-basic-single type','placeholder'=>' نوع المنتج ','id'=>'type'])!!}
 				</div>
 				<div class="form-group col-md-6 pull-left">
 					<label>الوحدة الاساسية </label><span style="color: #ff0000; margin-right: 15px;">[جرام -كيلو-لتر]</span>
@@ -199,14 +208,13 @@
 
 
 <!-- component table-->
-<table id="componentTable" class="table table-striped table-bordered">
+<table id="componentTable" class="table datatable-button-init-basic all">
 	<thead>
 		<tr>
 			<th> اسم الصنف</th>
 			<th>الكمية</th>
-
 			<th>الوحدة الاساسية</th>
-
+			<th>العمليات</th>
 		</tr>
 	</thead>
 	<tbody class="add-components">
@@ -271,18 +279,14 @@
 			</div>
 			<div class="modal-body">
 
-
 				<label> اسم المكون</label>
-				<select class="form-control" id="component_name">
-					<option disabled selected> إختار المكون</option>
-					@foreach($products as $product)
-					<option value="{{$product->id}}">{{$product->name}}</option>
-					@endforeach
-				</select>
+				{!! Form::select("product_id",$products,null,['class'=>'form-control js-example-basic-single','id'=>'component_name','placeholder'=>' اختر اسم الشركة التابع له الوجه '])!!}
+
+
 				<label> الكمية</label>
 				<input type="text" class="form-control" id="component_quantity">
 				<label> الوحده الاساسية</label>
-				<input type="text" class="form-control" id="main_unit">
+				<input type="text" class="form-control" id="main_unit" value="">
 
 
 
@@ -306,6 +310,8 @@
 			$('#exampleModal input').val('');
 		});
 	});
+
+
 	var bigData = [];
 	var bigDataComponent = [];
 
@@ -326,6 +332,7 @@
 				buttons: ["موافق"],
 				dangerMode: true,
 			})
+
 			bigData.push(data);
 
 			var appendProducts = bigData.map(function(product) {
@@ -411,32 +418,119 @@
 			})
 		}
 	}
+
 	function myFun2(event) {
 		event.preventDefault();
 		var component_data = {};
-		component_data.component_name = $('#component_name').val();
+		component_data.component_name = $('#component_name option:selected').text();
 		component_data.component_quantity = $('#component_quantity').val();
 		component_data.main_unit = $('#main_unit').val();
-		bigDataComponent.push(component_data);
-		var appendComponent = bigDataComponent.map(function(component) {
-			return (`
-                <tr class="single-product">
-                    <td>${component.component_name}</td>
-                    <td>${component.component_quantity}</td>
-                    <td>${component.main_unit}</td>
-            <input type="hidden" name="component_names[]" value="${component.component_name}" >
-            <input type="hidden" name="qtys[]" value="${component.component_quantity}" >
-            <input type="hidden"name="main_units[]" value="${component.main_unit}" >
 
-                </tr>
-                `);
-		});
-		$('.add-components').empty().append(appendComponent);
-		$("#name").val(" ");
+
+		if (component_data.component_name !== '' && component_data.component_quantity !== '' && component_data.main_unit !== '' ) {
+			$("tr.editted-row").remove();
+			swal({
+				title: "تم إضافة  المكون بنجاح",
+				text: "",
+				icon: "success",
+				buttons: ["موافق"],
+				dangerMode: true,
+			})
+
+
+			bigDataComponent.push(component_data);
+			var appendComponent = bigDataComponent.map(function (component) {
+				return (`
+					<tr class="single-product">
+						<td class="component-name">${component.component_name}</td>
+						<td class="component-qty">${component.component_quantity}</td>
+						<td class="component-unit">${component.main_unit}</td>
+
+	                  <td>
+						<a href="#" data-toggle="modal" class="edit-this-row-component" data-target="#exampleModal2" data-original-title="تعديل">
+							<i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i>
+						</a>
+						<a href="#" data-toggle="tooltip" class="delete-this-row-component" data-original-title="حذف">
+							<i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i>
+						</a>
+                    </td>
+				<input type="hidden" name="component_names[]" value="${component.component_name}" >
+				<input type="hidden" name="qtys[]" value="${component.component_quantity}" >
+				<input type="hidden"name="main_units[]" value="${component.main_unit}" >
+
+					</tr>
+					`);
+			});
+			$('.add-components').empty().append(appendComponent);
+//////////////////////////////////////////////////////////////////////
+			$('.delete-this-row-component').click(function(e) {
+				var $this = $(this);
+				var row_index_component = $(this).parents('tr').index();
+				e.preventDefault();
+				swal({
+					title: "هل أنت متأكد ",
+					text: "هل تريد حذف هذا  المكون؟",
+					icon: "warning",
+					buttons: ["الغاء", "موافق"],
+					dangerMode: true,
+
+				}).then(function(isConfirm) {
+					if (isConfirm) {
+						$this.parents('tr').remove();
+						bigDataComponent.splice(row_index_component, 1);
+					} else {
+						swal("تم االإلفاء", "حذف  المكون تم الغاؤه", 'info', {
+							buttons: 'موافق'
+						});
+					}
+				});
+			});
+			$('.edit-this-row-component').click(function(e) {
+				var $this = $(this);
+				e.preventDefault();
+				$this.parents('tr').addClass('editted-row');
+
+				$('#exampleModal2 #component_name').val($('.component_name option:selected').text());
+				$('#exampleModal2 #component_quantity').val($this.parents('tr').find('.component-qty').html());
+				$('#exampleModal2 #main_unit').val($this.parents('tr').find('.component-unit').html());
+
+				var row_index_edit_component = $(this).parents('tr').index();
+				bigDataComponent.splice(row_index_edit_component, 1);
+			});
+			document.getElementById("name").val = " ";
+			$('[data-dismiss=modal]').on('click', function(e) {
+				var $t = $(this),
+						target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
+
+				$(target)
+						.find("input,textarea,select")
+						.val('')
+						.end()
+						.find("input[type=checkbox], input[type=radio]")
+						.prop("checked", "")
+						.end();
+			})
+		} else {
+			swal({
+				title: "من فضلك قم بملئ كل البيانات المميزة بالعلامة الحمراء",
+				text: "",
+				icon: "warning",
+				buttons: ["موافق"],
+				dangerMode: true,
+
+			})
+
+		}///if_end
+
 	}
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
-<script src="{{asset('admin/assets/js/get_cell_by_branch.js')}}"></script>
+<script src="{{asset('admin/assets/js/get_faces_by_branch.js')}}"></script>
+
+<script src="{{asset('admin/assets/js/get_cells_by_column.js')}}"></script>
+
+<script src="{{asset('admin/assets/js/get_columns_by_face.js')}}"></script>
+
 <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
 <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
 <script src="{{asset('admin/assets/js/creation.js')}}"></script>

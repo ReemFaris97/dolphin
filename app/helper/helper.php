@@ -64,10 +64,41 @@ function stores($branch=null){
 }
 
 
-function cells($branch=null){
+function faces($branch=null){
     if ($branch != null) {
 
-        $cells=$branch->cells()->mapWithKeys(function ($item) {
+
+        $faces=App\Models\AccountingSystem\AccountingBranch::find($branch)->faces->mapWithKeys(function ($item) {
+            return [$item['id'] => $item['name']];
+        });
+    }else{
+        $faces=[];
+    }
+
+    return $faces;
+}
+
+
+
+function colums($face=null){
+    if ($face != null) {
+
+
+        $colums=App\Models\AccountingSystem\AccountingBranchFace::find($face)->columns->mapWithKeys(function ($item) {
+            return [$item['id'] => $item['name']];
+        });
+    }else{
+        $colums=[];
+    }
+
+    return $colums;
+}
+
+function cells($colum=null){
+    if ($colum != null) {
+
+
+        $cells=App\Models\AccountingSystem\AccountingFaceColumn::find($colum)->cell->mapWithKeys(function ($item) {
             return [$item['id'] => $item['name']];
         });
     }else{
