@@ -11,13 +11,13 @@
     <!-- /global stylesheets -->
 
     <!-- Core JS files -->
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    @include('sweet::alert')
+
 
     @include('AccountingSystem.layouts.scripts')
     @include('AccountingSystem.layouts.data-table')
 
-    @yield('scripts')
+
+
 </head>
 
 <body>
@@ -60,6 +60,8 @@
 
 </div>
 <!-- /page container -->
-
+@yield('scripts')
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+@include('sweet::alert')
 </body>
 </html>

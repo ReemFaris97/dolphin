@@ -177,6 +177,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\ModelServiceProvider::class,
         App\Providers\DirectiveServiceProvider::class,
+        UxWeb\SweetAlert\SweetAlertServiceProvider::class,
 
 
     ],
