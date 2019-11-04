@@ -15,7 +15,15 @@ class CreateAccountingProductOffersTable extends Migration
     {
         Schema::create('accounting_product_offers', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('parent_product_id')->nullable();
+            $table->foreign('parent_product_id')->references('id')
+                ->on('accounting_products')->onDelete('cascade')
+                ->onUpdate('cascade');
 
+            $table->unsignedBigInteger('child_product_id')->nullable();
+            $table->foreign('child_product_id')->references('id')
+                ->on('accounting_products')->onDelete('cascade')
+                ->onUpdate('cascade');
             $table->timestamps();
         });
     }

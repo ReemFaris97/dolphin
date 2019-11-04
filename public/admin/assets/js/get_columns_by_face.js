@@ -22,14 +22,14 @@ $(function(){
             if(data.length ==0)
                 data.push('لا توجد  اوجه لفرع');
             var val;
-
+            columns.push('<option disabled selected> اختر العمود</option>');
             $.each(data, function(i,n){
                 val = i;
 
                 columns.push('<option value='+i+'>'+n+'</option>');
             });
             if(val==0)
-                $('#column_id').attr('disabled',true);
+                console.log("dsaasd");
             else
 
                 $('#face_id').attr('disabled',false);

@@ -10,6 +10,7 @@ use App\Models\AccountingSystem\AccountingCompany;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
 use App\Models\AccountingSystem\AccountingProductComponent;
+use App\Models\AccountingSystem\AccountingProductOffer;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingProductSubUnit;
 use App\Models\AccountingSystem\AccountingStore;
@@ -75,6 +76,7 @@ class ProductController extends Controller
 
         ];
         $this->validate($request,$rules);
+      //  dd($request->all());
         $inputs = $request->except('name','image','bar_code','main_unit_present','purchasing_price','selling_price','component_names','qtys','main_units');
         $inputs['name']=$inputs['name_product'];
         $inputs['selling_price']=$inputs['product_selling_price'];
@@ -133,6 +135,18 @@ class ProductController extends Controller
         }
 
 
+/////////////////////////////////////offers _products
+      $offers=$inputs['offers'];
+        if (isset($inputs['offers']))
+        {
+
+            foreach ($offers as $offer)
+               // dd($offer);
+            AccountingProductOffer::create([
+                'child_product_id'=>$offer ,
+                'parent_product_id'=>$product->id,
+            ]);
+        }
         alert()->success('تم اضافة المنتج بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.products.index');
     }
@@ -326,7 +340,7 @@ class ProductController extends Controller
     {
 
 
-        return cell($id);
+        return cells($id);
     }
 
 

@@ -4,39 +4,39 @@ $(function(){
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    var  faces;
+    var  cells;
 
-    $("#branch_id").on('change', function() {
+    $("#column_id").on('change', function() {
         var idddd = $(this).val();
 
         console.log(idddd);
 
 
         $.ajax({
-            url: "/accounting/faces_branch/" + idddd,
+            url: "/accounting/cells_column/" + idddd,
             type: "GET",
 
         }).done(function (data) {
 
-            faces=[];
+            cells=[];
             if(data.length ==0)
-                data.push('لا توجد  اوجه لفرع');
+                data.push('لا توجد   خلايا تابعه للعمود');
             var val;
-
+            cells.push('<option disabled selected> اختر الخلية</option>');
             $.each(data, function(i,n){
                 val = i;
 
-                faces.push('<option value='+i+'>'+n+'</option>');
+                cells.push('<option value='+i+'>'+n+'</option>');
             });
             if(val==0)
-                $('#face_id').attr('disabled',true);
+                $('#cell_id').attr('disabled',true);
             else
 
-                $('#face_id').attr('disabled',false);
-            $('.face_id').attr('data-live-search',true);
-            $('.face_id').attr('placeholder',"اختر الوجه");
-            $('#face_id').find('option').remove().end().append(faces);
-            $("#face_id").selectpicker('refresh');
+                $('#cell_id').attr('disabled',false);
+            $('.cell_id').attr('data-live-search',true);
+            $('.cell_id').attr('placeholder',"اختر الوجه");
+            $('#cell_id').find('option').remove().end().append(cells);
+            $("#cell_id").selectpicker('refresh');
 
         }).fail(function (error) {
             console.log(error);

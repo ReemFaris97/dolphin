@@ -98,7 +98,7 @@ function cells($colum=null){
     if ($colum != null) {
 
 
-        $cells=App\Models\AccountingSystem\AccountingFaceColumn::find($colum)->cell->mapWithKeys(function ($item) {
+        $cells=App\Models\AccountingSystem\AccountingFaceColumn::find($colum)->cells->mapWithKeys(function ($item) {
             return [$item['id'] => $item['name']];
         });
     }else{

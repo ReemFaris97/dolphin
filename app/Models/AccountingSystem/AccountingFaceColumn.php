@@ -14,6 +14,6 @@ class AccountingFaceColumn extends Model
     }
     public function cells()
     {
-        return $this->hasMany(AccountingFaceColumn::class,'column_id');
+        return $this->hasMany(AccountingColumnCell::class,'column_id');
     }
 }
