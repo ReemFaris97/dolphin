@@ -138,10 +138,10 @@ class ProductController extends Controller
 
 
 /////////////////////////////////////offers _products
-      $offers=$inputs['offers'];
+
         if (isset($inputs['offers']))
         {
-
+            $offers=$inputs['offers'];
             foreach ($offers as $offer)
                // dd($offer);
             AccountingProductOffer::create([
