@@ -10,21 +10,61 @@
 
 
 <div class="form-group col-md-6 pull-left">
-    <label>التاريخ</label>
+    <label>نوع البند </label>
+    {!! Form::select("type",['revenue'=>'ايراد','expenses'=>'مصروف'],null,['class'=>'form-control type','placeholder'=>' نوع البند  '])!!}
+</div>
+
+
+<div class="form-group col-md-6 pull-left">
+    <l abel>التاريخ</label>
     {!! Form::date("date",null,['class'=>'form-control'])!!}
 </div>
-<div class="form-group col-md-6 pull-left">
+<div class="form-group col-md-6 pull-left ">
     <label>اسم البند  </label>
-    {!! Form::select("clause_id",$clauses,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم البند     '])!!}
+
+
+        <div class="clauses">
+            @if (!isset($benod))
+
+                {!! Form::select("clause_id",[],null,['class'=>'form-control js-example-basic-single','placeholder'=>'اختر اسم البند   ','id'=>'clause_id'])!!}
+            @else
+
+                {{--{!! Form::select("clause_id",$clauses,null,['class'=>'form-control js-example-basic-single','placeholder'=>'اختر اسم البند   ','id'=>'clause_id'])!!}--}}
+
+                <select class="form-control js-example-basic-single pull-right" name="clause_id">
+                    <option disabled selected> إختار اسم البند</option>
+                    @forelse($clauses as $clause)
+                        @if ($benod->clause_id==$clause->id)
+                            <option value="{{$clause->id}}"  selected>{{$clause->ar_name}}</option>
+                            @else
+                            <option value="{{$clause->id}}" >{{$clause->ar_name}}</option>
+                        @endif
+
+                    @empty
+
+                    @endforelse
+                </select>
+
+            @endif
+        </div>
+
 </div>
 
+@if( isset($benod))
 
+    <div class="form-group col-md-6 pull-left">
+        <label>رقم السند </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+        {!! Form::text("sanad_num",$benod->sanad_num,['class'=>'form-control','placeholder'=>' رقم السند  '])!!}
 
-<div class="form-group col-md-6 pull-left">
-    <label>رقم السند </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
-    {!! Form::text("sanad_num",null,['class'=>'form-control','placeholder'=>' رقم السند  '])!!}
-</div>
+    </div>
+@else
 
+    <div class="form-group col-md-6 pull-left">
+        <label>رقم السند </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+        {!! Form::text("sanad_num",rand(),['class'=>'form-control','placeholder'=>' رقم السند  '])!!}
+
+    </div>
+    @endif
 <div class="form-group col-md-6 pull-left">
     <label>البيان  </label>
     {!! Form::textarea("desc",null,['class'=>'form-control','placeholder'=>' وصف البند باللغة الانجليزية    '])!!}
@@ -33,17 +73,11 @@
 
 
 
-<div class="form-group col-md-6 pull-left">
-    <label>نوع البند </label>
-    {!! Form::select("type",['revenue'=>'ايراد','expenses'=>'مصروف'],null,['class'=>'form-control','placeholder'=>' نوع البند  '])!!}
-</div>
-
-
-@if( isset($band))
+@if( isset($benod))
 
     <div class="form-group col-md-6 pull-left">
         <label>صوره المرفقة : </label>
-        <img src="{{getimg($band->image)}}" style="width:100px; height:100px" class="file-styled">
+        <img src="{{getimg($benod->image)}}" style="width:100px; height:100px" class="file-styled">
     </div>
 
 
@@ -69,6 +103,35 @@
         $(document).ready(function() {
             $('.js-example-basic-single').select2();
         });
+
+        $(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $(".type").on('change', function () {
+
+                var type = $(this).val();
+                console.log(type);
+
+
+                $.ajax({
+                    url: "/accounting/type_benods/" + type,
+                    type: "GET",
+
+                }).done(function (data) {
+                    $('.clauses').empty();
+                    $('.clauses').append(data.data);
+
+                }).fail(function (error) {
+                    console.log(error);
+                });
+            });
+        });
+
+
+
 
     </script>
 @endsection

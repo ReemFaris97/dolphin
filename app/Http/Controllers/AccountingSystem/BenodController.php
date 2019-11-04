@@ -26,7 +26,8 @@ class BenodController extends Controller
     public function index()
     {
 
-        return $this->toIndex();
+        $benods=AccountingBenod::all();
+        return $this->toIndex(compact('benods'));
     }
 
     /**
@@ -66,7 +67,7 @@ class BenodController extends Controller
         }
         AccountingBenod::create($requests);
         alert()->success('تم تسجيل البيان   بنجاح !')->autoclose(5000);
-        return back();
+        return redirect()->route('accounting.benods.index');
 
     }
 
@@ -89,11 +90,12 @@ class BenodController extends Controller
      */
     public function edit($id)
     {
-        $category =AccountingProductCategory::findOrFail($id);
 
-        return $this->toEdit(compact('category'));
+        $benod=AccountingBenod::find($id);
+        $clauses=AccountingMoneyClause::all();
 
 
+        return $this->toEdit(compact('benod','clauses'));
     }
 
     /**
@@ -105,13 +107,12 @@ class BenodController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $category =AccountingProductCategory::findOrFail($id);
+        $category =AccountingBenod::findOrFail($id);
 
         $rules = [
-            'ar_name'=>'required|string|max:191',
-            'en_name'=>'nullable|string|max:191',
-            'ar_description'=>'nullable|string',
-            'en_description'=>'nullable|string',
+
+            'date'=>'nullable|string',
+            'desc'=>'nullable|string',
             'image'=>'nullable|sometimes|image',
         ];
         $this->validate($request,$rules);
@@ -120,8 +121,8 @@ class BenodController extends Controller
             $requests['image'] = saveImage($request->image, 'photos');
         }
         $category->update($requests);
-        alert()->success('تم تعديل  القسم بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.categories.index');
+        alert()->success('تم تعديل  السجل بنجاح !')->autoclose(5000);
+        return redirect()->route('accounting.benods.index');
 
 
 
@@ -135,10 +136,23 @@ class BenodController extends Controller
      */
     public function destroy($id)
     {
-        $category =AccountingProductCategory::findOrFail($id);
-        $category->delete();
-        alert()->success('تم حذف  التصنيف بنجاح !')->autoclose(5000);
+        $benod =AccountingBenod::findOrFail($id);
+        $benod->delete();
+        alert()->success('تم حذف  سجل البيان بنجاح !')->autoclose(5000);
             return back();
+
+
+    }
+
+
+    public function getbenods($type)
+    {
+
+        $clauses=AccountingMoneyClause::where('type',$type)->get();
+        return response()->json([
+            'status'=>true,
+            'data'=>view('AccountingSystem.benods.getAjaxBenods')->with('clauses',$clauses)->render()
+        ]);
 
 
     }

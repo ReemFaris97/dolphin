@@ -141,19 +141,40 @@
                     <span class="caret"></span>
                 </a>
 
+
+
                 <ul class="dropdown-menu dropdown-menu-right">
 
-                    <li><a href="{{route('accounting.clauses.index')}}"><i class="icon-eye"></i> عرض البنود</a></li>
-                    <li><a href="{{route('accounting.clauses.create')}}"><i class="icon-add-to-list"></i> اضافة اسم بند</a></li>
+                    <li class="dropdown-submenu dropdown-submenu-left">
+                        <a href="#"><i class="icon-newspaper"></i> البنود </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{route('accounting.clauses.index')}}"><i class="icon-eye"></i> عرض  البنود</a></li>
+                            <li class="dropdown-submenu dropdown-submenu-left">
+                                <a href="{{route('accounting.clauses.create')}}"><i class="icon-add-to-list"></i> اضافة بند جديد</a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+
+                            <li class="dropdown-submenu dropdown-submenu-left">
+                                <a href="#"><i class="icon-paragraph-justify"></i> التسجيلات </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{route('accounting.benods.index')}}"><i class="icon-eye"></i> عرض  تسجيلات البنود</a></li>
+                                    <li class="dropdown-submenu dropdown-submenu-left">
+                                        <a href="{{route('accounting.benods.create')}}"><i class="icon-add-to-list"></i>  تسجيل بيان جديد</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+
+
 
 
                 </ul>
-                <ul class="dropdown-menu dropdown-menu-right">
-
-                    <li><a href="{{route('accounting.benods.create')}}"><i class="icon-add-to-list"></i> تسجيل بيان</a></li>
 
 
-                </ul>
+
             </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
