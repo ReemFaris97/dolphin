@@ -301,12 +301,15 @@
 			<div class="modal-body">
 
 				<label> اسم المكون</label>
+				<span class="required--in">*</span>
 				{!! Form::select("product_id",$products,null,['class'=>'form-control js-example-basic-single','id'=>'component_name','placeholder'=>' اختر اسم الشركة التابع له الوجه '])!!}
 
 
 				<label> الكمية</label>
+				<span class="required--in">*</span>
 				<input type="text" class="form-control" id="component_quantity">
 				<label> الوحده الاساسية</label>
+				<span class="required--in">*</span>
 				<input type="text" class="form-control" id="main_unit" value="">
 
 
