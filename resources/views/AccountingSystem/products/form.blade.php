@@ -15,11 +15,15 @@
 				<a data-toggle="collapse" href="#collapsible-styled-group1">بيانات المكان</a>
 			</h6>
 		</div>
+
 		<div id="collapsible-styled-group1" class="panel-collapse collapse in">
 			<div class="panel-body">
 				<div class="form-group col-md-4 pull-left">
 					<label> اسم الشركة </label>
 					{!! Form::select("company_id",companies(),null,['class'=>'form-control js-example-basic-single company_id','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له المنتج '])!!}
+
+
+
 				</div>
 
 				<div class="form-group col-md-4 pull-left">
@@ -29,21 +33,80 @@
 
 				<div class="form-group col-md-4 pull-left" id="store_id">
 					<label> اسم المخزن </label>
-					{!! Form::select("store_id",stores(),null,['class'=>'form-control js-example-basic-single store_id','id'=>'store_id','placeholder'=>' اختر اسم المخزن التابع له المنتج '])!!}
+					@if (!isset($product))
+						{!! Form::select("store_id",stores(),null,['class'=>'form-control js-example-basic-single store_id','id'=>'store_id','placeholder'=>' اختر اسم المخزن التابع له المنتج '])!!}
+
+					@else
+
+						<select class="form-control js-example-basic-single pull-right" name="store_id">
+							@foreach ($stores as $store)
+								@if ($product->store_id == $store->id)
+									<option value="{{$store->id}}"  selected>{{$store->ar_name}}</option>
+								@else
+									<option value="{{$store->id}}" >{{$store->ar_name}}</option>
+								@endif
+							@endforeach
+
+						</select>
+					@endif
 				</div>
 
 				<div class="form-group col-md-4 pull-left">
 					<label> اسم الوجه </label>
+					@if (!isset($product))
+
 					{!! Form::select("face_id",faces(),null,['class'=>'form-control selectpicker face_id','id'=>'face_id','placeholder'=>' اختر وجه للمنتج '])!!}
+					@else
+
+						<select class="form-control js-example-basic-single pull-right" name="column_id">
+							@foreach ($faces as $face)
+								@if ($product->cell->column->face_id == $face->id)
+									<option value="{{$face->id}}"  selected>{{$face->name}}</option>
+								@else
+									<option value="{{$face->id}}" >{{$face->name}}</option>
+								@endif
+							@endforeach
+
+						</select>
+					@endif
 				</div>
 
 				<div class="form-group col-md-4 pull-left">
 					<label> اسم العمود التابع للوجه </label>
+					@if (!isset($product))
+
 					{!! Form::select("column_id",colums(),null,['class'=>'form-control selectpicker column_id','id'=>'column_id','placeholder'=>' اختر عمود للمنتج '])!!}
+					@else
+
+						<select class="form-control js-example-basic-single pull-right" name="column_id">
+							@foreach ($columns as $column)
+								@if ($product->cell->column_id == $column->id)
+									<option value="{{$column->id}}"  selected>{{$column->name}}</option>
+								@else
+									<option value="{{$column->id}}" >{{$column->name}}</option>
+								@endif
+							@endforeach
+
+						</select>
+					@endif
 				</div>
 				<div class="form-group col-md-4 pull-left">
 					<label> اسم  الخلية  التابعة للعمود </label>
-					{!! Form::select("cell_id",cells(),null,['class'=>'form-control selectpicker cell_id','id'=>'cell_id','placeholder'=>' اختر خلية للمنتج '])!!}
+					@if (!isset($product))
+						{!! Form::select("cell_id",cells(),null,['class'=>'form-control selectpicker cell_id','id'=>'cell_id','placeholder'=>' اختر خلية للمنتج '])!!}
+					@else
+
+							<select class="form-control js-example-basic-single pull-right" name="cell_id">
+								@foreach ($cells as $cell)
+								@if ($product->cell_id==$cell->id)
+									<option value="{{$cell->id}}"  selected>{{$cell->name}}</option>
+								@else
+									<option value="{{$cell->id}}" >{{$cell->name}}</option>
+								@endif
+								@endforeach
+
+							</select>
+					@endif
 				</div>
 
 			</div>
@@ -397,7 +460,7 @@
 						<a href="#" data-toggle="modal" class="edit-this-row" data-target="#exampleModal" data-original-title="تعديل">
 							<i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i>
 						</a>
-						<a href="#" data-toggle="tooltip" class="delete-this-row" data-original-title="حذف"> 
+						<a href="#" data-toggle="tooltip" class="delete-this-row" data-original-title="حذف">
 							<i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i>
 						</a>
                     </td>

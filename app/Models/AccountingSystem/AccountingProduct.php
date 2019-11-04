@@ -18,4 +18,10 @@ class AccountingProduct extends Model
     {
         return $this->belongsTo(AccountingProductCategory::class,'category_id');
     }
+
+    public function cell()
+    {
+        return $this->belongsTo(AccountingColumnCell::class,'cell_id');
+    }
 }
+

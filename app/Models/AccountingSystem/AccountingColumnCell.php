@@ -10,5 +10,8 @@ class AccountingColumnCell extends Model
 
 
 
-
+    public function column ()
+    {
+        return $this->belongsTo(AccountingCompany::class,'column_id');
+    }
 }

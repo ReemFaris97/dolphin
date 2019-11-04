@@ -5,8 +5,10 @@ namespace App\Http\Controllers\AccountingSystem;
 use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingBranchFace;
 use App\Models\AccountingSystem\AccountingBranchShift;
+use App\Models\AccountingSystem\AccountingColumnCell;
 use App\Models\AccountingSystem\AccountingCompany;
 
+use App\Models\AccountingSystem\AccountingFaceColumn;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
 use App\Models\AccountingSystem\AccountingProductComponent;
@@ -170,7 +172,8 @@ class ProductController extends Controller
         $products=AccountingProduct::all();
         $storeproduct=AccountingProductStore::where('product_id',$id)->first();
         $store=AccountingStore::find(optional($storeproduct)->store_id??1);
-        return $this->toShow(compact('branches','categories','product','store'));
+        $cells=AccountingColumnCell::all();
+        return $this->toShow(compact('branches','categories','product','store','cells'));
 
     }
 
@@ -186,9 +189,15 @@ class ProductController extends Controller
         $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
         $product=AccountingProduct::find($id);
         $products=AccountingProduct::all();
+        $cells=AccountingColumnCell::all();
+        $columns=AccountingFaceColumn::all();
+        $faces=AccountingBranchFace::all();
         $is_edit = 1;
+        $storeproduct=AccountingProductStore::where('product_id',$id)->first();
+        $store=AccountingStore::find(optional($storeproduct)->store_id??1);
+        $stores=AccountingStore::all();
 
-        return $this->toEdit(compact('face','branches','categories','id','product','products','is_edit'));
+        return $this->toEdit(compact('face','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores'));
 
 
     }
@@ -382,13 +391,7 @@ class ProductController extends Controller
     {
         $stores=[];
 
-//        dd("dsssssssssss");
-
         $stores_company=AccountingStore::where('model_type','App\Models\AccountingSystem\AccountingCompany')->where('model_id',$id)->get();
-
-
-
-
 
 //        return $stores;
         return response()->json([
