@@ -149,6 +149,8 @@ class ProductController extends Controller
                 'parent_product_id'=>$product->id,
             ]);
         }
+
+
         alert()->success('تم اضافة المنتج بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.products.index');
     }
