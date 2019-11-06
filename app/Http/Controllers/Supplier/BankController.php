@@ -51,7 +51,9 @@ class BankController extends Controller
         ];
         $this->validate($request,$rules);
         Bank::create($request->all());
-        toast('تم إضافة البنك بنجاح','success','top-right');
+//        toast('تم إضافة البنك بنجاح','success','top-right');
+        alert()->success('تم إضافة البنك    بنجاح !')->autoclose(5000);
+
         return redirect()->route('supplier.banks.index');
     }
 
@@ -97,7 +99,9 @@ class BankController extends Controller
         ];
         $this->validate($request,$rules);
         $bank->update($request->all());
-        toast('تم تعديل البنك بنجاح','success','top-right');
+//        toast('تم تعديل البنك بنجاح','success','top-right');
+        alert()->success('تم تعديل البنك    بنجاح !')->autoclose(5000);
+
         return redirect()->route('supplier.banks.index');
     }
 
@@ -110,7 +114,8 @@ class BankController extends Controller
     public function destroy($id)
     {
         Bank::find($id)->delete();
-        toast('تم حذف البنك بنجاح','success','top-right');
+        alert()->success('تم حذف البنك    بنجاح !')->autoclose(5000);
+
         return redirect()->route('supplier.banks.index');
     }
 }

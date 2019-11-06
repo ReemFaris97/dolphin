@@ -63,7 +63,7 @@ class SupplierController extends Controller
         $user = User::create($requests);
 
 
-        toast('تم الاضافه بنجاح', 'success', 'top-right');
+        alert()->success('تم الاضافة   بنجاح !')->autoclose(5000);
         return redirect()->route('supplier.suppliers.index');
     }
 
@@ -119,7 +119,8 @@ class SupplierController extends Controller
         $user->fill($requests);
 //        $user->syncPermissions($request->permissions);
         $user->save();
-        toast('تم التعديل بنجاح', 'success', 'top-right');
+        alert()->success('تم التعديل   بنجاح !')->autoclose(5000);
+
         return redirect()->route('supplier.suppliers.index');
     }
 
@@ -136,7 +137,8 @@ class SupplierController extends Controller
 //        }
 
         User::find($id)->forceDelete();
-        toast('تم الحذف', 'success', 'top-right');
+        alert()->success('تم الحذف   بنجاح !')->autoclose(5000);
+
         return back();
     }
 
@@ -151,7 +153,7 @@ class SupplierController extends Controller
             $user->fill(['blocked_at' => null]);
         }
         $user->save();
-        toast('تم التعديل', 'success', 'top-right');
+        alert()->success('تم التعديل   بنجاح !')->autoclose(5000);
         return back();
     }
 }
