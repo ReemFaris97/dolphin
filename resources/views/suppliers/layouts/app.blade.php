@@ -157,7 +157,6 @@
 <script src="{!! asset('dashboard/assets/bootstrap-datepicker.ar.min.js') !!}"></script>
 <script src="{!! asset('dashboard/assets/vendors/custom/countdown/jquery.countdown.min.js') !!}"></script>
 <script src="{!! asset('dashboard/assets/scripts.js') !!}"></script>
-{{--@include('sweetalert::alert')--}}
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 @include('sweet::alert')
 <!--end::Page Scripts -->
