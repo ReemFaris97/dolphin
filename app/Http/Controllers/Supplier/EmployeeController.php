@@ -66,7 +66,7 @@ class EmployeeController extends Controller
 
 //        $user->update(['parent_user_id'=>auth()->id()]);
         alert()->success('تم  الاضافة    بنجاح !')->autoclose(5000);
-        return redirect()->route('supplier.suppliers.index');
+        return redirect()->route('supplier.employes.index');
     }
 
     /**
@@ -124,7 +124,7 @@ class EmployeeController extends Controller
 
         $user->save();
         alert()->success('تم تعديل المورد    بنجاح !')->autoclose(5000);
-        return redirect()->route('supplier.suppliers.index');
+        return redirect()->route('supplier.employes.index');
     }
 
     /**

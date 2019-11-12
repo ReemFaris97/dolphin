@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('suppliers.layouts.app')
 @section('title')تفاصيل الفاتورة
 @endsection
 
@@ -6,7 +6,7 @@
 @endsection
 
 @section('breadcrumb') @php($breadcrumbs=['مرتجع'=>'/suppliers-bills','تفاصيل'=>'/suppliers-bills/show/'.$bill->id])
-@includeWhen(isset($breadcrumbs),'admin.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
+@includeWhen(isset($breadcrumbs),'suppliers.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
 
 @section('content')
@@ -83,7 +83,7 @@
         @foreach($bill->offer->offer_products as $product)
             <tr>
                 <td>{{$loop->iteration}}</td>
-                <td>{{$product->product->name}}</td>
+                <td>{{optional($product->product)->name}}</td>
                 <td>{{$product->quantity}}</td>
                 <td>{{$product->price}}</td>
             </tr>
