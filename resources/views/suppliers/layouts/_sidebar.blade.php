@@ -32,6 +32,11 @@
                                             class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
                                             class="m-menu__link-text">كل الموردين </span></a></li>
 
+                            <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
+                                        href="{!! route('supplier.suppliers.index') !!}?is_verified=0" class="m-menu__link "><i
+                                            class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
+                                            class="m-menu__link-text">الموردين الغير مفعلين</span></a></li>
+
 
                             {{--                            @endif--}}
 {{--                            @if(auth()->user()->hasPermissionTo('add_workers'))--}}
@@ -146,6 +151,76 @@
                     </ul>
                 </div>
             </li>
+
+            {{----------------------------------------------------------------------------------}}
+
+
+            {{----------------------------------------------------------------------------}}
+
+            <li class="m-menu__item  m-menu__item--submenu {{Request::is('/supplier/suppliers-discards')?'m-menu__item--open m-menu__item--expanded':''}} "
+                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                                                                      class="m-menu__link m-menu__toggle"><span
+                        class="m-menu__item-here"></span><i
+                        class="m-menu__link-icon flaticon-file-2"></i><span class="m-menu__link-text">مرتجعات الموردين</span><i
+                        class="m-menu__ver-arrow la la-angle-right"></i></a>
+
+
+                <div class="m-menu__submenu "><span class="m-menu__arrow"></span>
+                    <ul class="m-menu__subnav">
+                        <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true"><span
+                                class="m-menu__link"><span class="m-menu__item-here"></span><span
+                                    class="m-menu__link-text">كل المرتجعات</span></span></li>
+
+                        <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
+                                href="{{route('supplier.suppliers-discards.index')}}" class="m-menu__link "><i
+                                    class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
+                                    class="m-menu__link-text">كل المرتجعات</span></a></li>
+
+                        <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
+                                href="{{route('supplier.suppliers-discards.create')}}" class="m-menu__link "><i
+                                    class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
+                                    class="m-menu__link-text">إنشاء مرتجع جديد</span></a></li>
+
+
+                    </ul>
+                </div>
+            </li>
+
+            {{----------------------------------------------------------------------------------}}
+
+
+            {{----------------------------------------------------------------------------}}
+
+            <li class="m-menu__item  m-menu__item--submenu {{Request::is('/supplier/suppliers-bills')?'m-menu__item--open m-menu__item--expanded':''}}  "
+                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                                                                      class="m-menu__link m-menu__toggle"><span
+                        class="m-menu__item-here"></span><i
+                        class="m-menu__link-icon flaticon-file-2"></i><span class="m-menu__link-text">فواتير الموردين</span><i
+                        class="m-menu__ver-arrow la la-angle-right"></i></a>
+
+
+                <div class="m-menu__submenu "><span class="m-menu__arrow"></span>
+                    <ul class="m-menu__subnav">
+                        <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true"><span
+                                class="m-menu__link"><span class="m-menu__item-here"></span><span
+                                    class="m-menu__link-text">كل الفواتير</span></span></li>
+
+                        <li class="m-menu__item  m-menu__item--active" aria-haspopup="true"><a
+                                href="{{route('supplier.suppliers-bills.index')}}" class="m-menu__link "><i
+                                    class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
+                                    class="m-menu__link-text">كل الفواتير</span></a></li>
+
+                        <li class="m-menu__item  m-menu__item--active" aria-haspopup="true"><a
+                                href="{{route('supplier.suppliers-bills.create')}}" class="m-menu__link "><i
+                                    class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
+                                    class="m-menu__link-text">إضافة فاتورة جديدة</span></a></li>
+
+                    </ul>
+                </div>
+            </li>
+
+            {{----------------------------------------------------------------------------------}}
+
 
 
 

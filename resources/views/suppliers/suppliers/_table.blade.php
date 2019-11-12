@@ -8,7 +8,6 @@
     <tr>
         <th>#</th>
         <th>الصوره</th>
-        <th>الصوره</th>
         <th>الاسم</th>
         <th>الهاتف</th>
         <th>البريد الالكترونى</th>
@@ -33,7 +32,7 @@
 {{--            <td>{!!$user->type!!}</td>--}}
 
             <td>
-
+                <a href="{!!route('supplier.suppliers.show',$user->id)!!}" class="btn btn-info"> <i class="fas fa-eye"></i>مشاهده</a>
                 <a href="{!!route('supplier.suppliers.edit',$user->id)!!}" class="btn btn-primary"> <i class="fas fa-pen"></i> تعديل</a>
 
 
@@ -46,8 +45,8 @@
                     </button>
                 </form>
 
-
-                <form method="POST" action="{{route('supplier.suppliers.block',$user->id)}}">
+                    @if($user->is_verified ==1)
+                        <form method="POST" action="{{route('supplier.suppliers.block',$user->id)}}">
                     @csrf() @method('patch')
                     @if($user->blocked_at==null)
 {{--                        <button type="submit" class="btn btn-warning">--}}
@@ -71,6 +70,19 @@
                         </button>
                     @endif
                 </form>
+                    @endif
+
+                    @if($user->is_verified ==0)
+                    <form method="POST" action="{!!route('supplier.suppliers.verify',$user->id)!!}">
+                        @csrf()
+                        <button type="submit" class="btn btn-success"
+                                onclick="if(!confirm('هل انت متاكد من تفعيل مورد')) event.preventDefault() ">
+                            <i class="far fa-thumbs-up"></i>
+                            تفعيل
+                        </button>
+                    </form>
+                    @endif
+
             </td>
 
         </tr>
