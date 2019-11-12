@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Supplier;
 
 use App\Models\SupplierBill;
 use App\User;
@@ -11,7 +11,7 @@ use App\Traits\Viewable;
 class SuppliersBillsController extends Controller
 {
     use Viewable;
-    private  $viewable = 'admin.suppliers_bills.';
+    private  $viewable = 'suppliers.suppliers_bills.';
     /**
      * Display a listing of the resource.
      *

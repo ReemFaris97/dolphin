@@ -24,7 +24,7 @@
             <td>{{$row->payment_method=="cash"?'كاش':'آجل'}}</td>
             <td>{{$row->total()}}</td>
             <td>
-                <a href="{!!route('admin.suppliers-bills.show',$row->id)!!}" class="btn btn-info"> <i
+                <a href="{!!route('supplier.suppliers-bills.show',$row->id)!!}" class="btn btn-info"> <i
                         class="fas fa-eye"></i>مشاهده</a>
             </td>
         </tr>
