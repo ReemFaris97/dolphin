@@ -129,6 +129,7 @@ class RouteController extends Controller
                  "name" => "required|string|min:1|max:255",
                  "email" => "required|email|min:1|max:255|unique:users,email",
                  'phone'      =>'required|string|unique:users,phone',
+                 "image"=>"required|image",
                  "store_name" => "required|string|min:1|max:255",
                  "address" => "required|string|min:1|max:255",
                  "lat" => "required|string|min:1|max:255",
@@ -138,6 +139,7 @@ class RouteController extends Controller
         if ($validation instanceof Response) {
             return $validation;
         }
+        $request['is_active']=0;
         $client = Client::create($request->all());
 
         $max_trips = RouteTrips::where('route_id',$route_id)->max('arrange');

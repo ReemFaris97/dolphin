@@ -18,16 +18,26 @@ class BillsResource extends ResourceCollection
             'bills'=>$this->collection->transform(function ($q){
                 return [
                     'id'=>$q->id,
-                    'name'=>$q->name,
-                    'price'=>$q->price,
-                    'bar_code'=>$q->bar_code,
-//                    'image'=>$q->image?getimg($q->image):"",
-//                    'images' => $q->images->transform(function ($qu){
-//                        return [
-//                            'id'=>$qu->id,
-//                            'image'=>getimg($qu->image)
-//                        ];
-//                    }),
+                    'user_name'=>$q->user->name,
+                    'bill_number'=>$q->name == null ? 0: $q->name,
+                    'date'=>$q->date,
+                    'supplier_id'=>$q->supplier_id,
+                    'payment_method'=>$q->payment_method,
+                    'vat'=>(float)$q->vat,
+                    'amount_paid'=>(float)$q->amount_paid,
+                    'amount_rest'=>(float)$q->amount_rest,
+                    'offer'=>[
+                        'id'=>$q->offer->id,
+                        'products'=>$q->offer->offer_products->transform(function ($qu){
+                            return [
+                                'product_id'=>optional($qu->product)->id != null?$qu->product->id:0,
+                                'product_name'=>optional($qu->product)->name != null?$qu->product->name:"",
+                                'quantity'=>optional($qu->quantity) != null? $qu->quantity:0,
+                                'price'=>optional($qu->price) != null?(float)$qu->price:0,
+                            ];
+                        }),
+                        ],
+
                 ];
             }),
             'paginate'=>[

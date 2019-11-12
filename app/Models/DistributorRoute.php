@@ -11,7 +11,7 @@ class DistributorRoute extends Model
 
     public function trips()
     {
-        return $this->hasMany(RouteTrips::class,'route_id')->select('route_id','arrange','lat','lng')->orderBy('arrange','asc');
+        return $this->hasMany(RouteTrips::class,'route_id')->orderBy('arrange','asc');
     }
     public function user()
     {

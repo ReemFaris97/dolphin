@@ -14,6 +14,100 @@ function responseJson($status, $msg, $data = null, $state = 200)
     return response()->json($response, $state);
 }
 
+function companies()
+{
+    $companies = \App\Models\AccountingSystem\AccountingCompany::all()->mapWithKeys(function ($q) {
+        return [$q['id'] => $q['name']];
+    });
+    return $companies;
+}
+
+
+
+function branches($company = null)
+{
+
+    if ($company != null) {
+        $branches = App\Models\AccountingSystem\AccountingCompany::find($company)->branches->mapWithKeys(function ($item) {
+            return [$item['id'] => $item['name'],'all' => 'كل الفروع'];
+        });
+    } else {
+        $branches = \App\Models\AccountingSystem\AccountingBranch::all()->mapWithKeys(function ($item) {
+            return [$item['id'] => $item['name']];
+        });
+    }
+    return $branches;
+}
+
+
+
+function branches_only($company = null)
+{
+
+    if ($company != null) {
+        $branches = App\Models\AccountingSystem\AccountingCompany::find($company)->branches->mapWithKeys(function ($item) {
+            return [$item['id'] => $item['name']];
+        });
+    } else {
+        $branches = \App\Models\AccountingSystem\AccountingBranch::all()->mapWithKeys(function ($item) {
+            return [$item['id'] => $item['name']];
+        });
+    }
+    return $branches;
+}
+
+
+function stores($branch=null){
+
+    $stores=[];
+    return $stores;
+}
+
+
+function faces($branch=null){
+    if ($branch != null) {
+
+
+        $faces=App\Models\AccountingSystem\AccountingBranch::find($branch)->faces->mapWithKeys(function ($item) {
+            return [$item['id'] => $item['name']];
+        });
+    }else{
+        $faces=[];
+    }
+
+    return $faces;
+}
+
+
+
+function colums($face=null){
+    if ($face != null) {
+
+
+        $colums=App\Models\AccountingSystem\AccountingBranchFace::find($face)->columns->mapWithKeys(function ($item) {
+            return [$item['id'] => $item['name']];
+        });
+    }else{
+        $colums=[];
+    }
+
+    return $colums;
+}
+
+function cells($colum=null){
+    if ($colum != null) {
+
+
+        $cells=App\Models\AccountingSystem\AccountingFaceColumn::find($colum)->cells->mapWithKeys(function ($item) {
+            return [$item['id'] => $item['name']];
+        });
+    }else{
+        $cells=[];
+    }
+
+    return $cells;
+}
+
 
 function saveImage($file, $folder = '/')
 {

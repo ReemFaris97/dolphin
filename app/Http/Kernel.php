@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\DistributorMiddleware;
 use App\Http\Middleware\SupplierMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -53,6 +54,8 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
+        'company' => \App\Http\Middleware\RedirectIfNotCompany::class,
+        'company.guest' => \App\Http\Middleware\RedirectIfCompany::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
@@ -64,6 +67,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'distributor'=>DistributorMiddleware::class,
         'supplier'=>SupplierMiddleware::class,
+        'admin'=>AdminMiddleware::class,
     ];
 
     /**

@@ -10,10 +10,10 @@
         {!! Form::select('user_id',$users,null,['class'=>'form-control m-input select2','placeholder'=>'ادخل اسم المستخدم'])!!}
     </div>
 
-    <div class="form-group m-form__group">
-        <label> الانتهاء</label>
-        {!! Form::select('is_finished',['1'=>'منتهى ','0'=>'غير منتهى'],null,['class'=>'form-control select2'])!!}
-    </div>
+    {{--<div class="form-group m-form__group">--}}
+        {{--<label> الانتهاء</label>--}}
+        {{--{!! Form::select('is_finished',['1'=>'منتهى ','0'=>'غير منتهى'],null,['class'=>'form-control select2'])!!}--}}
+    {{--</div>--}}
 
 
     <div class="form-group m-form__group">

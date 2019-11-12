@@ -20,7 +20,8 @@ class RouteServiceProvider extends ServiceProvider
     protected $apiDistributorNamespace = 'App\Http\Controllers\Api\Distributor';
     protected $apiSupplierNamespace = 'App\Http\Controllers\Api\Supplier';
     protected $supplierNameSpace = 'App\Http\Controllers\Supplier';
-
+    protected $AccountingNameSpace = 'App\Http\Controllers\AccountingSystem';
+  protected $companyNameSpace = 'App\Http\Controllers\AccountingSystem\AccountingCompanies';
     /**
      * Define your route model bindings, pattern filters, etc.
      *
@@ -43,13 +44,33 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
+        $this->mapCompanyRoutes();
         $this->mapAdminRoutes();
         $this->mapDistributorRoutes();
         $this->mapDistributorAdminRoutes();
         $this->mapSupplierAdminRoutes();
         $this->mapSupplierRoutes();
-
+        $this->mapAccountingSystemRoutes();
         //
+    }
+
+    /**
+     * Define the "company" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapCompanyRoutes()
+    {
+        Route::group([
+            'middleware' => ['web', 'company', 'auth:accounting_companies'],
+            'prefix' => 'company',
+            'as' => 'company.',
+            'namespace' => $this->companyNameSpace,
+        ], function ($router) {
+            require base_path('routes/company.php');
+        });
     }
 
     /**
@@ -82,6 +103,16 @@ class RouteServiceProvider extends ServiceProvider
             ->as('distributor.')
             ->prefix('distributor')
             ->group(base_path('routes/distributor.php'));
+    }
+
+
+    protected function mapAccountingSystemRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->AccountingNameSpace)
+            ->as('accounting.')
+            ->prefix('accounting')
+            ->group(base_path('routes/accounting.php'));
     }
 
     /**

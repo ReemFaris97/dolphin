@@ -6,7 +6,9 @@ namespace App\Traits\Supplier;
 
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\SupplierPrice;
 use Carbon\Carbon;
+
 
 trait ProductsOperations
 {
@@ -15,12 +17,16 @@ trait ProductsOperations
         $inputs = $request->all();
         $inputs['expired_at'] = Carbon::parse($request->expired_at);
         $inputs['image'] =  saveImage($request->image, 'products');
+        $inputs['type'] = "supplier";
 
         $product= Product::create($inputs);
-        foreach ($request->images as $image)
-        {
-            $product->images()->create(['image'=>saveImage($image,'users')]);
+        if($request->has('images') && $request->images != null){
+            foreach ($request->images as $image)
+            {
+                $product->images()->create(['image'=>saveImage($image,'users')]);
+            }
         }
+
         return $product;
     }
 
@@ -60,5 +66,19 @@ trait ProductsOperations
            }
 
        }
+   }
+
+   public function assignProductToUser($product_id,$price,$expired_at){
+        $inputs['user_id'] = auth()->id();
+        $inputs['product_id'] = $product_id;
+        $inputs['expired_at'] = Carbon::parse($expired_at);
+        $inputs['price'] = $price;
+        if(!auth()->user()->checkIfProductAddedBefore($product_id)){
+            $product = SupplierPrice::create($inputs);
+            return $product;
+
+        }else {
+            return false;
+        }
    }
 }

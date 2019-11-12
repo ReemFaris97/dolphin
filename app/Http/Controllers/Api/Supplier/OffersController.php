@@ -50,7 +50,7 @@ class OffersController extends Controller
             'products'=>'required|array',
             'products.*.product_id' =>'required|integer|exists:products,id',
             "products.*.quantity" => "required|integer",
-            "products.*.price" => "required|integer",
+            "products.*.price" => "required|string",
         ];
         $validation = $this->apiValidation($request,$rules);
 

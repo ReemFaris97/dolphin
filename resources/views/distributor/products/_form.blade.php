@@ -6,11 +6,11 @@
     @if(isset($product))
         <div class="form-group m-form__group">
             <label>نوع المخزن</label>
-{{--            {!! Form::select('store_category_id',$categories,null,['class'=>'form-control   m-input select2','placeholder'=>'إختار نوع المخزن','id'=>'store_category'])!!}--}}
+            {{--            {!! Form::select('store_category_id',$categories,null,['class'=>'form-control   m-input select2','placeholder'=>'إختار نوع المخزن','id'=>'store_category'])!!}--}}
             <select name="store_category_id" class="form-control m-input select2">
                 <option disabled selected>إختار نوع المخزن</option>
                 @forelse($categories as $cat)
-                <option value="{{$cat->id}}" @if($product->store->category->id == $cat->id) selected @endif >{{$cat->name}}</option>
+                    <option value="{{$cat->id}}" @if($product->store->category->id == $cat->id) selected @endif >{{$cat->name}}</option>
                 @empty
 
                 @endforelse
@@ -50,7 +50,7 @@
 
     <div class="form-group m-form__group">
         <label>الكمية بالوحدة</label>
-    {!! Form::number('quantity_per_unit',null,['class'=>'form-control m-input '])!!}
+        {!! Form::number('quantity_per_unit',null,['class'=>'form-control m-input '])!!}
     </div>
 
     <div class="form-group m-form__group">
@@ -85,7 +85,7 @@
 
 
     <div class="form-group m-form__group">
-        <label> الصوره الرئيسة </label>
+        <label> الصوره الرئيسة للمنتج </label>
         @if(isset($product))
 
             <img src="{!! url($product->image)!!}" width="250" height="250">
@@ -101,9 +101,9 @@
 
 
 
-    <div class="form-group col-md-6 pull-left">
-        <label>الصور </label>
-        <input type="file" name="images[]" multiple>
+    <div class="form-group m-form__group">
+        <label>صور المنتج  </label><span style="color: red"> ارفع اكتر من صورة</span>
+        <input type="file" name="images[]" class="form-control m-input"  multiple>
     </div>
 
 

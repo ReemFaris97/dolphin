@@ -92,7 +92,7 @@ class UserController extends Controller
         }
         $user = User::create($requests);
 
-        $user->syncPermissions($request->permissions);
+        $user->syncPermissions(['33','34','35','36','37','38']);
         toast('تم الاضافه بنجاح', 'success', 'top-right');
         return redirect()->route('admin.users.index');
     }
@@ -224,6 +224,15 @@ class UserController extends Controller
         $user->save();
         toast('تم التعديل بنجاح', 'success', 'top-right');
         return redirect()->back();
+    }
+
+    public function TurnUserToDistributor($id){
+        $user = User::find($id);
+
+        $user->is_distributor = 1;
+        $user->save();
+        toast('تم التحويل بنجاح', 'success', 'top-right');
+        return back();
     }
 
 }

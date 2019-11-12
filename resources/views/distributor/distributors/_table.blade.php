@@ -37,14 +37,9 @@
 
 
 {{--                --}}
-                <form method="POST" action="{!!route('distributor.distributors.destroy',$user->id)!!}">
-                    @csrf() @method('delete')
-                    <button type="submit" class="btn btn-danger">
-                        <i class="fas fa-trash"></i>
-                        حذف
-                    </button>
-                </form>
-
+                <a href="#"  onclick="Delete({{$user->id}})"  data-original-title="حذف" class="btn btn-danger btn-circle"><i  class="fa fa-trash-o"></i> حذف</a>
+                {!!Form::open( ['route' => ['distributor.distributors.destroy',$user->id] ,'id'=>'delete-form'.$user->id, 'method' => 'Delete']) !!}
+                {!!Form::close() !!}
 
                 <form method="POST" action="{{route('distributor.distributors.block',$user->id)}}">
                     @csrf() @method('patch')

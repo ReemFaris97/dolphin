@@ -56,7 +56,7 @@ class OfferProductController extends Controller
         $this->validate($request,$rules);
 
         $inputs = $request->all();
-     $offer = SupplierOffer::create(['user_id'=>auth()->id()]);
+        $offer = SupplierOffer::create(['user_id'=>auth()->id()]);
         $collection = collect([$inputs]);
 
         $products = collect($inputs['products']);
@@ -72,7 +72,9 @@ class OfferProductController extends Controller
        }
 
 
-        toast('تم الاضافه بنجاح', 'success', 'top-right');
+
+        alert()->success('تم  اضافة   بنجاح !')->autoclose(5000);
+
         return redirect()->route('supplier.offers.index');
     }
 
@@ -129,7 +131,8 @@ class OfferProductController extends Controller
         $user->fill($requests);
 //        $user->syncPermissions($request->permissions);
         $user->save();
-        toast('تم التعديل بنجاح', 'success', 'top-right');
+        alert()->success('تم تعديل   بنجاح !')->autoclose(5000);
+
         return redirect()->route('supplier.suppliers.index');
     }
 
@@ -144,7 +147,7 @@ class OfferProductController extends Controller
 
        $dd=  SupplierOffer::find($id);
     $dd->delete();
-        toast('تم الحذف', 'success', 'top-right');
+        alert()->success('تم الحذف   بنجاح !')->autoclose(5000);
         return back();
     }
 
@@ -153,7 +156,7 @@ class OfferProductController extends Controller
 
         $dd=  OfferProduct::find($id);
         $dd->delete();
-        toast('تم الحذف', 'success', 'top-right');
+        alert()->success('تم الحذف   بنجاح !')->autoclose(5000);
         return back();
     }
     public function getAjaxProductQty(Request $request){

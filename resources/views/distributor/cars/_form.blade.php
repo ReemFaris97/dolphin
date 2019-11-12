@@ -1,9 +1,9 @@
 <div class="m-portlet__body a-smaller-input-wrapper">
 
     <div class="form-group m-form__group">
-        <label>الموزع</label>
+        <label>المندوب</label>
         <select name="user_id" class="form-control  m-input select2">
-            <option disabled selected>إختار الموزع</option>
+            <option disabled selected>إختار المندوب</option>
             @foreach($users as $user)
                 <option value="{{$user->id}}" @if(isset($car)) {{$car->user_id == $user->id ? 'selected' :'' }} @endif  >{{$user->name}}</option>
             @endforeach

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Expense extends Model
 {
-    protected $fillable = ['user_id','expenditure_clause_id', 'expenditure_type_id', 'date', 'time', 'amount', 'image', 'notes', 'reader_name', 'reader_number', 'reader_image',];
+    protected $fillable = ['user_id','expenditure_clause_id', 'expenditure_type_id', 'date', 'time', 'amount', 'image', 'notes', 'reader_number', 'reader_id',];
 
 
     public function clause()
@@ -21,6 +21,10 @@ class Expense extends Model
         return $this->belongsTo(ExpenditureType::class,'expenditure_type_id');
     }
 
+    public function reader()
+    {
+        return $this->belongsTo(Reader::class,'reader_id');
+    }
     public function setDateAttribute($value)
     {
         $this->attributes['date'] =  Carbon::parse($value);

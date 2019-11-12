@@ -21,6 +21,7 @@ class TripResource extends JsonResource
              'client'=>optional($this->client)->name??"",
              'lat'=>$this->lat,
              'lng'=>$this->lng,
+             'is_active'=>optional($this->client)->is_active??0,
              'steps'=>$this->steps(),
              'address'=>$this->address,
              'status'=>$this->status,

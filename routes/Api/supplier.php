@@ -19,9 +19,10 @@ Route::post('auth/register/{role}','AuthController@register');
 Route::get('spinner/banks','BanksController@getBanksSpinner');
 
 Route::group(['middleware' => ['jwt.auth']], function () {
-
+        Route::post('update/password','ProfileController@reset_password');
         Route::resource('/products','ProductsController');
-        Route::get('/products/list/{id}','ProductsController@productsList');
+        Route::get('/products/spinner/list','ProductsController@productsList');
+        Route::post('/products/search/name','ProductsController@search');
 
         Route::get('stores/categories','ProductsController@getStoresCategories');
         Route::get('stores/{id}','ProductsController@getAllStores');
@@ -29,6 +30,13 @@ Route::group(['middleware' => ['jwt.auth']], function () {
         Route::get('/inventory','InventoryController@index');
 
         Route::resource('/offers','OffersController');
+        Route::resource('/bills','BillsController');
+        Route::resource('/discards','DiscardsController');
+        Route::get('/filter/discards','DiscardsController@filteredDiscards');
+
+        route::get('/reports/index','ReportsController@index');
+
+
 
     /* Employees .... */
         Route::get('/employees','EmployeesController@index');            // all emp
