@@ -17,7 +17,9 @@ class SupplierProductsResource extends ResourceCollection
         return [
             'products'=>$this->collection->transform(function ($q){
                 return [
-                    'id'=>$q->authSupplierPriceId(),
+
+                    'id'=>$q->id,
+                    'price_id'=>$q->authSupplierPriceId(),
                     'name'=>$q->name,
                     'price'=>$q->authSupplierPrice(),
                     'bar_code'=>$q->bar_code,
