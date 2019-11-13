@@ -52,6 +52,27 @@
                     </h3>
                 </div>
 
+                <div class="col-xs-4">
+                    <h5>المبلغ المدفوع</h5>
+                    <h3>
+                        {{$bill->amount_paid}}
+                    </h3>
+                </div>
+
+                <div class="col-xs-4">
+                    <h5>المبلغ المتبقي</h5>
+                    <h3>
+                        {{$bill->amount_rest}}
+                    </h3>
+                </div>
+
+                    <div class="col-xs-4">
+                    <h5>قيمة الضريبة</h5>
+                    <h3>
+                        {{$bill->vat}}
+                    </h3>
+                </div>
+
 
                 <div class="col-xs-4">
                     <h5>إجمالي الفاتورة</h5>
@@ -63,35 +84,6 @@
         </div>
     </div>
 
-
-
-
-    <div class="m-portlet__head-tools">
-        <h3>المنتجات المضافة</h3>
-    </div>
-
-    <table class="table table-striped- table-bordered table-hover table-checkable">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>المنتج</th>
-            <th>الكمية</th>
-            <th>السعر</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach($bill->offer->offer_products as $product)
-            <tr>
-                <td>{{$loop->iteration}}</td>
-                <td>{{optional($product->product)->name}}</td>
-                <td>{{$product->quantity}}</td>
-                <td>{{$product->price}}</td>
-            </tr>
-        @endforeach
-
-        </tbody>
-
-    </table>
 
 
 
