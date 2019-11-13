@@ -7,10 +7,11 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
+use App\Traits\Supplier\BillsOperations;
 
 class SuppliersBillsController extends Controller
 {
-    use Viewable;
+    use Viewable,BillsOperations;
     private  $viewable = 'suppliers.suppliers_bills.';
     /**
      * Display a listing of the resource.
@@ -42,7 +43,21 @@ class SuppliersBillsController extends Controller
      */
     public function store(Request $request)
     {
-        return $request->all();
+        $rules = [
+            'supplier_id'=>'required|numeric',
+            'bill_number'=>'required|numeric|unique:supplier_bills,bill_number',
+            'date'=>'required|string|date',
+            'payment_method'=>'required|in:cash,postpaid',
+            'amount_paid'=>'required|numeric',
+            'amount_rest'=>'required|numeric',
+            'vat'=>'required|numeric',
+        ];
+        $this->validate($request,$rules);
+        $this->CreateSupplierBill($request);
+        alert()->success('تم إنشاء الفاتورة بنجاح')->autoclose(5000);
+        return redirect()->route('supplier.suppliers-bills.index');
+
+
     }
 
     /**
@@ -65,7 +80,9 @@ class SuppliersBillsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $bill = SupplierBill::findOrFail($id);
+        $suppliers = User::where('is_supplier',1)->where('supplier_type','dolphin')->pluck('name', 'id');
+        return $this->toEdit(compact('bill','suppliers'));
     }
 
     /**
@@ -77,7 +94,23 @@ class SuppliersBillsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $bill = SupplierBill::findOrFail($id);
+
+        $rules = [
+            'supplier_id'=>'required|numeric',
+            'bill_number'=>'required|numeric|unique:supplier_bills,bill_number,'.$bill->id,
+            'date'=>'required|string|date',
+            'payment_method'=>'required|in:cash,postpaid',
+            'amount_paid'=>'required|numeric',
+            'amount_rest'=>'required|numeric',
+            'vat'=>'required|numeric',
+        ];
+
+        $this->validate($request,$rules);
+        $this->UpdateSupplierBill($request,$bill);
+        alert()->success('تم تعديل الفاتورة بنجاح')->autoclose(5000);
+        return redirect()->route('supplier.suppliers-bills.index');
+
     }
 
     /**

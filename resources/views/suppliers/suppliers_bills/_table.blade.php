@@ -26,6 +26,8 @@
             <td>
                 <a href="{!!route('supplier.suppliers-bills.show',$row->id)!!}" class="btn btn-info"> <i
                         class="fas fa-eye"></i>مشاهده</a>
+
+                <a href="{!!route('supplier.suppliers-bills.edit',$row->id)!!}" class="btn btn-primary"> <i class="fas fa-pen"></i> تعديل</a>
             </td>
         </tr>
     @endforeach
