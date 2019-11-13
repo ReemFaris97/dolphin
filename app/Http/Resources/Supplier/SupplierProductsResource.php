@@ -24,6 +24,7 @@ class SupplierProductsResource extends ResourceCollection
                     'price'=>$q->authSupplierPrice(),
                     'bar_code'=>$q->bar_code,
                     'image'=>$q->image?getimg($q->image):"",
+                    'expired_at'=>$q->authSupplierProductExpireDate(),
                     'images' => $q->images->transform(function ($qu){
                         return [
                             'id'=>$qu->id,
