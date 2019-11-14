@@ -13,7 +13,9 @@ Route::middleware('admin')->group(function () {
     Route::resource('shifts', 'ShiftController');
     Route::resource('users', 'UserController');
     Route::resource('stores', 'StoreController');
+    Route::get('/store-product/{id}', 'StoreController@store_product')->name('stores.product');
     Route::resource('categories', 'CategoryController');
+    Route::resource('industrials', 'IndustrialController');
 
     Route::resource('faces', 'FaceController');
     Route::resource('columns', 'ColumnController');

@@ -18,3 +18,6 @@
 <script type="text/javascript" src="{{asset('admin/assets/js/pages/navigation_horizontal_mega.js')}}"></script>
 <!-- /theme JS files -->
 
+<!-- Bootstrap core CSS -->
+<!-- Material Design Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.11/css/mdb.min.css" rel="stylesheet">

@@ -9,9 +9,11 @@ use App\Models\AccountingSystem\AccountingColumnCell;
 use App\Models\AccountingSystem\AccountingCompany;
 
 use App\Models\AccountingSystem\AccountingFaceColumn;
+use App\Models\AccountingSystem\AccountingIndustrial;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
 use App\Models\AccountingSystem\AccountingProductComponent;
+use App\Models\AccountingSystem\AccountingProductDiscount;
 use App\Models\AccountingSystem\AccountingProductOffer;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingProductSubUnit;
@@ -42,11 +44,11 @@ class ProductController extends Controller
      */
     public function create()
     {
-
+        $industrials=AccountingIndustrial::pluck('name','id')->toArray();
         $branches=AccountingBranch::pluck('name','id')->toArray();
         $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
         $products=AccountingProduct::pluck('name','id')->toArray();
-        return $this->toCreate(compact('branches','categories','products'));
+        return $this->toCreate(compact('branches','categories','products','industrials'));
     }
 
     /**
@@ -57,13 +59,13 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+      //  dd($request->all());
         $rules = [
 
 
             'description'=>'nullable|string',
             'category_id'=>'nullable|numeric|exists:accounting_product_categories,id',
             'bar_code'=>'nullable|string',
-            'main_unit'=>'required|string',
             'product_selling_price'=>'required',
             'product_purchasing_price'=>'required',
             'min_quantity'=>'required|string|numeric',
@@ -78,7 +80,7 @@ class ProductController extends Controller
 
         ];
         $this->validate($request,$rules);
-      //  dd($request->all());
+
         $inputs = $request->except('name','image','bar_code','main_unit_present','purchasing_price','selling_price','component_names','qtys','main_units');
         $inputs['name']=$inputs['name_product'];
         $inputs['selling_price']=$inputs['product_selling_price'];
@@ -151,6 +153,39 @@ class ProductController extends Controller
         }
 
 
+        ////////////////////discounts Arrays////////////////////////////////
+        if (isset($request['discount_type'])){
+
+            if($request['discount_type']=='percent'){
+
+                AccountingProductDiscount::create([
+                    'product_id'=>$product->id,
+                    'discount_type'=>'percent',
+                    'percent'=>$request['percent'],
+                ]);
+            }else
+            {
+
+                $basic_quantity= collect($request['basic_quantity']);
+                $gift_quantity= collect($request['gift_quantity']);
+                $qtys_discount= $basic_quantity->zip($gift_quantity);
+
+                foreach ($qtys_discount as $discount)
+
+                {
+                    AccountingProductDiscount::create([
+                        'quantity'=>$discount['0'],
+                        'gift_quantity'=> $discount['1'],
+                        'product_id'=>$product->id
+                    ]);
+
+                }
+            }
+
+        }
+
+
+
         alert()->success('تم اضافة المنتج بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.products.index');
     }
@@ -188,6 +223,8 @@ class ProductController extends Controller
     public function edit($id)
     {
         $branches=AccountingBranch::pluck('name','id')->toArray();
+        $industrials=AccountingIndustrial::pluck('name','id')->toArray();
+
         $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
         $product=AccountingProduct::find($id);
         $products=AccountingProduct::all();
@@ -199,7 +236,7 @@ class ProductController extends Controller
         $store=AccountingStore::find(optional($storeproduct)->store_id??1);
         $stores=AccountingStore::all();
 
-        return $this->toEdit(compact('face','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores'));
+        return $this->toEdit(compact('industrials','face','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores'));
 
 
     }
