@@ -6,6 +6,8 @@ use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingBranchShift;
 use App\Models\AccountingSystem\AccountingCompany;
 
+use App\Models\AccountingSystem\AccountingProduct;
+use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingStore;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -173,6 +175,12 @@ class StoreController extends Controller
         alert()->success('تم حذف  المخزن بنجاح !')->autoclose(5000);
             return back();
 
+    }
 
+    public function store_product($id){
+        $product_store=AccountingProductStore::where('store_id',$id)->pluck('id')->toArray();
+        $products=AccountingProduct::whereIn('id',$product_store ) ->get();
+        $store =AccountingStore::findOrFail($id);
+        return view('AccountingSystem.stores.product',compact('products','store'));
     }
 }

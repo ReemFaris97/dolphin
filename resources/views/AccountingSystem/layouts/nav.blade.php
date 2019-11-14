@@ -120,6 +120,19 @@
                 </ul>
             </li>
 
+
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-cabinet position-left"></i>
+                    إدارة  الشركات المصنعة
+                    <span class="caret"></span>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="{{route('accounting.industrials.index')}}"><i class="icon-eye"></i> عرض الشركات المصنعة</a></li>
+                    <li><a href="{{route('accounting.industrials.create')}}"><i class="icon-add-to-list"></i> اضافة شركة جديدة</a></li>
+                </ul>
+            </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-grid2 position-left"></i>

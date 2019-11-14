@@ -147,7 +147,17 @@
 						الوحدات الفرعية
 					</button>
 
-					{!! Form::text("main_unit",null,['class'=>'form-control','placeholder'=>' الوحدة الاساسية '])!!}
+					<div class="md-form">
+						<input type="search" id="form-autocomplete" class="form-control mdb-autocomplete">
+						<button class="mdb-autocomplete-clear">
+							<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="https://www.w3.org/2000/svg">
+								<path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+								<path d="M0 0h24v24H0z" fill="none" />
+							</svg>
+						</button>
+						<label for="form-autocomplete" class="active">What is your favorite US state?</label>
+					</div>
+					{{--{!! Form::select("main_unit",['liter'=>'لتر','gram'=>'جرام','kilo'=>'كيلو'],null,['class'=>'form-control js-example-basic-single','placeholder'=>' الوحدة الاساسية '])!!}--}}
 				</div>
 				<div class="form-group col-md-12 pull-left">
 					<label>وصف المنتج </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
@@ -206,6 +216,13 @@
 					{!! Form::text("max_quantity",null,['class'=>'form-control','placeholder'=>' الحد الاقصى من الكمية '])!!}
 				</div>
 
+
+				<div class="form-group col-md-6 pull-left">
+					<label> اسم الشركة المصنعة </label>
+					{!! Form::select("industrial_id",$industrials,null,['class'=>'form-control js-example-basic-single','id'=>'industrial_id','placeholder'=>' اختر اسم  الشركة المصنعة المنتج '])!!}
+				</div>
+
+
 			</div>
 		</div>
 	</div>
@@ -242,6 +259,32 @@
 					<label>عدد أيام فترة الركود</label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
 					{!! Form::number("num_days_recession",null,['class'=>'form-control'])!!}
 				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel">
+		<div class="panel-heading " style="background: #f1c40f">
+			<h6 class="panel-title">
+				<a class="collapsed" data-toggle="collapse" href="#collapsible-styled-group5">العروض والخصومات</a>
+			</h6>
+		</div>
+		<div id="collapsible-styled-group5" class="panel-collapse collapse">
+			<div class="panel-body">
+
+				<div class="form-group col-md-6 pull-left">
+					<label> نوع  الخصم </label>
+					{!! Form::select("discount_type",['percent'=>'نسبة','quantity'=>'كمية'],null,['class'=>'form-control js-example-basic-single','id'=>'discount_id','placeholder'=>' اختر الخصم '])!!}
+				</div>
+
+				<div class="form-group col-md-6 pull-left percent" >
+					<label> النسبة </label>
+					{!! Form::text("percent",null,['class'=>'form-control','placeholder'=>' النسبة '])!!}
+				</div>
+
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal4" id="discounts_button">
+					العروض والخصومات
+				</button>
 			</div>
 		</div>
 	</div>
@@ -306,6 +349,24 @@
 
 
     </tbody>
+</table>
+
+<!-- end table-->
+
+<!--discounts table-->
+<table id="discountTable" class="table datatable-button-init-basic all">
+	<thead>
+	<tr>
+		<th> الكمية الاساسية</th>
+		<th> الكمية  الهدية</th>
+
+		<th>العمليات</th>
+	</tr>
+	</thead>
+	<tbody class="add-discounts">
+
+
+	</tbody>
 </table>
 
 <!-- end table-->
@@ -385,8 +446,6 @@
 	</div>
 </div>
 <!-- end model2-->
-
-
 <!-- Modal3 -->
 <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -410,22 +469,63 @@
     </div>
 </div>
 <!-- end model3-->
+<!-- Modal4 -->
+<div class="modal fade" id="exampleModal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel"> العروض والخصومات</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+
+				<label>  الكمية الاساسية</label>
+				<span class="required--in">*</span>
+				<input type="text" class="form-control" id="basic_quantity">
+				<label>  الكمية الهدية</label>
+				<span class="required--in">*</span>
+				<input type="text" class="form-control" id="gift_quantity" value="">
+
+
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+				<button class="btn btn-primary" id="subunit" data-dismiss="modal" onclick="myFun4(event)">اضافة  الخصم</button>
+
+			</div>
+		</div>
+	</div>
+</div>
+<!-- end model4-->
+
+
+
 @section('scripts')
+
 <script>
+
 	$(document).ready(function() {
 		$('.js-example-basic-single').select2();
 		$("#components_button").hide();
         $("#offers_button").hide();
+		$("#discounts_button").hide();
+		$(".percent").hide();
 		$('#exampleModal').on('hidden.bs.modal', function(e) {
 			$(this).removeData();
 			$('#exampleModal input').val('');
 		});
+
 	});
 
 
 	var bigData = [];
 	var bigDataComponent = [];
     var bigDataOffer = [];
+	var bigDataDiscount = [];
+
 	function myFun(event) {
 		event.preventDefault();
 		var data = {};
@@ -529,6 +629,7 @@
 			})
 		}
 	}
+
 
 	function myFun2(event) {
 		event.preventDefault();
@@ -636,6 +737,7 @@
 
 	}
 
+
     function myFun3(event) {
         event.preventDefault();
         var offer_data = {};
@@ -733,7 +835,116 @@
 
         }///if_end
 
+
     }
+
+
+	function myFun4(event) {
+		event.preventDefault();
+		var discount_data = {};
+
+		discount_data.basic_quantity = $('#basic_quantity').val();
+		discount_data.gift_quantity = $('#gift_quantity').val();
+
+
+
+		if (discount_data.basic_quantity !== '' && discount_data.gift_quantity !== '' ) {
+
+			$("tr.editted-row").remove();
+			swal({
+				title: "تم إضافة  الخصم بنجاح",
+				text: "",
+				icon: "success",
+				buttons: ["موافق"],
+				dangerMode: true,
+			})
+
+
+			bigDataDiscount.push(discount_data);
+			var appendDiscount = bigDataDiscount.map(function (discount) {
+				return (`
+					<tr class="single-product">
+						<td class="discount-basic_quantity">${discount.basic_quantity}</td>
+						<td class="discount-gift_quantity">${discount.gift_quantity}</td>
+
+
+	                  <td>
+						<a href="#" data-toggle="modal" class="edit-this-row-discount" data-target="#exampleModal4" data-original-title="تعديل">
+							<i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i>
+						</a>
+						<a href="#" data-toggle="tooltip" class="delete-this-row-discount" data-original-title="حذف">
+							<i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i>
+						</a>
+                    </td>
+				<input type="hidden" name="basic_quantity[]" value="${discount.basic_quantity}" >
+				<input type="hidden" name="gift_quantity[]" value="${discount.gift_quantity}" >
+
+					</tr>
+					`);
+			});
+			$('.add-discounts').empty().append(appendDiscount);
+//////////////////////////////////////////////////////////////////////
+			$('.delete-this-row-discount').click(function(e) {
+				var $this = $(this);
+				var row_index_discount = $(this).parents('tr').index();
+				e.preventDefault();
+				swal({
+					title: "هل أنت متأكد ",
+					text: "هل تريد حذف هذا  الخصم؟",
+					icon: "warning",
+					buttons: ["الغاء", "موافق"],
+					dangerMode: true,
+
+				}).then(function(isConfirm) {
+					if (isConfirm) {
+						$this.parents('tr').remove();
+						bigDataDiscount.splice(row_index_discount, 1);
+					} else {
+						swal("تم االإلفاء", "حذف  الخصم تم الغاؤه", 'info', {
+							buttons: 'موافق'
+						});
+					}
+				});
+			});
+			$('.edit-this-row-discount').click(function(e) {
+				var $this = $(this);
+				e.preventDefault();
+				$this.parents('tr').addClass('editted-row');
+
+
+				$('#exampleModal4 #basic_quantity').val($this.parents('tr').find('.basic_quantity').html());
+				$('#exampleModal4 #gift_quantity').val($this.parents('tr').find('.gift_quantity').html());
+
+				var row_index_discount = $(this).parents('tr').index();
+				bigDataDiscount.splice(row_index_discount, 1);
+			});
+			document.getElementById("name").val = " ";
+			$('[data-dismiss=modal]').on('click', function(e) {
+				var $t = $(this),
+						target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
+
+				$(target)
+						.find("input,textarea,select")
+						.val('')
+						.end()
+						.find("input[type=checkbox], input[type=radio]")
+						.prop("checked", "")
+						.end();
+			})
+		} else {
+			swal({
+				title: "من فضلك قم بملئ كل البيانات المميزة بالعلامة الحمراء",
+				text: "",
+				icon: "warning",
+				buttons: ["موافق"],
+				dangerMode: true,
+
+			})
+
+		}///if_end
+
+	}
+
 
 </script>
 
@@ -745,4 +956,5 @@
 <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
 <script src="{{asset('admin/assets/js/creation.js')}}"></script>
 <script src="{{asset('admin/assets/js/offer.js')}}"></script>
+<script src="{{asset('admin/assets/js/discount.js')}}"></script>
 @endsection
