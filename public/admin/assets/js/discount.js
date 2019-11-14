@@ -2,6 +2,7 @@ $(function() {
     $("#discount_id").on('change', function () {
         var id = $(this).val();
 
+
       if (id =='quantity')
       {
 

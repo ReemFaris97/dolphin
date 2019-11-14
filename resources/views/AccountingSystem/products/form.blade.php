@@ -135,7 +135,7 @@
 						المكونات
 					</button>
 
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3" id="offers_button">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3" style="display: none;" id="offers_button">
                         المنتجات التابعة
                     </button>
 					{!! Form::select("type",['store'=>'مخزون','service'=>'خدمه','offer'=>'مجموعة منتجات ','creation'=>'تصنيع','product_expiration'=>'منتج بتاريخ صلاحيه'],null,['class'=>'form-control js-example-basic-single type','placeholder'=>' نوع المنتج ','id'=>'type'])!!}
@@ -278,6 +278,37 @@
 				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal4" id="discounts_button">
 					العروض والخصومات
 				</button>
+			</div>
+		</div>
+	</div>
+	<div class="panel">
+		<div class="panel-heading " style="background: #e74c3c">
+			<h6 class="panel-title">
+				<a class="collapsed" data-toggle="collapse" href="#collapsible-styled-group6"> الضريبه المضافة</a>
+			</h6>
+		</div>
+		<div id="collapsible-styled-group6" class="panel-collapse collapse">
+			<div class="panel-body">
+
+
+
+				<div class="form-group col-md-6 pull-left " id="tax">
+					<label>يوجد ضريبة </label>
+					{!! Form::radio("tax",1,['class'=>'form-control'])!!}
+
+					<label> لا يوجد ضريبه </label>
+					{!! Form::radio("tax",0,['class'=>'form-control'])!!}
+				</div>
+				<div class="form-group col-md-6 pull-left " id="tax2">
+					<label> السعر شامل  الضريبة </label>
+					{!! Form::radio("tax",1,['class'=>'form-control'])!!}
+
+					<label>السعر  غير شامل الضريبة  </label>
+					{!! Form::radio("tax",0,['class'=>'form-control'])!!}
+				</div>
+
+
+
 			</div>
 		</div>
 	</div>
@@ -501,15 +532,15 @@
 <script>
 
 	$(document).ready(function() {
-		$('.js-example-basic-single').select2();
+
 		$("#components_button").hide();
-        $("#offers_button").hide();
+		$("#offers_button").hide();
 		$("#discounts_button").hide();
+		$("#tax2").hide();
 		$(".percent").hide();
-		$('#exampleModal').on('hidden.bs.modal', function(e) {
-			$(this).removeData();
-			$('#exampleModal input').val('');
-		});
+		$('.js-example-basic-single').select2();
+
+
 
 
 
@@ -940,15 +971,17 @@
 
 	}
 
+	$(function() {
+		var availableTags =<?php echo $units; ?>;
 
-	{{--var availableTags =<?php  json_encode($units); ?>;--}}
-{{--alert(availableTags);--}}
-	{{--$(".autocomplete").autocomplete({--}}
-		{{--source: availableTags--}}
-	{{--});--}}
+		$(".autocomplete").autocomplete({
+			source: availableTags
+		});
+	});
 
 
 </script>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
 <script src="{{asset('admin/assets/js/get_faces_by_branch.js')}}"></script>
@@ -959,4 +992,6 @@
 <script src="{{asset('admin/assets/js/creation.js')}}"></script>
 <script src="{{asset('admin/assets/js/offer.js')}}"></script>
 <script src="{{asset('admin/assets/js/discount.js')}}"></script>
+<script src="{{asset('admin/assets/js/tax.js')}}"></script>
+
 @endsection
