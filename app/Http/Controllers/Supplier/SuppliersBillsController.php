@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Supplier;
 
+use App\Models\Product;
 use App\Models\SupplierBill;
 use App\User;
 use Illuminate\Http\Request;
@@ -32,7 +33,8 @@ class SuppliersBillsController extends Controller
     public function create()
     {
         $suppliers = User::where('is_supplier',1)->where('supplier_type','dolphin')->pluck('name', 'id');
-        return $this->toCreate(compact('suppliers'));
+        $products=Product::all();
+        return $this->toCreate(compact('suppliers','products'));
     }
 
     /**
@@ -43,16 +45,26 @@ class SuppliersBillsController extends Controller
      */
     public function store(Request $request)
     {
+
         $rules = [
             'supplier_id'=>'required|numeric',
             'bill_number'=>'required|numeric|unique:supplier_bills,bill_number',
             'date'=>'required|string|date',
-            'payment_method'=>'required|in:cash,postpaid',
+            'payment_method'=>'required|in:cash,bank_transfer,check',
             'amount_paid'=>'required|numeric',
             'amount_rest'=>'required|numeric',
             'vat'=>'required|numeric',
+            "transfer_date"=>"date|string|required_if:payment_method,bank_transfer|nullable",
+            "transfer_number"=>"numeric|required_if:payment_method,bank_transfer|nullable",
+            "bank_name"=>"string|required_if:payment_method,check|nullable",
+            "check_number"=>"numeric|required_if:payment_method,check|nullable",
+            "check_date"=>"date|string|required_if:payment_method,check|nullable",
+            'products'=>'required|array',
+            'qtys'=>'required|array',
+            'prices'=>'required|array',
         ];
         $this->validate($request,$rules);
+
         $this->CreateSupplierBill($request);
         alert()->success('تم إنشاء الفاتورة بنجاح')->autoclose(5000);
         return redirect()->route('supplier.suppliers-bills.index');
@@ -82,7 +94,8 @@ class SuppliersBillsController extends Controller
     {
         $bill = SupplierBill::findOrFail($id);
         $suppliers = User::where('is_supplier',1)->where('supplier_type','dolphin')->pluck('name', 'id');
-        return $this->toEdit(compact('bill','suppliers'));
+        $products=Product::all();
+        return $this->toEdit(compact('bill','suppliers','products'));
     }
 
     /**
@@ -94,19 +107,29 @@ class SuppliersBillsController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $bill = SupplierBill::findOrFail($id);
 
         $rules = [
             'supplier_id'=>'required|numeric',
             'bill_number'=>'required|numeric|unique:supplier_bills,bill_number,'.$bill->id,
             'date'=>'required|string|date',
-            'payment_method'=>'required|in:cash,postpaid',
+            'payment_method'=>'required|in:cash,bank_transfer,check',
             'amount_paid'=>'required|numeric',
             'amount_rest'=>'required|numeric',
             'vat'=>'required|numeric',
+            "transfer_date"=>"date|string|required_if:payment_method,==,bank_transfer",
+            "transfer_number"=>"numeric|required_if:payment_method,==,bank_transfer",
+            "bank_name"=>"string|required_if:payment_method,==,check",
+            "check_number"=>"numeric|required_if:payment_method,==,check",
+            "check_date"=>"date|string|required_if:payment_method,==,check",
+            'products'=>'required|array',
+            'qtys'=>'required|array',
+            'prices'=>'required|array',
         ];
 
         $this->validate($request,$rules);
+
         $this->UpdateSupplierBill($request,$bill);
         alert()->success('تم تعديل الفاتورة بنجاح')->autoclose(5000);
         return redirect()->route('supplier.suppliers-bills.index');
