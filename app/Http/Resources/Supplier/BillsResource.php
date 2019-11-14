@@ -28,7 +28,7 @@ class BillsResource extends ResourceCollection
                     'amount_rest'=>(float)$q->amount_rest,
                     'offer'=>[
                         'id'=>$q->offer->id,
-                        'products'=>$q->offer->offer_products->transform(function ($qu){
+                        'products'=>$q->products->transform(function ($qu){
                             return [
                                 'product_id'=>optional($qu->product)->id != null?$qu->product->id:0,
                                 'product_name'=>optional($qu->product)->name != null?$qu->product->name:"",

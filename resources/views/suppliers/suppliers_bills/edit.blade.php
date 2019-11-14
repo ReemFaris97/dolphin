@@ -53,5 +53,26 @@
 @endsection
 
 @section('scripts')
+    <script>
 
+        $(document).ready(function(){
+            $('#payment_method').on('change',function(){
+                var val = $(this).val();
+                if(val == 'bank_transfer'){
+                    $('#transfer').show();
+                }else{
+                    $('#transfer').hide();
+                }
+
+                if(val == 'check'){
+                    $('#check').show();
+                }else{
+                    $('#check').hide();
+                }
+
+            });
+
+        });
+
+    </script>
 @endsection

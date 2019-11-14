@@ -50,8 +50,6 @@ class OfferProductController extends Controller
             'products'=>'required|array',
             'qtys'=>'required|array',
             'prices'=>'required|array',
-
-
         ];
         $this->validate($request,$rules);
 
@@ -62,13 +60,12 @@ class OfferProductController extends Controller
         $products = collect($inputs['products']);
         $qtys = collect($inputs['qtys']);
         $prices = collect($inputs['prices']);
-       $merges = $products->zip($qtys,$prices);
+        $merges = $products->zip($qtys,$prices);
 
        foreach ($merges as $merge)
 
        {
           $offerProduct= OfferProduct::create(['product_id'=>$merge['0'],'quantity'=> $merge['1'],'price'=>$merge['2'],'supplier_offer_id'=>$offer->id]);
-
        }
 
 
@@ -99,7 +96,7 @@ class OfferProductController extends Controller
     {
         $supplieroffer= SupplierOffer::findOrFail($id);
         $products=Product::all();
-       $supplieroffer->offer_products;
+        $supplieroffer->offer_products;
         return $this->toEdit(compact('supplieroffer','products'));
     }
 

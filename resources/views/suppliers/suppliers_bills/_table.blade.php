@@ -21,7 +21,13 @@
             <td>{{$row->supplier->name}}</td>
             <td>{{$row->bill_number}}</td>
             <td>{{$row->date}}</td>
-            <td>{{$row->payment_method=="cash"?'كاش':'آجل'}}</td>
+            <td>
+                @switch($row->payment_method)
+                    @case('cash')كاش @break
+                    @case('bank_transfer')تحويل بنكي@break
+                    @case('check')شيك@break
+                @endswitch
+            </td>
             <td>{{$row->total()}}</td>
             <td>
                 <a href="{!!route('supplier.suppliers-bills.show',$row->id)!!}" class="btn btn-info"> <i
