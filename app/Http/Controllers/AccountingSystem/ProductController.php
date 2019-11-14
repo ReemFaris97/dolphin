@@ -14,6 +14,7 @@ use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
 use App\Models\AccountingSystem\AccountingProductComponent;
 use App\Models\AccountingSystem\AccountingProductDiscount;
+use App\Models\AccountingSystem\AccountingProductMainUnit;
 use App\Models\AccountingSystem\AccountingProductOffer;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingProductSubUnit;
@@ -45,10 +46,13 @@ class ProductController extends Controller
     public function create()
     {
         $industrials=AccountingIndustrial::pluck('name','id')->toArray();
+        $units=AccountingProductMainUnit::all();
         $branches=AccountingBranch::pluck('name','id')->toArray();
         $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
         $products=AccountingProduct::pluck('name','id')->toArray();
-        return $this->toCreate(compact('branches','categories','products','industrials'));
+
+        //dd($units);
+        return $this->toCreate(compact('branches','categories','products','industrials','units'));
     }
 
     /**
@@ -99,6 +103,21 @@ class ProductController extends Controller
            ]);
        }
         $product->name=$inputs['name_product'];
+
+
+
+        if (isset($request['main_unit'])){
+            $main_unit=AccountingProductMainUnit::where('main_unit',$request['main_unit'])->first();
+            if (!isset($main_unit))
+            {
+                AccountingProductMainUnit::create([
+                 'main_unit'=>  $request['main_unit']
+                ]);
+            }
+
+        }
+
+
         ///////  /// / //////subunits Arrays//////////////////////////////
         $names = collect($request['name']);
         $par_codes = collect($request['par_codes']);
@@ -176,7 +195,8 @@ class ProductController extends Controller
                     AccountingProductDiscount::create([
                         'quantity'=>$discount['0'],
                         'gift_quantity'=> $discount['1'],
-                        'product_id'=>$product->id
+                        'product_id'=>$product->id,
+                        'discount_type'=>'quantity',
                     ]);
 
                 }
@@ -224,6 +244,7 @@ class ProductController extends Controller
     {
         $branches=AccountingBranch::pluck('name','id')->toArray();
         $industrials=AccountingIndustrial::pluck('name','id')->toArray();
+        $units=AccountingProductMainUnit::all();
 
         $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
         $product=AccountingProduct::find($id);
@@ -236,7 +257,7 @@ class ProductController extends Controller
         $store=AccountingStore::find(optional($storeproduct)->store_id??1);
         $stores=AccountingStore::all();
 
-        return $this->toEdit(compact('industrials','face','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores'));
+        return $this->toEdit(compact('industrials','face','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores','units'));
 
 
     }

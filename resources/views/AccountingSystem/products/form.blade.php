@@ -147,17 +147,10 @@
 						الوحدات الفرعية
 					</button>
 
-					<div class="md-form">
-						<input type="search" id="form-autocomplete" class="form-control mdb-autocomplete">
-						<button class="mdb-autocomplete-clear">
-							<svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="https://www.w3.org/2000/svg">
-								<path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
-								<path d="M0 0h24v24H0z" fill="none" />
-							</svg>
-						</button>
-						<label for="form-autocomplete" class="active">What is your favorite US state?</label>
-					</div>
-					{{--{!! Form::select("main_unit",['liter'=>'لتر','gram'=>'جرام','kilo'=>'كيلو'],null,['class'=>'form-control js-example-basic-single','placeholder'=>' الوحدة الاساسية '])!!}--}}
+
+						{{--<input class="form-control autocomplete" placeholder="Enter A" />--}}
+
+					{!! Form::text("main_unit",null,['class'=>'form-control  autocomplete','placeholder'=>' الوحدة الاساسية '])!!}
 				</div>
 				<div class="form-group col-md-12 pull-left">
 					<label>وصف المنتج </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
@@ -517,6 +510,8 @@
 			$(this).removeData();
 			$('#exampleModal input').val('');
 		});
+
+
 
 	});
 
@@ -944,6 +939,13 @@
 		}///if_end
 
 	}
+
+
+	{{--var availableTags =<?php  json_encode($units); ?>;--}}
+{{--alert(availableTags);--}}
+	{{--$(".autocomplete").autocomplete({--}}
+		{{--source: availableTags--}}
+	{{--});--}}
 
 
 </script>
