@@ -76,7 +76,6 @@
         @else
                 @if($bill->payment_method == 'bank_transfer')
             <div id="transfer">
-
                 <div class="form-group m-form__group">
                     <label>تاريخ التحويل</label>
                     {!! Form::text('transfer_date',isset($bill)?old('transfer_date')??optional($bill->transfer_date)->format('m-d-Y'):old('transfer_date'),['class'=>'form-control m-input datepicker','autocomplete'=>'off'])!!}
@@ -91,19 +90,19 @@
 
                  @if($bill->payment_method=='check')
                         <div id="check">
-                        <div class="form-group m-form__group">
-                            <label> اسم البنك</label>
-                            {!! Form::text('bank_name',null,['class'=>'form-control m-input','placeholder'=>'ادخل إسم البنك'])!!}
-                        </div>
+                                <div class="form-group m-form__group">
+                                    <label> اسم البنك</label>
+                                    {!! Form::text('bank_name',null,['class'=>'form-control m-input','placeholder'=>'ادخل إسم البنك'])!!}
+                                </div>
 
-                        <div class="form-group m-form__group">
-                            <label>رقم الشيك</label>
-                            {!! Form::number('check_number',isset($bill)?$bill->check_number:0,['class'=>'form-control m-input','placeholder'=>'رقم الشيك'])!!}
-                        </div>
-                        <div class="form-group m-form__group">
-                            <label>تاريخ الشيك</label>
-                            {!! Form::text('check_date',isset($bill)?old('check_date')??optional($bill->check_date)->format('m-d-Y'):old('check_date'),['class'=>'form-control m-input datepicker','autocomplete'=>'off'])!!}
-                        </div>
+                                <div class="form-group m-form__group">
+                                    <label>رقم الشيك</label>
+                                    {!! Form::number('check_number',isset($bill)?$bill->check_number:0,['class'=>'form-control m-input','placeholder'=>'رقم الشيك'])!!}
+                                </div>
+                                <div class="form-group m-form__group">
+                                    <label>تاريخ الشيك</label>
+                                    {!! Form::text('check_date',isset($bill)?old('check_date')??optional($bill->check_date)->format('m-d-Y'):old('check_date'),['class'=>'form-control m-input datepicker','autocomplete'=>'off'])!!}
+                                </div>
                         </div>
                 @endif
 
