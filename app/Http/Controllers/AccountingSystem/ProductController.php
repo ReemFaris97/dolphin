@@ -46,11 +46,11 @@ class ProductController extends Controller
     public function create()
     {
         $industrials=AccountingIndustrial::pluck('name','id')->toArray();
-        $units=AccountingProductMainUnit::all();
+        $unit=AccountingProductMainUnit::pluck('main_unit')->toArray();
         $branches=AccountingBranch::pluck('name','id')->toArray();
         $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
         $products=AccountingProduct::pluck('name','id')->toArray();
-
+        $units=collect($unit)->toJson();
         //dd($units);
         return $this->toCreate(compact('branches','categories','products','industrials','units'));
     }
@@ -244,8 +244,8 @@ class ProductController extends Controller
     {
         $branches=AccountingBranch::pluck('name','id')->toArray();
         $industrials=AccountingIndustrial::pluck('name','id')->toArray();
-        $units=AccountingProductMainUnit::all();
-
+        $unit=AccountingProductMainUnit::pluck('main_unit','id')->toArray();
+        $units=collect($unit)->toJson();
         $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
         $product=AccountingProduct::find($id);
         $products=AccountingProduct::all();
