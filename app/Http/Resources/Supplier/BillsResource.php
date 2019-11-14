@@ -26,9 +26,7 @@ class BillsResource extends ResourceCollection
                     'vat'=>(float)$q->vat,
                     'amount_paid'=>(float)$q->amount_paid,
                     'amount_rest'=>(float)$q->amount_rest,
-                    'offer'=>[
-                        'id'=>$q->offer->id,
-                        'products'=>$q->products->transform(function ($qu){
+                    'products'=>$q->products->transform(function ($qu){
                             return [
                                 'product_id'=>optional($qu->product)->id != null?$qu->product->id:0,
                                 'product_name'=>optional($qu->product)->name != null?$qu->product->name:"",
@@ -36,7 +34,6 @@ class BillsResource extends ResourceCollection
                                 'price'=>optional($qu->price) != null?(float)$qu->price:0,
                             ];
                         }),
-                        ],
 
                 ];
             }),

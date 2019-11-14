@@ -24,18 +24,14 @@ class SingleBillResource extends JsonResource
             'vat'=>(float)$this->vat,
             'amount_paid'=>(float)$this->amount_paid,
             'amount_rest'=>(float)$this->amount_rest,
-            'offer'=>[
-                'id'=>$this->offer->id,
-                'products'=>$this->offer->offer_products->transform(function ($qu){
+            'products'=>$this->products->transform(function ($qu){
                     return [
-                        'product_id'=>optional($qu->product)->id,
-                        'product_name'=>optional($qu->product)->name,
-                        'quantity'=>(int)$qu->quantity,
-                        'price'=>(float)$qu->price,
+                        'product_id'=>optional($qu->product)->id != null?$qu->product->id:0,
+                        'product_name'=>optional($qu->product)->name != null?$qu->product->name:"",
+                        'quantity'=>optional($qu->quantity) != null? $qu->quantity:0,
+                        'price'=>optional($qu->price) != null?(float)$qu->price:0,
                     ];
                 }),
-            ],
-
         ];
     }
 }
