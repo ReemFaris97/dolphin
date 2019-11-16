@@ -1,28 +1,14 @@
-$(function() {
-    $("#tax").on('change', function () {
-        var id = $(this).val();
-
-
-      if (id =='1')
-      {
-
-      $("#tax").show();
-
-
-
-      }
-
-
-        if (id =='0')
+$(function(){
+    $('input[type="radio"]').click(function(){
+        if ($(this).is(':checked'))
         {
+             var id=$(this).val();
+             if (id==1){
 
-
-
-            $("#tax2").hide();
-
+                 $(".prices_taxs").show();
+             }else if (id==0){
+                 $(".prices_taxs").hide();
+             }
         }
-
-
-
     });
 });

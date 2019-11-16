@@ -18,6 +18,7 @@ use App\Models\AccountingSystem\AccountingProductMainUnit;
 use App\Models\AccountingSystem\AccountingProductOffer;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingProductSubUnit;
+use App\Models\AccountingSystem\AccountingProductTax;
 use App\Models\AccountingSystem\AccountingStore;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -63,7 +64,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-      //  dd($request->all());
+     //  dd($request->all());
         $rules = [
 
 
@@ -204,6 +205,16 @@ class ProductController extends Controller
 
         }
 
+/////////////////////product_taxs//////////////////////////////////////
+
+        if (isset($request['tax'])){
+            AccountingProductTax::create([
+                'product_id'=>$product->id,
+                'tax'=>$request['tax'],
+                'price_has_tax'=>isset($request['price_has_tax'])?$request['price_has_tax']:Null,
+            ]);
+
+        }
 
 
         alert()->success('تم اضافة المنتج بنجاح !')->autoclose(5000);
@@ -230,7 +241,10 @@ class ProductController extends Controller
         $storeproduct=AccountingProductStore::where('product_id',$id)->first();
         $store=AccountingStore::find(optional($storeproduct)->store_id??1);
         $cells=AccountingColumnCell::all();
-        return $this->toShow(compact('branches','categories','product','store','cells'));
+        $discounts=AccountingProductDiscount::where('product_id',$id)->get();
+        $tax=AccountingProductTax::where('product_id',$id)->first();
+
+        return $this->toShow(compact('branches','categories','product','store','cells','discounts','tax'));
 
     }
 

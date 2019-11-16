@@ -162,6 +162,79 @@
                         </div>
                     </div>
                 </div>
+
+
+
+                <div class="panel">
+                    <div class="panel-heading " style="background: #8d76a6">
+                        <h6 class="panel-title">
+                            <a class="collapsed" data-toggle="collapse" href="#collapsible-styled-group5">  العروض والخصومات</a>
+                        </h6>
+                    </div>
+                    <div id="collapsible-styled-group5" class="panel-collapse collapse">
+                        <div class="panel-body">
+
+                            <!--discounts table-->
+                            <table id="discountTable" class="table datatable-button-init-basic all">
+                                <thead>
+                                <tr>
+                                    <th>  نوع الخصم</th>
+                                    <th> الكمية الاساسية</th>
+                                    <th> الكمية  الهدية</th>
+                                    <th>   النسبة</th>
+
+                                </tr>
+                                </thead>
+                                <tbody class="add-discounts">
+                                @foreach($discounts as $discount)
+                                    @if ($discount->discount_type=="quantity")
+                                        <td><label >كميه</label> </td>
+                                        @else
+                                        <td><label >نسبة</label> </td>
+
+                                    @endif
+
+                                    <td>{!! $discount->quantity !!}</td>
+                                    <td>{!! $discount->gift_quantity !!}</td>
+                                    <td>{!! $discount->percent !!}</td>
+                                @endforeach
+                                </tbody>
+                            </table>
+
+                            <!-- end table-->
+                        </div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-heading " style="background: #f58442">
+                        <h6 class="panel-title">
+                            <a class="collapsed" data-toggle="collapse" href="#collapsible-styled-group6">الضريبه المضافة</a>
+                        </h6>
+                    </div>
+                    <div id="collapsible-styled-group6" class="panel-collapse collapse">
+                        <div class="panel-body">
+                       @if (isset($tax))
+
+
+                            <div class="form-group col-md-6 pull-left">
+                             @if ($tax->tax==1)
+
+                                    <label> يوجد ضريبه مضافه للمنتج</label>
+                                     @if ($tax->price_has_tax==1)
+
+                                            <label>-- السعر  شامل الضريبه المضافة</label>
+                                         @else
+                                            <label>-- السعر غير شامل الضريبه المضافة</label>
+                                        @endif
+                                 @else
+                                    <label>لا يوجد ضريبه مضافه للمنتج</label>
+                             @endif
+                                 @endif
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
     </div>
