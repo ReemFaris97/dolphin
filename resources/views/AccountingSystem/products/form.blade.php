@@ -257,7 +257,7 @@
 	</div>
 
 	<div class="panel">
-		<div class="panel-heading " style="background: #f1c40f">
+		<div class="panel-heading " style="background: #8d76a6">
 			<h6 class="panel-title">
 				<a class="collapsed" data-toggle="collapse" href="#collapsible-styled-group5">العروض والخصومات</a>
 			</h6>
@@ -282,7 +282,7 @@
 		</div>
 	</div>
 	<div class="panel">
-		<div class="panel-heading " style="background: #e74c3c">
+		<div class="panel-heading " style="background: #f58442">
 			<h6 class="panel-title">
 				<a class="collapsed" data-toggle="collapse" href="#collapsible-styled-group6"> الضريبه المضافة</a>
 			</h6>
@@ -292,19 +292,19 @@
 
 
 
-				<div class="form-group col-md-6 pull-left " id="tax">
+				<div class="form-group col-md-6 pull-left taxs " >
 					<label>يوجد ضريبة </label>
-					{!! Form::radio("tax",1,['class'=>'form-control'])!!}
+					{!! Form::radio("tax",1,['class'=>'form-control','id'=>'yes','value'=>1 ])!!}
 
 					<label> لا يوجد ضريبه </label>
-					{!! Form::radio("tax",0,['class'=>'form-control'])!!}
+					{!! Form::radio("tax",0,['class'=>'form-control', 'id'=>'no','value'=>0])!!}
 				</div>
-				<div class="form-group col-md-6 pull-left " id="tax2">
+				<div class="form-group col-md-6 pull-left prices_taxs ">
 					<label> السعر شامل  الضريبة </label>
-					{!! Form::radio("tax",1,['class'=>'form-control'])!!}
+					{!! Form::radio("price_has_tax",1,['class'=>'form-control'])!!}
 
 					<label>السعر  غير شامل الضريبة  </label>
-					{!! Form::radio("tax",0,['class'=>'form-control'])!!}
+					{!! Form::radio("price_has_tax",0,['class'=>'form-control'])!!}
 				</div>
 
 
@@ -536,7 +536,7 @@
 		$("#components_button").hide();
 		$("#offers_button").hide();
 		$("#discounts_button").hide();
-		$("#tax2").hide();
+		$(".prices_taxs").hide();
 		$(".percent").hide();
 		$('.js-example-basic-single').select2();
 
