@@ -541,6 +541,10 @@
 		$('.js-example-basic-single').select2();
 
 
+        $("#productsTable").hide();
+        $("#componentTable").hide();
+        $("#offerTable").hide();
+        $("#discountTable").hide();
 
 
 
@@ -571,6 +575,7 @@
 			})
 
 			bigData.push(data);
+            $("#productsTable").show();
 
 			var appendProducts = bigData.map(function(product) {
 				return (`
@@ -678,6 +683,7 @@
 
 
 			bigDataComponent.push(component_data);
+            $("#componentTable").show();
 			var appendComponent = bigDataComponent.map(function (component) {
 				return (`
 					<tr class="single-product">
@@ -783,6 +789,7 @@
 
 
             bigDataOffer.push(offer_data);
+            $("#offerTable").show();
             var appendOffer= bigDataOffer.map(function (offer) {
                 return (`
 					<tr class="single-product">
@@ -887,7 +894,9 @@
 
 
 			bigDataDiscount.push(discount_data);
-			var appendDiscount = bigDataDiscount.map(function (discount) {
+            $("#discountTable").show();
+
+            var appendDiscount = bigDataDiscount.map(function (discount) {
 				return (`
 					<tr class="single-product">
 						<td class="discount-basic_quantity">${discount.basic_quantity}</td>

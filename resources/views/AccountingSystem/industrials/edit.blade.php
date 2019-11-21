@@ -17,7 +17,7 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::model($cell, ['route' => ['accounting.industrials.update' ,$industrial->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
+            {!!Form::model($industrial, ['route' => ['accounting.industrials.update' ,$industrial->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
 
             @include('AccountingSystem.industrials.form')
 
