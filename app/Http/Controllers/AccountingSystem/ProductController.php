@@ -141,6 +141,7 @@ class ProductController extends Controller
 
         }
 ////////////////////components Arrays////////////////////////////////
+
         $component_names= collect($request['component_names']);
         $qtys= collect($request['qtys']);
         $main_units= collect($request['main_units']);
@@ -159,7 +160,7 @@ class ProductController extends Controller
         }
 
 
-/////////////////////////////////////offers _products
+/////////////////////////////////////offers _products///////////////////////////////////
 
         if (isset($inputs['offers']))
         {

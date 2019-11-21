@@ -35,7 +35,7 @@
                     <th> سعر البيع </th>
                     <th> سعر الشراء </th>
                     <th> صورة  المنتج </th>
-
+                    <th>عرض  تفاصيل    المنتج </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -64,8 +64,9 @@
                         <td>{!! $row->  selling_price!!}</td>
                         <td>{!! $row->  purchasing_price!!}</td>
                         <td><img src="{!! getimg($row->image)!!}" style="width:100px; height:100px"> </td>
-
-
+                        <td>
+                        <a href="{{route('accounting.products.show',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>
+                        </td>
                     </tr>
 
                 @endforeach
