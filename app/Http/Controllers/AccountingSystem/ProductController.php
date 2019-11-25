@@ -82,6 +82,7 @@ class ProductController extends Controller
             'image'=>'nullable|sometimes|image',
             'width'=>'nullable|string',
             'num_days_recession'=>'nullable|string',
+            'cell_id'=>'required',
 
         ];
         $this->validate($request,$rules);
