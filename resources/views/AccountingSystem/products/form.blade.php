@@ -531,7 +531,6 @@
 <script>
 
 	$(document).ready(function() {
-
 		$("#components_button").hide();
 		$("#offers_button").hide();
 		$("#discounts_button").hide();
@@ -539,12 +538,10 @@
 		$(".percent").hide();
 		$('.js-example-basic-single').select2();
 
-
         $("#productsTable").hide();
         $("#componentTable").hide();
         $("#offerTable").hide();
         $("#discountTable").hide();
-
 
 
 	});

@@ -81,6 +81,12 @@
 @endif
 
 <div class="form-group col-md-6 pull-left">
+    <label> كود المخزن:  </label>
+    {!! Form::text("code",null,['class'=>'form-control','placeholder'=>' كود المخزن'])!!}
+</div>
+
+
+<div class="form-group col-md-6 pull-left">
     <label>اسم المخزن باللغة العربية:  </label>
     {!! Form::text("ar_name",null,['class'=>'form-control','placeholder'=>'  اسم المخزن باللغة العربية '])!!}
 </div>
@@ -97,6 +103,115 @@
 </div>
 
 
+<div class="form-group col-md-6 pull-left">
+    <label> مساحة المخزن:  </label><span style="color: #ff0000; margin-right: 15px;">بالمتر المربع</span>
+    {!! Form::text("width",null,['class'=>'form-control','placeholder'=>' مساحة المخزن'])!!}
+</div>
+
+<div class="form-group col-md-6 pull-left">
+    <label class="display-block text-semibold">  نوع المخزن</label>
+    <label class="radio-inline">
+        <input type="radio" name="type" class="styled" id="basic"   value="1">
+        رئسى
+    </label>
+
+    <label class="radio-inline">
+        <input type="radio" name="type"  class="styled" id="part"    value="0">
+        فرعى
+    </label>
+</div>
+
+<div class="form-group col-md-6 pull-left">
+    <label class="display-block text-semibold">  حالة المخزن</label>
+    <label class="radio-inline">
+        <input type="radio" name="status" class="styled" id="rent" value="1"  onclick="myFunction3()" >
+        ايجار
+    </label>
+
+    <label class="radio-inline">
+        <input type="radio" name="status"  class="styled" id="ownership" value="0" onclick="myFunction4()"  >
+        تمليك
+    </label>
+</div>
+
+
+
+
+<div class="rent">
+    <div class="form-group col-md-6 pull-left">
+        <label> تكلفة الايجار:  </label>
+        {!! Form::text("width",null,['class'=>'form-control','placeholder'=>'  تكلفة الايجار'])!!}
+    </div>
+    <div class="form-group col-md-6 pull-left">
+        <label>  تاريخ بداية الايجار:  </label>
+        {!! Form::date("from",null,['class'=>'form-control'])!!}
+    </div>
+    <div class="form-group col-md-6 pull-left">
+        <label> تاريخ نهاية الايجار:  </label>
+        {!! Form::date("to",null,['class'=>'form-control'])!!}
+    </div>
+</div>
+
+@if( isset($store))
+    @if ($store->type=1)
+
+        <div class="form-group">
+            <label class="display-block text-semibold">  نوع المخزن</label>
+            <label class="radio-inline">
+                <input type="radio" name="type" class="styled"  value="1"  checked="checked" >
+                رئسى
+            </label>
+
+            <label class="radio-inline">
+                <input type="radio" name="type"  class="styled" value="0"   >
+                فرعى
+            </label>
+        </div>
+    @else
+        <div class="form-group">
+            <label class="display-block text-semibold">  نوع المخزن</label>
+            <label class="radio-inline">
+                <input type="radio" name="type" class="styled"  value="1"   >
+                رئسى
+            </label>
+
+            <label class="radio-inline">
+                <input type="radio" name="type"  class="styled" value="0" checked="checked"  >
+                فرعى
+            </label>
+        </div>
+    @endif
+@endif
+@if( isset($store))
+  @if ($store->status=1)
+      <div class="form-group">
+          <label class="display-block text-semibold">  حالة المخزن</label>
+          <label class="radio-inline">
+              <input type="radio" name="status" class="styled" value="1"  onclick="myFunction3()" checked>
+              ايجار
+          </label>
+
+          <label class="radio-inline">
+              <input type="radio" name="status"  class="styled" value="0" onclick="myFunction4()"  >
+              تمليك
+          </label>
+      </div>
+      @else
+
+      <div class="form-group">
+          <label class="display-block text-semibold">  حالة المخزن</label>
+          <label class="radio-inline">
+              <input type="radio" name="status" class="styled" value="1"  onclick="myFunction3()" >
+              ايجار
+          </label>
+
+          <label class="radio-inline">
+              <input type="radio" name="status"  class="styled" value="0" onclick="myFunction4()" checked >
+              تمليك
+          </label>
+      </div>
+  @endif
+@endif
 @if( isset($store))
 
     <div class="form-group col-md-6 pull-left">
@@ -106,11 +221,31 @@
 
 
 @endif
-
-
 <div class="form-group col-md-6 pull-left ">
     <label>صوره المخزن  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
     {!! Form::file("image",null,['class'=>'file-styled'])!!}
+</div>
+
+
+
+
+<div class="form-group col-md-12 pull-left">    <label>  تحديد موقع المخزن  على الخريطة  </label>     <div class="form-group">
+        <div id="map" style="width: 100%; height: 300px;"></div>        <div class="clearfix">&nbsp;</div>
+        <div class="m-t-small">
+            <div class="col-sm-4">
+                <label class="p-r-small control-label">خط الطول</label>
+            </div>
+            <div class="col-sm-6">
+                {{ Form::text('lat', null,['id'=>'lat','class'=>'form-control']) }}
+            </div>
+            <div class="col-sm-4">
+                <label class="p-r-small  control-label">خط العرض </label>
+            </div>
+            <div class="col-sm-6">
+                {{ Form::text('lng', null,['id'=>'lng','class'=>'form-control']) }}
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="text-center col-md-12">
@@ -127,6 +262,8 @@
 
             $('.companies').show();
             $('.branches').hide();
+            $(".rent").hide();
+
 
             $('.js-example-basic-single').select2();
         });
@@ -146,6 +283,18 @@
 
             $(".companies").hide();
             $(".branches").show();
+        }
+
+        function myFunction3() {
+
+            $(".rent").show();
+
+        }
+
+        function myFunction4() {
+
+            $(".rent").hide();
+
         }
 
     </script>
@@ -171,4 +320,38 @@
 
     @endif
    @endif
+
+    <script>
+        // Initialize and add the map
+        function initMap() {
+            // The location of Uluru
+            var uluru = {lat:{{{ isset($store) ? $store->lat : '26.381861087276274' }}}, lng:{{{ isset($store) ? $store->lng : '43.99479680000002' }}}};
+            // The map, centered at Uluru
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 15,
+                center: uluru
+            });
+            // The marker, positioned at Uluru
+            var marker = new google.maps.Marker({
+                position: uluru,
+                map: map,
+                draggable:true,
+            });
+
+
+            marker.addListener('drag', handleEvent);
+            marker.addListener('dragend', handleEvent);
+            document.getElementById('lat').value = 26.381861087276274;
+            document.getElementById('lng').value = 43.99479680000002;
+        }
+
+        function handleEvent(event) {
+            document.getElementById('lat').value = event.latLng.lat();
+            document.getElementById('lng').value = event.latLng.lng();
+        }
+    </script>
+
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsT140mx0UuES7ZwcfY28HuTUrTnDhxww&callback=initMap">
+    </script>
 @endsection
