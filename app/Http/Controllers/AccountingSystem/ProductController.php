@@ -20,6 +20,7 @@ use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingProductSubUnit;
 use App\Models\AccountingSystem\AccountingProductTax;
 use App\Models\AccountingSystem\AccountingStore;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
@@ -474,5 +475,26 @@ class ProductController extends Controller
             'status'=>true,
             'data'=>view('AccountingSystem.products.getAjaxStores')->with('stores',$stores_company)->render()
         ]);
+    }
+
+    public  function settlements_store(Request $request){
+
+      $inputs=$request->all();
+      //dd($inputs['product_id']);
+      $product=AccountingProduct::find($inputs['product_id']);
+
+        $product->update([
+            'quantity'=>$inputs['quantity'],
+            'unit_price'=>$inputs['unit_price'],
+            'selling_price'=>$inputs['selling_price'],
+            'purchasing_price'=>$inputs['purchasing_price'],
+        ]);
+
+
+        $stores=AccountingStore::pluck('ar_name','id')->toArray();
+        $products=[];
+        alert()->success('تم تسوية بدايه ارصده  المنتج بنجاح !')->autoclose(5000);
+
+        return view('AccountingSystem.stores.settlements',compact('stores','products'));
     }
 }

@@ -9,6 +9,7 @@ use App\Models\AccountingSystem\AccountingCompany;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingStore;
+use App\Models\Store;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
@@ -25,6 +26,7 @@ class StoreController extends Controller
     public function index()
     {
         $stores =AccountingStore::all()->reverse();
+       // dd($stores);
         return $this->toIndex(compact('stores'));
     }
 
@@ -183,6 +185,44 @@ class StoreController extends Controller
         $product_store=AccountingProductStore::where('store_id',$id)->pluck('id')->toArray();
         $products=AccountingProduct::whereIn('id',$product_store ) ->get();
         $store =AccountingStore::findOrFail($id);
-        return view('AccountingSystem.stores.product',compact('products','store'));
+        $stores=AccountingStore::where('id','!=',$id)->pluck('ar_name','id')->toArray();
+    //dd($stores);
+
+        return view('AccountingSystem.stores.product',compact('products','store','stores'));
+    }
+
+    public function store_products_copy(Request $request,$id){
+
+    $products_id=AccountingProductStore::where('store_id',$request["store_id"])->pluck('product_id')->toArray();
+
+//          dd($products_id);
+
+          foreach ($products_id as $product_id){
+          AccountingProductStore::create([
+              'store_id'=>$id,
+              'product_id'=>$product_id
+          ]);
+
+          }
+        alert()->success('تم نسخ الاصناف  المخزن بنجاح !')->autoclose(5000);
+        return back();
+    }
+
+    public function settlements(){
+
+        $stores=AccountingStore::pluck('ar_name','id')->toArray();
+        $products=[];
+        return view('AccountingSystem.stores.settlements',compact('stores','products'));
+
+    }
+    public  function settlements_store(Request $request){
+        $store_id=$request['store_id'];
+        $stores=AccountingStore::pluck('ar_name','id')->toArray();
+//dd($store_id);
+        $product_store=AccountingProductStore::where('store_id',$store_id)->pluck('id')->toArray();
+        $products=AccountingProduct::whereIn('id',$product_store ) ->get();
+       // dd($products);
+        return view('AccountingSystem.stores.settlements',compact('stores','products'));
+
     }
 }

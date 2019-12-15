@@ -12,6 +12,11 @@
     <div class="panel panel-flat">
         <div class="panel-heading">
             <h5 class="panel-title">  عرض منتجات المخزن  {!! $store->name !!}</h5>
+
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="products_button">
+                نسخ الاصناف  بالمخزن
+            </button>
+
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -80,6 +85,39 @@
 
         </div>
 
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"> نسخ الاصناف بالمخزن</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {!!Form::open( ['route' => ['accounting.store_products_copy.store',$store->id] ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
+
+                    <div class="modal-body">
+
+
+                        <label> اختر المخزن المنسخ منه</label>
+
+                        {!! Form::select("store_id",$stores,null,['class'=>'form-control js-example-basic-single','id'=>'component_name','placeholder'=>' اختر  المخزن المنسخ منه '])!!}
+
+
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+                        <button class="btn btn-primary" type="submit" data-dismiss="modal" onclick="this.form.submit()">نسخ الاصناف بالمخزن </button>
+
+                    </div>
+                    {!!Form::close() !!}
+                </div>
+            </div>
+        </div>
+        <!-- end model-->
     </div>
 
 

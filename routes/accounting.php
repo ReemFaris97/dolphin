@@ -14,6 +14,16 @@ Route::middleware('admin')->group(function () {
     Route::resource('users', 'UserController');
     Route::resource('stores', 'StoreController');
     Route::get('/store-product/{id}', 'StoreController@store_product')->name('stores.product');
+    Route::post('/store-products-copy/{id}', 'StoreController@store_products_copy')->name('store_products_copy.store');
+    Route::post('/settlement', 'StoreController@settlements_store')->name('stores_settle.filter_settlements');
+    Route::get('/settlements', 'StoreController@settlements')->name('stores.settlements');
+
+
+
+    Route::get('/product-settlement/{id}', 'ProductController@settlement')->name('products.settlements');
+    Route::any('/settlements_store', 'ProductController@settlements_store')->name('products_settlement.store');
+
+
     Route::resource('categories', 'CategoryController');
     Route::resource('industrials', 'IndustrialController');
 
