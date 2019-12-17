@@ -138,6 +138,10 @@
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3" style="display: none;" id="offers_button">
                         المنتجات التابعة
                     </button>
+
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal5" style="display: none;" id="services_button">
+                    الخدمات
+                    </button>
 					{!! Form::select("type",['store'=>'مخزون','service'=>'خدمه','offer'=>'مجموعة منتجات ','creation'=>'تصنيع','product_expiration'=>'منتج بتاريخ صلاحيه'],null,['class'=>'form-control js-example-basic-single type','placeholder'=>' نوع المنتج ','id'=>'type'])!!}
 				</div>
 				<div class="form-group col-md-6 pull-left">
@@ -207,6 +211,11 @@
 				<div class="form-group col-md-6 pull-left">
 					<label> الحد الاقصى من الكمية </label>
 					{!! Form::text("max_quantity",null,['class'=>'form-control','placeholder'=>' الحد الاقصى من الكمية '])!!}
+				</div>
+
+				<div class="form-group col-md-6 pull-left">
+					<label> الكمية </label>
+					{!! Form::text("quantity",null,['class'=>'form-control','placeholder'=>'  الكمية '])!!}
 				</div>
 
 
@@ -360,6 +369,9 @@
 <!-- end table-->
 
 
+
+
+
 <!-- offers table-->
 <table id="offerTable" class="table datatable-button-init-basic all">
     <thead>
@@ -373,7 +385,6 @@
 
     </tbody>
 </table>
-
 <!-- end table-->
 
 <!--discounts table-->
@@ -390,6 +401,23 @@
 
 
 	</tbody>
+</table>
+<!-- end table-->
+
+<!-- services table-->
+<table id="serviceTable" class="table datatable-button-init-basic all">
+    <thead>
+    <tr>
+        <th> اسم الصنف</th>
+        <th>الكمية</th>
+        <th>الوحدة الاساسية</th>
+        <th>العمليات</th>
+    </tr>
+    </thead>
+    <tbody class="add-services">
+
+
+    </tbody>
 </table>
 
 <!-- end table-->
@@ -525,6 +553,40 @@
 <!-- end model4-->
 
 
+<!-- Modal5 -->
+<div class="modal fade" id="exampleModal5" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"> مكونات التصنيع</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+                <span class="required--in">*</span>
+                {!! Form::select("type",['Delivery'=>'توصيل','composing'=>'تركيب','maintenance'=>'صيانة'],null,['class'=>'form-control js-example-basic-single','id'=>'component_name','placeholder'=>' اختر  خدمة الصنف '])!!}
+                <label>السعر</label>
+                <span class="required--in">*</span>
+                <input type="text" class="form-control" id="sevices_price">
+                <label>  الكود</label>
+                <span class="required--in">*</span>
+                <input type="text" class="form-control" id="sevices_code" value="">
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+                <button class="btn btn-primary" id="subunit" data-dismiss="modal" onclick="myFun2(event)">اضافة  خدمات</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end model5-->
 
 @section('scripts')
 
@@ -542,7 +604,7 @@
         $("#componentTable").hide();
         $("#offerTable").hide();
         $("#discountTable").hide();
-
+        $("#serviceTable").hide();
 
 	});
 
@@ -551,7 +613,7 @@
 	var bigDataComponent = [];
     var bigDataOffer = [];
 	var bigDataDiscount = [];
-
+    var bigDataService = [];
 	function myFun(event) {
 		event.preventDefault();
 		var data = {};

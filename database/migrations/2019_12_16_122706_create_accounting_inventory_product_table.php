@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAccountingServices extends Migration
+class CreateAccountingInventoryProductTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,23 @@ class CreateAccountingServices extends Migration
      */
     public function up()
     {
-        Schema::create('accounting_services', function (Blueprint $table) {
+        Schema::create('accounting_inventory_product', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('code')->nullable();
-            $table->string('price')->nullable();
-            $table->enum('type',['Delivery','composing','maintenance'])->nullable();
+
+
+            $table->unsignedBigInteger('inventory_id')->nullable();
+            $table->foreign('inventory_id')->references('id')
+                ->on('accounting_inventories')->onDelete('cascade')
+                ->onUpdate('cascade');
 
             $table->unsignedBigInteger('product_id')->nullable();
             $table->foreign('product_id')->references('id')
                 ->on('accounting_products')->onDelete('cascade')
                 ->onUpdate('cascade');
+
+
+            $table->integer('quantity')->nullable();
+            $table->integer('Real_quantity')->nullable();
 
             $table->timestamps();
         });
@@ -35,6 +42,6 @@ class CreateAccountingServices extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accounting_services');
+        Schema::dropIfExists('accounting_inventory_product');
     }
 }

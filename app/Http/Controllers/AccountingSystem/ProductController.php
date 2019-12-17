@@ -65,9 +65,8 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-     //  dd($request->all());
+   //  dd($request->all());
         $rules = [
-
 
             'description'=>'nullable|string',
             'category_id'=>'nullable|numeric|exists:accounting_product_categories,id',
@@ -103,6 +102,8 @@ class ProductController extends Controller
            AccountingProductStore::create([
                'store_id'=>$inputs['store_id'] ,
                'product_id'=>$product->id,
+               'quantity'=>$inputs['quantity'] ,
+
            ]);
        }
         $product->name=$inputs['name_product'];
@@ -497,4 +498,11 @@ class ProductController extends Controller
 
         return view('AccountingSystem.stores.settlements',compact('stores','products'));
     }
+
+    public  function  barcode($id){
+
+        $product=AccountingProduct::find($id);
+        return view('AccountingSystem.products.barcode',compact('product'));
+    }
+
 }

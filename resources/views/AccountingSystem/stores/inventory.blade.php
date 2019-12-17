@@ -24,8 +24,7 @@
         <div class="row">
             <div class="col-sm-12">
 
-                {!!Form::open( ['route' => 'accounting.stores_settle.filter_settlements' ,'class'=>'form phone_validate','id'=>'form', 'method' => 'Post','files' => true]) !!}
-
+                {!!Form::open( ['route' => 'accounting.stores.filter_inventory' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
 
                 <div class="col-sm-6 col-xs-6 pull-left" >
                     <div class="form-group form-float">
@@ -42,7 +41,7 @@
                     <div class="form-group form-float">
                         <label class="form-label">تاريخ الجرد</label>
                         <div class="form-line">
-                            {!! Form::select("date",$stores,null,['class'=>'form-control','id'=>'example-date'])!!}
+                            {!! Form::date("date",null,['class'=>'form-control','id'=>'example-date'])!!}
 
                         </div>
                     </div>
@@ -69,11 +68,11 @@
                     <th> نوع المنتج </th>
 
                     <th>  الباركود </th>
-                    <th> الوحده الاساسية  </th>
-                    <th> سعر البيع </th>
-                    <th> سعر الشراء </th>
-                    <th> صورة  المنتج </th>
-                    <th>تسويه ارصدة بداية الصنف</th>
+
+                    <th>الكمية الاساسية </th>
+
+
+                    <th> الكميه الفعليه</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -91,22 +90,24 @@
                             @elseif($row->type=="offer")
                                 مجموعة منتجات
                             @elseif($row->type=="creation")
-                                تصنيع
+                                 تصنيع
                             @elseif($row->type=="product_expiration")
                                 منتج بتاريخ صلاحيه
                             @endif
 
                         </td>
                         <td>{!! $row-> bar_code!!}</td>
-                        <td>{!! $row->  main_unit!!}</td>
-                        <td>{!! $row->  selling_price!!}</td>
-                        <td>{!! $row->  purchasing_price!!}</td>
-                        <td><img src="{!! getimg($row->image)!!}" style="width:100px; height:100px"> </td>
+                        <td>{!! $row->  quantity!!}</td>
+
                         <td>
-                            {{--<a href="{{route('accounting.products.settlements',['id'=>$row->id])}}" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-original-title="تسوية ارصده البداية "> <i class="icon-eye" style="margin-left: 10px"></i> </a>--}}
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-id="{{$row->id}}" onclick="openModal({{$row->id}})" data-target="#exampleModal" id="products_button">
-                                تسوية ارصده البداية
-                            </button>
+                            @if ($row->status=0)
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-id="{{$row->id}}" onclick="openModal({{$row->id}})" data-target="#exampleModal{{$row->id}}" id="button{{$row->id}}">
+                                   اضافة
+                                </button>
+                                @else
+                                <label class="btn-success" id="done"><i class="fas fa-calculator" style="margin-left: 10px"></i></label>
+                            @endif
+
                         </td>
                     </tr>
 
@@ -115,44 +116,43 @@
 
                 @endforeach
 
+                @foreach($products as $row)
                 <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="exampleModal{{$row->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel"> نسخ الاصناف بالمخزن</h5>
+                                <h5 class="modal-title" id="exampleModalLabel"> اضافه  الكميه الفعلية </h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            {!!Form::open( ['route' => 'accounting.products_settlement.store' ,'class'=>'form phone_validate', 'method' => 'PATCH','files' => true]) !!}
+                            {{--{!!Form::open( ['route' => 'accounting.inventory_settlement.store' ,'class'=>'form phone_validate','method' => 'PATCH','files' => true]) !!}--}}
+                            <form id="form{{$row->id}}" >
+                                <input type="hidden" name="csrf_token" id="csrf_token" value="{{ csrf_token() }}">
 
                             <div class="modal-body">
-                            <input type="hidden" name="product_id" id="product_id">
-
-                                <label> الكمية</label>
-                                <input type="text" class="form-control" name="quantity">
-                                <label>  سعر الوحده</label>
-                                <input type="text" class="form-control" name="unit_price">
-                                <label>  سعر الشراء</label>
-                                <input type="text" class="form-control" name="purchasing_price">
-                                <label>  سعر البيع</label>
-                                <input type="text" class="form-control"  name="selling_price">
-
-
-
+                            <input type="hidden" name="product_id" class="product_id">
+                                @isset($inventory)
+                                <input type="hidden" name="inventory_id" value="{{$inventory->id}}">
+                                @endisset
+                                <label> الكميه الفعليه</label>
+                                <input type="text" class="form-control" name="Real_quantity">
 
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
-                                <button class="btn btn-primary" type="submit" data-dismiss="modal" onclick="this.form.submit()">نسخ الاصناف بالمخزن </button>
+                                <button class="btn btn-primary" id="hamada{{$row->id}}" type="button" data-dismiss="modal" > اضافةالكميه الفعليه</button>
 
                             </div>
-                            {!!Form::close() !!}
+                            </form>
+                            {{--{!!Form::close() !!}--}}
                         </div>
                     </div>
                 </div>
                 <!-- end model-->
+                    @endforeach
+
 
                 </tbody>
             </table>
@@ -167,32 +167,40 @@
 @section('scripts')
 
     <script>
-        function Delete(id) {
-            var item_id=id;
-            console.log(item_id);
-            swal({
-                title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذا الفرع ؟",
-                icon: "warning",
-                buttons: ["الغاء", "موافق"],
-                dangerMode: true,
 
-            }).then(function(isConfirm){
-                if(isConfirm){
-                    document.getElementById('delete-form'+item_id).submit();
-                }
-                else{
-                    swal("تم االإلفاء", "حذف  الفرع  تم الغاؤه",'info',{buttons:'موافق'});
-                }
-            });
-        }
 
-        function openModal(id) {
-            var item_id = id;
 
-          // alert(item_id);
-            $('#product_id').val(item_id);
-        }
+            function openModal(id) {
 
-    </script>
+         $('.product_id').val(id);
+         var  token=$('#csrf_token').val();
+
+            $(`#hamada${id}`).click(function (e) {
+                e.preventDefault();
+                // alert('dsa');
+                // var form = $(`form${id}`);
+                // console.log(form);
+
+
+                $.ajax({
+                    type: "post",
+
+                    url: '{{route('accounting.inventory_settlement.store')}}',
+                    data:   $('#form'+id).serialize()+"&_token="+token,
+                    success: function (data) {
+
+                        $('#button'+id).remove();
+
+
+
+                    },error:function (data) {
+                        console.log(data);
+                    }
+
+                });
+            })
+
+            }
+
+   </script>
 @stop

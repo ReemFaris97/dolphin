@@ -6,10 +6,14 @@ use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingBranchShift;
 use App\Models\AccountingSystem\AccountingCompany;
 
+use App\Models\AccountingSystem\AccountingInventory;
+use App\Models\AccountingSystem\AccountingInventoryProduct;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingStore;
+use App\Models\AccountingSystem\AccountingTransaction;
 use App\Models\Store;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
@@ -101,6 +105,7 @@ class StoreController extends Controller
     {
         $store =AccountingStore::findOrFail($id);
 
+
         return $this->toShow(compact('store'));
     }
 
@@ -182,13 +187,17 @@ class StoreController extends Controller
     }
 
     public function store_product($id){
-        $product_store=AccountingProductStore::where('store_id',$id)->pluck('id')->toArray();
-        $products=AccountingProduct::whereIn('id',$product_store ) ->get();
+        $products=AccountingProductStore::where('store_id',$id)->get();
+//
+//        $products=AccountingProduct::whereIn('id',$product_store)->get();
         $store =AccountingStore::findOrFail($id);
         $stores=AccountingStore::where('id','!=',$id)->pluck('ar_name','id')->toArray();
-    //dd($stores);
+    //dd($products);
 
-        return view('AccountingSystem.stores.product',compact('products','store','stores'));
+
+        $all_stores=AccountingStore::all();
+        $storess=$all_stores->except($id);
+        return view('AccountingSystem.stores.product',compact('products','store','stores','storess'));
     }
 
     public function store_products_copy(Request $request,$id){
@@ -224,5 +233,135 @@ class StoreController extends Controller
        // dd($products);
         return view('AccountingSystem.stores.settlements',compact('stores','products'));
 
+    }
+
+    public function inventory(){
+        $stores=AccountingStore::pluck('ar_name','id')->toArray();
+        $products=[];
+        return view('AccountingSystem.stores.inventory',compact('stores','products'));
+
+    }
+
+
+    public  function inventory_store(Request $request)
+    {
+        $store_id = $request['store_id'];
+        $stores = AccountingStore::pluck('ar_name', 'id')->toArray();
+
+        $product_store = AccountingProductStore::where('store_id', $store_id)->wheredate('created_at', '=', $request['date'])->pluck('id')->toArray();
+
+
+        $products = AccountingProduct::whereIn('id', $product_store)->get();
+
+        $inventory = AccountingInventory::create([
+            'date' => $request['date'],
+            'store_id' => $store_id,
+            'user_id' => \Auth::user()->id,
+
+        ]);
+
+        if (isset($products)) {
+              foreach ($products as $product) {
+           $inventory_product= AccountingInventoryProduct::create([
+                'inventory_id' => $inventory->id,
+                'product_id'=>$product->id,
+                'quantity'=>$product->quantity,
+
+            ]);
+        }
+    }
+
+        alert()->success('تم  حفظ جرد المخزن بنجاح !')->autoclose(5000);
+
+        return view('AccountingSystem.stores.inventory',compact('stores','products','inventory'));
+
+    }
+    public  function inventory_settlement(Request $request){
+
+
+    $inputs=$request->all();
+   //dd($inputs);
+    $inventory_product=AccountingInventoryProduct::where('inventory_id',$inputs['inventory_id'])->where('product_id',$inputs['product_id'])->first();
+   $inventory_product->update([
+       'Real_quantity'=>$inputs['Real_quantity'],
+       'status'=>1,
+       'updated_at'=>Carbon::now()->format('Y-m-d')
+   ]);
+
+
+
+    }
+
+    public  function invertory_filters(){
+
+        $stores = AccountingStore::pluck('ar_name', 'id')->toArray();
+        $inventories=[];
+
+        return view('AccountingSystem.stores.invertory_filter',compact('stores','inventories'));
+    }
+
+    public  function inventory_filter(Request $request)
+    {
+
+
+        $inputs = $request->all();
+        $stores = AccountingStore::pluck('ar_name', 'id')->toArray();
+
+        $inventories= AccountingInventory::where('store_id', $inputs['store_id'])->wheredate('created_at', $inputs['date'])->get();
+
+        return view('AccountingSystem.stores.invertory_filter',compact('stores','inventories'));
+
+    }
+    public function invertory_details($id){
+
+
+        $inventory_products=AccountingInventoryProduct::where('inventory_id',$id)->get();
+        $inventory= AccountingInventory::find($id);
+        return view('AccountingSystem.stores.invertory_details',compact('inventory_products','inventory'));
+    }
+
+
+    public function transaction(Request $request,$id){
+
+        $inputs=$request->all();
+   //  dd($inputs);
+      $trans=  AccountingTransaction::create([
+            'product_id'=>$request['product_id'],
+            'quantity'=>$request['quantity'],
+
+            'store_to'=>$request['store_to'],
+            'store_form'=>$id,
+        ]);
+    //  dd($trans);
+
+
+        /////////update product_store_form_quantity
+        $product_store_form=AccountingProductStore::where('store_id',$id)->where('product_id',$request['product_id'])->first();
+        if ($product_store_form->quantity-$request['quantity'] >= 0)
+        {
+            $product_store_form->update([
+                'quantity' => $product_store_form->quantity - $request['quantity'],
+            ]);
+        }
+        /////////update product_store_to_quantity
+
+
+        $product_store_to=AccountingProductStore::where('store_id',$request['store_to'])->where('product_id',$request['product_id'])->first();
+
+        if (isset($product_store_to)){
+        $product_store_to->update([
+                'quantity'=>$product_store_to->quantity+$request['quantity'],
+        ]);
+            }else{
+            AccountingProductStore::create([
+
+                'product_id'=>$request['product_id'],
+                'quantity'=>$request['quantity'],
+                'store_id'=>$request['store_to'],
+            ]);
+        }
+
+        alert()->success('تم النقل من المستودع بنجاح !')->autoclose(5000);
+        return back();
     }
 }

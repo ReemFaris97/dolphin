@@ -7,5 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class AccountingProductStore extends Model
 {
-    protected $fillable = ['product_id','store_id'];
+    protected $fillable = ['product_id','store_id','quantity'];
+
+    public  function product(){
+        return $this->belongsTo(AccountingProduct::class,'product_id');
+
+    }
+    public  function store(){
+        return $this->belongsTo(AccountingStore::class,'store_id');
+
+    }
 }
