@@ -118,7 +118,6 @@
                     <li><a href="{{route('accounting.stores.index')}}"><i class="icon-eye"></i> عرض المخازن</a></li>
                     <li><a href="{{route('accounting.stores.create')}}"><i class="icon-add-to-list"></i> اضافة مخزن جديدة</a></li>
                     <li><a href="{{route('accounting.stores.settlements')}}"><i class="icon-add-to-list"></i> تسوية ارصدة بداية الاصناف</a></li>
-
                     <li><a href="{{route('accounting.stores.inventory')}}"><i class="icon-add-to-list"></i> جرد المخازن</a></li>
                     <li><a href="{{route('accounting.stores.invertory_filter')}}"><i class="icon-add-to-list"></i> تسوية جرد </a></li>
 
@@ -138,6 +137,34 @@
                     <li><a href="{{route('accounting.industrials.create')}}"><i class="icon-add-to-list"></i> اضافة شركة جديدة</a></li>
                 </ul>
             </li>
+
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-cabinet position-left"></i>
+                    إدارة  العملاء
+                    <span class="caret"></span>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="{{route('accounting.clients.index')}}"><i class="icon-eye"></i> عرض  العملاء</a></li>
+                    <li><a href="{{route('accounting.clients.create')}}"><i class="icon-add-to-list"></i> اضافة عميل جديد</a></li>
+                </ul>
+            </li>
+
+
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-cabinet position-left"></i>
+                    إدارة  نقاط البيع
+                    <span class="caret"></span>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="{{route('accounting.sells_points.sells_point')}}"><i class="icon-eye"></i> نقطه البيع</a></li>
+                </ul>
+            </li>
+
+
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-grid2 position-left"></i>

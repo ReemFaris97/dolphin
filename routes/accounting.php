@@ -15,7 +15,7 @@ Route::middleware('admin')->group(function () {
     Route::resource('stores', 'StoreController');
     Route::get('/store-product/{id}', 'StoreController@store_product')->name('stores.product');
     Route::post('/store-products-copy/{id}', 'StoreController@store_products_copy')->name('store_products_copy.store');
-  /////////////////settlementتسويه  الارصده  للبداية
+  /////////////////settlementتسوي  الارصده  للبداية/////////////////
     Route::post('/settlement', 'StoreController@settlements_store')->name('stores_settle.filter_settlements');
     Route::get('/settlements', 'StoreController@settlements')->name('stores.settlements');
     Route::get('/product-settlement/{id}', 'ProductController@settlement')->name('products.settlements');
@@ -29,10 +29,12 @@ Route::middleware('admin')->group(function () {
     Route::get('/invertory_details/{id}', 'StoreController@invertory_details')->name('stores.inventory_details');
  //تحويل الاصناف  من  مستودع  الى  اخر/////////////////////////////////////
     Route::post('transaction/{id}', 'StoreController@transaction')->name('products.transaction');
-///////////////////////////طباعة   الباركود
+////////////////////////////طباعة   الباركود
     Route::get('/product-barcode/{id}', 'ProductController@barcode')->name('products.barcode');
 
+    Route::get('/sell_point', 'SellPointController@sell_point')->name('sells_points.sells_point');
 
+    Route::resource('clients', 'ClientController');
     Route::resource('categories', 'CategoryController');
     Route::resource('industrials', 'IndustrialController');
 
