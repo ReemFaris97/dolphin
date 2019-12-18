@@ -19,6 +19,7 @@ use App\Models\AccountingSystem\AccountingProductOffer;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingProductSubUnit;
 use App\Models\AccountingSystem\AccountingProductTax;
+use App\Models\AccountingSystem\AccountingService;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -65,7 +66,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-   //  dd($request->all());
+  // dd($request->all());
         $rules = [
 
             'description'=>'nullable|string',
@@ -219,6 +220,30 @@ class ProductController extends Controller
             ]);
 
         }
+//////////////////////product_services////////////////////////////
+
+        if (isset($request['service_type'])){
+            $service_type= collect($request['service_type']);
+            $services_code= collect($request['services_code']);
+            $services_price= collect($request['services_price']);
+            $services= $services_price->zip($services_code,$service_type);
+
+            foreach ($services as $service)
+
+            {
+
+
+                AccountingService::create([
+                    'price'=>$service['0'],
+                    'code'=> $service['1'],
+                    'type'=> $service['2'],
+                    'product_id'=>$product->id,
+
+                ]);
+
+            }
+        }
+
 
 
         alert()->success('تم اضافة المنتج بنجاح !')->autoclose(5000);
