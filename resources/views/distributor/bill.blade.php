@@ -29,14 +29,32 @@
 
                 <div class="col-md-8 col-sm-6 col-12">
                     <div class="yurSections">
+                        
+                        	<div class="col-12">
+                        <nav>
+					<div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+						<a class="nav-item nav-link active" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">الكل</a>
+						<a class="nav-item nav-link" data-toggle="tab" href="#nav-mobile" role="tab" aria-controls="nav-profile" aria-selected="false">هواتف محمولة</a>
+						<a class="nav-item nav-link" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">منتجات متنوعة</a>
+						<a class="nav-item nav-link" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="false">حاسب ومستلزماته</a>
+					</div>
+				</nav>
+                        </div>
+                        
+                        
+<!--
                         <ul>
                             <li class="active"><a href="#">الكل</a></li>
                             <li><a href="#">هواتف محمولة</a></li>
                             <li><a href="#">منتجات متنوعة</a></li>
                             <li><a href="#">حاسب ومستلزماته</a></li>
                         </ul>
+-->
+                        <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+                            
+					<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                         <div class="yurProdc">
-                            <div class="col-md-3 col-sm-4 col-6">
+                            <div class="col-lg-4 col-sm-12 col-6">
                                 <div class="prod1">
                                         <div class="inDetails"></div>
                                     <input type="checkbox" class="if-check" id="myCheckbox1" data-price="650"/>
@@ -47,7 +65,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-md-3 col-sm-4 col-6">
+                            <div class="col-lg-4 col-sm-12 col-6">
                                 <div class="prod1">
                                         <div class="inDetails"></div>
                                     <input type="checkbox" class="if-check" id="myCheckbox2" data-price="860" />
@@ -59,7 +77,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-md-3 col-sm-4 col-6">
+                            <div class="col-lg-4 col-sm-12 col-6">
                                 <div class="prod1">
                                         <div class="inDetails"></div>
                                     <input type="checkbox" class="if-check" id="myCheckbox3" data-price="6300" />
@@ -71,7 +89,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-md-3 col-sm-4 col-6">
+                            <div class="col-lg-4 col-sm-12 col-6">
                                 <div class="prod1">
                                         <div class="inDetails"></div>
                                     <input type="checkbox" class="if-check" id="myCheckbox4" data-price="5000" />
@@ -83,7 +101,11 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-md-3 col-sm-4 col-6">
+                        </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="nav-mobile" role="tabpanel" aria-labelledby="nav-home-tab">
+                            <div class="col-lg-4 col-sm-12 col-6">
                                 <div class="prod1">
                                         <div class="inDetails"></div>
                                     <input type="checkbox" class="if-check" id="myCheckbox5" data-price="280" />
@@ -95,7 +117,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-md-3 col-sm-4 col-6">
+                            <div class="col-lg-4 col-sm-12 col-6">
                                 <div class="prod1">
                                         <div class="inDetails"></div>
                                     <input type="checkbox" class="if-check" id="myCheckbox6" data-price="330" />
@@ -107,10 +129,67 @@
                                     </label>
                                 </div>
                             </div>
+                            </div>
+                            
+                            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-home-tab">
+                            <div class="col-lg-4 col-sm-12 col-6">
+                                <div class="prod1">
+                                        <div class="inDetails"></div>
+                                    <input type="checkbox" class="if-check" id="myCheckbox5" data-price="280" />
+                                    <label class="new-p" for="myCheckbox5">
+                                        <div class="inDetails"></div>
+                                        <span class="price">280 ر.س</span>
+                                        <img src="https://www.itl.cat/pngfile/big/30-303191_background-images-for-editing-editing-pictures-background-background.jpg">
+                                        <h4 class="name">متوسط متوسط متوسط متوسط </h4>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-12 col-6">
+                                <div class="prod1">
+                                        <div class="inDetails"></div>
+                                    <input type="checkbox" class="if-check" id="myCheckbox6" data-price="330" />
+                                    <label class="new-p" for="myCheckbox6">
+                                        <div class="inDetails"></div>
+                                        <span class="price">330 ر.س</span>
+                                        <img src="https://www.itl.cat/pngfile/big/30-303191_background-images-for-editing-editing-pictures-background-background.jpg">
+                                        <h4 class="name">منتج منتجمنتج </h4>
+                                    </label>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-home-tab">
+                            <div class="col-lg-4 col-sm-12 col-6">
+                                <div class="prod1">
+                                        <div class="inDetails"></div>
+                                    <input type="checkbox" class="if-check" id="myCheckbox5" data-price="280" />
+                                    <label class="new-p" for="myCheckbox5">
+                                        <div class="inDetails"></div>
+                                        <span class="price">280 ر.س</span>
+                                        <img src="https://www.itl.cat/pngfile/big/30-303191_background-images-for-editing-editing-pictures-background-background.jpg">
+                                        <h4 class="name">متوسط متوسط متوسط متوسط </h4>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-12 col-6">
+                                <div class="prod1">
+                                        <div class="inDetails"></div>
+                                    <input type="checkbox" class="if-check" id="myCheckbox6" data-price="330" />
+                                    <label class="new-p" for="myCheckbox6">
+                                        <div class="inDetails"></div>
+                                        <span class="price">330 ر.س</span>
+                                        <img src="https://www.itl.cat/pngfile/big/30-303191_background-images-for-editing-editing-pictures-background-background.jpg">
+                                        <h4 class="name">منتج منتجمنتج </h4>
+                                    </label>
+                                </div>
+                            </div>
+                            </div>
+                            
+                        </div>
+                        
                             <div class="col-12">
                                 <input class="fxd-btn" id="fxd-btn" type="submit" value="إتمام" data-dismiss='modal' disabled>
                             </div>
-                        </div>
+                        
                     </div>
                 </div>
 
@@ -227,7 +306,7 @@
 //		              var totalR = $(".totalB").text();
                         console.log(totalR);
 
-                        $(".finalTb tbody").append('<tr class="newProd"><td><a class="close"> <svg class="svg-inline--fa fa-times fa-w-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times" role="img"xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512" data-fa-i2svg=""><path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path></svg></a><input type="hidden" value="' + itemName + '"> <h4> ' + itemName + '</h4> </td><td><input type="hidden" value="' + itemQuantity + '"> <span class="qnt"> ' + itemQuantity + '</span></td><td><input type="hidden" value="' + totalR + '"> <span class="qnt singleprice"> ' + totalR + '</span></td></tr>');
+                        $(".finalTb tbody").append('<tr class="newProd"><td><input type="hidden" value="' + itemName + '"> <h4> ' + itemName + '</h4> </td><td><input type="hidden" value="' + itemQuantity + '"> <span class="qnt"> ' + itemQuantity + '</span></td><td><input type="hidden" value="' + totalR + '"> <span class="qnt singleprice"> ' + totalR + '</span><a class="close"><i class="fas fa-times"></a></td></tr>');
                         
                         var allResult = 0;
                         
@@ -261,12 +340,11 @@
                     
                     /**********************  Remove Piece *****************/
                     $(".close").click(function() {
-                        $(this).parent(".newProd").remove();
+                        $(this).parents(".newProd").remove();
                     });
                 });
                 
             });
-             alert(allResult);
         });
 
     </script>

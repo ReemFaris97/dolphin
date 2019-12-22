@@ -192,6 +192,8 @@ input#fxd-btn:hover , input#fxd-btn:focus{
 }
 .finalTb th {
     border-radius: 0;
+    background-color: #3a4496;
+    color: #fff;
 }
 .inDetails{
     position: absolute;
@@ -207,7 +209,54 @@ input#fxd-btn:hover , input#fxd-btn:focus{
         font-size: 1.2rem;
 
 }
+.newProd td:last-child {
+    position: relative;
+}
+td a.close {
+    position: absolute;
+    left: 0;
+    background-color: #a3281f;
+    width: 20px;
+    height: 20px;
+    line-height: 30px;
+    top: 0px;
+    border-radius: 50%;
+    color: #fff !important;
+    opacity: 1;
+    text-align: center;
+    line-height: 20px;
+}
+td .close [class*=" fa-"], td .close svg{
+    font-size: 17px !important;
+}
+.finalTb th input::-webkit-input-placeholder { /* Edge */
+  color: #fff;
+    font-size:14px;
+}
 
+.finalTb th input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #fff;
+    font-size:14px;
+}
+
+.finalTb th input::placeholder {
+  color: #fff;
+    font-size:14px;
+}
 /**** End Append ***/
+
+
+/******* Responsive ****************/
+@media (max-width: 1199px){
+    .count {
+        width: 90%;
+    }
+}
+
+@media (max-width: 575px){
+    div#the-choseen-parts {
+        margin: 20px auto 0 auto;
+    }
+}
 
 
