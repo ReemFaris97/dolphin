@@ -135,8 +135,8 @@
                             <div class="col-lg-4 col-sm-12 col-6">
                                 <div class="prod1">
                                         <div class="inDetails"></div>
-                                    <input type="checkbox" class="if-check" id="myCheckbox5" data-price="280" />
-                                    <label class="new-p" for="myCheckbox5">
+                                    <input type="checkbox" class="if-check" id="myCheckbox7" data-price="280" />
+                                    <label class="new-p" for="myCheckbox7">
                                         <div class="inDetails"></div>
                                         <span class="price">280 ر.س</span>
                                         <img src="https://www.itl.cat/pngfile/big/30-303191_background-images-for-editing-editing-pictures-background-background.jpg">
@@ -147,8 +147,8 @@
                             <div class="col-lg-4 col-sm-12 col-6">
                                 <div class="prod1">
                                         <div class="inDetails"></div>
-                                    <input type="checkbox" class="if-check" id="myCheckbox6" data-price="330" />
-                                    <label class="new-p" for="myCheckbox6">
+                                    <input type="checkbox" class="if-check" id="myCheckbox8" data-price="330" />
+                                    <label class="new-p" for="myCheckbox8">
                                         <div class="inDetails"></div>
                                         <span class="price">330 ر.س</span>
                                         <img src="https://www.itl.cat/pngfile/big/30-303191_background-images-for-editing-editing-pictures-background-background.jpg">
@@ -161,8 +161,8 @@
                             <div class="col-lg-4 col-sm-12 col-6">
                                 <div class="prod1">
                                         <div class="inDetails"></div>
-                                    <input type="checkbox" class="if-check" id="myCheckbox5" data-price="280" />
-                                    <label class="new-p" for="myCheckbox5">
+                                    <input type="checkbox" class="if-check" id="myCheckbox9" data-price="280" />
+                                    <label class="new-p" for="myCheckbox9">
                                         <div class="inDetails"></div>
                                         <span class="price">280 ر.س</span>
                                         <img src="https://www.itl.cat/pngfile/big/30-303191_background-images-for-editing-editing-pictures-background-background.jpg">
@@ -173,8 +173,8 @@
                             <div class="col-lg-4 col-sm-12 col-6">
                                 <div class="prod1">
                                         <div class="inDetails"></div>
-                                    <input type="checkbox" class="if-check" id="myCheckbox6" data-price="330" />
-                                    <label class="new-p" for="myCheckbox6">
+                                    <input type="checkbox" class="if-check" id="myCheckbox10" data-price="330" />
+                                    <label class="new-p" for="myCheckbox10">
                                         <div class="inDetails"></div>
                                         <span class="price">330 ر.س</span>
                                         <img src="https://www.itl.cat/pngfile/big/30-303191_background-images-for-editing-editing-pictures-background-background.jpg">

@@ -3,8 +3,10 @@
 @section('parent_title','إدارة نقطه البيع')
 @section('action', URL::route('accounting.categories.index'))
 @section('styles')
-    <link href="{!! asset('dashboard/assets/bill.css')!!}" rel="stylesheet" type="text/css"/>
+<!--    <link href="{!! asset('dashboard/assets/bill.css')!!}" rel="stylesheet" type="text/css"/>-->
 
+<link href="{{asset('admin/assets/css/all.css')}}" rel="stylesheet" type="text/css">
+<link href="{{asset('admin/assets/css/bill.css')}}" rel="stylesheet" type="text/css">
 @endsection
 
 @section('content')
@@ -25,173 +27,48 @@
             <section class="yourBill">
                 <div class="row">
 
-                    <div class="col-md-8 col-sm-6 col-12">
+                    <div class="col-md-8 col-sm-6 col-xs-12">
                         <div class="yurSections">
 
-                            <div class="col-12">
-                                <nav>
-                                    <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                                        <a class="nav-item nav-link active" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">الكل</a>
-                                        <a class="nav-item nav-link" data-toggle="tab" href="#nav-mobile" role="tab" aria-controls="nav-profile" aria-selected="false">هواتف محمولة</a>
-                                        <a class="nav-item nav-link" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">منتجات متنوعة</a>
-                                        <a class="nav-item nav-link" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="false">حاسب ومستلزماته</a>
-                                    </div>
-                                </nav>
-                            </div>
-
-
-                            <!--
-                                                    <ul>
-                                                        <li class="active"><a href="#">الكل</a></li>
-                                                        <li><a href="#">هواتف محمولة</a></li>
-                                                        <li><a href="#">منتجات متنوعة</a></li>
-                                                        <li><a href="#">حاسب ومستلزماته</a></li>
-                                                    </ul>
-                            -->
-                            <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
-
-                                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                            <div class="col-xs-12">
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+      @foreach ($categories as $category)
+    <li role="presentation"><a href="#mobile" aria-controls="mobile" role="tab" data-toggle="tab" onclick="category({{$category->id}})" class="category">{{$category->ar_name}}</a></li>
+          @endforeach
+  </ul>
+                                
+                                
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" >
                                     <div class="yurProdc">
-                                        <div class="col-lg-4 col-sm-12 col-6">
-                                            <div class="prod1">
-                                                <div class="inDetails"></div>
-                                                <input type="checkbox" class="if-check" id="myCheckbox1" data-price="650"/>
-                                                <label class="new-p" for="myCheckbox1">
-                                                    <span class="price">650 ر.س</span>
-                                                    <img src="https://www.itl.cat/pngfile/big/30-303191_background-images-for-editing-editing-pictures-background-background.jpg">
-                                                    <h4 class="name">منتج متوسط السعر تج متوسط السعر </h4>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-sm-12 col-6">
-                                            <div class="prod1">
-                                                <div class="inDetails"></div>
-                                                <input type="checkbox" class="if-check" id="myCheckbox2" data-price="860" />
-                                                <label class="new-p" for="myCheckbox2">
-                                                    <div class="inDetails"></div>
-                                                    <span class="price">860 ر.س</span>
-                                                    <img src="https://www.itl.cat/pngfile/big/30-303191_background-images-for-editing-editing-pictures-background-background.jpg">
-                                                    <h4 class="name">منتج متوسط السعر تج متوسط السعر </h4>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-sm-12 col-6">
-                                            <div class="prod1">
-                                                <div class="inDetails"></div>
-                                                <input type="checkbox" class="if-check" id="myCheckbox3" data-price="6300" />
-                                                <label class="new-p" for="myCheckbox3">
-                                                    <div class="inDetails"></div>
-                                                    <span class="price">6300 ر.س</span>
-                                                    <img src="https://www.itl.cat/pngfile/big/30-303191_background-images-for-editing-editing-pictures-background-background.jpg">
-                                                    <h4 class="name">منتج متوسط السعر تج متوسط السعر </h4>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-sm-12 col-6">
-                                            <div class="prod1">
-                                                <div class="inDetails"></div>
-                                                <input type="checkbox" class="if-check" id="myCheckbox4" data-price="5000" />
-                                                <label class="new-p" for="myCheckbox4">
-                                                    <div class="inDetails"></div>
-                                                    <span class="price">5000 ر.س</span>
-                                                    <img src="https://www.itl.cat/pngfile/big/30-303191_background-images-for-editing-editing-pictures-background-background.jpg">
-                                                    <h4 class="name">السعر السعرالسعرالسعر </h4>
-                                                </label>
-                                            </div>
-                                        </div>
+                                        {{--<div class="col-lg-4 col-sm-12 col-xs-6">--}}
+                                            {{--<div class="prod1">--}}
+                                                {{--<div class="inDetails"></div>--}}
+                                                {{--<input type="checkbox" class="if-check" id="myCheckbox1" data-price="650"/>--}}
+                                                {{--<label class="new-p" for="myCheckbox1">--}}
+                                                    {{--<span class="price">650 ر.س</span>--}}
+                                                    {{--<img src="https://www.itl.cat/pngfile/big/30-303191_background-images-for-editing-editing-pictures-background-background.jpg">--}}
+                                                    {{--<h4 class="name">منتج متوسط السعر تج متوسط السعر </h4>--}}
+                                                {{--</label>--}}
+                                            {{--</div>--}}
+                                        {{--</div>--}}
+
                                     </div>
                                 </div>
 
-                                <div class="tab-pane fade" id="nav-mobile" role="tabpanel" aria-labelledby="nav-home-tab">
-                                    <div class="col-lg-4 col-sm-12 col-6">
-                                        <div class="prod1">
-                                            <div class="inDetails"></div>
-                                            <input type="checkbox" class="if-check" id="myCheckbox5" data-price="280" />
-                                            <label class="new-p" for="myCheckbox5">
-                                                <div class="inDetails"></div>
-                                                <span class="price">280 ر.س</span>
-                                                <img src="https://www.itl.cat/pngfile/big/30-303191_background-images-for-editing-editing-pictures-background-background.jpg">
-                                                <h4 class="name">متوسط متوسط متوسط متوسط </h4>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-sm-12 col-6">
-                                        <div class="prod1">
-                                            <div class="inDetails"></div>
-                                            <input type="checkbox" class="if-check" id="myCheckbox6" data-price="330" />
-                                            <label class="new-p" for="myCheckbox6">
-                                                <div class="inDetails"></div>
-                                                <span class="price">330 ر.س</span>
-                                                <img src="https://www.itl.cat/pngfile/big/30-303191_background-images-for-editing-editing-pictures-background-background.jpg">
-                                                <h4 class="name">منتج منتجمنتج </h4>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-home-tab">
-                                    <div class="col-lg-4 col-sm-12 col-6">
-                                        <div class="prod1">
-                                            <div class="inDetails"></div>
-                                            <input type="checkbox" class="if-check" id="myCheckbox5" data-price="280" />
-                                            <label class="new-p" for="myCheckbox5">
-                                                <div class="inDetails"></div>
-                                                <span class="price">280 ر.س</span>
-                                                <img src="https://www.itl.cat/pngfile/big/30-303191_background-images-for-editing-editing-pictures-background-background.jpg">
-                                                <h4 class="name">متوسط متوسط متوسط متوسط </h4>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-sm-12 col-6">
-                                        <div class="prod1">
-                                            <div class="inDetails"></div>
-                                            <input type="checkbox" class="if-check" id="myCheckbox6" data-price="330" />
-                                            <label class="new-p" for="myCheckbox6">
-                                                <div class="inDetails"></div>
-                                                <span class="price">330 ر.س</span>
-                                                <img src="https://www.itl.cat/pngfile/big/30-303191_background-images-for-editing-editing-pictures-background-background.jpg">
-                                                <h4 class="name">منتج منتجمنتج </h4>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-home-tab">
-                                    <div class="col-lg-4 col-sm-12 col-6">
-                                        <div class="prod1">
-                                            <div class="inDetails"></div>
-                                            <input type="checkbox" class="if-check" id="myCheckbox5" data-price="280" />
-                                            <label class="new-p" for="myCheckbox5">
-                                                <div class="inDetails"></div>
-                                                <span class="price">280 ر.س</span>
-                                                <img src="https://www.itl.cat/pngfile/big/30-303191_background-images-for-editing-editing-pictures-background-background.jpg">
-                                                <h4 class="name">متوسط متوسط متوسط متوسط </h4>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-sm-12 col-6">
-                                        <div class="prod1">
-                                            <div class="inDetails"></div>
-                                            <input type="checkbox" class="if-check" id="myCheckbox6" data-price="330" />
-                                            <label class="new-p" for="myCheckbox6">
-                                                <div class="inDetails"></div>
-                                                <span class="price">330 ر.س</span>
-                                                <img src="https://www.itl.cat/pngfile/big/30-303191_background-images-for-editing-editing-pictures-background-background.jpg">
-                                                <h4 class="name">منتج منتجمنتج </h4>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
 
                             </div>
 
-                            <div class="col-12">
+                            <div class="col-xs-12">
                                 <input class="fxd-btn" id="fxd-btn" type="submit" value="إتمام" data-dismiss='modal' disabled>
                             </div>
 
                         </div>
                     </div>
-
-                    <div class="col-md-4 col-sm-6 col-12">
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="result" id="the-choseen-parts">
                             <table border="1" class="finalTb">
                                 <thead>
@@ -239,6 +116,7 @@
 
 
 @section('scripts')
+
     <!------------ IF Checked --------------->
     <script>
         $(document).ready(function() {
@@ -387,5 +265,30 @@
 
         });
 
+    </script>
+
+    <script>
+
+function  category(id) {
+
+
+
+    $.ajax({
+        type: 'get',
+
+        url: "/accounting/productsAjex/" + id,
+        data: {id: id},
+        dataType: 'json',
+
+
+        success: function (data) {
+
+            $('.yurProdc').html("");
+            $('.yurProdc').append(data.data);
+
+
+        }
+    });
+}
     </script>
 @endsection

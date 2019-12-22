@@ -58,7 +58,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/companes_store/{id}', 'ProductController@getStoresbycompany');
 
     Route::post('/subunit', 'ProductController@subunit')->name('subunit');
-
+    Route::get('/productsAjex/{id}', 'SellPointController@getProductAjex');
 
 });
 

@@ -150,11 +150,18 @@ function urlActive($path, $active = 'active')
  * @param $filename
  * @return string
  */
+//function getimg($filename)
+//{
+//    $base_url = url('/');
+//    return $base_url . '/' . $filename;
+//}
+
 function getimg($filename)
 {
     $base_url = url('/');
-    return $base_url . '/' . $filename;
+    return $base_url.'/'.$filename;
 }
+
 
 function deleteImg($img_name)
 {

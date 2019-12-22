@@ -8,6 +8,7 @@ use App\Models\AccountingSystem\AccountingColumnCell;
 use App\Models\AccountingSystem\AccountingCompany;
 
 use App\Models\AccountingSystem\AccountingFaceColumn;
+use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -37,11 +38,12 @@ class SellPointController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-
-        $columns=AccountingFaceColumn::pluck('name','id')->toArray();
-        return $this->toCreate(compact('columns'));
+    public  function getProductAjex($id){
+        $products=AccountingProduct::where('category_id',$id)->get();
+        return response()->json([
+            'status'=>true,
+            'data'=>view('AccountingSystem.sell_points.sell')->with('products',$products)->render()
+        ]);
     }
 
     /**

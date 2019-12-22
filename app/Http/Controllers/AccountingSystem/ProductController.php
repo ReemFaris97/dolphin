@@ -530,4 +530,6 @@ class ProductController extends Controller
         return view('AccountingSystem.products.barcode',compact('product'));
     }
 
+
+
 }

@@ -7,4 +7,6 @@
 <link href="{{asset('admin/assets/css/colors.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/metro.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/customized.css')}}" rel="stylesheet" type="text/css">
-<!-- /global stylesheets -->
+
+@yield('styles')
+
