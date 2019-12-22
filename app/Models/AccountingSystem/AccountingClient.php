@@ -10,7 +10,9 @@ class AccountingClient extends Model
 {
 
 
-    protected $fillable = ['name','email','phone','fax','category','tax_number','commercial_registration_no','type_price','type_bills'];
+    protected $fillable = ['name','email','phone','fax','category','tax_number','commercial_registration_no','type_price','type_bills'
+    ,'credit','amount','period','currency','taxes_status','currency'
+    ];
     protected $table='accounting_clients';
 
 }

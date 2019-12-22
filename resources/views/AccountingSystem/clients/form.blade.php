@@ -54,6 +54,28 @@
     {!! Form::select("type_price",['wholesale'=>'سعر التجزئة','sale'=>'سعر البيع'],null,['class'=>'form-control','placeholder'=>' انواع السعر '])!!}
 </div>
 
+<div class="form-group col-md-6 pull-left ">
+
+<div class="form-group col-md-6 pull-left ">
+    <label>السياسة الائتمانية </label>
+
+    <label>حد دين </label>
+    {!! Form::radio("credit",1,['class'=>'form-control','id'=>'yes','value'=>1 ])!!}
+
+    <label>فترة دين </label>
+    {!! Form::radio("credit",0,['class'=>'form-control', 'id'=>'no','value'=>0])!!}
+</div>
+<div class="form-group col-md-6  amount">
+    <label>حد الدين</label>
+    {!! Form::text("amount",null,['class'=>'form-control'])!!}
+</div>
+    <div class="form-group col-md-6  period">
+    <label>فتره الدين  </label>
+    {!! Form::text("period",null,['class'=>'form-control'])!!}
+</div>
+</div>
+
+
 <div class="text-center col-md-12">
     <div class="text-right">
         <button type="submit" id="register" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i></button>
@@ -63,8 +85,29 @@
     <script>
         $(document).ready(function () {
             $('.js-example-basic-single').select2();
+            $(".amount").hide();
+            $(".period").hide();
 
 
+        });
+    </script>
+    <script>
+        $(function() {
+            $("#type").on('change', function () {
+                var id = $(this).val();
+                if (id =='')
+                {
+                    $("#services_button").show();
+
+
+                }
+                if (id !='service')
+                {
+                    $("#services_button").hide();
+
+
+                }
+            });
         });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
