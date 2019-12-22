@@ -341,10 +341,52 @@
                     /**********************  Remove Piece *****************/
                     $(".close").click(function() {
                         $(this).parents(".newProd").remove();
+                        
+                        var allResult = 0;
+                        
+                        $("#the-choseen-parts .singleprice").each(function(){
+                            allResult += parseFloat($(this).html());
+                        });
+                        
+                        $("#allResult").html(allResult);
+                        
+                        
+                         var sale = $("#sale").val();
+                        var allReminder = 0;
+                      
+//                        $('#sale').change(function() {console.log('change val is' + allReminder);
+//                            $("#reminder").html(allReminder);
+//                        });
+                        
+                        
+                        allReminder =  parseFloat($("#allResult").html()) - ((parseFloat($("#sale").val()) * parseFloat($("#allResult").html())) / 100); 
+                        $("#reminder").html(allReminder);
+                        
+                        
+                        var lastReminder = 0;
+//                        $('#paid').change(function() {
+//                            console.log('alnateg' + parseFloat($("#reminder").html()));
+//                            console.log('elinput' + parseFloat($(this).val()));
+//                        });
+//                        
+
+                        lastReminder =  parseFloat($("#paid").val()) - parseFloat($("#reminder").html());
+                        $("#lastreminder").html(lastReminder);
+                        
+//                        if ($(".finalTb tbody").html('')) {
+//                        $("#sale").val("0");
+//                        $("#paid").val("0");
+//                        $("#lastreminder").html('');
+//                    } 
+                        
                     });
+                    
+                    
                 });
                 
             });
+            
+            
         });
 
     </script>
