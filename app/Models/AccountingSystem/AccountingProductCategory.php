@@ -12,4 +12,10 @@ class AccountingProductCategory extends Model
     {
         return $this->belongsTo(AccountingCompany::class,'company_id');
     }
+
+    public function products()
+    {
+        return $this->hasMany(AccountingProduct::class,'category_id');
+    }
+
 }
