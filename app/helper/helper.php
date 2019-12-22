@@ -116,6 +116,7 @@ function saveImage($file, $folder = '/')
     return 'storage/' . $path;
 }
 
+
 function uploadpath()
 {
     return 'photos';

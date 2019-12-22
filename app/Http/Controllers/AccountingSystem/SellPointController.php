@@ -8,6 +8,7 @@ use App\Models\AccountingSystem\AccountingColumnCell;
 use App\Models\AccountingSystem\AccountingCompany;
 
 use App\Models\AccountingSystem\AccountingFaceColumn;
+use App\Models\AccountingSystem\AccountingProductCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
@@ -23,9 +24,12 @@ class SellPointController extends Controller
      */
     public function sell_point()
     {
+        $categories=AccountingProductCategory::all();
+//foreach ($categories as $category){
+//  dd($category->products()->get());
+//}
 
-
-        return  view('AccountingSystem.sell_points.sell_point');
+        return  view('AccountingSystem.sell_points.sell_point',compact('categories'));
     }
 
     /**
