@@ -19,7 +19,9 @@ use App\Models\AccountingSystem\AccountingProductOffer;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingProductSubUnit;
 use App\Models\AccountingSystem\AccountingProductTax;
+use App\Models\AccountingSystem\AccountingService;
 use App\Models\AccountingSystem\AccountingStore;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
@@ -64,9 +66,8 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-     //  dd($request->all());
+  // dd($request->all());
         $rules = [
-
 
             'description'=>'nullable|string',
             'category_id'=>'nullable|numeric|exists:accounting_product_categories,id',
@@ -102,6 +103,8 @@ class ProductController extends Controller
            AccountingProductStore::create([
                'store_id'=>$inputs['store_id'] ,
                'product_id'=>$product->id,
+               'quantity'=>$inputs['quantity'] ,
+
            ]);
        }
         $product->name=$inputs['name_product'];
@@ -217,6 +220,30 @@ class ProductController extends Controller
             ]);
 
         }
+//////////////////////product_services////////////////////////////
+
+        if (isset($request['service_type'])){
+            $service_type= collect($request['service_type']);
+            $services_code= collect($request['services_code']);
+            $services_price= collect($request['services_price']);
+            $services= $services_price->zip($services_code,$service_type);
+
+            foreach ($services as $service)
+
+            {
+
+
+                AccountingService::create([
+                    'price'=>$service['0'],
+                    'code'=> $service['1'],
+                    'type'=> $service['2'],
+                    'product_id'=>$product->id,
+
+                ]);
+
+            }
+        }
+
 
 
         alert()->success('تم اضافة المنتج بنجاح !')->autoclose(5000);
@@ -475,4 +502,34 @@ class ProductController extends Controller
             'data'=>view('AccountingSystem.products.getAjaxStores')->with('stores',$stores_company)->render()
         ]);
     }
+
+    public  function settlements_store(Request $request){
+
+      $inputs=$request->all();
+      //dd($inputs['product_id']);
+      $product=AccountingProduct::find($inputs['product_id']);
+
+        $product->update([
+            'quantity'=>$inputs['quantity'],
+            'unit_price'=>$inputs['unit_price'],
+            'selling_price'=>$inputs['selling_price'],
+            'purchasing_price'=>$inputs['purchasing_price'],
+        ]);
+
+
+        $stores=AccountingStore::pluck('ar_name','id')->toArray();
+        $products=[];
+        alert()->success('تم تسوية بدايه ارصده  المنتج بنجاح !')->autoclose(5000);
+
+        return view('AccountingSystem.stores.settlements',compact('stores','products'));
+    }
+
+    public  function  barcode($id){
+
+        $product=AccountingProduct::find($id);
+        return view('AccountingSystem.products.barcode',compact('product'));
+    }
+
+
+
 }
