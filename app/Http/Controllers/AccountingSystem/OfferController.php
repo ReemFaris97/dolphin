@@ -104,7 +104,8 @@ class OfferController extends Controller
         });
 
 
-        alert()->success('تم اضافة عرض السعربنجاح !')->autoclose(5000);
+        return response()->json(['message' => 'Request completed']);
+//        alert()->success('تم اضافة عرض السعربنجاح !')->autoclose(5000);
         return back();
     }
 
