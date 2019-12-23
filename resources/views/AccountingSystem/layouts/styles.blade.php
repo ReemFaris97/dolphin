@@ -8,5 +8,7 @@
 <link href="{{asset('admin/assets/css/metro.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/customized.css')}}" rel="stylesheet" type="text/css">
 
+<link href="{{asset('admin/assets/css/custom-tabs.css')}}" rel="stylesheet" type="text/css">
+
 @yield('styles')
 

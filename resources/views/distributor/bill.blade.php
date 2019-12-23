@@ -335,7 +335,17 @@
                         
                         /********************/
 
-                      
+//                      $( "#sale" ).on('input', function() {
+//    if ($(this).val().length>100) {
+//        alert('you have reached a limit of 100');       
+//    }
+//});
+
+//$( "#myinput2" ).on('input', function() {
+//    if ($(this).val().length>=3) {
+//        alert('you have reached a limit of 3');       
+//    }
+//});
                     }
                     
                     /**********************  Remove Piece *****************/
