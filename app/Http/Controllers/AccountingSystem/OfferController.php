@@ -2,19 +2,14 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
-use App\Models\AccountingSystem\AccountingBranch;
-use App\Models\AccountingSystem\AccountingBranchShift;
 use App\Models\AccountingSystem\AccountingClient;
-use App\Models\AccountingSystem\AccountingColumnCell;
-use App\Models\AccountingSystem\AccountingCompany;
-
-use App\Models\AccountingSystem\AccountingFaceColumn;
 use App\Models\AccountingSystem\AccountingOffer;
 use App\Models\AccountingSystem\AccountingPackage;
 use App\Models\AccountingSystem\AccountingProduct;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
+use Illuminate\Support\Facades\Mail;
 
 class OfferController extends Controller
 {
@@ -87,6 +82,7 @@ class OfferController extends Controller
             'total'=>$total
         ]);
 
+       $client=AccountingClient::find($requests['client_id']);
        ////////////////////////
 
         $products = collect($requests['products']);
@@ -101,11 +97,15 @@ class OfferController extends Controller
 
         }
 
+        Mail::send('AccountingSystem.offers.offer', ['package' => $package], function ($message) use ($client) {
+            $message->to($client->email)
+                ->subject('عميلنا العزيز يرجى مراجعة الإيميل');
 
+        });
 
 
         alert()->success('تم اضافة عرض السعربنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.clients.index');
+        return back();
     }
 
     /**

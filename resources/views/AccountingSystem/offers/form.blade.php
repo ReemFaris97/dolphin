@@ -116,8 +116,6 @@
     </script>
     <script>
         $('body').delegate('#addProduct','click', function(){
-
-
             var product_name   = $('#product').find("option:selected").attr('data-name');
             var product_id = $('#product').find("option:selected").val();
             var deleteId = "removeProduct"+product_id;
