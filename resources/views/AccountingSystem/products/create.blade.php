@@ -13,6 +13,8 @@
             background-color: green;
         }
     </style>
+<link href="{{asset('admin/assets/css/custom-tabs.css')}}" rel="stylesheet" type="text/css">
+
 @endsection
 
 @section('content')

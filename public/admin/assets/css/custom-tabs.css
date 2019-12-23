@@ -1,0 +1,79 @@
+.custom-tabs .nav-tabs {
+    text-align: center;
+    border-bottom:none;
+}
+.custom-tabs .nav-tabs > li > a {
+    font-size: 16px;
+}
+.custom-tabs .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    color: #fff;
+    background-color: #241e32;
+    border-bottom-color: #ddd;
+    border-radius: 7px;
+}
+
+.custom-tabs .tab-content {
+    border: 5px solid #2ecc71;
+    padding: 15px;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 7px;
+}
+
+.custom-tabs .text-center.col-md-12.m--margin-bottom-5 button#register {
+    width: 200px;
+    margin: 20px auto 0 auto;
+    padding: 10px;
+    font-size: 17px;
+    text-align: center;
+}
+.custom-tabs .text-center.col-md-12.m--margin-bottom-5 button#register:hover , .custom-tabs .text-center.col-md-12.m--margin-bottom-5 button#register:focus{
+    opacity: .7;
+}
+.custom-tabs .bootstrap-select.btn-group .dropdown-menu > .selected > a {
+    background-color: #107d3e;
+}
+.custom-tabs .select2-results__option[aria-selected=true] {
+    background-color: #2ecc71;
+}
+.custom-tabs textarea.form-control {
+    height: 100px;
+    resize: none;
+}
+.custom-tabs .btn-primary {
+    background-color: #241e32;
+    border-color: #241e32;
+}
+.custom-tabs .btn-primary:focus, .custom-tabs .btn-primary.focus, .custom-tabs .btn-primary:hover {
+    background-color: #2ecc71;
+    border-color: #2ecc71;
+}
+.select2-results__option[aria-selected=true] {
+    background-color: #2ecc71;
+}
+
+
+@media (max-width: 768px){
+.nav-tabs:before {
+    display: none;
+    }
+    .nav-tabs {
+    display: flex;
+        flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+    .nav-tabs > li.active > a:after, .nav-tabs > li.active > a:hover:after, .nav-tabs > li.active > a:focus:after{
+background-color: #2ecc71;
+    }
+    .custom-tabs .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    color: #2ecc71;
+    background-color: transparent;
+    }
+    .custom-tabs .nav-tabs > li > a {
+    font-size: 14px;
+}
+    .custom-tabs .tab-content {
+    padding: 8px;
+    }
+    }
