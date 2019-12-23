@@ -570,3 +570,12 @@ function chooseNationality($nationality){
     return $nationality;
 
 }
+
+function currency(){
+
+    return [
+        "rial"=> "ريال",
+        "pound"=> "جنيه",
+
+];
+}

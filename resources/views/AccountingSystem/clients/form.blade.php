@@ -54,16 +54,24 @@
     {!! Form::select("type_price",['wholesale'=>'سعر التجزئة','sale'=>'سعر البيع'],null,['class'=>'form-control','placeholder'=>' انواع السعر '])!!}
 </div>
 
-<div class="form-group col-md-6 pull-left ">
+<div class="form-group col-md-6 pull-left">
+    <label> العمله الافتراضية  </label>
+    {!! Form::select("currency",currency(),null,['class'=>'form-control','placeholder'=>' العمله الافتراضية'])!!}
+</div>
+<div class="clearfix ">
+
+</div>
 
 <div class="form-group col-md-6 pull-left ">
+
+<div class="form-group col-md-6 pull-left credit ">
     <label>السياسة الائتمانية </label>
 
     <label>حد دين </label>
-    {!! Form::radio("credit",1,['class'=>'form-control','id'=>'yes','value'=>1 ])!!}
+    {!! Form::radio("credit","1",['class'=>'form-control','id'=>'amount','value'=>"1" ])!!}
 
     <label>فترة دين </label>
-    {!! Form::radio("credit",0,['class'=>'form-control', 'id'=>'no','value'=>0])!!}
+    {!! Form::radio("credit","0",['class'=>'form-control', 'id'=>'period','value'=>"0"])!!}
 </div>
 <div class="form-group col-md-6  amount">
     <label>حد الدين</label>
@@ -75,6 +83,27 @@
 </div>
 </div>
 
+
+
+<div class="form-group col-md-6 pull-left credit ">
+    <label> التعاملات الضربية </label>
+
+    <label> معفى من الضريبة </label>
+    {!! Form::radio("taxes_status",0,['class'=>'form-control','value'=>0 ])!!}
+
+    <label>خاضع للضريبة </label>
+    {!! Form::radio("taxes_status",1,['class'=>'form-control','value'=>1])!!}
+</div>
+
+<div class="form-group col-md-6 pull-left credit ">
+    <label> التصنيف </label>
+
+    <label> افراد </label>
+    {!! Form::radio("category",0,['class'=>'form-control','value'=>0 ])!!}
+
+    <label>شركات </label>
+    {!! Form::radio("category",1,['class'=>'form-control','value'=>1])!!}
+</div>
 
 <div class="text-center col-md-12">
     <div class="text-right">
@@ -92,23 +121,26 @@
         });
     </script>
     <script>
-        $(function() {
-            $("#type").on('change', function () {
-                var id = $(this).val();
-                if (id =='')
-                {
-                    $("#services_button").show();
 
+                $(function(){
+                    $('input[type="radio"]').click(function(){
+                        if ($(this).is(':checked'))
+                        {
+                            var id=$(this).val();
 
-                }
-                if (id !='service')
-                {
-                    $("#services_button").hide();
+                            if (id=='1'){
 
+                                $(".amount").show();
+                                $(".period").hide();
 
-                }
-            });
-        });
+                            }else if (id=="0"){
+                                $(".period").show();
+                                $(".amount").hide();
+                            }
+                        }
+                    });
+                });
+
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
 

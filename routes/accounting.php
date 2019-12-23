@@ -44,6 +44,8 @@ Route::middleware('admin')->group(function () {
 
     Route::resource('clauses', 'ClauseController');
     Route::resource('benods', 'BenodController');
+    Route::resource('offers', 'OfferController');
+    Route::post('/product','OfferController@getAjaxProductQty')->name('getAjaxProductQty');
 
     Route::resource('products', 'ProductController');
     Route::get('/company_branch/{id}', 'ProductController@getBranch')->name('company.branch');
@@ -58,7 +60,10 @@ Route::middleware('admin')->group(function () {
     Route::get('/companes_store/{id}', 'ProductController@getStoresbycompany');
 
     Route::post('/subunit', 'ProductController@subunit')->name('subunit');
+
     Route::get('/productsAjex/{id}', 'SellPointController@getProductAjex');
+
+
 
 });
 

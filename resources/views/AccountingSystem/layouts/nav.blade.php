@@ -148,7 +148,18 @@
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li><a href="{{route('accounting.clients.index')}}"><i class="icon-eye"></i> عرض  العملاء</a></li>
                     <li><a href="{{route('accounting.clients.create')}}"><i class="icon-add-to-list"></i> اضافة عميل جديد</a></li>
+                    <li class="dropdown-submenu dropdown-submenu-left">
+                        <a href="#"><i class="icon-history"></i> عروض الاسعار </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{route('accounting.offers.index')}}"><i class="icon-eye"></i> عرض   عروض الاسعار للعملاء</a></li>
+                            <li class="dropdown-submenu dropdown-submenu-left">
+                                <a href="{{route('accounting.offers.create')}}"><i class="icon-add-to-list"></i> اضافة عرض سعر جديده</a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
+
+
             </li>
 
 
