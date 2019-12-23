@@ -70,10 +70,7 @@
     </button>
 </div>
 
-<div class="form-group col-md-6 ">
-    <label>اسم العميل   </label>
-    {!! Form::select("client_id",$clients,null,['class'=>'form-control','placeholder'=>'اسم العميل '])!!}
-</div>
+
 
 <div class="table-responsive">
     <table id="productsTable" class="table m-0">
@@ -108,7 +105,6 @@
         </tbody>
     </table>
 </div>
-
 
 
 

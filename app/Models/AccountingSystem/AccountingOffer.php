@@ -12,6 +12,6 @@ class AccountingOffer extends Model
 
     protected $fillable = ['product_id','quantity','price','package_id'
     ];
-    protected $table='accounting_clients';
+    protected $table='accounting_offers';
 
 }

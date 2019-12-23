@@ -12,6 +12,6 @@ class AccountingPackage extends Model
 
     protected $fillable = ['client_id','total'
     ];
-    protected $table='accounting_clients';
+    protected $table='accounting_packages';
 
 }

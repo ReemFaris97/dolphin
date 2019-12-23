@@ -64,9 +64,46 @@ class OfferController extends Controller
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
+//        dd($requests);
+       $qtys=$requests['qtys'];
+       $prices=$requests['prices'];
+        $total=0;
+       for ($i=0;$i<count($qtys);$i++){
 
-        dd($requests);
-        AccountingPackage::create($requests);
+           for ($j=0;$j<count($prices);$j++){
+
+               if ($i==$j){
+
+                   $total+=$qtys[$i]* $prices[$j];
+               }
+
+           }
+
+       }
+
+
+       $package= AccountingPackage::create([
+            'client_id'=>$requests['client_id'],
+            'total'=>$total
+        ]);
+
+       ////////////////////////
+
+        $products = collect($requests['products']);
+        $qtys = collect($requests['qtys']);
+        $prices = collect($requests['prices']);
+        $merges = $products->zip($qtys,$prices);
+
+        foreach ($merges as $merge)
+
+        {
+            $offer= AccountingOffer::create(['product_id'=>$merge['0'],'quantity'=> $merge['1'],'price'=>$merge['2'],'package_id'=>$package->id]);
+
+        }
+
+
+
+
         alert()->success('تم اضافة عرض السعربنجاح !')->autoclose(5000);
         return redirect()->route('accounting.clients.index');
     }

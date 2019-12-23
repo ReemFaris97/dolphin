@@ -120,6 +120,31 @@
     <!------------ IF Checked --------------->
     <script>
         $(document).ready(function() {
+
+
+        });
+
+    </script>
+
+    <script>
+
+function  category(id) {
+
+
+
+    $.ajax({
+        type: 'get',
+
+        url: "/accounting/productsAjex/" + id,
+        data: {id: id},
+        dataType: 'json',
+
+
+        success: function (data) {
+
+            $('.yurProdc').html("");
+            $('.yurProdc').append(data.data);
+
             var numberOfItems = 0;
             $('.if-check').change(function() {
                 var $this = $(this);
@@ -204,13 +229,12 @@
                         $('#paid').change(function() {
                             console.log('alnateg' + parseFloat($("#reminder").html()));
                             console.log('elinput' + parseFloat($(this).val()));
-                            lastReminder =  parseFloat($(this).val()) - parseFloat($("#reminder").html());
+                            lastReminder =   parseFloat($("#reminder").html())- parseFloat($(this).val());
                             $("#lastreminder").html(lastReminder);
                         });
 
 
                         /********************/
-
 
                     }
 
@@ -246,7 +270,7 @@
 //                        });
 //
 
-                        lastReminder =  parseFloat($("#paid").val()) - parseFloat($("#reminder").html());
+                        lastReminder =   parseFloat($("#reminder").html()) - parseFloat($("#paid").val()) ;
                         $("#lastreminder").html(lastReminder);
 
 //                        if ($(".finalTb tbody").html('')) {
@@ -261,31 +285,6 @@
                 });
 
             });
-
-
-        });
-
-    </script>
-
-    <script>
-
-function  category(id) {
-
-
-
-    $.ajax({
-        type: 'get',
-
-        url: "/accounting/productsAjex/" + id,
-        data: {id: id},
-        dataType: 'json',
-
-
-        success: function (data) {
-
-            $('.yurProdc').html("");
-            $('.yurProdc').append(data.data);
-
 
         }
     });
