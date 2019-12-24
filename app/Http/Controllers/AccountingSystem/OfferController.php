@@ -183,11 +183,11 @@ class OfferController extends Controller
         ]);
     }
 
-    public function  notification(Request $request,$id){
+    public function  notification(Request $request){
 
        $inputs=$request->all();
        AccountingNotifiaction::create([
-           'client_id'=>$id,
+           'client_id'=>$request['client_id'],
            'package_id'=>$request['package_id'],
        ]);
 
