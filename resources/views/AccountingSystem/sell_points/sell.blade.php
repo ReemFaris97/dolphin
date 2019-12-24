@@ -11,4 +11,4 @@
         </label>
     </div>
 </div>
-        @endforeach
+    @endforeach
