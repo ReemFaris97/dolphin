@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AccountingSystem;
 
 use App\Models\AccountingSystem\AccountingClient;
+use App\Models\AccountingSystem\AccountingNotifiaction;
 use App\Models\AccountingSystem\AccountingOffer;
 use App\Models\AccountingSystem\AccountingPackage;
 use App\Models\AccountingSystem\AccountingProduct;
@@ -97,9 +98,9 @@ class OfferController extends Controller
 
         }
 
-        Mail::send('AccountingSystem.offers.offer', ['package' => $package], function ($message) use ($client) {
+        Mail::send('AccountingSystem.offers.offer', ['package' => $package,'client'=>$client], function ($message) use ($client) {
             $message->to($client->email)
-                ->subject('عميلنا العزيز يرجى مراجعة الإيميل');
+                ->subject('عرض اسعار');
 
         });
 
@@ -158,8 +159,6 @@ class OfferController extends Controller
         alert()->success('تم تعديل  العميل بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.clients.index');
 
-
-
     }
 
     /**
@@ -182,5 +181,16 @@ class OfferController extends Controller
         return response()->json([
             'data'=>$product->qty
         ]);
+    }
+
+    public function  notification(Request $request,$id){
+
+       $inputs=$request->all();
+       AccountingNotifiaction::create([
+           'client_id'=>$id,
+           'package_id'=>$request['package_id'],
+       ]);
+
+
     }
 }

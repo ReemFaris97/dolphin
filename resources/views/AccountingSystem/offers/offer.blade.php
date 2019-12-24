@@ -36,7 +36,11 @@
         font-weight: bold;
         align-content: center;">
 
-
+<form method="post" action="{{route(["accounting.offers.notification",$client->id])}}">
+    @csrf
+    <input type="hidden" name="package" value="{{$package->id}}">
+    <button type="submit" class="btn btn-success ">قبول السعر</button>
+</form>
 
 
     </div>
