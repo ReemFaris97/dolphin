@@ -8,19 +8,9 @@
     </style>
 </head>
 
-<body style="padding: 4em !important;
-        color: #041735 !important;
-        direction:rtl !important;
-        background-color: #ccc;
-        background-image: url('{{ url('public/images/1538568220.png') }}');
-        ">
+<body>
 
-<div style="margin: auto;
-    width: 80%;
-    border: 3px solid green;
-    padding: 10px;
-    background:rgba(255,255,255,.8) !important;
-    text-align: center;">
+<div>
 
     <div style=" float: right;
         width: 65%;
@@ -36,9 +26,12 @@
         font-weight: bold;
         align-content: center;">
 {{--@dd($client->id)--}}
-<form method="post" action="{{route("accounting.offers.notification",$client->id)}}">
+
+<form method="post" action="{{route("accounting.offers.notification")}}">
     @csrf
-    <input type="hidden" name="package" value="{{$package->id}}">
+    <input type="hidden" name="package_id" value="{{$package->id}}">
+
+    <input type="hidden" name="client_id" value="{{$client->id}}">
 
     <button type="submit" class="btn btn-success ">قبول السعر</button>
 </form>
