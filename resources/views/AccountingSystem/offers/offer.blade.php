@@ -27,12 +27,8 @@
         align-content: center;">
 {{--@dd($client->id)--}}
 
-<form method="post" action="{{route("accounting.offers.notification")}}">
+<form method="post" action="{{route("accounting.offers.notification",['package_id'=>$package->id,'client_id'=>$client->id])}}">
     @csrf
-    <input type="hidden" name="package_id" value="{{$package->id}}">
-
-    <input type="hidden" name="client_id" value="{{$client->id}}">
-
     <button type="submit" class="btn btn-success ">قبول السعر</button>
 </form>
 
