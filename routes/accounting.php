@@ -28,7 +28,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/invertory_filters', 'StoreController@invertory_filters')->name('stores.invertory_filter');
     Route::get('/invertory_details/{id}', 'StoreController@invertory_details')->name('stores.inventory_details');
  //تحويل الاصناف  من  مستودع  الى  اخر/////////////////////////////////////
-    Route::post('transaction/{id}', 'StoreController@transaction')->name('products.transaction');
+    Route::post('transaction', 'StoreController@transaction')->name('products.transaction');
 ////////////////////////////طباعة   الباركود
     Route::get('/product-barcode/{id}', 'ProductController@barcode')->name('products.barcode');
 
