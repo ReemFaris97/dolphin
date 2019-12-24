@@ -27,10 +27,10 @@
         align-content: center;">
 {{--@dd($client->id)--}}
 
-<form method="post" action="{{route("accounting.offers.notification",['package_id'=>$package->id,'client_id'=>$client->id])}}">
-    @csrf
-    <button type="submit" class="btn btn-success ">قبول السعر</button>
-</form>
+<a href="{{route("accounting.offers.notification",['package_id'=>$package->id,'client_id'=>$client->id])}}">
+    قبول السعر
+
+</a>
 
 {{--@dd("sdddddd")--}}
 
