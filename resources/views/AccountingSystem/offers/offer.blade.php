@@ -35,13 +35,15 @@
         padding: 0 5px;
         font-weight: bold;
         align-content: center;">
-
-<form method="post" action="{{route(["accounting.offers.notification",$client->id])}}">
+{{--@dd($client->id)--}}
+<form method="post" action="{{route("accounting.offers.notification",$client->id)}}">
     @csrf
     <input type="hidden" name="package" value="{{$package->id}}">
+
     <button type="submit" class="btn btn-success ">قبول السعر</button>
 </form>
 
+{{--@dd("sdddddd")--}}
 
     </div>
 </div>
