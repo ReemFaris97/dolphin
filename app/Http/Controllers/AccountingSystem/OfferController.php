@@ -183,16 +183,14 @@ class OfferController extends Controller
         ]);
     }
 
-    public function  notification(){
+    public function  notification(Request $request,$id){
 
-
-        dd("ffffffffffffffff");
-//       $inputs=$request->all();
-//       dd($inputs);
-//       AccountingNotifiaction::create([
-//           'client_id'=>$request['client_id'],
-//           'package_id'=>$request['package_id'],
-//       ]);
+       $inputs=$request->all();
+       dd($inputs);
+       AccountingNotifiaction::create([
+           'client_id'=>$request['client_id'],
+           'package_id'=>$request['package_id'],
+       ]);
 
         return response()->json(['message' => 'تم القبول']);
 
