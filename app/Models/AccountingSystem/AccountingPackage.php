@@ -14,4 +14,9 @@ class AccountingPackage extends Model
     ];
     protected $table='accounting_packages';
 
+
+    public  function offers(){
+        return $this->hasMany(AccountingOffer::class,'package_id');
+
+    }
 }
