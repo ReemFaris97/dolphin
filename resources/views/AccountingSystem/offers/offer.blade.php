@@ -42,7 +42,7 @@
                 </thead>
                 <tbody>
 
-                @foreach($package->offer as $row)
+                @foreach($package->offer() as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->product->name!!}</td>
