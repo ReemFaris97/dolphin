@@ -105,9 +105,9 @@ class OfferController extends Controller
         });
 
 
-//        return response()->json(['message' => 'Request completed']);
-        alert()->success('تم  ارسال  العرض  للعميل بنجاح !')->autoclose(5000);
-        return back();
+       return response()->json(['message' => 'Request completed']);
+//        alert()->success('تم  ارسال  العرض  للعميل بنجاح !')->autoclose(5000);
+//        return back();
     }
 
     /**
