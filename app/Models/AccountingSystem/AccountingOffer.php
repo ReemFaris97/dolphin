@@ -14,4 +14,14 @@ class AccountingOffer extends Model
     ];
     protected $table='accounting_offers';
 
+
+    public function product()
+    {
+        return $this->belongsTo(AccountingProduct::class,'product_id');
+    }
+    public function package()
+    {
+        return $this->belongsTo(AccountingPackage::class,'package_id');
+    }
+
 }

@@ -16,8 +16,17 @@ class CreateAccountingOfferNotifactionsTable extends Migration
     {
         Schema::create('accounting_notifactions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('client_id')->nullable();
-            $table->string('package_id')->nullable();
+
+            $table->unsignedBigInteger('client_id')->nullable();
+            $table->foreign('client_id')->references('id')
+                ->on('accounting_clients')->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->unsignedBigInteger('package_id')->nullable();
+            $table->foreign('package_id')->references('id')
+                ->on('accounting_packages')->onDelete('cascade')
+                ->onUpdate('cascade');
+
             $table->date('read_at')->nullable();
             $table->timestamps();
         });

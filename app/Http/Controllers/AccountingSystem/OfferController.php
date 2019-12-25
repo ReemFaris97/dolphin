@@ -105,8 +105,8 @@ class OfferController extends Controller
         });
 
 
-        return response()->json(['message' => 'Request completed']);
-//        alert()->success('تم اضافة عرض السعربنجاح !')->autoclose(5000);
+//        return response()->json(['message' => 'Request completed']);
+        alert()->success('تم  ارسال  العرض  للعميل بنجاح !')->autoclose(5000);
         return back();
     }
 
@@ -191,6 +191,11 @@ class OfferController extends Controller
            'client_id'=>$request['client_id'],
            'package_id'=>$id,
        ]);
+
+       $package=AccountingPackage::find($id);
+        $package->update([
+            'status'=>$request['status'],
+        ]);
 
         return response()->json(['message' => 'تم القبول']);
 
