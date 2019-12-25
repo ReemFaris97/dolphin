@@ -33,7 +33,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/product-barcode/{id}', 'ProductController@barcode')->name('products.barcode');
 
     Route::get('/sell_point', 'SellPointController@sell_point')->name('sells_points.sells_point');
-    Route::get('/notification', 'OfferController@notification')->name('offers.notification');
+    Route::get('/notification/{id}', 'OfferController@notification')->name('offers.notification');
 
 
     Route::resource('clients', 'ClientController');
