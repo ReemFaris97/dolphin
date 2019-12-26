@@ -3,36 +3,30 @@
 namespace App\Http\Controllers\AccountingSystem;
 
 use App\Models\AccountingSystem\AccountingBranch;
+use App\Models\AccountingSystem\AccountingBranchFace;
 use App\Models\AccountingSystem\AccountingBranchShift;
-use App\Models\AccountingSystem\AccountingClient;
-use App\Models\AccountingSystem\AccountingColumnCell;
 use App\Models\AccountingSystem\AccountingCompany;
 
-use App\Models\AccountingSystem\AccountingFaceColumn;
+use App\Models\AccountingSystem\AccountingDelegate;
+use App\Models\AccountingSystem\AccountingDelegateProduct;
 use App\Models\AccountingSystem\AccountingProduct;
-use App\Models\AccountingSystem\AccountingProductCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
 
-class SellPointController extends Controller
+class DelegateController extends Controller
 {
     use Viewable;
-//    private $viewable = 'AccountingSystem.sells_points.';
+    private $viewable = 'AccountingSystem.delegates.';
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function sell_point()
+    public function index()
     {
-        $categories=AccountingProductCategory::all();
-        $clients=AccountingClient::pluck('name','id')->toArray();
-//foreach ($categories as $category){
-//  dd($category->products()->get());
-//}
-
-        return  view('AccountingSystem.sell_points.sell_point',compact('categories','clients'));
+        $delegates =AccountingDelegate::all()->reverse();
+        return $this->toIndex(compact('delegates'));
     }
 
     /**
@@ -40,12 +34,11 @@ class SellPointController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public  function getProductAjex($id){
-        $products=AccountingProduct::where('category_id',$id)->get();
-        return response()->json([
-            'status'=>true,
-            'data'=>view('AccountingSystem.sell_points.sell')->with('products',$products)->render()
-        ]);
+    public function create()
+    {
+
+        $products=AccountingProduct::pluck('name','id')->toArray();
+        return $this->toCreate(compact('products'));
     }
 
     /**
@@ -60,15 +53,23 @@ class SellPointController extends Controller
 
             'name'=>'required|string|max:191',
 
-            'column_id'=>'required|numeric|exists:accounting_face_columns,id',
 
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
 
-        AccountingColumnCell::create($requests);
-        alert()->success('تم اضافة  الصف بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.columns.index');
+        $delegate=AccountingDelegate::create($requests);
+        foreach ($requests['product_id'] as $product_id){
+                AccountingDelegateProduct::create([
+                    'product_id'=>$product_id,
+                    'delegate_id'=>$delegate->id
+                ]);
+
+        }
+
+
+        alert()->success('تم اضافة   المندوب  بنجاح !')->autoclose(5000);
+        return redirect()->route('accounting.delegates.index');
     }
 
     /**
@@ -90,10 +91,11 @@ class SellPointController extends Controller
      */
     public function edit($id)
     {
-        $cell =AccountingColumnCell::findOrFail($id);
-        $columns=AccountingFaceColumn::pluck('name','id')->toArray();
+        $delegate =AccountingDelegate::findOrFail($id);
+        $products=AccountingProduct::pluck('name','id')->toArray();
 
-        return $this->toEdit(compact('cell','columns'));
+
+        return $this->toEdit(compact('delegate','products'));
 
 
     }
@@ -107,18 +109,18 @@ class SellPointController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $cell =AccountingColumnCell::findOrFail($id);
+        $delegate =AccountingDelegate::findOrFail($id);
+
         $rules = [
 
             'name'=>'required|string|max:191',
 
-            'column_id'=>'required|numeric|exists:accounting_face_columns,id',
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
-        $cell->update($requests);
-        alert()->success('تم تعديل  الصف بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.cells.index');
+        $delegate->update($requests);
+        alert()->success('تم  تعديل  المندوب  بنجاح !')->autoclose(5000);
+        return redirect()->route('accounting.delegates.index');
 
 
 
@@ -132,9 +134,9 @@ class SellPointController extends Controller
      */
     public function destroy($id)
     {
-        $shift =AccountingBranchShift::findOrFail($id);
-        $shift->delete();
-        alert()->success('تم حذف  الوردية بنجاح !')->autoclose(5000);
+        $delegate =AccountingDelegate::findOrFail($id);
+        $delegate->delete();
+        alert()->success('تم حذف  المندوب بنجاح !')->autoclose(5000);
             return back();
 
 

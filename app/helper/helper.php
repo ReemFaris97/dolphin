@@ -579,3 +579,12 @@ function currency(){
 
 ];
 }
+
+function pay_type(){
+
+    return [
+        "cash"=> "نقدى",
+        "card"=> "بطاقة ائتمان",
+
+    ];
+}

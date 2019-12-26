@@ -6,19 +6,14 @@ use App\Traits\HashPassword;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class AccountingPackage extends Model
+class AccountingSale extends Model
 {
 
 
-    protected $fillable = ['client_id','total'
-    ];
-    protected $table='accounting_packages';
+    protected $fillable = ['client_id','total','amount','discount','payment','payed','debts','package_id'];
+    protected $table='accounting_sales';
 
 
-    public  function offers(){
-        return $this->hasMany(AccountingOffer::class,'package_id');
-
-    }
 
     public function client()
     {

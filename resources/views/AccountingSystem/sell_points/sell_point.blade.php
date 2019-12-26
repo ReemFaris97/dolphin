@@ -70,6 +70,8 @@
                     </div>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="result" id="the-choseen-parts">
+                            <form method="post" action="{{route('accounting.sales.store')}}">
+                                @csrf
                             <table border="1" class="finalTb">
                                 <thead>
                                 <tr>
@@ -77,6 +79,7 @@
                                     <th>الكمية</th>
                                     <th>السعر</th>
                                 </tr>
+
                                 </thead>
                                 <tbody>
 
@@ -84,28 +87,55 @@
                                 <tfoot>
                                 <tr>
                                     <th colspan="2">المجموع</th>
-                                    <th id="allResult"></th>
+                                    <input type="hidden" name="amount" id="amount">
+                                    <th id="allResult" ></th>
                                 </tr>
                                 <tr>
                                     <th colspan="2">الخصم</th>
-                                    <th> <input type="number" placeholder="نسبة الخصم" min="0" max="100" id="sale"> </th>
+                                    <th> <input type="number" name="discount" placeholder="نسبة الخصم" min="0" max="100" id="sale"> </th>
                                 </tr>
                                 <tr>
                                     <th colspan="2">المجموع بعد الخصم</th>
+                                    <input type="hidden" name="total" id="total">
                                     <th id="reminder"></th>
                                 </tr>
+                                {{--<tr>--}}
+                                    {{--<th colspan="2">المدفوع</th>--}}
+                                    {{--<th ><input type="number" id="paid"name="" placeholder="المدفوع" min="0" max="100"></th>--}}
+                                {{--</tr>--}}
+                                {{--<tr>--}}
+                                    {{--<th colspan="2">المتبقي</th>--}}
+                                    {{--<th > <input type="hidden" id="lastreminder" name="reminder"></th>--}}
+                                {{--</tr>--}}
                                 <tr>
-                                    <th colspan="2">المدفوع</th>
-                                    <th ><input type="number" id="paid" placeholder="المدفوع" min="0" max="100"></th>
+                                    <th colspan="2">العميل</th>
+                                    <th>
+                                        {!! Form::select("client_id",$clients,null,['class'=>'form-control','placeholder'=>'اسم العميل '])!!}
+
+                                    </th>
                                 </tr>
                                 <tr>
-                                    <th colspan="2">المتبقي</th>
-                                    <th id="lastreminder"></th>
+                                    <th colspan="2">طريقه الدفع</th>
+                                    <th>
+                                        {!! Form::select("payment",pay_type(),null,['class'=>'form-control','placeholder'=>'طريقه الدفع '])!!}
+
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="4">
+                                  <button type="submit">دفع</button>
+                                    </th>
+
+
                                 </tr>
                                 </tfoot>
                             </table>
                         </div>
                     </div>
+
+
+
+
 
                 </div>
             </section>
@@ -191,6 +221,7 @@ function  category(id) {
                 $('.if-check').each(function() {
                     if ($(this).is(':checked')) {
                         var itemName = $(this).parent(".prod1").find(".new-p").find('.name').html();
+                        var itemId = $(this).parent(".prod1").find(".new-p").find('.id').val();
                         console.log(itemName);
 
                         var itemQuantity = parseFloat($(this).parent('.prod1').find('.inDetails').find('input').val());
@@ -207,7 +238,7 @@ function  category(id) {
 //		              var totalR = $(".totalB").text();
                         console.log(totalR);
 
-                        $(".finalTb tbody").append('<tr class="newProd"><td><input type="hidden" value="' + itemName + '"> <h4> ' + itemName + '</h4> </td><td><input type="hidden" value="' + itemQuantity + '"> <span class="qnt"> ' + itemQuantity + '</span></td><td><input type="hidden" value="' + totalR + '"> <span class="qnt singleprice"> ' + totalR + '</span><a class="close"><i class="fas fa-times"></a></td></tr>');
+                        $(".finalTb tbody").append('<tr class="newProd"><td> <input type="hidden" name="product_id[]" value="' + itemId + '"> <input type="hidden" value="' + itemName + '"> <h4> ' + itemName + '</h4> </td><td><input type="hidden" name="quantity[]" value="' + itemQuantity + '"> <span class="qnt"> ' + itemQuantity + '</span></td><td><input type="hidden" value="' + totalR + '"> <span class="qnt singleprice"> ' + totalR + '</span><a class="close"><i class="fas fa-times"></a></td></tr>');
 
                         var allResult = 0;
 
@@ -215,6 +246,7 @@ function  category(id) {
                             allResult += parseFloat($(this).html());
                         });
 
+                        $("#amount").val(allResult);
                         $("#allResult").html(allResult);
 
 
@@ -223,7 +255,15 @@ function  category(id) {
 
                         $('#sale').change(function() {
                             allReminder =  parseFloat($("#allResult").html()) - ((parseFloat($(this).val()) * parseFloat($("#allResult").html())) / 100); console.log('change val is' + allReminder);
+                            $("#total").val(allReminder);
                             $("#reminder").html(allReminder);
+
+
+
+
+
+
+
                         });
                         var lastReminder = 0;
                         $('#paid').change(function() {
