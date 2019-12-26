@@ -23,8 +23,8 @@ class OfferController extends Controller
      */
     public function index()
     {
-        $offers =AccountingOffer::all()->reverse();
-        return $this->toIndex(compact('offers'));
+        $packages =AccountingPackage::all();
+        return $this->toIndex(compact('packages'));
     }
 
     /**
@@ -118,7 +118,13 @@ class OfferController extends Controller
      */
     public function show($id)
     {
-        //
+        $package=AccountingPackage::find($id);
+//        $offers=AccountingOffer::where('package_id',$id)->get();
+//        dd($offers);
+//        dd($package->offers);
+
+
+        return $this->toShow(compact('package'));
     }
 
     /**

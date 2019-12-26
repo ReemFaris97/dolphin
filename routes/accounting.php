@@ -34,8 +34,13 @@ Route::middleware('admin')->group(function () {
 
     Route::get('/sell_point', 'SellPointController@sell_point')->name('sells_points.sells_point');
     Route::get('/notification/{id}', 'OfferController@notification')->name('offers.notification');
+    Route::get('/permiums', 'ClientController@permiums')->name('clients.permiums');
+    Route::post('/permium_store', 'ClientController@permium_store')->name('clients.permiums_store');
 
+    Route::get('/offer_copy', 'ClientController@offer_copy')->name('clients.offers_copy');
+    Route::post('/offers_copy', 'ClientController@copy')->name('clients.copy');
 
+    Route::resource('sales', 'SaleController');
     Route::resource('clients', 'ClientController');
     Route::resource('categories', 'CategoryController');
     Route::resource('industrials', 'IndustrialController');
@@ -45,9 +50,14 @@ Route::middleware('admin')->group(function () {
     Route::resource('cells', 'CellController');
 
     Route::resource('clauses', 'ClauseController');
+    Route::resource('delegates', 'DelegateController');
+    Route::resource('suppliers', 'SupplierController');
+
+
     Route::resource('benods', 'BenodController');
     Route::resource('offers', 'OfferController');
     Route::post('/product','OfferController@getAjaxProductQty')->name('getAjaxProductQty');
+    Route::get('/order_sale/{id}','SaleController@sale_order')->name('sales.sale_order');
 
     Route::resource('products', 'ProductController');
     Route::get('/company_branch/{id}', 'ProductController@getBranch')->name('company.branch');
