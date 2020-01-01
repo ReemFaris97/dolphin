@@ -87,7 +87,8 @@ class StoreKeeperController extends Controller
         $storeKeeper = User::create($requests);
         $storeKeeper->update([
             'is_storekeeper'=>1,
-            'is_admin'=>1
+            'is_admin'=>1,
+            'accounting_store_id'=>$requests['store_id']
         ]);
 
         alert()->success('تم التعديل الامين بنجاح !')->autoclose(5000);

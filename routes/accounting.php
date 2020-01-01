@@ -45,10 +45,12 @@ Route::middleware('admin')->group(function () {
     Route::get('/products_store/{id}', 'StoreController@getproducts')->name('products_store');
     Route::post('transaction/{id}', 'StoreController@transaction')->name('products.transaction');
     Route::get('/productsingle', 'StoreController@productsingle');
-      ////////////////////////////طباعة الباركود
+    Route::get('/requests', 'StoreController@requests')->name('stores.requests');
+    Route::get('/request/{id}', 'StoreController@request')->name('stores.request');
+
+    ////////////////////////////طباعة الباركود
 
     Route::get('/product-barcode/{id}', 'ProductController@barcode')->name('products.barcode');
-
     Route::get('/sell_point', 'SellPointController@sell_point')->name('sells_points.sells_point');
     Route::get('/notification/{id}', 'OfferController@notification')->name('offers.notification');
     Route::get('/permiums', 'ClientController@permiums')->name('clients.permiums');

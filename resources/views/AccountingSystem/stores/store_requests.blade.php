@@ -1,7 +1,8 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض امناء المخازن')
+@section('title','سندات التحويل بين المخازن')
 @section('parent_title','إدارة  المخازن')
-@section('action', URL::route('accounting.storeKeepers.index'))
+
+@section('action', URL::route('accounting.stores.index'))
 @section('styles')
 
 @endsection
@@ -9,7 +10,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">عرض كل الامناء</h5>
+            <h5 class="panel-title">سندات التحويل بين المخازن</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -24,32 +25,37 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th> اسم  الامين </th>
-                    <th> اسم المخزن التابع  لها  </th>
-                    <th> جوال  </th>
-                    <th> ايميل  </th>
-                    <th class="text-center">العمليات</th>
+                    <th> المخزن المحول  منه  </th>
+                    <th> حاله التحويل  </th>
+                    <th> السبب [فى حاله الرفض ] </th>
+                    <th>عرض  السند </th>
+
                 </tr>
                 </thead>
                 <tbody>
 
-                @foreach($storeKeepers as $row)
+                @foreach($requests as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
-                        <td>{!! $row->name!!}</td>
-                        <td>{!! $row->accounting_store->ar_name!!}</td>
-                        <td>{!! $row->phone!!}</td>
-                        <td>{!! $row->email!!}</td>
+                        <td>{!! $row->store->ar_name!!}</td>
 
+                        <td>@if (  $row->status=='pending')
+                           <label class="label label-warning">على  قيد الانتظار </label>
+                                @elseif ($row->status=='accepted')
+                                <label class="label label-success">  تم الاستلام   </label>
+                                @else
+                                <label class="label label-danger">  تم الرفض   </label>
 
-                        <td class="text-center">
+                        @endif
+                           </td>
 
-                            <a href="{{route('accounting.storeKeepers.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
-                            <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
-                            {!!Form::open( ['route' => ['accounting.storeKeepers.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
-                            {!!Form::close() !!}
+                        <td>{!! $row->refused_reason!!}</td>
+
+                        <td>
+                            <a href="{{route('accounting.stores.request',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>
 
                         </td>
+
                     </tr>
 
                 @endforeach

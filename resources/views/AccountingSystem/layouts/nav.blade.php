@@ -121,7 +121,7 @@
                     <li><a href="{{route('accounting.stores.inventory')}}"><i class="icon-add-to-list"></i> جرد المخازن</a></li>
                     <li><a href="{{route('accounting.stores.invertory_filter')}}"><i class="icon-add-to-list"></i> تسوية جرد </a></li>
                     <li><a href="{{route('accounting.stores.transaction')}}"><i class="icon-add-to-list"></i>  تحويلات بين المخازن  </a></li>
-
+                    <li><a href="{{route('accounting.stores.requests')}}"><i class="icon-add-to-list"></i> سندات تحويلات المخازن  </a></li>
 
                     <li class="dropdown-submenu dropdown-submenu-left">
                         <a href="#"><i class="icon-paragraph-right"></i> أمناء المخازن </a>
