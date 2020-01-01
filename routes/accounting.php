@@ -13,6 +13,18 @@ Route::middleware('admin')->group(function () {
     Route::resource('shifts', 'ShiftController');
     Route::resource('users', 'UserController');
     Route::resource('stores', 'StoreController');
+    Route::resource('storeKeepers', 'StoreKeeperController');
+    /////////////////المخازن
+
+    Route::get('/products_entry_form', 'StoreController@products_entry_form')->name('stores.products_entry_form');
+    Route::post('/products_entry_store', 'StoreController@products_entry_store')->name('stores.products_entry_store');
+
+    Route::get('/products_exchange_form', 'StoreController@products_exchange_form')->name('stores.products_exchange_form');
+    Route::post('/products_exchange_store', 'StoreController@products_exchange_store')->name('stores.products_exchange_store');
+
+
+
+
     Route::get('/store-product/{id}', 'StoreController@store_product')->name('stores.product');
     Route::post('/store-products-copy/{id}', 'StoreController@store_products_copy')->name('store_products_copy.store');
   /////////////////settlementتسوي  الارصده  للبداية/////////////////
@@ -28,8 +40,13 @@ Route::middleware('admin')->group(function () {
     Route::get('/invertory_filters', 'StoreController@invertory_filters')->name('stores.invertory_filter');
     Route::get('/invertory_details/{id}', 'StoreController@invertory_details')->name('stores.inventory_details');
  //تحويل الاصناف  من  مستودع  الى  اخر/////////////////////////////////////
+    Route::get('/transaction', 'StoreController@transaction_form')->name('stores.transaction');
+    Route::post('transactions', 'StoreController@transactions')->name('stores.transactions');
+    Route::get('/products_store/{id}', 'StoreController@getproducts')->name('products_store');
     Route::post('transaction/{id}', 'StoreController@transaction')->name('products.transaction');
-////////////////////////////طباعة   الباركود
+    Route::get('/productsingle', 'StoreController@productsingle');
+      ////////////////////////////طباعة الباركود
+
     Route::get('/product-barcode/{id}', 'ProductController@barcode')->name('products.barcode');
 
     Route::get('/sell_point', 'SellPointController@sell_point')->name('sells_points.sells_point');

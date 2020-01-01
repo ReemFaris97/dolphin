@@ -120,6 +120,24 @@
                     <li><a href="{{route('accounting.stores.settlements')}}"><i class="icon-add-to-list"></i> تسوية ارصدة بداية الاصناف</a></li>
                     <li><a href="{{route('accounting.stores.inventory')}}"><i class="icon-add-to-list"></i> جرد المخازن</a></li>
                     <li><a href="{{route('accounting.stores.invertory_filter')}}"><i class="icon-add-to-list"></i> تسوية جرد </a></li>
+                    <li><a href="{{route('accounting.stores.transaction')}}"><i class="icon-add-to-list"></i>  تحويلات بين المخازن  </a></li>
+
+
+                    <li class="dropdown-submenu dropdown-submenu-left">
+                        <a href="#"><i class="icon-paragraph-right"></i> أمناء المخازن </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{route('accounting.storeKeepers.index')}}"><i class="icon-add-to-list"></i> عرض الامناء </a></li>
+                            <li><a href="{{route('accounting.storeKeepers.create')}}"><i class="icon-eye"></i>  اضافه امين  مخزن</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown-submenu dropdown-submenu-left">
+                        <a href="#"><i class="icon-paragraph-right"></i> السندات </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{route('accounting.stores.products_entry_form')}}"><i class="icon-eye"></i> سند ادخال منتجات   </a></li>
+                            <li><a href="{{route('accounting.stores.products_exchange_form')}}"><i class="icon-eye"></i> سند صرف منتجات</a></li>
+                        </ul>
+                    </li>
 
                 </ul>
             </li>

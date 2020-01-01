@@ -14,6 +14,41 @@ function responseJson($status, $msg, $data = null, $state = 200)
     return response()->json($response, $state);
 }
 
+function storekeepers()
+{
+    $storekeepers = \App\Models\AccountingSystem\AccountingStoreKeeper::all()->mapWithKeys(function ($q) {
+        return [$q['id'] => $q['name']];
+    });
+    return $storekeepers;
+}
+
+function allstores()
+{
+    $stores = \App\Models\AccountingSystem\AccountingStore::all()->mapWithKeys(function ($q) {
+        return [$q['id'] => $q['ar_name']];
+    });
+    return $stores;
+}
+
+
+function products($store=null){
+    if ($store != null) {
+
+        $products_id=App\Models\AccountingSystem\AccountingProductStore::where('store_id',$store)->pluck('product_id')->toArray();
+
+          $products=App\Models\AccountingSystem\AccountingProduct::whereIn('id',$products_id)->get()->mapWithKeys(function ($q) {
+            return [$q['id'] => $q['name']];
+        });
+
+
+    }else{
+        $products=[];
+    }
+
+    return $products;
+}
+
+
 function companies()
 {
     $companies = \App\Models\AccountingSystem\AccountingCompany::all()->mapWithKeys(function ($q) {
@@ -21,8 +56,6 @@ function companies()
     });
     return $companies;
 }
-
-
 
 function branches($company = null)
 {

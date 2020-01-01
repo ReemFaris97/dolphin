@@ -9,5 +9,5 @@ class AccountingTransaction extends Model
 
 {
     protected  $table='accounting_transactions';
-    protected $fillable = ['product_id','store_form','store_to','quantity'];
+    protected $fillable = ['product_id','store_form','store_to','quantity','cost','price'];
 }

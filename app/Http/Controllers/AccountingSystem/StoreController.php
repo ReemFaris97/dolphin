@@ -320,6 +320,36 @@ class StoreController extends Controller
         return view('AccountingSystem.stores.invertory_details',compact('inventory_products','inventory'));
     }
 
+    public  function transaction_form(){
+
+        return view('AccountingSystem.stores.transactions');
+
+    }
+
+
+    public function getproducts($id)
+    {
+
+
+        return products($id);
+    }
+
+
+    public function productsingle(Request $request)
+    {
+
+        $ids=$request['ids'];
+
+        $products=AccountingProduct::whereIN('id',$ids)->get();
+
+        return response()->json([
+            'status'=>true,
+            'data'=>view('AccountingSystem.stores.product')->with('products',$products)->render()
+        ]);
+
+    }
+
+
 
     public function transaction(Request $request,$id){
 
@@ -363,5 +393,111 @@ class StoreController extends Controller
 
         alert()->success('تم النقل من المستودع بنجاح !')->autoclose(5000);
         return back();
+
+
+
     }
+
+
+
+
+
+
+
+    public function transactions(Request $request){
+
+        $inputs=$request->all();
+
+        $quantity=collect($inputs['quantity']);
+        $cost=collect($inputs['cost']);
+        $price=collect($inputs['price']);
+        $products=collect($inputs['product_id']);
+        $merges=$products->zip($quantity,$cost,$price);
+        //dd($merges);
+            foreach ($merges as $merge) {
+
+                $trans = AccountingTransaction::create([
+
+                    'product_id' => $merge[0],
+                    'quantity' => $merge[1],
+                    'store_to' => $request['to_store_id'],
+                    'store_form' => $request['form_store_id'],
+                    'cost' => $merge[2],
+                    'price' => $merge[3],
+                ]);
+
+                $store_form = $request['form_store_id'];
+
+
+                /////////update product_store_form_quantity
+                $product_store_form = AccountingProductStore::where('store_id', $store_form)->where('product_id',$merge[0])->first();
+                //  dd($product_store_form->quantity-$request['quantity'] );
+                if ($product_store_form->quantity - $merge[1] >= 0) {
+                    $product_store_form->update([
+                        'quantity' => $product_store_form->quantity - $merge[1],
+                    ]);
+
+                    /////////update product_store_to_quantity
+                    $product_store_to = AccountingProductStore::where('store_id', $request['to_store_id'])->where('product_id',$merge[0])->first();
+
+                    if (isset($product_store_to)) {
+                        $product_store_to->update([
+                            'quantity' => $product_store_to->quantity + $merge[1],
+                        ]);
+                    } else {
+                        AccountingProductStore::create([
+                            'product_id' => $merge[0],
+                            'quantity' => $merge[1],
+                            'store_id' => $request['to_store_id'],
+                        ]);
+                    }
+
+                    alert()->success('تم التحويل من المخزن بنجاح !')->autoclose(5000);
+
+                } else {
+                    alert()->warning('الكميه بالمخزن المنقول منه غير كافية')->autoclose(5000);
+
+
+                }//endcheckif
+
+            }//endforeach
+        return back();
+
+
+
+
+
+    }
+
+    public  function  products_entry_form(){
+
+        $products=AccountingProduct::all();
+        return view('AccountingSystem.stores.products_entry_form',compact('products'));
+
+    }
+
+    public  function  products_entry_store(Request $request){
+
+dd($request->all());
+
+
+
+    }
+
+    public  function  products_exchange_form(){
+
+        $products=AccountingProduct::all();
+        return view('AccountingSystem.stores.products_exchange_form',compact('products'));
+
+    }
+
+    public  function  products_exchange_store(Request $request){
+
+        dd($request->all());
+
+
+
+    }
+
 }
+
