@@ -9,7 +9,7 @@
 @endif
 
   <div class="custom-tabs">
-        
+
           <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#home">بيانات المكان</a></li>
     <li><a data-toggle="tab" href="#menu1">بيانات المنتج</a></li>
@@ -114,10 +114,10 @@
 					@endif
 				</div>
 
-			
+
       </div>
       </div>
-      
+
       <div id="menu1" class="tab-pane fade">
           <div class="row">
           <div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
@@ -172,7 +172,7 @@
 					{!! Form::file("image",null,['class'=>'form-control'])!!}
 				</div>
       </div></div>
-      
+
       <div id="menu2" class="tab-pane fade">
           <div class="row">
           <div class="form-group col-xs-12 pull-left">
@@ -215,7 +215,7 @@
 				</div>
 				</div>
       </div>
-      
+
       <div id="menu3" class="tab-pane fade">
           <div class="row">
           <div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
@@ -244,7 +244,7 @@
 				</div>
 				</div>
       </div>
-      
+
        <div id="menu4" class="tab-pane fade">
            <div class="row">
            <div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
@@ -262,7 +262,7 @@
 				</button>
       </div>
       </div>
-      
+
        <div id="menu5" class="tab-pane fade">
            <div class="row">
            <div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left taxs " >
@@ -281,7 +281,7 @@
 				</div>
       </div>
       </div>
-      
+
 </div>
 
 
@@ -294,7 +294,7 @@
 				<a data-toggle="collapse" href="#collapsible-styled-group1">بيانات المكان</a>
 			</h6>
 		</div>
-        
+
 		<div id="collapsible-styled-group1" class="panel-collapse collapse in">
 			<div class="panel-body">
 				<div class="form-group col-md-4 pull-left">
@@ -425,7 +425,7 @@
 				</div>
 				<div class="form-group col-md-6 pull-left">
 					<label>الوحدة الاساسية </label><span style="color: #ff0000; margin-right: 15px;">[جرام -كيلو-لتر]</span>
-					 Button trigger modal 
+					 Button trigger modal
 					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
 						الوحدات الفرعية
 					</button>
@@ -612,7 +612,7 @@
 </div>
 <!-- /collapsible with different panel styling -->
 <!-- unit table-->
-<table id="productsTable" class="table datatable-button-init-basic all">
+<table id="productsTable" class="table ">
 	<thead>
 		<tr>
 			<th> اسم الوحده</th>
@@ -633,7 +633,7 @@
 
 
 <!-- component table-->
-<table id="componentTable" class="table datatable-button-init-basic all">
+<table id="componentTable" class="table ">
 	<thead>
 		<tr>
 			<th> اسم الصنف</th>
@@ -651,7 +651,7 @@
 <!-- end table-->
 
 <!-- offers table-->
-<table id="offerTable" class="table datatable-button-init-basic all">
+<table id="offerTable" class="table ">
     <thead>
     <tr>
         <th> اسم المنتج التابع</th>
@@ -666,7 +666,7 @@
 <!-- end table-->
 
 <!--discounts table-->
-<table id="discountTable" class="table datatable-button-init-basic all">
+<table id="discountTable" class="table ">
 	<thead>
 	<tr>
 		<th> الكمية الاساسية</th>
@@ -683,7 +683,7 @@
 <!-- end table-->
 
 <!-- services table-->
-<table id="serviceTable" class="table datatable-button-init-basic all">
+<table id="serviceTable" class="table ">
     <thead>
     <tr>
 
