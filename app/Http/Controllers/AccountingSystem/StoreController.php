@@ -249,7 +249,7 @@ class StoreController extends Controller
     {
         $store_id = $request['store_id'];
         $stores = AccountingStore::pluck('ar_name', 'id')->toArray();
-        dd($request->all());
+//        dd($request->all());
         $product_store = AccountingProductStore::where('store_id', $store_id)->wheredate('created_at','=',$request['date'])->pluck('product_id')->toArray();
 //        dd($product_store);
         $products = AccountingProduct::whereIn('id',$product_store)->get();
