@@ -17,6 +17,7 @@
         </div>
 
         <div class="panel-body">
+
             {!!Form::model($store, ['route' => ['accounting.stores.update' ,$store->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
             @include('AccountingSystem.stores.form')
 

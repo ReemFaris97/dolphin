@@ -9,13 +9,19 @@ use App\Models\AccountingSystem\AccountingColumnCell;
 use App\Models\AccountingSystem\AccountingCompany;
 
 use App\Models\AccountingSystem\AccountingFaceColumn;
+use App\Models\AccountingSystem\AccountingIndustrial;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
 use App\Models\AccountingSystem\AccountingProductComponent;
+use App\Models\AccountingSystem\AccountingProductDiscount;
+use App\Models\AccountingSystem\AccountingProductMainUnit;
 use App\Models\AccountingSystem\AccountingProductOffer;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingProductSubUnit;
+use App\Models\AccountingSystem\AccountingProductTax;
+use App\Models\AccountingSystem\AccountingService;
 use App\Models\AccountingSystem\AccountingStore;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
@@ -42,11 +48,14 @@ class ProductController extends Controller
      */
     public function create()
     {
-
+        $industrials=AccountingIndustrial::pluck('name','id')->toArray();
+        $unit=AccountingProductMainUnit::pluck('main_unit')->toArray();
         $branches=AccountingBranch::pluck('name','id')->toArray();
         $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
         $products=AccountingProduct::pluck('name','id')->toArray();
-        return $this->toCreate(compact('branches','categories','products'));
+        $units=collect($unit)->toJson();
+        //dd($units);
+        return $this->toCreate(compact('branches','categories','products','industrials','units'));
     }
 
     /**
@@ -57,13 +66,12 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+  // dd($request->all());
         $rules = [
-
 
             'description'=>'nullable|string',
             'category_id'=>'nullable|numeric|exists:accounting_product_categories,id',
             'bar_code'=>'nullable|string',
-            'main_unit'=>'required|string',
             'product_selling_price'=>'required',
             'product_purchasing_price'=>'required',
             'min_quantity'=>'required|string|numeric',
@@ -75,10 +83,11 @@ class ProductController extends Controller
             'image'=>'nullable|sometimes|image',
             'width'=>'nullable|string',
             'num_days_recession'=>'nullable|string',
+            'cell_id'=>'required',
 
         ];
         $this->validate($request,$rules);
-      //  dd($request->all());
+
         $inputs = $request->except('name','image','bar_code','main_unit_present','purchasing_price','selling_price','component_names','qtys','main_units');
         $inputs['name']=$inputs['name_product'];
         $inputs['selling_price']=$inputs['product_selling_price'];
@@ -94,9 +103,26 @@ class ProductController extends Controller
            AccountingProductStore::create([
                'store_id'=>$inputs['store_id'] ,
                'product_id'=>$product->id,
+               'quantity'=>$inputs['quantity'] ,
+
            ]);
        }
         $product->name=$inputs['name_product'];
+
+
+
+        if (isset($request['main_unit'])){
+            $main_unit=AccountingProductMainUnit::where('main_unit',$request['main_unit'])->first();
+            if (!isset($main_unit))
+            {
+                AccountingProductMainUnit::create([
+                 'main_unit'=>  $request['main_unit']
+                ]);
+            }
+
+        }
+
+
         ///////  /// / //////subunits Arrays//////////////////////////////
         $names = collect($request['name']);
         $par_codes = collect($request['par_codes']);
@@ -119,6 +145,7 @@ class ProductController extends Controller
 
         }
 ////////////////////components Arrays////////////////////////////////
+
         $component_names= collect($request['component_names']);
         $qtys= collect($request['qtys']);
         $main_units= collect($request['main_units']);
@@ -137,7 +164,7 @@ class ProductController extends Controller
         }
 
 
-/////////////////////////////////////offers _products
+/////////////////////////////////////offers _products///////////////////////////////////
 
         if (isset($inputs['offers']))
         {
@@ -149,6 +176,74 @@ class ProductController extends Controller
                 'parent_product_id'=>$product->id,
             ]);
         }
+
+
+        ////////////////////discounts Arrays////////////////////////////////
+        if (isset($request['discount_type'])){
+
+            if($request['discount_type']=='percent'){
+
+                AccountingProductDiscount::create([
+                    'product_id'=>$product->id,
+                    'discount_type'=>'percent',
+                    'percent'=>$request['percent'],
+                ]);
+            }else
+            {
+
+                $basic_quantity= collect($request['basic_quantity']);
+                $gift_quantity= collect($request['gift_quantity']);
+                $qtys_discount= $basic_quantity->zip($gift_quantity);
+
+                foreach ($qtys_discount as $discount)
+
+                {
+                    AccountingProductDiscount::create([
+                        'quantity'=>$discount['0'],
+                        'gift_quantity'=> $discount['1'],
+                        'product_id'=>$product->id,
+                        'discount_type'=>'quantity',
+                    ]);
+
+                }
+            }
+
+        }
+
+/////////////////////product_taxs//////////////////////////////////////
+
+        if (isset($request['tax'])){
+            AccountingProductTax::create([
+                'product_id'=>$product->id,
+                'tax'=>$request['tax'],
+                'price_has_tax'=>isset($request['price_has_tax'])?$request['price_has_tax']:Null,
+            ]);
+
+        }
+//////////////////////product_services////////////////////////////
+
+        if (isset($request['service_type'])){
+            $service_type= collect($request['service_type']);
+            $services_code= collect($request['services_code']);
+            $services_price= collect($request['services_price']);
+            $services= $services_price->zip($services_code,$service_type);
+
+            foreach ($services as $service)
+
+            {
+
+
+                AccountingService::create([
+                    'price'=>$service['0'],
+                    'code'=> $service['1'],
+                    'type'=> $service['2'],
+                    'product_id'=>$product->id,
+
+                ]);
+
+            }
+        }
+
 
 
         alert()->success('تم اضافة المنتج بنجاح !')->autoclose(5000);
@@ -175,7 +270,10 @@ class ProductController extends Controller
         $storeproduct=AccountingProductStore::where('product_id',$id)->first();
         $store=AccountingStore::find(optional($storeproduct)->store_id??1);
         $cells=AccountingColumnCell::all();
-        return $this->toShow(compact('branches','categories','product','store','cells'));
+        $discounts=AccountingProductDiscount::where('product_id',$id)->get();
+        $tax=AccountingProductTax::where('product_id',$id)->first();
+
+        return $this->toShow(compact('branches','categories','product','store','cells','discounts','tax'));
 
     }
 
@@ -188,6 +286,9 @@ class ProductController extends Controller
     public function edit($id)
     {
         $branches=AccountingBranch::pluck('name','id')->toArray();
+        $industrials=AccountingIndustrial::pluck('name','id')->toArray();
+        $unit=AccountingProductMainUnit::pluck('main_unit','id')->toArray();
+        $units=collect($unit)->toJson();
         $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
         $product=AccountingProduct::find($id);
         $products=AccountingProduct::all();
@@ -199,7 +300,7 @@ class ProductController extends Controller
         $store=AccountingStore::find(optional($storeproduct)->store_id??1);
         $stores=AccountingStore::all();
 
-        return $this->toEdit(compact('face','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores'));
+        return $this->toEdit(compact('industrials','face','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores','units'));
 
 
     }
@@ -401,4 +502,34 @@ class ProductController extends Controller
             'data'=>view('AccountingSystem.products.getAjaxStores')->with('stores',$stores_company)->render()
         ]);
     }
+
+    public  function settlements_store(Request $request){
+
+      $inputs=$request->all();
+      //dd($inputs['product_id']);
+      $product=AccountingProduct::find($inputs['product_id']);
+
+        $product->update([
+            'quantity'=>$inputs['quantity'],
+            'unit_price'=>$inputs['unit_price'],
+            'selling_price'=>$inputs['selling_price'],
+            'purchasing_price'=>$inputs['purchasing_price'],
+        ]);
+
+
+        $stores=AccountingStore::pluck('ar_name','id')->toArray();
+        $products=[];
+        alert()->success('تم تسوية بدايه ارصده  المنتج بنجاح !')->autoclose(5000);
+
+        return view('AccountingSystem.stores.settlements',compact('stores','products'));
+    }
+
+    public  function  barcode($id){
+
+        $product=AccountingProduct::find($id);
+        return view('AccountingSystem.products.barcode',compact('product'));
+    }
+
+
+
 }

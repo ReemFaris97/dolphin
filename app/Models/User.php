@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Http\Traits\FirebasOperation;
+use App\Models\AccountingSystem\AccountingStore;
 use App\Models\Bank;
 use App\Models\Charge;
 use App\Models\FcmToken;
@@ -38,7 +39,8 @@ class User extends Authenticatable implements JWTSubject
     protected $fillable = [
         'name', 'phone', 'email', 'password', 'image', 'job', 'nationality', 'company_name', 'blocked_at', 'is_admin', 'remember_token'
 ,'is_distributor','is_supplier','supplier_type','tex_number','lat','lng','bank_id','verification_code','parent_user_id','bank_account_number',
-'distributor_status','settle_commission','sell_commission','reword_value','store_id','route_id'
+'distributor_status','settle_commission','sell_commission','reword_value','store_id','route_id','is_storekeeper'
+        ,'accounting_store_id'
     ];
 
     /**
@@ -212,6 +214,11 @@ class User extends Authenticatable implements JWTSubject
 
     public function bank(){
         return $this->belongsTo(Bank::class,'bank_id');
+    }
+
+    public function accounting_store()
+    {
+        return $this->belongsTo(AccountingStore::class,'accounting_store_id');
     }
 
 

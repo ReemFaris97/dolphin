@@ -19,7 +19,7 @@ class BillsController extends Controller
      */
     public function index()
     {
-        $bills =SupplierBill::where('supplier_id',auth()->id())->paginate($this->paginateNumber);
+        $bills =SupplierBill::where('supplier_id',auth()->id())->orderByDesc('created_at')->paginate($this->paginateNumber);
         return $this->apiResponse(new BillsResource($bills));
     }
 

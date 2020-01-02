@@ -49,3 +49,6 @@ Route::group(['prefix' => 'company'], function () {
   Route::get('/password/reset', 'CompanyAuth\ForgotPasswordController@showLinkRequestForm')->name('password.reset');
   Route::get('/password/reset/{token}', 'CompanyAuth\ResetPasswordController@showResetForm');
 });
+ Route::get('/thebill', function(){
+      return view('distributor.bill');
+  });

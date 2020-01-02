@@ -14,6 +14,41 @@ function responseJson($status, $msg, $data = null, $state = 200)
     return response()->json($response, $state);
 }
 
+function storekeepers()
+{
+    $storekeepers = \App\Models\AccountingSystem\AccountingStoreKeeper::all()->mapWithKeys(function ($q) {
+        return [$q['id'] => $q['name']];
+    });
+    return $storekeepers;
+}
+
+function allstores()
+{
+    $stores = \App\Models\AccountingSystem\AccountingStore::all()->mapWithKeys(function ($q) {
+        return [$q['id'] => $q['ar_name']];
+    });
+    return $stores;
+}
+
+
+function products($store=null){
+    if ($store != null) {
+
+        $products_id=App\Models\AccountingSystem\AccountingProductStore::where('store_id',$store)->pluck('product_id')->toArray();
+
+          $products=App\Models\AccountingSystem\AccountingProduct::whereIn('id',$products_id)->get()->mapWithKeys(function ($q) {
+            return [$q['id'] => $q['name']];
+        });
+
+
+    }else{
+        $products=[];
+    }
+
+    return $products;
+}
+
+
 function companies()
 {
     $companies = \App\Models\AccountingSystem\AccountingCompany::all()->mapWithKeys(function ($q) {
@@ -22,7 +57,18 @@ function companies()
     return $companies;
 }
 
+function keepers($store= null)
+{
+    if ($store != null) {
+        $keepers = \App\User::where('is_storekeeper', 1)->where('accounting_store_id',$store)->get()->mapWithKeys(function ($q) {
+            return [$q['id'] => $q['name']];
+        });
+    }else{
+        $keepers=[];
+    }
 
+    return $keepers;
+}
 
 function branches($company = null)
 {
@@ -116,6 +162,7 @@ function saveImage($file, $folder = '/')
     return 'storage/' . $path;
 }
 
+
 function uploadpath()
 {
     return 'photos';
@@ -149,11 +196,18 @@ function urlActive($path, $active = 'active')
  * @param $filename
  * @return string
  */
+//function getimg($filename)
+//{
+//    $base_url = url('/');
+//    return $base_url . '/' . $filename;
+//}
+
 function getimg($filename)
 {
     $base_url = url('/');
-    return $base_url . '/' . $filename;
+    return $base_url.'/'.$filename;
 }
+
 
 function deleteImg($img_name)
 {
@@ -561,4 +615,22 @@ function chooseNationality($nationality){
     }
     return $nationality;
 
+}
+
+function currency(){
+
+    return [
+        "rial"=> "ريال",
+        "pound"=> "جنيه",
+
+];
+}
+
+function pay_type(){
+
+    return [
+        "cash"=> "نقدى",
+        "card"=> "بطاقة ائتمان",
+
+    ];
 }

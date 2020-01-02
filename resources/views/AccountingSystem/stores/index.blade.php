@@ -26,8 +26,8 @@
                 <tr>
                     <th>#</th>
                     <th> اسم المخزن باللغة العربية </th>
-                    <th>  اسم المخزن باللغة الانجليزية </th>
-                    <th> عنوان المخزن </th>
+                    <th>  نوع المخزن </th>
+                    <th> كود المخزن </th>
                     <th>  المخزن تابع الى </th>
                     <th> صورة المخزن </th>
 
@@ -40,14 +40,22 @@
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->ar_name!!}</td>
-                        <td>{!! $row->en_name!!}</td>
+                        <td>@if (  $row->type==1)
+                            رئيسى
+                                @else
+                                فرعى
 
-                        <td>{!! $row->address!!}</td>
+                        @endif
+                           </td>
+
+                        <td>{!! $row->code!!}</td>
                         <td>{!! $row->model->name!!}</td>
                         <td><img src="{!! getimg($row->image)!!}" style="width:100px; height:100px"> </td>
 
 
                         <td class="text-center">
+                            <a href="{{route('accounting.stores.product',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="منتجات المخزن "> <i class="icon-cart" style="margin-left: 10px"></i> </a>
+
                             <a href="{{route('accounting.stores.show',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>
 
                             <a href="{{route('accounting.stores.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
