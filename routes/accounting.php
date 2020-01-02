@@ -14,10 +14,13 @@ Route::middleware('admin')->group(function () {
     Route::resource('users', 'UserController');
     Route::resource('stores', 'StoreController');
     Route::resource('storeKeepers', 'StoreKeeperController');
-    /////////////////المخازن
+    /////////////////سندات  ادخال المنتجات فى المخازن
 
     Route::get('/products_entry_form', 'StoreController@products_entry_form')->name('stores.products_entry_form');
-    Route::post('/products_entry_store', 'StoreController@products_entry_store')->name('stores.products_entry_store');
+    Route::post('/bond_store', 'StoreController@bond_store')->name('stores.bond_store');
+    Route::get('/keepers_store/{id}', 'StoreController@getkeepers')->name('keepers_store');
+
+
 
     Route::get('/products_exchange_form', 'StoreController@products_exchange_form')->name('stores.products_exchange_form');
     Route::post('/products_exchange_store', 'StoreController@products_exchange_store')->name('stores.products_exchange_store');
@@ -47,6 +50,9 @@ Route::middleware('admin')->group(function () {
     Route::get('/productsingle', 'StoreController@productsingle');
     Route::get('/requests', 'StoreController@requests')->name('stores.requests');
     Route::get('/request/{id}', 'StoreController@request')->name('stores.request');
+
+    Route::get('/accept_request/{id}', 'StoreController@accept_request')->name('stores.accept_request');
+    Route::post('/refused_request/{id}', 'StoreController@refused_request')->name('stores.refused_request');
 
     ////////////////////////////طباعة الباركود
 

@@ -57,6 +57,19 @@ function companies()
     return $companies;
 }
 
+function keepers($store= null)
+{
+    if ($store != null) {
+        $keepers = \App\User::where('is_storekeeper', 1)->where('accounting_store_id',$store)->get()->mapWithKeys(function ($q) {
+            return [$q['id'] => $q['name']];
+        });
+    }else{
+        $keepers=[];
+    }
+
+    return $keepers;
+}
+
 function branches($company = null)
 {
 

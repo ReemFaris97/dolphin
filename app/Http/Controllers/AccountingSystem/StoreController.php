@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
+use App\Models\AccountingSystem\AccountingBond;
 use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingBranchShift;
 use App\Models\AccountingSystem\AccountingCompany;
@@ -248,17 +249,14 @@ class StoreController extends Controller
     {
         $store_id = $request['store_id'];
         $stores = AccountingStore::pluck('ar_name', 'id')->toArray();
-
-        $product_store = AccountingProductStore::where('store_id', $store_id)->wheredate('created_at', '=', $request['date'])->pluck('id')->toArray();
-
-
-        $products = AccountingProduct::whereIn('id', $product_store)->get();
-
+        dd($request->all());
+        $product_store = AccountingProductStore::where('store_id', $store_id)->wheredate('created_at','=',$request['date'])->pluck('product_id')->toArray();
+//        dd($product_store);
+        $products = AccountingProduct::whereIn('id',$product_store)->get();
         $inventory = AccountingInventory::create([
             'date' => $request['date'],
             'store_id' => $store_id,
             'user_id' => \Auth::user()->id,
-
         ]);
 
         if (isset($products)) {
@@ -335,6 +333,14 @@ class StoreController extends Controller
         return products($id);
     }
 
+    public function getkeepers($id)
+    {
+
+
+        return keepers($id);
+    }
+
+
 
     public function productsingle(Request $request)
     {
@@ -349,8 +355,6 @@ class StoreController extends Controller
         ]);
 
     }
-
-
 
     public function transaction(Request $request,$id){
 
@@ -398,8 +402,6 @@ class StoreController extends Controller
 
 
     }
-
-
 
 
 
@@ -478,8 +480,8 @@ class StoreController extends Controller
 
     public  function  requests()
     {
-$current_store=\Auth::user()->accounting_store_id;
-        $requests = AccountingSroreRequest::where('store_form',$current_store)->get();
+        $current_store=\Auth::user()->accounting_store_id;
+        $requests = AccountingSroreRequest::where('store_to',$current_store)->get();
         return view('AccountingSystem.stores.store_requests', compact('requests'));
 
     }
@@ -492,21 +494,78 @@ $current_store=\Auth::user()->accounting_store_id;
         return view('AccountingSystem.stores.store_request', compact('transactions','request'));
 
     }
+
+    public  function  accept_request($id)
+    {
+       $req=AccountingSroreRequest::find($id);
+       $req->update([
+           'status'=>'accepted',
+           'updated_at'=>Carbon::now(),
+       ]);
+
+
+        ////                    /////////update product_store_to_quantity
+
+         $tansactions=AccountingTransaction::where('request_id',$req->id)->pluck('quantity', 'product_id')->toArray();
+//         dd($tansactions);
+         foreach ($tansactions as $product_id=>$quantity ) {
+             $product_store_to = AccountingProductStore::where('store_id', $req->store_to)->where('product_id', $product_id)->first();
+
+             if (isset($product_store_to)) {
+                 $product_store_to->update([
+                     'quantity' => $product_store_to->quantity + $quantity,
+                 ]);
+             } else {
+                 AccountingProductStore::create([
+                     'product_id' => $product_id,
+                     'quantity' => $quantity,
+                     'store_id' => $req->store_to,
+                 ]);
+             }
+             alert()->success('تم  قبول الاستلام التحويل من المخزن بنجاح !')->autoclose(5000);
+             return redirect()->route('accounting.stores.requests');
+         }
+    }
+    public  function  refused_request(Request $request,$id)
+    {
+
+//        dd($request->all());
+
+        $req=AccountingSroreRequest::find($id);
+        $req->update([
+            'status'=>'accepted',
+            'refused_reason'=>$request['refused_reason'],
+            'updated_at'=>Carbon::now(),
+        ]);
+
+
+        /////////update product_store_from_quantity
+
+        $tansactions=AccountingTransaction::where('request_id',$req->id)->pluck('quantity', 'product_id')->toArray();
+        foreach ($tansactions as $product_id=>$quantity ) {
+            $product_store_from = AccountingProductStore::where('store_id', $req->store_from)->where('product_id', $product_id)->first();
+            if (isset($product_store_to)) {
+                $product_store_to->update([
+                    'quantity' => $product_store_from->quantity - $quantity,
+                ]);
+            } else {
+                AccountingProductStore::create([
+                    'product_id' => $product_id,
+                    'quantity' => $quantity,
+                    'store_id' => $req->store_form,
+                ]);
+            }
+            alert()->success('تم  رفض الاستلام التحويل من المخزن بنجاح !')->autoclose(5000);
+            return redirect()->route('accounting.stores.requests');
+        }
+
+    }
         public  function  products_entry_form(){
 
         $products=AccountingProduct::all();
         return view('AccountingSystem.stores.products_entry_form',compact('products'));
 
     }
-
-    public  function  products_entry_store(Request $request){
-
-dd($request->all());
-
-
-
-    }
-
     public  function  products_exchange_form(){
 
         $products=AccountingProduct::all();
@@ -514,9 +573,53 @@ dd($request->all());
 
     }
 
+    public  function  bond_store(Request $request)
+    {
+
+        $inputs = $request->all();
+//        dd($inputs);
+        $bond = AccountingBond::create($inputs);
+//        $totalprice=$inputs[]
+//        foreach ($inputs['prices'] as $price ){
+//
+//        }
+        $products_store = AccountingProductStore::where('store_id', $bond->store_id)->get();
+        $quantity = collect($inputs['qtys']);
+        $products = collect($inputs['products']);
+        $merges = $products->zip($quantity);
+        if ($bond->type == 'entry') {
+            foreach ($products_store as $productstore) {
+                foreach ($merges as $merge) {
+                    if ($productstore->product_id == $merge[0]) {
+                        $productstore->update([
+                            'product_id' => $merge[0],
+                            'quantity' => $productstore->quantity + $merge[1],
+                            'band_id' => $bond->id
+                        ]);
+                    }
+                }
+            }
+        } else {
+            foreach ($products_store as $productstore) {
+            foreach ($merges as $merge) {
+                if ($productstore->product_id == $merge[0]) {
+                    $productstore->update([
+                        'product_id' => $merge[0],
+                        'quantity' => $productstore->quantity - $merge[1],
+                        'band_id' => $bond->id
+                    ]);
+                }
+            }
+        }
+    }
+        alert()->success('تم اضافة  سند الادخال  المخزن بنجاح !')->autoclose(5000);
+        return back();
+    }
+
+
+
     public  function  products_exchange_store(Request $request){
 
-        dd($request->all());
 
 
 

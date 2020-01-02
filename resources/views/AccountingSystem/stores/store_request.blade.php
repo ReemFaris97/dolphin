@@ -56,15 +56,19 @@
 
                 </tbody>
             </table>
+            @if ($request->status=="pending")
+                
+
             <div class="text-center col-md-12">
                 <div class="text-right">
-                 <a href="{{route('accounting.stores.request',['id'=>$request->id])}}" ><lable class="label label-success" >   قبول الاستلام</lable></a>
-                   <a href="{{route('accounting.stores.request',['id'=>$request->id])}}" data-toggle="modal" data-target="#exampleModal" id="refused"><lable class="label label-danger"> رفض الاستلام</lable></a>
-                    {{--<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" style="display: none;" id="offers_button">--}}
-                      {{--رفض الاستلام--}}
-                    {{--</button>--}}
+                 <a href="{{route('accounting.stores.accept_request',['id'=>$request->id])}}" ><lable class="label label-success" >   قبول الاستلام</lable></a>
+                   {{--<a href="{{route('accounting.stores.refused_request',['id'=>$request->id])}}" data-toggle="modal" data-target="#exampleModal" id="refused"><lable class="label label-danger"> رفض الاستلام</lable></a>--}}
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        رفض الاستلام
+                    </button>
                 </div>
             </div>
+            @endif
         </div>
 
 
@@ -74,20 +78,22 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel"> المنتجات التابعة</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">سبب رفض استلام التحويل </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+                    {!!Form::open( ['route' => ['accounting.stores.refused_request',$request->id],'class'=>'form phone_validate', 'method' => 'Post','id'=>'form1','files' => true]) !!}
+
                     <div class="modal-body">
-                        <label> اسم المنتج</label>
-                        {{--{!! Form::select("child_product",$products,null,['class'=>'form-control js-example-basic-single','id'=>'child_product','placeholder'=>' اختر اسم المنتج التابع   '])!!}--}}
+                        <label>السبب</label>
+                        {!! Form::textarea("refused_reason",null,['class'=>'form-control js-example-basic-single','placeholder'=>' سبب  الرفض  '])!!}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
-                        <button class="btn btn-primary" id="offer" data-dismiss="modal" onclick="myFun3(event)"> اضافة  المنتج</button>
-
+                        <button class="btn btn-primary" id="offer" type="submit" data-dismiss="modal" onclick="$('#form1').submit();"> حفظ  </button>
                     </div>
+                    {!!Form::close() !!}
                 </div>
             </div>
         </div>

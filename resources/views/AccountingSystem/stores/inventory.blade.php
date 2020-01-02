@@ -101,11 +101,13 @@
 
                         <td>
                             @if ($row->status=0)
+
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-id="{{$row->id}}" onclick="openModal({{$row->id}})" data-target="#exampleModal{{$row->id}}" id="button{{$row->id}}">
                                    اضافة
                                 </button>
-                                @else
-                                <label class="btn-success" id="done"><i class="fas fa-calculator" style="margin-left: 10px"></i></label>
+
+                                {{--@else--}}
+                                {{--<label class="btn-success" id="done"><i class="fas fa-calculator" style="margin-left: 10px"></i></label>--}}
                             @endif
 
                         </td>

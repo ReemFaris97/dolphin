@@ -21,7 +21,7 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::open( ['route' => 'accounting.stores.products_exchange_store' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
+            {!!Form::open( ['route' => 'accounting.stores.bond_store' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
             @if (count($errors) > 0)
                 <div class="alert alert-danger">
                     <ul>
@@ -32,10 +32,11 @@
                 </div>
             @endif
 
+            <input type="hidden" name="type" value="exchange">
 
             <div class="form-group col-md-6 pull-left">
                 <label> رقم السند</label>
-                {!! Form::text("name",null,['class'=>'form-control','placeholder'=>'   رقم السند'])!!}
+                {!! Form::text("bond_num",null,['class'=>'form-control','placeholder'=>'   رقم السند'])!!}
             </div>
 
             <div class="form-group col-md-6 pull-left">
@@ -48,8 +49,13 @@
             </div>
 
             <div class="form-group col-md-4 pull-left">
-                <label>اخترامين المخزن </label>
-                {!! Form::select("storekeeper_id",storekeepers(),null,['class'=>'form-control js-example-basic-single ','placeholder'=>' اختر اسم امين المخزن'])!!}
+                <label>اختر المخزن </label>
+                {!! Form::select("store_id",allstores(),null,['class'=>'form-control js-example-basic-single store_id','placeholder'=>' اختر  المخزن'])!!}
+            </div>
+
+            <div class="form-group col-md-4 pull-left">
+                <label>اختر امين المخزن </label>
+                {!! Form::select("user_id",keepers(),null,['class'=>'form-control js-example-basic-single storekeeper_id','id'=>'storekeeper_id','placeholder'=>' اختر امين المخزن'])!!}
             </div>
 
             <div class="clearfix"></div>
@@ -182,7 +188,7 @@
                     '<a href="javascript:;" id="' +deleteId +'" data-id="'+product_id+'"  class="removeProduct btn btn-danger waves-effect waves-light btn-xs m-b-5">'+'حذف'+'</a>' + '</td>'+
                     '<input type="hidden" name="products[]" value="' + product_id + '" />' +
                     '<input type="hidden" name="qtys[]" value="' + qty + '" />' +
-                    '<input type="hidden" name="prices[]" value="' + price + '" />' +
+                    '<input type="hidden" name="prices[]" value="' + product_selling_price + '" />' +
                     '</tr>');
 
                 $('#product').prop('selectedIndex',0);
