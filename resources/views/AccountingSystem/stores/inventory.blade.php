@@ -143,6 +143,7 @@
 
                             </div>
                             <div class="modal-footer">
+                                ll
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
                                 <button class="btn btn-primary" id="hamada{{$row->id}}" type="button" data-dismiss="modal" > اضافةالكميه الفعليه</button>
 
