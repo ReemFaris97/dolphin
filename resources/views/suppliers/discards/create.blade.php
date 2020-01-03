@@ -1,12 +1,12 @@
-@extends('admin.layouts.app')
+@extends('suppliers.layouts.app')
 @section('title') اضافه مرتجع
 @endsection
 
 @section('header')
 @endsection
 
-@section('breadcrumb') @php($breadcrumbs=['المرتجع'=>route('admin.suppliers-discards.index'),'اضافه'=>route('admin.suppliers-discards.create')])
-@includeWhen(isset($breadcrumbs),'admin.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
+@section('breadcrumb') @php($breadcrumbs=['المرتجع'=>route('supplier.suppliers-discards.index'),'اضافه'=>route('supplier.suppliers-discards.create')])
+@includeWhen(isset($breadcrumbs),'suppliers.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
 
 @section('content')
@@ -33,8 +33,8 @@
 
                     <!--begin::Form-->
 
-                    {!! Form::open(['method'=>'post','route'=>'admin.suppliers-discards.store','files'=>'true','class'=>'m-form m-form--fit m-form--label-align-right'])!!}
-                    @include('admin.discards._form')
+                    {!! Form::open(['method'=>'post','route'=>'supplier.suppliers-discards.store','files'=>'true','class'=>'m-form m-form--fit m-form--label-align-right'])!!}
+                    @include('suppliers.discards._form')
 
                     <div class="m-portlet__foot m-portlet__foot--fit clearfix">
                         <div class="m-form__actions">
@@ -64,7 +64,7 @@
                 var id = $(this).val();
                 $.ajax({
                     type: 'POST',
-                    url: '{{ route('admin.getAjaxSupplierProducts') }}',
+                    url: '{{ route('supplier.getAjaxSupplierProducts') }}',
                     data: {id: id},
                     dataType: 'json',
                     success: function (data) {

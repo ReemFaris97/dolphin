@@ -17,6 +17,7 @@ class DiscardsResources extends ResourceCollection
         return [
             'discards'=>$this->collection->transform(function ($q){
                 return [
+                    'id'=>$q->id,
                     'user_name'=>$q->user->name,
                     'supplier_id'=>$q->supplier_id,
                     'reason'=>$q->reason,
@@ -27,7 +28,7 @@ class DiscardsResources extends ResourceCollection
                         return [
                             'discard_id'=>$pro->discard_id,
                             'product_name'=>$pro->product->name,
-                            'quantity'=>$pro->quanitity,
+                            'quantity'=>$pro->quantity,
                             'price'=>(float)$pro->price,
                             'type'=>$pro->type,
                         ];

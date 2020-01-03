@@ -15,6 +15,7 @@ class SingleDiscardResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id'=>$this->id,
             'user_name'=>$this->user->name,
             'supplier_id'=>$this->supplier_id,
             'reason'=>$this->reason,

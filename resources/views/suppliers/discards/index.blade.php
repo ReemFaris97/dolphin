@@ -1,12 +1,12 @@
-@extends('admin.layouts.app')
+@extends('suppliers.layouts.app')
 @section('title') مرتجعات الموردين
 @endsection
 
 @section('header')
 @endsection
 
-@section('breadcrumb') @php($breadcrumbs=['مرتجعات الموردين'=>route('admin.suppliers-discards.index'),])
-@includeWhen(isset($breadcrumbs),'admin.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
+@section('breadcrumb') @php($breadcrumbs=['مرتجعات الموردين'=>route('supplier.suppliers-discards.index'),])
+@includeWhen(isset($breadcrumbs),'suppliers.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
 
 @section('content')
@@ -23,7 +23,7 @@
             <div class="m-portlet__head-tools">
                 <ul class="m-portlet__nav">
                     <li class="m-portlet__nav-item">
-                        <a href="{!!route('admin.suppliers-discards.create')!!}"
+                        <a href="{!!route('supplier.suppliers-discards.create')!!}"
                            class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">
                         <span>
                             <i class="fas fa-plus"></i>
@@ -37,10 +37,11 @@
             </div>
         </div>
         <div class="m-portlet__body">
-            @include('admin.discards._table')
+            @include('suppliers.discards._table')
         </div>
     </div>
 @endsection
 
 @section('scripts')
+
 @endsection

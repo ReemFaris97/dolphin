@@ -25,14 +25,14 @@
         </select>
     </div>
 
-@include('admin.discards.discards_section')
+@include('suppliers.discards.discards_section')
 
 <div id="switch_products_section" style="display: none;">
-@include('admin.discards.switched_section')
+@include('suppliers.discards.switched_section')
 </div>
 
 <div id="receivables_sections" style="display: none;">
-    @include('admin.discards.receivables_section')
+    @include('suppliers.discards.receivables_section')
 </div>
 
 
