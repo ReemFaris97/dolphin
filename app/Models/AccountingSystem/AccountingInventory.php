@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AccountingInventory extends Model
 {
-    protected $fillable = ['date','user_id','store_id'];
+    protected $fillable = ['date','user_id','store_id','bond_num','description'];
 
 
     public  function user(){

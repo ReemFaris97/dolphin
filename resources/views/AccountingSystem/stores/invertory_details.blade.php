@@ -40,7 +40,7 @@
                     @foreach($inventory_products as $row)
                         <tr>
                             <td>{!!$loop->iteration!!}</td>
-                            <td>{!! $row->ar_name!!}</td>
+                            <td>{!! $row->product->name!!}</td>
 
                             <td>{!! $row->quantity!!}</td>
                             <td>{!! $row->Real_quantity!!}</td>

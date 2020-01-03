@@ -251,7 +251,7 @@ class StoreController extends Controller
         $stores = AccountingStore::pluck('ar_name', 'id')->toArray();
 //        dd($request->all());
         $product_store = AccountingProductStore::where('store_id', $store_id)->wheredate('created_at','=',$request['date'])->pluck('product_id')->toArray();
-//        dd($product_store);
+//   dd($product_store);
         $products = AccountingProduct::whereIn('id',$product_store)->get();
         $inventory = AccountingInventory::create([
             'date' => $request['date'],
