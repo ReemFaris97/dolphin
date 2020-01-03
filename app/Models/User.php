@@ -160,6 +160,7 @@ class User extends Authenticatable implements JWTSubject
 
 
 
+
     public function updateFcmToken($token,$device)
     {
         FcmToken::updateOrCreate([
