@@ -101,11 +101,13 @@
 
                         <td>
                             @if ($row->status=0)
+
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-id="{{$row->id}}" onclick="openModal({{$row->id}})" data-target="#exampleModal{{$row->id}}" id="button{{$row->id}}">
                                    اضافة
                                 </button>
-                                @else
-                                <label class="btn-success" id="done"><i class="fas fa-calculator" style="margin-left: 10px"></i></label>
+
+                                {{--@else--}}
+                                {{--<label class="btn-success" id="done"><i class="fas fa-calculator" style="margin-left: 10px"></i></label>--}}
                             @endif
 
                         </td>
@@ -141,6 +143,7 @@
 
                             </div>
                             <div class="modal-footer">
+                                ll
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
                                 <button class="btn btn-primary" id="hamada{{$row->id}}" type="button" data-dismiss="modal" > اضافةالكميه الفعليه</button>
 

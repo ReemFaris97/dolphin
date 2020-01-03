@@ -1,8 +1,7 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تعديل  المخزن')
-@section('parent_title','إدارة  المخازن')
-
-@section('action', URL::route('accounting.stores.index'))
+@section('title','تعديل  بيانات امين المخزن')
+@section('parent_title','إدارة فروع الشركات')
+@section('action', URL::route('accounting.storeKeepers.index'))
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
@@ -17,9 +16,9 @@
         </div>
 
         <div class="panel-body">
+            {!!Form::model($storeKeeper, ['route' => ['accounting.storeKeepers.update' ,$storeKeeper->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
+            @include('AccountingSystem.storekeepers.form')
 
-            {!!Form::model($store, ['route' => ['accounting.stores.update' ,$store->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
-            @include('AccountingSystem.stores.form')
 
             {!!Form::close() !!}
         </div>
