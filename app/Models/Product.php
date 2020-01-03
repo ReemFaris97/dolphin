@@ -43,4 +43,14 @@ class Product extends Model
         $price = SupplierPrice::where('user_id',auth()->id())->where('product_id',$this->id)->first()->price;
         return $price;
     }
+    public function authSupplierProductExpireDate(){
+        $expired_at = SupplierPrice::where('user_id',auth()->id())->where('product_id',$this->id)->first()->expired_at;
+        if($expired_at == null) return "";
+        else return $expired_at;
+    }
+
+    public function supplierPrice($user_id){
+        $price = SupplierPrice::where('user_id',$user_id)->where('product_id',$this->id)->first()->price;
+        return $price;
+    }
 }

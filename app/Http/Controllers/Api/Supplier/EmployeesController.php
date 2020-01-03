@@ -18,7 +18,7 @@ class EmployeesController extends Controller
 {
     use ApiResponses, UserOperation , SuppliersLogOperations;
     public function index(){
-         $employees = User::where('is_supplier',1)->where('parent_user_id','!=',null)->paginate($this->paginateNumber);
+         $employees = User::where('is_supplier',1)->where('parent_user_id',auth()->user()->id)->paginate($this->paginateNumber);
         return $this->apiResponse(new UsersResource($employees));
     }
 

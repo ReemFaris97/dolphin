@@ -21,11 +21,19 @@
             <td>{{$row->supplier->name}}</td>
             <td>{{$row->bill_number}}</td>
             <td>{{$row->date}}</td>
-            <td>{{$row->payment_method=="cash"?'كاش':'آجل'}}</td>
+            <td>
+                @switch($row->payment_method)
+                    @case('cash')كاش @break
+                    @case('bank_transfer')تحويل بنكي@break
+                    @case('check')شيك@break
+                @endswitch
+            </td>
             <td>{{$row->total()}}</td>
             <td>
-                <a href="{!!route('admin.suppliers-bills.show',$row->id)!!}" class="btn btn-info"> <i
+                <a href="{!!route('supplier.suppliers-bills.show',$row->id)!!}" class="btn btn-info"> <i
                         class="fas fa-eye"></i>مشاهده</a>
+
+                <a href="{!!route('supplier.suppliers-bills.edit',$row->id)!!}" class="btn btn-primary"> <i class="fas fa-pen"></i> تعديل</a>
             </td>
         </tr>
     @endforeach

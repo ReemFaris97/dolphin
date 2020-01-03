@@ -18,8 +18,8 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->unsignedbigInteger('store_id');
             $table->decimal('quantity_per_unit');
-            $table->decimal('min_quantity');
-            $table->decimal('max_quantity');
+            $table->decimal('min_quantity')->nullable();
+            $table->decimal('max_quantity')->nullable();
             $table->decimal('price');
             $table->text('bar_code')->nullable();
             $table->string('image')->nullable();
