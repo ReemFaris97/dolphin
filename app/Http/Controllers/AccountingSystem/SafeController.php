@@ -4,35 +4,28 @@ namespace App\Http\Controllers\AccountingSystem;
 
 use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingBranchShift;
-use App\Models\AccountingSystem\AccountingClient;
 use App\Models\AccountingSystem\AccountingColumnCell;
 use App\Models\AccountingSystem\AccountingCompany;
 
 use App\Models\AccountingSystem\AccountingFaceColumn;
-use App\Models\AccountingSystem\AccountingProduct;
-use App\Models\AccountingSystem\AccountingProductCategory;
+use App\Models\AccountingSystem\AccountingSafe;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
 
-class SellPointController extends Controller
+class SafeController extends Controller
 {
     use Viewable;
-//    private $viewable = 'AccountingSystem.sells_points.';
+    private $viewable = 'AccountingSystem.safes.';
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function sell_point()
+    public function index()
     {
-        $categories=AccountingProductCategory::all();
-        $clients=AccountingClient::pluck('name','id')->toArray();
-//foreach ($categories as $category){
-//  dd($category->products()->get());
-//}
-
-        return  view('AccountingSystem.sell_points.sell_point',compact('categories','clients'));
+        $safes =AccountingSafe::all()->reverse();
+        return $this->toIndex(compact('safes'));
     }
 
     /**
@@ -40,12 +33,11 @@ class SellPointController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public  function getProductAjex($id){
-        $products=AccountingProduct::where('category_id',$id)->get();
-        return response()->json([
-            'status'=>true,
-            'data'=>view('AccountingSystem.sell_points.sell')->with('products',$products)->render()
-        ]);
+    public function create()
+    {
+
+        $branches=AccountingBranch::pluck('name','id')->toArray();
+        return $this->toCreate(compact('branches'));
     }
 
     /**
@@ -56,7 +48,19 @@ class SellPointController extends Controller
      */
     public function store(Request $request)
     {
+        $rules = [
 
+            'code'=>'required|string|max:191',
+
+            'branch_id'=>'required|numeric|exists:accounting_branches,id',
+
+        ];
+        $this->validate($request,$rules);
+        $requests = $request->all();
+
+        AccountingSafe::create($requests);
+        alert()->success('تم اضافة  الخزينة بنجاح !')->autoclose(5000);
+        return redirect()->route('accounting.safes.index');
     }
 
     /**
@@ -78,10 +82,10 @@ class SellPointController extends Controller
      */
     public function edit($id)
     {
-        $cell =AccountingColumnCell::findOrFail($id);
-        $columns=AccountingFaceColumn::pluck('name','id')->toArray();
+        $safe =AccountingSafe::findOrFail($id);
+        $branches=AccountingBranch::pluck('name','id')->toArray();
 
-        return $this->toEdit(compact('cell','columns'));
+        return $this->toEdit(compact('safe','branches'));
 
 
     }
@@ -95,18 +99,19 @@ class SellPointController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $cell =AccountingColumnCell::findOrFail($id);
+        $safe =AccountingSafe::findOrFail($id);
         $rules = [
 
-            'name'=>'required|string|max:191',
+            'code'=>'required|string|max:191',
 
-            'column_id'=>'required|numeric|exists:accounting_face_columns,id',
+            'branch_id'=>'required|numeric|exists:accounting_branches,id',
+
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
-        $cell->update($requests);
-        alert()->success('تم تعديل  الصف بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.cells.index');
+        $safe->update($requests);
+        alert()->success('تم تعديل الخزينة  بنجاح !')->autoclose(5000);
+        return redirect()->route('accounting.safes.index');
 
 
 
@@ -120,11 +125,10 @@ class SellPointController extends Controller
      */
     public function destroy($id)
     {
-        $shift =AccountingBranchShift::findOrFail($id);
-        $shift->delete();
-        alert()->success('تم حذف  الوردية بنجاح !')->autoclose(5000);
+        $safe =AccountingSafe::findOrFail($id);
+        $safe->delete();
+        alert()->success('تم حذف  الخزينة بنجاح !')->autoclose(5000);
             return back();
-
 
     }
 }

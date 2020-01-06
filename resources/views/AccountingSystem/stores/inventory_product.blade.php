@@ -1,5 +1,5 @@
 @extends('AccountingSystem.layouts.master')
-@section('title',' سند جرد المخازن ')
+@section('title',' سند جرد الاصناف ')
 @section('parent_title','إدارة  المخازن')
 
 @section('action', URL::route('accounting.stores.index'))
@@ -10,7 +10,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title"> سند جرد المخازن</h5>
+            <h5 class="panel-title"> سند جرد الاصناف</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -24,7 +24,7 @@
         <div class="row">
             <div class="col-sm-12">
 
-                {!!Form::open( ['route' => 'accounting.stores.filter_inventory' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
+                {!!Form::open( ['route' => 'accounting.stores.filter_inventory_product' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
 
 
                 <div class="col-sm-6 col-xs-6 pull-left" >
@@ -48,14 +48,11 @@
                 </div>
 
                 <div class="col-sm-6 col-xs-6 pull-left">
-                    <label>اختر المخزن </label>
-                    {!! Form::select("store_id",allstores(),null,['class'=>'form-control js-example-basic-single store_id','placeholder'=>' اختر  المخزن'])!!}
+                    <label>اختر الصنف </label>
+                    {!! Form::select("product_id",$products,null,['class'=>'form-control js-example-basic-single store_id','placeholder'=>' اختر  الصنف'])!!}
                 </div>
 
-                <div class="col-sm-6 col-xs-6 pull-left">
-                    <label>اختر امين المخزن </label>
-                    {!! Form::select("user_id",keepers(),null,['class'=>'form-control js-example-basic-single storekeeper_id','id'=>'storekeeper_id','placeholder'=>' اختر امين المخزن'])!!}
-                </div>
+
 
 
 
@@ -81,12 +78,13 @@
             </div>
         </div>
         <!--End Page-Title -->
+        @if (isset($product))
 
         <div class="panel-body">
             <table class="table datatable-button-init-basic">
                 <thead>
                 <tr>
-                    <th>#</th>
+
                     <th> اسم المنتج </th>
                     <th> نوع المنتج </th>
 
@@ -100,33 +98,35 @@
                 </thead>
                 <tbody>
 
-                @foreach($products as $row)
+
+
+
                     <tr>
-                        <td>{!!$loop->iteration!!}</td>
-                        <td>{!! $row->name!!}</td>
+                        {{--<td>{!!$loop->iteration!!}</td>--}}
+                        <td>{!! $product->name!!}</td>
 
                         <td>
-                            @if ($row->type=="store")
+                            @if ($product->type=="store")
                                 مخزون
-                            @elseif($row->type=="service")
+                            @elseif($product->type=="service")
                                 خدمه
-                            @elseif($row->type=="offer")
+                            @elseif($product->type=="offer")
                                 مجموعة منتجات
-                            @elseif($row->type=="creation")
+                            @elseif($product->type=="creation")
                                  تصنيع
-                            @elseif($row->type=="product_expiration")
+                            @elseif($product->type=="product_expiration")
                                 منتج بتاريخ صلاحيه
                             @endif
 
                         </td>
-                        <td>{!! $row-> bar_code!!}</td>
-                        <td>{!! $row->  quantity!!}</td>
+                        <td>{!! $product-> bar_code!!}</td>
+                        <td>{!! $stores_quantity !!}</td>
 
                         <td>
-                            @if ($row->status==0)
+                            @if ($product->status==0)
 
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-id="{{$row->id}}" onclick="openModal({{$row->id}})" data-target="#exampleModal{{$row->id}}" id="button{{$row->id}}">
-                                   ادخل  الكميه الفعليه
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-id="{{$product->id}}" onclick="openModal({{$product->id}})" data-target="#exampleModal{{$product->id}}" id="button{{$product->id}}">
+                                   تسوية
                                 </button>
 
                                 @else
@@ -139,11 +139,11 @@
 
 
 
-                @endforeach
 
-                @foreach($products as $row)
+
+
                 <!-- Modal -->
-                <div class="modal fade" id="exampleModal{{$row->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="exampleModal{{$product->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -153,7 +153,7 @@
                                 </button>
                             </div>
                             {{--{!!Form::open( ['route' => 'accounting.inventory_settlement.store' ,'class'=>'form phone_validate','method' => 'PATCH','files' => true]) !!}--}}
-                            <form id="form{{$row->id}}" >
+                            <form id="form{{$product->id}}" >
                                 <input type="hidden" name="csrf_token" id="csrf_token" value="{{ csrf_token() }}">
 
                             <div class="modal-body">
@@ -166,8 +166,10 @@
 
                             </div>
                             <div class="modal-footer">
+
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
-                                <button class="btn btn-primary" id="hamada{{$row->id}}" type="button" data-dismiss="modal" > اضافةالكميه الفعليه</button>
+                                <button class="btn btn-primary" id="hamada{{$product->id}}" type="button" data-dismiss="modal" > اضافةالكميه الفعليه</button>
+
                             </div>
                             </form>
                             {{--{!!Form::close() !!}--}}
@@ -175,17 +177,18 @@
                     </div>
                 </div>
                 <!-- end model-->
-                    @endforeach
+
 
 
                 </tbody>
             </table>
+
             @isset($inventory)
 
                 <a href="{{route('accounting.stores.inventory_result',$inventory->id)}}"><label class="btn btn-danger">تسوية</label></a>
             @endif
         </div>
-
+        @endif
     </div>
 
 

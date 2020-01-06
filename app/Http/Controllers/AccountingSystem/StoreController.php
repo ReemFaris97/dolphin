@@ -188,6 +188,34 @@ class StoreController extends Controller
 
     }
 
+    public function first_balances(){
+
+        $stores=AccountingStore::pluck('ar_name','id')->toArray();
+        $branches=AccountingBranch::pluck('name','id')->toArray();
+        $allproducts=AccountingProduct::pluck('name','id')->toArray();
+        return view('AccountingSystem.stores.first_balances_report',compact('stores','branches','allproducts'));
+
+    }
+
+    public function balances_filter(Request $request){
+
+//        dd($request);
+        $inputs=$request->all();
+//        dd($inputs);
+        if ($inputs['status']==0){
+                $stores = AccountingStore::where('model_type','App\Models\AccountingSystem\AccountingBranch')->whereIn('model_id',$inputs['branch_id'])->pluck('id')->toArray();
+                $product_quantity=AccountingProductStore::where('product_id',$inputs['product_id'])->whereIn('store_id',$inputs['store_id'])->where('created_at','>=',$inputs['date'])->sum('quantity');
+
+        }
+        $product=AccountingProduct::find($inputs['product_id']);
+
+        return response()->json([
+            'status'=>true,
+            'data'=>view('AccountingSystem.stores.single_product')->with('product',$product)->render()
+        ]);
+
+    }
+
     public function store_product($id){
         $products=AccountingProductStore::where('store_id',$id)->get();
 //
@@ -237,94 +265,6 @@ class StoreController extends Controller
 
     }
 
-    public function inventory(){
-        $stores=AccountingStore::pluck('ar_name','id')->toArray();
-        $products=[];
-        return view('AccountingSystem.stores.inventory',compact('stores','products'));
-
-    }
-
-
-    public  function inventory_store(Request $request)
-    {
-        $store_id = $request['store_id'];
-        $stores = AccountingStore::pluck('ar_name', 'id')->toArray();
-//        dd($request->all());
-        $product_store = AccountingProductStore::where('store_id', $store_id)->wheredate('created_at','=',$request['date'])->pluck('product_id')->toArray();
-//   dd($product_store);
-        $products = AccountingProduct::whereIn('id',$product_store)->get();
-        $inventory = AccountingInventory::create([
-            'date' => $request['date'],
-            'store_id' => $store_id,
-            'user_id' => \Auth::user()->id,
-        ]);
-
-        if (isset($products)) {
-              foreach ($products as $product) {
-           $inventory_product= AccountingInventoryProduct::create([
-                'inventory_id' => $inventory->id,
-                'product_id'=>$product->id,
-                'quantity'=>$product->quantity,
-
-            ]);
-        }
-    }
-
-        alert()->success('تم  حفظ جرد المخزن بنجاح !')->autoclose(5000);
-
-        return view('AccountingSystem.stores.inventory',compact('stores','products','inventory'));
-
-    }
-    public  function inventory_settlement(Request $request){
-
-
-    $inputs=$request->all();
-   //dd($inputs);
-    $inventory_product=AccountingInventoryProduct::where('inventory_id',$inputs['inventory_id'])->where('product_id',$inputs['product_id'])->first();
-   $inventory_product->update([
-       'Real_quantity'=>$inputs['Real_quantity'],
-       'status'=>1,
-       'updated_at'=>Carbon::now()->format('Y-m-d')
-   ]);
-
-
-
-    }
-
-    public  function invertory_filters(){
-
-        $stores = AccountingStore::pluck('ar_name', 'id')->toArray();
-        $inventories=[];
-
-        return view('AccountingSystem.stores.invertory_filter',compact('stores','inventories'));
-    }
-
-    public  function inventory_filter(Request $request)
-    {
-
-
-        $inputs = $request->all();
-        $stores = AccountingStore::pluck('ar_name', 'id')->toArray();
-
-        $inventories= AccountingInventory::where('store_id', $inputs['store_id'])->wheredate('created_at', $inputs['date'])->get();
-
-        return view('AccountingSystem.stores.invertory_filter',compact('stores','inventories'));
-
-    }
-    public function invertory_details($id){
-
-
-        $inventory_products=AccountingInventoryProduct::where('inventory_id',$id)->get();
-        $inventory= AccountingInventory::find($id);
-        return view('AccountingSystem.stores.invertory_details',compact('inventory_products','inventory'));
-    }
-
-    public  function transaction_form(){
-
-        return view('AccountingSystem.stores.transactions');
-
-    }
-
 
     public function getproducts($id)
     {
@@ -340,232 +280,6 @@ class StoreController extends Controller
         return keepers($id);
     }
 
-
-
-    public function productsingle(Request $request)
-    {
-
-        $ids=$request['ids'];
-
-        $products=AccountingProduct::whereIN('id',$ids)->get();
-
-        return response()->json([
-            'status'=>true,
-            'data'=>view('AccountingSystem.stores.product')->with('products',$products)->render()
-        ]);
-
-    }
-
-    public function transaction(Request $request,$id){
-
-        $inputs=$request->all();
-   //  dd($inputs);
-      $trans=  AccountingTransaction::create([
-            'product_id'=>$request['product_id'],
-            'quantity'=>$request['quantity'],
-
-            'store_to'=>$request['store_to'],
-            'store_form'=>$id,
-        ]);
-    //  dd($trans);
-
-
-        /////////update product_store_form_quantity
-        $product_store_form=AccountingProductStore::where('store_id',$id)->where('product_id',$request['product_id'])->first();
-        if ($product_store_form->quantity-$request['quantity'] >= 0)
-        {
-            $product_store_form->update([
-                'quantity' => $product_store_form->quantity - $request['quantity'],
-            ]);
-        }
-        /////////update product_store_to_quantity
-
-
-        $product_store_to=AccountingProductStore::where('store_id',$request['store_to'])->where('product_id',$request['product_id'])->first();
-
-        if (isset($product_store_to)){
-        $product_store_to->update([
-                'quantity'=>$product_store_to->quantity+$request['quantity'],
-        ]);
-            }else{
-            AccountingProductStore::create([
-
-                'product_id'=>$request['product_id'],
-                'quantity'=>$request['quantity'],
-                'store_id'=>$request['store_to'],
-            ]);
-        }
-
-        alert()->success('تم النقل من المستودع بنجاح !')->autoclose(5000);
-        return back();
-
-
-
-    }
-
-
-
-
-
-    public function transactions(Request $request){
-
-        $inputs=$request->all();
-
-        $quantity=collect($inputs['quantity']);
-        $cost=collect($inputs['cost']);
-        $price=collect($inputs['price']);
-        $products=collect($inputs['product_id']);
-        $merges=$products->zip($quantity,$cost,$price);
-            $req=AccountingSroreRequest::create([
-          'store_to' => $request['to_store_id'],
-         'store_form' => $request['form_store_id'],
-           'status'=>'pending'
-
-            ]);
-            foreach ($merges as $merge) {
-
-                $trans = AccountingTransaction::create([
-
-                    'product_id' => $merge[0],
-                    'quantity' => $merge[1],
-
-                    'cost' => $merge[2],
-                    'price' => $merge[3],
-                    'request_id'=>$req->id,
-                ]);
-
-               $store_form = $request['form_store_id'];
-
-
-               /////////update product_store_form_quantity
-              $product_store_form = AccountingProductStore::where('store_id', $store_form)->where('product_id',$merge[0])->first();
-             //  dd($product_store_form->quantity-$request['quantity'] );
-               if ($product_store_form->quantity - $merge[1] >= 0) {
-                  $product_store_form->update([
-                       'quantity' => $product_store_form->quantity - $merge[1],
-                    ]);
-//
-////                    /////////update product_store_to_quantity
-//                  $product_store_to = AccountingProductStore::where('store_id', $request['to_store_id'])->where('product_id',$merge[0])->first();
-//
-//                  if (isset($product_store_to)) {
-//                        $product_store_to->update([
-//                            'quantity' => $product_store_to->quantity + $merge[1],
-//                        ]);
-//                    } else {
-//                        AccountingProductStore::create([
-//                            'product_id' => $merge[0],
-//                            'quantity' => $merge[1],
-//                            'store_id' => $request['to_store_id'],
-//                        ]);
-//                    }
-                  alert()->success('تم التحويل من المخزن بنجاح !')->autoclose(5000);
-
-              } else {
-                    alert()->warning('الكميه بالمخزن المنقول منه غير كافية')->autoclose(5000);
-
-
-                }//endcheckif
-
-            }//endforeach
-            alert()->success('تم اضافة سند التحويل بنجاح !')->autoclose(5000);
-        return back();
-
-
-
-
-
-    }
-
-
-    public  function  requests()
-    {
-        $current_store=\Auth::user()->accounting_store_id;
-        $requests = AccountingSroreRequest::where('store_to',$current_store)->get();
-        return view('AccountingSystem.stores.store_requests', compact('requests'));
-
-    }
-
-    public  function  request($id)
-    {
-
-        $transactions = AccountingTransaction::where('request_id',$id)->get();
-        $request = AccountingSroreRequest::find($id);
-        return view('AccountingSystem.stores.store_request', compact('transactions','request'));
-
-    }
-
-    public  function  accept_request($id)
-    {
-       $req=AccountingSroreRequest::find($id);
-       $req->update([
-           'status'=>'accepted',
-           'updated_at'=>Carbon::now(),
-       ]);
-
-
-        ////                    /////////update product_store_to_quantity
-
-         $tansactions=AccountingTransaction::where('request_id',$req->id)->pluck('quantity', 'product_id')->toArray();
-//         dd($tansactions);
-         foreach ($tansactions as $product_id=>$quantity ) {
-             $product_store_to = AccountingProductStore::where('store_id', $req->store_to)->where('product_id', $product_id)->first();
-
-             if (isset($product_store_to)) {
-                 $product_store_to->update([
-                     'quantity' => $product_store_to->quantity + $quantity,
-                 ]);
-             } else {
-                 AccountingProductStore::create([
-                     'product_id' => $product_id,
-                     'quantity' => $quantity,
-                     'store_id' => $req->store_to,
-                 ]);
-             }
-             alert()->success('تم  قبول الاستلام التحويل من المخزن بنجاح !')->autoclose(5000);
-             return redirect()->route('accounting.stores.requests');
-         }
-    }
-    public  function  refused_request(Request $request,$id)
-    {
-
-//        dd($request->all());
-
-        $req=AccountingSroreRequest::find($id);
-        $req->update([
-            'status'=>'accepted',
-            'refused_reason'=>$request['refused_reason'],
-            'updated_at'=>Carbon::now(),
-        ]);
-
-
-        /////////update product_store_from_quantity
-
-        $tansactions=AccountingTransaction::where('request_id',$req->id)->pluck('quantity', 'product_id')->toArray();
-        foreach ($tansactions as $product_id=>$quantity ) {
-            $product_store_from = AccountingProductStore::where('store_id', $req->store_from)->where('product_id', $product_id)->first();
-            if (isset($product_store_to)) {
-                $product_store_to->update([
-                    'quantity' => $product_store_from->quantity - $quantity,
-                ]);
-            } else {
-                AccountingProductStore::create([
-                    'product_id' => $product_id,
-                    'quantity' => $quantity,
-                    'store_id' => $req->store_form,
-                ]);
-            }
-            alert()->success('تم  رفض الاستلام التحويل من المخزن بنجاح !')->autoclose(5000);
-            return redirect()->route('accounting.stores.requests');
-        }
-
-    }
-        public  function  products_entry_form(){
-
-        $products=AccountingProduct::all();
-        return view('AccountingSystem.stores.products_entry_form',compact('products'));
-
-    }
     public  function  products_exchange_form(){
 
         $products=AccountingProduct::all();
@@ -586,7 +300,9 @@ class StoreController extends Controller
         $products_store = AccountingProductStore::where('store_id', $bond->store_id)->get();
         $quantity = collect($inputs['qtys']);
         $products = collect($inputs['products']);
-        $merges = $products->zip($quantity);
+        $prices = collect($inputs['prices']);
+
+        $merges = $products->zip($quantity,$prices);
         if ($bond->type == 'entry') {
             foreach ($products_store as $productstore) {
                 foreach ($merges as $merge) {
@@ -613,7 +329,7 @@ class StoreController extends Controller
         }
     }
         alert()->success('تم اضافة  سند الادخال  المخزن بنجاح !')->autoclose(5000);
-        return back();
+        return view('AccountingSystem.stores.show_bond',compact('inputs','merges'));
     }
 
 
@@ -622,6 +338,31 @@ class StoreController extends Controller
 
 
 
+
+    }
+
+
+    public  function company_stores($id){
+
+        $basic_stores=AccountingStore::where('model_id',$id)->where('model_type','App\Models\AccountingSystem\AccountingCompany')->pluck('ar_name','id')->toArray();
+
+
+        return response()->json([
+            'status'=>true,
+            'data'=>view('AccountingSystem.stores.basic_store')->with('basic_stores',$basic_stores)->render()
+        ]);
+
+    }
+
+    public  function branch_stores($id){
+
+        $basic_stores=AccountingStore::where('model_id',$id)->where('model_type','App\Models\AccountingSystem\AccountingBranch')->pluck('ar_name','id')->toArray();
+
+
+        return response()->json([
+            'status'=>true,
+            'data'=>view('AccountingSystem.stores.basic_store')->with('basic_stores',$basic_stores)->render()
+        ]);
 
     }
 
