@@ -48,6 +48,15 @@
 
             @endif
 
+            @if ($store->type==0)
+
+
+                    <div class="form-group col-md-6 pull-left">
+                        <label class="label label-info">  اسم المخزن الرئيسى  : </label>
+                        <span>{!! $store->basic->ar_name !!}</span>
+                    </div>
+
+                @endif
             <div class="form-group col-md-6 pull-left">
                 <label class="label label-info">  اسم المخزن باللغة العربيه  : </label>
                 <span>{!! $store->ar_name !!}</span>

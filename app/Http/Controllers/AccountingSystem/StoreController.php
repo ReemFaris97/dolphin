@@ -5,12 +5,16 @@ namespace App\Http\Controllers\AccountingSystem;
 use App\Models\AccountingSystem\AccountingBond;
 use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingBranchShift;
+use App\Models\AccountingSystem\AccountingColumnCell;
 use App\Models\AccountingSystem\AccountingCompany;
 
 use App\Models\AccountingSystem\AccountingInventory;
 use App\Models\AccountingSystem\AccountingInventoryProduct;
 use App\Models\AccountingSystem\AccountingProduct;
+use App\Models\AccountingSystem\AccountingProductCategory;
+use App\Models\AccountingSystem\AccountingProductDiscount;
 use App\Models\AccountingSystem\AccountingProductStore;
+use App\Models\AccountingSystem\AccountingProductTax;
 use App\Models\AccountingSystem\AccountingSroreRequest;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingTransaction;
@@ -188,6 +192,17 @@ class StoreController extends Controller
 
     }
 
+    public  function destroy_product($id,Request $request){
+
+        $store_products =AccountingProductStore::where('product_id',$id)->where('store_id',$request['store_id'])->get();
+        foreach ($store_products as $product){
+            $product->delete();
+        }
+
+        alert()->success('تم حذف المنتج من  المخزن بنجاح !')->autoclose(5000);
+        return back();
+    }
+
     public function first_balances(){
 
         $stores=AccountingStore::pluck('ar_name','id')->toArray();
@@ -217,7 +232,7 @@ class StoreController extends Controller
     }
 
     public function store_product($id){
-        $products=AccountingProductStore::where('store_id',$id)->get();
+        $products_store=AccountingProductStore::where('store_id',$id)->get();
 //
 //        $products=AccountingProduct::whereIn('id',$product_store)->get();
         $store =AccountingStore::findOrFail($id);
@@ -227,8 +242,26 @@ class StoreController extends Controller
 
         $all_stores=AccountingStore::all();
         $storess=$all_stores->except($id);
-        return view('AccountingSystem.stores.product',compact('products','store','stores','storess'));
+        return view('AccountingSystem.stores.products',compact('products_store','store','stores','storess'));
     }
+
+    public  function show_product_details($id,Request $request){
+
+            $branches=AccountingBranch::pluck('name','id')->toArray();
+            $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
+            $product=AccountingProduct::find($id);
+            $products=AccountingProduct::all();
+            $storeproduct=AccountingProductStore::where('product_id',$id)->first();
+            $store=AccountingStore::find(optional($storeproduct)->store_id??1);
+            $cells=AccountingColumnCell::all();
+            $discounts=AccountingProductDiscount::where('product_id',$id)->get();
+            $tax=AccountingProductTax::where('product_id',$id)->first();
+
+        $storeproduct_quantity=AccountingProductStore::where('product_id',$id)->where('store_id',$request['store_id'])->sum('quantity');
+
+        return view('AccountingSystem.stores.show_product_details',compact('branches','categories','product','store','cells','discounts','tax','storeproduct_quantity'));
+
+        }
 
     public function store_products_copy(Request $request,$id){
 
@@ -257,10 +290,9 @@ class StoreController extends Controller
     public  function settlements_store(Request $request){
         $store_id=$request['store_id'];
         $stores=AccountingStore::pluck('ar_name','id')->toArray();
-//dd($store_id);
-        $product_store=AccountingProductStore::where('store_id',$store_id)->pluck('id')->toArray();
-        $products=AccountingProduct::whereIn('id',$product_store ) ->get();
-       // dd($products);
+        $product_store=AccountingProductStore::where('store_id',$store_id)->pluck('product_id')->toArray();
+        $products=AccountingProduct::whereIn('id',$product_store) ->get();
+
         return view('AccountingSystem.stores.settlements',compact('stores','products'));
 
     }
@@ -280,6 +312,29 @@ class StoreController extends Controller
         return keepers($id);
     }
 
+
+
+    public  function  bonds_index(){
+
+        $bonds=AccountingBond::all();
+        return view('AccountingSystem.stores.bonds_index',compact('bonds'));
+
+    }
+
+
+
+    public  function bond_show($id){
+
+        return view('AccountingSystem.stores.bonds_',compact('bonds'));
+
+
+    }
+    public  function  products_entry_form(){
+
+        $products=AccountingProduct::all();
+        return view('AccountingSystem.stores.products_entry_form',compact('products'));
+
+    }
     public  function  products_exchange_form(){
 
         $products=AccountingProduct::all();
@@ -364,6 +419,27 @@ class StoreController extends Controller
             'data'=>view('AccountingSystem.stores.basic_store')->with('basic_stores',$basic_stores)->render()
         ]);
 
+    }
+
+
+    public  function active($id){
+
+       $store= AccountingStore::find($id);
+       $store->update([
+           'is_active'=>'1'
+       ]);
+        alert()->success('تم تفعيل  المخزن بنجاح !')->autoclose(5000);
+        return back();
+    }
+
+    public  function dis_active($id){
+
+        $store= AccountingStore::find($id);
+        $store->update([
+            'is_active'=>'0'
+        ]);
+        alert()->success('تم الغاءتفعيل المخزن بنجاح !')->autoclose(5000);
+        return back();
     }
 
 }

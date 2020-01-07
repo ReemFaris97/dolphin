@@ -158,72 +158,112 @@
 
 <div class="form-group col-md-4 pull-left">
     <label>اختر امين المخزن </label>
-    {!! Form::select("user_id",keepers(),null,['class'=>'form-control js-example-basic-single storekeeper_id','id'=>'storekeeper_id','placeholder'=>' اختر امين المخزن'])!!}
+    {!! Form::select("user_id",storekeepers(),null,['class'=>'form-control js-example-basic-single ','placeholder'=>' اختر امين المخزن'])!!}
 </div>
 
+@if( isset($store))
+          @if ($store->status==1)
+              <div class="form-group">
+                  <label class="display-block text-semibold">  حالة المخزن</label>
+                  <label class="radio-inline">
+                      <input type="radio" name="status" class="styled" value="1"  onclick="myFunction3()" checked>
+                      ايجار
+                  </label>
 
+                  <label class="radio-inline">
+                      <input type="radio" name="status"  class="styled" value="0" onclick="myFunction4()"  >
+                      تمليك
+                  </label>
+              </div>
+              @else
+              <div class="form-group">
+                  <label class="display-block text-semibold">  حالة المخزن</label>
+                  <label class="radio-inline">
+                      <input type="radio" name="status" class="styled" value="1"  onclick="myFunction3()" >
+                      ايجار
+                  </label>
+                  <label class="radio-inline">
+                      <input type="radio" name="status"  class="styled" value="0" onclick="myFunction4()" checked >
+                      تمليك
+                  </label>
+              </div>
+          @endif
 
-
-<div class="form-group col-md-6 pull-left">
-    <label class="display-block text-semibold">  حالة المخزن</label>
-    <label class="radio-inline">
-        <input type="radio" name="status" class="styled" id="rent" value="1"  onclick="myFunction3()" >
-        ايجار
-    </label>
-
-    <label class="radio-inline">
-        <input type="radio" name="status"  class="styled" id="ownership" value="0" onclick="myFunction4()"  >
-        تمليك
-    </label>
-</div>
-
-
-
-
-<div class="rent">
+ @else
     <div class="form-group col-md-6 pull-left">
-        <label> تكلفة الايجار:  </label>
-        {!! Form::text("width",null,['class'=>'form-control','placeholder'=>'  تكلفة الايجار'])!!}
+        <label class="display-block text-semibold">  حالة المخزن</label>
+        <label class="radio-inline">
+            <input type="radio" name="status" class="styled" id="rent" value="1"  onclick="myFunction3()" >
+            ايجار
+        </label>
+
+        <label class="radio-inline">
+            <input type="radio" name="status"  class="styled" id="ownership" value="0" onclick="myFunction4()"  >
+            تمليك
+        </label>
     </div>
-    <div class="form-group col-md-6 pull-left">
-        <label>  تاريخ بداية الايجار:  </label>
-        {!! Form::date("from",null,['class'=>'form-control'])!!}
+
+    <div class="rent">
+        <div class="form-group col-md-6 pull-left">
+            <label> تكلفة الايجار:  </label>
+            {!! Form::text("width",null,['class'=>'form-control','placeholder'=>'  تكلفة الايجار'])!!}
+        </div>
+        <div class="form-group col-md-6 pull-left">
+            <label>  تاريخ بداية الايجار:  </label>
+            {!! Form::date("from",null,['class'=>'form-control'])!!}
+        </div>
+        <div class="form-group col-md-6 pull-left">
+            <label> تاريخ نهاية الايجار:  </label>
+            {!! Form::date("to",null,['class'=>'form-control'])!!}
+        </div>
     </div>
-    <div class="form-group col-md-6 pull-left">
-        <label> تاريخ نهاية الايجار:  </label>
-        {!! Form::date("to",null,['class'=>'form-control'])!!}
-    </div>
-</div>
+
+
+@endif
+
 
 
 @if( isset($store))
-  @if ($store->status=1)
-      <div class="form-group">
-          <label class="display-block text-semibold">  حالة المخزن</label>
-          <label class="radio-inline">
-              <input type="radio" name="status" class="styled" value="1"  onclick="myFunction3()" checked>
-              ايجار
-          </label>
+        @if ($store->is_active==1)
+            <div class="form-group">
+                <label class="display-block text-semibold">  تفعيل المخزن</label>
+                <label class="radio-inline">
+                    <input type="radio" name="is_active" class="styled" value="1"  checked>
+                    مفعل
+                </label>
 
-          <label class="radio-inline">
-              <input type="radio" name="status"  class="styled" value="0" onclick="myFunction4()"  >
-              تمليك
-          </label>
-      </div>
-      @else
+                <label class="radio-inline">
+                    <input type="radio" name="is_active"  class="styled" value="0">
+                    غير مفعل
+                </label>
+            </div>
+        @else
+            <div class="form-group">
+                <label class="display-block text-semibold">   تفعيل المخزن</label>
+                <label class="radio-inline">
+                    <input type="radio" name="is_active"  class="styled"  value="1">
+                     مفعل
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="is_active"  class="styled"   value="0"  checked>
+                    غير مفعل
+                </label>
+            </div>
+        @endif
 
-      <div class="form-group">
-          <label class="display-block text-semibold">  حالة المخزن</label>
-          <label class="radio-inline">
-              <input type="radio" name="status" class="styled" value="1"  onclick="myFunction3()" >
-              ايجار
-          </label>
-          <label class="radio-inline">
-              <input type="radio" name="status"  class="styled" value="0" onclick="myFunction4()" checked >
-              تمليك
-          </label>
-      </div>
-  @endif
+    @else
+    <div class="form-group">
+        <label class="display-block text-semibold"> تفعيل المخزن</label>
+        <label class="radio-inline">
+            <input type="radio" name="is_active"  value="1" checked>
+            مفعل
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="is_active"   value="0" >
+            غير مفعل
+        </label>
+    </div>
+
 @endif
 @if( isset($store))
 

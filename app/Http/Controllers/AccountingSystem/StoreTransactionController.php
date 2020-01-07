@@ -7,6 +7,8 @@ use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingBranchShift;
 use App\Models\AccountingSystem\AccountingCompany;
 
+use App\Models\AccountingSystem\AccountingDamage;
+use App\Models\AccountingSystem\AccountingDamageProduct;
 use App\Models\AccountingSystem\AccountingInventory;
 use App\Models\AccountingSystem\AccountingInventoryProduct;
 use App\Models\AccountingSystem\AccountingProduct;
@@ -178,8 +180,36 @@ class StoreTransactionController extends Controller
         return view('AccountingSystem.stores.store_requests', compact('requests'));
 
     }
+    public  function  requests_all()
+    {
+//        $current_store=\Auth::user()->accounting_store_id;
+        $requests = AccountingSroreRequest::all();
+        return view('AccountingSystem.stores.store_requests_all', compact('requests'));
+
+    }
 
     public  function  request($id)
+    {
+
+        $transactions = AccountingTransaction::where('request_id',$id)->get();
+        $request = AccountingSroreRequest::find($id);
+        return view('AccountingSystem.stores.store_request', compact('transactions','request'));
+
+    }
+
+
+    public  function  request_detail($id)
+    {
+
+        $transactions = AccountingTransaction::where('request_id',$id)->get();
+        $request = AccountingSroreRequest::find($id);
+        return view('AccountingSystem.stores.store_request_detail', compact('transactions','request'));
+
+    }
+
+
+
+    public  function  request_($id)
     {
 
         $transactions = AccountingTransaction::where('request_id',$id)->get();
@@ -253,10 +283,80 @@ class StoreTransactionController extends Controller
         }
 
     }
-    public  function  products_entry_form(){
 
-        $products=AccountingProduct::all();
-        return view('AccountingSystem.stores.products_entry_form',compact('products'));
+
+
+    ////////////////////////////////////الاصناف التالفه
+
+
+
+
+
+
+    public function damaged_create(){
+
+
+
+        return view('AccountingSystem.stores.damaged_create');
+
 
     }
+    public function damaged_store(Request $request){
+
+        $inputs=$request->all();
+
+        $quantity=collect($inputs['quantity']);
+        $products=collect($inputs['product_id']);
+        $merges=$products->zip($quantity);
+      $damage= AccountingDamage::create([
+            'store_id' => $request['store_id'],
+            'user_id' => $request['user_id'],
+
+
+        ]);
+
+        foreach ($merges as $merge) {
+
+           $damaged_product= AccountingDamageProduct::create([
+                'product_id' => $merge[0],
+                'quantity' => $merge[1],
+                'damage_id' => $damage->id,
+            ]);
+
+
+            /////////update product_store_form_quantity
+            $product_store_form = AccountingProductStore::where('store_id', $request['store_id'])->where('product_id',$merge[0])->first();
+            //  dd($product_store_form->quantity-$request['quantity'] );
+            if ($product_store_form->quantity - $merge[1] >= 0) {
+                $product_store_form->update([
+                    'quantity' => $product_store_form->quantity - $merge[1],
+                ]);
+            }
+        }
+
+
+        alert()->success('تم   تسجيل التالف من المخزن بنجاح !')->autoclose(5000);
+
+        return redirect()->route('accounting.stores.damaged_index');
+    }
+
+    public function damaged_index(){
+
+        $damages=AccountingDamage::all();
+
+        return view('AccountingSystem.stores.damaged_index',compact('damages'));
+
+
+    }
+
+    public function damaged_show($id){
+
+        $damage=AccountingDamage::find($id);
+        $damage_products=AccountingDamageProduct::where('damage_id',$id)->get();
+
+        return view('AccountingSystem.stores.show_damaged_products',compact('damage_products','damage'));
+
+
+    }
+
 }

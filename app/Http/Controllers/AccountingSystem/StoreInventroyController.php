@@ -30,6 +30,35 @@ class StoreInventroyController extends Controller
 
     }
 
+    public function inventories(){
+        $inventories=AccountingInventory::all();
+        return view('AccountingSystem.stores.inventories',compact('inventories'));
+
+    }
+
+
+
+    public function show_inventory($id){
+        $inventory=AccountingInventory::findOrFail($id);
+        $inventory_products=AccountingInventoryProduct::where('inventory_id',$id)->where('status',1)->get();
+        return view('AccountingSystem.stores.show_inventory',compact('inventory','inventory_products'));
+
+    }
+
+    public function inventories_band(){
+        $inventories=AccountingInventory::all();
+        return view('AccountingSystem.stores.inventories_band',compact('inventories'));
+
+    }
+
+
+
+    public function show_inventory_band($id){
+        $inventory=AccountingInventory::findOrFail($id);
+        $inventory_products=AccountingInventoryProduct::where('inventory_id',$id)->where('status',1)->get();
+        return view('AccountingSystem.stores.show_inventory_band',compact('inventory','inventory_products'));
+
+    }
 
     public  function inventory_store(Request $request)
     {

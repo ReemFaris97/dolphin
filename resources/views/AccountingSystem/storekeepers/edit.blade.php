@@ -19,7 +19,6 @@
             {!!Form::model($storeKeeper, ['route' => ['accounting.storeKeepers.update' ,$storeKeeper->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
             @include('AccountingSystem.storekeepers.form')
 
-
             {!!Form::close() !!}
         </div>
 

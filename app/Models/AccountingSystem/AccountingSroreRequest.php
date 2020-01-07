@@ -2,6 +2,7 @@
 
 namespace App\Models\AccountingSystem;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class AccountingSroreRequest extends Model
@@ -11,8 +12,18 @@ class AccountingSroreRequest extends Model
 
     protected  $table='accounting_stores_requests';
 
-    public function store()
+    public function getStoreFrom()
     {
         return $this->belongsTo(AccountingStore::class,'store_form');
     }
+    public function getStoreTo()
+    {
+        return $this->belongsTo(AccountingStore::class,'store_to');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class,'user_id');
+    }
 }
+
+

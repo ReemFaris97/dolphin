@@ -88,10 +88,10 @@ class StoreKeeperController extends Controller
         $storeKeeper->update([
             'is_storekeeper'=>1,
             'is_admin'=>1,
-            'accounting_store_id'=>$requests['store_id']
+
         ]);
 
-        alert()->success('تم التعديل الامين بنجاح !')->autoclose(5000);
+        alert()->success('تم اضافة الامين بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.storeKeepers.index');
     }
 
@@ -104,7 +104,7 @@ class StoreKeeperController extends Controller
     public function show($id)
     {
 
-        $storekeeper= AccountingStoreKeeper::findOrFail($id);
+        $storekeeper= User::findOrFail($id);
         return $this->toShow(compact('storekeeper'));
     }
 
@@ -116,7 +116,8 @@ class StoreKeeperController extends Controller
      */
     public function edit($id)
     {
-        $storeKeeper= AccountingStoreKeeper::findOrFail($id);
+
+        $storeKeeper=User::findOrFail($id);
         $stores = AccountingStore::pluck('ar_name','id')->toArray();
 
         return $this->toEdit(compact('storeKeeper','stores'));
@@ -132,7 +133,7 @@ class StoreKeeperController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $storeKeeper = AccountingStoreKeeper::findOrFail($id);
+        $storeKeeper = User::findOrFail($id);
         $rules = [
             'name'=>'required|string|max:191',
             'email'=>'required|string|unique:accounting_storekeepers,email,'.$storeKeeper->id,
@@ -156,10 +157,10 @@ class StoreKeeperController extends Controller
      */
     public function destroy($id)
     {
-        $storeKeeper=AccountingStoreKeeper::find($id);
+        $storeKeeper=User::find($id);
 
         $storeKeeper->delete();
-            alert()->success('تم حذف   بنجاح');
+            alert()->success('تم حذف  الامين بنجاح');
             return back();
 
     }
