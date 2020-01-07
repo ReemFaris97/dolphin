@@ -1,7 +1,8 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض امناء المخازن')
-@section('parent_title','إدارة  المخازن')
-@section('action', URL::route('accounting.storeKeepers.index'))
+@section('title','عرض الخزائن')
+@section('parent_title','إدارة  خزائن البيع')
+@section('action', URL::route('accounting.products.index'))
+
 @section('styles')
 
 @endsection
@@ -9,7 +10,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">عرض كل الامناء</h5>
+            <h5 class="panel-title">عرض كل  خزائن البيع</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -24,29 +25,27 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th> اسم  الامين </th>
-                    {{--<th> اسم المخزن التابع  لها  </th>--}}
-                    <th> جوال  </th>
-                    <th> ايميل  </th>
+                    <th> كود الخزنة </th>
+                    <th> عهدة الخزنة </th>
+                    <th> الفرع التابعة له </th>
+
                     <th class="text-center">العمليات</th>
                 </tr>
                 </thead>
                 <tbody>
 
-                @foreach($storeKeepers as $row)
+                @foreach($safes as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
-                        <td>{!! $row->name!!}</td>
-                        {{--<td>{!! $row->accounting_store->ar_name!!}</td>--}}
-                        <td>{!! $row->phone!!}</td>
-                        <td>{!! $row->email!!}</td>
-
+                        <td>{!! $row->code!!}</td>
+                        <td>{!! $row->financial_custody !!}</td>
+                        <td>{!! $row->branch->name!!}</td>
 
                         <td class="text-center">
-
-                            <a href="{{route('accounting.storeKeepers.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.safes.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
-                            {!!Form::open( ['route' => ['accounting.storeKeepers.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
+
+                            {!!Form::open( ['route' => ['accounting.safes.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
                             {!!Form::close() !!}
 
                         </td>
@@ -73,7 +72,7 @@
             console.log(item_id);
             swal({
                 title: "هل أنت متأكد ",
-                text: "هل تريد حذف  امين المخزن ؟",
+                text: "هل تريد حذف هذة الخلية ؟",
                 icon: "warning",
                 buttons: ["الغاء", "موافق"],
                 dangerMode: true,
@@ -83,7 +82,7 @@
                     document.getElementById('delete-form'+item_id).submit();
                 }
                 else{
-                    swal("تم االإلفاء", "حذف  امين المخزن  تم الغاؤه",'info',{buttons:'موافق'});
+                    swal("تم االإلفاء", "حذف  الخلية  تم الغاؤه",'info',{buttons:'موافق'});
                 }
             });
         }

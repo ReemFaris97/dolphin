@@ -42,7 +42,8 @@
                             <td>{!!$loop->iteration!!}</td>
                             <td>{!! $row->product->name!!}</td>
 
-                            <td>{!! $row->quantity!!}</td>
+                            <td>{!! $row->quantity !!}</td>
+
                             <td>{!! $row->Real_quantity!!}</td>
 
 

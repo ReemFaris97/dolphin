@@ -1,5 +1,5 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','سندات التحويل بين المخازن')
+@section('title','  سجل التحويلات بين المخازن')
 @section('parent_title','إدارة  المخازن')
 
 @section('action', URL::route('accounting.stores.index'))
@@ -10,7 +10,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">سندات التحويل بين المخازن لمخزن  معين </h5>
+            <h5 class="panel-title"> سجل التحويلات بين المخازن </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -21,12 +21,13 @@
         </div>
 
         <div class="panel-body">
-
             <table class="table datatable-button-init-basic">
                 <thead>
                 <tr>
                     <th>#</th>
                     <th> المخزن المحول  منه  </th>
+                    <th> المخزن المحول  اليه  </th>
+                    <th>  القائم  على التحويل  </th>
                     <th> حاله التحويل  </th>
                     <th> السبب [فى حاله الرفض ] </th>
                     <th>عرض  السند </th>
@@ -35,12 +36,16 @@
                 </thead>
                 <tbody>
 
+                {{--@dd($requests)--}}
                 @foreach($requests as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
-                        <td>{!! $row->store->ar_name!!}</td>
-
-                        <td>@if (  $row->status=='pending')
+                        {{--@dd( $row->getStoreTo)--}}
+                        <td>{{optional($row->getStoreFrom)->ar_name}} </td>
+                        <td>{{optional($row->getStoreTo)->ar_name}}  </td>
+                        <td>{{optional($row->user)->name}}  </td>
+                        <td>
+                            @if (  $row->status=='pending')
                            <label class="label label-warning">على  قيد الانتظار </label>
                                 @elseif ($row->status=='accepted')
                                 <label class="label label-success">  تم الاستلام   </label>
@@ -53,7 +58,7 @@
                         <td>{!! $row->refused_reason!!}</td>
 
                         <td>
-                            <a href="{{route('accounting.stores.request',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.stores.request_detail',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>
 
                         </td>
 

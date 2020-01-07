@@ -9,7 +9,7 @@
 @endif
 @if( isset($store))
     @if($store->model_type=='App\Models\AccountingSystem\AccountingBranch')
-        <div class="form-group">
+        <div class="form-group ">
             <label class="display-block text-semibold">المخزن تابع الى</label>
             <label class="radio-inline">
                 <input type="radio" name="radio-inline-left" class="styled" id="company"  onclick="myFunction()" disabled>
@@ -44,7 +44,7 @@
         </label>
 
         <label class="radio-inline">
-            <input type="radio" name="radio-inline-left" id="branch" class="styled" onclick="myFunction2()">
+            <input type="radio" name="radio-inline-left" id="branch1" class="styled" onclick="myFunction2()">
             فرع
         </label>
     </div>
@@ -70,15 +70,63 @@
     @else
     <div class="form-group col-md-6 pull-left companies">
         <label> اسم الشركة التابع لها المخزن: </label>
-        {!! Form::select("company_id",$companies,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الشركة التابع لها المخزن '])!!}
+        {!! Form::select("company_id",$companies,null,['class'=>'form-control js-example-basic-single','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع لها المخزن '])!!}
     </div>
     <div class="form-group col-md-6 pull-left branches">
     <label> اسم الفرع التابع لها المخزن: </label>
-    {!! Form::select("branch_id",$branches,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الفرع التابع لها المخزن '])!!}
+    {!! Form::select("branch_id",$branches,null,['class'=>'form-control js-example-basic-single','id'=>'branch_id','placeholder'=>' اختر اسم الفرع التابع لها المخزن '])!!}
     </div>
 
 
 @endif
+
+@if( isset($store))
+    @if ($store->type=1)
+
+        <div class="form-group">
+            <label class="display-block text-semibold">  نوع المخزن</label>
+            <label class="radio-inline">
+                <input type="radio" name="type" class="styled type"  value="1"   checked="checked" >
+                رئسى
+            </label>
+
+            <label class="radio-inline">
+                <input type="radio" name="type"  class="styled type" value="0"   >
+                فرعى
+            </label>
+        </div>
+    @else
+        <div class="form-group">
+            <label class="display-block text-semibold">  نوع المخزن</label>
+            <label class="radio-inline">
+                <input type="radio" name="type" class="styled type"  value="1"   >
+                رئيسى
+            </label>
+
+            <label class="radio-inline">
+                <input type="radio" name="type"  class="styled type" value="0" checked="checked"  >
+                فرعى
+            </label>
+        </div>
+    @endif
+    @else
+    <div class="form-group col-md-6 pull-left">
+        <label class="display-block text-semibold">  نوع المخزن</label>
+        <label class="radio-inline">
+            <input type="radio" name="type" class="styled type" id="basic"   value="1">
+            رئسى
+        </label>
+
+        <label class="radio-inline">
+            <input type="radio" name="type"  class="styled type" id="part"    value="0">
+            فرعى
+        </label>
+    </div>
+@endif
+
+<div class="basic">
+
+</div>
 
 <div class="form-group col-md-6 pull-left">
     <label> كود المخزن:  </label>
@@ -108,109 +156,114 @@
     {!! Form::text("width",null,['class'=>'form-control','placeholder'=>' مساحة المخزن'])!!}
 </div>
 
-<div class="form-group col-md-6 pull-left">
-    <label class="display-block text-semibold">  نوع المخزن</label>
-    <label class="radio-inline">
-        <input type="radio" name="type" class="styled" id="basic"   value="1">
-        رئسى
-    </label>
-
-    <label class="radio-inline">
-        <input type="radio" name="type"  class="styled" id="part"    value="0">
-        فرعى
-    </label>
-</div>
-
-<div class="form-group col-md-6 pull-left">
-    <label class="display-block text-semibold">  حالة المخزن</label>
-    <label class="radio-inline">
-        <input type="radio" name="status" class="styled" id="rent" value="1"  onclick="myFunction3()" >
-        ايجار
-    </label>
-
-    <label class="radio-inline">
-        <input type="radio" name="status"  class="styled" id="ownership" value="0" onclick="myFunction4()"  >
-        تمليك
-    </label>
-</div>
-
-
-
-
-<div class="rent">
-    <div class="form-group col-md-6 pull-left">
-        <label> تكلفة الايجار:  </label>
-        {!! Form::text("width",null,['class'=>'form-control','placeholder'=>'  تكلفة الايجار'])!!}
-    </div>
-    <div class="form-group col-md-6 pull-left">
-        <label>  تاريخ بداية الايجار:  </label>
-        {!! Form::date("from",null,['class'=>'form-control'])!!}
-    </div>
-    <div class="form-group col-md-6 pull-left">
-        <label> تاريخ نهاية الايجار:  </label>
-        {!! Form::date("to",null,['class'=>'form-control'])!!}
-    </div>
+<div class="form-group col-md-4 pull-left">
+    <label>اختر امين المخزن </label>
+    {!! Form::select("user_id",storekeepers(),null,['class'=>'form-control js-example-basic-single ','placeholder'=>' اختر امين المخزن'])!!}
 </div>
 
 @if( isset($store))
-    @if ($store->type=1)
+          @if ($store->status==1)
+              <div class="form-group col-md-8">
+                  <label class="display-block text-semibold">  حالة المخزن</label>
+                  <label class="radio-inline">
+                      <input type="radio" name="status" class="styled" value="1"  onclick="myFunction3()" checked>
+                      ايجار
+                  </label>
 
-        <div class="form-group">
-            <label class="display-block text-semibold">  نوع المخزن</label>
-            <label class="radio-inline">
-                <input type="radio" name="type" class="styled"  value="1"  checked="checked" >
-                رئسى
-            </label>
+                  <label class="radio-inline">
+                      <input type="radio" name="status"  class="styled" value="0" onclick="myFunction4()"  >
+                      تمليك
+                  </label>
+              </div>
+              @else
+              <div class="form-group col-md-8">
+                  <label class="display-block text-semibold">  حالة المخزن</label>
+                  <label class="radio-inline">
+                      <input type="radio" name="status" class="styled" value="1"  onclick="myFunction3()" >
+                      ايجار
+                  </label>
+                  <label class="radio-inline">
+                      <input type="radio" name="status"  class="styled" value="0" onclick="myFunction4()" checked >
+                      تمليك
+                  </label>
+              </div>
+          @endif
 
-            <label class="radio-inline">
-                <input type="radio" name="type"  class="styled" value="0"   >
-                فرعى
-            </label>
+ @else
+    <div class="form-group  col-md-8">
+        <label class="display-block text-semibold">  حالة المخزن</label>
+        <label class="radio-inline">
+            <input type="radio" name="status" class="styled" id="rent" value="1"  onclick="myFunction3()" >
+            ايجار
+        </label>
+
+        <label class="radio-inline">
+            <input type="radio" name="status"  class="styled" id="ownership" value="0" onclick="myFunction4()"  >
+            تمليك
+        </label>
+    </div>
+
+    <div class="rent row col-md-12">
+        <div class="form-group col-md-4">
+            <label> تكلفة الايجار:  </label>
+            {!! Form::text("width",null,['class'=>'form-control','placeholder'=>'  تكلفة الايجار'])!!}
         </div>
-    @else
-        <div class="form-group">
-            <label class="display-block text-semibold">  نوع المخزن</label>
-            <label class="radio-inline">
-                <input type="radio" name="type" class="styled"  value="1"   >
-                رئسى
-            </label>
-
-            <label class="radio-inline">
-                <input type="radio" name="type"  class="styled" value="0" checked="checked"  >
-                فرعى
-            </label>
+        <div class="form-group col-md-4">
+            <label>  تاريخ بداية الايجار:  </label>
+            {!! Form::date("from",null,['class'=>'form-control'])!!}
         </div>
-    @endif
+        <div class="form-group col-md-4">
+            <label> تاريخ نهاية الايجار:  </label>
+            {!! Form::date("to",null,['class'=>'form-control'])!!}
+        </div>
+    </div>
+
+
 @endif
+
+
+
 @if( isset($store))
-  @if ($store->status=1)
-      <div class="form-group">
-          <label class="display-block text-semibold">  حالة المخزن</label>
-          <label class="radio-inline">
-              <input type="radio" name="status" class="styled" value="1"  onclick="myFunction3()" checked>
-              ايجار
-          </label>
+        @if ($store->is_active==1)
+            <div class="form-group col-md-12">
+                <label class="display-block text-semibold">  تفعيل المخزن</label>
+                <label class="radio-inline">
+                    <input type="radio" name="is_active" class="styled" value="1"  checked>
+                    مفعل
+                </label>
 
-          <label class="radio-inline">
-              <input type="radio" name="status"  class="styled" value="0" onclick="myFunction4()"  >
-              تمليك
-          </label>
-      </div>
-      @else
+                <label class="radio-inline">
+                    <input type="radio" name="is_active"  class="styled" value="0">
+                    غير مفعل
+                </label>
+            </div>
+        @else
+            <div class="form-group col-md-12">
+                <label class="display-block text-semibold">   تفعيل المخزن</label>
+                <label class="radio-inline">
+                    <input type="radio" name="is_active"  class="styled"  value="1">
+                     مفعل
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="is_active"  class="styled"   value="0"  checked>
+                    غير مفعل
+                </label>
+            </div>
+        @endif
 
-      <div class="form-group">
-          <label class="display-block text-semibold">  حالة المخزن</label>
-          <label class="radio-inline">
-              <input type="radio" name="status" class="styled" value="1"  onclick="myFunction3()" >
-              ايجار
-          </label>
+    @else
+    <div class="form-group col-md-12">
+        <label class="display-block text-semibold"> تفعيل المخزن</label>
+        <label class="radio-inline">
+            <input type="radio" name="is_active"  value="1" checked>
+            مفعل
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="is_active"   value="0" >
+            غير مفعل
+        </label>
+    </div>
 
-          <label class="radio-inline">
-              <input type="radio" name="status"  class="styled" value="0" onclick="myFunction4()" checked >
-              تمليك
-          </label>
-      </div>
-  @endif
 @endif
 @if( isset($store))
 
@@ -229,8 +282,8 @@
 
 
 
-<div class="form-group col-md-12 pull-left">    <label>  تحديد موقع المخزن  على الخريطة  </label>     <div class="form-group">
-        <div id="map" style="width: 100%; height: 300px;"></div>        <div class="clearfix">&nbsp;</div>
+<div class="form-group col-md-12 pull-left"><label>  تحديد موقع المخزن  على الخريطة  </label>     <div class="form-group">
+        <div id="map" style="width: 100%; height: 300px;"></div><div class="clearfix">&nbsp;</div>
         <div class="m-t-small">
             <div class="col-sm-4">
                 <label class="p-r-small control-label">خط الطول</label>
@@ -351,6 +404,51 @@
         }
     </script>
 
+    {{--<script src="{{asset('admin/assets/js/get_basic_stores.js')}}"></script>--}}
+
+    <script>
+
+
+        $(".type").on('change', function() {
+            var idddd = $(this).val();
+            if (idddd == 0) {
+                if ($('#company').is(':checked')) {
+                    var company_id = $('#company_id').val();
+                    $.ajax({
+                        url: "/accounting/company_stores/" + company_id,
+                        type: "GET",
+
+                    }).done(function (data) {
+
+                        $('.basic').empty();
+                        $('.basic').append(data.data);
+
+                    }).fail(function (error) {
+                        console.log(error);
+                    });
+                }
+                if ($('#branch1').is(':checked')) {
+
+                     branch_id = $('#branch_id').val();
+
+
+                    $.ajax({
+                        url: "/accounting/branch_stores/" + branch_id,
+                        type: "GET",
+
+                    }).done(function (data) {
+
+                        $('.basic').empty();
+                        $('.basic').append(data.data);
+
+                    }).fail(function (error) {
+                        console.log(error);
+                    });
+                }
+
+            }
+        });
+    </script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsT140mx0UuES7ZwcfY28HuTUrTnDhxww&callback=initMap">
     </script>

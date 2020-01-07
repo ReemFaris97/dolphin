@@ -1,11 +1,16 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تعديل  بيانات امين المخزن')
-@section('parent_title','إدارة فروع الشركات')
-@section('action', URL::route('accounting.storeKeepers.index'))
+@section('title','إنشاء خزينة  جديد')
+@section('parent_title','إدارة  خزائن البيع')
+@section('action', URL::route('accounting.products.index'))
+
+@section('styles')
+
+@endsection
+
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-
+            <h5 class="panel-title">إضافة خزينة جديدة</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -16,12 +21,12 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::model($storeKeeper, ['route' => ['accounting.storeKeepers.update' ,$storeKeeper->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
-            @include('AccountingSystem.storekeepers.form')
-
+            {!!Form::open( ['route' => 'accounting.safes.store' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
+            @include('AccountingSystem.safes.form')
             {!!Form::close() !!}
         </div>
 
-
+        </div>
     </div>
-@endsection
+
+ @endsection

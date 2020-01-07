@@ -109,7 +109,7 @@
 @endif
 
 
-<div class="form-group col-md-6 pull-left ">
+<div class="form-groرئسىup col-md-6 pull-left ">
     <label>صوره المخزن  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
     {!! Form::file("image",null,['class'=>'file-styled'])!!}
 </div>

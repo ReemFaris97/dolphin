@@ -99,14 +99,15 @@
                                     <input type="hidden" name="total" id="total">
                                     <th id="reminder"></th>
                                 </tr>
-                                {{--<tr>--}}
-                                    {{--<th colspan="2">المدفوع</th>--}}
-                                    {{--<th ><input type="number" id="paid"name="" placeholder="المدفوع" min="0" max="100"></th>--}}
-                                {{--</tr>--}}
-                                {{--<tr>--}}
-                                    {{--<th colspan="2">المتبقي</th>--}}
-                                    {{--<th > <input type="hidden" id="lastreminder" name="reminder"></th>--}}
-                                {{--</tr>--}}
+                                <tr>
+                                    <th colspan="2">المدفوع</th>
+                                    <th ><input type="number" id="paid"name="" placeholder="المدفوع" min="0" ></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="2">المتبقي</th>
+                                    <th id="lastreminder"></th>
+                                    <input type="hidden"  id="reminder1" name="reminder">
+                                </tr>
                                 <tr>
                                     <th colspan="2">العميل</th>
                                     <th>
@@ -270,7 +271,9 @@ function  category(id) {
                             console.log('alnateg' + parseFloat($("#reminder").html()));
                             console.log('elinput' + parseFloat($(this).val()));
                             lastReminder =   parseFloat($("#reminder").html())- parseFloat($(this).val());
-                            $("#lastreminder").html(lastReminder);
+                             $("#lastreminder").html(lastReminder);
+                            // alert(lastReminder);
+                            $("#reminder1").val(lastReminder);
                         });
 
 
@@ -294,9 +297,9 @@ function  category(id) {
                         var sale = $("#sale").val();
                         var allReminder = 0;
 
-//                        $('#sale').change(function() {console.log('change val is' + allReminder);
-//                            $("#reminder").html(allReminder);
-//                        });
+                     $('#sale').change(function() {console.log('change val is' + allReminder);
+                           $("#reminder").html(allReminder);
+                        });
 
 
                         allReminder =  parseFloat($("#allResult").html()) - ((parseFloat($("#sale").val()) * parseFloat($("#allResult").html())) / 100);
@@ -304,20 +307,19 @@ function  category(id) {
 
 
                         var lastReminder = 0;
-//                        $('#paid').change(function() {
-//                            console.log('alnateg' + parseFloat($("#reminder").html()));
-//                            console.log('elinput' + parseFloat($(this).val()));
-//                        });
-//
+                       $('#paid').change(function() {
+                            console.log('alnateg' + parseFloat($("#reminder").html()));
+                           console.log('elinput' + parseFloat($(this).val()));
+                        });
 
                         lastReminder =   parseFloat($("#reminder").html()) - parseFloat($("#paid").val()) ;
                         $("#lastreminder").html(lastReminder);
 
-//                        if ($(".finalTb tbody").html('')) {
-//                        $("#sale").val("0");
-//                        $("#paid").val("0");
-//                        $("#lastreminder").html('');
-//                    }
+                       if ($(".finalTb tbody").html('')) {
+                       $("#sale").val("0");
+                       $("#paid").val("0");
+                       $("#lastreminder").html('');
+                   }
 
                     });
 

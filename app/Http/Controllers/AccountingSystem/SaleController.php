@@ -58,7 +58,7 @@ class SaleController extends Controller
         $rules = [
 
             'client_id'=>'required|numeric|exists:accounting_clients,id',
-
+                'reminder'=>'required|numeric|gt:0',
 
 
 
@@ -66,7 +66,7 @@ class SaleController extends Controller
         ];
         $this->validate($request,$rules);
 
-       // dd($requests);
+      dd($requests);
         $sale=AccountingSale::create($requests);
         $products=$requests['product_id'];
         $quantities=$requests['quantity'];

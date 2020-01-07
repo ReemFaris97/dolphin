@@ -4,7 +4,7 @@
 
 @section('action', URL::route('accounting.stores.index'))
 @section('styles')
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 @endsection
 
 @section('content')
@@ -55,6 +55,12 @@
 
                         <td class="text-center">
                             <a href="{{route('accounting.stores.product',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="منتجات المخزن "> <i class="icon-cart" style="margin-left: 10px"></i> </a>
+                                @if ($row->is_active==0)
+                                <a href="{{route('accounting.stores.is_active',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="منتجات المخزن "> <i class="fa fa-close"></i></a>
+                                @else
+                                <a href="{{route('accounting.stores.dis_active',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="منتجات المخزن "> <i class="icon-checkmark-circle" style="margin-left: 10px"></i> </a>
+
+                            @endif
 
                             <a href="{{route('accounting.stores.show',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>
 
