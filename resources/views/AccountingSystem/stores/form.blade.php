@@ -9,7 +9,7 @@
 @endif
 @if( isset($store))
     @if($store->model_type=='App\Models\AccountingSystem\AccountingBranch')
-        <div class="form-group">
+        <div class="form-group ">
             <label class="display-block text-semibold">المخزن تابع الى</label>
             <label class="radio-inline">
                 <input type="radio" name="radio-inline-left" class="styled" id="company"  onclick="myFunction()" disabled>
@@ -163,7 +163,7 @@
 
 @if( isset($store))
           @if ($store->status==1)
-              <div class="form-group">
+              <div class="form-group col-md-8">
                   <label class="display-block text-semibold">  حالة المخزن</label>
                   <label class="radio-inline">
                       <input type="radio" name="status" class="styled" value="1"  onclick="myFunction3()" checked>
@@ -176,7 +176,7 @@
                   </label>
               </div>
               @else
-              <div class="form-group">
+              <div class="form-group col-md-8">
                   <label class="display-block text-semibold">  حالة المخزن</label>
                   <label class="radio-inline">
                       <input type="radio" name="status" class="styled" value="1"  onclick="myFunction3()" >
@@ -190,7 +190,7 @@
           @endif
 
  @else
-    <div class="form-group col-md-6 pull-left">
+    <div class="form-group  col-md-8">
         <label class="display-block text-semibold">  حالة المخزن</label>
         <label class="radio-inline">
             <input type="radio" name="status" class="styled" id="rent" value="1"  onclick="myFunction3()" >
@@ -203,16 +203,16 @@
         </label>
     </div>
 
-    <div class="rent">
-        <div class="form-group col-md-6 pull-left">
+    <div class="rent row col-md-12">
+        <div class="form-group col-md-4">
             <label> تكلفة الايجار:  </label>
             {!! Form::text("width",null,['class'=>'form-control','placeholder'=>'  تكلفة الايجار'])!!}
         </div>
-        <div class="form-group col-md-6 pull-left">
+        <div class="form-group col-md-4">
             <label>  تاريخ بداية الايجار:  </label>
             {!! Form::date("from",null,['class'=>'form-control'])!!}
         </div>
-        <div class="form-group col-md-6 pull-left">
+        <div class="form-group col-md-4">
             <label> تاريخ نهاية الايجار:  </label>
             {!! Form::date("to",null,['class'=>'form-control'])!!}
         </div>
@@ -225,7 +225,7 @@
 
 @if( isset($store))
         @if ($store->is_active==1)
-            <div class="form-group">
+            <div class="form-group col-md-12">
                 <label class="display-block text-semibold">  تفعيل المخزن</label>
                 <label class="radio-inline">
                     <input type="radio" name="is_active" class="styled" value="1"  checked>
@@ -238,7 +238,7 @@
                 </label>
             </div>
         @else
-            <div class="form-group">
+            <div class="form-group col-md-12">
                 <label class="display-block text-semibold">   تفعيل المخزن</label>
                 <label class="radio-inline">
                     <input type="radio" name="is_active"  class="styled"  value="1">
@@ -252,7 +252,7 @@
         @endif
 
     @else
-    <div class="form-group">
+    <div class="form-group col-md-12">
         <label class="display-block text-semibold"> تفعيل المخزن</label>
         <label class="radio-inline">
             <input type="radio" name="is_active"  value="1" checked>
