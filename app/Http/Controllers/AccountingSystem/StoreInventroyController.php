@@ -144,6 +144,17 @@ class StoreInventroyController extends Controller
     }
 
 
+    public  function inventory_bond(Request $request){
+        $inputs=$request->all();
+        $inventory= AccountingInventory::find($inputs['inventory_id']);
+        $inventory->update([
+            'bond_num'=>$inputs['bond_num'],
+            'description'=>$inputs['description'],
+        ]);
+
+        alert()->success('تم  حفظ سند جرد المخزن بنجاح !')->autoclose(5000);
+        return back();
+    }
 
 
     //////////////////////////جرد الاصناف/////////////////////

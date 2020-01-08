@@ -322,6 +322,10 @@ class StoreController extends Controller
     }
 
 
+    public  function inventory_bond(Request $request){
+
+        dd($request->all());
+    }
 
     public  function bond_show($id){
 

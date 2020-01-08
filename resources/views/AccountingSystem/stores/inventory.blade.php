@@ -27,25 +27,25 @@
                 {!!Form::open( ['route' => 'accounting.stores.filter_inventory' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
 
 
-                <div class="col-sm-6 col-xs-6 pull-left" >
-                    <div class="form-group form-float">
-                        <label class="form-label"> رقم السند</label>
-                        <div class="form-line">
-                            {!! Form::text("bond_num",null,['class'=>'form-control','placeholder'=>'رقم السند'])!!}
+                {{--<div class="col-sm-6 col-xs-6 pull-left" >--}}
+                    {{--<div class="form-group form-float">--}}
+                        {{--<label class="form-label"> رقم السند</label>--}}
+                        {{--<div class="form-line">--}}
+                            {{--{!! Form::text("bond_num",null,['class'=>'form-control','placeholder'=>'رقم السند'])!!}--}}
 
-                        </div>
-                    </div>
-                </div>
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
 
-                <div class="col-sm-6 col-xs-6 pull-left" >
-                    <div class="form-group form-float">
-                        <label class="form-label"> بيان السند</label>
-                        <div class="form-line">
-                            {!! Form::text("description",null,['class'=>'form-control','placeholder'=>'بيان السند'])!!}
+                {{--<div class="col-sm-6 col-xs-6 pull-left" >--}}
+                    {{--<div class="form-group form-float">--}}
+                        {{--<label class="form-label"> بيان السند</label>--}}
+                        {{--<div class="form-line">--}}
+                            {{--{!! Form::text("description",null,['class'=>'form-control','placeholder'=>'بيان السند'])!!}--}}
 
-                        </div>
-                    </div>
-                </div>
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
 
                 <div class="col-sm-6 col-xs-6 pull-left">
                     <label>اختر المخزن </label>
