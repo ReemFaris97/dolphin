@@ -34,7 +34,6 @@ Route::middleware('admin')->group(function () {
 
     Route::get('/products_exchange_form', 'StoreController@products_exchange_form')->name('stores.products_exchange_form');
     Route::post('/products_exchange_store', 'StoreController@products_exchange_store')->name('stores.products_exchange_store');
-
     Route::get('/store-product/{id}', 'StoreController@store_product')->name('stores.product');
     Route::post('/store-products-copy/{id}', 'StoreController@store_products_copy')->name('store_products_copy.store');
   /////////////////settlementتسوي  الارصده  للبداية/////////////////
@@ -51,7 +50,6 @@ Route::middleware('admin')->group(function () {
     Route::get('/invertory_details/{id}', 'StoreInventroyController@invertory_details')->name('stores.inventory_details');
     Route::get('/inventory_result/{id}', 'StoreInventroyController@inventory_result')->name('stores.inventory_result');
     Route::post('/balances-filter', 'StoreController@balances_filter')->name('stores.balances_filter');
-
 ///////////////////////////inventory  للاصناف  الجرد وتسوية الجرد
     Route::get('/inventory-product', 'StoreInventroyController@inventory_product')->name('stores.inventory_product');
     Route::post('/inventory-product', 'StoreInventroyController@inventory_store_product')->name('stores.filter_inventory_product');
@@ -63,7 +61,6 @@ Route::middleware('admin')->group(function () {
     Route::get('/show-inventory/{id}', 'StoreInventroyController@show_inventory')->name('stores.show_inventory');
     Route::get('/inventories_band', 'StoreInventroyController@inventories_band')->name('stores.inventories_band');
     Route::get('/show-inventory_band/{id}', 'StoreInventroyController@show_inventory_band')->name('stores.show_inventory_band');
-
 
  //تحويل الاصناف  من  مستودع  الى  اخر/////////////////////////////////////
     Route::get('/transaction', 'StoreTransactionController@transaction_form')->name('stores.transaction');
@@ -86,8 +83,6 @@ Route::middleware('admin')->group(function () {
     ///////////////تقاير المخازن
 
     Route::get('/balances-report', 'StoreController@first_balances')->name('stores.first_balances_report');
-
-
 
 
     ////////////////////////////طباعة الباركود

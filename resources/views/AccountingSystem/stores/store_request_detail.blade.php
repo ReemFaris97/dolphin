@@ -67,8 +67,8 @@
                         $store_to_quantity=\App\Models\AccountingSystem\AccountingProductStore::where('store_id',$request->store_to)->where('product_id',$row->product->id)->first();
 
                         ?>
-                        <td>{!! $store_form_quantity->quantity!!}</td>
-                        <td>{!! $store_to_quantity->quantity!!}</td>
+                        <td>{!!@isset($store_form_quantity->quantity)?$store_form_quantity->quantity:"" !!}</td>
+                        <td>{!! @isset($store_to_quantity->quantity)?$store_to_quantity->quantity:""!!}</td>
                         <td>{!! $row->cost!!}</td>
                         <td>{!! $row->price!!}</td>
 
