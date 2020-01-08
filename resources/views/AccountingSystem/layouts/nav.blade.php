@@ -140,7 +140,7 @@
                                 <li class="dropdown-submenu dropdown-submenu-left">
                                     <a href="#"><i class="icon-paragraph-right"></i> جرد المخازن </a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="{{route('accounting.stores.inventory')}}"><i class="icon-add-to-list"></i> سند جرد المخازن </a></li>
+                                        <li><a href="{{route('accounting.stores.inventory')}}"><i class="icon-add-to-list"></i>  جرد المخازن </a></li>
 
                                         <li><a href="{{route('accounting.stores.inventories')}}"><i class="icon-add-to-list"></i> سجل  عمليات الجرد </a></li>
                                         <li><a href="{{route('accounting.stores.inventories_band')}}"><i class="icon-add-to-list"></i> سجل  سندات الجرد </a></li>

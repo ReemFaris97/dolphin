@@ -44,6 +44,8 @@ Route::middleware('admin')->group(function () {
 ///////////////////////////inventory  للمخازن  الجرد وتسوية الجرد
     Route::get('/inventory', 'StoreInventroyController@inventory')->name('stores.inventory');
     Route::post('/inventory', 'StoreInventroyController@inventory_store')->name('stores.filter_inventory');
+    Route::post('/inventory-bond', 'StoreInventroyController@inventory_bond')->name('inventory_bond.store');
+
     Route::post('/inventory_settlement', 'StoreInventroyController@inventory_settlement')->name('inventory_settlement.store');
     Route::post('/inventory_filter', 'StoreInventroyController@inventory_filter')->name('stores.inventory_filter');
     Route::get('/invertory_filters', 'StoreInventroyController@invertory_filters')->name('stores.invertory_filter');
