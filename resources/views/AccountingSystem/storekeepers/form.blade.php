@@ -32,10 +32,10 @@
 </div>
 
 
-<div class="form-group col-md-6 pull-left branches">
-    <label> اسم   المخزن التابع له: </label>
-    {!! Form::select("store_id",$stores,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر  اسم   المخزن التابع له '])!!}
-</div>
+{{--<div class="form-group col-md-6 pull-left branches">--}}
+    {{--<label> اسم   المخزن التابع له: </label>--}}
+    {{--{!! Form::select("store_id",$stores,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر  اسم   المخزن التابع له '])!!}--}}
+{{--</div>--}}
 
 <div class="text-center col-md-12">
     <div class="text-right">

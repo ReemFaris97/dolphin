@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Supplier;
 
 use App\Models\SupplierDiscard;
 use App\Traits\Distributor\DistributorOperation;
@@ -14,7 +14,7 @@ class DiscardsController extends Controller
 {
 
     use Viewable,DiscardsOperations;
-    private  $viewable = 'admin.discards.';
+    private  $viewable = 'suppliers.discards.';
     /**
      * Display a listing of the resource.
      *
@@ -75,7 +75,7 @@ class DiscardsController extends Controller
         }
 
         toast('تم الحفظ بنجاح', 'success', 'top-right');
-        return redirect()->route('admin.suppliers-discards.index');
+        return redirect()->route('supplier.suppliers-discards.index');
     }
 
     /**
@@ -125,8 +125,9 @@ class DiscardsController extends Controller
         if($discard){
             $discard->delete();
         }
-        toast('تم الحذف بنجاح', 'success', 'top-right');
-        return redirect()->route('admin.suppliers-discards.index');
+//        toast('تم الحذف بنجاح', 'success', 'top-right');
+        alert()->success('تم حذف المرتجع بنجاح')->autoclose(5000);
+        return redirect()->route('supplier.suppliers-discards.index');
     }
 
 
@@ -136,7 +137,7 @@ class DiscardsController extends Controller
        return response()->json([
            'status'=>true,
            'receivables'=>$supplier->TotalOfSupplierReceivables(),
-           'data'=>view('admin.discards.supplier_products',compact('products'))->render()
+           'data'=>view('suppliers.discards.supplier_products',compact('products'))->render()
        ]);
     }
 }

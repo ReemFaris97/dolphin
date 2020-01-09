@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('suppliers.layouts.app')
 @section('title')تفاصيل المرتجع
 @endsection
 
@@ -6,7 +6,7 @@
 @endsection
 
 @section('breadcrumb') @php($breadcrumbs=['مرتجع'=>'/suppliers-discards','تفاصيل'=>'/clauses/show/'.$discard->id])
-@includeWhen(isset($breadcrumbs),'admin.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
+@includeWhen(isset($breadcrumbs),'suppliers.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
 
 @section('content')

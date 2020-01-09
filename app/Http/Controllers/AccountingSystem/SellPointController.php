@@ -56,19 +56,7 @@ class SellPointController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [
 
-            'name'=>'required|string|max:191',
-
-            'column_id'=>'required|numeric|exists:accounting_face_columns,id',
-
-        ];
-        $this->validate($request,$rules);
-        $requests = $request->all();
-
-        AccountingColumnCell::create($requests);
-        alert()->success('تم اضافة  الصف بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.columns.index');
     }
 
     /**

@@ -15,14 +15,17 @@ class SupplierBill extends Model
     public function supplier(){
         return $this->belongsTo(User::class,'supplier_id');
     }
-    public function offer(){
-        return $this->belongsTo(SupplierOffer::class,'offer_id');
-    }
 
     public function total():float {
         $total = $this->amount_paid + $this->amount_rest + $this->vat;
         return $total;
     }
+
+    public function products(){
+        return $this->hasMany(SupplierBillProduct::class,'supplier_bill_id');
+    }
+
+
 
 
 }

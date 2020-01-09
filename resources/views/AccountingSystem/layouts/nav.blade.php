@@ -118,10 +118,56 @@
                     <li><a href="{{route('accounting.stores.index')}}"><i class="icon-eye"></i> عرض المخازن</a></li>
                     <li><a href="{{route('accounting.stores.create')}}"><i class="icon-add-to-list"></i> اضافة مخزن جديدة</a></li>
                     <li><a href="{{route('accounting.stores.settlements')}}"><i class="icon-add-to-list"></i> تسوية ارصدة بداية الاصناف</a></li>
-                    <li><a href="{{route('accounting.stores.inventory')}}"><i class="icon-add-to-list"></i> جرد المخازن</a></li>
-                    <li><a href="{{route('accounting.stores.invertory_filter')}}"><i class="icon-add-to-list"></i> تسوية جرد </a></li>
-                    <li><a href="{{route('accounting.stores.transaction')}}"><i class="icon-add-to-list"></i>  تحويلات بين المخازن  </a></li>
-                    <li><a href="{{route('accounting.stores.requests')}}"><i class="icon-add-to-list"></i> سندات تحويلات المخازن  </a></li>
+                    {{--<li><a href="{{route('accounting.stores.inventory')}}"><i class="icon-add-to-list"></i> جرد المخازن</a></li>--}}
+                    {{--<li><a href="{{route('accounting.stores.invertory_filter')}}"><i class="icon-add-to-list"></i> تسوية جرد </a></li>--}}
+                    {{--<li><a href="{{route('accounting.stores.transaction')}}"><i class="icon-add-to-list"></i>  تحويلات بين المخازن  </a></li>--}}
+                    {{--<li><a href="{{route('accounting.stores.requests')}}"><i class="icon-add-to-list"></i> سندات تحويلات المخازن  </a></li>--}}
+
+                    <li class="dropdown-submenu dropdown-submenu-left">
+                        <a href="#"><i class="icon-paragraph-right"></i> تحويلات الاصناف </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{route('accounting.stores.transaction')}}"><i class="icon-add-to-list"></i> طلب تحويل </a></li>
+                            <li><a href="{{route('accounting.stores.requests')}}"><i class="icon-eye"></i> سندات تحويلات المخازن </a></li>
+                            <li><a href="{{route('accounting.stores.requests_all')}}"><i class="icon-eye"></i> سجل تحويلات المخازن </a></li>
+
+                        </ul>
+                    </li>
+
+                    <li class="dropdown-submenu dropdown-submenu-left">
+                        <a href="#"><i class="icon-paragraph-right"></i> الجرد </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <li class="dropdown-submenu dropdown-submenu-left">
+                                    <a href="#"><i class="icon-paragraph-right"></i> جرد المخازن </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{{route('accounting.stores.inventory')}}"><i class="icon-add-to-list"></i>  جرد المخازن </a></li>
+
+                                        <li><a href="{{route('accounting.stores.inventories')}}"><i class="icon-add-to-list"></i> سجل  عمليات الجرد </a></li>
+                                        <li><a href="{{route('accounting.stores.inventories_band')}}"><i class="icon-add-to-list"></i> سجل  سندات الجرد </a></li>
+
+                                        {{--<li><a href="{{route('accounting.stores.invertory_filter')}}"><i class="icon-eye"></i> تسوية الجرد</a></li>--}}
+                                    </ul>
+                                </li>
+                            </li>
+                            <li>
+                            <li class="dropdown-submenu dropdown-submenu-left">
+                                <a href="#"><i class="icon-paragraph-right"></i> جرد الاصناف </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{route('accounting.stores.inventory_product')}}"><i class="icon-add-to-list"></i> سند جرد الاصناف </a></li>
+                                    {{--<li><a href="{{route('accounting.stores.invertory_filter_product')}}"><i class="icon-eye"></i> تسوية الجرد</a></li>--}}
+                                </ul>
+                            </li>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown-submenu dropdown-submenu-left">
+                        <a href="#"><i class="icon-paragraph-right"></i>  الاصناف التالفه </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{route('accounting.stores.damaged_index')}}"><i class="icon-add-to-list"></i> عرض سجل التالف </a></li>
+                            <li><a href="{{route('accounting.stores.damaged_create')}}"><i class="icon-eye"></i>  اضافه تالف  مخزن</a></li>
+                        </ul>
+                    </li>
 
                     <li class="dropdown-submenu dropdown-submenu-left">
                         <a href="#"><i class="icon-paragraph-right"></i> أمناء المخازن </a>
@@ -136,6 +182,16 @@
                         <ul class="dropdown-menu">
                             <li><a href="{{route('accounting.stores.products_entry_form')}}"><i class="icon-eye"></i> سند ادخال منتجات   </a></li>
                             <li><a href="{{route('accounting.stores.products_exchange_form')}}"><i class="icon-eye"></i> سند صرف منتجات</a></li>
+                            <li><a href="{{route('accounting.stores.bonds_index')}}"><i class="icon-eye"></i> عرض جميع السندات</a></li>
+
+                        </ul>
+                    </li>
+
+                    <li class="dropdown-submenu dropdown-submenu-left">
+                        <a href="#"><i class="icon-paragraph-right"></i> التقارير </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{route('accounting.stores.first_balances_report')}}"><i class="icon-eye"></i>   تقرير ارصده اول  المده </a></li>
+                            {{--<li><a href="{{route('accounting.stores.products_exchange_form')}}"><i class="icon-eye"></i> سند صرف منتجات</a></li>--}}
                         </ul>
                     </li>
 
@@ -183,6 +239,19 @@
             </li>
 
 
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-list position-left"></i>
+                    إدارة الخزائن
+                    <span class="caret"></span>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="{{route('accounting.safes.index')}}"><i class="icon-eye"></i> عرض الخزائن</a></li>
+                    <li><a href="{{route('accounting.safes.create')}}"><i class="icon-add-to-list"></i> اضافة خزينه جديدة</a></li>
+
+                </ul>
+            </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-cabinet position-left"></i>

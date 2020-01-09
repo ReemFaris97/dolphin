@@ -18,11 +18,18 @@ class SupplierController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $suppliers = User::where('is_supplier',1)->where('parent_user_id','!=',Null)->get()->reverse();
+        if($request->has('is_verified') && $request->is_verified == 0){
+            $suppliers = User::where('is_supplier',1)->where('parent_user_id','!=',Null)->where('is_verified',0)->get()->reverse();
+        }else{
+            $suppliers = User::where('is_supplier',1)->where('parent_user_id','!=',Null)->where('is_verified',1)->get()->reverse();
+        }
+
         return $this->toIndex(compact('suppliers'));
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -60,7 +67,8 @@ class SupplierController extends Controller
             $requests['image'] = saveImage($request->image, 'users');
         }
         $requests['is_supplier'] = 1;
-        $user = User::create($requests);
+        $requests['is_verified'] = 1;
+        User::create($requests);
 
 
         alert()->success('تم الاضافة   بنجاح !')->autoclose(5000);
@@ -75,7 +83,8 @@ class SupplierController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::findOrFail($id);
+        return $this->toShow(compact('user'));
     }
 
     /**
@@ -154,6 +163,14 @@ class SupplierController extends Controller
         }
         $user->save();
         alert()->success('تم التعديل   بنجاح !')->autoclose(5000);
+        return back();
+    }
+    public function verify($id)
+    {
+        $user = User::find($id);
+        $user->is_verified = 1;
+        $user->save();
+        alert()->success('تم التفعيل  بنجاح !')->autoclose(5000);
         return back();
     }
 }
