@@ -116,6 +116,8 @@ Route::middleware('admin')->group(function () {
     Route::resource('categories', 'CategoryController');
     Route::resource('industrials', 'IndustrialController');
     Route::resource('safes', 'SafeController');
+    Route::resource('devices', 'DeviceController');
+
 
     Route::resource('faces', 'FaceController');
     Route::resource('columns', 'ColumnController');

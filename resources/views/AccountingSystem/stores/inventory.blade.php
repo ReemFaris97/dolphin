@@ -79,7 +79,7 @@
                     <label class="display-block text-semibold">  نوع  التحمل</label>
                     <label class="radio-inline">
                         <input type="radio" name="cost_type" class="styled"    value="1">
-                        مؤسسة
+                        الشركة
                     </label>
                     <label class="radio-inline">
                         <input type="radio" name="cost_type"  class="styled "    value="0">

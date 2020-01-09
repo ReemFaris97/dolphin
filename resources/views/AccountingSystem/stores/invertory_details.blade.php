@@ -96,7 +96,7 @@
                         <div class="form-group form-float">
                         <label class="form-label"> رقم السند</label>
                         <div class="form-line">
-                        {!! Form::text("bond_num",null,['class'=>'form-control','placeholder'=>'رقم السند'])!!}
+                            <input value="<?php echo mt_rand();?>" name="bond_num" class="form-control" placeholder="رقم السند">
 
                         </div>
                         </div>
