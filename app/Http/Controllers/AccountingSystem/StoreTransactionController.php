@@ -68,6 +68,20 @@ class StoreTransactionController extends Controller
 
 
 
+    public function productdamage(Request $request)
+    {
+
+        $ids=$request['ids'];
+        $store_id=$request['store_id'];
+        $store=AccountingStore::find($store_id);
+        $products=AccountingProduct::whereIN('id',$ids)->get();
+
+        return response()->json([
+            'status'=>true,
+            'data'=>view('AccountingSystem.stores.product_damaged',compact('products','store'))->render()
+        ]);
+
+    }
 
     public function transaction(Request $request,$id){
 

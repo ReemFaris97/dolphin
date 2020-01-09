@@ -21,7 +21,7 @@ class AccountingDamage extends Model
     }
     public function productCount()
     {
-        return $this->hasMany(AccountingDamageProduct::class,'damage_id')->count();
+        return $this->hasMany(AccountingDamageProduct::class,'damage_id')->sum('quantity');
     }
 
 }

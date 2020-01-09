@@ -75,6 +75,17 @@
                 </div>
 
 
+                <div class="form-group col-xs-6 pull-left">
+                    <label class="display-block text-semibold">  نوع  التحمل</label>
+                    <label class="radio-inline">
+                        <input type="radio" name="cost_type" class="styled"    value="1">
+                        الشركة
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="cost_type"  class="styled "    value="0">
+                        امين المخزن
+                    </label>
+                </div>
                 <div class="text-center col-md-12">
                     <div class="text-right">
                         <button type="submit" class="btn btn-success">بحث<i class="icon-arrow-left13 position-right"></i></button>

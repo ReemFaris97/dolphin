@@ -512,7 +512,8 @@ class ProductController extends Controller
 
 
 
-        $product_id = collect($request['product_id']);
+
+        $product_id = collect($request['product_ids']);
         $purchasing_price= collect($request['purchasing_price']);
         $selling_price= collect($request['selling_price']);
         $quantity= collect($request['quantity']);

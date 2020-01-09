@@ -42,6 +42,8 @@ Route::middleware('admin')->group(function () {
   /////////////////settlementتسوي  الارصده  للبداية/////////////////
     Route::post('/settlement', 'StoreController@settlements_store')->name('stores_settle.filter_settlements');
     Route::get('/settlements', 'StoreController@settlements')->name('stores.settlements');
+    Route::get('/settlements-index', 'StoreController@settlements_index')->name('stores.settlements_index');
+
     Route::get('/product-settlement/{id}', 'products_storeProductController@settlement')->name('products.settlements');
     Route::any('/settlements_store', 'ProductController@settlements_store')->name('products_settlement.store');
 ///////////////////////////inventory  للمخازن  الجرد وتسوية الجرد
@@ -76,6 +78,8 @@ Route::middleware('admin')->group(function () {
     Route::post('transaction/{id}', 'StoreTransactionController@transaction')->name('products.transaction');
     Route::get('/productsingle', 'StoreTransactionController@productsingle');
     Route::get('/productsettlement', 'StoreTransactionController@productsettlement');
+    Route::get('/productdamage', 'StoreTransactionController@productdamage');
+
 
     Route::get('/requests', 'StoreTransactionController@requests')->name('stores.requests');
     Route::get('/request/{id}', 'StoreTransactionController@request')->name('stores.request');
@@ -112,6 +116,8 @@ Route::middleware('admin')->group(function () {
     Route::resource('categories', 'CategoryController');
     Route::resource('industrials', 'IndustrialController');
     Route::resource('safes', 'SafeController');
+    Route::resource('devices', 'DeviceController');
+
 
     Route::resource('faces', 'FaceController');
     Route::resource('columns', 'ColumnController');

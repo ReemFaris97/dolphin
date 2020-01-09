@@ -86,12 +86,12 @@
         <div class="form-group">
             <label class="display-block text-semibold">  نوع المخزن</label>
             <label class="radio-inline">
-                <input type="radio" name="type" class="styled type"  value="1"   checked="checked" >
+                <input type="radio" name="type" class="styled type"  value="1"   checked="checked" disabled >
                 رئسى
             </label>
 
             <label class="radio-inline">
-                <input type="radio" name="type"  class="styled type" value="0"   >
+                <input type="radio" name="type"  class="styled type" value="0"  disabled >
                 فرعى
             </label>
         </div>
@@ -99,12 +99,12 @@
         <div class="form-group">
             <label class="display-block text-semibold">  نوع المخزن</label>
             <label class="radio-inline">
-                <input type="radio" name="type" class="styled type"  value="1">
+                <input type="radio" name="type" class="styled type"  value="1" disabled>
                 رئيسى
             </label>
 
             <label class="radio-inline">
-                <input type="radio" name="type"  class="styled type" value="0" checked="checked" >
+                <input type="radio" name="type"  class="styled type" value="0" checked="checked" disabled>
                 فرعى
             </label>
         </div>
@@ -128,13 +128,8 @@
 
 </div>
 
-<<<<<<< HEAD
 
-
-<div class="form-group col-md-6 pull-left">
-=======
 <div class="form-group col-xs-12 pull-left">
->>>>>>> 3334f899fcc8b0aadd6608d508ee1e8ba1f5e607
     <label> كود المخزن:  </label>
     {!! Form::text("code",null,['class'=>'form-control','placeholder'=>' كود المخزن'])!!}
 </div>
@@ -172,7 +167,7 @@
               <div class="form-group col-xs-12">
                   <label class="display-block text-semibold">  حالة المخزن</label>
                   <label class="radio-inline">
-                      <input type="radio" name="status" class="styled" value="1"  onclick="myFunction3()" checked>
+                      <input type="radio" name="status" class="styled" value="1"   id="rent" onclick="myFunction3()" checked>
                       ايجار
                   </label>
 
@@ -185,7 +180,7 @@
               <div class="form-group col-xs-12">
                   <label class="display-block text-semibold">  حالة المخزن</label>
                   <label class="radio-inline">
-                      <input type="radio" name="status" class="styled" value="1"  onclick="myFunction3()" >
+                      <input type="radio" name="status" class="styled" value="1" id="rent"  onclick="myFunction3()" >
                       ايجار
                   </label>
                   <label class="radio-inline">
@@ -209,25 +204,25 @@
         </label>
     </div>
 
-    <div class="rent row col-xs-12">
-        <div class="form-group col-md-4 col-sm-6 col-xs-12">
-            <label> تكلفة الايجار:  </label>
-            {!! Form::text("width",null,['class'=>'form-control','placeholder'=>'  تكلفة الايجار'])!!}
-        </div>
-        <div class="form-group col-md-4 col-sm-6 col-xs-12">
-            <label>  تاريخ بداية الايجار:  </label>
-            {!! Form::date("from",null,['class'=>'form-control'])!!}
-        </div>
-        <div class="form-group col-md-4 col-sm-12 col-xs-12">
-            <label> تاريخ نهاية الايجار:  </label>
-            {!! Form::date("to",null,['class'=>'form-control'])!!}
-        </div>
-    </div>
 
 
 @endif
 
 
+<div class="rent row col-xs-12">
+    <div class="form-group col-md-4 col-sm-6 col-xs-12">
+        <label> تكلفة الايجار:  </label>
+        {!! Form::text("cost",null,['class'=>'form-control','placeholder'=>'  تكلفة الايجار'])!!}
+    </div>
+    <div class="form-group col-md-4 col-sm-6 col-xs-12">
+        <label>  تاريخ بداية الايجار:  </label>
+        {!! Form::date("from",null,['class'=>'form-control'])!!}
+    </div>
+    <div class="form-group col-md-4 col-sm-12 col-xs-12">
+        <label> تاريخ نهاية الايجار:  </label>
+        {!! Form::date("to",null,['class'=>'form-control'])!!}
+    </div>
+</div>
 
 @if( isset($store))
         @if ($store->is_active==1)
@@ -315,6 +310,7 @@
 
 @section('scripts')
 
+
     <script>
 
         $(document).ready(function() {
@@ -325,6 +321,21 @@
 
 
             $('.js-example-basic-single').select2();
+
+
+
+            @if( isset($store))
+
+                if ($('#rent').is(':checked')) {
+
+
+                    $(".rent").show();
+
+                }
+
+
+    @endif
+
         });
 
     </script>
@@ -357,6 +368,8 @@
         }
 
     </script>
+
+
 
 
     <script>

@@ -37,11 +37,16 @@
             {{--</div>--}}
             <div class="form-group col-md-4 pull-left">
                 <label>اختر المخزن  </label>
-                {!! Form::select("store_id",allstores(),null,['class'=>'form-control js-example-basic-single form_store_id','placeholder'=>' اختر  المخزن'])!!}
+                {!! Form::select("store_id",allstores(),null,['class'=>'form-control js-example-basic-single form_store_id','id'=>'form_store_id','placeholder'=>' اختر  المخزن'])!!}
             </div>
             <div class="form-group col-md-4 pull-left">
                 <label>اختر الصنف </label>
                 {!! Form::select("product_id[]",products(),null,['class'=>'form-control js-example-basic-single product_id','multiple','id'=>'product_id','placeholder'=>' اختر  الصنف'])!!}
+            </div>
+
+            <div class="col-sm-6 col-xs-6 pull-left">
+                <label>اختر امين المخزن </label>
+                {!! Form::select("user_id",keepers(),null,['class'=>'form-control js-example-basic-single storekeeper_id','id'=>'storekeeper_id','placeholder'=>' اختر امين المخزن'])!!}
             </div>
 
 
@@ -74,14 +79,16 @@
 
     <script>
         $(".product_id").on('change', function() {
+            var store_id = $('#form_store_id').val();
 
             var id = $(this).val();
             console.log(id);
 
             $.ajax({
-                url:"/accounting/productsingle",
+                url:"/accounting/productdamage",
                 type:"get",
-                data:{'ids':id}
+                data:{'ids':id,'store_id':store_id}
+
 
             }).done(function (data) {
 
