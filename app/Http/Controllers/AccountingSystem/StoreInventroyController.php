@@ -64,11 +64,12 @@ class StoreInventroyController extends Controller
     {
         $store_id = $request['store_id'];
         $stores = AccountingStore::pluck('ar_name', 'id')->toArray();
-//        dd($request->all());
+//    dd($request->all());
         $product_store = AccountingProductStore::where('store_id', $store_id)->pluck('product_id')->toArray();
 //   dd($product_store);
         $products = AccountingProduct::whereIn('id',$product_store)->get();
         $inventory = AccountingInventory::create([
+            'cost_type'=>$request['cost_type'],
             'date' => $request['date'],
             'store_id' => $store_id,
             'user_id' => \Auth::user()->id,

@@ -71,7 +71,11 @@
             <div class="form-group col-md-6 pull-left">
                 <label class="label label-info"> نوع تحميل
                     : </label>
-                <span> </span>
+              @if  ($inventory->cost_type==1)
+                <span> مؤسسة</span>
+                  @else
+                    <span> افرد</span>
+                  @endif
             </div>
 
 
