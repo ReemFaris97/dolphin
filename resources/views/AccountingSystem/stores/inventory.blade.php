@@ -64,7 +64,11 @@
                     <div class="form-group form-float">
                         <label class="form-label">تاريخ الجرد</label>
                         <div class="form-line">
-                            {!! Form::date("date",null,['class'=>'form-control','id'=>'example-date'])!!}
+                            <?php
+                            $mytime = Carbon\Carbon::now();
+                            $date= $mytime->toDateTimeString();
+                            ?>
+                          <input type="text" name="date" value="{{$date}}" class="form-control" readonly>
 
                         </div>
                     </div>

@@ -22,6 +22,7 @@ use App\Models\AccountingSystem\AccountingProductTax;
 use App\Models\AccountingSystem\AccountingService;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\Product;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
@@ -507,21 +508,36 @@ class ProductController extends Controller
 
       $inputs=$request->all();
       //dd($inputs['product_id']);
-      $product=AccountingProduct::find($inputs['product_id']);
-
-        $product->update([
-            'quantity'=>$inputs['quantity'],
-            'unit_price'=>$inputs['unit_price'],
-            'selling_price'=>$inputs['selling_price'],
-            'purchasing_price'=>$inputs['purchasing_price'],
-        ]);
 
 
-        $stores=AccountingStore::pluck('ar_name','id')->toArray();
-        $products=[];
+
+
+
+        $product_id = collect($request['product_ids']);
+        $purchasing_price= collect($request['purchasing_price']);
+        $selling_price= collect($request['selling_price']);
+        $quantity= collect($request['quantity']);
+        $merges = $product_id->zip($purchasing_price,$selling_price,$quantity);
+
+        foreach ($merges as $merge) {
+
+
+            $product = AccountingProduct::find($merge[0]);
+
+            $product->update([
+                'quantity' => $merge[3],
+                'selling_price' => $merge[2],
+                'purchasing_price' => $merge[1],
+                'is_settlement'=>1,
+                'date_settlement'=>Carbon::now(),
+                'settlement_store_id'=>$request['store_id'],
+            ]);
+
+        }
+
         alert()->success('تم تسوية بدايه ارصده  المنتج بنجاح !')->autoclose(5000);
 
-        return view('AccountingSystem.stores.settlements',compact('stores','products'));
+        return back();
     }
 
     public  function  barcode($id){

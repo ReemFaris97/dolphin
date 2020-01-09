@@ -1,5 +1,5 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','  عرض السندات ')
+@section('title','  سجل  ارصده  بدايه المده  للمنتجات')
 @section('parent_title','إدارة  المخازن')
 
 @section('action', URL::route('accounting.stores.index'))
@@ -10,7 +10,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title"> عرض السندات </h5>
+            <h5 class="panel-title"> سجل  ارصده  بدايه المده  للمنتجات </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -26,45 +26,48 @@
                 <tr>
                     <th>#</th>
 
-                    <th>  رقم السند  </th>
-                    <th>  نوع  السند  </th>
-                    <th> تاريخ السند </th>
-                    <th> بيان السند   </th>
+                    <th>  اسم الصنف  </th>
+                    <th>  نوع  الصنف  </th>
+                    <th>  الباركود </th>
+                    <th> الوحده الاساسية  </th>
+                    <th> سعر البيع </th>
+                    <th> سعر الشراء </th>
+                    <th> الكميه </th>
+                    <th> تاريخ التسويه </th>
+                    <th> المخزن القائم بالتسويه </th>
 
-
-                    <th class="text-center">العمليات </th>
                 </tr>
                 </thead>
                 <tbody>
 
-                @foreach($bonds as $row)
+                @foreach($settlements as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
 
-                        <td>{!! $row->bond_num !!}</td>
+                        <td>{!! $row->name!!}</td>
+
                         <td>
-                            @if ($row->type=='entry')
-                             فاتوره شراء- ادخال منتجات
-                                @else
-                                اخراج  منتجات
+                            @if ($row->type=="store")
+                                مخزون
+                            @elseif($row->type=="service")
+                                خدمه
+                            @elseif($row->type=="offer")
+                                مجموعة منتجات
+                            @elseif($row->type=="creation")
+                                تصنيع
+                            @elseif($row->type=="product_expiration")
+                                منتج بتاريخ صلاحيه
                             @endif
 
                         </td>
-                        <td>{!! date($row->created_at)!!}</td>
+                        <td>{!! $row-> bar_code!!}</td>
+                        <td>{!! $row->  main_unit!!}</td>
+                        <td>{!! $row->selling_price!!}</td>
+                        <td>{!! $row->purchasing_price!!}</td>
+                        <td>{!! $row->quantity!!}</td>
+                        <td>{!! $row->date_settlement!!}</td>
+                        <td>{!!optional( $row->storeSettlement)->ar_name!!}</td>
 
-                        <td>{!! $row->description!!}</td>
-
-                        <td class="text-center">
-
-                            <a href="{{route('accounting.stores.show_bond',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>
-
-                            {{--<a href="{{route('accounting.stores.edit_bond',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>--}}
-                            {{--<a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>--}}
-                            {{--{!!Form::open( ['route' => ['accounting.stores.destroy_bond',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}--}}
-                            {{--{!!Form::close() !!}--}}
-
-
-                        </td>
                     </tr>
 
                 @endforeach

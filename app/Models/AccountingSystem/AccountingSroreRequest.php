@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AccountingSroreRequest extends Model
 {
-    protected $fillable = ['user_id','status','refused_reason','store_form','store_to',];
+    protected $fillable = ['user_id','status','refused_reason','store_form','store_to','bond_id'];
 
 
     protected  $table='accounting_stores_requests';

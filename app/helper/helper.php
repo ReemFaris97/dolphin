@@ -16,7 +16,7 @@ function responseJson($status, $msg, $data = null, $state = 200)
 
 function storekeepers()
 {
-    $storekeepers = \App\Models\AccountingSystem\AccountingStoreKeeper::all()->mapWithKeys(function ($q) {
+    $storekeepers = \App\User::where('is_storekeeper',1)->get()->mapWithKeys(function ($q) {
         return [$q['id'] => $q['name']];
     });
     return $storekeepers;
@@ -34,7 +34,7 @@ function allstores()
 function products($store=null){
     if ($store != null) {
 
-        $products_id=App\Models\AccountingSystem\AccountingProductStore::where('store_id',$store)->pluck('product_id')->toArray();
+        $products_id=App\Models\AccountingSystem\AccountingProductStore::where('store_id',$store)->where('quantity','!=',Null)->where('quantity','>',0)->pluck('product_id')->toArray();
 
           $products=App\Models\AccountingSystem\AccountingProduct::whereIn('id',$products_id)->get()->mapWithKeys(function ($q) {
             return [$q['id'] => $q['name']];
@@ -44,6 +44,25 @@ function products($store=null){
     }else{
         $products=[];
     }
+
+    return $products;
+}
+
+
+function products_not_settement($store=null){
+    if ($store != null) {
+
+        $products_id=App\Models\AccountingSystem\AccountingProductStore::where('store_id',$store)->where('quantity','!=',Null)->where('quantity','>',0)->pluck('product_id')->toArray();
+
+        $products=App\Models\AccountingSystem\AccountingProduct::whereIn('id',$products_id)->where('is_settlement',0)->get()->mapWithKeys(function ($q) {
+            return [$q['id'] => $q['name']];
+        });
+
+
+    }else{
+        $products=[];
+    }
+
 
     return $products;
 }

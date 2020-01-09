@@ -88,6 +88,7 @@
                     <th> نوع المنتج </th>
 
                     <th>  الباركود </th>
+                    <th>  الوحدة الاساسيه </th>
                     <th> الكميه قبل الجرد  </th>
 
                     <th>الكميه  بعد الجرد</th>
@@ -117,10 +118,11 @@
 
                         </td>
                         <td>{!! $row->product-> bar_code!!}</td>
+                        <td>{!! $row->product-> main_unit!!}</td>
 
                         <td>{!! $row->quantity!!}</td>
                         <td>{!! $row->Real_quantity!!}</td>
-
+                        <td>{!! $row->Real_quantity!!}</td>
                         <td>
                             @if ($row->quantity > $row->Real_quantity)
                                 <label class="btn btn-danger">قيمه العجز بالمخزن ={!! $row->quantity - $row->Real_quantity!!}</label>

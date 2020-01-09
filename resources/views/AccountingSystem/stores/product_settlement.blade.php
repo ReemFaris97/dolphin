@@ -3,10 +3,10 @@
 
     <th> سعر الشراء</th>
     <th> سعر البيع</th>
-    <th>  الكمية الموجوده بالمخزن</th>
-    <th>  الكمية المحولة</th>
+    <th>  الكمية </th>
+
     <th>  التكلفة</th>
-    <th>  القيمة</th>
+    <th>  الاجمالى</th>
 
     <tbody>
     @foreach ($products as $product)
@@ -16,12 +16,11 @@
         <td>{{$product->name}}
 
         </td>
+        <input type="hidden" name="product_ids[{{$product->id}}]"  value="{{$product->id}}"  >
 
-        <td ><input type="text" value="{{$product->purchasing_price}}"  class="form-control buy-price" readonly></td>
-        <td ><input type="text" value="{{$product->selling_price}}"  class="form-control sell-price" readonly></td>
-        <td ><input type="text" value="{{$store_product->quantity}}"  class="form-control sell-price" readonly></td>
-
-        <td><input type="number"  name="quantity[{{$product->id}}]"  min="0" max="{{$store_product->quantity}}" class="form-control quantity" placeholder="ادخل الكمية"></td>
+        <td ><input type="text" name="purchasing_price[{{$product->id}}]"  value="{{$product->purchasing_price}}"  class="form-control buy-price" ></td>
+        <td ><input type="text" name="selling_price[{{$product->id}}]"  value="{{$product->selling_price}}"  class="form-control sell-price" ></td>
+        <td ><input type="text" name="quantity[{{$product->id}}]" value="{{$product->quantity}}"  class="form-control quantity" ></td>
         <td><input type="text"  name="cost[{{$product->id}}]"  class="form-control cost" readonly></td>
         <td><input type="text"  name="price[{{$product->id}}]"  class="form-control vaaal" readonly></td>
     </tr>

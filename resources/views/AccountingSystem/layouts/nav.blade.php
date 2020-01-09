@@ -118,6 +118,8 @@
                     <li><a href="{{route('accounting.stores.index')}}"><i class="icon-eye"></i> عرض المخازن</a></li>
                     <li><a href="{{route('accounting.stores.create')}}"><i class="icon-add-to-list"></i> اضافة مخزن جديدة</a></li>
                     <li><a href="{{route('accounting.stores.settlements')}}"><i class="icon-add-to-list"></i> تسوية ارصدة بداية الاصناف</a></li>
+                    <li><a href="{{route('accounting.stores.settlements_index')}}"><i class="icon-add-to-list"></i> سجل ارصدة بداية الاصناف</a></li>
+
                     {{--<li><a href="{{route('accounting.stores.inventory')}}"><i class="icon-add-to-list"></i> جرد المخازن</a></li>--}}
                     {{--<li><a href="{{route('accounting.stores.invertory_filter')}}"><i class="icon-add-to-list"></i> تسوية جرد </a></li>--}}
                     {{--<li><a href="{{route('accounting.stores.transaction')}}"><i class="icon-add-to-list"></i>  تحويلات بين المخازن  </a></li>--}}
@@ -190,7 +192,7 @@
                     <li class="dropdown-submenu dropdown-submenu-left">
                         <a href="#"><i class="icon-paragraph-right"></i> التقارير </a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{route('accounting.stores.first_balances_report')}}"><i class="icon-eye"></i>   تقرير ارصده اول  المده </a></li>
+                            {{--<li><a href="{{route('accounting.stores.first_balances_report')}}"><i class="icon-eye"></i>   تقرير ارصده اول  المده </a></li>--}}
                             {{--<li><a href="{{route('accounting.stores.products_exchange_form')}}"><i class="icon-eye"></i> سند صرف منتجات</a></li>--}}
                         </ul>
                     </li>

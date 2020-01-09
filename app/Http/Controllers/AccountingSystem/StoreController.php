@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AccountingSystem;
 
 use App\Models\AccountingSystem\AccountingBond;
+use App\Models\AccountingSystem\AccountingBondProduct;
 use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingBranchShift;
 use App\Models\AccountingSystem\AccountingColumnCell;
@@ -287,6 +288,17 @@ class StoreController extends Controller
         return view('AccountingSystem.stores.settlements',compact('stores','products'));
 
     }
+
+    public function settlements_index(){
+
+        $settlements=AccountingProduct::where('is_settlement',1)->get();
+
+        return view('AccountingSystem.stores.settlements_index',compact('settlements'));
+
+    }
+
+
+
     public  function settlements_store(Request $request){
         $store_id=$request['store_id'];
         $stores=AccountingStore::pluck('ar_name','id')->toArray();
@@ -303,6 +315,13 @@ class StoreController extends Controller
 
 
         return products($id);
+    }
+
+    public function getproducts_($id)
+    {
+
+
+        return products_not_settement($id);
     }
 
     public function getkeepers($id)
@@ -329,7 +348,10 @@ class StoreController extends Controller
 
     public  function bond_show($id){
 
-        return view('AccountingSystem.stores.bonds_',compact('bonds'));
+            $bond=AccountingBond::find($id);
+
+            $bondproducts=AccountingBondProduct::where('bond_id',$bond->id)->get();
+        return view('AccountingSystem.stores.show_bond',compact('bond','bondproducts'));
 
 
     }
@@ -350,19 +372,31 @@ class StoreController extends Controller
     {
 
         $inputs = $request->all();
-//        dd($inputs);
-        $bond = AccountingBond::create($inputs);
-//        $totalprice=$inputs[]
-//        foreach ($inputs['prices'] as $price ){
-//
-//        }
-        $products_store = AccountingProductStore::where('store_id', $bond->store_id)->get();
-        $quantity = collect($inputs['qtys']);
-        $products = collect($inputs['products']);
-        $prices = collect($inputs['prices']);
 
-        $merges = $products->zip($quantity,$prices);
+        $bond = AccountingBond::create($inputs);
+
+
         if ($bond->type == 'entry') {
+            $products_store = AccountingProductStore::where('store_id', $bond->store_id)->get();
+
+            $quantity = collect($inputs['qtys']);
+            $products = collect($inputs['products']);
+            $prices = collect($inputs['prices']);
+
+            $merges = $products->zip($quantity, $prices);
+            foreach ($merges as $merge) {
+                AccountingBondProduct::create([
+                    'bond_id' => $bond->id,
+                    'product_id' => $merge[0],
+                    'quantity' => $merge[1],
+                    'price' => $merge[2],
+
+                ]);
+
+
+            }
+
+
             foreach ($products_store as $productstore) {
                 foreach ($merges as $merge) {
                     if ($productstore->product_id == $merge[0]) {
@@ -374,23 +408,74 @@ class StoreController extends Controller
                     }
                 }
             }
-        } else {
-            foreach ($products_store as $productstore) {
-            foreach ($merges as $merge) {
-                if ($productstore->product_id == $merge[0]) {
-                    $productstore->update([
-                        'product_id' => $merge[0],
-                        'quantity' => $productstore->quantity - $merge[1],
-                        'band_id' => $bond->id
-                    ]);
+
+        }else{
+            $transaction=session('transaction');
+            $bond->update([
+                'store_to'=>$transaction['to_store_id'],
+                'store_form'=>$transaction['form_store_id'],
+            ]);
+            $products_store_to = AccountingProductStore::where('store_id', $bond->store_to)->get();
+            $products_store_form = AccountingProductStore::where('store_id', $bond->store_form)->get();
+
+            $quantity = collect($transaction['quantity']);
+            $products = collect($transaction['product_id']);
+            $prices = collect($transaction['price']);
+
+            $merges2 = $products->zip($quantity, $prices);
+            foreach ($merges2 as $merge2) {
+                AccountingBondProduct::create([
+                    'bond_id' => $bond->id,
+                    'product_id' => $merge2[0],
+                    'quantity' => $merge2[1],
+                    'price' => $merge2[2],
+
+                ]);
+            }
+
+            foreach ($products_store_form as $productstore) {
+                foreach ($merges2 as $merge1) {
+                    if ($productstore->product_id == $merge1[0]) {
+                        $productstore->update([
+                            'product_id' => $merge1[0],
+                            'quantity' => $productstore->quantity - $merge1[1],
+                            'band_id' => $bond->id
+                        ]);
+                    }
+                }
+            }
+
+            foreach ($products_store_to as $productstore) {
+                foreach ($merges2 as $merge1) {
+                    if ($productstore->product_id == $merge1[0]) {
+                        $productstore->update([
+                            'product_id' => $merge1[0],
+                            'quantity' => $productstore->quantity + $merge1[1],
+                            'band_id' => $bond->id
+                        ]);
+                    }
                 }
             }
         }
-    }
+
+
+        $bondproducts=AccountingBondProduct::where('bond_id',$bond->id)->get();
+
         alert()->success('تم اضافة  سند الادخال  المخزن بنجاح !')->autoclose(5000);
-        return view('AccountingSystem.stores.show_bond',compact('inputs','merges'));
+        return view('AccountingSystem.stores.show_bond',compact('bond','bondproducts'));
     }
 
+
+    public function edit_bond($id){
+
+
+        $bond = AccountingBond::find($id);
+
+        $bondproducts=AccountingBondProduct::where('bond_id',$id)->get();
+
+        return view('AccountingSystem.stores.products_entry_edit',compact('bond','bondproducts'));
+
+    }
 
 
     public  function  products_exchange_store(Request $request){
@@ -439,6 +524,26 @@ class StoreController extends Controller
     public  function dis_active($id){
 
         $store= AccountingStore::find($id);
+        $store->update([
+            'is_active'=>'0'
+        ]);
+        alert()->success('تم الغاءتفعيل  المنتج بالمخزن بنجاح !')->autoclose(5000);
+        return back();
+    }
+
+    public  function active_product($id){
+
+        $store= AccountingProductStore::find($id);
+        $store->update([
+            'is_active'=>'1'
+        ]);
+        alert()->success('تم تفعيل  المنتج بالمخزن بنجاح !')->autoclose(5000);
+        return back();
+    }
+
+    public  function dis_active_product($id){
+
+        $store= AccountingProductStore::find($id);
         $store->update([
             'is_active'=>'0'
         ]);

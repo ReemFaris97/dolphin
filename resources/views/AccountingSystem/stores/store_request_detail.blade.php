@@ -46,6 +46,8 @@
                 <tr>
                     <th>#</th>
                     <th> الصنف</th>
+                    <th> الوحدة الاساسية</th>
+
                     <th>   الكميه المحوله</th>
                     <th>   الرصيد الحالى  بالمخزن المحول منه</th>
                     <th>   الرصيد الحالى  بالمخزن المحول اليه</th>
@@ -60,6 +62,7 @@
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->product->name!!}</td>
+                        <td>{!! $row->product->main_unit!!}</td>
 
                         <td>{!! $row->quantity!!}</td>
                         <?php
