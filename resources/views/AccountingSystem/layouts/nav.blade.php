@@ -192,7 +192,7 @@
                     <li class="dropdown-submenu dropdown-submenu-left">
                         <a href="#"><i class="icon-paragraph-right"></i> التقارير </a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{route('accounting.stores.first_balances_report')}}"><i class="icon-eye"></i>   تقرير ارصده اول  المده </a></li>
+                            {{--<li><a href="{{route('accounting.stores.first_balances_report')}}"><i class="icon-eye"></i>   تقرير ارصده اول  المده </a></li>--}}
                             {{--<li><a href="{{route('accounting.stores.products_exchange_form')}}"><i class="icon-eye"></i> سند صرف منتجات</a></li>--}}
                         </ul>
                     </li>
