@@ -56,23 +56,23 @@
 @if( isset($store))
 @if($store->model_type=='App\Models\AccountingSystem\AccountingBranch')
 
-    <div class="form-group col-md-6 pull-left branches">
+    <div class="form-group col-xs-12 pull-left branches">
         <label> اسم الفرع التابع لها المخزن: </label>
         {!! Form::select("branch_id",$branches,$store->model_id,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الفرع التابع لها المخزن '])!!}
     </div>
 @elseif($store->model_type=='App\Models\AccountingSystem\AccountingCompany')
-    <div class="form-group col-md-6 pull-left companies">
+    <div class="form-group col-xs-12 pull-left companies">
         <label> اسم الشركة التابع لها المخزن: </label>
         {!! Form::select("company_id",$companies,$store->model_id,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الشركة التابع لها المخزن '])!!}
     </div>
 @endif
 
     @else
-    <div class="form-group col-md-6 pull-left companies">
+    <div class="form-group col-xs-12 pull-left companies">
         <label> اسم الشركة التابع لها المخزن: </label>
         {!! Form::select("company_id",$companies,null,['class'=>'form-control js-example-basic-single','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع لها المخزن '])!!}
     </div>
-    <div class="form-group col-md-6 pull-left branches">
+    <div class="form-group col-xs-12 pull-left branches">
     <label> اسم الفرع التابع لها المخزن: </label>
     {!! Form::select("branch_id",$branches,null,['class'=>'form-control js-example-basic-single','id'=>'branch_id','placeholder'=>' اختر اسم الفرع التابع لها المخزن '])!!}
     </div>
@@ -110,7 +110,7 @@
         </div>
     @endif
     @else
-    <div class="form-group col-md-6 pull-left">
+    <div class="form-group col-xs-12 pull-left">
         <label class="display-block text-semibold">  نوع المخزن</label>
         <label class="radio-inline">
             <input type="radio" name="type" class="styled type" id="basic"   value="1">
@@ -128,44 +128,48 @@
 
 </div>
 
+<<<<<<< HEAD
 
 
 <div class="form-group col-md-6 pull-left">
+=======
+<div class="form-group col-xs-12 pull-left">
+>>>>>>> 3334f899fcc8b0aadd6608d508ee1e8ba1f5e607
     <label> كود المخزن:  </label>
     {!! Form::text("code",null,['class'=>'form-control','placeholder'=>' كود المخزن'])!!}
 </div>
 
 
-<div class="form-group col-md-6 pull-left">
+<div class="form-group col-sm-6 col-xs-12 pull-left">
     <label>اسم المخزن باللغة العربية:  </label>
     {!! Form::text("ar_name",null,['class'=>'form-control','placeholder'=>'  اسم المخزن باللغة العربية '])!!}
 </div>
 
-<div class="form-group col-md-6 pull-left">
+<div class="form-group col-sm-6 col-xs-12 pull-left">
     <label>اسم المخزن باللغة الانجليزية:  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
     {!! Form::text("en_name",null,['class'=>'form-control','placeholder'=>' اسم المخزن باللغة الانجليزية  '])!!}
 </div>
 
 
-<div class="form-group col-md-6 pull-left">
+<div class="form-group col-sm-6 col-xs-12 pull-left">
     <label>عنوان المخزن:  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
     {!! Form::text("address",null,['class'=>'form-control','placeholder'=>' عنوان المخزن   '])!!}
 </div>
 
 
-<div class="form-group col-md-6 pull-left">
+<div class="form-group col-sm-6 col-xs-12 pull-left">
     <label> مساحة المخزن:  </label><span style="color: #ff0000; margin-right: 15px;">بالمتر المربع</span>
     {!! Form::text("width",null,['class'=>'form-control','placeholder'=>' مساحة المخزن'])!!}
 </div>
 
-<div class="form-group col-md-4 pull-left">
+<div class="form-group col-xs-12 pull-left">
     <label>اختر امين المخزن </label>
     {!! Form::select("user_id",storekeepers(),null,['class'=>'form-control js-example-basic-single ','placeholder'=>' اختر امين المخزن'])!!}
 </div>
 
 @if( isset($store))
           @if ($store->status==1)
-              <div class="form-group col-md-8">
+              <div class="form-group col-xs-12">
                   <label class="display-block text-semibold">  حالة المخزن</label>
                   <label class="radio-inline">
                       <input type="radio" name="status" class="styled" value="1"  onclick="myFunction3()" checked>
@@ -178,7 +182,7 @@
                   </label>
               </div>
               @else
-              <div class="form-group col-md-8">
+              <div class="form-group col-xs-12">
                   <label class="display-block text-semibold">  حالة المخزن</label>
                   <label class="radio-inline">
                       <input type="radio" name="status" class="styled" value="1"  onclick="myFunction3()" >
@@ -192,7 +196,7 @@
           @endif
 
  @else
-    <div class="form-group  col-md-8">
+    <div class="form-group  col-xs-12">
         <label class="display-block text-semibold">  حالة المخزن</label>
         <label class="radio-inline">
             <input type="radio" name="status" class="styled" id="rent" value="1"  onclick="myFunction3()" >
@@ -205,16 +209,16 @@
         </label>
     </div>
 
-    <div class="rent row col-md-12">
-        <div class="form-group col-md-4">
+    <div class="rent row col-xs-12">
+        <div class="form-group col-md-4 col-sm-6 col-xs-12">
             <label> تكلفة الايجار:  </label>
             {!! Form::text("width",null,['class'=>'form-control','placeholder'=>'  تكلفة الايجار'])!!}
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-4 col-sm-6 col-xs-12">
             <label>  تاريخ بداية الايجار:  </label>
             {!! Form::date("from",null,['class'=>'form-control'])!!}
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-4 col-sm-12 col-xs-12">
             <label> تاريخ نهاية الايجار:  </label>
             {!! Form::date("to",null,['class'=>'form-control'])!!}
         </div>
@@ -227,26 +231,26 @@
 
 @if( isset($store))
         @if ($store->is_active==1)
-            <div class="form-group col-md-12">
+            <div class="form-group col-xs-12">
                 <label class="display-block text-semibold">  تفعيل المخزن</label>
-                <label class="radio-inline">
+                <label class="radio-inline right30">
                     <input type="radio" name="is_active" class="styled" value="1"  checked>
                     مفعل
                 </label>
 
-                <label class="radio-inline">
+                <label class="radio-inline right30">
                     <input type="radio" name="is_active"  class="styled" value="0">
                     غير مفعل
                 </label>
             </div>
         @else
-            <div class="form-group col-md-12">
+            <div class="form-group col-xs-12">
                 <label class="display-block text-semibold">   تفعيل المخزن</label>
-                <label class="radio-inline">
+                <label class="radio-inline right30">
                     <input type="radio" name="is_active"  class="styled"  value="1">
                      مفعل
                 </label>
-                <label class="radio-inline">
+                <label class="radio-inline right30">
                     <input type="radio" name="is_active"  class="styled"   value="0"  checked>
                     غير مفعل
                 </label>
@@ -254,13 +258,13 @@
         @endif
 
     @else
-    <div class="form-group col-md-12">
+    <div class="form-group col-xs-12">
         <label class="display-block text-semibold"> تفعيل المخزن</label>
-        <label class="radio-inline">
+        <label class="radio-inline right30">
             <input type="radio" name="is_active"  value="1" checked>
             مفعل
         </label>
-        <label class="radio-inline">
+        <label class="radio-inline right30">
             <input type="radio" name="is_active"   value="0" >
             غير مفعل
         </label>
@@ -284,26 +288,26 @@
 
 
 
-<div class="form-group col-md-12 pull-left"><label>  تحديد موقع المخزن  على الخريطة  </label>     <div class="form-group">
+<div class="form-group col-xs-12 pull-left"><label>  تحديد موقع المخزن  على الخريطة  </label>     <div class="form-group">
         <div id="map" style="width: 100%; height: 300px;"></div><div class="clearfix">&nbsp;</div>
-        <div class="m-t-small">
-            <div class="col-sm-4">
+        <div class="m-t-small map-inputs">
+            <div class="col-sm-2 col-xs-12">
                 <label class="p-r-small control-label">خط الطول</label>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-10 col-xs-12">
                 {{ Form::text('lat', null,['id'=>'lat','class'=>'form-control']) }}
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-2 col-xs-12">
                 <label class="p-r-small  control-label">خط العرض </label>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-10 col-xs-12">
                 {{ Form::text('lng', null,['id'=>'lng','class'=>'form-control']) }}
             </div>
         </div>
     </div>
 </div>
 
-<div class="text-center col-md-12">
+<div class="text-center col-xs-12">
     <div class="text-right">
         <button type="submit" id="register" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i></button>
     </div>
