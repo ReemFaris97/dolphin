@@ -16,7 +16,7 @@
         <td>{{$product->name}}
 
         </td>
-        <input type="hidden" name="product_id[{{$product->id}}]"  value="{{$product->id}}"  >
+        <input type="hidden" name="product_ids[{{$product->id}}]"  value="{{$product->id}}"  >
 
         <td ><input type="text" name="purchasing_price[{{$product->id}}]"  value="{{$product->purchasing_price}}"  class="form-control buy-price" ></td>
         <td ><input type="text" name="selling_price[{{$product->id}}]"  value="{{$product->selling_price}}"  class="form-control sell-price" ></td>

@@ -25,7 +25,6 @@
             <div class="col-sm-12">
 
 
-                {!!Form::open( ['route' => 'accounting.products_settlement.store' ,'class'=>'form phone_validate', 'method' => 'PATCH','files' => true]) !!}
 
                 <div class="form-group col-md-4 pull-left">
                     <label>اختر المخزن منه </label>
@@ -43,7 +42,8 @@
         <!--End Page-Title -->
 
         <div class="panel-body">
-
+            {!!Form::open( ['route' => 'accounting.products_settlement.store' ,'class'=>'form phone_validate', 'method' => 'PATCH','files' => true]) !!}
+              <input type="hidden" name="store_id" id="store_id">
 
             <div class="products">
 
@@ -173,6 +173,7 @@
 
             var store_id = $('#form_store_id').val();
 
+            $('#store_id').val(store_id);
             var id = $(this).val();
             console.log(id);
 

@@ -288,6 +288,17 @@ class StoreController extends Controller
         return view('AccountingSystem.stores.settlements',compact('stores','products'));
 
     }
+
+    public function settlements_index(){
+
+        $settlements=AccountingProduct::where('is_settlement',1)->get();
+
+        return view('AccountingSystem.stores.settlements_index',compact('settlements'));
+
+    }
+
+
+
     public  function settlements_store(Request $request){
         $store_id=$request['store_id'];
         $stores=AccountingStore::pluck('ar_name','id')->toArray();
