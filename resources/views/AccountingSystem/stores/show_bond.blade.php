@@ -1,5 +1,5 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض  السند رقم'.' '. $inputs['bond_num'] )
+@section('title','عرض  السند رقم'.' '. $bond->bond_num )
 @section('parent_title','إدارة المخازن')
 @section('action', URL::route('accounting.stores.index'))
 @section('styles')
@@ -9,7 +9,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title"> رقم السند  {!! $inputs['bond_num'] !!}</h5>
+            <h5 class="panel-title"> رقم السند  {!! $bond->bond_num !!}</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -22,20 +22,31 @@
         <div class="panel-body">
             <div class="form-group col-md-6 pull-left">
                 <label class="label ">تاريخ السند  : </label>
-                <span>{!! $inputs['date'] !!}</span>
+                <span>{!! $bond->date !!}</span>
             </div>
             <div class="form-group col-md-6 pull-left">
                 <label class="label "> بيان  السند  : </label>
-                <span>{!!  $inputs['description'] !!}</span>
+                <span>{!! $bond->description !!}</span>
             </div>
-
+            @if ($bond->type=='entry')
             <div class="form-group col-md-6 pull-left">
                 <label class="label ">  المخزن  : </label>
-                <span>{!!  $inputs['store_id'] !!}</span>
+                <span>{!!  $bond->store->ar_name !!}</span>
             </div>
+            @else
+                <div class="form-group col-md-6 pull-left">
+                    <label class="label ">  المخزن المحول منه  : </label>
+                    <span>{!! optional($bond->getStoreFrom)->ar_name !!}</span>
+                </div>
+
+                <div class="form-group col-md-6 pull-left">
+                    <label class="label ">  المخزن  المحول ايه : </label>
+                    <span>{!!  optional($bond->getStoreTo)->ar_name !!}</span>
+                </div>
+                @endif
             <div class="form-group col-md-6 pull-left">
                 <label class="label ">  نوع السند   : </label>
-                @if ($inputs['type']=='entry')
+                @if ($bond->type=='entry')
                     <span>سند ادخال</span>
                     @else
                     <span>سند صرف</span>
@@ -62,11 +73,13 @@
                        </thead>
                        <tbody>
                        {{--@dd($merges)--}}
-                       @foreach($merges as $merge)
+                       @foreach($bondproducts as $product)
                            <tr>
-                       <td>{!! $merge[0] !!}</td>
-                       <td>{!! $merge[1] !!}</td>
-                       <td>{!! $merge[2] !!}</td>
+                       <td>
+                       {{$product->product->name}}
+                       </td>
+                       <td>{{$product->quantity}}</td>
+                       <td>{{$product->price}}</td>
                            </tr>
                        @endforeach
                        </tbody>

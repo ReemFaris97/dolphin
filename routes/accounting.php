@@ -20,6 +20,9 @@ Route::middleware('admin')->group(function () {
     Route::get('/branch_stores/{id}', 'StoreController@branch_stores');
     Route::get('/store-active/{id}', 'StoreController@active')->name('stores.is_active');
     Route::get('/store-dis_active/{id}', 'StoreController@dis_active')->name('stores.dis_active');
+    Route::get('/store-active-product/{id}', 'StoreController@active_product')->name('stores.is_active_product');
+    Route::get('/store-dis_active-product/{id}', 'StoreController@dis_active_product')->name('stores.dis_active_product');
+
 
         Route::get('/product-details/{id}', 'StoreController@show_product_details')->name('stores.show_product_details');
 
@@ -30,7 +33,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/keepers_store/{id}', 'StoreController@getkeepers')->name('keepers_store');
 
     Route::get('/bonds', 'StoreController@bonds_index')->name('stores.bonds_index');
-    Route::get('/bond-show', 'StoreController@bond_show')->name('stores.show_bond');
+    Route::get('/bond-show/{id}', 'StoreController@bond_show')->name('stores.show_bond');
 
     Route::get('/products_exchange_form', 'StoreController@products_exchange_form')->name('stores.products_exchange_form');
     Route::post('/products_exchange_store', 'StoreController@products_exchange_store')->name('stores.products_exchange_store');
@@ -39,7 +42,7 @@ Route::middleware('admin')->group(function () {
   /////////////////settlementتسوي  الارصده  للبداية/////////////////
     Route::post('/settlement', 'StoreController@settlements_store')->name('stores_settle.filter_settlements');
     Route::get('/settlements', 'StoreController@settlements')->name('stores.settlements');
-    Route::get('/product-settlement/{id}', 'ProductController@settlement')->name('products.settlements');
+    Route::get('/product-settlement/{id}', 'products_storeProductController@settlement')->name('products.settlements');
     Route::any('/settlements_store', 'ProductController@settlements_store')->name('products_settlement.store');
 ///////////////////////////inventory  للمخازن  الجرد وتسوية الجرد
     Route::get('/inventory', 'StoreInventroyController@inventory')->name('stores.inventory');
@@ -68,8 +71,12 @@ Route::middleware('admin')->group(function () {
     Route::get('/transaction', 'StoreTransactionController@transaction_form')->name('stores.transaction');
     Route::post('transactions', 'StoreTransactionController@transactions')->name('stores.transactions');
     Route::get('/products_store/{id}', 'StoreController@getproducts')->name('products_store');
+    Route::get('/products_settlement/{id}', 'StoreController@getproducts_')->name('products_settlement');
+
     Route::post('transaction/{id}', 'StoreTransactionController@transaction')->name('products.transaction');
     Route::get('/productsingle', 'StoreTransactionController@productsingle');
+    Route::get('/productsettlement', 'StoreTransactionController@productsettlement');
+
     Route::get('/requests', 'StoreTransactionController@requests')->name('stores.requests');
     Route::get('/request/{id}', 'StoreTransactionController@request')->name('stores.request');
     Route::get('/accept_request/{id}', 'StoreTransactionController@accept_request')->name('stores.accept_request');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AccountingSystem;
 
 use App\Http\Requests\UserRequest;
+use App\Models\AccountingSystem\AccountingInventory;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingStoreKeeper;
 use App\Models\Permission;
@@ -35,6 +36,7 @@ class StoreKeeperController extends Controller
 //            return abort(401);
 //        }
         $storeKeepers = User::where('is_storekeeper',1)->get();
+
 
         return $this->toIndex(compact('storeKeepers'));
 
@@ -105,7 +107,8 @@ class StoreKeeperController extends Controller
     {
 
         $storekeeper= User::findOrFail($id);
-        return $this->toShow(compact('storekeeper'));
+        $inventories=AccountingInventory::where('user_id',$id)->get();
+        return $this->toShow(compact('storekeeper','inventories'));
     }
 
     /**

@@ -1,5 +1,5 @@
 @extends('AccountingSystem.layouts.master')
-@section('title',' سند جرد الاصناف ')
+@section('title','  جرد الاصناف ')
 @section('parent_title','إدارة  المخازن')
 
 @section('action', URL::route('accounting.stores.index'))
@@ -10,7 +10,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title"> سند جرد الاصناف</h5>
+            <h5 class="panel-title">  جرد الاصناف</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -27,25 +27,25 @@
                 {!!Form::open( ['route' => 'accounting.stores.filter_inventory_product' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
 
 
-                <div class="col-sm-6 col-xs-6 pull-left" >
-                    <div class="form-group form-float">
-                        <label class="form-label"> رقم السند</label>
-                        <div class="form-line">
-                            {!! Form::text("bond_num",null,['class'=>'form-control','placeholder'=>'رقم السند'])!!}
+                {{--<div class="col-sm-6 col-xs-6 pull-left" >--}}
+                    {{--<div class="form-group form-float">--}}
+                        {{--<label class="form-label"> رقم السند</label>--}}
+                        {{--<div class="form-line">--}}
+                            {{--{!! Form::text("bond_num",null,['class'=>'form-control','placeholder'=>'رقم السند'])!!}--}}
 
-                        </div>
-                    </div>
-                </div>
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
 
-                <div class="col-sm-6 col-xs-6 pull-left" >
-                    <div class="form-group form-float">
-                        <label class="form-label"> بيان السند</label>
-                        <div class="form-line">
-                            {!! Form::text("description",null,['class'=>'form-control','placeholder'=>'بيان السند'])!!}
+                {{--<div class="col-sm-6 col-xs-6 pull-left" >--}}
+                    {{--<div class="form-group form-float">--}}
+                        {{--<label class="form-label"> بيان السند</label>--}}
+                        {{--<div class="form-line">--}}
+                            {{--{!! Form::text("description",null,['class'=>'form-control','placeholder'=>'بيان السند'])!!}--}}
 
-                        </div>
-                    </div>
-                </div>
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
 
                 <div class="col-sm-6 col-xs-6 pull-left">
                     <label>اختر الصنف </label>
@@ -126,7 +126,7 @@
                             @if ($product->status==0)
 
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-id="{{$product->id}}" onclick="openModal({{$product->id}})" data-target="#exampleModal{{$product->id}}" id="button{{$product->id}}">
-                                   تسوية
+                                    ادخل  الكميه الفعليه
                                 </button>
 
                                 @else

@@ -76,9 +76,12 @@
                     <th> نوع المنتج </th>
 
                     <th>  الباركود </th>
+                    <th>  الوحدة الاساسية</th>
                     <th> الكميه قبل الجرد  </th>
 
                     <th>الكميه  بعد الجرد</th>
+
+
                     <th>   الفرق</th>
 
                 </tr>
@@ -104,7 +107,8 @@
                             @endif
 
                         </td>
-                        <td>{!! $row->product-> bar_code!!}</td>
+                        <td>{!! $row->product->bar_code!!}</td>
+                        <td>{!! $row->product->main_unit!!}</td>
 
                         <td>{!! $row->quantity!!}</td>
                         <td>{!! $row->Real_quantity!!}</td>

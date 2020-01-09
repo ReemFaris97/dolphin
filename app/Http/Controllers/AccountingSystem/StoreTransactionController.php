@@ -33,23 +33,41 @@ class StoreTransactionController extends Controller
     }
 
 
-
-
-
-
     public function productsingle(Request $request)
     {
 
         $ids=$request['ids'];
-
+        $store_id=$request['store_id'];
+        $store=AccountingStore::find($store_id);
         $products=AccountingProduct::whereIN('id',$ids)->get();
 
         return response()->json([
             'status'=>true,
-            'data'=>view('AccountingSystem.stores.product')->with('products',$products)->render()
+            'data'=>view('AccountingSystem.stores.product',compact('products','store'))->render()
         ]);
 
     }
+
+
+
+
+    public function productsettlement(Request $request)
+    {
+
+        $ids=$request['ids'];
+        $store_id=$request['store_id'];
+       $store=AccountingStore::find($store_id);
+        $products=AccountingProduct::whereIN('id',$ids)->get();
+
+        return response()->json([
+            'status'=>true,
+            'data'=>view('AccountingSystem.stores.product_settlement',compact('products','store'))->render()
+        ]);
+
+    }
+
+
+
 
     public function transaction(Request $request,$id){
 
@@ -114,12 +132,13 @@ class StoreTransactionController extends Controller
         $req=AccountingSroreRequest::create([
             'store_to' => $request['to_store_id'],
             'store_form' => $request['form_store_id'],
-            'status'=>'pending'
-
+            'status'=>'pending',
+             'user_id'=>$request['user_id'],
         ]);
         foreach ($merges as $merge) {
 
             $trans = AccountingTransaction::create([
+
 
                 'product_id' => $merge[0],
                 'quantity' => $merge[1],
@@ -140,20 +159,20 @@ class StoreTransactionController extends Controller
                     'quantity' => $product_store_form->quantity - $merge[1],
                 ]);
 //
-////                    /////////update product_store_to_quantity
-//                  $product_store_to = AccountingProductStore::where('store_id', $request['to_store_id'])->where('product_id',$merge[0])->first();
-//
-//                  if (isset($product_store_to)) {
-//                        $product_store_to->update([
-//                            'quantity' => $product_store_to->quantity + $merge[1],
-//                        ]);
-//                    } else {
-//                        AccountingProductStore::create([
-//                            'product_id' => $merge[0],
-//                            'quantity' => $merge[1],
-//                            'store_id' => $request['to_store_id'],
-//                        ]);
-//                    }
+//                    /////////update product_store_to_quantity
+                  $product_store_to = AccountingProductStore::where('store_id', $request['to_store_id'])->where('product_id',$merge[0])->first();
+
+                  if (isset($product_store_to)) {
+                        $product_store_to->update([
+                            'quantity' => $product_store_to->quantity + $merge[1],
+                        ]);
+                    } else {
+                        AccountingProductStore::create([
+                            'product_id' => $merge[0],
+                            'quantity' => $merge[1],
+                            'store_id' => $request['to_store_id'],
+                        ]);
+                    }
                 alert()->success('تم التحويل من المخزن بنجاح !')->autoclose(5000);
 
             } else {
@@ -163,8 +182,13 @@ class StoreTransactionController extends Controller
             }//endcheckif
 
         }//endforeach
-        alert()->success('تم اضافة سند التحويل بنجاح !')->autoclose(5000);
-        return back();
+
+        session(['transaction' => $inputs]);
+
+        alert()->success('تم اضافة  التحويل بنجاح !')->autoclose(5000);
+
+        return view('AccountingSystem.stores.transaction_bond', compact('req'));
+
 
 
 

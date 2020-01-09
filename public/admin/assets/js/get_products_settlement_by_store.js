@@ -13,7 +13,7 @@ $(function(){
 
 
         $.ajax({
-            url: "/accounting/products_store/" + idddd,
+            url: "/accounting/products_settlement/" + idddd,
             type: "GET",
 
         }).done(function (data) {

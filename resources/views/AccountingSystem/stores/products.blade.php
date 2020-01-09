@@ -34,6 +34,9 @@
                     <th> الوحده الاساسية  </th>
                     <th> سعر البيع </th>
                     <th> سعر الشراء </th>
+                    <th> الكميه الحاليه بالمخزن </th>
+                    <th>  حاله المنتج بالمخزن </th>
+
                     <th> صورة  المنتج </th>
                     <th>عرض  تفاصيل    المنتج </th>
                 </tr>
@@ -63,8 +66,26 @@
                         <td>{!! $row->product->  main_unit!!}</td>
                         <td>{!! $row->product->  selling_price!!}</td>
                         <td>{!! $row->product->  purchasing_price!!}</td>
+                        <td>
+                            {{ $row->quantity}}
+                        </td>
+
+                        <td>@if (  $row->is_active==1)
+                                مفعل
+                            @else
+                                غير  مفعل
+
+                            @endif
+                        </td>
                         <td><img src="{!! getimg($row->product->image)!!}" style="width:100px; height:100px"> </td>
                         <td>
+                            @if ($row->is_active==0)
+                                <a href="{{route('accounting.stores.is_active_product',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="منتجات المخزن "> <i class="fa fa-close"></i></a>
+                            @else
+                                <a href="{{route('accounting.stores.dis_active_product',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="منتجات المخزن "> <i class="icon-checkmark-circle" style="margin-left: 10px"></i> </a>
+
+                                @endif
+
                             <a href="{{route('accounting.stores.show_product_details',['id'=>$row->product->id,'store_id'=>$store->id])}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>
 
                             <a href="#" onclick="Delete({{$row->product->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
@@ -100,7 +121,7 @@
             console.log(item_id);
             swal({
                 title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذة الشركة ؟",
+                text: "هل تريد حذف هذا المنتج  من المخزن ؟",
                 icon: "warning",
                 buttons: ["الغاء", "موافق"],
                 dangerMode: true,

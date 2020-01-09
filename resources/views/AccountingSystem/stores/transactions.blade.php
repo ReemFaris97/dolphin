@@ -32,16 +32,22 @@
                 </div>
             @endif
             <div class="form-group col-md-4 pull-left">
-                <label>اختر المخزن الية </label>
+                <label>اختر المخزن ا
+                    لية </label>
                 {!! Form::select("to_store_id",allstores(),null,['class'=>'form-control js-example-basic-single ','placeholder'=>'  اختر  المخزن'])!!}
             </div>
             <div class="form-group col-md-4 pull-left">
                 <label>اختر المخزن منه </label>
-                {!! Form::select("form_store_id",allstores(),null,['class'=>'form-control js-example-basic-single form_store_id','placeholder'=>' اختر  المخزن'])!!}
+                {!! Form::select("form_store_id",allstores(),null,['class'=>'form-control js-example-basic-single form_store_id','id'=>'form_store_id','placeholder'=>' اختر  المخزن'])!!}
             </div>
             <div class="form-group col-md-4 pull-left">
                 <label>اختر الصنف </label>
                 {!! Form::select("product_id[]",products(),null,['class'=>'form-control js-example-basic-single product_id','multiple','id'=>'product_id','placeholder'=>' اختر  الصنف'])!!}
+            </div>
+
+            <div class="col-sm-6 col-xs-6 pull-left">
+                <label>اختر امين المخزن </label>
+                {!! Form::select("user_id",keepers(),null,['class'=>'form-control js-example-basic-single storekeeper_id','id'=>'storekeeper_id','placeholder'=>' اختر امين المخزن'])!!}
             </div>
 
 
@@ -75,13 +81,15 @@
     <script>
         $(".product_id").on('change', function() {
 
+            var store_id = $('#form_store_id').val();
+
             var id = $(this).val();
             console.log(id);
 
             $.ajax({
                 url:"/accounting/productsingle",
                 type:"get",
-                data:{'ids':id}
+                data:{'ids':id,'store_id':store_id}
 
             }).done(function (data) {
 
@@ -114,5 +122,6 @@
     </script>
     <script src="{{asset('admin/assets/js/get_products_by_store.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
+
 
 @endsection

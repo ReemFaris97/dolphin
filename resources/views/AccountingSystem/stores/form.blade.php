@@ -81,7 +81,7 @@
 @endif
 
 @if( isset($store))
-    @if ($store->type=1)
+    @if ($store->type==1)
 
         <div class="form-group">
             <label class="display-block text-semibold">  نوع المخزن</label>
@@ -99,12 +99,12 @@
         <div class="form-group">
             <label class="display-block text-semibold">  نوع المخزن</label>
             <label class="radio-inline">
-                <input type="radio" name="type" class="styled type"  value="1"   >
+                <input type="radio" name="type" class="styled type"  value="1">
                 رئيسى
             </label>
 
             <label class="radio-inline">
-                <input type="radio" name="type"  class="styled type" value="0" checked="checked"  >
+                <input type="radio" name="type"  class="styled type" value="0" checked="checked" >
                 فرعى
             </label>
         </div>
@@ -116,7 +116,6 @@
             <input type="radio" name="type" class="styled type" id="basic"   value="1">
             رئسى
         </label>
-
         <label class="radio-inline">
             <input type="radio" name="type"  class="styled type" id="part"    value="0">
             فرعى
@@ -124,9 +123,12 @@
     </div>
 @endif
 
+
 <div class="basic">
 
 </div>
+
+
 
 <div class="form-group col-md-6 pull-left">
     <label> كود المخزن:  </label>
@@ -352,27 +354,6 @@
 
     </script>
 
-   @if (isset($store))
-       @if($store->model_type=='App\Models\AccountingSystem\AccountingBranch')
-
-       <script>
-           $(document).ready(function() {
-               $(".companies").hide();
-               $(".branches").show();
-           });
-
-
-       </script>
-       @elseif($store->model_type=='App\Models\AccountingSystem\AccountingCompany')
-           <script>
-               $(document).ready(function() {
-                   $(".companies").show();
-                   $(".branches").hide();
-               });
-           </script>
-
-    @endif
-   @endif
 
     <script>
         // Initialize and add the map
@@ -408,48 +389,46 @@
 
     <script>
 
+           $(".type").on('change', function() {
+               var idddd = $(this).val();
+               if (idddd == 0) {
+                   if ($('#company').is(':checked')) {
+                       var company_id = $('#company_id').val();
+                       $.ajax({
+                           url: "/accounting/company_stores/" + company_id,
+                           type: "GET",
+                       }).done(function (data) {
+                           $('.basic').empty();
+                           $('.basic').append(data.data);
+                       }).fail(function (error) {
+                           console.log(error);
+                       });
+                   }
+                   if ($('#branch1').is(':checked')) {
+                        branch_id = $('#branch_id').val();
 
-        $(".type").on('change', function() {
-            var idddd = $(this).val();
-            if (idddd == 0) {
-                if ($('#company').is(':checked')) {
-                    var company_id = $('#company_id').val();
-                    $.ajax({
-                        url: "/accounting/company_stores/" + company_id,
-                        type: "GET",
+                       $.ajax({
+                           url: "/accounting/branch_stores/" + branch_id,
+                           type: "GET",
 
-                    }).done(function (data) {
+                       }).done(function (data) {
 
-                        $('.basic').empty();
-                        $('.basic').append(data.data);
+                           $('.basic').empty();
+                           $('.basic').append(data.data);
 
-                    }).fail(function (error) {
-                        console.log(error);
-                    });
-                }
-                if ($('#branch1').is(':checked')) {
+                       }).fail(function (error) {
+                           console.log(error);
+                       });
+                   }
 
-                     branch_id = $('#branch_id').val();
+               }else if (idddd == 1) {
+                   $('.basic').empty();
 
 
-                    $.ajax({
-                        url: "/accounting/branch_stores/" + branch_id,
-                        type: "GET",
+               }
+           });
+       </script>
 
-                    }).done(function (data) {
-
-                        $('.basic').empty();
-                        $('.basic').append(data.data);
-
-                    }).fail(function (error) {
-                        console.log(error);
-                    });
-                }
-
-            }
-        });
-    </script>
-
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsT140mx0UuES7ZwcfY28HuTUrTnDhxww&callback=initMap">
-    </script>
-@endsection
+       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsT140mx0UuES7ZwcfY28HuTUrTnDhxww&callback=initMap">
+       </script>
+   @endsection
