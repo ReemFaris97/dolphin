@@ -40,9 +40,7 @@
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->name!!}</td>
-                        <td>{!! $row->->name!!}</td>
-
-
+                        <td>{!! $row->code!!}</td>
 
                         <td class="text-center">
                             <a href="{{route('accounting.devices.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>

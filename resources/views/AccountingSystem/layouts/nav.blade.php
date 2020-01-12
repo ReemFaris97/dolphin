@@ -57,14 +57,14 @@
 						</div>
 					</div>
 				</li>
-			<!--الفهرس-->    
+			<!--الفهرس-->
 			<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-file-text position-left"></i>
 						الفهرس
 						<span class="caret"></span>
 					</a>
-					<ul class="dropdown-menu dropdown-menu-right"> 
+					<ul class="dropdown-menu dropdown-menu-right">
 						<li class="dropdown-submenu dropdown-submenu-right">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 								<i class="icon-man position-left"></i>
@@ -108,7 +108,7 @@
 						</li>
 						<!--Here we will put the links from the sent file from point 1 to point 8 -->
 					 </ul>
-				  </li> 
+				  </li>
 			<!--            المخازن-->
 			<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -116,7 +116,7 @@
 						المخازن
 						<span class="caret"></span>
 					</a>
-					<ul class="dropdown-menu dropdown-menu-right"> 
+					<ul class="dropdown-menu dropdown-menu-right">
 						<li class="dropdown-submenu dropdown-submenu-right">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 								<i class="icon-cabinet position-left"></i>
@@ -279,7 +279,7 @@
 					المبيعات
 					<span class="caret"></span>
 				</a>
-				<ul class="dropdown-menu dropdown-menu-right"> 
+				<ul class="dropdown-menu dropdown-menu-right">
 					<li class="dropdown-submenu dropdown-submenu-right">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 							<i class="icon-cabinet position-left"></i>
@@ -304,7 +304,7 @@
 					<!--Here we will put the links from the sent file from point 9 to the end of the file -->
 				</ul>
 			</li>
-			<!-- المشتريات--> 
+			<!-- المشتريات-->
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 					<i class="icon-cabinet position-left"></i>
@@ -335,6 +335,17 @@
 					<li><a href="{{route('accounting.safes.index')}}"><i class="icon-eye"></i> عرض الخزائن</a></li>
 					<li><a href="{{route('accounting.safes.create')}}"><i class="icon-add-to-list"></i> اضافة خزينه جديدة</a></li>
 				</ul>
+            </li>
+            <li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					<i class="icon-list position-left"></i>
+					إدارة الاجهزة
+					<span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu dropdown-menu-right">
+					<li><a href="{{route('accounting.devices.index')}}"><i class="icon-eye"></i> عرض الاجهزة</a></li>
+					<li><a href="{{route('accounting.devices.create')}}"><i class="icon-add-to-list"></i> اضافة جهاز جديدة</a></li>
+				</ul>
 			</li>
 			<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -346,7 +357,7 @@
 					<ul class="dropdown-menu dropdown-menu-right">
 						<li><a href="{{route('accounting.sells_points.sells_point')}}"><i class="icon-eye"></i> نقطه البيع</a></li>
 					</ul>
-				</li> 
+				</li>
 			<!--Tis will be commented temporarly-->
 			<!--
 						<li class="dropdown">
@@ -451,7 +462,7 @@
 			</li>
         </ul>
 
-            
+
 
 
 

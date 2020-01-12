@@ -104,6 +104,8 @@ Route::middleware('admin')->group(function () {
 
     Route::get('/product-barcode/{id}', 'ProductController@barcode')->name('products.barcode');
     Route::get('/sell_point', 'SellPointController@sell_point')->name('sells_points.sells_point');
+
+    Route::get('/sell_point', 'SellPointController@sell_point')->name('sells_points.sells_point');
     Route::get('/notification/{id}', 'OfferController@notification')->name('offers.notification');
     Route::get('/permiums', 'ClientController@permiums')->name('clients.permiums');
     Route::post('/permium_store', 'ClientController@permium_store')->name('clients.permiums_store');

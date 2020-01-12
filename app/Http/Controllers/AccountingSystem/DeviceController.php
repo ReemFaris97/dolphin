@@ -11,6 +11,7 @@ use App\Models\AccountingSystem\AccountingFaceColumn;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
+use App\Models\AccountingSystem\AccountingDevice;
 
 class DeviceController extends Controller
 {
@@ -23,7 +24,7 @@ class DeviceController extends Controller
      */
     public function index()
     {
-        $cells =A::all()->reverse();
+        $cells =AccountingDevice::all()->reverse();
         return $this->toIndex(compact('cells'));
     }
 
@@ -35,7 +36,7 @@ class DeviceController extends Controller
     public function create()
     {
 
-        $columns=AccountingFaceColumn::pluck('name','id')->toArray();
+        $columns=AccountingCompany::pluck('name','id')->toArray();
         return $this->toCreate(compact('columns'));
     }
 
@@ -51,15 +52,15 @@ class DeviceController extends Controller
 
             'name'=>'required|string|max:191',
 
-            'column_id'=>'required|numeric|exists:accounting_face_columns,id',
+            // 'column_id'=>'required|numeric|exists:accounting_face_columns,id',
 
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
 
-        AccountingColumnCell::create($requests);
-        alert()->success('تم اضافة  الصف بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.columns.index');
+        AccountingDevice::create($requests);
+        alert()->success('تم اضافة  الجهاز بنجاح !')->autoclose(5000);
+        return redirect()->route('accounting.devices.index');
     }
 
     /**
