@@ -103,15 +103,18 @@ Route::middleware('admin')->group(function () {
     ///
 
     Route::get('/product-barcode/{id}', 'ProductController@barcode')->name('products.barcode');
+    Route::get('/sell_login', 'SellPointController@sell_login')->name('sells_points.login');
     Route::get('/sell_point', 'SellPointController@sell_point')->name('sells_points.sells_point');
 
-    Route::get('/sell_point', 'SellPointController@sell_point')->name('sells_points.sells_point');
+    // Route::get('/sell_point', 'SellPointController@sell_point')->name('sells_points.sells_point');
     Route::get('/notification/{id}', 'OfferController@notification')->name('offers.notification');
     Route::get('/permiums', 'ClientController@permiums')->name('clients.permiums');
     Route::post('/permium_store', 'ClientController@permium_store')->name('clients.permiums_store');
 
     Route::get('/offer_copy', 'ClientController@offer_copy')->name('clients.offers_copy');
     Route::post('/offers_copy', 'ClientController@copy')->name('clients.copy');
+
+    Route::resource('session', 'SessionController');
 
     Route::resource('sales', 'SaleController');
     Route::resource('clients', 'ClientController');
