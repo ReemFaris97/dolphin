@@ -136,11 +136,6 @@
                             </table>
                         </div>
                     </div>
-
-
-
-
-
                 </div>
             </section>
             <!----------------  End Bill Content ----------------->
