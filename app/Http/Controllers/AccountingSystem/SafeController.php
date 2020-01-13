@@ -36,8 +36,9 @@ class SafeController extends Controller
     public function create()
     {
 
+        $companies=AccountingCompany::pluck('name','id')->toArray();
         $branches=AccountingBranch::pluck('name','id')->toArray();
-        return $this->toCreate(compact('branches'));
+        return $this->toCreate(compact('companies','branches'));
     }
 
     /**
@@ -50,13 +51,29 @@ class SafeController extends Controller
     {
         $rules = [
 
-            'code'=>'required|string|max:191',
+            'name'=>'required|string|max:191',
 
-            'branch_id'=>'required|numeric|exists:accounting_branches,id',
 
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
+
+        if ($requests['company_id']==NULL & $requests['branch_id']!=NULL)
+        {
+
+            $requests['model_id']= $requests['branch_id'];
+               $requests[ 'model_type']='App\Models\AccountingSystem\AccountingBranch';
+
+
+
+        }
+        if ($requests['branch_id']==NULL & $requests['company_id']!=NULL)
+        {
+
+            $requests[ 'model_id']= $requests['company_id'];
+             $requests[ 'model_type']='App\Models\AccountingSystem\AccountingCompany';
+
+        }
 
         AccountingSafe::create($requests);
         alert()->success('تم اضافة  الخزينة بنجاح !')->autoclose(5000);
@@ -83,8 +100,8 @@ class SafeController extends Controller
     public function edit($id)
     {
         $safe =AccountingSafe::findOrFail($id);
+        $companies=AccountingCompany::pluck('name','id')->toArray();
         $branches=AccountingBranch::pluck('name','id')->toArray();
-
         return $this->toEdit(compact('safe','branches'));
 
 
@@ -110,6 +127,20 @@ class SafeController extends Controller
         $this->validate($request,$rules);
         $requests = $request->all();
         $safe->update($requests);
+
+
+        if (array_key_exists('company_id',$requests)) {
+
+            $safe->update([
+                'model_id' => $requests['company_id']
+            ]);
+        }elseif(array_key_exists('branch_id',$requests)) {
+
+
+            $safe->update([
+                'model_id' => $requests['branch_id']
+            ]);
+        }
         alert()->success('تم تعديل الخزينة  بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.safes.index');
 
@@ -129,6 +160,31 @@ class SafeController extends Controller
         $safe->delete();
         alert()->success('تم حذف  الخزينة بنجاح !')->autoclose(5000);
             return back();
+
+    }
+
+
+    public  function company_devices($id){
+
+        $basic_stores=AccountingStore::where('model_id',$id)->where('model_type','App\Models\AccountingSystem\AccountingCompany')->pluck('ar_name','id')->toArray();
+
+
+        return response()->json([
+            'status'=>true,
+            'data'=>view('AccountingSystem.stores.basic_store')->with('basic_stores',$basic_stores)->render()
+        ]);
+
+    }
+
+    public  function branch_devices($id){
+
+        $basic_stores=AccountingStore::where('model_id',$id)->where('model_type','App\Models\AccountingSystem\AccountingBranch')->pluck('ar_name','id')->toArray();
+
+
+        return response()->json([
+            'status'=>true,
+            'data'=>view('AccountingSystem.stores.basic_store')->with('basic_stores',$basic_stores)->render()
+        ]);
 
     }
 }

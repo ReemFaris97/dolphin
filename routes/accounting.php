@@ -80,7 +80,6 @@ Route::middleware('admin')->group(function () {
     Route::get('/productsettlement', 'StoreTransactionController@productsettlement');
     Route::get('/productdamage', 'StoreTransactionController@productdamage');
 
-
     Route::get('/requests', 'StoreTransactionController@requests')->name('stores.requests');
     Route::get('/request/{id}', 'StoreTransactionController@request')->name('stores.request');
     Route::get('/accept_request/{id}', 'StoreTransactionController@accept_request')->name('stores.accept_request');
@@ -97,11 +96,7 @@ Route::middleware('admin')->group(function () {
 
     Route::get('/balances-report', 'StoreController@first_balances')->name('stores.first_balances_report');
 
-
     ////////////////////////////طباعة الباركود
-    ///
-    ///
-
     Route::get('/product-barcode/{id}', 'ProductController@barcode')->name('products.barcode');
     Route::get('/sell_login', 'SellPointController@sell_login')->name('sells_points.login');
     Route::get('/sell_point', 'SellPointController@sell_point')->name('sells_points.sells_point');
@@ -122,6 +117,8 @@ Route::middleware('admin')->group(function () {
     Route::resource('industrials', 'IndustrialController');
     Route::resource('safes', 'SafeController');
     Route::resource('devices', 'DeviceController');
+    Route::get('/company_devices/{id}', 'SafeController@company_devices');
+    Route::get('/branch_devices/{id}', 'SafeController@branch_devices');
 
 
     Route::resource('faces', 'FaceController');

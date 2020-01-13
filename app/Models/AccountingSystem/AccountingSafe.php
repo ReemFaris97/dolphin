@@ -6,15 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class AccountingSafe extends Model
 {
-    protected $fillable = ['branch_id','code','financial_custody'];
+    protected $fillable = ['device_id','name','custody','model_type','type','model_id'];
 
 protected  $table='accounting_safes';
 
     public function branch()
     {
-        return $this->belongsTo(AccountingBranch::class,'branch_id');
+        return $this->belongsTo(AccountingBranch::class,'model_id');
     }
 
+    public function company()
+    {
+        return $this->belongsTo(AccountingCompany::class,'model_id');
+    }
 
 
 }

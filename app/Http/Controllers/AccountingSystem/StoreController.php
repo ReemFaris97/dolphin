@@ -84,7 +84,7 @@ class StoreController extends Controller
 
             $requests['model_id']= $requests['branch_id'];
                $requests[ 'model_type']='App\Models\AccountingSystem\AccountingBranch';
-                
+
 
 
         }
