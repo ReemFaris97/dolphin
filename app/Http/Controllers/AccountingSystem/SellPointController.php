@@ -14,6 +14,7 @@ use App\Models\AccountingSystem\AccountingProductCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
+use App\User;
 
 class SellPointController extends Controller
 {
@@ -54,12 +55,15 @@ class SellPointController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function sell_login()
     {
 
+        $users=User::where('is_saler',1)->pluck('name','id')->toArray();
+        return view('AccountingSystem.sell_points.login',compact('users'));
     }
 
     /**
+     *
      * Display the specified resource.
      *
      * @param  int  $id

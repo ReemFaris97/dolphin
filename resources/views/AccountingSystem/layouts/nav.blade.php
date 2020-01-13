@@ -355,6 +355,7 @@
 					</a>
 
 					<ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="{{route('accounting.sells_points.login')}}"><i class="icon-eye"></i>  تسجيل  دخول  نقطة البيع</a></li>
 						<li><a href="{{route('accounting.sells_points.sells_point')}}"><i class="icon-eye"></i> نقطه البيع</a></li>
 					</ul>
 				</li>

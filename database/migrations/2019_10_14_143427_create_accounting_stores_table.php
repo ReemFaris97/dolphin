@@ -21,6 +21,7 @@ class CreateAccountingStoresTable extends Migration
             $table->string('image')->nullable();
             $table->morphs('model');
             $table->softDeletes();
+            
             $table->timestamps();
         });
     }

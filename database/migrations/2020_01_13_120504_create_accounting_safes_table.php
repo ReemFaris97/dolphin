@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAccountingSafes extends Migration
+class CreateAccountingSafesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,15 +15,15 @@ class CreateAccountingSafes extends Migration
     {
         Schema::create('accounting_safes', function (Blueprint $table) {
             $table->bigIncrements('id');
-
-            $table->string('code')->nullable();
-            $table->string('financial_custody')->nullable();
-
-            $table->unsignedBigInteger('branch_id')->nullable();
-            $table->foreign('branch_id')->references('id')
-                ->on('accounting_branches')->onDelete('cascade')
+            $table->morphs('model');
+            $table->string('custody')->nullable();
+            $table->string('name')->nullable();
+            $table->boolean('type')->default(0)->nullable();
+            $table->unsignedBigInteger('device_id')->nullable();
+            $table->foreign('device_id')->references('id')
+                ->on('accounting_devices')->onDelete('cascade')
                 ->onUpdate('cascade');
-
+            $table->softDeletes();
             $table->timestamps();
         });
     }

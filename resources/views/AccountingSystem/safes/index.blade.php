@@ -25,9 +25,9 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th> كود الخزنة </th>
+                    <th>  اسم  الخزنة </th>
                     <th> عهدة الخزنة </th>
-                    <th> الفرع التابعة له </th>
+                    <th>   الخزنه التابع له </th>
 
                     <th class="text-center">العمليات</th>
                 </tr>
@@ -37,10 +37,13 @@
                 @foreach($safes as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
-                        <td>{!! $row->code!!}</td>
-                        <td>{!! $row->financial_custody !!}</td>
+                        <td>{!! $row->name!!}</td>
+                        <td>{!! $row->custody !!}</td>
+                        @if($row->model_type=='App\Models\AccountingSystem\AccountingBranch')
                         <td>{!! $row->branch->name!!}</td>
-
+                        @elseif($row->model_type=='App\Models\AccountingSystem\AccountingCompany')
+                        <td>{!! $row->company->name!!}</td>
+                        @endif
                         <td class="text-center">
                             <a href="{{route('accounting.safes.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>

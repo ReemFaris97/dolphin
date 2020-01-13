@@ -14,6 +14,8 @@
     <div class="panel panel-flat">
         <div class="panel-heading">
             <h5 class="panel-title">نقطة البيع</h5>
+            
+
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -27,6 +29,7 @@
             <section class="yourBill">
                 <div class="row">
 
+
                     <div class="col-md-8 col-sm-6 col-xs-12">
                         <div class="yurSections">
 
@@ -37,8 +40,8 @@
     <li role="presentation"><a href="#mobile" aria-controls="mobile" role="tab" data-toggle="tab" onclick="category({{$category->id}})" class="category">{{$category->ar_name}}</a></li>
           @endforeach
   </ul>
-                                
-                                
+
+
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active" >
                                     <div class="yurProdc">
