@@ -1,7 +1,7 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تعديل الخلية')
-@section('parent_title','إدارة  المنتجات')
-@section('action', URL::route('accounting.products.index'))
+@section('title','تعديل  الجهاز')
+@section('parent_title','إدارة  الاجهزه')
+@section('action', URL::route('accounting.devices.index'))
 
 @section('content')
     <div class="panel panel-flat">

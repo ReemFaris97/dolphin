@@ -124,7 +124,7 @@
 @endif
 
 
-<div class="basic">
+<div class="devices">
 
 </div>
 

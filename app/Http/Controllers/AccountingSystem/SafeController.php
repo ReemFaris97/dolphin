@@ -11,6 +11,7 @@ use App\Models\AccountingSystem\AccountingFaceColumn;
 use App\Models\AccountingSystem\AccountingSafe;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingDevice;
 use App\Traits\Viewable;
 
 class SafeController extends Controller
@@ -166,24 +167,20 @@ class SafeController extends Controller
 
     public  function company_devices($id){
 
-        $basic_stores=AccountingStore::where('model_id',$id)->where('model_type','App\Models\AccountingSystem\AccountingCompany')->pluck('ar_name','id')->toArray();
-
-
+        $devices=AccountingDevice::where('model_id',$id)->where('model_type','App\Models\AccountingSystem\AccountingCompany')->pluck('name','id')->toArray();
+    //    dd($devices);
         return response()->json([
             'status'=>true,
-            'data'=>view('AccountingSystem.stores.basic_store')->with('basic_stores',$basic_stores)->render()
+            'data'=>view('AccountingSystem.stores.basic_device')->with('basic_device',$$devices)->render()
         ]);
-
     }
 
     public  function branch_devices($id){
 
-        $basic_stores=AccountingStore::where('model_id',$id)->where('model_type','App\Models\AccountingSystem\AccountingBranch')->pluck('ar_name','id')->toArray();
-
-
+        $devices=AccountingDevice::where('model_id',$id)->where('model_type','App\Models\AccountingSystem\AccountingBranch')->pluck('ar_name','id')->toArray();
         return response()->json([
             'status'=>true,
-            'data'=>view('AccountingSystem.stores.basic_store')->with('basic_stores',$basic_stores)->render()
+            'data'=>view('AccountingSystem.stores.basic_device')->with('basic_device',$devices)->render()
         ]);
 
     }

@@ -1,5 +1,5 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض الخلايا')
+@section('title','عرض الاجهزة')
 @section('parent_title','إدارة  المنتجات')
 @section('action', URL::route('accounting.products.index'))
 
@@ -10,7 +10,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">عرض كل الخلايا</h5>
+            <h5 class="panel-title">عرض كل الاجهزة</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -25,11 +25,11 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>اسم الشركة </th>
-                    <th>اسم الفرع </th>
-                    <th>اسم المخزن </th>
+
                     <th>اسم الجهاز </th>
                     <th>كود الجهاز </th>
+                    <th> الجهاز  تابع الى  </th>
+
 
                     <th class="text-center">العمليات</th>
                 </tr>
@@ -41,6 +41,12 @@
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->name!!}</td>
                         <td>{!! $row->code!!}</td>
+                        <td>
+                        @if($row->model_type=='App\Models\AccountingSystem\AccountingBranch')
+                       {!! $row->branch->name!!}
+                        @elseif($row->model_type=='App\Models\AccountingSystem\AccountingCompany')
+                        {!! $row->company->name!!}</td>
+                        @endif
 
                         <td class="text-center">
                             <a href="{{route('accounting.devices.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>

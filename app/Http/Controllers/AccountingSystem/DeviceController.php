@@ -24,8 +24,8 @@ class DeviceController extends Controller
      */
     public function index()
     {
-        $cells =AccountingDevice::all()->reverse();
-        return $this->toIndex(compact('cells'));
+        $devices =AccountingDevice::all()->reverse();
+        return $this->toIndex(compact('devices'));
     }
 
     /**
@@ -36,8 +36,10 @@ class DeviceController extends Controller
     public function create()
     {
 
-        $columns=AccountingCompany::pluck('name','id')->toArray();
-        return $this->toCreate(compact('columns'));
+        $companies=AccountingCompany::pluck('name','id')->toArray();
+        $branches=AccountingBranch::pluck('name','id')->toArray();
+        return $this->toCreate(compact('companies','branches'));
+
     }
 
     /**
@@ -57,6 +59,24 @@ class DeviceController extends Controller
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
+
+
+        if ($requests['company_id']==NULL & $requests['branch_id']!=NULL)
+        {
+
+            $requests['model_id']= $requests['branch_id'];
+               $requests[ 'model_type']='App\Models\AccountingSystem\AccountingBranch';
+
+
+
+        }
+        if ($requests['branch_id']==NULL & $requests['company_id']!=NULL)
+        {
+
+            $requests[ 'model_id']= $requests['company_id'];
+             $requests[ 'model_type']='App\Models\AccountingSystem\AccountingCompany';
+
+        }
 
         AccountingDevice::create($requests);
         alert()->success('تم اضافة  الجهاز بنجاح !')->autoclose(5000);
@@ -82,10 +102,11 @@ class DeviceController extends Controller
      */
     public function edit($id)
     {
-        $cell =AccountingColumnCell::findOrFail($id);
-        $columns=AccountingFaceColumn::pluck('name','id')->toArray();
+        $device=AccountingDevice::findOrFail($id);
+        $companies=AccountingCompany::pluck('name','id')->toArray();
+        $branches=AccountingBranch::pluck('name','id')->toArray();
 
-        return $this->toEdit(compact('cell','columns'));
+        return $this->toEdit(compact('device','branches','companies'));
 
 
     }
@@ -99,18 +120,31 @@ class DeviceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $cell =AccountingColumnCell::findOrFail($id);
+        $device =AccountingDevice::findOrFail($id);
         $rules = [
 
             'name'=>'required|string|max:191',
 
-            'column_id'=>'required|numeric|exists:accounting_face_columns,id',
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
-        $cell->update($requests);
+        $device->update($requests);
+
+
+        if (array_key_exists('company_id',$requests)) {
+
+            $device->update([
+                'model_id' => $requests['company_id']
+            ]);
+        }elseif(array_key_exists('branch_id',$requests)) {
+
+
+            $device->update([
+                'model_id' => $requests['branch_id']
+            ]);
+        }
         alert()->success('تم تعديل  الصف بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.cells.index');
+        return redirect()->route('accounting.devices.index');
 
 
 
