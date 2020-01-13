@@ -7,7 +7,7 @@
 .yurSections ul {
     text-align: center;
     padding: 5px 0;
-    border-bottom: 1px solid #3a4496;
+    border-bottom: 1px solid #2ECC71;
 }
 .yurSections li{
     display: inline-block;
@@ -20,7 +20,7 @@
         font-size: 16px;
 }
 .yurSections li.active a{
-    background-color: #3A4496;
+    background-color: #2ECC71;
     color: #fff;
 }
 .yurProdc{
@@ -37,7 +37,7 @@
     position: absolute;
     top: -6px;
     left: 0;
-    background-color: yellowgreen;
+    background-color: #2ECC71;
     color: #fff;
 }
 .prod1 label img {
@@ -57,7 +57,7 @@
         margin: 5px auto 0 auto;
 }
 .prod1 .name:hover{
-    color: #3a4496;
+    color: #2ECC71;
 }
 /****/
 .prod1 input[type="checkbox"][id^="myCheckbox"] {
@@ -100,12 +100,12 @@ background-color: white;
 
 
 .prod1 input:checked + label {
-  border-color: #3a4496;
+  border-color: #2ECC71;
 }
 
 .prod1 input:checked + label:before {
   content: "✓";
-  background-color: #3a4496;
+  background-color: #2ECC71;
   transform: scale(1);
 }
 
@@ -118,7 +118,7 @@ background-color: white;
 
 input#fxd-btn {
     text-align: center;
-    background-color: #3a4496;
+    background-color: #2ECC71;
     color: #fff;
     width: 100%;
     border-radius: 4px;
@@ -175,7 +175,7 @@ input#fxd-btn:hover , input#fxd-btn:focus{
     border: 1px solid #262d67;
     border-radius: 5px;
     display: inline-block;
-    background-color: #3a4496;
+    background-color: #2ECC71;
 }
 
 .quant input[type=number]::-webkit-inner-spin-button,
@@ -192,7 +192,7 @@ input#fxd-btn:hover , input#fxd-btn:focus{
 }
 .finalTb th {
     border-radius: 0;
-    background-color: #3a4496;
+    background-color: #2ECC71;
     color: #fff;
 }
 .inDetails{
