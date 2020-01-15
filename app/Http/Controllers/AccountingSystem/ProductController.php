@@ -25,6 +25,7 @@ use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingTaxBand;
 use App\Traits\Viewable;
 
 class ProductController extends Controller
@@ -54,9 +55,11 @@ class ProductController extends Controller
         $branches=AccountingBranch::pluck('name','id')->toArray();
         $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
         $products=AccountingProduct::pluck('name','id')->toArray();
+        $taxs=AccountingTaxBand::pluck('name','id')->toArray();
+
         $units=collect($unit)->toJson();
         //dd($units);
-        return $this->toCreate(compact('branches','categories','products','industrials','units'));
+        return $this->toCreate(compact('branches','categories','products','industrials','units','taxs'));
     }
 
     /**
@@ -67,7 +70,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-  // dd($request->all());
+//  dd($request->all());
         $rules = [
 
             'description'=>'nullable|string',
@@ -218,6 +221,7 @@ class ProductController extends Controller
                 'product_id'=>$product->id,
                 'tax'=>$request['tax'],
                 'price_has_tax'=>isset($request['price_has_tax'])?$request['price_has_tax']:Null,
+                'tax_band_id'=>$request['tax_band_id'],
             ]);
 
         }

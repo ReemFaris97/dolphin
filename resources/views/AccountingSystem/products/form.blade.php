@@ -277,8 +277,12 @@
 					{!! Form::radio("price_has_tax",1,['class'=>'form-control','id'=>'yes','value'=>1])!!}
 
 					<label>السعر  غير شامل الضريبة  </label>
-					{!! Form::radio("price_has_tax",0,['class'=>'form-control','id'=>'yes','value'=>1])!!}
-				</div>
+					{!! Form::radio("price_has_tax",0,['class'=>'form-control','id'=>'yes','value'=>0])!!}
+                </div>
+                <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left prices_taxs">
+					<label>   اسم  شريحة الضرائب</label>
+						{!! Form::select("tax_band_id",$taxs,null,['class'=>'form-control selectpicker ','id'=>'cell_id','placeholder'=>'  اسم  شريحة الضرائب '])!!}
+                </div>
       </div>
       </div>
 
@@ -529,7 +533,7 @@
 
 
                 <span class="required--in">*</span>
-                {!! Form::select("type",['Delivery'=>'توصيل','composing'=>'تركيب','maintenance'=>'صيانة'],null,['class'=>'form-control js-example-basic-single','id'=>'service_type','placeholder'=>' اختر  خدمة الصنف '])!!}
+                {{-- {!! Form::select("type",['Delivery'=>'توصيل','composing'=>'تركيب','maintenance'=>'صيانة'],null,['class'=>'form-control js-example-basic-single','id'=>'service_type','placeholder'=>' اختر  خدمة الصنف '])!!} --}}
                 <label>السعر</label>
                 <span class="required--in">*</span>
                 <input type="text" class="form-control" id="sevices_price">

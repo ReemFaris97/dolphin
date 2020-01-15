@@ -9,6 +9,12 @@
             <span class="price"><input type="number" class="pric-holder" value="{{$product->selling_price}}">   ر.س </span>
             <img src="{!! getimg($product->image)!!}">
             <h4 class="name">{{$product->name}} </h4>
+           <?php
+          $producttax=\App\Models\AccountingSystem\AccountingProductTax::where('product_id',$product->id)->first();
+
+            ?>
+                       <h4 class="name">@if(isset($producttax)){{$producttax->price_has_tax}} @endif</h4>
+
             <input type="hidden" class="id" value="{{$product->id}}">
         </label>
 

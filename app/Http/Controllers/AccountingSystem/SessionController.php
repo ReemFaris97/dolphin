@@ -54,19 +54,16 @@ class SessionController extends Controller
         ];
         $this->validate($request,$rules);
        $session= AccountingSession::create($inputs);
-    $user=User::where('email',$inputs['email'])->first();
+      $user=User::where('email',$inputs['email'])->first();
+        $session->update([
+            'user_id'=>$user->id,
+        ]);
 
-    $session->update([
-        'user_id'=>$user->id,
-    ]);
-
-    if ($request->password != null && !\Hash::check($request->password, $user->password)) {
-        return back()->withInput()->withErrors(['password' => 'كلمه المرور  غير صحيحه']);
-    }
-
-
+        if ($request->password != null && !\Hash::check($request->password, $user->password)) {
+            return back()->withInput()->withErrors(['password' => 'كلمه المرور  غير صحيحه']);
+        }
         alert()->success('تم فتح الجلسة بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.sells_points.sells_point',compact('session'));
+        return view('AccountingSystem.sell_points.sell',compact('session'));
 
     }
 
