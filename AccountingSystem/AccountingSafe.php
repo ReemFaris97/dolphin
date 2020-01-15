@@ -4,15 +4,11 @@ namespace App\Models\AccountingSystem;
 
 use Illuminate\Database\Eloquent\Model;
 
-class  AccountingDevice extends Model
+class AccountingSafe extends Model
 {
-    protected $fillable = ['store_id','name','code','model_id','model_type'];
+    protected $fillable = ['device_id','name','custody','model_type','type','model_id'];
 
-
-    public  function clause(){
-        return $this->belongsTo(AccountingMoneyClause::class,'clause_id');
-
-    }
+protected  $table='accounting_safes';
 
     public function branch()
     {
@@ -23,4 +19,6 @@ class  AccountingDevice extends Model
     {
         return $this->belongsTo(AccountingCompany::class,'model_id');
     }
+
+
 }

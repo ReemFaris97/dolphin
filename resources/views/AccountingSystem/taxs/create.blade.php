@@ -1,12 +1,16 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تعديل  الجهاز')
-@section('parent_title','إدارة  الاجهزه')
-@section('action', URL::route('accounting.devices.index'))
+@section('title','إنشاء شريحه ضرائب  جديد')
+@section('parent_title','إدارة  الضرائب')
+@section('action', URL::route('accounting.products.index'))
+
+@section('styles')
+
+@endsection
 
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-
+            <h5 class="panel-title">إضافة  شريحه ضرائب جديدة</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -17,13 +21,12 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::model($device, ['route' => ['accounting.devices.update' ,$device->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
-
-            @include('AccountingSystem.devices.form')
-
+            {!!Form::open( ['route' => 'accounting.taxs.store' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
+            @include('AccountingSystem.taxs.form')
             {!!Form::close() !!}
         </div>
 
-
+        </div>
     </div>
-@endsection
+
+ @endsection

@@ -1,7 +1,7 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تعديل  الجهاز')
-@section('parent_title','إدارة  الاجهزه')
-@section('action', URL::route('accounting.devices.index'))
+@section('title','تعديل شريحة الضرائب')
+@section('parent_title','إدارة  الضرائب')
+@section('action', URL::route('accounting.tax_bands.index'))
 
 @section('content')
     <div class="panel panel-flat">
@@ -17,9 +17,9 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::model($device, ['route' => ['accounting.devices.update' ,$device->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
+            {!!Form::model($face, ['route' => ['accounting.taxs.update' ,$tax->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
 
-            @include('AccountingSystem.devices.form')
+            @include('AccountingSystem.taxs.form')
 
             {!!Form::close() !!}
         </div>

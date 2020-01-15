@@ -124,8 +124,6 @@ class StoreController extends Controller
      */
     public function edit($id)
     {
-
-
         $store =AccountingStore::findOrFail($id);
         $companies=AccountingCompany::pluck('name','id')->toArray();
         $branches=AccountingBranch::pluck('name','id')->toArray();
