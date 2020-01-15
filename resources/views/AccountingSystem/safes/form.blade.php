@@ -92,7 +92,7 @@
 
             <label class="radio-inline">
                 <input type="radio" name="type"  class="styled type" value="0"  disabled >
-                فرعى
+                    فرعية
             </label>
         </div>
     @else

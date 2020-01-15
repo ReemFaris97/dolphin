@@ -12,6 +12,7 @@ use App\Models\AccountingSystem\AccountingSafe;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingDevice;
+use App\Models\AccountingSystem\AccountingTransactionSafe;
 use App\Traits\Viewable;
 
 class SafeController extends Controller
@@ -26,7 +27,9 @@ class SafeController extends Controller
     public function index()
     {
         $safes =AccountingSafe::all()->reverse();
-        return $this->toIndex(compact('safes'));
+        $safes_followed =AccountingSafe::where("type",0)->get();
+
+        return $this->toIndex(compact('safes','safes_followed'));
     }
 
     /**
@@ -77,7 +80,7 @@ class SafeController extends Controller
         }
 
         AccountingSafe::create($requests);
-        alert()->success('تم اضافة  الخزينة بنجاح !')->autoclose(5000);
+        alert()->success('تم اضافة الخزينة بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.safes.index');
     }
 
@@ -89,7 +92,11 @@ class SafeController extends Controller
      */
     public function show($id)
     {
-        //
+      $transactions=AccountingTransactionSafe::where('safe_form_id',$id)->get();
+    //   dd($transactions);
+      return $this->toShow(compact('transactions'));
+
+
     }
 
     /**
@@ -171,7 +178,7 @@ class SafeController extends Controller
     //    dd($devices);
         return response()->json([
             'status'=>true,
-            'data'=>view('AccountingSystem.stores.basic_device')->with('basic_device',$$devices)->render()
+            'data'=>view('AccountingSystem.safes.basic_device')->with('devices',$devices)->render()
         ]);
     }
 
@@ -180,8 +187,38 @@ class SafeController extends Controller
         $devices=AccountingDevice::where('model_id',$id)->where('model_type','App\Models\AccountingSystem\AccountingBranch')->pluck('ar_name','id')->toArray();
         return response()->json([
             'status'=>true,
-            'data'=>view('AccountingSystem.stores.basic_device')->with('basic_device',$devices)->render()
+            'data'=>view('AccountingSystem.safes.basic_device')->with('devices',$devices)->render()
         ]);
 
+    }
+
+
+    public function transactionsafe_store(Request $request,$id){
+
+        $inputs=$request->all();
+        // dd($inputs);
+            AccountingTransactionSafe::create([
+                'safe_form_id'=>$inputs['safe_form_id'],
+                'safe_to_id'=>$inputs['safe_to_id'],
+                'amount'=>$inputs['amount'],
+                'notes'=>$inputs['notes'],
+            ]);
+
+        $safe_form=AccountingSafe::where('id',$inputs['safe_form_id'])->first();
+        $safe_to=AccountingSafe::where('id',$inputs['safe_to_id'])->first();
+                    if($safe_form->amount>=0){
+                        $safe_form->update([
+                            'custody'=>$safe_form->custody - $inputs['amount']
+                        ]);
+                        $safe_to->update([
+                            'custody'=>$safe_to->custody +$inputs['amount']
+                        ]);
+                    }
+
+
+
+
+        alert()->success('تم  اضافة التحويل من الخزنة بنجاح !')->autoclose(5000);
+        return back();
     }
 }

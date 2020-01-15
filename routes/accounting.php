@@ -14,6 +14,8 @@ Route::middleware('admin')->group(function () {
     Route::resource('users', 'UserController');
     Route::resource('stores', 'StoreController');
     Route::resource('storeKeepers', 'StoreKeeperController');
+    Route::resource('taxs', 'TaxsController');
+
     /////////////////سندات  ادخال المنتجات فى المخازن
 
     Route::get('/company_stores/{id}', 'StoreController@company_stores');
@@ -75,6 +77,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/products_store/{id}', 'StoreController@getproducts')->name('products_store');
     Route::get('/products_settlement/{id}', 'StoreController@getproducts_')->name('products_settlement');
 
+
     Route::post('transaction/{id}', 'StoreTransactionController@transaction')->name('products.transaction');
     Route::get('/productsingle', 'StoreTransactionController@productsingle');
     Route::get('/productsettlement', 'StoreTransactionController@productsettlement');
@@ -100,17 +103,13 @@ Route::middleware('admin')->group(function () {
     Route::get('/product-barcode/{id}', 'ProductController@barcode')->name('products.barcode');
     Route::get('/sell_login', 'SellPointController@sell_login')->name('sells_points.login');
     Route::get('/sell_point', 'SellPointController@sell_point')->name('sells_points.sells_point');
-
     // Route::get('/sell_point', 'SellPointController@sell_point')->name('sells_points.sells_point');
     Route::get('/notification/{id}', 'OfferController@notification')->name('offers.notification');
     Route::get('/permiums', 'ClientController@permiums')->name('clients.permiums');
     Route::post('/permium_store', 'ClientController@permium_store')->name('clients.permiums_store');
-
     Route::get('/offer_copy', 'ClientController@offer_copy')->name('clients.offers_copy');
     Route::post('/offers_copy', 'ClientController@copy')->name('clients.copy');
-
     Route::resource('session', 'SessionController');
-
     Route::resource('sales', 'SaleController');
     Route::resource('clients', 'ClientController');
     Route::resource('categories', 'CategoryController');
@@ -119,6 +118,7 @@ Route::middleware('admin')->group(function () {
     Route::resource('devices', 'DeviceController');
     Route::get('/company_devices/{id}', 'SafeController@company_devices');
     Route::get('/branch_devices/{id}', 'SafeController@branch_devices');
+    Route::post('transactionsafe_store/{id}', 'SafeController@transactionsafe_store')->name('transactionsafe_store');
 
 
     Route::resource('faces', 'FaceController');

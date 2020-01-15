@@ -220,6 +220,18 @@
 								<li><a href="{{route('accounting.industrials.index')}}"><i class="icon-eye"></i> عرض الشركات المصنعة</a></li>
 								<li><a href="{{route('accounting.industrials.create')}}"><i class="icon-add-to-list"></i> اضافة شركة جديدة</a></li>
 							</ul>
+                        </li>
+
+                        <li class="dropdown-submenu dropdown-submenu-right">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								<i class="icon-cabinet position-left"></i>
+								 إدارة الضرائب
+							</a>
+
+							<ul class="dropdown-menu dropdown-menu-right">
+								<li><a href="{{route('accounting.taxs.index')}}"><i class="icon-eye"></i> عرض  شرائح الضرائب</a></li>
+								<li><a href="{{route('accounting.taxs.create')}}"><i class="icon-add-to-list"></i> اضافة شريحة جديدة</a></li>
+							</ul>
 						</li>
 						<li class="dropdown-submenu dropdown-submenu-right">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
