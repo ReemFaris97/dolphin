@@ -15,19 +15,14 @@ Route::middleware('admin')->group(function () {
     Route::resource('stores', 'StoreController');
     Route::resource('storeKeepers', 'StoreKeeperController');
     Route::resource('taxs', 'TaxsController');
-
     /////////////////سندات  ادخال المنتجات فى المخازن
-
     Route::get('/company_stores/{id}', 'StoreController@company_stores');
     Route::get('/branch_stores/{id}', 'StoreController@branch_stores');
     Route::get('/store-active/{id}', 'StoreController@active')->name('stores.is_active');
     Route::get('/store-dis_active/{id}', 'StoreController@dis_active')->name('stores.dis_active');
     Route::get('/store-active-product/{id}', 'StoreController@active_product')->name('stores.is_active_product');
     Route::get('/store-dis_active-product/{id}', 'StoreController@dis_active_product')->name('stores.dis_active_product');
-
-
-        Route::get('/product-details/{id}', 'StoreController@show_product_details')->name('stores.show_product_details');
-
+    Route::get('/product-details/{id}', 'StoreController@show_product_details')->name('stores.show_product_details');
     Route::post('/destroy_product/{id}', 'StoreController@destroy_product')->name('stores.destroy_product');
 
     Route::get('/products_entry_form', 'StoreController@products_entry_form')->name('stores.products_entry_form');
@@ -36,12 +31,12 @@ Route::middleware('admin')->group(function () {
 
     Route::get('/bonds', 'StoreController@bonds_index')->name('stores.bonds_index');
     Route::get('/bond-show/{id}', 'StoreController@bond_show')->name('stores.show_bond');
-
     Route::get('/products_exchange_form', 'StoreController@products_exchange_form')->name('stores.products_exchange_form');
     Route::post('/products_exchange_store', 'StoreController@products_exchange_store')->name('stores.products_exchange_store');
     Route::get('/store-product/{id}', 'StoreController@store_product')->name('stores.product');
     Route::post('/store-products-copy/{id}', 'StoreController@store_products_copy')->name('store_products_copy.store');
-  /////////////////settlementتسوي  الارصده  للبداية/////////////////
+  
+    /////////////////settlementتسوي  الارصده  للبداية/////////////////
     Route::post('/settlement', 'StoreController@settlements_store')->name('stores_settle.filter_settlements');
     Route::get('/settlements', 'StoreController@settlements')->name('stores.settlements');
     Route::get('/settlements-index', 'StoreController@settlements_index')->name('stores.settlements_index');

@@ -274,10 +274,10 @@
 				</div>
 				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left prices_taxs ">
 					<label> السعر شامل  الضريبة </label>
-					{!! Form::radio("price_has_tax",1,['class'=>'form-control'])!!}
+					{!! Form::radio("price_has_tax",1,['class'=>'form-control','id'=>'yes','value'=>1])!!}
 
 					<label>السعر  غير شامل الضريبة  </label>
-					{!! Form::radio("price_has_tax",0,['class'=>'form-control'])!!}
+					{!! Form::radio("price_has_tax",0,['class'=>'form-control','id'=>'yes','value'=>1])!!}
 				</div>
       </div>
       </div>
