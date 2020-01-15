@@ -205,6 +205,7 @@
 			
 			function addClicked()  {
                 $(".finalTb tbody").html('');
+				
                 $('.if-check').each(function() {
                     if ($(this).is(':checked')) {
                         var itemName = $(this).parent(".prod1").find(".new-p").find('.name').html();
@@ -240,8 +241,8 @@
                         /********************/
                     }
                     /**********************  Remove Piece *****************/
-
                 });
+				
 			$(".close").click(function(){
 			$(this).parents('.newProd').remove();
 			var allResult = 0;
@@ -275,6 +276,15 @@
             $(".fxd-btn").click(function(){
 				addClicked()
 			});
+			
+			$('.if-check').on('change' , function() {
+                   if($(this).is(":checked")){
+					   addClicked();
+				   }
+					
+			})
+			
+			
 								
 								
         }
