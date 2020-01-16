@@ -138,14 +138,12 @@
                                     <th colspan="2">العميل</th>
                                     <th>
                                         {!! Form::select("client_id",$clients,null,['class'=>'form-control','placeholder'=>'اسم العميل '])!!}
-
                                     </th>
                                 </tr>
                                 <tr>
                                     <th colspan="2">طريقه الدفع</th>
                                     <th>
                                         {!! Form::select("payment",pay_type(),null,['class'=>'form-control','placeholder'=>'طريقه الدفع '])!!}
-
                                     </th>
                                 </tr>
                                 <tr>
@@ -165,7 +163,6 @@
         </div>
     </div>
 @endsection
-
 
 @section('scripts')
 

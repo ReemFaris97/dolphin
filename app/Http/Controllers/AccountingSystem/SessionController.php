@@ -63,7 +63,7 @@ class SessionController extends Controller
             return back()->withInput()->withErrors(['password' => 'كلمه المرور  غير صحيحه']);
         }
         alert()->success('تم فتح الجلسة بنجاح !')->autoclose(5000);
-        return view('AccountingSystem.sell_points.sell',compact('session'));
+        return \Redirect::route('accounting.sells_points.sells_point',['id' => $session->id])->with('session');
 
     }
 

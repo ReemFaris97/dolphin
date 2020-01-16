@@ -35,7 +35,7 @@ Route::middleware('admin')->group(function () {
     Route::post('/products_exchange_store', 'StoreController@products_exchange_store')->name('stores.products_exchange_store');
     Route::get('/store-product/{id}', 'StoreController@store_product')->name('stores.product');
     Route::post('/store-products-copy/{id}', 'StoreController@store_products_copy')->name('store_products_copy.store');
-  
+
     /////////////////settlementتسوي  الارصده  للبداية/////////////////
     Route::post('/settlement', 'StoreController@settlements_store')->name('stores_settle.filter_settlements');
     Route::get('/settlements', 'StoreController@settlements')->name('stores.settlements');
@@ -97,7 +97,7 @@ Route::middleware('admin')->group(function () {
     ////////////////////////////طباعة الباركود
     Route::get('/product-barcode/{id}', 'ProductController@barcode')->name('products.barcode');
     Route::get('/sell_login', 'SellPointController@sell_login')->name('sells_points.login');
-    Route::get('/sell_point', 'SellPointController@sell_point')->name('sells_points.sells_point');
+    Route::get('/sell_point/{id}', 'SellPointController@sell_point')->name('sells_points.sells_point');
     // Route::get('/sell_point', 'SellPointController@sell_point')->name('sells_points.sells_point');
     Route::get('/notification/{id}', 'OfferController@notification')->name('offers.notification');
     Route::get('/permiums', 'ClientController@permiums')->name('clients.permiums');
@@ -111,6 +111,11 @@ Route::middleware('admin')->group(function () {
     Route::resource('industrials', 'IndustrialController');
     Route::resource('safes', 'SafeController');
     Route::resource('devices', 'DeviceController');
+    Route::get('/returns', 'SaleController@returns')->name('sales.returns');
+    Route::get('/returns_Sale/{id}', 'SaleController@returns_Sale');
+    Route::get('/sale_details/{id}', 'SaleController@sale_details');
+
+
     Route::get('/company_devices/{id}', 'SafeController@company_devices');
     Route::get('/branch_devices/{id}', 'SafeController@branch_devices');
     Route::post('transactionsafe_store/{id}', 'SafeController@transactionsafe_store')->name('transactionsafe_store');
@@ -145,8 +150,6 @@ Route::middleware('admin')->group(function () {
     Route::post('/subunit', 'ProductController@subunit')->name('subunit');
 
     Route::get('/productsAjex/{id}', 'SellPointController@getProductAjex');
-
-
 
 });
 

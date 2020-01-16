@@ -14,6 +14,7 @@ use App\Models\AccountingSystem\AccountingProductCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingProductTax;
+use App\Models\AccountingSystem\AccountingSession;
 use App\Traits\Viewable;
 use App\User;
 
@@ -26,15 +27,16 @@ class SellPointController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function sell_point()
+    public function sell_point($id)
     {
         $categories=AccountingProductCategory::all();
+        $session=AccountingSession::find($id);
         $clients=AccountingClient::pluck('name','id')->toArray();
 //foreach ($categories as $category){
 //  dd($category->products()->get());
 //}
 
-        return  view('AccountingSystem.sell_points.sell_point',compact('categories','clients'));
+        return  view('AccountingSystem.sell_points.sell_point',compact('categories','clients','session'));
     }
 
     /**
@@ -44,7 +46,7 @@ class SellPointController extends Controller
      */
     public  function getProductAjex($id){
         $products=AccountingProduct::where('category_id',$id)->get();
-        $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
+        // $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
 
         return response()->json([
             'status'=>true,
