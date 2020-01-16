@@ -281,7 +281,7 @@
                 </div>
                 <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left prices_taxs">
 					<label>   اسم  شريحة الضرائب</label>
-						{!! Form::select("tax_band_id",$taxs,null,['class'=>'form-control selectpicker ','id'=>'cell_id','placeholder'=>'  اسم  شريحة الضرائب '])!!}
+						{!! Form::select("tax_band_id[]",$taxs,null,['class'=>'form-control selectpicker ','id'=>'cell_id','multiple','placeholder'=>'  اسم  شريحة الضرائب '])!!}
                 </div>
       </div>
       </div>

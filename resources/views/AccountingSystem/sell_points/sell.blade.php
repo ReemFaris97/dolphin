@@ -12,8 +12,9 @@
            <?php
           $producttax=\App\Models\AccountingSystem\AccountingProductTax::where('product_id',$product->id)->first();
 
-            ?>
+       ?>
                        <h4 class="name">@if(isset($producttax)){{$producttax->price_has_tax}} @endif</h4>
+        <h4 class="name">{{$product->total_taxes}}</h4>
 
             <input type="hidden" class="id" value="{{$product->id}}">
         </label>

@@ -217,13 +217,15 @@ class ProductController extends Controller
 /////////////////////product_taxs//////////////////////////////////////
 
         if (isset($request['tax'])){
+            // dd($request->all());
+            foreach($request['tax_band_id'] as $tax_band_id){
             AccountingProductTax::create([
                 'product_id'=>$product->id,
                 'tax'=>$request['tax'],
                 'price_has_tax'=>isset($request['price_has_tax'])?$request['price_has_tax']:Null,
-                'tax_band_id'=>$request['tax_band_id'],
+                'tax_band_id'=>$tax_band_id,
             ]);
-
+            }
         }
 //////////////////////product_services////////////////////////////
 
