@@ -10,7 +10,8 @@ class AccountingSale extends Model
 {
 
 
-    protected $fillable = ['client_id','total','amount','discount','payment','payed','debts','package_id'];
+    protected $fillable = ['client_id','total','amount','discount','payment','payed','debts','package_id','session_id','branch_id','company_id','store_id','bill_num'
+,'status'];
     protected $table='accounting_sales';
 
 
@@ -18,5 +19,23 @@ class AccountingSale extends Model
     public function client()
     {
         return $this->belongsTo(AccountingClient::class,'client_id');
+    }
+    public function session()
+    {
+        return $this->belongsTo(AccountingSession::class,'session_id');
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(AccountingCompany::class,'company_id');
+    }
+    public function branch()
+    {
+        return $this->belongsTo(AccountingBranchFace::class,'branch_id');
+    }
+
+    public function store()
+    {
+        return $this->belongsTo(AccountingStore::class,'store_id');
     }
 }

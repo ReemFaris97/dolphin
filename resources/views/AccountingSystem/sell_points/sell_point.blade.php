@@ -109,6 +109,7 @@
                                 </thead>
                                 <tbody></tbody>
                                 <tfoot>
+<<<<<<< HEAD
                                 	<tr id="amountBeforeDariba">
 										<th colspan="2"> المجموع</th>
 										<input type="hidden" name="">
@@ -154,7 +155,8 @@
 											{!! Form::select("payment",pay_type(),null,['class'=>'form-control','placeholder'=>'طريقه الدفع '])!!}
 										</th>
 									</tr>
-									<tr>
+							
+                                <tr>
                                     <th colspan="4">
                                   		<button type="submit">دفع</button>
                                     </th>

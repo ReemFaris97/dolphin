@@ -15,8 +15,8 @@ class AccountingSaleItem extends Model
 
 
 
-    public function client()
+    public function product()
     {
-        return $this->belongsTo(AccountingClient::class,'client_id');
+        return $this->belongsTo(AccountingProduct::class,'product_id');
     }
 }
