@@ -109,7 +109,6 @@
                                 </thead>
                                 <tbody></tbody>
                                 <tfoot>
-<<<<<<< HEAD
                                 	<tr id="amountBeforeDariba">
 										<th colspan="2"> المجموع</th>
 										<input type="hidden" name="">
