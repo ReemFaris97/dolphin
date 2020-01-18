@@ -267,342 +267,29 @@
            <div class="row">
            <div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left taxs " >
 					<label>يوجد ضريبة </label>
-					{!! Form::radio("tax",1,['class'=>'form-control','id'=>'yes','value'=>1 ])!!}
+					{!! Form::radio("tax",1,['class'=>'form-control','id'=>'yes','value'=>1])!!}
 
 					<label> لا يوجد ضريبه </label>
 					{!! Form::radio("tax",0,['class'=>'form-control', 'id'=>'no','value'=>0])!!}
 				</div>
 				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left prices_taxs ">
 					<label> السعر شامل  الضريبة </label>
-					{!! Form::radio("price_has_tax",1,['class'=>'form-control'])!!}
+					{!! Form::radio("price_has_tax",1,['class'=>'form-control','id'=>'yes','value'=>1])!!}
 
 					<label>السعر  غير شامل الضريبة  </label>
-					{!! Form::radio("price_has_tax",0,['class'=>'form-control'])!!}
-				</div>
+					{!! Form::radio("price_has_tax",0,['class'=>'form-control','id'=>'yes','value'=>0])!!}
+                </div>
+                <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left prices_taxs">
+					<label>   اسم  شريحة الضرائب</label>
+						{!! Form::select("tax_band_id[]",$taxs,null,['class'=>'form-control selectpicker ','id'=>'cell_id','multiple','placeholder'=>'  اسم  شريحة الضرائب '])!!}
+                </div>
       </div>
       </div>
 
 </div>
 
 
-<!--
-<!--
-<div class="panel-group">
-	<div class="panel">
-		<div class="panel-heading" style="background: #2ecc71">
-			<h6 class="panel-title">
-				<a data-toggle="collapse" href="#collapsible-styled-group1">بيانات المكان</a>
-			</h6>
-		</div>
 
-		<div id="collapsible-styled-group1" class="panel-collapse collapse in">
-			<div class="panel-body">
-				<div class="form-group col-md-4 pull-left">
-					<label> اسم الشركة </label>
-					{!! Form::select("company_id",companies(),null,['class'=>'form-control js-example-basic-single company_id','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له المنتج '])!!}
-
-
-
-				</div>
-
-				<div class="form-group col-md-4 pull-left">
-					<label> اسم الفرع التابع </label>
-					{!! Form::select("branch_id",branches(),null,['class'=>'form-control selectpicker branch_id','id'=>'branch_id','multiple','placeholder'=>' اختر اسم الفرع التابع له المنتج '])!!}
-				</div>
-
-				<div class="form-group col-md-4 pull-left" id="store_id">
-					<label> اسم المخزن </label>
-					@if (!isset($product))
-						{!! Form::select("store_id",stores(),null,['class'=>'form-control js-example-basic-single store_id','id'=>'store_id','placeholder'=>' اختر اسم المخزن التابع له المنتج '])!!}
-
-					@else
-
-						<select class="form-control js-example-basic-single pull-right" name="store_id">
-							@foreach ($stores as $store)
-								@if ($product->store_id == $store->id)
-									<option value="{{$store->id}}"  selected>{{$store->ar_name}}</option>
-								@else
-									<option value="{{$store->id}}" >{{$store->ar_name}}</option>
-								@endif
-							@endforeach
-
-						</select>
-					@endif
-				</div>
-
-				<div class="form-group col-md-4 pull-left">
-					<label> اسم الوجه </label>
-					@if (!isset($product))
-
-					{!! Form::select("face_id",faces(),null,['class'=>'form-control selectpicker face_id','id'=>'face_id','placeholder'=>' اختر وجه للمنتج '])!!}
-					@else
-
-						<select class="form-control js-example-basic-single pull-right" name="column_id">
-							@foreach ($faces as $face)
-								@if ($product->cell->column->face_id == $face->id)
-									<option value="{{$face->id}}"  selected>{{$face->name}}</option>
-								@else
-									<option value="{{$face->id}}" >{{$face->name}}</option>
-								@endif
-							@endforeach
-
-						</select>
-					@endif
-				</div>
-
-				<div class="form-group col-md-4 pull-left">
-					<label> اسم العمود التابع للوجه </label>
-					@if (!isset($product))
-
-					{!! Form::select("column_id",colums(),null,['class'=>'form-control selectpicker column_id','id'=>'column_id','placeholder'=>' اختر عمود للمنتج '])!!}
-					@else
-
-						<select class="form-control js-example-basic-single pull-right" name="column_id">
-							@foreach ($columns as $column)
-								@if ($product->cell->column_id == $column->id)
-									<option value="{{$column->id}}"  selected>{{$column->name}}</option>
-								@else
-									<option value="{{$column->id}}" >{{$column->name}}</option>
-								@endif
-							@endforeach
-
-						</select>
-					@endif
-				</div>
-				<div class="form-group col-md-4 pull-left">
-					<label> اسم  الخلية  التابعة للعمود </label>
-					@if (!isset($product))
-						{!! Form::select("cell_id",cells(),null,['class'=>'form-control selectpicker cell_id','id'=>'cell_id','placeholder'=>' اختر خلية للمنتج '])!!}
-					@else
-
-							<select class="form-control js-example-basic-single pull-right" name="cell_id">
-								@foreach ($cells as $cell)
-								@if ($product->cell_id==$cell->id)
-									<option value="{{$cell->id}}"  selected>{{$cell->name}}</option>
-								@else
-									<option value="{{$cell->id}}" >{{$cell->name}}</option>
-								@endif
-								@endforeach
-
-							</select>
-					@endif
-				</div>
-
-			</div>
-		</div>
-	</div>
-
-	<div class="panel">
-		<div class="panel-heading" style="background: #e74c3c">
-			<h6 class="panel-title">
-				<a class="collapsed" data-toggle="collapse" href="#collapsible-styled-group2">بيانات المنتج</a>
-			</h6>
-		</div>
-		<div id="collapsible-styled-group2" class="panel-collapse collapse">
-			<div class="panel-body">
-				<div class="form-group col-md-6 pull-left">
-					<label>اسم المنتج </label>
-					{!! Form::text("name_product",isset($is_edit)?$product->name:null,['class'=>'form-control','placeholder'=>' اسم المنتج '])!!}
-				</div>
-				<div class="form-group col-md-6 pull-left">
-					<label> اسم التصنيف </label>
-					{!! Form::select("category_id",$categories,null,['class'=>'form-control js-example-basic-single','id'=>'company_id','placeholder'=>' اختر اسم التصنيف التابع له المنتج '])!!}
-				</div>
-				<div class="form-group col-md-6 pull-left">
-					<label>النوع </label>
-					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2" id="components_button">
-						المكونات
-					</button>
-
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3" style="display: none;" id="offers_button">
-                        المنتجات التابعة
-                    </button>
-
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal5" style="display: none;" id="services_button">
-                    الخدمات
-                    </button>
-					{!! Form::select("type",['store'=>'مخزون','service'=>'خدمه','offer'=>'مجموعة منتجات ','creation'=>'تصنيع','product_expiration'=>'منتج بتاريخ صلاحيه'],null,['class'=>'form-control js-example-basic-single type','placeholder'=>' نوع المنتج ','id'=>'type'])!!}
-				</div>
-				<div class="form-group col-md-6 pull-left">
-					<label>الوحدة الاساسية </label><span style="color: #ff0000; margin-right: 15px;">[جرام -كيلو-لتر]</span>
-					 Button trigger modal
-					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-						الوحدات الفرعية
-					</button>
-
-
-						{{--<input class="form-control autocomplete" placeholder="Enter A" />--}}
-
-					{!! Form::text("main_unit",null,['class'=>'form-control  autocomplete','placeholder'=>' الوحدة الاساسية '])!!}
-				</div>
-				<div class="form-group col-md-12 pull-left">
-					<label>وصف المنتج </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
-					{!! Form::textarea("description",null,['class'=>'form-control','placeholder'=>' وصف المنتج '])!!}
-				</div>
-
-				@if( isset($product))
-
-					<div class="form-group col-md-6 pull-left">
-						<label>صوره المنتج الحالية : </label>
-						<img src="{{getimg($product->image)}}" style="width:100px; height:100px">
-					</div>
-				@endif
-				<div class="form-group col-md-6 pull-left">
-					<label>صوره المنتج:  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
-					{!! Form::file("image",null,['class'=>'form-control'])!!}
-				</div>
-
-			</div>
-		</div>
-	</div>
-
-	<div class="panel">
-		<div class="panel-heading" style="background: #3498db">
-			<h6 class="panel-title">
-				<a class="collapsed" data-toggle="collapse" href="#collapsible-styled-group3">بيانات البيع</a>
-			</h6>
-		</div>
-		<div id="collapsible-styled-group3" class="panel-collapse collapse">
-			<div class="panel-body">
-				<div class="form-group col-md-6 pull-left">
-					<label>مفعل </label>
-					{!! Form::radio("is_active",1,['class'=>'form-control'])!!}
-
-					<label>غير مفعل </label>
-					{!! Form::radio("is_active",0,['class'=>'form-control'])!!}
-				</div>
-				<div class="form-group col-md-6 pull-left">
-					<label>الباركود </label>
-					{!! Form::text("bar_code",null,['class'=>'form-control','placeholder'=>' الباركود '])!!}
-				</div>
-				<div class="form-group col-md-6 pull-left">
-					<label>سعر البيع </label>
-					{!! Form::text("product_selling_price",isset($is_edit)?$product->selling_price:null,['class'=>'form-control','placeholder'=>' سعر البيع '])!!}
-				</div>
-				<div class="form-group col-md-6 pull-left">
-					<label>سعر الشراء </label>
-					{!! Form::text("product_purchasing_price",isset($is_edit)?$product->purchasing_price:null,['class'=>'form-control','placeholder'=>'سعر الشراء '])!!}
-				</div>
-				<div class="form-group col-md-6 pull-left">
-					<label>الحد الادنى من الكمية </label>
-					{!! Form::text("min_quantity",null,['class'=>'form-control','placeholder'=>'الحد الادنى من الكمية'])!!}
-				</div>
-				<div class="form-group col-md-6 pull-left">
-					<label> الحد الاقصى من الكمية </label>
-					{!! Form::text("max_quantity",null,['class'=>'form-control','placeholder'=>' الحد الاقصى من الكمية '])!!}
-				</div>
-
-				<div class="form-group col-md-6 pull-left">
-					<label> الكمية </label>
-					{!! Form::text("quantity",null,['class'=>'form-control','placeholder'=>'  الكمية '])!!}
-				</div>
-
-
-				<div class="form-group col-md-6 pull-left">
-					<label> اسم الشركة المصنعة </label>
-					{!! Form::select("industrial_id",$industrials,null,['class'=>'form-control js-example-basic-single','id'=>'industrial_id','placeholder'=>' اختر اسم  الشركة المصنعة المنتج '])!!}
-				</div>
-
-
-			</div>
-		</div>
-	</div>
-
-	<div class="panel">
-		<div class="panel-heading " style="background: #f1c40f">
-			<h6 class="panel-title">
-				<a class="collapsed" data-toggle="collapse" href="#collapsible-styled-group4">مواصفات أخرى (إختياري)</a>
-			</h6>
-		</div>
-		<div id="collapsible-styled-group4" class="panel-collapse collapse">
-			<div class="panel-body">
-				<div class="form-group col-md-6 pull-left">
-					<label> الحجم </label><span style="color: #ff0000; margin-right: 15px;"> اختيارى ويكون بالسنتمتر المكعب</span>
-					{!! Form::text("size",null,['class'=>'form-control','placeholder'=>' الحجم '])!!}
-				</div>
-				<div class="form-group col-md-6 pull-left">
-					<label> اللون </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
-					{!! Form::text("color",null,['class'=>'form-control','placeholder'=>' اللون '])!!}
-				</div>
-				<div class="form-group col-md-6 pull-left">
-					<label> الارتفاع </label><span style="color: #ff0000; margin-right: 15px;">اختيارى ويكون بالسنتمتر</span>
-					{!! Form::text("height",null,['class'=>'form-control','placeholder'=>'الارتفاع '])!!}
-				</div>
-				<div class="form-group col-md-6 pull-left">
-					<label> العرض </label><span style="color: #ff0000; margin-right: 15px;">اختيارى ويكون بالسنتمتر المربع</span>
-					{!! Form::text("width",null,['class'=>'form-control','placeholder'=>' العرض '])!!}
-				</div>
-				<div class="form-group col-md-6 pull-left">
-					<label> تاريخ الانتهاء </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
-					{!! Form::date("expired_at",null,['class'=>'form-control'])!!}
-				</div>
-				<div class="form-group col-md-6 pull-left">
-					<label>عدد أيام فترة الركود</label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
-					{!! Form::number("num_days_recession",null,['class'=>'form-control'])!!}
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="panel">
-		<div class="panel-heading " style="background: #8d76a6">
-			<h6 class="panel-title">
-				<a class="collapsed" data-toggle="collapse" href="#collapsible-styled-group5">العروض والخصومات</a>
-			</h6>
-		</div>
-		<div id="collapsible-styled-group5" class="panel-collapse collapse">
-			<div class="panel-body">
-
-				<div class="form-group col-md-6 pull-left">
-					<label> نوع  الخصم </label>
-					{!! Form::select("discount_type",['percent'=>'نسبة','quantity'=>'كمية'],null,['class'=>'form-control js-example-basic-single','id'=>'discount_id','placeholder'=>' اختر الخصم '])!!}
-				</div>
-
-				<div class="form-group col-md-6 pull-left percent" >
-					<label> النسبة </label>
-					{!! Form::text("percent",null,['class'=>'form-control','placeholder'=>' النسبة '])!!}
-				</div>
-
-				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal4" id="discounts_button">
-					العروض والخصومات
-				</button>
-			</div>
-		</div>
-	</div>
-	<div class="panel">
-		<div class="panel-heading " style="background: #f58442">
-			<h6 class="panel-title">
-				<a class="collapsed" data-toggle="collapse" href="#collapsible-styled-group6"> الضريبه المضافة</a>
-			</h6>
-		</div>
-		<div id="collapsible-styled-group6" class="panel-collapse collapse">
-			<div class="panel-body">
-
-
-
-				<div class="form-group col-md-6 pull-left taxs " >
-					<label>يوجد ضريبة </label>
-					{!! Form::radio("tax",1,['class'=>'form-control','id'=>'yes','value'=>1 ])!!}
-
-					<label> لا يوجد ضريبه </label>
-					{!! Form::radio("tax",0,['class'=>'form-control', 'id'=>'no','value'=>0])!!}
-				</div>
-				<div class="form-group col-md-6 pull-left prices_taxs ">
-					<label> السعر شامل  الضريبة </label>
-					{!! Form::radio("price_has_tax",1,['class'=>'form-control'])!!}
-
-					<label>السعر  غير شامل الضريبة  </label>
-					{!! Form::radio("price_has_tax",0,['class'=>'form-control'])!!}
-				</div>
-
-
-
-			</div>
-		</div>
-	</div>
-</div>
--->
--->
 <div class="text-center col-md-12 m--margin-bottom-5">
 	<div class="text-center">
 		<button type="submit" id="register" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i>
@@ -846,7 +533,7 @@
 
 
                 <span class="required--in">*</span>
-                {!! Form::select("type",['Delivery'=>'توصيل','composing'=>'تركيب','maintenance'=>'صيانة'],null,['class'=>'form-control js-example-basic-single','id'=>'service_type','placeholder'=>' اختر  خدمة الصنف '])!!}
+                {{-- {!! Form::select("type",['Delivery'=>'توصيل','composing'=>'تركيب','maintenance'=>'صيانة'],null,['class'=>'form-control js-example-basic-single','id'=>'service_type','placeholder'=>' اختر  خدمة الصنف '])!!} --}}
                 <label>السعر</label>
                 <span class="required--in">*</span>
                 <input type="text" class="form-control" id="sevices_price">

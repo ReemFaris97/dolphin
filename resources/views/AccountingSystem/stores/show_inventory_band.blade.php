@@ -72,7 +72,7 @@
                 <label class="label label-info"> نوع تحميل
                     : </label>
               @if  ($inventory->cost_type==1)
-                <span> مؤسسة</span>
+                <span> الشركة</span>
                   @else
                     <span> افرد</span>
                   @endif

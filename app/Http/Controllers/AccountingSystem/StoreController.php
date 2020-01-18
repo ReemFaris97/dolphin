@@ -84,7 +84,7 @@ class StoreController extends Controller
 
             $requests['model_id']= $requests['branch_id'];
                $requests[ 'model_type']='App\Models\AccountingSystem\AccountingBranch';
-                
+
 
 
         }
@@ -124,8 +124,6 @@ class StoreController extends Controller
      */
     public function edit($id)
     {
-
-
         $store =AccountingStore::findOrFail($id);
         $companies=AccountingCompany::pluck('name','id')->toArray();
         $branches=AccountingBranch::pluck('name','id')->toArray();

@@ -77,6 +77,24 @@ function companies()
 }
 
 
+function shifts()
+{
+    $shifts = \App\Models\AccountingSystem\AccountingBranchShift::all()->mapWithKeys(function ($q) {
+        return [$q['id'] => $q['name']];
+    });
+    return $shifts;
+}
+
+function devices()
+{
+    $devices = \App\Models\AccountingSystem\AccountingDevice::all()->mapWithKeys(function ($q) {
+        return [$q['id'] => $q['code']];
+    });
+// dd($devices);
+    return $devices;
+}
+
+
 
 function keepers($store= null)
 {

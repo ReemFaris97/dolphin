@@ -13,7 +13,10 @@ use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingProductTax;
+use App\Models\AccountingSystem\AccountingSession;
 use App\Traits\Viewable;
+use App\User;
 
 class SellPointController extends Controller
 {
@@ -24,15 +27,16 @@ class SellPointController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function sell_point()
+    public function sell_point($id)
     {
         $categories=AccountingProductCategory::all();
+        $session=AccountingSession::find($id);
         $clients=AccountingClient::pluck('name','id')->toArray();
 //foreach ($categories as $category){
 //  dd($category->products()->get());
 //}
 
-        return  view('AccountingSystem.sell_points.sell_point',compact('categories','clients'));
+        return  view('AccountingSystem.sell_points.sell_point',compact('categories','clients','session'));
     }
 
     /**
@@ -42,6 +46,8 @@ class SellPointController extends Controller
      */
     public  function getProductAjex($id){
         $products=AccountingProduct::where('category_id',$id)->get();
+        // $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
+
         return response()->json([
             'status'=>true,
             'data'=>view('AccountingSystem.sell_points.sell')->with('products',$products)->render()
@@ -54,12 +60,15 @@ class SellPointController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function sell_login()
     {
 
+        $users=User::where('is_saler',1)->pluck('name','id')->toArray();
+        return view('AccountingSystem.sell_points.login',compact('users'));
     }
 
     /**
+     *
      * Display the specified resource.
      *
      * @param  int  $id
