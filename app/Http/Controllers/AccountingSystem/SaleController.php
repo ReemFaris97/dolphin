@@ -56,7 +56,7 @@ class SaleController extends Controller
         $rules = [
 
             'client_id'=>'required|numeric|exists:accounting_clients,id',
-                'reminder'=>'required|numeric|gt:0',
+                // 'reminder'=>'required|numeric|gt:0',
 
         ];
         $this->validate($request,$rules);
