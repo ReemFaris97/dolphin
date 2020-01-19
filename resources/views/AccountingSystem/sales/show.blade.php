@@ -396,11 +396,15 @@
 	}
 
 	.row.justify-content-center.width-100-flex {
-		display: flex;
+		display: inline-block  ;
 		justify-content: center;
 		align-items: center;
 		padding: 30px 0;
 	}
+    button.btn.btn-info.print.col-sm-6.v-lg-print-btn {
+            width: auto !important;
+            margin-right: 30px;
+        }
 
 	.the-bill-numbere span {
 		display: inline-block
@@ -817,7 +821,6 @@
 			border: solid #000 !important;
 			border-width: 0 1px 1px 0 !important;
 		}
-
 
 
 
