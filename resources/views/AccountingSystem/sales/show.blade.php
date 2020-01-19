@@ -850,8 +850,6 @@
 	</div>
 
 	<div class="panel-body">
-
-
 		<div class="form-group col-md-6 pull-left">
 			<label class="label label-info"> اسم الشركة : </label>
 			<span>{!! optional($sale->company)->ar_name !!}</span>
@@ -975,7 +973,7 @@
 								<tbody>
 									<tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-mobile"></i> اسم الشركة </td>
-										<td> {!! optional($sale->company)->ar_name !!}</td>
+										<td> {!! optional($sale->company)->name !!}</td>
 									</tr>
 
 									<tr>
@@ -984,7 +982,7 @@
 									</tr>
 									<tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-video-clapper"></i> اسم الفرع </td>
-										<td> {!! optional($sale->branch)->ar_name !!}</td>
+										<td> {!! optional($sale->branch)->name !!}</td>
 									</tr>
 
 									<tr>
@@ -1049,7 +1047,7 @@
 										</tr>
 										<tr>
 											<td data-tablesaw-sortable-col data-tablesaw-priority="6"> <i class="ti-plus"></i> القيمة المضافة</td>
-											<td>	{!! $sale->totalTax !!}</td>
+											<td>	{!! $sale->totalTaxs !!}</td>
 										</tr>
 
 										{{-- <tr>
@@ -1078,13 +1076,10 @@
 											<td>15</td>
 										</tr> --}}
 
-
-
 										<tr>
 											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-money"></i>المدفوع</td>
 											<td>{!! $sale->payed !!}</td>
 										</tr>
-
 
 										<tr>
 											<th data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-export"></i>المتبقي</th>
