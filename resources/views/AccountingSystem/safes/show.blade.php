@@ -31,7 +31,7 @@
 
                     <th> بيان التحويل   </th>
 
-
+                    <th> تاريخ التحويل   </th>
                     <th class="text-center">العمليات </th>
                 </tr>
                 </thead>
@@ -45,9 +45,10 @@
                         <td>
                            {!!  $row->amount!!}
                         </td>
-                        {{-- <td>{!! date($row->created_at)!!}</td> --}}
+
 
                         <td>{!! $row->notes!!}</td>
+                             <td>{!! date($row->created_at)!!}</td>
 
                         <td class="text-center">
 

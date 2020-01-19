@@ -10,7 +10,7 @@
         <tr class="parent-tr">
             <td>{!! $row->product->name!!}</td>
             <td>{!! $row->quantity!!}</td>
-            <td><input type="number"  name="quantity"   class="form-control quantity" placeholder="ادخل الكمية"></td>
+            <td><input type="number"  name="quantity" class="form-control quantity" placeholder="ادخل الكمية"></td>
 
             <td>{!! $row->price!!}</td>
              </tr>
