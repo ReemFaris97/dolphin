@@ -82,7 +82,7 @@ class ColumnController extends Controller
     public function edit($id)
     {
         $column =AccountingFaceColumn::findOrFail($id);
-        $faces=AccountingBranch::pluck('name','id')->toArray();
+        $faces=AccountingBranchFace::pluck('name','id')->toArray();
 
         return $this->toEdit(compact('column','faces'));
 

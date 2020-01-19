@@ -1,7 +1,7 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','تعديل شريحة الضرائب')
 @section('parent_title','إدارة  الضرائب')
-@section('action', URL::route('accounting.tax_bands.index'))
+@section('action', URL::route('accounting.taxs.index'))
 
 @section('content')
     <div class="panel panel-flat">
@@ -17,7 +17,7 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::model($face, ['route' => ['accounting.taxs.update' ,$tax->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
+            {!!Form::model($tax, ['route' => ['accounting.taxs.update' ,$tax->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
 
             @include('AccountingSystem.taxs.form')
 
