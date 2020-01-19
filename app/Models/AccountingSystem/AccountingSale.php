@@ -3,6 +3,7 @@
 namespace App\Models\AccountingSystem;
 
 use App\Traits\HashPassword;
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -37,5 +38,10 @@ class AccountingSale extends Model
     public function store()
     {
         return $this->belongsTo(AccountingStore::class,'store_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class,'user_id');
     }
 }

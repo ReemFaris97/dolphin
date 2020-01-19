@@ -66,7 +66,7 @@ class SaleController extends Controller
     //    dd($sale);
         $sale->update([
             'bill_num'=>$sale->id."-".$sale->created_at,
-            'user_id'=> auth->user()->id,
+            'user_id'=> auth()->user()->id,
         ]);
         //  dd($sale);
 
