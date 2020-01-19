@@ -824,8 +824,6 @@
 
 
 
-
-
 	}
 
 	.end-notice div:last-child {

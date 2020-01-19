@@ -14,6 +14,7 @@ use App\Models\AccountingSystem\AccountingSaleItem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
+use Auth;
 
 class SaleController extends Controller
 {
@@ -51,7 +52,7 @@ class SaleController extends Controller
     public function store(Request $request)
     {
         $requests = $request->all();
-    //  dd($requests);
+    // dd($requests);
 
         $rules = [
 
@@ -65,6 +66,7 @@ class SaleController extends Controller
     //    dd($sale);
         $sale->update([
             'bill_num'=>$sale->id."-".$sale->created_at,
+            'user_id'=> auth()->user()->id,
         ]);
         //  dd($sale);
 

@@ -140,8 +140,8 @@
 											</div>
 										</th>
 
-										
-										
+
+
 										<th colspan="2"><input type="number" name="discount" placeholder="النسبة المئوية للخصم" min="0" max="100" id="sale"></th>
 									</tr>
 									<tr>
@@ -151,7 +151,7 @@
 									</tr>
 									<tr>
 										<th colspan="2">المدفوع</th>
-										<th colspan="2"><input type="number" id="paid"name="" placeholder="المدفوع" min="0" ></th>
+										<th colspan="2"><input type="number" id="paid"name="payed" placeholder="المدفوع" min="0" ></th>
 									</tr>
 									<tr>
 										<th colspan="2">المتبقي</th>
@@ -326,13 +326,13 @@
                         $("#amountOfDariba input").next('th').html(safyDariba);
                         var sale = $("#sale").val();
                         var allReminder = 0;
-						
+
 						 $('#sale').change(function() {
                             allReminder =  parseFloat($("#allResult").html()) - ((parseFloat($(this).val()) * parseFloat($("#allResult").html())) / 100); console.log('change val is' + allReminder);
                             $("#total").val(allReminder);
                             $("#reminder").html(allReminder);
                         });
-						
+
  						$('.discount-options span').click(function() {
 							$('#sale').val('');
 							$("#reminder").html('');
@@ -353,15 +353,15 @@
                         });
 						   }
 						});
-						
-						
-                        
-						
-						
-						
-						
-						
-						
+
+
+
+
+
+
+
+
+
                         var lastReminder = 0;
                         $('#paid').change(function() {
                             console.log('alnateg' + parseFloat($("#reminder").html()));
