@@ -832,8 +832,8 @@
 <!--<link href="{{asset('_admin/assets/css/edit.css')}}" rel="stylesheet" type="text/css">-->
 @endsection
 
-
 @section('content')
+{{--
 <div class="panel panel-flat">
 	<div class="panel-heading">
 		<h5 class="panel-title"> عرض فاتورة {!! $sale->id!!}</h5>
@@ -900,7 +900,7 @@
 					<th> اسم المنتج </th>
 					{{--<th> نوع المنتج </th>--}}
 
-					<th> الباركود </th>
+					{{-- <th> الباركود </th>
 					<th> الكمية </th>
 					<th> السعر </th>
 
@@ -919,11 +919,11 @@
 				@endforeach
 
 			</tbody>
-		</table>
+		</table> --}}
 
-	</div>
+	{{-- </div>
 
-
+ --}}
 
 
 
@@ -938,14 +938,14 @@
 					<h4 class="card-title">الفاتوره</h4>
 					<div class="container-fluid the-bill-design too-be-topped" id="div-to-print">
 						<div class="one-bill-inpt the-bill-logo text-center the-bill-number" style="border-bottom:4px solid #333;padding-bottom: 0;margin-bottom: 15px">
-							<img src="{{asset('dashboard/assets/app/media/img/logos/logo-1.png')}}">
+							<img src="{{asset('dashboard/assets/app/media/img/logos/20191031163554-شعار رمانة.png')}}">
 						</div>
 						<div class="one-bill-inpt the-bill-company text-center" style="display:block;width:100%;text-align: center!important;margin-bottom: 0px">
 							<span class="bill-lbl">دولفن</span>
 						</div>
 						<div class="one-bill-inpt the-bill-address" style="display:block;width:100%;text-align: center!important;margin-bottom: 5px">
 							<i class="ti-location-pin"></i>
-							<span class="bill-lbl">إسم الفرع</span>
+							<span class="bill-lbl">  {!! optional($sale->branch)->ar_name !!}</span>
 						</div>
 
 						<div class="one-bill-inpt the-bill-date" style="direction: ltr;border-bottom: 0px;display:inline-block;width:50%;text-align: center!important;margin-bottom: 0px;padding-bottom:0px;margin-top: 0px;float:right">
@@ -959,11 +959,11 @@
 						<div class="one-bill-inpt the-cust-name" style="border-bottom: 0px;display:block;width:100%;margin-bottom: 0px;padding-bottom: 0px;border-bottom:1px solid #333!important">
 							<i class="ti-user"></i>
 							<span class="bill-lbl" style="float:right;text-align:right;">مدخل الفاتوره : </span>
-							<span style="margin-right:5px;text-align:left;">اسم الكاشير</span>
+							<span style="margin-right:5px;text-align:left;"> {!! optional($sale->user)->name !!}</span>
 						</div>
 						<div class="one-bill-inpt the-bill-numbere the-bill-number">
 							<span>رقم الفاتوره</span>
-							205184
+							{!! $sale->id !!}
 						</div>
 
 
@@ -972,28 +972,30 @@
 								<tbody>
 									<tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-mobile"></i> اسم الشركة </td>
-										<td>شركة الأصدقاء</td>
+										<td> {!! optional($sale->company)->ar_name !!}</td>
 									</tr>
-
 
 									<tr>
 										<th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-user"></i>اسم العميل </th>
-										<td>محمد المرسي</td>
+										<td> {!! $sale->client->name !!}</td>
 									</tr>
-
 									<tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-video-clapper"></i> اسم الفرع </td>
-										<td>فرع سندوب</td>
+										<td> {!! optional($sale->branch)->ar_name !!}</td>
 									</tr>
 
 									<tr>
 										<th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-user"></i>اسم المخزن</th>
-										<td>مخزن سندوب بردو</td>
+										<td>  {!! optional($sale->store)->ar_name !!}</td>
 									</tr>
 
 									<tr>
 										<th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-bar-chart-alt"></i> طريقة الدفع </th>
-										<td>كاش</td>
+                                        @if( $sale->payment=='cash')
+                                        <td>نقدى</td>
+                                        @elseif( $sale->payment=='agel')
+                                        <td>اجل</td>
+                                        @endif
 									</tr>
 
 
@@ -1011,71 +1013,73 @@
 									</tr>
 
 									<tbody>
+                                        @foreach($product_items as $row)
 										<tr>
-
 											<td>
-												<span class="big-ser-hed-tit">اسم القسم</span>
+												<span class="big-ser-hed-tit">{!! $row->product->category->ar_name!!}</span>
 												<ol class="sml-ser-tits">
-													<li>اسم المنتج</li>
+													<li>{!! $row->product->name!!}</li>
 												</ol>
 											</td>
-
-
 
 											<td>
 												<span class="all-sub-services-unit-pri-wrapper">
 													<span class="sml-ser-uni-pr">
-														10
+														{!! $row->price !!}
 													</span>
 												</span>
 											</td>
-										</tr>
 
+                                        </tr>
+                                        @endforeach
 										<tr>
 											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-money"></i>الإجمالي</td>
-											<td><span class="tot-money">250</span></td>
+											<td><span class="tot-money">{!! $sale->amount !!}</span></td>
 										</tr>
-
 
 										<tr>
 											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-minus"></i>الخصم</td>
-											<td>20</td>
+											<td>{!! $sale->discount !!}</td>
 										</tr>
 										<tr>
 											<td data-tablesaw-sortable-col data-tablesaw-priority="6"> <i class="ti-plus"></i> القيمة المضافة</td>
-											<td>20</td>
+											<td>	{!! $sale->totalTax !!}</td>
 										</tr>
 
-										<tr>
+										{{-- <tr>
 											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-plus"></i>إضافي على الفاتورة</td>
 											<td>10</td>
-										</tr>
+										</tr> --}}
 
 										<tr>
 											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-money"></i> المطلوب سداده</td>
-											<td>200</td>
+											<td>{!! $sale->total !!}</td>
 										</tr>
 
 										<tr>
-											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-bag"></i> كاش</td>
-											<td>185</td>
+											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-bag"></i> طريقة الدفع</td>
+                                            @if( $sale->payment=='cash')
+                                            <td>نقدى</td>
+                                            @elseif( $sale->payment=='agel')
+                                            <td>اجل</td>
+                                            @endif
 										</tr>
-										<tr>
+										{{-- <tr>
 											<td data-tablesaw-sortable-col data-tablesaw-priority="6"> <i class="ti-signal"></i> شبكة</td>
 											<td>15</td>
-										</tr>
+										</tr> --}}
 
 
 
 										<tr>
 											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-money"></i>المدفوع</td>
-											<td>200</td>
+											<td>{!! $sale->payed !!}</td>
 										</tr>
 
 
 										<tr>
 											<th data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-export"></i>المتبقي</th>
-											<td>50</td>
+											<td>{!! $sale->total- $sale->payed  !!}</td>
 										</tr>
 
 									</tbody>

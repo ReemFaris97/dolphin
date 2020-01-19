@@ -51,7 +51,7 @@ class SaleController extends Controller
     public function store(Request $request)
     {
         $requests = $request->all();
-        // dd($requests);
+    //  dd($requests);
 
         $rules = [
 
@@ -62,7 +62,7 @@ class SaleController extends Controller
         $this->validate($request,$rules);
 
         $sale=AccountingSale::create($requests);
-        // dd($sale);
+    //    dd($sale);
         $sale->update([
             'bill_num'=>$sale->id."-".$sale->created_at,
         ]);

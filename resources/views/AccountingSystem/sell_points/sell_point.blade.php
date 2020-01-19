@@ -34,24 +34,6 @@
                 <div class="row">
 
 
-                    <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
-                        <label> اسم الشركة </label>
-                        {!! Form::select("company_id",companies(),null,['class'=>'form-control js-example-basic-single company_id','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له المنتج '])!!}
-
-                    </div>
-
-                    <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
-                        <label> اسم الفرع التابع </label>
-                        {!! Form::select("branch_id",branches(),null,['class'=>'form-control selectpicker branch_id','id'=>'branch_id','multiple','placeholder'=>' اختر اسم الفرع التابع له المنتج '])!!}
-                    </div>
-
-                    <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left" id="store_id">
-                        <label> اسم المخزن </label>
-
-                            {!! Form::select("store_id",stores(),null,['class'=>'form-control js-example-basic-single store_id','id'=>'store_id','placeholder'=>' اختر اسم المخزن التابع له المنتج '])!!}
-
-                    </div>
-
 
                     <div class="col-md-8 col-sm-6 col-xs-12">
                         <div class="yurSections">
@@ -98,6 +80,25 @@
                         <div class="result" id="the-choseen-parts">
                             <form method="post" action="{{route('accounting.sales.store')}}">
                                 @csrf
+
+                                <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
+                                    <label> اسم الشركة </label>
+                                    {!! Form::select("company_id",companies(),null,['class'=>'form-control js-example-basic-single company_id','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له المنتج '])!!}
+
+                                </div>
+
+                                <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
+                                    <label> اسم الفرع التابع </label>
+                                    {!! Form::select("branch_id",branches(),null,['class'=>'form-control selectpicker branch_id','id'=>'branch_id','multiple','placeholder'=>' اختر اسم الفرع التابع له المنتج '])!!}
+                                </div>
+
+                                <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left" id="store_id">
+                                    <label> اسم المخزن </label>
+
+                                        {!! Form::select("store_id",stores(),null,['class'=>'form-control js-example-basic-single store_id','id'=>'store_id','placeholder'=>' اختر اسم المخزن التابع له المنتج '])!!}
+
+                                </div>
+
                             <table border="1" class="finalTb">
                                 <thead>
                                 <tr>
@@ -129,16 +130,19 @@
 											الخصم
 											<div class="discount-options">
 												<span>
+													<input type="radio" id="asPercent" name="theDiscount" checked>
 													<label for="asPercent">نسبة</label>
-													<input type="radio" id="asPercent">
 												</span>
 												<span>
-													<label for="asVal">مبلغ</label>
-													<input type="radio" id="asVal">
+													<input type="radio" id="asVal" name="theDiscount">
+												    <label for="asVal">مبلغ</label>
 												</span>
 											</div>
 										</th>
-										<th colspan="2"><input type="number" name="discount" placeholder="نسبة الخصم" min="0" max="100" id="sale"></th>
+
+										
+										
+										<th colspan="2"><input type="number" name="discount" placeholder="النسبة المئوية للخصم" min="0" max="100" id="sale"></th>
 									</tr>
 									<tr>
 										<th colspan="2">المجموع بعد الخصم</th>
@@ -159,14 +163,16 @@
 										<th colspan="2">
 											{!! Form::select("client_id",$clients,null,['class'=>'form-control','placeholder'=>'اسم العميل '])!!}
 										</th>
-									</tr>
+                                    </tr>
+
+                                    <input type="hidden" id="totalTaxs" name="totalTaxs">
 									<tr>
 										<th colspan="2">طريقه الدفع</th>
 										<th colspan="2">
 											{!! Form::select("payment",pay_type(),null,['class'=>'form-control','placeholder'=>'طريقه الدفع '])!!}
 										</th>
 									</tr>
-							
+
                                 <tr>
                                     <th colspan="4">
                                   		<button type="submit">دفع</button>
@@ -242,7 +248,7 @@
                     $(".fxd-btn").removeAttr('disabled');
                 }
             });
-			
+
 			function addClicked()  {
                 $(".finalTb tbody").html('');
                 $('.if-check').each(function() {
@@ -267,14 +273,20 @@
 							itemBeforeTax = parseFloat(itemPrice);
 						} else {
 							itemBeforeTax = parseFloat(itemPrice) / (1 + (parseFloat(totalTaxes) / 100));
+
 							itemAfterTax = parseFloat(itemPrice);
+
 						}
+                        // alert(totalTaxes);
+                        $('#totalTaxs').val(totalTaxes);
 						console.log("The price Before : " + itemBeforeTax);
 						console.log("The price After : " + itemAfterTax);
-						
+
+
+
 						var AllQuantityAfter = (parseFloat(itemAfterTax) * parseFloat(itemQuantity)).toFixed(2);
 						var AllQuantityBefore = (parseFloat(itemBeforeTax) * parseFloat(itemQuantity)).toFixed(2);
-                        
+
                         $(".finalTb tbody").append(`
 							<tr class="newProd" data-id="prod${itemId}">
 								<td>
@@ -314,11 +326,42 @@
                         $("#amountOfDariba input").next('th').html(safyDariba);
                         var sale = $("#sale").val();
                         var allReminder = 0;
-                        $('#sale').change(function() {
+						
+						 $('#sale').change(function() {
                             allReminder =  parseFloat($("#allResult").html()) - ((parseFloat($(this).val()) * parseFloat($("#allResult").html())) / 100); console.log('change val is' + allReminder);
                             $("#total").val(allReminder);
                             $("#reminder").html(allReminder);
                         });
+						
+ 						$('.discount-options span').click(function() {
+							$('#sale').val('');
+							$("#reminder").html('');
+						   if($('#asPercent').is(':checked')) {
+							   $('#sale').attr('placeholder' , 'النسبة المئوية للخصم');
+							  $('#sale').change(function() {
+                            allReminder =  parseFloat($("#allResult").html()) - ((parseFloat($(this).val()) * parseFloat($("#allResult").html())) / 100); console.log('change val is' + allReminder);
+                            $("#total").val(allReminder);
+                            $("#reminder").html(allReminder);
+                        });
+						   } else{
+							   $('#sale').attr('placeholder' , 'قيمة الخصم بالريال');
+							   $('#sale').change(function() {
+                            allReminder =  parseFloat($("#allResult").html()) - parseFloat($(this).val());
+								   console.log('change val is' + allReminder);
+                            $("#total").val(allReminder);
+                            $("#reminder").html(allReminder);
+                        });
+						   }
+						});
+						
+						
+                        
+						
+						
+						
+						
+						
+						
                         var lastReminder = 0;
                         $('#paid').change(function() {
                             console.log('alnateg' + parseFloat($("#reminder").html()));
