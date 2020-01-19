@@ -973,7 +973,7 @@
 								<tbody>
 									<tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-mobile"></i> اسم الشركة </td>
-										<td> {!! optional($sale->company)->ar_name !!}</td>
+										<td> {!! optional($sale->company)->name !!}</td>
 									</tr>
 
 									<tr>
@@ -987,7 +987,7 @@
 
 									<tr>
 										<th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-user"></i>اسم المخزن</th>
-										<td>  {!! optional($sale->store)->name !!}</td>
+										<td>  {!! optional($sale->store)->ar_name !!}</td>
 									</tr>
 
 									<tr>
