@@ -109,7 +109,6 @@
                                 </thead>
                                 <tbody></tbody>
                                 <tfoot>
-<<<<<<< HEAD
                                 	<tr id="amountBeforeDariba">
 										<th colspan="2"> المجموع</th>
 										<input type="hidden" name="">
@@ -125,8 +124,20 @@
 										<input type="hidden" name="amount" id="amount">
 										<th colspan="2" id="allResult" ></th>
 									</tr>
-									<tr>
-										<th colspan="2">الخصم</th>
+									<tr id="discountArea">
+										<th colspan="2">
+											الخصم
+											<div class="discount-options">
+												<span>
+													<label for="asPercent">نسبة</label>
+													<input type="radio" id="asPercent">
+												</span>
+												<span>
+													<label for="asVal">مبلغ</label>
+													<input type="radio" id="asVal">
+												</span>
+											</div>
+										</th>
 										<th colspan="2"><input type="number" name="discount" placeholder="نسبة الخصم" min="0" max="100" id="sale"></th>
 									</tr>
 									<tr>
