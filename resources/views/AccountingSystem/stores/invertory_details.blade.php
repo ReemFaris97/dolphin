@@ -22,6 +22,9 @@
         </div>
 
 
+        <button type="button" class="btn btn-primary" data-toggle="modal"  data-target="#exampleModal" id="button">
+           سند الجرد
+        </button>
             <div class="panel-body">
                 <table class="table datatable-button-init-basic">
                     <thead>
@@ -40,9 +43,10 @@
                     @foreach($inventory_products as $row)
                         <tr>
                             <td>{!!$loop->iteration!!}</td>
-                            <td>{!! $row->ar_name!!}</td>
+                            <td>{!! $row->product->name!!}</td>
 
-                            <td>{!! $row->quantity!!}</td>
+                            <td>{!! $row->quantity !!}</td>
+
                             <td>{!! $row->Real_quantity!!}</td>
 
 
@@ -71,7 +75,53 @@
 
 
         </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"> اضافه   سند جرد </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {{--{!!Form::open( ['route' => 'accounting.inventory_settlement.store' ,'class'=>'form phone_validate','method' => 'PATCH','files' => true]) !!}--}}
+                <form id="form1"  action="{{route('accounting.inventory_bond.store')}}" method="post">
+                    {{--<input type="hidden" name="csrf_token" id="csrf_token" value="{{ csrf_token() }}">--}}
+@csrf
+                    <div class="modal-body">
+                        <input type="hidden" name="inventory_id"  value="{{$inventory->id}}">
 
+                        <div class="col-sm-6 col-xs-6 pull-left" >
+                        <div class="form-group form-float">
+                        <label class="form-label"> رقم السند</label>
+                        <div class="form-line">
+                            <input value="<?php echo mt_rand();?>" name="bond_num" class="form-control" placeholder="رقم السند">
+
+                        </div>
+                        </div>
+                        </div>
+
+                        <div class="col-sm-6 col-xs-6 pull-left" >
+                        <div class="form-group form-float">
+                        <label class="form-label"> بيان السند</label>
+                        <div class="form-line">
+                        {!! Form::text("description",null,['class'=>'form-control','placeholder'=>'بيان السند'])!!}
+
+                        </div>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+                        <button class="btn btn-primary" type="submit" data-dismiss="modal"  onclick="document.getElementById('form1').submit();" >  اضافة السند</button>
+                    </div>
+                </form>
+                {{--{!!Form::close() !!}--}}
+            </div>
+        </div>
+    </div>
+    <!-- end model-->
 
 @endsection
 

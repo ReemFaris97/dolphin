@@ -303,7 +303,9 @@ table tr td:last-child a:not([id^="ck"]){
     padding: 0!important;
     align-items: center;
     border-radius: 50%;
-    transition: 0.4s all ease-in-out
+    transition: 0.4s all ease-in-out;
+	    margin-top: 8px;
+    left: 5px;
 
 }
 table tr td:last-child a:not([class^="ck"]) i ,
@@ -575,6 +577,10 @@ form.form.phone_validate .panel-title > a {
 .dash-link:hover{
 	color: #2ECC71
 }
+
+
+
+
 @media(max-width:991px){
 	.single-shortcut a img {
     width: 90px;

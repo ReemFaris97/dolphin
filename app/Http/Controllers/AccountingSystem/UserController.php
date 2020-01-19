@@ -43,8 +43,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+       
         $rules = [
-
             'name'=>'required|string|max:191',
             'phone'=>'required|numeric|unique:users,phone',
             'email'=>'required|string|unique:users,email',

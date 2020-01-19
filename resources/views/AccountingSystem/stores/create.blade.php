@@ -4,7 +4,15 @@
 
 @section('action', URL::route('accounting.stores.index'))
 @section('styles')
-
+<style>
+    .map-inputs .form-control{
+       max-width: 250px;
+        margin: 0 0 10px 0;
+    }
+    .right30 input[type="radio"]{
+        right: 25px;
+    }
+</style>
 @endsection
 
 @section('content')

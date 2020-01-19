@@ -10,7 +10,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">سندات التحويل بين المخازن</h5>
+            <h5 class="panel-title">سندات التحويل بين المخازن لمخزن  معين </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -21,12 +21,14 @@
         </div>
 
         <div class="panel-body">
+
             <table class="table datatable-button-init-basic">
                 <thead>
                 <tr>
                     <th>#</th>
                     <th> المخزن المحول  منه  </th>
                     <th> حاله التحويل  </th>
+                    <th>تاريخ التحويل</th>
                     <th> السبب [فى حاله الرفض ] </th>
                     <th>عرض  السند </th>
 
@@ -48,6 +50,8 @@
 
                         @endif
                            </td>
+                        <td>{!! $row->created_at!!}</td>
+
 
                         <td>{!! $row->refused_reason!!}</td>
 

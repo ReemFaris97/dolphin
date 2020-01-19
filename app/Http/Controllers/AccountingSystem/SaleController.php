@@ -14,6 +14,7 @@ use App\Models\AccountingSystem\AccountingSaleItem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
+use Auth;
 
 class SaleController extends Controller
 {
@@ -50,28 +51,27 @@ class SaleController extends Controller
      */
     public function store(Request $request)
     {
-
-
         $requests = $request->all();
-
+    // dd($requests);
 
         $rules = [
 
             'client_id'=>'required|numeric|exists:accounting_clients,id',
-
-
-
-
+                // 'reminder'=>'required|numeric|gt:0',
 
         ];
         $this->validate($request,$rules);
 
-       // dd($requests);
         $sale=AccountingSale::create($requests);
+    //    dd($sale);
+        $sale->update([
+            'bill_num'=>$sale->id."-".$sale->created_at,
+            'user_id'=> auth()->user()->id,
+        ]);
+        //  dd($sale);
+
         $products=$requests['product_id'];
         $quantities=$requests['quantity'];
-
-
 //        $total=0;
 //        for ($i=0;$i<count($products);$i++){
 //            $product=AccountingProduct::find($products[$i]);
@@ -87,9 +87,7 @@ class SaleController extends Controller
 //            }
 //
 //        }
-
         ////////////////////////
-
         $products = collect($requests['product_id']);
         $qtys = collect($requests['quantity']);
 
@@ -124,7 +122,11 @@ class SaleController extends Controller
      */
     public function show($id)
     {
-        //
+
+        $sale =AccountingSale::findOrFail($id);
+        $product_items=AccountingSaleItem::where('sale_id',$id)->get();
+
+        return $this->toShow(compact('sale','product_items'));
     }
 
     /**
@@ -179,9 +181,9 @@ class SaleController extends Controller
      */
     public function destroy($id)
     {
-        $shift =AccountingBranchShift::findOrFail($id);
+        $shift =AccountingSale::findOrFail($id);
         $shift->delete();
-        alert()->success('تم حذف  الوردية بنجاح !')->autoclose(5000);
+        alert()->success('تم حذف  الفاتوره بنجاح !')->autoclose(5000);
             return back();
 
 
@@ -216,4 +218,35 @@ class SaleController extends Controller
         return back();
 
     }
+
+    public function returns(){
+
+        $sales=AccountingSale::pluck('id','id')->toArray();
+
+    return view('AccountingSystem.sales.returns',compact('sales'));
+    }
+    public function returns_Sale($id){
+
+        $sale=AccountingSale::find($id);
+        // $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
+
+        return response()->json([
+            'status'=>true,
+            'data'=>view('AccountingSystem.sales.sale')->with('sale',$sale)->render()
+        ]);
+    }
+
+    public function sale_details($id){
+
+        $items=AccountingSaleItem::where('sale_id',$id)->get();
+        // $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
+
+        return response()->json([
+            'status'=>true,
+            'items'=>view('AccountingSystem.sales.items')->with('items',$items)->render()
+        ]);
+    }
+
+
+
 }

@@ -1,5 +1,5 @@
 @extends('AccountingSystem.layouts.master')
-@section('title',' جرد المخازن ')
+@section('title','  جرد المخازن ')
 @section('parent_title','إدارة  المخازن')
 
 @section('action', URL::route('accounting.stores.index'))
@@ -26,28 +26,66 @@
 
                 {!!Form::open( ['route' => 'accounting.stores.filter_inventory' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
 
-                <div class="col-sm-6 col-xs-6 pull-left" >
-                    <div class="form-group form-float">
-                        <label class="form-label">اختر المخزن</label>
-                        <div class="form-line">
-                            {!! Form::select("store_id",$stores,null,['class'=>'form-control','id'=>'example-date'])!!}
 
-                        </div>
-                    </div>
+                {{--<div class="col-sm-6 col-xs-6 pull-left" >--}}
+                    {{--<div class="form-group form-float">--}}
+                        {{--<label class="form-label"> رقم السند</label>--}}
+                        {{--<div class="form-line">--}}
+                            {{--{!! Form::text("bond_num",null,['class'=>'form-control','placeholder'=>'رقم السند'])!!}--}}
+
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+
+                {{--<div class="col-sm-6 col-xs-6 pull-left" >--}}
+                    {{--<div class="form-group form-float">--}}
+                        {{--<label class="form-label"> بيان السند</label>--}}
+                        {{--<div class="form-line">--}}
+                            {{--{!! Form::text("description",null,['class'=>'form-control','placeholder'=>'بيان السند'])!!}--}}
+
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+
+                <div class="col-sm-6 col-xs-6 pull-left">
+                    <label>اختر المخزن </label>
+                    {!! Form::select("store_id",allstores(),null,['class'=>'form-control js-example-basic-single store_id','placeholder'=>' اختر  المخزن'])!!}
                 </div>
+
+                <div class="col-sm-6 col-xs-6 pull-left">
+                    <label>اختر امين المخزن </label>
+                    {!! Form::select("user_id",keepers(),null,['class'=>'form-control js-example-basic-single storekeeper_id','id'=>'storekeeper_id','placeholder'=>' اختر امين المخزن'])!!}
+                </div>
+
+
 
 
                 <div class="col-sm-6 col-xs-6 pull-left" >
                     <div class="form-group form-float">
                         <label class="form-label">تاريخ الجرد</label>
                         <div class="form-line">
-                            {!! Form::date("date",null,['class'=>'form-control','id'=>'example-date'])!!}
+                            <?php
+                            $mytime = Carbon\Carbon::now();
+                            $date= $mytime->toDateTimeString();
+                            ?>
+                          <input type="text" name="date" value="{{$date}}" class="form-control" readonly>
 
                         </div>
                     </div>
                 </div>
 
 
+                <div class="form-group col-xs-6 pull-left">
+                    <label class="display-block text-semibold">  نوع  التحمل</label>
+                    <label class="radio-inline">
+                        <input type="radio" name="cost_type" class="styled"    value="1">
+                        الشركة
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="cost_type"  class="styled "    value="0">
+                        امين المخزن
+                    </label>
+                </div>
                 <div class="text-center col-md-12">
                     <div class="text-right">
                         <button type="submit" class="btn btn-success">بحث<i class="icon-arrow-left13 position-right"></i></button>
@@ -100,14 +138,14 @@
                         <td>{!! $row->  quantity!!}</td>
 
                         <td>
-                            @if ($row->status=0)
+                            @if ($row->status==0)
 
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-id="{{$row->id}}" onclick="openModal({{$row->id}})" data-target="#exampleModal{{$row->id}}" id="button{{$row->id}}">
-                                   اضافة
+                                   ادخل  الكميه الفعليه
                                 </button>
 
-                                {{--@else--}}
-                                {{--<label class="btn-success" id="done"><i class="fas fa-calculator" style="margin-left: 10px"></i></label>--}}
+                                @else
+                                <label class="btn-success" id="done">تم التسوية</label>
                             @endif
 
                         </td>
@@ -143,10 +181,8 @@
 
                             </div>
                             <div class="modal-footer">
-                                ll
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
                                 <button class="btn btn-primary" id="hamada{{$row->id}}" type="button" data-dismiss="modal" > اضافةالكميه الفعليه</button>
-
                             </div>
                             </form>
                             {{--{!!Form::close() !!}--}}
@@ -159,7 +195,10 @@
 
                 </tbody>
             </table>
+            @isset($inventory)
 
+                <a href="{{route('accounting.stores.inventory_result',$inventory->id)}}"><label class="btn btn-danger">تسوية</label></a>
+            @endif
         </div>
 
     </div>
@@ -206,4 +245,6 @@
             }
 
    </script>
+    <script src="{{asset('admin/assets/js/get_keepers_by_store.js')}}"></script>
+
 @stop

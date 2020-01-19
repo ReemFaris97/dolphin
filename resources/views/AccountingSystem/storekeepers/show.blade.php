@@ -1,15 +1,16 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض بيانات فرع'.' '. $branch->name )
-@section('parent_title','إدارة فروع الشركات')
-@section('action', URL::route('accounting.branches.index'))
-@section('styles')
+@section('title','سجل  تسويات  الجرد  ')
+@section('parent_title','إدارة  المخازن')
 
+@section('action', URL::route('accounting.stores.index'))
+@section('styles')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 @endsection
 
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">  عرض بيانات الفرع  {!! $branch->name !!}</h5>
+            <h5 class="panel-title">سجل  تسويات  الجرد   </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -20,51 +21,43 @@
         </div>
 
         <div class="panel-body">
-            <div class="form-group col-md-6 pull-left">
-                <label class="label ">  اسم الشركة التابع  لها   الفرع  : </label>
-                <span>{!! $branch->company->name !!}</span>
-            </div>
-            <div class="form-group col-md-6 pull-left">
-                <label class="label ">  اسم الفرع  : </label>
-                <span>{!! $branch->name !!}</span>
-            </div>
+            <table class="table datatable-button-init-basic">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>  المخزن  </th>
+                    {{--<th>  اسم القائم بالجرد </th>--}}
+                    <th> التاريخ   </th>
 
-            <div class="form-group col-md-6 pull-left">
-                <label class="label ">  جوال الفرع  : </label>
-                <span>{!! $branch->phone !!}</span>
-            </div>
-            <div class="form-group col-md-6 pull-left">
-                <label class="label ">  ايميل الفرع  : </label>
-                <span>{!! $branch->email !!}</span>
-            </div>
 
-            <div class="form-group col-md-6 pull-left">
-                <label class="label ">  صورة الفرع  : </label>
-                <span><img src="{!! getimg($branch->image)!!}" style="width:100px; height:100px"> </span>
-            </div>
-            <div class="clearfix">
+                    <th class="text-center">تفاصيل</th>
+                </tr>
+                </thead>
+                <tbody>
 
-            </div>
-            <h4>عرض الورديات بالفرع</h4>
-            <div class="form-group col-md-12 pull-left">
-                @foreach($shifts  as $shift)
-                   <table class="table init-basic">
-                       <thead>
-                       <tr>
-                           <th>اسم الوردية </th>
-                           <th>من </th>
-                           <th>الى </th>
-                       </tr>
-                       </thead>
-                       <tbody>
-                       <td>{!! $shift->name !!}</td>
-                       <td>{!! $shift->from !!}</td>
-                       <td>{!! $shift->to !!}</td>
-                       </tbody>
-                   </table>
-                    @endforeach
-            </div>
+                @foreach($inventories as $row)
+                    <tr>
+                        <td>{!!$loop->iteration!!}</td>
+                        <td>{!! optional($row->store)->ar_name!!}</td>
 
+                        {{--<td>{!! $row->user->name!!}</td>--}}
+                        <td>{!! $row->date!!}</td>
+
+
+                        <td class="text-center">
+
+                            <a href="{{route('accounting.stores.show_inventory',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>
+
+
+                        </td>
+                    </tr>
+
+                @endforeach
+
+
+
+                </tbody>
+            </table>
         </div>
 
     </div>
@@ -80,7 +73,7 @@
             console.log(item_id);
             swal({
                 title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذة الشركة ؟",
+                text: "هل تريد حذف هذا الفرع ؟",
                 icon: "warning",
                 buttons: ["الغاء", "موافق"],
                 dangerMode: true,
@@ -90,7 +83,7 @@
                     document.getElementById('delete-form'+item_id).submit();
                 }
                 else{
-                    swal("تم االإلفاء", "حذف  الشركة  تم الغاؤه",'info',{buttons:'موافق'});
+                    swal("تم االإلفاء", "حذف  الفرع  تم الغاؤه",'info',{buttons:'موافق'});
                 }
             });
         }

@@ -16,7 +16,7 @@ function responseJson($status, $msg, $data = null, $state = 200)
 
 function storekeepers()
 {
-    $storekeepers = \App\Models\AccountingSystem\AccountingStoreKeeper::all()->mapWithKeys(function ($q) {
+    $storekeepers = \App\User::where('is_storekeeper',1)->get()->mapWithKeys(function ($q) {
         return [$q['id'] => $q['name']];
     });
     return $storekeepers;
@@ -34,7 +34,7 @@ function allstores()
 function products($store=null){
     if ($store != null) {
 
-        $products_id=App\Models\AccountingSystem\AccountingProductStore::where('store_id',$store)->pluck('product_id')->toArray();
+        $products_id=App\Models\AccountingSystem\AccountingProductStore::where('store_id',$store)->where('quantity','!=',Null)->where('quantity','>',0)->pluck('product_id')->toArray();
 
           $products=App\Models\AccountingSystem\AccountingProduct::whereIn('id',$products_id)->get()->mapWithKeys(function ($q) {
             return [$q['id'] => $q['name']];
@@ -49,6 +49,25 @@ function products($store=null){
 }
 
 
+function products_not_settement($store=null){
+    if ($store != null) {
+
+        $products_id=App\Models\AccountingSystem\AccountingProductStore::where('store_id',$store)->where('quantity','!=',Null)->where('quantity','>',0)->pluck('product_id')->toArray();
+
+        $products=App\Models\AccountingSystem\AccountingProduct::whereIn('id',$products_id)->where('is_settlement',0)->get()->mapWithKeys(function ($q) {
+            return [$q['id'] => $q['name']];
+        });
+
+
+    }else{
+        $products=[];
+    }
+
+
+    return $products;
+}
+
+
 function companies()
 {
     $companies = \App\Models\AccountingSystem\AccountingCompany::all()->mapWithKeys(function ($q) {
@@ -56,6 +75,26 @@ function companies()
     });
     return $companies;
 }
+
+
+function shifts()
+{
+    $shifts = \App\Models\AccountingSystem\AccountingBranchShift::all()->mapWithKeys(function ($q) {
+        return [$q['id'] => $q['name']];
+    });
+    return $shifts;
+}
+
+function devices()
+{
+    $devices = \App\Models\AccountingSystem\AccountingDevice::all()->mapWithKeys(function ($q) {
+        return [$q['id'] => $q['code']];
+    });
+// dd($devices);
+    return $devices;
+}
+
+
 
 function keepers($store= null)
 {

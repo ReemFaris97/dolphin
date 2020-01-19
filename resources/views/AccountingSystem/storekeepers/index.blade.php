@@ -25,7 +25,7 @@
                 <tr>
                     <th>#</th>
                     <th> اسم  الامين </th>
-                    <th> اسم المخزن التابع  لها  </th>
+                    {{--<th> اسم المخزن التابع  لها  </th>--}}
                     <th> جوال  </th>
                     <th> ايميل  </th>
                     <th class="text-center">العمليات</th>
@@ -37,12 +37,13 @@
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->name!!}</td>
-                        <td>{!! $row->accounting_store->ar_name!!}</td>
+                        {{--<td>{!! $row->accounting_store->ar_name!!}</td>--}}
                         <td>{!! $row->phone!!}</td>
                         <td>{!! $row->email!!}</td>
 
 
                         <td class="text-center">
+                            <a href="{{route('accounting.storeKeepers.show',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
 
                             <a href="{{route('accounting.storeKeepers.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
@@ -73,7 +74,7 @@
             console.log(item_id);
             swal({
                 title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذا الفرع ؟",
+                text: "هل تريد حذف  امين المخزن ؟",
                 icon: "warning",
                 buttons: ["الغاء", "موافق"],
                 dangerMode: true,
@@ -83,7 +84,7 @@
                     document.getElementById('delete-form'+item_id).submit();
                 }
                 else{
-                    swal("تم االإلفاء", "حذف  الفرع  تم الغاؤه",'info',{buttons:'موافق'});
+                    swal("تم االإلفاء", "حذف  امين المخزن  تم الغاؤه",'info',{buttons:'موافق'});
                 }
             });
         }
