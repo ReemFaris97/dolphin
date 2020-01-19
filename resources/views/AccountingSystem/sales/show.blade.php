@@ -944,15 +944,15 @@
 							<img src="{{asset('dashboard/assets/app/media/img/logos/20191031163554-شعار رمانة.png')}}">
 						</div>
 						<div class="one-bill-inpt the-bill-company text-center" style="display:block;width:100%;text-align: center!important;margin-bottom: 0px">
-							<span class="bill-lbl">دولفن</span>
+							<span class="bill-lbl">رمانة</span>
 						</div>
 						<div class="one-bill-inpt the-bill-address" style="display:block;width:100%;text-align: center!important;margin-bottom: 5px">
 							<i class="ti-location-pin"></i>
-							<span class="bill-lbl">  {!! optional($sale->branch)->ar_name !!}</span>
+							{{-- <span class="bill-lbl">  {!! optional($sale->branch)->ar_name !!}</span> --}}
 						</div>
 
 						<div class="one-bill-inpt the-bill-date" style="direction: ltr;border-bottom: 0px;display:inline-block;width:50%;text-align: center!important;margin-bottom: 0px;padding-bottom:0px;margin-top: 0px;float:right">
-							<span class="bill-lbl">17/1/2020</span>
+							<span class="bill-lbl">19/1/2020</span>
 							<i class="ti-calendar" style="float: none;"></i>
 						</div>
 						<div class="one-bill-inpt the-bill-date" style="direction: ltr;border-bottom: 0px;display:inline-block;width:50%;text-align: center!important;margin-bottom: 0px;padding-bottom:0px;margin-top: 0px;float:right">
@@ -994,11 +994,14 @@
 
 									<tr>
 										<th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-bar-chart-alt"></i> طريقة الدفع </th>
+                                        <td>
                                         @if( $sale->payment=='cash')
-                                        <td>نقدى</td>
+
+                                       نقدى
                                         @elseif( $sale->payment=='agel')
-                                        <td>اجل</td>
+                                      اجل
                                         @endif
+                                    </td>
 									</tr>
 
 
@@ -1061,11 +1064,14 @@
 
 										<tr>
 											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-bag"></i> طريقة الدفع</td>
-                                            @if( $sale->payment=='cash')
-                                            <td>نقدى</td>
-                                            @elseif( $sale->payment=='agel')
-                                            <td>اجل</td>
-                                            @endif
+                                            <td>
+                                                @if( $sale->payment=='cash')
+
+                                               نقدى
+                                                @elseif( $sale->payment=='agel')
+                                              اجل
+                                                @endif
+                                            </td>
 										</tr>
 										{{-- <tr>
 											<td data-tablesaw-sortable-col data-tablesaw-priority="6"> <i class="ti-signal"></i> شبكة</td>
