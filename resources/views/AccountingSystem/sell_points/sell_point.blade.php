@@ -103,55 +103,74 @@
                                 <tr>
                                     <th>المنتج</th>
                                     <th>الكمية</th>
-                                    <th>السعر</th>
+                                    <th>السعر قبل الضريبة</th>
+                                    <th>السعر بعد الضريبة</th>
                                 </tr>
-
                                 </thead>
-                                <tbody>
-
-                                </tbody>
+                                <tbody></tbody>
                                 <tfoot>
-                                <tr>
-                                    <th colspan="2">المجموع</th>
-                                    <input type="hidden" name="amount" id="amount">
-                                    <th id="allResult" ></th>
-                                </tr>
-                                <tr>
-                                    <th colspan="2">الخصم</th>
-                                    <th> <input type="number" name="discount" placeholder="نسبة الخصم" min="0" max="100" id="sale"> </th>
-                                </tr>
-                                <tr>
-                                    <th colspan="2">المجموع بعد الخصم</th>
-                                    <input type="hidden" name="total" id="total">
-                                    <th id="reminder"></th>
-                                </tr>
-                                <tr>
-                                    <th colspan="2">المدفوع</th>
-                                    <th ><input type="number" id="paid"name="" placeholder="المدفوع" min="0" ></th>
-                                </tr>
-                                <tr>
-                                    <th colspan="2">المتبقي</th>
-                                    <th id="lastreminder"></th>
-                                    <input type="hidden"  id="reminder1" name="reminder">
-                                </tr>
-                                <tr>
-                                    <th colspan="2">العميل</th>
-                                    <th>
-                                        {!! Form::select("client_id",$clients,null,['class'=>'form-control','placeholder'=>'اسم العميل '])!!}
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th colspan="2">طريقه الدفع</th>
-                                    <th>
-                                        {!! Form::select("payment",pay_type(),null,['class'=>'form-control','placeholder'=>'طريقه الدفع '])!!}
-                                    </th>
-                                </tr>
+                                	<tr id="amountBeforeDariba">
+										<th colspan="2"> المجموع</th>
+										<input type="hidden" name="">
+										<th colspan="2"></th>
+									</tr>
+                                	<tr id="amountOfDariba">
+										<th colspan="2"> قيمة الضريبة</th>
+										<input type="hidden" name="">
+										<th colspan="2"></th>
+									</tr>
+									<tr>
+										<th colspan="2">المجموع بعد الضريبة</th>
+										<input type="hidden" name="amount" id="amount">
+										<th colspan="2" id="allResult" ></th>
+									</tr>
+									<tr id="discountArea">
+										<th colspan="2">
+											الخصم
+											<div class="discount-options">
+												<span>
+													<label for="asPercent">نسبة</label>
+													<input type="radio" id="asPercent">
+												</span>
+												<span>
+													<label for="asVal">مبلغ</label>
+													<input type="radio" id="asVal">
+												</span>
+											</div>
+										</th>
+										<th colspan="2"><input type="number" name="discount" placeholder="نسبة الخصم" min="0" max="100" id="sale"></th>
+									</tr>
+									<tr>
+										<th colspan="2">المجموع بعد الخصم</th>
+										<input type="hidden" name="total" id="total">
+										<th colspan="2" id="reminder"></th>
+									</tr>
+									<tr>
+										<th colspan="2">المدفوع</th>
+										<th colspan="2"><input type="number" id="paid"name="" placeholder="المدفوع" min="0" ></th>
+									</tr>
+									<tr>
+										<th colspan="2">المتبقي</th>
+										<th colspan="2" id="lastreminder"></th>
+										<input type="hidden"  id="reminder1" name="reminder">
+									</tr>
+									<tr>
+										<th colspan="2">العميل</th>
+										<th colspan="2">
+											{!! Form::select("client_id",$clients,null,['class'=>'form-control','placeholder'=>'اسم العميل '])!!}
+										</th>
+									</tr>
+									<tr>
+										<th colspan="2">طريقه الدفع</th>
+										<th colspan="2">
+											{!! Form::select("payment",pay_type(),null,['class'=>'form-control','placeholder'=>'طريقه الدفع '])!!}
+										</th>
+									</tr>
+							
                                 <tr>
                                     <th colspan="4">
-                                  <button type="submit">دفع</button>
+                                  		<button type="submit">دفع</button>
                                     </th>
-
-
                                 </tr>
                                 </tfoot>
                             </table>
@@ -163,9 +182,7 @@
         </div>
     </div>
 @endsection
-
 @section('scripts')
-
     <!------------ IF Checked --------------->
     <script>
 		function  category(id) {
@@ -181,7 +198,15 @@
             $('.if-check').change(function() {
                 var $this = $(this);
                 if ($this.is(':checked')) {
-                    var newInput = $('<div class="addme"><div class="quant"><div class="count"><div class="value-button cart-qty-plus" > <i class="fas fa-arrow-circle-up"></i> </div><input type="number" readonly min="1" value="1" id="number" class="number"><div class="value-button cart-qty-minus" > <i class="fas fa-arrow-circle-down"></i> </div></div></div></div>');
+                    var newInput = $(`<div class="addme">
+							<div class="quant">
+								<div class="count">
+									<div class="value-button cart-qty-plus"> <i class="fas fa-arrow-circle-up"></i> </div>
+										<input type="number" readonly min="1" value="1" id="number" class="number">
+									<div class="value-button cart-qty-minus"> <i class="fas fa-arrow-circle-down"></i> </div>
+								</div>
+							</div>
+						</div>`);
                     $($this).prev('.inDetails').append(newInput);
                     numberOfItems++;
                     //                    input number simulator function
@@ -206,42 +231,87 @@
                             $n.val(amount - 1);
                         }
                     });
-
                 } else {
                     $($this).parent(".prod1").find('.inDetails').find('.addme').remove();
                     numberOfItems--;
                 }
-                console.log(numberOfItems);
+                console.log("The Number of Selected Items is : " + numberOfItems);
                 if (numberOfItems == 0) {
                     $(".fxd-btn").attr('disabled', 'true');
                 } else {
                     $(".fxd-btn").removeAttr('disabled');
                 }
             });
-
-		function removeAdded() {
-
-		}
-
+			
 			function addClicked()  {
                 $(".finalTb tbody").html('');
                 $('.if-check').each(function() {
                     if ($(this).is(':checked')) {
+						console.log("-----------------------------------------");
                         var itemName = $(this).parent(".prod1").find(".new-p").find('.name').html();
                         var itemId = $(this).parent(".prod1").find(".new-p").find('.id').val();
-                        console.log(itemName);
+                        console.log("The Product Name is : " + itemName);
                         var itemQuantity = parseFloat($(this).parent('.prod1').find('.inDetails').find('input').val());
-                        console.log(itemQuantity);
+                        console.log("The " + itemName + " item Quantity is" + itemQuantity);
+						var ifHasTax = $(this).parent(".prod1").find('.ifHasTax').html();
+						console.log("The " + itemName + " item Tax Type is" + ifHasTax);
+						var totalTaxes = $(this).parent(".prod1").find('.totalTaxes').html();
+						console.log("The " + itemName + " item Total Taxes is" + totalTaxes);
                         var itemPrice = parseFloat($(this).next('.new-p').find('.pric-holder').val());
-                        var totalR = parseFloat(itemQuantity) * parseFloat(itemPrice) ;
-                        console.log(totalR);
-                        $(".finalTb tbody").append('<tr class="newProd" data-id="prod'+ itemId +'"><td> <input type="hidden" name="product_id[]" value="' + itemId + '"> <input type="hidden" value="' + itemName + '"> <h4> ' + itemName + '</h4> </td><td><input type="hidden" name="quantity[]" value="' + itemQuantity + '"> <span class="qnt"> ' + itemQuantity + '</span></td><td><input type="hidden" value="' + totalR + '"> <span class="qnt singleprice"> ' + totalR + '</span><a class="close" data-remo="prod'+ itemId +'"><i class="fas fa-times"></a></td></tr>');
+						var totalR = parseFloat(itemQuantity) * parseFloat(itemPrice) ;
+                        console.log("The Total Money is : " + totalR);
+						var itemAfterTax;
+						var itemBeforeTax;
+						if (ifHasTax == 0){
+							itemAfterTax = parseFloat(itemPrice) + (parseFloat(itemPrice) * (parseFloat(totalTaxes) / 100));
+							itemBeforeTax = parseFloat(itemPrice);
+						} else {
+							itemBeforeTax = parseFloat(itemPrice) / (1 + (parseFloat(totalTaxes) / 100));
+							itemAfterTax = parseFloat(itemPrice);
+						}
+						console.log("The price Before : " + itemBeforeTax);
+						console.log("The price After : " + itemAfterTax);
+						
+						var AllQuantityAfter = (parseFloat(itemAfterTax) * parseFloat(itemQuantity)).toFixed(2);
+						var AllQuantityBefore = (parseFloat(itemBeforeTax) * parseFloat(itemQuantity)).toFixed(2);
+                        
+                        $(".finalTb tbody").append(`
+							<tr class="newProd" data-id="prod${itemId}">
+								<td>
+									<input type="hidden" name="product_id[]" value="${itemId}">
+									<input type="hidden" value="${itemName}">
+									<h4>${itemName}</h4>
+								</td>
+								<td>
+									<input type="hidden" name="quantity[]" value="${itemQuantity}">
+									<span class="qnt">${itemQuantity}</span>
+								</td>
+								<td>
+									<input type="hidden" value="${AllQuantityBefore}">
+									<span class="qnt singleBefore">${AllQuantityBefore}</span>
+								</td>
+								<td>
+									<input type="hidden" value="${AllQuantityAfter}">
+									<span class="qnt singleprice">${AllQuantityAfter}</span>
+									<a class="close" data-remo="prod${itemId}"><i class="fas fa-times"></i></a>
+								</td>
+							</tr>
+						`);
                         var allResult = 0;
                         $("#the-choseen-parts .singleprice").each(function(){
                             allResult += parseFloat($(this).html());
                         });
                         $("#amount").val(allResult);
                         $("#allResult").html(allResult);
+						var allBeforeResult = 0;
+                        $("#the-choseen-parts .singleBefore").each(function(){
+                            allBeforeResult += parseFloat($(this).html());
+                        });
+                        $("#amountBeforeDariba input").val(allBeforeResult);
+                        $("#amountBeforeDariba input").next('th').html(allBeforeResult);
+						var safyDariba = parseFloat(allResult) - parseFloat(allBeforeResult);
+                        $("#amountOfDariba input").val(safyDariba);
+                        $("#amountOfDariba input").next('th').html(safyDariba);
                         var sale = $("#sale").val();
                         var allReminder = 0;
                         $('#sale').change(function() {
