@@ -130,16 +130,19 @@
 											الخصم
 											<div class="discount-options">
 												<span>
+													<input type="radio" id="asPercent" name="theDiscount" checked>
 													<label for="asPercent">نسبة</label>
-													<input type="radio" id="asPercent">
 												</span>
 												<span>
-													<label for="asVal">مبلغ</label>
-													<input type="radio" id="asVal">
+													<input type="radio" id="asVal" name="theDiscount">
+												    <label for="asVal">مبلغ</label>
 												</span>
 											</div>
 										</th>
-										<th colspan="2"><input type="number" name="discount" placeholder="نسبة الخصم" min="0" max="100" id="sale"></th>
+
+										
+										
+										<th colspan="2"><input type="number" name="discount" placeholder="النسبة المئوية للخصم" min="0" max="100" id="sale"></th>
 									</tr>
 									<tr>
 										<th colspan="2">المجموع بعد الخصم</th>
@@ -323,11 +326,42 @@
                         $("#amountOfDariba input").next('th').html(safyDariba);
                         var sale = $("#sale").val();
                         var allReminder = 0;
-                        $('#sale').change(function() {
+						
+						 $('#sale').change(function() {
                             allReminder =  parseFloat($("#allResult").html()) - ((parseFloat($(this).val()) * parseFloat($("#allResult").html())) / 100); console.log('change val is' + allReminder);
                             $("#total").val(allReminder);
                             $("#reminder").html(allReminder);
                         });
+						
+ 						$('.discount-options span').click(function() {
+							$('#sale').val('');
+							$("#reminder").html('');
+						   if($('#asPercent').is(':checked')) {
+							   $('#sale').attr('placeholder' , 'النسبة المئوية للخصم');
+							  $('#sale').change(function() {
+                            allReminder =  parseFloat($("#allResult").html()) - ((parseFloat($(this).val()) * parseFloat($("#allResult").html())) / 100); console.log('change val is' + allReminder);
+                            $("#total").val(allReminder);
+                            $("#reminder").html(allReminder);
+                        });
+						   } else{
+							   $('#sale').attr('placeholder' , 'قيمة الخصم بالريال');
+							   $('#sale').change(function() {
+                            allReminder =  parseFloat($("#allResult").html()) - parseFloat($(this).val());
+								   console.log('change val is' + allReminder);
+                            $("#total").val(allReminder);
+                            $("#reminder").html(allReminder);
+                        });
+						   }
+						});
+						
+						
+                        
+						
+						
+						
+						
+						
+						
                         var lastReminder = 0;
                         $('#paid').change(function() {
                             console.log('alnateg' + parseFloat($("#reminder").html()));

@@ -276,7 +276,26 @@ table.finalTb button[type = "submit"] {
     padding: 5px;
     font-size: 16px;
 }
-
+.discount-options span {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.discount-options span label {
+    color: #2ECC71;
+    float: left;
+}
+.discount-options span label {
+    color: #2ECC71;
+    float: left;
+}
+.discount-options span input {
+    width: 20px;
+	    margin-top: -3px;
+}
+.discount-options {
+    padding-right: 15px;
+}
 /******* Responsive ****************/
 @media (max-width: 1199px){
     .count {
