@@ -13,8 +13,11 @@ use App\Models\AccountingSystem\AccountingSale;
 use App\Models\AccountingSystem\AccountingSaleItem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingSession;
 use App\Traits\Viewable;
+use App\User;
 use Auth;
+use Carbon\Carbon;
 
 class SaleController extends Controller
 {
@@ -66,7 +69,7 @@ class SaleController extends Controller
     //    dd($sale);
         $sale->update([
             'bill_num'=>$sale->id."-".$sale->created_at,
-            'user_id'=> auth()->user()->id,
+            'user_id'=>$requests['user_id'] ,
         ]);
         //  dd($sale);
 
@@ -94,7 +97,6 @@ class SaleController extends Controller
         $merges = $products->zip($qtys);
 
         foreach ($merges as $merge)
-
         {
             $product=AccountingProduct::find($merge['0']);
             $item= AccountingSaleItem::create([
@@ -102,9 +104,7 @@ class SaleController extends Controller
                 'quantity'=> $merge['1'],
                 'price'=>$product->selling_price,
                 'sale_id'=>$sale->id
-
             ]);
-
         }
 
 
@@ -129,6 +129,21 @@ class SaleController extends Controller
         return $this->toShow(compact('sale','product_items'));
     }
 
+
+    public function sale_end($id)
+    {
+
+        $session=AccountingSession::findOrFail($id);
+        $session->update([
+         'end_session'=>Carbon::now(),
+        ]);
+
+
+        $users=User::where('is_saler',1)->pluck('name','id')->toArray();
+        alert()->success(' تم اغلاق  الجلسة بنجاح!')->autoclose(5000);
+
+        return view('AccountingSystem.sell_points.login',compact('users'));
+    }
     /**
      * Show the form for editing the specified resource.
      *

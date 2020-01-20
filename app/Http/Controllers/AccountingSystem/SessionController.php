@@ -15,6 +15,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Traits\Viewable;
 use App\User;
+use Carbon\Carbon;
 use Request as GlobalRequest;
 
 class SessionController extends Controller
@@ -57,6 +58,8 @@ class SessionController extends Controller
       $user=User::where('email',$inputs['email'])->first();
         $session->update([
             'user_id'=>$user->id,
+            'start_session'=>Carbon::now(),
+
         ]);
 
         if ($request->password != null && !\Hash::check($request->password, $user->password)) {
