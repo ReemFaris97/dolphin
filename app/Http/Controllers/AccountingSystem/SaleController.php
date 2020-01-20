@@ -18,6 +18,7 @@ use App\Traits\Viewable;
 use App\User;
 use Auth;
 use Carbon\Carbon;
+use Request as GlobalRequest;
 
 class SaleController extends Controller
 {
@@ -130,12 +131,14 @@ class SaleController extends Controller
     }
 
 
-    public function sale_end($id)
+    public function sale_end(Request $request,$id)
     {
 
+        dd($request->all());
         $session=AccountingSession::findOrFail($id);
         $session->update([
          'end_session'=>Carbon::now(),
+         'custody'=>$request['custody'],
         ]);
 
 

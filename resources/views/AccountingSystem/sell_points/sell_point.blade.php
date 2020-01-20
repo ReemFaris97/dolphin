@@ -185,7 +185,38 @@
                                 </tr>
                                 </tfoot>
                             </table>
-                        <label class="btn btn-success"> <a href="{{route('accounting.sales.end',$session->id)}}">اغلاق الجلسة</a></label>
+
+
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                اغلاق الجلسة
+                                </button>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">  اغلاق الجلسة  </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" action="{{route('accounting.sales.end',$session->id)}}" id="form1">
+                                @csrf
+                                <label style="color:black"> عهده الخزنه</label>
+                                <input type="text" name="custody"  class="form-control">
+                                </form>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+                            <button type="submit" class="btn btn-primary" onclick="document.getElementById('form1').submit()">حفظ</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                        {{-- <label class="btn btn-success"> <a href="{{route('accounting.sales.end',$session->id)}}">اغلاق الجلسة</a></label> --}}
                         <label class="btn btn-success"> <a href="{{route('accounting.sales.end',$session->id)}}"> تعليق  الفاتورة</a></label>
 
                     </div>
