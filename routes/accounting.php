@@ -115,6 +115,8 @@ Route::middleware('admin')->group(function () {
     Route::get('/returns_Sale/{id}', 'SaleController@returns_Sale');
     Route::get('/sale_details/{id}', 'SaleController@sale_details');
 
+    Route::get('/sale_end/{id}', 'SaleController@sale_end')->name('sales.end');
+
 
     Route::get('/company_devices/{id}', 'SafeController@company_devices');
     Route::get('/branch_devices/{id}', 'SafeController@branch_devices');

@@ -81,6 +81,11 @@
                             <form method="post" action="{{route('accounting.sales.store')}}">
                                 @csrf
 
+                             <input type="hidden" name="user_id" value="{{$session->user_id}}">
+                             <input type="hidden" name="session_id" value="{{$session->id}}">
+                             <input type="hidden" name="shift_id" value="{{$session->shift_id}}">
+
+
                                 <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
                                     <label> اسم الشركة </label>
                                     {!! Form::select("company_id",companies(),null,['class'=>'form-control js-example-basic-single company_id','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له المنتج '])!!}
@@ -180,7 +185,10 @@
                                 </tr>
                                 </tfoot>
                             </table>
-                        </div>
+                        <label class="btn btn-success"> <a href="{{route('accounting.sales.end',$session->id)}}">اغلاق الجلسة</a></label>
+                        <label class="btn btn-success"> <a href="{{route('accounting.sales.end',$session->id)}}"> تعليق  الفاتورة</a></label>
+
+                    </div>
                     </div>
                 </div>
             </section>
