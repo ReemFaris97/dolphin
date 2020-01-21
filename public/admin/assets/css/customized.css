@@ -581,6 +581,12 @@ form.form.phone_validate .panel-title > a {
 
 
 
+@media(min-width:768px){
+	.navbar-nav > li > .dropdown-menu , 
+	.dropdown-menu > .dropdown-submenu > .dropdown-menu{
+    min-width: 220px;
+}
+}
 @media(max-width:991px){
 	.single-shortcut a img {
     width: 90px;

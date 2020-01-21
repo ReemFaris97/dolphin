@@ -36,7 +36,6 @@ class CreateAccountingSessionsTable extends Migration
 
 
                     $table->string('code')->nullable();
-                    $table->enum('status',['open','closed','confirmed'])->nullable();
 
 
             $table->timestamps();

@@ -21,7 +21,7 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::open( ['route' => 'accounting.session.store' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
+            {!!Form::open( ['route' => 'accounting.sessions.store' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
 
             @if (count($errors) > 0)
     <div class="alert alert-danger">

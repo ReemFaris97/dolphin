@@ -104,18 +104,20 @@ Route::middleware('admin')->group(function () {
     Route::post('/permium_store', 'ClientController@permium_store')->name('clients.permiums_store');
     Route::get('/offer_copy', 'ClientController@offer_copy')->name('clients.offers_copy');
     Route::post('/offers_copy', 'ClientController@copy')->name('clients.copy');
-    Route::resource('session', 'SessionController');
+    Route::resource('sessions', 'SessionController');
     Route::resource('sales', 'SaleController');
     Route::resource('clients', 'ClientController');
     Route::resource('categories', 'CategoryController');
     Route::resource('industrials', 'IndustrialController');
     Route::resource('safes', 'SafeController');
     Route::resource('devices', 'DeviceController');
+    Route::resource('settings', 'SettingController');
+
     Route::get('/returns', 'SaleController@returns')->name('sales.returns');
     Route::get('/returns_Sale/{id}', 'SaleController@returns_Sale');
     Route::get('/sale_details/{id}', 'SaleController@sale_details');
 
-    Route::get('/sale_end/{id}', 'SaleController@sale_end')->name('sales.end');
+    Route::post('/sale_end/{id}', 'SaleController@sale_end')->name('sales.end');
 
 
     Route::get('/company_devices/{id}', 'SafeController@company_devices');
