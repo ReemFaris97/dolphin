@@ -159,8 +159,6 @@ class SaleController extends Controller
         $branches=AccountingBranch::pluck('name','id')->toArray();
 
         return $this->toEdit(compact('shift','branches'));
-
-
     }
 
     /**
