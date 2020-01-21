@@ -43,6 +43,15 @@
 
 
     });
+
+
+    $('body').on('click', '.removeProduct', function () {
+            var id = $(this).attr('data-id');
+            var tr = $(this).closest($('#removeProduct' + id).parent().parent());
+            tr.find('td').fadeOut(500, function () {
+                tr.remove();
+            });
+        });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
     <script>
