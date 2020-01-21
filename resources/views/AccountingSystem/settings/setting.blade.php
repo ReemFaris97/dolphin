@@ -44,22 +44,10 @@
 
                                 @foreach($settings as $setting)
 
-                                    @if($setting->type == 'text')
 
-                                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                                            <div class="form-line">
-                                                <label> {{$setting->title}}</label>
-                                                {!! Form::text($setting->name.'[]',$setting->value,['class'=>'form-control'])!!}
-                                            </div>
-                                        </div>
 
-                                        </div>
 
-                                        <div class="clearfix"></div>
-
-                                        <br>
-
-                                    @elseif($setting->type=='radio')
+                                    @if($setting->type=='radio')
 
                                     <label> {{$setting->title}}</label>
                                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -70,6 +58,7 @@
                                                 {!! Form::radio($setting->name.'[]',1,true,['class'=>'form-control'])!!}
                                                 <label>  لا</label>
                                                 {!! Form::radio($setting->name.'[]',0,false,['class'=>'form-control'])!!}
+
 
                                                 @elseif($setting->value=='0')
                                                 {{-- @dd("dsfedsf"); --}}
@@ -89,10 +78,17 @@
                                         <br>
                                     @elseif($setting->type == 'value')
 
+                                    <label> {{$setting->title}}</label>
+
                                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                                            <div class="form-line">
-                                                <label> {{$setting->title}}</label>
-                                                {!! Form::text($setting->name.'[]',$setting->ar_value,['class'=>'form-control'])!!}
+                                            <div class="form-group col-md-6 pull-left">
+                                                <label>الطول mm</label>
+                                                {!! Form::text($setting->name.'[]',$setting->height,['class'=>'form-control'])!!}
+                                            </div>
+
+                                            <div class="form-group col-md-6 pull-left">
+                                                <label> العرض mm</label>
+                                                {!! Form::text($setting->name.'[]',$setting->display,['class'=>'form-control'])!!}
                                             </div>
                                         </div>
 
@@ -101,16 +97,54 @@
 
                                         <br>
 
-                                    @elseif($setting->type == 'url')
-                                        <div class="col-sm-12 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="userName">{{$setting->title}}</label>
-                                                <input type="text" name="{{$setting->name}}[]" value="{{$setting->ar_value}}" class="form-control"
-                                                       {{--oninput="this.value = Math.abs(this.value)"--}}
-                                                       required/>
-                                                <p class="help-block"></p>
+                                        @elseif($setting->type == 'number')
+
+                                        <label> {{$setting->title}}</label>
+
+                                            <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                                                <div class="form-group col-md-6 pull-left">
+                                                    <label>اعلى </label>
+                                                    {!! Form::text($setting->name.'[]',$setting->up,['class'=>'form-control'])!!}
+                                                </div>
+
+                                                <div class="form-group col-md-6 pull-left">
+                                                    <label> اسفل </label>
+                                                    {!! Form::text($setting->name.'[]',$setting->dawn,['class'=>'form-control'])!!}
+                                                </div>
+
+                                                <div class="form-group col-md-6 pull-left">
+                                                    <label>يمين </label>
+                                                    {!! Form::text($setting->name.'[]',$setting->right,['class'=>'form-control'])!!}
+                                                </div>
+
+                                                <div class="form-group col-md-6 pull-left">
+                                                    <label> يسار </label>
+                                                    {!! Form::text($setting->name.'[]',$setting->left,['class'=>'form-control'])!!}
+                                                </div>
+
                                             </div>
-                                        </div>
+
+
+                                            <div class="clearfix"></div>
+
+                                            <br>
+                                            @elseif($setting->type == 'text')
+
+
+                                            <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                                                <div class="form-group col-md-6 pull-left">
+                                                    <label> {{$setting->title}}</label>
+                                                    {!! Form::text($setting->name.'[]',$setting->value,['class'=>'form-control'])!!}
+                                                </div>
+
+
+                                            </div>
+
+
+                                            <div class="clearfix"></div>
+
+                                            <br>
+
 
                                     @endif
 
