@@ -3,23 +3,13 @@
 @section('parent_title','إدارة نقطه البيع')
 @section('action', URL::route('accounting.categories.index'))
 @section('styles')
-<!--    <link href="{!! asset('dashboard/assets/bill.css')!!}" rel="stylesheet" type="text/css"/>-->
-
 <link href="{{asset('admin/assets/css/all.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/bill.css')}}" rel="stylesheet" type="text/css">
 @endsection
-
 @section('content')
-
     <div class="panel panel-flat">
         <div class="panel-heading">
             <h5 class="panel-title">نقطة البيع</h5>
-
-                {{-- <label>اسم الكاشير  </label>
-                  {{$session->user_id}} --}}
-
-
-
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -32,47 +22,29 @@
             <!----------------  Start Bill Content ----------------->
             <section class="yourBill">
                 <div class="row">
-
-
-
                     <div class="col-md-8 col-sm-6 col-xs-12">
                         <div class="yurSections">
-
-                            <div class="col-xs-12">
-  <!-- Nav tabs -->
-  <ul class="nav nav-tabs" role="tablist">
-      @foreach ($categories as $category)
-    <li role="presentation"><a href="#mobile" aria-controls="mobile" role="tab" data-toggle="tab" onclick="category({{$category->id}})" class="category">{{$category->ar_name}}</a></li>
-          @endforeach
-  </ul>
-
-
+                         <div class="col-xs-12">
+						  <!-- Nav tabs -->
+						  <ul class="nav nav-tabs" role="tablist">
+							  @foreach ($categories as $category)
+								<li role="presentation">
+									<a href="#mobile" aria-controls="mobile" role="tab" data-toggle="tab"
+									onclick="category({{$category->id}})" class="category">{{$category->ar_name}}</a>
+								</li>
+							  @endforeach
+						  </ul>
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active" >
                                     <div class="yurProdc">
-                                        {{--<div class="col-lg-4 col-sm-12 col-xs-6">--}}
-                                            {{--<div class="prod1">--}}
-                                                {{--<div class="inDetails"></div>--}}
-                                                {{--<input type="checkbox" class="if-check" id="myCheckbox1" data-price="650"/>--}}
-                                                {{--<label class="new-p" for="myCheckbox1">--}}
-                                                    {{--<span class="price">650 ر.س</span>--}}
-                                                    {{--<img src="https://www.itl.cat/pngfile/big/30-303191_background-images-for-editing-editing-pictures-background-background.jpg">--}}
-                                                    {{--<h4 class="name">منتج متوسط السعر تج متوسط السعر </h4>--}}
-                                                {{--</label>--}}
-                                            {{--</div>--}}
-                                        {{--</div>--}}
-
                                     </div>
                                 </div>
-
-
-
                             </div>
-
+<!--
                             <div class="col-xs-12">
                                 <input class="fxd-btn" id="fxd-btn" type="submit" value="إتمام" data-dismiss='modal' disabled>
                             </div>
-
+-->
                         </div>
                     </div>
                     </div>
@@ -80,38 +52,29 @@
                         <div class="result" id="the-choseen-parts">
                             <form method="post" action="{{route('accounting.sales.store')}}">
                                 @csrf
-
-                             <input type="hidden" name="user_id" value="{{$session->user_id}}">
-                             <input type="hidden" name="session_id" value="{{$session->id}}">
-                             <input type="hidden" name="shift_id" value="{{$session->shift_id}}">
-
-
+								<input type="hidden" name="user_id" value="{{$session->user_id}}">
+								<input type="hidden" name="session_id" value="{{$session->id}}">
+								<input type="hidden" name="shift_id" value="{{$session->shift_id}}">
                                 <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
                                     <label> اسم الشركة </label>
                                     {!! Form::select("company_id",companies(),null,['class'=>'form-control js-example-basic-single company_id','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له المنتج '])!!}
-
                                 </div>
-
                                 <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
                                     <label> اسم الفرع التابع </label>
                                     {!! Form::select("branch_id",branches(),null,['class'=>'form-control selectpicker branch_id','id'=>'branch_id','multiple','placeholder'=>' اختر اسم الفرع التابع له المنتج '])!!}
                                 </div>
-
                                 <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left" id="store_id">
                                     <label> اسم المخزن </label>
-
                                         {!! Form::select("store_id",stores(),null,['class'=>'form-control js-example-basic-single store_id','id'=>'store_id','placeholder'=>' اختر اسم المخزن التابع له المنتج '])!!}
-
                                 </div>
-
                             <table border="1" class="finalTb">
                                 <thead>
-                                <tr>
-                                    <th>المنتج</th>
-                                    <th>الكمية</th>
-                                    <th>السعر قبل الضريبة</th>
-                                    <th>السعر بعد الضريبة</th>
-                                </tr>
+									<tr>
+										<th>المنتج</th>
+										<th>الكمية</th>
+										<th>السعر قبل الضريبة</th>
+										<th>السعر بعد الضريبة</th>
+									</tr>
                                 </thead>
                                 <tbody></tbody>
                                 <tfoot>
@@ -125,7 +88,7 @@
 										<input type="hidden" name="">
 										<th colspan="2"></th>
 									</tr>
-									<tr>
+									<tr id="amountAfterDariba">
 										<th colspan="2">المجموع بعد الضريبة</th>
 										<input type="hidden" name="amount" id="amount">
 										<th colspan="2" id="allResult" ></th>
@@ -144,12 +107,11 @@
 												</span>
 											</div>
 										</th>
-
-
-
-										<th colspan="2"><input type="number" name="discount" placeholder="النسبة المئوية للخصم" min="0" max="100" id="sale"></th>
+										<th colspan="2">
+											<input type="number" name="discount" placeholder="النسبة المئوية للخصم" min="0" max="100" id="sale">
+										</th>
 									</tr>
-									<tr>
+									<tr class="amountAfterSale">
 										<th colspan="2">المجموع بعد الخصم</th>
 										<input type="hidden" name="total" id="total">
 										<th colspan="2" id="reminder"></th>

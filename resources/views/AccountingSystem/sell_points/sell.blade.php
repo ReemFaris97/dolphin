@@ -1,5 +1,4 @@
-
-    @foreach ($products as $product)
+@foreach ($products as $product)
 <div class="col-lg-4 col-sm-12 col-xs-6">
     <div class="prod1">
         <div class="inDetails"></div>
@@ -18,6 +17,4 @@
         </label>
     </div>
 </div>
-    @endforeach
-
-
+@endforeach
