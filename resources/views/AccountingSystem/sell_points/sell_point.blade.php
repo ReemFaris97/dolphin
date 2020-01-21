@@ -152,31 +152,31 @@
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                                 اغلاق الجلسة
                                 </button>
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">  اغلاق الجلسة  </h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form method="post" action="{{route('accounting.sales.end',$session->id)}}" id="form1">
-                                @csrf
-                                <label style="color:black"> عهده الخزنه</label>
-                                <input type="text" name="custody"  class="form-control">
-                                </form>
+							<!-- Modal -->
+							<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">  اغلاق الجلسة  </h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<form method="post" action="{{route('accounting.sales.end',$session->id)}}" id="form1">
+												@csrf
+												<label style="color:black"> عهده الخزنه</label>
+												<input type="text" name="custody"  class="form-control">
+												</form>
 
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
-                            <button type="submit" class="btn btn-primary" onclick="document.getElementById('form1').submit()">حفظ</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+											<button type="submit" class="btn btn-primary" onclick="document.getElementById('form1').submit()">حفظ</button>
+										</div>
+									</div>
+								</div>
+							</div>
 
                         {{-- <label class="btn btn-success"> <a href="{{route('accounting.sales.end',$session->id)}}">اغلاق الجلسة</a></label> --}}
                         <label class="btn btn-success"> <a href="{{route('accounting.sales.end',$session->id)}}"> تعليق  الفاتورة</a></label>
@@ -201,71 +201,18 @@
         success: function (data) {
             $('.yurProdc').html("");
             $('.yurProdc').append(data.data);
-            var numberOfItems = 0;
-            $('.if-check').change(function() {
-                var $this = $(this);
-                if ($this.is(':checked')) {
-                    var newInput = $(`<div class="addme">
-							<div class="quant">
-								<div class="count">
-									<div class="value-button cart-qty-plus"> <i class="fas fa-arrow-circle-up"></i> </div>
-										<input type="number" readonly min="1" value="1" id="number" class="number">
-									<div class="value-button cart-qty-minus"> <i class="fas fa-arrow-circle-down"></i> </div>
-								</div>
-							</div>
-						</div>`);
-                    $($this).prev('.inDetails').append(newInput);
-                    numberOfItems++;
-                    //                    input number simulator function
-                    var incrementPlus;
-                    var incrementMinus;
-                    var buttonPlus = $(this).parents('.prod1').find(".addme").find(".cart-qty-plus");
-                    var buttonMinus = $(this).parents('.prod1').find(".addme").find(".cart-qty-minus");
-                    var incrementPlus = buttonPlus.click(function() {
-                        var $n = $(this)
-                            .parent(".count")
-                            .parent(".quant")
-                            .find(".number");
-                        $n.val(Number($n.val()) + 1);
-                    });
-                    var incrementMinus = buttonMinus.click(function() {
-                        var $n = $(this)
-                            .parent(".count")
-                            .parent(".quant")
-                            .find(".number");
-                        var amount = Number($n.val());
-                        if (amount > 1) {
-                            $n.val(amount - 1);
-                        }
-                    });
-                } else {
-                    $($this).parent(".prod1").find('.inDetails').find('.addme').remove();
-                    numberOfItems--;
-                }
-                console.log("The Number of Selected Items is : " + numberOfItems);
-                if (numberOfItems == 0) {
-                    $(".fxd-btn").attr('disabled', 'true');
-                } else {
-                    $(".fxd-btn").removeAttr('disabled');
-                }
-            });
-
-			function addClicked()  {
-                $(".finalTb tbody").html('');
-                $('.if-check').each(function() {
+                $('.if-check').change(function() {
                     if ($(this).is(':checked')) {
 						console.log("-----------------------------------------");
                         var itemName = $(this).parent(".prod1").find(".new-p").find('.name').html();
                         var itemId = $(this).parent(".prod1").find(".new-p").find('.id').val();
                         console.log("The Product Name is : " + itemName);
-                        var itemQuantity = parseFloat($(this).parent('.prod1').find('.inDetails').find('input').val());
-                        console.log("The " + itemName + " item Quantity is" + itemQuantity);
 						var ifHasTax = $(this).parent(".prod1").find('.ifHasTax').html();
 						console.log("The " + itemName + " item Tax Type is" + ifHasTax);
 						var totalTaxes = $(this).parent(".prod1").find('.totalTaxes').html();
 						console.log("The " + itemName + " item Total Taxes is" + totalTaxes);
                         var itemPrice = parseFloat($(this).next('.new-p').find('.pric-holder').val());
-						var totalR = parseFloat(itemQuantity) * parseFloat(itemPrice) ;
+						var totalR = parseFloat(itemPrice) ;
                         console.log("The Total Money is : " + totalR);
 						var itemAfterTax;
 						var itemBeforeTax;
@@ -274,20 +221,13 @@
 							itemBeforeTax = parseFloat(itemPrice);
 						} else {
 							itemBeforeTax = parseFloat(itemPrice) / (1 + (parseFloat(totalTaxes) / 100));
-
 							itemAfterTax = parseFloat(itemPrice);
-
 						}
-                        // alert(totalTaxes);
                         $('#totalTaxs').val(totalTaxes);
 						console.log("The price Before : " + itemBeforeTax);
 						console.log("The price After : " + itemAfterTax);
-
-
-
-						var AllQuantityAfter = (parseFloat(itemAfterTax) * parseFloat(itemQuantity)).toFixed(2);
-						var AllQuantityBefore = (parseFloat(itemBeforeTax) * parseFloat(itemQuantity)).toFixed(2);
-
+						var AllQuantityAfter = (parseFloat(itemAfterTax)).toFixed(2);
+						var AllQuantityBefore = (parseFloat(itemBeforeTax)).toFixed(2);
                         $(".finalTb tbody").append(`
 							<tr class="newProd" data-id="prod${itemId}">
 								<td>
@@ -295,9 +235,8 @@
 									<input type="hidden" value="${itemName}">
 									<h4>${itemName}</h4>
 								</td>
-								<td>
-									<input type="hidden" name="quantity[]" value="${itemQuantity}">
-									<span class="qnt">${itemQuantity}</span>
+								<td class="quantity-controller">
+									<input type="number" name="quantity[]" min="1" value="1">
 								</td>
 								<td>
 									<input type="hidden" value="${AllQuantityBefore}">
@@ -310,6 +249,7 @@
 								</td>
 							</tr>
 						`);
+						
                         var allResult = 0;
                         $("#the-choseen-parts .singleprice").each(function(){
                             allResult += parseFloat($(this).html());
@@ -325,15 +265,31 @@
 						var safyDariba = parseFloat(allResult) - parseFloat(allBeforeResult);
                         $("#amountOfDariba input").val(safyDariba);
                         $("#amountOfDariba input").next('th').html(safyDariba);
+						
+						$(".quantity-controller input").change(function(){
+							var itemQuantity = parseFloat($(this).val());
+							
+							
+							console.log("The " + itemName + " item Quantity is" + itemQuantity);
+							var totalR = parseFloat(itemQuantity) * parseFloat(itemPrice);
+							var AllQuantityAfter = (parseFloat(itemAfterTax) * parseFloat(itemQuantity)).toFixed(2);
+							var AllQuantityBefore = (parseFloat(itemBeforeTax) * parseFloat(itemQuantity)).toFixed(2);
+							console.log('kareem' + AllQuantityAfter);
+							console.log('mostafa' + AllQuantityBefore)
+						})
+						
+						
+
+						
+						
+						
                         var sale = $("#sale").val();
                         var allReminder = 0;
-
 						 $('#sale').change(function() {
                             allReminder =  parseFloat($("#allResult").html()) - ((parseFloat($(this).val()) * parseFloat($("#allResult").html())) / 100); console.log('change val is' + allReminder);
                             $("#total").val(allReminder);
                             $("#reminder").html(allReminder);
                         });
-
  						$('.discount-options span').click(function() {
 							$('#sale').val('');
 							$("#reminder").html('');
@@ -354,15 +310,6 @@
                         });
 						   }
 						});
-
-
-
-
-
-
-
-
-
                         var lastReminder = 0;
                         $('#paid').change(function() {
                             console.log('alnateg' + parseFloat($("#reminder").html()));
@@ -373,6 +320,10 @@
                         });
                         /********************/
                     }
+					else{
+						var itemElseId = $(this).parent(".prod1").find(".new-p").find('.id').val();
+						$("tr[data-id='prod"+ itemElseId +"']").remove()
+					}
                     /**********************  Remove Piece *****************/
 
                 });
@@ -402,9 +353,7 @@
 		   $("#paid").val("");
 		   $("#lastreminder").html('');
 			}
-					})
-            }
-
+		})
 
             $(".fxd-btn").click(function(){
 				addClicked()
