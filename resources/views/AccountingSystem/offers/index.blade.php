@@ -28,7 +28,7 @@
                     <th> اسم العميل </th>
                     <th> اجمالى  سعر العرض </th>
                     <th>الحالة </th>
-             
+
                     <th class="text-center">العمليات</th>
                 </tr>
                 </thead>
@@ -89,7 +89,7 @@
             console.log(item_id);
             swal({
                 title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذة الخلية ؟",
+                text: "هل تريد حذف هذا  العرض ؟",
                 icon: "warning",
                 buttons: ["الغاء", "موافق"],
                 dangerMode: true,
@@ -99,7 +99,7 @@
                     document.getElementById('delete-form'+item_id).submit();
                 }
                 else{
-                    swal("تم االإلفاء", "حذف  الخلية  تم الغاؤه",'info',{buttons:'موافق'});
+                    swal("تم االإلفاء", "حذف  العرض  تم الغاؤه",'info',{buttons:'موافق'});
                 }
             });
         }
