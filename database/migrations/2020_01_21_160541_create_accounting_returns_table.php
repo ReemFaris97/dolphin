@@ -23,6 +23,12 @@ class CreateAccountingReturnsTable extends Migration
             $table->foreign('item_id')->references('id')
                 ->on('accounting_sales_items')->onDelete('cascade')
                 ->onUpdate('cascade');
+
+                $table->unsignedBigInteger('user_id')->nullable();
+                $table->foreign('user_id')->references('id')
+                    ->on('users')->onDelete('cascade')
+                    ->onUpdate('cascade');
+                    
                 $table->string('quantity')->nullable();
                 $table->double('price')->nullable();
             $table->timestamps();

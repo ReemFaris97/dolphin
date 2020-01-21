@@ -306,8 +306,8 @@ class ProductController extends Controller
         $storeproduct=AccountingProductStore::where('product_id',$id)->first();
         $store=AccountingStore::find(optional($storeproduct)->store_id??1);
         $stores=AccountingStore::all();
-
-        return $this->toEdit(compact('industrials','face','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores','units'));
+        $taxs=AccountingTaxBand::pluck('name','id')->toArray();
+        return $this->toEdit(compact('industrials','taxs','face','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores','units'));
 
 
     }
