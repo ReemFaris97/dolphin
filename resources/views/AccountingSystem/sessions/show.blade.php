@@ -76,6 +76,42 @@
 
 
 
+        <table class="table datatable-button-init-basic">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th> رقم  الفاتورة </th>
+                <th> تاريخ الفاتورة </th>
+                <th> قيمة الفاتورة </th>
+                <th class="text-center">العمليات</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            @foreach($sales as $row)
+                <tr>
+                    <td>{!!$loop->iteration!!}</td>
+                    <td>{!! $row-> id!!}</td>
+                    <td>{!! $row->created_at!!}</td>
+                    <td>{!! $row->total!!}</td>
+
+
+                    <td class="text-center">
+                        <a href="{{route('accounting.sales.show',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
+                        <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
+
+                        {!!Form::open( ['route' => ['accounting.sales.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
+                        {!!Form::close() !!}
+
+                    </td>
+                </tr>
+
+            @endforeach
+
+
+
+            </tbody>
+        </table>
 
 </div>
 
