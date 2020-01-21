@@ -12,14 +12,20 @@ use App\Models\AccountingSystem\AccountingMoneyClause;
 use App\Models\AccountingSystem\AccountingProductCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingSale;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Traits\Viewable;
 use App\User;
 use Carbon\Carbon;
 use Request as GlobalRequest;
 
+
+
 class SessionController extends Controller
 {
+
+    use Viewable;
+private $viewable = 'AccountingSystem.sessions.';
       /**
      * Display a listing of the resource.
      *
@@ -28,8 +34,8 @@ class SessionController extends Controller
     public function index()
     {
 
-        $benods=AccountingBenod::all();
-        return $this->toIndex(compact('benods'));
+        $sessions=AccountingSession::all();
+        return $this->toIndex(compact('sessions'));
     }
 
     /**
@@ -59,6 +65,7 @@ class SessionController extends Controller
         $session->update([
             'user_id'=>$user->id,
             'start_session'=>Carbon::now(),
+            'code'=>Carbon::now()."-".optional($session->shift)->name ."-".optional($session->device)->code
 
         ]);
 
@@ -79,6 +86,10 @@ class SessionController extends Controller
     public function show($id)
     {
 
+        $session=AccountingSession::findOrFail($id);
+        $sales=AccountingSale::where('session_id',$id)->get();
+
+        return $this->toShow(compact('session','sales'));
 
     }
 
