@@ -91,7 +91,7 @@ class SaleController extends Controller
 //            }
 //
 //        }
-       
+
         $products = collect($requests['product_id']);
         $qtys = collect($requests['quantity']);
 
@@ -134,7 +134,7 @@ class SaleController extends Controller
     public function sale_end(Request $request,$id)
     {
 
-        dd($request->all());
+        // dd($request->all());
         $session=AccountingSession::findOrFail($id);
         $session->update([
          'end_session'=>Carbon::now(),
