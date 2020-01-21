@@ -577,7 +577,17 @@ form.form.phone_validate .panel-title > a {
 .dash-link:hover{
 	color: #2ECC71
 }
-
+.newly-added-2-btns- {
+	display: inline-flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%
+}
+.newly-added-2-btns- .btn {
+    width: 140px;
+    float: right;
+    margin-top: 7px;
+}
 
 
 

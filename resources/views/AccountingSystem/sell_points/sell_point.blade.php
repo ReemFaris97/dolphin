@@ -142,16 +142,19 @@
 
                                 <tr>
                                     <th colspan="4">
-                                  		<button type="submit">دفع</button>
+                                  		<button type="submit">حفظ</button>
                                     </th>
                                 </tr>
                                 </tfoot>
                             </table>
 
 							</form>
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            <div class="newly-added-2-btns-">
+                            	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                                 اغلاق الجلسة
-                                </button>
+								</button>
+								<a class="btn btn-warning" href="{{route('accounting.sales.end',$session->id)}}"> تعليق  الفاتورة</a>
+                            </div>
 							<!-- Modal -->
 							<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 								<div class="modal-dialog" role="document">
@@ -179,7 +182,6 @@
 							</div>
 
                         {{-- <label class="btn btn-success"> <a href="{{route('accounting.sales.end',$session->id)}}">اغلاق الجلسة</a></label> --}}
-                        <label class="btn btn-success"> <a href="{{route('accounting.sales.end',$session->id)}}"> تعليق  الفاتورة</a></label>
 
                     </div>
                     </div>
@@ -225,9 +227,7 @@
 						}
                         $('#totalTaxs').val(totalTaxes);
 						console.log("The price Before : " + itemBeforeTax);
-						console.log("The price After : " + itemAfterTax);
-						var AllQuantityAfter = (parseFloat(itemAfterTax)).toFixed(2);
-						var AllQuantityBefore = (parseFloat(itemBeforeTax)).toFixed(2);
+						console.log("The price After : " + itemAfterTax);						
                         $(".finalTb tbody").append(`
 							<tr class="newProd" data-id="prod${itemId}">
 								<td>
@@ -238,19 +238,47 @@
 								<td class="quantity-controller">
 									<input type="number" name="quantity[]" min="1" value="1">
 								</td>
-								<td>
-									<input type="hidden" value="${AllQuantityBefore}">
-									<span class="qnt singleBefore">${AllQuantityBefore}</span>
+								<td class="priceBe">
+									<input type="hidden" value="${itemBeforeTax}">
+									<span class="qnt singleBefore" data-p="${itemBeforeTax}">${itemBeforeTax}</span>
 								</td>
-								<td>
-									<input type="hidden" value="${AllQuantityAfter}">
-									<span class="qnt singleprice">${AllQuantityAfter}</span>
+								<td class="priceAf">
+									<input type="hidden" value="${itemAfterTax}">
+									<span class="qnt singleprice" data-p="${itemAfterTax}">${itemAfterTax}</span>
 									<a class="close" data-remo="prod${itemId}"><i class="fas fa-times"></i></a>
 								</td>
 							</tr>
 						`);
 						
-                        var allResult = 0;
+						$(".quantity-controller input").change(function(){
+							var newItemQuantity = $(this).val();
+							var priceBe = $(this).parents("tr").find(".priceBe").find(".singleBefore");
+							var priceAf = $(this).parents("tr").find(".priceAf").find(".singleprice");
+							if(newItemQuantity == null || newItemQuantity == 0){
+								priceBe.html(priceBe.attr('data-p'));
+								priceAf.html(priceAf.attr('data-p'));
+							}else{
+								priceBe.html(parseFloat(priceBe.attr('data-p')) * parseFloat(newItemQuantity));
+								priceAf.html(parseFloat(priceAf.attr('data-p')) * parseFloat(newItemQuantity));
+								var allResult = 0;
+								$("#the-choseen-parts .singleprice").each(function(){
+									allResult += parseFloat($(this).html());
+								});
+								$("#amount").val(allResult);
+								$("#allResult").html(allResult);
+								var allBeforeResult = 0;
+								$("#the-choseen-parts .singleBefore").each(function(){
+									allBeforeResult += parseFloat($(this).html());
+								});
+								$("#amountBeforeDariba input").val(allBeforeResult);
+								$("#amountBeforeDariba input").next('th').html(allBeforeResult);
+								var safyDariba = parseFloat(allResult) - parseFloat(allBeforeResult);
+								$("#amountOfDariba input").val(safyDariba);
+								$("#amountOfDariba input").next('th').html(safyDariba);	
+							}
+						})
+						
+						var allResult = 0;
                         $("#the-choseen-parts .singleprice").each(function(){
                             allResult += parseFloat($(this).html());
                         });
@@ -265,19 +293,6 @@
 						var safyDariba = parseFloat(allResult) - parseFloat(allBeforeResult);
                         $("#amountOfDariba input").val(safyDariba);
                         $("#amountOfDariba input").next('th').html(safyDariba);
-						
-						$(".quantity-controller input").change(function(){
-							var itemQuantity = parseFloat($(this).val());
-							
-							
-							console.log("The " + itemName + " item Quantity is" + itemQuantity);
-							var totalR = parseFloat(itemQuantity) * parseFloat(itemPrice);
-							var AllQuantityAfter = (parseFloat(itemAfterTax) * parseFloat(itemQuantity)).toFixed(2);
-							var AllQuantityBefore = (parseFloat(itemBeforeTax) * parseFloat(itemQuantity)).toFixed(2);
-							console.log('kareem' + AllQuantityAfter);
-							console.log('mostafa' + AllQuantityBefore)
-						})
-						
 						
 
 						
@@ -327,6 +342,14 @@
                     /**********************  Remove Piece *****************/
 
                 });
+			
+			
+			$("tbody tr.newProd").each(function(){
+				var rowID = $(this).attr('data-id').substr(4,1);
+				console.log(rowID);
+				$(".prod1 input.if-check[data-id='"+ rowID +"']").prop('checked' , true);
+			})
+			
 			$(".close").click(function(){
 			$(this).parents('.newProd').remove();
 			var allResult = 0;
