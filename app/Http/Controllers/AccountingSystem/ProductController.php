@@ -92,7 +92,7 @@ class ProductController extends Controller
         ];
         $this->validate($request,$rules);
 
-        $inputs = $request->except('name','image','bar_code','main_unit_present','purchasing_price','selling_price','component_names','qtys','main_units');
+        $inputs = $request->except('name','image','main_unit_present','purchasing_price','selling_price','component_names','qtys','main_units');
         $inputs['name']=$inputs['name_product'];
         $inputs['selling_price']=$inputs['product_selling_price'];
         $inputs['purchasing_price']=$inputs['product_purchasing_price'];
@@ -306,8 +306,8 @@ class ProductController extends Controller
         $storeproduct=AccountingProductStore::where('product_id',$id)->first();
         $store=AccountingStore::find(optional($storeproduct)->store_id??1);
         $stores=AccountingStore::all();
-
-        return $this->toEdit(compact('industrials','face','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores','units'));
+        $taxs=AccountingTaxBand::pluck('name','id')->toArray();
+        return $this->toEdit(compact('industrials','taxs','face','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores','units'));
 
 
     }

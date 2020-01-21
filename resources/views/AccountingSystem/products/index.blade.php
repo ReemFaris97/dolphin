@@ -57,10 +57,10 @@
                                 @endif
 
                         </td>
-                        <td>{!! $row-> bar_code!!}</td>
-                        <td>{!! $row->  main_unit!!}</td>
-                        <td>{!! $row->  selling_price!!}</td>
-                        <td>{!! $row->  purchasing_price!!}</td>
+                        <td>{!! $row->bar_code!!}</td>
+                        <td>{!! $row->main_unit!!}</td>
+                        <td>{!! $row->selling_price!!}</td>
+                        <td>{!! $row->purchasing_price!!}</td>
                         <td><img src="{!! getimg($row->image)!!}" style="width:100px; height:100px"> </td>
 
                         <td class="text-center">

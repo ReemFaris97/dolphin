@@ -486,7 +486,7 @@ class StoreController extends Controller
 
     public  function company_stores($id){
 
-        $basic_stores=AccountingStore::where('model_id',$id)->where('model_type','App\Models\AccountingSystem\AccountingCompany')->pluck('ar_name','id')->toArray();
+        $basic_stores=AccountingStore::where('model_id',$id)->where('model_type','App\Models\AccountingSystem\AccountingCompany')->where('type','1')->pluck('ar_name','id')->toArray();
 
 
         return response()->json([
