@@ -373,7 +373,10 @@
 				<ul class="dropdown-menu dropdown-menu-right">
 					<li><a href="{{route('accounting.sales.index')}}"><i class="icon-eye"></i> عرض الفواتير</a></li>
 					<li><a href="{{route('accounting.sales.returns')}}"><i class="icon-add-to-list"></i> اضافة فاتورة مرتجعات جديدة</a></li>
-				</ul>
+                    <li><a href="{{route('accounting.sessions.index')}}"><i class="icon-eye"></i> عرض الجلسات</a></li>
+
+                </ul>
+
             </li>
             <li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -473,7 +476,7 @@
 					<li><a href="{{route('accounting.devices.create')}}"><i class="icon-add-to-list"></i> اضافة جهاز جديدة</a></li>
 				</ul>
 			</li>
-			
+
 			<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-cabinet position-left"></i>
@@ -485,7 +488,19 @@
                     <li><a href="{{route('accounting.sells_points.login')}}"><i class="icon-eye"></i>  تسجيل  دخول  نقطة البيع</a></li>
 						{{-- <li><a href="{{route('accounting.sells_points.sells_point')}}"><i class="icon-eye"></i> نقطه البيع</a></li> --}}
 					</ul>
-				</li>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="icon-list position-left"></i>
+                        إدارة الاعدات العامه
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a href="{{route('accounting.settings.index')}}"><i class="icon-eye"></i> الأعدادت </a></li>
+                        {{-- <li><a href="{{route('accounting.devices.create')}}"><i class="icon-add-to-list"></i> اضافة جهاز جديدة</a></li> --}}
+                    </ul>
+                </li>
 			<!--Tis will be commented temporarly-->
 			<!--
 						<li class="dropdown">
@@ -501,7 +516,7 @@
 						</li>
 			-->
 			<!--           الحسابات-->
-			
+
         </ul>
 
 
