@@ -12,6 +12,7 @@ use App\Models\AccountingSystem\AccountingMoneyClause;
 use App\Models\AccountingSystem\AccountingProductCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingSale;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Traits\Viewable;
 use App\User;
@@ -86,8 +87,9 @@ private $viewable = 'AccountingSystem.sessions.';
     {
 
         $session=AccountingSession::findOrFail($id);
+        $sales=AccountingSale::where('session_id',$id)->get();
 
-        return $this->toShow(compact('session'));
+        return $this->toShow(compact('session','sales'));
 
     }
 

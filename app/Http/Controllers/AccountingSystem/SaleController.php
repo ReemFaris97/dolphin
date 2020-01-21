@@ -91,7 +91,7 @@ class SaleController extends Controller
 //            }
 //
 //        }
-        ////////////////////////
+       
         $products = collect($requests['product_id']);
         $qtys = collect($requests['quantity']);
 
