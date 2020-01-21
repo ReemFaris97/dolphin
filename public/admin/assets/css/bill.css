@@ -296,6 +296,16 @@ table.finalTb button[type = "submit"] {
 .discount-options {
     padding-right: 15px;
 }
+
+tr.newProd input[type="number"] {
+    text-align: center;
+    color: #455A64;
+    font-weight: 700;
+    width: 75px;
+}
+
+
+
 /******* Responsive ****************/
 @media (max-width: 1199px){
     .count {
