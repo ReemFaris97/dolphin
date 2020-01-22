@@ -341,16 +341,8 @@
 					}
                     /**********************  Remove Piece *****************/
 
-                });
-			
-			
-			$("tbody tr.newProd").each(function(){
-				var rowID = $(this).attr('data-id').substr(4,1);
-				console.log(rowID);
-				$(".prod1 input.if-check[data-id='"+ rowID +"']").prop('checked' , true);
-			})
-			
-			$(".close").click(function(){
+					
+					$(".close").click(function(){
 			$(this).parents('.newProd').remove();
 			var allResult = 0;
 			$("#the-choseen-parts .singleprice").each(function(){
@@ -377,6 +369,17 @@
 		   $("#lastreminder").html('');
 			}
 		})
+					
+                });
+			
+			
+			$("tbody tr.newProd").each(function(){
+				var rowID = $(this).attr('data-id').substr(4,1);
+				console.log(rowID);
+				$(".prod1 input.if-check[data-id='"+ rowID +"']").prop('checked' , true);
+			})
+			
+			
 
             $(".fxd-btn").click(function(){
 				addClicked()
