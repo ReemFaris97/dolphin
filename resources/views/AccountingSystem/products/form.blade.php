@@ -26,9 +26,6 @@
 				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
 					<label> اسم الشركة </label>
 					{!! Form::select("company_id",companies(),null,['class'=>'form-control js-example-basic-single company_id','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له المنتج '])!!}
-
-
-
 				</div>
 
 				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
@@ -65,7 +62,7 @@
 
 						<select class="form-control js-example-basic-single pull-right" name="column_id">
 							@foreach ($faces as $face)
-								@if ($product->cell->column->face_id == $face->id)
+								@if ($product->column->face_id == $face->id)
 									<option value="{{$face->id}}"  selected>{{$face->name}}</option>
 								@else
 									<option value="{{$face->id}}" >{{$face->name}}</option>
@@ -85,7 +82,7 @@
 
 						<select class="form-control js-example-basic-single pull-right" name="column_id">
 							@foreach ($columns as $column)
-								@if ($product->cell->column_id == $column->id)
+								@if ($product->column_id == $column->id)
 									<option value="{{$column->id}}"  selected>{{$column->name}}</option>
 								@else
 									<option value="{{$column->id}}" >{{$column->name}}</option>
@@ -96,8 +93,11 @@
 					@endif
 				</div>
 				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
-					<label> اسم  الخلية  التابعة للعمود </label>
-					@if (!isset($product))
+                    <label> اسم  الخلية  التابعة للعمود </label>
+					{!! Form::text("cell",null,['class'=>'form-control','placeholder'=>'  ادخل اسم  الخلية  '])!!}
+
+
+					{{-- @if (!isset($product))
 						{!! Form::select("cell_id",cells(),null,['class'=>'form-control selectpicker cell_id','id'=>'cell_id','placeholder'=>' اختر خلية للمنتج '])!!}
 					@else
 
@@ -111,7 +111,7 @@
 								@endforeach
 
 							</select>
-					@endif
+					@endif --}}
 				</div>
 
 
