@@ -155,5 +155,9 @@ Route::middleware('admin')->group(function () {
 
     Route::get('/productsAjex/{id}', 'SellPointController@getProductAjex');
 
+    Route::get('/pro_search/{name}', 'SellPointController@pro_search');
+    Route::get('/barcode_search/{name}', 'SellPointController@barcode_search');
+
+
 });
 

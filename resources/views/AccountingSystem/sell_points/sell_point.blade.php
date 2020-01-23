@@ -22,14 +22,29 @@
             <!----------------  Start Bill Content ----------------->
             <section class="yourBill">
                 <div class="row">
-                    <form action="" method="POST">
-                        @csrf
-                        <input type="text" name="search" class="input">
-                    </form>
+
+                        <input type="text" name="search" id="pro_search">
+                        <input type="text"   id="barcode_search">
+
                     <div class="col-md-8 col-sm-6 col-xs-12">
                         <div class="yurSections">
                          <div class="col-xs-12">
-						  <!-- Nav tabs -->
+                          <!-- Nav tabs -->
+                          <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left" >
+                            <label> اسم الكاشير </label>
+                            {{$session->user->name}}
+                        </div>
+
+                        <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left" >
+                            <label> اسم الوردية </label>
+                            {{$session->shift->name}}
+                        </div>
+
+                        <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left" >
+                            <label> تاريخ بدء الجلسة </label>
+                            {{$session->start_session}}
+                        </div>
+
 						  <ul class="nav nav-tabs" role="tablist">
 							  @foreach ($categories as $category)
 								<li role="presentation">
@@ -393,6 +408,47 @@
         }
     });
 }
+
+$('#pro_search').keyup(function(e) {
+
+var pro_search = $(this).val();
+
+// if (e.keyCode == 13) {
+// alert(pro_search);
+    $.ajax({
+        url: "/accounting/pro_search/" + pro_search,
+        type: "GET",
+
+
+        success: function(data) {
+
+            $('.yurProdc').empty();
+            $('.yurProdc').html(data.data);
+        }
+    });
+// }
+});
+
+
+$('#barcode_search').keyup(function(e) {
+
+var barcode_search = $(this).val();
+
+// if (e.keyCode == 13) {
+// alert(pro_search);
+    $.ajax({
+        url: "/accounting/barcode_search/" + barcode_search,
+        type: "GET",
+
+
+        success: function(data) {
+
+            $('.yurProdc').empty();
+            $('.yurProdc').html(data.data);
+        }
+    });
+// }
+});
 
 
     </script>
