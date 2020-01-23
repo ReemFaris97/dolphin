@@ -27,7 +27,7 @@
                     <th>#</th>
                     <th> اسم المنتج </th>
                     <th> نوع المنتج </th>
-
+                    <th>  الكمية </th>
                     <th>  الباركود </th>
                     <th> الوحده الاساسية  </th>
                     <th> سعر البيع </th>
@@ -57,6 +57,7 @@
                                 @endif
 
                         </td>
+                        <td>{!! $row->quantity!!}</td>
                         <td>{!! $row->bar_code!!}</td>
                         <td>{!! $row->main_unit!!}</td>
                         <td>{!! $row->selling_price!!}</td>

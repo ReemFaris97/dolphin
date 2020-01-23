@@ -1048,10 +1048,7 @@
 											<td>	{!! $sale->totalTaxs !!}</td>
 										</tr>
 
-										{{-- <tr>
-											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-plus"></i>إضافي على الفاتورة</td>
-											<td>10</td>
-										</tr> --}}
+									
 
 										<tr>
 											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-money"></i> المطلوب سداده</td>

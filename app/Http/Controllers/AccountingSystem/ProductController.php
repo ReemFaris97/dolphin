@@ -70,7 +70,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-//  dd($request->all());
+ //dd($request->all());
         $rules = [
 
             'description'=>'nullable|string',
@@ -87,7 +87,7 @@ class ProductController extends Controller
             'image'=>'nullable|sometimes|image',
             'width'=>'nullable|string',
             'num_days_recession'=>'nullable|string',
-            'cell_id'=>'required',
+            // 'cell_id'=>'required',
 
         ];
         $this->validate($request,$rules);
@@ -100,6 +100,7 @@ class ProductController extends Controller
         if ($request->hasFile('image')) {
             $inputs['image'] = saveImage($request->image, 'photos');
         }
+        // dd($inputs);
        $product= AccountingProduct::create($inputs);
 
        if (isset($inputs['store_id']))
@@ -216,7 +217,7 @@ class ProductController extends Controller
 
 /////////////////////product_taxs//////////////////////////////////////
 
-        if (isset($request['tax'])){
+        if (isset($request['tax'])&$request['tax']==1){
             // dd($request->all());
             foreach($request['tax_band_id'] as $tax_band_id){
             AccountingProductTax::create([
@@ -305,8 +306,10 @@ class ProductController extends Controller
         $is_edit = 1;
         $storeproduct=AccountingProductStore::where('product_id',$id)->first();
         $store=AccountingStore::find(optional($storeproduct)->store_id??1);
+        // dd($store);
         $stores=AccountingStore::all();
         $taxs=AccountingTaxBand::pluck('name','id')->toArray();
+
         return $this->toEdit(compact('industrials','taxs','face','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores','units'));
 
 

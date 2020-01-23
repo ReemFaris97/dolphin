@@ -13,7 +13,9 @@ use App\Models\AccountingSystem\AccountingSale;
 use App\Models\AccountingSystem\AccountingSaleItem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingSession;
+use App\Models\AccountingSystem\AccountingStore;
 use App\Traits\Viewable;
 use App\User;
 use Auth;
@@ -100,13 +102,27 @@ class SaleController extends Controller
         foreach ($merges as $merge)
         {
             $product=AccountingProduct::find($merge['0']);
+
+            if($product->quantity>0){
+
             $item= AccountingSaleItem::create([
                 'product_id'=>$merge['0'],
                 'quantity'=> $merge['1'],
                 'price'=>$product->selling_price,
                 'sale_id'=>$sale->id
             ]);
+            //update_product_quantity
+            $product->update([
+                'quantity'=>$product->quantity- $merge['1'],
+            ]);
+             //update_product_quantity_store
+            $productstore=AccountingProductStore::where('store_id',$requests['store_id'])->where('product_id',$merge['0'])->first();
+            $productstore->update([
+                'quantity'=>$productstore->quantity - $merge['1'],
+            ]);
+
         }
+    }
 
 
 

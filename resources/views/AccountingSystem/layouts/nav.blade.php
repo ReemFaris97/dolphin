@@ -196,7 +196,7 @@
 										<li><a href="{{route('accounting.stores.first_balances_report')}}"><i class="icon-eye"></i>   تقرير ارصده اول  المده </a></li>
 										{{--<li><a href="{{route('accounting.stores.products_exchange_form')}}"><i class="icon-eye"></i> سند صرف منتجات</a></li>--}}
 									{{-- </ul>
-								</li> --}} 
+								</li> --}}
 							</ul>
 						</li>
 						<li class="dropdown-submenu dropdown-submenu-right">
@@ -269,7 +269,7 @@
 											</li>
 										</ul>
 									</li>
-									<li class="dropdown-submenu dropdown-submenu-right">
+									{{-- <li class="dropdown-submenu dropdown-submenu-right">
 										<a href="#"><i class="icon-paragraph-right"></i> الخلايا </a>
 										<ul class="dropdown-menu">
 											<li><a href="{{route('accounting.cells.index')}}"><i class="icon-eye"></i> عرض الخلايا   </a></li>
@@ -277,7 +277,7 @@
 												<a href="{{route('accounting.cells.create')}}"><i class="icon-add-to-list"></i> اضافة خلية جديد</a>
 											</li>
 										</ul>
-									</li>
+									</li> --}}
 								</ul>
 							</li>
 						</ul>
