@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class AccountingProduct extends Model
 {
     protected $fillable = ['name','description','type','is_active','category_id',
-    'cell_id','bar_code','main_unit','selling_price','purchasing_price','min_quantity',
+    'column_id','bar_code','main_unit','selling_price','purchasing_price','min_quantity',
     'max_quantity','expired_at','image'
     ,'size','color','height','width','num_days_recession','industrial_id','quantity','unit_price',
-    'is_settlement','date_settlement','settlement_store_id'
+    'is_settlement','date_settlement','settlement_store_id','cell'
 ];
 
 protected $appends = ['total_taxes'];
@@ -31,6 +31,11 @@ protected $appends = ['total_taxes'];
     public function cell()
     {
         return $this->belongsTo(AccountingColumnCell::class,'cell_id');
+    }
+
+    public function column()
+    {
+        return $this->belongsTo(AccountingFaceColumn::class,'column_id');
     }
 
     public function getTotalTaxesAttribute()

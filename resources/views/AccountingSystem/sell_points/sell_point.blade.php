@@ -22,6 +22,10 @@
             <!----------------  Start Bill Content ----------------->
             <section class="yourBill">
                 <div class="row">
+                    <form action="" method="POST">
+                        @csrf
+                        <input type="text" name="search" class="input">
+                    </form>
                     <div class="col-md-8 col-sm-6 col-xs-12">
                         <div class="yurSections">
                          <div class="col-xs-12">
@@ -227,7 +231,7 @@
 						}
                         $('#totalTaxs').val(totalTaxes);
 						console.log("The price Before : " + itemBeforeTax);
-						console.log("The price After : " + itemAfterTax);						
+						console.log("The price After : " + itemAfterTax);
                         $(".finalTb tbody").append(`
 							<tr class="newProd" data-id="prod${itemId}">
 								<td>
@@ -249,7 +253,7 @@
 								</td>
 							</tr>
 						`);
-						
+
 						$(".quantity-controller input").change(function(){
 							var newItemQuantity = $(this).val();
 							var priceBe = $(this).parents("tr").find(".priceBe").find(".singleBefore");
@@ -274,10 +278,10 @@
 								$("#amountBeforeDariba input").next('th').html(allBeforeResult);
 								var safyDariba = parseFloat(allResult) - parseFloat(allBeforeResult);
 								$("#amountOfDariba input").val(safyDariba);
-								$("#amountOfDariba input").next('th').html(safyDariba);	
+								$("#amountOfDariba input").next('th').html(safyDariba);
 							}
 						})
-						
+
 						var allResult = 0;
                         $("#the-choseen-parts .singleprice").each(function(){
                             allResult += parseFloat($(this).html());
@@ -293,11 +297,11 @@
 						var safyDariba = parseFloat(allResult) - parseFloat(allBeforeResult);
                         $("#amountOfDariba input").val(safyDariba);
                         $("#amountOfDariba input").next('th').html(safyDariba);
-						
 
-						
-						
-						
+
+
+
+
                         var sale = $("#sale").val();
                         var allReminder = 0;
 						 $('#sale').change(function() {
@@ -341,7 +345,7 @@
 					}
                     /**********************  Remove Piece *****************/
 
-					
+
 					$(".close").click(function(){
 			$(this).parents('.newProd').remove();
 			var allResult = 0;
@@ -369,17 +373,17 @@
 		   $("#lastreminder").html('');
 			}
 		})
-					
+
                 });
-			
-			
+
+
 			$("tbody tr.newProd").each(function(){
 				var rowID = $(this).attr('data-id').substr(4,1);
 				console.log(rowID);
 				$(".prod1 input.if-check[data-id='"+ rowID +"']").prop('checked' , true);
 			})
-			
-			
+
+
 
             $(".fxd-btn").click(function(){
 				addClicked()
