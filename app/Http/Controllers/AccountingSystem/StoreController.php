@@ -331,6 +331,15 @@ class StoreController extends Controller
 
 
 
+    public function stores_to($id)
+    {
+
+
+        return stores_to($id);
+    }
+
+
+
     public  function  bonds_index(){
 
         $bonds=AccountingBond::all();
@@ -507,6 +516,7 @@ class StoreController extends Controller
         ]);
 
     }
+
 
 
     public  function active($id){

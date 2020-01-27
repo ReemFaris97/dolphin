@@ -54,6 +54,29 @@ class SellPointController extends Controller
         ]);
     }
 
+    public  function pro_search($q){
+
+        $products=AccountingProduct::where('name','LIKE','%'.$q.'%')->get();
+        // $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
+
+        return response()->json([
+            'status'=>true,
+            'data'=>view('AccountingSystem.sell_points.sell')->with('products',$products)->render()
+        ]);
+
+    }
+
+    public  function barcode_search($q){
+
+        $products=AccountingProduct::where('bar_code',$q)->get();
+        // $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
+
+        return response()->json([
+            'status'=>true,
+            'data'=>view('AccountingSystem.sell_points.sell')->with('products',$products)->render()
+        ]);
+
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -131,6 +154,7 @@ class SellPointController extends Controller
     {
         $shift =AccountingBranchShift::findOrFail($id);
         $shift->delete();
+        
         alert()->success('تم حذف  الوردية بنجاح !')->autoclose(5000);
             return back();
 

@@ -28,6 +28,8 @@ Route::middleware('admin')->group(function () {
     Route::get('/products_entry_form', 'StoreController@products_entry_form')->name('stores.products_entry_form');
     Route::post('/bond_store', 'StoreController@bond_store')->name('stores.bond_store');
     Route::get('/keepers_store/{id}', 'StoreController@getkeepers')->name('keepers_store');
+    Route::get('/stores_to/{id}', 'StoreController@stores_to')->name('stores_to');
+
 
     Route::get('/bonds', 'StoreController@bonds_index')->name('stores.bonds_index');
     Route::get('/bond-show/{id}', 'StoreController@bond_show')->name('stores.show_bond');
@@ -113,7 +115,11 @@ Route::middleware('admin')->group(function () {
     Route::resource('devices', 'DeviceController');
     Route::resource('settings', 'SettingController');
 
-    Route::get('/returns', 'SaleController@returns')->name('sales.returns');
+    Route::post('/store_returns', 'SaleController@store_returns')->name('sales.store_returns');
+
+    Route::get('/returns/{id}', 'SaleController@returns')->name('sales.returns');
+    Route::delete('/remove_Sale/{id}', 'SaleController@remove_Sale');
+
     Route::get('/returns_Sale/{id}', 'SaleController@returns_Sale');
     Route::get('/sale_details/{id}', 'SaleController@sale_details');
 
@@ -154,6 +160,10 @@ Route::middleware('admin')->group(function () {
     Route::post('/subunit', 'ProductController@subunit')->name('subunit');
 
     Route::get('/productsAjex/{id}', 'SellPointController@getProductAjex');
+
+    Route::get('/pro_search/{name}', 'SellPointController@pro_search');
+    Route::get('/barcode_search/{name}', 'SellPointController@barcode_search');
+
 
 });
 

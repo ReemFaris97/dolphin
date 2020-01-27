@@ -31,11 +31,7 @@
                     </ul>
                 </div>
             @endif
-            <div class="form-group col-md-4 pull-left">
-                <label>اختر المخزن ا
-                    لية </label>
-                {!! Form::select("to_store_id",allstores(),null,['class'=>'form-control js-example-basic-single ','placeholder'=>'  اختر  المخزن'])!!}
-            </div>
+
             <div class="form-group col-md-4 pull-left">
                 <label>اختر المخزن منه </label>
                 {!! Form::select("form_store_id",allstores(),null,['class'=>'form-control js-example-basic-single form_store_id','id'=>'form_store_id','placeholder'=>' اختر  المخزن'])!!}
@@ -45,16 +41,18 @@
                 {!! Form::select("product_id[]",products(),null,['class'=>'form-control js-example-basic-single product_id','multiple','id'=>'product_id','placeholder'=>' اختر  الصنف'])!!}
             </div>
 
+            <div class="form-group col-md-6 pull-left">
+                <label>اختر المخزن الية </label>
+                {!! Form::select("to_store_id",stores_to(),null,['class'=>'form-control js-example-basic-single ','placeholder'=>'  اختر  المخزن'])!!}
+            </div>
+
             <div class="col-sm-6 col-xs-6 pull-left">
                 <label>اختر امين المخزن </label>
                 {!! Form::select("user_id",keepers(),null,['class'=>'form-control js-example-basic-single storekeeper_id','id'=>'storekeeper_id','placeholder'=>' اختر امين المخزن'])!!}
             </div>
-
-
+            
             <div class="products">
-
             </div>
-
 
             <div class="cost">
 

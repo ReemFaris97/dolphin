@@ -269,7 +269,7 @@
 											</li>
 										</ul>
 									</li>
-									{{-- <li class="dropdown-submenu dropdown-submenu-right">
+								 <li class="dropdown-submenu dropdown-submenu-right">
 										<a href="#"><i class="icon-paragraph-right"></i> الخلايا </a>
 										<ul class="dropdown-menu">
 											<li><a href="{{route('accounting.cells.index')}}"><i class="icon-eye"></i> عرض الخلايا   </a></li>
@@ -277,7 +277,7 @@
 												<a href="{{route('accounting.cells.create')}}"><i class="icon-add-to-list"></i> اضافة خلية جديد</a>
 											</li>
 										</ul>
-									</li> --}}
+									</li>
 								</ul>
 							</li>
 						</ul>
@@ -362,7 +362,7 @@
 				</a>
 				<ul class="dropdown-menu dropdown-menu-right">
 					<li><a href="{{route('accounting.sales.index')}}"><i class="icon-eye"></i> عرض الفواتير</a></li>
-					<li><a href="{{route('accounting.sales.returns')}}"><i class="icon-add-to-list"></i> اضافة فاتورة مرتجعات جديدة</a></li>
+					{{-- <li><a href="{{route('accounting.sales.returns')}}"><i class="icon-add-to-list"></i> اضافة فاتورة مرتجعات جديدة</a></li> --}}
                     <li><a href="{{route('accounting.sessions.index')}}"><i class="icon-eye"></i> عرض الجلسات</a></li>
 
                 </ul>
