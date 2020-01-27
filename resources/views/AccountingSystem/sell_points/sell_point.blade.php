@@ -171,8 +171,10 @@
                             <div class="newly-added-2-btns-">
                             	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                                 اغلاق الجلسة
-								</button>
-								<a class="btn btn-warning" href="{{route('accounting.sales.end',$session->id)}}"> تعليق  الفاتورة</a>
+                                </button>
+                                <a class="btn btn-danger" href="{{route('accounting.sales.returns',$session->id)}}">   اضافة فاتورة مرتجع</a>
+                                <a class="btn btn-warning" href="{{route('accounting.sales.end',$session->id)}}"> تعليق  الفاتورة</a>
+
                             </div>
 							<!-- Modal -->
 							<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

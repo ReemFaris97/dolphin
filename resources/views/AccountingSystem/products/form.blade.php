@@ -53,25 +53,26 @@
 					@endif
 				</div>
 
-				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
+                <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
 					<label> اسم الوجه </label>
 					@if (!isset($product))
 
 					{!! Form::select("face_id",faces(),null,['class'=>'form-control selectpicker face_id','id'=>'face_id','placeholder'=>' اختر وجه للمنتج '])!!}
-					@else
+                    @else
+                    {{-- @dd($product->cell()->first()->column->face_id) --}}
 
 						<select class="form-control js-example-basic-single pull-right" name="column_id">
-							@foreach ($faces as $face)
-								@if ($product->column->face_id == $face->id)
+                            @foreach ($faces as $face)
+								@if($product->cell()->first()->column->face_id == $face->id)
 									<option value="{{$face->id}}"  selected>{{$face->name}}</option>
 								@else
-									<option value="{{$face->id}}" >{{$face->name}}</option>
-								@endif
-							@endforeach
-
+									<option value="{{$face->id}}">{{$face->name}}</option>
+                                @endif
+                             @endforeach
 						</select>
 					@endif
 				</div>
+
 
 				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
 					<label> اسم العمود التابع للوجه </label>
@@ -94,10 +95,9 @@
 				</div>
 				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
                     <label> اسم  الخلية  التابعة للعمود </label>
-					{!! Form::text("cell",null,['class'=>'form-control','placeholder'=>'  ادخل اسم  الخلية  '])!!}
+					{{-- {!! Form::text("cell",null,['class'=>'form-control','placeholder'=>'  ادخل اسم  الخلية  '])!!} --}}
 
-
-					{{-- @if (!isset($product))
+					@if (!isset($product))
 						{!! Form::select("cell_id",cells(),null,['class'=>'form-control selectpicker cell_id','id'=>'cell_id','placeholder'=>' اختر خلية للمنتج '])!!}
 					@else
 
@@ -111,7 +111,7 @@
 								@endforeach
 
 							</select>
-					@endif --}}
+					@endif
 				</div>
 
 
@@ -172,6 +172,7 @@
 					{!! Form::file("image",null,['class'=>'form-control'])!!}
 				</div>
       </div></div>
+
 
       <div id="menu2" class="tab-pane fade">
           <div class="row">
@@ -279,10 +280,12 @@
 					<label>السعر  غير شامل الضريبة  </label>
 					{!! Form::radio("price_has_tax",0,['class'=>'form-control','id'=>'yes','value'=>0])!!}
                 </div>
+
                 <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left prices_taxs">
 					<label>   اسم  شريحة الضرائب</label>
 						{!! Form::select("tax_band_id[]",$taxs,null,['class'=>'form-control selectpicker ','id'=>'cell_id','multiple','placeholder'=>'  اسم  شريحة الضرائب '])!!}
                 </div>
+
       </div>
       </div>
 
@@ -426,9 +429,11 @@
 
 			</div>
 		</div>
-	</div>
+    </div>
 </div>
 <!-- end model1-->
+
+
 <!-- Modal2 -->
 <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
@@ -442,9 +447,11 @@
 			<div class="modal-body">
 
 				<label> اسم المكون</label>
-				<span class="required--in">*</span>
-				{!! Form::select("product_id",$products,null,['class'=>'form-control js-example-basic-single','id'=>'component_name','placeholder'=>' اختر اسم الشركة التابع له الوجه '])!!}
-				<label> الكمية</label>
+                <span class="required--in">*</span>
+
+				{!! Form::select("product_id",products(),null,['class'=>'form-control js-example-basic-single','id'=>'component_name','placeholder'=>' اختر اسم الشركة التابع له الوجه '])!!}
+                <label> الكمية</label>
+
 				<span class="required--in">*</span>
 				<input type="text" class="form-control" id="component_quantity">
 				<label> الوحده الاساسية</label>
@@ -463,6 +470,7 @@
 	</div>
 </div>
 <!-- end model2-->
+
 <!-- Modal3 -->
 <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -475,7 +483,7 @@
             </div>
             <div class="modal-body">
                 <label> اسم المنتج</label>
-                {!! Form::select("child_product",$products,null,['class'=>'form-control js-example-basic-single','id'=>'child_product','placeholder'=>' اختر اسم المنتج التابع   '])!!}
+                {!! Form::select("child_product",products(),null,['class'=>'form-control js-example-basic-single','id'=>'child_product','placeholder'=>' اختر اسم المنتج التابع   '])!!}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>

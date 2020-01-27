@@ -54,7 +54,6 @@ class SellPointController extends Controller
         ]);
     }
 
-
     public  function pro_search($q){
 
         $products=AccountingProduct::where('name','LIKE','%'.$q.'%')->get();
@@ -155,6 +154,7 @@ class SellPointController extends Controller
     {
         $shift =AccountingBranchShift::findOrFail($id);
         $shift->delete();
+        
         alert()->success('تم حذف  الوردية بنجاح !')->autoclose(5000);
             return back();
 

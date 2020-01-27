@@ -14,6 +14,7 @@ use App\Models\AccountingSystem\AccountingSaleItem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingProductStore;
+use App\Models\AccountingSystem\AccountingReturn;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Traits\Viewable;
@@ -129,6 +130,27 @@ class SaleController extends Controller
 
         alert()->success('تمت عملية البيع بنجاح !')->autoclose(5000);
         return back();
+    }
+
+
+
+
+
+
+
+    public function store_returns(Request $request){
+
+       $requests=$request->all();
+       $products=$requests['product_id'];
+       $quantities=$requests['quantity'];
+       $merges = $products->zip($quantities);
+       foreach($merges as $merge){
+      AccountingReturn::create([
+        'product_id'=>$merge[0],
+        'quantity'=>$merge[1],
+        'user_id'=>
+      ]);
+      }
     }
 
     /**
@@ -251,11 +273,13 @@ class SaleController extends Controller
 
     }
 
-    public function returns(){
+    public function returns($id){
 
         $sales=AccountingSale::pluck('id','id')->toArray();
+        $session=AccountingSession::findOrFail($id);
 
-    return view('AccountingSystem.sales.returns',compact('sales'));
+
+    return view('AccountingSystem.sales.returns',compact('sales','session'));
     }
     public function returns_Sale($id){
 
@@ -272,7 +296,6 @@ class SaleController extends Controller
 
         $items=AccountingSaleItem::where('sale_id',$id)->get();
         // $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
-
         return response()->json([
             'status'=>true,
             'items'=>view('AccountingSystem.sales.items')->with('items',$items)->render()
@@ -280,5 +303,13 @@ class SaleController extends Controller
     }
 
 
+    public function remove_Sale($id){
+
+        $item=AccountingSaleItem::find($id);
+
+        $item->delete();
+
+
+    }
 
 }
