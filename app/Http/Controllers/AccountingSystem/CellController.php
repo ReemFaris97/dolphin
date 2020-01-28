@@ -59,7 +59,7 @@ class CellController extends Controller
 
         AccountingColumnCell::create($requests);
         alert()->success('تم اضافة  الصف بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.columns.index');
+        return redirect()->route('accounting.cells.index');
     }
 
     /**
