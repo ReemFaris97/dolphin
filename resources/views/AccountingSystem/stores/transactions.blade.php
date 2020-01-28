@@ -43,14 +43,14 @@
 
             <div class="form-group col-md-6 pull-left">
                 <label>اختر المخزن الية </label>
-                {!! Form::select("to_store_id",stores_to(),null,['class'=>'form-control js-example-basic-single ','placeholder'=>'  اختر  المخزن'])!!}
+                {!! Form::select("to_store_id",stores_to(),null,['class'=>'form-control js-example-basic-single to_store_id ','id'=>'to_store_id','placeholder'=>'  اختر  المخزن'])!!}
             </div>
 
             <div class="col-sm-6 col-xs-6 pull-left">
                 <label>اختر امين المخزن </label>
                 {!! Form::select("user_id",keepers(),null,['class'=>'form-control js-example-basic-single storekeeper_id','id'=>'storekeeper_id','placeholder'=>' اختر امين المخزن'])!!}
             </div>
-            
+
             <div class="products">
             </div>
 
