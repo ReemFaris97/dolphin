@@ -19,6 +19,9 @@ Route::middleware('admin')->group(function () {
     Route::get('/company_stores/{id}', 'StoreController@company_stores');
     Route::get('/branch_stores/{id}', 'StoreController@branch_stores');
     Route::get('/store-active/{id}', 'StoreController@active')->name('stores.is_active');
+
+    Route::post('/store-cost/{id}', 'StoreController@cost')->name('stores.update_cost_type');
+
     Route::get('/store-dis_active/{id}', 'StoreController@dis_active')->name('stores.dis_active');
     Route::get('/store-active-product/{id}', 'StoreController@active_product')->name('stores.is_active_product');
     Route::get('/store-dis_active-product/{id}', 'StoreController@dis_active_product')->name('stores.dis_active_product');

@@ -473,6 +473,9 @@ class StoreController extends Controller
     }
 
 
+
+
+
     public function edit_bond($id){
 
 
@@ -559,5 +562,16 @@ class StoreController extends Controller
         return back();
     }
 
+
+    public function cost(Request $request,$id){
+        $inventory= AccountingInventory::find($id);
+        $inventory->update([
+            'cost_type'=>$request['cost_type'],
+        ]);
+        // alert()->success('تم الغاءتفعيل المخزن بنجاح !')->autoclose(5000);
+        $inventory_products=AccountingInventoryProduct::where('inventory_id',$id)->get();
+
+        return view('AccountingSystem.stores.invertory_details',compact('inventory_products','inventory'));
+    }
 }
 

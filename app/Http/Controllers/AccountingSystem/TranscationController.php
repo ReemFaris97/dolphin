@@ -57,12 +57,8 @@ class TranscationController extends Controller
     {
         $rules = [
 
-
             'notes'=>'nullable|string',
             'amount'=>'nullable|string',
-
-
-
 
         ];
         $this->validate($request,$rules);
