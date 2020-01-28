@@ -31,6 +31,17 @@ function allstores()
 }
 
 
+function stores_to($id=Null)
+
+{
+    $stores_to= \App\Models\AccountingSystem\AccountingStore::where('id','!=',$id)->get()->mapWithKeys(function ($q) {
+        return [$q['id'] => $q['ar_name']];
+    });
+
+    dd($stores_to);
+    return $stores_to;
+}
+
 function products($store=null){
     if ($store != null) {
 

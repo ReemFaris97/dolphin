@@ -18,7 +18,7 @@ class TransactionResource extends ResourceCollection
             'transactions'=>$this->collection->transform(function ($q){
                 return [
                     'id'=>$q->id,
-                    'name'=>$q->sender->name,
+                    'name'=>optional($q->sender)->name??"name",
                     'amount'=>(floatval($q->amount)),
                     'date'=>$q->created_at->format('Y-m-d'),
                 ];

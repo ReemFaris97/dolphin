@@ -183,21 +183,18 @@
                    <div id="menu5" class="tab-pane fade">
                         <div class="row">
                             @if (isset($tax))
-
-
                             <div class="form-group col-md-6 pull-left">
                              @if ($tax->tax==1)
-
                                     <label> يوجد ضريبه مضافه للمنتج</label>
                                      @if ($tax->price_has_tax==1)
 
-                                            <label>-- السعر  شامل الضريبه المضافة</label>
+                                            <label>السعر  شامل الضريبه المضافة</label>
                                          @else
-                                            <label>-- السعر غير شامل الضريبه المضافة</label>
+                                            <label>السعر غير شامل الضريبه المضافة</label>
                                         @endif
-                                 @else
-                                    <label>لا يوجد ضريبه مضافه للمنتج</label>
-                             @endif
+                                        @else
+                                        <label>لا يوجد ضريبه مضافه للمنتج</label>
+                                        @endif
                                  @endif
 
                             </div>

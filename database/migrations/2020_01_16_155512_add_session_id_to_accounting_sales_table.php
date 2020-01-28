@@ -15,6 +15,11 @@ class AddSessionIdToAccountingSalesTable extends Migration
     {
         Schema::table('accounting_sales', function (Blueprint $table) {
 
+     $table->unsignedBigInteger('session_id')->nullable();
+            $table->foreign('session_id')->references('id')
+                ->on('accounting_sessions')->onDelete('cascade')
+                ->onUpdate('cascade');
+                
             $table->unsignedBigInteger('branch_id')->nullable();
             $table->foreign('branch_id')->references('id')
                 ->on('accounting_branches')->onDelete('cascade')
