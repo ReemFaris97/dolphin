@@ -48,7 +48,7 @@
 
             @endif
 
-            @if ($store->type==0)
+            {{-- @if ($store->type==0)
 
 
                     <div class="form-group col-md-6 pull-left">
@@ -56,7 +56,7 @@
                         <span>{!! $store->basic->ar_name !!}</span>
                     </div>
 
-                @endif
+                @endif --}}
             <div class="form-group col-md-6 pull-left">
                 <label class="label label-info">  اسم المخزن باللغة العربيه  : </label>
                 <span>{!! $store->ar_name !!}</span>
@@ -66,6 +66,35 @@
                 <label class="label label-info"> اسم المخزن باللغة الانجليزية   : </label>
                 <span>{!! $store->en_name !!}</span>
             </div>
+
+
+
+            <div class="form-group col-md-6 pull-left">
+                <label class="label label-info">  تفعيل  المخزن : </label>
+                @if($store->is_active=='1')
+                <span>مفعل</span>
+                @else
+                <span> غير مفعل</span>
+                @endif
+            </div>
+            <div class="form-group col-md-6 pull-left">
+                <label class="label label-info">  نوع  المخزن : </label>
+                @if($store->type=='1')
+                <span>رئيسى</span>
+                @else
+                <span> فرعى</span>
+                @endif
+            </div>
+
+
+
+            @if($store->type=='0')
+            <div class="form-group col-md-6 pull-left">
+                <label class="label label-info">   المخزن الرئيسى : </label>
+                <span>{!! $store->basic->ar_name !!}</span>
+            </div>
+            @endif
+
             <div class="form-group col-md-6 pull-left">
                 <label class="label label-info">  جوال المخزن : </label>
                 <span>{!! $store->address !!}</span>
@@ -74,6 +103,33 @@
                 <label class="label label-info">  كود المخزن : </label>
                 <span>{!! $store->code !!}</span>
             </div>
+
+            <div class="form-group col-md-6 pull-left">
+                <label class="label label-info">  مساحة المخزن : </label>
+                <span>{!! $store->width !!}</span>
+            </div>
+
+
+            <div class="form-group col-md-6 pull-left">
+                <label class="label label-info">  حالة المخزن : </label>
+                @if($store->status=='1')
+                <span>ايجار</span>
+                @else
+                <span> ملك</span>
+                @endif
+            </div>
+            @if($store->status=='1')
+            <div class="form-group col-md-6 pull-left">
+                <label class="label label-info">  تكلفة الايجار : </label>
+                <span>{!! $store->cost !!}</span>
+            </div>
+            <div class="form-group col-md-6 pull-left">
+                <label class="label label-info"> من مده الايجار : </label>
+                <span>{!! $store->from !!}</span>
+                <label class="label label-info"> الى مده الايجار : </label>
+                <span>{!! $store->to !!}</span>
+            </div>
+                @endif
             <div class="form-group col-md-6 pull-left">
                 <label class="label label-info">  صورة المخزن  : </label>
                 <span><img src="{!! getimg($store->image)!!}" style="width:100px; height:100px"> </span>
@@ -90,13 +146,13 @@
                         <label class="p-r-small control-label">خط الطول</label>
                     </div>
                     <div class="col-sm-10 col-xs-12">
-                        {{ Form::text('lat', null,['id'=>'lat','class'=>'form-control']) }}
+                        {{ Form::text('lat', null,['id'=>'lat','class'=>'form-control','disabled']) }}
                     </div>
                     <div class="col-sm-2 col-xs-12">
                         <label class="p-r-small  control-label">خط العرض </label>
                     </div>
                     <div class="col-sm-10 col-xs-12">
-                        {{ Form::text('lng', null,['id'=>'lng','class'=>'form-control']) }}
+                        {{ Form::text('lng', null,['id'=>'lng','class'=>'form-control','disabled']) }}
                     </div>
                 </div>
             </div>
@@ -140,4 +196,6 @@
             document.getElementById('lng').value = event.latLng.lng();
         }
     </script>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsT140mx0UuES7ZwcfY28HuTUrTnDhxww&callback=initMap">
+      </script>
 @stop

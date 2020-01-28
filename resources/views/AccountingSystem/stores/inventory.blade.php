@@ -75,17 +75,7 @@
                 </div>
 
 
-                <div class="form-group col-xs-6 pull-left">
-                    <label class="display-block text-semibold">  نوع  التحمل</label>
-                    <label class="radio-inline">
-                        <input type="radio" name="cost_type" class="styled"    value="1">
-                        الشركة
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="cost_type"  class="styled "    value="0">
-                        امين المخزن
-                    </label>
-                </div>
+
                 <div class="text-center col-md-12">
                     <div class="text-right">
                         <button type="submit" class="btn btn-success">بحث<i class="icon-arrow-left13 position-right"></i></button>
@@ -177,12 +167,12 @@
                                 <input type="hidden" name="inventory_id" value="{{$inventory->id}}">
                                 @endisset
                                 <label> الكميه الفعليه</label>
-                                <input type="text" class="form-control" name="Real_quantity">
+                                <input type="text" class="form-control" name="Real_quantity"  >
 
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
-                                <button class="btn btn-primary" id="hamada{{$row->id}}" type="button" data-dismiss="modal" > اضافةالكميه الفعليه</button>
+                                <button class="btn btn-primary" id="real{{$row->id}}" type="button" data-dismiss="modal"=""> اضافةالكميه الفعليه</button>
                             </div>
                             </form>
                             {{--{!!Form::close() !!}--}}
@@ -190,18 +180,107 @@
                     </div>
                 </div>
                 <!-- end model-->
+
+
+
+                                    <!-- Modal4 -->
+            <div class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" id="alert">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">  الجرد</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="form-group col-xs-6 pull-left">
+
+                                <div class="form-group col-md-6 pull-left">
+                                    <label class="label label-info">  اسم المنتج : </label>
+                                    <span>{!! $row->name !!}</span>
+                                </div>
+
+                                <div class="form-group col-md-6 pull-left">
+                                    <label class="label label-info">   الوحدة الاساسية : </label>
+                                    <span>{!! $row->main_unit !!}</span>
+                                </div>
+
+                                <div class="form-group col-md-6 pull-left">
+                                    <label class="label label-info">   الكمية الاساسية  : </label>
+                                    <span>{!! $row->quantity !!}</span>
+                                </div>
+
+
+
+                            </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+                            {{-- <button class="btn btn-primary"  data-dismiss="modal" onclick="document.getElementById('form1').submit();"> اضافة  </button> --}}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end model4-->
                     @endforeach
 
 
                 </tbody>
             </table>
             @isset($inventory)
-
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3" >
+                تحمل الجرد
+            </button>
                 <a href="{{route('accounting.stores.inventory_result',$inventory->id)}}"><label class="btn btn-danger">تسوية</label></a>
-            @endif
+
+                <!-- Modal3 -->
+<div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">  الجرد</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            <form action="{{route('accounting.stores.update_cost_type',$inventory->id)}}" method="POST" id="form1">
+            @csrf
+                <div class="form-group col-xs-6 pull-left">
+                    <label class="display-block text-semibold">  نوع  التحمل</label>
+                    <label class="radio-inline">
+                        <input type="radio" name="cost_type" class="styled"    value="1">
+                        الشركة
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="cost_type"  class="styled "    value="0">
+                        امين المخزن
+                    </label>
+                </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+                <button class="btn btn-primary"  data-dismiss="modal" onclick="document.getElementById('form1').submit();"> اضافة  </button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end model3-->
+                @endif
+
         </div>
 
+
+
     </div>
+
+
 
 
 @endsection
@@ -217,9 +296,10 @@
          $('.product_id').val(id);
          var  token=$('#csrf_token').val();
 
-            $(`#hamada${id}`).click(function (e) {
+            $(`#real${id}`).click(function (e) {
                 e.preventDefault();
-                // alert('dsa');
+
+
                 // var form = $(`form${id}`);
                 // console.log(form);
 
@@ -240,6 +320,7 @@
                     }
 
                 });
+                 $("#alert").modal('show');
             })
 
             }
