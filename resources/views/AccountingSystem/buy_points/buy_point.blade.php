@@ -142,6 +142,14 @@
 										</th>
                                     </tr>
 
+                                    <tr>
+										<th colspan="2">خرينة الدفع</th>
+										<th colspan="2">
+											{!! Form::select("safe_id",$safes,null,['class'=>'form-control','placeholder'=>'خرينة الدفع '])!!}
+										</th>
+                                    </tr>
+
+
                                     <input type="hidden" id="totalTaxs" name="totalTaxs">
 									<tr>
 										<th colspan="2">طريقه الدفع</th>

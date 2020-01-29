@@ -20,7 +20,7 @@ class CreateAccountingPurchasesItemsTable extends Migration
             $table->foreign('purchase_id')->references('id')
                 ->on('accounting_purchases')->onDelete('cascade')
                 ->onUpdate('cascade');
-
+                
             $table->unsignedBigInteger('product_id')->nullable();
             $table->foreign('product_id')->references('id')
                 ->on('accounting_products')->onDelete('cascade')

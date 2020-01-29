@@ -37,6 +37,7 @@ class PurchaseController extends Controller
     public function index()
     {
         $purchases =AccountingPurchase::all()->reverse();
+
         return $this->toIndex(compact('purchases'));
     }
 
@@ -72,30 +73,15 @@ class PurchaseController extends Controller
         $this->validate($request,$rules);
 
         $purchase=AccountingPurchase::create($requests);
-    //    dd($sale);
+   
         $purchase->update([
             'bill_num'=>$purchase->id."-".$purchase->created_at,
 
         ]);
-        //  dd($sale);
+
 
         $products=$requests['product_id'];
         $quantities=$requests['quantity'];
-//        $total=0;
-//        for ($i=0;$i<count($products);$i++){
-//            $product=AccountingProduct::find($products[$i]);
-//            $price=$product->selling_price;
-//
-//            for ($j=0;$j<count($quantities);$j++){
-//
-//                if ($i==$j){
-//
-//                    $total+=$price* $quantities[$j];
-//                }
-//
-//            }
-//
-//        }
 
         $products = collect($requests['product_id']);
         $qtys = collect($requests['quantity']);
@@ -126,18 +112,9 @@ class PurchaseController extends Controller
 
         }
     }
-
-
-
-
         alert()->success('تمت عملية الشراء بنجاح !')->autoclose(5000);
         return back();
     }
-
-
-
-
-
 
 
     public function store_returns(Request $request){

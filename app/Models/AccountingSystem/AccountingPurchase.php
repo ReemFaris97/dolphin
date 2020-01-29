@@ -3,7 +3,6 @@
 namespace App\Models\AccountingSystem;
 
 use App\Traits\HashPassword;
-use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -12,7 +11,7 @@ class AccountingPurchase extends Model
 
 
     protected $fillable = ['supplier_id','total','amount','discount','payment','payed','debts','package_id','store_id','bill_num','totalTaxs'
-,'status','user_id'];
+,'safe_id','user_id'];
     protected $table='accounting_purchases';
 
 
@@ -20,9 +19,15 @@ class AccountingPurchase extends Model
     {
         return $this->belongsTo(AccountingSupplier::class,'supplier_id');
     }
+    
     public function session()
     {
         return $this->belongsTo(AccountingSession::class,'session_id');
+    }
+
+    public function safe()
+    {
+        return $this->belongsTo(AccountingSafe::class,'safe_id');
     }
 
     public function company()

@@ -125,9 +125,6 @@ class SaleController extends Controller
         }
     }
 
-
-
-
         alert()->success('تمت عملية البيع بنجاح !')->autoclose(5000);
         return back();
     }
@@ -148,7 +145,7 @@ class SaleController extends Controller
       AccountingReturn::create([
         'product_id'=>$merge[0],
         'quantity'=>$merge[1],
-    
+
       ]);
       }
     }

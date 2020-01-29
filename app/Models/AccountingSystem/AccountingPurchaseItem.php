@@ -13,8 +13,7 @@ class AccountingPurchaseItem extends Model
     protected $fillable = ['product_id','quantity','price','purchase_id'];
     protected $table='accounting_purchases_items';
 
-
-
+    
     public function product()
     {
         return $this->belongsTo(AccountingProduct::class,'product_id');

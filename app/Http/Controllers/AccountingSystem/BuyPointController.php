@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingProductTax;
+use App\Models\AccountingSystem\AccountingSafe;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Models\AccountingSystem\AccountingSupplier;
 use App\Traits\Viewable;
@@ -34,7 +35,9 @@ class BuyPointController extends Controller
     {
         $categories=AccountingProductCategory::all();
         $suppliers=AccountingSupplier::pluck('name','id')->toArray();
-        return  view('AccountingSystem.buy_points.buy_point',compact('categories','suppliers'));
+        $safes=AccountingSafe::pluck('name','id')->toArray();
+
+        return  view('AccountingSystem.buy_points.buy_point',compact('categories','suppliers','safes'));
     }
 
 
