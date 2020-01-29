@@ -159,7 +159,16 @@ function branches_only($company = null)
 
 function stores($branch=null){
 
+
+    if ($branch != null) {
+
+        dd('wewer');
+        // $stores=App\Models\AccountingSystem\AccountingStore::find($branch)->faces->mapWithKeys(function ($item) {
+        //     return [$item['id'] => $item['ar_name']];
+        // });
+    }else{
     $stores=[];
+}
     return $stores;
 }
 

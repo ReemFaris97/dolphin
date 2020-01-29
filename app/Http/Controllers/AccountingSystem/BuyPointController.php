@@ -13,46 +13,50 @@ use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingProductTax;
+use App\Models\AccountingSystem\AccountingSafe;
 use App\Models\AccountingSystem\AccountingSession;
+use App\Models\AccountingSystem\AccountingSupplier;
 use App\Traits\Viewable;
 use App\User;
 use Request as GlobalRequest;
 
-class SellPointController extends Controller
+class BuyPointController extends Controller
 {
-    use Viewable;
+    // use Viewable;
 //    private $viewable = 'AccountingSystem.sells_points.';
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function sell_point($id)
+    public function buy_point()
     {
         $categories=AccountingProductCategory::all();
-        $session=AccountingSession::find($id);
-        $clients=AccountingClient::pluck('name','id')->toArray();
-//foreach ($categories as $category){
-//  dd($category->products()->get());
-//}
+        $suppliers=AccountingSupplier::pluck('name','id')->toArray();
+        $safes=AccountingSafe::pluck('name','id')->toArray();
 
-        return  view('AccountingSystem.sell_points.sell_point',compact('categories','clients','session'));
+        return  view('AccountingSystem.buy_points.buy_point',compact('categories','suppliers','safes'));
     }
+
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public  function getProductAjex(Request $request,$id){
-        dd($request);
-        $products_all=AccountingProduct::where('category_id',$id)->get();
-        $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
+    public  function getProductAjex(Request $request){
+        // dd($request['store_id']);
+        $store_product=AccountingProductStore::where('store_id',$request['store_id'])->pluck('product_id','id')->toArray();
+        // dd( $store_product);
+        $products=AccountingProduct::where('category_id',$request['id'])->whereIn('id',$store_product)->get();
+
+        // $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
 
         return response()->json([
             'status'=>true,
-            'data'=>view('AccountingSystem.sell_points.sell')->with('products',$products)->render()
+            'data'=>view('AccountingSystem.buy_points.sell')->with('products',$products)->render()
         ]);
     }
 
@@ -63,7 +67,7 @@ class SellPointController extends Controller
 
         return response()->json([
             'status'=>true,
-            'data'=>view('AccountingSystem.sell_points.sell')->with('products',$products)->render()
+            'data'=>view('AccountingSystem.buy_points.sell')->with('products',$products)->render()
         ]);
 
     }
@@ -75,7 +79,7 @@ class SellPointController extends Controller
 
         return response()->json([
             'status'=>true,
-            'data'=>view('AccountingSystem.sell_points.sell')->with('products',$products)->render()
+            'data'=>view('AccountingSystem.buy_points.sell')->with('products',$products)->render()
         ]);
 
     }
@@ -89,7 +93,7 @@ class SellPointController extends Controller
     {
 
         $users=User::where('is_saler',1)->pluck('name','id')->toArray();
-        return view('AccountingSystem.sell_points.login',compact('users'));
+        return view('AccountingSystem.buy_points.login',compact('users'));
     }
 
     /**

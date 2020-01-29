@@ -14,6 +14,8 @@ use App\Models\AccountingSystem\AccountingSaleItem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingProductStore;
+use App\Models\AccountingSystem\AccountingPurchase;
+use App\Models\AccountingSystem\AccountingPurchaseItem;
 use App\Models\AccountingSystem\AccountingReturn;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Models\AccountingSystem\AccountingStore;
@@ -23,10 +25,10 @@ use Auth;
 use Carbon\Carbon;
 use Request as GlobalRequest;
 
-class SaleController extends Controller
+class PurchaseController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.sales.';
+    private $viewable = 'AccountingSystem.purchases.';
     /**
      * Display a listing of the resource.
      *
@@ -34,8 +36,9 @@ class SaleController extends Controller
      */
     public function index()
     {
-        $sales =AccountingSale::all()->reverse();
-        return $this->toIndex(compact('sales'));
+        $purchases =AccountingPurchase::all()->reverse();
+
+        return $this->toIndex(compact('purchases'));
     }
 
     /**
@@ -63,37 +66,22 @@ class SaleController extends Controller
 
         $rules = [
 
-            'client_id'=>'required|numeric|exists:accounting_clients,id',
+            // 'supplier_id'=>'required|numeric|exists:accounting_suppliers,id',
                 // 'reminder'=>'required|numeric|gt:0',
 
         ];
         $this->validate($request,$rules);
 
-        $sale=AccountingSale::create($requests);
-    //    dd($sale);
-        $sale->update([
-            'bill_num'=>$sale->id."-".$sale->created_at,
-            'user_id'=>$requests['user_id'] ,
+        $purchase=AccountingPurchase::create($requests);
+   
+        $purchase->update([
+            'bill_num'=>$purchase->id."-".$purchase->created_at,
+
         ]);
-        //  dd($sale);
+
 
         $products=$requests['product_id'];
         $quantities=$requests['quantity'];
-//        $total=0;
-//        for ($i=0;$i<count($products);$i++){
-//            $product=AccountingProduct::find($products[$i]);
-//            $price=$product->selling_price;
-//
-//            for ($j=0;$j<count($quantities);$j++){
-//
-//                if ($i==$j){
-//
-//                    $total+=$price* $quantities[$j];
-//                }
-//
-//            }
-//
-//        }
 
         $products = collect($requests['product_id']);
         $qtys = collect($requests['quantity']);
@@ -110,29 +98,23 @@ class SaleController extends Controller
                 'product_id'=>$merge['0'],
                 'quantity'=> $merge['1'],
                 'price'=>$product->selling_price,
-                'sale_id'=>$sale->id
+                'purchase_id'=>$purchase->id
             ]);
             //update_product_quantity
             $product->update([
-                'quantity'=>$product->quantity- $merge['1'],
+                'quantity'=>$product->quantity+ $merge['1'],
             ]);
              //update_product_quantity_store
             $productstore=AccountingProductStore::where('store_id',$requests['store_id'])->where('product_id',$merge['0'])->first();
             $productstore->update([
-                'quantity'=>$productstore->quantity - $merge['1'],
+                'quantity'=>$productstore->quantity + $merge['1'],
             ]);
 
         }
     }
-
-        alert()->success('تمت عملية البيع بنجاح !')->autoclose(5000);
+        alert()->success('تمت عملية الشراء بنجاح !')->autoclose(5000);
         return back();
     }
-
-
-
-
-
 
 
     public function store_returns(Request $request){
@@ -145,7 +127,7 @@ class SaleController extends Controller
       AccountingReturn::create([
         'product_id'=>$merge[0],
         'quantity'=>$merge[1],
-
+        'user_id'=>'',
       ]);
       }
     }
@@ -159,29 +141,29 @@ class SaleController extends Controller
     public function show($id)
     {
 
-        $sale =AccountingSale::findOrFail($id);
-        $product_items=AccountingSaleItem::where('sale_id',$id)->get();
+        $purchase =AccountingPurchase::findOrFail($id);
+        $product_items=AccountingPurchaseItem::where('purchase_id',$id)->get();
 
-        return $this->toShow(compact('sale','product_items'));
+        return $this->toShow(compact('purchase','product_items'));
     }
 
 
-    public function sale_end(Request $request,$id)
-    {
+    // public function sale_end(Request $request,$id)
+    // {
 
-        // dd($request->all());
-        $session=AccountingSession::findOrFail($id);
-        $session->update([
-         'end_session'=>Carbon::now(),
-         'custody'=>$request['custody'],
-        ]);
+    //     // dd($request->all());
+    //     $session=AccountingSession::findOrFail($id);
+    //     $session->update([
+    //      'end_session'=>Carbon::now(),
+    //      'custody'=>$request['custody'],
+    //     ]);
 
 
-        $users=User::where('is_saler',1)->pluck('name','id')->toArray();
-        alert()->success(' تم اغلاق  الجلسة بنجاح!')->autoclose(5000);
+    //     $users=User::where('is_saler',1)->pluck('name','id')->toArray();
+    //     alert()->success(' تم اغلاق  الجلسة بنجاح!')->autoclose(5000);
 
-        return view('AccountingSystem.sell_points.login',compact('users'));
-    }
+    //     return view('AccountingSystem.sell_points.login',compact('users'));
+    // }
     /**
      * Show the form for editing the specified resource.
      *
