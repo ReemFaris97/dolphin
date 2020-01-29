@@ -471,11 +471,11 @@ class ProductController extends Controller
     {
         $stores=[];
         $branches_ids=explode(',',$branches);
+        // dd($branches);
         $branch=AccountingBranch::find($branches_ids[0]);
         $company_id=$branch->company_id;
         $stores_company=AccountingStore::where('model_type','App\Models\AccountingSystem\AccountingCompany')->where('model_id',$company_id)->get();
         $collect1=collect($stores_company);
-
 
         $stores_branch =[];
        foreach($branches_ids as  $branch_id)
@@ -487,14 +487,13 @@ class ProductController extends Controller
 
        }
         $collect2=collect($stores_branch);
-
         $merged=$collect2->merge($collect1);
-        $stores=$merged->all();
-
-//        return $stores;
+        $stores_=$merged->all();
+     // dd(collect($merged));
+      $stores= collect($stores_)->filter();
         return response()->json([
             'status'=>true,
-            'data'=>view('AccountingSystem.products.getAjaxStores')->with('stores',$stores)->render()
+            'data'=>view('AccountingSystem.products.getAjaxStores',compact('stores'))->render()
         ]);
     }
 

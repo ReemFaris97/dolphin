@@ -34,7 +34,6 @@ class CellController extends Controller
      */
     public function create()
     {
-
         $columns=AccountingFaceColumn::pluck('name','id')->toArray();
         return $this->toCreate(compact('columns'));
     }
@@ -48,9 +47,7 @@ class CellController extends Controller
     public function store(Request $request)
     {
         $rules = [
-
             'name'=>'required|string|max:191',
-
             'column_id'=>'required|numeric|exists:accounting_face_columns,id',
 
         ];

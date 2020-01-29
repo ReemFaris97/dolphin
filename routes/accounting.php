@@ -168,5 +168,10 @@ Route::middleware('admin')->group(function () {
     Route::get('/barcode_search/{name}', 'SellPointController@barcode_search');
 
 
+    ////purchases
+    Route::get('/buy_point', 'BuyPointController@buy_point')->name('buy_point.buy_point');
+    Route::get('/productsAjexPurchase/{id}', 'BuyPointController@getProductAjex');
+    Route::resource('purchases', 'PurchaseController');
+
 });
 
