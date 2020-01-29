@@ -331,17 +331,30 @@
 				</a>
 				<ul class="dropdown-menu dropdown-menu-right">
 					<li class="dropdown-submenu dropdown-submenu-right">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<i class="icon-cabinet position-left"></i>
-						إدارة  الموردين
-					</a>
-					<ul class="dropdown-menu dropdown-menu-right">
-						<li><a href="{{route('accounting.suppliers.index')}}"><i class="icon-eye"></i> عرض  الموردين</a></li>
-						<li><a href="{{route('accounting.suppliers.create')}}"><i class="icon-add-to-list"></i> اضافة مورد جديد</a></li>
-					</ul>
-				</li>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-cabinet position-left"></i>
+                            فاتورة المشتريات
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="{{route('accounting.purchases.index')}}"><i class="icon-eye"></i> عرض  فواتير  الشراء</a></li>
+                            <li><a href="{{route('accounting.buy_point.buy_point')}}"><i class="icon-add-to-list"></i> اضافة مشترى جديد</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown-submenu dropdown-submenu-right">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-cabinet position-left"></i>
+                            إدارة  الموردين
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="{{route('accounting.suppliers.index')}}"><i class="icon-eye"></i> عرض  الموردين</a></li>
+                            <li><a href="{{route('accounting.suppliers.create')}}"><i class="icon-add-to-list"></i> اضافة مورد جديد</a></li>
+                        </ul>
+			    	</li>
 					<!--Here we will put the links from the sent file from point 9 to point 11 but as  buying  spelling -->
-				</ul>
+                </ul>
+
+
 			</li>
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">

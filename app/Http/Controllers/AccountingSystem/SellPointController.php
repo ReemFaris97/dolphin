@@ -17,6 +17,7 @@ use App\Models\AccountingSystem\AccountingProductTax;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Traits\Viewable;
 use App\User;
+use Request as GlobalRequest;
 
 class SellPointController extends Controller
 {
@@ -44,9 +45,10 @@ class SellPointController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public  function getProductAjex($id){
-        $products=AccountingProduct::where('category_id',$id)->get();
-        // $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
+    public  function getProductAjex(Request $request,$id){
+        dd($request);
+        $products_all=AccountingProduct::where('category_id',$id)->get();
+        $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
 
         return response()->json([
             'status'=>true,
@@ -154,7 +156,7 @@ class SellPointController extends Controller
     {
         $shift =AccountingBranchShift::findOrFail($id);
         $shift->delete();
-        
+
         alert()->success('تم حذف  الوردية بنجاح !')->autoclose(5000);
             return back();
 

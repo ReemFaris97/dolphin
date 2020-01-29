@@ -4,62 +4,97 @@ namespace App\Http\Controllers\AccountingSystem;
 
 use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingBranchShift;
+use App\Models\AccountingSystem\AccountingClient;
 use App\Models\AccountingSystem\AccountingColumnCell;
 use App\Models\AccountingSystem\AccountingCompany;
 
 use App\Models\AccountingSystem\AccountingFaceColumn;
+use App\Models\AccountingSystem\AccountingProduct;
+use App\Models\AccountingSystem\AccountingProductCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingProductStore;
+use App\Models\AccountingSystem\AccountingProductTax;
+use App\Models\AccountingSystem\AccountingSession;
+use App\Models\AccountingSystem\AccountingSupplier;
 use App\Traits\Viewable;
+use App\User;
+use Request as GlobalRequest;
 
-class CellController extends Controller
+class BuyPointController extends Controller
 {
-    use Viewable;
-    private $viewable = 'AccountingSystem.cells.';
+    // use Viewable;
+//    private $viewable = 'AccountingSystem.sells_points.';
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function buy_point()
     {
-        $cells =AccountingColumnCell::all()->reverse();
-        return $this->toIndex(compact('cells'));
+        $categories=AccountingProductCategory::all();
+        $suppliers=AccountingSupplier::pluck('name','id')->toArray();
+        return  view('AccountingSystem.buy_points.buy_point',compact('categories','suppliers'));
     }
+
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        $columns=AccountingFaceColumn::pluck('name','id')->toArray();
-        return $this->toCreate(compact('columns'));
+    public  function getProductAjex(Request $request){
+        // dd($request['store_id']);
+        $store_product=AccountingProductStore::where('store_id',$request['store_id'])->pluck('product_id','id')->toArray();
+        // dd( $store_product);
+        $products=AccountingProduct::where('category_id',$request['id'])->whereIn('id',$store_product)->get();
+
+        // $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
+
+        return response()->json([
+            'status'=>true,
+            'data'=>view('AccountingSystem.buy_points.sell')->with('products',$products)->render()
+        ]);
     }
 
+    public  function pro_search($q){
+
+        $products=AccountingProduct::where('name','LIKE','%'.$q.'%')->get();
+        // $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
+
+        return response()->json([
+            'status'=>true,
+            'data'=>view('AccountingSystem.buy_points.sell')->with('products',$products)->render()
+        ]);
+
+    }
+
+    public  function barcode_search($q){
+
+        $products=AccountingProduct::where('bar_code',$q)->get();
+        // $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
+
+        return response()->json([
+            'status'=>true,
+            'data'=>view('AccountingSystem.buy_points.sell')->with('products',$products)->render()
+        ]);
+
+    }
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function sell_login()
     {
-        $rules = [
-            'name'=>'required|string|max:191',
-            'column_id'=>'required|numeric|exists:accounting_face_columns,id',
 
-        ];
-        $this->validate($request,$rules);
-        $requests = $request->all();
-
-        AccountingColumnCell::create($requests);
-        alert()->success('تم اضافة  الصف بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.cells.index');
+        $users=User::where('is_saler',1)->pluck('name','id')->toArray();
+        return view('AccountingSystem.buy_points.login',compact('users'));
     }
 
     /**
+     *
      * Display the specified resource.
      *
      * @param  int  $id
@@ -122,6 +157,7 @@ class CellController extends Controller
     {
         $shift =AccountingBranchShift::findOrFail($id);
         $shift->delete();
+
         alert()->success('تم حذف  الوردية بنجاح !')->autoclose(5000);
             return back();
 
