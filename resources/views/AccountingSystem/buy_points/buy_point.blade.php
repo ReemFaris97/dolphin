@@ -26,11 +26,11 @@
 
                     <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
                         <label> اسم الشركة </label>
-                        {!! Form::select("company_id",companies(),null,['class'=>'form-control js-example-basic-single company_id','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له المنتج '])!!}
+                        {!! Form::select("company",companies(),null,['class'=>'form-control js-example-basic-single company_id','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له المنتج '])!!}
                     </div>
                     <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
                         <label> اسم الفرع التابع </label>
-                        {!! Form::select("branch_id",branches(),null,['class'=>'form-control selectpicker branch_id','id'=>'branch_id','multiple','placeholder'=>' اختر اسم الفرع التابع له المنتج '])!!}
+                        {!! Form::select("branch",branches(),null,['class'=>'form-control selectpicker branch_id','id'=>'branch_id','multiple','placeholder'=>' اختر اسم الفرع التابع له المنتج '])!!}
                     </div>
                     <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
                         <label> اسم المخزن </label>
@@ -44,21 +44,35 @@
                         <div class="yurSections">
                          <div class="col-xs-12">
                           <!-- Nav tabs -->
+                          <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
+                            <label>اختر  القسم  </label>
+                            {!! Form::select("category_id",$categories,null,['class'=>'form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر  القسم '])!!}
+                        </div>
 
-						  <ul class="nav nav-tabs" role="tablist">
+                        <div class="yurProdc">
+                        </div>
+
+                        {{-- <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
+                            <label>اخترالمنتج </label>
+                            {!! Form::select("product_id",branches(),null,['class'=>'form-control selectpicker branch_id','id'=>'branch_id','multiple','placeholder'=>' اختر  المنتج '])!!}
+                        </div> --}}
+
+
+
+						  {{-- <ul class="nav nav-tabs" role="tablist">
 							  @foreach ($categories as $category)
 								<li role="presentation">
 									<a href="#mobile" aria-controls="mobile" role="tab" data-toggle="tab"
 									onclick="category({{$category->id}})" class="category">{{$category->ar_name}}</a>
 								</li>
 							  @endforeach
-						  </ul>
-                            <div class="tab-content">
+						  </ul> --}}
+                            {{-- <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active" >
                                     <div class="yurProdc">
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
 <!--
                             <div class="col-xs-12">
                                 <input class="fxd-btn" id="fxd-btn" type="submit" value="إتمام" data-dismiss='modal' disabled>
@@ -72,6 +86,9 @@
                             <form method="post" action="{{route('accounting.purchases.store')}}">
                                 @csrf
                                 <input type="hidden" name="store_id" id="store_val">
+                                <input type="hidden" name="branch_id" id="branch_val">
+                                <input type="hidden" name="company_id" id="company_val">
+
 
 								{{-- <input type="hidden" name="user_id" value="{{$session->user_id}}">
 								<input type="hidden" name="session_id" value="{{$session->id}}">
@@ -214,10 +231,16 @@
 @section('scripts')
     <!------------ IF Checked --------------->
     <script>
-		function  category(id) {
+	   $(".category_id").on('change', function() {
+        var id = $(this).val();
             var store_id = $('#store_id').val();
             $('#store_val').val(store_id);
 
+            var branch_id = $('#branch_id').val();
+            $('#branch_val').val(branch_id);
+
+            var company_id = $('#company_id').val();
+            $('#company_val').val(company_id);
 
     $.ajax({
         type: 'get',
@@ -412,7 +435,7 @@
 
         }
     });
-}
+});
 
 $('#pro_search').keyup(function(e) {
 

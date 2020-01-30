@@ -64,7 +64,6 @@ class SaleController extends Controller
         $rules = [
 
             'client_id'=>'required|numeric|exists:accounting_clients,id',
-                // 'reminder'=>'required|numeric|gt:0',
 
         ];
         $this->validate($request,$rules);
@@ -75,26 +74,8 @@ class SaleController extends Controller
             'bill_num'=>$sale->id."-".$sale->created_at,
             'user_id'=>$requests['user_id'] ,
         ]);
-        //  dd($sale);
-
         $products=$requests['product_id'];
         $quantities=$requests['quantity'];
-//        $total=0;
-//        for ($i=0;$i<count($products);$i++){
-//            $product=AccountingProduct::find($products[$i]);
-//            $price=$product->selling_price;
-//
-//            for ($j=0;$j<count($quantities);$j++){
-//
-//                if ($i==$j){
-//
-//                    $total+=$price* $quantities[$j];
-//                }
-//
-//            }
-//
-//        }
-
         $products = collect($requests['product_id']);
         $qtys = collect($requests['quantity']);
 
@@ -121,7 +102,6 @@ class SaleController extends Controller
             $productstore->update([
                 'quantity'=>$productstore->quantity - $merge['1'],
             ]);
-
         }
     }
 
@@ -130,24 +110,29 @@ class SaleController extends Controller
     }
 
 
-
-
-
-
-
     public function store_returns(Request $request){
 
-       $requests=$request->all();
-       $products=$requests['product_id'];
-       $quantities=$requests['quantity'];
-       $merges = $products->zip($quantities);
-       foreach($merges as $merge){
-      AccountingReturn::create([
-        'product_id'=>$merge[0],
-        'quantity'=>$merge[1],
 
+       $requests=$request->all();
+
+       $items=collect($requests['item_id']);
+       $quantities=collect($requests['quantity']);
+       $merges=$items->zip($quantities);
+
+
+       foreach($merges as $merge){
+        AccountingReturn::create([
+        'sale_id'=>$requests['sale_id'],
+        'user_id'=>$requests['user_id'],
+        'item_id'=>$merge[0],
+        'quantity'=>$merge[1],
       ]);
       }
+
+
+      alert()->success('تم اضافة  فاتورة  الاسترجاع  بنجاح !')->autoclose(5000);
+      return back();
+
     }
 
     /**
@@ -161,7 +146,6 @@ class SaleController extends Controller
 
         $sale =AccountingSale::findOrFail($id);
         $product_items=AccountingSaleItem::where('sale_id',$id)->get();
-
         return $this->toShow(compact('sale','product_items'));
     }
 
