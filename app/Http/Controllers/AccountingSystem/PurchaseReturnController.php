@@ -25,10 +25,10 @@ use Auth;
 use Carbon\Carbon;
 use Request as GlobalRequest;
 
-class PurchaseController extends Controller
+class PurchaseReturnController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.purchases.';
+    private $viewable = 'AccountingSystem.purchaseReturns.';
     /**
      * Display a listing of the resource.
      *
@@ -36,7 +36,7 @@ class PurchaseController extends Controller
      */
     public function index()
     {
-        $purchases =AccountingPurchase::all()->reverse();
+
 
         return $this->toIndex(compact('purchases'));
     }
@@ -48,7 +48,9 @@ class PurchaseController extends Controller
      */
     public function create()
     {
-        return $this->toCreate(compact('branches'));
+        $purchases=AccountingPurchase::pluck('id','id')->toArray();
+
+        return $this->toCreate(compact('purchases'));
     }
 
     /**

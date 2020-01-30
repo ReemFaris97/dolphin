@@ -126,6 +126,11 @@ Route::middleware('admin')->group(function () {
     Route::get('/returns_Sale/{id}', 'SaleController@returns_Sale');
     Route::get('/sale_details/{id}', 'SaleController@sale_details');
 
+
+    Route::get('/returns_purchases', 'PurchaseController@returns')->name('purchases.returns');
+    Route::post('/store_returns_purchases', 'PurchaseController@store_returns')->name('purchases.store_returns');
+
+
     Route::post('/sale_end/{id}', 'SaleController@sale_end')->name('sales.end');
 
 
@@ -145,6 +150,9 @@ Route::middleware('admin')->group(function () {
 
     Route::resource('benods', 'BenodController');
     Route::resource('offers', 'OfferController');
+
+    Route::resource('puchaseReturns', 'PurchaseReturnController');
+
     Route::post('/product','OfferController@getAjaxProductQty')->name('getAjaxProductQty');
     Route::get('/order_sale/{id}','SaleController@sale_order')->name('sales.sale_order');
 

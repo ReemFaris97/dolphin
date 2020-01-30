@@ -6,13 +6,12 @@ use App\Traits\HashPassword;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class AccountingPurchase extends Model
+class AccountingPurchaseReturn extends Model
 {
 
 
-    protected $fillable = ['supplier_id','total','amount','discount','payment','payed','debts','package_id','store_id','bill_num','totalTaxs'
-             ,'safe_id','user_id','company_id','branch_id'];
-    protected $table='accounting_purchases';
+    protected $fillable = ['product_id','quantity','purchase_id'];
+    protected $table='accounting_purchases_returns';
 
 
     public function supplier()
@@ -34,18 +33,5 @@ class AccountingPurchase extends Model
     {
         return $this->belongsTo(AccountingCompany::class,'company_id');
     }
-    public function branch()
-    {
-        return $this->belongsTo(AccountingBranch::class,'branch_id');
-    }
-
-    public function store()
-    {
-        return $this->belongsTo(AccountingStore::class,'store_id');
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class,'user_id');
-    }
+  
 }
