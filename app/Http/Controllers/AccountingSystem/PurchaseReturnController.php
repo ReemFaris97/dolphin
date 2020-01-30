@@ -16,6 +16,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingPurchase;
 use App\Models\AccountingSystem\AccountingPurchaseItem;
+use App\Models\AccountingSystem\AccountingPurchaseReturn;
 use App\Models\AccountingSystem\AccountingReturn;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Models\AccountingSystem\AccountingStore;
@@ -61,27 +62,16 @@ class PurchaseReturnController extends Controller
         return products_purchase($id);
     }
 
-    public function product(Request $request)
-    {
 
-        $ids=$request['ids'];
-        // $store=AccountingStore::find($);
-        $products=AccountingProduct::whereIN('id',$ids)->get();
-
-        return response()->json([
-            'status'=>true,
-            'data'=>view('AccountingSystem.purchaseReturns.product',compact('products'))->render()
-        ]);
-
-    }
 
     public function productpurchase(Request $request)
     {
 
         $ids=$request['ids'];
+        $purchase=$request['purchase'];
 
+        $products=AccountingPurchaseItem::whereIN('product_id',$ids)->where('purchase_id',$purchase)->get();
 
-        $products=AccountingProduct::whereIN('id',$ids)->get();
 
         return response()->json([
             'status'=>true,
@@ -98,57 +88,36 @@ class PurchaseReturnController extends Controller
     public function store(Request $request)
     {
         $requests = $request->all();
-    // dd($requests);
 
-        $rules = [
-
-            // 'supplier_id'=>'required|numeric|exists:accounting_suppliers,id',
-                // 'reminder'=>'required|numeric|gt:0',
-
-        ];
-        $this->validate($request,$rules);
-
-        $purchase=AccountingPurchase::create($requests);
-
-        $purchase->update([
-            'bill_num'=>$purchase->id."-".$purchase->created_at,
-
-        ]);
-
-
-        $products=$requests['product_id'];
-        $quantities=$requests['quantity'];
 
         $products = collect($requests['product_id']);
-        $qtys = collect($requests['quantity']);
-
+        $qtys =collect($requests['quantity']);
         $merges = $products->zip($qtys);
+
 
         foreach ($merges as $merge)
         {
-            $product=AccountingProduct::find($merge['0']);
 
-            if($product->quantity>0){
 
-            $item= AccountingSaleItem::create([
+
+            $item= AccountingPurchaseReturn::create([
                 'product_id'=>$merge['0'],
                 'quantity'=> $merge['1'],
-                'price'=>$product->selling_price,
-                'purchase_id'=>$purchase->id
+                'purchase_id'=>$requests['purchase_id'],
             ]);
             //update_product_quantity
-            $product->update([
-                'quantity'=>$product->quantity+ $merge['1'],
-            ]);
+            // $product->update([
+            //     'quantity'=>$product->quantity+ $merge['1'],
+            // ]);
              //update_product_quantity_store
-            $productstore=AccountingProductStore::where('store_id',$requests['store_id'])->where('product_id',$merge['0'])->first();
-            $productstore->update([
-                'quantity'=>$productstore->quantity + $merge['1'],
-            ]);
+            // $productstore=AccountingProductStore::where('store_id',$requests['store_id'])->where('product_id',$merge['0'])->first();
+            // $productstore->update([
+            //     'quantity'=>$productstore->quantity + $merge['1'],
+            // ]);
 
         }
-    }
-        alert()->success('تمت عملية الشراء بنجاح !')->autoclose(5000);
+
+        alert()->success('تمت عملية  الاسترجاع بنجاح !')->autoclose(5000);
         return back();
     }
 
