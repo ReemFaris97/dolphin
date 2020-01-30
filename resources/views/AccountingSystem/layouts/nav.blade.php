@@ -338,6 +338,7 @@
                         <ul class="dropdown-menu dropdown-menu-right">
                             <li><a href="{{route('accounting.purchases.index')}}"><i class="icon-eye"></i> عرض  فواتير  الشراء</a></li>
                             <li><a href="{{route('accounting.buy_point.buy_point')}}"><i class="icon-add-to-list"></i> اضافة مشترى جديد</a></li>
+                     	    <li><a href="{{route('accounting.puchaseReturns.create')}}"><i class="icon-add-to-list"></i> اضافة فاتورة مرتجعات جديدة</a></li>
                         </ul>
                     </li>
 

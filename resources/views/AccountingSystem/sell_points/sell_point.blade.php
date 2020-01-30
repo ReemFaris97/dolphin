@@ -37,7 +37,7 @@
 
                         <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left" >
                             <label> اسم الوردية </label>
-                            {{$session->shift->name}}
+                            {{-- {{$session->shift->name}} --}}
                         </div>
 
                         <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left" >

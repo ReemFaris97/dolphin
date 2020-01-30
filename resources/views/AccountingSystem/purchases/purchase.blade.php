@@ -1,6 +1,5 @@
 <table class="table">
     <th>  رقم الفاتورة</th>
-
     <th>  تاريخ الفاتوره</th>
     <th>  العميل </th>
     <th>  اجمالى </th>
@@ -8,17 +7,14 @@
 
     <tbody>
         <tr class="parent-tr">
-        <td>{{$sale->id}}</td>
-        <td>{{$sale->created_at}}</td>
-        <td>{{$sale->client->name}}</td>
-        <td>{{$sale->total}}</td>
-
+        <td>{{$purchase->id}}</td>
+        <td>{{$purchase->created_at}}</td>
+        <td>{{$purchase->client->name}}</td>
+        <td>{{$purchase->total}}</td>
         <td>
-            <a href="javascript:;" id="" class="btn btn-danger" onclick="show({{$sale->id}})">عرض الفاتورة</a>
-
+            <a href="javascript:;" id="" class="btn btn-danger" onclick="show({{$purchase->id}})">عرض الفاتورة</a>
         </td>
              </tr>
-
     </tbody>
 
 </table>

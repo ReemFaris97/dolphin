@@ -63,6 +63,23 @@ function products($store=null){
     return $products;
 }
 
+function products_purchase($purchase=null){
+    if ($purchase != null) {
+
+        $products_id=App\Models\AccountingSystem\AccountingPurchaseItem::where('purchase_id',$purchase)->where('quantity','!=',Null)->pluck('product_id')->toArray();
+
+          $products=App\Models\AccountingSystem\AccountingProduct::whereIn('id',$products_id)->get()->mapWithKeys(function ($q) {
+            return [$q['id'] => $q['name']];
+        });
+
+
+    }else{
+        $products=[];
+    }
+
+    return $products;
+}
+
 
 function products_not_settement($store=null){
     if ($store != null) {
