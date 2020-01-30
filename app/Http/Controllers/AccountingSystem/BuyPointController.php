@@ -50,12 +50,10 @@ class BuyPointController extends Controller
     public  function getProductAjex(Request $request){
         // dd($request['store_id']);
         $store_product=AccountingProductStore::where('store_id',$request['store_id'])->pluck('product_id','id')->toArray();
-        // dd( $store_product);
         $products=AccountingProduct::where('category_id',$request['id'])->whereIn('id',$store_product)->get();
-
         // $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
 
-        
+
 
         return response()->json([
             'status'=>true,

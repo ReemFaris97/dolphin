@@ -75,6 +75,8 @@ Route::middleware('admin')->group(function () {
     Route::get('/transaction', 'StoreTransactionController@transaction_form')->name('stores.transaction');
     Route::post('transactions', 'StoreTransactionController@transactions')->name('stores.transactions');
     Route::get('/products_store/{id}', 'StoreController@getproducts')->name('products_store');
+    Route::get('/products_purchase/{id}', 'PurchaseReturnController@getproducts')->name('products_purchase');
+
     Route::get('/products_settlement/{id}', 'StoreController@getproducts_')->name('products_settlement');
 
 
@@ -82,6 +84,8 @@ Route::middleware('admin')->group(function () {
     Route::get('/productsingle', 'StoreTransactionController@productsingle');
     Route::get('/productsettlement', 'StoreTransactionController@productsettlement');
     Route::get('/productdamage', 'StoreTransactionController@productdamage');
+    Route::get('/productpurchase', 'PurchaseReturnController@productpurchase');
+
 
     Route::get('/requests', 'StoreTransactionController@requests')->name('stores.requests');
     Route::get('/request/{id}', 'StoreTransactionController@request')->name('stores.request');
@@ -180,6 +184,8 @@ Route::middleware('admin')->group(function () {
     Route::get('/buy_point', 'BuyPointController@buy_point')->name('buy_point.buy_point');
     Route::get('/productsAjexPurchase/{id}', 'BuyPointController@getProductAjex');
     Route::resource('purchases', 'PurchaseController');
+    Route::get('/productReturnPurchase', 'PurchaseReturnController@product');
+
 
 });
 

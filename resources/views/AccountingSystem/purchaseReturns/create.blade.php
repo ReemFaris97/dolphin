@@ -32,23 +32,25 @@
                 </div>
             @endif
 
-
             <div class="form-group col-md-4 pull-left">
-                <label>  رقم الفاتوره </label>
-                {!! Form::select("product_id[]",products(),null,['class'=>'form-control js-example-basic-single product_id','multiple','id'=>'product_id','placeholder'=>' اختر  الصنف'])!!}
+                <label>اختر الفاتوره  </label>
+                {!! Form::select("store_id",$purchases,null,['class'=>'form-control js-example-basic-single purchase_id','id'=>'form_store_id','placeholder'=>' اختر  المخزن'])!!}
             </div>
-
-
             <div class="form-group col-md-4 pull-left">
                 <label>اختر الصنف </label>
                 {!! Form::select("product_id[]",products(),null,['class'=>'form-control js-example-basic-single product_id','multiple','id'=>'product_id','placeholder'=>' اختر  الصنف'])!!}
             </div>
 
+            <div class="col-sm-6 col-xs-6 pull-left">
+                <label>اختر امين المخزن </label>
+                {!! Form::select("user_id",keepers(),null,['class'=>'form-control js-example-basic-single storekeeper_id','id'=>'storekeeper_id','placeholder'=>' اختر امين المخزن'])!!}
+            </div>
 
 
             <div class="products">
 
             </div>
+
 
             <div class="cost">
 
@@ -74,15 +76,15 @@
 
     <script>
         $(".product_id").on('change', function() {
-            var store_id = $('#form_store_id').val();
+            var purchase = $('#purchase_id').val();
 
             var id = $(this).val();
             console.log(id);
 
             $.ajax({
-                url:"/accounting/productdamage",
+                url:"/accounting/productpurchase",
                 type:"get",
-                data:{'ids':id,'store_id':store_id}
+                data:{'ids':id,}
 
 
             }).done(function (data) {
@@ -103,15 +105,16 @@
             var quantity = $(this).val();
             var selling_price = $(".selling_price").val();
             var purchasing_price = $(".purchasing_price").val();
-            var cost=quantity*selling_price;
-            var  price=quantity*purchasing_price;
-                $(".cost").empty()
+          var cost=quantity*selling_price;
+          var  price=quantity*purchasing_price;
+            $(".cost").empty()
 
 
         });
 
     </script>
-    <script src="{{asset('admin/assets/js/get_products_by_store.js')}}"></script>
+    <script src="{{asset('admin/assets/js/get_products_by_purchase.js')}}"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
 
 @endsection

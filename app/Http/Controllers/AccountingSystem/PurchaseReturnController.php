@@ -53,6 +53,42 @@ class PurchaseReturnController extends Controller
         return $this->toCreate(compact('purchases'));
     }
 
+
+    public function getproducts($id)
+    {
+
+
+        return products_purchase($id);
+    }
+
+    public function product(Request $request)
+    {
+
+        $ids=$request['ids'];
+        // $store=AccountingStore::find($);
+        $products=AccountingProduct::whereIN('id',$ids)->get();
+
+        return response()->json([
+            'status'=>true,
+            'data'=>view('AccountingSystem.purchaseReturns.product',compact('products'))->render()
+        ]);
+
+    }
+
+    public function productpurchase(Request $request)
+    {
+
+        $ids=$request['ids'];
+
+
+        $products=AccountingProduct::whereIN('id',$ids)->get();
+
+        return response()->json([
+            'status'=>true,
+            'data'=>view('AccountingSystem.purchaseReturns.product',compact('products'))->render()
+        ]);
+
+    }
     /**
      * Store a newly created resource in storage.
      *
