@@ -710,7 +710,7 @@ function pay_type(){
 
     return [
         "cash"=> "نقدى",
-        "card"=> "بطاقة ائتمان",
+        "agel"=> "أجل",
 
     ];
 }
