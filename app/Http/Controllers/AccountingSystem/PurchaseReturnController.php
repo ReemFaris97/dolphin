@@ -105,15 +105,8 @@ class PurchaseReturnController extends Controller
                 'quantity'=> $merge['1'],
                 'purchase_id'=>$requests['purchase_id'],
             ]);
-            //update_product_quantity
-            // $product->update([
-            //     'quantity'=>$product->quantity+ $merge['1'],
-            // ]);
-             //update_product_quantity_store
-            // $productstore=AccountingProductStore::where('store_id',$requests['store_id'])->where('product_id',$merge['0'])->first();
-            // $productstore->update([
-            //     'quantity'=>$productstore->quantity + $merge['1'],
-            // ]);
+
+
 
         }
 
@@ -145,10 +138,8 @@ class PurchaseReturnController extends Controller
      */
     public function show($id)
     {
-
         $purchase =AccountingPurchase::findOrFail($id);
         $product_items=AccountingPurchaseItem::where('purchase_id',$id)->get();
-
         return $this->toShow(compact('purchase','product_items'));
     }
 
