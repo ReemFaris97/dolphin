@@ -155,8 +155,32 @@
 									<tr>
 										<th colspan="2">طريقه الدفع</th>
 										<th colspan="2">
-											{!! Form::select("payment",pay_type(),null,['class'=>'form-control','placeholder'=>'طريقه الدفع '])!!}
-										</th>
+
+                                            {!! Form::select("payment",pay_type(),null,['class'=>'form-control','id'=>'pay_type','placeholder'=>'طريقه الدفع '])!!}
+
+                                        <div class="payment_methods"  id="payment_methods">
+                                        <div class="form-group">
+                                            <label >كاش</label>
+                                            <input type="number" name="_pay[cash]"  class="_payed form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label >مدى</label>
+                                            <input type="number" name="_pay[mada]"  class="_payed form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label >تحويل</label>
+                                            <input type="number" name="_pay[bank]"  class="_payed form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label ">بطاقة إئتمانية</label>
+                                            <input type="number" name="_pay[online]"  class="_payed form-control">
+                                        </div>
+                                        </div>
+                                        </th>
+
+
+
+
 									</tr>
 
                                 <tr>
@@ -391,7 +415,7 @@
 			}
 		})
 
-                });
+     });
 
 
 			$("tbody tr.newProd").each(function(){
@@ -410,6 +434,16 @@
         }
     });
 }
+$( document ).ready(function() {
+    $('#payment_methods').hide();
+});
+
+$('#pay_type').change(function () {
+    if ($(this).val() == 'cash'){
+        $('#payment_methods').show();
+    }
+            });
+
 
 $('#pro_search').keyup(function(e) {
 

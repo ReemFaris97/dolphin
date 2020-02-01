@@ -285,7 +285,7 @@
 					</ul>
 				</li>
 			<!-- المبيعات-->
-			<li class="dropdown">
+			{{-- <li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 					<i class="icon-cabinet position-left"></i>
 					المبيعات
@@ -321,8 +321,8 @@
                 </ul>
 
 
-			</li>
-			<!-- المشتريات-->
+			</li> --}}
+			{{-- <!-- المشتريات-->
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 					<i class="icon-cabinet position-left"></i>
@@ -356,7 +356,7 @@
                 </ul>
 
 
-			</li>
+			</li> --}}
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 					<i class="icon-list position-left"></i>
@@ -368,7 +368,7 @@
 					<li><a href="{{route('accounting.safes.create')}}"><i class="icon-add-to-list"></i> اضافة خزينه جديدة</a></li>
 				</ul>
             </li>
-            <li class="dropdown">
+            {{-- <li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 					<i class="icon-list position-left"></i>
 					إدارة الفواتير
@@ -377,12 +377,11 @@
 				<ul class="dropdown-menu dropdown-menu-right">
 					<li><a href="{{route('accounting.sales.index')}}"><i class="icon-eye"></i> عرض الفواتير</a></li>
 					{{-- <li><a href="{{route('accounting.sales.returns')}}"><i class="icon-add-to-list"></i> اضافة فاتورة مرتجعات جديدة</a></li> --}}
-                    <li><a href="{{route('accounting.sessions.index')}}"><i class="icon-eye"></i> عرض الجلسات</a></li>
+                    {{-- <li><a href="{{route('accounting.sessions.index')}}"><i class="icon-eye"></i> عرض الجلسات</a></li>
 
-                </ul>
-
-            </li>
-            <li class="dropdown">
+                </ul> --}}
+            {{-- </li> --}}
+            {{-- <li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 					<i class="icon-cabinet position-left"></i>
 					الحسابات
@@ -468,7 +467,7 @@
 					</ul>
 				</li>
 				</ul>
-			</li>
+			</li> --}}
             <li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 					<i class="icon-list position-left"></i>
@@ -481,7 +480,7 @@
 				</ul>
 			</li>
 
-			<li class="dropdown">
+			{{-- <li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-cabinet position-left"></i>
 						إدارة  نقاط البيع
@@ -491,10 +490,10 @@
 					<ul class="dropdown-menu dropdown-menu-right">
                     <li><a href="{{route('accounting.sells_points.login')}}"><i class="icon-eye"></i>  تسجيل  دخول  نقطة البيع</a></li>
 						{{-- <li><a href="{{route('accounting.sells_points.sells_point')}}"><i class="icon-eye"></i> نقطه البيع</a></li> --}}
-					</ul>
-                </li>
+					{{-- </ul> --}}
+                {{-- </li> --}}
 
-                <li class="dropdown">
+                {{-- <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="icon-list position-left"></i>
                         إدارة الاعدات العامه
@@ -503,8 +502,8 @@
                     <ul class="dropdown-menu dropdown-menu-right">
                         <li><a href="{{route('accounting.settings.index')}}"><i class="icon-eye"></i> الأعدادت </a></li>
                         {{-- <li><a href="{{route('accounting.devices.create')}}"><i class="icon-add-to-list"></i> اضافة جهاز جديدة</a></li> --}}
-                    </ul>
-                </li>
+                    {{-- </ul> --}}
+                {{-- </li> --}}
 			<!--Tis will be commented temporarly-->
 			<!--
 						<li class="dropdown">
