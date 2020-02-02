@@ -20,6 +20,7 @@
 
 
         <!------------ Start returns table ------------->
+<!--
         <table class="table table-r">
             <thead>
                 <tr>
@@ -37,11 +38,8 @@
 
                     <td>
                         33
-<!--                        <input type="text" value="33" class="form-control all" readonly="">-->
                     
                     </td>
-
-<!--                    <td><input type="number" name="quantity[1]" min="0" max="33" class="form-control quantity" placeholder="ادخل الكمية"></td>-->
 
 
                 </tr>
@@ -55,6 +53,7 @@
             </tfoot>
 
         </table>
+-->
         <!------------ End returns table ------------->
 
 <!-- Modal -->
