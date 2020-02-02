@@ -26,6 +26,44 @@
 </table>
 
 
+        <!------------ Start returns table ------------->
+        <table class="table table-r">
+            <thead>
+                <tr>
+                    <th> الكمية المرتجعة</th>
+                    <th> السعر </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr class="parent-tr">
+                    <td data-price="100">
+                        ميرندا
+                    </td>
+
+
+                    <td>
+                        33
+<!--                        <input type="text" value="33" class="form-control all" readonly="">-->
+                    
+                    </td>
+
+<!--                    <td><input type="number" name="quantity[1]" min="0" max="33" class="form-control quantity" placeholder="ادخل الكمية"></td>-->
+
+
+                </tr>
+            </tbody>
+            
+            <tfoot>
+                <tr>
+                    <td>المجموع</td>
+                    <td>677</td>
+                </tr>
+            </tfoot>
+
+        </table>
+        <!------------ End returns table ------------->
+
 <!-- Modal -->
 
 
