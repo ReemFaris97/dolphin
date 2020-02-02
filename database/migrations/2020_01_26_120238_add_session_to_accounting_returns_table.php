@@ -16,7 +16,7 @@ class AddSessionToAccountingReturnsTable extends Migration
         Schema::table('accounting_returns', function (Blueprint $table) {
             $table->unsignedBigInteger('session_id')->nullable();
             $table->foreign('session_id')->references('id')
-                ->on('accounting_returns')->onDelete('cascade')
+                ->on('accounting_sessions')->onDelete('cascade')
                 ->onUpdate('cascade');
         });
 
