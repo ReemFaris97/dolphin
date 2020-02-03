@@ -5,15 +5,11 @@ $(function(){
         }
     });
     var  products;
-
     $(".purchase_id").on('change', function() {
         var idddd = $(this).val();
-
-
         $.ajax({
             url: "/accounting/products_purchase/" + idddd,
             type: "GET",
-
         }).done(function (data) {
 
             products = [];

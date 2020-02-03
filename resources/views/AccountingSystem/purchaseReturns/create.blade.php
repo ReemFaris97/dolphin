@@ -95,6 +95,40 @@
         }).done(function(data) {
 
             $('.products').html(data.data);
+            
+            
+            $(".quantity").change(function() {
+                var sum_Total = 0;
+
+            
+                var x = $(this).attr('data-id');
+//                alert('id = ' + x);
+                
+                var big_T = $(this).parents(".parent-tr").find(".all").val();
+                var quant_V = $(this).val();
+                var one_Product = parseInt($(this).parents(".parent-tr").find(".one-pr").html());
+                
+                var real_T = parseInt(big_T - quant_V);
+                
+                var one_P = $("#" + x);
+//                $(one_P).html(Number(real_T * one_P));
+                $(one_P).html(parseInt(real_T * one_Product));
+                
+                $(".price_for").each(function(){
+                    sum_Total += parseFloat($(this).html());
+                    $("#result-total").html(sum_Total);
+                });
+                
+                
+                if($(this).val().trim().length === 0){
+                    $(this).val(0);
+                  }
+                
+                
+            });
+            
+            
+            
         }).fail(function(error) {
             console.log(error);
         });
