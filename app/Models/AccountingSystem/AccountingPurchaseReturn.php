@@ -10,28 +10,16 @@ class AccountingPurchaseReturn extends Model
 {
 
 
-    protected $fillable = ['product_id','quantity','purchase_id'];
+    protected $fillable = ['total','purchase_id'];
     protected $table='accounting_purchases_returns';
 
 
-    public function supplier()
+
+
+
+    public function purchase()
     {
-        return $this->belongsTo(AccountingSupplier::class,'supplier_id');
+        return $this->belongsTo(AccountingPurchase::class,'purchase_id');
     }
 
-    public function session()
-    {
-        return $this->belongsTo(AccountingSession::class,'session_id');
-    }
-
-    public function safe()
-    {
-        return $this->belongsTo(AccountingSafe::class,'safe_id');
-    }
-
-    public function company()
-    {
-        return $this->belongsTo(AccountingCompany::class,'company_id');
-    }
-  
 }

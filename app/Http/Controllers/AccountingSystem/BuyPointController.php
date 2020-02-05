@@ -136,9 +136,7 @@ class BuyPointController extends Controller
     {
         $cell =AccountingColumnCell::findOrFail($id);
         $rules = [
-
             'name'=>'required|string|max:191',
-
             'column_id'=>'required|numeric|exists:accounting_face_columns,id',
         ];
         $this->validate($request,$rules);
@@ -146,9 +144,6 @@ class BuyPointController extends Controller
         $cell->update($requests);
         alert()->success('تم تعديل  الصف بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.cells.index');
-
-
-
     }
 
     /**

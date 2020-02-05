@@ -115,20 +115,7 @@ class PurchaseController extends Controller
     }
 
 
-    public function store_returns(Request $request){
 
-       $requests=$request->all();
-       $products=$requests['product_id'];
-       $quantities=$requests['quantity'];
-       $merges = $products->zip($quantities);
-       foreach($merges as $merge){
-      AccountingReturn::create([
-        'product_id'=>$merge[0],
-        'quantity'=>$merge[1],
-        'user_id'=>'',
-      ]);
-      }
-    }
 
     /**
      * Display the specified resource.
@@ -146,22 +133,6 @@ class PurchaseController extends Controller
     }
 
 
-    // public function sale_end(Request $request,$id)
-    // {
-
-    //     // dd($request->all());
-    //     $session=AccountingSession::findOrFail($id);
-    //     $session->update([
-    //      'end_session'=>Carbon::now(),
-    //      'custody'=>$request['custody'],
-    //     ]);
-
-
-    //     $users=User::where('is_saler',1)->pluck('name','id')->toArray();
-    //     alert()->success(' تم اغلاق  الجلسة بنجاح!')->autoclose(5000);
-
-    //     return view('AccountingSystem.sell_points.login',compact('users'));
-    // }
     /**
      * Show the form for editing the specified resource.
      *
@@ -183,26 +154,6 @@ class PurchaseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        $shift =AccountingBranchShift::findOrFail($id);
-
-        $rules = [
-            'name'=>'required|string|max:191',
-            'from'=>'required|string',
-            'to'=>'required|string',
-            'branch_id'=>'required|numeric|exists:accounting_branches,id',
-        ];
-        $this->validate($request,$rules);
-        $requests = $request->all();
-        $shift->update($requests);
-        alert()->success('تم تعديل  الوردية بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.shifts.index');
-
-
-
-
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -221,51 +172,6 @@ class PurchaseController extends Controller
 
     }
 
-    public  function  sale_order($id)
-    {
-        $package=AccountingPackage::find($id);
-        $product_offers=AccountingOffer::where('package_id',$id)->get();
-
-        $sale=AccountingSale::create([
-            'amount'=>$package->total,
-            'client_id'=>$package->client_id,
-            'total'=>$package->total,
-            'payment'=>'agel',
-            'debts'=>$package->total,
-            'package_id'=>$id
-        ]);
-
-        foreach ($product_offers as $offer){
-
-            AccountingSaleItem::create([
-                'product_id'=>$offer->product_id,
-                'quantity'=>$offer->quantity,
-                'price'=>$offer->price,
-                'sale_id'=>$sale->id,
-            ]);
-        }
-
-        alert()->success('تم امر البيع بنجاح !')->autoclose(5000);
-        return back();
-
-    }
-
-    public function returns(){
-
-        $purchases=AccountingPurchase::pluck('id','id')->toArray();
-
-    return view('AccountingSystem.purchases.returns',compact('purchases'));
-    }
-    public function returns_Puchase($id){
-
-        $purchase=AccountingPurchase::find($id);
-        // $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
-
-        return response()->json([
-            'status'=>true,
-            'data'=>view('AccountingSystem.purchases.purchase')->with('purchase',$purchase)->render()
-        ]);
-    }
 
     public function purchase_details($id){
 

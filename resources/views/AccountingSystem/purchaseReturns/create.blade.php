@@ -42,20 +42,11 @@
             <label>اختر الصنف </label>
             {!! Form::select("product_id[]",products(),null,['class'=>'form-control js-example-basic-single product_id','multiple','id'=>'product_id','placeholder'=>' اختر الصنف'])!!}
         </div>
-
-        {{-- <div class="col-sm-6 col-xs-6 pull-left">
-                <label>اختر امين المخزن </label>
-                {!! Form::select("user_id",keepers(),null,['class'=>'form-control js-example-basic-single storekeeper_id','id'=>'storekeeper_id','placeholder'=>' اختر امين المخزن'])!!}
-            </div> --}}
-
-
         <div class="products">
-
         </div>
 
 
         <div class="cost">
-
         </div>
         <div class="price">
 
@@ -71,18 +62,17 @@
     </div>
 </div>
 </div>
-
 @endsection
 @section('scripts')
 
 
 <script>
+
+
     $(".product_id").on('change', function() {
         var purchase = $('#purchase_id').val();
-
         var id = $(this).val();
         console.log(id);
-
         $.ajax({
             url: "/accounting/productpurchase",
             type: "get",
@@ -95,40 +85,39 @@
         }).done(function(data) {
 
             $('.products').html(data.data);
-            
-            
+
             $(".quantity").change(function() {
                 var sum_Total = 0;
 
-            
+
                 var x = $(this).attr('data-id');
 //                alert('id = ' + x);
-                
+
                 var big_T = $(this).parents(".parent-tr").find(".all").val();
                 var quant_V = $(this).val();
                 var one_Product = parseInt($(this).parents(".parent-tr").find(".one-pr").html());
-                
+
                 var real_T = parseInt(big_T - quant_V);
-                
+
                 var one_P = $("#" + x);
 //                $(one_P).html(Number(real_T * one_P));
                 $(one_P).html(parseInt(real_T * one_Product));
-                
+
                 $(".price_for").each(function(){
                     sum_Total += parseFloat($(this).html());
                     $("#result-total").html(sum_Total);
                 });
-                
-                
+
+                $("#result").val(sum_Total);
                 if($(this).val().trim().length === 0){
                     $(this).val(0);
                   }
-                
-                
+
+
             });
-            
-            
-            
+
+
+
         }).fail(function(error) {
             console.log(error);
         });

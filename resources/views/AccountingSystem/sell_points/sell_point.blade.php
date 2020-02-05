@@ -165,13 +165,7 @@
                                                         <div class="form-line">
                                                             <label> نقدا</label>
                                                             <input type="radio"  name="pay"  value="1"  id="cash">
-                                                            <!--
-                                                                            <select name="pay_type" class="form-control cash"  id="cash2" >
-                                                                                <option value="cash">كاش</option>
-                                                                                <option value="network">شبكة</option>
-                                                                                <option value="bank_tranaction">تحويل بنكى</option>
-                                                                            </select>
-                                                            -->
+
                                                             <div class="form-group">
                                                                 <label class="radios">كاش</label>
                                                                 <input type="number" name="_pay[cash]"  class="_payed form-control">
@@ -183,7 +177,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
 
                                                 <div class="col-sm-6 col-xs-12">
                                                     <div id="pay_agel">

@@ -16,7 +16,7 @@ class CreateAccountingBanksTable extends Migration
         Schema::create('accounting_banks', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('bank_number')->nullable();
+            $table->string('number')->nullable();
             $table->timestamps();
         });
     }

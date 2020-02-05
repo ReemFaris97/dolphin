@@ -11,15 +11,12 @@
             <td><input type="text" value="{{$product->quantity}}" class="form-control all" readonly></td>
             <td class="one-pr"> {{$product->product->selling_price}} </td>
             <td><input type="number" data-id="{{$product->product->id}}" name="quantity[{{$product->id}}]" min="0" max="{{$product->quantity}}" class="form-control quantity" placeholder="ادخل الكمية" value="0"></td>
-            
+            <input  type="hidden" name="total"   id="result">
+
         </tr>
          @endforeach
     </tbody>
-
-   
 </table>
-
-
 <!------------ Start returns table ------------->
 <table class="table table-r">
     <thead>
@@ -41,7 +38,8 @@
     <tfoot>
         <tr>
             <td>المجموع</td>
-            <td id="result-total"></td>
+            <td id="result-total">
+            </td>
         </tr>
     </tfoot>
 
