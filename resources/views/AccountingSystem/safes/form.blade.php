@@ -135,9 +135,15 @@
 </div>
 
 <div class="form-group col-md-6 pull-left">
-    <label> الرصيد الحالى الخزنه  </label>
+    <label>  عهده الخزنه </label>
     {!! Form::text("custody",null,['class'=>'form-control','placeholder'=>'  عهده الخزنه   '])!!}
 </div>
+
+<div class="form-group col-md-6 pull-left">
+    <label>الرصيد الحالى الخزنه  </label>
+    {!! Form::text("amount",null,['class'=>'form-control','placeholder'=>' الرصيد الحالى الخزنه     '])!!}
+</div>
+
 
 <div class="text-center col-md-12">
     <div class="text-right">

@@ -74,18 +74,7 @@
 								<input type="hidden" name="user_id" value="{{$session->user_id}}">
 								<input type="hidden" name="session_id" value="{{$session->id}}">
 								<input type="hidden" name="shift_id" value="{{$session->shift_id}}">
-                                <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
-                                    <label> اسم الشركة </label>
-                                    {!! Form::select("company_id",companies(),null,['class'=>'form-control js-example-basic-single company_id','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له المنتج '])!!}
-                                </div>
-                                <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
-                                    <label> اسم الفرع التابع </label>
-                                    {!! Form::select("branch_id",branches(),null,['class'=>'form-control selectpicker branch_id','id'=>'branch_id','multiple','placeholder'=>' اختر اسم الفرع التابع له المنتج '])!!}
-                                </div>
-                                <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left" id="store_id">
-                                    <label> اسم المخزن </label>
-                                        {!! Form::select("store_id",stores(),null,['class'=>'form-control js-example-basic-single store_id','id'=>'store_id','placeholder'=>' اختر اسم المخزن التابع له المنتج '])!!}
-                                </div>
+                               
                             <table border="1" class="finalTb">
                                 <thead>
 									<tr>

@@ -49,7 +49,7 @@ class BuyPointController extends Controller
      */
     public  function getProductAjex(Request $request){
         // dd($request['store_id']);
-        $store_product=AccountingProductStore::where('store_id',$request['store_id'])->pluck('product_id','id')->toArray();
+        $store_product=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->pluck('product_id','id')->toArray();
         $products=AccountingProduct::where('category_id',$request['id'])->whereIn('id',$store_product)->get();
         // $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
 
@@ -57,7 +57,7 @@ class BuyPointController extends Controller
 
         return response()->json([
             'status'=>true,
-            'data'=>view('AccountingSystem.buy_points.sell')->with('products',$products)->render()
+            'data'=>view('AccountingSystem.buy_points.products')->with('products',$products)->render()
         ]);
     }
 

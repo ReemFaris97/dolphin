@@ -13,6 +13,7 @@ use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingProductTax;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Traits\Viewable;
@@ -47,12 +48,15 @@ class SellPointController extends Controller
      */
     public  function getProductAjex(Request $request,$id){
 
-        $products_all=AccountingProduct::where('category_id',$id)->get();
-        $products=AccountingProduct::where('category_id',$id)->get();
+        // $products_all=AccountingProduct::where('category_id',$id)->get();
+        // $products=AccountingProduct::where('category_id',$id)->get();
+
+        $store_product=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->pluck('product_id','id')->toArray();
+        $products=AccountingProduct::where('category_id',$request['id'])->whereIn('id',$store_product)->get();
 
         return response()->json([
             'status'=>true,
-            'data'=>view('AccountingSystem.sell_points.sell')->with('products',$products)->render()
+            'data'=>view('AccountingSystem.sell_points.products')->with('products',$products)->render()
         ]);
     }
 

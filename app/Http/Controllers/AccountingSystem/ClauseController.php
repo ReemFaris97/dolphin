@@ -11,6 +11,9 @@ use App\Models\AccountingSystem\AccountingMoneyClause;
 use App\Models\AccountingSystem\AccountingProductCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingClient;
+use App\Models\AccountingSystem\AccountingSafe;
+use App\Models\AccountingSystem\AccountingSupplier;
 use App\Traits\Viewable;
 
 class ClauseController extends Controller
@@ -36,8 +39,11 @@ class ClauseController extends Controller
     public function create()
     {
 
+        $safes =AccountingSafe::pluck('name','id')->toArray();
+        $clients =AccountingClient::pluck('name','id')->toArray();
+        $suppliers =AccountingSupplier::pluck('name','id')->toArray();
 
-        return $this->toCreate();
+        return $this->toCreate(compact('safes','clients','suppliers'));
     }
 
     /**
@@ -55,15 +61,61 @@ class ClauseController extends Controller
             'ar_description'=>'nullable|string',
             'en_description'=>'nullable|string',
 
-
-
-
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
+        // dd($requests);
+        $safe=AccountingSafe::find($requests['safe_id']);
 
-        AccountingMoneyClause::create($requests);
-        alert()->success('تم اضافة  البند   بنجاح !')->autoclose(5000);
+       $clause = AccountingMoneyClause::create($requests);
+
+     //--------------------------client----------------------------------------
+       if($clause->concerned=='client'){
+
+        if($clause->type=='revenue'){
+            //من  العميل  للخزينه رصيد الخزينة  بيزيدالايراااد
+
+            $safe->update([
+
+            'amount'=>$safe->amount+$requests['amount']
+
+            ]);
+
+        }elseif($clause->type=='expenses'){
+    //من االخزنه للعمييل  بيقلل مد
+
+    $safe->update([
+
+        'amount'=>$safe->amount-$requests['amount']
+
+        ]);
+
+        }
+//--------------------------supplier------------------------------------
+    }elseif($clause->concerned=='supplier'){
+
+        $supplier=AccountingSupplier::find($requests['supplier_id']);
+// dd($supplier);
+        if($clause->type=='revenue'){
+            //من  المورد  للخزينه رصيد الخزينة  بيزيدالايراااد
+            $safe->update([
+            'amount'=>$safe->amount+$requests['amount']
+            ]);
+            $supplier->update([
+            'amount'=>$supplier->amount+$requests['amount']
+            ]);
+        }
+        elseif($clause->type=='expenses'){
+    //من المورد للعمييل  بيقلل مد
+    $safe->update([
+        'amount'=>$safe->amount-$requests['amount']
+        ]);
+    $supplier->update([
+            'amount'=>$supplier->amount-$requests['amount']
+            ]);
+        }
+    }
+        alert()->success('تم اضافة  سند    بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.clauses.index');
     }
 
@@ -87,10 +139,10 @@ class ClauseController extends Controller
     public function edit($id)
     {
         $clause =AccountingMoneyClause::findOrFail($id);
-
-        return $this->toEdit(compact('clause'));
-
-
+        $safes =AccountingSafe::pluck('name','id')->toArray();
+        $clients =AccountingClient::pluck('name','id')->toArray();
+        $suppliers =AccountingSupplier::pluck('name','id')->toArray();
+        return $this->toEdit(compact('clause','safes','clients','suppliers'));
     }
 
     /**
@@ -109,17 +161,12 @@ class ClauseController extends Controller
             'en_name'=>'nullable|string|max:191',
             'ar_description'=>'nullable|string',
             'en_description'=>'nullable|string',
-
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
-
         $clause->update($requests);
         alert()->success('تم تعديل  البند بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.clauses.index');
-
-
-
     }
 
     /**

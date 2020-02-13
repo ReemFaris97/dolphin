@@ -20,6 +20,7 @@ class CreateAccountingPurchaseReturnItemsTable extends Migration
             $table->foreign('purchase_return_id')->references('id')
                 ->on('accounting_purchases_returns')->onDelete('cascade')
                 ->onUpdate('cascade');
+
                 $table->unsignedBigInteger('product_id')->nullable();
                 $table->foreign('product_id')->references('id')
                     ->on('accounting_products')->onDelete('cascade')
