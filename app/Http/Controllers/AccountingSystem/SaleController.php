@@ -115,12 +115,12 @@ class SaleController extends Controller
 
        $requests=$request->all();
 
-    //    dd($requests);
+
        $items=collect($requests['item_id']);
        $quantities=collect($requests['quantity']);
        $merges=$items->zip($quantities);
 
-
+        // dd($requests['session_id']);
        foreach($merges as $merge){
         AccountingReturn::create([
         'sale_id'=>$requests['sale_id'],
@@ -131,9 +131,18 @@ class SaleController extends Controller
       ]);
       }
 
-      //update_sale_item
       dd($merges);
+      //update_sale_item
+      foreach($merges as $merge){
+      $item= AccountingSaleItem::find($merge[0]);
+      $item->update([
+          'quantity'=>$merge[1],
+      ]);
 
+
+      }
+
+      
 
       alert()->success('تم اضافة  فاتورة  الاسترجاع  بنجاح !')->autoclose(5000);
       return back();

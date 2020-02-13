@@ -1,6 +1,8 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تعديل  سند')
-@section('parent_title','إدارة   سندات  القبض  والصرف')
+@section('title','تعديل  البنك')
+@section('parent_title','إدارة  البنوك')
+@section('action', URL::route('accounting.products.index'))
+
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
@@ -15,9 +17,9 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::model($clause, ['route' => ['accounting.clauses.update' ,$clause->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
+            {!!Form::model($bank, ['route' => ['accounting.banks.update' ,$bank->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
 
-            @include('AccountingSystem.clauses.form')
+            @include('AccountingSystem.banks.form')
 
             {!!Form::close() !!}
         </div>

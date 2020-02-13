@@ -74,18 +74,7 @@
 								<input type="hidden" name="user_id" value="{{$session->user_id}}">
 								<input type="hidden" name="session_id" value="{{$session->id}}">
 								<input type="hidden" name="shift_id" value="{{$session->shift_id}}">
-                                <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
-                                    <label> اسم الشركة </label>
-                                    {!! Form::select("company_id",companies(),null,['class'=>'form-control js-example-basic-single company_id','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له المنتج '])!!}
-                                </div>
-                                <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
-                                    <label> اسم الفرع التابع </label>
-                                    {!! Form::select("branch_id",branches(),null,['class'=>'form-control selectpicker branch_id','id'=>'branch_id','multiple','placeholder'=>' اختر اسم الفرع التابع له المنتج '])!!}
-                                </div>
-                                <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left" id="store_id">
-                                    <label> اسم المخزن </label>
-                                        {!! Form::select("store_id",stores(),null,['class'=>'form-control js-example-basic-single store_id','id'=>'store_id','placeholder'=>' اختر اسم المخزن التابع له المنتج '])!!}
-                                </div>
+                               
                             <table border="1" class="finalTb">
                                 <thead>
 									<tr>
@@ -155,27 +144,58 @@
 									<tr>
 										<th colspan="2">طريقه الدفع</th>
 										<th colspan="2">
+                                            <div class="col-xs-12">
+                                                <div class="col-xs-12">
+                                                    <label class="form-label"> طرق الدفع </label>
+                                                </div>
+                                                <div class="col-sm-6 col-xs-12">
+                                                    <div class="form-group form-float">
 
-                                            {!! Form::select("payment",pay_type(),null,['class'=>'form-control','id'=>'pay_type','placeholder'=>'طريقه الدفع '])!!}
+                                                        <div class="form-line">
+                                                            <label> نقدا</label>
+                                                            <input type="radio"  name="pay"  value="1"  id="cash">
 
-                                        <div class="payment_methods"  id="payment_methods">
-                                        <div class="form-group">
-                                            <label >كاش</label>
-                                            <input type="number" name="_pay[cash]"  class="_payed form-control">
+                                                            <div class="form-group">
+                                                                <label class="radios">كاش</label>
+                                                                <input type="number" name="_pay[cash]"  class="_payed form-control">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="radios">شبكة</label>
+                                                                <input type="number" name="_pay[network]"  class="_payed form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-6 col-xs-12">
+                                                    <div id="pay_agel">
+                                                        <div class="form-group form-float">
+                                                            <div class="form-line">
+                                                                <label> اجل</label>
+                                                                <input type="radio"  name="pay" value="0"  id="agel" >
+
+
+                                                                <div class="agel">
+                                                                    <div class="row ">
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group ">
+                                                                                <label> المبلغ المدفوع</label>
+                                                                                <input type="text"  name="payed"  class="form-control"  id="agel2"  style="width:90px">
+                                                                            </div>
+                                                                            <div class="form-group ">
+                                                                                <label> المتبقى</label>
+                                                                                <input type="text" name="delayed" class="form-control"  disabled="disabled" id="reminder2" style="width:90px">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label >مدى</label>
-                                            <input type="number" name="_pay[mada]"  class="_payed form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label >تحويل</label>
-                                            <input type="number" name="_pay[bank]"  class="_payed form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label ">بطاقة إئتمانية</label>
-                                            <input type="number" name="_pay[online]"  class="_payed form-control">
-                                        </div>
-                                        </div>
+
+
                                         </th>
 
 
@@ -376,7 +396,7 @@
                             console.log('elinput' + parseFloat($(this).val()));
                             lastReminder =   parseFloat($("#reminder").html())- parseFloat($(this).val());
                              $("#lastreminder").html(lastReminder);
-                            $("#reminder1").val(lastReminder);
+                            $("#reminder").val(lastReminder);
                         });
                         /********************/
                     }
@@ -434,16 +454,13 @@
         }
     });
 }
-$( document ).ready(function() {
-    $('#payment_methods').hide();
-});
 
-$('#pay_type').change(function () {
-    if ($(this).val() == 'cash'){
-        $('#payment_methods').show();
-    }
-            });
+// $('#pay_type').change(function () {
+//     if ($(this).val() == 'cash'){
 
+
+//     }
+//  });
 
 $('#pro_search').keyup(function(e) {
 
@@ -486,6 +503,68 @@ var barcode_search = $(this).val();
 // }
 });
 
+
+
+        $(document).ready(function() {
+
+
+        $("#payed").on('keyup', function() {
+            var total = document.getElementById('total').value;
+            var payed = document.getElementById('payed').value;
+            var remaining = Number(total) - Number(payed);
+            console.log(remaining);
+            document.getElementById('remaining').value = remaining;
+        });
+
+        /****Accordion********/
+        $(".acc2").slideUp();
+            $(".acc1").click(function(){
+                $(this).next().slideToggle(500);
+                $(this).children("i").toggleClass("fa-sort-up");
+                $(".acc2").not( $(this).next() ).slideUp(500);
+                $("i").not( $(this).children("i" )).removeClass("fa-sort-up");
+            });
+        })
+        function _payed(){
+        var payed = 0;
+        $('._payed').each(function () {
+        payed += Number($(this).val());
+        });
+        return payed;
+        }
+        $("._payed").keyup(function () {
+        var reminder2 = Number($("#total").val());
+        var payed = _payed();
+        if (reminder2-payed <0){
+        alert('لا يمكن للمتبقي ان يكون اقل من الصفر');
+        $(this).val(0);
+        payed = _payed();
+        }
+        $("[name='payed']").val(payed);
+
+        document.getElementById('reminder2').value= reminder2-payed;
+        });
+
+        var paid = $("#agel2").val();
+        var reminder2 = 0;
+        document.getElementById('reminder2').value=($('#total').val()) - ($("#agel2").val()) ;
+        var reminder_text = $("#reminder2").val();
+        console.log($("#reminder2").val())
+
+        $('input[type=number][max]:not([max=""])').on('input', function(ev) {
+        var $this = $(this);
+        var maxlength = $this.attr('max');
+        var value = $this.val();
+        var max = parseInt($('.quantity1').attr('max'));
+        if ($this.val() > max) {
+        //      $this.val(value.substr(0, maxlength));
+        //      $this.html(value.substr(0, maxlength));
+        $this.val(max);
+        $this.html(max);
+        //        alert(maxlength);
+        $("#alert").modal('show');
+        }
+        });
 
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>

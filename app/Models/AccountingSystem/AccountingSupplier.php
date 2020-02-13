@@ -10,11 +10,9 @@ class AccountingSupplier extends Model
 {
 
 
-    protected $fillable = ['name','email','phone','credit','branch_id'
+    protected $fillable = ['name','email','phone','credit','branch_id','amount'
     ];
     protected $table='accounting_suppliers';
-
-
 
 
 }

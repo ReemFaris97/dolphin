@@ -16,17 +16,14 @@ class CreateAccountingPurchasesReturnsTable extends Migration
         Schema::create('accounting_purchases_returns', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->unsignedBigInteger('product_id')->nullable();
-            $table->foreign('product_id')->references('id')
-                ->on('accounting_products')->onDelete('cascade')
-                ->onUpdate('cascade');
+
 
                 $table->unsignedBigInteger('purchase_id')->nullable();
                 $table->foreign('purchase_id')->references('id')
                     ->on('accounting_purchases')->onDelete('cascade')
                     ->onUpdate('cascade');
 
-                    $table->integer('quantity')->nullable();
+                    $table->string('total')->nullable();
 
             $table->timestamps();
         });

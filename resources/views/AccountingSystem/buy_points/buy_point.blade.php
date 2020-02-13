@@ -19,23 +19,27 @@
             </div>
         </div>
         <div class="panel-body">
+            <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left" >
+                <label> التاريخ </label>
+                <?php echo Carbon\Carbon::now()->format('d-m-Y') ?>
+                <?php echo Carbon\Carbon::now()->format('g:i a') ?>
+            </div>
+
+
             <!----------------  Start Bill Content ----------------->
             <section class="yourBill">
                 <div class="row">
 
 
-                    <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
-                        <label> اسم الشركة </label>
-                        {!! Form::select("company",companies(),null,['class'=>'form-control js-example-basic-single company_id','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له المنتج '])!!}
-                    </div>
-                    <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
+
+                    {{-- <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
                         <label> اسم الفرع التابع </label>
                         {!! Form::select("branch",branches(),null,['class'=>'form-control selectpicker branch_id','id'=>'branch_id','multiple','placeholder'=>' اختر اسم الفرع التابع له المنتج '])!!}
                     </div>
                     <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
                         <label> اسم المخزن </label>
                             {!! Form::select("zstore_id",stores(),null,['class'=>'form-control js-example-basic-single store_id','id'=>'store_id','placeholder'=>' اختر اسم المخزن التابع له المنتج '])!!}
-                    </div>
+                    </div> --}}
 
                         <input type="text" name="search" id="pro_search">
                         <input type="text"   id="barcode_search">
@@ -81,10 +85,21 @@
                         </div>
                     </div>
                     </div>
+
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="result" id="the-choseen-parts">
+                            <div class="form-group col-md-4 col-sm-6 col-xs-12 ">
+                                <label> اسم المورد  </label>
+                            {!! Form::select("supplier_id",$suppliers,null,['class'=>'form-control','placeholder'=>'اسم المورد '])!!}
+                            </div>
+                            <div class="form-group col-md-4 col-sm-6 col-xs-12 ">
+                                <label>  رقم الفاتوره  </label>
+                            {!! Form::text("bill_num",null,['class'=>'form-control','placeholder'=>' رقم الفاتوره'])!!}
+                            </div>
+
                             <form method="post" action="{{route('accounting.purchases.store')}}">
                                 @csrf
+
                                 <input type="hidden" name="store_id" id="store_val">
                                 <input type="hidden" name="branch_id" id="branch_val">
                                 <input type="hidden" name="company_id" id="company_val">
@@ -153,10 +168,10 @@
 										<input type="hidden"  id="reminder1" name="reminder">
 									</tr>
 									<tr>
-										<th colspan="2">المورد</th>
+										{{-- <th colspan="2">المورد</th>
 										<th colspan="2">
 											{!! Form::select("supplier_id",$suppliers,null,['class'=>'form-control','placeholder'=>'اسم المورد '])!!}
-										</th>
+										</th> --}}
                                     </tr>
 
                                     <tr>
