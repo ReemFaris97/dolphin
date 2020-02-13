@@ -74,7 +74,7 @@ class ClauseController extends Controller
 
         if($clause->type=='revenue'){
             //من  العميل  للخزينه رصيد الخزينة  بيزيدالايراااد
-
+//المبيعات
             $safe->update([
 
             'amount'=>$safe->amount+$requests['amount']
@@ -83,13 +83,14 @@ class ClauseController extends Controller
 
         }elseif($clause->type=='expenses'){
     //من االخزنه للعمييل  بيقلل مد
-
+//فى حاله المرتجاع   للمبيعات
+if($requests['amount'] <= $safe->amount){
     $safe->update([
 
         'amount'=>$safe->amount-$requests['amount']
 
         ]);
-
+    }
         }
 //--------------------------supplier------------------------------------
     }elseif($clause->concerned=='supplier'){
@@ -98,6 +99,7 @@ class ClauseController extends Controller
 // dd($supplier);
         if($clause->type=='revenue'){
             //من  المورد  للخزينه رصيد الخزينة  بيزيدالايراااد
+           // فى  حاله  المرتجعات
             $safe->update([
             'amount'=>$safe->amount+$requests['amount']
             ]);
@@ -106,15 +108,20 @@ class ClauseController extends Controller
             ]);
         }
         elseif($clause->type=='expenses'){
-    //من المورد للعمييل  بيقلل مد
-    $safe->update([
-        'amount'=>$safe->amount-$requests['amount']
-        ]);
+    // من المورد للخزنه  بيقلل رصيد الخزنه والرصيد للمورد كمان هيقل
+    //فى حاله  انشاء  مشترى
+    if($requests['amount'] <= $safe->amount){
+        $safe->update([
+            'amount'=>$safe->amount-$requests['amount']
+            ]);
+    }
+    if($requests['amount'] <= $supplier->amount){
+
     $supplier->update([
             'amount'=>$supplier->amount-$requests['amount']
             ]);
         }
-    }
+     }
         alert()->success('تم اضافة  سند    بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.clauses.index');
     }
