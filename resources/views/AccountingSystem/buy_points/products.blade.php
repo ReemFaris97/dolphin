@@ -1,7 +1,23 @@
 <select class="form-control js-example-basic-single col-md-4 col-sm-6 col-xs-12 pull-right" name="product_id" placeholder="اختر المنتج">
     @foreach ($products as $product)
-            <option value="{{$product->id}}" >{{$product->name}}</option>
+    <?php
+    $producttax=\App\Models\AccountingSystem\AccountingProductTax::where('product_id',$product->id)->first();
+    $units=\App\Models\AccountingSystem\AccountingProductSubUnit::where('product_id',$product->id)->get();
+    $subunits= collect($units);
+    $allunits=json_encode($subunits);
+    // $new=$subunits,ENT_NOQUOTES);
+ ?>
+
+<option value="{{$product->id}}" data-name="{{$product->name}}" data-price="{{$product->selling_price}}" data-bar_code="{{$product->bar_code}}"
+    data-price_has_tax="{{isset($producttax)? $producttax->price_has_tax: '' }}"
+     data-totalTaxes="{{ isset($producttax)? $product->total_taxes : ''}}"
+data-subunits="{{$allunits}}">
+    {{$product->name}}</option>
 
     @endforeach
 
 </select>
+
+
+
+

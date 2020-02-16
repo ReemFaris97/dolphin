@@ -52,6 +52,12 @@ class BuyPointController extends Controller
         $store_product=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->pluck('product_id','id')->toArray();
         $products=AccountingProduct::where('category_id',$request['id'])->whereIn('id',$store_product)->get();
         // $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
+// foreach($products as $product){
+//         $units=\App\Models\AccountingSystem\AccountingProductSubUnit::where('product_id',$product->id)->get();
+//     // $x=   json_encode($units,JSON_UNESCAPED_UNICODE);
+//   $x=collect($units);
+//   dd(json_encode($x));
+//     }
 
 
 
@@ -77,6 +83,7 @@ class BuyPointController extends Controller
 
         $products=AccountingProduct::where('bar_code',$q)->get();
         // $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
+
 
         return response()->json([
             'status'=>true,

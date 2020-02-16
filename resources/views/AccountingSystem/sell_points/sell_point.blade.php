@@ -45,25 +45,18 @@
                             {{$session->start_session}}
                         </div>
 
-						  <ul class="nav nav-tabs" role="tablist">
-							  @foreach ($categories as $category)
-								<li role="presentation">
-									<a href="#mobile" aria-controls="mobile" role="tab" data-toggle="tab"
-									onclick="category({{$category->id}})" class="category">{{$category->ar_name}}</a>
-								</li>
-							  @endforeach
-						  </ul>
-                            <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane active" >
-                                    <div class="yurProdc">
-                                    </div>
-                                </div>
-                            </div>
-<!--
-                            <div class="col-xs-12">
-                                <input class="fxd-btn" id="fxd-btn" type="submit" value="إتمام" data-dismiss='modal' disabled>
-                            </div>
--->
+
+
+
+
+                        <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
+                            <label>اختر  القسم  </label>
+                            {!! Form::select("category_id",$categories,null,['class'=>'form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر  القسم '])!!}
+                        </div>
+
+                        <div class="yurProdc">
+                        </div>
+
                         </div>
                     </div>
                     </div>
@@ -74,7 +67,7 @@
 								<input type="hidden" name="user_id" value="{{$session->user_id}}">
 								<input type="hidden" name="session_id" value="{{$session->id}}">
 								<input type="hidden" name="shift_id" value="{{$session->shift_id}}">
-                               
+
                             <table border="1" class="finalTb">
                                 <thead>
 									<tr>
@@ -256,14 +249,25 @@
         </div>
     </div>
 @endsection
+
 @section('scripts')
     <!------------ IF Checked --------------->
     <script>
-		function  category(id) {
+	   $(".category_id").on('change', function() {
+        var id = $(this).val();
+            var store_id = $('#store_id').val();
+            $('#store_val').val(store_id);
+
+            var branch_id = $('#branch_id').val();
+            $('#branch_val').val(branch_id);
+
+            var company_id = $('#company_id').val();
+            $('#company_val').val(company_id);
+
     $.ajax({
         type: 'get',
-        url: "/accounting/productsAjex/" + id,
-        data: {id: id},
+        url: "/accounting/productsAjexPurchase/" + id,
+        data: {id: id,store_id:store_id},
         dataType: 'json',
         success: function (data) {
             $('.yurProdc').html("");
@@ -396,7 +400,7 @@
                             console.log('elinput' + parseFloat($(this).val()));
                             lastReminder =   parseFloat($("#reminder").html())- parseFloat($(this).val());
                              $("#lastreminder").html(lastReminder);
-                            $("#reminder").val(lastReminder);
+                            $("#reminder1").val(lastReminder);
                         });
                         /********************/
                     }
@@ -435,7 +439,7 @@
 			}
 		})
 
-     });
+                });
 
 
 			$("tbody tr.newProd").each(function(){
@@ -453,14 +457,7 @@
 
         }
     });
-}
-
-// $('#pay_type').change(function () {
-//     if ($(this).val() == 'cash'){
-
-
-//     }
-//  });
+});
 
 $('#pro_search').keyup(function(e) {
 
@@ -503,68 +500,6 @@ var barcode_search = $(this).val();
 // }
 });
 
-
-
-        $(document).ready(function() {
-
-
-        $("#payed").on('keyup', function() {
-            var total = document.getElementById('total').value;
-            var payed = document.getElementById('payed').value;
-            var remaining = Number(total) - Number(payed);
-            console.log(remaining);
-            document.getElementById('remaining').value = remaining;
-        });
-
-        /****Accordion********/
-        $(".acc2").slideUp();
-            $(".acc1").click(function(){
-                $(this).next().slideToggle(500);
-                $(this).children("i").toggleClass("fa-sort-up");
-                $(".acc2").not( $(this).next() ).slideUp(500);
-                $("i").not( $(this).children("i" )).removeClass("fa-sort-up");
-            });
-        })
-        function _payed(){
-        var payed = 0;
-        $('._payed').each(function () {
-        payed += Number($(this).val());
-        });
-        return payed;
-        }
-        $("._payed").keyup(function () {
-        var reminder2 = Number($("#total").val());
-        var payed = _payed();
-        if (reminder2-payed <0){
-        alert('لا يمكن للمتبقي ان يكون اقل من الصفر');
-        $(this).val(0);
-        payed = _payed();
-        }
-        $("[name='payed']").val(payed);
-
-        document.getElementById('reminder2').value= reminder2-payed;
-        });
-
-        var paid = $("#agel2").val();
-        var reminder2 = 0;
-        document.getElementById('reminder2').value=($('#total').val()) - ($("#agel2").val()) ;
-        var reminder_text = $("#reminder2").val();
-        console.log($("#reminder2").val())
-
-        $('input[type=number][max]:not([max=""])').on('input', function(ev) {
-        var $this = $(this);
-        var maxlength = $this.attr('max');
-        var value = $this.val();
-        var max = parseInt($('.quantity1').attr('max'));
-        if ($this.val() > max) {
-        //      $this.val(value.substr(0, maxlength));
-        //      $this.html(value.substr(0, maxlength));
-        $this.val(max);
-        $this.html(max);
-        //        alert(maxlength);
-        $("#alert").modal('show');
-        }
-        });
 
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>

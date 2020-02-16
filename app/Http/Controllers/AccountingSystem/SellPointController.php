@@ -34,6 +34,8 @@ class SellPointController extends Controller
         $categories=AccountingProductCategory::all();
         $session=AccountingSession::find($id);
         $clients=AccountingClient::pluck('name','id')->toArray();
+        $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
+
 //foreach ($categories as $category){
 //  dd($category->products()->get());
 //}
