@@ -4,7 +4,7 @@
     $producttax=\App\Models\AccountingSystem\AccountingProductTax::where('product_id',$product->id)->first();
     $units=\App\Models\AccountingSystem\AccountingProductSubUnit::where('product_id',$product->id)->get();
     $subunits= collect($units);
-    $allunits=json_encode($subunits);
+    $allunits=json_encode($subunits,JSON_UNESCAPED_UNICODE);
     // $new=$subunits,ENT_NOQUOTES);
  ?>
 
