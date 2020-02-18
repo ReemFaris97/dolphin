@@ -663,6 +663,33 @@ form.form.phone_validate .panel-title > a {
     background-color: #e31717;
     color: #fff;
 }
+.bootstrap-select.btn-group .btn .filter-option {
+    text-align: right;
+}
+.bootstrap-select>.btn {
+    padding-left: 25px;
+    padding-right: 12px;
+}
+.bootstrap-select.btn-group .btn .caret {
+    left: 12px;
+    right: auto;
+}
+.bootstrap-select .btn:focus {
+    outline: 0 !important;
+}
+.bootstrap-select.btn-group .dropdown-menu li {
+    display: block;
+}
+.bootstrap-select.btn-group .dropdown-menu > .selected > a {
+    background-color: #2ecc71;
+}
+select.bs-select-hidden, select.selectpicker{
+    display: block !important;
+}
+
+
+
+
 
 
 

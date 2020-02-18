@@ -1,5 +1,5 @@
 
-<select class="form-control js-example-basic-single" name="product_id" placeholder="اختر المنتج">
+<select class="selectpicker form-control js-example-basic-single" data-live-search="true" name="product_id" placeholder="اختر المنتج">
     @foreach ($products as $product)
     <?php
     $producttax=\App\Models\AccountingSystem\AccountingProductTax::where('product_id',$product->id)->first();

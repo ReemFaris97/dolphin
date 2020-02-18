@@ -1,7 +1,7 @@
 <div class="form-group block-gp">
 <label>اسم الصنف </label>
 
-<select class="form-control js-example-basic-single" name="product_id" placeholder="اختر المنتج">
+<select class=" form-control js-example-basic-single"  name="product_id" placeholder="اختر المنتج" id="selectID">
     @foreach ($products as $product)
     <?php
     $producttax=\App\Models\AccountingSystem\AccountingProductTax::where('product_id',$product->id)->first();

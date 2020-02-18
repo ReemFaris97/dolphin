@@ -3,14 +3,18 @@
 @section('parent_title','إدارة نقطه البيع')
 @section('action', URL::route('accounting.categories.index'))
 @section('styles')
+
 <link href="{{asset('admin/assets/css/all.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/bill.css')}}" rel="stylesheet" type="text/css">
+
+<link href="{{asset('admin/assets/css/customized.css')}}" rel="stylesheet" type="text/css">
+
 @endsection
 @section('content')
 <div class="panel panel-flat">
     <div class="panel-heading">
         <h5 class="panel-title">نقطة البيع
-            <b class="time-r">18/02/2020 - 11:40 AM</b>
+            <b class="time-r" id="theTime"></b>
         </h5>
         <div class="heading-elements">
             <ul class="icons-list">
@@ -52,7 +56,7 @@
                     <div class="col-xs-12">
                         <div class="form-group">
                             <label> إسم العميل </label> :
-                            {!! Form::select("client_id",$clients,null,['class'=>'form-control inline-control','placeholder'=>'اختر اسم العميل '])!!}
+                            {!! Form::select("client_id",$clients,null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر اسم العميل','data-live-search'=>'true'])!!}
                         </div>
                     </div>
 
@@ -60,7 +64,7 @@
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="form-group block-gp">
                             <label>اسم القسم </label>
-                            {!! Form::select("category_id",$categories,null,['class'=>'form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم '])!!}
+                            {!! Form::select("category_id",$categories,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}
                         </div>
                     </div>
 
@@ -92,27 +96,27 @@
                     <table border="1" class="finalTb">
                         <thead>
                             <tr>
-                                <th>م</th>
-                                <th>اسم الصنف</th>
-                                <th>الوحدة</th>
-                                <th>الكمية</th>
-                                <th colspan="2" class="th_lg">
+                                <th rowspan="2">م</th>
+                                <th rowspan="2">اسم الصنف</th>
+                                <th rowspan="2">الوحدة</th>
+                                <th rowspan="2">الكمية</th>
+                                <th colspan="2" rowspan="1" class="th_lg">
                                     سعر الوحدة
                                 </th>
-                                <th colspan="2" class="th_lg">
+                                <th colspan="2" rowspan="1" class="th_lg">
                                     الإجمالى
                                 </th>
-                                <th> حذف </th>
+                                <th rowspan="2"> حذف </th>
                             </tr>
                             <!----->
                             <tr>
-                                <th colspan="4"></th>
-                                <th>قبل الضريبة</th>
-                                <th>بعد الضريبة</th>
-                                <th>قبل الضريبة</th>
-                                <th>بعد الضريبة</th>
+<!--                                <th colspan="4" rowspan="1"></th>-->
+                                <th rowspan="1">قبل الضريبة</th>
+                                <th rowspan="1">بعد الضريبة</th>
+                                <th rowspan="1">قبل الضريبة</th>
+                                <th rowspan="1">بعد الضريبة</th>
 
-                                <th></th>
+<!--                                <th rowspan="1"></th>-->
                             </tr>
                         </thead>
                         
@@ -411,6 +415,8 @@
             },
             dataType: 'json',
             success: function(data) {
+               
+                
                 $('.yurProdc').html("");
                 $('.yurProdc').append(data.data);
                 $('.if-check').change(function() {
@@ -597,7 +603,9 @@
                     addClicked()
                 });
 
-
+                 $('#selectID').addClass('selectpicker');
+$('#selectID').attr('data-live-search', 'true');
+$('#selectID').selectpicker('refresh');
             }
         });
     });
@@ -617,6 +625,9 @@
 
                 $('.yurProdc').empty();
                 $('.yurProdc').html(data.data);
+                 $('#selectID').addClass('selectpicker');
+$('#selectID').attr('data-live-search', 'true');
+$('#selectID').selectpicker('refresh');
             }
         });
         // }
@@ -638,6 +649,9 @@
 
                 $('.yurProdc').empty();
                 $('.yurProdc').html(data.data);
+                 $('#selectID').addClass('selectpicker');
+$('#selectID').attr('data-live-search', 'true');
+$('#selectID').selectpicker('refresh');
             }
         });
         // }
@@ -645,16 +659,25 @@
 
 </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
+
 <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
 <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
 
 
-<!---- delete tr --->
+<!---- new design --->
 <script>
+    /*** delete tr ***/
     $(".delete_tr").click(function(){
        $(this).parents("tr").remove(); 
     });
+    
+/*** time and date ***/
+var today = new Date();
+var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+var dateTime = date+' '+time;
+document.getElementById("theTime").innerHTML = dateTime;
+    
 </script>
 
 
