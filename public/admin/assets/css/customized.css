@@ -615,11 +615,11 @@ form.form.phone_validate .panel-title > a {
 }
 .rel-cols{
     position: relative;
-    padding: 0 0 0 30px;
+    padding: 0 0 0 40px;
 }
 .rs{
     position: absolute;
-    width: 30px;
+    width: 40px;
     left: 0;
     bottom: 7px;
     text-align: left;
