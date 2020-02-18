@@ -1,4 +1,7 @@
-<select class="form-control js-example-basic-single col-md-4 col-sm-6 col-xs-12 pull-right" name="product_id" placeholder="اختر المنتج">
+<div class="form-group block-gp">
+<label>اسم الصنف </label>
+
+<select class="form-control js-example-basic-single" name="product_id" placeholder="اختر المنتج">
     @foreach ($products as $product)
     <?php
     $producttax=\App\Models\AccountingSystem\AccountingProductTax::where('product_id',$product->id)->first();
@@ -18,6 +21,5 @@ data-subunits="{{$allunits}}">
 
 </select>
 
-
-
+</div>
 
