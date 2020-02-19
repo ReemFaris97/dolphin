@@ -303,7 +303,17 @@ tr.newProd input[type="number"] {
     font-weight: 700;
     width: 75px;
 }
+table.mabi3at-bill thead, table.mabi3at-bill thead th ,  table.mabi3at-bill tfoot tr th:first-child {
+    background: #2ecc71 !important;
+    color: #fff;
+    text-align: center;
+    font-size: 16px !important;
+    font-weight: 700;
+}
 
+table.mabi3at-bill  th{
+	padding: 10px 15px !important
+}
 
 
 /******* Responsive ****************/

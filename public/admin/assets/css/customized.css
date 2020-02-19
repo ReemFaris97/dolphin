@@ -591,6 +591,119 @@ form.form.phone_validate .panel-title > a {
 
 
 
+/******************* 2/2/2020 *******************/
+
+.table-r {
+    margin: 40px auto 20px auto;
+}
+.table-r tfoot , .table-r thead {
+    background: #2ecc71;
+    font-weight: bold;
+}
+
+
+/******************* 18/2/2020 seel point redesign *******************/
+.time-r {
+    margin: 0 10px 0 0;
+}
+.yurSections .form-group {
+    font-size: 16px;
+}
+.inline-control{
+    display: inline-block;
+    max-width: 500px;
+}
+.rel-cols{
+    position: relative;
+    padding: 0 0 0 40px;
+}
+.rs{
+    position: absolute;
+    width: 40px;
+    left: 0;
+    bottom: 7px;
+    text-align: left;
+}
+.finalTb{
+    
+}
+.inline_divs{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+}
+.th_lg{
+    text-align: center;
+}
+.finalTb th {
+    font-size: 15px;
+    padding: 10px 5px !important;
+}
+.finalTb .form-group {
+
+}
+.finalTb th input {
+    min-width: 200px;
+}
+.rel-cols b {
+    display: inline-block;
+    vertical-align: super;
+    margin: 0 0 0 10px;
+}
+.delete_tr {
+    background-color: #fff;
+    box-shadow: none;
+    outline: none;
+    border: 1px solid #e31717;
+    color: #e31717;
+    transition: all .3s ease-in-out;
+}
+.delete_tr:hover , .delete_tr:focus{
+    background-color: #e31717;
+    color: #fff;
+}
+.bootstrap-select.btn-group .btn .filter-option {
+    text-align: right;
+}
+.bootstrap-select>.btn {
+    padding-left: 25px;
+    padding-right: 12px;
+}
+.bootstrap-select.btn-group .btn .caret {
+    left: 12px;
+    right: auto;
+}
+.bootstrap-select .btn:focus {
+    outline: 0 !important;
+}
+.bootstrap-select.btn-group .dropdown-menu li {
+    display: block;
+}
+.bootstrap-select.btn-group .dropdown-menu > .selected > a {
+    background-color: #2ecc71;
+}
+select.bs-select-hidden, select.selectpicker{
+    display: block !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+/******************* media query  *******************/
+@media (min-width: 992px){
+.form-group label, .media-body label {
+    font-size: 15px;
+}
+}
+
 @media(min-width:768px){
 	.navbar-nav > li > .dropdown-menu , 
 	.dropdown-menu > .dropdown-submenu > .dropdown-menu{
@@ -616,12 +729,4 @@ form.form.phone_validate .panel-title > a {
 }
 }
 
-/******************* 2/2/2020 *******************/
 
-.table-r {
-    margin: 40px auto 20px auto;
-}
-.table-r tfoot , .table-r thead {
-    background: #2ecc71;
-    font-weight: bold;
-}
