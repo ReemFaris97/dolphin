@@ -36,9 +36,6 @@ class SellPointController extends Controller
         $clients=AccountingClient::pluck('name','id')->toArray();
         $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
 
-//foreach ($categories as $category){
-//  dd($category->products()->get());
-//}
 
         return  view('AccountingSystem.sell_points.sell_point',compact('categories','clients','session'));
     }
@@ -118,10 +115,7 @@ class SellPointController extends Controller
      */
     public function edit($id)
     {
-        $cell =AccountingColumnCell::findOrFail($id);
-        $columns=AccountingFaceColumn::pluck('name','id')->toArray();
 
-        return $this->toEdit(compact('cell','columns'));
 
 
     }
@@ -135,19 +129,6 @@ class SellPointController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $cell =AccountingColumnCell::findOrFail($id);
-        $rules = [
-
-            'name'=>'required|string|max:191',
-
-            'column_id'=>'required|numeric|exists:accounting_face_columns,id',
-        ];
-        $this->validate($request,$rules);
-        $requests = $request->all();
-        $cell->update($requests);
-        alert()->success('تم تعديل  الصف بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.cells.index');
-
 
 
     }
@@ -160,11 +141,6 @@ class SellPointController extends Controller
      */
     public function destroy($id)
     {
-        $shift =AccountingBranchShift::findOrFail($id);
-        $shift->delete();
-
-        alert()->success('تم حذف  الوردية بنجاح !')->autoclose(5000);
-            return back();
 
 
     }

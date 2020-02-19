@@ -1,23 +1,30 @@
-<select class="form-control js-example-basic-single col-md-4 col-sm-6 col-xs-12 pull-right" name="product_id" placeholder="اختر المنتج">
-    @foreach ($products as $product)
-    <?php
-    $producttax=\App\Models\AccountingSystem\AccountingProductTax::where('product_id',$product->id)->first();
-    $units=\App\Models\AccountingSystem\AccountingProductSubUnit::where('product_id',$product->id)->get();
-    $subunits= collect($units);
-    $allunits=json_encode($subunits,JSON_UNESCAPED_UNICODE);
-    // $new=$subunits,ENT_NOQUOTES);
- ?>
+<div class="form-group block-gp">
+    <label>اسم الصنف </label>
 
-<option value="{{$product->id}}" data-name="{{$product->name}}" data-price="{{$product->selling_price}}" data-bar_code="{{$product->bar_code}}"
-    data-price_has_tax="{{isset($producttax)? $producttax->price_has_tax: '' }}"
-     data-totalTaxes="{{ isset($producttax)? $product->total_taxes : ''}}"
-data-subunits="{{$allunits}}">
-    {{$product->name}}</option>
+    <select class=" form-control js-example-basic-single"  name="product_id" placeholder="اختر المنتج" id="selectID">
+        @foreach ($products as $product)
+        <?php
+        $producttax=\App\Models\AccountingSystem\AccountingProductTax::where('product_id',$product->id)->first();
+        $units=\App\Models\AccountingSystem\AccountingProductSubUnit::where('product_id',$product->id)->get();
+        $subunits= collect($units);
+        $allunits=json_encode($subunits,JSON_UNESCAPED_UNICODE);
+        // $new=$subunits,ENT_NOQUOTES);
+     ?>
 
-    @endforeach
+    <option value="{{$product->id}}"
+       data-name="{{$product->name}}"
+       data-price="{{$product->selling_price}}"
+       data-main-unit="{{$product->	main_unit}}"
+       data-bar-code="{{$product->bar_code}}"
+       data-price-has-tax="{{isset($producttax)? $producttax->price_has_tax : 'hasnotaxes' }}"
+       data-total-taxes="{{ isset($producttax)? $product->total_taxes : 'hasnotaxes'}}"
+       data-subunits="{{$allunits}}">
+        {{$product->name}}
+       </option>
+        @endforeach
 
-</select>
+    </select>
 
-
+ </div>
 
 

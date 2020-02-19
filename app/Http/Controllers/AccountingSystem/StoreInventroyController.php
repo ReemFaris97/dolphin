@@ -86,6 +86,7 @@ class StoreInventroyController extends Controller
             }
         }
 
+        
         alert()->success('تم  حفظ جرد المخزن بنجاح !')->autoclose(5000);
 
         return view('AccountingSystem.stores.inventory',compact('stores','products','inventory'));

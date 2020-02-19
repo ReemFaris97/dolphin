@@ -93,10 +93,10 @@ if($requests['amount'] <= $safe->amount){
     }
         }
 //--------------------------supplier------------------------------------
-    }elseif($clause->concerned=='supplier'){
+    }
+    elseif($clause->concerned=='supplier'){
 
         $supplier=AccountingSupplier::find($requests['supplier_id']);
-// dd($supplier);
         if($clause->type=='revenue'){
             //من  المورد  للخزينه رصيد الخزينة  بيزيدالايراااد
            // فى  حاله  المرتجعات
@@ -121,8 +121,9 @@ if($requests['amount'] <= $safe->amount){
             'amount'=>$supplier->amount-$requests['amount']
             ]);
         }
-     }
-        alert()->success('تم اضافة  سند    بنجاح !')->autoclose(5000);
+    }
+ }
+        alert()->success('تم اضافة سند بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.clauses.index');
     }
 
@@ -132,11 +133,7 @@ if($requests['amount'] <= $safe->amount){
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
-
+   
     /**
      * Show the form for editing the specified resource.
      *
