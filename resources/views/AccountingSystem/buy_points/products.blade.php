@@ -11,12 +11,16 @@
     // $new=$subunits,ENT_NOQUOTES);
  ?>
 
-<option value="{{$product->id}}" data-name="{{$product->name}}" data-price="{{$product->selling_price}}" data-bar_code="{{$product->bar_code}}"
-    data-price_has_tax="{{isset($producttax)? $producttax->price_has_tax: '' }}"
-     data-totalTaxes="{{ isset($producttax)? $product->total_taxes : ''}}"
-data-subunits="{{$allunits}}">
-    {{$product->name}}</option>
-
+<option value="{{$product->id}}"
+   data-name="{{$product->name}}"
+   data-price="{{$product->selling_price}}"
+   data-main-unit="{{$product->	main_unit}}"
+   data-bar-code="{{$product->bar_code}}"
+   data-price-has-tax="{{isset($producttax)? $producttax->price_has_tax : 'hasnotaxes' }}"
+   data-total-taxes="{{ isset($producttax)? $product->total_taxes : 'hasnotaxes'}}"
+   data-subunits="{{$allunits}}">
+    {{$product->name}}
+   </option>
     @endforeach
 
 </select>
