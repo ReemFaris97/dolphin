@@ -426,15 +426,10 @@
 									$("#remaindedAmount th.rel-cols").addClass("tmam-case");
 								}
 							})
-	
-						
 					});
             }
-			
         });
     });
-
-	
 
 //	For Ajax Search By Product Name
     $('#pro_search').keyup(function(e) {
