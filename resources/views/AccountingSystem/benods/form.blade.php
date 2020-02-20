@@ -9,86 +9,26 @@
 @endif
 
 
-<div class="form-group col-md-6 pull-left">
-    <label>نوع البند </label>
-    {!! Form::select("type",['revenue'=>'ايراد','expenses'=>'مصروف'],null,['class'=>'form-control type','placeholder'=>' نوع البند  '])!!}
-</div>
-
 
 <div class="form-group col-md-6 pull-left">
-    <l abel>التاريخ</label>
-    {!! Form::date("date",null,['class'=>'form-control'])!!}
-</div>
-<div class="form-group col-md-6 pull-left ">
-    <label>اسم البند  </label>
-
-
-        <div class="clauses">
-            @if (!isset($benod))
-
-                {!! Form::select("clause_id",[],null,['class'=>'form-control js-example-basic-single','placeholder'=>'اختر اسم البند   ','id'=>'clause_id'])!!}
-            @else
-
-                {{--{!! Form::select("clause_id",$clauses,null,['class'=>'form-control js-example-basic-single','placeholder'=>'اختر اسم البند   ','id'=>'clause_id'])!!}--}}
-
-                <select class="form-control js-example-basic-single pull-right" name="clause_id">
-                    <option disabled selected> إختار اسم البند</option>
-                    @forelse($clauses as $clause)
-                        @if ($benod->clause_id==$clause->id)
-                            <option value="{{$clause->id}}"  selected>{{$clause->ar_name}}</option>
-                            @else
-                            <option value="{{$clause->id}}" >{{$clause->ar_name}}</option>
-                        @endif
-
-                    @empty
-
-                    @endforelse
-                </select>
-
-            @endif
-        </div>
-
+    <label>اسم البند باللغة العربية  </label>
+    {!! Form::text("ar_name",null,['class'=>'form-control','placeholder'=>' اسم البند باللغة العربية    '])!!}
 </div>
 
-@if( isset($benod))
-
-    <div class="form-group col-md-6 pull-left">
-        <label>رقم السند </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
-        {!! Form::text("sanad_num",$benod->sanad_num,['class'=>'form-control','placeholder'=>' رقم السند  '])!!}
-
-    </div>
-@else
-
-    <div class="form-group col-md-6 pull-left">
-        <label>رقم السند </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
-        {!! Form::text("sanad_num",rand(),['class'=>'form-control','placeholder'=>' رقم السند  '])!!}
-
-    </div>
-    @endif
 <div class="form-group col-md-6 pull-left">
-    <label>البيان  </label>
-    {!! Form::textarea("desc",null,['class'=>'form-control','placeholder'=>' وصف البند باللغة الانجليزية    '])!!}
+    <label>اسم البند باللغة الانجليزية  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+    {!! Form::text("en_name",null,['class'=>'form-control','placeholder'=>' اسم البند باللغة الانجليزية    '])!!}
 </div>
 
-
-
-
-@if( isset($benod))
-
-    <div class="form-group col-md-6 pull-left">
-        <label>صوره المرفقة : </label>
-        <img src="{{getimg($benod->image)}}" style="width:100px; height:100px" class="file-styled">
-    </div>
-
-
-@endif
-
-
-<div class="form-group col-md-6 pull-left ">
-    <label>ارفاق صوره </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
-    {!! Form::file("image",null,['class'=>'file-styled'])!!}
+<div class="form-group col-md-6 pull-left">
+    <label>وصف البند باللغة العربية  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+    {!! Form::textarea("ar_description",null,['class'=>'form-control','placeholder'=>' وصف البند باللغة العربية    '])!!}
 </div>
 
+<div class="form-group col-md-6 pull-left">
+    <label>وصف البند باللغة الانجليزية  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+    {!! Form::textarea("en_description",null,['class'=>'form-control','placeholder'=>' وصف البند باللغة الانجليزية    '])!!}
+</div>
 
 <div class="text-center col-md-12">
     <div class="text-right">

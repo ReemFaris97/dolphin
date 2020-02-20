@@ -42,7 +42,7 @@
 								<div class="single-shortcut">
 									<a href="{{route('accounting.clauses.create')}}">
 										<img src="{{asset('admin/assets/images/terms.png')}}" alt="">
-										<span>إضافة بند</span>
+										<span>إضافة سند قبض  وصرف</span>
 									</a>
 								</div>
 								<div class="single-shortcut">
@@ -383,25 +383,25 @@
 					<li class="dropdown-submenu dropdown-submenu-right">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 							<i class="icon-newspaper position-left"></i>
-							إدارة البنود
+							سندات  القبض  والصرف
 							<span class="caret"></span>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-right">
 							<li class="dropdown-submenu dropdown-submenu-right">
-								<a href="#"><i class="icon-newspaper"></i> البنود </a>
+								<a href="#"><i class="icon-newspaper"></i> السندات </a>
 								<ul class="dropdown-menu">
-									<li><a href="{{route('accounting.clauses.index')}}"><i class="icon-eye"></i> عرض  البنود</a></li>
+									<li><a href="{{route('accounting.clauses.index')}}"><i class="icon-eye"></i> عرض  السندات</a></li>
 									<li class="dropdown-submenu dropdown-submenu-right">
-										<a href="{{route('accounting.clauses.create')}}"><i class="icon-add-to-list"></i> اضافة بند جديد</a>
+										<a href="{{route('accounting.clauses.create')}}"><i class="icon-add-to-list"></i> اضافة سند جديد</a>
 									</li>
 								</ul>
 							</li>
 							<li class="dropdown-submenu dropdown-submenu-right">
-								<a href="#"><i class="icon-paragraph-justify"></i> التسجيلات </a>
+								<a href="#"><i class="icon-paragraph-justify"></i> بنود القبض  والصرف </a>
 								<ul class="dropdown-menu">
-									<li><a href="{{route('accounting.benods.index')}}"><i class="icon-eye"></i> عرض  تسجيلات البنود</a></li>
+									<li><a href="{{route('accounting.benods.index')}}"><i class="icon-eye"></i> عرض   البنود</a></li>
 									<li class="dropdown-submenu dropdown-submenu-right">
-										<a href="{{route('accounting.benods.create')}}"><i class="icon-add-to-list"></i>  تسجيل بيان جديد</a>
+										<a href="{{route('accounting.benods.create')}}"><i class="icon-add-to-list"></i> اضافة  بند جديد</a>
 									</li>
 								</ul>
 							</li>
