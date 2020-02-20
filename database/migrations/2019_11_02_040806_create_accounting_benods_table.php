@@ -16,16 +16,17 @@ class CreateAccountingBenodsTable extends Migration
         Schema::create('accounting_benods', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->unsignedBigInteger('clause_id')->nullable();
-            $table->foreign('clause_id')->references('id')
-                ->on('accounting_money_clauses')->onDelete('cascade')
-                ->onUpdate('cascade');
 
-            $table->date('date')->nullable();
-            $table->string('sanad_num')->nullable();
-            $table->enum('type',['revenue','expenses']);
-            $table->text('desc')->nullable();
-            $table->string('image')->nullable();
+
+
+            $table->string('ar_name');
+            $table->string('en_name')->nullable();
+            $table->string('en_description')->nullable();
+            $table->string('ar_description')->nullable();
+
+
+
+
 
             $table->timestamps();
         });
