@@ -23,13 +23,12 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th> اسم  السند باللغة العربية </th>
-                    <th> اسم السند  باللغة الانجليزية </th>
-                    <th> وصف  السند باللغة العربية </th>
-                    <th> وصف  السند باللغة الانجليزية </th>
+                    <th>  البند </th>
+
                     <th> المبلغ  </th>
-                    <th> نوع السند  </th>
                     <th>  اسم  الخزنيه  </th>
+                    <th> نوع السند  </th>
+
                     <th class="text-center">العمليات</th>
                 </tr>
                 </thead>
@@ -38,13 +37,12 @@
                 @foreach($clauses as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
-                        <td>{!! $row->ar_name!!}</td>
-                        <td>{!! $row->en_name!!}</td>
-                        <td>{!! $row->ar_description!!}</td>
-                        <td>{!! $row->en_description!!}</td>
+                        <td>{!! $row->benod->ar_name!!}</td>
+
                         <td>{!! $row->amount!!}</td>
                         <td>{!!optional($row->safe)->name!!}</td>
-                        <td>@if ($row->type=="expenses")
+                        <td>
+                            @if ($row->type=="expenses")
                                 <label class="label label-info"> مصروف</label>
                                 @else
                                 <label class="label label-success"> ايراد</label>

@@ -11,7 +11,6 @@
     $allunits=json_encode($subunits,JSON_UNESCAPED_UNICODE);
     // $new=$subunits,ENT_NOQUOTES);
 
-   
  ?>
 
 <option value="{{$product->id}}"
@@ -22,7 +21,7 @@
    data-price-has-tax="{{isset($producttax)? $producttax->price_has_tax : 'hasnotaxes' }}"
    data-total-taxes="{{ isset($producttax)? $product->total_taxes : 'hasnotaxes'}}"
    data-subunits="{{$allunits}}"
-data-total_discounts="{{$product->total_discounts}}"
+   data-total_discounts="{{$product->total_discounts}}"
 
    >
     {{$product->name}}

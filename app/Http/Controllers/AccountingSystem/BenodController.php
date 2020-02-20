@@ -37,10 +37,10 @@ class BenodController extends Controller
      */
     public function create()
     {
-        $clauses=AccountingMoneyClause::pluck('ar_name','id')->toArray();
+        // $clauses=AccountingMoneyClause::pluck('ar_name','id')->toArray();
 
 
-        return $this->toCreate(compact('clauses'));
+        return $this->toCreate();
     }
 
     /**
@@ -92,10 +92,9 @@ class BenodController extends Controller
     {
 
         $benod=AccountingBenod::find($id);
-        $clauses=AccountingMoneyClause::all();
 
 
-        return $this->toEdit(compact('benod','clauses'));
+        return $this->toEdit(compact('benod'));
     }
 
     /**
