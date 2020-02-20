@@ -11,6 +11,7 @@ use App\Models\AccountingSystem\AccountingMoneyClause;
 use App\Models\AccountingSystem\AccountingProductCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingBenod;
 use App\Models\AccountingSystem\AccountingClient;
 use App\Models\AccountingSystem\AccountingSafe;
 use App\Models\AccountingSystem\AccountingSupplier;
@@ -42,8 +43,8 @@ class ClauseController extends Controller
         $safes =AccountingSafe::pluck('name','id')->toArray();
         $clients =AccountingClient::pluck('name','id')->toArray();
         $suppliers =AccountingSupplier::pluck('name','id')->toArray();
-
-        return $this->toCreate(compact('safes','clients','suppliers'));
+        $benods=AccountingBenod::pluck('ar_name','id')->toArray();
+        return $this->toCreate(compact('safes','clients','suppliers','benods'));
     }
 
     /**
@@ -54,17 +55,15 @@ class ClauseController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [
+    //    dd($request->all());
+        // $rules = [
 
-            'ar_name'=>'required|string|max:191',
-            'en_name'=>'nullable|string|max:191',
-            'ar_description'=>'nullable|string',
-            'en_description'=>'nullable|string',
 
-        ];
-        $this->validate($request,$rules);
+
+        // ];
+        // $this->validate($request,$rules);
         $requests = $request->all();
-        // dd($requests);
+
         $safe=AccountingSafe::find($requests['safe_id']);
 
        $clause = AccountingMoneyClause::create($requests);
@@ -93,10 +92,10 @@ if($requests['amount'] <= $safe->amount){
     }
         }
 //--------------------------supplier------------------------------------
-    }elseif($clause->concerned=='supplier'){
+    }
+    elseif($clause->concerned=='supplier'){
 
         $supplier=AccountingSupplier::find($requests['supplier_id']);
-// dd($supplier);
         if($clause->type=='revenue'){
             //من  المورد  للخزينه رصيد الخزينة  بيزيدالايراااد
            // فى  حاله  المرتجعات
@@ -121,8 +120,9 @@ if($requests['amount'] <= $safe->amount){
             'amount'=>$supplier->amount-$requests['amount']
             ]);
         }
-     }
-        alert()->success('تم اضافة  سند    بنجاح !')->autoclose(5000);
+    }
+ }
+        alert()->success('تم اضافة سند بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.clauses.index');
     }
 
@@ -132,10 +132,6 @@ if($requests['amount'] <= $safe->amount){
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -149,7 +145,8 @@ if($requests['amount'] <= $safe->amount){
         $safes =AccountingSafe::pluck('name','id')->toArray();
         $clients =AccountingClient::pluck('name','id')->toArray();
         $suppliers =AccountingSupplier::pluck('name','id')->toArray();
-        return $this->toEdit(compact('clause','safes','clients','suppliers'));
+        $benods=AccountingBenod::pluck('ar_name','id')->toArray();
+        return $this->toEdit(compact('clause','safes','clients','suppliers','benods'));
     }
 
     /**
@@ -163,13 +160,13 @@ if($requests['amount'] <= $safe->amount){
     {
         $clause =AccountingMoneyClause::findOrFail($id);
 
-        $rules = [
-            'ar_name'=>'required|string|max:191',
-            'en_name'=>'nullable|string|max:191',
-            'ar_description'=>'nullable|string',
-            'en_description'=>'nullable|string',
-        ];
-        $this->validate($request,$rules);
+        // $rules = [
+        //     'ar_name'=>'required|string|max:191',
+        //     'en_name'=>'nullable|string|max:191',
+        //     'ar_description'=>'nullable|string',
+        //     'en_description'=>'nullable|string',
+        // ];
+        // $this->validate($request,$rules);
         $requests = $request->all();
         $clause->update($requests);
         alert()->success('تم تعديل  البند بنجاح !')->autoclose(5000);

@@ -208,10 +208,10 @@ class SafeController extends Controller
         $safe_to=AccountingSafe::where('id',$inputs['safe_to_id'])->first();
                     if($safe_form->amount>=0){
                         $safe_form->update([
-                            'custody'=>$safe_form->custody - $inputs['amount']
+                            'amount'=>$safe_form->amount - $inputs['amount']
                         ]);
                         $safe_to->update([
-                            'custody'=>$safe_to->custody +$inputs['amount']
+                            'amount'=>$safe_to->amount +$inputs['amount']
                         ]);
                     }
 
