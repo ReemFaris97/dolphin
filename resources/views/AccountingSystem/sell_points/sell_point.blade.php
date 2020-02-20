@@ -100,12 +100,12 @@
                         <tbody>
 <!--						Space For Appended Products-->
                         </tbody>
-                        <tfoot>
+                        <tfoot class="tempDisabled">
                             <tr id="amountBeforeDariba">
                                 <th colspan="2"> المجموع</th>
                                 <input type="hidden" class="dynamic-input">
                                 <th colspan="7" class="rel-cols">
-                                   <span class="dynamic-span">214</span>
+                                   <span class="dynamic-span">0</span>
                                    <span class="rs"> ر.س </span>
                                 </th>
                             </tr>
@@ -113,7 +113,7 @@
                                 <th colspan="2"> قيمة الضريبة</th>
                                 <input type="hidden" class="dynamic-input">
                                 <th colspan="7" class="rel-cols">
-                                   <span class="dynamic-span">484</span>
+                                   <span class="dynamic-span">0</span>
                                    <span class="rs"> ر.س </span>
                                 </th>
                             </tr>
@@ -121,7 +121,7 @@
                                 <th colspan="2">المجموع بعد الضريبة</th>
                                 <input type="hidden" class="dynamic-input">
                                 <th colspan="7" class="rel-cols">
-									<span class="dynamic-span">782</span>
+									<span class="dynamic-span">0</span>
                                     <span class="rs"> ر.س </span>
                                 </th>
                             </tr>
@@ -134,7 +134,7 @@
                                     <div class="form-group">
                                         <div class="rel-cols">
                                             <label for="byPercentage">ادخل نسبة الخصم</label>
-                                            <input type="number" placeholder="النسبة المئوية للخصم" min="0" max="100" id="byPercentage" 
+                                            <input type="number" placeholder="النسبة المئوية للخصم" min="0" value="0" max="100" id="byPercentage" 
                                             class="form-control dynamic-input">
                                             <span class="rs"> % </span>
                                         </div>
@@ -142,7 +142,7 @@
                                     <div class="form-group">
                                         <div class="rel-cols">
                                             <label for="byAmount">ادخل مبلغ الخصم</label>
-                                            <input type="number" placeholder="مبلغ الخصم" min="0" max="100" id="byAmount"
+                                            <input type="number" placeholder="مبلغ الخصم" min="0" value="0" max="1" id="byAmount"
                                             class="form-control dynamic-input">
                                             <span class="rs"> ر.س </span>
                                         </div>
@@ -150,15 +150,15 @@
                                     </div>
                                 </th>
                             </tr>
-                            <tr class="demandedAmount">
+                            <tr id="demandedAmount">
                                 <th colspan="2">المطلوب دفعه</th>
                                 <input type="hidden" name="total" id="total">
                                 <th colspan="7" id="reminder" class="rel-cols">
-                                    <span class="dynamic-span">8485</span>
+                                    <span class="dynamic-span">0</span>
                                     <span class="rs"> ر.س </span>
                                 </th>
                             </tr>
-                            <tr class="paidAmount">
+                            <tr id="paidAmount">
                                 <th colspan="2">المدفوع</th>
                                 <th colspan="7">
                                     <div class="inline_divs">
@@ -174,21 +174,21 @@
 											<span class="rs"> ر.س </span>
 										</div>
 										<div class="rel-cols">
-											<span class="dynamic-span">782</span>
+											<span class="dynamic-span" id="allPaid">0</span>
 											<span class="rs"> ر.س </span>
 										</div>
                                     </div>
                                 </th>
                             </tr>
-                            <tr class="remaindedAmount">
+                            <tr id="remaindedAmount">
                                 <th colspan="2">المتبقي</th>
-                                <th colspan="7" id="lastreminder" class="rel-cols">
-                                    <span class="dynamic-span">458</span>
+                                <th colspan="7" class="rel-cols">
+                                    <span class="dynamic-span">0</span>
                                     <span class="rs"> ر.س </span>
                                 </th>
-                                <input type="hidden" class="dynamic-input" name="reminder">
+                                <input type="hidden" class="dynamic-input" id="#remainder-inputt" name="reminder">
                             </tr>
-                            <input type="hidden" id="totalTaxs" name="totalTaxs">
+                            <input type="hidden" name="totalTaxs">
                             <tr>
                                 <th colspan="9">
                                     <button type="submit">حفظ</button>
@@ -238,6 +238,19 @@
 @endsection
 @section('scripts')
 <script>
+
+	// For preventing user from inserting two methods of discount
+	function preventDiscount(){
+		$("input#byPercentage").change(function(){
+			$("input#byAmount").val(0);
+		});
+		$("input#byAmount").change(function(){
+			$("input#byPercentage").val(0);
+		});
+	}
+	$(document).ready(function(){
+		preventDiscount();
+	})
     $(".category_id").on('change', function() {
         var id = $(this).val();
         var store_id = $('#store_id').val();
@@ -294,14 +307,14 @@
 								</select>
 							</td>
 							<td class="product-quantity">
-								<input type="number" placeholder="الكمية" min="0" value="1" id="sale" class="form-control">
+								<input type="number" placeholder="الكمية" min="1" value="0" id="sale" class="form-control">
 							</td>
 							<td class="single-price-before">${singlePriceBefore}</td>
 							<td class="single-price-after">${singlePriceAfter}</td>
 							<td class="whole-price-before">${singlePriceBefore}</td>
 							<td class="whole-price-after">${singlePriceAfter}</td>
 							<td class="delete-single-row">
-								<button type="button" class="delete_tr"><i class="fas fa-times"></i></button>
+								لابد من مراجعة المشرف
 							</td>
 						</tr>`);
 						 var wholePriceBefore , wholePriceAfter = 0;
@@ -325,17 +338,104 @@
 							 if(($(this).val()) < 0){
 								 $(this).val(0);
 								 $(this).text('0');
+								 
 							 }
+							 $(".tempDisabled").removeClass("tempDisabled");
 							 var wholePriceBefore = Number($(this).parents('tr.single-row-wrapper').find(".single-price-before").text()) * Number($(this).val());
 							 $(this).parents('tr.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(1));
 							 var wholePriceAfter = Number($(this).parents('tr.single-row-wrapper').find(".single-price-after").text()) * Number($(this).val());
 							 $(this).parents('tr.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(1));
 						 });
 					 });
-								
+				
+					$(".bill-table tbody").change(function(){
+						preventDiscount();
+						var amountBeforeDariba = 0;
+						$("td.whole-price-before").each(function(){
+							amountBeforeDariba += Number($(this).text());
+						})
+						var amountAfterDariba = 0;
+						$("td.whole-price-after").each(function(){
+							amountAfterDariba += Number($(this).text());
+						})
+						var amountOfDariba = Number(amountAfterDariba) - Number(amountBeforeDariba);
+						$("tr#amountBeforeDariba span.dynamic-span").html(amountBeforeDariba);
+						$("tr#amountAfterDariba span.dynamic-span").html(amountAfterDariba);
+						$("tr#amountOfDariba span.dynamic-span").html(amountOfDariba);
+						var byAmount = $("input#byAmount").val();
+			            var byPercentage = $("input#byPercentage").val();
+						$("input#byAmount").attr('max' , amountAfterDariba);
+						var total = 0;
+						if (byAmount == 0 && byPercentage == 0){
+							$("tr#demandedAmount span.dynamic-span").html(amountAfterDariba);
+							}
+						else{
+								$("input#byPercentage").change(function(){
+									if ((Number($(this).val())) > 100){
+										alert('لا يمكن ان تكون قيم الخصم بالنسبة أكبر من 100% .');
+										$(this).val(0);
+									}
+									 total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100 ));
+									$("#demandedAmount span.dynamic-span").html(total);
+									
+								 });
+								$("input#byAmount").change(function(){
+									if ((Number($(this).val())) > Number($("tr#amountAfterDariba span.dynamic-span").html())){
+										alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $("tr#amountAfterDariba span.dynamic-span").html());
+										$(this).val(0);
+									}
+									 total = Number(amountAfterDariba) - (Number($(this).val()));
+									$("#demandedAmount span.dynamic-span").html(total);
+								 });
+							}
+						
+							$("input#byPercentage").change(function(){
+								if ((Number($(this).val())) > 100){
+									alert('لا يمكن ان تكون قيم الخصم بالنسبة أكبر من 100% .');
+									$(this).val(0);
+								}
+								 total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100 ));
+								$("#demandedAmount span.dynamic-span").html(total);
+
+							 });
+							$("input#byAmount").change(function(){
+								if ((Number($(this).val())) > Number($("tr#amountAfterDariba span.dynamic-span").html())){
+									alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $("tr#amountAfterDariba span.dynamic-span").html());
+									$(this).val(0);
+								}
+								 total = Number(amountAfterDariba) - (Number($(this).val()));
+								$("#demandedAmount span.dynamic-span").html(total);
+							 });
+							$("#byCache , #byNet").change(function(){
+								var allPaid = Number($("#byCache").val()) + Number($("#byNet").val());
+								$("#allPaid").html(allPaid);
+								var remaindedAmount = Number(allPaid) - Number($("tr#demandedAmount span.dynamic-span").html());
+								$("#remaindedAmount span.dynamic-span").html(remaindedAmount);
+								$("#remainder-inputt").val(remaindedAmount);
+								if(remaindedAmount > 0){
+									$("#remaindedAmount th.rel-cols").removeClass("aagel-case");
+									$("#remaindedAmount th.rel-cols").removeClass("tmam-case");
+									$("#remaindedAmount th.rel-cols").addClass("motabaqy-case");
+								}else if (remaindedAmount < 0){
+									$("#remaindedAmount th.rel-cols").removeClass("motabaqy-case");
+									$("#remaindedAmount th.rel-cols").removeClass("tmam-case");
+									$("#remaindedAmount th.rel-cols").addClass("aagel-case");
+								}else{
+									$("#remaindedAmount th.rel-cols").removeClass("motabaqy-case");
+									$("#remaindedAmount th.rel-cols").removeClass("aagel-case");
+									$("#remaindedAmount th.rel-cols").addClass("tmam-case");
+								}
+							})
+	
+						
+					});
             }
+			
         });
     });
+
+	
+
 //	For Ajax Search By Product Name
     $('#pro_search').keyup(function(e) {
         var pro_search = $(this).val();
@@ -368,13 +468,13 @@
 <!---- new design --->
 <script>
 //   For Alerting Before closing the window
-//	window.onbeforeunload = function (e) {
-//		e = e || window.event;
-//		if (e) {
-//			e.returnValue = 'هل أنت متأكد من غلق هذه الصفحة ؟ سيتم فقدان كال البيانات التي تم ادخالها!!';
-//		}
-//		return 'هل أنت متأكد من غلق هذه الصفحة ؟ سيتم فقدان كال البيانات التي تم ادخالها!!';
-//	};
+	window.onbeforeunload = function (e) {
+		e = e || window.event;
+		if (e) {
+			e.returnValue = 'هل أنت متأكد من غلق هذه الصفحة ؟ سيتم فقدان كال البيانات التي تم ادخالها!!';
+		}
+		return 'هل أنت متأكد من غلق هذه الصفحة ؟ سيتم فقدان كال البيانات التي تم ادخالها!!';
+	};
 	function refreshTime(){
 		var today = new Date();
 		var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();

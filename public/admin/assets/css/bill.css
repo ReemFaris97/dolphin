@@ -310,11 +310,17 @@ table.mabi3at-bill thead, table.mabi3at-bill thead th ,  table.mabi3at-bill tfoo
     font-size: 16px !important;
     font-weight: 700;
 }
-
 table.mabi3at-bill  th{
 	padding: 10px 15px !important
 }
-
+tfoot.tempDisabled {
+    position: relative;
+    pointer-events: none;
+}
+table.finalTb tfoot.tempDisabled > tr , table.finalTb tfoot.tempDisabled > tr th {
+	background-color: rgba(0,0,0,0.5) !important;
+	cursor: not-allowed;
+}
 
 /******* Responsive ****************/
 @media (max-width: 1199px){
