@@ -687,7 +687,30 @@ select.bs-select-hidden, select.selectpicker{
     display: block !important;
 }
 
-
+#remaindedAmount th.rel-cols.motabaqy-case{
+	background-color: orange !important
+}
+#remaindedAmount th.rel-cols.aagel-case{
+	background-color: red !important
+}
+#remaindedAmount th.rel-cols.tmam-case{
+	background-color: green!important
+}
+#remaindedAmount th.rel-cols.motabaqy-case:after {
+    content: "حالة الدفع : متبقي للعميل نقود";
+    text-align: right;
+    padding-right: 50px;
+}
+#remaindedAmount th.rel-cols.aagel-case:after {
+    content: "حالة الدفع : اجل";
+    text-align: right;
+    padding-right: 50px;
+}
+#remaindedAmount th.rel-cols.tmam-case:after {
+    content: "حالة الدفع : المبلغ المدفوع مساو للمبلغ المطلوب";
+    text-align: right;
+    padding-right: 50px;
+}
 
 
 

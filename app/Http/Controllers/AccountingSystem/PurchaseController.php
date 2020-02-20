@@ -103,7 +103,8 @@ class PurchaseController extends Controller
                 'quantity'=>$product->quantity+ $merge['1'],
             ]);
              //update_product_quantity_store
-            $productstore=AccountingProductStore::where('store_id',$requests['store_id'])->where('product_id',$merge['0'])->first();
+            //  dd(auth()->user()->accounting_store_id);
+            $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->first();
             $productstore->update([
                 'quantity'=>$productstore->quantity + $merge['1'],
             ]);

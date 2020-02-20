@@ -88,7 +88,6 @@
         </div>
     </div>
     
-
          <div class="metro-small shiftsm">
         <a href="{{route('accounting.shifts.create')}}" class="bigger-link">
         	<img src="{{asset('admin/assets/images/metro/shift.png')}}" alt="">
