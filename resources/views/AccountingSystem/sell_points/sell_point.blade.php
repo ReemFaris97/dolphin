@@ -269,7 +269,7 @@
 					 var mainUnit = selectedProduct.data('main-unit');
 					 var productUnits = selectedProduct.data('subunits');
 					 let unitName = productUnits.map(a => a.name);
-					 let unitPrice = productUnits.map(b => b.purchasing_price);
+					 let unitPrice = productUnits.map(b => b.selling_price);
 					 var singlePriceBefore , singlePriceAfter = 0;
 					 if (Number(priceHasTax) === 0){
 						 var singlePriceBefore = Number(productPrice);
@@ -309,15 +309,12 @@
 							 var selectedUnit = $(this).find(":selected");
 							 var productPrice = selectedUnit.data('uni-price');
 							 if (Number(priceHasTax) === 0){
-								 alert('0');
 								 var singlePriceBefore = Number(productPrice);
 								 var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes)/100));
 							 }else if (Number(priceHasTax) === 1){
-								 alert('1');
 								 var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes)/100));
 								 var singlePriceAfter = Number(productPrice);
 							 }else{
-								 alert('no');
 								 var singlePriceBefore = Number(productPrice);
 								 var singlePriceAfter = Number(productPrice);
 							 }
@@ -334,8 +331,8 @@
 							 var wholePriceAfter = Number($(this).parents('tr.single-row-wrapper').find(".single-price-after").text()) * Number($(this).val());
 							 $(this).parents('tr.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(1));
 						 });
-					 })
-				
+					 });
+								
             }
         });
     });
