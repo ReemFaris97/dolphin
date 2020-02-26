@@ -340,3 +340,20 @@ table.finalTb tfoot.tempDisabled > tr , table.finalTb tfoot.tempDisabled > tr th
     height: 100px;
     }
 }
+
+
+.maybe-hidden{
+	display: none !important
+}
+
+
+.name_enable .maybe-hidden.name_enable ,
+.barcode_enable .maybe-hidden.barcode_enable ,
+.unit_enable .maybe-hidden.unit_enable ,
+.quantity_enable .maybe-hidden.quantity_enable ,
+.unit_price_before_enable .maybe-hidden.unit_price_before_enable ,
+.unit_price_after_enable .maybe-hidden.unit_price_after_enable ,
+.total_price_before_enable .maybe-hidden.total_price_before_enable ,
+.total_price_after_enable .maybe-hidden.total_price_after_enable{
+	display: table-cell !important
+}
