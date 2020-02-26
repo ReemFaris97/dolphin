@@ -241,17 +241,25 @@
 		</div>
 		<div id="menu5" class="tab-pane fade">
 			<div class="row">
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left taxs ">
-					<label>يوجد ضريبة </label>
-					{!! Form::radio("tax",1,['class'=>'form-control','id'=>'yes','value'=>1])!!}
-					<label> لا يوجد ضريبه </label>
-					{!! Form::radio("tax",0,['class'=>'form-control', 'id'=>'no','value'=>0])!!}
+				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left taxs form-line new-radio-big-wrapper ">
+					<span class="new-radio-wrap">
+						<label for="yes1">يوجد ضريبة </label>
+						{!! Form::radio("tax",1,['class'=>'form-control','id'=>'yes1','value'=>1])!!}
+					</span>
+					<span class="new-radio-wrap">
+					<label for="no1">لايوجد ضريبة</label>
+						{!! Form::radio("tax",0,['class'=>'form-control', 'id'=>'no1','value'=>0])!!}
+					</span>
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left prices_taxs ">
-					<label> السعر شامل الضريبة </label>
-					{!! Form::radio("price_has_tax",1,['class'=>'form-control','id'=>'yes','value'=>1])!!}
-					<label>السعر غير شامل الضريبة </label>
-					{!! Form::radio("price_has_tax",0,['class'=>'form-control','id'=>'yes','value'=>0])!!}
+				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left prices_taxs form-line new-radio-big-wrapper ">
+					<span class="new-radio-wrap">
+						<label for="yes2"> السعر شامل الضريبة </label>
+						{!! Form::radio("price_has_tax",1,['class'=>'form-control','id'=>'yes2','value'=>1])!!}
+					</span>
+					<span class="new-radio-wrap">
+						<label for="no2">السعر غير شامل الضريبة </label>
+						{!! Form::radio("price_has_tax",0,['class'=>'form-control','id'=>'no2','value'=>0])!!}
+					</span>
 				</div>
 				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left prices_taxs">
 					<label> اسم شريحة الضرائب</label>
