@@ -711,17 +711,52 @@ select.bs-select-hidden, select.selectpicker{
     text-align: right;
     padding-right: 50px;
 }
+.form-line.new-radio-big-wrapper {
+    display: inline-flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    text-align: right !important;
+}
+span.new-radio-wrap {
+    display: inline-flex;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: right;
+    width: 100% !important;
+    padding: 0 15px;
+    flex-direction: row-reverse;
+}
+span.new-radio-wrap input {
+    width: 20px;
+    margin-left: 10px;
+    margin-top: -3px;
+}
 
 
+span.new-radio-wrap label {
+    color: #333 !important;
+}
 
+.backed-eee > div{
+	background: #eee;
+	padding: 0 5px;
+	border-radius: 5px
+}
 
+.form-group label:not(.label-info), .media-body label:not(.label-info) {
+    color: #2ECC71;
+    white-space: nowrap;
+    width: 100%;
+    display: inline-block;
+}
 
-
-
-
-
+.form-group.col-md-6.pull-left > label {
+    color: #333;
+}
 /******************* media query  *******************/
 @media (min-width: 992px){
+
 .form-group label, .media-body label {
     font-size: 15px;
 }
@@ -739,6 +774,9 @@ select.bs-select-hidden, select.selectpicker{
 }
 }
 @media(max-width:767px){
+		.form-group.col-xs-4.backed-eee {
+    width: 50%;
+}
 	.single-shortcut a span {
     font-size: 14px;
     color: #fff;

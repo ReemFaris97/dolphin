@@ -3,6 +3,7 @@
 @section('parent_title','إدارة نقطه البيع')
 @section('action', URL::route('accounting.categories.index'))
 @section('styles')
+<link href="{{asset('admin/assets/css/jquery.datetimepicker.min.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/all.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/bill.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/customized.css')}}" rel="stylesheet" type="text/css">
@@ -26,34 +27,18 @@
         <section class="yourBill">
             <div class="yurSections">
                 <div class="row">
-                    <!-- Nav tabs -->
-                    {{-- <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div class="form-group">
-                            <label>  الكاشير </label> :
-                            {{$session->user->name}}
-                        </div>
-                    </div> --}}
-                    {{-- <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div class="form-group"><label> اسم الوردية </label> :
-
-                            {{$session->shift->name}}
-                        </div>
-                    </div> --}}
-                    {{-- <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div class="form-group">
-                            <label> تاريخ الجلسة </label> :
-                            {{$session->start_session}}
-                        </div>
-                    </div> --}}
-
-                    <div class="col-xs-12">
-                        <div class="form-group">
+                      <div class="col-xs-12">
+                        <div class="form-group col-sm-4">
                             <label> إسم المورد </label> :
                             {!! Form::select("supplier_id",$suppliers,null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر اسم المورد','data-live-search'=>'true','id'=>'supplier_id'])!!}
                         </div>
-                        <div class="form-group">
+                        <div class="form-group col-sm-4">
                             <label>  رقم الفاتوره   </label> :
                             {!! Form::text("bill_num",null,['class'=>'selectpicker form-control inline-control','placeholder'=>'   رقم  الفاتوره',"id"=>'bill_num'])!!}
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label for="bill_date">  تاريخ الفاتورة   </label> :
+                            {!! Form::text("bill_date",null,['class'=>'inlinedatepicker form-control inline-control','placeholder'=>'  تاريخ الفاتورة',"id"=>'bill_date'])!!}
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-6 col-xs-12">
@@ -224,7 +209,14 @@
 </div>
 @endsection
 @section('scripts')
+
+<script src="{{asset('admin/assets/js/jquery.datetimepicker.full.min.js')}}"></script>
+
 <script>
+
+$(document).ready(function(){
+	$('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
+})
 
 	// For preventing user from inserting two methods of discount
 	function preventDiscount(){

@@ -36,6 +36,7 @@ $(function(){
             $('.product_id').attr('data-live-search', true);
             $('.product_id').attr('placeholder', "اختر الصنف");
             $('#product_id').find('option').remove().end().append(products);
+			$('.product_id option').prop('selected', false);
             $("#product_id").selectpicker('refresh');
 
         }).fail(function (error) {
