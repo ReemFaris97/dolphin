@@ -16,6 +16,8 @@ class AddPercentAccountingProductDiscounts extends Migration
         Schema::table('accounting_product_discounts', function (Blueprint $table) {
 
             $table->string('percent')->nullable();
+            $table->string('amount')->nullable();
+
 
         });
         }

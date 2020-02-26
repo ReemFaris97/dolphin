@@ -12,7 +12,7 @@
     // $new=$subunits,ENT_NOQUOTES);
 
  ?>
-
+<option value="" > اختر الصنف</option>
 <option value="{{$product->id}}"
    data-name="{{$product->name}}"
    data-price="{{$product->selling_price -(($product->selling_price*$product->total_discounts)/100)}}"

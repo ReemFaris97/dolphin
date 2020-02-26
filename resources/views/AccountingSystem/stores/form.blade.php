@@ -318,11 +318,7 @@
             $('.companies').show();
             $('.branches').hide();
             $(".rent").hide();
-
-
             $('.js-example-basic-single').select2();
-
-
 
             @if( isset($store))
 

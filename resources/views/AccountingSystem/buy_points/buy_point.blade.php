@@ -77,16 +77,26 @@
             <div class="result">
                 <form method="post" action="{{route('accounting.purchases.store')}}">
                     @csrf
-<input type="hidden" name="supplier_id" id="supplier_id_val">
-<input type="hidden" name="bill_num" id="bill_num_val">
-
-                    <table border="1" class="finalTb mabi3at-bill bill-table">
+            <input type="hidden" name="supplier_id" id="supplier_id_val">
+            <input type="hidden" name="bill_num" id="bill_num_val">
+          {{-- @dd(getsetting('name_enable')) --}}
+         {{-- @dd(getsetting('name_enable')) --}}
+                <table border="1" class="finalTb mabi3at-bill bill-table {{(getsetting('name_enable')==1) ? 'name_enable':'' }}
+                 {{(getsetting('barcode_enable')==1) ? 'barcode_enable':'' }}
+                  {{(getsetting('unit_enable')==1) ? 'unit_enable':'' }}
+                   {{(getsetting('quantity_enable')==1) ? 'quantity_enable':'' }}
+                    {{(getsetting('unit_price_before_enable')==1) ? 'unit_price_before_enable':'' }}"
+                    {{(getsetting('unit_price_after_enable')==1) ? 'unit_price_after_enable':'' }}"
+                    {{(getsetting('total_price_before_enable')==1) ? 'total_price_before_enable':'' }}"
+                    {{(getsetting('total_price_after_enable')==1) ? 'total_price_after_enable':'' }}"
+                    >
                         <thead>
                             <tr>
                                 <th rowspan="2">م</th>
                                 <th rowspan="2">اسم الصنف</th>
                                 <th rowspan="2">الوحدة</th>
                                 <th rowspan="2">الكمية</th>
+
                                 <th colspan="2" rowspan="1" class="th_lg">
                                     سعر الوحدة
                                 </th>
@@ -253,7 +263,8 @@
             dataType: 'json',
             success: function(data) {
                 $('.yurProdc').html(data.data);
-				 $('#selectID').attr('data-live-search', 'true');
+                 $('#selectID').attr('data-live-search', 'true');
+                 $('#selectID').attr('placeholder','اختر الصنف');
 				 $('#selectID').selectpicker('refresh');
 				 var rowNum = 0;
 				 $('#selectID').change(function(){
