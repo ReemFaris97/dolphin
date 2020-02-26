@@ -256,7 +256,7 @@ $(document).ready(function(){
             success: function(data) {
                 $('.yurProdc').html(data.data);
                  $('#selectID').attr('data-live-search', 'true');
-                 $('#selectID').attr('placeholder','اختر الصنف');
+                //  $('#selectID').attr('placeholder','اختر الصنف');
 				 $('#selectID').selectpicker('refresh');
 				 var rowNum = 0;
 				 $('#selectID').change(function(){
