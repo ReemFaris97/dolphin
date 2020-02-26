@@ -3,6 +3,8 @@
 <label>اسم الصنف </label>
 
 <select class=" form-control js-example-basic-single"  name="product_id" placeholder="اختر المنتج" id="selectID">
+    <option value="" > اختر الصنف</option>
+
     @foreach ($products as $product)
     <?php
     $producttax=\App\Models\AccountingSystem\AccountingProductTax::where('product_id',$product->id)->first();
@@ -12,7 +14,6 @@
     // $new=$subunits,ENT_NOQUOTES);
 
  ?>
-<option value="" > اختر الصنف</option>
 <option value="{{$product->id}}"
    data-name="{{$product->name}}"
    data-price="{{$product->selling_price -(($product->selling_price*$product->total_discounts)/100)}}"

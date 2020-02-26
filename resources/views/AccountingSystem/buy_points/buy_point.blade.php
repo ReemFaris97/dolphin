@@ -272,12 +272,6 @@
 					for (var i = 0; i < productUnits.length; i++) {
 						optss += '<option data-uni-price="' + unitPrice[i] + '"> ' + unitName[i] + '</option> ';
 					}
-					
-
-
-
-
-
 					$(".bill-table tbody").append(`<tr class="single-row-wrapper">
 							<td class="row-num">${rowNum}</td>
                             <input type="hidden" name="product_id[]" value="${ProductId}">
