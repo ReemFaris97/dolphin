@@ -29,15 +29,15 @@
 				<div class="row">
 					<div class="col-xs-12">
 						<div class="form-group col-sm-4">
-							<label> إسم المورد </label> :
+							<label> إسم المورد </label>
 							{!! Form::select("supplier_id",$suppliers,null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر اسم المورد','data-live-search'=>'true','id'=>'supplier_id'])!!}
 						</div>
 						<div class="form-group col-sm-4">
-							<label> رقم الفاتوره </label> :
+							<label> رقم الفاتوره </label>
 							{!! Form::text("bill_num",null,['class'=>'selectpicker form-control inline-control','placeholder'=>' رقم الفاتوره',"id"=>'bill_num'])!!}
 						</div>
 						<div class="form-group col-sm-4">
-							<label for="bill_date"> تاريخ الفاتورة </label> :
+							<label for="bill_date"> تاريخ الفاتورة </label>
 							{!! Form::text("bill_date",null,['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' تاريخ الفاتورة',"id"=>'bill_date'])!!}
 						</div>
 					</div>
@@ -436,13 +436,13 @@
 <!---- new design --->
 <script>
 	//   For Alerting Before closing the window
-//	window.onbeforeunload = function(e) {
-//		e = e || window.event;
-//		if (e) {
-//			e.returnValue = 'هل أنت متأكد من غلق هذه الصفحة ؟ سيتم فقدان كال البيانات التي تم ادخالها!!';
-//		}
-//		return 'هل أنت متأكد من غلق هذه الصفحة ؟ سيتم فقدان كال البيانات التي تم ادخالها!!';
-//	};
+	//	window.onbeforeunload = function(e) {
+	//		e = e || window.event;
+	//		if (e) {
+	//			e.returnValue = 'هل أنت متأكد من غلق هذه الصفحة ؟ سيتم فقدان كال البيانات التي تم ادخالها!!';
+	//		}
+	//		return 'هل أنت متأكد من غلق هذه الصفحة ؟ سيتم فقدان كال البيانات التي تم ادخالها!!';
+	//	};
 
 	function refreshTime() {
 		var today = new Date();
