@@ -64,9 +64,7 @@
 					@csrf
 					<input type="hidden" name="supplier_id" id="supplier_id_val">
 					<input type="hidden" name="bill_num" id="bill_num_val">
-					{{-- @dd(getsetting('name_enable')) --}}
-					{{-- @dd(getsetting('name_enable')) --}}
-					<table border="1" class="finalTb mabi3at-bill bill-table
+					<table border="1" class="finalTb moshtraiat-bill mabi3at-bill bill-table
                     {{(getsetting('name_enable')==1) ? 'name_enable':'' }}
                     {{(getsetting('barcode_enable')==1) ? 'barcode_enable':'' }}
                     {{(getsetting('unit_enable')==1) ? 'unit_enable':'' }}
@@ -100,32 +98,29 @@
 							<!--						Space For Appended Products-->
 						</tbody>
 						<tfoot class="tempDisabled">
-							<tr id="amountBeforeDariba">
-								<th colspan="2"> المجموع</th>
-								<input type="hidden" class="dynamic-input" id="amountBeforeDariba1" name="amount">
-								<th colspan="7" class="rel-cols">
+							<tr>
+								<th id="amountBeforeDariba" class="rel-cols" colspan="3">
+									<span class="colorfulSpan"> المجموع</span>
+									<input type="hidden" class="dynamic-input" id="amountBeforeDariba1" name="amount">
+									<span class="dynamic-span">0</span>
+									<span class="rs"> ر.س </span>
+								</th>
+								<th id="amountOfDariba" class="rel-cols" colspan="3">
+									<span class="colorfulSpan"> قيمة الضريبة</span>
+									<input type="hidden" class="dynamic-input">
+									<span class="dynamic-span">0</span>
+									<span class="rs"> ر.س </span>
+								</th>
+								<th id="amountAfterDariba" class="rel-cols" colspan="3">
+									<span class="colorfulSpan">المجموع بعد الضريبة</span>
+									<input type="hidden" class="dynamic-input">
 									<span class="dynamic-span">0</span>
 									<span class="rs"> ر.س </span>
 								</th>
 							</tr>
-							<tr id="amountOfDariba">
-								<th colspan="2"> قيمة الضريبة</th>
-								<input type="hidden" class="dynamic-input">
-								<th colspan="7" class="rel-cols">
-									<span class="dynamic-span">0</span>
-									<span class="rs"> ر.س </span>
-								</th>
-							</tr>
-							<tr id="amountAfterDariba">
-								<th colspan="2">المجموع بعد الضريبة</th>
-								<input type="hidden" class="dynamic-input">
-								<th colspan="7" class="rel-cols">
-									<span class="dynamic-span">0</span>
-									<span class="rs"> ر.س </span>
-								</th>
-							</tr>
+							
 							<tr id="discountArea">
-								<th colspan="2">
+								<th colspan="2" class="colorfulSpan">
 									الخصم
 								</th>
 								<th colspan="7">
@@ -147,44 +142,28 @@
 									</div>
 								</th>
 							</tr>
-							<tr id="demandedAmount">
-								<th colspan="2">المطلوب دفعه</th>
-								<input type="hidden" name="total" id="demandedAmount1">
-								<th colspan="7" id="reminder" class="rel-cols">
+							<tr >
+								<th id="demandedAmount" class="rel-cols" colspan="3">
+									<span>المطلوب دفعه</span>
+									<input type="hidden" name="total" id="demandedAmount1">
 									<span class="dynamic-span">0</span>
 									<span class="rs"> ر.س </span>
 								</th>
-							</tr>
-							<tr id="paidAmount">
-								<th colspan="2">المدفوع</th>
-								<th colspan="7">
+								<th colspan="6">
+									<span colspan="2">طريقة الدفع</span>
 									<div class="inline_divs">
-										<div class="form-group rel-cols">
-											<label for="byCache">كاش</label>
-											<input type="number" id="byCache" placeholder="المدفوع كاش" min="0" class="form-control dynamic-input">
-											<span class="rs"> ر.س </span>
+										<div class="form-group rel-cols radiBtnwrap">
+											<input type="radio" id="tazaBTaza" name="payment_case">
+											<label for="tazaBTaza">نقدا</label>
 										</div>
-										<span> + </span>
-										<div class="form-group rel-cols">
-											<label for="byNet">شبكة</label>
-											<input type="number" id="byNet" placeholder="المدفوع شبكة" min="0" class="form-control dynamic-input">
-											<span class="rs"> ر.س </span>
-										</div>
-										<div class="rel-cols">
-											<span class="dynamic-span" id="allPaid">0</span>
-											<span class="rs"> ر.س </span>
+										<div class="form-group rel-cols radiBtnwrap">
+											<input type="radio" id="tataBTata" name="payment_case">
+											<label for="tataBTata">اجل</label>
 										</div>
 									</div>
 								</th>
 							</tr>
-							<tr id="remaindedAmount">
-								<th colspan="2">المتبقي</th>
-								<th colspan="7" class="rel-cols">
-									<span class="dynamic-span">0</span>
-									<span class="rs"> ر.س </span>
-								</th>
-								<input type="hidden" class="dynamic-input" id="#remainder-inputt" name="reminder">
-							</tr>
+							
 							<input type="hidden" name="totalTaxs">
 							<input type="hidden" name="payment" id="payment_type">
 							<tr>
@@ -284,7 +263,9 @@
 							<td class="product-quantity maybe-hidden quantity_enable">
 								<input type="number" placeholder="الكمية" min="1" value="0" id="sale" class="form-control" name="quantity[]">
 							</td>
-							<td class="single-price-before maybe-hidden unit_price_before_enable">${singlePriceBefore}</td>
+							<td class="single-price-before maybe-hidden unit_price_before_enable">
+								<input type="number" class="form-control" value="${singlePriceBefore}">
+							</td>
 							<td class="single-price-after maybe-hidden unit_price_after_enable">${singlePriceAfter}</td>
 							<td class="whole-price-before maybe-hidden total_price_before_enable">${singlePriceBefore}</td>
 							<td class="whole-price-after maybe-hidden total_price_after_enable">${singlePriceAfter}</td>
@@ -333,9 +314,9 @@
 						amountAfterDariba += Number($(this).text());
 					})
 					var amountOfDariba = Number(amountAfterDariba) - Number(amountBeforeDariba);
-					$("tr#amountBeforeDariba span.dynamic-span").html(amountBeforeDariba);
-					$("tr#amountAfterDariba span.dynamic-span").html(amountAfterDariba);
-					$("tr#amountOfDariba span.dynamic-span").html(amountOfDariba);
+					$("#amountBeforeDariba span.dynamic-span").html(amountBeforeDariba);
+					$("#amountAfterDariba span.dynamic-span").html(amountAfterDariba);
+					$("#amountOfDariba span.dynamic-span").html(amountOfDariba);
 					var byAmount = $("input#byAmount").val();
 					var byPercentage = $("input#byPercentage").val();
 					$("input#byAmount").attr('max', amountAfterDariba);
@@ -352,8 +333,8 @@
 							$("#demandedAmount span.dynamic-span").html(total);
 						});
 						$("input#byAmount").change(function() {
-							if ((Number($(this).val())) > Number($("tr#amountAfterDariba span.dynamic-span").html())) {
-								alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $("tr#amountAfterDariba span.dynamic-span").html());
+							if ((Number($(this).val())) > Number($("#amountAfterDariba span.dynamic-span").html())) {
+								alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $("#amountAfterDariba span.dynamic-span").html());
 								$(this).val(0);
 							}
 							total = Number(amountAfterDariba) - (Number($(this).val()));
@@ -369,8 +350,8 @@
 						$("#demandedAmount span.dynamic-span").html(total);
 					});
 					$("input#byAmount").change(function() {
-						if ((Number($(this).val())) > Number($("tr#amountAfterDariba span.dynamic-span").html())) {
-							alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $("tr#amountAfterDariba span.dynamic-span").html());
+						if ((Number($(this).val())) > Number($("#amountAfterDariba span.dynamic-span").html())) {
+							alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $("#amountAfterDariba span.dynamic-span").html());
 							$(this).val(0);
 						}
 						total = Number(amountAfterDariba) - (Number($(this).val()));
