@@ -51,6 +51,8 @@ $(function(){
                 $('#branch_id').attr('disabled',false);
             $('.branch_id').attr('data-live-search',true);
             $('#branch_id').find('option').remove().end().append(branches);
+			$('.branch_id option').prop('selected', false);
+
             $("#branch_id").selectpicker('refresh');
             // console.log(data);
         }).fail(function (error) {
@@ -59,5 +61,5 @@ $(function(){
 
      });
 
-    
+
 });

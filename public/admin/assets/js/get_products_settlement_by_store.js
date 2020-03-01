@@ -70,6 +70,8 @@ $(function(){
             $('.storekeeper_id').attr('data-live-search', true);
             $('.storekeeper_id').attr('placeholder', "اختر الصنف");
             $('#storekeeper_id').find('option').remove().end().append(keepers);
+			$('.storekeeper_id option').prop('selected', false);
+
             $("#storekeeper_id").selectpicker('refresh');
 
         }).fail(function (error) {

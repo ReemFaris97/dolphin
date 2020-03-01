@@ -21,6 +21,7 @@ use App\Traits\Viewable;
 use App\User;
 use Auth;
 use Carbon\Carbon;
+use Hash;
 use Request as GlobalRequest;
 
 class SaleController extends Controller
@@ -59,7 +60,7 @@ class SaleController extends Controller
     public function store(Request $request)
     {
         $requests = $request->all();
-    // dd($requests);
+    dd($requests);
 
         $rules = [
 
@@ -142,7 +143,7 @@ class SaleController extends Controller
 
       }
 
-      
+
 
       alert()->success('تم اضافة  فاتورة  الاسترجاع  بنجاح !')->autoclose(5000);
       return back();
@@ -167,18 +168,25 @@ class SaleController extends Controller
     public function sale_end(Request $request,$id)
     {
 
-        // dd($request->all());
-        $session=AccountingSession::findOrFail($id);
-        $session->update([
-         'end_session'=>Carbon::now(),
-         'custody'=>$request['custody'],
-        ]);
+
+           $user=User::findOrFail($id);
+           $session=AccountingSession::findOrFail($request['session_id']);
+           $sales=AccountingSale::where('session_id',$request['session_id'])->get();
+        //    dd( $sales);
+           $session->update([
+            'end_session'=>Carbon::now(),
+
+           ]);
+
+           if(!Hash::check($request['password'],$user->password)){
+
+            return response('false', 200);
+        }else{
+            // dd('Write here your update password code');
+            return view('AccountingSystem.sell_points.session_summary',compact('session','sales'));
+        }
 
 
-        $users=User::where('is_saler',1)->pluck('name','id')->toArray();
-        alert()->success(' تم اغلاق  الجلسة بنجاح!')->autoclose(5000);
-
-        return view('AccountingSystem.sell_points.login',compact('users'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -216,8 +224,6 @@ class SaleController extends Controller
         $shift->update($requests);
         alert()->success('تم تعديل  الوردية بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.shifts.index');
-
-
 
 
     }

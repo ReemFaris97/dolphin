@@ -134,7 +134,7 @@
                                     <div class="form-group">
                                         <div class="rel-cols">
                                             <label for="byPercentage">ادخل نسبة الخصم</label>
-                                            <input type="number" placeholder="النسبة المئوية للخصم" min="0" value="0" max="100" id="byPercentage" 
+                                            <input type="number" placeholder="النسبة المئوية للخصم" min="0" value="0" max="100" id="byPercentage"
                                             class="form-control dynamic-input">
                                             <span class="rs"> % </span>
                                         </div>
@@ -199,12 +199,16 @@
 
                 </form>
                 <div class="newly-added-2-btns-">
+
+                    @if(auth()->user()->is_saler==1)
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                         اغلاق الجلسة
                     </button>
+                    @endif
                     <a class="btn btn-danger" href="{{route('accounting.sales.returns',$session->id)}}"> اضافة فاتورة مرتجع</a>
                     <a class="btn btn-warning" href="{{route('accounting.sales.end',$session->id)}}"> تعليق الفاتورة</a>
                 </div>
+                @if(auth()->user()->is_saler==1)
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -216,20 +220,23 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form method="post" action="{{route('accounting.sales.end',$session->id)}}" id="form1">
-                                    @csrf
-                                    <label style="color:black"> عهده الخزنه</label>
-                                    <input type="text" name="custody" class="form-control">
+                                <form method="post" action="{{route('accounting.sales.end',auth()->user()->is_saler)}}" id="form1">
+                                        @csrf
+                                    <input type="hidden" name="session_id" value="{{$session->id}}" >
+                                    <label style="color:black">  الباسورد</label>
+                                    <input type="password" name="password" class="form-control">
                                 </form>
 
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
-                                <button type="submit" class="btn btn-primary" onclick="document.getElementById('form1').submit()">حفظ</button>
+                                <button type="submit" class="btn btn-primary" onclick="document.getElementById('form1').submit()" >حفظ</button>
                             </div>
+
                         </div>
                     </div>
                 </div>
+                @endif
             </div>
         </section>
         <!----------------  End Bill Content ----------------->
@@ -251,6 +258,25 @@
 	$(document).ready(function(){
 		preventDiscount();
 	})
+   function fun(id){
+                     var  token=$('#csrf_token').val();
+                       $.ajax({
+                            type: "post",
+
+                            url: "/accounting/sale_end/" +id,
+                            data:   $('#form1').serialize()+"&_token="+token,
+                            success: function (data) {
+
+
+                            },error:function (data) {
+                                console.log(data);
+                                alert(data);
+
+                            }
+
+                        });
+   }
+
     $(".category_id").on('change', function() {
         var id = $(this).val();
         var store_id = $('#store_id').val();
@@ -272,7 +298,7 @@
 				 $('#selectID').attr('data-live-search', 'true');
 				 $('#selectID').selectpicker('refresh');
 				 var rowNum = 0;
-				 $('#selectID').change(function(){			
+				 $('#selectID').change(function(){
 					 rowNum ++;
 					 var selectedProduct = $(this).find(":selected");
 					 var productName = selectedProduct.text();
@@ -338,7 +364,7 @@
 							 if(($(this).val()) < 0){
 								 $(this).val(0);
 								 $(this).text('0');
-								 
+
 							 }
 							 $(".tempDisabled").removeClass("tempDisabled");
 							 var wholePriceBefore = Number($(this).parents('tr.single-row-wrapper').find(".single-price-before").text()) * Number($(this).val());
@@ -347,7 +373,7 @@
 							 $(this).parents('tr.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(1));
 						 });
 					 });
-				
+
 					$(".bill-table tbody").change(function(){
 						preventDiscount();
 						var amountBeforeDariba = 0;
@@ -377,7 +403,7 @@
 									}
 									 total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100 ));
 									$("#demandedAmount span.dynamic-span").html(total);
-									
+
 								 });
 								$("input#byAmount").change(function(){
 									if ((Number($(this).val())) > Number($("tr#amountAfterDariba span.dynamic-span").html())){
@@ -388,7 +414,7 @@
 									$("#demandedAmount span.dynamic-span").html(total);
 								 });
 							}
-						
+
 							$("input#byPercentage").change(function(){
 								if ((Number($(this).val())) > 100){
 									alert('لا يمكن ان تكون قيم الخصم بالنسبة أكبر من 100% .');
