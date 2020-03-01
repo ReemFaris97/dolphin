@@ -245,7 +245,7 @@
 					for (var i = 0; i < productUnits.length; i++) {
 						optss += '<option data-uni-price="' + unitPrice[i] + '"> ' + unitName[i] + '</option> ';
 					}
-					$(".bill-table tbody").append(`<tr class="single-row-wrapper" data-ifhastax="${priceHasTax}">
+					$(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}" data-ifhastax="${priceHasTax}">
 							<td class="row-num">${rowNum}</td>
                             <input type="hidden" name="product_id[]" value="${ProductId}">
 							<td class="product-name maybe-hidden name_enable">${productName}</td>
@@ -291,7 +291,7 @@
 									<input type="number" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ">
 								</div>
 								<div class="form-group col-xs-4">
-									<label>يؤثر في الضريبة <input type="checkbox"></label>
+									<label>يؤثر في الضريبة <input class="effectTax" type="checkbox"></label>
 								</div>
 							</div>
 							<div class="anotherAddedSpecialDiscounts"></div>
@@ -317,7 +317,7 @@
 								<input type="number" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ">
 							</div>
 							<div class="form-group col-xs-4">
-								<label>يؤثر في الضريبة <input type="checkbox"></label>
+								<label>يؤثر في الضريبة <input class="effectTax" type="checkbox"></label>
 							</div>
 							<a href="#" class="removeThisSinglSpecDisc"><span class="icon-cross"></span></a>
 						</div>`);
@@ -347,6 +347,18 @@
 							})
 						});
 
+					});
+					
+					$('#discMod' + rowNum).on('hidden.bs.modal', function (e) {
+						var modId = $(this).attr('id');
+						var onlyModNum = modId.substr(7 , modId.length);
+						var finalAftDisc = Number($('#row' + onlyModNum).find('.whole-price-after').text());
+						$(this).find('.single-special-dis-wrap').each(function(){
+							if ($(this).find(".effectTax").is(":checked")){
+								finalAftDisc -= Number($(this).find('.singleSpecialDiscByVal').val());
+							}
+						});
+						$('#row' + onlyModNum).find('.whole-price-after').text(finalAftDisc);
 					});
 
 					var wholePriceBefore, wholePriceAfter = 0;
