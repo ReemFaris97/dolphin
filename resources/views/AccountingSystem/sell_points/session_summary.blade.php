@@ -46,42 +46,64 @@
                 </span>
             </div>
 
-            <table class="table datatable-button-init-basic">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th> رقم  الفاتورة </th>
-                    <th> تاريخ الفاتورة </th>
-                    <th> قيمة الفاتورة </th>
-                    <th class="text-center">العمليات</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                @foreach($sales as $row)
-                    <tr>
-                        <td>{!!$loop->iteration!!}</td>
-                        <td>{!! $row-> id!!}</td>
-                        <td>{!! $row->created_at!!}</td>
-                        <td>{!! $row->total!!}</td>
-
-
-                        <td class="text-center">
-                            <a href="{{route('accounting.sales.show',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
-                       
-                        </td>
-
-                    </tr>
-
-                @endforeach
 
 
 
-                </tbody>
-            </table>
+
 
 
     </div>
+    <div class="container">
+        <a href="#sales" class="btn btn-danger" data-toggle="collapse">اجمالى المبيعات </a>
+        <div id="sales" class="collapse">
+            <div class="form-group col-md-6 pull-left">
+                <label class="label label-info"> المدفوع كاش:</label>
+                <span>
+                    {!!$sales_payed_cash !!}
+                </span>
+            </div>
+
+            <div class="form-group col-md-6 pull-left">
+                <label class="label label-info">  المدفوع شبكة: </label>
+                <span>
+                    {!! $sales_payed_network  !!}
+                </span>
+            </div>
+
+            <div class="form-group col-md-6 pull-left">
+                <label class="label label-info"> الاجمالى :</label>
+                <span>
+                    {!! $sales_payed  !!}
+                </span>
+            </div>
+        </div>
+
+        <a href="#return" class="btn btn-info" data-toggle="collapse">اجمالى المرتجعات</a>
+        <div id="return" class="collapse">
+
+            <div class="form-group col-md-6 pull-left">
+                <label class="label label-info"> الاجمالى :</label>
+                <span>
+                    {!!$returns_total!!}
+                </span>
+            </div>
+        </div>
+
+        <a href="#profit" class="btn btn-info" data-toggle="collapse"> الصافى</a>
+        <div id="profit" class="collapse">
+            <div class="form-group col-md-6 pull-left">
+                <label class="label label-info"> الصافى :</label>
+                <span>
+                    {!! $sales_payed_cash - $returns_total   !!}
+                </span>
+            </div>
+        </div>
+
+        <a class="btn btn-warning" href="{{route('accounting.sales.end_session',$session->id)}}"> اغلاق الجلسة</a>
+
+
+    </div>
+
 </div>
 
 @endsection

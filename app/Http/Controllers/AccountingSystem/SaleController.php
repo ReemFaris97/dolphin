@@ -60,7 +60,6 @@ class SaleController extends Controller
     public function store(Request $request)
     {
         $requests = $request->all();
-    dd($requests);
 
         $rules = [
 
@@ -70,11 +69,34 @@ class SaleController extends Controller
         $this->validate($request,$rules);
 
         $sale=AccountingSale::create($requests);
-    //    dd($sale);
+        $user=User::find($requests['user_id']);
+    //   dd($sale);
         $sale->update([
             'bill_num'=>$sale->id."-".$sale->created_at,
             'user_id'=>$requests['user_id'] ,
+            'store_id'=>$user->accounting_store_id,
+            'debts'=>$requests['reminder'] ,
+            'payment'=>'agel'
         ]);
+        if($requests['discount_byPercentage']!=0&&$requests['discount_byAmount']==0){
+            $sale->update([
+                'discount_type'=>'percentage',
+                'discount'=>$requests['discount_byPercentage'],
+
+            ]);
+
+        }elseif($requests['discount_byAmount']!=0&&$requests['discount_byPercentage']==0){
+
+            $sale->update([
+                'discount_type'=>'amount',
+                'discount'=>$requests['discount_byAmount'],
+            ]);
+        }
+        if($requests['reminder']==0){
+            $sale->update([
+            'payment'=>'cash'
+            ]);
+        }
         $products=$requests['product_id'];
         $quantities=$requests['quantity'];
         $products = collect($requests['product_id']);
@@ -99,7 +121,7 @@ class SaleController extends Controller
                 'quantity'=>$product->quantity- $merge['1'],
             ]);
              //update_product_quantity_store
-            $productstore=AccountingProductStore::where('store_id',$requests['store_id'])->where('product_id',$merge['0'])->first();
+            $productstore=AccountingProductStore::where('store_id',$user->accounting_store_id)->where('product_id',$merge['0'])->first();
             $productstore->update([
                 'quantity'=>$productstore->quantity - $merge['1'],
             ]);
@@ -171,8 +193,13 @@ class SaleController extends Controller
 
            $user=User::findOrFail($id);
            $session=AccountingSession::findOrFail($request['session_id']);
-           $sales=AccountingSale::where('session_id',$request['session_id'])->get();
-        //    dd( $sales);
+           $sales_payed_cash=AccountingSale::where('session_id',$request['session_id'])->sum('cash');
+           $sales_payed_network=AccountingSale::where('session_id',$request['session_id'])->sum('network');
+           $sales_payed=AccountingSale::where('session_id',$request['session_id'])->sum('payed');
+           $returns_total=AccountingReturn::where('session_id',$request['session_id'])->sum('price');
+
+
+
            $session->update([
             'end_session'=>Carbon::now(),
 
@@ -183,10 +210,22 @@ class SaleController extends Controller
             return response('false', 200);
         }else{
             // dd('Write here your update password code');
-            return view('AccountingSystem.sell_points.session_summary',compact('session','sales'));
+            return view('AccountingSystem.sell_points.session_summary',compact('session','sales','sales_payed_cash','sales_payed_network','sales_payed','returns_total'));
         }
 
 
+    }
+
+    public function end_session($id){
+        $session=AccountingSession::findOrFail($id);
+        $users=User::where('is_saler',1)->pluck('name','id')->toArray();
+
+           $session->update([
+            'status'=>'close',
+
+           ]);
+
+           return view('AccountingSystem.sell_points.login',compact('users'));
     }
     /**
      * Show the form for editing the specified resource.

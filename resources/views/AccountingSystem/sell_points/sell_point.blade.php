@@ -29,26 +29,26 @@
                     <!-- Nav tabs -->
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="form-group">
-                            <label> اسم الكاشير </label> :
+                            <label> اسم الكاشير: </label>
                             {{$session->user->name}}
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div class="form-group"><label> اسم الوردية </label> :
+                        <div class="form-group"><label> اسم الوردية: </label>
 
                             {{$session->shift->name}}
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="form-group">
-                            <label> تاريخ الجلسة </label> :
+                            <label> تاريخ  بداية الجلسة :</label>
                             {{$session->start_session}}
                         </div>
                     </div>
                     <div class="col-xs-12">
                         <div class="form-group">
-                            <label> إسم العميل </label> :
-                            {!! Form::select("client_id",$clients,null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر اسم العميل','data-live-search'=>'true'])!!}
+                            <label> إسم العميل: </label>
+                            {!! Form::select("client",$clients,null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر اسم العميل','data-live-search'=>'true','id'=>'client_id'])!!}
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-6 col-xs-12">
@@ -59,6 +59,9 @@
                     </div>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="yurProdc">
+                            <select class=" form-control js-example-basic-single"  placeholder="اختر القسم اولا">
+                                <option>اختر القسم اولا </option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-6 col-xs-12">
@@ -75,6 +78,8 @@
                     <input type="hidden" name="user_id" value="{{$session->user_id}}">
                     <input type="hidden" name="session_id" value="{{$session->id}}">
                     <input type="hidden" name="shift_id" value="{{$session->shift_id}}">
+                    <input type="hidden" name="client_id" id="client_id_val">
+
                     <table border="1" class="finalTb mabi3at-bill bill-table">
                         <thead>
                             <tr>
@@ -111,7 +116,7 @@
                             </tr>
                             <tr id="amountOfDariba">
                                 <th colspan="2"> قيمة الضريبة</th>
-                                <input type="hidden" class="dynamic-input">
+                                <input type="hidden" class="dynamic-input" name="totalTaxs" id="amountOfDariba1">
                                 <th colspan="7" class="rel-cols">
                                    <span class="dynamic-span">0</span>
                                    <span class="rs"> ر.س </span>
@@ -119,7 +124,7 @@
                             </tr>
                             <tr id="amountAfterDariba">
                                 <th colspan="2">المجموع بعد الضريبة</th>
-                                <input type="hidden" class="dynamic-input">
+                                <input type="hidden" class="dynamic-input" name="amount" id="amountAfterDarib1">
                                 <th colspan="7" class="rel-cols">
 									<span class="dynamic-span">0</span>
                                     <span class="rs"> ر.س </span>
@@ -135,7 +140,7 @@
                                         <div class="rel-cols">
                                             <label for="byPercentage">ادخل نسبة الخصم</label>
                                             <input type="number" placeholder="النسبة المئوية للخصم" min="0" value="0" max="100" id="byPercentage"
-                                            class="form-control dynamic-input">
+                                            class="form-control dynamic-input" name="discount_byPercentage">
                                             <span class="rs"> % </span>
                                         </div>
                                     </div>
@@ -143,7 +148,7 @@
                                         <div class="rel-cols">
                                             <label for="byAmount">ادخل مبلغ الخصم</label>
                                             <input type="number" placeholder="مبلغ الخصم" min="0" value="0" max="1" id="byAmount"
-                                            class="form-control dynamic-input">
+                                            class="form-control dynamic-input" name="discount_byAmount">
                                             <span class="rs"> ر.س </span>
                                         </div>
                                     </div>
@@ -164,16 +169,17 @@
                                     <div class="inline_divs">
 										<div class="form-group rel-cols">
 											<label for="byCache">كاش</label>
-											<input type="number" id="byCache" placeholder="المدفوع كاش" min="0" class="form-control dynamic-input">
+											<input type="number" id="byCache" placeholder="المدفوع كاش" min="0" class="form-control dynamic-input" name="cash">
 											<span class="rs"> ر.س </span>
 										</div>
 										<span> + </span>
 										<div class="form-group rel-cols">
 											<label for="byNet">شبكة</label>
-											<input type="number" id="byNet" placeholder="المدفوع شبكة" min="0" class="form-control dynamic-input">
+											<input type="number" id="byNet" placeholder="المدفوع شبكة" min="0" class="form-control dynamic-input" name="network">
 											<span class="rs"> ر.س </span>
 										</div>
 										<div class="rel-cols">
+                                            <input type="hidden" name="payed" id="allPaid1">
 											<span class="dynamic-span" id="allPaid">0</span>
 											<span class="rs"> ر.س </span>
 										</div>
@@ -186,9 +192,8 @@
                                     <span class="dynamic-span">0</span>
                                     <span class="rs"> ر.س </span>
                                 </th>
-                                <input type="hidden" class="dynamic-input" id="#remainder-inputt" name="reminder">
+                                <input type="hidden" class="dynamic-input" id="remainder-inputt" name="reminder">
                             </tr>
-                            <input type="hidden" name="totalTaxs">
                             <tr>
                                 <th colspan="9">
                                     <button type="submit">حفظ</button>
@@ -258,24 +263,29 @@
 	$(document).ready(function(){
 		preventDiscount();
 	})
-   function fun(id){
-                     var  token=$('#csrf_token').val();
-                       $.ajax({
-                            type: "post",
+//    function fun(id){
+//                      var  token=$('#csrf_token').val();
+//                        $.ajax({
+//                             type: "post",
 
-                            url: "/accounting/sale_end/" +id,
-                            data:   $('#form1').serialize()+"&_token="+token,
-                            success: function (data) {
+//                             url: "/accounting/sale_end/" +id,
+//                             data:   $('#form1').serialize()+"&_token="+token,
+//                             success: function (data) {
 
 
-                            },error:function (data) {
-                                console.log(data);
-                                alert(data);
+//                             },error:function (data) {
+//                                 console.log(data);
+//                                 alert(data);
 
-                            }
+//                             }
 
-                        });
-   }
+//                         });
+//    }
+$("#client_id").on('change', function() {
+        var client = $(this).val();
+        $('#client_id_val').val(client);
+
+});
 
     $(".category_id").on('change', function() {
         var id = $(this).val();
@@ -287,7 +297,7 @@
         $('#company_val').val(company_id);
         $.ajax({
             type: 'get',
-            url: "/accounting/productsAjexPurchase/" + id,
+            url: "/accounting/productsAjex/" + id,
             data: {
                 id: id,
                 store_id: store_id
@@ -297,10 +307,13 @@
                 $('.yurProdc').html(data.data);
 				 $('#selectID').attr('data-live-search', 'true');
 				 $('#selectID').selectpicker('refresh');
+
 				 var rowNum = 0;
 				 $('#selectID').change(function(){
 					 rowNum ++;
 					 var selectedProduct = $(this).find(":selected");
+                    //  alert($('#selectID').val());
+                     var productId=$('#selectID').val();
 					 var productName = selectedProduct.text();
 					 var productPrice = selectedProduct.data('price');
 					 var priceHasTax = selectedProduct.data('price-has-tax');
@@ -326,6 +339,7 @@
 					 }
 				 	 $(".bill-table tbody").append(`<tr class="single-row-wrapper">
 							<td class="row-num">${rowNum}</td>
+                            <input type="hidden" name="product_id[]" value=${productId}>
 							<td class="product-name">${productName}</td>
 							<td class="product-unit">
 								<select class="form-control js-example-basic-single">
@@ -333,7 +347,7 @@
 								</select>
 							</td>
 							<td class="product-quantity">
-								<input type="number" placeholder="الكمية" min="1" value="0" id="sale" class="form-control">
+								<input type="number" placeholder="الكمية" min="1" value="0" id="sale" name="quantity[]" class="form-control">
 							</td>
 							<td class="single-price-before">${singlePriceBefore}</td>
 							<td class="single-price-after">${singlePriceAfter}</td>
@@ -388,10 +402,12 @@
 						$("tr#amountBeforeDariba span.dynamic-span").html(amountBeforeDariba);
 						$("tr#amountAfterDariba span.dynamic-span").html(amountAfterDariba);
 						$("tr#amountOfDariba span.dynamic-span").html(amountOfDariba);
+                        $("#amountOfDariba1").val(amountOfDariba);
 						var byAmount = $("input#byAmount").val();
 			            var byPercentage = $("input#byPercentage").val();
 						$("input#byAmount").attr('max' , amountAfterDariba);
 						var total = 0;
+                        $('#amountAfterDarib1').val(amountAfterDariba);
 						if (byAmount == 0 && byPercentage == 0){
 							$("tr#demandedAmount span.dynamic-span").html(amountAfterDariba);
 							}
@@ -412,6 +428,8 @@
 									}
 									 total = Number(amountAfterDariba) - (Number($(this).val()));
 									$("#demandedAmount span.dynamic-span").html(total);
+                                    $("#total").val(total);
+
 								 });
 							}
 
@@ -422,8 +440,10 @@
 								}
 								 total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100 ));
 								$("#demandedAmount span.dynamic-span").html(total);
+                                $("#total").val(total);
 
 							 });
+
 							$("input#byAmount").change(function(){
 								if ((Number($(this).val())) > Number($("tr#amountAfterDariba span.dynamic-span").html())){
 									alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $("tr#amountAfterDariba span.dynamic-span").html());
@@ -431,14 +451,17 @@
 								}
 								 total = Number(amountAfterDariba) - (Number($(this).val()));
 								$("#demandedAmount span.dynamic-span").html(total);
+                                $("#total").val(total);
+
 							 });
 							$("#byCache , #byNet").change(function(){
 								var allPaid = Number($("#byCache").val()) + Number($("#byNet").val());
 								$("#allPaid").html(allPaid);
+                                $("#allPaid1").val(allPaid);
 								var remaindedAmount = Number(allPaid) - Number($("tr#demandedAmount span.dynamic-span").html());
 								$("#remaindedAmount span.dynamic-span").html(remaindedAmount);
-								$("#remainder-inputt").val(remaindedAmount);
-								if(remaindedAmount > 0){
+                               $('#remainder-inputt').val(Math.abs(remaindedAmount));
+                                if(remaindedAmount > 0){
 									$("#remaindedAmount th.rel-cols").removeClass("aagel-case");
 									$("#remaindedAmount th.rel-cols").removeClass("tmam-case");
 									$("#remaindedAmount th.rel-cols").addClass("motabaqy-case");
@@ -456,6 +479,7 @@
             }
         });
     });
+
 
 //	For Ajax Search By Product Name
     $('#pro_search').keyup(function(e) {
