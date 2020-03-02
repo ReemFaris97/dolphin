@@ -1084,7 +1084,8 @@ table.mabi3at-bill.moshtraiat-bill tfoot tr th:first-child {
 
 table.mabi3at-bill.moshtraiat-bill tfoot tr th span.colorfulSpan {
 	font-weight: 400;
-	color: #2ECC71
+	color: #2ECC71;
+    font-size: 12px;
 }
 
 label.wit-lbl {
@@ -1118,6 +1119,9 @@ table.mabi3at-bill.moshtraiat-bill .form-group .rs {
 table.mabi3at-bill.moshtraiat-bill .form-group {
 	margin-bottom: 0
 }
+table.mabi3at-bill.moshtraiat-bill th input {
+    min-width: 120px;
+}
 
 td.delete-single-row a span {
 	font-size: 30px;
@@ -1127,7 +1131,22 @@ td.delete-single-row a {
 	margin-top: 0 !important;
 	background: #E74C3C !important
 }
-
+table.bill-table > tfoot.tempDisabled:after {
+    content: "من فضلك قم بإختيار الصنف وكميته أولا ";
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+}
 a.removeThisSinglSpecDisc {
     position: absolute;
     left: 15px;
@@ -1157,6 +1176,7 @@ a.removeThisSinglSpecDisc:hover{
 a.appendAnewDiscount.btn.btn-success {
     margin-top: 20px;
 }
+
 /******************* media query  *******************/
 @media (min-width: 992px) {
 
