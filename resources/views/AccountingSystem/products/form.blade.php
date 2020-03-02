@@ -160,11 +160,15 @@
 		</div>
 		<div id="menu2" class="tab-pane fade">
 			<div class="row">
-				<div class="form-group col-xs-12 pull-left">
-					<label>مفعل </label>
-					{!! Form::radio("is_active",1,['class'=>'form-control'])!!}
-					<label>غير مفعل </label>
-					{!! Form::radio("is_active",0,['class'=>'form-control'])!!}
+				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left taxs form-line new-radio-big-wrapper ">
+                    <span class="new-radio-wrap">
+                    <label for="active">مفعل </label>
+					{!! Form::radio("is_active",1,['class'=>'form-control','id'=>'active'])!!}
+                </span>
+                 <span class="new-radio-wrap">
+                    <label for="dis_active">غير مفعل </label>
+                    {!! Form::radio("is_active",0,['class'=>'form-control','id'=>'dis_active'])!!}
+                </span>
 				</div>
 				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
 					<label>الباركود </label>
@@ -263,7 +267,7 @@
 				</div>
 				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left prices_taxs">
 					<label> اسم شريحة الضرائب</label>
-					{!! Form::select("tax_band_id[]",$taxs,null,['class'=>'form-control selectpicker ','id'=>'cell_id','multiple','placeholder'=>' اسم شريحة الضرائب '])!!}
+					{!! Form::select("tax_band_id[]",$taxs,null,['class'=>'form-control selectpicker','multiple','placeholder'=>' اسم شريحة الضرائب '])!!}
 				</div>
 			</div>
 		</div>

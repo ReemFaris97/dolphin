@@ -36,6 +36,8 @@ $(function(){
             $('.cell_id').attr('data-live-search',true);
             $('.cell_id').attr('placeholder',"اختر الوجه");
             $('#cell_id').find('option').remove().end().append(cells);
+            $('.cell_id option').prop('selected', false);
+
             $("#cell_id").selectpicker('refresh');
 
         }).fail(function (error) {
@@ -44,5 +46,5 @@ $(function(){
     });
 
 
-    
+
 });
