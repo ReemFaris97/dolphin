@@ -19,11 +19,10 @@
    data-price="{{$product->selling_price -(($product->selling_price*$product->total_discounts)/100)}}"
    data-main-unit="{{$product->	main_unit}}"
    data-bar-code="{{$product->bar_code}}"
-   data-price-has-tax="{{isset($producttax)? $producttax->price_has_tax : 'hasnotaxes' }}"
-   data-total-taxes="{{ isset($producttax)? $product->total_taxes : 'hasnotaxes'}}"
+   data-price-has-tax="{{isset($producttax)? $producttax->price_has_tax : '0' }}"
+   data-total-taxes="{{ isset($producttax)? $product->total_taxes : '0'}}"
    data-subunits="{{$allunits}}"
    data-total_discounts="{{$product->total_discounts}}"
-
    >
     {{$product->name}}
    </option>
