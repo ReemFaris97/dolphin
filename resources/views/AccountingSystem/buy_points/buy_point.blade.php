@@ -588,7 +588,7 @@
 </script>
 <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
 <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
-<!---- new design --->
+<!---- new desfign --->
 <script>
 	//   For Alerting Before closing the window
 		window.onbeforeunload = function(e) {
