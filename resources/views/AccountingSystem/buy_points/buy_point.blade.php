@@ -306,7 +306,7 @@
 					  </div>
 					</div>`);
 					$("#discMod" + rowNum + "  a.appendAnewDiscount").on('click', function() {
-						$(this).parent().prev('.anotherAddedSpecialDiscounts').append(`<div class="row clearfix single-special-dis-wrap">
+						$(this).parent().prev('.anotherAddedSpecialDiscounts').append(`<div class="single-special-dis-wrap clearfix row">
 							<div class="form-group col-xs-4">
 								<label>ادخل الخصم بالنسبة</label>
 								<input type="number" class="form-control singleSpecialDiscByPer" value="0" min="0" placeholder="ادخل الخصم بالنسبة">
@@ -342,6 +342,24 @@
 								}
 							})
 						});
+					});
+					$(".singleSpecialDiscByPer").each(function() {
+						$(this).on('change', function() {
+							$(this).parents('.single-special-dis-wrap').find('.singleSpecialDiscByVal').val(0);
+							if (($(this).val()) < 0) {
+								$(this).val(0);
+								$(this).text('0');
+							}
+						})
+					});
+					$(".singleSpecialDiscByVal").each(function() {
+						$(this).on('change', function() {
+							$(this).parents('.single-special-dis-wrap').find('.singleSpecialDiscByPer').val(0);
+							if (($(this).val()) < 0) {
+								$(this).val(0);
+								$(this).text('0');
+							}
+						})
 					});
 					var wholePriceBefore, wholePriceAfter = 0;
 					//**************    Calc while changing unit input ***********************
@@ -431,10 +449,7 @@
 						})
 						var amountOfDariba = 0;
 						$("tr.single-row-wrapper").each(function() {
-							var theQuantity = $(this).find(".product-quantity input").val();
-							var theUnitPrice = $(this).find(".single-price-before input").val();
-							var theUnitTax = $(this).data("tot-taxes");
-							var theSingleTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
+							var theSingleTax = $(this).find(".single-price-after").text();
 							amountOfDariba += Number(theSingleTax);
 						});
 						$("#amountBeforeDariba span.dynamic-span").html(amountBeforeDariba.toFixed(2));
@@ -483,6 +498,15 @@
 						$("#demandedAmount1").val($("tr#demandedAmount span.dynamic-span").html())
 					}
 					//**************    Calc while changing table body ***********************
+					$('#discMod' + rowNum).on('hide.bs.modal', function(e) {
+						var modId = $(this).attr('id');
+						var onlyModNum = modId.substr(7, modId.length);
+						var theUnitPrice = $('#row' + onlyModNum).find(".single-price-before input").val();
+						var theQuantity = $('#row' + onlyModNum).find(".product-quantity input").val();
+						var theUnitTax = $('#row' + onlyModNum).data("tot-taxes");
+						var theSingleTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
+						$('#row' + onlyModNum).find(".single-price-after").text(theSingleTax);
+					});
 					$('#discMod' + rowNum).on('hidden.bs.modal', function(e) {
 						var modId = $(this).attr('id');
 						var onlyModNum = modId.substr(7, modId.length);
@@ -490,10 +514,8 @@
 						var totalValDiscs = 0;
 						var totalPerDiscs = 0;
 						$(this).find('.single-special-dis-wrap').each(function() {
-							if ($(this).find(".effectTax").is(":checked")) {
-								totalValDiscs += Number($(this).find('.singleSpecialDiscByVal').val());
-								totalPerDiscs += Number($(this).find('.singleSpecialDiscByPer').val());
-							}
+							totalValDiscs += Number($(this).find('.singleSpecialDiscByVal').val());
+							totalPerDiscs += Number($(this).find('.singleSpecialDiscByPer').val());
 						});
 						if (totalValDiscs > finalAftDisc) {
 							alert('عفوا , لايمكن ان يتم إضافة خصم على المنتج أكبر من قيمته المستحقة' + finalAftDisc);
@@ -505,8 +527,21 @@
 						} else {
 							finalAftDisc -= (totalPerDiscs / 100) * finalAftDisc;
 						}
-						$('#row' + onlyModNum).find('.whole-price-before').text(finalAftDisc.toFixed(2));
-						calcInfo();
+						if ($(this).find(".effectTax").is(":checked")) {
+							$('#row' + onlyModNum).find('.whole-price-before').text(finalAftDisc.toFixed(2));
+							var currentDisc = Number($('#row' + onlyModNum).data('tot-taxes')) / 100;
+							var newNetTax = Number(currentDisc) * Number(finalAftDisc);
+							$('#row' + onlyModNum).find('.single-price-after').text(newNetTax.toFixed(2));
+							var newWholePriceAfter = Number(finalAftDisc) + Number(newNetTax);
+							$('#row' + onlyModNum).find('.whole-price-after').text(newWholePriceAfter.toFixed(2));
+							calcInfo();
+						} else if (!($(this).find(".effectTax").is(":checked"))) {
+							$('#row' + onlyModNum).find('.whole-price-before').text(finalAftDisc.toFixed(2));
+							var newNetTax = $('#row' + onlyModNum).find('.single-price-after').text();
+							var newWholePriceAfter = Number(finalAftDisc) + Number(newNetTax);
+							$('#row' + onlyModNum).find('.whole-price-after').text(newWholePriceAfter.toFixed(2));
+							calcInfo();
+						}
 					});
 					//**************    Calc while changing table body ***********************
 					$(".bill-table tbody").change(calcInfo);
@@ -556,13 +591,13 @@
 <!---- new design --->
 <script>
 	//   For Alerting Before closing the window
-	//	window.onbeforeunload = function(e) {
-	//		e = e || window.event;
-	//		if (e) {
-	//			e.returnValue = 'هل أنت متأكد من غلق هذه الصفحة ؟ سيتم فقدان كال البيانات التي تم ادخالها!!';
-	//		}
-	//		return 'هل أنت متأكد من غلق هذه الصفحة ؟ سيتم فقدان كال البيانات التي تم ادخالها!!';
-	//	};
+		window.onbeforeunload = function(e) {
+			e = e || window.event;
+			if (e) {
+				e.returnValue = 'هل أنت متأكد من غلق هذه الصفحة ؟ سيتم فقدان كال البيانات التي تم ادخالها!!';
+			}
+			return 'هل أنت متأكد من غلق هذه الصفحة ؟ سيتم فقدان كال البيانات التي تم ادخالها!!';
+		};
 	function refreshTime() {
 		var today = new Date();
 		var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
