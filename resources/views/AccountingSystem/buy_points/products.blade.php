@@ -1,6 +1,6 @@
 <div class="form-group block-gp">
 
-<label>اسم الصنف </label>
+<label>بحث بإسم الصنف أو الباركود</label>
 
 <select class=" form-control js-example-basic-single"  name="product_id" placeholder="اختر المنتج" id="selectID">
     <option value="" > اختر الصنف</option>
@@ -24,7 +24,7 @@
    data-subunits="{{$allunits}}"
    data-total_discounts="{{$product->total_discounts}}"
    >
-    {{$product->name}}
+    {{$product->name}} - {{$product->bar_code}}
    </option>
     @endforeach
 
