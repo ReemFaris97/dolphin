@@ -46,10 +46,20 @@
                         </div>
                     </div>
                     <div class="col-xs-12">
-                        <div class="form-group">
+                        <div class="form-group col-sm-4">
                             <label> إسم العميل: </label>
                             {!! Form::select("client",$clients,null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر اسم العميل','data-live-search'=>'true','id'=>'client_id'])!!}
                         </div>
+                        <div class="form-group col-sm-4">
+							<label> رقم الفاتوره </label>
+							{!! Form::text("bill_num",null,['class'=>'selectpicker form-control inline-control','placeholder'=>' رقم الفاتوره',"id"=>'bill_num'])!!}
+						</div>
+
+                        <div class="form-group col-sm-4">
+							<label for="bill_date"> تاريخ الفاتورة </label>
+							{!! Form::text("bill_date",null,['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' تاريخ الفاتورة',"id"=>'bill_date'])!!}
+                        </div>
+
                     </div>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="form-group block-gp">
@@ -58,8 +68,9 @@
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div class="yurProdc">
-                            <select class=" form-control js-example-basic-single"  placeholder="اختر القسم اولا">
+                        <div class="form-group yurProdc">
+                            <label>اسم الصنف </label>
+                            <select class="form-control js-example-basic-single"  placeholder="اختر القسم اولا">
                                 <option>اختر القسم اولا </option>
                             </select>
                         </div>
