@@ -41,22 +41,24 @@
 							{!! Form::text("bill_date",null,['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' تاريخ الفاتورة',"id"=>'bill_date'])!!}
 						</div>
 					</div>
-					<div class="col-md-4 col-sm-6 col-xs-12">
+					<div class="col-md-6 col-sm-6 col-xs-12">
 						<div class="form-group block-gp">
 							<label>اسم القسم </label>
 							{!! Form::select("category_id",$categories,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}
 						</div>
 					</div>
-					<div class="col-md-4 col-sm-6 col-xs-12">
+					<div class="col-md-6 col-sm-6 col-xs-12">
 						<div class="yurProdc">
 						</div>
 					</div>
+<!--
 					<div class="col-md-4 col-sm-6 col-xs-12">
 						<div class="form-group block-gp">
 							<label>بحث بالباركود </label>
 							<input class="form-control" type="text" id="barcode_search">
 						</div>
 					</div>
+-->
 				</div>
 			</div>
 			<div class="result">
@@ -222,6 +224,7 @@
 					var selectedProduct = $(this).find(":selected");
 					var ProductId = $('#selectID').val();
 					var productName = selectedProduct.text();
+					var barCode = selectedProduct.data('bar-code');
 					var productPrice = selectedProduct.data('price');
 					var priceHasTax = selectedProduct.data('price-has-tax');
 					var totalTaxes = selectedProduct.data('total-taxes');
@@ -573,18 +576,18 @@
 		});
 	});
 	//	For Ajax Search By Product Bar Code
-	$('#barcode_search').keyup(function(e) {
-		var barcode_search = $(this).val();
-		$.ajax({
-			url: "/accounting/barcode_search/" + barcode_search,
-			type: "GET",
-			success: function(data) {
-				$('.yurProdc').html(data.data);
-				$('#selectID').attr('data-live-search', 'true');
-				$('#selectID').selectpicker('refresh');
-			}
-		});
-	});
+//	$('#barcode_search').keyup(function(e) {
+//		var barcode_search = $(this).val();
+//		$.ajax({
+//			url: "/accounting/barcode_search/" + barcode_search,
+//			type: "GET",
+//			success: function(data) {
+//				$('.yurProdc').html(data.data);
+//				$('#selectID').attr('data-live-search', 'true');
+//				$('#selectID').selectpicker('refresh');
+//			}
+//		});
+//	});
 </script>
 <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
 <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>

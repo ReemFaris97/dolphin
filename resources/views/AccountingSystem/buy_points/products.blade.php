@@ -24,7 +24,7 @@
    data-subunits="{{$allunits}}"
    data-total_discounts="{{$product->total_discounts}}"
    >
-    {{$product->name}}
+    {{$product->name}} - {{$product->bar_code}}
    </option>
     @endforeach
 
