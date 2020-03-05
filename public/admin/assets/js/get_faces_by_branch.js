@@ -32,11 +32,12 @@ $(function(){
             if(val==0)
                 console.log("asdas");
             else
-
-                $('#face_id').attr('disabled',false);
+            $('#face_id').attr('disabled',false);
             $('.face_id').attr('data-live-search',true);
             $('.face_id').attr('placeholder',"اختر الوجه");
             $('#face_id').find('option').remove().end().append(faces);
+            $('.face_id option').prop('selected', false);
+
             $("#face_id").selectpicker('refresh');
 
         }).fail(function (error) {
@@ -45,5 +46,5 @@ $(function(){
     });
 
 
-    
+
 });

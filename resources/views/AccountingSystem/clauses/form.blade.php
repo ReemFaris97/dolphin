@@ -66,27 +66,6 @@
 <div class="clearfix"></div>
 
 
-
-{{-- <div class="form-group col-md-6 pull-left">
-    <label>اسم السند باللغة العربية  </label>
-    {!! Form::text("ar_name",null,['class'=>'form-control','placeholder'=>' اسم السند باللغة العربية    '])!!}
-</div>
-
-<div class="form-group col-md-6 pull-left">
-    <label>اسم السند باللغة الانجليزية  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
-    {!! Form::text("en_name",null,['class'=>'form-control','placeholder'=>' اسم السند باللغة الانجليزية    '])!!}
-</div>
-
-
-<div class="form-group col-md-6 pull-left">
-    <label>وصف السند باللغة العربية  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
-    {!! Form::textarea("ar_description",null,['class'=>'form-control','placeholder'=>' وصف السند باللغة العربية    '])!!}
-</div>
-
-<div class="form-group col-md-6 pull-left">
-    <label>وصف السند باللغة الانجليزية  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
-    {!! Form::textarea("en_description",null,['class'=>'form-control','placeholder'=>' وصف السند باللغة الانجليزية    '])!!}
-</div> --}}
 <div class="form-group col-md-6 pull-left">
     <label>   اسم  البند </label>
     {!! Form::select("benod_id",$benods,null,['class'=>'form-control','placeholder'=>' اختر  اسم البند '])!!}
@@ -137,9 +116,7 @@
         $(".clients").show();
         $(".suppliers").hide();
     }
-
     function myFunction2() {
-
         $(".clients").hide();
         $(".suppliers").show();
     }

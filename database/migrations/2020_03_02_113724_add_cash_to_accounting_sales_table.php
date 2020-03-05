@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddPercentAccountingProductDiscounts extends Migration
+class AddCashToAccountingSalesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class AddPercentAccountingProductDiscounts extends Migration
      */
     public function up()
     {
-        Schema::table('accounting_product_discounts', function (Blueprint $table) {
-
-            $table->string('percent')->nullable();
-            $table->string('amount')->nullable();
+        Schema::table('accounting_sales', function (Blueprint $table) {
+            $table->string('cash')->nullable();
+            $table->string('network')->nullable();
 
 
         });
-        }
+    }
 
     /**
      * Reverse the migrations.
@@ -29,6 +28,8 @@ class AddPercentAccountingProductDiscounts extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('accounting_sales', function (Blueprint $table) {
+            //
+        });
     }
 }

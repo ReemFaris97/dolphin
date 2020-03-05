@@ -138,6 +138,8 @@ Route::middleware('admin')->group(function () {
     Route::post('/sale_end/{id}', 'SaleController@sale_end')->name('sales.end');
 
 
+    Route::get('/end_session/{id}', 'SaleController@end_session')->name('sales.end_session');
+
     Route::get('/company_devices/{id}', 'SafeController@company_devices');
     Route::get('/branch_devices/{id}', 'SafeController@branch_devices');
     Route::post('transactionsafe_store/{id}', 'SafeController@transactionsafe_store')->name('transactionsafe_store');

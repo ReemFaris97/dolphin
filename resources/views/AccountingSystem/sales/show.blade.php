@@ -1078,7 +1078,7 @@
 
 										<tr>
 											<th data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-export"></i>المتبقي</th>
-											<td>{!! $sale->total- $sale->payed  !!}</td>
+											<td>{!! $sale->total - $sale->payed  !!}</td>
 										</tr>
 
 									</tbody>
