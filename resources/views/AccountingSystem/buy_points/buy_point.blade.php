@@ -48,7 +48,11 @@
 						</div>
 					</div>
 					<div class="col-md-4 col-sm-6 col-xs-12">
-						<div class="yurProdc">
+						<div class="form-group yurProdc">
+                            <label>اسم الصنف </label>
+                            <select class="form-control js-example-basic-single"  placeholder="اختر القسم اولا">
+                                <option>اختر القسم اولا </option>
+                            </select>
 						</div>
 					</div>
 					<div class="col-md-4 col-sm-6 col-xs-12">
@@ -63,7 +67,9 @@
 				<form method="post" action="{{route('accounting.purchases.store')}}">
 					@csrf
 					<input type="hidden" name="supplier_id" id="supplier_id_val">
-					<input type="hidden" name="bill_num" id="bill_num_val">
+                    <input type="hidden" name="bill_num" id="bill_num_val">
+                    <input type="hidden" name="bill_date" id="bill_date_val">
+
 					<table border="1" class="finalTb moshtraiat-bill mabi3at-bill bill-table
                     {{(getsetting('name_enable')==1) ? 'name_enable':'' }}
                     {{(getsetting('barcode_enable')==1) ? 'barcode_enable':'' }}
@@ -195,6 +201,8 @@
 		$("#supplier_id_val").val($(this).val());
 	});
 	$("#bill_num_val").val($("#bill_num").val());
+    $("#bill_date_val").val($("#bill_date").val());
+
 	$(".category_id").on('change', function() {
 		var id = $(this).val();
 		var store_id = $('#store_id').val();
