@@ -14,6 +14,8 @@ use App\Models\AccountingSystem\AccountingSaleItem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingProductStore;
+use App\Models\AccountingSystem\AccountingProductSubUnit;
+use App\Models\AccountingSystem\AccountingProductTax;
 use App\Models\AccountingSystem\AccountingPurchase;
 use App\Models\AccountingSystem\AccountingPurchaseItem;
 use App\Models\AccountingSystem\AccountingReturn;
@@ -60,7 +62,7 @@ class PurchaseController extends Controller
     public function store(Request $request)
     {
         $requests = $request->all();
-    // dd($requests);
+  dd($requests);
 
         $rules = [
 
@@ -77,37 +79,53 @@ class PurchaseController extends Controller
 
         ]);
 
-
-        $products=$requests['product_id'];
-        $quantities=$requests['quantity'];
-
         $products = collect($requests['product_id']);
         $qtys = collect($requests['quantity']);
+        $unit_id = collect($requests['unit_id']);
+        $prices = collect($requests['prices']);
+        $itemTax = collect($requests['itemTax']);
 
-        $merges = $products->zip($qtys);
+        $merges = $products->zip($qtys,$unit_id,$prices,$itemTax);
 
         foreach ($merges as $merge)
         {
             $product=AccountingProduct::find($merge['0']);
-
+            $unit=AccountingProductSubUnit::where('product_id',$merge['0'])->where('name',$merge['2'])->first();
+dd($unit);
             if($product->quantity>0){
 
-            $item= AccountingSaleItem::create([
+            $item= AccountingPurchaseItem::create([
                 'product_id'=>$merge['0'],
                 'quantity'=> $merge['1'],
-                'price'=>$product->selling_price,
+                'price'=>$merge['3'],
+                'unit_id'=>$unit->id,
+                'tax'=>$merge['4'],
+                'price_after_tax'=>$merge['3']+$merge['4'],
                 'purchase_id'=>$purchase->id
             ]);
             //update_product_quantity
             $product->update([
                 'quantity'=>$product->quantity+ $merge['1'],
             ]);
-             //update_product_quantity_store
-            //  dd(auth()->user()->accounting_store_id);
             $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->first();
             $productstore->update([
                 'quantity'=>$productstore->quantity + $merge['1'],
             ]);
+/////////////////////////discount/////////////////
+            if($requests['discount_byPercentage']!=0&&$requests['discount_byAmount']==0){
+                $purchase->update([
+                    'discount_type'=>'percentage',
+                    'discount'=>$requests['discount_byPercentage'],
+
+                ]);
+
+            }elseif($requests['discount_byAmount']!=0&&$requests['discount_byPercentage']==0){
+
+                $purchase->update([
+                    'discount_type'=>'amount',
+                    'discount'=>$requests['discount_byAmount'],
+                ]);
+            }
 
         }
     }
