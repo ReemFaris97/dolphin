@@ -223,7 +223,7 @@
 					rowNum++;
 					var selectedProduct = $(this).find(":selected");
 					var ProductId = $('#selectID').val();
-					var productName = selectedProduct.text();
+					var productName = selectedProduct.data('name');
 					var barCode = selectedProduct.data('bar-code');
 					var productPrice = selectedProduct.data('price');
 					var priceHasTax = selectedProduct.data('price-has-tax');

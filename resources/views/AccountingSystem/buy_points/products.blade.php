@@ -1,6 +1,6 @@
 <div class="form-group block-gp">
 
-<label>اسم الصنف </label>
+<label>بحث بإسم الصنف أو الباركود</label>
 
 <select class=" form-control js-example-basic-single"  name="product_id" placeholder="اختر المنتج" id="selectID">
     <option value="" > اختر الصنف</option>
