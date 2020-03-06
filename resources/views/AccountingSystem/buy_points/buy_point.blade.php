@@ -253,7 +253,7 @@
 						var singlePriceAfter = Number(productPrice);
 					}
 					var netTax = (Number(singlePriceAfter) - Number(singlePriceBefore)).toFixed(2);
-					var optss = `<option data-uni-price="${productPrice}">${mainUnit}</option>`;
+					var optss = `<option data-uni-price="${productPrice}" value="mainUnit">${mainUnit}</option>`;
 					for (var i = 0; i < productUnits.length; i++) {
 						optss += '<option data-uni-price="' + unitPrice[i] + '" value="'+ unitId[i] +'" > ' + unitName[i] + '</option> ';
 					}

@@ -62,7 +62,7 @@ class PurchaseController extends Controller
     public function store(Request $request)
     {
         $requests = $request->all();
-  dd($requests);
+//   dd($requests);
 
         $rules = [
 
@@ -90,15 +90,19 @@ class PurchaseController extends Controller
         foreach ($merges as $merge)
         {
             $product=AccountingProduct::find($merge['0']);
-            $unit=AccountingProductSubUnit::where('product_id',$merge['0'])->where('name',$merge['2'])->first();
-dd($unit);
+            if($merge['2']!='mainUnit'){
+
+                $unit=AccountingProductSubUnit::where('product_id',$merge['0'])->where('id',$merge['2'])->first();
+
+            }
             if($product->quantity>0){
 
             $item= AccountingPurchaseItem::create([
                 'product_id'=>$merge['0'],
                 'quantity'=> $merge['1'],
                 'price'=>$merge['3'],
-                'unit_id'=>$unit->id,
+                'unit_id'=>($merge['2']!='mainUnit')?$unit->id:null,
+                'unit_type'=>($merge['2']!='mainUnit')?'sub':'main',
                 'tax'=>$merge['4'],
                 'price_after_tax'=>$merge['3']+$merge['4'],
                 'purchase_id'=>$purchase->id

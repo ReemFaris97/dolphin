@@ -11,7 +11,7 @@ class AccountingPurchase extends Model
 
 
     protected $fillable = ['supplier_id','total','amount','discount','payment','payed','debts','package_id','store_id','bill_num','totalTaxs'
-             ,'safe_id','user_id','company_id','branch_id'];
+             ,'safe_id','user_id','company_id','branch_id','discount_type','bill_date'];
     protected $table='accounting_purchases';
 
 
