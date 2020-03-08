@@ -59,7 +59,6 @@
 							<label for="bill_date"> تاريخ الفاتورة </label>
 							{!! Form::text("bill_date",null,['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' تاريخ الفاتورة',"id"=>'bill_date'])!!}
                         </div>
-
                     </div>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="form-group block-gp">
@@ -67,6 +66,7 @@
                             {!! Form::select("category_id",$categories,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}
                         </div>
                     </div>
+
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="form-group yurProdc">
                             <label>اسم الصنف </label>
@@ -274,24 +274,7 @@
 	$(document).ready(function(){
 		preventDiscount();
 	})
-//    function fun(id){
-//                      var  token=$('#csrf_token').val();
-//                        $.ajax({
-//                             type: "post",
 
-//                             url: "/accounting/sale_end/" +id,
-//                             data:   $('#form1').serialize()+"&_token="+token,
-//                             success: function (data) {
-
-
-//                             },error:function (data) {
-//                                 console.log(data);
-//                                 alert(data);
-
-//                             }
-
-//                         });
-//    }
 $("#client_id").on('change', function() {
         var client = $(this).val();
         $('#client_id_val').val(client);

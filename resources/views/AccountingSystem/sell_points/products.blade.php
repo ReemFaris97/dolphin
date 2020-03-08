@@ -9,6 +9,7 @@
         $units=\App\Models\AccountingSystem\AccountingProductSubUnit::where('product_id',$product->id)->get();
         $subunits= collect($units);
         $allunits=json_encode($subunits,JSON_UNESCAPED_UNICODE);
+        dd($allunits);
         // $new=$subunits,ENT_NOQUOTES);
      ?>
     <option value="{{$product->id}}"
