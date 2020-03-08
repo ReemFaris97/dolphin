@@ -204,7 +204,7 @@
     $("#bill_date").on('change', function() {
     $("#bill_date_val").val($(this).val());
     });
-
+    var rowNum = 0;
 	$(".category_id").on('change', function() {
 		var id = $(this).val();
 		var store_id = $('#store_id').val();
@@ -226,7 +226,7 @@
 				$('#selectID').attr('data-live-search', 'true');
 				$('#selectID').attr('placeholder', 'اختر الصنف');
 				$('#selectID').selectpicker('refresh');
-				var rowNum = 0;
+
 				$('#selectID').change(function() {
 					rowNum++;
 					var selectedProduct = $(this).find(":selected");
@@ -252,6 +252,7 @@
 						var singlePriceBefore = Number(productPrice);
 						var singlePriceAfter = Number(productPrice);
 					}
+                    var discountNum=1;
 					var netTax = (Number(singlePriceAfter) - Number(singlePriceBefore)).toFixed(2);
 					var optss = `<option data-uni-price="${productPrice}" value="mainUnit">${mainUnit}</option>`;
 					for (var i = 0; i < productUnits.length; i++) {
@@ -295,13 +296,17 @@
 						  </div>
 						  <div class="modal-body">
 							<div class="single-special-dis-wrap clearfix row">
+                                <div class="form-group col-xs-4">
+								<label>رقم الخصم</label>
+								<input type="text" class="form-control " value=${discountNum} >
+							</div>
 								<div class="form-group col-xs-4">
 									<label>ادخل الخصم بالنسبة</label>
-									<input type="number" class="form-control singleSpecialDiscByPer" value="0" min="0" placeholder="ادخل الخصم بالنسبة">
+									<input type="number" class="form-control singleSpecialDiscByPer" value="0" min="0" placeholder="ادخل الخصم بالنسبة" name="items[${rowNum}][discount_item_percentage][]">
 								</div>
 								<div class="form-group col-xs-4">
 									<label>ادخل الخصم بالمبلغ</label>
-									<input type="number" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ">
+									<input type="number" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ" name="items[${rowNum}][discount_item_value][]">
 								</div>
 								<div class="form-group col-xs-4">
 									<label>يؤثر في الضريبة <input class="effectTax" type="checkbox"></label>
@@ -309,7 +314,7 @@
 							</div>
 							<div class="anotherAddedSpecialDiscounts"></div>
 							<div class="row clearfix text-center">
-								<a class="appendAnewDiscount btn btn-success">إضافة خصم أخر</a>
+								<a data-id="${rowNum}" class="appendAnewDiscount btn btn-success">إضافة خصم أخر</a>
 							</div>
 						  </div>
 						  <div class="modal-footer Text-center">
@@ -319,14 +324,20 @@
 					  </div>
 					</div>`);
 					$("#discMod" + rowNum + "  a.appendAnewDiscount").on('click', function() {
+                        discountNum++;
+                        var itemNumber = $(this).data('id');
 						$(this).parent().prev('.anotherAddedSpecialDiscounts').append(`<div class="single-special-dis-wrap clearfix row">
-							<div class="form-group col-xs-4">
+                            <div class="form-group col-xs-4">
+								<label>رقم الخصم</label>
+								<input type="text" class="form-control " value=${discountNum} >
+							</div>
+                        	<div class="form-group col-xs-4">
 								<label>ادخل الخصم بالنسبة</label>
-								<input type="number" class="form-control singleSpecialDiscByPer" value="0" min="0" placeholder="ادخل الخصم بالنسبة">
+								<input type="number" class="form-control singleSpecialDiscByPer" value="0" min="0" placeholder="ادخل الخصم بالنسبة" name="items[${itemNumber}][discount_item_percentage][]">
 							</div>
 							<div class="form-group col-xs-4">
 								<label>ادخل الخصم بالمبلغ</label>
-								<input type="number" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ">
+								<input type="number" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ" name="items[${itemNumber}][discount_item_value][]">
 							</div>
 							<div class="form-group col-xs-4">
 								<label>يؤثر في الضريبة <input class="effectTax" type="checkbox"></label>

@@ -13,6 +13,7 @@ use App\Models\AccountingSystem\AccountingSale;
 use App\Models\AccountingSystem\AccountingSaleItem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingItemDiscount;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingProductSubUnit;
 use App\Models\AccountingSystem\AccountingProductTax;
@@ -87,8 +88,10 @@ class PurchaseController extends Controller
 
         $merges = $products->zip($qtys,$unit_id,$prices,$itemTax);
 
+$i=1;
         foreach ($merges as $merge)
         {
+
             $product=AccountingProduct::find($merge['0']);
             if($merge['2']!='mainUnit'){
 
@@ -107,6 +110,51 @@ class PurchaseController extends Controller
                 'price_after_tax'=>$merge['3']+$merge['4'],
                 'purchase_id'=>$purchase->id
             ]);
+
+
+            // $perc = $request->discount_item_percentage;
+            // $val = $request->discount_item_value;
+            $items=$request->items;
+            foreach( $items as  $key=>$item1)
+            {
+                  if($key==$i){
+                foreach($item1 as $ke=>$item2)
+                {
+
+                    if($ke=='discount_item_percentage'){
+                        foreach ($item2 as $k1 => $value) {
+                                if($item2[$k1]!=0){
+
+                                    $discountItem= AccountingItemDiscount::create([
+                                    'discount'=> $item2[$k1],
+                                    'discount_type'=>'percentage',
+                                    'item_id'=>$item->id,
+                                                        ]);
+                           }
+
+                        }
+                    }elseif($ke=='discount_item_value'){
+
+                        foreach ($item2 as $k1 => $value) {
+                            if($item2[$k1]!=0){
+
+                                $discountItem= AccountingItemDiscount::create([
+                                'discount'=> $item2[$k1],
+                                'discount_type'=>'amount',
+                                'item_id'=>$item->id,
+                                ]);
+                             }
+
+                    }
+
+                    }
+                }
+
+              }
+            }
+
+            $i++;
+
             //update_product_quantity
             $product->update([
                 'quantity'=>$product->quantity+ $merge['1'],
@@ -133,6 +181,9 @@ class PurchaseController extends Controller
 
         }
     }
+
+
+
         alert()->success('تمت عملية الشراء بنجاح !')->autoclose(5000);
         return back();
     }
