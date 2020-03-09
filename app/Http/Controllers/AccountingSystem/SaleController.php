@@ -202,10 +202,9 @@ class SaleController extends Controller
 
            $session->update([
             'end_session'=>Carbon::now(),
-            'status'=>'close'
-
            ]);
 
+        //    dd($session);
            if(!Hash::check($request['password'],$user->password)){
 
             return response('false', 200);
@@ -222,7 +221,7 @@ class SaleController extends Controller
         $users=User::where('is_saler',1)->pluck('name','id')->toArray();
 
            $session->update([
-            'status'=>'close',
+            'status'=>'closed',
 
            ]);
 
