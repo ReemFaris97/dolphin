@@ -57,6 +57,7 @@
 							{!! Form::text("bill_num",null,['class'=>'selectpicker form-control inline-control','placeholder'=>' رقم الفاتوره',"id"=>'bill_num'])!!}
 						</div> --}}
 
+                        
                         <div class="form-group col-sm-4">
 							<label for="bill_date"> تاريخ الفاتورة </label>
 							{!! Form::text("bill_date",null,['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' تاريخ الفاتورة',"id"=>'bill_date'])!!}
