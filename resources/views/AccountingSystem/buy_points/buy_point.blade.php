@@ -129,14 +129,14 @@
 										<div class="form-group">
 											<div>
 												<label for="byPercentage" class="wit-lbl">ادخل نسبة الخصم</label>
-												<input type="number" placeholder="النسبة المئوية للخصم" min="0" value="0" max="100" id="byPercentage" name="discount_byPercentage" class="form-control dynamic-input">
+												<input type="number" step="any" placeholder="النسبة المئوية للخصم" min="0" value="0" max="100" id="byPercentage" name="discount_byPercentage" class="form-control dynamic-input">
 												<span class="rs"> % </span>
 											</div>
 										</div>
 										<div class="form-group">
 											<div>
 												<label for="byAmount" class="wit-lbl">ادخل مبلغ الخصم</label>
-												<input type="number" placeholder="مبلغ الخصم" min="0" value="0" max="1" id="byAmount" name="discount_byAmount" class="form-control dynamic-input">
+												<input type="number" step="any" placeholder="مبلغ الخصم" min="0" value="0" max="1" id="byAmount" name="discount_byAmount" class="form-control dynamic-input">
 												<span class="rs"> ر.س </span>
 											</div>
 										</div>
@@ -270,10 +270,10 @@
 								</select>
 							</td>
 							<td class="product-quantity maybe-hidden quantity_enable">
-								<input type="number" placeholder="الكمية" min="1" value="0" id="sale" class="form-control" name="quantity[${ProductId}]">
+								<input type="number" placeholder="الكمية" step="1" min="1" value="0" id="sale" class="form-control" name="quantity[${ProductId}]">
 							</td>
 							<td class="single-price-before maybe-hidden unit_price_before_enable">
-								<input type="number" class="form-control" value="${singlePriceBefore}" name="prices[${ProductId}]">
+								<input type="number" class="form-control" step="any" value="${singlePriceBefore}" name="prices[${ProductId}]">
 							</td>
                             <input type="hidden" name="itemTax[${ProductId}]" value="${netTax}">
 							<td class="single-price-after maybe-hidden unit_price_after_enable" data-sinAft="${singlePriceAfter}">
@@ -304,11 +304,11 @@
 							</div>
 								<div class="form-group col-xs-4">
 									<label>ادخل الخصم بالنسبة</label>
-									<input type="number" class="form-control singleSpecialDiscByPer" value="0" min="0" placeholder="ادخل الخصم بالنسبة" name="items[${rowNum}][discount_item_percentage][]">
+									<input type="number" step="any" class="form-control singleSpecialDiscByPer" value="0" min="0" placeholder="ادخل الخصم بالنسبة" name="items[${rowNum}][discount_item_percentage][]">
 								</div>
 								<div class="form-group col-xs-4">
 									<label>ادخل الخصم بالمبلغ</label>
-									<input type="number" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ" name="items[${rowNum}][discount_item_value][]">
+									<input type="number" step="any" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ" name="items[${rowNum}][discount_item_value][]">
 								</div>
 								<div class="form-group col-xs-4">
 									<label>يؤثر في الضريبة <input class="effectTax" type="checkbox"></label>
@@ -335,11 +335,11 @@
 							</div>
                         	<div class="form-group col-xs-4">
 								<label>ادخل الخصم بالنسبة</label>
-								<input type="number" class="form-control singleSpecialDiscByPer" value="0" min="0" placeholder="ادخل الخصم بالنسبة" name="items[${itemNumber}][discount_item_percentage][]">
+								<input type="number" step="any" class="form-control singleSpecialDiscByPer" value="0" min="0" placeholder="ادخل الخصم بالنسبة" name="items[${itemNumber}][discount_item_percentage][]">
 							</div>
 							<div class="form-group col-xs-4">
 								<label>ادخل الخصم بالمبلغ</label>
-								<input type="number" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ" name="items[${itemNumber}][discount_item_value][]">
+								<input type="number" step="any" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ" name="items[${itemNumber}][discount_item_value][]">
 							</div>
 							<div class="form-group col-xs-4">
 								<label>يؤثر في الضريبة <input class="effectTax" type="checkbox"></label>
@@ -657,10 +657,10 @@
 								</select>
 							</td>
 							<td class="product-quantity maybe-hidden quantity_enable">
-								<input type="number" placeholder="الكمية" min="1" value="0" id="sale" class="form-control" name="quantity[${ProductId}]">
+								<input type="number" step="1" placeholder="الكمية" min="1" value="0" id="sale" class="form-control" name="quantity[${ProductId}]">
 							</td>
 							<td class="single-price-before maybe-hidden unit_price_before_enable">
-								<input type="number" class="form-control" value="${singlePriceBefore}" name="prices[${ProductId}]">
+								<input type="number" step="any" class="form-control" value="${singlePriceBefore}" name="prices[${ProductId}]">
 							</td>
                             <input type="hidden" name="itemTax[${ProductId}]" value="${netTax}">
 							<td class="single-price-after maybe-hidden unit_price_after_enable" data-sinAft="${singlePriceAfter}">
@@ -691,11 +691,11 @@
 							</div>
 								<div class="form-group col-xs-4">
 									<label>ادخل الخصم بالنسبة</label>
-									<input type="number" class="form-control singleSpecialDiscByPer" value="0" min="0" placeholder="ادخل الخصم بالنسبة" name="items[${rowNum}][discount_item_percentage][]">
+									<input type="number" step="any" class="form-control singleSpecialDiscByPer" value="0" min="0" placeholder="ادخل الخصم بالنسبة" name="items[${rowNum}][discount_item_percentage][]">
 								</div>
 								<div class="form-group col-xs-4">
 									<label>ادخل الخصم بالمبلغ</label>
-									<input type="number" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ" name="items[${rowNum}][discount_item_value][]">
+									<input type="number" step="any" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ" name="items[${rowNum}][discount_item_value][]">
 								</div>
 								<div class="form-group col-xs-4">
 									<label>يؤثر في الضريبة <input class="effectTax" type="checkbox"></label>
@@ -722,11 +722,11 @@
 							</div>
                         	<div class="form-group col-xs-4">
 								<label>ادخل الخصم بالنسبة</label>
-								<input type="number" class="form-control singleSpecialDiscByPer" value="0" min="0" placeholder="ادخل الخصم بالنسبة" name="items[${itemNumber}][discount_item_percentage][]">
+								<input type="number" step="any" class="form-control singleSpecialDiscByPer" value="0" min="0" placeholder="ادخل الخصم بالنسبة" name="items[${itemNumber}][discount_item_percentage][]">
 							</div>
 							<div class="form-group col-xs-4">
 								<label>ادخل الخصم بالمبلغ</label>
-								<input type="number" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ" name="items[${itemNumber}][discount_item_value][]">
+								<input type="number" step="any" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ" name="items[${itemNumber}][discount_item_value][]">
 							</div>
 							<div class="form-group col-xs-4">
 								<label>يؤثر في الضريبة <input class="effectTax" type="checkbox"></label>
