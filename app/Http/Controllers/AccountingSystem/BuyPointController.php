@@ -14,6 +14,7 @@ use App\Models\AccountingSystem\AccountingProductCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingProductStore;
+use App\Models\AccountingSystem\AccountingProductSubUnit;
 use App\Models\AccountingSystem\AccountingProductTax;
 use App\Models\AccountingSystem\AccountingSafe;
 use App\Models\AccountingSystem\AccountingSession;
@@ -73,18 +74,17 @@ class BuyPointController extends Controller
 
 
         $products=AccountingProduct::where('bar_code',$q)->get();
-
-        if(!empty($products))
+        // dd($products);
+        if($products->isEmpty())
         {
-            dd('sdfsd');
-        }else{
-            dd("erwer");
+            $product_unit=AccountingProductSubUnit::where('bar_code',$q)->pluck('product_id');
+            $products=AccountingProduct::whereIn('id',$product_unit)->get();
         }
+
         return response()->json([
             'status'=>true,
             'data'=>view('AccountingSystem.buy_points.barcodeProducts')->with('products',$products)->render()
         ]);
-
     }
     /**
      * Store a newly created resource in storage.
