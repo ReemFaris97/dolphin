@@ -609,9 +609,8 @@
 			url: "/accounting/barcode_search/" + barcode_search,
 			type: "GET",
 			success: function(data) {
-				$('.yurProdc').html(data.data);
-				$('#selectID').attr('data-live-search', 'true');
-				$('#selectID').selectpicker('refresh');
+
+            
 			}
 		});
 	});
