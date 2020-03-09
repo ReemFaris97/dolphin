@@ -155,7 +155,21 @@
 					</thead>
 					<tbody class="add-products">
 					</tbody>
-				</table>
+                </table>
+
+                        <!-- services table-->
+        <table id="serviceTable" class="table ">
+            <thead>
+                <tr>
+                    <th>نوع الخدمة</th>
+                    <th>السعر</th>
+                    <th>الكود</th>
+                    <th>العمليات</th>
+                </tr>
+            </thead>
+            <tbody class="add-services">
+            </tbody>
+        </table>
 			</div>
 		</div>
 		<div id="menu2" class="tab-pane fade">
@@ -320,19 +334,7 @@
 	</tbody>
 </table>
 <!-- end table-->
-<!-- services table-->
-<table id="serviceTable" class="table ">
-	<thead>
-		<tr>
-			<th>نوع الخدمة</th>
-			<th>السعر</th>
-			<th>الكود</th>
-			<th>العمليات</th>
-		</tr>
-	</thead>
-	<tbody class="add-services">
-	</tbody>
-</table>
+
 <!-- end table-->
 <!-- Modal1 -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

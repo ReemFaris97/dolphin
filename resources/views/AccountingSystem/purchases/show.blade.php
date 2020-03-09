@@ -969,24 +969,25 @@
 						<div class="flex-col">
 							<table class="tablesaw a-new-table table-hover table table-bordered" data-tablesaw-mode="stack" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
 								<tbody>
-									<tr>
-										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-mobile"></i> اسم الشركة </td>
-										<td> {!! optional($purchase->company)->name !!}</td>
-									</tr>
+
 
 									<tr>
 										<th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-user"></i>اسم المورد </th>
 										<td> {!! optional($purchase->supplier)->name !!}</td>
-									</tr>
-									<tr>
-										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-video-clapper"></i> اسم الفرع </td>
-										<td> {!! optional($purchase->branch)->name !!}</td>
-									</tr>
+                                    </tr>
+
+
+                                    <tr>
+										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-mobile"></i>  رقم  الفاتوره  عندالمورد  </td>
+										<td> {!! $purchase->bill_num !!}</td>
+                                    </tr>
 
 									<tr>
-										<th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-user"></i>اسم المخزن</th>
-										<td>  {!! optional($purchase->store)->ar_name !!}</td>
+										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-video-clapper"></i>تاريخ الفاتورة </td>
+										<td> {!! $purchase->bill_date !!}</td>
 									</tr>
+
+
 
 									<tr>
 										<th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-bar-chart-alt"></i> طريقة الدفع </th>
@@ -1036,6 +1037,17 @@
 										<tr>
 											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-money"></i>الإجمالي</td>
 											<td><span class="tot-money">{!! $purchase->amount !!}</span></td>
+                                        </tr>
+
+                                        <tr>
+											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-minus"></i>الخصم</td>
+											<td>
+                                                @if($purchase->discount_type=='percentage')
+                                                نسبه
+                                                @else
+                                                مبلغ
+                                                @endif
+                                            </td>
 										</tr>
 
 										<tr>
@@ -1051,7 +1063,7 @@
 											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-money"></i> المطلوب سداده</td>
 											<td>{!! $purchase->total !!}</td>
                                         </tr>
-                                        
+
 										<tr>
 											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-bag"></i> طريقة الدفع</td>
                                             <td>

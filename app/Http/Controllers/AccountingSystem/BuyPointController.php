@@ -48,18 +48,8 @@ class BuyPointController extends Controller
      * @return \Illuminate\Http\Response
      */
     public  function getProductAjex(Request $request){
-        // dd($request['store_id']);
         $store_product=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->pluck('product_id','id')->toArray();
         $products=AccountingProduct::where('category_id',$request['id'])->whereIn('id',$store_product)->get();
-        // $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
-// foreach($products as $product){
-//         $units=\App\Models\AccountingSystem\AccountingProductSubUnit::where('product_id',$product->id)->get();
-//     // $x=   json_encode($units,JSON_UNESCAPED_UNICODE);
-//   $x=collect($units);
-//   dd(json_encode($x));
-//     }
-
-
 
         return response()->json([
             'status'=>true,
@@ -70,7 +60,6 @@ class BuyPointController extends Controller
     public  function pro_search($q){
 
         $products=AccountingProduct::where('name','LIKE','%'.$q.'%')->get();
-        // $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
 
         return response()->json([
             'status'=>true,
@@ -82,9 +71,6 @@ class BuyPointController extends Controller
     public  function barcode_search($q){
 
         $products=AccountingProduct::where('bar_code',$q)->get();
-        // $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
-
-
         return response()->json([
             'status'=>true,
             'data'=>view('AccountingSystem.buy_points.sell')->with('products',$products)->render()
@@ -97,12 +83,7 @@ class BuyPointController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function sell_login()
-    {
 
-        $users=User::where('is_saler',1)->pluck('name','id')->toArray();
-        return view('AccountingSystem.buy_points.login',compact('users'));
-    }
 
     /**
      *
@@ -124,10 +105,6 @@ class BuyPointController extends Controller
      */
     public function edit($id)
     {
-        $cell =AccountingColumnCell::findOrFail($id);
-        $columns=AccountingFaceColumn::pluck('name','id')->toArray();
-
-        return $this->toEdit(compact('cell','columns'));
 
 
     }
@@ -141,16 +118,7 @@ class BuyPointController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $cell =AccountingColumnCell::findOrFail($id);
-        $rules = [
-            'name'=>'required|string|max:191',
-            'column_id'=>'required|numeric|exists:accounting_face_columns,id',
-        ];
-        $this->validate($request,$rules);
-        $requests = $request->all();
-        $cell->update($requests);
-        alert()->success('تم تعديل  الصف بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.cells.index');
+
     }
 
     /**
@@ -161,11 +129,7 @@ class BuyPointController extends Controller
      */
     public function destroy($id)
     {
-        $shift =AccountingBranchShift::findOrFail($id);
-        $shift->delete();
 
-        alert()->success('تم حذف  الوردية بنجاح !')->autoclose(5000);
-            return back();
 
 
     }

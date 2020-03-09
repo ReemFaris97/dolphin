@@ -114,12 +114,21 @@ private $viewable = 'AccountingSystem.sessions.';
     public function update(Request $request, $id)
     {
 
+
     }
 
 
     public function getbenods($type)
     {
 
+
+    }
+
+    public function sessions_close(){
+
+        $clients=AccountingSession::pluck('name','id')->toArray();
+
+        return view("AccountingSystem.clients.offers_copy",compact('clients'));
 
     }
 }

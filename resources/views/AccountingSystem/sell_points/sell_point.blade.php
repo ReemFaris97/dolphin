@@ -3,6 +3,8 @@
 @section('parent_title','إدارة نقطه البيع')
 @section('action', URL::route('accounting.categories.index'))
 @section('styles')
+<link href="{{asset('admin/assets/css/jquery.datetimepicker.min.css')}}" rel="stylesheet" type="text/css">
+
 <link href="{{asset('admin/assets/css/all.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/bill.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/customized.css')}}" rel="stylesheet" type="text/css">
@@ -50,37 +52,35 @@
                             <label> إسم العميل: </label>
                             {!! Form::select("client",$clients,null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر اسم العميل','data-live-search'=>'true','id'=>'client_id'])!!}
                         </div>
-                        <div class="form-group col-sm-4">
+                        {{-- <div class="form-group col-sm-4">
 							<label> رقم الفاتوره </label>
 							{!! Form::text("bill_num",null,['class'=>'selectpicker form-control inline-control','placeholder'=>' رقم الفاتوره',"id"=>'bill_num'])!!}
-						</div>
+						</div> --}}
+
 
                         <div class="form-group col-sm-4">
 							<label for="bill_date"> تاريخ الفاتورة </label>
 							{!! Form::text("bill_date",null,['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' تاريخ الفاتورة',"id"=>'bill_date'])!!}
                         </div>
-
                     </div>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
+                    {{-- <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="form-group block-gp">
                             <label>اسم القسم </label>
                             {!! Form::select("category_id",$categories,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}
                         </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div class="form-group yurProdc">
-                            <label>اسم الصنف </label>
-                            <select class="form-control js-example-basic-single"  placeholder="اختر القسم اولا">
-                                <option>اختر القسم اولا </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div class="form-group block-gp">
-                            <label>بحث بالباركود </label>
-                            <input class="form-control" type="text" id="barcode_search">
-                        </div>
-                    </div>
+                    </div> --}}
+
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="form-group block-gp">
+							<label>اسم القسم </label>
+							{!! Form::select("category_id",$categories,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}
+						</div>
+					</div>
+
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="yurProdc">
+						</div>
+					</div>
                 </div>
             </div>
             <div class="result">
@@ -260,8 +260,13 @@
 </div>
 @endsection
 @section('scripts')
+<script src="{{asset('admin/assets/js/jquery.datetimepicker.full.min.js')}}"></script>
+
 <script>
 
+$(document).ready(function() {
+		$('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
+	})
 	// For preventing user from inserting two methods of discount
 	function preventDiscount(){
 		$("input#byPercentage").change(function(){
@@ -273,25 +278,9 @@
 	}
 	$(document).ready(function(){
 		preventDiscount();
+
 	})
-//    function fun(id){
-//                      var  token=$('#csrf_token').val();
-//                        $.ajax({
-//                             type: "post",
 
-//                             url: "/accounting/sale_end/" +id,
-//                             data:   $('#form1').serialize()+"&_token="+token,
-//                             success: function (data) {
-
-
-//                             },error:function (data) {
-//                                 console.log(data);
-//                                 alert(data);
-
-//                             }
-
-//                         });
-//    }
 $("#client_id").on('change', function() {
         var client = $(this).val();
         $('#client_id_val').val(client);
@@ -308,7 +297,7 @@ $("#client_id").on('change', function() {
         $('#company_val').val(company_id);
         $.ajax({
             type: 'get',
-            url: "/accounting/productsAjex/" + id,
+            url: "/accounting/productsAjexPurchase/" + id,
             data: {
                 id: id,
                 store_id: store_id

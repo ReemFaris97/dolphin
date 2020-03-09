@@ -126,14 +126,14 @@
 										<div class="form-group">
 											<div>
 												<label for="byPercentage" class="wit-lbl">ادخل نسبة الخصم</label>
-												<input type="number" placeholder="النسبة المئوية للخصم" min="0" value="0" max="100" id="byPercentage" class="form-control dynamic-input">
+												<input type="number" placeholder="النسبة المئوية للخصم" min="0" value="0" max="100" id="byPercentage" name="discount_byPercentage" class="form-control dynamic-input">
 												<span class="rs"> % </span>
 											</div>
 										</div>
 										<div class="form-group">
 											<div>
 												<label for="byAmount" class="wit-lbl">ادخل مبلغ الخصم</label>
-												<input type="number" placeholder="مبلغ الخصم" min="0" value="0" max="1" id="byAmount" class="form-control dynamic-input">
+												<input type="number" placeholder="مبلغ الخصم" min="0" value="0" max="1" id="byAmount" name="discount_byAmount" class="form-control dynamic-input">
 												<span class="rs"> ر.س </span>
 											</div>
 										</div>
@@ -149,18 +149,17 @@
 									<span class="colorfulSpan">طريقة الدفع</span>
 									<div class="inline_divs">
 										<div class="form-group rel-cols radiBtnwrap">
-											<input type="radio" id="tazaBTaza" name="payment_case">
+											<input type="radio" id="tazaBTaza" name="payment" value="cash">
 											<label for="tazaBTaza">نقدا</label>
 										</div>
 										<div class="form-group rel-cols radiBtnwrap">
-											<input type="radio" id="tataBTata" name="payment_case">
+											<input type="radio" id="tataBTata" name="payment" value="agel">
 											<label for="tataBTata">اجل</label>
 										</div>
 									</div>
 								</th>
 							</tr>
 							<input type="hidden" name="totalTaxs">
-							<input type="hidden" name="payment" id="payment_type">
 							<tr>
 								<th colspan="9">
 									<button type="submit">حفظ</button>
@@ -197,9 +196,13 @@
 	$("#supplier_id").on('change', function() {
 		$("#supplier_id_val").val($(this).val());
 	});
-	$("#bill_num_val").val($("#bill_num").val());
-    $("#bill_date_val").val($("#bill_date").val());
-
+    $("#bill_num").on('change', function() {
+	$("#bill_num_val").val($(this).val());
+    });
+    $("#bill_date").on('change', function() {
+    $("#bill_date_val").val($(this).val());
+    });
+    var rowNum = 0;
 	$(".category_id").on('change', function() {
 		var id = $(this).val();
 		var store_id = $('#store_id').val();
@@ -221,7 +224,7 @@
 				$('#selectID').attr('data-live-search', 'true');
 				$('#selectID').attr('placeholder', 'اختر الصنف');
 				$('#selectID').selectpicker('refresh');
-				var rowNum = 0;
+
 				$('#selectID').change(function() {
 					rowNum++;
 					var selectedProduct = $(this).find(":selected");
@@ -234,6 +237,7 @@
 					var mainUnit = selectedProduct.data('main-unit');
 					var productUnits = selectedProduct.data('subunits');
 					let unitName = productUnits.map(a => a.name);
+                    let unitId = productUnits.map(c => c.id);
 					let unitPrice = productUnits.map(b => b.selling_price);
 					var singlePriceBefore, singlePriceAfter = 0;
 					if (Number(priceHasTax) === 0) {
@@ -246,26 +250,28 @@
 						var singlePriceBefore = Number(productPrice);
 						var singlePriceAfter = Number(productPrice);
 					}
+                    var discountNum=1;
 					var netTax = (Number(singlePriceAfter) - Number(singlePriceBefore)).toFixed(2);
-					var optss = `<option data-uni-price="${productPrice}">${mainUnit}</option>`;
+					var optss = `<option data-uni-price="${productPrice}" value="mainUnit">${mainUnit}</option>`;
 					for (var i = 0; i < productUnits.length; i++) {
-						optss += '<option data-uni-price="' + unitPrice[i] + '"> ' + unitName[i] + '</option> ';
+						optss += '<option data-uni-price="' + unitPrice[i] + '" value="'+ unitId[i] +'" > ' + unitName[i] + '</option> ';
 					}
 					$(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}" data-ifhastax="${priceHasTax}" data-tot-taxes="${totalTaxes}">
 							<td class="row-num">${rowNum}</td>
                             <input type="hidden" name="product_id[]" value="${ProductId}">
 							<td class="product-name maybe-hidden name_enable">${productName}</td>
 							<td class="product-unit maybe-hidden unit_enable">
-								<select class="form-control js-example-basic-single">
+								<select class="form-control js-example-basic-single" name="unit_id[${ProductId}]" >
 									${optss}
 								</select>
 							</td>
 							<td class="product-quantity maybe-hidden quantity_enable">
-								<input type="number" placeholder="الكمية" min="1" value="0" id="sale" class="form-control" name="quantity[]">
+								<input type="number" placeholder="الكمية" min="1" value="0" id="sale" class="form-control" name="quantity[${ProductId}]">
 							</td>
 							<td class="single-price-before maybe-hidden unit_price_before_enable">
-								<input type="number" class="form-control" value="${singlePriceBefore}">
+								<input type="number" class="form-control" value="${singlePriceBefore}" name="prices[${ProductId}]">
 							</td>
+                            <input type="hidden" name="itemTax[${ProductId}]" value="${netTax}">
 							<td class="single-price-after maybe-hidden unit_price_after_enable" data-sinAft="${singlePriceAfter}">
 								${netTax}
 							</td>
@@ -288,13 +294,17 @@
 						  </div>
 						  <div class="modal-body">
 							<div class="single-special-dis-wrap clearfix row">
+                                <div class="form-group col-xs-4">
+								<label>رقم الخصم</label>
+								<input type="text" class="form-control " value=${discountNum} >
+							</div>
 								<div class="form-group col-xs-4">
 									<label>ادخل الخصم بالنسبة</label>
-									<input type="number" class="form-control singleSpecialDiscByPer" value="0" min="0" placeholder="ادخل الخصم بالنسبة">
+									<input type="number" class="form-control singleSpecialDiscByPer" value="0" min="0" placeholder="ادخل الخصم بالنسبة" name="items[${rowNum}][discount_item_percentage][]">
 								</div>
 								<div class="form-group col-xs-4">
 									<label>ادخل الخصم بالمبلغ</label>
-									<input type="number" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ">
+									<input type="number" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ" name="items[${rowNum}][discount_item_value][]">
 								</div>
 								<div class="form-group col-xs-4">
 									<label>يؤثر في الضريبة <input class="effectTax" type="checkbox"></label>
@@ -302,7 +312,7 @@
 							</div>
 							<div class="anotherAddedSpecialDiscounts"></div>
 							<div class="row clearfix text-center">
-								<a class="appendAnewDiscount btn btn-success">إضافة خصم أخر</a>
+								<a data-id="${rowNum}" class="appendAnewDiscount btn btn-success">إضافة خصم أخر</a>
 							</div>
 						  </div>
 						  <div class="modal-footer Text-center">
@@ -312,14 +322,20 @@
 					  </div>
 					</div>`);
 					$("#discMod" + rowNum + "  a.appendAnewDiscount").on('click', function() {
+                        discountNum++;
+                        var itemNumber = $(this).data('id');
 						$(this).parent().prev('.anotherAddedSpecialDiscounts').append(`<div class="single-special-dis-wrap clearfix row">
-							<div class="form-group col-xs-4">
+                            <div class="form-group col-xs-4">
+								<label>رقم الخصم</label>
+								<input type="text" class="form-control " value=${discountNum} >
+							</div>
+                        	<div class="form-group col-xs-4">
 								<label>ادخل الخصم بالنسبة</label>
-								<input type="number" class="form-control singleSpecialDiscByPer" value="0" min="0" placeholder="ادخل الخصم بالنسبة">
+								<input type="number" class="form-control singleSpecialDiscByPer" value="0" min="0" placeholder="ادخل الخصم بالنسبة" name="items[${itemNumber}][discount_item_percentage][]">
 							</div>
 							<div class="form-group col-xs-4">
 								<label>ادخل الخصم بالمبلغ</label>
-								<input type="number" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ">
+								<input type="number" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ" name="items[${itemNumber}][discount_item_value][]">
 							</div>
 							<div class="form-group col-xs-4">
 								<label>يؤثر في الضريبة <input class="effectTax" type="checkbox"></label>
@@ -475,6 +491,9 @@
 								}
 								total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100));
 								$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
+                                $("#demandedAmount1").val(total);
+
+
 							});
 							$("input#byAmount").change(function() {
 								if ((Number($(this).val())) > Number($("#amountAfterDariba span.dynamic-span").html())) {
@@ -483,6 +502,9 @@
 								}
 								total = Number(amountAfterDariba) - (Number($(this).val()));
 								$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
+                                $("#demandedAmount1").val(total);
+
+
 							});
 						}
 						$("input#byPercentage").change(function() {
@@ -492,6 +514,7 @@
 							}
 							total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100));
 							$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
+                            $("#demandedAmount1").val(total);
 						});
 						$("input#byAmount").change(function() {
 							if ((Number($(this).val())) > Number($("#amountAfterDariba span.dynamic-span").html())) {
@@ -500,8 +523,9 @@
 							}
 							total = Number(amountAfterDariba) - (Number($(this).val()));
 							$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
+                            $("#demandedAmount1").val(total);
+
 						});
-						$("#demandedAmount1").val($("tr#demandedAmount span.dynamic-span").html())
 					}
 					//**************    Calc while changing table body ***********************
 					$('#discMod' + rowNum).on('hide.bs.modal', function(e) {
