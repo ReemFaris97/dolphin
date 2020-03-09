@@ -73,7 +73,7 @@ class BuyPointController extends Controller
         $products=AccountingProduct::where('bar_code',$q)->get();
         return response()->json([
             'status'=>true,
-            'data'=>view('AccountingSystem.buy_points.products')->with('products',$products)->render()
+            'data'=>view('AccountingSystem.buy_points.barcodeProducts')->with('products',$products)->render()
         ]);
 
     }
