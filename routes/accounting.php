@@ -183,6 +183,8 @@ Route::middleware('admin')->group(function () {
     Route::get('/pro_search/{name}', 'SellPointController@pro_search');
     Route::get('/barcode_search/{name}', 'BuyPointController@barcode_search');
 
+    Route::post('/confirm', 'SessionController@confirm')->name('sessions.confirm');
+
 
     ////purchases
     Route::get('/buy_point', 'BuyPointController@buy_point')->name('buy_point.buy_point');
