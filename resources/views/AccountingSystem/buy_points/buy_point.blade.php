@@ -41,6 +41,12 @@
 							{!! Form::text("bill_date",null,['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' تاريخ الفاتورة',"id"=>'bill_date'])!!}
 						</div>
 					</div>
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="form-group block-gp">
+							<label>بحث بالباركود </label>
+							<input class="form-control" type="text" id="barcode_search">
+						</div>
+					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<div class="form-group block-gp">
 							<label>اسم القسم </label>
@@ -52,12 +58,7 @@
 						<div class="yurProdc">
 						</div>
 					</div>
-					<div class="col-md-4 col-sm-6 col-xs-12">
-						<div class="form-group block-gp">
-							<label>بحث بالباركود </label>
-							<input class="form-control" type="text" id="barcode_search">
-						</div>
-					</div>
+					
 				</div>
 			</div>
 			<div class="result">
@@ -294,7 +295,7 @@
 						  </div>
 						  <div class="modal-body">
 							<div class="single-special-dis-wrap clearfix row">
-                                <div class="form-group col-xs-4">
+                                <div class="form-group col-xs-4 ddd-none" >
 								<label>رقم الخصم</label>
 								<input type="text" class="form-control " value=${discountNum} >
 							</div>
@@ -325,7 +326,7 @@
                         discountNum++;
                         var itemNumber = $(this).data('id');
 						$(this).parent().prev('.anotherAddedSpecialDiscounts').append(`<div class="single-special-dis-wrap clearfix row">
-                            <div class="form-group col-xs-4">
+                            <div class="form-group col-xs-4 ddd-none">
 								<label>رقم الخصم</label>
 								<input type="text" class="form-control " value=${discountNum} >
 							</div>

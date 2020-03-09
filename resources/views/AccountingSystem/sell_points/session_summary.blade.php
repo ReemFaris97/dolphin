@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-<div class="panel panel-flat">
+<div class="panel panel-flat summaryy">
 	<div class="panel-heading">
 		<h5 class="panel-title"> عرض ملخص الجلسه </h5>
 		<div class="heading-elements">

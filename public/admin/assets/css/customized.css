@@ -1114,9 +1114,12 @@ table.mabi3at-bill.moshtraiat-bill .rs {
 .normal-lbls label {
     width: auto !important;
 }
-.panel-flat > .panel-heading + .panel-body span {
+.panel-flat.summaryy > .panel-heading + .panel-body span {
     font-size: 16px;
     padding-right: 10px;
+}
+.ddd-none{
+	display: none !important
 }
 table.mabi3at-bill.moshtraiat-bill .form-group .rs {
 	margin-top: -67px;
