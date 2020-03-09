@@ -57,33 +57,30 @@
 							{!! Form::text("bill_num",null,['class'=>'selectpicker form-control inline-control','placeholder'=>' رقم الفاتوره',"id"=>'bill_num'])!!}
 						</div> --}}
 
-                        
+
                         <div class="form-group col-sm-4">
 							<label for="bill_date"> تاريخ الفاتورة </label>
 							{!! Form::text("bill_date",null,['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' تاريخ الفاتورة',"id"=>'bill_date'])!!}
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
+                    {{-- <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="form-group block-gp">
                             <label>اسم القسم </label>
                             {!! Form::select("category_id",$categories,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}
                         </div>
-                    </div>
+                    </div> --}}
 
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div class="form-group yurProdc">
-                            <label>اسم الصنف </label>
-                            <select class="form-control js-example-basic-single"  placeholder="اختر القسم اولا">
-                                <option>اختر القسم اولا </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div class="form-group block-gp">
-                            <label>بحث بالباركود </label>
-                            <input class="form-control" type="text" id="barcode_search">
-                        </div>
-                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="form-group block-gp">
+							<label>اسم القسم </label>
+							{!! Form::select("category_id",$categories,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}
+						</div>
+					</div>
+
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="yurProdc">
+						</div>
+					</div>
                 </div>
             </div>
             <div class="result">
@@ -300,7 +297,7 @@ $("#client_id").on('change', function() {
         $('#company_val').val(company_id);
         $.ajax({
             type: 'get',
-            url: "/accounting/productsAjex/" + id,
+            url: "/accounting/productsAjexPurchase/" + id,
             data: {
                 id: id,
                 store_id: store_id
