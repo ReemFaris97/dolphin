@@ -126,9 +126,9 @@ private $viewable = 'AccountingSystem.sessions.';
 
     public function sessions_close(){
 
-        $clients=AccountingSession::pluck('name','id')->toArray();
+        $sessions=AccountingSession::all();
 
-        return view("AccountingSystem.clients.offers_copy",compact('clients'));
+        return view("AccountingSystem.sessions.index_closed_session",compact('sessions'));
 
     }
 }

@@ -33,7 +33,6 @@
                     <th>  نهايةالجلسة  </th>
                     <th>  العهده  </th>
                     <th>  تاكيدالاغلاق   </th>
-                    <th class="text-center">العمليات</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -64,24 +63,15 @@
 
                             <td>
                                 @if ($row->custody==Null)
-
-                                @dd($row->custody==Null)
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-id="{{$row->id}}" onclick="openModal({{$row->id}})" data-target="#exampleModal{{$row->id}}" id="button{{$row->id}}">
-                                       ادخل  الكميه الفعليه
+                                      تاكيد اغلاق الجلسة
                                     </button>
-
                                     @else
-                                    <label class="btn-success" id="done">تم التسوية</label>
+                                    <label class="btn-success" id="done">تم التاكيد</label>
                                 @endif
 
                             </td>
 
-                        <td class="text-center">
-                            <a href="{{route('accounting.sessions.confirm_close',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> </a>
-                            <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
-                            {!!Form::open( ['route' => ['accounting.sessions.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
-                            {!!Form::close() !!}
-                        </td>
                     </tr>
 
                 @endforeach

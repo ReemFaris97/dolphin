@@ -295,8 +295,8 @@
 					</li>
 					</ul>
 				</li>
-		
-         
+
+
             <li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 					<i class="icon-list position-left"></i>
@@ -307,7 +307,9 @@
 					<li><a href="{{route('accounting.sales.index')}}"><i class="icon-eye"></i> عرض الفواتير</a></li>
 					{{-- <li><a href="{{route('accounting.sales.returns')}}"><i class="icon-add-to-list"></i> اضافة فاتورة مرتجعات جديدة</a></li> --}}
                     <li><a href="{{route('accounting.sessions.index')}}"><i class="icon-eye"></i> عرض الجلسات</a></li>
-               		<!-- المبيعات-->
+                    <li><a href="{{route('accounting.sessions.sessions_close')}}"><i class="icon-eye"></i>   الجلسات المغلقة من  قبل الكاشير</a></li>
+
+                    <!-- المبيعات-->
 					<li class="dropdown-submenu dropdown-submenu-right">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 							<i class="icon-cabinet position-left"></i>
@@ -380,7 +382,7 @@
 
 
 			</li>
-               
+
                 </ul>
 
             </li>
