@@ -31,7 +31,7 @@ $(function(){
             //         window.location.href='/sign_in';
             //     }
             // },
-            
+
         }).done(function (data) {
             // var newOption = new Option(data.text, data.id, false, false);
             // $('#city_id').append(newOption).trigger('change');

@@ -20,6 +20,7 @@ use App\Models\AccountingSystem\AccountingSession;
 use App\Models\AccountingSystem\AccountingSupplier;
 use App\Traits\Viewable;
 use App\User;
+use Illuminate\Validation\Rules\Exists;
 use Request as GlobalRequest;
 
 class BuyPointController extends Controller
@@ -70,7 +71,15 @@ class BuyPointController extends Controller
 
     public  function barcode_search($q){
 
+
         $products=AccountingProduct::where('bar_code',$q)->get();
+
+        if(!empty($products))
+        {
+            dd('sdfsd');
+        }else{
+            dd("erwer");
+        }
         return response()->json([
             'status'=>true,
             'data'=>view('AccountingSystem.buy_points.barcodeProducts')->with('products',$products)->render()
