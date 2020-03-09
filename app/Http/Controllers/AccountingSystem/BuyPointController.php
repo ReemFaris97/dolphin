@@ -74,17 +74,25 @@ class BuyPointController extends Controller
 
 
         $products=AccountingProduct::where('bar_code',$q)->get();
-        // dd($products);
-        if($products->isEmpty())
+		
+		if(!$products->isEmpty())
+		{
+			$selectd_unit_id = 'main-'.$products[0]->id;
+		}
+        else
         {
             $product_unit=AccountingProductSubUnit::where('bar_code',$q)->pluck('product_id');
             $products=AccountingProduct::whereIn('id',$product_unit)->get();
-            $product_id=AccountingProductSubUnit::where('bar_code',$q)->first();
+            $unit=	AccountingProductSubUnit::where('bar_code',$q)->first();
+			if($unit)
+			$selectd_unit_id = $unit->id;
+			else
+				$select_unit_id = 0;
         }
 
         return response()->json([
             'status'=>true,
-            'data'=>view('AccountingSystem.buy_points.barcodeProducts',compact('products','product_id'))->render()
+            'data'=>view('AccountingSystem.buy_points.barcodeProducts',compact('products','selectd_unit_id'))->render()
         ]);
     }
     /**

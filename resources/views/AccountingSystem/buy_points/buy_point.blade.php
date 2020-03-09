@@ -237,7 +237,6 @@
 					var productPrice = selectedProduct.data('price');
 					var priceHasTax = selectedProduct.data('price-has-tax');
 					var totalTaxes = selectedProduct.data('total-taxes');
-//					var mainUnit = selectedProduct.data('main-unit');
 					var productUnits = selectedProduct.data('subunits');
 					let unitName = productUnits.map(a => a.name);
                     let unitId = productUnits.map(c => c.id);
@@ -255,7 +254,6 @@
 					}
                     var discountNum=1;
 					var netTax = (Number(singlePriceAfter) - Number(singlePriceBefore)).toFixed(2);
-//					var optss = `<option data-uni-price="${productPrice}" value="mainUnit">${mainUnit}</option>`;
 					var optss = ``;
 					for (var i = 0; i < productUnits.length; i++) {
 						optss += '<option data-uni-price="' + unitPrice[i] + '" value="'+ unitId[i] +'" > ' + unitName[i] + '</option> ';
@@ -612,10 +610,15 @@
 		$.ajax({
 			url: "/accounting/barcode_search/" + barcode_search,
 			type: "GET",
-			success: function(data) {			
-					$(".tempobar").html(data.data);
+			success: function(data) {
+					if(data.data.length !== 0){
+						$(".tempobar").html(data.data);
+						var selectedID = $(".tempobar").find('option').data('unit-id');
+						var alreadyChosen = $("table.bill-table tbody td select option[value="+ selectedID +"]");				
+						if(alreadyChosen.length === 0){
+							$(".tempDisabled").removeClass("tempDisabled");
 					$(".tempobar").find('option').prop('selected', true);
-					$(".tempobar").bind('DOMSubtreeModified' , function(){
+					$(".tempobar").on('DOMSubtreeModified' , function(){
 					rowNum++;
 					var selectedProduct = $(this).find("select").find(":selected");
 					var ProductId = $('#selectID2').val();
@@ -624,11 +627,10 @@
 					var productPrice = selectedProduct.data('price');
 					var priceHasTax = selectedProduct.data('price-has-tax');
 					var totalTaxes = selectedProduct.data('total-taxes');
-//					var mainUnit = selectedProduct.data('main-unit');
 					var productUnits = selectedProduct.data('subunits');
-					let unitName = productUnits.map(a => a.name);
-                    let unitId = productUnits.map(c => c.id);
-					let unitPrice = productUnits.map(b => b.selling_price);
+					var unitName = productUnits.map(a => a.name);
+                    var unitId = productUnits.map(c => c.id);
+					var unitPrice = productUnits.map(b => b.selling_price);
 					var singlePriceBefore, singlePriceAfter = 0;
 					if (Number(priceHasTax) === 0) {
 						var singlePriceBefore = Number(productPrice);
@@ -642,7 +644,6 @@
 					}
                     var discountNum=1;
 					var netTax = (Number(singlePriceAfter) - Number(singlePriceBefore)).toFixed(2);
-//					var optss = `<option data-uni-price="${productPrice}" value="mainUnit">${mainUnit}</option>`;
 					var optss = ``;
 					for (var i = 0; i < productUnits.length; i++) {
 						optss += '<option data-uni-price="' + unitPrice[i] + '" value="'+ unitId[i] +'" > ' + unitName[i] + '</option> ';
@@ -657,7 +658,7 @@
 								</select>
 							</td>
 							<td class="product-quantity maybe-hidden quantity_enable">
-								<input type="number" step="1" placeholder="الكمية" min="1" value="0" id="sale" class="form-control" name="quantity[${ProductId}]">
+								<input type="number" step="1" placeholder="الكمية" min="1" value="1" id="sale" class="form-control" name="quantity[${ProductId}]">
 							</td>
 							<td class="single-price-before maybe-hidden unit_price_before_enable">
 								<input type="number" step="any" class="form-control" value="${singlePriceBefore}" name="prices[${ProductId}]">
@@ -979,6 +980,12 @@
 				
 					
 					})
+//							calcInfo();
+						}else{
+							var repeatedInputVal = alreadyChosen.parents('tr').find('.product-quantity').find('input');
+							repeatedInputVal.val(Number(repeatedInputVal.val()) + 1);
+						}
+					}
 			}
 		});
 	});
