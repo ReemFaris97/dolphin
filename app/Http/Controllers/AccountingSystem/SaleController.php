@@ -202,6 +202,7 @@ class SaleController extends Controller
 
            $session->update([
             'end_session'=>Carbon::now(),
+            'status'=>'close'
 
            ]);
 

@@ -113,7 +113,7 @@ Route::middleware('admin')->group(function () {
     Route::post('/permium_store', 'ClientController@permium_store')->name('clients.permiums_store');
     Route::get('/offer_copy', 'ClientController@offer_copy')->name('clients.offers_copy');
     Route::post('/offers_copy', 'ClientController@copy')->name('clients.copy');
-    Route::get('sessions_close', 'SessionController@sessions_close');
+    Route::get('sessions_close', 'SessionController@sessions_close')->name('sessions.sessions_close');
 
     Route::resource('sessions', 'SessionController');
     Route::resource('sales', 'SaleController');
@@ -181,7 +181,9 @@ Route::middleware('admin')->group(function () {
     Route::get('/productsAjex/{id}', 'SellPointController@getProductAjex');
 
     Route::get('/pro_search/{name}', 'SellPointController@pro_search');
-    Route::get('/barcode_search/{name}', 'SellPointController@barcode_search');
+    Route::get('/barcode_search/{name}', 'BuyPointController@barcode_search');
+
+    Route::post('/confirm', 'SessionController@confirm')->name('sessions.confirm');
 
 
     ////purchases
