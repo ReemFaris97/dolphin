@@ -59,6 +59,8 @@
 						</div>
 					</div>
 					
+					<div class="tempobar"></div>
+					
 				</div>
 			</div>
 			<div class="result">
@@ -235,7 +237,7 @@
 					var productPrice = selectedProduct.data('price');
 					var priceHasTax = selectedProduct.data('price-has-tax');
 					var totalTaxes = selectedProduct.data('total-taxes');
-					var mainUnit = selectedProduct.data('main-unit');
+//					var mainUnit = selectedProduct.data('main-unit');
 					var productUnits = selectedProduct.data('subunits');
 					let unitName = productUnits.map(a => a.name);
                     let unitId = productUnits.map(c => c.id);
@@ -253,7 +255,8 @@
 					}
                     var discountNum=1;
 					var netTax = (Number(singlePriceAfter) - Number(singlePriceBefore)).toFixed(2);
-					var optss = `<option data-uni-price="${productPrice}" value="mainUnit">${mainUnit}</option>`;
+//					var optss = `<option data-uni-price="${productPrice}" value="mainUnit">${mainUnit}</option>`;
+					var optss = ``;
 					for (var i = 0; i < productUnits.length; i++) {
 						optss += '<option data-uni-price="' + unitPrice[i] + '" value="'+ unitId[i] +'" > ' + unitName[i] + '</option> ';
 					}
@@ -609,9 +612,373 @@
 		$.ajax({
 			url: "/accounting/barcode_search/" + barcode_search,
 			type: "GET",
-			success: function(data) {
+			success: function(data) {			
+					$(".tempobar").html(data.data);
+					$(".tempobar").find('option').prop('selected', true);
+					$(".tempobar").bind('DOMSubtreeModified' , function(){
+					rowNum++;
+					var selectedProduct = $(this).find("select").find(":selected");
+					var ProductId = $('#selectID2').val();
+					var productName = selectedProduct.data('name');
+					var barCode = selectedProduct.data('bar-code');
+					var productPrice = selectedProduct.data('price');
+					var priceHasTax = selectedProduct.data('price-has-tax');
+					var totalTaxes = selectedProduct.data('total-taxes');
+//					var mainUnit = selectedProduct.data('main-unit');
+					var productUnits = selectedProduct.data('subunits');
+					let unitName = productUnits.map(a => a.name);
+                    let unitId = productUnits.map(c => c.id);
+					let unitPrice = productUnits.map(b => b.selling_price);
+					var singlePriceBefore, singlePriceAfter = 0;
+					if (Number(priceHasTax) === 0) {
+						var singlePriceBefore = Number(productPrice);
+						var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
+					} else if (Number(priceHasTax) === 1) {
+						var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
+						var singlePriceAfter = Number(productPrice);
+					} else {
+						var singlePriceBefore = Number(productPrice);
+						var singlePriceAfter = Number(productPrice);
+					}
+                    var discountNum=1;
+					var netTax = (Number(singlePriceAfter) - Number(singlePriceBefore)).toFixed(2);
+//					var optss = `<option data-uni-price="${productPrice}" value="mainUnit">${mainUnit}</option>`;
+					var optss = ``;
+					for (var i = 0; i < productUnits.length; i++) {
+						optss += '<option data-uni-price="' + unitPrice[i] + '" value="'+ unitId[i] +'" > ' + unitName[i] + '</option> ';
+					}
+					$(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}" data-ifhastax="${priceHasTax}" data-tot-taxes="${totalTaxes}">
+							<td class="row-num">${rowNum}</td>
+                            <input type="hidden" name="product_id[]" value="${ProductId}">
+							<td class="product-name maybe-hidden name_enable">${productName}</td>
+							<td class="product-unit maybe-hidden unit_enable">
+								<select class="form-control js-example-basic-single" name="unit_id[${ProductId}]" >
+									${optss}
+								</select>
+							</td>
+							<td class="product-quantity maybe-hidden quantity_enable">
+								<input type="number" placeholder="الكمية" min="1" value="0" id="sale" class="form-control" name="quantity[${ProductId}]">
+							</td>
+							<td class="single-price-before maybe-hidden unit_price_before_enable">
+								<input type="number" class="form-control" value="${singlePriceBefore}" name="prices[${ProductId}]">
+							</td>
+                            <input type="hidden" name="itemTax[${ProductId}]" value="${netTax}">
+							<td class="single-price-after maybe-hidden unit_price_after_enable" data-sinAft="${singlePriceAfter}">
+								${netTax}
+							</td>
+							<td class="whole-price-before maybe-hidden total_price_before_enable">${singlePriceBefore}</td>
+							<td class="whole-price-after maybe-hidden total_price_after_enable">${singlePriceAfter}</td>
+							<td class="add-specific-discount">
+								<a href="#" class="btn btn-info" data-toggle="modal" data-target="#discMod${rowNum}">إضافة خصم</a>
+							</td>
+							<td class="delete-single-row">
+								<a href="#"><span class="icon-cross"></span></a>
+							</td>
+						</tr>
+					`);
+					$("#modals-area").append(`<div id="discMod${rowNum}" class="modal fade special-discount-modal" role="dialog">
+					  <div class="modal-dialog">
+						<div class="modal-content">
+						  <div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title"> إضافة خصم خاص بالمنتج ${productName} </h4>
+						  </div>
+						  <div class="modal-body">
+							<div class="single-special-dis-wrap clearfix row">
+                                <div class="form-group col-xs-4 ddd-none" >
+								<label>رقم الخصم</label>
+								<input type="text" class="form-control " value=${discountNum} >
+							</div>
+								<div class="form-group col-xs-4">
+									<label>ادخل الخصم بالنسبة</label>
+									<input type="number" class="form-control singleSpecialDiscByPer" value="0" min="0" placeholder="ادخل الخصم بالنسبة" name="items[${rowNum}][discount_item_percentage][]">
+								</div>
+								<div class="form-group col-xs-4">
+									<label>ادخل الخصم بالمبلغ</label>
+									<input type="number" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ" name="items[${rowNum}][discount_item_value][]">
+								</div>
+								<div class="form-group col-xs-4">
+									<label>يؤثر في الضريبة <input class="effectTax" type="checkbox"></label>
+								</div>
+							</div>
+							<div class="anotherAddedSpecialDiscounts"></div>
+							<div class="row clearfix text-center">
+								<a data-id="${rowNum}" class="appendAnewDiscount btn btn-success">إضافة خصم أخر</a>
+							</div>
+						  </div>
+						  <div class="modal-footer Text-center">
+							<button type="button" class="btn btn-default" data-dismiss="modal">إتمام</button>
+						  </div>
+						</div>
+					  </div>
+					</div>`);
+					$("#discMod" + rowNum + "  a.appendAnewDiscount").on('click', function() {
+                        discountNum++;
+                        var itemNumber = $(this).data('id');
+						$(this).parent().prev('.anotherAddedSpecialDiscounts').append(`<div class="single-special-dis-wrap clearfix row">
+                            <div class="form-group col-xs-4 ddd-none">
+								<label>رقم الخصم</label>
+								<input type="text" class="form-control " value=${discountNum} >
+							</div>
+                        	<div class="form-group col-xs-4">
+								<label>ادخل الخصم بالنسبة</label>
+								<input type="number" class="form-control singleSpecialDiscByPer" value="0" min="0" placeholder="ادخل الخصم بالنسبة" name="items[${itemNumber}][discount_item_percentage][]">
+							</div>
+							<div class="form-group col-xs-4">
+								<label>ادخل الخصم بالمبلغ</label>
+								<input type="number" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ" name="items[${itemNumber}][discount_item_value][]">
+							</div>
+							<div class="form-group col-xs-4">
+								<label>يؤثر في الضريبة <input class="effectTax" type="checkbox"></label>
+							</div>
+							<a href="#" class="removeThisSinglSpecDisc"><span class="icon-cross"></span></a>
+						</div>`);
+						$("a.removeThisSinglSpecDisc").on('click', function(e) {
+							e.preventDefault();
+							$(this).parents(".single-special-dis-wrap").remove();
+						});
+						$(".singleSpecialDiscByPer").each(function() {
+							$(this).on('change', function() {
+								$(this).parents('.single-special-dis-wrap').find('.singleSpecialDiscByVal').val(0);
+								if (($(this).val()) < 0) {
+									$(this).val(0);
+									$(this).text('0');
+								}
+							})
+						});
+						$(".singleSpecialDiscByVal").each(function() {
+							$(this).on('change', function() {
+								$(this).parents('.single-special-dis-wrap').find('.singleSpecialDiscByPer').val(0);
+								if (($(this).val()) < 0) {
+									$(this).val(0);
+									$(this).text('0');
+								}
+							})
+						});
+					});
+					$(".singleSpecialDiscByPer").each(function() {
+						$(this).on('change', function() {
+							$(this).parents('.single-special-dis-wrap').find('.singleSpecialDiscByVal').val(0);
+							if (($(this).val()) < 0) {
+								$(this).val(0);
+								$(this).text('0');
+							}
+						})
+					});
+					$(".singleSpecialDiscByVal").each(function() {
+						$(this).on('change', function() {
+							$(this).parents('.single-special-dis-wrap').find('.singleSpecialDiscByPer').val(0);
+							if (($(this).val()) < 0) {
+								$(this).val(0);
+								$(this).text('0');
+							}
+						})
+					});
+					var wholePriceBefore, wholePriceAfter = 0;
+					//**************    Calc while changing unit input ***********************
+					$(".product-unit select").change(function() {
+						$(".tempDisabled").removeClass("tempDisabled");
+						var selectedUnit = $(this).find(":selected");
+						var priceHasTax = $(this).parents("tr.single-row-wrapper").data('ifhastax');
+						var productPrice = selectedUnit.data('uni-price');
+						if (Number(priceHasTax) === 0) {
+							var singlePriceBefore = Number(productPrice);
+							var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
+						} else if (Number(priceHasTax) === 1) {
+							var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
+							var singlePriceAfter = Number(productPrice);
+						} else {
+							var singlePriceBefore = Number(productPrice);
+							var singlePriceAfter = Number(productPrice);
+						}
+						var theQuantity = $(this).parents("tr.single-row-wrapper").find(".product-quantity input").val();
+						var theUnitPrice = $(this).parents("tr.single-row-wrapper").find(".single-price-before input").val();
+						var theUnitTax = $(this).parents("tr.single-row-wrapper").data("tot-taxes");
+						var netTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
+						$(this).parents('.single-row-wrapper').find(".single-price-before input").val(singlePriceBefore.toFixed(2));
+						$(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft', singlePriceAfter.toFixed(2));
+						$(this).parents('.single-row-wrapper').find(".single-price-after").text(netTax.toFixed(2));
+						var wholePriceBefore = Number($(this).parents('.single-row-wrapper').find(".single-price-before input").val()) * Number($(this).parents('.single-row-wrapper').find(".product-quantity input").val());
+						$(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(2));
+						$(this).parents('.single-row-wrapper').find(".whole-price-before").attr('tempPriBef', wholePriceBefore.toFixed(2));
+						var wholePriceAfter = Number($(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft')) * Number($(this).parents('.single-row-wrapper').find(".product-quantity input").val());
+						$(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(2));
+					});
+					//**************    Calc while changing quantity input *******************
+					$(".product-quantity input").change(function() {
+						$(".tempDisabled").removeClass("tempDisabled");
+						if (($(this).val()) < 0) {
+							$(this).val(0);
+							$(this).text('0');
+						}
+						var theQuantity = $(this).parents("tr.single-row-wrapper").find(".product-quantity input").val();
+						var theUnitPrice = $(this).parents("tr.single-row-wrapper").find(".single-price-before input").val();
+						var theUnitTax = $(this).parents("tr.single-row-wrapper").data("tot-taxes");
+						var netTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
+						$(this).parents('.single-row-wrapper').find(".single-price-after").text(netTax.toFixed(2));
+						var wholePriceBefore = Number($(this).parents('.single-row-wrapper').find(".single-price-before input").val()) * Number($(this).val());
+						$(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(2));
+						var wholePriceAfter = Number($(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft')) * Number($(this).val());
+						$(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(2));
+						$(this).parents('.single-row-wrapper').find(".whole-price-before").attr('tempPriBef', wholePriceBefore.toFixed(2));
+					});
+					//**************    Calc while changing single price input ***************
+					$(".single-price-before input").change(function() {
+						var productPrice = $(this).val();
+						var priceHasTax = $(this).parents("tr.single-row-wrapper").data('ifhastax');
+						if (Number(priceHasTax) === 0) {
+							var singlePriceBefore = Number(productPrice);
+							var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
+						} else if (Number(priceHasTax) === 1) {
+							var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
+							var singlePriceAfter = Number(productPrice);
+						} else {
+							var singlePriceBefore = Number(productPrice);
+							var singlePriceAfter = Number(productPrice);
+						}
+						var theQuantity = $(this).parents("tr.single-row-wrapper").find(".product-quantity input").val();
+						var theUnitPrice = $(this).parents("tr.single-row-wrapper").find(".single-price-before input").val();
+						var theUnitTax = $(this).parents("tr.single-row-wrapper").data("tot-taxes");
+						var netTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
+						$(".tempDisabled").removeClass("tempDisabled");
+						$(this).parents('.single-row-wrapper').find(".single-price-before input").val(singlePriceBefore.toFixed(2));
+						$(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft', singlePriceAfter.toFixed(2));
+						$(this).parents('.single-row-wrapper').find(".single-price-after").text(netTax.toFixed(2));
+						var wholePriceBefore = Number($(this).parents('.single-row-wrapper').find(".product-quantity input").val()) * Number($(this).val());
+						$(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(2));
+						var wholePriceAfter = Number($(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft')) * Number($(this).parents('.single-row-wrapper').find(".product-quantity input").val());
+						$(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(2));
+						$(this).parents('.single-row-wrapper').find(".whole-price-before").attr('tempPriBef', wholePriceBefore.toFixed(2));
+					});
+					function calcInfo() {
+						var amountBeforeDariba = 0;
+						$(".whole-price-before").each(function() {
+							amountBeforeDariba += Number($(this).text());
+							$("#amountBeforeDariba1").val(amountBeforeDariba);
+						})
+						var amountAfterDariba = 0;
+						$(".whole-price-after").each(function() {
+							amountAfterDariba += Number($(this).text());
+						})
+						var amountOfDariba = 0;
+						$("tr.single-row-wrapper").each(function() {
+							var theSingleTax = $(this).find(".single-price-after").text();
+							amountOfDariba += Number(theSingleTax);
+						});
+						$("#amountBeforeDariba span.dynamic-span").html(amountBeforeDariba.toFixed(2));
+						$("#amountAfterDariba span.dynamic-span").html(amountAfterDariba.toFixed(2));
+						$("#amountOfDariba span.dynamic-span").html(amountOfDariba.toFixed(2));
+						var byAmount = $("input#byAmount").val();
+						var byPercentage = $("input#byPercentage").val();
+						$("input#byAmount").attr('max', amountAfterDariba);
+						var total = 0;
+						if (byAmount == 0 && byPercentage == 0) {
+							$("#demandedAmount span.dynamic-span").html(amountAfterDariba.toFixed(2));
+						} else {
+							$("input#byPercentage").change(function() {
+								if ((Number($(this).val())) > 100) {
+									alert('لا يمكن ان تكون قيم الخصم بالنسبة أكبر من 100% .');
+									$(this).val(0);
+								}
+								total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100));
+								$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
+                                $("#demandedAmount1").val(total);
 
-            
+
+							});
+							$("input#byAmount").change(function() {
+								if ((Number($(this).val())) > Number($("#amountAfterDariba span.dynamic-span").html())) {
+									alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $("#amountAfterDariba span.dynamic-span").html());
+									$(this).val(0);
+								}
+								total = Number(amountAfterDariba) - (Number($(this).val()));
+								$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
+                                $("#demandedAmount1").val(total);
+
+
+							});
+						}
+						$("input#byPercentage").change(function() {
+							if ((Number($(this).val())) > 100) {
+								alert('لا يمكن ان تكون قيم الخصم بالنسبة أكبر من 100% .');
+								$(this).val(0);
+							}
+							total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100));
+							$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
+                            $("#demandedAmount1").val(total);
+						});
+						$("input#byAmount").change(function() {
+							if ((Number($(this).val())) > Number($("#amountAfterDariba span.dynamic-span").html())) {
+								alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $("#amountAfterDariba span.dynamic-span").html());
+								$(this).val(0);
+							}
+							total = Number(amountAfterDariba) - (Number($(this).val()));
+							$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
+                            $("#demandedAmount1").val(total);
+
+						});
+					}
+					//**************    Calc while changing table body ***********************
+					$('#discMod' + rowNum).on('hide.bs.modal', function(e) {
+						var modId = $(this).attr('id');
+						var onlyModNum = modId.substr(7, modId.length);
+						var theUnitPrice = $('#row' + onlyModNum).find(".single-price-before input").val();
+						var theQuantity = $('#row' + onlyModNum).find(".product-quantity input").val();
+						var theUnitTax = $('#row' + onlyModNum).data("tot-taxes");
+						var theSingleTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
+						$('#row' + onlyModNum).find(".single-price-after").text(theSingleTax);
+					});
+					$('#discMod' + rowNum).on('hidden.bs.modal', function(e) {
+						var modId = $(this).attr('id');
+						var onlyModNum = modId.substr(7, modId.length);
+						var finalAftDisc = Number($('#row' + onlyModNum).find('.whole-price-before').attr('tempPriBef'));
+						var totalValDiscs = 0;
+						var totalPerDiscs = 0;
+						$(this).find('.single-special-dis-wrap').each(function() {
+							totalValDiscs += Number($(this).find('.singleSpecialDiscByVal').val());
+							totalPerDiscs += Number($(this).find('.singleSpecialDiscByPer').val());
+						});
+						if (totalValDiscs > finalAftDisc) {
+							alert('عفوا , لايمكن ان يتم إضافة خصم على المنتج أكبر من قيمته المستحقة' + finalAftDisc);
+						} else {
+							finalAftDisc -= totalValDiscs;
+						}
+						if (totalValDiscs > finalAftDisc) {
+							alert('عفوا , لايمكن ان يتم إضافة خصم على المنتج أكبر من نسبة 100%');
+						} else {
+							finalAftDisc -= (totalPerDiscs / 100) * finalAftDisc;
+						}
+						if ($(this).find(".effectTax").is(":checked")) {
+							$('#row' + onlyModNum).find('.whole-price-before').text(finalAftDisc.toFixed(2));
+							var currentDisc = Number($('#row' + onlyModNum).data('tot-taxes')) / 100;
+							var newNetTax = Number(currentDisc) * Number(finalAftDisc);
+							$('#row' + onlyModNum).find('.single-price-after').text(newNetTax.toFixed(2));
+							var newWholePriceAfter = Number(finalAftDisc) + Number(newNetTax);
+							$('#row' + onlyModNum).find('.whole-price-after').text(newWholePriceAfter.toFixed(2));
+							calcInfo();
+						} else if (!($(this).find(".effectTax").is(":checked"))) {
+							$('#row' + onlyModNum).find('.whole-price-before').text(finalAftDisc.toFixed(2));
+							var newNetTax = $('#row' + onlyModNum).find('.single-price-after').text();
+							var newWholePriceAfter = Number(finalAftDisc) + Number(newNetTax);
+							$('#row' + onlyModNum).find('.whole-price-after').text(newWholePriceAfter.toFixed(2));
+							calcInfo();
+						}
+					});
+					//**************    Calc while changing table body ***********************
+					$(".bill-table tbody").change(calcInfo);
+					//**************    Calc while removing a product ************************
+					$("td.delete-single-row a").on('click', function(e) {
+						e.preventDefault();
+						$(this).parents("tr").remove();
+						calcInfo();
+						var trLen = $(".finalTb  tbody tr").length;
+						if (trLen === 0) {
+							$('table tfoot').addClass('tempDisabled');
+						}
+					})
+				
+					
+					})
 			}
 		});
 	});
