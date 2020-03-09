@@ -52,14 +52,12 @@
 						<div class="yurProdc">
 						</div>
 					</div>
-<!--
 					<div class="col-md-4 col-sm-6 col-xs-12">
 						<div class="form-group block-gp">
 							<label>بحث بالباركود </label>
 							<input class="form-control" type="text" id="barcode_search">
 						</div>
 					</div>
--->
 				</div>
 			</div>
 			<div class="result">
@@ -581,18 +579,18 @@
 		});
 	});
 	//	For Ajax Search By Product Bar Code
-//	$('#barcode_search').keyup(function(e) {
-//		var barcode_search = $(this).val();
-//		$.ajax({
-//			url: "/accounting/barcode_search/" + barcode_search,
-//			type: "GET",
-//			success: function(data) {
-//				$('.yurProdc').html(data.data);
-//				$('#selectID').attr('data-live-search', 'true');
-//				$('#selectID').selectpicker('refresh');
-//			}
-//		});
-//	});
+	$('#barcode_search').keyup(function(e) {
+		var barcode_search = $(this).val();
+		$.ajax({
+			url: "/accounting/barcode_search/" + barcode_search,
+			type: "GET",
+			success: function(data) {
+				$('.yurProdc').html(data.data);
+				$('#selectID').attr('data-live-search', 'true');
+				$('#selectID').selectpicker('refresh');
+			}
+		});
+	});
 </script>
 <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
 <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
