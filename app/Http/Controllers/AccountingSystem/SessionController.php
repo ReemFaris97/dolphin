@@ -126,9 +126,20 @@ private $viewable = 'AccountingSystem.sessions.';
 
     public function sessions_close(){
 
-        $sessions=AccountingSession::all();
+        $sessions=AccountingSession::where('status','closed')->get();
 
         return view("AccountingSystem.sessions.index_closed_session",compact('sessions'));
 
     }
+
+    public function confirm(Request $request){
+
+       $session=AccountingSession::find($request['session_id']);
+       $session->update([
+           'status'=>'confirmed',
+           'custody'=>$request['custody']
+       ]);
+
+    }
+
 }

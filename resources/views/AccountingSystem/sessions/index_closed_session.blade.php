@@ -10,7 +10,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">   تاكيد اغلاق الجلسات</h5>
+            <h5 class="panel-title">     تاكيد اغلاق الجلسات من قبل المحاسب </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -31,7 +31,7 @@
                     <th>  اسم الكاشير </th>
                     <th>   بداية الجلسة  </th>
                     <th>  نهايةالجلسة  </th>
-                    <th>  العهده  </th>
+
                     <th>  تاكيدالاغلاق   </th>
                 </tr>
                 </thead>
@@ -48,17 +48,7 @@
                         <td>{!! optional($row->user)->name!!}</td>
                         <td>{!! $row->start_session!!}</td>
                         <td>{!! $row->end_session!!}</td>
-                        {{-- <td>{!! $row->custody!!}</td> --}}
-                        {{-- <td>
-                             @if($row->status=='open')
-                             <label class="lable lable-success">مفتوحة </label>
-                             @elseif($row->status=='closed')
-                             <label class="lable lable-warning">مغلقة </label>
-                                @else
-                                <label class="lable lable-warning">تم  تاكيد الاغلاق </label>
 
-                             @endif
-                            </td> --}}
 
 
                             <td>
@@ -66,6 +56,7 @@
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-id="{{$row->id}}" onclick="openModal({{$row->id}})" data-target="#exampleModal{{$row->id}}" id="button{{$row->id}}">
                                       تاكيد اغلاق الجلسة
                                     </button>
+                                    <label id="change{{$row->id}}"></label>
                                     @else
                                     <label class="btn-success" id="done">تم التاكيد</label>
                                 @endif
@@ -84,30 +75,72 @@
 
     </div>
 
+    @foreach($sessions as $row)
+       <!-- Modal -->
+       <div class="modal fade" id="exampleModal{{$row->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"> اغلاق  الجلسة </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {{-- {!!Form::open( ['route' => 'accounting.sessions.confirm' ,'class'=>'form phone_validate','method' => 'PATCH','files' => true]) !!} --}}
+                <form id="form{{$row->id}}" >
 
+                    <input type="hidden" name="csrf_token" id="csrf_token" value="{{ csrf_token() }}">
+
+                <div class="modal-body">
+                    <input type="hidden" name="session_id" class="session_id">
+
+                    <label> عهده  الجلسه</label>
+                    <input type="text" class="form-control" name="custody">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+                    <button class="btn btn-primary" id="real{{$row->id}}" type="button" data-dismiss="modal"="">    اضافة    عهدة الجلسة   </button>
+                </div>
+                </form>
+                {{--{!!Form::close() !!}--}}
+            </div>
+        </div>
+    </div>
+    <!-- end model-->
+@endforeach
 @endsection
 
 @section('scripts')
 
     <script>
-        function Delete(id) {
-            var item_id=id;
-            console.log(item_id);
-            swal({
-                title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذة الجلسة ؟",
-                icon: "warning",
-                buttons: ["الغاء", "موافق"],
-                dangerMode: true,
 
-            }).then(function(isConfirm){
-                if(isConfirm){
-                    document.getElementById('delete-form'+item_id).submit();
-                }
-                else{
-                    swal("تم االإلفاء", "حذف  الجلسة  تم الغاؤه",'info',{buttons:'موافق'});
-                }
-            });
-        }
+
+      function openModal(id) {
+
+$('.session_id').val(id);
+var  token=$('#csrf_token').val();
+
+   $(`#real${id}`).click(function (e) {
+       e.preventDefault();
+
+       $.ajax({
+           type: "post",
+
+           url: '{{route('accounting.sessions.confirm')}}',
+           data:   $('#form'+id).serialize()+"&_token="+token,
+           success: function (data) {
+               $('#button'+id).remove();
+               $("#change"+id).text('تم  تاكيد  الاغلاق');
+
+           },error:function (data) {
+               console.log(data);
+           }
+       });
+
+   })
+
+   }
+
+
     </script>
 @stop
