@@ -79,11 +79,12 @@ class BuyPointController extends Controller
         {
             $product_unit=AccountingProductSubUnit::where('bar_code',$q)->pluck('product_id');
             $products=AccountingProduct::whereIn('id',$product_unit)->get();
+            $product_id=AccountingProductSubUnit::where('bar_code',$q)->first();
         }
 
         return response()->json([
             'status'=>true,
-            'data'=>view('AccountingSystem.buy_points.barcodeProducts')->with('products',$products)->render()
+            'data'=>view('AccountingSystem.buy_points.barcodeProducts',compact('products','product_id'))->render()
         ]);
     }
     /**

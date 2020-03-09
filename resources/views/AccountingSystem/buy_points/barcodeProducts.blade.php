@@ -17,6 +17,7 @@
        data-total-taxes="{{ isset($producttax)? $product->total_taxes : '0'}}"
        data-subunits="{{$allunits}}"
        data-total_discounts="{{$product->total_discounts}}"
+       data-unit_id="{{$product_id}}"
        >
         {{$product->name}} - {{$product->bar_code}}
        </option>
