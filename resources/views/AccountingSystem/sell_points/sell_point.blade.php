@@ -222,7 +222,7 @@
                     </button>
                     @endif
                     <a class="btn btn-danger" href="{{route('accounting.sales.returns',$session->id)}}"> اضافة فاتورة مرتجع</a>
-                    <a class="btn btn-warning" href="{{route('accounting.sales.end',$session->id)}}"> تعليق الفاتورة</a>
+                    <a class="btn btn-warning" href="#" target="_blank"> تعليق الفاتورة</a>
                 </div>
                 @if(auth()->user()->is_saler==1)
                 <!-- Modal -->
