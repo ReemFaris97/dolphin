@@ -3,6 +3,8 @@
 @section('parent_title','إدارة نقطه البيع')
 @section('action', URL::route('accounting.categories.index'))
 @section('styles')
+<link href="{{asset('admin/assets/css/jquery.datetimepicker.min.css')}}" rel="stylesheet" type="text/css">
+
 <link href="{{asset('admin/assets/css/all.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/bill.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/customized.css')}}" rel="stylesheet" type="text/css">
@@ -50,10 +52,10 @@
                             <label> إسم العميل: </label>
                             {!! Form::select("client",$clients,null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر اسم العميل','data-live-search'=>'true','id'=>'client_id'])!!}
                         </div>
-                        <div class="form-group col-sm-4">
+                        {{-- <div class="form-group col-sm-4">
 							<label> رقم الفاتوره </label>
 							{!! Form::text("bill_num",null,['class'=>'selectpicker form-control inline-control','placeholder'=>' رقم الفاتوره',"id"=>'bill_num'])!!}
-						</div>
+						</div> --}}
 
                         <div class="form-group col-sm-4">
 							<label for="bill_date"> تاريخ الفاتورة </label>
@@ -260,8 +262,13 @@
 </div>
 @endsection
 @section('scripts')
+<script src="{{asset('admin/assets/js/jquery.datetimepicker.full.min.js')}}"></script>
+
 <script>
 
+$(document).ready(function() {
+		$('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
+	})
 	// For preventing user from inserting two methods of discount
 	function preventDiscount(){
 		$("input#byPercentage").change(function(){
@@ -273,6 +280,7 @@
 	}
 	$(document).ready(function(){
 		preventDiscount();
+
 	})
 
 $("#client_id").on('change', function() {
