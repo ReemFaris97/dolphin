@@ -612,17 +612,16 @@
 				if (data.data.length !== 0) {
 					$(".tempobar").html(data.data);
 					var selectedID = $(".tempobar").find('option').data('unit-id');
-					var alreadyChosen = $("table.bill-table tbody td select option[value=" + selectedID + "]");
-					var thhh = alreadyChosen.length;
+					var alreadyChosen = $(".bill-table tbody td select option[value=" + selectedID + "]");
 					var repeatedInputVal = alreadyChosen.parents('tr').find('.product-quantity').find('input');
-					if (thhh > 0) {
-						repeatedInputVal.val(Number(repeatedInputVal.val()) + 1);
-						repeatedInputVal.text(repeatedInputVal.val());
-						repeatedInputVal.trigger('change');
+					if (alreadyChosen.length > 0 && alreadyChosen.is(':selected')) {
+						$(".bill-table tbody td select option[value=" + selectedID + "]:selected").parents('tr').find('.product-quantity').find('input').val(Number(repeatedInputVal.val()) + 1);
+						$(".bill-table tbody td select option[value=" + selectedID + "]:selected").parents('tr').find('.product-quantity').find('input').text(repeatedInputVal.val());
+						$('.product-quantity').find('input').trigger('change');
 					} else {
 						rowNum++;
 						byBarcode();
-						repeatedInputVal.trigger('change');
+						$('.product-quantity').find('input').trigger('change');
 					}
 				}else if (data.data.length == 0){
 					alert ('عفوا , هذا الباركود غير مسجل ')
@@ -631,7 +630,6 @@
 		});
 		$(this).val('');
 	});
-
 	function byBarcode() {
 		$(".tempDisabled").removeClass("tempDisabled");
 		$(".tempobar").find('option').prop('selected', true);
