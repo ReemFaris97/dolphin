@@ -170,6 +170,36 @@
             <tbody class="add-services">
             </tbody>
         </table>
+
+        <!-- component table-->
+        <table id="componentTable" class="table ">
+            <thead>
+                <tr>
+                    <th> اسم الصنف</th>
+                    <th>الكمية</th>
+                    <th>الوحدة الاساسية</th>
+                    <th>العمليات</th>
+                </tr>
+            </thead>
+            <tbody class="add-components">
+            </tbody>
+        </table>
+        <!-- end table-->
+        <!-- offers table-->
+        <table id="offerTable" class="table ">
+            <thead>
+                <tr>
+                    <th> اسم المنتج التابع</th>
+                    <th>العمليات</th>
+                </tr>
+            </thead>
+            <tbody class="add-offers">
+            </tbody>
+        </table>
+        <!-- end table-->
+
+
+
 			</div>
 		</div>
 		<div id="menu2" class="tab-pane fade">
@@ -240,7 +270,21 @@
 					<label>عدد أيام فترة الركود</label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
 					{!! Form::number("num_days_recession",null,['class'=>'form-control'])!!}
 				</div>
-			</div>
+            </div>
+
+                    <!--discounts table-->
+            <table id="discountTable" class="table ">
+                <thead>
+                    <tr>
+                        <th> الكمية الاساسية</th>
+                        <th> الكمية الهدية</th>
+                        <th>العمليات</th>
+                    </tr>
+                </thead>
+                <tbody class="add-discounts">
+                </tbody>
+            </table>
+            <!-- end table-->
 		</div>
 		<div id="menu4" class="tab-pane fade">
 			<div class="row">
@@ -255,7 +299,8 @@
 				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal4" id="discounts_button">
 					العروض والخصومات
 				</button>
-			</div>
+            </div>
+
 		</div>
 		<div id="menu5" class="tab-pane fade">
 			<div class="row">
@@ -295,45 +340,9 @@
 </div>
 <!-- /collapsible with different panel styling -->
 <!-- end table-->
-<!-- component table-->
-<table id="componentTable" class="table ">
-	<thead>
-		<tr>
-			<th> اسم الصنف</th>
-			<th>الكمية</th>
-			<th>الوحدة الاساسية</th>
-			<th>العمليات</th>
-		</tr>
-	</thead>
-	<tbody class="add-components">
-	</tbody>
-</table>
-<!-- end table-->
-<!-- offers table-->
-<table id="offerTable" class="table ">
-	<thead>
-		<tr>
-			<th> اسم المنتج التابع</th>
-			<th>العمليات</th>
-		</tr>
-	</thead>
-	<tbody class="add-offers">
-	</tbody>
-</table>
-<!-- end table-->
-<!--discounts table-->
-<table id="discountTable" class="table ">
-	<thead>
-		<tr>
-			<th> الكمية الاساسية</th>
-			<th> الكمية الهدية</th>
-			<th>العمليات</th>
-		</tr>
-	</thead>
-	<tbody class="add-discounts">
-	</tbody>
-</table>
-<!-- end table-->
+
+
+
 
 <!-- end table-->
 <!-- Modal1 -->

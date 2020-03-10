@@ -53,12 +53,8 @@ class BenodController extends Controller
     {
         $rules = [
 
-
             'desc'=>'nullable|string',
             'image'=>'nullable|sometimes|image',
-
-
-
         ];
         $this->validate($request,$rules);
         $requests = $request->except('image');

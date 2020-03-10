@@ -18,4 +18,22 @@ class AccountingPurchaseItem extends Model
     {
         return $this->belongsTo(AccountingProduct::class,'product_id');
     }
+
+    public function discount(){
+        $discounts=AccountingItemDiscount::where('item_id',$this->id)->get();
+        $total=[];
+        $total['percentage']=0;
+        $total['amount']=0;
+        foreach($discounts as $discount){
+
+            if($discount->discount_type=='percentage'){
+             $total['percentage']+=$discount->discount;
+            }else{
+            $total['amount']+=$discount->discount;
+            }
+        }
+     
+        return $total;
+    }
+
 }

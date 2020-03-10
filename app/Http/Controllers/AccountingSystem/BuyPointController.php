@@ -2,24 +2,18 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
-use App\Models\AccountingSystem\AccountingBranch;
-use App\Models\AccountingSystem\AccountingBranchShift;
-use App\Models\AccountingSystem\AccountingClient;
-use App\Models\AccountingSystem\AccountingColumnCell;
-use App\Models\AccountingSystem\AccountingCompany;
 
-use App\Models\AccountingSystem\AccountingFaceColumn;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingProductStore;
-use App\Models\AccountingSystem\AccountingProductTax;
+use App\Models\AccountingSystem\AccountingProductSubUnit;
 use App\Models\AccountingSystem\AccountingSafe;
-use App\Models\AccountingSystem\AccountingSession;
 use App\Models\AccountingSystem\AccountingSupplier;
 use App\Traits\Viewable;
 use App\User;
+use Illuminate\Validation\Rules\Exists;
 use Request as GlobalRequest;
 
 class BuyPointController extends Controller
@@ -70,12 +64,28 @@ class BuyPointController extends Controller
 
     public  function barcode_search($q){
 
+
         $products=AccountingProduct::where('bar_code',$q)->get();
+
+		if(!$products->isEmpty())
+		{
+			$selectd_unit_id = 'main-'.$products[0]->id;
+		}
+        else
+        {
+            $product_unit=AccountingProductSubUnit::where('bar_code',$q)->pluck('product_id');
+            $products=AccountingProduct::whereIn('id',$product_unit)->get();
+            $unit=	AccountingProductSubUnit::where('bar_code',$q)->first();
+			if($unit)
+			$selectd_unit_id = $unit->id;
+			else
+				$select_unit_id = 0;
+        }
+
         return response()->json([
             'status'=>true,
-            'data'=>view('AccountingSystem.buy_points.barcodeProducts')->with('products',$products)->render()
+            'data'=>view('AccountingSystem.buy_points.barcodeProducts',compact('products','selectd_unit_id'))->render()
         ]);
-
     }
     /**
      * Store a newly created resource in storage.
@@ -83,12 +93,9 @@ class BuyPointController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-
-
     /**
      *
      * Display the specified resource.
-     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

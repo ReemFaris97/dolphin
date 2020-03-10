@@ -50,7 +50,7 @@
                     <div class="col-xs-12">
                         <div class="form-group col-sm-4">
                             <label> إسم العميل: </label>
-                            {!! Form::select("client",$clients,null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر اسم العميل','data-live-search'=>'true','id'=>'client_id'])!!}
+                            {!! Form::select("client",$clients,null,['class'=>'selectpicker form-control inline-control','data-live-search'=>'true','id'=>'client_id'])!!}
                         </div>
                         {{-- <div class="form-group col-sm-4">
 							<label> رقم الفاتوره </label>
@@ -222,7 +222,7 @@
                     </button>
                     @endif
                     <a class="btn btn-danger" href="{{route('accounting.sales.returns',$session->id)}}"> اضافة فاتورة مرتجع</a>
-                    <a class="btn btn-warning" href="{{route('accounting.sales.end',$session->id)}}"> تعليق الفاتورة</a>
+                    <a class="btn btn-warning" href="#" target="_blank"> تعليق الفاتورة</a>
                 </div>
                 @if(auth()->user()->is_saler==1)
                 <!-- Modal -->
@@ -248,7 +248,6 @@
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
                                 <button type="submit" class="btn btn-primary" onclick="document.getElementById('form1').submit()" >حفظ</button>
                             </div>
-
                         </div>
                     </div>
                 </div>
