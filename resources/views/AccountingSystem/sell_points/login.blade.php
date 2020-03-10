@@ -39,7 +39,7 @@
 
 <div class="form-group col-md-4 pull-left">
     <label>  كود الجهاز </label>
-    {!! Form::select("device_id",devices(),null,['class'=>'form-control js-example-basic-single ','placeholder'=>'   اختر كود الجهاز  '])!!}
+    {!! Form::select("device_id",$devices,null,['class'=>'form-control js-example-basic-single ','placeholder'=>'   اختر كود الجهاز  '])!!}
 </div>
 
 
@@ -62,7 +62,6 @@
         <button type="submit" id="register" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i></button>
     </div>
 </div>
-
 
             {!!Form::close() !!}
         </div>

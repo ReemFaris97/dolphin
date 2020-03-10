@@ -1021,10 +1021,19 @@
 											<td>
 												<span class="big-ser-hed-tit">{!! $row->product->category->ar_name!!}</span>
 												<ol class="sml-ser-tits">
-													<li>{!! $row->product->name!!}</li>
+                                                    <li>{!! $row->product->name!!}</li>
+                                                    <li><span> :  الكمية {{$row->quantity}}</span></li>
+
+                                                    @foreach ($row->discount() as $key=>$discount)
+                                                    @if($key=='percentage')
+                                                    <li><span>  : نسبةالخصم {{$discount}}</span></li>
+                                                    @elseif($key=='amount')
+                                                    <li><span>  : مبلغ الخصم {{$discount}} </span></li>
+
+                                                    @endif
+                                                    @endforeach
 												</ol>
 											</td>
-
 											<td>
 												<span class="all-sub-services-unit-pri-wrapper">
 													<span class="sml-ser-uni-pr">
@@ -1040,7 +1049,7 @@
                                         </tr>
 
                                         <tr>
-											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-minus"></i>الخصم</td>
+											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-minus"></i> نوع الخصم</td>
 											<td>
                                                 @if($purchase->discount_type=='percentage')
                                                 نسبه
@@ -1051,7 +1060,7 @@
 										</tr>
 
 										<tr>
-											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-minus"></i>الخصم</td>
+											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-minus"></i>قيمه  الخصم  على الفاتورة</td>
 											<td>{!! $purchase->discount !!}</td>
 										</tr>
 										<tr>
@@ -1082,12 +1091,22 @@
 
 										<tr>
 											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-money"></i>المدفوع</td>
-											<td>{!! $purchase->payed !!}</td>
+                                            @if( $purchase->payment=='cash')
+                                            <td>{!! $purchase->total  !!}</td>
+
+                                            @else
+                                            <td>{!! $purchase->payed !!}</td>
+                                            @endif
 										</tr>
 
 										<tr>
 											<th data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-export"></i>المتبقي</th>
-											<td>{!! $purchase->total- $purchase->payed  !!}</td>
+                                            @if( $purchase->payment=='cash')
+                                            <td>0</td>
+
+                                            @else
+                                            <td>{!! $purchase->total- $purchase->payed  !!}</td>
+                                            @endif
 										</tr>
 
 									</tbody>

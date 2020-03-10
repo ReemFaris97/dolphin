@@ -13,6 +13,7 @@ use App\Models\AccountingSystem\AccountingSale;
 use App\Models\AccountingSystem\AccountingSaleItem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingDevice;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingReturn;
 use App\Models\AccountingSystem\AccountingSession;
@@ -23,6 +24,7 @@ use Auth;
 use Carbon\Carbon;
 use Hash;
 use Request as GlobalRequest;
+use Session;
 
 class SaleController extends Controller
 {
@@ -224,6 +226,13 @@ class SaleController extends Controller
             'status'=>'closed',
 
            ]);
+
+           $device=AccountingDevice::find($session->device_id);
+           $device->update([
+               'available'=>'1'
+           ]);
+           Session::forget('session_id');
+
 
            return view('AccountingSystem.sell_points.login',compact('users'));
     }

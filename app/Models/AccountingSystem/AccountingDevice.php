@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class  AccountingDevice extends Model
 {
-    protected $fillable = ['store_id','name','code','model_id','model_type'];
+    protected $fillable = ['store_id','name','code','model_id','model_type','available'];
 
 
     public  function clause(){

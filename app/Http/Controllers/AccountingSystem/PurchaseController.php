@@ -88,30 +88,24 @@ class PurchaseController extends Controller
 
         $merges = $products->zip($qtys,$unit_id,$prices,$itemTax);
 
-$i=1;
+        $i=1;
         foreach ($merges as $merge)
         {
-
             $product=AccountingProduct::find($merge['0']);
-            if($merge['2']!='mainUnit'){
-
+            if($merge['2']!='main-'.$product->id){
                 $unit=AccountingProductSubUnit::where('product_id',$merge['0'])->where('id',$merge['2'])->first();
-
             }
             if($product->quantity>0){
-
             $item= AccountingPurchaseItem::create([
                 'product_id'=>$merge['0'],
                 'quantity'=> $merge['1'],
                 'price'=>$merge['3'],
-                'unit_id'=>($merge['2']!='mainUnit')?$unit->id:null,
-                'unit_type'=>($merge['2']!='mainUnit')?'sub':'main',
+                'unit_id'=>($merge['2']!='main-'.$product->id)?$unit->id:null,
+                'unit_type'=>($merge['2']!='main-'.$product->id)?'sub':'main',
                 'tax'=>$merge['4'],
                 'price_after_tax'=>$merge['3']+$merge['4'],
                 'purchase_id'=>$purchase->id
             ]);
-
-
             // $perc = $request->discount_item_percentage;
             // $val = $request->discount_item_value;
             $items=$request->items;
@@ -124,7 +118,6 @@ $i=1;
                     if($ke=='discount_item_percentage'){
                         foreach ($item2 as $k1 => $value) {
                                 if($item2[$k1]!=0){
-
                                     $discountItem= AccountingItemDiscount::create([
                                     'discount'=> $item2[$k1],
                                     'discount_type'=>'percentage',

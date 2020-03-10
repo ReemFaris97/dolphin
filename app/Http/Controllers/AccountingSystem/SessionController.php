@@ -12,14 +12,14 @@ use App\Models\AccountingSystem\AccountingMoneyClause;
 use App\Models\AccountingSystem\AccountingProductCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingDevice;
 use App\Models\AccountingSystem\AccountingSale;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Traits\Viewable;
 use App\User;
 use Carbon\Carbon;
 use Request as GlobalRequest;
-
-
+use Session;
 
 class SessionController extends Controller
 {
@@ -60,6 +60,7 @@ private $viewable = 'AccountingSystem.sessions.';
 
         ];
         $this->validate($request,$rules);
+
        $session= AccountingSession::create($inputs);
       $user=User::where('email',$inputs['email'])->first();
         $session->update([
@@ -72,7 +73,14 @@ private $viewable = 'AccountingSystem.sessions.';
         if ($request->password != null && !\Hash::check($request->password, $user->password)) {
             return back()->withInput()->withErrors(['password' => 'كلمه المرور  غير صحيحه']);
         }
+        $device=AccountingDevice::find($inputs['device_id']);
+        $device->update([
+            'available'=>'0'
+        ]);
+     
         alert()->success('تم فتح الجلسة بنجاح !')->autoclose(5000);
+        Session::put('session_id',$session->id);
+
         return \Redirect::route('accounting.sells_points.sells_point',['id' => $session->id])->with('session');
 
     }
