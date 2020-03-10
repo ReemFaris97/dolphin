@@ -1,6 +1,3 @@
-
-<div class="form-group block-gp col-md-12">
-    <select class=" form-control js-example-basic-single"  name="product_id" placeholder="اختر المنتج" id="selectID2">
         @foreach ($products as $product)
         <?php
         $producttax=\App\Models\AccountingSystem\AccountingProductTax::where('product_id',$product->id)->first();
@@ -12,6 +9,9 @@
 	$merged = array_merge(json_decode($mainunits), json_decode($allunits));
 		
      ?>
+<div class="form-group block-gp col-md-12">
+    <select class=" form-control js-example-basic-single"  name="product_id" placeholder="اختر المنتج" id="selectID2">
+
     <option value="{{$product->id}}"
        data-name="{{$product->name}}"
        data-price="{{$product->selling_price -(($product->selling_price*$product->total_discounts)/100)}}"
@@ -25,6 +25,7 @@
        >
         {{$product->name}} - {{$product->bar_code}}
        </option>
-        @endforeach
+       
     </select>
     </div>
+ @endforeach
