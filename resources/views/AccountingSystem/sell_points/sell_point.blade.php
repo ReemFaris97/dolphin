@@ -50,7 +50,7 @@
                     <div class="col-xs-12">
                         <div class="form-group col-sm-4">
                             <label> إسم العميل: </label>
-                            {!! Form::select("client",$clients,null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر اسم العميل','data-live-search'=>'true','id'=>'client_id'])!!}
+                            {!! Form::select("client",$clients,null,['class'=>'selectpicker form-control inline-control','data-live-search'=>'true','id'=>'client_id'])!!}
                         </div>
                         {{-- <div class="form-group col-sm-4">
 							<label> رقم الفاتوره </label>
@@ -248,7 +248,6 @@
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
                                 <button type="submit" class="btn btn-primary" onclick="document.getElementById('form1').submit()" >حفظ</button>
                             </div>
-
                         </div>
                     </div>
                 </div>

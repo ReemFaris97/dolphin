@@ -2,22 +2,14 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
-use App\Models\AccountingSystem\AccountingBranch;
-use App\Models\AccountingSystem\AccountingBranchShift;
-use App\Models\AccountingSystem\AccountingClient;
-use App\Models\AccountingSystem\AccountingColumnCell;
-use App\Models\AccountingSystem\AccountingCompany;
 
-use App\Models\AccountingSystem\AccountingFaceColumn;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingProductSubUnit;
-use App\Models\AccountingSystem\AccountingProductTax;
 use App\Models\AccountingSystem\AccountingSafe;
-use App\Models\AccountingSystem\AccountingSession;
 use App\Models\AccountingSystem\AccountingSupplier;
 use App\Traits\Viewable;
 use App\User;
@@ -74,7 +66,7 @@ class BuyPointController extends Controller
 
 
         $products=AccountingProduct::where('bar_code',$q)->get();
-		
+
 		if(!$products->isEmpty())
 		{
 			$selectd_unit_id = 'main-'.$products[0]->id;
@@ -101,12 +93,9 @@ class BuyPointController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-
-
     /**
      *
      * Display the specified resource.
-     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

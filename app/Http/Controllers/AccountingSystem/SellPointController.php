@@ -13,12 +13,14 @@ use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingDevice;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingProductTax;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Traits\Viewable;
 use App\User;
 use Request as GlobalRequest;
+use Session;
 
 class SellPointController extends Controller
 {
@@ -31,11 +33,11 @@ class SellPointController extends Controller
      */
     public function sell_point($id)
     {
+
         $categories=AccountingProductCategory::all();
-        $session=AccountingSession::find($id);
+        $session=AccountingSession::find(Session::get('session_id'));
         $clients=AccountingClient::pluck('name','id')->toArray();
         $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
-
 
         return  view('AccountingSystem.sell_points.sell_point',compact('categories','clients','session'));
     }
@@ -74,13 +76,11 @@ class SellPointController extends Controller
     public  function barcode_search($q){
 
         $products=AccountingProduct::where('bar_code',$q)->get();
-        // $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
 
         return response()->json([
             'status'=>true,
             'data'=>view('AccountingSystem.sell_points.sell')->with('products',$products)->render()
         ]);
-
     }
     /**
      * Store a newly created resource in storage.
@@ -92,6 +92,7 @@ class SellPointController extends Controller
     {
 
         $users=User::where('is_saler',1)->pluck('name','id')->toArray();
+        $devices=AccountingDevice::where('available',1)->pluck('name','id')->toArray();
         return view('AccountingSystem.sell_points.login',compact('users'));
     }
 
