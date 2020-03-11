@@ -93,7 +93,7 @@ class SellPointController extends Controller
 
         $users=User::where('is_saler',1)->pluck('name','id')->toArray();
         $devices=AccountingDevice::where('available',1)->pluck('name','id')->toArray();
-        return view('AccountingSystem.sell_points.login',compact('users'));
+        return view('AccountingSystem.sell_points.login',compact('users','devices'));
     }
 
     /**
