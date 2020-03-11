@@ -15,12 +15,16 @@ class CreateAccountingMoneyClausesTable extends Migration
     {
         Schema::create('accounting_money_clauses', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('ar_name');
-            $table->string('en_name')->nullable();
-            $table->string('en_description')->nullable();
-            $table->string('ar_description')->nullable();
+
+            // $table->string('ar_name');
+            // $table->string('en_name')->nullable();
+            // $table->string('en_description')->nullable();
+            // $table->string('ar_description')->nullable();
+            $table->string('sanad_num')->nullable();
+
             $table->decimal('default')->default(0);
             $table->enum('type',['revenue','expenses']);
+
             $table->timestamps();
         });
     }

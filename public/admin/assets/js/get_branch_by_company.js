@@ -31,6 +31,7 @@ $(function(){
             //         window.location.href='/sign_in';
             //     }
             // },
+
         }).done(function (data) {
             // var newOption = new Option(data.text, data.id, false, false);
             // $('#city_id').append(newOption).trigger('change');
@@ -51,6 +52,8 @@ $(function(){
                 $('#branch_id').attr('disabled',false);
             $('.branch_id').attr('data-live-search',true);
             $('#branch_id').find('option').remove().end().append(branches);
+			$('.branch_id option').prop('selected', false);
+
             $("#branch_id").selectpicker('refresh');
             // console.log(data);
         }).fail(function (error) {
@@ -59,5 +62,5 @@ $(function(){
 
      });
 
-    
+
 });

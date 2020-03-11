@@ -43,7 +43,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-       
+
         $rules = [
             'name'=>'required|string|max:191',
             'phone'=>'required|numeric|unique:users,phone',
@@ -57,6 +57,7 @@ class UserController extends Controller
             $requests['image'] = saveImage($request->image, 'photos');
         }
         $requests['is_admin']=1;
+        
         User::create($requests);
         alert()->success('تم اضافة المستخدم بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.users.index');

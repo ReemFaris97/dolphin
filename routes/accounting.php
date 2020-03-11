@@ -19,6 +19,9 @@ Route::middleware('admin')->group(function () {
     Route::get('/company_stores/{id}', 'StoreController@company_stores');
     Route::get('/branch_stores/{id}', 'StoreController@branch_stores');
     Route::get('/store-active/{id}', 'StoreController@active')->name('stores.is_active');
+
+    Route::post('/store-cost/{id}', 'StoreController@cost')->name('stores.update_cost_type');
+
     Route::get('/store-dis_active/{id}', 'StoreController@dis_active')->name('stores.dis_active');
     Route::get('/store-active-product/{id}', 'StoreController@active_product')->name('stores.is_active_product');
     Route::get('/store-dis_active-product/{id}', 'StoreController@dis_active_product')->name('stores.dis_active_product');
@@ -28,6 +31,8 @@ Route::middleware('admin')->group(function () {
     Route::get('/products_entry_form', 'StoreController@products_entry_form')->name('stores.products_entry_form');
     Route::post('/bond_store', 'StoreController@bond_store')->name('stores.bond_store');
     Route::get('/keepers_store/{id}', 'StoreController@getkeepers')->name('keepers_store');
+    Route::get('/stores_to/{id}', 'StoreController@stores_to')->name('stores_to');
+
 
     Route::get('/bonds', 'StoreController@bonds_index')->name('stores.bonds_index');
     Route::get('/bond-show/{id}', 'StoreController@bond_show')->name('stores.show_bond');
@@ -70,6 +75,8 @@ Route::middleware('admin')->group(function () {
     Route::get('/transaction', 'StoreTransactionController@transaction_form')->name('stores.transaction');
     Route::post('transactions', 'StoreTransactionController@transactions')->name('stores.transactions');
     Route::get('/products_store/{id}', 'StoreController@getproducts')->name('products_store');
+    Route::get('/products_purchase/{id}', 'PurchaseReturnController@getproducts')->name('products_purchase');
+
     Route::get('/products_settlement/{id}', 'StoreController@getproducts_')->name('products_settlement');
 
 
@@ -77,6 +84,8 @@ Route::middleware('admin')->group(function () {
     Route::get('/productsingle', 'StoreTransactionController@productsingle');
     Route::get('/productsettlement', 'StoreTransactionController@productsettlement');
     Route::get('/productdamage', 'StoreTransactionController@productdamage');
+    Route::get('/productpurchase', 'PurchaseReturnController@productpurchase');
+
 
     Route::get('/requests', 'StoreTransactionController@requests')->name('stores.requests');
     Route::get('/request/{id}', 'StoreTransactionController@request')->name('stores.request');
@@ -104,17 +113,34 @@ Route::middleware('admin')->group(function () {
     Route::post('/permium_store', 'ClientController@permium_store')->name('clients.permiums_store');
     Route::get('/offer_copy', 'ClientController@offer_copy')->name('clients.offers_copy');
     Route::post('/offers_copy', 'ClientController@copy')->name('clients.copy');
-    Route::resource('session', 'SessionController');
+    Route::get('sessions_close', 'SessionController@sessions_close')->name('sessions.sessions_close');
+
+    Route::resource('sessions', 'SessionController');
     Route::resource('sales', 'SaleController');
     Route::resource('clients', 'ClientController');
     Route::resource('categories', 'CategoryController');
     Route::resource('industrials', 'IndustrialController');
     Route::resource('safes', 'SafeController');
     Route::resource('devices', 'DeviceController');
-    Route::get('/returns', 'SaleController@returns')->name('sales.returns');
+    Route::resource('settings', 'SettingController');
+
+    Route::post('/store_returns', 'SaleController@store_returns')->name('sales.store_returns');
+
+    Route::get('/returns/{id}', 'SaleController@returns')->name('sales.returns');
+    Route::delete('/remove_Sale/{id}', 'SaleController@remove_Sale');
+
     Route::get('/returns_Sale/{id}', 'SaleController@returns_Sale');
     Route::get('/sale_details/{id}', 'SaleController@sale_details');
 
+
+    Route::get('/returns_purchases', 'PurchaseController@returns')->name('purchases.returns');
+    Route::post('/store_returns_purchases', 'PurchaseController@store_returns')->name('purchases.store_returns');
+
+
+    Route::post('/sale_end/{id}', 'SaleController@sale_end')->name('sales.end');
+
+
+    Route::get('/end_session/{id}', 'SaleController@end_session')->name('sales.end_session');
 
     Route::get('/company_devices/{id}', 'SafeController@company_devices');
     Route::get('/branch_devices/{id}', 'SafeController@branch_devices');
@@ -132,6 +158,9 @@ Route::middleware('admin')->group(function () {
 
     Route::resource('benods', 'BenodController');
     Route::resource('offers', 'OfferController');
+
+    Route::resource('puchaseReturns', 'PurchaseReturnController');
+
     Route::post('/product','OfferController@getAjaxProductQty')->name('getAjaxProductQty');
     Route::get('/order_sale/{id}','SaleController@sale_order')->name('sales.sale_order');
 
@@ -150,6 +179,19 @@ Route::middleware('admin')->group(function () {
     Route::post('/subunit', 'ProductController@subunit')->name('subunit');
 
     Route::get('/productsAjex/{id}', 'SellPointController@getProductAjex');
+
+    Route::get('/pro_search/{name}', 'SellPointController@pro_search');
+    Route::get('/barcode_search/{name}', 'BuyPointController@barcode_search');
+
+    Route::post('/confirm', 'SessionController@confirm')->name('sessions.confirm');
+
+
+    ////purchases
+    Route::get('/buy_point', 'BuyPointController@buy_point')->name('buy_point.buy_point');
+    Route::get('/productsAjexPurchase/{id}', 'BuyPointController@getProductAjex');
+    Route::resource('purchases', 'PurchaseController');
+    Route::get('/productReturnPurchase', 'PurchaseReturnController@product');
+
 
 });
 

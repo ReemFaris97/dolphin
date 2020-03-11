@@ -331,6 +331,15 @@ class StoreController extends Controller
 
 
 
+    public function stores_to($id)
+    {
+
+
+        return stores_to($id);
+    }
+
+
+
     public  function  bonds_index(){
 
         $bonds=AccountingBond::all();
@@ -464,6 +473,9 @@ class StoreController extends Controller
     }
 
 
+
+
+
     public function edit_bond($id){
 
 
@@ -486,7 +498,7 @@ class StoreController extends Controller
 
     public  function company_stores($id){
 
-        $basic_stores=AccountingStore::where('model_id',$id)->where('model_type','App\Models\AccountingSystem\AccountingCompany')->pluck('ar_name','id')->toArray();
+        $basic_stores=AccountingStore::where('model_id',$id)->where('model_type','App\Models\AccountingSystem\AccountingCompany')->where('type','1')->pluck('ar_name','id')->toArray();
 
 
         return response()->json([
@@ -507,6 +519,7 @@ class StoreController extends Controller
         ]);
 
     }
+
 
 
     public  function active($id){
@@ -549,5 +562,16 @@ class StoreController extends Controller
         return back();
     }
 
+
+    public function cost(Request $request,$id){
+        $inventory= AccountingInventory::find($id);
+        $inventory->update([
+            'cost_type'=>$request['cost_type'],
+        ]);
+        // alert()->success('تم الغاءتفعيل المخزن بنجاح !')->autoclose(5000);
+        $inventory_products=AccountingInventoryProduct::where('inventory_id',$id)->get();
+
+        return view('AccountingSystem.stores.invertory_details',compact('inventory_products','inventory'));
+    }
 }
 

@@ -28,6 +28,7 @@
                     <th> اسم المورد </th>
                     <th>الجوال</th>
                     <th>الايميل</th>
+                    <th>رصيد المورد</th>
 
                     <th class="text-center">العمليات</th>
                 </tr>
@@ -41,6 +42,8 @@
                         <td>{!! $row->phone!!}</td>
 
                         <td>{!! $row->email!!}</td>
+                        <td>{!! $row->amount!!}</td>
+
                         <td class="text-center">
                             <a href="{{route('accounting.suppliers.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>

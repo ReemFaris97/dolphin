@@ -11,6 +11,10 @@ use App\Models\AccountingSystem\AccountingMoneyClause;
 use App\Models\AccountingSystem\AccountingProductCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingBenod;
+use App\Models\AccountingSystem\AccountingClient;
+use App\Models\AccountingSystem\AccountingSafe;
+use App\Models\AccountingSystem\AccountingSupplier;
 use App\Traits\Viewable;
 
 class ClauseController extends Controller
@@ -36,8 +40,11 @@ class ClauseController extends Controller
     public function create()
     {
 
-
-        return $this->toCreate();
+        $safes =AccountingSafe::pluck('name','id')->toArray();
+        $clients =AccountingClient::pluck('name','id')->toArray();
+        $suppliers =AccountingSupplier::pluck('name','id')->toArray();
+        $benods=AccountingBenod::pluck('ar_name','id')->toArray();
+        return $this->toCreate(compact('safes','clients','suppliers','benods'));
     }
 
     /**
@@ -48,22 +55,74 @@ class ClauseController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [
-
-            'ar_name'=>'required|string|max:191',
-            'en_name'=>'nullable|string|max:191',
-            'ar_description'=>'nullable|string',
-            'en_description'=>'nullable|string',
+    //    dd($request->all());
+        // $rules = [
 
 
 
-
-        ];
-        $this->validate($request,$rules);
+        // ];
+        // $this->validate($request,$rules);
         $requests = $request->all();
 
-        AccountingMoneyClause::create($requests);
-        alert()->success('تم اضافة  البند   بنجاح !')->autoclose(5000);
+        $safe=AccountingSafe::find($requests['safe_id']);
+
+       $clause = AccountingMoneyClause::create($requests);
+
+     //--------------------------client----------------------------------------
+       if($clause->concerned=='client'){
+
+        if($clause->type=='revenue'){
+            //من  العميل  للخزينه رصيد الخزينة  بيزيدالايراااد
+//المبيعات
+            $safe->update([
+
+            'amount'=>$safe->amount+$requests['amount']
+
+            ]);
+
+        }elseif($clause->type=='expenses'){
+    //من االخزنه للعمييل  بيقلل مد
+//فى حاله المرتجاع   للمبيعات
+if($requests['amount'] <= $safe->amount){
+    $safe->update([
+
+        'amount'=>$safe->amount-$requests['amount']
+
+        ]);
+    }
+        }
+//--------------------------supplier------------------------------------
+    }
+    elseif($clause->concerned=='supplier'){
+
+        $supplier=AccountingSupplier::find($requests['supplier_id']);
+        if($clause->type=='revenue'){
+            //من  المورد  للخزينه رصيد الخزينة  بيزيدالايراااد
+           // فى  حاله  المرتجعات
+            $safe->update([
+            'amount'=>$safe->amount+$requests['amount']
+            ]);
+            $supplier->update([
+            'amount'=>$supplier->amount+$requests['amount']
+            ]);
+        }
+        elseif($clause->type=='expenses'){
+    // من المورد للخزنه  بيقلل رصيد الخزنه والرصيد للمورد كمان هيقل
+    //فى حاله  انشاء  مشترى
+    if($requests['amount'] <= $safe->amount){
+        $safe->update([
+            'amount'=>$safe->amount-$requests['amount']
+            ]);
+    }
+    if($requests['amount'] <= $supplier->amount){
+
+    $supplier->update([
+            'amount'=>$supplier->amount-$requests['amount']
+            ]);
+        }
+    }
+ }
+        alert()->success('تم اضافة سند بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.clauses.index');
     }
 
@@ -73,10 +132,6 @@ class ClauseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -87,10 +142,11 @@ class ClauseController extends Controller
     public function edit($id)
     {
         $clause =AccountingMoneyClause::findOrFail($id);
-
-        return $this->toEdit(compact('clause'));
-
-
+        $safes =AccountingSafe::pluck('name','id')->toArray();
+        $clients =AccountingClient::pluck('name','id')->toArray();
+        $suppliers =AccountingSupplier::pluck('name','id')->toArray();
+        $benods=AccountingBenod::pluck('ar_name','id')->toArray();
+        return $this->toEdit(compact('clause','safes','clients','suppliers','benods'));
     }
 
     /**
@@ -104,22 +160,17 @@ class ClauseController extends Controller
     {
         $clause =AccountingMoneyClause::findOrFail($id);
 
-        $rules = [
-            'ar_name'=>'required|string|max:191',
-            'en_name'=>'nullable|string|max:191',
-            'ar_description'=>'nullable|string',
-            'en_description'=>'nullable|string',
-
-        ];
-        $this->validate($request,$rules);
+        // $rules = [
+        //     'ar_name'=>'required|string|max:191',
+        //     'en_name'=>'nullable|string|max:191',
+        //     'ar_description'=>'nullable|string',
+        //     'en_description'=>'nullable|string',
+        // ];
+        // $this->validate($request,$rules);
         $requests = $request->all();
-
         $clause->update($requests);
         alert()->success('تم تعديل  البند بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.clauses.index');
-
-
-
     }
 
     /**

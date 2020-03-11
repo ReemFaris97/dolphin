@@ -70,7 +70,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-//  dd($request->all());
+ //dd($request->all());
         $rules = [
 
             'description'=>'nullable|string',
@@ -87,12 +87,12 @@ class ProductController extends Controller
             'image'=>'nullable|sometimes|image',
             'width'=>'nullable|string',
             'num_days_recession'=>'nullable|string',
-            'cell_id'=>'required',
+            // 'cell_id'=>'required',
 
         ];
         $this->validate($request,$rules);
 
-        $inputs = $request->except('name','image','bar_code','main_unit_present','purchasing_price','selling_price','component_names','qtys','main_units');
+        $inputs = $request->except('name','image','main_unit_present','purchasing_price','selling_price','component_names','qtys','main_units');
         $inputs['name']=$inputs['name_product'];
         $inputs['selling_price']=$inputs['product_selling_price'];
         $inputs['purchasing_price']=$inputs['product_purchasing_price'];
@@ -100,6 +100,7 @@ class ProductController extends Controller
         if ($request->hasFile('image')) {
             $inputs['image'] = saveImage($request->image, 'photos');
         }
+        // dd($inputs);
        $product= AccountingProduct::create($inputs);
 
        if (isset($inputs['store_id']))
@@ -216,7 +217,7 @@ class ProductController extends Controller
 
 /////////////////////product_taxs//////////////////////////////////////
 
-        if (isset($request['tax'])){
+        if (isset($request['tax'])&$request['tax']==1){
             // dd($request->all());
             foreach($request['tax_band_id'] as $tax_band_id){
             AccountingProductTax::create([
@@ -305,9 +306,11 @@ class ProductController extends Controller
         $is_edit = 1;
         $storeproduct=AccountingProductStore::where('product_id',$id)->first();
         $store=AccountingStore::find(optional($storeproduct)->store_id??1);
+        // dd($store);
         $stores=AccountingStore::all();
+        $taxs=AccountingTaxBand::pluck('name','id')->toArray();
 
-        return $this->toEdit(compact('industrials','face','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores','units'));
+        return $this->toEdit(compact('industrials','taxs','face','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores','units'));
 
 
     }
@@ -468,11 +471,11 @@ class ProductController extends Controller
     {
         $stores=[];
         $branches_ids=explode(',',$branches);
+        // dd($branches);
         $branch=AccountingBranch::find($branches_ids[0]);
         $company_id=$branch->company_id;
         $stores_company=AccountingStore::where('model_type','App\Models\AccountingSystem\AccountingCompany')->where('model_id',$company_id)->get();
         $collect1=collect($stores_company);
-
 
         $stores_branch =[];
        foreach($branches_ids as  $branch_id)
@@ -484,14 +487,13 @@ class ProductController extends Controller
 
        }
         $collect2=collect($stores_branch);
-
         $merged=$collect2->merge($collect1);
-        $stores=$merged->all();
-
-//        return $stores;
+        $stores_=$merged->all();
+     // dd(collect($merged));
+      $stores= collect($stores_)->filter();
         return response()->json([
             'status'=>true,
-            'data'=>view('AccountingSystem.products.getAjaxStores')->with('stores',$stores)->render()
+            'data'=>view('AccountingSystem.products.getAjaxStores',compact('stores'))->render()
         ]);
     }
 

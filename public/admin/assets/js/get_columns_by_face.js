@@ -36,6 +36,8 @@ $(function(){
             $('.column_id').attr('data-live-search',true);
             $('.column_id').attr('placeholder',"اختر العمود");
             $('#column_id').find('option').remove().end().append(columns);
+            $('.column_id option').prop('selected', false);
+
             $("#column_id").selectpicker('refresh');
 
         }).fail(function (error) {
@@ -44,5 +46,5 @@ $(function(){
     });
 
 
-    
+
 });

@@ -10,8 +10,10 @@ class AccountingColumnCell extends Model
 
 
 
-    public function column ()
+    public function column()
     {
         return $this->belongsTo(AccountingFaceColumn::class,'column_id');
     }
+
+
 }

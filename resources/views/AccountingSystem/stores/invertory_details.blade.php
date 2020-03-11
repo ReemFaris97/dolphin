@@ -20,6 +20,11 @@
                 </ul>
             </div>
         </div>
+{{--
+        <div class="form-group col-md-6 pull-left">
+            <label class="label label-info">   تحمل الجرد : </label>
+            <span> على  الشركة</span>
+        </div> --}}
 
 
         <button type="button" class="btn btn-primary" data-toggle="modal"  data-target="#exampleModal" id="button">

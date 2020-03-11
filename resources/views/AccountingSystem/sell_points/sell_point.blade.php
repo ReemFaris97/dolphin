@@ -3,421 +3,529 @@
 @section('parent_title','إدارة نقطه البيع')
 @section('action', URL::route('accounting.categories.index'))
 @section('styles')
-<!--    <link href="{!! asset('dashboard/assets/bill.css')!!}" rel="stylesheet" type="text/css"/>-->
+<link href="{{asset('admin/assets/css/jquery.datetimepicker.min.css')}}" rel="stylesheet" type="text/css">
 
 <link href="{{asset('admin/assets/css/all.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/bill.css')}}" rel="stylesheet" type="text/css">
+<link href="{{asset('admin/assets/css/customized.css')}}" rel="stylesheet" type="text/css">
 @endsection
-
 @section('content')
-
-    <div class="panel panel-flat">
-        <div class="panel-heading">
-            <h5 class="panel-title">نقطة البيع</h5>
-
-                {{-- <label>اسم الكاشير  </label>
-                  {{$session->user_id}} --}}
-
-
-
-            <div class="heading-elements">
-                <ul class="icons-list">
-                    <li><a data-action="collapse"></a></li>
-                    <li><a data-action="reload"></a></li>
-                    <li><a data-action="close"></a></li>
-                </ul>
-            </div>
+<div class="panel panel-flat">
+    <div class="panel-heading">
+        <h5 class="panel-title">نقطة البيع
+            <b class="time-r" id="theTime"></b>
+        </h5>
+        <div class="heading-elements">
+            <ul class="icons-list">
+                <li><a data-action="collapse"></a></li>
+                <li><a data-action="reload"></a></li>
+                <li><a data-action="close"></a></li>
+            </ul>
         </div>
-        <div class="panel-body">
-            <!----------------  Start Bill Content ----------------->
-            <section class="yourBill">
+    </div>
+    <div class="panel-body">
+        <!----------------  Start Bill Content ----------------->
+        <section class="yourBill">
+            <div class="yurSections">
                 <div class="row">
-
-
-
-                    <div class="col-md-8 col-sm-6 col-xs-12">
-                        <div class="yurSections">
-
-                            <div class="col-xs-12">
-  <!-- Nav tabs -->
-  <ul class="nav nav-tabs" role="tablist">
-      @foreach ($categories as $category)
-    <li role="presentation"><a href="#mobile" aria-controls="mobile" role="tab" data-toggle="tab" onclick="category({{$category->id}})" class="category">{{$category->ar_name}}</a></li>
-          @endforeach
-  </ul>
-
-
-                            <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane active" >
-                                    <div class="yurProdc">
-                                        {{--<div class="col-lg-4 col-sm-12 col-xs-6">--}}
-                                            {{--<div class="prod1">--}}
-                                                {{--<div class="inDetails"></div>--}}
-                                                {{--<input type="checkbox" class="if-check" id="myCheckbox1" data-price="650"/>--}}
-                                                {{--<label class="new-p" for="myCheckbox1">--}}
-                                                    {{--<span class="price">650 ر.س</span>--}}
-                                                    {{--<img src="https://www.itl.cat/pngfile/big/30-303191_background-images-for-editing-editing-pictures-background-background.jpg">--}}
-                                                    {{--<h4 class="name">منتج متوسط السعر تج متوسط السعر </h4>--}}
-                                                {{--</label>--}}
-                                            {{--</div>--}}
-                                        {{--</div>--}}
-
-                                    </div>
-                                </div>
-
-
-
-                            </div>
-
-                            <div class="col-xs-12">
-                                <input class="fxd-btn" id="fxd-btn" type="submit" value="إتمام" data-dismiss='modal' disabled>
-                            </div>
-
+                    <!-- Nav tabs -->
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label> اسم الكاشير: </label>
+                            {{$session->user->name}}
                         </div>
                     </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="form-group"><label> اسم الوردية: </label>
+
+                            {{$session->shift->name}}
+                        </div>
                     </div>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <div class="result" id="the-choseen-parts">
-                            <form method="post" action="{{route('accounting.sales.store')}}">
-                                @csrf
-
-                                <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
-                                    <label> اسم الشركة </label>
-                                    {!! Form::select("company_id",companies(),null,['class'=>'form-control js-example-basic-single company_id','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له المنتج '])!!}
-
-                                </div>
-
-                                <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
-                                    <label> اسم الفرع التابع </label>
-                                    {!! Form::select("branch_id",branches(),null,['class'=>'form-control selectpicker branch_id','id'=>'branch_id','multiple','placeholder'=>' اختر اسم الفرع التابع له المنتج '])!!}
-                                </div>
-
-                                <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left" id="store_id">
-                                    <label> اسم المخزن </label>
-
-                                        {!! Form::select("store_id",stores(),null,['class'=>'form-control js-example-basic-single store_id','id'=>'store_id','placeholder'=>' اختر اسم المخزن التابع له المنتج '])!!}
-
-                                </div>
-
-                            <table border="1" class="finalTb">
-                                <thead>
-                                <tr>
-                                    <th>المنتج</th>
-                                    <th>الكمية</th>
-                                    <th>السعر قبل الضريبة</th>
-                                    <th>السعر بعد الضريبة</th>
-                                </tr>
-                                </thead>
-                                <tbody></tbody>
-                                <tfoot>
-                                	<tr id="amountBeforeDariba">
-										<th colspan="2"> المجموع</th>
-										<input type="hidden" name="">
-										<th colspan="2"></th>
-									</tr>
-                                	<tr id="amountOfDariba">
-										<th colspan="2"> قيمة الضريبة</th>
-										<input type="hidden" name="">
-										<th colspan="2"></th>
-									</tr>
-									<tr>
-										<th colspan="2">المجموع بعد الضريبة</th>
-										<input type="hidden" name="amount" id="amount">
-										<th colspan="2" id="allResult" ></th>
-									</tr>
-									<tr id="discountArea">
-										<th colspan="2">
-											الخصم
-											<div class="discount-options">
-												<span>
-													<input type="radio" id="asPercent" name="theDiscount" checked>
-													<label for="asPercent">نسبة</label>
-												</span>
-												<span>
-													<input type="radio" id="asVal" name="theDiscount">
-												    <label for="asVal">مبلغ</label>
-												</span>
-											</div>
-										</th>
+                        <div class="form-group">
+                            <label> تاريخ  بداية الجلسة :</label>
+                            {{$session->start_session}}
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="form-group col-sm-4">
+                            <label> إسم العميل: </label>
+                            {!! Form::select("client",$clients,null,['class'=>'selectpicker form-control inline-control','data-live-search'=>'true','id'=>'client_id'])!!}
+                        </div>
+                        {{-- <div class="form-group col-sm-4">
+							<label> رقم الفاتوره </label>
+							{!! Form::text("bill_num",null,['class'=>'selectpicker form-control inline-control','placeholder'=>' رقم الفاتوره',"id"=>'bill_num'])!!}
+						</div> --}}
 
 
+                        <div class="form-group col-sm-4">
+							<label for="bill_date"> تاريخ الفاتورة </label>
+							{!! Form::text("bill_date",null,['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' تاريخ الفاتورة',"id"=>'bill_date'])!!}
+                        </div>
+                    </div>
+                    {{-- <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="form-group block-gp">
+                            <label>اسم القسم </label>
+                            {!! Form::select("category_id",$categories,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}
+                        </div>
+                    </div> --}}
 
-										<th colspan="2"><input type="number" name="discount" placeholder="النسبة المئوية للخصم" min="0" max="100" id="sale"></th>
-									</tr>
-									<tr>
-										<th colspan="2">المجموع بعد الخصم</th>
-										<input type="hidden" name="total" id="total">
-										<th colspan="2" id="reminder"></th>
-									</tr>
-									<tr>
-										<th colspan="2">المدفوع</th>
-										<th colspan="2"><input type="number" id="paid"name="payed" placeholder="المدفوع" min="0" ></th>
-									</tr>
-									<tr>
-										<th colspan="2">المتبقي</th>
-										<th colspan="2" id="lastreminder"></th>
-										<input type="hidden"  id="reminder1" name="reminder">
-									</tr>
-									<tr>
-										<th colspan="2">العميل</th>
-										<th colspan="2">
-											{!! Form::select("client_id",$clients,null,['class'=>'form-control','placeholder'=>'اسم العميل '])!!}
-										</th>
-                                    </tr>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="form-group block-gp">
+							<label>اسم القسم </label>
+							{!! Form::select("category_id",$categories,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}
+						</div>
+					</div>
 
-                                    <input type="hidden" id="totalTaxs" name="totalTaxs">
-									<tr>
-										<th colspan="2">طريقه الدفع</th>
-										<th colspan="2">
-											{!! Form::select("payment",pay_type(),null,['class'=>'form-control','placeholder'=>'طريقه الدفع '])!!}
-										</th>
-									</tr>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<div class="yurProdc">
+						</div>
+					</div>
+                </div>
+            </div>
+            <div class="result">
+                <form method="post" action="{{route('accounting.sales.store')}}">
+                    @csrf
+                    <input type="hidden" name="user_id" value="{{$session->user_id}}">
+                    <input type="hidden" name="session_id" value="{{$session->id}}">
+                    <input type="hidden" name="shift_id" value="{{$session->shift_id}}">
+                    <input type="hidden" name="client_id" id="client_id_val">
 
-                                <tr>
-                                    <th colspan="4">
-                                  		<button type="submit">دفع</button>
-                                    </th>
-                                </tr>
-                                </tfoot>
-                            </table>
+                    <table border="1" class="finalTb mabi3at-bill bill-table">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">م</th>
+                                <th rowspan="2">اسم الصنف</th>
+                                <th rowspan="2">الوحدة</th>
+                                <th rowspan="2">الكمية</th>
+                                <th colspan="2" rowspan="1" class="th_lg">
+                                    سعر الوحدة
+                                </th>
+                                <th colspan="2" rowspan="1" class="th_lg">
+                                    الإجمالى
+                                </th>
+                                <th rowspan="2"> حذف </th>
+                            </tr>
+                            <tr>
+                                <th rowspan="1">قبل الضريبة</th>
+                                <th rowspan="1">بعد الضريبة</th>
+                                <th rowspan="1">قبل الضريبة</th>
+                                <th rowspan="1">بعد الضريبة</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+<!--						Space For Appended Products-->
+                        </tbody>
+                        <tfoot class="tempDisabled">
+                            <tr id="amountBeforeDariba">
+                                <th colspan="2"> المجموع</th>
+                                <input type="hidden" class="dynamic-input">
+                                <th colspan="7" class="rel-cols">
+                                   <span class="dynamic-span">0</span>
+                                   <span class="rs"> ر.س </span>
+                                </th>
+                            </tr>
+                            <tr id="amountOfDariba">
+                                <th colspan="2"> قيمة الضريبة</th>
+                                <input type="hidden" class="dynamic-input" name="totalTaxs" id="amountOfDariba1">
+                                <th colspan="7" class="rel-cols">
+                                   <span class="dynamic-span">0</span>
+                                   <span class="rs"> ر.س </span>
+                                </th>
+                            </tr>
+                            <tr id="amountAfterDariba">
+                                <th colspan="2">المجموع بعد الضريبة</th>
+                                <input type="hidden" class="dynamic-input" name="amount" id="amountAfterDarib1">
+                                <th colspan="7" class="rel-cols">
+									<span class="dynamic-span">0</span>
+                                    <span class="rs"> ر.س </span>
+                                </th>
+                            </tr>
+                            <tr id="discountArea">
+                                <th colspan="2">
+                                    الخصم
+                                </th>
+                                <th colspan="7" >
+                                    <div class="inline_divs">
+                                    <div class="form-group">
+                                        <div class="rel-cols">
+                                            <label for="byPercentage">ادخل نسبة الخصم</label>
+                                            <input type="number" placeholder="النسبة المئوية للخصم" min="0" value="0" max="100" id="byPercentage"
+                                            class="form-control dynamic-input" name="discount_byPercentage">
+                                            <span class="rs"> % </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="rel-cols">
+                                            <label for="byAmount">ادخل مبلغ الخصم</label>
+                                            <input type="number" placeholder="مبلغ الخصم" min="0" value="0" max="1" id="byAmount"
+                                            class="form-control dynamic-input" name="discount_byAmount">
+                                            <span class="rs"> ر.س </span>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </th>
+                            </tr>
+                            <tr id="demandedAmount">
+                                <th colspan="2">المطلوب دفعه</th>
+                                <input type="hidden" name="total" id="total">
+                                <th colspan="7" id="reminder" class="rel-cols">
+                                    <span class="dynamic-span">0</span>
+                                    <span class="rs"> ر.س </span>
+                                </th>
+                            </tr>
+                            <tr id="paidAmount">
+                                <th colspan="2">المدفوع</th>
+                                <th colspan="7">
+                                    <div class="inline_divs">
+										<div class="form-group rel-cols">
+											<label for="byCache">كاش</label>
+											<input type="number" id="byCache" placeholder="المدفوع كاش" min="0" class="form-control dynamic-input" name="cash">
+											<span class="rs"> ر.س </span>
+										</div>
+										<span> + </span>
+										<div class="form-group rel-cols">
+											<label for="byNet">شبكة</label>
+											<input type="number" id="byNet" placeholder="المدفوع شبكة" min="0" class="form-control dynamic-input" name="network">
+											<span class="rs"> ر.س </span>
+										</div>
+										<div class="rel-cols">
+                                            <input type="hidden" name="payed" id="allPaid1">
+											<span class="dynamic-span" id="allPaid">0</span>
+											<span class="rs"> ر.س </span>
+										</div>
+                                    </div>
+                                </th>
+                            </tr>
+                            <tr id="remaindedAmount">
+                                <th colspan="2">المتبقي</th>
+                                <th colspan="7" class="rel-cols">
+                                    <span class="dynamic-span">0</span>
+                                    <span class="rs"> ر.س </span>
+                                </th>
+                                <input type="hidden" class="dynamic-input" id="remainder-inputt" name="reminder">
+                            </tr>
+                            <tr>
+                                <th colspan="9">
+                                    <button type="submit">حفظ</button>
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                </form>
+                <div class="newly-added-2-btns-">
+
+                    @if(auth()->user()->is_saler==1)
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        اغلاق الجلسة
+                    </button>
+                    @endif
+                    <a class="btn btn-danger" href="{{route('accounting.sales.returns',$session->id)}}"> اضافة فاتورة مرتجع</a>
+                    <a class="btn btn-warning" href="#" target="_blank"> تعليق الفاتورة</a>
+                </div>
+                @if(auth()->user()->is_saler==1)
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel"> اغلاق الجلسة </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="post" action="{{route('accounting.sales.end',auth()->user()->is_saler)}}" id="form1">
+                                        @csrf
+                                    <input type="hidden" name="session_id" value="{{$session->id}}" >
+                                    <label style="color:black">  الباسورد</label>
+                                    <input type="password" name="password" class="form-control">
+                                </form>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+                                <button type="submit" class="btn btn-primary" onclick="document.getElementById('form1').submit()" >حفظ</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </section>
-            <!----------------  End Bill Content ----------------->
-        </div>
+                @endif
+            </div>
+        </section>
+        <!----------------  End Bill Content ----------------->
     </div>
+</div>
 @endsection
 @section('scripts')
-    <!------------ IF Checked --------------->
-    <script>
-		function  category(id) {
-    $.ajax({
-        type: 'get',
-        url: "/accounting/productsAjex/" + id,
-        data: {id: id},
-        dataType: 'json',
-        success: function (data) {
-            $('.yurProdc').html("");
-            $('.yurProdc').append(data.data);
-            var numberOfItems = 0;
-            $('.if-check').change(function() {
-                var $this = $(this);
-                if ($this.is(':checked')) {
-                    var newInput = $(`<div class="addme">
-							<div class="quant">
-								<div class="count">
-									<div class="value-button cart-qty-plus"> <i class="fas fa-arrow-circle-up"></i> </div>
-										<input type="number" readonly min="1" value="1" id="number" class="number">
-									<div class="value-button cart-qty-minus"> <i class="fas fa-arrow-circle-down"></i> </div>
-								</div>
-							</div>
-						</div>`);
-                    $($this).prev('.inDetails').append(newInput);
-                    numberOfItems++;
-                    //                    input number simulator function
-                    var incrementPlus;
-                    var incrementMinus;
-                    var buttonPlus = $(this).parents('.prod1').find(".addme").find(".cart-qty-plus");
-                    var buttonMinus = $(this).parents('.prod1').find(".addme").find(".cart-qty-minus");
-                    var incrementPlus = buttonPlus.click(function() {
-                        var $n = $(this)
-                            .parent(".count")
-                            .parent(".quant")
-                            .find(".number");
-                        $n.val(Number($n.val()) + 1);
-                    });
-                    var incrementMinus = buttonMinus.click(function() {
-                        var $n = $(this)
-                            .parent(".count")
-                            .parent(".quant")
-                            .find(".number");
-                        var amount = Number($n.val());
-                        if (amount > 1) {
-                            $n.val(amount - 1);
-                        }
-                    });
-                } else {
-                    $($this).parent(".prod1").find('.inDetails').find('.addme').remove();
-                    numberOfItems--;
-                }
-                console.log("The Number of Selected Items is : " + numberOfItems);
-                if (numberOfItems == 0) {
-                    $(".fxd-btn").attr('disabled', 'true');
-                } else {
-                    $(".fxd-btn").removeAttr('disabled');
-                }
-            });
+<script src="{{asset('admin/assets/js/jquery.datetimepicker.full.min.js')}}"></script>
 
-			function addClicked()  {
-                $(".finalTb tbody").html('');
-                $('.if-check').each(function() {
-                    if ($(this).is(':checked')) {
-						console.log("-----------------------------------------");
-                        var itemName = $(this).parent(".prod1").find(".new-p").find('.name').html();
-                        var itemId = $(this).parent(".prod1").find(".new-p").find('.id').val();
-                        console.log("The Product Name is : " + itemName);
-                        var itemQuantity = parseFloat($(this).parent('.prod1').find('.inDetails').find('input').val());
-                        console.log("The " + itemName + " item Quantity is" + itemQuantity);
-						var ifHasTax = $(this).parent(".prod1").find('.ifHasTax').html();
-						console.log("The " + itemName + " item Tax Type is" + ifHasTax);
-						var totalTaxes = $(this).parent(".prod1").find('.totalTaxes').html();
-						console.log("The " + itemName + " item Total Taxes is" + totalTaxes);
-                        var itemPrice = parseFloat($(this).next('.new-p').find('.pric-holder').val());
-						var totalR = parseFloat(itemQuantity) * parseFloat(itemPrice) ;
-                        console.log("The Total Money is : " + totalR);
-						var itemAfterTax;
-						var itemBeforeTax;
-						if (ifHasTax == 0){
-							itemAfterTax = parseFloat(itemPrice) + (parseFloat(itemPrice) * (parseFloat(totalTaxes) / 100));
-							itemBeforeTax = parseFloat(itemPrice);
-						} else {
-							itemBeforeTax = parseFloat(itemPrice) / (1 + (parseFloat(totalTaxes) / 100));
+<script>
 
-							itemAfterTax = parseFloat(itemPrice);
+$(document).ready(function() {
+		$('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
+	})
+	// For preventing user from inserting two methods of discount
+	function preventDiscount(){
+		$("input#byPercentage").change(function(){
+			$("input#byAmount").val(0);
+		});
+		$("input#byAmount").change(function(){
+			$("input#byPercentage").val(0);
+		});
+	}
+	$(document).ready(function(){
+		preventDiscount();
 
-						}
-                        // alert(totalTaxes);
-                        $('#totalTaxs').val(totalTaxes);
-						console.log("The price Before : " + itemBeforeTax);
-						console.log("The price After : " + itemAfterTax);
+	})
 
+$("#client_id").on('change', function() {
+        var client = $(this).val();
+        $('#client_id_val').val(client);
 
+});
 
-						var AllQuantityAfter = (parseFloat(itemAfterTax) * parseFloat(itemQuantity)).toFixed(2);
-						var AllQuantityBefore = (parseFloat(itemBeforeTax) * parseFloat(itemQuantity)).toFixed(2);
+    $(".category_id").on('change', function() {
+        var id = $(this).val();
+        var store_id = $('#store_id').val();
+        $('#store_val').val(store_id);
+        var branch_id = $('#branch_id').val();
+        $('#branch_val').val(branch_id);
+        var company_id = $('#company_id').val();
+        $('#company_val').val(company_id);
+        $.ajax({
+            type: 'get',
+            url: "/accounting/productsAjexPurchase/" + id,
+            data: {
+                id: id,
+                store_id: store_id
+            },
+            dataType: 'json',
+            success: function(data) {
+                $('.yurProdc').html(data.data);
+				 $('#selectID').attr('data-live-search', 'true');
+				 $('#selectID').selectpicker('refresh');
 
-                        $(".finalTb tbody").append(`
-							<tr class="newProd" data-id="prod${itemId}">
-								<td>
-									<input type="hidden" name="product_id[]" value="${itemId}">
-									<input type="hidden" value="${itemName}">
-									<h4>${itemName}</h4>
-								</td>
-								<td>
-									<input type="hidden" name="quantity[]" value="${itemQuantity}">
-									<span class="qnt">${itemQuantity}</span>
-								</td>
-								<td>
-									<input type="hidden" value="${AllQuantityBefore}">
-									<span class="qnt singleBefore">${AllQuantityBefore}</span>
-								</td>
-								<td>
-									<input type="hidden" value="${AllQuantityAfter}">
-									<span class="qnt singleprice">${AllQuantityAfter}</span>
-									<a class="close" data-remo="prod${itemId}"><i class="fas fa-times"></i></a>
-								</td>
-							</tr>
-						`);
-                        var allResult = 0;
-                        $("#the-choseen-parts .singleprice").each(function(){
-                            allResult += parseFloat($(this).html());
-                        });
-                        $("#amount").val(allResult);
-                        $("#allResult").html(allResult);
-						var allBeforeResult = 0;
-                        $("#the-choseen-parts .singleBefore").each(function(){
-                            allBeforeResult += parseFloat($(this).html());
-                        });
-                        $("#amountBeforeDariba input").val(allBeforeResult);
-                        $("#amountBeforeDariba input").next('th').html(allBeforeResult);
-						var safyDariba = parseFloat(allResult) - parseFloat(allBeforeResult);
-                        $("#amountOfDariba input").val(safyDariba);
-                        $("#amountOfDariba input").next('th').html(safyDariba);
-                        var sale = $("#sale").val();
-                        var allReminder = 0;
+				 var rowNum = 0;
+				 $('#selectID').change(function(){
+					 rowNum ++;
+					 var selectedProduct = $(this).find(":selected");
+                    //  alert($('#selectID').val());
+                     var productId=$('#selectID').val();
+					 var productName = selectedProduct.text();
+					 var productPrice = selectedProduct.data('price');
+					 var priceHasTax = selectedProduct.data('price-has-tax');
+					 var totalTaxes = selectedProduct.data('total-taxes');
+					 var mainUnit = selectedProduct.data('main-unit');
+					 var productUnits = selectedProduct.data('subunits');
+					 let unitName = productUnits.map(a => a.name);
+					 let unitPrice = productUnits.map(b => b.selling_price);
+					 var singlePriceBefore , singlePriceAfter = 0;
+					 if (Number(priceHasTax) === 0){
+						 var singlePriceBefore = Number(productPrice);
+						 var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes)/100));
+					 }else if (Number(priceHasTax) === 1){
+						 var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes)/100));
+						 var singlePriceAfter = Number(productPrice);
+					 }else{
+						 var singlePriceBefore = Number(productPrice);
+						 var singlePriceAfter = Number(productPrice);
+					 }
+					 var optss = `<option data-uni-price="${productPrice}">${mainUnit}</option>`;
+					 for(var i=0 ; i < productUnits.length ; i++){
+						 optss += '<option data-uni-price="' + unitPrice[i] + '"> ' + unitName[i] + '</option> ';
+					 }
+				 	 $(".bill-table tbody").append(`<tr class="single-row-wrapper">
+							<td class="row-num">${rowNum}</td>
+                            <input type="hidden" name="product_id[]" value=${productId}>
+							<td class="product-name">${productName}</td>
+							<td class="product-unit">
+								<select class="form-control js-example-basic-single">
+									${optss}
+								</select>
+							</td>
+							<td class="product-quantity">
+								<input type="number" placeholder="الكمية" min="1" value="0" id="sale" name="quantity[]" class="form-control">
+							</td>
+							<td class="single-price-before">${singlePriceBefore}</td>
+							<td class="single-price-after">${singlePriceAfter}</td>
+							<td class="whole-price-before">${singlePriceBefore}</td>
+							<td class="whole-price-after">${singlePriceAfter}</td>
+							<td class="delete-single-row">
+								لابد من مراجعة المشرف
+							</td>
+						</tr>`);
+						 var wholePriceBefore , wholePriceAfter = 0;
+					 	 $(".product-unit select").change(function(){
+							 var selectedUnit = $(this).find(":selected");
+							 var productPrice = selectedUnit.data('uni-price');
+							 if (Number(priceHasTax) === 0){
+								 var singlePriceBefore = Number(productPrice);
+								 var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes)/100));
+							 }else if (Number(priceHasTax) === 1){
+								 var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes)/100));
+								 var singlePriceAfter = Number(productPrice);
+							 }else{
+								 var singlePriceBefore = Number(productPrice);
+								 var singlePriceAfter = Number(productPrice);
+							 }
+							 $(this).parents('tr.single-row-wrapper').find(".single-price-before").text(singlePriceBefore.toFixed(1));
+							 $(this).parents('tr.single-row-wrapper').find(".single-price-after").text(singlePriceAfter.toFixed(1));
+						 });
+						 $(".product-quantity input").change(function(){
+							 if(($(this).val()) < 0){
+								 $(this).val(0);
+								 $(this).text('0');
 
-						 $('#sale').change(function() {
-                            allReminder =  parseFloat($("#allResult").html()) - ((parseFloat($(this).val()) * parseFloat($("#allResult").html())) / 100); console.log('change val is' + allReminder);
-                            $("#total").val(allReminder);
-                            $("#reminder").html(allReminder);
-                        });
+							 }
+							 $(".tempDisabled").removeClass("tempDisabled");
+							 var wholePriceBefore = Number($(this).parents('tr.single-row-wrapper').find(".single-price-before").text()) * Number($(this).val());
+							 $(this).parents('tr.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(1));
+							 var wholePriceAfter = Number($(this).parents('tr.single-row-wrapper').find(".single-price-after").text()) * Number($(this).val());
+							 $(this).parents('tr.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(1));
+						 });
+					 });
 
- 						$('.discount-options span').click(function() {
-							$('#sale').val('');
-							$("#reminder").html('');
-						   if($('#asPercent').is(':checked')) {
-							   $('#sale').attr('placeholder' , 'النسبة المئوية للخصم');
-							  $('#sale').change(function() {
-                            allReminder =  parseFloat($("#allResult").html()) - ((parseFloat($(this).val()) * parseFloat($("#allResult").html())) / 100); console.log('change val is' + allReminder);
-                            $("#total").val(allReminder);
-                            $("#reminder").html(allReminder);
-                        });
-						   } else{
-							   $('#sale').attr('placeholder' , 'قيمة الخصم بالريال');
-							   $('#sale').change(function() {
-                            allReminder =  parseFloat($("#allResult").html()) - parseFloat($(this).val());
-								   console.log('change val is' + allReminder);
-                            $("#total").val(allReminder);
-                            $("#reminder").html(allReminder);
-                        });
-						   }
-						});
+					$(".bill-table tbody").change(function(){
+						preventDiscount();
+						var amountBeforeDariba = 0;
+						$("td.whole-price-before").each(function(){
+							amountBeforeDariba += Number($(this).text());
+						})
+						var amountAfterDariba = 0;
+						$("td.whole-price-after").each(function(){
+							amountAfterDariba += Number($(this).text());
+						})
+						var amountOfDariba = Number(amountAfterDariba) - Number(amountBeforeDariba);
+						$("tr#amountBeforeDariba span.dynamic-span").html(amountBeforeDariba);
+						$("tr#amountAfterDariba span.dynamic-span").html(amountAfterDariba);
+						$("tr#amountOfDariba span.dynamic-span").html(amountOfDariba);
+                        $("#amountOfDariba1").val(amountOfDariba);
+						var byAmount = $("input#byAmount").val();
+			            var byPercentage = $("input#byPercentage").val();
+						$("input#byAmount").attr('max' , amountAfterDariba);
+						var total = 0;
+                        $('#amountAfterDarib1').val(amountAfterDariba);
+						if (byAmount == 0 && byPercentage == 0){
+							$("tr#demandedAmount span.dynamic-span").html(amountAfterDariba);
+							}
+						else{
+								$("input#byPercentage").change(function(){
+									if ((Number($(this).val())) > 100){
+										alert('لا يمكن ان تكون قيم الخصم بالنسبة أكبر من 100% .');
+										$(this).val(0);
+									}
+									 total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100 ));
+									$("#demandedAmount span.dynamic-span").html(total);
 
+								 });
+								$("input#byAmount").change(function(){
+									if ((Number($(this).val())) > Number($("tr#amountAfterDariba span.dynamic-span").html())){
+										alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $("tr#amountAfterDariba span.dynamic-span").html());
+										$(this).val(0);
+									}
+									 total = Number(amountAfterDariba) - (Number($(this).val()));
+									$("#demandedAmount span.dynamic-span").html(total);
+                                    $("#total").val(total);
 
+								 });
+							}
 
+							$("input#byPercentage").change(function(){
+								if ((Number($(this).val())) > 100){
+									alert('لا يمكن ان تكون قيم الخصم بالنسبة أكبر من 100% .');
+									$(this).val(0);
+								}
+								 total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100 ));
+								$("#demandedAmount span.dynamic-span").html(total);
+                                $("#total").val(total);
 
+							 });
 
+							$("input#byAmount").change(function(){
+								if ((Number($(this).val())) > Number($("tr#amountAfterDariba span.dynamic-span").html())){
+									alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $("tr#amountAfterDariba span.dynamic-span").html());
+									$(this).val(0);
+								}
+								 total = Number(amountAfterDariba) - (Number($(this).val()));
+								$("#demandedAmount span.dynamic-span").html(total);
+                                $("#total").val(total);
 
-
-
-
-                        var lastReminder = 0;
-                        $('#paid').change(function() {
-                            console.log('alnateg' + parseFloat($("#reminder").html()));
-                            console.log('elinput' + parseFloat($(this).val()));
-                            lastReminder =   parseFloat($("#reminder").html())- parseFloat($(this).val());
-                             $("#lastreminder").html(lastReminder);
-                            $("#reminder1").val(lastReminder);
-                        });
-                        /********************/
-                    }
-                    /**********************  Remove Piece *****************/
-
-                });
-			$(".close").click(function(){
-			$(this).parents('.newProd').remove();
-			var allResult = 0;
-			$("#the-choseen-parts .singleprice").each(function(){
-				allResult += parseFloat($(this).html());
-			});
-			$("#allResult").html(allResult);
-			var sale = $("#sale").val();
-			var allReminder = 0;
-			$('#sale').change(function() {console.log('change val is' + allReminder);
-			   $("#reminder").html(allReminder);
-			});
-			allReminder =  parseFloat($("#allResult").html()) - ((parseFloat($("#sale").val()) * parseFloat($("#allResult").html())) / 100);
-			$("#reminder").html(allReminder);
-			var lastReminder = 0;
-		   $('#paid').change(function() {
-				console.log('alnateg' + parseFloat($("#reminder").html()));
-			   console.log('elinput' + parseFloat($(this).val()));
-			});
-			lastReminder =   parseFloat($("#reminder").html()) - parseFloat($("#paid").val()) ;
-			$("#lastreminder").html(lastReminder);
-		   if ($(".finalTb tbody tr").length === 0) {
-		   $("#sale").val("");
-		   $("#paid").val("");
-		   $("#lastreminder").html('');
-			}
-					})
+							 });
+							$("#byCache , #byNet").change(function(){
+								var allPaid = Number($("#byCache").val()) + Number($("#byNet").val());
+								$("#allPaid").html(allPaid);
+                                $("#allPaid1").val(allPaid);
+								var remaindedAmount = Number(allPaid) - Number($("tr#demandedAmount span.dynamic-span").html());
+								$("#remaindedAmount span.dynamic-span").html(remaindedAmount);
+                               $('#remainder-inputt').val(Math.abs(remaindedAmount));
+                                if(remaindedAmount > 0){
+									$("#remaindedAmount th.rel-cols").removeClass("aagel-case");
+									$("#remaindedAmount th.rel-cols").removeClass("tmam-case");
+									$("#remaindedAmount th.rel-cols").addClass("motabaqy-case");
+								}else if (remaindedAmount < 0){
+									$("#remaindedAmount th.rel-cols").removeClass("motabaqy-case");
+									$("#remaindedAmount th.rel-cols").removeClass("tmam-case");
+									$("#remaindedAmount th.rel-cols").addClass("aagel-case");
+								}else{
+									$("#remaindedAmount th.rel-cols").removeClass("motabaqy-case");
+									$("#remaindedAmount th.rel-cols").removeClass("aagel-case");
+									$("#remaindedAmount th.rel-cols").addClass("tmam-case");
+								}
+							})
+					});
             }
-
-
-            $(".fxd-btn").click(function(){
-				addClicked()
-			});
-
-
-        }
+        });
     });
-}
 
 
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
-    <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
-    <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
-
+//	For Ajax Search By Product Name
+    $('#pro_search').keyup(function(e) {
+        var pro_search = $(this).val();
+        $.ajax({
+            url: "/accounting/pro_search/" + pro_search,
+            type: "GET",
+            success: function(data) {
+                $('.yurProdc').html(data.data);
+				$('#selectID').attr('data-live-search', 'true');
+				$('#selectID').selectpicker('refresh');
+            }
+        });
+    });
+//	For Ajax Search By Product Bar Code
+    $('#barcode_search').keyup(function(e) {
+        var barcode_search = $(this).val();
+        $.ajax({
+            url: "/accounting/barcode_search/" + barcode_search,
+            type: "GET",
+            success: function(data) {
+                $('.yurProdc').html(data.data);
+				$('#selectID').attr('data-live-search', 'true');
+				$('#selectID').selectpicker('refresh');
+            }
+        });
+    });
+</script>
+<script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
+<script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
+<!---- new design --->
+<script>
+//   For Alerting Before closing the window
+	window.onbeforeunload = function (e) {
+		e = e || window.event;
+		if (e) {
+			e.returnValue = 'هل أنت متأكد من غلق هذه الصفحة ؟ سيتم فقدان كال البيانات التي تم ادخالها!!';
+		}
+		return 'هل أنت متأكد من غلق هذه الصفحة ؟ سيتم فقدان كال البيانات التي تم ادخالها!!';
+	};
+	function refreshTime(){
+		var today = new Date();
+		var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+		var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+		var dateTime = date+' '+time;
+		document.getElementById("theTime").innerHTML = dateTime;
+	}
+	setInterval(refreshTime , 1000)
+</script>
 @endsection

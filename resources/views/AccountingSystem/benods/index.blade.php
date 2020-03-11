@@ -23,13 +23,10 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th> نوع البند</th>
                     <th> اسم  البند </th>
-                    <th>   رقم السند </th>
+                    <th>    وصف  البند </th>
 
-                    <th> التاريخ </th>
-                    <th> البيان</th>
-                    <th> الصوره  </th>
+
 
                     <th class="text-center">العمليات</th>
                 </tr>
@@ -41,20 +38,8 @@
                         <td>{!!$loop->iteration!!}</td>
 
 
-                        <td>@if ($row->type=="expenses")
-
-                                <label class="label label-info"> مصروف</label>
-                                @else
-                                <label class="label label-success"> ايراد</label>
-                        @endif
-
-                        </td>
-
-                        <td>{!! $row->clause->ar_name !!}</td>
-                        <td>{!! $row->sanad_num!!}</td>
-                        <td>{!! $row->date!!}</td>
-                        <td>{!! $row->desc!!}</td>
-                        <td><img src="{!! getimg($row->image)!!}" style="width:100px; height:100px"> </td>
+                        <td>{!! $row->ar_name!!}</td>
+                        <td>{!! $row->ar_description!!}</td>
 
 
                         <td class="text-center">
@@ -88,7 +73,7 @@
             console.log(item_id);
             swal({
                 title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذة الشركة ؟",
+                text: "هل تريد حذف هذا البند ؟",
                 icon: "warning",
                 buttons: ["الغاء", "موافق"],
                 dangerMode: true,
@@ -98,7 +83,7 @@
                     document.getElementById('delete-form'+item_id).submit();
                 }
                 else{
-                    swal("تم االإلفاء", "حذف  الشركة  تم الغاؤه",'info',{buttons:'موافق'});
+                    swal("تم االإلفاء", "حذف  البند  تم الغاؤه",'info',{buttons:'موافق'});
                 }
             });
         }

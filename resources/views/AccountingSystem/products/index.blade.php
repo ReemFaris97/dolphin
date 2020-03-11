@@ -27,7 +27,7 @@
                     <th>#</th>
                     <th> اسم المنتج </th>
                     <th> نوع المنتج </th>
-
+                    <th>  الكمية </th>
                     <th>  الباركود </th>
                     <th> الوحده الاساسية  </th>
                     <th> سعر البيع </th>
@@ -57,10 +57,11 @@
                                 @endif
 
                         </td>
-                        <td>{!! $row-> bar_code!!}</td>
-                        <td>{!! $row->  main_unit!!}</td>
-                        <td>{!! $row->  selling_price!!}</td>
-                        <td>{!! $row->  purchasing_price!!}</td>
+                        <td>{!! $row->quantity!!}</td>
+                        <td>{!! $row->bar_code!!}</td>
+                        <td>{!! $row->main_unit!!}</td>
+                        <td>{!! $row->selling_price!!}</td>
+                        <td>{!! $row->purchasing_price!!}</td>
                         <td><img src="{!! getimg($row->image)!!}" style="width:100px; height:100px"> </td>
 
                         <td class="text-center">

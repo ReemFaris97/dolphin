@@ -12,13 +12,22 @@ use App\Models\AccountingSystem\AccountingMoneyClause;
 use App\Models\AccountingSystem\AccountingProductCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingDevice;
+use App\Models\AccountingSystem\AccountingSale;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Traits\Viewable;
 use App\User;
+use Carbon\Carbon;
+use Cookie;
 use Request as GlobalRequest;
+use Response;
+use Session;
 
 class SessionController extends Controller
 {
+
+    use Viewable;
+private $viewable = 'AccountingSystem.sessions.';
       /**
      * Display a listing of the resource.
      *
@@ -27,8 +36,8 @@ class SessionController extends Controller
     public function index()
     {
 
-        $benods=AccountingBenod::all();
-        return $this->toIndex(compact('benods'));
+        $sessions=AccountingSession::all();
+        return $this->toIndex(compact('sessions'));
     }
 
     /**
@@ -53,17 +62,32 @@ class SessionController extends Controller
 
         ];
         $this->validate($request,$rules);
+
        $session= AccountingSession::create($inputs);
       $user=User::where('email',$inputs['email'])->first();
         $session->update([
             'user_id'=>$user->id,
+            'start_session'=>Carbon::now(),
+            'code'=>Carbon::now()."-".optional($session->shift)->name ."-".optional($session->device)->code
+
         ]);
 
         if ($request->password != null && !\Hash::check($request->password, $user->password)) {
             return back()->withInput()->withErrors(['password' => 'كلمه المرور  غير صحيحه']);
         }
+        $device=AccountingDevice::find($inputs['device_id']);
+        $device->update([
+            'available'=>'0'
+        ]);
+
         alert()->success('تم فتح الجلسة بنجاح !')->autoclose(5000);
-        return \Redirect::route('accounting.sells_points.sells_point',['id' => $session->id])->with('session');
+        // Session::put('session_id',$session->id);
+        $session_id= $session->id;
+        Cookie::queue('session',$session->id);
+
+
+
+         return \Redirect::route('accounting.sells_points.sells_point',['id' => $session->id])->with('session');
 
     }
 
@@ -76,6 +100,10 @@ class SessionController extends Controller
     public function show($id)
     {
 
+        $session=AccountingSession::findOrFail($id);
+        $sales=AccountingSale::where('session_id',$id)->get();
+
+        return $this->toShow(compact('session','sales'));
 
     }
 
@@ -100,6 +128,7 @@ class SessionController extends Controller
     public function update(Request $request, $id)
     {
 
+
     }
 
 
@@ -108,4 +137,23 @@ class SessionController extends Controller
 
 
     }
+
+    public function sessions_close(){
+
+        $sessions=AccountingSession::where('status','closed')->get();
+
+        return view("AccountingSystem.sessions.index_closed_session",compact('sessions'));
+
+    }
+
+    public function confirm(Request $request){
+
+       $session=AccountingSession::find($request['session_id']);
+       $session->update([
+           'status'=>'confirmed',
+           'custody'=>$request['custody']
+       ]);
+
+    }
+
 }

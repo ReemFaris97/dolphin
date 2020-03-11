@@ -14,6 +14,16 @@ function responseJson($status, $msg, $data = null, $state = 200)
     return response()->json($response, $state);
 }
 
+function rearrange_array($array, $key) {
+    while ($key > 0) {
+        $temp = array_shift($array);
+        $array[] = $temp;
+        $key--;
+    }
+    return $array;
+}
+
+
 function storekeepers()
 {
     $storekeepers = \App\User::where('is_storekeeper',1)->get()->mapWithKeys(function ($q) {
@@ -30,6 +40,21 @@ function allstores()
     return $stores;
 }
 
+
+function stores_to($id=Null)
+
+{
+    if ($id != null) {
+    $stores_to= \App\Models\AccountingSystem\AccountingStore::where('id','!=',$id)->get()->mapWithKeys(function ($q) {
+        return [$q['id'] => $q['ar_name']];
+    });
+}else{
+    $stores_to=[];
+}
+
+    // dd($stores_to);
+    return $stores_to;
+}
 
 function products($store=null){
     if ($store != null) {
@@ -48,6 +73,30 @@ function products($store=null){
     return $products;
 }
 
+function products_purchase($purchase=null){
+    if ($purchase != null) {
+
+        $products_id=App\Models\AccountingSystem\AccountingPurchaseItem::where('purchase_id',$purchase)->where('quantity','!=',Null)->pluck('product_id')->toArray();
+
+          $products=App\Models\AccountingSystem\AccountingProduct::whereIn('id',$products_id)->get()->mapWithKeys(function ($q) {
+            return [$q['id'] => $q['name']];
+        });
+
+
+    }else{
+        $products=[];
+    }
+
+    return $products;
+}
+
+function getsetting($name)
+{
+    $settings=App\Models\AccountingSystem\AccountingSetting::where('name',$name)->first();
+
+    return $settings->value;
+
+}
 
 function products_not_settement($store=null){
     if ($store != null) {
@@ -144,7 +193,16 @@ function branches_only($company = null)
 
 function stores($branch=null){
 
+
+    if ($branch != null) {
+
+        dd('wewer');
+        // $stores=App\Models\AccountingSystem\AccountingStore::find($branch)->faces->mapWithKeys(function ($item) {
+        //     return [$item['id'] => $item['ar_name']];
+        // });
+    }else{
     $stores=[];
+}
     return $stores;
 }
 
@@ -669,7 +727,7 @@ function pay_type(){
 
     return [
         "cash"=> "نقدى",
-        "card"=> "بطاقة ائتمان",
+        "agel"=> "أجل",
 
     ];
 }

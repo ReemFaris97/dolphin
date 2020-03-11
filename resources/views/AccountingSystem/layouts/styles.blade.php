@@ -5,6 +5,7 @@
 <link href="{{asset('admin/assets/css/core.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/components.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/colors.css')}}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css" />
 <link href="{{asset('admin/assets/css/metro.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/customized.css')}}" rel="stylesheet" type="text/css">
 

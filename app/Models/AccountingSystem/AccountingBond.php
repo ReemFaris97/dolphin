@@ -10,7 +10,8 @@ class AccountingBond extends Model
 {
 
 
-    protected $fillable = ['user_id','store_id','bond_num','date','description','type','total_price','store_to','store_form'];
+    protected $fillable = ['user_id','store_id','bond_num','date','description','type',
+    'total_price','store_to','store_form'];
     protected $table='accounting_bonds';
 
     public function store()
@@ -19,6 +20,7 @@ class AccountingBond extends Model
     }
 
 
+ 
     public function getStoreFrom()
     {
         return $this->belongsTo(AccountingStore::class,'store_form');

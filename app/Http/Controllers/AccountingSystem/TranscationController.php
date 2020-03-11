@@ -57,12 +57,8 @@ class TranscationController extends Controller
     {
         $rules = [
 
-
             'notes'=>'nullable|string',
             'amount'=>'nullable|string',
-
-
-
 
         ];
         $this->validate($request,$rules);
@@ -73,8 +69,6 @@ class TranscationController extends Controller
 
             $requests['model_id']= $requests['branch_id'];
             $requests[ 'model_type']='App\Models\AccountingSystem\AccountingBranch';
-
-
 
         }
         if ($requests['branch_id']==NULL & $requests['company_id']!=NULL)
@@ -143,7 +137,6 @@ class TranscationController extends Controller
         $transaction->update($requests);
         alert()->success('تم تعديل  البند بنجاح !')->autoclose(5000);
         return redirect()->route('company.transactions.index');
-
 
 
     }
