@@ -65,19 +65,13 @@ class SaleController extends Controller
         $requests = $request->all();
         if(!$request->client_id){
 
-
-            $request->client_id=5;
+            $requests['client_id']=5;
         }
-        $rules = [
 
-            'client_id'=>'required|numeric|exists:accounting_clients,id',
-
-        ];
-        $this->validate($request,$rules);
 
         $sale=AccountingSale::create($requests);
         $user=User::find($requests['user_id']);
-    //   dd($sale);
+
 
         $sale->update([
             'bill_num'=>$sale->id."-".$sale->created_at,
@@ -135,6 +129,7 @@ class SaleController extends Controller
             ]);
         }
     }
+    // dd("dsfewdfsc");
 
         alert()->success('تمت عملية البيع بنجاح !')->autoclose(5000);
         return back();
