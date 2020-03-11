@@ -175,8 +175,10 @@
 </div>
 @endsection
 @section('scripts')
-<script src="{{asset('admin/assets/js/jquery.datetimepicker.full.min.js')}}"></script>
-<script src="https://rawgit.com/kabachello/jQuery-Scanner-Detection/master/jquery.scannerdetection.js"></script>
+	<script src="{{asset('admin/assets/js/jquery.datetimepicker.full.min.js')}}"></script>
+	
+	
+<!--<script src="https://rawgit.com/kabachello/jQuery-Scanner-Detection/master/jquery.scannerdetection.js"></script>-->
 <script>
 	$(document).ready(function() {
 		$('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
@@ -535,7 +537,7 @@
 						var theQuantity = $('#row' + onlyModNum).find(".product-quantity input").val();
 						var theUnitTax = $('#row' + onlyModNum).data("tot-taxes");
 						var theSingleTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
-						$('#row' + onlyModNum).find(".single-price-after").text(theSingleTax);
+						$('#row' + onlyModNum).find(".single-price-after").text(theSingleTax.toFixed(2));
 					});
 					$('#discMod' + rowNum).on('hidden.bs.modal', function(e) {
 						var modId = $(this).attr('id');
@@ -603,7 +605,7 @@
 		});
 	});
 	//	For Ajax Search By Product Bar Code
-	$('#barcode_search').blur(function(e) {
+	$('#barcode_search').change(function(e) {
 		var barcode_search = $(this).val();
 		$.ajax({
 			url: "/accounting/barcode_search/" + barcode_search,
@@ -613,10 +615,10 @@
 					$(".tempobar").html(data.data);
 					var selectedID = $(".tempobar").find('option').data('unit-id');
 					var alreadyChosen = $(".bill-table tbody td select option[value=" + selectedID + "]");
-					var repeatedInputVal = alreadyChosen.parents('tr').find('.product-quantity').find('input');
+					var repeatedInputVal = $(".bill-table tbody td select option[value=" + selectedID + "]:selected").parents('tr').find('.product-quantity').find('input');
 					if (alreadyChosen.length > 0 && alreadyChosen.is(':selected')) {
-						$(".bill-table tbody td select option[value=" + selectedID + "]:selected").parents('tr').find('.product-quantity').find('input').val(Number(repeatedInputVal.val()) + 1);
-						$(".bill-table tbody td select option[value=" + selectedID + "]:selected").parents('tr').find('.product-quantity').find('input').text(repeatedInputVal.val());
+						repeatedInputVal.val(Number(repeatedInputVal.val()) + 1);
+						repeatedInputVal.text(repeatedInputVal.val());
 						$('.product-quantity').find('input').trigger('change');
 					} else {
 						rowNum++;
@@ -936,7 +938,7 @@
 			var theQuantity = $('#row' + onlyModNum).find(".product-quantity input").val();
 			var theUnitTax = $('#row' + onlyModNum).data("tot-taxes");
 			var theSingleTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
-			$('#row' + onlyModNum).find(".single-price-after").text(theSingleTax);
+			$('#row' + onlyModNum).find(".single-price-after").text(theSingleTax.toFixed(2));
 		});
 		$('#discMod' + rowNum).on('hidden.bs.modal', function(e) {
 			var modId = $(this).attr('id');
@@ -989,6 +991,16 @@
 		calcInfo();
 
 	}
+
+
+
+
+
+</script>
+<!--<script src="{{asset('admin/assets/js/jquery.scannerdetection.js')}}"></script>-->
+<script>
+
+	
 </script>
 <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
 <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
