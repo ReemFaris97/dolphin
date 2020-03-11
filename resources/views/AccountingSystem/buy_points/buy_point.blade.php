@@ -605,7 +605,7 @@
 		});
 	});
 	//	For Ajax Search By Product Bar Code
-	$('#barcode_search').change(function(e) {
+	$('#barcode_search').keyup(function(e) {
 		var barcode_search = $(this).val();
 		$.ajax({
 			url: "/accounting/barcode_search/" + barcode_search,
@@ -625,12 +625,11 @@
 						byBarcode();
 						$('.product-quantity').find('input').trigger('change');
 					}
-				}else if (data.data.length == 0){
-					alert ('عفوا , هذا الباركود غير مسجل ')
+					$('#barcode_search').val('');
 				}
 			}
 		});
-		$(this).val('');
+		
 	});
 	function byBarcode() {
 		$(".tempDisabled").removeClass("tempDisabled");
@@ -991,11 +990,6 @@
 		calcInfo();
 
 	}
-
-
-
-
-
 </script>
 <!--<script src="{{asset('admin/assets/js/jquery.scannerdetection.js')}}"></script>-->
 <script>
