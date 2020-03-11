@@ -2,23 +2,18 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
-use App\Models\AccountingSystem\AccountingBranch;
-use App\Models\AccountingSystem\AccountingBranchShift;
 use App\Models\AccountingSystem\AccountingClient;
-use App\Models\AccountingSystem\AccountingColumnCell;
-use App\Models\AccountingSystem\AccountingCompany;
 
-use App\Models\AccountingSystem\AccountingFaceColumn;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingDevice;
 use App\Models\AccountingSystem\AccountingProductStore;
-use App\Models\AccountingSystem\AccountingProductTax;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Traits\Viewable;
 use App\User;
+use Cookie;
 use Request as GlobalRequest;
 use Session;
 
@@ -31,14 +26,12 @@ class SellPointController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function sell_point($id)
+    public function sell_point(Request $request,$id)
     {
-
         $categories=AccountingProductCategory::all();
-        $session=AccountingSession::find(Session::get('session_id'));
+        $session=AccountingSession::find(Cookie::get('session'));
         $clients=AccountingClient::pluck('name','id')->toArray();
         $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
-
         return  view('AccountingSystem.sell_points.sell_point',compact('categories','clients','session'));
     }
 

@@ -494,8 +494,8 @@
 
 					<ul class="dropdown-menu dropdown-menu-right">
 
-                    @if (Session::get('session_id'))
-                   <li><a href="{{route('accounting.sells_points.sells_point',Session::get('session_id'))}}"><i class="icon-eye"></i> نقطه البيع</a></li>
+                    @if (Cookie::get('session'))
+                   <li><a href="{{route('accounting.sells_points.sells_point',Cookie::get('session'))}}"><i class="icon-eye"></i> نقطه البيع</a></li>
                    @else
 
                     <li><a href="{{route('accounting.sells_points.login')}}"><i class="icon-eye"></i>  تسجيل  دخول  نقطة البيع</a></li>
