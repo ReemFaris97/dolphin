@@ -990,6 +990,14 @@
 		calcInfo();
 
 	}
+
+	$(document).keydown(function(event) {
+    if(event.which == 118) { //F7
+        $("button[type='submit']").trigger('click');
+        return false;
+    }
+});
+
 </script>
 <!--<script src="{{asset('admin/assets/js/jquery.scannerdetection.js')}}"></script>-->
 <script>
