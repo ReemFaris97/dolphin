@@ -28,13 +28,10 @@ class SellPointController extends Controller
      */
     public function sell_point(Request $request,$id)
     {
-      
-
         $categories=AccountingProductCategory::all();
-        $session=AccountingSession::find(Session::get('session_id'));
+        $session=AccountingSession::find(Cookie::get('session'));
         $clients=AccountingClient::pluck('name','id')->toArray();
         $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
-
         return  view('AccountingSystem.sell_points.sell_point',compact('categories','clients','session'));
     }
 

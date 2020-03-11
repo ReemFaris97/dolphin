@@ -63,17 +63,22 @@ class SaleController extends Controller
     public function store(Request $request)
     {
         $requests = $request->all();
-// dd($requests);
-        // $rules = [
+        if(!$request->client_id){
 
-        //     'client_id'=>'required|numeric|exists:accounting_clients,id',
 
-        // ];
-        // $this->validate($request,$rules);
+            $request->client_id=5;
+        }
+        $rules = [
+
+            'client_id'=>'required|numeric|exists:accounting_clients,id',
+
+        ];
+        $this->validate($request,$rules);
 
         $sale=AccountingSale::create($requests);
         $user=User::find($requests['user_id']);
-       dd($sale);
+    //   dd($sale);
+
         $sale->update([
             'bill_num'=>$sale->id."-".$sale->created_at,
             'user_id'=>$requests['user_id'] ,
