@@ -14,6 +14,16 @@ function responseJson($status, $msg, $data = null, $state = 200)
     return response()->json($response, $state);
 }
 
+function rearrange_array($array, $key) {
+    while ($key > 0) {
+        $temp = array_shift($array);
+        $array[] = $temp;
+        $key--;
+    }
+    return $array;
+}
+
+
 function storekeepers()
 {
     $storekeepers = \App\User::where('is_storekeeper',1)->get()->mapWithKeys(function ($q) {

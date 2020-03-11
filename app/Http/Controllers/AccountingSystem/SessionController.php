@@ -18,7 +18,9 @@ use App\Models\AccountingSystem\AccountingSession;
 use App\Traits\Viewable;
 use App\User;
 use Carbon\Carbon;
+use Cookie;
 use Request as GlobalRequest;
+use Response;
 use Session;
 
 class SessionController extends Controller
@@ -77,11 +79,15 @@ private $viewable = 'AccountingSystem.sessions.';
         $device->update([
             'available'=>'0'
         ]);
-     
-        alert()->success('تم فتح الجلسة بنجاح !')->autoclose(5000);
-        Session::put('session_id',$session->id);
 
-        return \Redirect::route('accounting.sells_points.sells_point',['id' => $session->id])->with('session');
+        alert()->success('تم فتح الجلسة بنجاح !')->autoclose(5000);
+        // Session::put('session_id',$session->id);
+        $session_id= $session->id;
+        Cookie::queue('session',$session->id);
+
+
+
+         return \Redirect::route('accounting.sells_points.sells_point',['id' => $session->id])->with('session');
 
     }
 

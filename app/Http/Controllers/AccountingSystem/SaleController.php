@@ -22,6 +22,7 @@ use App\Traits\Viewable;
 use App\User;
 use Auth;
 use Carbon\Carbon;
+use Cookie;
 use Hash;
 use Request as GlobalRequest;
 use Session;
@@ -62,17 +63,17 @@ class SaleController extends Controller
     public function store(Request $request)
     {
         $requests = $request->all();
+// dd($requests);
+        // $rules = [
 
-        $rules = [
+        //     'client_id'=>'required|numeric|exists:accounting_clients,id',
 
-            'client_id'=>'required|numeric|exists:accounting_clients,id',
-
-        ];
-        $this->validate($request,$rules);
+        // ];
+        // $this->validate($request,$rules);
 
         $sale=AccountingSale::create($requests);
         $user=User::find($requests['user_id']);
-    //   dd($sale);
+       dd($sale);
         $sale->update([
             'bill_num'=>$sale->id."-".$sale->created_at,
             'user_id'=>$requests['user_id'] ,
@@ -231,8 +232,9 @@ class SaleController extends Controller
            $device->update([
                'available'=>'1'
            ]);
-           Session::forget('session_id');
+        //    Session::forget('session_id');
 
+           Cookie::queue(Cookie::forget('session'));
 
            return view('AccountingSystem.sell_points.login',compact('users'));
     }
