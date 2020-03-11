@@ -6,8 +6,22 @@
     $subunits= collect($units);
     $allunits=json_encode($subunits,JSON_UNESCAPED_UNICODE);
 	    $mainunits=json_encode(collect([['id'=>'main-'.$product->id,'name'=>$product->main_unit , 'selling_price'=>$product->purchasing_price]]),JSON_UNESCAPED_UNICODE);
-	$merged = array_merge(json_decode($mainunits), json_decode($allunits));
-        $arr = rearrange_array($merged,$selectd_unit_id);
+    $merged = array_merge(json_decode($mainunits), json_decode($allunits));
+
+
+    // $shifted = array_shift($merged);
+
+    //     $merged[] = $shifted;
+
+    $i = 0;
+        foreach ($merged as $key => $value) {
+            if ($value->id === $selectd_unit_id )
+            {
+
+                $i = $key;
+            }
+        }
+        $arr = rearrange_array($merged,$i);
      ?>
 <div class="form-group block-gp col-md-12">
     <select class=" form-control js-example-basic-single"  name="product_id" placeholder="اختر المنتج" id="selectID2">
