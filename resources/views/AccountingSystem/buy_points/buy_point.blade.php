@@ -182,6 +182,8 @@
 <script>
 	$(document).ready(function() {
 		$('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
+		$('.inlinedatepicker').text(new Date().toLocaleString());
+		$('.inlinedatepicker').val(new Date().toLocaleString());
 	})
 	// For preventing user from inserting two methods of discount
 	function preventDiscount() {
@@ -990,7 +992,6 @@
 		calcInfo();
 
 	}
-
 	$(document).keydown(function(event) {
     if(event.which == 118) { //F7
         $("button[type='submit']").trigger('click');
