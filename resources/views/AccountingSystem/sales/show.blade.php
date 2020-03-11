@@ -969,24 +969,23 @@
 						<div class="flex-col">
 							<table class="tablesaw a-new-table table-hover table table-bordered" data-tablesaw-mode="stack" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
 								<tbody>
-									<tr>
+									{{-- <tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-mobile"></i> اسم الشركة </td>
 										<td> {!! optional($sale->company)->name !!}</td>
-									</tr>
+									</tr> --}}
 
 									<tr>
 										<th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-user"></i>اسم العميل </th>
 										<td> {!! $sale->client->name !!}</td>
 									</tr>
-									<tr>
+									{{-- <tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-video-clapper"></i> اسم الفرع </td>
 										<td> {!! optional($sale->branch)->name !!}</td>
 									</tr>
-
 									<tr>
 										<th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-user"></i>اسم المخزن</th>
 										<td>  {!! optional($sale->store)->ar_name !!}</td>
-									</tr>
+									</tr> --}}
 
 									<tr>
 										<th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-bar-chart-alt"></i> طريقة الدفع </th>
@@ -1020,7 +1019,8 @@
 											<td>
 												<span class="big-ser-hed-tit">{!! $row->product->category->ar_name!!}</span>
 												<ol class="sml-ser-tits">
-													<li>{!! $row->product->name!!}</li>
+                                                    <li>{!! $row->product->name!!}</li>
+                                                    <li><span> :  الكمية {{$row->quantity}}</span></li>
 												</ol>
 											</td>
 
