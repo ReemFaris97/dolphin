@@ -506,6 +506,32 @@ $("#client_id").on('change', function() {
             }
         });
     });
+
+
+	$(document).keydown(function(event) {
+    if(event.which == 118) { //F7
+        $("button[type='submit']").trigger('click');
+        return false;
+    }
+	if(event.which == 119) { //F8
+		$("button[type='submit']").trigger('click');
+		return false;
+	}
+
+	if(event.which == 120) { //F9
+			$("button[type='submit']").trigger('click');
+			return false;
+		}
+
+	if(event.which == 121) { //F10
+			$("button[type='submit']").trigger('click');
+			return false;
+		}
+
+
+});
+
+
 </script>
 <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
 <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
