@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Http\Traits\FirebasOperation;
+use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\Bank;
 use App\Models\Charge;
@@ -159,6 +160,9 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
+    public function store(){
+        return $this->belongsTo(AccountingProductStore::class,'accounting_store_id');
+    }
 
 
     public function updateFcmToken($token,$device)

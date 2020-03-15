@@ -32,6 +32,8 @@ class BuyPointController extends Controller
         $suppliers=AccountingSupplier::pluck('name','id')->toArray();
         $safes=AccountingSafe::pluck('name','id')->toArray();
 
+
+
         return  view('AccountingSystem.buy_points.buy_point',compact('categories','suppliers','safes'));
     }
 

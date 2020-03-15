@@ -13,14 +13,19 @@ use App\Models\AccountingSystem\AccountingSale;
 use App\Models\AccountingSystem\AccountingSaleItem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingItemDiscount;
+use App\Models\AccountingSystem\AccountingProductCategory;
 use App\Models\AccountingSystem\AccountingProductStore;
+use App\Models\AccountingSystem\AccountingProductSubUnit;
 use App\Models\AccountingSystem\AccountingPurchase;
 use App\Models\AccountingSystem\AccountingPurchaseItem;
 use App\Models\AccountingSystem\AccountingPurchaseReturn;
 use App\Models\AccountingSystem\AccountingPurchaseReturnItem;
 use App\Models\AccountingSystem\AccountingReturn;
+use App\Models\AccountingSystem\AccountingSafe;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Models\AccountingSystem\AccountingStore;
+use App\Models\AccountingSystem\AccountingSupplier;
 use App\Traits\Viewable;
 use App\User;
 use Auth;
@@ -52,7 +57,10 @@ $puchaseReturns =AccountingPurchaseReturn::all();
     {
         $purchases=AccountingPurchase::pluck('id','id')->toArray();
 
-        return $this->toCreate(compact('purchases'));
+        $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
+        $suppliers=AccountingSupplier::pluck('name','id')->toArray();
+        $safes=AccountingSafe::pluck('name','id')->toArray();
+        return $this->toCreate(compact('purchases' ,'categories','suppliers','safes'));
     }
 
 
@@ -62,32 +70,9 @@ $puchaseReturns =AccountingPurchaseReturn::all();
         $product_items=AccountingPurchaseReturnItem::where('purchase_return_id',$id)->get();
 
         return $this->toShow(compact('purchaseReturn','product_items'));
-    }
-
-    public function getproducts($id)
-    {
+     }
 
 
-        return products_purchase($id);
-    }
-
-
-
-    public function productpurchase(Request $request)
-    {
-
-        $ids=$request['ids'];
-        $purchase=$request['purchase'];
-
-        $products=AccountingPurchaseItem::whereIN('product_id',$ids)->where('purchase_id',$purchase)->get();
-
-
-        return response()->json([
-            'status'=>true,
-            'data'=>view('AccountingSystem.purchaseReturns.product',compact('products'))->render()
-        ]);
-
-    }
     /**
      * Store a newly created resource in storage.
      *
@@ -97,46 +82,138 @@ $puchaseReturns =AccountingPurchaseReturn::all();
     public function store(Request $request)
     {
         $requests = $request->all();
-        $products = collect($requests['product_id']);
-        $qtys =collect($requests['quantity']);
-        $merges = $products->zip($qtys);
-      //insert_in_table
-       $purchasereturn= AccountingPurchaseReturn::create([
-            'purchase_id'=>$requests['purchase_id'],
-            'total'=>$requests['total'],
+   dd($requests);
+
+        $rules = [
+
+            // 'supplier_id'=>'required|numeric|exists:accounting_suppliers,id',
+                // 'reminder'=>'required|numeric|gt:0',
+
+        ];
+        $this->validate($request,$rules);
+
+        $return=AccountingPurchaseReturn::create($requests);
+
+        $return->update([
+            'bill_num'=>$return->id."-".$return->created_at,
         ]);
+
+        $products = collect($requests['product_id']);
+        $qtys = collect($requests['quantity']);
+        $unit_id = collect($requests['unit_id']);
+        $prices = collect($requests['prices']);
+        $itemTax = collect($requests['itemTax']);
+        $merges = $products->zip($qtys,$unit_id,$prices,$itemTax);
+        $i=1;
         foreach ($merges as $merge)
         {
-            $item=AccountingPurchaseReturnItem::create([
+            $product=AccountingProduct::find($merge['0']);
+            if($merge['2']!='main-'.$product->id){
+                $unit=AccountingProductSubUnit::where('product_id',$merge['0'])->where('id',$merge['2'])->first();
+            }
+            if($product->quantity>0){
+            $item= AccountingPurchaseReturnItem::create([
                 'product_id'=>$merge['0'],
                 'quantity'=> $merge['1'],
-                'purchase_return_id'=>$purchasereturn->id,
+                'price'=>$merge['3'],
+                'unit_id'=>($merge['2']!='main-'.$product->id)?$unit->id:null,
+                'unit_type'=>($merge['2']!='main-'.$product->id)?'sub':'main',
+                'tax'=>$merge['4'],
+                'price_after_tax'=>$merge['3']+$merge['4'],
+                'purchase_return_id'=>$return->id
             ]);
-        }
-  //update_purchases
-    $purchase=AccountingPurchase::find($requests['purchase_id']);
-    $purchase->update([
-        'total'=>$requests['total']
-    ]);
-     //update_quantities
-    $purchases=AccountingPurchaseItem::where('purchase_id',$requests['purchase_id'])->get();
-    // dd($purchases);
-        foreach($purchases as $purchase)
-        {
+            // $perc = $request->discount_item_percentage;
+            // $val = $request->discount_item_value;
+            $items=$request->items;
+            foreach( $items as  $key=>$item1)
+            {
+                  if($key==$i){
+                foreach($item1 as $ke=>$item2)
+                {
 
-            foreach($merges as $merge){
-                if( $purchase->product_id==$merge['0']){
-                    $purchase->update([
-                        'quantity'=> $merge['1'],
-                    ]);
+                    if($ke=='discount_item_percentage'){
+                        foreach ($item2 as $k1 => $value) {
+                                if($item2[$k1]!=0){
+                                    $discountItem= AccountingItemDiscount::create([
+                                    'discount'=> $item2[$k1],
+                                    'discount_type'=>'percentage',
+                                    'item_id'=>$item->id,
+                                                        ]);
+                           }
+
+                        }
+                    }elseif($ke=='discount_item_value'){
+
+                        foreach ($item2 as $k1 => $value) {
+                            if($item2[$k1]!=0){
+
+                                $discountItem= AccountingItemDiscount::create([
+                                'discount'=> $item2[$k1],
+                                'discount_type'=>'amount',
+                                'item_id'=>$item->id,
+                                'type'=>'return'
+                                ]);
+                             }
+
+                    }
+
+                    }
                 }
 
+              }
             }
+
+            $i++;
+
+            //update_product_quantity
+            ///if-main-unit
+
+            if($merge['2']!='main-'.$product->id){
+            $product->update([
+                'quantity'=>$product->quantity+ $merge['1'],
+            ]);
+            $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->first();
+            $productstore->update([
+                'quantity'=>$productstore->quantity + $merge['1'],
+            ]);
+            }else{
+            $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',$merge['2'])->first();
+
+            $productstore->update([
+                'quantity'=>$productstore->quantity + $merge['1'],
+            ]);
+            }
+
+/////////////////////////discount/////////////////
+            if($requests['discount_byPercentage']!=0&&$requests['discount_byAmount']==0){
+                $return->update([
+                    'discount_type'=>'percentage',
+                    'discount'=>$requests['discount_byPercentage'],
+
+                ]);
+
+            }elseif($requests['discount_byAmount']!=0&&$requests['discount_byPercentage']==0){
+
+                $return->update([
+                    'discount_type'=>'amount',
+                    'discount'=>$requests['discount_byAmount'],
+                ]);
+            }
+
         }
-        alert()->success('تمت عملية  الاسترجاع بنجاح !')->autoclose(5000);
-        return back();
     }
 
+    if($return->payment=='cash'){
+        $store_id=auth()->user()->accounting_store_id;
+         $store=AccountingStore::find($store_id);
+          $safe=AccountingSafe::where('model_type', $store->model_type)->where('model_id', $store->model_id)->first();
+         $safe->update([
+             'amount'=>$safe->amount+$return->total
+         ]);
+         }
+        alert()->success('تمت عملية الاسترجاع بنجاح !')->autoclose(5000);
+        return back();
+    }
 
     public function store_returns(Request $request){
 

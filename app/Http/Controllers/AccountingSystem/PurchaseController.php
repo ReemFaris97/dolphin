@@ -20,6 +20,7 @@ use App\Models\AccountingSystem\AccountingProductTax;
 use App\Models\AccountingSystem\AccountingPurchase;
 use App\Models\AccountingSystem\AccountingPurchaseItem;
 use App\Models\AccountingSystem\AccountingReturn;
+use App\Models\AccountingSystem\AccountingSafe;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Traits\Viewable;
@@ -135,6 +136,7 @@ class PurchaseController extends Controller
                                 'discount'=> $item2[$k1],
                                 'discount_type'=>'amount',
                                 'item_id'=>$item->id,
+                                'type'=>'purchase'
                                 ]);
                              }
 
@@ -149,13 +151,20 @@ class PurchaseController extends Controller
             $i++;
 
             //update_product_quantity
+
+             ///if-main-unit
+
+             if($merge['2']!='main-'.$product->id){
             $product->update([
-                'quantity'=>$product->quantity+ $merge['1'],
+                'quantity'=>$product->quantity- $merge['1'],
             ]);
-            $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->first();
+        }else{
+
+            $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',$merge['2'])->first();
             $productstore->update([
-                'quantity'=>$productstore->quantity + $merge['1'],
+                'quantity'=>$productstore->quantity - $merge['1'],
             ]);
+        }
 /////////////////////////discount/////////////////
             if($requests['discount_byPercentage']!=0&&$requests['discount_byAmount']==0){
                 $purchase->update([
@@ -174,9 +183,14 @@ class PurchaseController extends Controller
 
         }
     }
-
-
-
+if($purchase->payment=='cash'){
+       $store_id=auth()->user()->accounting_store_id;
+        $store=AccountingStore::find($store_id);
+         $safe=AccountingSafe::where('model_type', $store->model_type)->where('model_id', $store->model_id)->first();
+        $safe->update([
+            'amount'=>$safe->amount-$purchase->total
+        ]);
+        }
         alert()->success('تمت عملية الشراء بنجاح !')->autoclose(5000);
         return back();
     }

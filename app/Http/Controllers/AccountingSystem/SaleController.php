@@ -129,7 +129,7 @@ class SaleController extends Controller
             ]);
         }
     }
-    // dd("dsfewdfsc");
+ 
 
         alert()->success('تمت عملية البيع بنجاح !')->autoclose(5000);
         return back();
