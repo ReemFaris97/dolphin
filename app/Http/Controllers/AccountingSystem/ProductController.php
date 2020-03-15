@@ -91,7 +91,7 @@ class ProductController extends Controller
 
         ];
         $this->validate($request,$rules);
-
+// dd($request['quantities']);
         $inputs = $request->except('name','image','main_unit_present','purchasing_price','selling_price','component_names','qtys','main_units');
         $inputs['name']=$inputs['name_product'];
         $inputs['selling_price']=$inputs['product_selling_price'];
@@ -134,19 +134,33 @@ class ProductController extends Controller
         $main_unit_presents= collect($request['main_unit_present']);
         $selling_price= collect($request['selling_price']);
         $purchasing_price= collect($request['purchasing_price']);
-        $units = $names->zip($par_codes,$purchasing_price,$selling_price,$main_unit_presents);
+        $quantities= collect($request['unit_quantities']);
+        $units = $names->zip($par_codes,$purchasing_price,$selling_price,$main_unit_presents,$quantities);
 
         foreach ($units as $unit)
 
         {
-            AccountingProductSubUnit::create([
+         $uni=   AccountingProductSubUnit::create([
                 'name'=>$unit['0'],
                 'bar_code'=> $unit['1'],
                 'main_unit_present'=>$unit['2'],
                 'selling_price'=>$unit['3'],
                 'purchasing_price'=>$unit['4'],
+                'quantity'=>$unit['5'],
                 'product_id'=>$product->id
             ]);
+
+
+            if (isset($inputs['store_id']))
+       {
+           AccountingProductStore::create([
+               'store_id'=>$inputs['store_id'] ,
+               'product_id'=>$product->id,
+               'quantity'=>$unit['5'] ,
+               'unit_id'=>$uni->id
+
+           ]);
+       }
 
         }
 ////////////////////components Arrays////////////////////////////////
@@ -185,9 +199,7 @@ class ProductController extends Controller
 
         ////////////////////discounts Arrays////////////////////////////////
         if (isset($request['discount_type'])){
-
             if($request['discount_type']=='percent'){
-
                 AccountingProductDiscount::create([
                     'product_id'=>$product->id,
                     'discount_type'=>'percent',
@@ -201,7 +213,6 @@ class ProductController extends Controller
                 $qtys_discount= $basic_quantity->zip($gift_quantity);
 
                 foreach ($qtys_discount as $discount)
-
                 {
                     AccountingProductDiscount::create([
                         'quantity'=>$discount['0'],
@@ -214,9 +225,7 @@ class ProductController extends Controller
             }
 
         }
-
 /////////////////////product_taxs//////////////////////////////////////
-
         if (isset($request['tax'])&$request['tax']==1){
             // dd($request->all());
             foreach($request['tax_band_id'] as $tax_band_id){
@@ -237,9 +246,7 @@ class ProductController extends Controller
             $services= $services_price->zip($services_code,$service_type);
 
             foreach ($services as $service)
-
             {
-
 
                 AccountingService::create([
                     'price'=>$service['0'],

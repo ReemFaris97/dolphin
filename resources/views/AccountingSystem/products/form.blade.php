@@ -149,7 +149,8 @@
 							<th>الباركود</th>
 							<th>المقدارمن الوحدة الاساسية</th>
 							<th>سعر البيع</th>
-							<th>سعر الشراء</th>
+                            <th>سعر الشراء</th>
+                            <th> الكمية</th>
 							<th>العمليات</th>
 						</tr>
 					</thead>
@@ -369,7 +370,11 @@
 				<input type="text" class="form-control the-unit-spri" id="selling_price" required>
 				<label>سعر الشراء</label>
 				<span class="required--in">*</span>
-				<input type="text" class="form-control the-unit-ppri" id="purchasing_price" required>
+                <input type="text" class="form-control the-unit-ppri" id="purchasing_price" required>
+                <label> الكميه</label>
+				<span class="required--in">*</span>
+				<input type="text" class="form-control the-unit-quantity" id="quantity" required>
+
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
@@ -512,7 +517,8 @@
 		data.main_unit_present = $('#main_unit_present').val();
 		data.selling_price = $('#selling_price').val();
 		data.purchasing_price = $('#purchasing_price').val();
-		if (data.name !== '' && data.main_unit_present !== '' && data.selling_price !== '' && data.purchasing_price !== '') {
+        data.quantity = $('#quantity').val();
+		if (data.name !== '' && data.main_unit_present !== '' && data.selling_price !== '' && data.purchasing_price !== ''&& data.quantity !== '') {
 			$("tr.editted-row").remove();
 			swal({
 				title: "تم إضافة الوحدة الفرعية بنجاح",
@@ -531,6 +537,8 @@
                     <td class="prod-pre">${product.main_unit_present}</td>
                     <td class="prod-spri">${product.selling_price}</td>
                     <td class="prod-ppri">${product.purchasing_price}</td>
+                    <td class="prod-quantity">${product.quantity}</td>
+
    					<td>
 						<a href="#" data-toggle="modal" class="edit-this-row" data-target="#exampleModal" data-original-title="تعديل">
 							<i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i>
@@ -544,6 +552,7 @@
             <input type="hidden"name="main_unit_present[]" value="${product.main_unit_present}" >
             <input type="hidden" name="selling_price[]" value="${product.selling_price}" >
             <input type="hidden"name="purchasing_price[]"  value="${product.purchasing_price}" >
+            <input type="hidden"name="unit_quantities[]"  value="${product.quantity}" >
                 </tr>
                 `);
 			});
@@ -578,6 +587,8 @@
 				$('#exampleModal #main_unit_present').val($this.parents('tr').find('.prod-pre').html());
 				$('#exampleModal #selling_price').val($this.parents('tr').find('.prod-spri').html());
 				$('#exampleModal #purchasing_price').val($this.parents('tr').find('.prod-ppri').html());
+                $('#exampleModal #quantity').val($this.parents('tr').find('.prod-quantity').html());
+
 				var row_index_edit = $(this).parents('tr').index();
 				bigData.splice(row_index_edit, 1);
 			});
