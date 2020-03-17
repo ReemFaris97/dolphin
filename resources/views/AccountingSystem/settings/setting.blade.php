@@ -54,7 +54,7 @@
 			<div class="clearfix"></div>
 			@foreach($settings as $setting)
 			@if($setting->type == 'value')
-			
+
 			<div class="form-group col-xs-4 {{ $errors->has('name') ? ' has-error' : '' }}">
 				<label> {{$setting->title}}</label>
 				<div class="form-group col-md-6 pull-left">
@@ -71,7 +71,7 @@
 			<div class="clearfix"></div>
 			@foreach($settings as $setting)
 			@if($setting->type == 'number')
-			
+
 			<div class="form-group col-xs-4 {{ $errors->has('name') ? ' has-error' : '' }}">
 				<label> {{$setting->title}}</label>
 				<div class="form-group col-md-6 pull-left">
@@ -96,7 +96,7 @@
 			<div class="clearfix"></div>
 			@foreach($settings as $setting)
 			@if($setting->type == 'text')
-			
+
 			<div class="form-group col-xs-4 {{ $errors->has('name') ? ' has-error' : '' }}">
 			<label> {{$setting->title}}</label>
 				<div class="form-group col-md-6 pull-left">
@@ -105,7 +105,19 @@
 			</div>
 			@endif
 			@endforeach
-			<div class="clearfix"></div>
+            <div class="clearfix"></div>
+            @foreach($settings as $setting)
+			@if($setting->type == 'textarea')
+
+			<div class="form-group col-xs-12 {{ $errors->has('name') ? ' has-error' : '' }}">
+			<label> {{$setting->title}}</label>
+				<div class="form-group col-md-12 pull-left">
+                    {!! Form::textarea($setting->name.'[]',$setting->value,['class'=>'form-control editor'])!!}
+
+				</div>
+			</div>
+			@endif
+			@endforeach
 			<div class="text-right ">
 				<button type="submit" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i></button>
 			</div>

@@ -48,6 +48,8 @@
 						</div>
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
+                    <a href="{{route('accounting.products.create')}}" target="_blank" class="btn btn-primary"> اضافه  منتج  جديد </a>
+
 						<div class="form-group block-gp">
 							<label>اسم القسم </label>
 							{!! Form::select("category_id",$categories,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}
@@ -176,8 +178,8 @@
 @endsection
 @section('scripts')
 	<script src="{{asset('admin/assets/js/jquery.datetimepicker.full.min.js')}}"></script>
-	
-	
+
+
 <!--<script src="https://rawgit.com/kabachello/jQuery-Scanner-Detection/master/jquery.scannerdetection.js"></script>-->
 <script>
 	$(document).ready(function() {
@@ -631,7 +633,7 @@
 				}
 			}
 		});
-		
+
 	});
 	function byBarcode() {
 		$(".tempDisabled").removeClass("tempDisabled");
@@ -1003,7 +1005,7 @@
 <!--<script src="{{asset('admin/assets/js/jquery.scannerdetection.js')}}"></script>-->
 <script>
 
-	
+
 </script>
 <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
 <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>

@@ -9,7 +9,16 @@
     $subunits= collect($units);
     $allunits=json_encode($subunits,JSON_UNESCAPED_UNICODE);
 	    $mainunits=json_encode(collect([['id'=>'main-'.$product->id,'name'=>$product->main_unit , 'selling_price'=>$product->purchasing_price]]),JSON_UNESCAPED_UNICODE);
-	$merged = array_merge(json_decode($mainunits), json_decode($allunits));
+    $merged = array_merge(json_decode($mainunits), json_decode($allunits));
+    $lastPrice=\App\Models\AccountingSystem\AccountingPurchaseItem::where('product_id',$product->id)->latest()->first();
+    $sumQuantity=\App\Models\AccountingSystem\AccountingPurchaseItem::where('product_id',$product->id)->sum('quantity');
+    $sumPrice=\App\Models\AccountingSystem\AccountingPurchaseItem::where('product_id',$product->id)->sum('price');
+    if($sumPrice){
+        $average= $sumQuantity/$sumPrice;
+    }else{
+        $average=0;
+    }
+
  ?>
 <option value="{{$product->id}}"
    data-name="{{$product->name}}"
@@ -19,6 +28,8 @@
    data-total-taxes="{{ isset($producttax)? $product->total_taxes : '0'}}"
    data-subunits="{{json_encode($merged)}}"
    data-total_discounts="{{$product->total_discounts}}"
+   data-lastPrice="{{($lastPrice)? $lastPrice->price:'0' }}"
+   data-average="{{($average)? $average:'0' }}"
    >
     {{$product->name}} - {{$product->bar_code}}
    </option>

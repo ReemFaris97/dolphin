@@ -940,7 +940,7 @@
 							<img src="{{asset('dashboard/assets/app/media/img/logos/20191031163554-شعار رمانة.png')}}">
 						</div>
 						<div class="one-bill-inpt the-bill-company text-center" style="display:block;width:100%;text-align: center!important;margin-bottom: 0px">
-							<span class="bill-lbl">رمانة</span>
+                        <span class="bill-lbl">{!!getsetting('higher_data')!!}</span>
 						</div>
 						<div class="one-bill-inpt the-bill-address" style="display:block;width:100%;text-align: center!important;margin-bottom: 5px">
 							<i class="ti-location-pin"></i>
@@ -1111,7 +1111,8 @@
 
 									</tbody>
 								</table>
-							</div>
+                            </div>
+                            <span class="bill-lbl">{!!getsetting('lower_data')!!}</span>
 							<div class="end-notice">
 								<div>شكراً لكم</div>
 								<div>Thank you </div>

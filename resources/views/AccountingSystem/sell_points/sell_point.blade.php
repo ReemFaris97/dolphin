@@ -533,6 +533,17 @@ $("#client_id").on('change', function() {
 <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
 <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
 <!---- new design --->
+
+{{-- <script>
+	@if(!empty(\Illuminate\Support\Facades\Session::has('sale_id')))
+	$(document).ready(function() {
+
+        window.onload = function(){
+         window.open(, "_blank"); // will open new tab on window.onload
+    }
+	});
+	@endif
+</script> --}}
 <script>
 //   For Alerting Before closing the window
 	window.onbeforeunload = function (e) {
@@ -551,4 +562,6 @@ $("#client_id").on('change', function() {
 	}
 	setInterval(refreshTime , 1000)
 </script>
+
+
 @endsection
