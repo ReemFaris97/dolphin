@@ -286,9 +286,9 @@ class ProductController extends Controller
         $store=AccountingStore::find(optional($storeproduct)->store_id??1);
         $cells=AccountingColumnCell::all();
         $discounts=AccountingProductDiscount::where('product_id',$id)->get();
-        $tax=AccountingProductTax::where('product_id',$id)->first();
-
-        return $this->toShow(compact('branches','categories','product','store','cells','discounts','tax'));
+        $taxs=AccountingProductTax::where('product_id',$id)->get();
+        $units=AccountingProductSubUnit::where('product_id',$id)->get();
+        return $this->toShow(compact('branches','categories','product','store','cells','discounts','taxs','units'));
 
     }
 

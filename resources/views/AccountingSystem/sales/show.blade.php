@@ -1006,7 +1006,6 @@
 
 							<div class="flex-col mar-top-15">
 								<table class="tablesaw bill-table-whole-wrapper table-bordered table-hover table" data-tablesaw-mode="stack" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
-
 									<tr class="bill-table-tr-wrapper fixed-ta-hd">
 										<!--                                 <th scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col data-tablesaw-priority="10"></th>-->
 										<th scope="col" class="fixed-ta-hd" data-tablesaw-sortable-col data-tablesaw-priority="persist">المنتجات</th>
@@ -1047,19 +1046,14 @@
 											<td data-tablesaw-sortable-col data-tablesaw-priority="6"> <i class="ti-plus"></i> القيمة المضافة</td>
 											<td>	{!! $sale->totalTaxs !!}</td>
 										</tr>
-
-
-
 										<tr>
 											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-money"></i> المطلوب سداده</td>
 											<td>{!! $sale->total !!}</td>
 										</tr>
-
 										<tr>
 											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-bag"></i> طريقة الدفع</td>
                                             <td>
                                                 @if( $sale->payment=='cash')
-
                                                نقدى
                                                 @elseif( $sale->payment=='agel')
                                               اجل

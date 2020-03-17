@@ -9,10 +9,13 @@
     $subunits= collect($units);
     $allunits=json_encode($subunits,JSON_UNESCAPED_UNICODE);
 	    $mainunits=json_encode(collect([['id'=>'main-'.$product->id,'name'=>$product->main_unit , 'selling_price'=>$product->purchasing_price]]),JSON_UNESCAPED_UNICODE);
-	$merged = array_merge(json_decode($mainunits), json_decode($allunits));
+    $merged = array_merge(json_decode($mainunits), json_decode($allunits));
+    $purchase_last=\App\Models\AccountingSystem\AccountingPurchaseItem::where('product_id',$product->id)->latest()->first();
+    // dd($purchase_last->id);
  ?>
 <option value="{{$product->id}}"
    data-name="{{$product->name}}"
+   data-id="{{$purchase_last->id}}"
    data-price="{{$product->selling_price -(($product->selling_price*$product->total_discounts)/100)}}"
    data-bar-code="{{$product->bar_code}}"
    data-price-has-tax="{{isset($producttax)? $producttax->price_has_tax : '0' }}"

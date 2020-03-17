@@ -266,7 +266,13 @@
 				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
 					<label> تاريخ الانتهاء </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
 					{!! Form::date("expired_at",null,['class'=>'form-control'])!!}
+                </div>
+
+                <div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+					<label>مده  التنبية</label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+					{!! Form::number("alert_duration",null,['class'=>'form-control'])!!}
 				</div>
+
 				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
 					<label>عدد أيام فترة الركود</label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
 					{!! Form::number("num_days_recession",null,['class'=>'form-control'])!!}
