@@ -130,7 +130,7 @@ class SaleController extends Controller
         }
     }
         alert()->success('تمت عملية البيع بنجاح !')->autoclose(5000);
-        return d()->with('sale_id',$sale->id);
+        return back()->with('sale_id',$sale->id);
     }
 
 
