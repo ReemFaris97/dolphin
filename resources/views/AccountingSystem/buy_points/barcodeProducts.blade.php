@@ -36,6 +36,7 @@
        data-price="{{$product->selling_price -(($product->selling_price*$product->total_discounts)/100)}}"
        data-main-unit="{{$product->	main_unit}}"
        data-bar-code="{{$product->bar_code}}"
+       data-link= "https://www.google.com/"
        data-price-has-tax="{{isset($producttax)? $producttax->price_has_tax : '0' }}"
        data-total-taxes="{{ isset($producttax)? $product->total_taxes : '0'}}"
        data-subunits="{{json_encode($arr,JSON_UNESCAPED_UNICODE)}}"

@@ -292,7 +292,7 @@
 		padding-bottom: 5px;
 		margin: 0 auto;
 		display: table;
-		width: 5.8cm
+		width: 8cm
 	}
 
 

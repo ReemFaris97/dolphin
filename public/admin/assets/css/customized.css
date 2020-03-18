@@ -1197,7 +1197,44 @@ a.removeThisSinglSpecDisc:hover {
 a.appendAnewDiscount.btn.btn-success {
 	margin-top: 20px;
 }
-
+.pos-rel{
+	position: relative
+}
+.pos-abs-btn{
+	position: absolute;
+}
+.pos-rel .pos-abs-btn {
+    left: 10px;
+    top: 33px;
+    color: #fff;
+}
+.yourBill .yurSections  .form-group {
+    margin-bottom: 5px;
+}
+td.product-name a {
+    color: #fff;
+	transition: 0.4s all ease-in-out
+}
+td.product-name a:hover{
+	color: #2ECC71
+}
+td.last-prices-info > div p {
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 2px;
+}
+td.last-prices-info > div p span:first-child{
+    color: #2ECC71;
+    padding-left: 5px;
+    font-size: 10px;
+    width: 75px;
+}
+.bill-cogs{
+	    float: left;
+    margin-left: 120px;
+	color: #fff !important
+}
 /******************* media query  *******************/
 @media (min-width: 992px) {
 
