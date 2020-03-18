@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','الفاتوره')
-@section('parent_title','إدارة نقطه البيع')
+@section('parent_title','إدارة المشتريات')
 @section('action', URL::route('accounting.categories.index'))
 @section('styles')
 <link href="{{asset('admin/assets/css/jquery.datetimepicker.min.css')}}" rel="stylesheet" type="text/css">

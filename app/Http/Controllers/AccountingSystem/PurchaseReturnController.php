@@ -84,7 +84,7 @@ class PurchaseReturnController extends Controller
     public function store(Request $request)
     {
         $requests = $request->all();
-        dd($requests);
+//        dd($requests);
 
         $rules = [
 

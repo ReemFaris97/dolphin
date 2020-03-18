@@ -9,6 +9,7 @@ use App\Models\AccountingSystem\AccountingCompany;
 use App\Models\AccountingSystem\AccountingOffer;
 use App\Models\AccountingSystem\AccountingPackage;
 use App\Models\AccountingSystem\AccountingProduct;
+use App\Models\AccountingSystem\AccountingPurchaseReturn;
 use App\Models\AccountingSystem\AccountingSale;
 use App\Models\AccountingSystem\AccountingSaleItem;
 use Illuminate\Http\Request;
@@ -49,7 +50,6 @@ class SaleController extends Controller
      */
     public function create()
     {
-
 
         return $this->toCreate(compact('branches'));
     }
@@ -136,35 +136,70 @@ class SaleController extends Controller
 
     public function store_returns(Request $request){
 
-
-       $requests=$request->all();
-
-
-       $items=collect($requests['item_id']);
-       $quantities=collect($requests['quantity']);
-       $merges=$items->zip($quantities);
-
-        // dd($requests['session_id']);
-       foreach($merges as $merge){
-        AccountingReturn::create([
-        'sale_id'=>$requests['sale_id'],
-        'session_id'=>$requests['session_id'],
-        'user_id'=>$requests['user_id'],
-        'item_id'=>$merge[0],
-        'quantity'=>$merge[1],
-      ]);
-      }
-
-      dd($merges);
-      //update_sale_item
-      foreach($merges as $merge){
-      $item= AccountingSaleItem::find($merge[0]);
-      $item->update([
-          'quantity'=>$merge[1],
-      ]);
+        $requests = $request->all();
+//        dd( $requests);
+        $return=AccountingReturn::create($requests);
+        $user=User::find($requests['user_id']);
 
 
-      }
+        $return->update([
+            'bill_num'=>$return->id."-".$return->created_at,
+            'user_id'=>$requests['user_id'] ,
+            'store_id'=>$user->accounting_store_id,
+            'debts'=>$requests['reminder'] ,
+            'payment'=>'agel'
+        ]);
+        if($requests['discount_byPercentage']!=0&&$requests['discount_byAmount']==0){
+            $return->update([
+                'discount_type'=>'percentage',
+                'discount'=>$requests['discount_byPercentage'],
+
+            ]);
+
+        }elseif($requests['discount_byAmount']!=0&&$requests['discount_byPercentage']==0){
+
+            $return->update([
+                'discount_type'=>'amount',
+                'discount'=>$requests['discount_byAmount'],
+            ]);
+        }
+        if($requests['reminder']==0){
+            $return->update([
+                'payment'=>'cash'
+            ]);
+        }
+        $products=$requests['product_id'];
+        $quantities=$requests['quantity'];
+        $products = collect($requests['product_id']);
+        $qtys = collect($requests['quantity']);
+
+        $merges = $products->zip($qtys);
+
+        foreach ($merges as $merge)
+        {
+            $product=AccountingProduct::find($merge['0']);
+
+            if($product->quantity>0){
+
+                $item= AccountingRetur::create([
+                    'product_id'=>$merge['0'],
+                    'quantity'=> $merge['1'],
+                    'price'=>$product->selling_price,
+                    'sale_id'=>$return->id
+                ]);
+                //update_product_quantity
+                $product->update([
+                    'quantity'=>$product->quantity+$merge['1'],
+                ]);
+                //update_product_quantity_store
+                $productstore=AccountingProductStore::where('store_id',$user->accounting_store_id)->where('product_id',$merge['0'])->first();
+                $productstore->update([
+                    'quantity'=>$productstore->quantity + $merge['1'],
+                ]);
+            }
+        }
+
+
 
 
 
@@ -333,11 +368,12 @@ class SaleController extends Controller
     public function returns_Sale($id){
 
         $sale=AccountingSale::find($id);
-        // $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
+        $sales_items=AccountingSaleItem::where('sale_id',$id)->pluck('product_id','id')->toArray();
+        $products=AccountingProduct::whereIn('id',$sales_items)->get();
 
         return response()->json([
             'status'=>true,
-            'data'=>view('AccountingSystem.sales.sale')->with('sale',$sale)->render()
+            'data'=>view('AccountingSystem.sales.sale')->with('products',$products)->render()
         ]);
     }
 

@@ -153,7 +153,7 @@
 										</div>
 										<div class="form-group rel-cols radiBtnwrap">
 											<input type="radio" id="tataBTata" name="payment" value="agel">
-											<label for="tataBTata">اجل</label>
+											<label for="tataBTata">خصم من المديونيه</label>
 										</div>
 									</div>
 								</th>
