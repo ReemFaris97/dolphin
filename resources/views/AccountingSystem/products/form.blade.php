@@ -155,6 +155,19 @@
 						</tr>
 					</thead>
 					<tbody class="add-products">
+					@if (isset($subunits))
+						@foreach($subunits as  $unit)
+					  <tr>
+						  <td>{{$unit->name}}</td>
+						  <td>{{$unit->bar_code}}</td>
+						  <td>{{$unit->main_unit_present}}</td>
+						  <td>{{$unit->selling_price}}</td>
+						  <td>{{$unit->purchasing_price}}</td>
+						  <td>{{$unit->quantity}}</td>
+						  <td></td>
+					  </tr>
+					  @endforeach
+					@endif
 					</tbody>
                 </table>
 
@@ -504,7 +517,7 @@
 		$(".prices_taxs").hide();
 		$(".percent").hide();
 		$('.js-example-basic-single').select2();
-		$("#productsTable").hide();
+		// $("#productsTable").hide();
 		$("#componentTable").hide();
 		$("#offerTable").hide();
 		$("#discountTable").hide();
@@ -562,7 +575,7 @@
                 </tr>
                 `);
 			});
-			$('.add-products').empty().append(appendProducts);
+			$('.add-products').append(appendProducts);
 			$('.delete-this-row').click(function(e) {
 				var $this = $(this);
 				var row_index = $(this).parents('tr').index();

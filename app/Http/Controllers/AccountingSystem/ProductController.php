@@ -316,8 +316,8 @@ class ProductController extends Controller
         // dd($store);
         $stores=AccountingStore::all();
         $taxs=AccountingTaxBand::pluck('name','id')->toArray();
-
-        return $this->toEdit(compact('industrials','taxs','face','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores','units'));
+        $subunits=AccountingProductSubUnit::all();
+        return $this->toEdit(compact('industrials','taxs','face','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores','units','subunits'));
 
 
     }

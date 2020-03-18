@@ -13,7 +13,7 @@
 	<div class="panel-heading">
 		<h5 class="panel-title"> فاتوره مشتريات
 			<b class="time-r" id="theTime"></b>
-			<a href="#" class="btn btn-success bill-cogs" target="_blank" rel="noreferrer noopener">
+			<a href="{{url('/accounting/settings/purchases_bill')}}" class="btn btn-success bill-cogs" target="_blank" rel="noreferrer noopener">
 			<i class="fas fa-cogs"></i>
 			إعدادات الفاتورة
 			<i class="fas fa-cogs"></i>
@@ -243,7 +243,8 @@
 					var ProductId = $('#selectID').val();
 					var productName = selectedProduct.data('name');
 					var productLink = selectedProduct.data('link');
-					var lastPrice = selectedProduct.data('lastPrice').toFixed(2);
+					var lastPrice = selectedProduct.data('last-price');
+
 					var avgPrice = selectedProduct.data('average').toFixed(2);
 					var barCode = selectedProduct.data('bar-code');
 					var productPrice = selectedProduct.data('price');
@@ -301,7 +302,7 @@
 											اخر سعر
 										</span>
 										<span>
-											${lastPrice}
+										${lastPrice}
 										</span>
 									</p>
 									<p>
@@ -672,7 +673,7 @@
 		var ProductId = $('#selectID2').val();
 		var productName = selectedProduct.data('name');
 		var productLink = selectedProduct.data('link');
-		var lastPrice = selectedProduct.data('lastPrice').toFixed(2);
+	    var lastPrice = selectedProduct.data('last-price').toFixed(2);
 		var avgPrice = selectedProduct.data('average').toFixed(2);
 		var barCode = selectedProduct.data('bar-code');
 		var productPrice = selectedProduct.data('price');
