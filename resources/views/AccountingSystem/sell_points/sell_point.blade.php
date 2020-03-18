@@ -534,16 +534,20 @@ $("#client_id").on('change', function() {
 <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
 <!---- new design --->
 
-{{-- <script>
+<script>
 	@if(!empty(\Illuminate\Support\Facades\Session::has('sale_id')))
-	$(document).ready(function() {
+    @php ($sale_id=\Illuminate\Support\Facades\Session::get('sale_id'));
 
-        window.onload = function(){
-         window.open(, "_blank"); // will open new tab on window.onload
-    }
-	});
+
+
+            window.open(
+		  "{{route('accounting.sales.show',$sale_id)}}",
+		  "_blank"
+		).print();
+
+
 	@endif
-</script> --}}
+</script>
 <script>
 //   For Alerting Before closing the window
 	window.onbeforeunload = function (e) {

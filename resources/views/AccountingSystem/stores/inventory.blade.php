@@ -27,26 +27,6 @@
                 {!!Form::open( ['route' => 'accounting.stores.filter_inventory' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
 
 
-                {{--<div class="col-sm-6 col-xs-6 pull-left" >--}}
-                    {{--<div class="form-group form-float">--}}
-                        {{--<label class="form-label"> رقم السند</label>--}}
-                        {{--<div class="form-line">--}}
-                            {{--{!! Form::text("bond_num",null,['class'=>'form-control','placeholder'=>'رقم السند'])!!}--}}
-
-                        {{--</div>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-
-                {{--<div class="col-sm-6 col-xs-6 pull-left" >--}}
-                    {{--<div class="form-group form-float">--}}
-                        {{--<label class="form-label"> بيان السند</label>--}}
-                        {{--<div class="form-line">--}}
-                            {{--{!! Form::text("description",null,['class'=>'form-control','placeholder'=>'بيان السند'])!!}--}}
-
-                        {{--</div>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-
                 <div class="col-sm-6 col-xs-6 pull-left">
                     <label>اختر المخزن </label>
                     {!! Form::select("store_id",allstores(),null,['class'=>'form-control js-example-basic-single store_id','placeholder'=>' اختر  المخزن'])!!}
@@ -129,15 +109,12 @@
 
                         <td>
                             @if ($row->status==0)
-
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-id="{{$row->id}}" onclick="openModal({{$row->id}})" data-target="#exampleModal{{$row->id}}" id="button{{$row->id}}">
                                    ادخل  الكميه الفعليه
                                 </button>
-
                                 @else
                                 <label class="btn-success" id="done">تم التسوية</label>
                             @endif
-
                         </td>
                     </tr>
 
@@ -183,7 +160,7 @@
 
 
 
-                                    <!-- Modal4 -->
+              <!-- Modal4 -->
             <div class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" id="alert">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">

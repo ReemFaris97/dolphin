@@ -24,11 +24,12 @@
    data-name="{{$product->name}}"
    data-price="{{$product->selling_price -(($product->selling_price*$product->total_discounts)/100)}}"
    data-bar-code="{{$product->bar_code}}"
+   data-link= "{{route('accounting.products.show',['id'=>$product->id])}}"
    data-price-has-tax="{{isset($producttax)? $producttax->price_has_tax : '0' }}"
    data-total-taxes="{{ isset($producttax)? $product->total_taxes : '0'}}"
    data-subunits="{{json_encode($merged)}}"
    data-total_discounts="{{$product->total_discounts}}"
-   data-lastPrice="{{($lastPrice)? $lastPrice->price:'0' }}"
+   data-last-price="{{($lastPrice)? $lastPrice->price:'0' }}"
    data-average="{{($average)? $average:'0' }}"
    >
     {{$product->name}} - {{$product->bar_code}}
