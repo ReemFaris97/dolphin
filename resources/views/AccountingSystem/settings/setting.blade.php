@@ -52,7 +52,94 @@
 			@endif
 			@endforeach
 			<div class="clearfix"></div>
+
+
 			@foreach($settings as $setting)
+				@if($setting->type=='multi_radio')
+					<div class="form-group col-xs-6 backed-eee {{ $errors->has('name') ? ' has-error' : '' }}">
+						<div>
+							<label> {{$setting->title}}</label>
+							<div class="form-line new-radio-big-wrapper clearfix">
+								@if($setting->value=='daily')
+									<span class="new-radio-wrap">
+						<label>يومى</label>
+						{!! Form::radio($setting->name.'[]','daily',true,['class'=>'form-control'])!!}
+					</span>
+									<span class="new-radio-wrap">
+						<label>يومى وفرعى</label>
+						{!! Form::radio($setting->name.'[]','daily_branch',false,['class'=>'form-control'])!!}
+					</span>
+									<span class="new-radio-wrap">
+						<label>فرعى وجهاز</label>
+						{!! Form::radio($setting->name.'[]','branch_device',false,['class'=>'form-control'])!!}
+					</span>
+									<span class="new-radio-wrap">
+						<label>حسب النظام</label>
+						{!! Form::radio($setting->name.'[]','random',false,['class'=>'form-control'])!!}
+					</span>
+								@elseif($setting->value=='daily_branch')
+									<span class="new-radio-wrap">
+						<label>يومى</label>
+						{!! Form::radio($setting->name.'[]','daily',false,['class'=>'form-control'])!!}
+					</span>
+									<span class="new-radio-wrap">
+						<label>يومى وفرعى</label>
+						{!! Form::radio($setting->name.'[]','daily_branch',true,['class'=>'form-control'])!!}
+					</span>
+									<span class="new-radio-wrap">
+						<label>فرعى وجهاز</label>
+						{!! Form::radio($setting->name.'[]','branch_device',false,['class'=>'form-control'])!!}
+					</span>
+									<span class="new-radio-wrap">
+						<label>حسب النظام</label>
+						{!! Form::radio($setting->name.'[]','random',false,['class'=>'form-control'])!!}
+					</span>
+								@elseif($setting->value=='branch_device')
+									<span class="new-radio-wrap">
+						<label>يومى</label>
+						{!! Form::radio($setting->name.'[]','daily',false,['class'=>'form-control'])!!}
+					</span>
+									<span class="new-radio-wrap">
+						<label>يومى وفرعى</label>
+						{!! Form::radio($setting->name.'[]','daily_branch',false,['class'=>'form-control'])!!}
+					</span>
+									<span class="new-radio-wrap">
+						<label>فرعى وجهاز</label>
+						{!! Form::radio($setting->name.'[]','branch_device',true,['class'=>'form-control'])!!}
+					</span>
+									<span class="new-radio-wrap">
+						<label>حسب النظام</label>
+						{!! Form::radio($setting->name.'[]','random',false,['class'=>'form-control'])!!}
+					</span>
+
+								@elseif($setting->value=='random')
+									<span class="new-radio-wrap">
+						<label>يومى</label>
+						{!! Form::radio($setting->name.'[]','daily',false,['class'=>'form-control'])!!}
+					</span>
+									<span class="new-radio-wrap">
+						<label>يومى وفرعى</label>
+						{!! Form::radio($setting->name.'[]','daily_branch',false,['class'=>'form-control'])!!}
+					</span>
+									<span class="new-radio-wrap">
+						<label>فرعى وجهاز</label>
+						{!! Form::radio($setting->name.'[]','branch_device',false,['class'=>'form-control'])!!}
+					</span>
+									<span class="new-radio-wrap">
+						<label>حسب النظام</label>
+						{!! Form::radio($setting->name.'[]','random',true,['class'=>'form-control'])!!}
+					</span>
+
+
+								@endif
+							</div>
+						</div>
+					</div>
+				@endif
+			@endforeach
+			<div class="clearfix"></div>
+
+		@foreach($settings as $setting)
 			@if($setting->type == 'value')
 
 			<div class="form-group col-xs-4 {{ $errors->has('name') ? ' has-error' : '' }}">

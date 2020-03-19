@@ -25,6 +25,7 @@ use Auth;
 use Carbon\Carbon;
 use Cookie;
 use Hash;
+use phpDocumentor\Reflection\Types\Null_;
 use Request as GlobalRequest;
 use Session;
 
@@ -68,9 +69,12 @@ class SaleController extends Controller
             $requests['client_id']=5;
         }
 
+        $user=User::find($requests['user_id']);
+        $requests['branch_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:Null;
+
 
         $sale=AccountingSale::create($requests);
-        $user=User::find($requests['user_id']);
+
 
 
         $sale->update([
@@ -78,7 +82,8 @@ class SaleController extends Controller
             'user_id'=>$requests['user_id'] ,
             'store_id'=>$user->accounting_store_id,
             'debts'=>$requests['reminder'] ,
-            'payment'=>'agel'
+            'payment'=>'agel',
+            'branch_id'=>($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:Null,
         ]);
         if($requests['discount_byPercentage']!=0&&$requests['discount_byAmount']==0){
             $sale->update([
@@ -129,6 +134,7 @@ class SaleController extends Controller
             ]);
         }
     }
+//    dd($sale);
         alert()->success('تمت عملية البيع بنجاح !')->autoclose(5000);
         return back()->with('sale_id',$sale->id);
     }
@@ -359,9 +365,9 @@ class SaleController extends Controller
 
     public function returns($id){
 
-        $sales=AccountingSale::pluck('id','id')->toArray();
+        $sales=AccountingSale::whereDate('created_at','>=',Carbon::now()->subDays(getsetting('return_period')))
+       ->pluck('id','id')->toArray();
         $session=AccountingSession::findOrFail($id);
-
 
     return view('AccountingSystem.sales.returns',compact('sales','session'));
     }
@@ -376,9 +382,7 @@ class SaleController extends Controller
             'data'=>view('AccountingSystem.sales.sale')->with('products',$products)->render()
         ]);
     }
-
     public function sale_details($id){
-
         $items=AccountingSaleItem::where('sale_id',$id)->get();
         // $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
         return response()->json([
@@ -386,7 +390,6 @@ class SaleController extends Controller
             'items'=>view('AccountingSystem.sales.items')->with('items',$items)->render()
         ]);
     }
-
 
     public function remove_Sale($id){
 
