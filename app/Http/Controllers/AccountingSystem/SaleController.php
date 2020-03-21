@@ -187,7 +187,7 @@ class SaleController extends Controller
 
             if($product->quantity>0){
 
-                $item= AccountingRetur::create([
+                $item= AccountingReturn::create([
                     'product_id'=>$merge['0'],
                     'quantity'=> $merge['1'],
                     'price'=>$product->selling_price,
@@ -274,8 +274,9 @@ class SaleController extends Controller
         //    Session::forget('session_id');
 
            Cookie::queue(Cookie::forget('session'));
+        $devices=AccountingDevice::where('available',1)->pluck('name','id')->toArray();
 
-           return view('AccountingSystem.sell_points.login',compact('users'));
+           return view('AccountingSystem.sell_points.login',compact('users','devices'));
     }
     /**
      * Show the form for editing the specified resource.
