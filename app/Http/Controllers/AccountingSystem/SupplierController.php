@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
+use App\Models\AccountingSystem\AccountingBank;
 use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingBranchFace;
 use App\Models\AccountingSystem\AccountingBranchShift;
@@ -11,6 +12,7 @@ use App\Models\AccountingSystem\AccountingDelegate;
 use App\Models\AccountingSystem\AccountingDelegateProduct;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingSupplier;
+use App\Models\AccountingSystem\AccountingSupplierCompany;
 use App\Models\AccountingSystem\AccountingSupplierProduct;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -40,8 +42,10 @@ class SupplierController extends Controller
     {
 
         $products=AccountingProduct::pluck('name','id')->toArray();
+        $banks=AccountingBank::pluck('name','id')->toArray();
+        $companies=AccountingCompany::pluck('name','id')->toArray();
 
-        return $this->toCreate(compact('products'));
+        return $this->toCreate(compact('products','banks','companies'));
     }
 
     /**
@@ -55,16 +59,28 @@ class SupplierController extends Controller
         $rules = [
 
             'name'=>'required|string|max:191',
+            'phone'=>'required|numeric|unique:users,phone',
+            'email'=>'required|string|unique:users,email',
+            'password'=>'required|string|max:191',
+            'image'=>'nullable|sometimes|image',
 
 
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
 
+
+        $requests['password']=bcrypt($requests['password']);
+//   dd($requests);
+        if ($request->hasFile('image')) {
+            $requests['image'] = saveImage($request->image, 'photos');
+        }
+
         $supplier=AccountingSupplier::create($requests);
-        foreach ($requests['product_id'] as $product_id){
-                AccountingSupplierProduct::create([
-                    'product_id'=>$product_id,
+
+        foreach ($requests['company_id'] as $company){
+                AccountingSupplierCompany::create([
+                    'company_id'=>$company,
                     'supplier_id'=>$supplier->id
                 ]);
 
@@ -97,8 +113,9 @@ class SupplierController extends Controller
         $supplier =AccountingSupplier::findOrFail($id);
         $products=AccountingProduct::pluck('name','id')->toArray();
 
-
-        return $this->toEdit(compact('supplier','products'));
+        $banks=AccountingBank::pluck('name','id')->toArray();
+        $companies=AccountingCompany::pluck('name','id')->toArray();
+        return $this->toEdit(compact('supplier','products','banks','companies'));
 
 
     }
@@ -144,5 +161,27 @@ class SupplierController extends Controller
             return back();
 
 
+    }
+
+
+    public  function active($id){
+
+        $supplier= AccountingSupplier::find($id);
+        $supplier->update([
+            'is_active'=>'1'
+        ]);
+        alert()->success('تم تفعيل  المورد بنجاح !')->autoclose(5000);
+        return back();
+    }
+
+    public  function dis_active($id){
+
+        $supplier= AccountingSupplier::find($id);
+        $supplier->update([
+            'is_active'=>'0'
+        ]);
+
+        alert()->success('تم الغاءتفعيل  المورد بنجاح !')->autoclose(5000);
+        return back();
     }
 }

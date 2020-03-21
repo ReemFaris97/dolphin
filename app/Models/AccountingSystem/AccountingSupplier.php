@@ -10,9 +10,15 @@ class AccountingSupplier extends Model
 {
 
 
-    protected $fillable = ['name','email','phone','credit','branch_id','amount'
+    protected $fillable = ['name','email','phone','credit','branch_id','amount','password','image','bank_id',
+        'bank_account_number','tax_number','is_active'
     ];
     protected $table='accounting_suppliers';
 
+
+    public  function  companies(){
+        return $this->hasMany(AccountingSupplierCompany::class, 'supplier_id');
+
+    }
 
 }

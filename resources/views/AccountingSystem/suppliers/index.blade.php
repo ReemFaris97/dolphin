@@ -26,8 +26,8 @@
                 <tr>
                     <th>#</th>
                     <th> اسم المورد </th>
-                    <th>الجوال</th>
-                    <th>الايميل</th>
+                    <th>الشركات المورده</th>
+
                     <th>رصيد المورد</th>
 
                     <th class="text-center">العمليات</th>
@@ -39,14 +39,25 @@
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->name!!}</td>
-                        <td>{!! $row->phone!!}</td>
+                        <td>
+                            {{--@dd($row->companies)--}}
+                        @foreach ($row->companies as $company)
+                                <li>{{$company->company->name}}</li>
 
-                        <td>{!! $row->email!!}</td>
+                        @endforeach
+                         </td>
+
                         <td>{!! $row->amount!!}</td>
 
-                        <td class="text-center">
-                            <a href="{{route('accounting.suppliers.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
-                            <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
+                        <td >
+                            <a href="{{route('accounting.suppliers.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل">تعديل </a>
+                            @if ($row->is_active==0)
+                                <a href="{{route('accounting.suppliers.is_active',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title=" تفعيل "> تفعيل</a>
+                            @else
+                                <a href="{{route('accounting.suppliers.dis_active',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title=" الغاء التفيل">الغاء التفعيل </a>
+                            @endif
+
+                            <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> حذف</a>
 
                             {!!Form::open( ['route' => ['accounting.suppliers.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
                             {!!Form::close() !!}
@@ -75,7 +86,7 @@
             console.log(item_id);
             swal({
                 title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذة الوجة ؟",
+                text: "هل تريد حذف هذا  المورد ؟",
                 icon: "warning",
                 buttons: ["الغاء", "موافق"],
                 dangerMode: true,

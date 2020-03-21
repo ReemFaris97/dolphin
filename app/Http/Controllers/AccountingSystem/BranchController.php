@@ -57,6 +57,8 @@ class BranchController extends Controller
         ];
         $this->validate($request,$rules);
         $requests = $request->except('image');
+
+
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'photos');
         }
