@@ -73,6 +73,7 @@
 			<div class="result">
 				<form method="post" action="{{route('accounting.purchases.store')}}">
 					@csrf
+					<input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
 					<input type="hidden" name="supplier_id" id="supplier_id_val">
 					<input type="hidden" name="bill_num" id="bill_num_val">
 					<input type="hidden" name="bill_date" id="bill_date_val">

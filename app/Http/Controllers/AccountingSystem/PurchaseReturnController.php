@@ -88,8 +88,8 @@ class PurchaseReturnController extends Controller
 
         $rules = [
 
-            // 'supplier_id'=>'required|numeric|exists:accounting_suppliers,id',
-            // 'reminder'=>'required|numeric|gt:0',
+            'supplier_id'=>'required|numeric|exists:accounting_suppliers,id',
+
 
         ];
         $this->validate($request, $rules);
@@ -177,10 +177,11 @@ class PurchaseReturnController extends Controller
                     ]);
                 } else {
                     $productstore = AccountingProductStore::where('store_id', auth()->user()->accounting_store_id)->where('product_id', $merge['0'])->where('unit_id', $merge['2'])->first();
-
-                    $productstore->update([
-                        'quantity' => $productstore->quantity + $merge['1'],
-                    ]);
+                   if($productstore) {
+                       $productstore->update([
+                           'quantity' => $productstore->quantity + $merge['1'],
+                       ]);
+                   }
                 }
 
 /////////////////////////discount/////////////////
@@ -209,6 +210,14 @@ class PurchaseReturnController extends Controller
             $safe->update([
                 'amount' => $safe->amount + $return->total
             ]);
+        }elseif ($return->payment == 'agel'){
+            $supplier = AccountingSupplier::find($return->supplier_id);
+            if ($supplier) {
+                if($return->payment=='agel') {
+                    $balance=$return->total;
+                    $supplier->balance = -$balance;
+                }
+            }
         }
         alert()->success('تمت عملية الاسترجاع بنجاح !')->autoclose(5000);
         return back();
