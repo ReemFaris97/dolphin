@@ -11,7 +11,7 @@ class AccountingSupplier extends Model
 
 
     protected $fillable = ['name','email','phone','credit','branch_id','amount','password','image','bank_id',
-        'bank_account_number','tax_number','is_active'
+        'bank_account_number','tax_number','is_active','balance'
     ];
     protected $table='accounting_suppliers';
 
@@ -21,4 +21,11 @@ class AccountingSupplier extends Model
 
     }
 
+
+    public   function  balances(){
+
+        $balance=AccountingPurchase::where('supplier_id',$this->id)->where('payment','agel')->sum('total');
+
+        return $balance;
+    }
 }

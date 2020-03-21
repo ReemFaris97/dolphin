@@ -25,7 +25,7 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th> اسم المورد </th>
+                    <th> اسم المورد</th>
                     <th>الشركات المورده</th>
 
                     <th>رصيد المورد</th>
@@ -40,24 +40,28 @@
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->name!!}</td>
                         <td>
-                            {{--@dd($row->companies)--}}
-                        @foreach ($row->companies as $company)
+
+                            @foreach ($row->companies as $company)
                                 <li>{{$company->company->name}}</li>
 
-                        @endforeach
-                         </td>
+                            @endforeach
+                        </td>
 
-                        <td>{!! $row->amount!!}</td>
+                        <td>{!! $row->balances()!!}</td>
 
-                        <td >
-                            <a href="{{route('accounting.suppliers.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل">تعديل </a>
+                        <td>
+                            <a href="{{route('accounting.suppliers.edit',['id'=>$row->id])}}" data-toggle="tooltip"
+                               data-original-title="تعديل">تعديل </a>
                             @if ($row->is_active==0)
-                                <a href="{{route('accounting.suppliers.is_active',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title=" تفعيل "> تفعيل</a>
+                                <a href="{{route('accounting.suppliers.is_active',['id'=>$row->id])}}"
+                                   data-toggle="tooltip" data-original-title=" تفعيل "> تفعيل</a>
                             @else
-                                <a href="{{route('accounting.suppliers.dis_active',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title=" الغاء التفيل">الغاء التفعيل </a>
+                                <a href="{{route('accounting.suppliers.dis_active',['id'=>$row->id])}}"
+                                   data-toggle="tooltip" data-original-title=" الغاء التفيل">الغاء التفعيل </a>
                             @endif
 
-                            <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> حذف</a>
+                            <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف">
+                                حذف</a>
 
                             {!!Form::open( ['route' => ['accounting.suppliers.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
                             {!!Form::close() !!}
@@ -66,7 +70,6 @@
                     </tr>
 
                 @endforeach
-
 
 
                 </tbody>
@@ -82,7 +85,7 @@
 
     <script>
         function Delete(id) {
-            var item_id=id;
+            var item_id = id;
             console.log(item_id);
             swal({
                 title: "هل أنت متأكد ",
@@ -91,12 +94,11 @@
                 buttons: ["الغاء", "موافق"],
                 dangerMode: true,
 
-            }).then(function(isConfirm){
-                if(isConfirm){
-                    document.getElementById('delete-form'+item_id).submit();
-                }
-                else{
-                    swal("تم االإلفاء", "حذف  الوجة  تم الغاؤه",'info',{buttons:'موافق'});
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    document.getElementById('delete-form' + item_id).submit();
+                } else {
+                    swal("تم االإلفاء", "حذف  الوجة  تم الغاؤه", 'info', {buttons: 'موافق'});
                 }
             });
         }

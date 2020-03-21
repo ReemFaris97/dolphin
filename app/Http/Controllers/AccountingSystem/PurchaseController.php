@@ -63,8 +63,8 @@ class PurchaseController extends Controller
      */
     public function store(Request $request)
     {
-        $requests = $request->all();
-//   dd($requests);
+        $requests = $request->except('user_id');
+//  dd($requests);
 
         $rules = [
 
@@ -73,11 +73,15 @@ class PurchaseController extends Controller
 
         ];
         $this->validate($request,$rules);
+//      dd($requests['user_id']);
+        $user=User::find($request['user_id']);
+        $requests['branch_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:Null;
 
         $purchase=AccountingPurchase::create($requests);
-
+       //dd($purchase);
         $purchase->update([
             'bill_num'=>$purchase->id."-".$purchase->created_at,
+            'branch_id'=>$requests['branch_id'],
 
         ]);
 
@@ -85,7 +89,7 @@ class PurchaseController extends Controller
         $qtys = collect($requests['quantity']);
         $unit_id = collect($requests['unit_id']);
         $prices = collect($requests['prices']);
-        $itemTax = collect($requests['itemTax']);
+        $itemTax = collect($request['itemTax']);
 
         $merges = $products->zip($qtys,$unit_id,$prices,$itemTax);
 
@@ -161,9 +165,11 @@ class PurchaseController extends Controller
         }else{
 
             $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',$merge['2'])->first();
-            $productstore->update([
-                'quantity'=>$productstore->quantity - $merge['1'],
-            ]);
+                 if($productstore) {
+                     $productstore->update([
+                         'quantity' => $productstore->quantity - $merge['1'],
+                     ]);
+                 }
         }
 /////////////////////////discount/////////////////
             if($requests['discount_byPercentage']!=0&&$requests['discount_byAmount']==0){
