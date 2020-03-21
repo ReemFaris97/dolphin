@@ -12,7 +12,7 @@ class AccountingSale extends Model
 
 
     protected $fillable = ['client_id','total','amount','discount','payment','payed','debts','package_id','session_id','branch_id','company_id','store_id','bill_num','totalTaxs'
-,'status','user_id','cash','network','discount_type','counter','daily_number'];
+,'status','user_id','cash','network','discount_type','counter','daily_number','counter_sale'];
     protected $table='accounting_sales';
 
 

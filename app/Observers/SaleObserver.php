@@ -27,21 +27,35 @@ class SaleObserver
 
             if (!is_null($exiss)) {
 
-                $count = $exiss->daily_number ?? 1;
+                $count1 = $exiss->daily_number ?? 1;
 
-                $sale->daily_number = $count + 1;
-                $sale->counter = $sale->daily_number ."-". $sale->branch->code ;
-
+                $sale->daily_number = $count1 + 1;
+                $sale->counter_sale = $sale->daily_number . "-" . $sale->branch->code;
             } else {
                 $sale->daily_number =1;
-                $sale->counter = $sale->daily_number . "-".$sale->branch->code;
+                $sale->counter_sale = $sale->daily_number . "-" . $sale->branch->code;
+
             }
         }
        elseif(getsetting('counter_type')=='branch_device')
         {
-            $sale->counter =($sale->branch->code)?$sale->branch->code:"" . ($sale->session->device->code)?$sale->session->device->code:"";
 
+
+           $exiss = AccountingSale::whereDate('created_at', date('Y-m-d'))->latest()->first();
+
+           if (!is_null($exiss)) {
+
+               $count1 = $exiss->daily_number ?? 1;
+
+               $sale->daily_number = $count1 + 1;
+               $sale->counter_sale = $sale->daily_number . "-" . $sale->branch->code . "-" . $sale->session->device->code;
+           } else {
+               $sale->daily_number =1;
+               $sale->counter_sale = $sale->daily_number . "-" . $sale->branch->code . "-" . $sale->session->device->code;
+
+           }
         }
+
 
     }
 }

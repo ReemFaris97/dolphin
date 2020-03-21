@@ -963,7 +963,7 @@
 						</div>
 						<div class="one-bill-inpt the-bill-numbere the-bill-number">
 							<span>رقم الفاتوره</span>
-							{!! $sale->id !!}
+							{!! $sale->counter_sale !!}
 						</div>
 
 
