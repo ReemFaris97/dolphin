@@ -55,7 +55,7 @@ class SupplierSadadController extends Controller
      */
     public function store(Request $request)
     {
-//      dd($request->all());
+
         // $rules = [
 
 
@@ -98,7 +98,7 @@ class SupplierSadadController extends Controller
                     'user_id'=>auth()->user()->id,
                     'balance' => $supplier->balance - $requests['amount']
                 ]);
-                dd($supplier);
+//                dd($supplier);
 
         }
     }

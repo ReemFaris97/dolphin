@@ -11,6 +11,7 @@ use App\Models\AccountingSystem\AccountingPackage;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingSale;
 use App\Models\AccountingSystem\AccountingSaleItem;
+use App\Models\AccountingSystem\AccountingSupplier;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingItemDiscount;
@@ -196,7 +197,12 @@ if($purchase->payment=='cash'){
         $safe->update([
             'amount'=>$safe->amount-$purchase->total
         ]);
-        }
+        }elseif ($purchase->payment=='agel'){
+    $supplier=AccountingSupplier::find( $purchase->supplier_id);
+    $supplier->update([
+        'balance'=>$supplier->balance +$purchase->total
+    ]);
+}
         alert()->success('تمت عملية الشراء بنجاح !')->autoclose(5000);
         return back();
     }
