@@ -98,6 +98,7 @@ class SupplierSadadController extends Controller
                     'user_id'=>auth()->user()->id,
                     'balance' => $supplier->balance - $requests['amount']
                 ]);
+                dd($supplier);
 
         }
     }
