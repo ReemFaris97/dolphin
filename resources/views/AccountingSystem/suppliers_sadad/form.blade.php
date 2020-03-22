@@ -9,8 +9,8 @@
 @endif
 
 
-<input type="hidden" name="concerned"   value="supplier">
-
+<input type="hidden" name="concerned"  value="supplier">
+<input type="hidden" name="type"  value="expenses">
 <div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
     <label> اسم الشركة </label>
     {!! Form::select("company_id",companies(),null,['class'=>'form-control js-example-basic-single company_id','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له المنتج '])!!}
@@ -57,10 +57,10 @@
     {!! Form::select("safe_id",$safes,null,['class'=>'form-control','placeholder'=>' خزينة الدفع '])!!}
 </div>
 
-<div class="form-group col-md-6 pull-left">
-    <label>نوع السند </label>
-    {!! Form::select("type",['revenue'=>'ايراد','expenses'=>'مصروف'],null,['class'=>'form-control','placeholder'=>' نوع البند  '])!!}
-</div>
+{{--<div class="form-group col-md-6 pull-left">--}}
+    {{--<label>نوع السند </label>--}}
+    {{--{!! Form::select("type",['revenue'=>'ايراد','expenses'=>'مصروف'],null,['class'=>'form-control','placeholder'=>' نوع البند  '])!!}--}}
+{{--</div>--}}
 
 
 
