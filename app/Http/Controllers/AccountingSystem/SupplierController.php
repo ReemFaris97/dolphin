@@ -10,7 +10,10 @@ use App\Models\AccountingSystem\AccountingCompany;
 
 use App\Models\AccountingSystem\AccountingDelegate;
 use App\Models\AccountingSystem\AccountingDelegateProduct;
+use App\Models\AccountingSystem\AccountingMoneyClause;
 use App\Models\AccountingSystem\AccountingProduct;
+use App\Models\AccountingSystem\AccountingProductCategory;
+use App\Models\AccountingSystem\AccountingSafe;
 use App\Models\AccountingSystem\AccountingSupplier;
 use App\Models\AccountingSystem\AccountingSupplierCompany;
 use App\Models\AccountingSystem\AccountingSupplierProduct;
@@ -99,7 +102,9 @@ class SupplierController extends Controller
      */
     public function show($id)
     {
-        //
+
+        $clauses = AccountingMoneyClause::where('concerned','supplier')->where('supplier_id',$id)->get()->reverse();
+        return view('AccountingSystem.suppliers.show',compact('clauses'));
     }
 
     /**
@@ -183,5 +188,12 @@ class SupplierController extends Controller
 
         alert()->success('تم الغاءتفعيل  المورد بنجاح !')->autoclose(5000);
         return back();
+    }
+
+    public  function purchase_order(){
+        $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
+        $suppliers=AccountingSupplier::pluck('name','id')->toArray();
+        $safes=AccountingSafe::pluck('name','id')->toArray();
+        return  view('AccountingSystem.suppliers.purchase_order',compact('categories','suppliers','safes'));
     }
 }

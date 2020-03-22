@@ -50,8 +50,12 @@
                         <td>{!! $row->balances()!!}</td>
 
                         <td>
+                            <a href="{{route('accounting.suppliers.show',['id'=>$row->id])}}" data-toggle="tooltip"
+                               data-original-title="كشف سداد  ">كشف سداد  </a>
+
                             <a href="{{route('accounting.suppliers.edit',['id'=>$row->id])}}" data-toggle="tooltip"
                                data-original-title="تعديل">تعديل </a>
+
                             @if ($row->is_active==0)
                                 <a href="{{route('accounting.suppliers.is_active',['id'=>$row->id])}}"
                                    data-toggle="tooltip" data-original-title=" تفعيل "> تفعيل</a>

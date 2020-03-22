@@ -34,6 +34,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/stores_to/{id}', 'StoreController@stores_to')->name('stores_to');
 
 
+
     Route::get('/bonds', 'StoreController@bonds_index')->name('stores.bonds_index');
     Route::get('/bond-show/{id}', 'StoreController@bond_show')->name('stores.show_bond');
     Route::get('/products_exchange_form', 'StoreController@products_exchange_form')->name('stores.products_exchange_form');
@@ -152,11 +153,15 @@ Route::middleware('admin')->group(function () {
     Route::resource('cells', 'CellController');
 
     Route::resource('clauses', 'ClauseController');
+    Route::resource('suppliers_sadad', 'SupplierSadadController');
+    Route::get('/getBalance/{id}','SupplierSadadController@getBalance');
+    Route::get('/getNewBalance/{amount}','SupplierSadadController@getNewBalance');
+
     Route::resource('delegates', 'DelegateController');
     Route::resource('suppliers', 'SupplierController');
     Route::get('/supplier-active/{id}', 'SupplierController@active')->name('suppliers.is_active');
     Route::get('/supplier-dis_active/{id}', 'SupplierController@dis_active')->name('suppliers.dis_active');
-
+    Route::get('/purchase_order', 'SupplierController@purchase_order')->name('suppliers.purchase_order');
 
     Route::resource('benods', 'BenodController');
     Route::resource('offers', 'OfferController');
