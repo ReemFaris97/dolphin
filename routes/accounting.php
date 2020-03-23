@@ -204,7 +204,9 @@ Route::middleware('admin')->group(function () {
         Route::get('purchases', ['as' => 'purchases', 'uses' => 'PurchasesController@index']);
     });
 
-
+    Route::group(['prefix' => 'ajax'], function () {
+        Route::get('branches/{id}', 'HomeController@getBranches');
+    });
 
 });
 
