@@ -85,7 +85,6 @@ class PurchaseController extends Controller
             'branch_id'=>$requests['branch_id'],
             'user_id'=>$request['user_id'],
             'total'=>$requests['total'],
-
         ]);
 
         $products = collect($requests['product_id']);
