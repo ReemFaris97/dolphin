@@ -65,7 +65,7 @@ class PurchaseController extends Controller
     public function store(Request $request)
     {
         $requests = $request->except('user_id');
-//  dd($requests);
+// dd($requests);
 
         $rules = [
 
@@ -74,15 +74,17 @@ class PurchaseController extends Controller
 
         ];
         $this->validate($request,$rules);
-//      dd($requests['user_id']);
         $user=User::find($request['user_id']);
+
         $requests['branch_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:Null;
 
         $purchase=AccountingPurchase::create($requests);
-       //dd($purchase);
+
         $purchase->update([
             'bill_num'=>$purchase->id."-".$purchase->created_at,
             'branch_id'=>$requests['branch_id'],
+            'user_id'=>$request['user_id'],
+            'total'=>$requests['total'],
 
         ]);
 
@@ -112,8 +114,6 @@ class PurchaseController extends Controller
                 'price_after_tax'=>$merge['3']+$merge['4'],
                 'purchase_id'=>$purchase->id
             ]);
-            // $perc = $request->discount_item_percentage;
-            // $val = $request->discount_item_value;
             $items=$request->items;
             foreach( $items as  $key=>$item1)
             {
@@ -155,6 +155,7 @@ class PurchaseController extends Controller
 
             $i++;
 
+
             //update_product_quantity
 
              ///if-main-unit
@@ -172,6 +173,7 @@ class PurchaseController extends Controller
                      ]);
                  }
         }
+
 /////////////////////////discount/////////////////
             if($requests['discount_byPercentage']!=0&&$requests['discount_byAmount']==0){
                 $purchase->update([
@@ -190,6 +192,7 @@ class PurchaseController extends Controller
 
         }
     }
+
 if($purchase->payment=='cash'){
        $store_id=auth()->user()->accounting_store_id;
         $store=AccountingStore::find($store_id);
