@@ -19,10 +19,10 @@ Route::middleware('admin')->group(function () {
     Route::get('/company_stores/{id}', 'StoreController@company_stores');
     Route::get('/branch_stores/{id}', 'StoreController@branch_stores');
     Route::get('/store-active/{id}', 'StoreController@active')->name('stores.is_active');
+    Route::get('/store-dis_active/{id}', 'StoreController@dis_active')->name('stores.dis_active');
 
     Route::post('/store-cost/{id}', 'StoreController@cost')->name('stores.update_cost_type');
 
-    Route::get('/store-dis_active/{id}', 'StoreController@dis_active')->name('stores.dis_active');
     Route::get('/store-active-product/{id}', 'StoreController@active_product')->name('stores.is_active_product');
     Route::get('/store-dis_active-product/{id}', 'StoreController@dis_active_product')->name('stores.dis_active_product');
     Route::get('/product-details/{id}', 'StoreController@show_product_details')->name('stores.show_product_details');
@@ -32,6 +32,7 @@ Route::middleware('admin')->group(function () {
     Route::post('/bond_store', 'StoreController@bond_store')->name('stores.bond_store');
     Route::get('/keepers_store/{id}', 'StoreController@getkeepers')->name('keepers_store');
     Route::get('/stores_to/{id}', 'StoreController@stores_to')->name('stores_to');
+
 
 
     Route::get('/bonds', 'StoreController@bonds_index')->name('stores.bonds_index');
@@ -152,9 +153,15 @@ Route::middleware('admin')->group(function () {
     Route::resource('cells', 'CellController');
 
     Route::resource('clauses', 'ClauseController');
+    Route::resource('suppliers_sadad', 'SupplierSadadController');
+    Route::get('/getBalance/{id}','SupplierSadadController@getBalance');
+    Route::get('/getNewBalance/{amount}','SupplierSadadController@getNewBalance');
+
     Route::resource('delegates', 'DelegateController');
     Route::resource('suppliers', 'SupplierController');
-
+    Route::get('/supplier-active/{id}', 'SupplierController@active')->name('suppliers.is_active');
+    Route::get('/supplier-dis_active/{id}', 'SupplierController@dis_active')->name('suppliers.dis_active');
+    Route::get('/purchase_order', 'SupplierController@purchase_order')->name('suppliers.purchase_order');
 
     Route::resource('benods', 'BenodController');
     Route::resource('offers', 'OfferController');

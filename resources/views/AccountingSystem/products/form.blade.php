@@ -149,11 +149,25 @@
 							<th>الباركود</th>
 							<th>المقدارمن الوحدة الاساسية</th>
 							<th>سعر البيع</th>
-							<th>سعر الشراء</th>
+                            <th>سعر الشراء</th>
+                            <th> الكمية</th>
 							<th>العمليات</th>
 						</tr>
 					</thead>
 					<tbody class="add-products">
+					@if (isset($subunits))
+						@foreach($subunits as  $unit)
+					  <tr>
+						  <td>{{$unit->name}}</td>
+						  <td>{{$unit->bar_code}}</td>
+						  <td>{{$unit->main_unit_present}}</td>
+						  <td>{{$unit->selling_price}}</td>
+						  <td>{{$unit->purchasing_price}}</td>
+						  <td>{{$unit->quantity}}</td>
+						  <td></td>
+					  </tr>
+					  @endforeach
+					@endif
 					</tbody>
                 </table>
 
@@ -265,7 +279,13 @@
 				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
 					<label> تاريخ الانتهاء </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
 					{!! Form::date("expired_at",null,['class'=>'form-control'])!!}
+                </div>
+
+                <div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+					<label>مده  التنبية</label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+					{!! Form::number("alert_duration",null,['class'=>'form-control'])!!}
 				</div>
+
 				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
 					<label>عدد أيام فترة الركود</label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
 					{!! Form::number("num_days_recession",null,['class'=>'form-control'])!!}
@@ -369,7 +389,11 @@
 				<input type="text" class="form-control the-unit-spri" id="selling_price" required>
 				<label>سعر الشراء</label>
 				<span class="required--in">*</span>
-				<input type="text" class="form-control the-unit-ppri" id="purchasing_price" required>
+                <input type="text" class="form-control the-unit-ppri" id="purchasing_price" required>
+                <label> الكميه</label>
+				<span class="required--in">*</span>
+				<input type="text" class="form-control the-unit-quantity" id="quantity" required>
+
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
@@ -493,7 +517,7 @@
 		$(".prices_taxs").hide();
 		$(".percent").hide();
 		$('.js-example-basic-single').select2();
-		$("#productsTable").hide();
+		// $("#productsTable").hide();
 		$("#componentTable").hide();
 		$("#offerTable").hide();
 		$("#discountTable").hide();
@@ -512,7 +536,8 @@
 		data.main_unit_present = $('#main_unit_present').val();
 		data.selling_price = $('#selling_price').val();
 		data.purchasing_price = $('#purchasing_price').val();
-		if (data.name !== '' && data.main_unit_present !== '' && data.selling_price !== '' && data.purchasing_price !== '') {
+        data.quantity = $('#quantity').val();
+		if (data.name !== '' && data.main_unit_present !== '' && data.selling_price !== '' && data.purchasing_price !== ''&& data.quantity !== '') {
 			$("tr.editted-row").remove();
 			swal({
 				title: "تم إضافة الوحدة الفرعية بنجاح",
@@ -531,6 +556,8 @@
                     <td class="prod-pre">${product.main_unit_present}</td>
                     <td class="prod-spri">${product.selling_price}</td>
                     <td class="prod-ppri">${product.purchasing_price}</td>
+                    <td class="prod-quantity">${product.quantity}</td>
+
    					<td>
 						<a href="#" data-toggle="modal" class="edit-this-row" data-target="#exampleModal" data-original-title="تعديل">
 							<i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i>
@@ -544,10 +571,11 @@
             <input type="hidden"name="main_unit_present[]" value="${product.main_unit_present}" >
             <input type="hidden" name="selling_price[]" value="${product.selling_price}" >
             <input type="hidden"name="purchasing_price[]"  value="${product.purchasing_price}" >
+            <input type="hidden"name="unit_quantities[]"  value="${product.quantity}" >
                 </tr>
                 `);
 			});
-			$('.add-products').empty().append(appendProducts);
+			$('.add-products').append(appendProducts);
 			$('.delete-this-row').click(function(e) {
 				var $this = $(this);
 				var row_index = $(this).parents('tr').index();
@@ -578,6 +606,8 @@
 				$('#exampleModal #main_unit_present').val($this.parents('tr').find('.prod-pre').html());
 				$('#exampleModal #selling_price').val($this.parents('tr').find('.prod-spri').html());
 				$('#exampleModal #purchasing_price').val($this.parents('tr').find('.prod-ppri').html());
+                $('#exampleModal #quantity').val($this.parents('tr').find('.prod-quantity').html());
+
 				var row_index_edit = $(this).parents('tr').index();
 				bigData.splice(row_index_edit, 1);
 			});

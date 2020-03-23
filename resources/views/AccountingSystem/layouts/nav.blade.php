@@ -375,7 +375,12 @@
                         <ul class="dropdown-menu dropdown-menu-right">
                             <li><a href="{{route('accounting.suppliers.index')}}"><i class="icon-eye"></i> عرض  الموردين</a></li>
                             <li><a href="{{route('accounting.suppliers.create')}}"><i class="icon-add-to-list"></i> اضافة مورد جديد</a></li>
-                        </ul>
+							<li><a href="{{route('accounting.suppliers_sadad.index')}}"><i class="icon-eye"></i> عرض  سجلات السداد</a></li>
+							<li><a href="{{route('accounting.suppliers_sadad.create')}}"><i class="icon-add-to-list"></i> اضافة سند سداد جديد</a></li>
+
+							<li><a href="{{route('accounting.suppliers.purchase_order')}}"><i class="icon-add-to-list"></i> طلب شراء جديد</a></li>
+
+						</ul>
 			    	</li>
 					<!--Here we will put the links from the sent file from point 9 to point 11 but as  buying  spelling -->
                 </ul>

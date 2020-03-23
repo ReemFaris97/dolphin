@@ -11,43 +11,45 @@
 @if( isset($clause))
     @if ($clause->concerned==1)
 
-        <div class="form-group">
-            {{-- <label class="display-block text-semibold"> الجهة</label> --}}
-            <label class="radio-inline">
+        <div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left taxs form-line new-radio-big-wrapper ">
+					<span class="new-radio-wrap">
+                        <label>عميل</label>
                 <input type="radio" name="concerned" class="styled type"  value="client" onclick="myFunction()"  checked="checked" disabled >
-                عميل
-            </label>
+                    </span>
 
-            <label class="radio-inline">
+					<span class="new-radio-wrap">
+                            <label>مورد</label>
                 <input type="radio" name="concerned"  class="styled type" value="supplier" onclick="myFunction2()" disabled >
-                مورد
-            </label>
+
+            </span>
         </div>
     @else
-        <div class="form-group">
-            {{-- <label class="display-block text-semibold">  الجهة </label> --}}
-            <label class="radio-inline">
-                <input type="radio" name="concerned" class="styled type"  value="client" onclick="myFunction()" disabled>
-                عميل
-            </label>
 
-            <label class="radio-inline">
+            <div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left taxs form-line new-radio-big-wrapper ">
+					<span class="new-radio-wrap">
+                        <label>عميل</label>
+                <input type="radio" name="concerned" class="styled type"  value="client" onclick="myFunction()" disabled>
+
+                    </span>
+
+                <span class="new-radio-wrap">
+                        <label>مورد</label>
                 <input type="radio" name="concerned"  class="styled type" value="supplier" onclick="myFunction2()" checked="checked" disabled>
-                مورد
-            </label>
+                </span>
         </div>
     @endif
     @else
-    <div class="form-group col-xs-12 pull-left">
-        {{-- <label class="display-block text-semibold"> الجهة</label> --}}
-        <label class="radio-inline">
+    <div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left taxs form-line new-radio-big-wrapper ">
+					<span class="new-radio-wrap">
+                        <label>عميل</label>
             <input type="radio" name="concerned" class="styled type" id="basic" onclick="myFunction()"  value="client">
-            عميل
-        </label>
-        <label class="radio-inline">
+
+                    </span>
+        <span class="new-radio-wrap">
+                        <label>مورد</label>
             <input type="radio" name="concerned"  class="styled type" id="part"  onclick="myFunction2()"   value="supplier">
-             مورد
-        </label>
+
+        </span>
     </div>
 @endif
 

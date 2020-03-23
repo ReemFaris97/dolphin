@@ -207,7 +207,7 @@
                             </tr>
                             <tr>
                                 <th colspan="9">
-                                    <button type="submit">حفظ</button>
+                                    <button type="submit"> حفظ [F7] </button>
                                 </th>
                             </tr>
                         </tfoot>
@@ -218,11 +218,12 @@
 
                     @if(auth()->user()->is_saler==1)
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                        اغلاق الجلسة
+                         اغلاق الجلسة [F8]
                     </button>
                     @endif
-                    <a class="btn btn-danger" href="{{route('accounting.sales.returns',$session->id)}}"> اضافة فاتورة مرتجع</a>
-                    <a class="btn btn-warning" href="#" target="_blank"> تعليق الفاتورة</a>
+                    <a class="btn btn-danger" id="add-mortaga3" href="{{route('accounting.sales.returns',$session->id)}}">
+                     اضافة فاتورة مرتجع [F9] </a>
+                    <a class="btn btn-warning" id="ta3liik" href="#" target="_blank"> تعليق الفاتورة [F10]   </a>
                 </div>
                 @if(auth()->user()->is_saler==1)
                 <!-- Modal -->
@@ -260,11 +261,11 @@
 @endsection
 @section('scripts')
 <script src="{{asset('admin/assets/js/jquery.datetimepicker.full.min.js')}}"></script>
-
 <script>
-
 $(document).ready(function() {
 		$('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
+		$('.inlinedatepicker').text(new Date().toLocaleString());
+		$('.inlinedatepicker').val(new Date().toLocaleString());
 	})
 	// For preventing user from inserting two methods of discount
 	function preventDiscount(){
@@ -277,9 +278,7 @@ $(document).ready(function() {
 	}
 	$(document).ready(function(){
 		preventDiscount();
-
 	})
-
 $("#client_id").on('change', function() {
         var client = $(this).val();
         $('#client_id_val').val(client);
@@ -506,10 +505,49 @@ $("#client_id").on('change', function() {
             }
         });
     });
+	$(document).keydown(function(event) {
+    if(event.which == 118) { //F7 حفظ
+        $("button[type='submit']").trigger('click');
+        return false;
+    }
+	if(event.which == 119) { //F8 اغلاق الجلسة
+		$("button[data-target='#exampleModal']").trigger('click');
+		return false;
+	}
+	if(event.which == 120) { //F9 اضافة مرتجع
+		window.open(
+		  "{{route('accounting.sales.returns',$session->id)}}",
+		  "_blank"
+		);
+			return false;
+		}
+	if(event.which == 121) { //F10 تعليق الفاتورة
+			window.open(
+			  "#",
+			  "_blank"
+			);
+			return false;
+		}
+});
 </script>
 <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
 <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
 <!---- new design --->
+
+<script>
+	@if(!empty(\Illuminate\Support\Facades\Session::has('sale_id')))
+    @php ($sale_id=\Illuminate\Support\Facades\Session::get('sale_id'));
+
+
+
+            window.open(
+		  "{{route('accounting.sales.show',$sale_id)}}",
+		  "_blank"
+		).print();
+
+
+	@endif
+</script>
 <script>
 //   For Alerting Before closing the window
 	window.onbeforeunload = function (e) {
@@ -528,4 +566,6 @@ $("#client_id").on('change', function() {
 	}
 	setInterval(refreshTime , 1000)
 </script>
+
+
 @endsection

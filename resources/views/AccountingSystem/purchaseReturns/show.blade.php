@@ -969,29 +969,18 @@
 						<div class="flex-col">
 							<table class="tablesaw a-new-table table-hover table table-bordered" data-tablesaw-mode="stack" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
 								<tbody>
-                                    <tr>
+                                    {{-- <tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-mobile"></i>  رقم  الفاتوره الاساسية </td>
                                         <td>
                                             <a href="{{route('accounting.purchases.show',['id'=>$purchaseReturn->purchase->id])}}" data-toggle="tooltip" data-original-title="تعديل"> {{$purchaseReturn->purchase->bill_num}} </a>
                                         </td>
-									</tr>
-									<tr>
-										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-mobile"></i> اسم الشركة </td>
-										<td> {!! optional($purchaseReturn->purchase->company)->name !!}</td>
-									</tr>
-									<tr>
-										<th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-user"></i>اسم المورد </th>
-										<td> {!! optional($purchaseReturn ->purchase->supplier)->name !!}</td>
-                                    </tr>
-									<tr>
-										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-video-clapper"></i> اسم الفرع </td>
-										<td> {!! optional($purchaseReturn->purchase->branch)->name !!}</td>
-                                    </tr>
+									</tr> --}}
 
 									<tr>
-										<th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-user"></i>اسم المخزن</th>
-										<td>  {!! optional($purchaseReturn->purchase->store)->ar_name !!}</td>
-									</tr>
+										<th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-user"></i>اسم المورد </th>
+										<td> {!! optional($purchaseReturn ->supplier)->name !!}</td>
+                                    </tr>
+
 
 									<tr>
 										<th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-bar-chart-alt"></i> طريقة الدفع </th>

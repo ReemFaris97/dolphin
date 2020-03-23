@@ -12,7 +12,7 @@ class AccountingBranch extends Model
 
 
 
-    protected $fillable = ['company_id', 'name', 'phone', 'password', 'email', 'image' ];
+    protected $fillable = ['company_id', 'name', 'phone', 'password', 'email', 'image' ,'code'];
 
     public function company()
     {

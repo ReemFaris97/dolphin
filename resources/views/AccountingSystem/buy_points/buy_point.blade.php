@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','الفاتوره')
-@section('parent_title','إدارة نقطه البيع')
+@section('parent_title','إدارة المشتريات')
 @section('action', URL::route('accounting.categories.index'))
 @section('styles')
 <link href="{{asset('admin/assets/css/jquery.datetimepicker.min.css')}}" rel="stylesheet" type="text/css">
@@ -13,6 +13,11 @@
 	<div class="panel-heading">
 		<h5 class="panel-title"> فاتوره مشتريات
 			<b class="time-r" id="theTime"></b>
+			<a href="{{url('/accounting/settings/purchases_bill')}}" class="btn btn-success bill-cogs" target="_blank" rel="noreferrer noopener">
+			<i class="fas fa-cogs"></i>
+			إعدادات الفاتورة
+			<i class="fas fa-cogs"></i>
+			</a>
 		</h5>
 		<div class="heading-elements">
 			<ul class="icons-list">
@@ -41,19 +46,24 @@
 							{!! Form::text("bill_date",null,['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' تاريخ الفاتورة',"id"=>'bill_date'])!!}
 						</div>
 					</div>
-					<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="col-md-4 col-sm-4 col-xs-12 pos-rel">
 						<div class="form-group block-gp">
 							<label>بحث بالباركود </label>
 							<input class="form-control" type="text" id="barcode_search">
 						</div>
+						 <a href="{{route('accounting.products.create')}}" target="_blank" class="btn btn-primary pos-abs-btn">
+						  	اضافه  منتج  جديد 
+						  </a>
 					</div>
-					<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-4 col-sm-4 col-xs-12">
+                   
+
 						<div class="form-group block-gp">
 							<label>اسم القسم </label>
 							{!! Form::select("category_id",$categories,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}
 						</div>
 					</div>
-					<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="col-md-4 col-sm-4 col-xs-12">
 						<div class="yurProdc">
 						</div>
 					</div>
@@ -63,6 +73,7 @@
 			<div class="result">
 				<form method="post" action="{{route('accounting.purchases.store')}}">
 					@csrf
+					<input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
 					<input type="hidden" name="supplier_id" id="supplier_id_val">
 					<input type="hidden" name="bill_num" id="bill_num_val">
 					<input type="hidden" name="bill_date" id="bill_date_val">
@@ -85,6 +96,7 @@
 								<th rowspan="2" class="maybe-hidden unit_price_after_enable">قيمة الضريبة</th>
 								<th colspan="2" rowspan="1" class="th_lg">الإجمالى</th>
 								<th colspan="1" rowspan="2" class="th_lg">الخصم</th>
+								<th rowspan="2"> أخرى </th>
 								<th rowspan="2"> حذف </th>
 							</tr>
 							<tr>
@@ -175,13 +187,13 @@
 </div>
 @endsection
 @section('scripts')
-	<script src="{{asset('admin/assets/js/jquery.datetimepicker.full.min.js')}}"></script>
-	
-	
+<script src="{{asset('admin/assets/js/jquery.datetimepicker.full.min.js')}}"></script>
 <!--<script src="https://rawgit.com/kabachello/jQuery-Scanner-Detection/master/jquery.scannerdetection.js"></script>-->
 <script>
 	$(document).ready(function() {
 		$('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
+		$('.inlinedatepicker').text(new Date().toLocaleString());
+		$('.inlinedatepicker').val(new Date().toLocaleString());
 	})
 	// For preventing user from inserting two methods of discount
 	function preventDiscount() {
@@ -231,6 +243,10 @@
 					var selectedProduct = $(this).find(":selected");
 					var ProductId = $('#selectID').val();
 					var productName = selectedProduct.data('name');
+					var productLink = selectedProduct.data('link');
+					var lastPrice = selectedProduct.data('last-price');
+
+					var avgPrice = selectedProduct.data('average').toFixed(2);
 					var barCode = selectedProduct.data('bar-code');
 					var productPrice = selectedProduct.data('price');
 					var priceHasTax = selectedProduct.data('price-has-tax');
@@ -259,7 +275,7 @@
 					$(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}" data-ifhastax="${priceHasTax}" data-tot-taxes="${totalTaxes}">
 							<td class="row-num">${rowNum}</td>
                             <input type="hidden" name="product_id[]" value="${ProductId}">
-							<td class="product-name maybe-hidden name_enable">${productName}</td>
+							<td class="product-name maybe-hidden name_enable"><a href="${productLink}" target="_blank" rel="noopener noreferrer">${productName}</a></td>
 							<td class="product-unit maybe-hidden unit_enable">
 								<select class="form-control js-example-basic-single" name="unit_id[${ProductId}]" >
 									${optss}
@@ -279,6 +295,26 @@
 							<td class="whole-price-after maybe-hidden total_price_after_enable">${singlePriceAfter}</td>
 							<td class="add-specific-discount">
 								<a href="#" class="btn btn-info" data-toggle="modal" data-target="#discMod${rowNum}">إضافة خصم</a>
+							</td>
+							<td class="last-prices-info">
+								<div>
+									<p>
+										<span>
+											اخر سعر
+										</span>
+										<span>
+										${lastPrice}
+										</span>
+									</p>
+									<p>
+										<span>
+											متوسط السعر
+										</span>
+										<span>
+											${avgPrice}
+										</span>
+									</p>
+								</div>
 							</td>
 							<td class="delete-single-row">
 								<a href="#"><span class="icon-cross"></span></a>
@@ -605,7 +641,7 @@
 		});
 	});
 	//	For Ajax Search By Product Bar Code
-	$('#barcode_search').change(function(e) {
+	$('#barcode_search').keyup(function(e) {
 		var barcode_search = $(this).val();
 		$.ajax({
 			url: "/accounting/barcode_search/" + barcode_search,
@@ -625,12 +661,11 @@
 						byBarcode();
 						$('.product-quantity').find('input').trigger('change');
 					}
-				}else if (data.data.length == 0){
-					alert ('عفوا , هذا الباركود غير مسجل ')
+					$('#barcode_search').val('');
 				}
 			}
 		});
-		$(this).val('');
+
 	});
 	function byBarcode() {
 		$(".tempDisabled").removeClass("tempDisabled");
@@ -638,6 +673,9 @@
 		var selectedProduct = $(".tempobar").find('option').prop('selected', true);
 		var ProductId = $('#selectID2').val();
 		var productName = selectedProduct.data('name');
+		var productLink = selectedProduct.data('link');
+	    var lastPrice = selectedProduct.data('last-price').toFixed(2);
+		var avgPrice = selectedProduct.data('average').toFixed(2);
 		var barCode = selectedProduct.data('bar-code');
 		var productPrice = selectedProduct.data('price');
 		var priceHasTax = selectedProduct.data('price-has-tax');
@@ -666,7 +704,7 @@
 		$(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}" data-ifhastax="${priceHasTax}" data-tot-taxes="${totalTaxes}">
 							<td class="row-num">${rowNum}</td>
                             <input type="hidden" name="product_id[]" value="${ProductId}">
-							<td class="product-name maybe-hidden name_enable">${productName}</td>
+							<td class="product-name maybe-hidden name_enable"><a href="${productLink}" target="_blank" rel="noopener noreferrer">${productName}</a></td>
 							<td class="product-unit maybe-hidden unit_enable">
 								<select class="form-control js-example-basic-single" name="unit_id[${ProductId}]" >
 									${optss}
@@ -686,6 +724,26 @@
 							<td class="whole-price-after maybe-hidden total_price_after_enable">${singlePriceAfter}</td>
 							<td class="add-specific-discount">
 								<a href="#" class="btn btn-info" data-toggle="modal" data-target="#discMod${rowNum}">إضافة خصم</a>
+							</td>
+							<td class="last-prices-info">
+								<div>
+									<p>
+										<span>
+											اخر سعر
+										</span>
+										<span>
+											${lastPrice}
+										</span>
+									</p>
+									<p>
+										<span>
+											متوسط السعر
+										</span>
+										<span>
+											${avgPrice}
+										</span>
+									</p>
+								</div>
 							</td>
 							<td class="delete-single-row">
 								<a href="#"><span class="icon-cross"></span></a>
@@ -991,16 +1049,13 @@
 		calcInfo();
 
 	}
+	$(document).keydown(function(event) {
+    if(event.which == 118) { //F7
+        $("button[type='submit']").trigger('click');
+        return false;
+    }
+});
 
-
-
-
-
-</script>
-<!--<script src="{{asset('admin/assets/js/jquery.scannerdetection.js')}}"></script>-->
-<script>
-
-	
 </script>
 <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
 <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
@@ -1014,7 +1069,6 @@
 		}
 		return 'هل أنت متأكد من غلق هذه الصفحة ؟ سيتم فقدان كال البيانات التي تم ادخالها!!';
 	};
-
 	function refreshTime() {
 		var today = new Date();
 		var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
