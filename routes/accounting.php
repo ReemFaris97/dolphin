@@ -202,7 +202,12 @@ Route::middleware('admin')->group(function () {
 
     Route::group(['prefix' => 'reports', 'namespace' => 'Reports', 'as' => 'reports.'], function () {
         Route::get('purchases', ['as' => 'purchases', 'uses' => 'PurchasesController@index']);
+        Route::get('damaged-products', ['as' => 'damaged-products', 'uses' => 'StoresController@damages']);
+        Route::get('inventory-products', ['as' => 'inventory-products', 'uses' => 'StoresController@inventory']);
+
+
     });
+
 
     Route::group(['prefix' => 'ajax'], function () {
         Route::get('branches/{id}', 'HomeController@getBranches');

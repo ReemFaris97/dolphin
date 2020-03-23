@@ -521,7 +521,9 @@
 					<li class="dropdown-submenu dropdown-submenu-right">
 						<a href="#"><i class="icon-basket"></i> تقارير   المخازن </a>
 						<ul class="dropdown-menu">
-							{{--<li><a href="{{route('accounting.reports.index')}}"><i class="icon-eye"></i> تقرير  التالف </a></li>--}}
+							<li><a href="{{route('accounting.reports.damaged-products')}}"><i class="icon-eye"></i> تقرير  التالف </a></li>
+							<li><a href="{{route('accounting.reports.inventory-products')}}"><i class="icon-eye"></i> تقرير  الجرد </a></li>
+
 							<li class="dropdown-submenu dropdown-submenu-right">
 								<a href="{{route('accounting.products.create')}}"><i class="icon-add-to-list"></i> اضافة منتج جديد</a>
 							</li>
