@@ -235,8 +235,7 @@
 							
 							
 							<li class="m-nav__item m-topbar__notifications m-dropdown m-dropdown--large m-dropdown--arrow m-dropdown--align-center 	m-dropdown--mobile-full-width"
-                                m-dropdown-toggle="click" m-dropdown-persistent="1" onclick="read_notification('{!! route('admin.notification.read') !!}')" style="    padding: 22px 10px 15px;
-    color: #384ad7;">
+                                m-dropdown-toggle="click" m-dropdown-persistent="1" onclick="read_notification('{!! route('admin.notification.read') !!}')" style="padding: 22px 10px 15px;color: #384ad7;">
                                <a class="m-menu__link" data-toggle="modal" data-target="#search_modal">
 								<span class="m-nav__link-icon">
 													<span class="m-nav__link-icon-wrapper"><i

@@ -491,22 +491,45 @@
 			</li>
 
 			<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<i class="icon-cabinet position-left"></i>
-						إدارة  نقاط البيع
-						<span class="caret"></span>
-					</a>
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					<i class="icon-cabinet position-left"></i>
+					إدارة  نقاط البيع
+					<span class="caret"></span>
+				</a>
 
-					<ul class="dropdown-menu dropdown-menu-right">
+				<ul class="dropdown-menu dropdown-menu-right">
 
-                    @if (Cookie::get('session'))
-                   <li><a href="{{route('accounting.sells_points.sells_point',Cookie::get('session'))}}"><i class="icon-eye"></i> نقطه البيع</a></li>
-                   @else
+                @if (Cookie::get('session'))
+               <li><a href="{{route('accounting.sells_points.sells_point',Cookie::get('session'))}}"><i class="icon-eye"></i> نقطه البيع</a></li>
+               @else
 
-                    <li><a href="{{route('accounting.sells_points.login')}}"><i class="icon-eye"></i>  تسجيل  دخول  نقطة البيع</a></li>
-                    @endif
-					</ul>
-                </li>
+                <li><a href="{{route('accounting.sells_points.login')}}"><i class="icon-eye"></i>  تسجيل  دخول  نقطة البيع</a></li>
+                @endif
+				</ul>
+            </li>
+
+            <!-- ================== Reports ============================= -->
+            <li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					<i class="icon-cabinet position-left"></i>
+					التقارير
+					<span class="caret"></span>
+				</a>
+
+				<ul class="dropdown-menu dropdown-menu-right">
+                	<li><a href="{{route('accounting.reports.purchases')}}"><i class="icon-eye"></i> تقرير المشتريات </a></li>
+					<li class="dropdown-submenu dropdown-submenu-right">
+						<a href="#"><i class="icon-basket"></i> تقارير   المخازن </a>
+						<ul class="dropdown-menu">
+							{{--<li><a href="{{route('accounting.reports.index')}}"><i class="icon-eye"></i> تقرير  التالف </a></li>--}}
+							<li class="dropdown-submenu dropdown-submenu-right">
+								<a href="{{route('accounting.products.create')}}"><i class="icon-add-to-list"></i> اضافة منتج جديد</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+
+            </li>
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
