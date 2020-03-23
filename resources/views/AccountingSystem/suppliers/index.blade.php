@@ -47,7 +47,7 @@
                             @endforeach
                         </td>
 
-                        <td>{!! $row->balances()!!}</td>
+                        <td>{!! $row->balance!!}</td>
 
                         <td>
                             <a href="{{route('accounting.suppliers.show',['id'=>$row->id])}}" data-toggle="tooltip"

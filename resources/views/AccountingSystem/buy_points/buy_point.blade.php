@@ -513,9 +513,11 @@
 						var total = 0;
 						if (byAmount == 0 && byPercentage == 0) {
 							$("#demandedAmount span.dynamic-span").html(amountAfterDariba.toFixed(2));
+							total =$("#demandedAmount").val();
+							$("#demandedAmount1").val(amountAfterDariba);
 						} else {
 							$("input#byPercentage").change(function() {
-								if ((Number($(this).val())) > 100) {
+							  	if ((Number($(this).val())) > 100) {
 									alert('لا يمكن ان تكون قيم الخصم بالنسبة أكبر من 100% .');
 									$(this).val(0);
 								}
@@ -923,8 +925,13 @@
 			var byPercentage = $("input#byPercentage").val();
 			$("input#byAmount").attr('max', amountAfterDariba);
 			var total = 0;
+			total =$("#demandedAmount").val();
+			$("#demandedAmount1").val(total);
 			if (byAmount == 0 && byPercentage == 0) {
 				$("#demandedAmount span.dynamic-span").html(amountAfterDariba.toFixed(2));
+				total =$("#demandedAmount").val();
+				$("#demandedAmount1").val(total);
+
 			} else {
 				$("input#byPercentage").change(function() {
 					if ((Number($(this).val())) > 100) {
@@ -945,6 +952,7 @@
 					$("#demandedAmount1").val(total);
 				});
 			}
+
 			$("input#byPercentage").change(function() {
 				if ((Number($(this).val())) > 100) {
 					alert('لا يمكن ان تكون قيم الخصم بالنسبة أكبر من 100% .');
@@ -963,6 +971,7 @@
 				$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
 				$("#demandedAmount1").val(total);
 			});
+
 		}
 		//**************    Calc while changing table body ***********************
 		$('#discMod' + rowNum).on('hide.bs.modal', function(e) {

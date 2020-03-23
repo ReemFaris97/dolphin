@@ -200,5 +200,11 @@ Route::middleware('admin')->group(function () {
     Route::get('/productReturnPurchase', 'PurchaseReturnController@product');
 
 
+    Route::group(['prefix' => 'reports', 'namespace' => 'Reports', 'as' => 'reports.'], function () {
+        Route::get('purchases', ['as' => 'purchases', 'uses' => 'PurchasesController@index']);
+    });
+
+
+
 });
 
