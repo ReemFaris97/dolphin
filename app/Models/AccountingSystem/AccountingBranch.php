@@ -29,4 +29,14 @@ class AccountingBranch extends Model
         return $this->hasMany(AccountingBranchFace::class,'branch_id');
     }
 
+    public function stores()
+    {
+        return $this->morphMany(AccountingStore::class, 'model');
+    }
+
+    public function safes()
+    {
+        return $this->morphMany(AccountingSafe::class, 'model');
+    }
+
 }

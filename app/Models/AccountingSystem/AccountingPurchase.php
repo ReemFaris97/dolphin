@@ -49,4 +49,9 @@ class AccountingPurchase extends Model
     {
         return $this->belongsTo(User::class,'user_id');
     }
+
+    public function items()
+    {
+        return $this->hasMany(AccountingPurchaseItem::class, 'purchase_id');
+    }
 }
