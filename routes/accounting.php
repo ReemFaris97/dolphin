@@ -206,6 +206,7 @@ Route::middleware('admin')->group(function () {
         Route::get('damaged-filter', ['as' => 'damaged-filter', 'uses' => 'StoresController@damages_filter']);
 
         Route::get('inventory-products', ['as' => 'inventory-products', 'uses' => 'StoresController@inventory']);
+        Route::get('inventory-filter', ['as' => 'inventory-filter', 'uses' => 'StoresController@inventory_filter']);
 
 
     });

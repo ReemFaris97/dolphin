@@ -25,7 +25,7 @@ class AccountingDamage extends Model
     }
     public function products()
     {
-        return $this->hasMany(AccountingDamageProduct::class,'damage_id')->get();
+        return $this->hasMany(AccountingDamageProduct::class,'damage_id');
     }
 
 
