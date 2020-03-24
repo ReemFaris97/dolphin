@@ -201,11 +201,20 @@ Route::middleware('admin')->group(function () {
 
 
     Route::group(['prefix' => 'reports', 'namespace' => 'Reports', 'as' => 'reports.'], function () {
-        Route::get('purchases', ['as' => 'purchases', 'uses' => 'PurchasesController@index']);
+        Route::group(['prefix' => 'purchases'], function () {
+            Route::get('/', ['as' => 'purchases', 'uses' => 'PurchasesController@index']);
+            Route::get('details', ['as' => 'purchase_details', 'uses' => 'PurchasesController@details']);
+            Route::get('days', ['as' => 'purchases_day', 'uses' => 'PurchasesController@byDay']);
+            Route::get('returns', ['as' => 'purchases_returns', 'uses' => 'PurchasesController@index']);
+            Route::get('returns-details', ['as' => 'purchase_returns_details', 'uses' => 'PurchasesController@returnDetails']);
+            Route::get('returns-days', ['as' => 'purchases_returns_day', 'uses' => 'PurchasesController@returnsDay']);
+        });
     });
 
     Route::group(['prefix' => 'ajax'], function () {
         Route::get('branches/{id}', 'HomeController@getBranches');
+        Route::get('users-by-branches/{branch_id}', 'HomeController@getUsersByBranch');
+        Route::get('products/{id}', 'HomeController@getProducts');
     });
 
 });

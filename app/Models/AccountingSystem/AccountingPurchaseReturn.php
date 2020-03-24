@@ -5,6 +5,7 @@ namespace App\Models\AccountingSystem;
 use App\Traits\HashPassword;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\User;
 
 class AccountingPurchaseReturn extends Model
 {
@@ -16,7 +17,15 @@ class AccountingPurchaseReturn extends Model
     protected $table='accounting_purchases_returns';
 
 
+    public function supplier()
+    {
+        return $this->belongsTo(AccountingSupplier::class,'supplier_id');
+    }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class,'user_id');
+    }
 
 
     public function purchase()
