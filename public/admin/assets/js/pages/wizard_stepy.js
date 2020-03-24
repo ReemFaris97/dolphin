@@ -125,7 +125,7 @@ $(function() {
                 email: true
             }
         }
-    }
+    };
 
 
 

@@ -43,7 +43,7 @@ var mLayout = function() {
         }        
 
         header = new mHeader('m_header', options);
-    }
+    };
 
     //== Hor menu
     var initHorMenu = function() { 
@@ -69,7 +69,7 @@ var mLayout = function() {
                 expandAll: false   // allow having multiple expanded accordions in the menu
             }
         });
-    }
+    };
 
     //== Aside menu
     var initLeftAsideMenu = function() {
@@ -113,7 +113,7 @@ var mLayout = function() {
                 expandAll: false   // allow having multiple expanded accordions in the menu
             }            
         });
-    }
+    };
 
     //== Aside
     var initLeftAside = function() {
@@ -169,7 +169,7 @@ var mLayout = function() {
                 }, 500);
             }); 
         } 
-    }
+    };
 
     //== Sidebar toggle
     var initLeftAsideToggle = function() {
@@ -193,7 +193,7 @@ var mLayout = function() {
             // server side code and add "m-brand--minimize m-aside-left--minimize" classes to 
             // the body tag in order to initialize the minimized left aside mode during page loading.
         });
-    }
+    };
 
     //== Sidebar hide
     var initLeftAsideHide = function() {
@@ -217,14 +217,14 @@ var mLayout = function() {
             // server side code and add "m-brand--minimize m-aside-left--minimize" classes to 
             // the body tag in order to initialize the minimized left aside mode during page loading.
         });
-    }
+    };
 
     //== Topbar
     var initTopbar = function() {
         $('#m_aside_header_topbar_mobile_toggle').click(function() {
             $('body').toggleClass('m-topbar--on');
         });           
-    }
+    };
 
     //== Quicksearch
     var initQuicksearch = function() {
@@ -256,7 +256,7 @@ var mLayout = function() {
                 }
             });
         });  
-    }
+    };
 
     //== Scrolltop
     var initScrollTop = function() {
@@ -264,7 +264,7 @@ var mLayout = function() {
             offset: 300,
             speed: 600
         });
-    }
+    };
 
     return {
         init: function() {  

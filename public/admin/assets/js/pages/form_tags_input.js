@@ -180,13 +180,13 @@ $(function() {
     // Set tokens
     $('#set-tokens').on('click', function() {
         $('#set-tokens-field').tokenfield('setTokens', ['blue','red','white']);
-    })
+    });
 
 
     // Create tokens
     $('#create-token').on('click', function() {
         $('#create-token-field').tokenfield('createToken', { value: 'new', label: 'New token' });
-    })
+    });
 
 
     //

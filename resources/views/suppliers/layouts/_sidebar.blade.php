@@ -13,7 +13,7 @@
 
             {{--************************************************************************--}}
                 <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
-                    aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                    aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                           class="m-menu__link m-menu__toggle"><span
                             class="m-menu__item-here"></span><i
                             class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text">إدارة الموردين</span><i
@@ -52,7 +52,7 @@
 
             {{--************************************************************************--}}
             <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
-                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                             class="m-menu__item-here"></span><i
                             class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text">إدارة عروض المنتجات</span><i
@@ -88,7 +88,7 @@
 
             {{--************************************************************************--}}
             <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
-                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                             class="m-menu__item-here"></span><i
                             class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text">إدارة البنوك</span><i
@@ -121,7 +121,7 @@
 
             {{--************************************************************************--}}
             <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
-                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                             class="m-menu__item-here"></span><i
                             class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text">إدارة الموظفين التابعين </span><i
@@ -158,7 +158,7 @@
             {{----------------------------------------------------------------------------}}
 
             <li class="m-menu__item  m-menu__item--submenu {{Request::is('/supplier/suppliers-discards')?'m-menu__item--open m-menu__item--expanded':''}} "
-                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                         class="m-menu__item-here"></span><i
                         class="m-menu__link-icon flaticon-file-2"></i><span class="m-menu__link-text">مرتجعات الموردين</span><i
@@ -192,7 +192,7 @@
             {{----------------------------------------------------------------------------}}
 
             <li class="m-menu__item  m-menu__item--submenu {{Request::is('/supplier/suppliers-bills')?'m-menu__item--open m-menu__item--expanded':''}}  "
-                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                         class="m-menu__item-here"></span><i
                         class="m-menu__link-icon flaticon-file-2"></i><span class="m-menu__link-text">فواتير الموردين</span><i

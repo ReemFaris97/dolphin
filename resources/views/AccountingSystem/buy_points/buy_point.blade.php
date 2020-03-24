@@ -194,7 +194,7 @@
 		$('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
 		$('.inlinedatepicker').text(new Date().toLocaleString());
 		$('.inlinedatepicker').val(new Date().toLocaleString());
-	})
+	});
 	// For preventing user from inserting two methods of discount
 	function preventDiscount() {
 		$("input#byPercentage").change(function() {
@@ -206,7 +206,7 @@
 	}
 	$(document).ready(function() {
 		preventDiscount();
-	})
+	});
 	$("#supplier_id").on('change', function() {
 		$("#supplier_id_val").val($(this).val());
 	});
@@ -380,7 +380,7 @@
 						</div>`);
 						$(".product-quantity input").each(function(){
 							$(this).trigger('change');
-						})
+						});
 						$("a.removeThisSinglSpecDisc").on('click', function(e) {
 							e.preventDefault();
 							$(this).parents(".single-special-dis-wrap").remove();
@@ -507,11 +507,11 @@
 						$(".whole-price-before").each(function() {
 							amountBeforeDariba += Number($(this).text());
 							$("#amountBeforeDariba1").val(amountBeforeDariba);
-						})
+						});
 						var amountAfterDariba = 0;
 						$(".whole-price-after").each(function() {
 							amountAfterDariba += Number($(this).text());
-						})
+						});
 						var amountOfDariba = 0;
 						$("tr.single-row-wrapper").each(function() {
 							var theSingleTax = $(this).find(".single-price-after").text();
@@ -932,11 +932,11 @@
 			$(".whole-price-before").each(function() {
 				amountBeforeDariba += Number($(this).text());
 				$("#amountBeforeDariba1").val(amountBeforeDariba);
-			})
+			});
 			var amountAfterDariba = 0;
 			$(".whole-price-after").each(function() {
 				amountAfterDariba += Number($(this).text());
-			})
+			});
 			var amountOfDariba = 0;
 			$("tr.single-row-wrapper").each(function() {
 				var theSingleTax = $(this).find(".single-price-after").text();
@@ -1054,7 +1054,7 @@
 			if (trLen === 0) {
 				$('table tfoot').addClass('tempDisabled');
 			}
-		})
+		});
 		calcInfo();
 
 	}

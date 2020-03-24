@@ -99,22 +99,22 @@
 	function initMap() {
 		// The location of Uluru
 		var uluru = {
-			lat: {
+			lat: {;
 				{
 					{
 						isset($store) ? $store - > lat : '26.381861087276274'
 					}
 				}
 			},
-			lng: {
+			{
 				{
 					{
 						isset($store) ? $store - > lng : '43.99479680000002'
 					}
 				}
 			}
-		};
-		// The map, centered at Uluru
+    }
+        // The map, centered at Uluru
 		var map = new google.maps.Map(document.getElementById('map'), {
 			zoom: 15,
 			center: uluru

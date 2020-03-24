@@ -203,6 +203,8 @@ Route::middleware('admin')->group(function () {
     Route::group(['prefix' => 'reports', 'namespace' => 'Reports', 'as' => 'reports.'], function () {
         Route::get('purchases', ['as' => 'purchases', 'uses' => 'PurchasesController@index']);
         Route::get('damaged-products', ['as' => 'damaged-products', 'uses' => 'StoresController@damages']);
+        Route::get('damaged-filter', ['as' => 'damaged-filter', 'uses' => 'StoresController@damages_filter']);
+
         Route::get('inventory-products', ['as' => 'inventory-products', 'uses' => 'StoresController@inventory']);
 
 
@@ -211,6 +213,9 @@ Route::middleware('admin')->group(function () {
 
     Route::group(['prefix' => 'ajax'], function () {
         Route::get('branches/{id}', 'HomeController@getBranches');
+        Route::get('stores/{id}', 'HomeController@getStores');
+        Route::get('products/{id}', 'HomeController@getProducts');
+
     });
 
 });

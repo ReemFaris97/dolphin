@@ -18,7 +18,7 @@ var WizardDemo = function () {
             if (validator.form() !== true) {
                 wizardObj.stop();  // don't go to the next step
             }
-        })
+        });
 
         //== Change event
         wizard.on('change', function(wizard) {
@@ -31,7 +31,7 @@ var WizardDemo = function () {
                 alert(1);
             }           
         });
-    }
+    };
 
     var initValidation = function() {
         validator = formEl.validate({
@@ -169,7 +169,7 @@ var WizardDemo = function () {
                 
             }
         });   
-    }
+    };
 
     var initSubmit = function() {
         var btn = formEl.find('[data-wizard-action="submit"]');
@@ -198,7 +198,7 @@ var WizardDemo = function () {
                 });
             }
         });
-    }
+    };
 
     return {
         // public functions

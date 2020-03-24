@@ -108,7 +108,7 @@ var mWizard = function(elementId, options) {
 
             mUtil.on(element, '.m-wizard__step a.m-wizard__step-number', 'click', function() {
                 var step = this.closest('.m-wizard__step');
-                var steps = mUtil.parents(this, '.m-wizard__steps')
+                var steps = mUtil.parents(this, '.m-wizard__steps');
                 var find = mUtil.findAll(steps, '.m-wizard__step');
                 var num;
 

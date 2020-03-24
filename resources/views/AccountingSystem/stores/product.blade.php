@@ -70,7 +70,7 @@
             vaaal = Number(quantity) * Number(sell);
             $(this).parents('.parent-tr').find('.vaaal').val(Number(vaaal));
 
-        })
+        });
 
         $('input[type=number][max]:not([max=""])').on('input', function(ev) {
 

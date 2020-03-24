@@ -1058,7 +1058,7 @@ $(function() {
             'min': 0,
             'max': 10
         }
-    }
+    };
 
     // Create sliders
     noUiSlider.create(default_size1, {

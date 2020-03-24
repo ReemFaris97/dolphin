@@ -96,7 +96,7 @@
                     url: `{{ url('accounting/ajax/branches') }}/${$(this).val()}`,
                     type: "get",
                     success (data) {
-                        console.log(data)
+                        console.log(data);
                         branchSelect.empty();
                         branchSelect.append('<option value="">اختر الفرع</option>');
                         data.forEach( branch => {
