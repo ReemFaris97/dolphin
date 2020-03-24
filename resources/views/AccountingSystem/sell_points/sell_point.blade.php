@@ -266,7 +266,7 @@ $(document).ready(function() {
 		$('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
 		$('.inlinedatepicker').text(new Date().toLocaleString());
 		$('.inlinedatepicker').val(new Date().toLocaleString());
-	})
+	});
 	// For preventing user from inserting two methods of discount
 	function preventDiscount(){
 		$("input#byPercentage").change(function(){
@@ -278,7 +278,7 @@ $(document).ready(function() {
 	}
 	$(document).ready(function(){
 		preventDiscount();
-	})
+	});
 $("#client_id").on('change', function() {
         var client = $(this).val();
         $('#client_id_val').val(client);
@@ -391,11 +391,11 @@ $("#client_id").on('change', function() {
 						var amountBeforeDariba = 0;
 						$("td.whole-price-before").each(function(){
 							amountBeforeDariba += Number($(this).text());
-						})
+						});
 						var amountAfterDariba = 0;
 						$("td.whole-price-after").each(function(){
 							amountAfterDariba += Number($(this).text());
-						})
+						});
 						var amountOfDariba = Number(amountAfterDariba) - Number(amountBeforeDariba);
 						$("tr#amountBeforeDariba span.dynamic-span").html(amountBeforeDariba);
 						$("tr#amountAfterDariba span.dynamic-span").html(amountAfterDariba);
@@ -536,11 +536,10 @@ $("#client_id").on('change', function() {
 
 <script>
 	@if(!empty(\Illuminate\Support\Facades\Session::has('sale_id')))
-    @php ($sale_id=\Illuminate\Support\Facades\Session::get('sale_id'));
+    @php ($sale_id=\Illuminate\Support\Facades\Session::get('sale_id'))
 
 
-
-            window.open(
+    window.open(
 		  "{{route('accounting.sales.show',$sale_id)}}",
 		  "_blank"
 		).print();

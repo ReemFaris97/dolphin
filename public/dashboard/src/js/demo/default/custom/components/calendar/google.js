@@ -29,7 +29,7 @@ var CalendarGoogle = function() {
                 },
                 
                 loading: function(bool) {
-                    return;
+
 
                     /*
                     mApp.block(portlet.getSelf(), {

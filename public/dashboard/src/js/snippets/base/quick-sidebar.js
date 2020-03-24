@@ -19,7 +19,7 @@ var mQuickSidebar = function() {
                 return height;                    
             }
         });
-    }
+    };
 
     var initSettings = function() { 
         var settings = mUtil.find( mUtil.get('m_quick_sidebar_tabs_settings'),  '.m-list-settings'); 
@@ -36,7 +36,7 @@ var mQuickSidebar = function() {
                 return mUtil.getViewPort().height - topbarAsideTabs.outerHeight(true) - 60;            
             }
         });
-    }
+    };
 
     var initLogs = function() {
         var logs = mUtil.find( mUtil.get('m_quick_sidebar_tabs_logs'),  '.m-list-timeline'); 
@@ -53,13 +53,13 @@ var mQuickSidebar = function() {
                 return mUtil.getViewPort().height - topbarAsideTabs.outerHeight(true) - 60;            
             }
         });
-    }
+    };
 
     var initOffcanvasTabs = function() {
         initMessages();
         initSettings();
         initLogs();
-    }
+    };
 
     var initOffcanvas = function() {
         var topbarAsideObj = new mOffcanvas('m_quick_sidebar', {
@@ -81,7 +81,7 @@ var mQuickSidebar = function() {
                 initOffcanvasTabs();
             }, 1000);                         
         });
-    }
+    };
 
     return {     
         init: function() {  

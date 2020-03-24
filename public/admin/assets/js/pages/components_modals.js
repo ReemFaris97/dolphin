@@ -140,7 +140,7 @@ $(function() {
                         className: "btn-success",
                         callback: function () {
                             var name = $('#name').val();
-                            var answer = $("input[name='awesomeness']:checked").val()
+                            var answer = $("input[name='awesomeness']:checked").val();
                             bootbox.alert("Hello " + name + ". You've chosen <b>" + answer + "</b>");
                         }
                     }

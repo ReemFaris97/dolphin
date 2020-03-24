@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','الفاتوره')
-@section('parent_title','إدارة المشتريات')
+@section('parent_title','إدارة نقطه البيع')
 @section('action', URL::route('accounting.categories.index'))
 @section('styles')
 <link href="{{asset('admin/assets/css/jquery.datetimepicker.min.css')}}" rel="stylesheet" type="text/css">
@@ -13,7 +13,7 @@
 	<div class="panel-heading">
 		<h5 class="panel-title"> فاتوره مشتريات
 			<b class="time-r" id="theTime"></b>
-			<a href="{{url('/accounting/settings/purchases_bill')}}" class="btn btn-success bill-cogs" target="_blank" rel="noreferrer noopener">
+			<a href="#" class="btn btn-success bill-cogs" target="_blank" rel="noreferrer noopener">
 			<i class="fas fa-cogs"></i>
 			إعدادات الفاتورة
 			<i class="fas fa-cogs"></i>
@@ -73,7 +73,6 @@
 			<div class="result">
 				<form method="post" action="{{route('accounting.purchases.store')}}">
 					@csrf
-					<input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
 					<input type="hidden" name="supplier_id" id="supplier_id_val">
 					<input type="hidden" name="bill_num" id="bill_num_val">
 					<input type="hidden" name="bill_date" id="bill_date_val">
@@ -96,8 +95,7 @@
 								<th rowspan="2" class="maybe-hidden unit_price_after_enable">قيمة الضريبة</th>
 								<th colspan="2" rowspan="1" class="th_lg">الإجمالى</th>
 								<th colspan="1" rowspan="2" class="th_lg">الخصم</th>
-								<th rowspan="2"> أخرى </th>
-								<th rowspan="2"> حذف </th>
+								<th rowspan="2"> عمليات </th>
 							</tr>
 							<tr>
 								<th rowspan="1" class="maybe-hidden total_price_before_enable">قبل الضريبة</th>
@@ -194,7 +192,7 @@
 		$('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
 		$('.inlinedatepicker').text(new Date().toLocaleString());
 		$('.inlinedatepicker').val(new Date().toLocaleString());
-	})
+	});
 	// For preventing user from inserting two methods of discount
 	function preventDiscount() {
 		$("input#byPercentage").change(function() {
@@ -206,7 +204,7 @@
 	}
 	$(document).ready(function() {
 		preventDiscount();
-	})
+	});
 	$("#supplier_id").on('change', function() {
 		$("#supplier_id_val").val($(this).val());
 	});
@@ -244,8 +242,7 @@
 					var ProductId = $('#selectID').val();
 					var productName = selectedProduct.data('name');
 					var productLink = selectedProduct.data('link');
-					var lastPrice = selectedProduct.data('last-price');
-
+					var lastPrice = selectedProduct.data('last-price').toFixed(2);
 					var avgPrice = selectedProduct.data('average').toFixed(2);
 					var barCode = selectedProduct.data('bar-code');
 					var productPrice = selectedProduct.data('price');
@@ -296,31 +293,21 @@
 							<td class="add-specific-discount">
 								<a href="#" class="btn btn-info" data-toggle="modal" data-target="#discMod${rowNum}">إضافة خصم</a>
 							</td>
-							<td class="last-prices-info">
-								<div>
-									<p>
-										<span>
-											اخر سعر
-										</span>
-										<span>
-										${lastPrice}
-										</span>
-									</p>
-									<p>
-										<span>
-											متوسط السعر
-										</span>
-										<span>
-											${avgPrice}
-										</span>
-									</p>
-								</div>
-							</td>
+							
 							<td class="delete-single-row">
 								<a href="#"><span class="icon-cross"></span></a>
+								<button type="button" class="btn btn-primary popover-dismiss" 
+										data-toggle="popover" title="أخر سعر : ${lastPrice}"
+										data-container="body" data-toggle="popover"
+										data-placement="right" data-content="متوسط السعر : ${avgPrice}">
+										<span class="icon-coin-dollar"></span>
+								</button>
 							</td>
 						</tr>
 					`);
+					$('.popover-dismiss').popover({
+					  trigger: 'focus'
+					});
 					$("#modals-area").append(`<div id="discMod${rowNum}" class="modal fade special-discount-modal" role="dialog">
 					  <div class="modal-dialog">
 						<div class="modal-content">
@@ -380,7 +367,7 @@
 						</div>`);
 						$(".product-quantity input").each(function(){
 							$(this).trigger('change');
-						})
+						});
 						$("a.removeThisSinglSpecDisc").on('click', function(e) {
 							e.preventDefault();
 							$(this).parents(".single-special-dis-wrap").remove();
@@ -507,11 +494,11 @@
 						$(".whole-price-before").each(function() {
 							amountBeforeDariba += Number($(this).text());
 							$("#amountBeforeDariba1").val(amountBeforeDariba);
-						})
+						});
 						var amountAfterDariba = 0;
 						$(".whole-price-after").each(function() {
 							amountAfterDariba += Number($(this).text());
-						})
+						});
 						var amountOfDariba = 0;
 						$("tr.single-row-wrapper").each(function() {
 							var theSingleTax = $(this).find(".single-price-after").text();
@@ -676,7 +663,7 @@
 		var ProductId = $('#selectID2').val();
 		var productName = selectedProduct.data('name');
 		var productLink = selectedProduct.data('link');
-	    var lastPrice = selectedProduct.data('last-price').toFixed(2);
+		var lastPrice = selectedProduct.data('last-price').toFixed(2);
 		var avgPrice = selectedProduct.data('average').toFixed(2);
 		var barCode = selectedProduct.data('bar-code');
 		var productPrice = selectedProduct.data('price');
@@ -727,32 +714,21 @@
 							<td class="add-specific-discount">
 								<a href="#" class="btn btn-info" data-toggle="modal" data-target="#discMod${rowNum}">إضافة خصم</a>
 							</td>
-							<td class="last-prices-info">
-								<div>
-									<p>
-										<span>
-											اخر سعر
-										</span>
-										<span>
-											${lastPrice}
-										</span>
-									</p>
-									<p>
-										<span>
-											متوسط السعر
-										</span>
-										<span>
-											${avgPrice}
-										</span>
-									</p>
-								</div>
-							</td>
 							<td class="delete-single-row">
 								<a href="#"><span class="icon-cross"></span></a>
+								<button type="button" class="btn btn-primary popover-dismiss" data-toggle="popover"
+										title="أخر سعر : ${lastPrice}"
+										data-container="body" data-toggle="popover"
+										data-placement="right" data-content="متوسط السعر : ${avgPrice}">
+										<span class="icon-coin-dollar"></span>
+								</button>
 							</td>
 						</tr>
 					`);
-		$("#modals-area").append(`<div id="discMod${rowNum}" class="modal fade special-discount-modal" role="dialog">
+					$('.popover-dismiss').popover({
+					  trigger: 'focus'
+					});
+					$("#modals-area").append(`<div id="discMod${rowNum}" class="modal fade special-discount-modal" role="dialog">
 					  <div class="modal-dialog">
 						<div class="modal-content">
 						  <div class="modal-header">
@@ -932,11 +908,11 @@
 			$(".whole-price-before").each(function() {
 				amountBeforeDariba += Number($(this).text());
 				$("#amountBeforeDariba1").val(amountBeforeDariba);
-			})
+			});
 			var amountAfterDariba = 0;
 			$(".whole-price-after").each(function() {
 				amountAfterDariba += Number($(this).text());
-			})
+			});
 			var amountOfDariba = 0;
 			$("tr.single-row-wrapper").each(function() {
 				var theSingleTax = $(this).find(".single-price-after").text();
@@ -1054,7 +1030,7 @@
 			if (trLen === 0) {
 				$('table tfoot').addClass('tempDisabled');
 			}
-		})
+		});
 		calcInfo();
 
 	}

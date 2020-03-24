@@ -223,8 +223,7 @@ var mMenu = function(elementId, options) {
         handleLinkClick: function(e) {
             if ( Plugin.eventTrigger('linkClick', this) === false ) {
                 e.preventDefault();
-            };
-
+            }
             if ( Plugin.getSubmenuMode(this) === 'dropdown' || Plugin.isConditionalSubmenuDropdown() ) {
                 Plugin.handleSubmenuDropdownClose(e, this);
             }

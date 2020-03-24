@@ -4,7 +4,11 @@
 {{-- @section('action', URL::route('accounting.purchases.index')) --}}
 
 @section('styles')
-
+<style>
+    .filter {
+        margin-bottom: 30px;
+    }
+</style>
 @endsection
 
 @section('content')
@@ -21,6 +25,24 @@
         </div>
 
         <div class="panel-body">
+            <section class="filter">
+                <div class="yurSections">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group col-sm-3">
+                                <label> الشركة </label>
+                                {!! Form::select("company_id",companies(),null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الشركة','data-live-search'=>'true','id'=>'company_id'])!!}
+                            </div>
+                            <div class="form-group col-sm-3">
+                                <label> الفرع </label>
+                                {!! Form::select("branch_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الفرع','data-live-search'=>'true','id'=>'branch_id'])!!}
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        
+
             <table class="table datatable-button-init-basic">
                 <thead>
                 <tr>
@@ -36,7 +58,7 @@
                 @foreach($purchases as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
-                        <td>{!! $row-> id!!}</td>
+                        <td>{!! $row->id!!}</td>
                         <td>{!! $row->created_at!!}</td>
                         <td>{!! $row->total!!}</td>
 
@@ -67,24 +89,28 @@
 @section('scripts')
 
     <script>
-        function Delete(id) {
-            var item_id=id;
-            console.log(item_id);
-            swal({
-                title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذة الفاتورة ؟",
-                icon: "warning",
-                buttons: ["الغاء", "موافق"],
-                dangerMode: true,
-
-            }).then(function(isConfirm){
-                if(isConfirm){
-                    document.getElementById('delete-form'+item_id).submit();
-                }
-                else{
-                    swal("تم االإلفاء", "حذف  الفاتورة  تم الغاؤه",'info',{buttons:'موافق'});
-                }
-            });
-        }
+        $(function() {
+            $(document).on('change', '#company_id', function () {
+                let branchSelect = $('#branch_id');
+                $.ajax({
+                    url: `{{ url('accounting/ajax/branches') }}/${$(this).val()}`,
+                    type: "get",
+                    success (data) {
+                        console.log(data);
+                        branchSelect.empty();
+                        branchSelect.append('<option value="">اختر الفرع</option>');
+                        data.forEach( branch => {
+                            branchSelect.append(`
+                                <option value="${branch.id}">${branch.name}</option>
+                            `);
+                        });
+                        branchSelect.selectpicker('refresh');
+                    },
+                    error (error) {
+                        console.log(error)
+                    }
+                })
+            })
+        })
     </script>
 @stop

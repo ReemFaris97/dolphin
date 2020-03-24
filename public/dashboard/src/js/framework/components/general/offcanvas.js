@@ -82,7 +82,7 @@ var mOffcanvas = function(elementId, options) {
         /**
          * Handles offcanvas toggle
          */
-        toggle: function() {;
+        toggle: function () {
             Plugin.eventTrigger('toggle'); 
 
             if (the.state == 'shown') {

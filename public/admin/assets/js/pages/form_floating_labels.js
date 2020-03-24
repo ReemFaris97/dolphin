@@ -179,7 +179,7 @@ $(function() {
     $.fn.selectpicker.defaults = {
         iconBase: '',
         tickIcon: 'icon-checkmark3'
-    }
+    };
 
 
 
