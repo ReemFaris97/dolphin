@@ -201,12 +201,13 @@ Route::middleware('admin')->group(function () {
 
 
     Route::group(['prefix' => 'reports', 'namespace' => 'Reports', 'as' => 'reports.'], function () {
-        Route::get('purchases', ['as' => 'purchases', 'uses' => 'PurchasesController@index']);
         Route::get('damaged-products', ['as' => 'damaged-products', 'uses' => 'StoresController@damages']);
-        Route::get('damaged-filter', ['as' => 'damaged-filter', 'uses' => 'StoresController@damages_filter']);
-
         Route::get('inventory-products', ['as' => 'inventory-products', 'uses' => 'StoresController@inventory']);
-        Route::get('inventory-filter', ['as' => 'inventory-filter', 'uses' => 'StoresController@inventory_filter']);
+        Route::get('deficiency-products', ['as' => 'deficiency-products', 'uses' => 'StoresController@deficiency']);
+        Route::get('transaction-products', ['as' => 'transaction-products', 'uses' => 'StoresController@transactions']);
+        Route::get('expiration-products', ['as' => 'expiration-products', 'uses' => 'StoresController@expirations']);
+
+
 
         Route::group(['prefix' => 'purchases'], function () {
             Route::get('/', ['as' => 'purchases', 'uses' => 'PurchasesController@index']);
@@ -222,7 +223,7 @@ Route::middleware('admin')->group(function () {
     Route::group(['prefix' => 'ajax'], function () {
         Route::get('branches/{id}', 'HomeController@getBranches');
         Route::get('stores/{id}', 'HomeController@getStores');
-        Route::get('products/{id}', 'HomeController@getProducts');
+        Route::get('products-store/{id}', 'HomeController@getProductStore');
         Route::get('users-by-branches/{branch_id}', 'HomeController@getUsersByBranch');
         Route::get('products/{id}', 'HomeController@getProducts');
 

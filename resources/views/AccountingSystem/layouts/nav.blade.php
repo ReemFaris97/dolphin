@@ -534,10 +534,10 @@
 						<ul class="dropdown-menu">
 							<li><a href="{{route('accounting.reports.damaged-products')}}"><i class="icon-eye"></i> تقرير  التالف </a></li>
 							<li><a href="{{route('accounting.reports.inventory-products')}}"><i class="icon-eye"></i> تقرير  الجرد </a></li>
+							<li><a href="{{route('accounting.reports.deficiency-products')}}"><i class="icon-eye"></i> تقرير  النواقص </a></li>
+							<li><a href="{{route('accounting.reports.transaction-products')}}"><i class="icon-eye"></i> تقرير  التحويلات بين  المخازن </a></li>
+                            <li><a href="{{route('accounting.reports.expiration-products')}}"><i class="icon-eye"></i> تقرير  الاصناف  قاربت  على  الانتهاء </a></li>
 
-							<li class="dropdown-submenu dropdown-submenu-right">
-								<a href="{{route('accounting.products.create')}}"><i class="icon-add-to-list"></i> اضافة منتج جديد</a>
-							</li>
 						</ul>
 					</li>
 				</ul>
@@ -552,7 +552,6 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
                         <li><a href="{{route('accounting.settings.index')}}"><i class="icon-eye"></i> الأعدادت </a></li>
-                        {{-- <li><a href="{{route('accounting.devices.create')}}"><i class="icon-add-to-list"></i> اضافة جهاز جديدة</a></li> --}}
                     </ul>
                 </li>
 			<!--Tis will be commented temporarly-->
