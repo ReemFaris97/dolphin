@@ -27,7 +27,7 @@
 	<link href="{!! asset('dashboard/assets/main.css')!!}" rel="stylesheet"
           type="text/css"/>
     <!--end::Global Theme Styles -->	
-    <link rel="shortcut icon" href="{!! asset('dashboard/assets/demo/default/media/img/logo/favicon/favicon.png')!!}" />
+    {{--<link rel="shortcut icon" href="{!! asset('dashboard/assets/demo/default/media/img/logo/favicon/favicon.png')!!}" />--}}
 </head>
 
 <!-- end::Head -->
@@ -42,7 +42,7 @@
             <div class="m-login__container">
                 <div class="m-login__logo wow animated">
                     <a href="#">
-                        <img src="{!! asset('dashboard/assets/app/media/img/logos/logo-1.png')!!}">
+                        {{--<img src="{!! asset('dashboard/assets/app/media/img/logos/logo-1.png')!!}">--}}
                     </a>
                 </div>
                 <div class="m-login__signin">
