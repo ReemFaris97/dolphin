@@ -55,7 +55,7 @@ $(function () {
         let productSelect = $('#product_id');
         var store_id= $(this).val();
         $.ajax({
-            url: "/accounting/ajax/products/" + store_id,
+            url: "/accounting/ajax/products-store/" + store_id,
             type: "get",
             success(data) {
                 console.log(data)
