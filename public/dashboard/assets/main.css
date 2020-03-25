@@ -104,7 +104,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ecf0f1', end
 .m-login.m-login--2.m-login--signin .m-login__signin {
     z-index: 1;
     position: relative;
-    background: linear-gradient(to right, rgba(236,240,241,1) 0%, rgba(56,74,215,1) 100%);
+    background: #cdcdcd;
     padding: 50px;
     border-radius: 15px;
     box-shadow: 0 25px 20px rgba(0,0,0,0.1);
