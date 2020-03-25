@@ -48,7 +48,7 @@
                 </tr>
                 </thead>
                 <tbody>
-
+                    @isset($damages)
                 @foreach($damages as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
@@ -63,6 +63,7 @@
                     </tr>
 
                 @endforeach
+                        @endisset
                 </tbody>
             </table>
         </div>
