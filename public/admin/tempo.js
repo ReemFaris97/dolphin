@@ -72,7 +72,7 @@
                                 $("#amountOfDariba input").val(safyDariba);
                                 $("#amountOfDariba input").next('th').html(safyDariba);
                             }
-                        })
+                        });
                         var allResult = 0;
                         $("#the-choseen-parts .singleprice").each(function() {
                             allResult += parseFloat($(this).html());
@@ -164,7 +164,7 @@
                     var rowID = $(this).attr('data-id').substr(4, 1);
                     console.log(rowID);
                     $(".prod1 input.if-check[data-id='" + rowID + "']").prop('checked', true);
-                })
+                });
                 $(".fxd-btn").click(function() {
                     addClicked()
                 });

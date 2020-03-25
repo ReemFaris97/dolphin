@@ -97,7 +97,7 @@ $(function() {
                 removeScroll();
 
                 // Remove affix on mobile
-                $(window).off('.affix')
+                $(window).off('.affix');
                 $('.sidebar-detached').removeData('affix').removeClass('affix affix-top affix-bottom');
             }
         }, 100);

@@ -13,7 +13,7 @@
 
             {{--************************************************************************--}}
                 <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
-                    aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                    aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                           class="m-menu__link m-menu__toggle"><span
                             class="m-menu__item-here"></span><i
                             class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text">إدارة المندوبين</span><i
@@ -45,7 +45,7 @@
 
             {{--************************************************************************--}}
             <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
-                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                         class="m-menu__item-here"></span><i
                         class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text">إدارة العملاء</span><i
@@ -83,7 +83,7 @@
 {{--            ***********************************************************************************************************--}}
 
             <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
-                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                         class="m-menu__item-here"></span><i
                         class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text">أنواع المخازن</span><i
@@ -115,7 +115,7 @@
 
             {{--************************************************************************--}}  {{--************************************************************************--}}
             <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
-                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                         class="m-menu__item-here"></span><i
                         class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text">المخازن</span><i
@@ -147,7 +147,7 @@
 
             {{--************************************************************************--}}  {{--************************************************************************--}}
             <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
-                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                         class="m-menu__item-here"></span><i
                         class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text">المنتجات</span><i
@@ -180,7 +180,7 @@
 
             {{--************************************************************************--}}  {{--************************************************************************--}}
             <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
-                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                         class="m-menu__item-here"></span><i
                         class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text">التحويلات المالية</span><i
@@ -212,7 +212,7 @@
 
             {{--************************************************************************--}}  {{--************************************************************************--}}
             <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
-                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                             class="m-menu__item-here"></span><i
                             class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text">أنواع الصرف</span><i
@@ -248,7 +248,7 @@
 
 
             <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
-                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                             class="m-menu__item-here"></span><i
                             class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text">بنود الصرف</span><i
@@ -284,7 +284,7 @@
 
             {{--************************************************************************--}}
             <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
-                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                             class="m-menu__item-here"></span><i
                             class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text">إدارة اسماء العدادات</span><i
@@ -318,7 +318,7 @@
 
             {{--************************************************************************--}}  {{--************************************************************************--}}
             <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
-                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                             class="m-menu__item-here"></span><i
                             class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text"> المسارات</span><i
@@ -350,7 +350,7 @@
 
             {{--************************************************************************--}}  {{--************************************************************************--}}
             <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
-                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                             class="m-menu__item-here"></span><i
                             class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text"> قائمة مسارات </span><i
@@ -389,7 +389,7 @@
 
             {{--************************************************************************--}}  {{--************************************************************************--}}
             <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
-                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                             class="m-menu__item-here"></span><i
                             class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text"> المصروفات</span><i
@@ -422,7 +422,7 @@
             {{--            ***********************************************************************************************************--}}
 
             <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
-                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                         class="m-menu__item-here"></span><i
                         class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text">سيارات المندوبين</span><i
@@ -457,7 +457,7 @@
             {{--            ***********************************************************************************************************--}}
 
             <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
-                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                         class="m-menu__item-here"></span><i
                         class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text">نقل مخزن بين مندوبين</span><i
@@ -489,7 +489,7 @@
 
             {{--            ***********************************************************************************************************--}}
             <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
-                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                         class="m-menu__item-here"></span><i
                         class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text">الملخصات اليومية</span><i

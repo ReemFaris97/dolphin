@@ -229,11 +229,7 @@ $(function () {
             matrix.push(row);
         }
         return matrix;
-    };
-
-
-
-
+    }
     // Initialize chart
     // ------------------------------
 

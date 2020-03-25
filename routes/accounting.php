@@ -201,10 +201,33 @@ Route::middleware('admin')->group(function () {
 
 
     Route::group(['prefix' => 'reports', 'namespace' => 'Reports', 'as' => 'reports.'], function () {
-        Route::get('purchases', ['as' => 'purchases', 'uses' => 'PurchasesController@index']);
+        Route::get('damaged-products', ['as' => 'damaged-products', 'uses' => 'StoresController@damages']);
+        Route::get('inventory-products', ['as' => 'inventory-products', 'uses' => 'StoresController@inventory']);
+        Route::get('deficiency-products', ['as' => 'deficiency-products', 'uses' => 'StoresController@deficiency']);
+        Route::get('transaction-products', ['as' => 'transaction-products', 'uses' => 'StoresController@transactions']);
+        Route::get('expiration-products', ['as' => 'expiration-products', 'uses' => 'StoresController@expirations']);
+
+
+
+        Route::group(['prefix' => 'purchases'], function () {
+            Route::get('/', ['as' => 'purchases', 'uses' => 'PurchasesController@index']);
+            Route::get('details', ['as' => 'purchase_details', 'uses' => 'PurchasesController@details']);
+            Route::get('days', ['as' => 'purchases_day', 'uses' => 'PurchasesController@byDay']);
+            Route::get('returns', ['as' => 'purchases_returns', 'uses' => 'PurchasesController@index']);
+            Route::get('returns-details', ['as' => 'purchase_returns_details', 'uses' => 'PurchasesController@returnDetails']);
+            Route::get('returns-days', ['as' => 'purchases_returns_day', 'uses' => 'PurchasesController@returnsDay']);
+        });
     });
 
 
+    Route::group(['prefix' => 'ajax'], function () {
+        Route::get('branches/{id}', 'HomeController@getBranches');
+        Route::get('stores/{id}', 'HomeController@getStores');
+        Route::get('products-store/{id}', 'HomeController@getProductStore');
+        Route::get('users-by-branches/{branch_id}', 'HomeController@getUsersByBranch');
+        Route::get('products/{id}', 'HomeController@getProducts');
+
+    });
 
 });
 

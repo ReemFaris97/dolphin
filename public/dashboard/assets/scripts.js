@@ -64,7 +64,7 @@ function get_options_string(arr, text = 'name', value = "id", placeholder = "Ø§Ø
     arr.forEach(function (item) {
 
         options += '<option value="' + item[value] + '">' + item[text] + '</option>';
-    })
+    });
 
     return options;
 }

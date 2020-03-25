@@ -731,3 +731,11 @@ function pay_type(){
 
     ];
 }
+
+function productCategories()
+{
+    $categories = \App\Models\AccountingSystem\AccountingProductCategory::all()->mapWithKeys(function ($q) {
+        return [$q['id'] => $q['ar_name']];
+    });
+    return $categories;
+}

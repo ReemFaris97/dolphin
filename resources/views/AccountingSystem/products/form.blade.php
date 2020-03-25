@@ -545,7 +545,7 @@
 				icon: "success",
 				buttons: ["موافق"],
 				dangerMode: true,
-			})
+			});
 			bigData.push(data);
 			$("#productsTable").show();
 			var appendProducts = bigData.map(function(product) {
@@ -648,7 +648,7 @@
 				icon: "success",
 				buttons: ["موافق"],
 				dangerMode: true,
-			})
+			});
 			bigDataComponent.push(component_data);
 			$("#componentTable").show();
 			var appendComponent = bigDataComponent.map(function(component) {
@@ -739,7 +739,7 @@
 				icon: "success",
 				buttons: ["موافق"],
 				dangerMode: true,
-			})
+			});
 			bigDataOffer.push(offer_data);
 			$("#offerTable").show();
 			var appendOffer = bigDataOffer.map(function(offer) {
@@ -824,7 +824,7 @@
 				icon: "success",
 				buttons: ["موافق"],
 				dangerMode: true,
-			})
+			});
 			bigDataDiscount.push(discount_data);
 			$("#discountTable").show();
 			var appendDiscount = bigDataDiscount.map(function(discount) {
@@ -914,7 +914,7 @@
 				icon: "success",
 				buttons: ["موافق"],
 				dangerMode: true,
-			})
+			});
 			bigDataService.push(service_data);
 			$("#serviceTable").show();
 			var appendService = bigDataService.map(function(service) {

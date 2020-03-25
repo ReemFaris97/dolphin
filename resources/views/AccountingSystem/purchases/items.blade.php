@@ -14,7 +14,7 @@
             <td><input type="number" name="quantity[]" class="form-control quantity" value="{{$row->quantity}}" min="0" max="{{$row->quantity}}"></td>
             <td>{!! $row->price !!}</td>
             <td>
-                <a href="javascript:;" sale-id="{{$row->id}}" class="removeProduct btn btn-danger waves-effect waves-light btn-xs m-b-5">حذف</a>
+                <a href="javascript:" sale-id="{{$row->id}}" class="removeProduct btn btn-danger waves-effect waves-light btn-xs m-b-5">حذف</a>
             </td>
              </tr>
              @endforeach

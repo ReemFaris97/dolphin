@@ -15,4 +15,9 @@ class AccountingTransaction extends Model
     {
         return $this->belongsTo(AccountingProduct::class,'product_id');
     }
+
+    public function request()
+    {
+        return $this->belongsTo(AccountingSroreRequest::class,'request_id');
+    }
 }

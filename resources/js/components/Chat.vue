@@ -102,7 +102,7 @@
           axios.post('/messages', {message: this.message}).then(response => {
                     this.message=null;
                     this.emoStatus=false;
-                    this.allMessages.push(response.data.message)
+                    this.allMessages.push(response.data.message);
                     setTimeout(this.scrollToEnd,100);
           });
       },
@@ -140,7 +140,7 @@
 
       Echo.private('pdolfin-system')
       .listen('MessageSent',(e)=>{
-          this.allMessages.push(e.message)
+          this.allMessages.push(e.message);
           setTimeout(this.scrollToEnd,100);
 
       });
