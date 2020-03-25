@@ -188,31 +188,50 @@ class StoresController extends Controller
     {
         $from = request('from');
         $to = request('to');
+        $deficiencies=[];
         //company_only
         if (\request('company_id') != Null && \request('branch_id') == Null && \request('store_id') == Null && \request('product_id') == Null) {
             $stores_company = AccountingStore::where('model_id', \request('company_id'))->where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->pluck('id');
             $branches = AccountingBranch::where('company_id', \request('company_id'))->pluck('id');
             $stores_branch = AccountingStore::whereIn('model_id', $branches)->where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->pluck('id');
             $stores = array_merge(json_decode($stores_branch), json_decode($stores_company));
-            $inventory_id = AccountingInventory::whereIn('store_id', $stores)->whereBetween('created_at', [$from, $to])->pluck('id');
-            $inventories = AccountingInventoryProduct::whereIn('inventory_id', $inventory_id)->paginate(10);
+            $product_quantity = AccountingProductStore::whereIn('store_id', $stores)->whereBetween('created_at', [$from, $to])->pluck('id', 'product_id');
+            foreach ($product_quantity as $key => $item) {
+                $product = AccountingProduct::find($key);
+                if ($product->expired_at >= $item) {
+//                    array_push($deficiencies, $product);
+                }
+            }
         } //company_and_branch_only
         elseif (\request('company_id') != Null && \request('branch_id') != Null && \request('store_id') == Null && \request('product_id') == Null) {
+
             $stores = AccountingStore::where('model_id', \request('branch_id'))->where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->pluck('id');
-            $inventory_id = AccountingInventory::whereIn('store_id', $stores)->whereBetween('created_at', [$from, $to])->pluck('id');
-            $inventories = AccountingInventoryProduct::whereIn('inventory_id', $inventory_id)->paginate(10);
+            $product_quantity = AccountingProductStore::whereIn('store_id', $stores)->whereBetween('created_at', [$from, $to])->pluck('quantity', 'product_id');
+            foreach ($product_quantity as $key => $item) {
+                $product = AccountingProduct::find($key);
+                if ($product->min_quantity >= $item) {
+                    array_push($deficiencies, $product);
+                }
+            }
         } //company_and_branch_and_store_only
         elseif (\request('company_id') != Null && \request('branch_id') != Null && \request('store_id') != Null && \request('product_id') == Null) {
-            $inventory_id = AccountingInventory::where('store_id', \request('store_id'))->whereBetween('created_at', [$from, $to])->pluck('id');
-            $inventories = AccountingInventoryProduct::whereIn('inventory_id', $inventory_id)->paginate(10);
+            $product_quantity = AccountingProductStore::whereIn('store_id', \request('store_id'))->whereBetween('created_at', [$from, $to])->pluck('quantity', 'product_id');
+            foreach ($product_quantity as $key => $item) {
+                $product = AccountingProduct::find($key);
+                if ($product->min_quantity >= $item) {
+                    array_push($deficiencies, $product);
+                }
+            }
         } //company_and_branch_and_store_and_product
         elseif (\request('company_id') != Null && \request('branch_id') != Null && \request('store_id') != Null && \request('product_id') != Null) {
-            $inventories = AccountingInventoryProduct::where('product_id', \request('product_id'))->whereBetween('created_at', [$from, $to])->paginate(10);
+            $product = AccountingProduct::find(\request('product_id'));
+            if ($product->min_quantity >= $product->quantity) {
+                array_push($deficiencies, $product);
+            }
         }
         else{
-            $inventories=[];
+            $deficiencies=[];
         }
-
         return view('AccountingSystem.reports.stores.InventoryProducts', compact('inventories'));
     }
 
