@@ -6,7 +6,7 @@
 <!-- begin::Head -->
 <head>
     <meta charset="utf-8" />
-    <title>دولفن | تسجيل الدخول</title>
+    <title> تسجيل الدخول</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
     <!--begin::Web font -->
     <script>
