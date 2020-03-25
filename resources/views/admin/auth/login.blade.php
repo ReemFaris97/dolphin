@@ -27,7 +27,7 @@
 	<link href="{!! asset('dashboard/assets/main.css')!!}" rel="stylesheet"
           type="text/css"/>
     <!--end::Global Theme Styles -->	
-    <link rel="shortcut icon" href="{!! asset('dashboard/assets/demo/default/media/img/logo/favicon/favicon.png')!!}" />
+    {{--<link rel="shortcut icon" href="{!! asset('dashboard/assets/demo/default/media/img/logo/favicon/favicon.png')!!}" />--}}
 </head>
 
 <!-- end::Head -->
