@@ -6,7 +6,7 @@
 <!-- begin::Head -->
 <head>
     <meta charset="utf-8" />
-    <title>دولفن | تسجيل الدخول</title>
+    <title> تسجيل الدخول</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
     <!--begin::Web font -->
     <script>
@@ -27,7 +27,7 @@
 	<link href="{!! asset('dashboard/assets/main.css')!!}" rel="stylesheet"
           type="text/css"/>
     <!--end::Global Theme Styles -->	
-    <link rel="shortcut icon" href="{!! asset('dashboard/assets/demo/default/media/img/logo/favicon/favicon.png')!!}" />
+    {{--<link rel="shortcut icon" href="{!! asset('dashboard/assets/demo/default/media/img/logo/favicon/favicon.png')!!}" />--}}
 </head>
 
 <!-- end::Head -->
@@ -43,7 +43,7 @@
 <!--
                 <div class="m-login__logo wow animated">
                     <a href="#">
-                        <img src="{!! asset('dashboard/assets/app/media/img/logos/logo-1.png')!!}">
+                        {{--<img src="{!! asset('dashboard/assets/app/media/img/logos/logo-1.png')!!}">--}}
                     </a>
                 </div>
 -->
