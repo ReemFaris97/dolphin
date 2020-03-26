@@ -241,11 +241,7 @@ Route::middleware('admin')->group(function () {
         Route::get('products-store/{id}', 'HomeController@getProductStore');
         Route::get('users-by-branches/{branch_id}', 'HomeController@getUsersByBranch');
         Route::get('products/{id}', 'HomeController@getProducts');
-<<<<<<< HEAD
-
-=======
         Route::get('sessions/{id}', 'HomeController@getSessions');
->>>>>>> e691c9835a7ff97b60b3b6dfdb6f8c7b1d1cf0e7
     });
 
 });
