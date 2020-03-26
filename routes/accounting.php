@@ -224,6 +224,14 @@ Route::middleware('admin')->group(function () {
             Route::get('returns-details', ['as' => 'purchase_returns_details', 'uses' => 'PurchasesController@returnDetails']);
             Route::get('returns-days', ['as' => 'purchases_returns_day', 'uses' => 'PurchasesController@returnsDay']);
         });
+        Route::group(['prefix' => 'sales'], function () {
+            Route::get('period', ['as' => 'sales_period', 'uses' => 'SalesController@index']);
+            Route::get('details', ['as' => 'sales_details', 'uses' => 'SalesController@details']);
+            Route::get('days', ['as' => 'sales_day', 'uses' => 'SalesController@byDay']);
+            Route::get('returns', ['as' => 'sales_returns', 'uses' => 'SalesController@index']);
+            Route::get('returns-details', ['as' => 'sales_returns_details', 'uses' => 'SalesController@returnDetails']);
+            Route::get('returns-days', ['as' => 'sales_returns_day', 'uses' => 'SalesController@returnsDay']);
+        });
     });
 
 
