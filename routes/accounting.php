@@ -223,6 +223,7 @@ Route::middleware('admin')->group(function () {
         Route::get('branches/{id}', 'HomeController@getBranches');
         Route::get('users-by-branches/{branch_id}', 'HomeController@getUsersByBranch');
         Route::get('products/{id}', 'HomeController@getProducts');
+        Route::get('sessions/{id}', 'HomeController@getSessions');
     });
 
 });

@@ -531,7 +531,7 @@
                 	<li class="dropdown-submenu dropdown-submenu-right">
 						<a href="#"><i class="icon-basket"></i> تقرير المبيعات </a>
 						<ul class="dropdown-menu">
-                			<li><a href="{{route('accounting.reports.purchases')}}"><i class="icon-eye"></i> خلال فترة زمنية </a></li>
+                			<li><a href="{{route('accounting.reports.sales_period')}}"><i class="icon-eye"></i> خلال فترة زمنية </a></li>
                 			<li><a href="{{route('accounting.reports.purchases_day')}}"><i class="icon-eye"></i> خلال يوم </a></li>
                 			<li><a href="{{route('accounting.reports.purchases_returns')}}"><i class="icon-eye"></i> مرتجعات خلال فترة زمنية </a></li>
                 			<li><a href="{{route('accounting.reports.purchases_returns_day')}}"><i class="icon-eye"></i> مرتجعات خلال يوم </a></li>

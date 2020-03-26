@@ -1,5 +1,5 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تقرير المشتريات خلال فترة')
+@section('title','تقرير المبيعات خلال فترة')
 @section('parent_title','التقارير ')
 {{-- @section('action', URL::route('accounting.purchases.index')) --}}
 
@@ -16,7 +16,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">تقرير المشتريات خلال فترة زمنية</h5>
+            <h5 class="panel-title">تقرير المبيعات خلال فترة زمنية</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -50,13 +50,35 @@
                                 </select>
                             </div>
                             <div class="form-group col-sm-3">
-                                <label> القائم بالعملية </label>
+                                <label> الكاشير </label>
                                 <select name="user_id" data-live-search="true" class="selectpicker form-control inline-control" id="user_id">
                                     @if(request()->has('user_id') && request('user_id') != null)
                                         @php $user = \App\User::find(request('user_id')); @endphp
                                         <option value="{{ $user->id }}" selected="">{{ $user->name }}</option>
                                     @else
-                                        <option value="" selected="" disabled="">القائم بالعملية</option>
+                                        <option value="" selected="" disabled="">الكاشير</option>
+                                    @endif
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-3">
+                                <label> الوردية </label>
+                                <select name="shift_id" data-live-search="true" class="selectpicker form-control inline-control" id="shift_id">
+                                    @if(request()->has('shift_id') && request('shift_id') != null)
+                                        @php $shift = \App\Models\AccountingSystem\AccountingBranchShift::find(request('shift_id')); @endphp
+                                        <option value="{{ $shift->id }}" selected="">{{ $shift->name }}</option>
+                                    @else
+                                        <option value="" selected="" disabled="">اختر الوردية</option>
+                                    @endif
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-3">
+                                <label> الجلسة </label>
+                                <select name="session_id" data-live-search="true" class="selectpicker form-control inline-control" id="session_id">
+                                    @if(request()->has('session_id') && request('session_id') != null)
+                                        @php $safe = \App\Models\AccountingSystem\AccountingSafe::find(request('session_id')); @endphp
+                                        <option value="{{ $safe->id }}" selected="">{{ $safe->name }}</option>
+                                    @else
+                                        <option value="" selected="" disabled="">اختر الجلسة</option>
                                     @endif
                                 </select>
                             </div>
@@ -112,7 +134,7 @@
                 <tr>
                     <th>#</th>
                     <th> التاريخ </th>
-                    <th> إجمالي المشتريات </th>
+                    <th> إجمالي المبيعات </th>
                     <th> إجمالي الخصومات </th>
                     <th> إجمالي الضريبة </th>
                     <th> إجمالي بعد الخصومات والضريبة </th>
@@ -122,7 +144,7 @@
                 </thead>
                 <tbody>
 
-                @foreach($purchases as $row)
+                @foreach($sales as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->created_at->locale('ar')->toDayDateTimeString() !!}</td>
@@ -151,94 +173,6 @@
 @endsection
 
 @section('scripts')
-    {{-- <script src="{{asset('admin/assets/js/jquery.datetimepicker.full.min.js')}}"></script>
-
-    <script>
-        $(document).ready(function() {
-            $('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
-            $('.inlinedatepicker').text(new Date().toLocaleString());
-            $('.inlinedatepicker').val(new Date().toLocaleString());
-        })
-    </script> --}}
-
-    <script>
-        $(function() {
-            $(document).on('change', '#company_id', function () {
-                let branchSelect = $('#branch_id');
-                $.ajax({
-                    url: `{{ url('accounting/ajax/branches') }}/${$(this).val()}`,
-                    type: "get",
-                    success (data) {
-                        //console.log(data)
-                        branchSelect.empty();
-                        branchSelect.append('<option value="">اختر الفرع</option>');
-                        data.forEach( branch => {
-                            branchSelect.append(`
-                                <option value="${branch.id}">${branch.name}</option>
-                            `);
-                        });
-                        branchSelect.selectpicker('refresh');
-                    },
-                    error (error) {
-                        console.log(error)
-                    }
-                })
-            })
-
-            $(document).on('change', '#branch_id', function () {
-                let userSelect = $('#user_id');
-                let cases = $('#safe_id');
-                $.ajax({
-                    url: `{{ url('accounting/ajax/users-by-branches') }}/${$(this).val()}`,
-                    type: "get",
-                    success (data) {
-                        // console.log(data)
-                        userSelect.empty();
-                        cases.empty();
-                        userSelect.append('<option value="">القائم بالعملية</option>');
-                        cases.append('<option value="">الخزينة</option>');
-                        data.users.forEach( user => {
-                            userSelect.append(`
-                                <option value="${user.id}">${user.name}</option>
-                            `);
-                        });
-                        data.safes.forEach( safe => {
-                            cases.append(`
-                                <option value="${safe.id}">${safe.name}</option>
-                            `);
-                        });
-                        userSelect.selectpicker('refresh');
-                        cases.selectpicker('refresh');
-                    },
-                    error (error) {
-                        console.log(error)
-                    }
-                })
-            })
-
-            $(document).on('change', '#category_id', function () {
-                let productSelect = $('#product_id');
-                $.ajax({
-                    url: `{{ url('accounting/ajax/products') }}/${$(this).val()}`,
-                    type: "get",
-                    success (data) {
-                        //console.log(data)
-                        productSelect.empty();
-                        productSelect.append('<option value="">الصنف</option>');
-                        data.forEach( product => {
-                            productSelect.append(`
-                                <option value="${product.id}">${product.name}</option>
-                            `);
-                        });
-                        productSelect.selectpicker('refresh');
-                    },
-                    error (error) {
-                        console.log(error)
-                    }
-                })
-            })
-
-
-        })
-    </script>
+    
+    @include('AccountingSystem.reports.sales.script')
 @stop
