@@ -206,8 +206,15 @@ Route::middleware('admin')->group(function () {
         Route::get('deficiency-products', ['as' => 'deficiency-products', 'uses' => 'StoresController@deficiency']);
         Route::get('transaction-products', ['as' => 'transaction-products', 'uses' => 'StoresController@transactions']);
         Route::get('expiration-products', ['as' => 'expiration-products', 'uses' => 'StoresController@expirations']);
+        Route::get('stagnant-products', ['as' => 'stagnant-products', 'uses' => 'StoresController@stagnants']);
+        Route::get('movements-products', ['as' => 'movements-products', 'uses' => 'StoresController@movements']);
 
 
+        Route::group(['prefix' => 'suppliers'], function () {
+            Route::get('balances', ['as' => 'suppliers-balances', 'uses' => 'SuppliersController@balances']);
+
+
+        });
 
         Route::group(['prefix' => 'purchases'], function () {
             Route::get('/', ['as' => 'purchases', 'uses' => 'PurchasesController@index']);

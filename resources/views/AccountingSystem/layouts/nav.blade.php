@@ -519,7 +519,7 @@
 				<ul class="dropdown-menu dropdown-menu-right">
 
 					<li class="dropdown-submenu dropdown-submenu-right">
-						<a href="#"><i class="icon-basket"></i> تقرير المشتريات </a>
+						<a href="#"><i class="icon-basket"></i> تقارير المشتريات </a>
 						<ul class="dropdown-menu">
                 			<li><a href="{{route('accounting.reports.purchases')}}"><i class="icon-eye"></i> خلال فترة زمنية </a></li>
                 			<li><a href="{{route('accounting.reports.purchases_day')}}"><i class="icon-eye"></i> خلال يوم </a></li>
@@ -537,9 +537,22 @@
 							<li><a href="{{route('accounting.reports.deficiency-products')}}"><i class="icon-eye"></i> تقرير  النواقص </a></li>
 							<li><a href="{{route('accounting.reports.transaction-products')}}"><i class="icon-eye"></i> تقرير  التحويلات بين  المخازن </a></li>
                             <li><a href="{{route('accounting.reports.expiration-products')}}"><i class="icon-eye"></i> تقرير  الاصناف  قاربت  على  الانتهاء </a></li>
+                            <li><a href="{{route('accounting.reports.stagnant-products')}}"><i class="icon-eye"></i> تقرير  الاصناف  الراكدة </a></li>
+							<li><a href="{{route('accounting.reports.movements-products')}}"><i class="icon-eye"></i> تقرير  حركة صنف </a></li>
 
 						</ul>
 					</li>
+
+
+
+					<li class="dropdown-submenu dropdown-submenu-right">
+						<a href="#"><i class="icon-basket"></i> تقارير الموردين </a>
+						<ul class="dropdown-menu">
+							<li><a href="{{route('accounting.reports.suppliers-balances')}}"><i class="icon-eye"></i>   تقرير كشف حساب مورد خلال فترة زمنية </a></li>
+						</ul>
+					</li>
+
+
 				</ul>
 
             </li>

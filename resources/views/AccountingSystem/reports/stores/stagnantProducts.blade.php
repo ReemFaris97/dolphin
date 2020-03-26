@@ -1,5 +1,5 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تقرير  اصناف  قاربت  على الانتهاء')
+@section('title','تقرير  الاصناف  الراكده')
 @section('parent_title','التقارير ')
 {{-- @section('action', URL::route('accounting.purchases.index')) --}}
 
@@ -13,7 +13,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">تقرير اصناف  قاربت  على الانتهاء</h5>
+            <h5 class="panel-title">تقرير الاصناف  الراكدة</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -27,13 +27,13 @@
                 <div class="yurSections">
                     <div class="row">
                         <div class="col-xs-12">
-                            {!!Form::open( ['route' => 'accounting.reports.expiration-products' ,'class'=>'form phone_validate', 'method' => 'GET','files' => true]) !!}
+                            {!!Form::open( ['route' => 'accounting.reports.stagnant-products' ,'class'=>'form phone_validate', 'method' => 'GET','files' => true]) !!}
                             @include('AccountingSystem.reports.stores.filter')
                             {!!Form::close() !!}
                         </div>
                     </div>
                 </div>
-                {{--(اسم الصنف – الوحدة – الكمية الحالية - الكمية الحالية التي قاربت على الانتهاء– تاريخ الانتهاء – المدة المتبقية على الانتهاء)--}}
+                {{--التفاصيل (اسم الصنف – الوحدة - الكمية الحالية – الحد الأدنى – تاريخ آخر عملية بيع).--}}
             </section>
             <table class="table datatable-button-init-basic">
                 <thead>
@@ -41,23 +41,26 @@
                     <th>#</th>
                     <th> اسم الصنف </th>
                     <th>  الوحدة </th>
-                    <th>  كمية الحالية  اللى  قاربت  على  الانتهاء </th>
-                    <th> تاريخ الانتهاء  </th>
-                    <th> المده  المتبقيه على الانتهاء   </th>
+                    <th>  كمية الحالية   </th>
+                    <th> الحد الادنى  </th>
+                    <th> تاريخ اخر عملية بيع  </th>
                 </tr>
                 </thead>
                 <tbody>
-                    @isset($expire_products)
-                @foreach($expire_products as $row)
+                    @isset($stagnant_sales)
+                @foreach($stagnant_sales as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->product->name!!}</td>
-                        <td>{!! $row->quantity!!}</td>
-
                         <td>{!! $row->product->main_unit!!}</td>
-                        <td>{!! $row->product->expired_at!!}</td>
-                            @php($expire=new \Carbon\Carbon($row->product->expired_at))
-                        <td>{!! $expire->diff(\Carbon\Carbon::now())->days !!}</td>
+                        @php($store_product=\App\Models\AccountingSystem\AccountingProductStore::where('product_id',$row->product->id)
+                         ->where('store_id',$row->sale->store_id)->first())
+                        <td>{!! $store_product->quantity !!}</td>
+
+
+                        <td>{!! $row->product->min_quantity!!}</td>
+
+                        <td>{!! $row->created_at !!}</td>
 
                     </tr>
 
