@@ -51,5 +51,28 @@ protected $appends = ['total_taxes','total_discounts'];
         }
         return $total;
     }
+
+    public function items()
+    {
+        return $this->hasMany(AccountingSaleItem::class,'product_id');
+
+
+
+    }
+
+    public function sold_items()
+    {
+        return $this->hasManyThrough(AccountingSale::class,
+            AccountingSaleItem::class,
+            'product_id',
+            'sale_id')->latest();
+    }
+
+    public function sales()
+    {
+        return $this->hasMany(AccountingSaleItem::class)->whereHas('sale', function ($q) {
+            $q->where('store_id',1);
+        });
+    }
 }
 

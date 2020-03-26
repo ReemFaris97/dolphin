@@ -19,6 +19,13 @@ class AccountingPurchaseItem extends Model
         return $this->belongsTo(AccountingProduct::class,'product_id');
     }
 
+    public function purchase()
+    {
+
+        return $this->belongsTo(AccountingPurchase::class,'purchase_id');
+    }
+
+
     public function discount(){
         $discounts=AccountingItemDiscount::where('item_id',$this->id)->get();
         $total=[];
