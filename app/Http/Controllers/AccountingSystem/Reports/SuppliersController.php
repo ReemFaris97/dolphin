@@ -13,6 +13,6 @@ class SuppliersController extends Controller
         public function balances(Request $request)
         {
 
-            dd("dffffffffff");
+//            dd("dffffffffff");
         }
     }
