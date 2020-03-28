@@ -7,14 +7,13 @@ use App\Http\Controllers\Controller;
 
 use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingProduct;
-<<<<<<< HEAD
+
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingBranch as Branch;
-=======
+
 use App\Models\AccountingSystem\AccountingBranchShift;
 use App\Models\AccountingSystem\AccountingSession;
->>>>>>> e691c9835a7ff97b60b3b6dfdb6f8c7b1d1cf0e7
 use App\User;
 
 class HomeController extends Controller
