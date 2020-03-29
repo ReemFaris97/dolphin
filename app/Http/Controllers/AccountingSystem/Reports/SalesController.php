@@ -168,14 +168,19 @@ class SalesController extends Controller
 
    public  function daily_earnings(Request $request){
        if ($request->has('company_id')) {
+           $sales_bills=AccountingSale::all();
            $sales = AccountingSale::select('id',\DB::raw('DATE(created_at) as date'), \DB::raw('count(*) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'),'created_at');
+
 
            if ($request->has('branch_id') && $request->branch_id != null) {
                $sales = $sales->where('branch_id', $request->branch_id);
-               dd($sales );
+               $sales_bills = $sales_bills->where('branch_id', $request->branch_id);
+
+
            }
            if ($request->has('session_id') && $request->session_id != null ) {
                $sales = $sales->where('session_id', $request->session_id);
+
            }
            if ($request->has('user_id') && $request->user_id != null ) {
                $sales = $sales->where('user_id', $request->user_id);
@@ -184,17 +189,30 @@ class SalesController extends Controller
 
                $sales = $sales->whereHas('items', function ($item) use ($request) {
                    $item->where('product_id', $request->product_id);
+
                });
            }
            if ($request->has('date') && $request->date != null) {
-               $sales = $sales->whereDate('created_at', Carbon::parse($request->date));
+
+
+               $sales=$sales->whereDate('created_at',Carbon::parse($request->date));
+
            }
 
+
            $sales = $sales->groupBy('date')->get();
-//           dd($sales);
+
+//       dd($sales);
+
+
+           $purchase_cost=0;
+           foreach ($sales as  $sale){
+               $purchase_cost+=$sale->item_cost;
+           }
+
        } else {
            $sales = collect();
-           dd($sales);
+
        }
        return view('AccountingSystem.reports.sales.daily-earnings', compact('sales','purchase_cost','sales_bills'));
    }
