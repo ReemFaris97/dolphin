@@ -207,7 +207,7 @@ class StoresController extends Controller
             foreach ($product_quantity as $key => $item)
             {
                 $product = AccountingProduct::find($item);
-                $quantites=AccountingProductStore::where('product_id', '=', $product->id)->whereIn('store_id',$stores)->sum('quantity');
+                $quantites[$product->id]=AccountingProductStore::where('product_id', '=', $product->id)->whereIn('store_id',$stores)->sum('quantity');
 
                 $expire=new Carbon($product->expired_at);
                 if ($expire->diff(Carbon::now())->days <= $product->alert_duration) {
@@ -223,7 +223,7 @@ class StoresController extends Controller
             $product_quantity = AccountingProductStore::whereIn('store_id',$stores)->pluck('product_id', 'id');
             foreach ($product_quantity as $key => $item) {
                 $product = AccountingProduct::find($item);
-                $quantites=AccountingProductStore::where('product_id', '=', $product->id)->whereIn('store_id',$stores)->sum('quantity');
+                $quantites[$product->id]=AccountingProductStore::where('product_id', '=', $product->id)->whereIn('store_id',$stores)->sum('quantity');
 
                 $expire=new Carbon($product->expired_at);
                 if ($expire->diff(Carbon::now())->days <= $product->alert_duration) {
@@ -237,7 +237,7 @@ class StoresController extends Controller
             $product_quantity = AccountingProductStore::where('store_id',$store)->pluck('product_id', 'id');
             foreach ($product_quantity as $key => $item) {
                 $product = AccountingProduct::find($item);
-                $quantites=AccountingProductStore::where('product_id', '=', $product->id)->where('store_id',$store)->sum('quantity');
+                $quantites[$product->id]=AccountingProductStore::where('product_id', '=', $product->id)->where('store_id',$store)->sum('quantity');
 
                 $expire=new Carbon($product->expired_at);
                 if ($expire->diff(Carbon::now())->days <= $product->alert_duration) {
@@ -280,7 +280,7 @@ class StoresController extends Controller
                     }
                 }
             }
-            dd( $quantites[$product->id]);
+
 //         dd($stagnant_sales);
         } //company_and_branch_only
         elseif (\request('company_id') != Null && \request('branch_id') != Null && \request('store_id') == Null && \request('product_id') == Null) {
