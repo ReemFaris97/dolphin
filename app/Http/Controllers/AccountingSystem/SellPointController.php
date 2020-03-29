@@ -41,10 +41,6 @@ class SellPointController extends Controller
      * @return \Illuminate\Http\Response
      */
     public  function getProductAjex(Request $request,$id){
-
-        // $products_all=AccountingProduct::where('category_id',$id)->get();
-        // $products=AccountingProduct::where('category_id',$id)->get();
-
         $store_product=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->pluck('product_id','id')->toArray();
         $products=AccountingProduct::where('category_id',$request['id'])->whereIn('id',$store_product)->get();
 

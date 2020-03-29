@@ -28,7 +28,34 @@
                     <div class="row">
                         <div class="col-xs-12">
                             {!!Form::open( ['route' => 'accounting.reports.expiration-products' ,'class'=>'form phone_validate', 'method' => 'GET','files' => true]) !!}
-                            @include('AccountingSystem.reports.stores.filter')
+
+                            @if (count($errors) > 0)
+                                {{--@php popup('error',$errors->all()) @endphp--}}
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                            <div class="form-group col-sm-3">
+                                <label> الشركة </label>
+                                {!! Form::select("company_id",companies(),null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الشركة','data-live-search'=>'true','id'=>'company_id'])!!}
+                            </div>
+                            <div class="form-group col-sm-3">
+                                <label> الفرع </label>
+                                {!! Form::select("branch_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الفرع','data-live-search'=>'true','id'=>'branch_id'])!!}
+                            </div>
+
+                            <div class="form-group col-sm-3">
+                                <label> المخزن </label>
+                                {!! Form::select("store_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر المخزن','data-live-search'=>'true','id'=>'store_id'])!!}
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label>  </label>
+                                <input type="submit" value="بحث" class="btn btn-success">
+                            </div>
                             {!!Form::close() !!}
                         </div>
                     </div>
@@ -42,7 +69,7 @@
                     <th> اسم الصنف </th>
                     <th>  الوحدة </th>
                     <th>  كمية الحالية  اللى  قاربت  على  الانتهاء </th>
-                    <th> تاريخ الانتهاء  </th>
+
                     <th> المده  المتبقيه على الانتهاء   </th>
                 </tr>
                 </thead>
@@ -51,12 +78,11 @@
                 @foreach($expire_products as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
-                        <td>{!! $row->product->name!!}</td>
-                        <td>{!! $row->quantity!!}</td>
+                        <td>{!! $row->name!!}</td>
 
-                        <td>{!! $row->product->main_unit!!}</td>
-                        <td>{!! $row->product->expired_at!!}</td>
-                            @php($expire=new \Carbon\Carbon($row->product->expired_at))
+                        <td>{!! $row->main_unit!!}</td>
+                        <td>{!! $quantites!!}</td>
+                            @php($expire=new \Carbon\Carbon($row->expired_at))
                         <td>{!! $expire->diff(\Carbon\Carbon::now())->days !!}</td>
 
                     </tr>

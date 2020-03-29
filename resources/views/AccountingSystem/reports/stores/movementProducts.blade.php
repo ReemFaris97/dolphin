@@ -85,6 +85,8 @@
                 </tr>
                 </thead>
                 <tbody>
+       @if (isset($requests->type))
+
 
                 @if ($requests['type']=='purchases')
                 @foreach($purchases as $row)
@@ -142,6 +144,7 @@
 
                     @endforeach
                 @endif
+       @endif
                 </tbody>
             </table>
 

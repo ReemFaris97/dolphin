@@ -52,15 +52,17 @@
                 </tr>
                 </thead>
                 <tbody>
+                {{--@dd($transactions)--}}
                     @isset($transactions)
+
                 @foreach($transactions as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! date($row->created_at)!!}</td>
                         <td>{!! $row->product->name!!}</td>
                         <td>{!! $row->product->main_unit!!}</td>
-                        <td>{!! $row->request->getStoreFrom-> ar_name!!}</td>
-                        <td>{!! $row->request->getStoreTo->ar_name!!}</td>
+                        <td>{!! optional($row->request->getStoreFrom)-> ar_name!!}</td>
+                        <td>{!! optional($row->request->getStoreTo)->ar_name!!}</td>
                         <td>{!! $row->quantity!!}</td>
                         <td>{!! $row->product->purchasing_price!!}</td>
                         <td>{!! $row->product->purchasing_price * $row->quantity!!}</td>

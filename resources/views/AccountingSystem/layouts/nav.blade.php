@@ -535,8 +535,8 @@
                 			<li><a href="{{route('accounting.reports.purchases_day')}}"><i class="icon-eye"></i> خلال يوم </a></li>
                 			<li><a href="{{route('accounting.reports.purchases_returns')}}"><i class="icon-eye"></i> مرتجعات خلال فترة زمنية </a></li>
                 			<li><a href="{{route('accounting.reports.purchases_returns_day')}}"><i class="icon-eye"></i> مرتجعات خلال يوم </a></li>
-                			<li><a href="{{route('accounting.reports.purchases_returns_day')}}"><i class="icon-eye"></i> تقرير الارباح اليومية </a></li>
-                			<li><a href="{{route('accounting.reports.purchases_returns_day')}}"><i class="icon-eye"></i> تقرير أرباح مدة زمنية </a></li>
+                			<li><a href="{{route('accounting.reports.daily_earnings')}}"><i class="icon-eye"></i> تقرير الارباح اليومية </a></li>
+                			<li><a href="{{route('accounting.reports.period_earnings')}}"><i class="icon-eye"></i> تقرير أرباح مدة زمنية </a></li>
                 		</ul>
                 	</li>
 

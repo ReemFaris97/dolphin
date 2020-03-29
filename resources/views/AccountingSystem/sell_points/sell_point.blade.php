@@ -295,7 +295,7 @@ $("#client_id").on('change', function() {
         $('#company_val').val(company_id);
         $.ajax({
             type: 'get',
-            url: "/accounting/productsAjexPurchase/" + id,
+            url: "/accounting/productsAjex/" + id,
             data: {
                 id: id,
                 store_id: store_id

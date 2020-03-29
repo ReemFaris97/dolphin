@@ -52,7 +52,8 @@ class PurchasesController extends Controller
       public function details()
       {
          $purchases = Purchase::whereDate('created_at', request('date'))->get();
-         return view('AccountingSystem.reports.purchase-details', compact('purchases'));  
+
+         return view('AccountingSystem.reports.purchases.purchase-details', compact('purchases'));
       }
 
       public function byDay(Request $request)
@@ -77,7 +78,6 @@ class PurchasesController extends Controller
                   $item->where('product_id', $request->product_id);
                });
             }
-
             if ($request->has('date') && $request->date != null) {
                $purchases = $purchases->whereDate('created_at', Carbon::parse($request->date));
             }

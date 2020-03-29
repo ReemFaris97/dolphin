@@ -90,6 +90,11 @@ function products_purchase($purchase=null){
     return $products;
 }
 
+
+
+
+
+
 function getsetting($name)
 {
     $settings=App\Models\AccountingSystem\AccountingSetting::where('name',$name)->first();
