@@ -39,20 +39,20 @@ class StoresController extends Controller
 //            dd($stores);
             $damages_id = AccountingDamage::whereIn('store_id', $stores)->whereBetween('created_at', [$from, $to])->pluck('id');
             $damages = AccountingDamageProduct::whereIn('damage_id', $damages_id)->get();
-            dd($damages);
+//            dd($damages);
 
         } //company_and_branch_only
         elseif (\request('company_id') != Null && \request('branch_id') != Null && \request('store_id') == Null && \request('product_id') == Null) {
             $stores = AccountingStore::where('model_id', \request('branch_id'))->where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->pluck('id');
             $damages_id = AccountingDamage::whereIn('store_id', $stores)->whereBetween('created_at', [$from, $to])->pluck('id');
-            $damages = AccountingDamageProduct::whereIn('damage_id', $damages_id)->paginate(10);
+            $damages = AccountingDamageProduct::whereIn('damage_id', $damages_id)->get();
         } //company_and_branch_and_store_only
         elseif (\request('company_id') != Null && \request('branch_id') != Null && \request('store_id') != Null && \request('product_id') == Null) {
             $damages_id = AccountingDamage::where('store_id', \request('store_id'))->whereBetween('created_at', [$from, $to])->pluck('id');
-            $damages = AccountingDamageProduct::whereIn('damage_id', $damages_id)->paginate(10);
+            $damages = AccountingDamageProduct::whereIn('damage_id', $damages_id)->get();
         } //company_and_branch_and_store_and_product
         elseif (\request('company_id') != Null && \request('branch_id') != Null && \request('store_id') != Null && \request('product_id') != Null) {
-            $damages = AccountingDamageProduct::where('product_id', \request('product_id'))->whereBetween('created_at', [$from, $to])->paginate(10);
+            $damages = AccountingDamageProduct::where('product_id', \request('product_id'))->whereBetween('created_at', [$from, $to])->get();
 
         }else{
             $damages=[];
