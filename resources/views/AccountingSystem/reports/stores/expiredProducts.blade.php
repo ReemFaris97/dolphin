@@ -81,7 +81,7 @@
                         <td>{!! $row->name!!}</td>
 
                         <td>{!! $row->main_unit!!}</td>
-                        <td>{!! $quantites!!}</td>
+                        <td>{!! $quantites[$row->id]!!}</td>
                             @php($expire=new \Carbon\Carbon($row->expired_at))
                         <td>{!! $expire->diff(\Carbon\Carbon::now())->days !!}</td>
 
