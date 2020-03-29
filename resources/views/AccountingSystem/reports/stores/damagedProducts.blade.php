@@ -66,9 +66,9 @@
                         @endisset
                 </tbody>
             </table>
-            @if($damages != [])
-                {{ $damages->appends(\Illuminate\Support\Facades\Input::except('page'))->links() }}
-            @endif
+            {{--@if($damages != [])--}}
+                {{--{{ $damages->appends(\Illuminate\Support\Facades\Input::except('page'))->links() }}--}}
+            {{--@endif--}}
         </div>
     </div>
 
