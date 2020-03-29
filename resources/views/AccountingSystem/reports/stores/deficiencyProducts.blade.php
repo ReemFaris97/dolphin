@@ -42,10 +42,10 @@
                                 <label> المخزن </label>
                                 {!! Form::select("store_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر المخزن','data-live-search'=>'true','id'=>'store_id'])!!}
                             </div>
-                            <div class="form-group col-sm-3">
-                                <label> الصنف </label>
-                                {!! Form::select("product_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الصنف','data-live-search'=>'true','id'=>'product_id'])!!}
-                            </div>
+                            {{--<div class="form-group col-sm-3">--}}
+                                {{--<label> الصنف </label>--}}
+                                {{--{!! Form::select("product_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الصنف','data-live-search'=>'true','id'=>'product_id'])!!}--}}
+                            {{--</div>--}}
 
                             <div class="form-group col-sm-4">
                                 <label>  </label>
