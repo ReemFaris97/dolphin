@@ -28,7 +28,29 @@
                     <div class="row">
                         <div class="col-xs-12">
                             {!!Form::open( ['route' => 'accounting.reports.deficiency-products' ,'class'=>'form phone_validate', 'method' => 'GET','files' => true]) !!}
-                            @include('AccountingSystem.reports.stores.filter')
+
+                            <div class="form-group col-sm-3">
+                                <label> الشركة </label>
+                                {!! Form::select("company_id",companies(),null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الشركة','data-live-search'=>'true','id'=>'company_id'])!!}
+                            </div>
+                            <div class="form-group col-sm-3">
+                                <label> الفرع </label>
+                                {!! Form::select("branch_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الفرع','data-live-search'=>'true','id'=>'branch_id'])!!}
+                            </div>
+
+                            <div class="form-group col-sm-3">
+                                <label> المخزن </label>
+                                {!! Form::select("store_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر المخزن','data-live-search'=>'true','id'=>'store_id'])!!}
+                            </div>
+                            <div class="form-group col-sm-3">
+                                <label> الصنف </label>
+                                {!! Form::select("product_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الصنف','data-live-search'=>'true','id'=>'product_id'])!!}
+                            </div>
+
+                            <div class="form-group col-sm-4">
+                                <label>  </label>
+                                <input type="submit" value="بحث" class="btn btn-success">
+                            </div>
                             {!!Form::close() !!}
                         </div>
                     </div>
@@ -51,11 +73,12 @@
                 <tbody>
                 @isset($deficiencies)
                     @foreach($deficiencies as $row)
+
                         <tr>
                             <td>{!!$loop->iteration!!}</td>
                             <td>{!! $row->name!!}</td>
                             <td>{!! $row->main_unit!!}</td>
-                            <td>{!! $row->min_quantity!!}</td>
+                            <td>{!! $quantites[$row->id] !!}</td>
                             <td>{!! $row->min_quantity!!}</td>
                             <td>{!! $row->purchasing_price!!}</td>
                         </tr>

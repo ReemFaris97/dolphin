@@ -12,7 +12,7 @@ class AccountingProduct extends Model
     ,'size','color','height','width','num_days_recession','industrial_id','quantity','unit_price',
     'is_settlement','date_settlement','settlement_store_id','cell_id','alert_duration'
 ];
-protected $appends = ['total_taxes','total_discounts'];
+    protected $appends = ['total_taxes','total_discounts'];
     public function store()
     {
         return $this->belongsTo(AccountingStore::class,'store_id');
@@ -42,6 +42,8 @@ protected $appends = ['total_taxes','total_discounts'];
     }
 
 
+
+
     public function getTotalDiscountsAttribute()
     {
         $discounts=AccountingProductDiscount::where('product_id',$this->id)->get();
@@ -55,9 +57,6 @@ protected $appends = ['total_taxes','total_discounts'];
     public function items()
     {
         return $this->hasMany(AccountingSaleItem::class,'product_id');
-
-
-
     }
 
     public function sold_items()
@@ -74,5 +73,7 @@ protected $appends = ['total_taxes','total_discounts'];
             $q->where('store_id',1);
         });
     }
-}
+
+
+   }
 

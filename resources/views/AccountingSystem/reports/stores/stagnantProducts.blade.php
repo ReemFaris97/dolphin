@@ -28,7 +28,35 @@
                     <div class="row">
                         <div class="col-xs-12">
                             {!!Form::open( ['route' => 'accounting.reports.stagnant-products' ,'class'=>'form phone_validate', 'method' => 'GET','files' => true]) !!}
-                            @include('AccountingSystem.reports.stores.filter')
+
+                            @if (count($errors) > 0)
+                                {{--@php popup('error',$errors->all()) @endphp--}}
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                            <div class="form-group col-sm-3">
+                                <label> الشركة </label>
+                                {!! Form::select("company_id",companies(),null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الشركة','data-live-search'=>'true','id'=>'company_id'])!!}
+                            </div>
+                            <div class="form-group col-sm-3">
+                                <label> الفرع </label>
+                                {!! Form::select("branch_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الفرع','data-live-search'=>'true','id'=>'branch_id'])!!}
+                            </div>
+
+                            <div class="form-group col-sm-3">
+                                <label> المخزن </label>
+                                {!! Form::select("store_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر المخزن','data-live-search'=>'true','id'=>'store_id'])!!}
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label></label>
+                                <input type="submit" value="بحث" class="btn btn-success">
+                            </div>
+
                             {!!Form::close() !!}
                         </div>
                     </div>
@@ -41,7 +69,7 @@
                     <th>#</th>
                     <th> اسم الصنف </th>
                     <th>  الوحدة </th>
-                    <th>  كمية الحالية   </th>
+                    <th>  كمية الحالية</th>
                     <th> الحد الادنى  </th>
                     <th> تاريخ اخر عملية بيع  </th>
                 </tr>
@@ -53,9 +81,8 @@
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->product->name!!}</td>
                         <td>{!! $row->product->main_unit!!}</td>
-                        @php($store_product=\App\Models\AccountingSystem\AccountingProductStore::where('product_id',$row->product->id)
-                         ->where('store_id',$row->sale->store_id)->first())
-                        <td>{!! $store_product->quantity !!}</td>
+
+                        <td>{!!  ($quantites[$row->product->id]) !!}</td>
 
 
                         <td>{!! $row->product->min_quantity!!}</td>

@@ -64,9 +64,9 @@
                 @endisset
                 </tbody>
             </table>
-            @if($inventories!= [])
-            {{ $inventories->appends(\Illuminate\Support\Facades\Input::except('page'))->links() }}
-            @endif
+            {{--@if($inventories!= [])--}}
+            {{--{{ $inventories->appends(\Illuminate\Support\Facades\Input::except('page'))->links() }}--}}
+            {{--@endif--}}
 
 
         </div>
