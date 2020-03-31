@@ -54,32 +54,32 @@
     <div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left taxs form-line new-radio-big-wrapper ">
 					<span class="new-radio-wrap">
                         <label>عميل</label>
-            <input type="radio" name="concerned" class="styled type" id="basic" onclick="myFunction()"  value="client">
+            <input type="radio" name="concerned" class="styled type"  onclick="myFunction()"  value="client">
 
                     </span>
         <span class="new-radio-wrap">
                         <label>مورد</label>
-            <input type="radio" name="concerned"  class="styled type" id="part"  onclick="myFunction2()"   value="supplier">
+            <input type="radio" name="concerned"  class="styled type"   onclick="myFunction2()"   value="supplier">
 
         </span>
         <span class="new-radio-wrap">
                             <label>عام</label>
-                <input type="radio" name="concerned" class="styled type" value="general">
+                <input type="radio" name="concerned" class="styled type"  onclick="myFunction3()"  value="general">
 
             </span>
     </div>
 @endif
 
 
-{{--<div class="form-group col-md-6 pull-left clients">--}}
-{{--<label>   اختر  العميل</label>--}}
-{{--{!! Form::select("client_id",$clients,null,['class'=>'form-control','placeholder'=>' اختر  العميل'])!!}--}}
-{{--</div>--}}
+<div class="form-group col-md-6 pull-left clients">
+<label>   اختر  العميل</label>
+{!! Form::select("client_id",$clients,null,['class'=>'form-control','placeholder'=>' اختر  العميل'])!!}
+</div>
 
-{{--<div class="form-group col-md-6 pull-left suppliers">--}}
-{{--<label>   اختر المورد </label>--}}
-{{--{!! Form::select("supplier_id",$suppliers,null,['class'=>'form-control','placeholder'=>'  اختر المورد '])!!}--}}
-{{--</div>--}}
+<div class="form-group col-md-6 pull-left suppliers">
+<label>   اختر المورد </label>
+{!! Form::select("supplier_id",$suppliers,null,['class'=>'form-control','placeholder'=>'  اختر المورد '])!!}
+</div>
 
 <div class="clearfix"></div>
 
@@ -98,7 +98,7 @@
     <label>   اسم  البند </label>
     {!! Form::select("benod_id",$benods,null,['class'=>'form-control','placeholder'=>' اختر  اسم البند '])!!}
 </div>
-<div class="form-group col-md-4 pull-left">
+<div class="form-group col-md-4 pull-left name">
     <label>المكرم /السيد </label>
     {!! Form::text("name",null,['class'=>'form-control','placeholder'=>' الاسم    '])!!}
 </div>
@@ -147,7 +147,7 @@
         <div class="banks">
             <div class="form-group col-md-4 col-sm-4 col-xs-4 pull-left">
                 <label> اسم البنك </label>
-                {!! Form::select("bank_id",companies(),null,['class'=>'form-control js-example-basic-single bank_id','id'=>'bank_id','placeholder'=>' اختر البنك '])!!}
+                {!! Form::select("bank_id",$banks,null,['class'=>'form-control js-example-basic-single bank_id','id'=>'bank_id','placeholder'=>' اختر البنك '])!!}
             </div>
 
 
@@ -177,6 +177,7 @@
         $('.clients').hide();
         $('.banks').hide();
         $(".suppliers").hide();
+        $('.name').hide();
         $('.js-example-basic-single').select2();
 
     });
@@ -184,9 +185,18 @@
 </script>
 
 <script>
-    if (document.getElementById("bank_translation").checked == true){
-        alert("uyuyuy");
-    }
+
+
+
+    $('#bank_translation').click(function () {
+        $('.banks').show();
+
+    });
+
+    $('#check').click(function () {
+        $('.banks').show();
+
+    });
     function myFunction() {
         $(".clients").show();
         $(".suppliers").hide();
@@ -195,10 +205,11 @@
         $(".clients").hide();
         $(".suppliers").show();
     }
-    function f() {
-        if (document.getElementById("bank_translation").checked == true){
-            alert("uyuyuy");
-        }
+    function myFunction3() {
+        $(".clients").hide();
+        $(".suppliers").hide();
+        $('.show').hide();
+
     }
 
     </script>
