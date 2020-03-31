@@ -1252,7 +1252,7 @@ td button.btn.btn-primary.popover-dismiss span.icon-coin-dollar {
     margin-top: -7px;
 }
 
-.yourBill .yurSections .form-group.block-gp input {
+.yourBill .yurSections .form-group.block-gp input#barcode_search{
     width: calc(100% - 130px);
 }
 

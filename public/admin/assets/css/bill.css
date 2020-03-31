@@ -354,6 +354,7 @@ table.finalTb tfoot.tempDisabled > tr , table.finalTb tfoot.tempDisabled > tr th
 .unit_price_before_enable .maybe-hidden.unit_price_before_enable ,
 .unit_price_after_enable .maybe-hidden.unit_price_after_enable ,
 .total_price_before_enable .maybe-hidden.total_price_before_enable ,
+.total_expiration_enable .maybe-hidden.expiration_enable ,
 .total_price_after_enable .maybe-hidden.total_price_after_enable{
 	display: table-cell !important
 }

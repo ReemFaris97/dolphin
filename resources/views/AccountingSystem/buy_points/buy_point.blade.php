@@ -84,13 +84,15 @@
                     {{(getsetting('unit_price_before_enable') == 1) ? 'unit_price_before_enable':''}}
                     {{(getsetting('unit_price_after_enable')==1) ? 'unit_price_after_enable':'' }}
                     {{(getsetting('total_price_before_enable')==1) ? 'total_price_before_enable':'' }}
-                    {{(getsetting('total_price_after_enable')==1) ? 'total_price_after_enable':'' }} ">
+                    {{(getsetting('total_price_after_enable')==1) ? 'total_price_after_enable':'' }} 
+                    total_expiration_enable">
 						<thead>
 							<tr>
 								<th rowspan="2">م</th>
 								<th rowspan="2" class="maybe-hidden name_enable">اسم الصنف</th>
 								<th rowspan="2" class="maybe-hidden unit_enable">الوحدة</th>
 								<th rowspan="2" class="maybe-hidden quantity_enable">الكمية</th>
+								<th rowspan="2" class="maybe-hidden expiration_enable">تاريخ الصلاحية</th>
 								<th rowspan="2" class="maybe-hidden unit_price_before_enable">سعر الوحدة</th>
 								<th rowspan="2" class="maybe-hidden unit_price_after_enable">قيمة الضريبة</th>
 								<th colspan="2" rowspan="1" class="th_lg">الإجمالى</th>
@@ -249,6 +251,14 @@
 					var priceHasTax = selectedProduct.data('price-has-tax');
 					var totalTaxes = selectedProduct.data('total-taxes');
 					var productUnits = selectedProduct.data('subunits');
+					var expirationDate = selectedProduct.data('product_expiration');
+					var dateInpt = '';
+					let today = new Date().toISOString().substr(0, 10);
+					if(expirationDate == 1){
+						var dateInpt = '<input type="date" class="expiration form-control" value="'+ today +'">'; 
+					}else{
+						var dateInpt = '---';
+					}
 					let unitName = productUnits.map(a => a.name);
 					let unitId = productUnits.map(c => c.id);
 					let unitPrice = productUnits.map(b => b.selling_price);
@@ -280,6 +290,9 @@
 							</td>
 							<td class="product-quantity maybe-hidden quantity_enable">
 								<input type="number" placeholder="الكمية" step="1" min="1" value="1" id="sale" class="form-control" name="quantity[${ProductId}]">
+							</td>
+							<td class="expiration-date maybe-hidden expiration_enable">
+								${dateInpt}
 							</td>
 							<td class="single-price-before maybe-hidden unit_price_before_enable">
 								<input type="number" class="form-control" step="any" value="${singlePriceBefore}" name="prices[${ProductId}]">
@@ -670,6 +683,14 @@
 		var priceHasTax = selectedProduct.data('price-has-tax');
 		var totalTaxes = selectedProduct.data('total-taxes');
 		var productUnits = selectedProduct.data('subunits');
+		var expirationDate = selectedProduct.data('product_expiration');
+		var dateInpt = '';
+		let today = new Date().toISOString().substr(0, 10);
+		if(expirationDate == 1){
+			var dateInpt = '<input type="date" class="expiration form-control" value="'+ today +'">'; 
+		}else{
+			var dateInpt = '---';
+		}
 		var unitName = productUnits.map(a => a.name);
 		var unitId = productUnits.map(c => c.id);
 		var unitPrice = productUnits.map(b => b.selling_price);
@@ -702,6 +723,9 @@
 							<td class="product-quantity maybe-hidden quantity_enable">
 								<input type="number" step="1" placeholder="الكمية" min="1" value="1" id="sale" class="form-control" name="quantity[${ProductId}]">
 							</td>
+							<td class="expiration-date maybe-hidden expiration_enable">
+								${dateInpt}
+							</td>
 							<td class="single-price-before maybe-hidden unit_price_before_enable">
 								<input type="number" step="any" class="form-control" value="${singlePriceBefore}" name="prices[${ProductId}]">
 							</td>
@@ -725,6 +749,7 @@
 							</td>
 						</tr>
 					`);
+					
 					$('.popover-dismiss').popover({
 					  trigger: 'focus'
 					});
