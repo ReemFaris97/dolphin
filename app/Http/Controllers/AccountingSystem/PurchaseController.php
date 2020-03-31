@@ -67,10 +67,10 @@ class PurchaseController extends Controller
         $requests = $request->except('user_id');
 
 //        dd($request['user_id']);
-
+//dd($requests);
         $rules = [
 
-            // 'supplier_id'=>'required|numeric|exists:accounting_suppliers,id',
+           'supplier_id'=>'required|numeric|exists:accounting_suppliers,id',
                 // 'reminder'=>'required|numeric|gt:0',
 
         ];
@@ -193,19 +193,21 @@ class PurchaseController extends Controller
         }
     }
 
-if($purchase->payment=='cash'){
-       $store_id=auth()->user()->accounting_store_id;
-        $store=AccountingStore::find($store_id);
-         $safe=AccountingSafe::where('model_type', $store->model_type)->where('model_id', $store->model_id)->first();
-        $safe->update([
-            'amount'=>$safe->amount-$purchase->total
-        ]);
-        }elseif ($purchase->payment=='agel'){
-    $supplier=AccountingSupplier::find( $purchase->supplier_id);
-    $supplier->update([
-        'balance'=>$supplier->balance +$purchase->total
-    ]);
-}
+        if($purchase->payment=='cash'){
+
+               $store_id=auth()->user()->accounting_store_id;
+                $store=AccountingStore::find($store_id);
+                 $safe=AccountingSafe::where('model_type', $store->model_type)->where('model_id', $store->model_id)->first();
+                $safe->update([
+                    'amount'=>$safe->amount-$purchase->total
+                ]);
+                }elseif ($purchase->payment=='agel'){
+
+            $supplier=AccountingSupplier::find( $purchase->supplier_id);
+            $supplier->update([
+                'balance'=>$supplier->balance +$purchase->total
+            ]);
+        }
         alert()->success('تمت عملية الشراء بنجاح !')->autoclose(5000);
         return back();
     }

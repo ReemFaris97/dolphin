@@ -32,7 +32,7 @@
                 </div>
                 <div class="form-group col-md-4 pull-left">
                     <label>اختر الصنف </label>
-                    {!! Form::select("product_id[]",products_not_settement(),null,['class'=>'form-control js-example-basic-single product_id','multiple','id'=>'product_id'])!!}
+                    {!! Form::select("product_id[]",products_not_settement(),null,['class'=>'form-control product_id','multiple','id'=>'product_id'])!!}
                 </div>
 
 
