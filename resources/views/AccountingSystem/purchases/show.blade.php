@@ -428,6 +428,24 @@
 		text-align: right;
 		color: #2ECC71
 	}
+	.single-5asm {
+    background: #0AAD4F;
+    padding: 0 5px;
+    margin: 0 5px;
+    margin-bottom: 5px;
+    display: inline-block;
+    box-shadow: 0px 5px 10px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+	td > .single-5asm:last-child{
+		margin-bottom: 0
+	}
+	
+	tr.bill-table-tr-wrapper.fixed-ta-hd > th {
+    vertical-align: middle;
+}
+	
+	
 	@media print {
 		.a-new-table.tablesaw-sortable>tbody>tr>td:first-child:after,
 		.a-new-table.tablesaw-sortable>tbody>tr>th:first-child:after {
@@ -834,6 +852,7 @@
 									<th rowspan="2" class="fixed-ta-hd maybe-hidden quantity_enable">الكمية</th>
 									<th rowspan="2" class="fixed-ta-hd maybe-hidden unit_price_before_enable">سعر الوحدة</th>
 									<th rowspan="2" class="fixed-ta-hd maybe-hidden unit_price_after_enable">قيمة الضريبة</th>
+									<th rowspan="2" class="fixed-ta-hd maybe-hidden unit_price_after_enable">الخصومات</th>
 									<th colspan="2" rowspan="1" class="fixed-ta-hd th_lg">الإجمالى</th>
 								</tr>
 								<tr class="bill-table-tr-wrapper fixed-ta-hd">
@@ -842,6 +861,7 @@
 								</tr>
 								<tbody>
 									@foreach($product_items as $row)
+<!--
 									<tr>
 										<td>
 											<span class="big-ser-hed-tit">{!! $row->product->category->ar_name!!}</span>
@@ -865,14 +885,50 @@
 											</span>
 										</td>
 									</tr>
+-->
+									
+									
+									
+						<tr class="single-row-wrapper">
+							<td class="row-num">1</td>
+							<td class="product-name maybe-hidden name_enable">{!! $row->product->name!!}</td>
+							<td class="product-unit maybe-hidden unit_enable">
+								لتر
+							</td>
+							<td class="product-quantity maybe-hidden quantity_enable">
+								{{$row->quantity}}
+							</td>
+							<td class="single-price-before maybe-hidden unit_price_before_enable">
+								سعر الوحدة
+							</td>
+							<td class="single-price-after maybe-hidden unit_price_after_enable">
+								قيمة الضريبة
+							</td>
+							<td class="single-price-after maybe-hidden unit_price_after_enable">
+								@foreach ($row->discount() as $key=>$discount)
+									<span class="single-5asm">
+										@if($key=='percentage')
+										<span>  {{$discount}} % </span>
+										@elseif($key=='amount')
+										<span>   {{$discount}} ر.س </span>
+										@endif
+										|
+										<span>يؤثر فى الضريبة</span>
+									</span>
+								@endforeach
+							</td>
+							<td class="whole-price-before maybe-hidden total_price_before_enable">اجمالي قبل الضريبة</td>
+							<td class="whole-price-after maybe-hidden total_price_after_enable">اجمالي بعد الضريبة</td>
+						</tr>
+
 									@endforeach
 									<tr>
-										<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-money"></i>الإجمالي</td>
-										<td><span class="tot-money">{!! $purchase->amount !!}</span></td>
+										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-money"></i>الإجمالي</td>
+										<td colspan="5"><span class="tot-money">{!! $purchase->amount !!}</span></td>
 									</tr>
 									<tr>
-										<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-minus"></i> نوع الخصم</td>
-										<td>
+										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-minus"></i> نوع الخصم</td>
+										<td colspan="5">
 											@if($purchase->discount_type=='percentage')
 											نسبه
 											@else
@@ -881,20 +937,20 @@
 										</td>
 									</tr>
 									<tr>
-										<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-minus"></i>قيمه الخصم على الفاتورة</td>
-										<td>{!! $purchase->discount !!}</td>
+										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-minus"></i>قيمه الخصم على الفاتورة</td>
+										<td colspan="5">{!! $purchase->discount !!}</td>
 									</tr>
 									<tr>
-										<td data-tablesaw-sortable-col data-tablesaw-priority="6"> <i class="ti-plus"></i> القيمة المضافة</td>
-										<td> {!! $purchase->totalTaxs !!}</td>
+										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"> <i class="ti-plus"></i> القيمة المضافة</td>
+										<td colspan="5"> {!! $purchase->totalTaxs !!}</td>
 									</tr>
 									<tr>
-										<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-money"></i> المطلوب سداده</td>
-										<td>{!! $purchase->total !!}</td>
+										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-money"></i> المطلوب سداده</td>
+										<td colspan="5">{!! $purchase->total !!}</td>
 									</tr>
 									<tr>
-										<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-bag"></i> طريقة الدفع</td>
-										<td>
+										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-bag"></i> طريقة الدفع</td>
+										<td colspan="5">
 											@if( $purchase->payment=='cash')
 											نقدى
 											@elseif( $purchase->payment=='agel')
@@ -907,19 +963,19 @@
 											<td>15</td>
 										</tr> --}}
 									<tr>
-										<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-money"></i>المدفوع</td>
+										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-money"></i>المدفوع</td>
 										@if( $purchase->payment=='cash')
-										<td>{!! $purchase->total !!}</td>
+										<td colspan="5">{!! $purchase->total !!}</td>
 										@else
-										<td>{!! $purchase->payed !!}</td>
+										<td colspan="5">{!! $purchase->payed !!}</td>
 										@endif
 									</tr>
 									<tr>
-										<th data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-export"></i>المتبقي</th>
+										<th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-export"></i>المتبقي</th>
 										@if( $purchase->payment=='cash')
-										<td>0</td>
+										<td colspan="5">0</td>
 										@else
-										<td>{!! $purchase->total- $purchase->payed !!}</td>
+										<td colspan="5">{!! $purchase->total- $purchase->payed !!}</td>
 										@endif
 									</tr>
 								</tbody>
