@@ -1248,6 +1248,13 @@ td button.btn.btn-primary.popover-dismiss span.icon-coin-dollar {
     font-size: 24px;
     margin-top: -2px;
 }
+.bootstrap-select.btn-group.show-tick .dropdown-menu li.selected a span.check-mark {
+    margin-top: -7px;
+}
+
+
+
+
 /******************* media query  *******************/
 @media (min-width: 992px) {
 
