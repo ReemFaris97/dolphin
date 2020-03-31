@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
+use App\Models\AccountingSystem\AccountingBank;
 use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingBranchCategory;
 use App\Models\AccountingSystem\AccountingBranchShift;
@@ -39,12 +40,12 @@ class ClauseController extends Controller
      */
     public function create()
     {
-
+        $banks =AccountingBank::pluck('name','id')->toArray();
         $safes =AccountingSafe::pluck('name','id')->toArray();
         $clients =AccountingClient::pluck('name','id')->toArray();
         $suppliers =AccountingSupplier::pluck('name','id')->toArray();
         $benods=AccountingBenod::pluck('ar_name','id')->toArray();
-        return $this->toCreate(compact('safes','clients','suppliers','benods'));
+        return $this->toCreate(compact('safes','clients','suppliers','benods','banks'));
     }
 
     /**
@@ -146,7 +147,9 @@ if($requests['amount'] <= $safe->amount){
         $clients =AccountingClient::pluck('name','id')->toArray();
         $suppliers =AccountingSupplier::pluck('name','id')->toArray();
         $benods=AccountingBenod::pluck('ar_name','id')->toArray();
-        return $this->toEdit(compact('clause','safes','clients','suppliers','benods'));
+        $banks =AccountingBank::pluck('name','id')->toArray();
+
+        return $this->toEdit(compact('clause','safes','clients','suppliers','benods','banks'));
     }
 
     /**

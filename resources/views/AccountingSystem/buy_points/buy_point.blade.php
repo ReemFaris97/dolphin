@@ -13,7 +13,7 @@
 	<div class="panel-heading">
 		<h5 class="panel-title"> فاتوره مشتريات
 			<b class="time-r" id="theTime"></b>
-			<a href="#" class="btn btn-success bill-cogs" target="_blank" rel="noreferrer noopener">
+			<a href="{{url("/accounting/settings/purchases_bill")}}" class="btn btn-success bill-cogs" target="_blank" rel="noreferrer noopener">
 			<i class="fas fa-cogs"></i>
 			إعدادات الفاتورة
 			<i class="fas fa-cogs"></i>

@@ -82,7 +82,7 @@ class SalesController extends Controller
          }
 
          $sales = $sales->groupBy('date')->get();
-         // dd($sales);
+
       } else {
          $sales = collect();
       }
@@ -168,48 +168,45 @@ class SalesController extends Controller
 
    public  function daily_earnings(Request $request){
        if ($request->has('company_id')) {
-           $sales_bills=AccountingSale::all();
            $sales = AccountingSale::select('id',\DB::raw('DATE(created_at) as date'), \DB::raw('count(*) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'),'created_at');
-
-
            if ($request->has('branch_id') && $request->branch_id != null) {
                $sales = $sales->where('branch_id', $request->branch_id);
-               $sales_bills = $sales_bills->where('branch_id', $request->branch_id);
-
-
            }
            if ($request->has('session_id') && $request->session_id != null ) {
                $sales = $sales->where('session_id', $request->session_id);
-
            }
            if ($request->has('user_id') && $request->user_id != null ) {
                $sales = $sales->where('user_id', $request->user_id);
            }
            if ($request->has('product_id') && $request->product_id != null ) {
-
+            ;
                $sales = $sales->whereHas('items', function ($item) use ($request) {
                    $item->where('product_id', $request->product_id);
 
                });
+
            }
            if ($request->has('date') && $request->date != null) {
 
-
                $sales=$sales->whereDate('created_at',Carbon::parse($request->date));
-
+//               $sales_bills = $sales_bills->whereDate('created_at',Carbon::parse($request->date));
            }
-
-
            $sales = $sales->groupBy('date')->get();
 
-//       dd($sales);
 
 
-           $purchase_cost=0;
-           foreach ($sales as  $sale){
-               $purchase_cost+=$sale->item_cost;
-           }
+           $purchases = AccountingPurchase::join('accounting_purchases_items', 'accounting_purchases.id', '=', 'accounting_purchases_items.purchase_id')
+               ->select('accounting_purchases.id',
+                   \DB::raw('DATE(accounting_purchases.created_at) as date'),
+                   \DB::raw('count(*) as num'),
+                   \DB::raw('sum(accounting_purchases.total) as all_total'),
+                   \DB::raw('sum(accounting_purchases.amount) as all_amounts'),
+                   \DB::raw('sum(accounting_purchases.totalTaxs) as total_tax'),
+                   \DB::raw('sum(accounting_purchases.discount) as discounts'),
+                   \DB::raw('sum(accounting_purchases_items.price_after_tax) as item_price'),
+                   'accounting_purchases.created_at');
 
+           dd($purchases->get());
        } else {
            $sales = collect();
 

@@ -65,7 +65,8 @@ class PurchaseController extends Controller
     public function store(Request $request)
     {
         $requests = $request->except('user_id');
-// dd($requests);
+
+//        dd($request['user_id']);
 
         $rules = [
 
@@ -74,7 +75,7 @@ class PurchaseController extends Controller
 
         ];
         $this->validate($request,$rules);
-        $user=User::find($request['user_id']);
+        $user=User::find(auth()->user()->id);
 
         $requests['branch_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:Null;
 
