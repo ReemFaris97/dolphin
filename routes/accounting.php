@@ -28,7 +28,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/store-dis_active-product/{id}', 'StoreController@dis_active_product')->name('stores.dis_active_product');
     Route::get('/product-details/{id}', 'StoreController@show_product_details')->name('stores.show_product_details');
     Route::post('/destroy_product/{id}', 'StoreController@destroy_product')->name('stores.destroy_product');
-    Route::post('/destroy_subunit/{id}', 'ProductController@destroy_subunit')->name('products.destroy_subunit');
+    Route::get('/destroy_subunit/{id}', 'ProductController@destroy_subunit')->name('products.destroy_subunit');
 
     Route::get('/products_entry_form', 'StoreController@products_entry_form')->name('stores.products_entry_form');
     Route::post('/bond_store', 'StoreController@bond_store')->name('stores.bond_store');

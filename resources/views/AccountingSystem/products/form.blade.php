@@ -165,9 +165,8 @@
 							<td>{{$unit->purchasing_price}}</td>
 							<td>{{$unit->quantity}}</td>
 							<td>
-								<a href="#" onclick="Delete({{$unit->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
-								{!!Form::open( ['route' => ['accounting.products.destroy_subunit',$unit->id] ,'id'=>'delete-form'.$unit->id, 'method' => 'Delete']) !!}
-								{!!Form::close() !!}
+
+								<a href="#" onclick="Delete({{$unit->id}})" class="delete-sub-unit">حذف</a>
 							</td>
 						</tr>
 						@endforeach
@@ -319,14 +318,15 @@
 		</div>
 		<div id="menu5" class="tab-pane fade">
 			<div class="row">
+
 				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left taxs form-line new-radio-big-wrapper ">
 					<span class="new-radio-wrap">
-						<label for="yes1">يوجد ضريبة </label>
-						{!! Form::radio("tax",1,['class'=>'form-control','id'=>'yes1','value'=>1])!!}
+						<label for="yes1">يوجد ضريبة  </label>
+						{!! Form::radio("tax",($has_tax==1)?$has_tax:0,['class'=>'form-control','id'=>'yes1','value'=>($has_tax==1)?$has_tax:0])!!}
 					</span>
 					<span class="new-radio-wrap">
 						<label for="no1">لايوجد ضريبة</label>
-						{!! Form::radio("tax",0,['class'=>'form-control', 'id'=>'no1','value'=>0])!!}
+						{!! Form::radio("tax",($has_tax==1)?0:$has_tax,['class'=>'form-control', 'id'=>'no1','value'=>($has_tax==1)?0:$has_tax])!!}
 					</span>
 				</div>
 				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left form-line new-radio-big-wrapper ">
@@ -501,6 +501,8 @@
 @section('scripts')
 <script>
 	$(document).ready(function() {
+		alert("sefd");
+
 		$("#components_button").hide();
 		$("#offers_button").hide();
 		$("#discounts_button").hide();
@@ -512,7 +514,16 @@
 		$("#offerTable").hide();
 		$("#discountTable").hide();
 		$("#serviceTable").hide();
-	});
+		alert("sefd");
+
+
+		$("input[type='radio']").each(function(){
+			var radioValue = $("input[name='tax']:checked").val();
+			alert("fdssssssssss");
+			if(radioValue){
+				alert("Your are a - " + radioValue);
+			}
+		});
 	var bigData = [];
 	var bigDataComponent = [];
 	var bigDataOffer = [];
@@ -1001,7 +1012,24 @@
 
 		}).then(function(isConfirm){
 			if(isConfirm){
-				document.getElementById('delete-form'+item_id).submit();
+				$.ajax({
+					type: "get",
+
+					url: '/accounting/destroy_subunit/'+ item_id,
+
+					success: function (data) {
+
+						item_id.remove();
+
+
+
+					},error:function (data) {
+						console.log(data);
+					}
+
+				});
+
+
 			}
 			else{
 				swal("تم االإلفاء", "حذف  الوحدة  تم الغاؤه",'info',{buttons:'موافق'});

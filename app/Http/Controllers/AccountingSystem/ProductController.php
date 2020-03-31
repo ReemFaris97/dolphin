@@ -317,7 +317,10 @@ class ProductController extends Controller
         $stores=AccountingStore::all();
         $taxs=AccountingTaxBand::pluck('name','id')->toArray();
         $subunits=AccountingProductSubUnit::where('product_id',$id)->get();
-        return $this->toEdit(compact('industrials','taxs','face','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores','units','subunits'));
+        $taxsproduct=AccountingProductTax::where('product_id',$id)->get();
+        $tax=AccountingProductTax::where('product_id',$id)->first();
+        $has_tax=($tax)?'1':'0';
+        return $this->toEdit(compact('industrials','taxs','face','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores','units','subunits','taxsproduct','has_tax'));
 
 
     }
@@ -443,13 +446,14 @@ class ProductController extends Controller
     }
 
 
-    public function destroy($id)
+    public function destroy_subunit($id)
     {
-        $product =AccountingProduct::findOrFail($id);
-        $product->delete();
-        alert()->success('تم حذف  المنتج بنجاح !')->autoclose(5000);
-        return back();
 
+        $product =AccountingProductSubUnit::findOrFail($id);
+        $product->delete();
+        alert()->success('تم حذف    الوحدة الفرعية بنجاح !')->autoclose(5000);
+
+        return back();
 
     }
 

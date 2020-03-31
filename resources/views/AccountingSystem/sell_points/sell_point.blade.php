@@ -62,7 +62,7 @@
 							<label for="bill_date"> تاريخ الفاتورة </label>
 							{!! Form::text("bill_date",null,['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' تاريخ الفاتورة',"id"=>'bill_date'])!!}
                         </div>
-                    </div>
+
                     {{-- <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="form-group block-gp">
                             <label>اسم القسم </label>
@@ -70,6 +70,12 @@
                         </div>
                     </div> --}}
 
+                    <div class="form-group block-gp col-md-4 col-sm-4 ">
+                        <label>بحث بالباركود </label>
+                        <input class="form-control" type="text" id="barcode_search">
+                    </div>
+
+                    </div>
                     <div class="col-md-6 col-sm-6 col-xs-12">
 						<div class="form-group block-gp">
 							<label>اسم القسم </label>
@@ -480,12 +486,13 @@ $("#client_id").on('change', function() {
 
 
 //	For Ajax Search By Product Name
-    $('#pro_search').keyup(function(e) {
-        var pro_search = $(this).val();
+    $('#barcode_search').keyup(function(e) {
+        var barcode_search = $(this).val();
         $.ajax({
-            url: "/accounting/pro_search/" + pro_search,
+            url: "/accounting/barcode_search/" + barcode_search,
             type: "GET",
             success: function(data) {
+                alert(data);
                 $('.yurProdc').html(data.data);
 				$('#selectID').attr('data-live-search', 'true');
 				$('#selectID').selectpicker('refresh');
