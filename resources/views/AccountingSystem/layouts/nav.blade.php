@@ -170,11 +170,21 @@
 		</li>
 		<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i> إدارة الفواتير <span class="caret"></span> </a>
 			<ul class="dropdown-menu dropdown-menu-right">
-				<li><a href="{{route('accounting.sales.index')}}"><i class="icon-eye"></i> عرض الفواتير</a></li> {{-- <li><a href="{{route('accounting.sales.returns')}}"><i class="icon-add-to-list"></i> اضافة فاتورة مرتجعات جديدة</a>
-		</li> --}} <li><a href="{{route('accounting.sessions.index')}}"><i class="icon-eye"></i> عرض الجلسات</a></li>
-		<li><a href="{{route('accounting.sessions.sessions_close')}}"><i class="icon-eye"></i> الجلسات المغلقة من قبل الكاشير</a></li> <!-- المبيعات-->
+
+				<!---------------------------------------------------------------------------------- المبيعات-->
 		<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-cabinet position-left"></i> المبيعات </a>
 			<ul class="dropdown-menu dropdown-menu-right">
+
+				<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-cabinet position-left"></i> فواتير  المبيعات</a>
+					<ul class="dropdown-menu">
+						<li><a href="{{route('accounting.sales.index')}}"><i class="icon-eye"></i> عرض الفواتير </a></li>
+					</ul>
+				</li>
+				<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-cabinet position-left"></i> الجلسات</a>
+					<ul class="dropdown-menu">
+						<li><a href="{{route('accounting.sessions.index')}}"><i class="icon-eye"></i> عرض الجلسات</a></li>
+						<li><a href="{{route('accounting.sessions.sessions_close')}}"><i class="icon-eye"></i> الجلسات المغلقة من قبل الكاشير</a></li>					</ul>
+				</li>
 				<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-cabinet position-left"></i> إدارة العملاء </a>
 					<ul class="dropdown-menu dropdown-menu-right">
 						<li><a href="{{route('accounting.clients.index')}}"><i class="icon-eye"></i> عرض العملاء</a></li>
@@ -189,12 +199,19 @@
 						</li>
 					</ul>
 				</li>
+				<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-cabinet position-left"></i> مرتجعات  المبيعات  </a>
+					<ul class="dropdown-menu">
+						<li><a href="{{route('accounting.sales.index')}}"><i class="icon-eye"></i> عرض فواتير المرتجعات </a></li>
+					</ul>
+				</li>
+
+
 				<!--Here we will put the links from the sent file from point 9 to the end of the file -->
 			</ul>
-		</li> <!-- المشتريات-->
+		</li> <!------------------------ المشتريات-->
 		<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-cabinet position-left"></i> المشتريات </a>
 			<ul class="dropdown-menu dropdown-menu-right">
-				<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-cabinet position-left"></i> فاتورة المشتريات </a>
+				<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-cabinet position-left"></i>  المشتريات </a>
 					<ul class="dropdown-menu dropdown-menu-right">
 						<li><a href="{{route('accounting.purchases.index')}}"><i class="icon-eye"></i> عرض فواتير الشراء</a></li>
 						<li><a href="{{route('accounting.buy_point.buy_point')}}"><i class="icon-add-to-list"></i> اضافة مشترى جديد</a></li>
@@ -202,6 +219,16 @@
 						<li><a href="{{route('accounting.puchaseReturns.index')}}"><i class="icon-add-to-list"></i> عرض فواتير المرتجعات </a></li>
 					</ul>
 				</li>
+
+
+				<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-cabinet position-left"></i>  المرتجعات </a>
+					<ul class="dropdown-menu dropdown-menu-right">
+
+						<li><a href="{{route('accounting.puchaseReturns.create')}}"><i class="icon-add-to-list"></i> اضافة فاتورة مرتجعات جديدة</a></li>
+						<li><a href="{{route('accounting.puchaseReturns.index')}}"><i class="icon-add-to-list"></i> عرض فواتير المرتجعات </a></li>
+					</ul>
+				</li>
+
 				<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-cabinet position-left"></i> إدارة الموردين </a>
 					<ul class="dropdown-menu dropdown-menu-right">
 						<li><a href="{{route('accounting.suppliers.index')}}"><i class="icon-eye"></i> عرض الموردين</a></li>
