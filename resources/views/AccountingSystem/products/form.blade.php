@@ -164,7 +164,11 @@
 							<td>{{$unit->selling_price}}</td>
 							<td>{{$unit->purchasing_price}}</td>
 							<td>{{$unit->quantity}}</td>
-							<td></td>
+							<td>
+								<a href="#" onclick="Delete({{$unit->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
+								{!!Form::open( ['route' => ['accounting.products.destroy_subunit',$unit->id] ,'id'=>'delete-form'.$unit->id, 'method' => 'Delete']) !!}
+								{!!Form::close() !!}
+							</td>
 						</tr>
 						@endforeach
 						@endif
@@ -982,6 +986,28 @@
 			source: availableTags
 		});
 	});
+</script>
+
+<script>
+	function Delete(id) {
+		var item_id=id;
+		console.log(item_id);
+		swal({
+			title: "هل أنت متأكد ",
+			text: "هل تريد حذف هذة  الوحده ؟",
+			icon: "warning",
+			buttons: ["الغاء", "موافق"],
+			dangerMode: true,
+
+		}).then(function(isConfirm){
+			if(isConfirm){
+				document.getElementById('delete-form'+item_id).submit();
+			}
+			else{
+				swal("تم االإلفاء", "حذف  الوحدة  تم الغاؤه",'info',{buttons:'موافق'});
+			}
+		});
+	}
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
 <script src="{{asset('admin/assets/js/get_faces_by_branch.js')}}"></script>
