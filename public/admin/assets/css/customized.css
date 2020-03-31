@@ -1252,6 +1252,9 @@ td button.btn.btn-primary.popover-dismiss span.icon-coin-dollar {
     margin-top: -7px;
 }
 
+.yourBill .yurSections .form-group.block-gp input {
+    width: calc(100% - 130px);
+}
 
 
 

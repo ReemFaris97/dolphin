@@ -350,7 +350,7 @@
 						$(this).parent().prev('.anotherAddedSpecialDiscounts').append(`<div class="single-special-dis-wrap clearfix row">
                             <div class="form-group col-xs-4 ddd-none">
 								<label>رقم الخصم</label>
-								<input type="text" class="form-control " value=${discountNum} >
+								<input type="text" class="form-control " value="${discountNum}" >
 							</div>
                         	<div class="form-group col-xs-4">
 								<label>ادخل الخصم بالنسبة</label>
@@ -739,7 +739,7 @@
 							<div class="single-special-dis-wrap clearfix row">
                                 <div class="form-group col-xs-4 ddd-none" >
 								<label>رقم الخصم</label>
-								<input type="text" class="form-control " value=${discountNum} >
+								<input type="text" class="form-control " value="${discountNum}" >
 							</div>
 								<div class="form-group col-xs-4">
 									<label>ادخل الخصم بالنسبة</label>
