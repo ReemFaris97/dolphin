@@ -316,7 +316,7 @@ class ProductController extends Controller
         // dd($store);
         $stores=AccountingStore::all();
         $taxs=AccountingTaxBand::pluck('name','id')->toArray();
-        $subunits=AccountingProductSubUnit::all();
+        $subunits=AccountingProductSubUnit::where('product_id',$id)->get();
         return $this->toEdit(compact('industrials','taxs','face','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores','units','subunits'));
 
 
@@ -441,6 +441,19 @@ class ProductController extends Controller
 
 
     }
+
+
+    public function destroy($id)
+    {
+        $product =AccountingProduct::findOrFail($id);
+        $product->delete();
+        alert()->success('تم حذف  المنتج بنجاح !')->autoclose(5000);
+        return back();
+
+
+    }
+
+
     public function getBranch($id)
     {
 
