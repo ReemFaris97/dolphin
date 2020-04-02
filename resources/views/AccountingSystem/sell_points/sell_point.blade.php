@@ -484,20 +484,7 @@ $("#client_id").on('change', function() {
     });
 
 
-//	For Ajax Search By Product Name
-    $('#barcode_search').keyup(function(e) {
-        var barcode_search = $(this).val();
-        $.ajax({
-            url: "/accounting/barcode_search/" + barcode_search,
-            type: "GET",
-            success: function(data) {
-                alert(data);
-                $('.yurProdc').html(data.data);
-				$('#selectID').attr('data-live-search', 'true');
-				$('#selectID').selectpicker('refresh');
-            }
-        });
-    });
+
 //	For Ajax Search By Product Bar Code
     $('#barcode_search').keyup(function(e) {
         var barcode_search = $(this).val();
