@@ -893,26 +893,33 @@
 							<td class="row-num">1</td>
 							<td class="product-name maybe-hidden name_enable">{!! $row->product->name!!}</td>
 							<td class="product-unit maybe-hidden unit_enable">
-								لتر
+								@if ($row->unit_type=='main')
+
+									{{$row->product->main_unit}}
+								    @elseif($row->unit_type=='sub')
+									{{optional($row->unit)->name}}
+								@endif
+
 							</td>
 							<td class="product-quantity maybe-hidden quantity_enable">
 								{{$row->quantity}}
 							</td>
 							<td class="single-price-before maybe-hidden unit_price_before_enable">
-								سعر الوحدة
+								{{$row->price}}
 							</td>
 							<td class="single-price-after maybe-hidden unit_price_after_enable">
-								قيمة الضريبة
+								{{$row->tax}}
 							</td>
 							<td class="single-price-after maybe-hidden unit_price_after_enable">
-								@foreach ($row->discount() as $key=>$discount)
+								@foreach ($row->allDiscounts() as $discount)
 									<span class="single-5asm">
-										@if($key=='percentage')
-										<span>  {{$discount}} % </span>
+										@if($discount->discount_type=='percentage')
+										<span>  {{$discount->discount}} % </span>
 										@elseif($key=='amount')
-										<span>   {{$discount}} ر.س </span>
+										<span>   {{$discount->discount}} ر.س </span>
 										@endif
 										|
+
 										<span>يؤثر فى الضريبة</span>
 									</span>
 								@endforeach
