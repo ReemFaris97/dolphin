@@ -86,6 +86,7 @@
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<div class="yurProdc">
 						</div>
+						<div class="tempobar"></div>
 					</div>
 				</div>
 			</div>
@@ -288,7 +289,7 @@
 		$('#client_id_val').val(client);
 
 	});
-
+	var rowNum = 0;
 	$(".category_id").on('change', function() {
 		var id = $(this).val();
 		var store_id = $('#store_id').val();
@@ -309,8 +310,6 @@
 				$('.yurProdc').html(data.data);
 				$('#selectID').attr('data-live-search', 'true');
 				$('#selectID').selectpicker('refresh');
-
-				var rowNum = 0;
 				$('#selectID').change(function() {
 					rowNum++;
 					var selectedProduct = $(this).find(":selected");
@@ -324,6 +323,7 @@
 					var productUnits = selectedProduct.data('subunits');
 					let unitName = productUnits.map(a => a.name);
 					let unitPrice = productUnits.map(b => b.selling_price);
+					var unitId = productUnits.map(c => c.id);
 					var singlePriceBefore, singlePriceAfter = 0;
 					if (Number(priceHasTax) === 0) {
 						var singlePriceBefore = Number(productPrice);
@@ -335,9 +335,9 @@
 						var singlePriceBefore = Number(productPrice);
 						var singlePriceAfter = Number(productPrice);
 					}
-					var optss = `<option data-uni-price="${productPrice}">${mainUnit}</option>`;
+					var optss = ``;
 					for (var i = 0; i < productUnits.length; i++) {
-						optss += '<option data-uni-price="' + unitPrice[i] + '"> ' + unitName[i] + '</option> ';
+						optss += '<option data-uni-price="' + unitPrice[i] + '" value="' + unitId[i] + '"> ' + unitName[i] + '</option> ';
 					}
 					$(".bill-table tbody").append(`<tr class="single-row-wrapper">
 							<td class="row-num">${rowNum}</td>
@@ -349,7 +349,7 @@
 								</select>
 							</td>
 							<td class="product-quantity">
-								<input type="number" placeholder="الكمية" min="1" value="0" id="sale" name="quantity[]" class="form-control">
+								<input type="number" placeholder="الكمية" min="1" value="1" id="sale" name="quantity[]" class="form-control">
 							</td>
 							<td class="single-price-before">${singlePriceBefore}</td>
 							<td class="single-price-after">${singlePriceAfter}</td>
@@ -380,7 +380,6 @@
 						if (($(this).val()) < 0) {
 							$(this).val(0);
 							$(this).text('0');
-
 						}
 						$(".tempDisabled").removeClass("tempDisabled");
 						var wholePriceBefore = Number($(this).parents('tr.single-row-wrapper').find(".single-price-before").text()) * Number($(this).val());
@@ -388,9 +387,13 @@
 						var wholePriceAfter = Number($(this).parents('tr.single-row-wrapper').find(".single-price-after").text()) * Number($(this).val());
 						$(this).parents('tr.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(2));
 					});
-					$(".delete-single-row a").on('click' , function(){ $(this).parents('tr').remove(); $(".bill-table tbody").trigger('change'); })
+					$(".bill-table tbody").trigger('change');
+					$(".tempDisabled").removeClass("tempDisabled");
+					$(".delete-single-row a").on('click', function() {
+						$(this).parents('tr').remove();
+						$(".bill-table tbody").trigger('change');
+					})
 				});
-
 				$(".bill-table tbody").change(function() {
 					preventDiscount();
 					var amountBeforeDariba = 0;
@@ -482,7 +485,6 @@
 	});
 
 
-
 	//	For Ajax Search By Product Bar Code
 	$('#barcode_search').keyup(function(e) {
 		var barcode_search = $(this).val();
@@ -490,12 +492,214 @@
 			url: "/accounting/barcode_search/" + barcode_search,
 			type: "GET",
 			success: function(data) {
-				$('.yurProdc').html(data.data);
-				$('#selectID').attr('data-live-search', 'true');
-				$('#selectID').selectpicker('refresh');
+				//				didddddddd *******************************
+				if (data.data.length !== 0) {
+					$(".tempobar").html(data.data);
+					var selectedID = $(".tempobar").find('option').data('unit-id');
+					var alreadyChosen = $(".bill-table tbody td select option[value=" + selectedID + "]");
+					var repeatedInputVal = $(".bill-table tbody td select option[value=" + selectedID + "]:selected").parents('tr').find('.product-quantity').find('input');
+					if (alreadyChosen.length > 0 && alreadyChosen.is(':selected')) {
+						repeatedInputVal.val(Number(repeatedInputVal.val()) + 1);
+						repeatedInputVal.text(repeatedInputVal.val());
+						$('.product-quantity').find('input').trigger('change');
+					} else {
+						rowNum++;
+						byBarcode();
+						$('.product-quantity').find('input').trigger('change');
+					}
+					$('#barcode_search').val('');
+				}
+				//				didddddddd *******************************
 			}
 		});
 	});
+
+	function byBarcode() {
+		$(".tempDisabled").removeClass("tempDisabled");
+		$(".tempobar").find('option').prop('selected', true);
+		var selectedProduct = $(".tempobar").find('option').prop('selected', true);
+		//  alert($('#selectID').val());
+		var productId = $('#selectID').val();
+		var productName = selectedProduct.text();
+		var productPrice = selectedProduct.data('price');
+		var priceHasTax = selectedProduct.data('price-has-tax');
+		var totalTaxes = selectedProduct.data('total-taxes');
+		var mainUnit = selectedProduct.data('main-unit');
+		var productUnits = selectedProduct.data('subunits');
+		let unitName = productUnits.map(a => a.name);
+		let unitPrice = productUnits.map(b => b.selling_price);
+		var unitId = productUnits.map(c => c.id);
+		var singlePriceBefore, singlePriceAfter = 0;
+		if (Number(priceHasTax) === 0) {
+			var singlePriceBefore = Number(productPrice);
+			var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
+		} else if (Number(priceHasTax) === 1) {
+			var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
+			var singlePriceAfter = Number(productPrice);
+		} else {
+			var singlePriceBefore = Number(productPrice);
+			var singlePriceAfter = Number(productPrice);
+		}
+		var optss = ``;
+		for (var i = 0; i < productUnits.length; i++) {
+			optss += '<option data-uni-price="' + unitPrice[i] + '" value="' + unitId[i] + '" > ' + unitName[i] + '</option> ';
+		}
+		$(".bill-table tbody").append(`<tr class="single-row-wrapper">
+							<td class="row-num">${rowNum}</td>
+                            <input type="hidden" name="product_id[]" value=${productId}>
+							<td class="product-name">${productName}</td>
+							<td class="product-unit">
+								<select class="form-control js-example-basic-single">
+									${optss}
+								</select>
+							</td>
+							<td class="product-quantity">
+								<input type="number" placeholder="الكمية" min="1" value="1" id="sale" name="quantity[]" class="form-control">
+							</td>
+							<td class="single-price-before">${singlePriceBefore}</td>
+							<td class="single-price-after">${singlePriceAfter}</td>
+							<td class="whole-price-before">${singlePriceBefore}</td>
+							<td class="whole-price-after">${singlePriceAfter}</td>
+							<td class="delete-single-row">
+								<a href="#"><span class="icon-cross"></span></a>
+							</td>
+						</tr>`);
+		var wholePriceBefore, wholePriceAfter = 0;
+		$(".product-unit select").change(function() {
+			var selectedUnit = $(this).find(":selected");
+			var productPrice = selectedUnit.data('uni-price');
+			if (Number(priceHasTax) === 0) {
+				var singlePriceBefore = Number(productPrice);
+				var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
+			} else if (Number(priceHasTax) === 1) {
+				var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
+				var singlePriceAfter = Number(productPrice);
+			} else {
+				var singlePriceBefore = Number(productPrice);
+				var singlePriceAfter = Number(productPrice);
+			}
+			$(this).parents('tr.single-row-wrapper').find(".single-price-before").text(singlePriceBefore.toFixed(2));
+			$(this).parents('tr.single-row-wrapper').find(".single-price-after").text(singlePriceAfter.toFixed(2));
+		});
+		$(".product-quantity input").change(function() {
+			if (($(this).val()) < 0) {
+				$(this).val(0);
+				$(this).text('0');
+			}
+			$(".tempDisabled").removeClass("tempDisabled");
+			var wholePriceBefore = Number($(this).parents('tr.single-row-wrapper').find(".single-price-before").text()) * Number($(this).val());
+			$(this).parents('tr.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(2));
+			var wholePriceAfter = Number($(this).parents('tr.single-row-wrapper').find(".single-price-after").text()) * Number($(this).val());
+			$(this).parents('tr.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(2));
+		});
+		$(".delete-single-row a").on('click', function() {
+			$(this).parents('tr').remove();
+			$(".bill-table tbody").trigger('change');
+		})
+		$(".bill-table tbody").change(function() {
+			preventDiscount();
+			var amountBeforeDariba = 0;
+			$("td.whole-price-before").each(function() {
+				amountBeforeDariba += Number($(this).text());
+			});
+			var amountAfterDariba = 0;
+			$("td.whole-price-after").each(function() {
+				amountAfterDariba += Number($(this).text());
+			});
+			var amountOfDariba = Number(amountAfterDariba) - Number(amountBeforeDariba);
+			$("tr#amountBeforeDariba span.dynamic-span").html(amountBeforeDariba);
+			$("tr#amountAfterDariba span.dynamic-span").html(amountAfterDariba);
+			$("tr#amountOfDariba span.dynamic-span").html(amountOfDariba.toFixed(2));
+			$("#amountOfDariba1").val(amountOfDariba);
+			var byAmount = $("input#byAmount").val();
+			var byPercentage = $("input#byPercentage").val();
+			$("input#byAmount").attr('max', amountAfterDariba);
+			var total = 0;
+			$('#amountAfterDarib1').val(amountAfterDariba);
+			if (byAmount == 0 && byPercentage == 0) {
+				$("tr#demandedAmount span.dynamic-span").html(amountAfterDariba.toFixed(2));
+			} else {
+				$("input#byPercentage").change(function() {
+					if ((Number($(this).val())) > 100) {
+						alert('لا يمكن ان تكون قيم الخصم بالنسبة أكبر من 100% .');
+						$(this).val(0);
+					}
+					total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100));
+					$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
+
+				});
+				$("input#byAmount").change(function() {
+					if ((Number($(this).val())) > Number($("tr#amountAfterDariba span.dynamic-span").html())) {
+						alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $("tr#amountAfterDariba span.dynamic-span").html());
+						$(this).val(0);
+					}
+					total = Number(amountAfterDariba) - (Number($(this).val()));
+					$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
+					$("#total").val(total);
+
+				});
+			}
+
+			$("input#byPercentage").change(function() {
+				if ((Number($(this).val())) > 100) {
+					alert('لا يمكن ان تكون قيم الخصم بالنسبة أكبر من 100% .');
+					$(this).val(0);
+				}
+				total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100));
+				$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
+				$("#total").val(total);
+
+			});
+
+			$("input#byAmount").change(function() {
+				if ((Number($(this).val())) > Number($("tr#amountAfterDariba span.dynamic-span").html())) {
+					alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $("tr#amountAfterDariba span.dynamic-span").html());
+					$(this).val(0);
+				}
+				total = Number(amountAfterDariba) - (Number($(this).val()));
+				$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
+				$("#total").val(total);
+			});
+			$("#byCache , #byNet").change(function() {
+				var allPaid = Number($("#byCache").val()) + Number($("#byNet").val());
+				$("#allPaid").html(allPaid);
+				$("#allPaid1").val(allPaid);
+				var remaindedAmount = Number(allPaid) - Number($("tr#demandedAmount span.dynamic-span").html());
+				$("#remaindedAmount span.dynamic-span").html(remaindedAmount.toFixed(2));
+				$('#remainder-inputt').val(Math.abs(remaindedAmount));
+				if (remaindedAmount > 0) {
+					$("#remaindedAmount th.rel-cols").removeClass("aagel-case");
+					$("#remaindedAmount th.rel-cols").removeClass("tmam-case");
+					$("#remaindedAmount th.rel-cols").addClass("motabaqy-case");
+				} else if (remaindedAmount < 0) {
+					$("#remaindedAmount th.rel-cols").removeClass("motabaqy-case");
+					$("#remaindedAmount th.rel-cols").removeClass("tmam-case");
+					$("#remaindedAmount th.rel-cols").addClass("aagel-case");
+				} else {
+					$("#remaindedAmount th.rel-cols").removeClass("motabaqy-case");
+					$("#remaindedAmount th.rel-cols").removeClass("aagel-case");
+					$("#remaindedAmount th.rel-cols").addClass("tmam-case");
+				}
+			})
+		});
+
+
+
+
+
+
+
+
+	}
+
+
+
+
+
+
+
+
+
 	$(document).keydown(function(event) {
 		if (event.which == 118) { //F7 حفظ
 			$("button[type='submit']").trigger('click');
