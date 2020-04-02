@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
+use App\Models\AccountingSystem\AccountingBank;
 use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingBranchCategory;
 use App\Models\AccountingSystem\AccountingBranchShift;
@@ -39,12 +40,12 @@ class ClauseController extends Controller
      */
     public function create()
     {
-
+        $banks =AccountingBank::pluck('name','id')->toArray();
         $safes =AccountingSafe::pluck('name','id')->toArray();
         $clients =AccountingClient::pluck('name','id')->toArray();
         $suppliers =AccountingSupplier::pluck('name','id')->toArray();
         $benods=AccountingBenod::pluck('ar_name','id')->toArray();
-        return $this->toCreate(compact('safes','clients','suppliers','benods'));
+        return $this->toCreate(compact('safes','clients','suppliers','benods','banks'));
     }
 
     /**
@@ -56,73 +57,96 @@ class ClauseController extends Controller
     public function store(Request $request)
     {
     //    dd($request->all());
-        // $rules = [
+         $rules = [
+
+             'benod_id'=>'required|numeric|exists:accounting_benods,id',
 
 
-
-        // ];
-        // $this->validate($request,$rules);
+         ];
+         $this->validate($request,$rules);
         $requests = $request->all();
+        if ($request->hasFile('image')) {
+            $requests['image'] = saveImage($request->image, 'photos');
+        }
+        $safe = AccountingSafe::find($requests['safe_id']);
 
-        $safe=AccountingSafe::find($requests['safe_id']);
+        $clause = AccountingMoneyClause::create($requests);
 
-       $clause = AccountingMoneyClause::create($requests);
+        //--------------------------client----------------------------------------
+        if ($clause->concerned == 'client') {
 
-     //--------------------------client----------------------------------------
-       if($clause->concerned=='client'){
+            if ($clause->type == 'revenue') {
+                //من  العميل  للخزينه رصيد الخزينة  بيزيدالايراااد
+                //المبيعات
+                $safe->update([
 
-        if($clause->type=='revenue'){
-            //من  العميل  للخزينه رصيد الخزينة  بيزيدالايراااد
-//المبيعات
+                    'amount' => $safe->amount + $requests['amount']
+
+                ]);
+
+            } elseif ($clause->type == 'expenses') {
+                //من االخزنه للعمييل  بيقلل مد
+                //فى حاله المرتجاع   للمبيعات
+                if ($requests['amount'] <= $safe->amount) {
+                    $safe->update([
+
+                        'amount' => $safe->amount - $requests['amount']
+
+                    ]);
+                }
+            }
+            //--------------------------supplier------------------------------------
+        } elseif ($clause->concerned == 'supplier') {
+
+            $supplier = AccountingSupplier::find($requests['supplier_id']);
+            if ($clause->type == 'revenue') {
+                //من  المورد  للخزينه رصيد الخزينة  بيزيدالايراااد
+                // فى  حاله  المرتجعات
+                $safe->update([
+                    'amount' => $safe->amount + $requests['amount']
+                ]);
+                $supplier->update([
+                    'amount' => $supplier->amount + $requests['amount']
+                ]);
+            } elseif ($clause->type == 'expenses') {
+                // من المورد للخزنه  بيقلل رصيد الخزنه والرصيد للمورد كمان هيقل
+                //فى حاله  انشاء  مشترى
+                if ($requests['amount'] <= $safe->amount) {
+                    $safe->update([
+                        'amount' => $safe->amount - $requests['amount']
+                    ]);
+                }
+                if ($requests['amount'] <= $supplier->amount) {
+
+                    $supplier->update([
+                        'amount' => $supplier->amount - $requests['amount']
+                    ]);
+                }
+            }
+//            ------------------------general---------------------------
+        }elseif($clause->concerned == 'general'){
+
+
+            if ($clause->type == 'revenue') {
+
             $safe->update([
-
-            'amount'=>$safe->amount+$requests['amount']
-
+                'amount' => $safe->amount + $requests['amount']
             ]);
 
-        }elseif($clause->type=='expenses'){
-    //من االخزنه للعمييل  بيقلل مد
-//فى حاله المرتجاع   للمبيعات
-if($requests['amount'] <= $safe->amount){
-    $safe->update([
+        } elseif ($clause->type == 'expenses') {
+                // من  بيقلل رصيد الخزنه والرصيد  كمان هيقل
+                //فى حاله  انشاء  مشترى
+                if ($requests['amount'] <= $safe->amount) {
+                    $safe->update([
+                        'amount' => $safe->amount - $requests['amount']
+                    ]);
+                }
 
-        'amount'=>$safe->amount-$requests['amount']
+            }
 
-        ]);
-    }
         }
-//--------------------------supplier------------------------------------
-    }
-    elseif($clause->concerned=='supplier'){
 
-        $supplier=AccountingSupplier::find($requests['supplier_id']);
-        if($clause->type=='revenue'){
-            //من  المورد  للخزينه رصيد الخزينة  بيزيدالايراااد
-           // فى  حاله  المرتجعات
-            $safe->update([
-            'amount'=>$safe->amount+$requests['amount']
-            ]);
-            $supplier->update([
-            'amount'=>$supplier->amount+$requests['amount']
-            ]);
-        }
-        elseif($clause->type=='expenses'){
-    // من المورد للخزنه  بيقلل رصيد الخزنه والرصيد للمورد كمان هيقل
-    //فى حاله  انشاء  مشترى
-    if($requests['amount'] <= $safe->amount){
-        $safe->update([
-            'amount'=>$safe->amount-$requests['amount']
-            ]);
-    }
-    if($requests['amount'] <= $supplier->amount){
-
-    $supplier->update([
-            'amount'=>$supplier->amount-$requests['amount']
-            ]);
-        }
-    }
- }
-        alert()->success('تم اضافة سند بنجاح !')->autoclose(5000);
+        alert()->success('تم اضافة السند بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.clauses.index');
     }
 
@@ -146,7 +170,9 @@ if($requests['amount'] <= $safe->amount){
         $clients =AccountingClient::pluck('name','id')->toArray();
         $suppliers =AccountingSupplier::pluck('name','id')->toArray();
         $benods=AccountingBenod::pluck('ar_name','id')->toArray();
-        return $this->toEdit(compact('clause','safes','clients','suppliers','benods'));
+        $banks =AccountingBank::pluck('name','id')->toArray();
+
+        return $this->toEdit(compact('clause','safes','clients','suppliers','benods','banks'));
     }
 
     /**

@@ -149,84 +149,82 @@
 							<th>الباركود</th>
 							<th>المقدارمن الوحدة الاساسية</th>
 							<th>سعر البيع</th>
-                            <th>سعر الشراء</th>
-                            <th> الكمية</th>
+							<th>سعر الشراء</th>
+							<th> الكمية</th>
 							<th>العمليات</th>
 						</tr>
 					</thead>
 					<tbody class="add-products">
-					@if (isset($subunits))
-						@foreach($subunits as  $unit)
-					  <tr>
-						  <td>{{$unit->name}}</td>
-						  <td>{{$unit->bar_code}}</td>
-						  <td>{{$unit->main_unit_present}}</td>
-						  <td>{{$unit->selling_price}}</td>
-						  <td>{{$unit->purchasing_price}}</td>
-						  <td>{{$unit->quantity}}</td>
-						  <td></td>
-					  </tr>
-					  @endforeach
-					@endif
+						@if (isset($subunits))
+						@foreach($subunits as $unit)
+						<tr>
+							<td>{{$unit->name}}</td>
+							<td>{{$unit->bar_code}}</td>
+							<td>{{$unit->main_unit_present}}</td>
+							<td>{{$unit->selling_price}}</td>
+							<td>{{$unit->purchasing_price}}</td>
+							<td>{{$unit->quantity}}</td>
+							<td>
+
+								<a href="#" onclick="Delete({{$unit->id}})" class="delete-sub-unit">حذف</a>
+							</td>
+						</tr>
+						@endforeach
+						@endif
 					</tbody>
-                </table>
-
-                        <!-- services table-->
-        <table id="serviceTable" class="table ">
-            <thead>
-                <tr>
-                    <th>نوع الخدمة</th>
-                    <th>السعر</th>
-                    <th>الكود</th>
-                    <th>العمليات</th>
-                </tr>
-            </thead>
-            <tbody class="add-services">
-            </tbody>
-        </table>
-
-        <!-- component table-->
-        <table id="componentTable" class="table ">
-            <thead>
-                <tr>
-                    <th> اسم الصنف</th>
-                    <th>الكمية</th>
-                    <th>الوحدة الاساسية</th>
-                    <th>العمليات</th>
-                </tr>
-            </thead>
-            <tbody class="add-components">
-            </tbody>
-        </table>
-        <!-- end table-->
-        <!-- offers table-->
-        <table id="offerTable" class="table ">
-            <thead>
-                <tr>
-                    <th> اسم المنتج التابع</th>
-                    <th>العمليات</th>
-                </tr>
-            </thead>
-            <tbody class="add-offers">
-            </tbody>
-        </table>
-        <!-- end table-->
-
-
-
+				</table>
+				<!-- services table-->
+				<table id="serviceTable" class="table ">
+					<thead>
+						<tr>
+							<th>نوع الخدمة</th>
+							<th>السعر</th>
+							<th>الكود</th>
+							<th>العمليات</th>
+						</tr>
+					</thead>
+					<tbody class="add-services">
+					</tbody>
+				</table>
+				<!-- component table-->
+				<table id="componentTable" class="table ">
+					<thead>
+						<tr>
+							<th> اسم الصنف</th>
+							<th>الكمية</th>
+							<th>الوحدة الاساسية</th>
+							<th>العمليات</th>
+						</tr>
+					</thead>
+					<tbody class="add-components">
+					</tbody>
+				</table>
+				<!-- end table-->
+				<!-- offers table-->
+				<table id="offerTable" class="table ">
+					<thead>
+						<tr>
+							<th> اسم المنتج التابع</th>
+							<th>العمليات</th>
+						</tr>
+					</thead>
+					<tbody class="add-offers">
+					</tbody>
+				</table>
+				<!-- end table-->
 			</div>
 		</div>
 		<div id="menu2" class="tab-pane fade">
 			<div class="row">
 				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left taxs form-line new-radio-big-wrapper ">
-                    <span class="new-radio-wrap">
-                    <label for="active">مفعل </label>
-					{!! Form::radio("is_active",1,['class'=>'form-control','id'=>'active'])!!}
-                </span>
-                 <span class="new-radio-wrap">
-                    <label for="dis_active">غير مفعل </label>
-                    {!! Form::radio("is_active",0,['class'=>'form-control','id'=>'dis_active'])!!}
-                </span>
+					<span class="new-radio-wrap">
+						<label for="active">مفعل </label>
+						{!! Form::radio("is_active",1,['class'=>'form-control','id'=>'active'])!!}
+					</span>
+					<span class="new-radio-wrap">
+						<label for="dis_active">غير مفعل </label>
+						{!! Form::radio("is_active",0,['class'=>'form-control','id'=>'dis_active'])!!}
+					</span>
 				</div>
 				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
 					<label>الباركود </label>
@@ -279,32 +277,29 @@
 				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
 					<label> تاريخ الانتهاء </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
 					{!! Form::date("expired_at",null,['class'=>'form-control'])!!}
-                </div>
-
-                <div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
-					<label>مده  التنبية</label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+				</div>
+				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+					<label>مده التنبية</label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
 					{!! Form::number("alert_duration",null,['class'=>'form-control'])!!}
 				</div>
-
 				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
 					<label>عدد أيام فترة الركود</label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
 					{!! Form::number("num_days_recession",null,['class'=>'form-control'])!!}
 				</div>
-            </div>
-
-                    <!--discounts table-->
-            <table id="discountTable" class="table ">
-                <thead>
-                    <tr>
-                        <th> الكمية الاساسية</th>
-                        <th> الكمية الهدية</th>
-                        <th>العمليات</th>
-                    </tr>
-                </thead>
-                <tbody class="add-discounts">
-                </tbody>
-            </table>
-            <!-- end table-->
+			</div>
+			<!--discounts table-->
+			<table id="discountTable" class="table ">
+				<thead>
+					<tr>
+						<th> الكمية الاساسية</th>
+						<th> الكمية الهدية</th>
+						<th>العمليات</th>
+					</tr>
+				</thead>
+				<tbody class="add-discounts">
+				</tbody>
+			</table>
+			<!-- end table-->
 		</div>
 		<div id="menu4" class="tab-pane fade">
 			<div class="row">
@@ -319,22 +314,38 @@
 				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal4" id="discounts_button">
 					العروض والخصومات
 				</button>
-            </div>
-
+			</div>
 		</div>
 		<div id="menu5" class="tab-pane fade">
 			<div class="row">
+
 				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left taxs form-line new-radio-big-wrapper ">
-					<span class="new-radio-wrap">
-						<label for="yes1">يوجد ضريبة </label>
-						{!! Form::radio("tax",1,['class'=>'form-control','id'=>'yes1','value'=>1])!!}
-					</span>
-					<span class="new-radio-wrap">
-					<label for="no1">لايوجد ضريبة</label>
-						{!! Form::radio("tax",0,['class'=>'form-control', 'id'=>'no1','value'=>0])!!}
-					</span>
+
+						{{--{!! Form::radio("tax",$has_tax,['class'=>'form-control','id'=>'yes1','value'=>==)!!}--}}
+						@if (isset($is_edit))
+
+						<span class="new-radio-wrap">
+						<label for="yes1">يوجد ضريبة  </label>
+						   <input  type="radio" name="tax" class="form-control" id="yes1" value={{($has_tax==1)?1:0}}   {{($has_tax==1)?'checked':null }}>
+						</span>
+						<span class="new-radio-wrap">
+						<label for="no1">لايوجد ضريبة</label>
+							<input  type="radio" name="tax" class="form-control" id="no1" value={{($has_tax==1)?0:1}}     {{($has_tax==1)?null:'checked'}}>
+						</span>
+						@else
+						<span class="new-radio-wrap">
+						<label for="yes1">يوجد ضريبة  </label>
+							<input  type="radio" name="tax" class="form-control" id="yes1" value="1">
+						</span>
+							<span class="new-radio-wrap">
+						<label for="no1">لايوجد ضريبة</label>
+							<input  type="radio" name="tax" class="form-control" id="no1" value="0">
+						</span>
+
+						@endif
+
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left prices_taxs form-line new-radio-big-wrapper ">
+				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left form-line new-radio-big-wrapper ">
 					<span class="new-radio-wrap">
 						<label for="yes2"> السعر شامل الضريبة </label>
 						{!! Form::radio("price_has_tax",1,['class'=>'form-control','id'=>'yes2','value'=>1])!!}
@@ -346,9 +357,11 @@
 				</div>
 				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left prices_taxs">
 					<label> اسم شريحة الضرائب</label>
-					{!! Form::select("tax_band_id[]",$taxs,null,['class'=>'form-control selectpicker','multiple','placeholder'=>' اسم شريحة الضرائب '])!!}
+					{!! Form::select("tax_band_id[]",$taxs,null,['class'=>'form-control selectpicker','multiple'])!!}
 				</div>
 			</div>
+
+
 		</div>
 	</div>
 	<div class="text-center col-md-12 m--margin-bottom-5">
@@ -360,10 +373,6 @@
 </div>
 <!-- /collapsible with different panel styling -->
 <!-- end table-->
-
-
-
-
 <!-- end table-->
 <!-- Modal1 -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -389,11 +398,10 @@
 				<input type="text" class="form-control the-unit-spri" id="selling_price" required>
 				<label>سعر الشراء</label>
 				<span class="required--in">*</span>
-                <input type="text" class="form-control the-unit-ppri" id="purchasing_price" required>
-                <label> الكميه</label>
+				<input type="text" class="form-control the-unit-ppri" id="purchasing_price" required>
+				<label> الكميه</label>
 				<span class="required--in">*</span>
 				<input type="text" class="form-control the-unit-quantity" id="quantity" required>
-
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
@@ -511,6 +519,8 @@
 @section('scripts')
 <script>
 	$(document).ready(function() {
+		alert("sefd");
+
 		$("#components_button").hide();
 		$("#offers_button").hide();
 		$("#discounts_button").hide();
@@ -522,7 +532,16 @@
 		$("#offerTable").hide();
 		$("#discountTable").hide();
 		$("#serviceTable").hide();
-	});
+
+
+
+		$("input[type='radio']").each(function(){
+			var radioValue = $("input[name='tax']:checked").val();
+			alert("fdssssssssss");
+			if(radioValue){
+				alert("Your are a - " + radioValue);
+			}
+		});
 	var bigData = [];
 	var bigDataComponent = [];
 	var bigDataOffer = [];
@@ -536,8 +555,8 @@
 		data.main_unit_present = $('#main_unit_present').val();
 		data.selling_price = $('#selling_price').val();
 		data.purchasing_price = $('#purchasing_price').val();
-        data.quantity = $('#quantity').val();
-		if (data.name !== '' && data.main_unit_present !== '' && data.selling_price !== '' && data.purchasing_price !== ''&& data.quantity !== '') {
+		data.quantity = $('#quantity').val();
+		if (data.name !== '' && data.main_unit_present !== '' && data.selling_price !== '' && data.purchasing_price !== '' && data.quantity !== '') {
 			$("tr.editted-row").remove();
 			swal({
 				title: "تم إضافة الوحدة الفرعية بنجاح",
@@ -557,7 +576,6 @@
                     <td class="prod-spri">${product.selling_price}</td>
                     <td class="prod-ppri">${product.purchasing_price}</td>
                     <td class="prod-quantity">${product.quantity}</td>
-
    					<td>
 						<a href="#" data-toggle="modal" class="edit-this-row" data-target="#exampleModal" data-original-title="تعديل">
 							<i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i>
@@ -606,8 +624,7 @@
 				$('#exampleModal #main_unit_present').val($this.parents('tr').find('.prod-pre').html());
 				$('#exampleModal #selling_price').val($this.parents('tr').find('.prod-spri').html());
 				$('#exampleModal #purchasing_price').val($this.parents('tr').find('.prod-ppri').html());
-                $('#exampleModal #quantity').val($this.parents('tr').find('.prod-quantity').html());
-
+				$('#exampleModal #quantity').val($this.parents('tr').find('.prod-quantity').html());
 				var row_index_edit = $(this).parents('tr').index();
 				bigData.splice(row_index_edit, 1);
 			});
@@ -998,6 +1015,45 @@
 			source: availableTags
 		});
 	});
+</script>
+
+<script>
+	function Delete(id) {
+		var item_id=id;
+		console.log(item_id);
+		swal({
+			title: "هل أنت متأكد ",
+			text: "هل تريد حذف هذة  الوحده ؟",
+			icon: "warning",
+			buttons: ["الغاء", "موافق"],
+			dangerMode: true,
+
+		}).then(function(isConfirm){
+			if(isConfirm){
+				$.ajax({
+					type: "get",
+
+					url: '/accounting/destroy_subunit/'+ item_id,
+
+					success: function (data) {
+
+						item_id.remove();
+
+
+
+					},error:function (data) {
+						console.log(data);
+					}
+
+				});
+
+
+			}
+			else{
+				swal("تم االإلفاء", "حذف  الوحدة  تم الغاؤه",'info',{buttons:'موافق'});
+			}
+		});
+	}
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
 <script src="{{asset('admin/assets/js/get_faces_by_branch.js')}}"></script>

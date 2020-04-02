@@ -14,7 +14,7 @@ $(function () {
                 branchSelect.append('<option value="">اختر الفرع</option>');
                 data.forEach(branch => {
                     branchSelect.append(`
-    <option value="${branch.id}">${branch.name}</option>
+         <option value="${branch.id}">${branch.name}</option>
     `);
                 });
                 branchSelect.selectpicker('refresh');

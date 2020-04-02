@@ -10,7 +10,7 @@ class AccountingPurchaseItem extends Model
 {
 
 
-    protected $fillable = ['product_id','quantity','price','purchase_id','purchase_return_id','tax','unit_id','price_after_tax','unit_type'];
+    protected $fillable = ['product_id','quantity','price','purchase_id','purchase_return_id','tax','unit_id','price_after_tax','unit_type','expire_date'];
     protected $table='accounting_purchases_items';
 
 
@@ -23,6 +23,18 @@ class AccountingPurchaseItem extends Model
     {
 
         return $this->belongsTo(AccountingPurchase::class,'purchase_id');
+    }
+
+    public function unit()
+    {
+        return $this->belongsTo(AccountingProductSubUnit::class,'unit_id');
+    }
+
+
+
+    public  function  allDiscounts(){
+        return $this->hasMany(AccountingItemDiscount::class,'item_id');
+
     }
 
 

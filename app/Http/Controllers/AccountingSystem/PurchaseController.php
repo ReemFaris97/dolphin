@@ -65,16 +65,17 @@ class PurchaseController extends Controller
     public function store(Request $request)
     {
         $requests = $request->except('user_id');
-// dd($requests);
 
+//        dd($request['user_id']);
+//dd($requests);
         $rules = [
 
-            // 'supplier_id'=>'required|numeric|exists:accounting_suppliers,id',
+           'supplier_id'=>'required|numeric|exists:accounting_suppliers,id',
                 // 'reminder'=>'required|numeric|gt:0',
 
         ];
         $this->validate($request,$rules);
-        $user=User::find($request['user_id']);
+        $user=User::find(auth()->user()->id);
 
         $requests['branch_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:Null;
 
@@ -111,6 +112,7 @@ class PurchaseController extends Controller
                 'unit_type'=>($merge['2']!='main-'.$product->id)?'sub':'main',
                 'tax'=>$merge['4'],
                 'price_after_tax'=>$merge['3']+$merge['4'],
+                'expire_date'=>$requests['expire_date'],
                 'purchase_id'=>$purchase->id
             ]);
             $items=$request->items;
@@ -122,25 +124,28 @@ class PurchaseController extends Controller
 
                     if($ke=='discount_item_percentage'){
                         foreach ($item2 as $k1 => $value) {
+
                                 if($item2[$k1]!=0){
+
                                     $discountItem= AccountingItemDiscount::create([
                                     'discount'=> $item2[$k1],
                                     'discount_type'=>'percentage',
                                     'item_id'=>$item->id,
-                                                        ]);
+                                    'type'=>'purchase',
+                                    'affect_tax'=>$item1['discount_item_effectTax'][$k1]
+                                ]);
                            }
 
                         }
                     }elseif($ke=='discount_item_value'){
-
                         foreach ($item2 as $k1 => $value) {
                             if($item2[$k1]!=0){
-
                                 $discountItem= AccountingItemDiscount::create([
                                 'discount'=> $item2[$k1],
                                 'discount_type'=>'amount',
                                 'item_id'=>$item->id,
-                                'type'=>'purchase'
+                                'type'=>'purchase',
+                                'affect_tax'=>$item1['discount_item_effectTax'][$k1]
                                 ]);
                              }
 
@@ -160,8 +165,10 @@ class PurchaseController extends Controller
              ///if-main-unit
 
              if($merge['2']!='main-'.$product->id){
-            $product->update([
-                'quantity'=>$product->quantity- $merge['1'],
+                 $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->first();
+
+                 $productstore->update([
+                'quantity'=>$productstore->quantity - $merge['1'],
             ]);
         }else{
 
@@ -192,19 +199,21 @@ class PurchaseController extends Controller
         }
     }
 
-if($purchase->payment=='cash'){
-       $store_id=auth()->user()->accounting_store_id;
-        $store=AccountingStore::find($store_id);
-         $safe=AccountingSafe::where('model_type', $store->model_type)->where('model_id', $store->model_id)->first();
-        $safe->update([
-            'amount'=>$safe->amount-$purchase->total
-        ]);
-        }elseif ($purchase->payment=='agel'){
-    $supplier=AccountingSupplier::find( $purchase->supplier_id);
-    $supplier->update([
-        'balance'=>$supplier->balance +$purchase->total
-    ]);
-}
+        if($purchase->payment=='cash'){
+
+               $store_id=auth()->user()->accounting_store_id;
+                $store=AccountingStore::find($store_id);
+                 $safe=AccountingSafe::where('model_type', $store->model_type)->where('model_id', $store->model_id)->first();
+                $safe->update([
+                    'amount'=>$safe->amount-$purchase->total
+                ]);
+                }elseif ($purchase->payment=='agel'){
+
+            $supplier=AccountingSupplier::find( $purchase->supplier_id);
+            $supplier->update([
+                'balance'=>$supplier->balance +$purchase->total
+            ]);
+        }
         alert()->success('تمت عملية الشراء بنجاح !')->autoclose(5000);
         return back();
     }

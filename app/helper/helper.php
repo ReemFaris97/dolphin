@@ -108,9 +108,7 @@ function products_not_settement($store=null){
 
         $products_id=App\Models\AccountingSystem\AccountingProductStore::where('store_id',$store)->where('quantity','!=',Null)->where('quantity','>',0)->pluck('product_id')->toArray();
 
-        $products=App\Models\AccountingSystem\AccountingProduct::whereIn('id',$products_id)->where('is_settlement',0)->get()->mapWithKeys(function ($q) {
-            return [$q['id'] => $q['name']];
-        });
+        $products=App\Models\AccountingSystem\AccountingProduct::select(['id', 'name'])->whereIn('id',$products_id)->where('is_settlement',0)->get();
 
 
     }else{

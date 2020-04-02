@@ -13,10 +13,10 @@
 	<div class="panel-heading">
 		<h5 class="panel-title"> فاتوره مشتريات
 			<b class="time-r" id="theTime"></b>
-			<a href="#" class="btn btn-success bill-cogs" target="_blank" rel="noreferrer noopener">
-			<i class="fas fa-cogs"></i>
-			إعدادات الفاتورة
-			<i class="fas fa-cogs"></i>
+			<a href="{{url("/accounting/settings/purchases_bill")}}" class="btn btn-success bill-cogs" target="_blank" rel="noreferrer noopener">
+				<i class="fas fa-cogs"></i>
+				إعدادات الفاتورة
+				<i class="fas fa-cogs"></i>
 			</a>
 		</h5>
 		<div class="heading-elements">
@@ -51,12 +51,12 @@
 							<label>بحث بالباركود </label>
 							<input class="form-control" type="text" id="barcode_search">
 						</div>
-						 <a href="{{route('accounting.products.create')}}" target="_blank" class="btn btn-primary pos-abs-btn">
-						  	اضافه  منتج  جديد 
-						  </a>
+						<a href="{{route('accounting.products.create')}}" target="_blank" class="btn btn-primary pos-abs-btn">
+							اضافه منتج جديد
+						</a>
 					</div>
 					<div class="col-md-4 col-sm-4 col-xs-12">
-                   
+
 
 						<div class="form-group block-gp">
 							<label>اسم القسم </label>
@@ -81,16 +81,19 @@
                     {{(getsetting('barcode_enable')==1) ? 'barcode_enable':'' }}
                     {{(getsetting('unit_enable')==1) ? 'unit_enable':'' }}
                     {{(getsetting('quantity_enable')==1) ? 'quantity_enable':'' }}
+					{{(getsetting('product_expire_date')==1) ? 'total_expiration_enable':'' }}
                     {{(getsetting('unit_price_before_enable') == 1) ? 'unit_price_before_enable':''}}
                     {{(getsetting('unit_price_after_enable')==1) ? 'unit_price_after_enable':'' }}
                     {{(getsetting('total_price_before_enable')==1) ? 'total_price_before_enable':'' }}
-                    {{(getsetting('total_price_after_enable')==1) ? 'total_price_after_enable':'' }} ">
+                    {{(getsetting('total_price_after_enable')==1) ? 'total_price_after_enable':'' }} 
+                    ">
 						<thead>
 							<tr>
 								<th rowspan="2">م</th>
 								<th rowspan="2" class="maybe-hidden name_enable">اسم الصنف</th>
 								<th rowspan="2" class="maybe-hidden unit_enable">الوحدة</th>
 								<th rowspan="2" class="maybe-hidden quantity_enable">الكمية</th>
+								<th rowspan="2" class="maybe-hidden expiration_enable">تاريخ الصلاحية</th>
 								<th rowspan="2" class="maybe-hidden unit_price_before_enable">سعر الوحدة</th>
 								<th rowspan="2" class="maybe-hidden unit_price_after_enable">قيمة الضريبة</th>
 								<th colspan="2" rowspan="1" class="th_lg">الإجمالى</th>
@@ -249,6 +252,14 @@
 					var priceHasTax = selectedProduct.data('price-has-tax');
 					var totalTaxes = selectedProduct.data('total-taxes');
 					var productUnits = selectedProduct.data('subunits');
+					var expirationDate = selectedProduct.data('product_expiration');
+					var dateInpt = '';
+					let today = new Date().toISOString().substr(0, 10);
+					if (expirationDate == 1) {
+						var dateInpt = '<input type="date" class="expiration form-control" name="expire_date" value="' + today + '" , min="' + today + '">';
+					} else {
+						var dateInpt = '---';
+					}
 					let unitName = productUnits.map(a => a.name);
 					let unitId = productUnits.map(c => c.id);
 					let unitPrice = productUnits.map(b => b.selling_price);
@@ -281,6 +292,9 @@
 							<td class="product-quantity maybe-hidden quantity_enable">
 								<input type="number" placeholder="الكمية" step="1" min="1" value="1" id="sale" class="form-control" name="quantity[${ProductId}]">
 							</td>
+							<td class="expiration-date maybe-hidden expiration_enable">
+								${dateInpt}
+							</td>
 							<td class="single-price-before maybe-hidden unit_price_before_enable">
 								<input type="number" class="form-control" step="any" value="${singlePriceBefore}" name="prices[${ProductId}]">
 							</td>
@@ -306,7 +320,7 @@
 						</tr>
 					`);
 					$('.popover-dismiss').popover({
-					  trigger: 'focus'
+						trigger: 'focus'
 					});
 					$("#modals-area").append(`<div id="discMod${rowNum}" class="modal fade special-discount-modal" role="dialog">
 					  <div class="modal-dialog">
@@ -330,7 +344,8 @@
 									<input type="number" step="any" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ" name="items[${rowNum}][discount_item_value][]">
 								</div>
 								<div class="form-group col-xs-4">
-									<label>يؤثر في الضريبة <input class="effectTax" type="checkbox"></label>
+									<label>يؤثر في الضريبة <input class="effectTax" type="checkbox" name="items[${rowNum}][discount_item_effectTax][]" value="1"></label>
+									<label>لا يؤثر في الضريبة <input class="" type="checkbox" name="items[${rowNum}][discount_item_effectTax][]" value="0"></label>
 								</div>
 							</div>
 							<div class="anotherAddedSpecialDiscounts"></div>
@@ -350,7 +365,7 @@
 						$(this).parent().prev('.anotherAddedSpecialDiscounts').append(`<div class="single-special-dis-wrap clearfix row">
                             <div class="form-group col-xs-4 ddd-none">
 								<label>رقم الخصم</label>
-								<input type="text" class="form-control " value=${discountNum} >
+								<input type="text" class="form-control " value="${discountNum}" >
 							</div>
                         	<div class="form-group col-xs-4">
 								<label>ادخل الخصم بالنسبة</label>
@@ -361,11 +376,13 @@
 								<input type="number" step="any" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ" name="items[${itemNumber}][discount_item_value][]">
 							</div>
 							<div class="form-group col-xs-4">
-								<label>يؤثر في الضريبة <input class="effectTax" type="checkbox"></label>
-							</div>
+								<label>يؤثر في الضريبة <input class="effectTax" type="checkbox" name="items[${rowNum}][discount_item_effectTax][]" value="1"></label>
+								<label>لا يؤثر في الضريبة <input class="" type="checkbox" name="items[${rowNum}][discount_item_effectTax][]" value="0"></label>
+
+								</div>
 							<a href="#" class="removeThisSinglSpecDisc"><span class="icon-cross"></span></a>
 						</div>`);
-						$(".product-quantity input").each(function(){
+						$(".product-quantity input").each(function() {
 							$(this).trigger('change');
 						});
 						$("a.removeThisSinglSpecDisc").on('click', function(e) {
@@ -487,9 +504,9 @@
 					});
 
 					function calcInfo() {
-//						$(".product-quantity input").each(function(){
-//							$(this).trigger('change');
-//						})
+						//						$(".product-quantity input").each(function(){
+						//							$(this).trigger('change');
+						//						})
 						var amountBeforeDariba = 0;
 						$(".whole-price-before").each(function() {
 							amountBeforeDariba += Number($(this).text());
@@ -513,11 +530,11 @@
 						var total = 0;
 						if (byAmount == 0 && byPercentage == 0) {
 							$("#demandedAmount span.dynamic-span").html(amountAfterDariba.toFixed(2));
-							total =$("#demandedAmount").val();
+							total = $("#demandedAmount").val();
 							$("#demandedAmount1").val(amountAfterDariba);
 						} else {
 							$("input#byPercentage").change(function() {
-							  	if ((Number($(this).val())) > 100) {
+								if ((Number($(this).val())) > 100) {
 									alert('لا يمكن ان تكون قيم الخصم بالنسبة أكبر من 100% .');
 									$(this).val(0);
 								}
@@ -564,42 +581,32 @@
 						var theSingleTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
 						$('#row' + onlyModNum).find(".single-price-after").text(theSingleTax.toFixed(2));
 					});
+
 					$('#discMod' + rowNum).on('hidden.bs.modal', function(e) {
 						var modId = $(this).attr('id');
 						var onlyModNum = modId.substr(7, modId.length);
 						var finalAftDisc = Number($('#row' + onlyModNum).find('.whole-price-before').attr('tempPriBef'));
-						var totalValDiscs = 0;
-						var totalPerDiscs = 0;
-						$(this).find('.single-special-dis-wrap').each(function() {
-							totalValDiscs += Number($(this).find('.singleSpecialDiscByVal').val());
-							totalPerDiscs += Number($(this).find('.singleSpecialDiscByPer').val());
-						});
-						if (totalValDiscs > finalAftDisc) {
-							alert('عفوا , لايمكن ان يتم إضافة خصم على المنتج أكبر من قيمته المستحقة' + finalAftDisc);
-						} else {
-							finalAftDisc -= totalValDiscs;
-						}
-						if (totalValDiscs > finalAftDisc) {
-							alert('عفوا , لايمكن ان يتم إضافة خصم على المنتج أكبر من نسبة 100%');
-						} else {
-							finalAftDisc -= (totalPerDiscs / 100) * finalAftDisc;
-						}
-						if ($(this).find(".effectTax").is(":checked")) {
+						var totalValDiscs, totalPerDiscs = 0;
+						var hhhlength = $(this).find('.single-special-dis-wrap').length + 1;
+						var rows = $(this).find('.single-special-dis-wrap');
+						for (var i = 0; i < rows.length; i++) {
+							finalAftDisc -= Number($(rows[i]).find('.singleSpecialDiscByVal').val());
+							finalAftDisc -= (Number($(rows[i]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc;
 							$('#row' + onlyModNum).find('.whole-price-before').text(finalAftDisc.toFixed(2));
-							var currentDisc = Number($('#row' + onlyModNum).data('tot-taxes')) / 100;
-							var newNetTax = Number(currentDisc) * Number(finalAftDisc);
-							$('#row' + onlyModNum).find('.single-price-after').text(newNetTax.toFixed(2));
-							var newWholePriceAfter = Number(finalAftDisc) + Number(newNetTax);
-							$('#row' + onlyModNum).find('.whole-price-after').text(newWholePriceAfter.toFixed(2));
-							calcInfo();
-						} else if (!($(this).find(".effectTax").is(":checked"))) {
-							$('#row' + onlyModNum).find('.whole-price-before').text(finalAftDisc.toFixed(2));
-							var newNetTax = $('#row' + onlyModNum).find('.single-price-after').text();
+							if ($(rows[i]).find(".effectTax").is(":checked")) {
+								var currentDisc = Number($('#row' + onlyModNum).data('tot-taxes')) / 100;
+								var newNetTax = Number(currentDisc) * Number(finalAftDisc);
+								$('#row' + onlyModNum).find('.single-price-after').text(newNetTax.toFixed(2));
+							} else if (!($(rows[i]).find(".effectTax").is(":checked"))) {
+								var newNetTax = $('#row' + onlyModNum).find('.single-price-after').text()
+							}
 							var newWholePriceAfter = Number(finalAftDisc) + Number(newNetTax);
 							$('#row' + onlyModNum).find('.whole-price-after').text(newWholePriceAfter.toFixed(2));
 							calcInfo();
 						}
 					});
+
+
 					//**************    Calc while changing table body ***********************
 					$(".bill-table tbody").change(calcInfo);
 					//**************    Calc while removing a product ************************
@@ -656,6 +663,7 @@
 		});
 
 	});
+
 	function byBarcode() {
 		$(".tempDisabled").removeClass("tempDisabled");
 		$(".tempobar").find('option').prop('selected', true);
@@ -670,6 +678,14 @@
 		var priceHasTax = selectedProduct.data('price-has-tax');
 		var totalTaxes = selectedProduct.data('total-taxes');
 		var productUnits = selectedProduct.data('subunits');
+		var expirationDate = selectedProduct.data('product_expiration');
+		var dateInpt = '';
+		let today = new Date().toISOString().substr(0, 10);
+		if (expirationDate == 1) {
+			var dateInpt = '<input type="date" class="expiration form-control" value="' + today + '" , min="' + today + '">';
+		} else {
+			var dateInpt = '---';
+		}
 		var unitName = productUnits.map(a => a.name);
 		var unitId = productUnits.map(c => c.id);
 		var unitPrice = productUnits.map(b => b.selling_price);
@@ -702,6 +718,9 @@
 							<td class="product-quantity maybe-hidden quantity_enable">
 								<input type="number" step="1" placeholder="الكمية" min="1" value="1" id="sale" class="form-control" name="quantity[${ProductId}]">
 							</td>
+							<td class="expiration-date maybe-hidden expiration_enable">
+								${dateInpt}
+							</td>
 							<td class="single-price-before maybe-hidden unit_price_before_enable">
 								<input type="number" step="any" class="form-control" value="${singlePriceBefore}" name="prices[${ProductId}]">
 							</td>
@@ -725,10 +744,11 @@
 							</td>
 						</tr>
 					`);
-					$('.popover-dismiss').popover({
-					  trigger: 'focus'
-					});
-					$("#modals-area").append(`<div id="discMod${rowNum}" class="modal fade special-discount-modal" role="dialog">
+
+		$('.popover-dismiss').popover({
+			trigger: 'focus'
+		});
+		$("#modals-area").append(`<div id="discMod${rowNum}" class="modal fade special-discount-modal" role="dialog">
 					  <div class="modal-dialog">
 						<div class="modal-content">
 						  <div class="modal-header">
@@ -739,7 +759,7 @@
 							<div class="single-special-dis-wrap clearfix row">
                                 <div class="form-group col-xs-4 ddd-none" >
 								<label>رقم الخصم</label>
-								<input type="text" class="form-control " value=${discountNum} >
+								<input type="text" class="form-control " value="${discountNum}" >
 							</div>
 								<div class="form-group col-xs-4">
 									<label>ادخل الخصم بالنسبة</label>
@@ -750,7 +770,8 @@
 									<input type="number" step="any" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ" name="items[${rowNum}][discount_item_value][]">
 								</div>
 								<div class="form-group col-xs-4">
-									<label>يؤثر في الضريبة <input class="effectTax" type="checkbox"></label>
+									<label>يؤثر في الضريبة <input class="effectTax" type="checkbox" name="items[${rowNum}][discount_item_effectTax][]" value="1"></label>
+									<label>لا يؤثر في الضريبة <input class="" type="checkbox" name="items[${rowNum}][discount_item_effectTax][]" value="0"></label>
 								</div>
 							</div>
 							<div class="anotherAddedSpecialDiscounts"></div>
@@ -781,8 +802,10 @@
 								<input type="number" step="any" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ" name="items[${itemNumber}][discount_item_value][]">
 							</div>
 							<div class="form-group col-xs-4">
-								<label>يؤثر في الضريبة <input class="effectTax" type="checkbox"></label>
-							</div>
+								<label>يؤثر في الضريبة <input class="effectTax" type="checkbox" name="items[${rowNum}][discount_item_effectTax][]" value="1"></label>
+								<label>لا يؤثر في الضريبة <input class="" type="checkbox" name="items[${rowNum}][discount_item_effectTax][]" value="0"></label>
+
+                            </div>
 							<a href="#" class="removeThisSinglSpecDisc"><span class="icon-cross"></span></a>
 						</div>`);
 			$("a.removeThisSinglSpecDisc").on('click', function(e) {
@@ -925,11 +948,11 @@
 			var byPercentage = $("input#byPercentage").val();
 			$("input#byAmount").attr('max', amountAfterDariba);
 			var total = 0;
-			total =$("#demandedAmount").val();
+			total = $("#demandedAmount").val();
 			$("#demandedAmount1").val(total);
 			if (byAmount == 0 && byPercentage == 0) {
 				$("#demandedAmount span.dynamic-span").html(amountAfterDariba.toFixed(2));
-				total =$("#demandedAmount").val();
+				total = $("#demandedAmount").val();
 				$("#demandedAmount1").val(total);
 
 			} else {
@@ -987,33 +1010,20 @@
 			var modId = $(this).attr('id');
 			var onlyModNum = modId.substr(7, modId.length);
 			var finalAftDisc = Number($('#row' + onlyModNum).find('.whole-price-before').attr('tempPriBef'));
-			var totalValDiscs = 0;
-			var totalPerDiscs = 0;
-			$(this).find('.single-special-dis-wrap').each(function() {
-				totalValDiscs += Number($(this).find('.singleSpecialDiscByVal').val());
-				totalPerDiscs += Number($(this).find('.singleSpecialDiscByPer').val());
-			});
-			if (totalValDiscs > finalAftDisc) {
-				alert('عفوا , لايمكن ان يتم إضافة خصم على المنتج أكبر من قيمته المستحقة' + finalAftDisc);
-			} else {
-				finalAftDisc -= totalValDiscs;
-			}
-			if (totalValDiscs > finalAftDisc) {
-				alert('عفوا , لايمكن ان يتم إضافة خصم على المنتج أكبر من نسبة 100%');
-			} else {
-				finalAftDisc -= (totalPerDiscs / 100) * finalAftDisc;
-			}
-			if ($(this).find(".effectTax").is(":checked")) {
+			var totalValDiscs, totalPerDiscs = 0;
+			var hhhlength = $(this).find('.single-special-dis-wrap').length + 1;
+			var rows = $(this).find('.single-special-dis-wrap');
+			for (var i = 0; i < rows.length; i++) {
+				finalAftDisc -= Number($(rows[i]).find('.singleSpecialDiscByVal').val());
+				finalAftDisc -= (Number($(rows[i]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc;
 				$('#row' + onlyModNum).find('.whole-price-before').text(finalAftDisc.toFixed(2));
-				var currentDisc = Number($('#row' + onlyModNum).data('tot-taxes')) / 100;
-				var newNetTax = Number(currentDisc) * Number(finalAftDisc);
-				$('#row' + onlyModNum).find('.single-price-after').text(newNetTax.toFixed(2));
-				var newWholePriceAfter = Number(finalAftDisc) + Number(newNetTax);
-				$('#row' + onlyModNum).find('.whole-price-after').text(newWholePriceAfter.toFixed(2));
-				calcInfo();
-			} else if (!($(this).find(".effectTax").is(":checked"))) {
-				$('#row' + onlyModNum).find('.whole-price-before').text(finalAftDisc.toFixed(2));
-				var newNetTax = $('#row' + onlyModNum).find('.single-price-after').text();
+				if ($(rows[i]).find(".effectTax").is(":checked")) {
+					var currentDisc = Number($('#row' + onlyModNum).data('tot-taxes')) / 100;
+					var newNetTax = Number(currentDisc) * Number(finalAftDisc);
+					$('#row' + onlyModNum).find('.single-price-after').text(newNetTax.toFixed(2));
+				} else if (!($(rows[i]).find(".effectTax").is(":checked"))) {
+					var newNetTax = $('#row' + onlyModNum).find('.single-price-after').text()
+				}
 				var newWholePriceAfter = Number(finalAftDisc) + Number(newNetTax);
 				$('#row' + onlyModNum).find('.whole-price-after').text(newWholePriceAfter.toFixed(2));
 				calcInfo();
@@ -1035,12 +1045,11 @@
 
 	}
 	$(document).keydown(function(event) {
-    if(event.which == 118) { //F7
-        $("button[type='submit']").trigger('click');
-        return false;
-    }
-});
-
+		if (event.which == 118) { //F7
+			$("button[type='submit']").trigger('click');
+			return false;
+		}
+	});
 </script>
 <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
 <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
@@ -1054,6 +1063,7 @@
 		}
 		return 'هل أنت متأكد من غلق هذه الصفحة ؟ سيتم فقدان كال البيانات التي تم ادخالها!!';
 	};
+
 	function refreshTime() {
 		var today = new Date();
 		var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();

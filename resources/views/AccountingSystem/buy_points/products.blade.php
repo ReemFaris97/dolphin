@@ -30,7 +30,8 @@
    data-subunits="{{json_encode($merged)}}"
    data-total_discounts="{{$product->total_discounts}}"
    data-last-price="{{($lastPrice)? $lastPrice->price:'0' }}"
-   data-average="{{($average)? $average:'0' }}"
+   data-average="{{($average)? $average:'0' }}" 
+   data-product_expiration="{{($product->type=='product_expiration')? '1':'0' }}"
    >
     {{$product->name}} - {{$product->bar_code}}
    </option>

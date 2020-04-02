@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class AccountingMoneyClause extends Model
 {
     protected $fillable = ['benod_id','type','default','sanad_num','user_id','num',
-    'safe_id','amount','concerned','client_id','supplier_id','notes','payment','company_id','branch_id'];
+    'safe_id','amount','concerned','client_id','supplier_id','notes','payment','company_id','branch_id',
+        'bank_id','num_transaction','image','name'];
 
-    public function   safe(){
+    public function  safe(){
         return $this->belongsTo(AccountingSafe::class,'safe_id');
     }
 
