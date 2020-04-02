@@ -78,8 +78,8 @@
                    </div>
 
                    <div id="menu2" class="tab-pane fade">
-        <div class="row">
-            <div class="form-group col-md-6 pull-left">
+                   <div class="row">
+                     <div class="form-group col-md-6 pull-left">
                                 <label>التفعيل </label>
                               @if ($product->is_active=="1")
                                   مفعل
@@ -239,11 +239,8 @@
                             <tbody class="add-taxs">
                             @foreach($taxs as $tax)
                             <tr>
-
-
                                 <td>{!!  $tax->Taxband->name !!}</td>
                                 <td>{!!  $tax->Taxband->percent !!}</td>
-
                             </tr>
                             @endforeach
                             </tbody>

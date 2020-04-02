@@ -4,6 +4,7 @@
 @section('action', URL::route('accounting.categories.index'))
 @section('styles')
 <link href="{{asset('admin/assets/css/jquery.datetimepicker.min.css')}}" rel="stylesheet" type="text/css">
+
 <link href="{{asset('admin/assets/css/all.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/bill.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/customized.css')}}" rel="stylesheet" type="text/css">
@@ -36,6 +37,7 @@
 					</div>
 					<div class="col-md-4 col-sm-6 col-xs-12">
 						<div class="form-group"><label> اسم الوردية: </label>
+
 							{{$session->shift->name}}
 						</div>
 					</div>
@@ -54,20 +56,25 @@
 							<label> رقم الفاتوره </label>
 							{!! Form::text("bill_num",null,['class'=>'selectpicker form-control inline-control','placeholder'=>' رقم الفاتوره',"id"=>'bill_num'])!!}
 						</div> --}}
+
+
 						<div class="form-group col-sm-4">
 							<label for="bill_date"> تاريخ الفاتورة </label>
 							{!! Form::text("bill_date",null,['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' تاريخ الفاتورة',"id"=>'bill_date'])!!}
 						</div>
+
 						{{-- <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="form-group block-gp">
                             <label>اسم القسم </label>
                             {!! Form::select("category_id",$categories,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}
                         </div>
                     </div> --}}
+
 						<div class="form-group block-gp col-md-4 col-sm-4 ">
 							<label>بحث بالباركود </label>
 							<input class="form-control" type="text" id="barcode_search">
 						</div>
+
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<div class="form-group block-gp">
@@ -75,6 +82,7 @@
 							{!! Form::select("category_id",$categories,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}
 						</div>
 					</div>
+
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<div class="yurProdc">
 						</div>
@@ -88,6 +96,7 @@
 					<input type="hidden" name="session_id" value="{{$session->id}}">
 					<input type="hidden" name="shift_id" value="{{$session->shift_id}}">
 					<input type="hidden" name="client_id" id="client_id_val">
+
 					<table border="1" class="finalTb mabi3at-bill bill-table">
 						<thead>
 							<tr>
@@ -207,8 +216,10 @@
 							</tr>
 						</tfoot>
 					</table>
+
 				</form>
 				<div class="newly-added-2-btns-">
+
 					@if(auth()->user()->is_saler==1)
 					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
 						اغلاق الجلسة [F8]
@@ -236,6 +247,7 @@
 									<label style="color:black"> الباسورد</label>
 									<input type="password" name="password" class="form-control">
 								</form>
+
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
@@ -274,7 +286,9 @@
 	$("#client_id").on('change', function() {
 		var client = $(this).val();
 		$('#client_id_val').val(client);
+
 	});
+
 	$(".category_id").on('change', function() {
 		var id = $(this).val();
 		var store_id = $('#store_id').val();
@@ -295,6 +309,7 @@
 				$('.yurProdc').html(data.data);
 				$('#selectID').attr('data-live-search', 'true');
 				$('#selectID').selectpicker('refresh');
+
 				var rowNum = 0;
 				$('#selectID').change(function() {
 					rowNum++;
@@ -365,6 +380,7 @@
 						if (($(this).val()) < 0) {
 							$(this).val(0);
 							$(this).text('0');
+
 						}
 						$(".tempDisabled").removeClass("tempDisabled");
 						var wholePriceBefore = Number($(this).parents('tr.single-row-wrapper').find(".single-price-before").text()) * Number($(this).val());
@@ -372,11 +388,9 @@
 						var wholePriceAfter = Number($(this).parents('tr.single-row-wrapper').find(".single-price-after").text()) * Number($(this).val());
 						$(this).parents('tr.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(2));
 					});
-					$(".delete-single-row a").on('click' , function(){
-						$(this).parents('tr').remove();
-						$(".bill-table tbody").trigger('change');
-					})
+					$(".delete-single-row a").on('click' , function(){ $(this).parents('tr').remove(); $(".bill-table tbody").trigger('change'); })
 				});
+
 				$(".bill-table tbody").change(function() {
 					preventDiscount();
 					var amountBeforeDariba = 0;
@@ -407,6 +421,7 @@
 							}
 							total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100));
 							$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
+
 						});
 						$("input#byAmount").change(function() {
 							if ((Number($(this).val())) > Number($("tr#amountAfterDariba span.dynamic-span").html())) {
@@ -416,8 +431,10 @@
 							total = Number(amountAfterDariba) - (Number($(this).val()));
 							$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
 							$("#total").val(total);
+
 						});
 					}
+
 					$("input#byPercentage").change(function() {
 						if ((Number($(this).val())) > 100) {
 							alert('لا يمكن ان تكون قيم الخصم بالنسبة أكبر من 100% .');
@@ -426,7 +443,9 @@
 						total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100));
 						$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
 						$("#total").val(total);
+
 					});
+
 					$("input#byAmount").change(function() {
 						if ((Number($(this).val())) > Number($("tr#amountAfterDariba span.dynamic-span").html())) {
 							alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $("tr#amountAfterDariba span.dynamic-span").html());
@@ -461,20 +480,9 @@
 			}
 		});
 	});
-	//	For Ajax Search By Product Name
-	$('#barcode_search').keyup(function(e) {
-		var barcode_search = $(this).val();
-		$.ajax({
-			url: "/accounting/barcode_search/" + barcode_search,
-			type: "GET",
-			success: function(data) {
-				alert(data);
-				$('.yurProdc').html(data.data);
-				$('#selectID').attr('data-live-search', 'true');
-				$('#selectID').selectpicker('refresh');
-			}
-		});
-	});
+
+
+
 	//	For Ajax Search By Product Bar Code
 	$('#barcode_search').keyup(function(e) {
 		var barcode_search = $(this).val();
@@ -516,13 +524,18 @@
 <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
 <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
 <!---- new design --->
+
 <script>
 	@if(!empty(\Illuminate\ Support\ Facades\ Session::has('sale_id')))
 	@php($sale_id = \Illuminate\ Support\ Facades\ Session::get('sale_id'))
+
+
 	window.open(
 		"{{route('accounting.sales.show',$sale_id)}}",
 		"_blank"
 	).print();
+
+
 	@endif
 </script>
 <script>
@@ -534,6 +547,7 @@
 		}
 		return 'هل أنت متأكد من غلق هذه الصفحة ؟ سيتم فقدان كال البيانات التي تم ادخالها!!';
 	};
+
 	function refreshTime() {
 		var today = new Date();
 		var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
@@ -543,4 +557,6 @@
 	}
 	setInterval(refreshTime, 1000)
 </script>
+
+
 @endsection

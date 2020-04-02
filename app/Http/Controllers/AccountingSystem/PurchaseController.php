@@ -67,7 +67,7 @@ class PurchaseController extends Controller
         $requests = $request->except('user_id');
 
 //        dd($request['user_id']);
-//dd($requests);
+dd($requests);
         $rules = [
 
            'supplier_id'=>'required|numeric|exists:accounting_suppliers,id',
@@ -123,25 +123,28 @@ class PurchaseController extends Controller
 
                     if($ke=='discount_item_percentage'){
                         foreach ($item2 as $k1 => $value) {
+
                                 if($item2[$k1]!=0){
+
                                     $discountItem= AccountingItemDiscount::create([
                                     'discount'=> $item2[$k1],
                                     'discount_type'=>'percentage',
                                     'item_id'=>$item->id,
-                                                        ]);
+                                    'type'=>'purchase',
+                                    'affect_tax'=>$item1['discount_item_effectTax'][$k1]
+                                ]);
                            }
 
                         }
                     }elseif($ke=='discount_item_value'){
-
                         foreach ($item2 as $k1 => $value) {
                             if($item2[$k1]!=0){
-
                                 $discountItem= AccountingItemDiscount::create([
                                 'discount'=> $item2[$k1],
                                 'discount_type'=>'amount',
                                 'item_id'=>$item->id,
-                                'type'=>'purchase'
+                                'type'=>'purchase',
+                                'affect_tax'=>$item1['discount_item_effectTax'][$k1]
                                 ]);
                              }
 
@@ -161,8 +164,10 @@ class PurchaseController extends Controller
              ///if-main-unit
 
              if($merge['2']!='main-'.$product->id){
-            $product->update([
-                'quantity'=>$product->quantity- $merge['1'],
+                 $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->first();
+
+                 $productstore->update([
+                'quantity'=>$productstore->quantity - $merge['1'],
             ]);
         }else{
 

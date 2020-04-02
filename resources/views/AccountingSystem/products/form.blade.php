@@ -320,14 +320,30 @@
 			<div class="row">
 
 				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left taxs form-line new-radio-big-wrapper ">
-					<span class="new-radio-wrap">
+
+						{{--{!! Form::radio("tax",$has_tax,['class'=>'form-control','id'=>'yes1','value'=>==)!!}--}}
+						@if (isset($is_edit))
+
+						<span class="new-radio-wrap">
 						<label for="yes1">يوجد ضريبة  </label>
-						{!! Form::radio("tax",($has_tax==1)?$has_tax:0,['class'=>'form-control','id'=>'yes1','value'=>($has_tax==1)?$has_tax:0])!!}
-					</span>
-					<span class="new-radio-wrap">
+						   <input  type="radio" name="tax" class="form-control" id="yes1" value={{($has_tax==1)?1:0}}   {{($has_tax==1)?'checked':null }}>
+						</span>
+						<span class="new-radio-wrap">
 						<label for="no1">لايوجد ضريبة</label>
-						{!! Form::radio("tax",($has_tax==1)?0:$has_tax,['class'=>'form-control', 'id'=>'no1','value'=>($has_tax==1)?0:$has_tax])!!}
-					</span>
+							<input  type="radio" name="tax" class="form-control" id="no1" value={{($has_tax==1)?0:1}}     {{($has_tax==1)?null:'checked'}}>
+						</span>
+						@else
+						<span class="new-radio-wrap">
+						<label for="yes1">يوجد ضريبة  </label>
+							<input  type="radio" name="tax" class="form-control" id="yes1" value="1">
+						</span>
+							<span class="new-radio-wrap">
+						<label for="no1">لايوجد ضريبة</label>
+							<input  type="radio" name="tax" class="form-control" id="no1" value="0">
+						</span>
+
+						@endif
+
 				</div>
 				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left form-line new-radio-big-wrapper ">
 					<span class="new-radio-wrap">
@@ -341,9 +357,11 @@
 				</div>
 				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left prices_taxs">
 					<label> اسم شريحة الضرائب</label>
-					{!! Form::select("tax_band_id[]",$taxs,null,['class'=>'form-control selectpicker','multiple','placeholder'=>' اسم شريحة الضرائب '])!!}
+					{!! Form::select("tax_band_id[]",$taxs,null,['class'=>'form-control selectpicker','multiple'])!!}
 				</div>
 			</div>
+
+
 		</div>
 	</div>
 	<div class="text-center col-md-12 m--margin-bottom-5">
@@ -514,7 +532,7 @@
 		$("#offerTable").hide();
 		$("#discountTable").hide();
 		$("#serviceTable").hide();
-		alert("sefd");
+
 
 
 		$("input[type='radio']").each(function(){
