@@ -81,11 +81,12 @@
                     {{(getsetting('barcode_enable')==1) ? 'barcode_enable':'' }}
                     {{(getsetting('unit_enable')==1) ? 'unit_enable':'' }}
                     {{(getsetting('quantity_enable')==1) ? 'quantity_enable':'' }}
+					{{(getsetting('product_expire_date')==1) ? 'total_expiration_enable':'' }}
                     {{(getsetting('unit_price_before_enable') == 1) ? 'unit_price_before_enable':''}}
                     {{(getsetting('unit_price_after_enable')==1) ? 'unit_price_after_enable':'' }}
                     {{(getsetting('total_price_before_enable')==1) ? 'total_price_before_enable':'' }}
                     {{(getsetting('total_price_after_enable')==1) ? 'total_price_after_enable':'' }} 
-                    total_expiration_enable">
+                    ">
 						<thead>
 							<tr>
 								<th rowspan="2">م</th>
@@ -255,7 +256,7 @@
 					var dateInpt = '';
 					let today = new Date().toISOString().substr(0, 10);
 					if (expirationDate == 1) {
-						var dateInpt = '<input type="date" class="expiration form-control" value="' + today + '" , min="' + today + '">';
+						var dateInpt = '<input type="date" class="expiration form-control" name="expire_date" value="' + today + '" , min="' + today + '">';
 					} else {
 						var dateInpt = '---';
 					}

@@ -112,6 +112,7 @@ class PurchaseController extends Controller
                 'unit_type'=>($merge['2']!='main-'.$product->id)?'sub':'main',
                 'tax'=>$merge['4'],
                 'price_after_tax'=>$merge['3']+$merge['4'],
+                'expire_date'=>$requests['expire_date'],
                 'purchase_id'=>$purchase->id
             ]);
             $items=$request->items;

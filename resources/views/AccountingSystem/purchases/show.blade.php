@@ -852,6 +852,8 @@
 									<th rowspan="2" class="fixed-ta-hd maybe-hidden quantity_enable">الكمية</th>
 									<th rowspan="2" class="fixed-ta-hd maybe-hidden unit_price_before_enable">سعر الوحدة</th>
 									<th rowspan="2" class="fixed-ta-hd maybe-hidden unit_price_after_enable">قيمة الضريبة</th>
+									<th rowspan="2" class="fixed-ta-hd maybe-hidden expiration_enable"> تاريخ انتهاء الصلاحيه</th>
+
 									<th rowspan="2" class="fixed-ta-hd maybe-hidden unit_price_after_enable">الخصومات</th>
 									<th colspan="2" rowspan="1" class="fixed-ta-hd th_lg">الإجمالى</th>
 								</tr>
@@ -910,6 +912,9 @@
 							<td class="single-price-after maybe-hidden unit_price_after_enable">
 								{{$row->tax}}
 							</td>
+							<td class="single-price-after maybe-hidden expiration_enable">
+								{{$row->expire_date}}
+							</td>
 							<td class="single-price-after maybe-hidden unit_price_after_enable">
 								{{--@dd($row->allDiscounts)--}}
 								@foreach ($row->allDiscounts as $discount)
@@ -935,11 +940,11 @@
 									@endforeach
 									<tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-money"></i>الإجمالي</td>
-										<td colspan="5"><span class="tot-money">{!! $purchase->amount !!}</span></td>
+										<td colspan="7"><span class="tot-money">{!! $purchase->amount !!}</span></td>
 									</tr>
 									<tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-minus"></i> نوع الخصم</td>
-										<td colspan="5">
+										<td colspan="7">
 											@if($purchase->discount_type=='percentage')
 											نسبه
 											@else
@@ -949,19 +954,19 @@
 									</tr>
 									<tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-minus"></i>قيمه الخصم على الفاتورة</td>
-										<td colspan="5">{!! $purchase->discount !!}</td>
+										<td colspan="7">{!! $purchase->discount !!}</td>
 									</tr>
 									<tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"> <i class="ti-plus"></i> القيمة المضافة</td>
-										<td colspan="5"> {!! $purchase->totalTaxs !!}</td>
+										<td colspan="7"> {!! $purchase->totalTaxs !!}</td>
 									</tr>
 									<tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-money"></i> المطلوب سداده</td>
-										<td colspan="5">{!! $purchase->total !!}</td>
+										<td colspan="7">{!! $purchase->total !!}</td>
 									</tr>
 									<tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-bag"></i> طريقة الدفع</td>
-										<td colspan="5">
+										<td colspan="7">
 											@if( $purchase->payment=='cash')
 											نقدى
 											@elseif( $purchase->payment=='agel')
@@ -976,17 +981,17 @@
 									<tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-money"></i>المدفوع</td>
 										@if( $purchase->payment=='cash')
-										<td colspan="5">{!! $purchase->total !!}</td>
+										<td colspan="7">{!! $purchase->total !!}</td>
 										@else
-										<td colspan="5">{!! $purchase->payed !!}</td>
+										<td colspan="7">{!! $purchase->payed !!}</td>
 										@endif
 									</tr>
 									<tr>
 										<th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-export"></i>المتبقي</th>
 										@if( $purchase->payment=='cash')
-										<td colspan="5">0</td>
+										<td colspan="7">0</td>
 										@else
-										<td colspan="5">{!! $purchase->total- $purchase->payed !!}</td>
+										<td colspan="7">{!! $purchase->total- $purchase->payed !!}</td>
 										@endif
 									</tr>
 								</tbody>

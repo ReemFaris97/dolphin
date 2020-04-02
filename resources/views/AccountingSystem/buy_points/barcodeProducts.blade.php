@@ -47,7 +47,6 @@
     >
         {{$product->name}} - {{$product->bar_code}}
        </option>
-
     </select>
     </div>
  @endforeach
