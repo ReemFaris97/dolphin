@@ -34,12 +34,14 @@
 
             ?>
             <option value="{{$product->id}}"
+                   data-main-unit="{{$product->	main_unit}}"
                     data-name="{{$product->name}}"
                     data-price="{{$product->selling_price -(($product->selling_price*$product->total_discounts)/100)}}"
                     data-bar-code="{{$product->bar_code}}"
                     data-link= "{{route('accounting.products.show',['id'=>$product->id])}}"
                     data-price-has-tax="{{isset($producttax)? $producttax->price_has_tax : '0' }}"
                     data-total-taxes="{{ isset($producttax)? $product->total_taxes : '0'}}"
+                    data-unit-id="{{$selectd_unit_id}}"
                     data-subunits="{{json_encode($arr,JSON_UNESCAPED_UNICODE)}}"
                     data-total_discounts="{{$product->total_discounts}}"
 

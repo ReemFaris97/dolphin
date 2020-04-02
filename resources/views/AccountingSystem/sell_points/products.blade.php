@@ -21,6 +21,7 @@
 
             ?>
             <option value="{{$product->id}}"
+                   data-main-unit="{{$product->	main_unit}}"
                     data-name="{{$product->name}}"
                     data-price="{{$product->selling_price -(($product->selling_price*$product->total_discounts)/100)}}"
                     data-bar-code="{{$product->bar_code}}"
