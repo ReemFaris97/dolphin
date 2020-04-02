@@ -568,40 +568,40 @@
 						});
 					}
 					//**************    Calc while changing table body ***********************
-		$('#discMod' + rowNum).on('hide.bs.modal', function(e) {
-			var modId = $(this).attr('id');
-			var onlyModNum = modId.substr(7, modId.length);
-			var theUnitPrice = $('#row' + onlyModNum).find(".single-price-before input").val();
-			var theQuantity = $('#row' + onlyModNum).find(".product-quantity input").val();
-			var theUnitTax = $('#row' + onlyModNum).data("tot-taxes");
-			var theSingleTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
-			$('#row' + onlyModNum).find(".single-price-after").text(theSingleTax.toFixed(2));
-		});
-				
-$('#discMod' + rowNum).on('hidden.bs.modal', function(e) {
-	var modId = $(this).attr('id');
-	var onlyModNum = modId.substr(7, modId.length);
-	var finalAftDisc = Number($('#row' + onlyModNum).find('.whole-price-before').attr('tempPriBef'));
-	var totalValDiscs , totalPerDiscs = 0;
-	var hhhlength = $(this).find('.single-special-dis-wrap').length + 1;		
-		var rows = $(this).find('.single-special-dis-wrap');
-		for (var i = 0; i < rows.length; i++) {
-			finalAftDisc -= Number($(rows[i]).find('.singleSpecialDiscByVal').val());
-			finalAftDisc -= (Number($(rows[i]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc;
-			$('#row' + onlyModNum).find('.whole-price-before').text(finalAftDisc.toFixed(2));
-			if ($(rows[i]).find(".effectTax").is(":checked")) {
-				var currentDisc = Number($('#row' + onlyModNum).data('tot-taxes')) / 100;
-			var newNetTax = Number(currentDisc) * Number(finalAftDisc);
-			$('#row' + onlyModNum).find('.single-price-after').text(newNetTax.toFixed(2));
-		} else if (!($(rows[i]).find(".effectTax").is(":checked"))) {
-			var newNetTax = $('#row' + onlyModNum).find('.single-price-after').text()
-		}
-		var newWholePriceAfter = Number(finalAftDisc) + Number(newNetTax);
-		$('#row' + onlyModNum).find('.whole-price-after').text(newWholePriceAfter.toFixed(2));
-		calcInfo();	
-		}	
-});
-	
+					$('#discMod' + rowNum).on('hide.bs.modal', function(e) {
+						var modId = $(this).attr('id');
+						var onlyModNum = modId.substr(7, modId.length);
+						var theUnitPrice = $('#row' + onlyModNum).find(".single-price-before input").val();
+						var theQuantity = $('#row' + onlyModNum).find(".product-quantity input").val();
+						var theUnitTax = $('#row' + onlyModNum).data("tot-taxes");
+						var theSingleTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
+						$('#row' + onlyModNum).find(".single-price-after").text(theSingleTax.toFixed(2));
+					});
+
+					$('#discMod' + rowNum).on('hidden.bs.modal', function(e) {
+						var modId = $(this).attr('id');
+						var onlyModNum = modId.substr(7, modId.length);
+						var finalAftDisc = Number($('#row' + onlyModNum).find('.whole-price-before').attr('tempPriBef'));
+						var totalValDiscs, totalPerDiscs = 0;
+						var hhhlength = $(this).find('.single-special-dis-wrap').length + 1;
+						var rows = $(this).find('.single-special-dis-wrap');
+						for (var i = 0; i < rows.length; i++) {
+							finalAftDisc -= Number($(rows[i]).find('.singleSpecialDiscByVal').val());
+							finalAftDisc -= (Number($(rows[i]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc;
+							$('#row' + onlyModNum).find('.whole-price-before').text(finalAftDisc.toFixed(2));
+							if ($(rows[i]).find(".effectTax").is(":checked")) {
+								var currentDisc = Number($('#row' + onlyModNum).data('tot-taxes')) / 100;
+								var newNetTax = Number(currentDisc) * Number(finalAftDisc);
+								$('#row' + onlyModNum).find('.single-price-after').text(newNetTax.toFixed(2));
+							} else if (!($(rows[i]).find(".effectTax").is(":checked"))) {
+								var newNetTax = $('#row' + onlyModNum).find('.single-price-after').text()
+							}
+							var newWholePriceAfter = Number(finalAftDisc) + Number(newNetTax);
+							$('#row' + onlyModNum).find('.whole-price-after').text(newWholePriceAfter.toFixed(2));
+							calcInfo();
+						}
+					});
+
 
 					//**************    Calc while changing table body ***********************
 					$(".bill-table tbody").change(calcInfo);
@@ -999,29 +999,29 @@ $('#discMod' + rowNum).on('hidden.bs.modal', function(e) {
 			var theSingleTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
 			$('#row' + onlyModNum).find(".single-price-after").text(theSingleTax.toFixed(2));
 		});
-$('#discMod' + rowNum).on('hidden.bs.modal', function(e) {
-	var modId = $(this).attr('id');
-	var onlyModNum = modId.substr(7, modId.length);
-	var finalAftDisc = Number($('#row' + onlyModNum).find('.whole-price-before').attr('tempPriBef'));
-	var totalValDiscs , totalPerDiscs = 0;
-	var hhhlength = $(this).find('.single-special-dis-wrap').length + 1;		
-		var rows = $(this).find('.single-special-dis-wrap');
-		for (var i = 0; i < rows.length; i++) {
-			finalAftDisc -= Number($(rows[i]).find('.singleSpecialDiscByVal').val());
-			finalAftDisc -= (Number($(rows[i]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc;
-			$('#row' + onlyModNum).find('.whole-price-before').text(finalAftDisc.toFixed(2));
-			if ($(rows[i]).find(".effectTax").is(":checked")) {
-				var currentDisc = Number($('#row' + onlyModNum).data('tot-taxes')) / 100;
-			var newNetTax = Number(currentDisc) * Number(finalAftDisc);
-			$('#row' + onlyModNum).find('.single-price-after').text(newNetTax.toFixed(2));
-		} else if (!($(rows[i]).find(".effectTax").is(":checked"))) {
-			var newNetTax = $('#row' + onlyModNum).find('.single-price-after').text()
-		}
-		var newWholePriceAfter = Number(finalAftDisc) + Number(newNetTax);
-		$('#row' + onlyModNum).find('.whole-price-after').text(newWholePriceAfter.toFixed(2));
-		calcInfo();	
-		}	
-});
+		$('#discMod' + rowNum).on('hidden.bs.modal', function(e) {
+			var modId = $(this).attr('id');
+			var onlyModNum = modId.substr(7, modId.length);
+			var finalAftDisc = Number($('#row' + onlyModNum).find('.whole-price-before').attr('tempPriBef'));
+			var totalValDiscs, totalPerDiscs = 0;
+			var hhhlength = $(this).find('.single-special-dis-wrap').length + 1;
+			var rows = $(this).find('.single-special-dis-wrap');
+			for (var i = 0; i < rows.length; i++) {
+				finalAftDisc -= Number($(rows[i]).find('.singleSpecialDiscByVal').val());
+				finalAftDisc -= (Number($(rows[i]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc;
+				$('#row' + onlyModNum).find('.whole-price-before').text(finalAftDisc.toFixed(2));
+				if ($(rows[i]).find(".effectTax").is(":checked")) {
+					var currentDisc = Number($('#row' + onlyModNum).data('tot-taxes')) / 100;
+					var newNetTax = Number(currentDisc) * Number(finalAftDisc);
+					$('#row' + onlyModNum).find('.single-price-after').text(newNetTax.toFixed(2));
+				} else if (!($(rows[i]).find(".effectTax").is(":checked"))) {
+					var newNetTax = $('#row' + onlyModNum).find('.single-price-after').text()
+				}
+				var newWholePriceAfter = Number(finalAftDisc) + Number(newNetTax);
+				$('#row' + onlyModNum).find('.whole-price-after').text(newWholePriceAfter.toFixed(2));
+				calcInfo();
+			}
+		});
 		//**************    Calc while changing table body ***********************
 		$(".bill-table tbody").change(calcInfo);
 		//**************    Calc while removing a product ************************
