@@ -375,8 +375,8 @@ $("#client_id").on('change', function() {
 								 var singlePriceBefore = Number(productPrice);
 								 var singlePriceAfter = Number(productPrice);
 							 }
-							 $(this).parents('tr.single-row-wrapper').find(".single-price-before").text(singlePriceBefore.toFixed(1));
-							 $(this).parents('tr.single-row-wrapper').find(".single-price-after").text(singlePriceAfter.toFixed(1));
+							 $(this).parents('tr.single-row-wrapper').find(".single-price-before").text(singlePriceBefore.toFixed(2));
+							 $(this).parents('tr.single-row-wrapper').find(".single-price-after").text(singlePriceAfter.toFixed(2));
 						 });
 						 $(".product-quantity input").change(function(){
 							 if(($(this).val()) < 0){
@@ -386,9 +386,9 @@ $("#client_id").on('change', function() {
 							 }
 							 $(".tempDisabled").removeClass("tempDisabled");
 							 var wholePriceBefore = Number($(this).parents('tr.single-row-wrapper').find(".single-price-before").text()) * Number($(this).val());
-							 $(this).parents('tr.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(1));
+							 $(this).parents('tr.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(2));
 							 var wholePriceAfter = Number($(this).parents('tr.single-row-wrapper').find(".single-price-after").text()) * Number($(this).val());
-							 $(this).parents('tr.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(1));
+							 $(this).parents('tr.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(2));
 						 });
 					 });
 
@@ -405,7 +405,7 @@ $("#client_id").on('change', function() {
 						var amountOfDariba = Number(amountAfterDariba) - Number(amountBeforeDariba);
 						$("tr#amountBeforeDariba span.dynamic-span").html(amountBeforeDariba);
 						$("tr#amountAfterDariba span.dynamic-span").html(amountAfterDariba);
-						$("tr#amountOfDariba span.dynamic-span").html(amountOfDariba);
+						$("tr#amountOfDariba span.dynamic-span").html(amountOfDariba.toFixed(2));
                         $("#amountOfDariba1").val(amountOfDariba);
 						var byAmount = $("input#byAmount").val();
 			            var byPercentage = $("input#byPercentage").val();
@@ -413,7 +413,7 @@ $("#client_id").on('change', function() {
 						var total = 0;
                         $('#amountAfterDarib1').val(amountAfterDariba);
 						if (byAmount == 0 && byPercentage == 0){
-							$("tr#demandedAmount span.dynamic-span").html(amountAfterDariba);
+							$("tr#demandedAmount span.dynamic-span").html(amountAfterDariba.toFixed(2));
 							}
 						else{
 								$("input#byPercentage").change(function(){
@@ -422,7 +422,7 @@ $("#client_id").on('change', function() {
 										$(this).val(0);
 									}
 									 total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100 ));
-									$("#demandedAmount span.dynamic-span").html(total);
+									$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
 
 								 });
 								$("input#byAmount").change(function(){
@@ -431,7 +431,7 @@ $("#client_id").on('change', function() {
 										$(this).val(0);
 									}
 									 total = Number(amountAfterDariba) - (Number($(this).val()));
-									$("#demandedAmount span.dynamic-span").html(total);
+									$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
                                     $("#total").val(total);
 
 								 });
@@ -443,7 +443,7 @@ $("#client_id").on('change', function() {
 									$(this).val(0);
 								}
 								 total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100 ));
-								$("#demandedAmount span.dynamic-span").html(total);
+								$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
                                 $("#total").val(total);
 
 							 });
@@ -454,16 +454,15 @@ $("#client_id").on('change', function() {
 									$(this).val(0);
 								}
 								 total = Number(amountAfterDariba) - (Number($(this).val()));
-								$("#demandedAmount span.dynamic-span").html(total);
+								$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
                                 $("#total").val(total);
-
 							 });
 							$("#byCache , #byNet").change(function(){
 								var allPaid = Number($("#byCache").val()) + Number($("#byNet").val());
 								$("#allPaid").html(allPaid);
                                 $("#allPaid1").val(allPaid);
 								var remaindedAmount = Number(allPaid) - Number($("tr#demandedAmount span.dynamic-span").html());
-								$("#remaindedAmount span.dynamic-span").html(remaindedAmount);
+								$("#remaindedAmount span.dynamic-span").html(remaindedAmount.toFixed(2));
                                $('#remainder-inputt').val(Math.abs(remaindedAmount));
                                 if(remaindedAmount > 0){
 									$("#remaindedAmount th.rel-cols").removeClass("aagel-case");
