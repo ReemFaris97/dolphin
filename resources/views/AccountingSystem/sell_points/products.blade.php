@@ -29,7 +29,6 @@
                     data-total-taxes="{{ isset($producttax)? $product->total_taxes : '0'}}"
                     data-subunits="{{json_encode($merged)}}"
                     data-total_discounts="{{$product->total_discounts}}"
-
             >
                 {{$product->name}} - {{$product->bar_code}}
             </option>

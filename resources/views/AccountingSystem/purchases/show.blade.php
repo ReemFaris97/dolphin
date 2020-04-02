@@ -911,7 +911,8 @@
 								{{$row->tax}}
 							</td>
 							<td class="single-price-after maybe-hidden unit_price_after_enable">
-								@foreach ($row->allDiscounts() as $discount)
+								{{--@dd($row->allDiscounts)--}}
+								@foreach ($row->allDiscounts as $discount)
 									<span class="single-5asm">
 										@if($discount->discount_type=='percentage')
 										<span>  {{$discount->discount}} % </span>
@@ -919,13 +920,16 @@
 										<span>   {{$discount->discount}} ر.س </span>
 										@endif
 										|
-
+                                  	@if($discount->affect_tax=='1')
 										<span>يؤثر فى الضريبة</span>
+									@elseif($discount->affect_tax=='0')
+												<span> لا يؤثر فى الضريبة</span>
+										@endif
 									</span>
 								@endforeach
 							</td>
-							<td class="whole-price-before maybe-hidden total_price_before_enable">اجمالي قبل الضريبة</td>
-							<td class="whole-price-after maybe-hidden total_price_after_enable">اجمالي بعد الضريبة</td>
+							<td class="whole-price-before maybe-hidden total_price_before_enable">{{$row->price*$row->quantity}}</td>
+							<td class="whole-price-after maybe-hidden total_price_after_enable">{{$row->price_after_tax*$row->quantity}}</td>
 						</tr>
 
 									@endforeach

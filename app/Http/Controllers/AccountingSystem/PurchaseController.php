@@ -67,7 +67,7 @@ class PurchaseController extends Controller
         $requests = $request->except('user_id');
 
 //        dd($request['user_id']);
-dd($requests);
+//dd($requests);
         $rules = [
 
            'supplier_id'=>'required|numeric|exists:accounting_suppliers,id',
