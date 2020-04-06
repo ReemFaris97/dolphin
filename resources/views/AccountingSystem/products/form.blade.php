@@ -142,6 +142,9 @@
 					{!! Form::file("image",null,['class'=>'form-control'])!!}
 				</div>
 				<!-- unit table-->
+
+				<span>  الوحدات  الفرعيه </span>
+
 				<table id="productsTable" class="table ">
 					<thead>
 						<tr>
@@ -174,6 +177,8 @@
 					</tbody>
 				</table>
 				<!-- services table-->
+				<span>  الخدمات </span>
+
 				<table id="serviceTable" class="table ">
 					<thead>
 						<tr>
@@ -187,6 +192,8 @@
 					</tbody>
 				</table>
 				<!-- component table-->
+				<span>  مكونات المنتجات </span>
+
 				<table id="componentTable" class="table ">
 					<thead>
 						<tr>
@@ -200,18 +207,7 @@
 					</tbody>
 				</table>
 				<!-- end table-->
-				<!-- offers table-->
-				<table id="offerTable" class="table ">
-					<thead>
-						<tr>
-							<th> اسم المنتج التابع</th>
-							<th>العمليات</th>
-						</tr>
-					</thead>
-					<tbody class="add-offers">
-					</tbody>
-				</table>
-				<!-- end table-->
+
 			</div>
 		</div>
 		<div id="menu2" class="tab-pane fade">
@@ -315,6 +311,7 @@
 					العروض والخصومات
 				</button>
 			</div>
+
 		</div>
 		<div id="menu5" class="tab-pane fade">
 			<div class="row">
