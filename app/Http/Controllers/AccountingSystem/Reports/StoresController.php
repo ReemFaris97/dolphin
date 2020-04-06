@@ -39,14 +39,18 @@ class StoresController extends Controller
 //            dd($stores);
             $damages_id = AccountingDamage::whereIn('store_id', $stores)->whereBetween('created_at', [$from, $to])->pluck('id');
             $damages = AccountingDamageProduct::whereIn('damage_id', $damages_id)->get();
-//            dd($damages);
+
 
         } //company_and_branch_only
         elseif (\request('company_id') != Null && \request('branch_id') != Null && \request('store_id') == Null && \request('product_id') == Null) {
-            $stores = AccountingStore::where('model_id', \request('branch_id'))->where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->pluck('id');
+            $stores = AccountingStore::where('model_id',1)->where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->pluck('id');
             $damages_id = AccountingDamage::whereIn('store_id', $stores)->whereBetween('created_at', [$from, $to])->pluck('id');
             $damages = AccountingDamageProduct::whereIn('damage_id', $damages_id)->get();
-        } //company_and_branch_and_store_only
+            dd( $stores);
+
+        }
+
+        //company_and_branch_and_store_only
         elseif (\request('company_id') != Null && \request('branch_id') != Null && \request('store_id') != Null && \request('product_id') == Null) {
             $damages_id = AccountingDamage::where('store_id', \request('store_id'))->whereBetween('created_at', [$from, $to])->pluck('id');
             $damages = AccountingDamageProduct::whereIn('damage_id', $damages_id)->get();
@@ -149,10 +153,12 @@ class StoresController extends Controller
             foreach ($product_quantity as $key => $item) {
                 $product = AccountingProduct::find($key);
                 $quantites[$product->id]=AccountingProductStore::where('product_id', '=', $product->id)->whereIn('store_id',$stores)->sum('quantity');
-                if ($product->min_quantity >= $item) {
+                if ($product->min_quantity >= $quantites[$product->id]) {
+
                     array_push($deficiencies, $product);
                 }
             }
+//            dd($deficiencies);
         } //company_and_branch_only
         elseif (\request('company_id') != Null && \request('branch_id') != Null && \request('store_id') == Null && \request('product_id') == Null) {
 
@@ -161,20 +167,21 @@ class StoresController extends Controller
             foreach ($product_quantity as $key => $item) {
                 $product = AccountingProduct::find($key);
                 $quantites[$product->id]=AccountingProductStore::where('product_id', '=', $product->id)->whereIn('store_id',$stores)->sum('quantity');
-                if ($product->min_quantity >= $item) {
+                if ($product->min_quantity >= $quantites[$product->id]) {
                     array_push($deficiencies, $product);
                 }
             }
 
         } //company_and_branch_and_store_only
+
         elseif (\request('company_id') != Null && \request('branch_id') != Null && \request('store_id') != Null && \request('product_id') == Null) {
            $store=\request('store_id');
             $product_quantity = AccountingProductStore::where('store_id',$store)->pluck('quantity', 'product_id');
+
             foreach ($product_quantity as $key => $item) {
                 $product = AccountingProduct::find($key);
                 $quantites[$product->id]=AccountingProductStore::where('product_id', '=', $product->id)->where('store_id',$store)->sum('quantity');
-
-                if ($product->min_quantity >= $item) {
+                if ($product->min_quantity >= $quantites[$product->id]) {
                     array_push($deficiencies, $product);
                 }
             }
@@ -186,10 +193,6 @@ class StoresController extends Controller
 
         return view('AccountingSystem.reports.stores.deficiencyProducts', compact('deficiencies','stores','quantites'));
     }
-
-
-
-
 
 
 
@@ -338,29 +341,30 @@ class StoresController extends Controller
     }
 
 
-
-
     public function movements()
     {
         $from = request('from');
         $to = request('to');
-//        dd(request()->all());
+//      dd(request()->all());
         $requests=request()->all();
         //purchases
        if (\request('company_id') != Null && \request('branch_id') != Null && \request('store_id') != Null && \request('product_id') != Null && \request('type') == 'purchases') {
+      ;
            $product = AccountingProduct::find(\request('product_id'));
            $store_id = \request('store_id');
            $purchases = AccountingPurchaseItem::where('product_id', '=', $product->id)
                ->whereHas('purchase', function ($query) use ($store_id, $from, $to) {
-                   $query->where('store_id',$store_id);
+                   $query->where('store_id',$store_id)->whereBetween('created_at', [Carbon::parse($from), Carbon::parse($to)]);
                })->get();
 
+
         }elseif (\request('company_id') != Null && \request('branch_id') != Null && \request('store_id') != Null && \request('product_id') != Null && \request('type') == 'sales') {
+
            $product = AccountingProduct::find(\request('product_id'));
            $store_id = \request('store_id');
            $sales= AccountingSaleItem::where('product_id', '=', $product->id)
                ->whereHas('sale', function ($query) use ($store_id, $from, $to) {
-                   $query->where('store_id',$store_id);
+                   $query->where('store_id',$store_id)->whereBetween('created_at', [Carbon::parse($from), Carbon::parse($to)]);
                })->get();
 
        }elseif (\request('company_id') != Null && \request('branch_id') != Null && \request('store_id') != Null && \request('product_id') != Null && \request('type') == 'damaged') {
@@ -368,7 +372,7 @@ class StoresController extends Controller
         $store_id = \request('store_id');
         $damages = AccountingDamageProduct::where('product_id', '=', $product->id)
             ->whereHas('damage', function ($query) use ($store_id, $from, $to) {
-                $query->where('store_id',$store_id);
+                $query->where('store_id',$store_id)->whereBetween('created_at', [Carbon::parse($from), Carbon::parse($to)]);
             })->get();
     }
 
@@ -377,7 +381,7 @@ class StoresController extends Controller
             $sales=[];
             $damages=[];
         }
-
+//        dd($purchases);
         return view('AccountingSystem.reports.stores.movementProducts', compact('purchases','requests','sales','damages'));
     }
 

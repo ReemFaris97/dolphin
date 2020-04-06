@@ -85,6 +85,7 @@ class PurchaseController extends Controller
             'bill_num'=>$purchase->id."-".$purchase->created_at,
             'branch_id'=>$requests['branch_id'],
             'user_id'=>$request['user_id'],
+            'store_id'=>$user->accounting_store_id,
             'total'=>$requests['total'],
         ]);
 
@@ -112,7 +113,7 @@ class PurchaseController extends Controller
                 'unit_type'=>($merge['2']!='main-'.$product->id)?'sub':'main',
                 'tax'=>$merge['4'],
                 'price_after_tax'=>$merge['3']+$merge['4'],
-                'expire_date'=>$requests['expire_date'],
+                'expire_date'=>isset($requests['expire_date'])?$requests['expire_date']:null,
                 'purchase_id'=>$purchase->id
             ]);
             $items=$request->items;
@@ -165,7 +166,7 @@ class PurchaseController extends Controller
              ///if-main-unit
 
              if($merge['2']!='main-'.$product->id){
-                 $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->first();
+                 $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',Null)->first();
 
                  $productstore->update([
                 'quantity'=>$productstore->quantity - $merge['1'],

@@ -84,7 +84,7 @@ class PurchaseReturnController extends Controller
     public function store(Request $request)
     {
         $requests = $request->all();
-//      dd($requests);
+//         dd($requests);
 
         $rules = [
 
@@ -137,6 +137,8 @@ class PurchaseReturnController extends Controller
                                             'discount' => $item2[$k1],
                                             'discount_type' => 'percentage',
                                             'item_id' => $item->id,
+                                            'type' => 'return',
+                                            'affect_tax'=>$item1['discount_item_effectTax'][$k1]
                                         ]);
                                     }
 
@@ -150,7 +152,8 @@ class PurchaseReturnController extends Controller
                                             'discount' => $item2[$k1],
                                             'discount_type' => 'amount',
                                             'item_id' => $item->id,
-                                            'type' => 'return'
+                                            'type' => 'return',
+                                            'affect_tax'=>$item1['discount_item_effectTax'][$k1]
                                         ]);
                                     }
 
@@ -167,23 +170,21 @@ class PurchaseReturnController extends Controller
                 //update_product_quantity
                 ///if-main-unit
 
-                if ($merge['2'] != 'main-' . $product->id) {
-                    $product->update([
-                        'quantity' => $product->quantity + $merge['1'],
-                    ]);
-                    $productstore = AccountingProductStore::where('store_id', auth()->user()->accounting_store_id)->where('product_id', $merge['0'])->first();
-                    $productstore->update([
-                        'quantity' => $productstore->quantity + $merge['1'],
-                    ]);
-                } else {
-                    $productstore = AccountingProductStore::where('store_id', auth()->user()->accounting_store_id)->where('product_id', $merge['0'])->where('unit_id', $merge['2'])->first();
-                   if($productstore) {
-                       $productstore->update([
-                           'quantity' => $productstore->quantity + $merge['1'],
-                       ]);
-                   }
-                }
+                if($merge['2']!='main-'.$product->id){
+                    $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',Null)->first();
 
+                    $productstore->update([
+                        'quantity'=>$productstore->quantity - $merge['1'],
+                    ]);
+                }else{
+
+                    $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',$merge['2'])->first();
+                    if($productstore) {
+                        $productstore->update([
+                            'quantity' => $productstore->quantity - $merge['1'],
+                        ]);
+                    }
+                }
 /////////////////////////discount/////////////////
                 if ($requests['discount_byPercentage'] != 0 && $requests['discount_byAmount'] == 0) {
                     $return->update([
@@ -215,7 +216,10 @@ class PurchaseReturnController extends Controller
             if ($supplier) {
                 if($return->payment=='agel') {
                     $balance=$return->total;
-                    $supplier->balance = -$balance;
+                    $supplier=AccountingSupplier::find( $return->supplier_id);
+                    $supplier->update([
+                        'balance'=>$supplier->balance -$return->total
+                    ]);
                 }
             }
         }

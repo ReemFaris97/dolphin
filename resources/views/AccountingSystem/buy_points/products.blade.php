@@ -11,6 +11,7 @@
     $mainunits=json_encode(collect([['id'=>'main-'.$product->id,'name'=>$product->main_unit , 'purchasing_price'=>$product->purchasing_price]]),JSON_UNESCAPED_UNICODE);
     $merged = array_merge(json_decode($mainunits), json_decode($allunits));
     $lastPrice=\App\Models\AccountingSystem\AccountingPurchaseItem::where('product_id',$product->id)->latest()->first();
+
     $sumQuantity=\App\Models\AccountingSystem\AccountingPurchaseItem::where('product_id',$product->id)->sum('quantity');
     $sumPrice=\App\Models\AccountingSystem\AccountingPurchaseItem::where('product_id',$product->id)->sum('price');
     if($sumPrice){
@@ -20,6 +21,7 @@
     }
 
  ?>
+    {{--@dd($lastPrice)--}}
 <option value="{{$product->id}}"
    data-name="{{$product->name}}"
    data-price="{{$product->purchasing_price -(($product->purchasing_price*$product->total_discounts)/100)}}"

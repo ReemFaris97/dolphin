@@ -32,6 +32,15 @@
 		<section class="yourBill">
 			<div class="yurSections">
 				<div class="row">
+					@if (count($errors) > 0)
+						<div class="alert alert-danger">
+							<ul>
+								@foreach ($errors->all() as $error)
+									{{ $error }}
+								@endforeach
+							</ul>
+						</div>
+					@endif
 					<div class="col-xs-12">
 						<div class="form-group col-sm-4">
 							<label> إسم المورد </label>
@@ -262,12 +271,12 @@
 					}
 					let unitName = productUnits.map(a => a.name);
 					let unitId = productUnits.map(c => c.id);
-					let unitPrice = productUnits.map(b => b.selling_price);
+					let unitPrice = productUnits.map(b => b.purchasing_price);
 					var singlePriceBefore, singlePriceAfter = 0;
-					if (Number(priceHasTax) === 0) {
+					if (Number(priceHasTax) === 1) {
 						var singlePriceBefore = Number(productPrice);
 						var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
-					} else if (Number(priceHasTax) === 1) {
+					} else if (Number(priceHasTax) === 0) {
 						var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
 						var singlePriceAfter = Number(productPrice);
 					} else {
@@ -433,10 +442,10 @@
 						var selectedUnit = $(this).find(":selected");
 						var priceHasTax = $(this).parents("tr.single-row-wrapper").data('ifhastax');
 						var productPrice = selectedUnit.data('uni-price');
-						if (Number(priceHasTax) === 0) {
+						if (Number(priceHasTax) === 1) {
 							var singlePriceBefore = Number(productPrice);
 							var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
-						} else if (Number(priceHasTax) === 1) {
+						} else if (Number(priceHasTax) === 0) {
 							var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
 							var singlePriceAfter = Number(productPrice);
 						} else {
@@ -478,10 +487,10 @@
 					$(".single-price-before input").change(function() {
 						var productPrice = $(this).val();
 						var priceHasTax = $(this).parents("tr.single-row-wrapper").data('ifhastax');
-						if (Number(priceHasTax) === 0) {
+						if (Number(priceHasTax) === 1) {
 							var singlePriceBefore = Number(productPrice);
 							var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
-						} else if (Number(priceHasTax) === 1) {
+						} else if (Number(priceHasTax) === 0) {
 							var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
 							var singlePriceAfter = Number(productPrice);
 						} else {
@@ -690,10 +699,10 @@
 		var unitId = productUnits.map(c => c.id);
 		var unitPrice = productUnits.map(b => b.selling_price);
 		var singlePriceBefore, singlePriceAfter = 0;
-		if (Number(priceHasTax) === 0) {
+		if (Number(priceHasTax) === 1) {
 			var singlePriceBefore = Number(productPrice);
 			var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
-		} else if (Number(priceHasTax) === 1) {
+		} else if (Number(priceHasTax) === 0) {
 			var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
 			var singlePriceAfter = Number(productPrice);
 		} else {
@@ -856,10 +865,10 @@
 			var selectedUnit = $(this).find(":selected");
 			var priceHasTax = $(this).parents("tr.single-row-wrapper").data('ifhastax');
 			var productPrice = selectedUnit.data('uni-price');
-			if (Number(priceHasTax) === 0) {
+			if (Number(priceHasTax) === 1) {
 				var singlePriceBefore = Number(productPrice);
 				var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
-			} else if (Number(priceHasTax) === 1) {
+			} else if (Number(priceHasTax) === 0) {
 				var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
 				var singlePriceAfter = Number(productPrice);
 			} else {
@@ -901,10 +910,10 @@
 		$(".single-price-before input").change(function() {
 			var productPrice = $(this).val();
 			var priceHasTax = $(this).parents("tr.single-row-wrapper").data('ifhastax');
-			if (Number(priceHasTax) === 0) {
+			if (Number(priceHasTax) === 1) {
 				var singlePriceBefore = Number(productPrice);
 				var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
-			} else if (Number(priceHasTax) === 1) {
+			} else if (Number(priceHasTax) === 0) {
 				var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
 				var singlePriceAfter = Number(productPrice);
 			} else {
