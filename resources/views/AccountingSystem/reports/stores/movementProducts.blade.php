@@ -85,10 +85,12 @@
                 </tr>
                 </thead>
                 <tbody>
-       @if (isset($requests->type))
+
+       @if (isset($requests['type']))
 
 
                 @if ($requests['type']=='purchases')
+
                 @foreach($purchases as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>

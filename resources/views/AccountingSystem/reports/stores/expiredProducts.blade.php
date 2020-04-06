@@ -69,7 +69,7 @@
                     <th> اسم الصنف </th>
                     <th>  الوحدة </th>
                     <th>  كمية الحالية  اللى  قاربت  على  الانتهاء </th>
-
+                    <th>  تاريخ الانتهاء </th>
                     <th> المده  المتبقيه على الانتهاء   </th>
                 </tr>
                 </thead>
@@ -82,6 +82,7 @@
 
                         <td>{!! $row->main_unit!!}</td>
                         <td>{!! $quantites[$row->id]!!}</td>
+                        <td>{{$row->expired_at}}</td>
                             @php($expire=new \Carbon\Carbon($row->expired_at))
                         <td>{!! $expire->diff(\Carbon\Carbon::now())->days !!}</td>
 

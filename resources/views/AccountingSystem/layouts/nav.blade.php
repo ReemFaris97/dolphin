@@ -215,8 +215,6 @@
 					<ul class="dropdown-menu dropdown-menu-right">
 						<li><a href="{{route('accounting.purchases.index')}}"><i class="icon-eye"></i> عرض فواتير الشراء</a></li>
 						<li><a href="{{route('accounting.buy_point.buy_point')}}"><i class="icon-add-to-list"></i> اضافة مشترى جديد</a></li>
-						<li><a href="{{route('accounting.puchaseReturns.create')}}"><i class="icon-add-to-list"></i> اضافة فاتورة مرتجعات جديدة</a></li>
-						<li><a href="{{route('accounting.puchaseReturns.index')}}"><i class="icon-add-to-list"></i> عرض فواتير المرتجعات </a></li>
 					</ul>
 				</li>
 
@@ -234,7 +232,7 @@
 						<li><a href="{{route('accounting.suppliers.index')}}"><i class="icon-eye"></i> عرض الموردين</a></li>
 						<li><a href="{{route('accounting.suppliers.create')}}"><i class="icon-add-to-list"></i> اضافة مورد جديد</a></li>
 						<li><a href="{{route('accounting.suppliers_sadad.index')}}"><i class="icon-eye"></i> عرض سجلات السداد</a></li>
-						<li><a href="{{route('accounting.suppliers_sadad.create')}}"><i class="icon-add-to-list"></i> اضافة سند سداد جديد</a></li>
+						{{--<li><a href="{{route('accounting.suppliers_sadad.create')}}"><i class="icon-add-to-list"></i> اضافة سند سداد جديد</a></li>--}}
 						<li><a href="{{route('accounting.suppliers.purchase_order')}}"><i class="icon-add-to-list"></i> طلب شراء جديد</a></li>
 					</ul>
 				</li>
@@ -264,34 +262,7 @@
 						</li>
 					</ul>
 				</li>
-				<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-cart position-left"></i> التقارير <span class="caret"></span> </a>
-					<ul class="dropdown-menu dropdown-menu-right">
-						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-basket"></i> تقارير العملاء </a>
-							<ul class="dropdown-menu">
-								<li><a href="{{route('accounting.products.index')}}"><i class="icon-eye"></i> عرض المنتجات</a></li>
-								<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.products.create')}}"><i class="icon-add-to-list"></i> اضافة منتج جديد</a> </li>
-							</ul>
-						</li>
-						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-basket"></i> تقارير المبيعات </a>
-							<ul class="dropdown-menu">
-								<li><a href="{{route('accounting.products.index')}}"><i class="icon-eye"></i> عرض المنتجات</a></li>
-								<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.products.create')}}"><i class="icon-add-to-list"></i> اضافة منتج جديد</a> </li>
-							</ul>
-						</li>
-						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-basket"></i> تقارير المندوبين </a>
-							<ul class="dropdown-menu">
-								<li><a href="{{route('accounting.products.index')}}"><i class="icon-eye"></i> عرض المنتجات</a></li>
-								<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.products.create')}}"><i class="icon-add-to-list"></i> اضافة منتج جديد</a> </li>
-							</ul>
-						</li>
-						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-basket"></i> تقارير الموردين </a>
-							<ul class="dropdown-menu">
-								<li><a href="{{route('accounting.products.index')}}"><i class="icon-eye"></i> عرض المنتجات</a></li>
-								<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.products.create')}}"><i class="icon-add-to-list"></i> اضافة منتج جديد</a> </li>
-							</ul>
-						</li>
-					</ul>
-				</li>
+
 			</ul>
 		</li> <!-- ================== Reports ============================= -->
 		<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-cabinet position-left"></i> التقارير <span class="caret"></span> </a>

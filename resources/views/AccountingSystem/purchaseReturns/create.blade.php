@@ -242,10 +242,10 @@
 					let unitId = productUnits.map(c => c.id);
 					let unitPrice = productUnits.map(b => b.selling_price);
 					var singlePriceBefore, singlePriceAfter = 0;
-					if (Number(priceHasTax) === 0) {
+					if (Number(priceHasTax) === 1) {
 						var singlePriceBefore = Number(productPrice);
 						var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
-					} else if (Number(priceHasTax) === 1) {
+					} else if (Number(priceHasTax) === 0) {
 						var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
 						var singlePriceAfter = Number(productPrice);
 					} else {
@@ -308,8 +308,9 @@
 									<label>ادخل الخصم بالمبلغ</label>
 									<input type="number" step="any" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ" name="items[${rowNum}][discount_item_value][]">
 								</div>
-								<div class="form-group col-xs-4">
-									<label>يؤثر في الضريبة <input class="effectTax" type="checkbox"></label>
+							<div class="form-group col-xs-4">
+									<label>يؤثر في الضريبة <input class="effectTax" type="checkbox" name="items[${rowNum}][discount_item_effectTax][]" value="1"></label>
+									<label>لا يؤثر في الضريبة <input class="" type="checkbox" name="items[${rowNum}][discount_item_effectTax][]" value="0"></label>
 								</div>
 							</div>
 							<div class="anotherAddedSpecialDiscounts"></div>
@@ -340,8 +341,9 @@
 								<input type="number" step="any" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ" name="items[${itemNumber}][discount_item_value][]">
 							</div>
 							<div class="form-group col-xs-4">
-								<label>يؤثر في الضريبة <input class="effectTax" type="checkbox"></label>
-							</div>
+									<label>يؤثر في الضريبة <input class="effectTax" type="checkbox" name="items[${rowNum}][discount_item_effectTax][]" value="1"></label>
+									<label>لا يؤثر في الضريبة <input class="" type="checkbox" name="items[${rowNum}][discount_item_effectTax][]" value="0"></label>
+								</div>
 							<a href="#" class="removeThisSinglSpecDisc"><span class="icon-cross"></span></a>
 						</div>`);
 						$(".product-quantity input").each(function(){
@@ -395,10 +397,10 @@
 						var selectedUnit = $(this).find(":selected");
 						var priceHasTax = $(this).parents("tr.single-row-wrapper").data('ifhastax');
 						var productPrice = selectedUnit.data('uni-price');
-						if (Number(priceHasTax) === 0) {
+						if (Number(priceHasTax) === 1) {
 							var singlePriceBefore = Number(productPrice);
 							var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
-						} else if (Number(priceHasTax) === 1) {
+						} else if (Number(priceHasTax) === 0) {
 							var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
 							var singlePriceAfter = Number(productPrice);
 						} else {
@@ -440,10 +442,10 @@
 					$(".single-price-before input").change(function() {
 						var productPrice = $(this).val();
 						var priceHasTax = $(this).parents("tr.single-row-wrapper").data('ifhastax');
-						if (Number(priceHasTax) === 0) {
+						if (Number(priceHasTax) === 1) {
 							var singlePriceBefore = Number(productPrice);
 							var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
-						} else if (Number(priceHasTax) === 1) {
+						} else if (Number(priceHasTax) === 0) {
 							var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
 							var singlePriceAfter = Number(productPrice);
 						} else {
@@ -648,10 +650,10 @@
 		var unitId = productUnits.map(c => c.id);
 		var unitPrice = productUnits.map(b => b.selling_price);
 		var singlePriceBefore, singlePriceAfter = 0;
-		if (Number(priceHasTax) === 0) {
+		if (Number(priceHasTax) === 1) {
 			var singlePriceBefore = Number(productPrice);
 			var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
-		} else if (Number(priceHasTax) === 1) {
+		} else if (Number(priceHasTax) === 0) {
 			var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
 			var singlePriceAfter = Number(productPrice);
 		} else {
@@ -715,7 +717,8 @@
 									<input type="number" step="any" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ" name="items[${rowNum}][discount_item_value][]">
 								</div>
 								<div class="form-group col-xs-4">
-									<label>يؤثر في الضريبة <input class="effectTax" type="checkbox"></label>
+									<label>يؤثر في الضريبة <input class="effectTax" type="checkbox" name="items[${rowNum}][discount_item_effectTax][]" value="1"></label>
+									<label>لا يؤثر في الضريبة <input class="" type="checkbox" name="items[${rowNum}][discount_item_effectTax][]" value="0"></label>
 								</div>
 							</div>
 							<div class="anotherAddedSpecialDiscounts"></div>
@@ -746,8 +749,9 @@
 								<input type="number" step="any" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ" name="items[${itemNumber}][discount_item_value][]">
 							</div>
 							<div class="form-group col-xs-4">
-								<label>يؤثر في الضريبة <input class="effectTax" type="checkbox"></label>
-							</div>
+									<label>يؤثر في الضريبة <input class="effectTax" type="checkbox" name="items[${rowNum}][discount_item_effectTax][]" value="1"></label>
+									<label>لا يؤثر في الضريبة <input class="" type="checkbox" name="items[${rowNum}][discount_item_effectTax][]" value="0"></label>
+								</div>
 							<a href="#" class="removeThisSinglSpecDisc"><span class="icon-cross"></span></a>
 						</div>`);
 			$("a.removeThisSinglSpecDisc").on('click', function(e) {
@@ -798,10 +802,10 @@
 			var selectedUnit = $(this).find(":selected");
 			var priceHasTax = $(this).parents("tr.single-row-wrapper").data('ifhastax');
 			var productPrice = selectedUnit.data('uni-price');
-			if (Number(priceHasTax) === 0) {
+			if (Number(priceHasTax) === 1) {
 				var singlePriceBefore = Number(productPrice);
 				var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
-			} else if (Number(priceHasTax) === 1) {
+			} else if (Number(priceHasTax) === 0) {
 				var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
 				var singlePriceAfter = Number(productPrice);
 			} else {
@@ -843,10 +847,10 @@
 		$(".single-price-before input").change(function() {
 			var productPrice = $(this).val();
 			var priceHasTax = $(this).parents("tr.single-row-wrapper").data('ifhastax');
-			if (Number(priceHasTax) === 0) {
+			if (Number(priceHasTax) === 1) {
 				var singlePriceBefore = Number(productPrice);
 				var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
-			} else if (Number(priceHasTax) === 1) {
+			} else if (Number(priceHasTax) === 0) {
 				var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
 				var singlePriceAfter = Number(productPrice);
 			} else {
