@@ -1053,5 +1053,4 @@
 <script src="{{asset('admin/assets/js/services.js')}}"></script>
 <script src="{{asset('admin/assets/js/offer.js')}}"></script>
 <script src="{{asset('admin/assets/js/discount.js')}}"></script>
-<script src="{{asset('admin/assets/js/tax.js')}}"></script>
 @endsection
