@@ -142,9 +142,7 @@
 					{!! Form::file("image",null,['class'=>'form-control'])!!}
 				</div>
 				<!-- unit table-->
-
-				<span>  الوحدات  الفرعيه </span>
-
+				<span> الوحدات الفرعيه </span>
 				<table id="productsTable" class="table ">
 					<thead>
 						<tr>
@@ -168,7 +166,6 @@
 							<td>{{$unit->purchasing_price}}</td>
 							<td>{{$unit->quantity}}</td>
 							<td>
-
 								<a href="#" onclick="Delete({{$unit->id}})" class="delete-sub-unit">حذف</a>
 							</td>
 						</tr>
@@ -177,8 +174,7 @@
 					</tbody>
 				</table>
 				<!-- services table-->
-				<span>  الخدمات </span>
-
+				<span> الخدمات </span>
 				<table id="serviceTable" class="table ">
 					<thead>
 						<tr>
@@ -192,8 +188,7 @@
 					</tbody>
 				</table>
 				<!-- component table-->
-				<span>  مكونات المنتجات </span>
-
+				<span> مكونات المنتجات </span>
 				<table id="componentTable" class="table ">
 					<thead>
 						<tr>
@@ -207,7 +202,6 @@
 					</tbody>
 				</table>
 				<!-- end table-->
-
 			</div>
 		</div>
 		<div id="menu2" class="tab-pane fade">
@@ -311,54 +305,50 @@
 					العروض والخصومات
 				</button>
 			</div>
-
 		</div>
 		<div id="menu5" class="tab-pane fade">
 			<div class="row">
-
 				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left taxs form-line new-radio-big-wrapper ">
-
-						{{--{!! Form::radio("tax",$has_tax,['class'=>'form-control','id'=>'yes1','value'=>==)!!}--}}
-						@if (isset($is_edit))
-
-						<span class="new-radio-wrap">
-						<label for="yes1">يوجد ضريبة  </label>
-						   <input  type="radio" name="tax" class="form-control" id="yes1" value={{($has_tax==1)?1:0}}   {{($has_tax==1)?'checked':null }}>
-						</span>
-						<span class="new-radio-wrap">
-						<label for="no1">لايوجد ضريبة</label>
-							<input  type="radio" name="tax" class="form-control" id="no1" value={{($has_tax==1)?0:1}}     {{($has_tax==1)?null:'checked'}}>
-						</span>
-						@else
-						<span class="new-radio-wrap">
-						<label for="yes1">يوجد ضريبة  </label>
-							<input  type="radio" name="tax" class="form-control" id="yes1" value="1">
-						</span>
-							<span class="new-radio-wrap">
-						<label for="no1">لايوجد ضريبة</label>
-							<input  type="radio" name="tax" class="form-control" id="no1" value="0">
-						</span>
-
-						@endif
-
-				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left form-line new-radio-big-wrapper ">
+					{{--{!! Form::radio("tax",$has_tax,['class'=>'form-control','id'=>'yes1','value'=>==)!!}--}}
+					@if (isset($is_edit))
 					<span class="new-radio-wrap">
-						<label for="yes2"> السعر شامل الضريبة </label>
-						{!! Form::radio("price_has_tax",1,['class'=>'form-control','id'=>'yes2','value'=>1])!!}
+						<label for="yes1">يوجد ضريبة </label>
+						<input type="radio" name="tax" class="form-control" id="yes1" value={{($has_tax==1)?1:0}} {{($has_tax==1)?'checked':null }}>
 					</span>
 					<span class="new-radio-wrap">
-						<label for="no2">السعر غير شامل الضريبة </label>
-						{!! Form::radio("price_has_tax",0,['class'=>'form-control','id'=>'no2','value'=>0])!!}
+						<label for="no1">لايوجد ضريبة</label>
+						<input type="radio" name="tax" class="form-control" id="no1" value={{($has_tax==1)?0:1}} {{($has_tax==1)?null:'checked'}}>
 					</span>
+					@else
+					<span class="new-radio-wrap">
+						<label for="yes1">يوجد ضريبة </label>
+						<input type="radio" name="tax" class="form-control" checked id="yes1" value="1">
+					</span>
+					<span class="new-radio-wrap">
+						<label for="no1">لايوجد ضريبة</label>
+						<input type="radio" name="tax" class="form-control" id="no1" value="0">
+					</span>
+					@endif
 				</div>
-				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left prices_taxs">
-					<label> اسم شريحة الضرائب</label>
-					{!! Form::select("tax_band_id[]",$taxs,null,['class'=>'form-control selectpicker','multiple'])!!}
+				<div id="shamel-mesh">
+					<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left form-line new-radio-big-wrapper shamel-mesh">
+						<span class="new-radio-wrap">
+							<label for="yes2"> السعر شامل الضريبة </label>
+							<!--		{!! Form::radio("price_has_tax",1,['class'=>'form-control','id'=>'yes2', 'checked', 'value'=>1])!!}-->
+							<input type="radio" name="price_has_tax" checked class="form-control" id="yes2" value="1">
+						</span>
+						<span class="new-radio-wrap">
+							<label for="no2">السعر غير شامل الضريبة </label>
+							<!--		{!! Form::radio("price_has_tax",0,['class'=>'form-control','id'=>'no2','value'=>0])!!}-->
+							<input type="radio" name="price_has_tax" class="form-control" id="no2" value="0">
+						</span>
+					</div>
+					<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left prices_taxs">
+						<label> اسم شريحة الضرائب</label>
+						{!! Form::select("tax_band_id[]",$taxs,null,['class'=>'form-control selectpicker','multiple'])!!}
+					</div>
 				</div>
 			</div>
-
-
 		</div>
 	</div>
 	<div class="text-center col-md-12 m--margin-bottom-5">
@@ -517,55 +507,64 @@
 <script>
 	$(document).ready(function() {
 
-
 		$("#components_button").hide();
 		$("#offers_button").hide();
 		$("#discounts_button").hide();
-		$(".prices_taxs").hide();
 		$(".percent").hide();
 		$('.js-example-basic-single').select2();
-		// $("#productsTable").hide();
 		$("#componentTable").hide();
 		$("#offerTable").hide();
 		$("#discountTable").hide();
 		$("#serviceTable").hide();
-
-
-
-		$("input[type='radio']").each(function(){
-			var radioValue = $("input[name='tax']:checked").val();
-			alert("fdssssssssss");
-			if(radioValue){
-				alert("Your are a - " + radioValue);
+		$('input[name="price_has_tax"]').click(function() {
+			if ($(this).is(':checked')) {
+				var id = $(this).val();
+				if (id == 1) {
+					$(".prices_taxs").show();
+				} else if (id == 0) {
+					$(".prices_taxs").hide();
+				}
 			}
 		});
-	var bigData = [];
-	var bigDataComponent = [];
-	var bigDataOffer = [];
-	var bigDataDiscount = [];
-	var bigDataService = [];
-	function myFun(event) {
-		event.preventDefault();
-		var data = {};
-		data.par_code = $('#par_code').val();
-		data.name = $('#name').val();
-		data.main_unit_present = $('#main_unit_present').val();
-		data.selling_price = $('#selling_price').val();
-		data.purchasing_price = $('#purchasing_price').val();
-		data.quantity = $('#quantity').val();
-		if (data.name !== '' && data.main_unit_present !== '' && data.selling_price !== '' && data.purchasing_price !== '' && data.quantity !== '') {
-			$("tr.editted-row").remove();
-			swal({
-				title: "تم إضافة الوحدة الفرعية بنجاح",
-				text: "",
-				icon: "success",
-				buttons: ["موافق"],
-				dangerMode: true,
-			});
-			bigData.push(data);
-			$("#productsTable").show();
-			var appendProducts = bigData.map(function(product) {
-				return (`
+		
+			$('input[name="tax"]').click(function () {
+		if ($(this).is(':checked')) {
+			var id = $(this).val();
+			if (id == 1) {
+				$("#shamel-mesh").show();
+			} else if (id == 0) {
+				$("#shamel-mesh").hide();
+			}
+		}
+	});
+		
+		var bigData = [];
+		var bigDataComponent = [];
+		var bigDataOffer = [];
+		var bigDataDiscount = [];
+		var bigDataService = [];
+		function myFun(event) {
+			event.preventDefault();
+			var data = {};
+			data.par_code = $('#par_code').val();
+			data.name = $('#name').val();
+			data.main_unit_present = $('#main_unit_present').val();
+			data.selling_price = $('#selling_price').val();
+			data.purchasing_price = $('#purchasing_price').val();
+			data.quantity = $('#quantity').val();
+			if (data.name !== '' && data.main_unit_present !== '' && data.selling_price !== '' && data.purchasing_price !== '' && data.quantity !== '') {
+				$("tr.editted-row").remove();
+				swal({
+					title: "تم إضافة الوحدة الفرعية بنجاح",
+					text: "",
+					icon: "success",
+					buttons: ["موافق"],
+					dangerMode: true,
+				});
+				bigData.push(data);
+				$("#productsTable").show();
+				var appendProducts = bigData.map(function(product) {
+					return (`
                 <tr class="single-product">
                     <td class="prod-nam">${product.name}</td>
                     <td class="prod-bar">${product.par_code}</td>
@@ -589,84 +588,84 @@
             <input type="hidden"name="unit_quantities[]"  value="${product.quantity}" >
                 </tr>
                 `);
-			});
-			$('.add-products').append(appendProducts);
-			$('.delete-this-row').click(function(e) {
-				var $this = $(this);
-				var row_index = $(this).parents('tr').index();
-				e.preventDefault();
-				swal({
-					title: "هل أنت متأكد ",
-					text: "هل تريد حذف هذة الوحدة الفرعية ؟",
-					icon: "warning",
-					buttons: ["الغاء", "موافق"],
-					dangerMode: true,
-				}).then(function(isConfirm) {
-					if (isConfirm) {
-						$this.parents('tr').remove();
-						bigData.splice(row_index, 1);
-					} else {
-						swal("تم االإلفاء", "حذف  الوحدة الفرعية  تم الغاؤه", 'info', {
-							buttons: 'موافق'
-						});
-					}
 				});
-			});
-			$('.edit-this-row').click(function(e) {
-				var $this = $(this);
-				e.preventDefault();
-				$this.parents('tr').addClass('editted-row');
-				$('#exampleModal #name').val($this.parents('tr').find('.prod-nam').html());
-				$('#exampleModal #par_code').val($this.parents('tr').find('.prod-bar').html());
-				$('#exampleModal #main_unit_present').val($this.parents('tr').find('.prod-pre').html());
-				$('#exampleModal #selling_price').val($this.parents('tr').find('.prod-spri').html());
-				$('#exampleModal #purchasing_price').val($this.parents('tr').find('.prod-ppri').html());
-				$('#exampleModal #quantity').val($this.parents('tr').find('.prod-quantity').html());
-				var row_index_edit = $(this).parents('tr').index();
-				bigData.splice(row_index_edit, 1);
-			});
-			document.getElementById("name").val = " ";
-			$('[data-dismiss=modal]').on('click', function(e) {
-				var $t = $(this),
-					target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
-				$(target)
-					.find("input,textarea,select")
-					.val('')
-					.end()
-					.find("input[type=checkbox], input[type=radio]")
-					.prop("checked", "")
-					.end();
-			})
-		} else {
-			swal({
-				title: "من فضلك قم بملئ كل البيانات المميزة بالعلامة الحمراء",
-				text: "",
-				icon: "warning",
-				buttons: ["موافق"],
-				dangerMode: true,
-			})
+				$('.add-products').append(appendProducts);
+				$('.delete-this-row').click(function(e) {
+					var $this = $(this);
+					var row_index = $(this).parents('tr').index();
+					e.preventDefault();
+					swal({
+						title: "هل أنت متأكد ",
+						text: "هل تريد حذف هذة الوحدة الفرعية ؟",
+						icon: "warning",
+						buttons: ["الغاء", "موافق"],
+						dangerMode: true,
+					}).then(function(isConfirm) {
+						if (isConfirm) {
+							$this.parents('tr').remove();
+							bigData.splice(row_index, 1);
+						} else {
+							swal("تم االإلفاء", "حذف  الوحدة الفرعية  تم الغاؤه", 'info', {
+								buttons: 'موافق'
+							});
+						}
+					});
+				});
+				$('.edit-this-row').click(function(e) {
+					var $this = $(this);
+					e.preventDefault();
+					$this.parents('tr').addClass('editted-row');
+					$('#exampleModal #name').val($this.parents('tr').find('.prod-nam').html());
+					$('#exampleModal #par_code').val($this.parents('tr').find('.prod-bar').html());
+					$('#exampleModal #main_unit_present').val($this.parents('tr').find('.prod-pre').html());
+					$('#exampleModal #selling_price').val($this.parents('tr').find('.prod-spri').html());
+					$('#exampleModal #purchasing_price').val($this.parents('tr').find('.prod-ppri').html());
+					$('#exampleModal #quantity').val($this.parents('tr').find('.prod-quantity').html());
+					var row_index_edit = $(this).parents('tr').index();
+					bigData.splice(row_index_edit, 1);
+				});
+				document.getElementById("name").val = " ";
+				$('[data-dismiss=modal]').on('click', function(e) {
+					var $t = $(this),
+						target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
+					$(target)
+						.find("input,textarea,select")
+						.val('')
+						.end()
+						.find("input[type=checkbox], input[type=radio]")
+						.prop("checked", "")
+						.end();
+				})
+			} else {
+				swal({
+					title: "من فضلك قم بملئ كل البيانات المميزة بالعلامة الحمراء",
+					text: "",
+					icon: "warning",
+					buttons: ["موافق"],
+					dangerMode: true,
+				})
+			}
 		}
-	}
-	function myFun2(event) {
-		event.preventDefault();
-		var component_data = {};
-		component_data.component_name = $('#component_name option:selected').text();
-		component_data.component_name_val = $('#component_name').val();
-		component_data.component_quantity = $('#component_quantity').val();
-		component_data.main_unit = $('#main_unit').val();
-		if (component_data.component_name !== '' && component_data.component_quantity !== '' && component_data.main_unit !== '') {
-			$("tr.editted-row").remove();
-			swal({
-				title: "تم إضافة  المكون بنجاح",
-				text: "",
-				icon: "success",
-				buttons: ["موافق"],
-				dangerMode: true,
-			});
-			bigDataComponent.push(component_data);
-			$("#componentTable").show();
-			var appendComponent = bigDataComponent.map(function(component) {
-				return (`
+		function myFun2(event) {
+			event.preventDefault();
+			var component_data = {};
+			component_data.component_name = $('#component_name option:selected').text();
+			component_data.component_name_val = $('#component_name').val();
+			component_data.component_quantity = $('#component_quantity').val();
+			component_data.main_unit = $('#main_unit').val();
+			if (component_data.component_name !== '' && component_data.component_quantity !== '' && component_data.main_unit !== '') {
+				$("tr.editted-row").remove();
+				swal({
+					title: "تم إضافة  المكون بنجاح",
+					text: "",
+					icon: "success",
+					buttons: ["موافق"],
+					dangerMode: true,
+				});
+				bigDataComponent.push(component_data);
+				$("#componentTable").show();
+				var appendComponent = bigDataComponent.map(function(component) {
+					return (`
 					<tr class="single-product">
 						<td class="component-name">${component.component_name}</td>
 						<td class="component-qty">${component.component_quantity}</td>
@@ -684,80 +683,80 @@
 				<input type="hidden"name="main_units[]" value="${component.main_unit}" >
 					</tr>
 					`);
-			});
-			$('.add-components').empty().append(appendComponent);
-			//////////////////////////////////////////////////////////////////////
-			$('.delete-this-row-component').click(function(e) {
-				var $this = $(this);
-				var row_index_component = $(this).parents('tr').index();
-				e.preventDefault();
-				swal({
-					title: "هل أنت متأكد ",
-					text: "هل تريد حذف هذا  المكون؟",
-					icon: "warning",
-					buttons: ["الغاء", "موافق"],
-					dangerMode: true,
-				}).then(function(isConfirm) {
-					if (isConfirm) {
-						$this.parents('tr').remove();
-						bigDataComponent.splice(row_index_component, 1);
-					} else {
-						swal("تم االإلفاء", "حذف  المكون تم الغاؤه", 'info', {
-							buttons: 'موافق'
-						});
-					}
 				});
-			});
-			$('.edit-this-row-component').click(function(e) {
-				var $this = $(this);
-				e.preventDefault();
-				$this.parents('tr').addClass('editted-row');
-				$('#exampleModal2 #component_name').val($('.component_name option:selected').text());
-				$('#exampleModal2 #component_quantity').val($this.parents('tr').find('.component-qty').html());
-				$('#exampleModal2 #main_unit').val($this.parents('tr').find('.component-unit').html());
-				var row_index_edit_component = $(this).parents('tr').index();
-				bigDataComponent.splice(row_index_edit_component, 1);
-			});
-			document.getElementById("name").val = " ";
-			$('[data-dismiss=modal]').on('click', function(e) {
-				var $t = $(this),
-					target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
-				$(target)
-					.find("input,textarea,select")
-					.val('')
-					.end()
-					.find("input[type=checkbox], input[type=radio]")
-					.prop("checked", "")
-					.end();
-			})
-		} else {
-			swal({
-				title: "من فضلك قم بملئ كل البيانات المميزة بالعلامة الحمراء",
-				text: "",
-				icon: "warning",
-				buttons: ["موافق"],
-				dangerMode: true,
-			})
-		} ///if_end
-	}
-	function myFun3(event) {
-		event.preventDefault();
-		var offer_data = {};
-		offer_data.child_product = $('#child_product option:selected').text();
-		offer_data.child_product_val = $('#child_product').val();
-		if (offer_data.child_product !== '') {
-			$("tr.editted-row").remove();
-			swal({
-				title: "تم إضافة  المنتج التابع بنجاح",
-				text: "",
-				icon: "success",
-				buttons: ["موافق"],
-				dangerMode: true,
-			});
-			bigDataOffer.push(offer_data);
-			$("#offerTable").show();
-			var appendOffer = bigDataOffer.map(function(offer) {
-				return (`
+				$('.add-components').empty().append(appendComponent);
+				//////////////////////////////////////////////////////////////////////
+				$('.delete-this-row-component').click(function(e) {
+					var $this = $(this);
+					var row_index_component = $(this).parents('tr').index();
+					e.preventDefault();
+					swal({
+						title: "هل أنت متأكد ",
+						text: "هل تريد حذف هذا  المكون؟",
+						icon: "warning",
+						buttons: ["الغاء", "موافق"],
+						dangerMode: true,
+					}).then(function(isConfirm) {
+						if (isConfirm) {
+							$this.parents('tr').remove();
+							bigDataComponent.splice(row_index_component, 1);
+						} else {
+							swal("تم االإلفاء", "حذف  المكون تم الغاؤه", 'info', {
+								buttons: 'موافق'
+							});
+						}
+					});
+				});
+				$('.edit-this-row-component').click(function(e) {
+					var $this = $(this);
+					e.preventDefault();
+					$this.parents('tr').addClass('editted-row');
+					$('#exampleModal2 #component_name').val($('.component_name option:selected').text());
+					$('#exampleModal2 #component_quantity').val($this.parents('tr').find('.component-qty').html());
+					$('#exampleModal2 #main_unit').val($this.parents('tr').find('.component-unit').html());
+					var row_index_edit_component = $(this).parents('tr').index();
+					bigDataComponent.splice(row_index_edit_component, 1);
+				});
+				document.getElementById("name").val = " ";
+				$('[data-dismiss=modal]').on('click', function(e) {
+					var $t = $(this),
+						target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
+					$(target)
+						.find("input,textarea,select")
+						.val('')
+						.end()
+						.find("input[type=checkbox], input[type=radio]")
+						.prop("checked", "")
+						.end();
+				})
+			} else {
+				swal({
+					title: "من فضلك قم بملئ كل البيانات المميزة بالعلامة الحمراء",
+					text: "",
+					icon: "warning",
+					buttons: ["موافق"],
+					dangerMode: true,
+				})
+			} ///if_end
+		}
+		function myFun3(event) {
+			event.preventDefault();
+			var offer_data = {};
+			offer_data.child_product = $('#child_product option:selected').text();
+			offer_data.child_product_val = $('#child_product').val();
+			if (offer_data.child_product !== '') {
+				$("tr.editted-row").remove();
+				swal({
+					title: "تم إضافة  المنتج التابع بنجاح",
+					text: "",
+					icon: "success",
+					buttons: ["موافق"],
+					dangerMode: true,
+				});
+				bigDataOffer.push(offer_data);
+				$("#offerTable").show();
+				var appendOffer = bigDataOffer.map(function(offer) {
+					return (`
 					<tr class="single-product">
 						<td class="child_product">${offer.child_product}</td>
 	                  <td>
@@ -771,78 +770,78 @@
 				<input type="hidden" name="offers[]" value="${offer.child_product_val}" >
 					</tr>
 					`);
-			});
-			$('.add-offers').empty().append(appendOffer);
-			//////////////////////////////////////////////////////////////////////
-			$('.delete-this-row-offer').click(function(e) {
-				var $this = $(this);
-				var row_index_offer = $(this).parents('tr').index();
-				e.preventDefault();
-				swal({
-					title: "هل أنت متأكد ",
-					text: "هل تريد حذف هذا  المنتج؟",
-					icon: "warning",
-					buttons: ["الغاء", "موافق"],
-					dangerMode: true,
-				}).then(function(isConfirm) {
-					if (isConfirm) {
-						$this.parents('tr').remove();
-						bigDataOffer.splice(row_index_offer, 1);
-					} else {
-						swal("تم االإلفاء", "حذف  المنتج تم الغاؤه", 'info', {
-							buttons: 'موافق'
-						});
-					}
 				});
-			});
-			$('.edit-this-row-offer').click(function(e) {
-				var $this = $(this);
-				e.preventDefault();
-				$this.parents('tr').addClass('editted-row');
-				$('#exampleModal3 #child_product').val($('.child_product option:selected').text());
-				var row_index_edit_offer = $(this).parents('tr').index();
-				bigDataOffer.splice(row_index_edit_offer, 1);
-			});
-			document.getElementById("name").val = " ";
-			$('[data-dismiss=modal]').on('click', function(e) {
-				var $t = $(this),
-					target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
-				$(target)
-					.find("input,textarea,select")
-					.val('')
-					.end()
-					.find("input[type=checkbox], input[type=radio]")
-					.prop("checked", "")
-					.end();
-			})
-		} else {
-			swal({
-				title: "من فضلك قم بملئ كل البيانات المميزة بالعلامة الحمراء",
-				text: "",
-				icon: "warning",
-				buttons: ["موافق"],
-				dangerMode: true,
-			})
-		} ///if_end
-	}
-	function myFun4(event) {
-		event.preventDefault();
-		var discount_data = {};
-		discount_data.basic_quantity = $('#basic_quantity').val();
-		discount_data.gift_quantity = $('#gift_quantity').val();
-		if (discount_data.basic_quantity !== '' && discount_data.gift_quantity !== '') {
-			$("tr.editted-row").remove();
-			swal({
-				title: "تم إضافة  الخصم بنجاح",
-				text: "",
-				icon: "success",
-				buttons: ["موافق"],
-				dangerMode: true,
-			});
-			bigDataDiscount.push(discount_data);
-			$("#discountTable").show();
-			var appendDiscount = bigDataDiscount.map(function(discount) {
-				return (`
+				$('.add-offers').empty().append(appendOffer);
+				//////////////////////////////////////////////////////////////////////
+				$('.delete-this-row-offer').click(function(e) {
+					var $this = $(this);
+					var row_index_offer = $(this).parents('tr').index();
+					e.preventDefault();
+					swal({
+						title: "هل أنت متأكد ",
+						text: "هل تريد حذف هذا  المنتج؟",
+						icon: "warning",
+						buttons: ["الغاء", "موافق"],
+						dangerMode: true,
+					}).then(function(isConfirm) {
+						if (isConfirm) {
+							$this.parents('tr').remove();
+							bigDataOffer.splice(row_index_offer, 1);
+						} else {
+							swal("تم االإلفاء", "حذف  المنتج تم الغاؤه", 'info', {
+								buttons: 'موافق'
+							});
+						}
+					});
+				});
+				$('.edit-this-row-offer').click(function(e) {
+					var $this = $(this);
+					e.preventDefault();
+					$this.parents('tr').addClass('editted-row');
+					$('#exampleModal3 #child_product').val($('.child_product option:selected').text());
+					var row_index_edit_offer = $(this).parents('tr').index();
+					bigDataOffer.splice(row_index_edit_offer, 1);
+				});
+				document.getElementById("name").val = " ";
+				$('[data-dismiss=modal]').on('click', function(e) {
+					var $t = $(this),
+						target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
+					$(target)
+						.find("input,textarea,select")
+						.val('')
+						.end()
+						.find("input[type=checkbox], input[type=radio]")
+						.prop("checked", "")
+						.end();
+				})
+			} else {
+				swal({
+					title: "من فضلك قم بملئ كل البيانات المميزة بالعلامة الحمراء",
+					text: "",
+					icon: "warning",
+					buttons: ["موافق"],
+					dangerMode: true,
+				})
+			} ///if_end
+		}
+		function myFun4(event) {
+			event.preventDefault();
+			var discount_data = {};
+			discount_data.basic_quantity = $('#basic_quantity').val();
+			discount_data.gift_quantity = $('#gift_quantity').val();
+			if (discount_data.basic_quantity !== '' && discount_data.gift_quantity !== '') {
+				$("tr.editted-row").remove();
+				swal({
+					title: "تم إضافة  الخصم بنجاح",
+					text: "",
+					icon: "success",
+					buttons: ["موافق"],
+					dangerMode: true,
+				});
+				bigDataDiscount.push(discount_data);
+				$("#discountTable").show();
+				var appendDiscount = bigDataDiscount.map(function(discount) {
+					return (`
 					<tr class="single-product">
 						<td class="discount-basic_quantity">${discount.basic_quantity}</td>
 						<td class="discount-gift_quantity">${discount.gift_quantity}</td>
@@ -858,81 +857,81 @@
 				<input type="hidden" name="gift_quantity[]" value="${discount.gift_quantity}" >
 					</tr>
 					`);
-			});
-			$('.add-discounts').empty().append(appendDiscount);
-			//////////////////////////////////////////////////////////////////////
-			$('.delete-this-row-discount').click(function(e) {
-				var $this = $(this);
-				var row_index_discount = $(this).parents('tr').index();
-				e.preventDefault();
-				swal({
-					title: "هل أنت متأكد ",
-					text: "هل تريد حذف هذا  الخصم؟",
-					icon: "warning",
-					buttons: ["الغاء", "موافق"],
-					dangerMode: true,
-				}).then(function(isConfirm) {
-					if (isConfirm) {
-						$this.parents('tr').remove();
-						bigDataDiscount.splice(row_index_discount, 1);
-					} else {
-						swal("تم االإلفاء", "حذف  الخصم تم الغاؤه", 'info', {
-							buttons: 'موافق'
-						});
-					}
 				});
-			});
-			$('.edit-this-row-discount').click(function(e) {
-				var $this = $(this);
-				e.preventDefault();
-				$this.parents('tr').addClass('editted-row');
-				$('#exampleModal4 #basic_quantity').val($this.parents('tr').find('.basic_quantity').html());
-				$('#exampleModal4 #gift_quantity').val($this.parents('tr').find('.gift_quantity').html());
-				var row_index_discount = $(this).parents('tr').index();
-				bigDataDiscount.splice(row_index_discount, 1);
-			});
-			document.getElementById("name").val = " ";
-			$('[data-dismiss=modal]').on('click', function(e) {
-				var $t = $(this),
-					target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
-				$(target)
-					.find("input,textarea,select")
-					.val('')
-					.end()
-					.find("input[type=checkbox], input[type=radio]")
-					.prop("checked", "")
-					.end();
-			})
-		} else {
-			swal({
-				title: "من فضلك قم بملئ كل البيانات المميزة بالعلامة الحمراء",
-				text: "",
-				icon: "warning",
-				buttons: ["موافق"],
-				dangerMode: true,
-			})
-		} ///if_end
-	}
-	function myFun5(event) {
-		event.preventDefault();
-		var service_data = {};
-		service_data.service_type = $('#service_type option:selected').text();
-		service_data.service_type_type = $('#service_type').val();
-		service_data.sevices_price = $('#sevices_price').val();
-		service_data.sevices_code = $('#sevices_code').val();
-		if (service_data.sevices_price !== '' && service_data.sevices_code !== '') {
-			$("tr.editted-row").remove();
-			swal({
-				title: "تم إضافة  الخدمة بنجاح",
-				text: "",
-				icon: "success",
-				buttons: ["موافق"],
-				dangerMode: true,
-			});
-			bigDataService.push(service_data);
-			$("#serviceTable").show();
-			var appendService = bigDataService.map(function(service) {
-				return (`
+				$('.add-discounts').empty().append(appendDiscount);
+				//////////////////////////////////////////////////////////////////////
+				$('.delete-this-row-discount').click(function(e) {
+					var $this = $(this);
+					var row_index_discount = $(this).parents('tr').index();
+					e.preventDefault();
+					swal({
+						title: "هل أنت متأكد ",
+						text: "هل تريد حذف هذا  الخصم؟",
+						icon: "warning",
+						buttons: ["الغاء", "موافق"],
+						dangerMode: true,
+					}).then(function(isConfirm) {
+						if (isConfirm) {
+							$this.parents('tr').remove();
+							bigDataDiscount.splice(row_index_discount, 1);
+						} else {
+							swal("تم االإلفاء", "حذف  الخصم تم الغاؤه", 'info', {
+								buttons: 'موافق'
+							});
+						}
+					});
+				});
+				$('.edit-this-row-discount').click(function(e) {
+					var $this = $(this);
+					e.preventDefault();
+					$this.parents('tr').addClass('editted-row');
+					$('#exampleModal4 #basic_quantity').val($this.parents('tr').find('.basic_quantity').html());
+					$('#exampleModal4 #gift_quantity').val($this.parents('tr').find('.gift_quantity').html());
+					var row_index_discount = $(this).parents('tr').index();
+					bigDataDiscount.splice(row_index_discount, 1);
+				});
+				document.getElementById("name").val = " ";
+				$('[data-dismiss=modal]').on('click', function(e) {
+					var $t = $(this),
+						target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
+					$(target)
+						.find("input,textarea,select")
+						.val('')
+						.end()
+						.find("input[type=checkbox], input[type=radio]")
+						.prop("checked", "")
+						.end();
+				})
+			} else {
+				swal({
+					title: "من فضلك قم بملئ كل البيانات المميزة بالعلامة الحمراء",
+					text: "",
+					icon: "warning",
+					buttons: ["موافق"],
+					dangerMode: true,
+				})
+			} ///if_end
+		}
+		function myFun5(event) {
+			event.preventDefault();
+			var service_data = {};
+			service_data.service_type = $('#service_type option:selected').text();
+			service_data.service_type_type = $('#service_type').val();
+			service_data.sevices_price = $('#sevices_price').val();
+			service_data.sevices_code = $('#sevices_code').val();
+			if (service_data.sevices_price !== '' && service_data.sevices_code !== '') {
+				$("tr.editted-row").remove();
+				swal({
+					title: "تم إضافة  الخدمة بنجاح",
+					text: "",
+					icon: "success",
+					buttons: ["موافق"],
+					dangerMode: true,
+				});
+				bigDataService.push(service_data);
+				$("#serviceTable").show();
+				var appendService = bigDataService.map(function(service) {
+					return (`
 					<tr class="single-product">
                     	<td class="service-service_type">${service.service_type}</td>
 						<td class="service-sevices_price">${service.sevices_price}</td>
@@ -950,73 +949,73 @@
 				<input type="hidden" name="sevices_code[]" value="${service.sevices_code}" >
 					</tr>
 					`);
-			});
-			$('.add-services').empty().append(appendService);
-			//////////////////////////////////////////////////////////////////////
-			$('.delete-this-row-service').click(function(e) {
-				var $this = $(this);
-				var row_index_service = $(this).parents('tr').index();
-				e.preventDefault();
-				swal({
-					title: "هل أنت متأكد ",
-					text: "هل تريد حذف هذا  الخدمة؟",
-					icon: "warning",
-					buttons: ["الغاء", "موافق"],
-					dangerMode: true,
-				}).then(function(isConfirm) {
-					if (isConfirm) {
-						$this.parents('tr').remove();
-						bigDataService.splice(row_index_service, 1);
-					} else {
-						swal("تم االإلفاء", "حذف  الخدمة تم الغاؤه", 'info', {
-							buttons: 'موافق'
-						});
-					}
 				});
+				$('.add-services').empty().append(appendService);
+				//////////////////////////////////////////////////////////////////////
+				$('.delete-this-row-service').click(function(e) {
+					var $this = $(this);
+					var row_index_service = $(this).parents('tr').index();
+					e.preventDefault();
+					swal({
+						title: "هل أنت متأكد ",
+						text: "هل تريد حذف هذا  الخدمة؟",
+						icon: "warning",
+						buttons: ["الغاء", "موافق"],
+						dangerMode: true,
+					}).then(function(isConfirm) {
+						if (isConfirm) {
+							$this.parents('tr').remove();
+							bigDataService.splice(row_index_service, 1);
+						} else {
+							swal("تم االإلفاء", "حذف  الخدمة تم الغاؤه", 'info', {
+								buttons: 'موافق'
+							});
+						}
+					});
+				});
+				$('.edit-this-row-service').click(function(e) {
+					var $this = $(this);
+					e.preventDefault();
+					$this.parents('tr').addClass('editted-row');
+					$('#exampleModal5 #sevice_type').val($this.parents('tr').find('.sevice_type').html());
+					$('#exampleModal5 #sevices_price').val($this.parents('tr').find('.sevices_price').html());
+					$('#exampleModal5 #sevices_code').val($this.parents('tr').find('.sevices_code').html());
+					var row_index_service = $(this).parents('tr').index();
+					bigDataService.splice(row_index_service, 1);
+				});
+				document.getElementById("name").val = " ";
+				$('[data-dismiss=modal]').on('click', function(e) {
+					var $t = $(this),
+						target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
+					$(target)
+						.find("input,textarea,select")
+						.val('')
+						.end()
+						.find("input[type=checkbox], input[type=radio]")
+						.prop("checked", "")
+						.end();
+				})
+			} else {
+				swal({
+					title: "من فضلك قم بملئ كل البيانات المميزة بالعلامة الحمراء",
+					text: "",
+					icon: "warning",
+					buttons: ["موافق"],
+					dangerMode: true,
+				})
+			} ///if_end
+		}
+		$(function() {
+			var availableTags = <?php echo $units; ?>;
+			$(".autocomplete").autocomplete({
+				source: availableTags
 			});
-			$('.edit-this-row-service').click(function(e) {
-				var $this = $(this);
-				e.preventDefault();
-				$this.parents('tr').addClass('editted-row');
-				$('#exampleModal5 #sevice_type').val($this.parents('tr').find('.sevice_type').html());
-				$('#exampleModal5 #sevices_price').val($this.parents('tr').find('.sevices_price').html());
-				$('#exampleModal5 #sevices_code').val($this.parents('tr').find('.sevices_code').html());
-				var row_index_service = $(this).parents('tr').index();
-				bigDataService.splice(row_index_service, 1);
-			});
-			document.getElementById("name").val = " ";
-			$('[data-dismiss=modal]').on('click', function(e) {
-				var $t = $(this),
-					target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
-				$(target)
-					.find("input,textarea,select")
-					.val('')
-					.end()
-					.find("input[type=checkbox], input[type=radio]")
-					.prop("checked", "")
-					.end();
-			})
-		} else {
-			swal({
-				title: "من فضلك قم بملئ كل البيانات المميزة بالعلامة الحمراء",
-				text: "",
-				icon: "warning",
-				buttons: ["موافق"],
-				dangerMode: true,
-			})
-		} ///if_end
-	}
-	$(function() {
-		var availableTags = <?php echo $units; ?>;
-		$(".autocomplete").autocomplete({
-			source: availableTags
 		});
-	});
+	})
 </script>
-
 <script>
 	function Delete(id) {
-		var item_id=id;
+		var item_id = id;
 		console.log(item_id);
 		swal({
 			title: "هل أنت متأكد ",
@@ -1024,30 +1023,22 @@
 			icon: "warning",
 			buttons: ["الغاء", "موافق"],
 			dangerMode: true,
-
-		}).then(function(isConfirm){
-			if(isConfirm){
+		}).then(function(isConfirm) {
+			if (isConfirm) {
 				$.ajax({
 					type: "get",
-
-					url: '/accounting/destroy_subunit/'+ item_id,
-
-					success: function (data) {
-
+					url: '/accounting/destroy_subunit/' + item_id,
+					success: function(data) {
 						item_id.remove();
-
-
-
-					},error:function (data) {
+					},
+					error: function(data) {
 						console.log(data);
 					}
-
 				});
-
-
-			}
-			else{
-				swal("تم االإلفاء", "حذف  الوحدة  تم الغاؤه",'info',{buttons:'موافق'});
+			} else {
+				swal("تم االإلفاء", "حذف  الوحدة  تم الغاؤه", 'info', {
+					buttons: 'موافق'
+				});
 			}
 		});
 	}
@@ -1062,5 +1053,4 @@
 <script src="{{asset('admin/assets/js/services.js')}}"></script>
 <script src="{{asset('admin/assets/js/offer.js')}}"></script>
 <script src="{{asset('admin/assets/js/discount.js')}}"></script>
-<script src="{{asset('admin/assets/js/tax.js')}}"></script>
 @endsection
