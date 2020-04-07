@@ -91,7 +91,7 @@
 				</div>
 			</div>
 			<div class="result">
-				<form method="post" action="{{route('accounting.sales.store')}}">
+				<form method="post" id="sllForm" action="{{route('accounting.sales.store')}}">
 					@csrf
 					<input type="hidden" name="user_id" value="{{$session->user_id}}">
 					<input type="hidden" name="session_id" value="{{$session->id}}">
@@ -157,14 +157,14 @@
 										<div class="form-group">
 											<div class="rel-cols">
 												<label for="byPercentage">ادخل نسبة الخصم</label>
-												<input type="number" placeholder="النسبة المئوية للخصم" min="0" value="0" max="100" id="byPercentage" class="form-control dynamic-input" name="discount_byPercentage">
+												<input type="number" placeholder="النسبة المئوية للخصم" min="0" value="0" max="100" step="any" id="byPercentage" class="form-control dynamic-input" name="discount_byPercentage">
 												<span class="rs"> % </span>
 											</div>
 										</div>
 										<div class="form-group">
 											<div class="rel-cols">
 												<label for="byAmount">ادخل مبلغ الخصم</label>
-												<input type="number" placeholder="مبلغ الخصم" min="0" value="0" max="1" id="byAmount" class="form-control dynamic-input" name="discount_byAmount">
+												<input type="number" step="any" placeholder="مبلغ الخصم" min="0" value="0" max="1" id="byAmount" class="form-control dynamic-input" name="discount_byAmount">
 												<span class="rs"> ر.س </span>
 											</div>
 										</div>
@@ -185,13 +185,13 @@
 									<div class="inline_divs">
 										<div class="form-group rel-cols">
 											<label for="byCache">كاش</label>
-											<input type="number" id="byCache" placeholder="المدفوع كاش" min="0" class="form-control dynamic-input" name="cash">
+											<input type="number" step="any" id="byCache" placeholder="المدفوع كاش" min="0" class="form-control dynamic-input" name="cash">
 											<span class="rs"> ر.س </span>
 										</div>
 										<span> + </span>
 										<div class="form-group rel-cols">
 											<label for="byNet">شبكة</label>
-											<input type="number" id="byNet" placeholder="المدفوع شبكة" min="0" class="form-control dynamic-input" name="network">
+											<input type="number" step="any" id="byNet" placeholder="المدفوع شبكة" min="0" class="form-control dynamic-input" name="network">
 											<span class="rs"> ر.س </span>
 										</div>
 										<div class="rel-cols">
@@ -460,7 +460,7 @@
 					});
 					$("#byCache , #byNet").change(function() {
 						var allPaid = Number($("#byCache").val()) + Number($("#byNet").val());
-						$("#allPaid").html(allPaid);
+						$("#allPaid").html(allPaid.toFixed(2));
 						$("#allPaid1").val(allPaid);
 						var remaindedAmount = Number(allPaid) - Number($("tr#demandedAmount span.dynamic-span").html());
 						$("#remaindedAmount span.dynamic-span").html(remaindedAmount.toFixed(2));
@@ -662,7 +662,7 @@
 			});
 			$("#byCache , #byNet").change(function() {
 				var allPaid = Number($("#byCache").val()) + Number($("#byNet").val());
-				$("#allPaid").html(allPaid);
+				$("#allPaid").html(allPaid.toFixed(2));
 				$("#allPaid1").val(allPaid);
 				var remaindedAmount = Number(allPaid) - Number($("tr#demandedAmount span.dynamic-span").html());
 				$("#remaindedAmount span.dynamic-span").html(remaindedAmount.toFixed(2));
@@ -702,7 +702,7 @@
 
 	$(document).keydown(function(event) {
 		if (event.which == 118) { //F7 حفظ
-			$("button[type='submit']").trigger('click');
+			$("#sllForm").submit();
 			return false;
 		}
 		if (event.which == 119) { //F8 اغلاق الجلسة
