@@ -516,7 +516,7 @@
 @section('scripts')
 <script>
 	$(document).ready(function() {
-		alert("sefd");
+
 
 		$("#components_button").hide();
 		$("#offers_button").hide();

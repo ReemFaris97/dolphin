@@ -59,6 +59,11 @@ class AccountingProduct extends Model
         return $this->hasMany(AccountingSaleItem::class,'product_id');
     }
 
+
+    public function quantity()
+    {
+        return $this->hasMany(AccountingProductStore::class,'product_id')->sum('quantity');
+    }
     public function sold_items()
     {
         return $this->hasManyThrough(AccountingSale::class,

@@ -57,7 +57,7 @@
                                 @endif
 
                         </td>
-                        <td>{!! $row->quantity!!}</td>
+                        <td>{!! $row->quantity()!!}</td>
                         <td>{!! $row->bar_code!!}</td>
                         <td>{!! $row->main_unit!!}</td>
                         <td>{!! $row->selling_price!!}</td>

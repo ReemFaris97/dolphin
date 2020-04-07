@@ -241,6 +241,7 @@ class StoreController extends Controller
 
         $all_stores=AccountingStore::all();
         $storess=$all_stores->except($id);
+
         return view('AccountingSystem.stores.products',compact('products_store','store','stores','storess'));
     }
 

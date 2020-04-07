@@ -84,7 +84,7 @@ class PurchaseReturnController extends Controller
     public function store(Request $request)
     {
         $requests = $request->all();
-//         dd($requests);
+      dd($requests);
 
         $rules = [
 
@@ -98,6 +98,7 @@ class PurchaseReturnController extends Controller
 
         $return->update([
             'bill_num' => $return->id . "-" . $return->created_at,
+            'branch_id'=>$requests['branch_id'],
         ]);
 
         $products = collect($requests['product_id']);
