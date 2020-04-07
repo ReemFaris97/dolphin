@@ -1271,8 +1271,11 @@ td button.btn.btn-primary.popover-dismiss span.icon-coin-dollar {
 
 	.navbar-nav > li > .dropdown-menu,
 	.dropdown-menu > .dropdown-submenu > .dropdown-menu {
-		min-width: 220px;
+		min-width: 240px;
 	}
+	.dropdown-menu > li > a {
+    text-overflow: unset;
+}
 }
 
 @media(max-width:991px) {

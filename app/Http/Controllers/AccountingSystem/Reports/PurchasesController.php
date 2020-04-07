@@ -144,6 +144,7 @@ class PurchasesController extends Controller
             }
 
             if ($request->has('product_id') && $request->product_id != null ) {
+//                dd($purchases);
                $purchases = $purchases->whereHas('items', function ($item) use ($request) {
                   $item->where('product_id', $request->product_id);
                });
@@ -151,10 +152,11 @@ class PurchasesController extends Controller
 
             if ($request->has('from') && $request->has('to')) {
                $purchases = $purchases->whereBetween('created_at', [Carbon::parse($request->from), Carbon::parse($request->to)]);
+
             }
 
             $purchases = $purchases->groupBy('date')->get();
-            // dd($purchases);
+
          } else {
             $purchases = collect();
          }

@@ -67,7 +67,7 @@ class PurchaseController extends Controller
         $requests = $request->except('user_id');
 
 //        dd($request['user_id']);
-//dd($requests);
+        //dd($request->all());
         $rules = [
 
            'supplier_id'=>'required|numeric|exists:accounting_suppliers,id',
@@ -82,7 +82,7 @@ class PurchaseController extends Controller
         $purchase=AccountingPurchase::create($requests);
 
         $purchase->update([
-            'bill_num'=>$purchase->id."-".$purchase->created_at,
+            'bill_num'=>$purchase->bill_num."-".$purchase->created_at->toDateString(),
             'branch_id'=>$requests['branch_id'],
             'user_id'=>$request['user_id'],
             'store_id'=>$user->accounting_store_id,
@@ -166,14 +166,16 @@ class PurchaseController extends Controller
              ///if-main-unit
 
              if($merge['2']!='main-'.$product->id){
-                 $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',Null)->first();
+
+                 $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',$merge['2'])->first();
 
                  $productstore->update([
                 'quantity'=>$productstore->quantity - $merge['1'],
             ]);
         }else{
-
-            $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',$merge['2'])->first();
+                ;
+            $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',Null)->first();
+//              dd(auth()->user()->accounting_store_id);
                  if($productstore) {
                      $productstore->update([
                          'quantity' => $productstore->quantity - $merge['1'],

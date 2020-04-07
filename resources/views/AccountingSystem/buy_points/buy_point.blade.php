@@ -52,7 +52,7 @@
 						</div>
 						<div class="form-group col-sm-4">
 							<label for="bill_date"> تاريخ الفاتورة </label>
-							{!! Form::text("bill_date",null,['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' تاريخ الفاتورة',"id"=>'bill_date'])!!}
+							{!! Form::text("__bill_date",null,['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' تاريخ الفاتورة',"id"=>'bill_date'])!!}
 						</div>
 					</div>
 					<div class="col-md-4 col-sm-4 col-xs-12 pos-rel">
@@ -85,6 +85,7 @@
 					<input type="hidden" name="supplier_id" id="supplier_id_val">
 					<input type="hidden" name="bill_num" id="bill_num_val">
 					<input type="hidden" name="bill_date" id="bill_date_val">
+
 					<table border="1" class="finalTb moshtraiat-bill mabi3at-bill bill-table
                     {{(getsetting('name_enable')==1) ? 'name_enable':'' }}
                     {{(getsetting('barcode_enable')==1) ? 'barcode_enable':'' }}
@@ -223,6 +224,9 @@
 	$("#bill_num").on('change', function() {
 		$("#bill_num_val").val($(this).val());
 	});
+
+		$("#bill_date_val").val(new Date().toLocaleString())
+
 	$("#bill_date").on('change', function() {
 		$("#bill_date_val").val($(this).val());
 	});
@@ -254,7 +258,7 @@
 					var ProductId = $('#selectID').val();
 					var productName = selectedProduct.data('name');
 					var productLink = selectedProduct.data('link');
-					var lastPrice = selectedProduct.data('last-price');
+					var lastPrice = selectedProduct.data('last-price').toFixed(2);
 					var avgPrice = selectedProduct.data('average').toFixed(2);
 					var barCode = selectedProduct.data('bar-code');
 					var productPrice = selectedProduct.data('price');
@@ -680,7 +684,7 @@
 		var ProductId = $('#selectID2').val();
 		var productName = selectedProduct.data('name');
 		var productLink = selectedProduct.data('link');
-		var lastPrice = selectedProduct.data('last-price');
+		var lastPrice = selectedProduct.data('last-price').toFixed(2);
 		var avgPrice = selectedProduct.data('average').toFixed(2);
 		var barCode = selectedProduct.data('bar-code');
 		var productPrice = selectedProduct.data('price');
