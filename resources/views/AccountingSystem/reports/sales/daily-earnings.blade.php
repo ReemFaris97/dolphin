@@ -30,7 +30,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <form action="" method="get" accept-charset="utf-8">
-                                
+
                             <div class="form-group col-sm-3">
                                 <label> الشركة </label>
                                 {!! Form::select("company_id",companies(), request('company_id'),['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الشركة','data-live-search'=>'true','id'=>'company_id'])!!}
@@ -104,7 +104,7 @@
                                 <label for="from"> التاريخ </label>
                                 {!! Form::date("date",request('date'),['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' الفترة من ',"id"=>'date'])!!}
                             </div>
-                            
+
                             <div class="form-group col-sm-12">
                                 <button type="submit" class="btn btn-success btn-block">بحث</button>
                             </div>
@@ -114,7 +114,7 @@
                     </div>
                 </div>
             </section>
-        
+
 
             <table class="table">
                 <thead>
@@ -124,16 +124,21 @@
                     <th> إجمالي المببيعات </th>
                     <th> إجمالي الخصومات </th>
                     <th> إجمالي  الربح</th>
+                    <th class="text-center">العمليات</th>
                 </tr>
                 </thead>
                 <tbody>
                         @foreach($sales as  $sale)
                     <tr>
                         <td>{!!$sale['date']!!}</td>
-                        <td>{!!$purchase_cost!!}</td>
+                        <td>{!!$sale['productPrice']!!}</td>
                         <td>{!!$sale['all_amounts']!!}</td>
                         <td>{!!$sale['discounts']!!}</td>
-                        <td>{!!$sale['all_amounts']-$sale['discounts']-$purchase_cost!!}</td>
+                        <td>{!!$sale['all_amounts']-$sale['discounts'] - $sale['productPrice'] !!}</td>
+                        <td class="text-center">
+                            <a href="{{route('accounting.reports.sale_details')}}?date={{ $sale->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
+
+                        </td>
                     </tr>
                         @endforeach
 
