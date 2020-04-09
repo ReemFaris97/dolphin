@@ -66,25 +66,23 @@ class PurchaseController extends Controller
     {
         $requests = $request->except('user_id');
 
-//        dd($request['user_id']);
-        //dd($request->all());
         $rules = [
-
            'supplier_id'=>'required|numeric|exists:accounting_suppliers,id',
                 // 'reminder'=>'required|numeric|gt:0',
-
         ];
         $this->validate($request,$rules);
         $user=User::find(auth()->user()->id);
-
+//        dd(auth()->user()->id);
         $requests['branch_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:Null;
+        $requests['company_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingCompany')?$user->store->model_id:Null;
 
         $purchase=AccountingPurchase::create($requests);
-
+//       dd( $requests['branch_id']);
         $purchase->update([
             'bill_num'=>$purchase->bill_num."-".$purchase->created_at->toDateString(),
             'branch_id'=>$requests['branch_id'],
-            'user_id'=>$request['user_id'],
+            'company_id'=>$requests['company_id'],
+            'user_id'=>auth()->user()->id,
             'store_id'=>$user->accounting_store_id,
             'total'=>$requests['total'],
         ]);

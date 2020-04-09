@@ -31,8 +31,8 @@
                     {{-- <th> الإجمالي </th> --}}
                     <th> إجمالي سعر الشراء </th>
                     <th> الخصم </th>
-                    <th> المدفوع </th>
-                    <th> المتبقي </th>
+                    {{--<th> المدفوع </th>--}}
+                    {{--<th> المتبقي </th>--}}
                     <th> الضريبة </th>
                     <th> لإجمالي بعد الخصم والضريبة </th>
                     
@@ -49,8 +49,8 @@
                         <td>{!! $row->user()->exists() ? $row->user->name : '-' !!}</td>
                         <td>{!! $row->amount !!}</td>
                         <td>{!! $row->discount !!}</td>
-                        <td>{!! $row->payed !!}</td>
-                        <td>{!! $row->total - $row->payed !!}</td>
+                        {{--<td>{!! $row->payed !!}</td>--}}
+                        {{--<td>{!! $row->total - $row->payed !!}</td>--}}
                         <td>{!! $row->totalTaxs !!}</td>
                         <td>{!! $row->total !!}</td>
 

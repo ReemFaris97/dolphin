@@ -81,7 +81,7 @@ private $viewable = 'AccountingSystem.sessions.';
         ]);
 
         alert()->success('تم فتح الجلسة بنجاح !')->autoclose(5000);
-        // Session::put('session_id',$session->id);
+
         $session_id= $session->id;
         Cookie::queue('session',$session->id);
 

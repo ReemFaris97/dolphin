@@ -84,7 +84,7 @@ class PurchaseReturnController extends Controller
     public function store(Request $request)
     {
         $requests = $request->all();
-      dd($requests);
+//      dd($requests);
 
         $rules = [
 
@@ -95,11 +95,19 @@ class PurchaseReturnController extends Controller
         $this->validate($request, $rules);
 
         $return = AccountingPurchaseReturn::create($requests);
+        $user=User::find(auth()->user()->id);
+//        dd(auth()->user()->id);
+        $requests['branch_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:Null;
+        $requests['company_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingCompany')?$user->store->model_id:Null;
 
         $return->update([
-            'bill_num' => $return->id . "-" . $return->created_at,
+            'bill_num' =>$return->bill_num."-".$return->created_at->toDateString(),
             'branch_id'=>$requests['branch_id'],
+            'company_id'=>$requests['company_id'],
+            'user_id'=>auth()->user()->id,
+            'store_id'=>$user->accounting_store_id,
         ]);
+
 
         $products = collect($requests['product_id']);
         $qtys = collect($requests['quantity']);

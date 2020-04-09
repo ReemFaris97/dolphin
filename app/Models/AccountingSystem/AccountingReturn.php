@@ -29,5 +29,10 @@ class AccountingReturn extends Model
     {
         return $this->belongsTo(AccountingStore::class,'store_to');
     }
+
+    public function items()
+    {
+        return $this->hasMany(AccountingReturn::class,'');
+    }
 }
 

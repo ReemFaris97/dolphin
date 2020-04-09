@@ -1,5 +1,5 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تقرير مرتجعات مشتريات خلال فترة')
+@section('title','تقرير مرتجعات المبيعات خلال فترة')
 @section('parent_title','التقارير ')
 {{-- @section('action', URL::route('accounting.purchases.index')) --}}
 
@@ -16,7 +16,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">تقرير مرتجعات مشتريات خلال فترة زمنية</h5>
+            <h5 class="panel-title">تقرير مرتجعات المبيعات خلال فترة زمنية</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -105,26 +105,74 @@
                     </div>
                 </div>
             </section>
-        
+            <div class="form-group col-md-12 pull-left">
+                {{--<label class="label label-info">  الشركة    : </label>--}}
+                <center>
+                    @if(isset($requests['company_id']))
+                        @php($company=\App\Models\AccountingSystem\AccountingCompany::find($requests['company_id']))
+                        <span><img src="{!!getimg($company->image)!!}" style="width:100px; height:100px"> </span>
+                    @endif
+                </center>
+            </div>
+            @if(isset($requests['company_id']))
+                <div class="form-group col-md-2 pull-left">
+                    <label class="label label-info">  الشركة    : </label>
+                    @php($company=\App\Models\AccountingSystem\AccountingCompany::find($requests['company_id']))
+                    <span>{{$company->name}}</span>
+                </div>
+            @endif
+            @if(isset($requests['branch_id']))
+                <div class="form-group col-md-2 pull-left">
+                    <label class="label label-info">  الفرع   : </label>
+                    @php($branch=\App\Models\AccountingSystem\AccountingBranch::find($requests['branch_id']))
+                    <span>{{$branch->name}}</span>
+                </div>
+            @endif
+            @if(isset($requests['store_id']))
+                <div class="form-group col-md-2 pull-left">
+                    <label class="label label-info"> المخزن: </label>
+                    @php($store=\App\Models\AccountingSystem\AccountingStore::find($requests['store_id']))
+                    <span>{{$store->ar_name}}</span>
+                </div>
+            @endif
+            @if(isset($requests['product_id']))
+                <div class="form-group col-md-2 pull-left">
+                    <label class="label label-info"> الصنف: </label>
+                    @php($product=\App\Models\AccountingSystem\AccountingProduct::find($requests['product_id']))
+                    <span>{{$product->name}}</span>
+                </div>
+            @endif
+            @if(isset($requests['from']))
+                <div class="form-group col-md-2 pull-left">
+                    <label class="label label-info"> من: </label>
+                    <span>{{$requests['from']}}</span>
+                </div>
+            @endif
+            @if(isset($requests['to']))
+                <div class="form-group col-md-2 pull-left">
+                    <label class="label label-info"> الى: </label>
+                    <span>{{$requests['to']}}</span>
+                </div>
+            @endif
 
             <table class="table datatable-button-init-basic">
                 <thead>
                 <tr>
                     <th>#</th>
                     <th> التاريخ </th>
-                    <th> إجمالي مرتجعات المشتريات </th>
+                    <th> إجمالي مرتجعات المبيعات </th>
                     <th> إجمالي الخصومات </th>
-                    <th> إجمالي الضريبة </th>
-                    <th> إجمالي بعد الخصومات والضريبة </th>
+                    {{--<th> إجمالي الضريبة </th>--}}
+                    <th> إجمالي بعد الخصومات  </th>
                     <th> إجمالي المرتجع الكاش </th>
-                    <th> إجمالي مرتجع الخصم من المديونية </th>
+                    <th> إجمالي مرتجع الاجل </th>
                     
                     <th class="text-center">العمليات</th>
                 </tr>
                 </thead>
                 <tbody>
 
-                @foreach($purchases as $row)
+                @foreach($sales as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->created_at->locale('ar')->toDayDateTimeString() !!}</td>
@@ -136,7 +184,7 @@
                         <td>{!! $row->return_agel !!}</td>
 
                         <td class="text-center">
-                            <a href="{{route('accounting.reports.purchase_returns_details')}}?date={{ $row->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.reports.sale_returns_details')}}?date={{ $row->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
 
                         </td>
                     </tr>

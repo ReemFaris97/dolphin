@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AccountingSystem\Reports;
 
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingProductTax;
@@ -15,7 +16,8 @@ class PurchasesController extends Controller
     
     public function index(Request $request)
    	{
-   		
+        $users=User::where('is_saler',1)->get();
+        $requests=request()->all();
    		if ($request->has('company_id')) {
    			$purchases = Purchase::select('id',\DB::raw('DATE(created_at) as date'), \DB::raw('count(*) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'),'created_at');
 
@@ -23,9 +25,9 @@ class PurchasesController extends Controller
                $purchases = $purchases->where('branch_id', $request->branch_id);
             }
 
-   			if ($request->has('safe_id') && $request->safe_id != null ) {
-   				$purchases = $purchases->where('safe_id', $request->safe_id);
-   			}
+//   			if ($request->has('safe_id') && $request->safe_id != null ) {
+//   				$purchases = $purchases->where('safe_id', $request->safe_id);
+//   			}
 
    			if ($request->has('user_id') && $request->user_id != null ) {
    				$purchases = $purchases->where('user_id', $request->user_id);
@@ -36,17 +38,18 @@ class PurchasesController extends Controller
                   $item->where('product_id', $request->product_id);
                });
             }
-
    			if ($request->has('from') && $request->has('to')) {
+
    				$purchases = $purchases->whereBetween('created_at', [Carbon::parse($request->from), Carbon::parse($request->to)]);
    			}
-
    			$purchases = $purchases->groupBy('date')->get();
-            // dd($purchases);
+
    		} else {
    			$purchases = collect();
    		}
-   		return view('AccountingSystem.reports.purchases.for-period', compact('purchases'));
+
+
+   		return view('AccountingSystem.reports.purchases.for-period', compact('purchases','users','requests'));
    	}
 
       public function details()
@@ -58,6 +61,7 @@ class PurchasesController extends Controller
 
       public function byDay(Request $request)
       {
+          $requests=request()->all();
          if ($request->has('company_id')) {
             $purchases = Purchase::select('id',\DB::raw('DATE(created_at) as date'), \DB::raw('count(*) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'),'created_at');
 
@@ -65,9 +69,9 @@ class PurchasesController extends Controller
                $purchases = $purchases->where('branch_id', $request->branch_id);
             }
 
-            if ($request->has('safe_id') && $request->safe_id != null ) {
-               $purchases = $purchases->where('safe_id', $request->safe_id);
-            }
+//            if ($request->has('safe_id') && $request->safe_id != null ) {
+//               $purchases = $purchases->where('safe_id', $request->safe_id);
+//            }
 
             if ($request->has('user_id') && $request->user_id != null ) {
                $purchases = $purchases->where('user_id', $request->user_id);
@@ -87,12 +91,13 @@ class PurchasesController extends Controller
          } else {
             $purchases = collect();
          }
-         return view('AccountingSystem.reports.purchases.day', compact('purchases'));
+         return view('AccountingSystem.reports.purchases.day', compact('purchases','requests'));
       
       }
 
       public function returnsPeriod(Request $request)
       {
+          $requests=request()->all();
          if ($request->has('company_id')) {
             $purchases = PurchaseReturn::select('id',\DB::raw('DATE(created_at) as date'), \DB::raw('count(*) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'),\DB::raw('sum(( total WHEN payment = agel THEN total END )) as return_agel'), \DB::raw('sum(( total WHEN payment = cash THEN total END )) as return_cash'),'created_at');
 
@@ -123,11 +128,12 @@ class PurchasesController extends Controller
          } else {
             $purchases = collect();
          }
-         return view('AccountingSystem.reports.purchases.for-period', compact('purchases'));
+         return view('AccountingSystem.reports.purchases.for-period', compact('purchases','requests'));
       }
 
       public function returnsDay(Request $request)
       {
+          $requests=request()->all();
          if ($request->has('company_id')) {
             $purchases = PurchaseReturn::select('id',\DB::raw('DATE(created_at) as date'), \DB::raw('sum(amount) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'),'created_at');
 
@@ -160,7 +166,7 @@ class PurchasesController extends Controller
          } else {
             $purchases = collect();
          }
-         return view('AccountingSystem.reports.purchases.returns-period', compact('purchases'));
+         return view('AccountingSystem.reports.purchases.returns-day', compact('purchases','requests'));
       }
 
       public function returnDetails()

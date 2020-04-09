@@ -28,6 +28,9 @@ class StoresController extends Controller
 
     public function damages()
     {
+
+        $requests=request()->all();
+
         $from = request('from');
         $to = request('to');
          //company_only
@@ -66,13 +69,14 @@ class StoresController extends Controller
 //       dd($damages);
 
 
-        return view('AccountingSystem.reports.stores.damagedProducts', compact('damages'));
+        return view('AccountingSystem.reports.stores.damagedProducts', compact('damages','requests'));
     }
 
 
 
     public function inventory()
     {
+        $requests=request()->all();
         $from = request('from');
         $to = request('to');
         //company_only
@@ -101,12 +105,13 @@ class StoresController extends Controller
             $inventories=[];
         }
 
-        return view('AccountingSystem.reports.stores.InventoryProducts', compact('inventories'));
+        return view('AccountingSystem.reports.stores.InventoryProducts', compact('inventories','requests'));
     }
 
 
     public function transactions()
     {
+        $requests=request()->all();
         $from = request('from');
         $to = request('to');
         //company_only
@@ -135,12 +140,13 @@ class StoresController extends Controller
             $transactions=[];
         }
 
-        return view('AccountingSystem.reports.stores.transactionProducts', compact('transactions'));
+        return view('AccountingSystem.reports.stores.transactionProducts', compact('transactions','requests'));
     }
 
 
     public function deficiency()
     {
+        $requests=request()->all();
         $deficiencies=[];
         //company_only
         if (\request('company_id') != Null && \request('branch_id') == Null && \request('store_id') == Null && \request('product_id') == Null) {
@@ -191,14 +197,14 @@ class StoresController extends Controller
             $deficiencies=[];
         }
 
-        return view('AccountingSystem.reports.stores.deficiencyProducts', compact('deficiencies','stores','quantites'));
+        return view('AccountingSystem.reports.stores.deficiencyProducts', compact('deficiencies','stores','quantites','requests'));
     }
 
 
 
     public function expirations()
     {
-
+        $requests=request()->all();
         $expire_products=[];
         //company_only
         if (\request('company_id') != Null && \request('branch_id') == Null && \request('store_id') == Null && \request('product_id') == Null) {
@@ -254,12 +260,13 @@ class StoresController extends Controller
         else{
             $expire_products=[];
         }
-        return view('AccountingSystem.reports.stores.expiredProducts', compact('expire_products','quantites'));
+        return view('AccountingSystem.reports.stores.expiredProducts', compact('expire_products','quantites','requests'));
     }
 
 
     public function stagnants()
     {
+        $requests=request()->all();
         $stagnant_sales = [];
 
         //company_only
@@ -337,7 +344,7 @@ class StoresController extends Controller
             $quantites=[];
         }
 
-        return view('AccountingSystem.reports.stores.stagnantProducts', compact('stagnant_sales','quantites'));
+        return view('AccountingSystem.reports.stores.stagnantProducts', compact('stagnant_sales','quantites','requests'));
     }
 
 
