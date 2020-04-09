@@ -15,7 +15,6 @@ Route::middleware('admin')->group(function () {
     Route::resource('stores', 'StoreController');
     Route::resource('storeKeepers', 'StoreKeeperController');
     Route::resource('taxs', 'TaxsController');
-
     /////////////////سندات  ادخال المنتجات فى المخازن
     Route::get('/company_stores/{id}', 'StoreController@company_stores');
     Route::get('/branch_stores/{id}', 'StoreController@branch_stores');
@@ -228,10 +227,12 @@ Route::middleware('admin')->group(function () {
         });
         Route::group(['prefix' => 'sales'], function () {
             Route::get('period', ['as' => 'sales_period', 'uses' => 'SalesController@index']);
-            Route::get('details', ['as' => 'sales_details', 'uses' => 'SalesController@details']);
+            Route::get('details', ['as' => 'sale_details', 'uses' => 'SalesController@details']);
             Route::get('days', ['as' => 'sales_day', 'uses' => 'SalesController@byDay']);
-            Route::get('returns', ['as' => 'sales_returns', 'uses' => 'SalesController@index']);
+            Route::get('returns', ['as' => 'sales_returns', 'uses' => 'SalesController@returnsPeriod']);
             Route::get('returns-details', ['as' => 'sales_returns_details', 'uses' => 'SalesController@returnDetails']);
+            Route::get('returns-days', ['as' => 'sales_returns_day', 'uses' => 'SalesController@returnsDay']);
+
             Route::get('daily-earnings', ['as' => 'daily_earnings', 'uses' => 'SalesController@daily_earnings']);
             Route::get('period-earnings', ['as' => 'period_earnings', 'uses' => 'SalesController@period_earnings']);
 

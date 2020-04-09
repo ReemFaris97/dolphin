@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AccountingSystem\Reports;
 
 use App\Models\AccountingSystem\AccountingPurchase;
+use App\Models\AccountingSystem\AccountingReturn;
 use App\Models\AccountingSystem\AccountingSale;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -14,7 +15,7 @@ class SalesController extends Controller
     
     public function index(Request $request)
     {
-   		
+        $requests=request()->all();
         if ($request->has('company_id')) {
             $sales = Sale::select('id',\DB::raw('DATE(created_at) as date'), \DB::raw('count(*) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'),'created_at');
 
@@ -22,9 +23,7 @@ class SalesController extends Controller
             $sales = $sales->where('branch_id', $request->branch_id);
          }
 
-            if ($request->has('safe_id') && $request->safe_id != null ) {
-                $sales = $sales->where('safe_id', $request->safe_id);
-            }
+
 
             if ($request->has('user_id') && $request->user_id != null ) {
                 $sales = $sales->where('user_id', $request->user_id);
@@ -45,27 +44,25 @@ class SalesController extends Controller
         } else {
             $sales = collect();
         }
-        return view('AccountingSystem.reports.sales.for-period', compact('sales'));
+        return view('AccountingSystem.reports.sales.for-period', compact('sales','requests'));
     }
 
    public function details()
    {
-      $sales = Purchase::whereDate('created_at', request('date'))->get();
-      return view('AccountingSystem.reports.purchase-details', compact('sales'));  
+      $sales = Sale::whereDate('created_at', request('date'))->get();
+      return view('AccountingSystem.reports.sales.sale-details', compact('sales'));
    }
 
    public function byDay(Request $request)
    {
+       $requests=request()->all();
       if ($request->has('company_id')) {
-         $sales = Purchase::select('id',\DB::raw('DATE(created_at) as date'), \DB::raw('count(*) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'),'created_at');
+         $sales = Sale::select('id',\DB::raw('DATE(created_at) as date'), \DB::raw('count(*) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'),'created_at');
 
          if ($request->has('branch_id') && $request->branch_id != null) {
             $sales = $sales->where('branch_id', $request->branch_id);
          }
 
-         if ($request->has('safe_id') && $request->safe_id != null ) {
-            $sales = $sales->where('safe_id', $request->safe_id);
-         }
 
          if ($request->has('user_id') && $request->user_id != null ) {
             $sales = $sales->where('user_id', $request->user_id);
@@ -86,22 +83,24 @@ class SalesController extends Controller
       } else {
          $sales = collect();
       }
-      return view('AccountingSystem.reports.sales.day', compact('sales'));
+      return view('AccountingSystem.reports.sales.day', compact('sales','requests'));
    
    }
 
    public function returnsPeriod(Request $request)
    {
-      if ($request->has('company_id')) {
-         $sales = PurchaseReturn::select('id',\DB::raw('DATE(created_at) as date'), \DB::raw('count(*) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'),\DB::raw('sum(( total WHEN payment = agel THEN total END )) as return_agel'), \DB::raw('sum(( total WHEN payment = cash THEN total END )) as return_cash'),'created_at');
+       $requests=request()->all();
+//       dd("dsf");
 
-         if ($request->has('branch_id') && $request->branch_id != null) {
+      if ($request->has('company_id')) {
+         $sales = AccountingReturn::select('id',\DB::raw('DATE(created_at) as date'), \DB::raw('count(*) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'),'created_at');
+
+
+          if ($request->has('branch_id') && $request->branch_id != null) {
             $sales = $sales->where('branch_id', $request->branch_id);
          }
 
-         if ($request->has('safe_id') && $request->safe_id != null ) {
-            $sales = $sales->where('safe_id', $request->safe_id);
-         }
+
 
          if ($request->has('user_id') && $request->user_id != null ) {
             $sales = $sales->where('user_id', $request->user_id);
@@ -122,13 +121,14 @@ class SalesController extends Controller
       } else {
          $sales = collect();
       }
-      return view('AccountingSystem.reports.sales.for-period', compact('sales'));
+      return view('AccountingSystem.reports.sales.returns-period', compact('sales','requests'));
    }
 
    public function returnsDay(Request $request)
    {
+       $requests=request()->all();
       if ($request->has('company_id')) {
-         $sales = PurchaseReturn::select('id',\DB::raw('DATE(created_at) as date'), \DB::raw('sum(amount) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'),'created_at');
+         $sales = AccountingReturn::select('id',\DB::raw('DATE(created_at) as date'), \DB::raw('sum(amount) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'),'created_at');
 
          if ($request->has('branch_id') && $request->branch_id != null) {
             $sales = $sales->where('branch_id', $request->branch_id);
@@ -157,12 +157,12 @@ class SalesController extends Controller
       } else {
          $sales = collect();
       }
-      return view('AccountingSystem.reports.sales.returns-period', compact('sales'));
+      return view('AccountingSystem.reports.sales.returns-day', compact('sales','requests'));
    }
 
    public function returnDetails()
    {
-      $sales = PurchaseReturn::whereDate('created_at', request('date'))->get();
+      $sales = AccountingReturn::whereDate('created_at', request('date'))->get();
       return view('AccountingSystem.reports.sales.return-details', compact('sales'));  
    }
 

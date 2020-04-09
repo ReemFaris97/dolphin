@@ -69,7 +69,7 @@
 							<li><a href="{{route('accounting.stores.index')}}"><i class="icon-eye"></i> عرض المخازن</a></li>
 							<li><a href="{{route('accounting.stores.create')}}"><i class="icon-add-to-list"></i> اضافة مخزن جديدة</a></li>
 							<li><a href="{{route('accounting.stores.settlements')}}"><i class="icon-add-to-list"></i> تسوية ارصدة بداية الاصناف</a></li> {{--<li><a href="{{route('accounting.stores.inventory')}}"><i class="icon-add-to-list"></i> جرد المخازن</a>
-					</li>--}} {{--<li><a href="{{route('accounting.stores.invertory_filter')}}"><i class="icon-add-to-list"></i> تسوية جرد </a>
+			 </li>--}} {{--<li><a href="{{route('accounting.stores.invertory_filter')}}"><i class="icon-add-to-list"></i> تسوية جرد </a>
 			</li>--}} {{--<li><a href="{{route('accounting.stores.transaction')}}"><i class="icon-add-to-list"></i> تحويلات بين المخازن </a></li>--}} {{--<li><a href="{{route('accounting.stores.requests')}}"><i class="icon-add-to-list"></i> سندات تحويلات المخازن </a></li>--}} <li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-right"></i> تحويلات الاصناف </a>
 				<ul class="dropdown-menu">
 					<li><a href="{{route('accounting.stores.transaction')}}"><i class="icon-add-to-list"></i> طلب تحويل </a></li>
@@ -278,9 +278,9 @@
 				<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-basket"></i> تقرير المبيعات </a>
 					<ul class="dropdown-menu">
 						<li><a href="{{route('accounting.reports.sales_period')}}"><i class="icon-eye"></i> خلال فترة زمنية </a></li>
-						<li><a href="{{route('accounting.reports.purchases_day')}}"><i class="icon-eye"></i> خلال يوم </a></li>
-						<li><a href="{{route('accounting.reports.purchases_returns')}}"><i class="icon-eye"></i> مرتجعات خلال فترة زمنية </a></li>
-						<li><a href="{{route('accounting.reports.purchases_returns_day')}}"><i class="icon-eye"></i> مرتجعات خلال يوم </a></li>
+						<li><a href="{{route('accounting.reports.sales_day')}}"><i class="icon-eye"></i> خلال يوم </a></li>
+						<li><a href="{{route('accounting.reports.sales_returns')}}"><i class="icon-eye"></i> مرتجعات خلال فترة زمنية </a></li>
+						<li><a href="{{route('accounting.reports.sales_returns_day')}}"><i class="icon-eye"></i> مرتجعات خلال يوم </a></li>
 						<li><a href="{{route('accounting.reports.daily_earnings')}}"><i class="icon-eye"></i> تقرير الارباح اليومية </a></li>
 						<li><a href="{{route('accounting.reports.period_earnings')}}"><i class="icon-eye"></i> تقرير أرباح مدة زمنية </a></li>
 					</ul>

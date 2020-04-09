@@ -184,9 +184,7 @@ class SaleController extends Controller
         foreach ($merges as $merge)
         {
             $product=AccountingProduct::find($merge['0']);
-
             if($product->quantity>0){
-
                 $item= AccountingReturn::create([
                     'product_id'=>$merge['0'],
                     'quantity'=> $merge['1'],
@@ -204,10 +202,6 @@ class SaleController extends Controller
                 ]);
             }
         }
-
-
-
-
 
       alert()->success('تم اضافة  فاتورة  الاسترجاع  بنجاح !')->autoclose(5000);
       return back();

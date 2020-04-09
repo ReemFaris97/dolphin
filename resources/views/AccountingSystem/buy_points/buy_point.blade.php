@@ -128,7 +128,7 @@
 								</th>
 								<th id="amountOfDariba" class="rel-cols" colspan="3">
 									<span class="colorfulSpan"> قيمة الضريبة</span>
-									<input type="hidden" class="dynamic-input">
+									<input type="hidden" class="dynamic-input" name="totalTaxs" id="amountOfDariba2">
 									<span class="dynamic-span">0</span>
 									<span class="rs"> ر.س </span>
 								</th>
@@ -181,7 +181,7 @@
 									</div>
 								</th>
 							</tr>
-							<input type="hidden" name="totalTaxs">
+							{{--<input type="hidden" name="totalTaxs">--}}
 							<tr>
 								<th colspan="9">
 									<button type="submit">حفظ</button>
@@ -537,6 +537,9 @@
 						$("#amountBeforeDariba span.dynamic-span").html(amountBeforeDariba.toFixed(2));
 						$("#amountAfterDariba span.dynamic-span").html(amountAfterDariba.toFixed(2));
 						$("#amountOfDariba span.dynamic-span").html(amountOfDariba.toFixed(2));
+
+						$("#amountOfDariba2").val(amountOfDariba);
+						console.log($("#amountOfDariba2").val());
 						var byAmount = $("input#byAmount").val();
 						var byPercentage = $("input#byPercentage").val();
 						$("input#byAmount").attr('max', amountAfterDariba);

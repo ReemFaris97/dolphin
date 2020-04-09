@@ -75,8 +75,8 @@
                                 <label> الجلسة </label>
                                 <select name="session_id" data-live-search="true" class="selectpicker form-control inline-control" id="session_id">
                                     @if(request()->has('session_id') && request('session_id') != null)
-                                        @php $safe = \App\Models\AccountingSystem\AccountingSafe::find(request('session_id')); @endphp
-                                        <option value="{{ $safe->id }}" selected="">{{ $safe->name }}</option>
+                                        @php $safe = \App\Models\AccountingSystem\AccountingSession::find(request('session_id')); @endphp
+                                        <option value="{{ $safe->id }}" selected="">{{ $safe->code }}</option>
                                     @else
                                         <option value="" selected="" disabled="">اختر الجلسة</option>
                                     @endif
@@ -127,8 +127,56 @@
                     </div>
                 </div>
             </section>
-        
 
+            <div class="form-group col-md-12 pull-left">
+                {{--<label class="label label-info">  الشركة    : </label>--}}
+                <center>
+                    @if(isset($requests['company_id']))
+                        @php($company=\App\Models\AccountingSystem\AccountingCompany::find($requests['company_id']))
+                        <span><img src="{!!getimg($company->image)!!}" style="width:100px; height:100px"> </span>
+                    @endif
+                </center>
+            </div>
+            @if(isset($requests['company_id']))
+                <div class="form-group col-md-2 pull-left">
+                    <label class="label label-info">  الشركة    : </label>
+                    @php($company=\App\Models\AccountingSystem\AccountingCompany::find($requests['company_id']))
+                    <span>{{$company->name}}</span>
+                </div>
+            @endif
+            @if(isset($requests['branch_id']))
+                <div class="form-group col-md-2 pull-left">
+                    <label class="label label-info">  الفرع   : </label>
+                    @php($branch=\App\Models\AccountingSystem\AccountingBranch::find($requests['branch_id']))
+                    <span>{{$branch->name}}</span>
+                </div>
+            @endif
+            @if(isset($requests['store_id']))
+                <div class="form-group col-md-2 pull-left">
+                    <label class="label label-info"> المخزن: </label>
+                    @php($store=\App\Models\AccountingSystem\AccountingStore::find($requests['store_id']))
+                    <span>{{$store->ar_name}}</span>
+                </div>
+            @endif
+            @if(isset($requests['product_id']))
+                <div class="form-group col-md-2 pull-left">
+                    <label class="label label-info"> الصنف: </label>
+                    @php($product=\App\Models\AccountingSystem\AccountingProduct::find($requests['product_id']))
+                    <span>{{$product->name}}</span>
+                </div>
+            @endif
+            @if(isset($requests['from']))
+                <div class="form-group col-md-2 pull-left">
+                    <label class="label label-info"> من: </label>
+                    <span>{{$requests['from']}}</span>
+                </div>
+            @endif
+            @if(isset($requests['to']))
+                <div class="form-group col-md-2 pull-left">
+                    <label class="label label-info"> الى: </label>
+                    <span>{{$requests['to']}}</span>
+                </div>
+            @endif
             <table class="table datatable-button-init-basic">
                 <thead>
                 <tr>
@@ -154,7 +202,7 @@
                         <td>{!! $row->all_total !!}</td>
 
                         <td class="text-center">
-                            <a href="{{route('accounting.reports.purchase_details')}}?date={{ $row->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.reports.sale_details')}}?date={{ $row->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
 
                         </td>
                     </tr>

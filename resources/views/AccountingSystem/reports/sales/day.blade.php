@@ -1,5 +1,5 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تقرير المشتريات خلال يوم')
+@section('title','تقرير المبيعات خلال يوم')
 @section('parent_title','التقارير ')
 {{-- @section('action', URL::route('accounting.purchases.index')) --}}
 
@@ -14,7 +14,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">تقرير المشتريات خلال يوم</h5>
+            <h5 class="panel-title">تقرير المبيعات خلال يوم</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -99,7 +99,55 @@
                     </div>
                 </div>
             </section>
-        
+            <div class="form-group col-md-12 pull-left">
+                {{--<label class="label label-info">  الشركة    : </label>--}}
+                <center>
+                    @if(isset($requests['company_id']))
+                        @php($company=\App\Models\AccountingSystem\AccountingCompany::find($requests['company_id']))
+                        <span><img src="{!!getimg($company->image)!!}" style="width:100px; height:100px"> </span>
+                    @endif
+                </center>
+            </div>
+            @if(isset($requests['company_id']))
+                <div class="form-group col-md-2 pull-left">
+                    <label class="label label-info">  الشركة    : </label>
+                    @php($company=\App\Models\AccountingSystem\AccountingCompany::find($requests['company_id']))
+                    <span>{{$company->name}}</span>
+                </div>
+            @endif
+            @if(isset($requests['branch_id']))
+                <div class="form-group col-md-2 pull-left">
+                    <label class="label label-info">  الفرع   : </label>
+                    @php($branch=\App\Models\AccountingSystem\AccountingBranch::find($requests['branch_id']))
+                    <span>{{$branch->name}}</span>
+                </div>
+            @endif
+            @if(isset($requests['store_id']))
+                <div class="form-group col-md-2 pull-left">
+                    <label class="label label-info"> المخزن: </label>
+                    @php($store=\App\Models\AccountingSystem\AccountingStore::find($requests['store_id']))
+                    <span>{{$store->ar_name}}</span>
+                </div>
+            @endif
+            @if(isset($requests['product_id']))
+                <div class="form-group col-md-2 pull-left">
+                    <label class="label label-info"> الصنف: </label>
+                    @php($product=\App\Models\AccountingSystem\AccountingProduct::find($requests['product_id']))
+                    <span>{{$product->name}}</span>
+                </div>
+            @endif
+            @if(isset($requests['from']))
+                <div class="form-group col-md-2 pull-left">
+                    <label class="label label-info"> من: </label>
+                    <span>{{$requests['from']}}</span>
+                </div>
+            @endif
+            @if(isset($requests['to']))
+                <div class="form-group col-md-2 pull-left">
+                    <label class="label label-info"> الى: </label>
+                    <span>{{$requests['to']}}</span>
+                </div>
+            @endif
 
             <table class="table datatable-button-init-basic">
                 <thead>
@@ -116,7 +164,7 @@
                 </thead>
                 <tbody>
 
-                @foreach($purchases as $row)
+                @foreach($sales as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->created_at->locale('ar')->toDayDateTimeString() !!}</td>
@@ -124,9 +172,8 @@
                         <td>{!! $row->discounts !!}</td>
                         <td>{!! $row->total_tax !!}</td>
                         <td>{!! $row->all_total !!}</td>
-
                         <td class="text-center">
-                            <a href="{{route('accounting.reports.purchase_details')}}?date={{ $row->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.reports.sale_details')}}?date={{ $row->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
 
                         </td>
                     </tr>
