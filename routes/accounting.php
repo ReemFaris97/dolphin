@@ -211,8 +211,10 @@ Route::middleware('admin')->group(function () {
         Route::get('movements-products', ['as' => 'movements-products', 'uses' => 'StoresController@movements']);
 
 
-        Route::group(['prefix' => 'suppliers'], function () {
-            Route::get('balances', ['as' => 'suppliers-balances', 'uses' => 'SuppliersController@balances']);
+        Route::group(['prefix' => 'suppliers', 'as' => 'suppliers.'], function () {
+            Route::get('purchases', ['as' => 'purchases', 'uses' => 'SuppliersController@purchases']);
+            Route::get('purchases-returns', ['as' => 'purchases-returns', 'uses' => 'SuppliersController@purchasesReturns']);
+            Route::get('account-statement', ['as' => 'account-statement', 'uses' => 'SuppliersController@accountStatement']);
 
 
         });
@@ -247,6 +249,7 @@ Route::middleware('admin')->group(function () {
         Route::get('users-by-branches/{branch_id}', 'HomeController@getUsersByBranch');
         Route::get('products/{id}', 'HomeController@getProducts');
         Route::get('sessions/{id}', 'HomeController@getSessions');
+        Route::get('suppliers/{id}', 'HomeController@getSuppliers');
     });
 
 });

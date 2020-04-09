@@ -297,9 +297,11 @@
 					</ul>
 				</li>
 				<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-basket"></i> تقارير الموردين </a>
-					<ul class="dropdown-menu"> {{--<li><a href="{{route('accounting.reports.suppliers-balances')}}"><i class="icon-eye"></i> تقرير كشف حساب مورد خلال فترة زمنية </a>
-				</li>--}}
-			</ul>
+					<ul class="dropdown-menu">
+                        <li><a href="{{route('accounting.reports.suppliers.purchases')}}"><i class="icon-eye"></i> تقرير مشتريات مورد خلال فترة زمنية  </a></li>
+                        <li><a href="{{route('accounting.reports.suppliers.purchases-returns')}}"><i class="icon-eye"></i> تقرير مرتجعات مشتريات مورد خلال فترة زمنية  </a></li>
+                        <li><a href="{{route('accounting.reports.suppliers.account-statement')}}"><i class="icon-eye"></i> تقرير كشف حساب مورد خلال فترة زمنية  </a></li>
+			        </ul>
 		</li>
 		</ul>
 		</li>
