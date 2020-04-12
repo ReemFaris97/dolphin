@@ -11,7 +11,7 @@
 
 <div class="form-group col-md-6 pull-left">
     <label>اسم المورد  </label>
-    {!! Form::text("name",null,['class'=>'form-control','placeholder'=>'  اسم العميل  '])!!}
+    {!! Form::text("name",null,['class'=>'form-control','placeholder'=>'  اسم المورد  '])!!}
 </div>
 
 
@@ -23,7 +23,7 @@
 
 <div class="form-group col-md-6 pull-left">
     <label>البريد الالكترونى   </label>
-    {!! Form::email("email",null,['class'=>'form-control','placeholder'=>'  الايميل  '])!!}
+    {!! Form::email("email",null,['class'=>'form-control','placeholder'=>'  البريد الالكترونى  '])!!}
 </div>
 
 

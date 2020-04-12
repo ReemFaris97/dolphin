@@ -12,7 +12,7 @@
 @if( isset($safe))
     @if($safe->model_type=='App\Models\AccountingSystem\AccountingBranch')
         <div class="form-group ">
-            <label class="display-block text-semibold">الخزنة تابع الى</label>
+            <label class="display-block text-semibold">الخزنية تابع الى</label>
             <label class="radio-inline">
                 <input type="radio" name="radio-inline-left" class="styled" id="company"  onclick="myFunction()" disabled>
                 شركة
@@ -59,24 +59,24 @@
 @if(isset($safe))
 @if($safe->model_type=='App\Models\AccountingSystem\AccountingBranch')
     <div class="form-group col-xs-6 pull-left branches">
-        <label> اسم الفرع التابع لها المخزن: </label>
+        <label> اسم الفرع التابع لها الخزنية: </label>
         {{-- @dd($safe->model_id) --}}
-        {!! Form::select("branch_id",$branches,$safe->model_id,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الفرع التابع لها المخزن '])!!}
+        {!! Form::select("branch_id",$branches,$safe->model_id,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الفرع التابع لها الخزنية '])!!}
     </div>
 @elseif($safe->model_type=='App\Models\AccountingSystem\AccountingCompany')
     <div class="form-group col-xs-6 pull-left companies">
-        <label> اسم الشركة التابع لها المخزن: </label>
-        {!! Form::select("company_id",$companies,$safe->model_id,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الشركة التابع لها المخزن '])!!}
+        <label> اسم الشركة التابع لها الخزنية: </label>
+        {!! Form::select("company_id",$companies,$safe->model_id,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الشركة التابع لها الخزنية '])!!}
     </div>
 @endif
     @else
     <div class="form-group col-xs-6 pull-left companies">
-        <label> اسم الشركة التابع لها المخزن: </label>
-        {!! Form::select("company_id",$companies,null,['class'=>'form-control js-example-basic-single','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع لها المخزن '])!!}
+        <label> اسم الشركة التابع لها الخزنية: </label>
+        {!! Form::select("company_id",$companies,null,['class'=>'form-control js-example-basic-single','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع لها الخزنية '])!!}
     </div>
     <div class="form-group col-xs-6 pull-left branches">
-    <label> اسم الفرع التابع لها المخزن: </label>
-    {!! Form::select("branch_id",$branches,null,['class'=>'form-control js-example-basic-single','id'=>'branch_id','placeholder'=>' اختر اسم الفرع التابع لها المخزن '])!!}
+    <label> اسم الفرع التابع لها الخزنية: </label>
+    {!! Form::select("branch_id",$branches,null,['class'=>'form-control js-example-basic-single','id'=>'branch_id','placeholder'=>' اختر اسم الفرع التابع لها الخزنية '])!!}
     </div>
 
 @endif

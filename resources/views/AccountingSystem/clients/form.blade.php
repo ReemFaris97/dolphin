@@ -62,19 +62,21 @@
 
 </div>
 
-<div class="form-group col-md-6 pull-left ">
+<div class="form-group col-md-4 pull-left ">
 
-<div class="form-group col-md-6 pull-left credit ">
+<div class="form-group col-md-4 pull-left credit ">
     <label>السياسة الائتمانية </label>
-
-    <label>حد دين </label>
-    {!! Form::radio("credit","1",['class'=>'form-control','id'=>'amount','value'=>"1" ])!!}
-
-    <label>فترة دين </label>
-    {!! Form::radio("credit","0",['class'=>'form-control', 'id'=>'period','value'=>"0"])!!}
+    <span class="new-radio-wrap">
+    <label for="amount">حد دين </label>
+    {!! Form::radio("credit","1",['class'=>'form-control credit','id'=>'amount','value'=>"1" ])!!}
+    </span>
+    <span class="new-radio-wrap">
+    <label for="period">فترة دين </label>
+    {!! Form::radio("credit","0",['class'=>'form-control credit', 'id'=>'period','value'=>"0"])!!}
+    </span>
 </div>
 <div class="form-group col-md-6  amount">
-    <label>حد الدين</label>
+     <label>حد الدين</label>
     {!! Form::text("amount",null,['class'=>'form-control'])!!}
 </div>
     <div class="form-group col-md-6  period">
@@ -85,25 +87,29 @@
 
 
 
-<div class="form-group col-md-6 pull-left credit ">
+<div class="form-group col-md-4 pull-left  ">
     <label> التعاملات الضربية </label>
-
-    <label> معفى من الضريبة </label>
+    <span class="new-radio-wrap">
+    <label for=""> معفى من الضريبة </label>
     {!! Form::radio("taxes_status",0,['class'=>'form-control','value'=>0 ])!!}
-
+    </span>
+    <span class="new-radio-wrap">
     <label>خاضع للضريبة </label>
     {!! Form::radio("taxes_status",1,['class'=>'form-control','value'=>1])!!}
+    </span>
 </div>
 
-<div class="form-group col-md-6 pull-left credit ">
-    <label> التصنيف </label>
-
-    <label> افراد </label>
-    {!! Form::radio("category",0,['class'=>'form-control','value'=>0 ])!!}
-
-    <label>شركات </label>
-    {!! Form::radio("category",1,['class'=>'form-control','value'=>1])!!}
-</div>
+{{--<div class="form-group col-md-4 pull-left credit ">--}}
+    {{--<label> التصنيف </label>--}}
+    {{--<span class="new-radio-wrap">--}}
+    {{--<label> افراد </label>--}}
+    {{--{!! Form::radio("category",0,['class'=>'form-control','value'=>0 ])!!}--}}
+    {{--</span>--}}
+    {{--<span class="new-radio-wrap">--}}
+    {{--<label>شركات </label>--}}
+    {{--{!! Form::radio("category",1,['class'=>'form-control','value'=>1])!!}--}}
+    {{--</span>--}}
+{{--</div>--}}
 
 <div class="text-center col-md-12">
     <div class="text-right">
@@ -123,7 +129,7 @@
     <script>
 
                 $(function(){
-                    $('input[type="radio"]').click(function(){
+                    $('.credit').on('click', function(e){
                         if ($(this).is(':checked'))
                         {
                             var id=$(this).val();

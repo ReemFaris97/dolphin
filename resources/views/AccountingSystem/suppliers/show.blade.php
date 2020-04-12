@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض   السندات ')
-@section('parent_title','إدارة   سندات  القبض  والصرف')
+@section('title','عرض   كشف سداد مورد ')
+@section('parent_title','إدارة  الموردين')
 @section('styles')
 
 @endsection
@@ -8,7 +8,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">كشف  سداد   </h5>
+            <h5 class="panel-title"> كشف  سداد المورد    {{$supplier->name}}</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>

@@ -989,7 +989,20 @@ select.selectpicker {
 	-webkit-box-align: center;
 	-ms-flex-align: center;
 	align-items: center;
-	width: 100%;
+
+	text-align: right !important;
+}
+
+.form-line.sanads {
+	display: -webkit-inline-box;
+	display: -ms-inline-flexbox;
+	display: inline-flex;
+	-webkit-box-pack: space-evenly;
+	-ms-flex-pack: space-evenly;
+	justify-content: space-evenly;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
 	text-align: right !important;
 }
 
@@ -1012,6 +1025,31 @@ span.new-radio-wrap {
 	flex-direction: row-reverse;
 }
 
+span.new-radio-wrap-sanad {
+	display: -webkit-inline-box;
+	display: -ms-inline-flexbox;
+	display: inline-flex;
+	-webkit-box-pack: end;
+	-ms-flex-pack: end;
+	justify-content: flex-end;
+
+	-ms-flex-align: center;
+
+	text-align: right;
+	width: 100% !important;
+	padding: 0 15px;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: reverse;
+	-ms-flex-direction: row-reverse;
+	flex-direction: row-reverse;
+}
+
+span.new-radio-wrap-sanad input {
+	width: 20px;
+	margin-left: 10px;
+	margin-top: -3px;
+}
+
 span.new-radio-wrap input {
 	width: 20px;
 	margin-left: 10px;
@@ -1022,6 +1060,9 @@ span.new-radio-wrap label {
 	color: #333 !important;
 }
 
+span.new-radio-wrap-sanad label {
+	color: #333 !important;
+}
 .backed-eee > div {
 	background: #eee;
 	padding: 0 5px;

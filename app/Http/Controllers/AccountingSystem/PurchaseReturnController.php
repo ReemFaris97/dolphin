@@ -177,17 +177,20 @@ class PurchaseReturnController extends Controller
                 $i++;
 
                 //update_product_quantity
+
                 ///if-main-unit
 
                 if($merge['2']!='main-'.$product->id){
-                    $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',Null)->first();
+
+                    $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',$merge['2'])->first();
 
                     $productstore->update([
                         'quantity'=>$productstore->quantity - $merge['1'],
                     ]);
                 }else{
-
-                    $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',$merge['2'])->first();
+                    ;
+                    $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',Null)->first();
+//              dd(auth()->user()->accounting_store_id);
                     if($productstore) {
                         $productstore->update([
                             'quantity' => $productstore->quantity - $merge['1'],

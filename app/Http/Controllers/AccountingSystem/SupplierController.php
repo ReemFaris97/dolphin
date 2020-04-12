@@ -102,9 +102,9 @@ class SupplierController extends Controller
      */
     public function show($id)
     {
-
+        $supplier =AccountingSupplier::findOrFail($id);
         $clauses = AccountingMoneyClause::where('concerned','supplier')->where('supplier_id',$id)->get()->reverse();
-        return view('AccountingSystem.suppliers.show',compact('clauses'));
+        return view('AccountingSystem.suppliers.show',compact('clauses','supplier'));
     }
 
     /**
