@@ -131,18 +131,22 @@ class SaleController extends Controller
                 if($merge['2']!='main-'.$product->id){
 
                     $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',$merge['2'])->first();
-                   if($productstore->quantity >= 0) {
-                       $productstore->update([
-                           'quantity' => $productstore->quantity - $merge['1'],
-                       ]);
+                   if ($productstore) {
+                       if ($productstore->quantity >= 0) {
+                           $productstore->update([
+                               'quantity' => $productstore->quantity - $merge['1'],
+                           ]);
+                       }
                    }
                 }else{
                     $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',Null)->first();
-                    if($productstore->quantity >= 0) {
-                        if ($productstore) {
-                            $productstore->update([
-                                'quantity' => $productstore->quantity - $merge['1'],
-                            ]);
+                    if ($productstore) {
+                        if($productstore->quantity >= 0) {
+                            if ($productstore) {
+                                $productstore->update([
+                                    'quantity' => $productstore->quantity - $merge['1'],
+                                ]);
+                            }
                         }
                     }
                 }

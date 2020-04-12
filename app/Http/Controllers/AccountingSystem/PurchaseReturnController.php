@@ -84,7 +84,7 @@ class PurchaseReturnController extends Controller
     public function store(Request $request)
     {
         $requests = $request->all();
-//      dd($requests);
+
 
         $rules = [
 
@@ -93,10 +93,8 @@ class PurchaseReturnController extends Controller
 
         ];
         $this->validate($request, $rules);
-
         $return = AccountingPurchaseReturn::create($requests);
         $user=User::find(auth()->user()->id);
-//        dd(auth()->user()->id);
         $requests['branch_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:Null;
         $requests['company_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingCompany')?$user->store->model_id:Null;
 
@@ -107,7 +105,6 @@ class PurchaseReturnController extends Controller
             'user_id'=>auth()->user()->id,
             'store_id'=>$user->accounting_store_id,
         ]);
-
 
         $products = collect($requests['product_id']);
         $qtys = collect($requests['quantity']);
@@ -175,22 +172,15 @@ class PurchaseReturnController extends Controller
                 }
 
                 $i++;
-
                 //update_product_quantity
-
                 ///if-main-unit
-
                 if($merge['2']!='main-'.$product->id){
-
                     $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',$merge['2'])->first();
-
                     $productstore->update([
                         'quantity'=>$productstore->quantity - $merge['1'],
                     ]);
                 }else{
-                    ;
                     $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',Null)->first();
-//              dd(auth()->user()->accounting_store_id);
                     if($productstore) {
                         $productstore->update([
                             'quantity' => $productstore->quantity - $merge['1'],
@@ -224,18 +214,20 @@ class PurchaseReturnController extends Controller
                 'amount' => $safe->amount + $return->total
             ]);
         }elseif ($return->payment == 'agel'){
+
             $supplier = AccountingSupplier::find($return->supplier_id);
+
             if ($supplier) {
                 if($return->payment=='agel') {
-                    $balance=$return->total;
-                    $supplier=AccountingSupplier::find( $return->supplier_id);
+
                     $supplier->update([
-                        'balance'=>$supplier->balance -$return->total
+                        'balance'=>$supplier->balance - $return->total
                     ]);
+
                 }
             }
         }
-//        dd("dc");
+
         alert()->success('تمت عملية الاسترجاع بنجاح !')->autoclose(5000);
         return back();
     }
