@@ -1,7 +1,7 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','الفاتوره')
-@section('parent_title','إدارة نقطه البيع')
-@section('action', URL::route('accounting.categories.index'))
+@section('title','إنشاء فاتوره مشتري')
+@section('parent_title','إدارة المشتريات')
+@section('action', URL::route('accounting.suppliers.index'))
 @section('styles')
 <link href="{{asset('admin/assets/css/jquery.datetimepicker.min.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/all.css')}}" rel="stylesheet" type="text/css">
@@ -42,10 +42,18 @@
 						</div>
 					@endif
 					<div class="col-xs-12">
-						<div class="form-group col-sm-4">
+						<div class="form-group  {{(getsetting('show_supplier_balance')==1) ? 'show_supplier_balance_enable col-sm-2':'col-sm-4' }}">
 							<label> إسم المورد </label>
 							{!! Form::select("supplier_id",$suppliers,null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر اسم المورد','data-live-search'=>'true','id'=>'supplier_id'])!!}
 						</div>
+						@if (getsetting('show_supplier_balance')==1)
+
+							<div class="form-group col-md-2  pull-left suppliers">
+								<label>   رصيد المورد </label>
+								<input type="text" id="balance" class="form-control" readonly>
+							</div>
+						@endif
+
 						<div class="form-group col-sm-4">
 							<label> رقم الفاتوره </label>
 							{!! Form::text("bill_num",null,['class'=>'selectpicker form-control inline-control','placeholder'=>' رقم الفاتوره',"id"=>'bill_num'])!!}
@@ -277,10 +285,10 @@
 					let unitId = productUnits.map(c => c.id);
 					let unitPrice = productUnits.map(b => b.purchasing_price);
 					var singlePriceBefore, singlePriceAfter = 0;
-					if (Number(priceHasTax) === 1) {
+					if (Number(priceHasTax) === 0) {
 						var singlePriceBefore = Number(productPrice);
 						var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
-					} else if (Number(priceHasTax) === 0) {
+					} else if (Number(priceHasTax) ===1) {
 						var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
 						var singlePriceAfter = Number(productPrice);
 					} else {
@@ -446,10 +454,10 @@
 						var selectedUnit = $(this).find(":selected");
 						var priceHasTax = $(this).parents("tr.single-row-wrapper").data('ifhastax');
 						var productPrice = selectedUnit.data('uni-price');
-						if (Number(priceHasTax) === 1) {
+						if (Number(priceHasTax) === 0) {
 							var singlePriceBefore = Number(productPrice);
 							var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
-						} else if (Number(priceHasTax) === 0) {
+						} else if (Number(priceHasTax) === 1) {
 							var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
 							var singlePriceAfter = Number(productPrice);
 						} else {
@@ -491,10 +499,10 @@
 					$(".single-price-before input").change(function() {
 						var productPrice = $(this).val();
 						var priceHasTax = $(this).parents("tr.single-row-wrapper").data('ifhastax');
-						if (Number(priceHasTax) === 1) {
+						if (Number(priceHasTax) === 0) {
 							var singlePriceBefore = Number(productPrice);
 							var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
-						} else if (Number(priceHasTax) === 0) {
+						} else if (Number(priceHasTax) === 1) {
 							var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
 							var singlePriceAfter = Number(productPrice);
 						} else {
@@ -706,10 +714,10 @@
 		var unitId = productUnits.map(c => c.id);
 		var unitPrice = productUnits.map(b => b.selling_price);
 		var singlePriceBefore, singlePriceAfter = 0;
-		if (Number(priceHasTax) === 1) {
+		if (Number(priceHasTax) === 0) {
 			var singlePriceBefore = Number(productPrice);
 			var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
-		} else if (Number(priceHasTax) === 0) {
+		} else if (Number(priceHasTax) === 1) {
 			var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
 			var singlePriceAfter = Number(productPrice);
 		} else {
@@ -872,10 +880,10 @@
 			var selectedUnit = $(this).find(":selected");
 			var priceHasTax = $(this).parents("tr.single-row-wrapper").data('ifhastax');
 			var productPrice = selectedUnit.data('uni-price');
-			if (Number(priceHasTax) === 1) {
+			if (Number(priceHasTax) === 0) {
 				var singlePriceBefore = Number(productPrice);
 				var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
-			} else if (Number(priceHasTax) === 0) {
+			} else if (Number(priceHasTax) === 1) {
 				var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
 				var singlePriceAfter = Number(productPrice);
 			} else {
@@ -917,10 +925,10 @@
 		$(".single-price-before input").change(function() {
 			var productPrice = $(this).val();
 			var priceHasTax = $(this).parents("tr.single-row-wrapper").data('ifhastax');
-			if (Number(priceHasTax) === 1) {
+			if (Number(priceHasTax) === 0) {
 				var singlePriceBefore = Number(productPrice);
 				var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
-			} else if (Number(priceHasTax) === 0) {
+			} else if (Number(priceHasTax) === 1) {
 				var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
 				var singlePriceAfter = Number(productPrice);
 			} else {
@@ -1067,6 +1075,21 @@
 		}
 	});
 </script>
+
+<script>
+	$("#supplier_id").on('change', function() {
+		var id= $(this).val();
+		$.ajax({
+			url: "/accounting/getBalance/" + id,
+			type: "GET",
+		}).done(function (data) {
+
+			$('#balance').val(data.data);
+		}).fail(function (error) {
+			console.log(error);
+		});
+	});
+	</script>
 <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
 <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
 <!---- new desfign --->

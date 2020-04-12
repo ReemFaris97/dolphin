@@ -1,7 +1,7 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض  الشرائح')
+@section('title','عرض  شرائح الضرائب')
 @section('parent_title','إدارة  الضرائب ')
-@section('action', URL::route('accounting.products.index'))
+@section('action', URL::route('accounting.taxs.index'))
 
 @section('styles')
 
