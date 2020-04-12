@@ -156,21 +156,21 @@
 						</tr>
 					</thead>
 					<tbody class="add-products">
-						@if (isset($subunits))
-						@foreach($subunits as $unit)
-						<tr>
-							<td>{{$unit->name}}</td>
-							<td>{{$unit->bar_code}}</td>
-							<td>{{$unit->main_unit_present}}</td>
-							<td>{{$unit->selling_price}}</td>
-							<td>{{$unit->purchasing_price}}</td>
-							<td>{{$unit->quantity}}</td>
-							<td>
-								<a href="#" onclick="Delete({{$unit->id}})" class="delete-sub-unit">حذف</a>
-							</td>
-						</tr>
-						@endforeach
-						@endif
+						{{--@if (isset($subunits))--}}
+						{{--@foreach($subunits as $unit)--}}
+						{{--<tr>--}}
+							{{--<td>{{$unit->name}}</td>--}}
+							{{--<td>{{$unit->bar_code}}</td>--}}
+							{{--<td>{{$unit->main_unit_present}}</td>--}}
+							{{--<td>{{$unit->selling_price}}</td>--}}
+							{{--<td>{{$unit->purchasing_price}}</td>--}}
+							{{--<td>{{$unit->quantity}}</td>--}}
+							{{--<td>--}}
+								{{--<a href="#" onclick="Delete({{$unit->id}})" class="delete-sub-unit">حذف</a>--}}
+							{{--</td>--}}
+						{{--</tr>--}}
+						{{--@endforeach--}}
+						{{--@endif--}}
 					</tbody>
 				</table>
 				<!-- services table-->
@@ -330,17 +330,34 @@
 					</span>
 					@endif
 				</div>
+				@if (isset($is_edit))
+
+					<div id="shamel-mesh">
+						<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left form-line new-radio-big-wrapper shamel-mesh">
+						<span class="new-radio-wrap">
+							<label > السعر شامل الضريبة </label>
+							<input type="radio" name="price_has_tax"   class="form-control"  value={{($price_has_tax==1)?1:0}} {{($price_has_tax==1)?'checked':null }}>
+						</span>
+							<span class="new-radio-wrap">
+							<label >السعر غير شامل الضريبة </label>
+							<input type="radio" name="price_has_tax"  class="form-control"  value={{($price_has_tax==1)?0:1}} {{($price_has_tax==1)?null:'checked'}}>
+						</span>
+						</div>
+						<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left prices_taxs">
+							<label> اسم شريحة الضرائب</label>
+							{!! Form::select("tax_band_id[]",$taxs,null,['class'=>'form-control selectpicker','multiple'])!!}
+						</div>
+					</div>
+                 @else
 				<div id="shamel-mesh">
 					<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left form-line new-radio-big-wrapper shamel-mesh">
 						<span class="new-radio-wrap">
-							<label for="yes2"> السعر شامل الضريبة </label>
-							<!--		{!! Form::radio("price_has_tax",1,['class'=>'form-control','id'=>'yes2', 'checked', 'value'=>1])!!}-->
-							<input type="radio" name="price_has_tax" checked class="form-control" id="yes2" value="1">
+							<label > السعر شامل الضريبة </label>
+							<input type="radio" name="price_has_tax"   class="form-control"  value="1">
 						</span>
 						<span class="new-radio-wrap">
-							<label for="no2">السعر غير شامل الضريبة </label>
-							<!--		{!! Form::radio("price_has_tax",0,['class'=>'form-control','id'=>'no2','value'=>0])!!}-->
-							<input type="radio" name="price_has_tax" class="form-control" id="no2" value="0">
+							<label >السعر غير شامل الضريبة </label>
+							<input type="radio" name="price_has_tax"  class="form-control"  value="0">
 						</span>
 					</div>
 					<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left prices_taxs">
@@ -348,7 +365,30 @@
 						{!! Form::select("tax_band_id[]",$taxs,null,['class'=>'form-control selectpicker','multiple'])!!}
 					</div>
 				</div>
-			</div>
+				@endif
+
+				@if (isset($is_edit))
+					<table  class="table">
+						<thead>
+						<tr>
+							<th> اسم الضريبه</th>
+							<th> النسبه</th>
+
+						</tr>
+						</thead>
+						<tbody>
+						@foreach($taxsproduct as $tax)
+							<tr>
+								<td>{{$tax->Taxband->name}}</td>
+								<td>{{$tax->Taxband->percent}}</td>
+
+							</tr>
+							@endforeach
+						</tbody>
+					</table>
+					@endif
+
+
 		</div>
 	</div>
 	<div class="text-center col-md-12 m--margin-bottom-5">
@@ -421,7 +461,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
-				<button class="btn btn-primary" id="subunit" data-dismiss="modal" onclick="myFun2(event)">اضافة المكونات للمنتج</button>
+				<button class="btn btn-primary"  data-dismiss="modal" onclick="myFun2(event)">اضافة المكونات للمنتج</button>
 			</div>
 		</div>
 	</div>
@@ -504,40 +544,48 @@
 </div>
 <!-- end model5-->
 @section('scripts')
-<script>
-	$(document).ready(function() {
+	<script>
+		$(document).ready(function() {
+			$("#components_button").hide();
+			$("#offers_button").hide();
+			$("#discounts_button").hide();
+			$(".percent").hide();
+			$('.js-example-basic-single').select2();
+			$("#productsTable").hide();
+			$("#componentTable").hide();
+			$("#offerTable").hide();
+			$("#discountTable").hide();
+			$("#serviceTable").hide();
 
-		$("#components_button").hide();
-		$("#offers_button").hide();
-		$("#discounts_button").hide();
-		$(".percent").hide();
-		$('.js-example-basic-single').select2();
-		$("#componentTable").hide();
-		$("#offerTable").hide();
-		$("#discountTable").hide();
-		$("#serviceTable").hide();
-		$('input[name="price_has_tax"]').click(function() {
-			if ($(this).is(':checked')) {
-				var id = $(this).val();
-				if (id == 1) {
-					$(".prices_taxs").show();
-				} else if (id == 0) {
-					$(".prices_taxs").hide();
-				}
-			}
-		});
-		
+
+			// $('input[name="price_has_tax"]').click(function() {
+			// 	if ($(this).is(':checked')) {
+			// 		var id = $(this).val();
+			//
+			// 		if (id == 1) {
+			// 			$(".prices_taxs").show();
+			// 		} else if (id == 0) {
+			// 			$(".prices_taxs").show();
+			// 		}
+			// 	}
+			// // });
+
 			$('input[name="tax"]').click(function () {
-		if ($(this).is(':checked')) {
-			var id = $(this).val();
-			if (id == 1) {
-				$("#shamel-mesh").show();
-			} else if (id == 0) {
-				$("#shamel-mesh").hide();
-			}
-		}
-	});
-		
+				if ($(this).is(':checked')) {
+					var id = $(this).val();
+					// alert(id);
+					if (id == 1) {
+						$("#shamel-mesh").show();
+						$(".prices_taxs").show();
+					} else if (id == 0) {
+						$("#shamel-mesh").hide();
+						$(".prices_taxs").hide();
+					}
+				}
+			});
+
+
+		});
 		var bigData = [];
 		var bigDataComponent = [];
 		var bigDataOffer = [];
@@ -552,15 +600,16 @@
 			data.selling_price = $('#selling_price').val();
 			data.purchasing_price = $('#purchasing_price').val();
 			data.quantity = $('#quantity').val();
-			if (data.name !== '' && data.main_unit_present !== '' && data.selling_price !== '' && data.purchasing_price !== '' && data.quantity !== '') {
+			if (data.name !== '' && data.main_unit_present !== '' && data.selling_price !== '' && data.purchasing_price !== '') {
 				$("tr.editted-row").remove();
 				swal({
 					title: "تم إضافة الوحدة الفرعية بنجاح",
 					text: "",
+					timer: 3000,
 					icon: "success",
 					buttons: ["موافق"],
 					dangerMode: true,
-				});
+				})
 				bigData.push(data);
 				$("#productsTable").show();
 				var appendProducts = bigData.map(function(product) {
@@ -589,7 +638,7 @@
                 </tr>
                 `);
 				});
-				$('.add-products').append(appendProducts);
+				$('.add-products').empty().append(appendProducts);
 				$('.delete-this-row').click(function(e) {
 					var $this = $(this);
 					var row_index = $(this).parents('tr').index();
@@ -620,21 +669,20 @@
 					$('#exampleModal #main_unit_present').val($this.parents('tr').find('.prod-pre').html());
 					$('#exampleModal #selling_price').val($this.parents('tr').find('.prod-spri').html());
 					$('#exampleModal #purchasing_price').val($this.parents('tr').find('.prod-ppri').html());
-					$('#exampleModal #quantity').val($this.parents('tr').find('.prod-quantity').html());
 					var row_index_edit = $(this).parents('tr').index();
 					bigData.splice(row_index_edit, 1);
 				});
 				document.getElementById("name").val = " ";
 				$('[data-dismiss=modal]').on('click', function(e) {
 					var $t = $(this),
-						target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
+							target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
 					$(target)
-						.find("input,textarea,select")
-						.val('')
-						.end()
-						.find("input[type=checkbox], input[type=radio]")
-						.prop("checked", "")
-						.end();
+							.find("input,textarea,select")
+							.val('')
+							.end()
+							.find("input[type=checkbox], input[type=radio]")
+							.prop("checked", "")
+							.end();
 				})
 			} else {
 				swal({
@@ -661,7 +709,7 @@
 					icon: "success",
 					buttons: ["موافق"],
 					dangerMode: true,
-				});
+				})
 				bigDataComponent.push(component_data);
 				$("#componentTable").show();
 				var appendComponent = bigDataComponent.map(function(component) {
@@ -720,14 +768,14 @@
 				document.getElementById("name").val = " ";
 				$('[data-dismiss=modal]').on('click', function(e) {
 					var $t = $(this),
-						target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
+							target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
 					$(target)
-						.find("input,textarea,select")
-						.val('')
-						.end()
-						.find("input[type=checkbox], input[type=radio]")
-						.prop("checked", "")
-						.end();
+							.find("input,textarea,select")
+							.val('')
+							.end()
+							.find("input[type=checkbox], input[type=radio]")
+							.prop("checked", "")
+							.end();
 				})
 			} else {
 				swal({
@@ -752,7 +800,7 @@
 					icon: "success",
 					buttons: ["موافق"],
 					dangerMode: true,
-				});
+				})
 				bigDataOffer.push(offer_data);
 				$("#offerTable").show();
 				var appendOffer = bigDataOffer.map(function(offer) {
@@ -805,14 +853,14 @@
 				document.getElementById("name").val = " ";
 				$('[data-dismiss=modal]').on('click', function(e) {
 					var $t = $(this),
-						target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
+							target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
 					$(target)
-						.find("input,textarea,select")
-						.val('')
-						.end()
-						.find("input[type=checkbox], input[type=radio]")
-						.prop("checked", "")
-						.end();
+							.find("input,textarea,select")
+							.val('')
+							.end()
+							.find("input[type=checkbox], input[type=radio]")
+							.prop("checked", "")
+							.end();
 				})
 			} else {
 				swal({
@@ -837,7 +885,7 @@
 					icon: "success",
 					buttons: ["موافق"],
 					dangerMode: true,
-				});
+				})
 				bigDataDiscount.push(discount_data);
 				$("#discountTable").show();
 				var appendDiscount = bigDataDiscount.map(function(discount) {
@@ -893,14 +941,14 @@
 				document.getElementById("name").val = " ";
 				$('[data-dismiss=modal]').on('click', function(e) {
 					var $t = $(this),
-						target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
+							target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
 					$(target)
-						.find("input,textarea,select")
-						.val('')
-						.end()
-						.find("input[type=checkbox], input[type=radio]")
-						.prop("checked", "")
-						.end();
+							.find("input,textarea,select")
+							.val('')
+							.end()
+							.find("input[type=checkbox], input[type=radio]")
+							.prop("checked", "")
+							.end();
 				})
 			} else {
 				swal({
@@ -927,7 +975,7 @@
 					icon: "success",
 					buttons: ["موافق"],
 					dangerMode: true,
-				});
+				})
 				bigDataService.push(service_data);
 				$("#serviceTable").show();
 				var appendService = bigDataService.map(function(service) {
@@ -986,14 +1034,14 @@
 				document.getElementById("name").val = " ";
 				$('[data-dismiss=modal]').on('click', function(e) {
 					var $t = $(this),
-						target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
+							target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
 					$(target)
-						.find("input,textarea,select")
-						.val('')
-						.end()
-						.find("input[type=checkbox], input[type=radio]")
-						.prop("checked", "")
-						.end();
+							.find("input,textarea,select")
+							.val('')
+							.end()
+							.find("input[type=checkbox], input[type=radio]")
+							.prop("checked", "")
+							.end();
 				})
 			} else {
 				swal({
@@ -1011,46 +1059,16 @@
 				source: availableTags
 			});
 		});
-	})
-</script>
-<script>
-	function Delete(id) {
-		var item_id = id;
-		console.log(item_id);
-		swal({
-			title: "هل أنت متأكد ",
-			text: "هل تريد حذف هذة  الوحده ؟",
-			icon: "warning",
-			buttons: ["الغاء", "موافق"],
-			dangerMode: true,
-		}).then(function(isConfirm) {
-			if (isConfirm) {
-				$.ajax({
-					type: "get",
-					url: '/accounting/destroy_subunit/' + item_id,
-					success: function(data) {
-						item_id.remove();
-					},
-					error: function(data) {
-						console.log(data);
-					}
-				});
-			} else {
-				swal("تم االإلفاء", "حذف  الوحدة  تم الغاؤه", 'info', {
-					buttons: 'موافق'
-				});
-			}
-		});
-	}
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
-<script src="{{asset('admin/assets/js/get_faces_by_branch.js')}}"></script>
-<script src="{{asset('admin/assets/js/get_cells_by_column.js')}}"></script>
-<script src="{{asset('admin/assets/js/get_columns_by_face.js')}}"></script>
-<script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
-<script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
-<script src="{{asset('admin/assets/js/creation.js')}}"></script>
-<script src="{{asset('admin/assets/js/services.js')}}"></script>
-<script src="{{asset('admin/assets/js/offer.js')}}"></script>
-<script src="{{asset('admin/assets/js/discount.js')}}"></script>
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
+	<script src="{{asset('admin/assets/js/get_faces_by_branch.js')}}"></script>
+	<script src="{{asset('admin/assets/js/get_cells_by_column.js')}}"></script>
+	<script src="{{asset('admin/assets/js/get_columns_by_face.js')}}"></script>
+	<script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
+	<script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
+	<script src="{{asset('admin/assets/js/creation.js')}}"></script>
+	<script src="{{asset('admin/assets/js/services.js')}}"></script>
+	<script src="{{asset('admin/assets/js/offer.js')}}"></script>
+	<script src="{{asset('admin/assets/js/discount.js')}}"></script>
+	<script src="{{asset('admin/assets/js/tax.js')}}"></script>
 @endsection

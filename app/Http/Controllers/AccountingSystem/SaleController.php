@@ -9,6 +9,7 @@ use App\Models\AccountingSystem\AccountingCompany;
 use App\Models\AccountingSystem\AccountingOffer;
 use App\Models\AccountingSystem\AccountingPackage;
 use App\Models\AccountingSystem\AccountingProduct;
+use App\Models\AccountingSystem\AccountingProductSubUnit;
 use App\Models\AccountingSystem\AccountingPurchaseReturn;
 use App\Models\AccountingSystem\AccountingSale;
 use App\Models\AccountingSystem\AccountingSaleItem;
@@ -64,6 +65,7 @@ class SaleController extends Controller
     public function store(Request $request)
     {
         $requests = $request->all();
+//        dd( $requests);
         if(!$request->client_id){
 
             $requests['client_id']=5;
@@ -108,31 +110,43 @@ class SaleController extends Controller
         $quantities=$requests['quantity'];
         $products = collect($requests['product_id']);
         $qtys = collect($requests['quantity']);
-
-        $merges = $products->zip($qtys);
+        $unit_id = collect($requests['unit_id']);
+        $merges = $products->zip($qtys,$unit_id);
 
         foreach ($merges as $merge)
         {
             $product=AccountingProduct::find($merge['0']);
+            if($merge['2']!='main-'.$product->id){
+                $unit=AccountingProductSubUnit::where('product_id',$merge['0'])->where('id',$merge['2'])->first();
+            }
 
-            if($product->quantity>0){
+                $item= AccountingSaleItem::create([
+                    'product_id'=>$merge['0'],
+                    'quantity'=> $merge['1'],
+                    'price'=>$product->selling_price,
+                    'sale_id'=>$sale->id
+                ]);
+                ///if-main-unit
 
-            $item= AccountingSaleItem::create([
-                'product_id'=>$merge['0'],
-                'quantity'=> $merge['1'],
-                'price'=>$product->selling_price,
-                'sale_id'=>$sale->id
-            ]);
-            //update_product_quantity
-            $product->update([
-                'quantity'=>$product->quantity- $merge['1'],
-            ]);
-             //update_product_quantity_store
-            $productstore=AccountingProductStore::where('store_id',$user->accounting_store_id)->where('product_id',$merge['0'])->first();
-            $productstore->update([
-                'quantity'=>$productstore->quantity - $merge['1'],
-            ]);
-        }
+                if($merge['2']!='main-'.$product->id){
+
+                    $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',$merge['2'])->first();
+                   if($productstore->quantity >= 0) {
+                       $productstore->update([
+                           'quantity' => $productstore->quantity - $merge['1'],
+                       ]);
+                   }
+                }else{
+                    $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',Null)->first();
+                    if($productstore->quantity >= 0) {
+                        if ($productstore) {
+                            $productstore->update([
+                                'quantity' => $productstore->quantity - $merge['1'],
+                            ]);
+                        }
+                    }
+                }
+
     }
 //    dd($sale);
         alert()->success('تمت عملية البيع بنجاح !')->autoclose(5000);
@@ -143,7 +157,7 @@ class SaleController extends Controller
     public function store_returns(Request $request){
 
         $requests = $request->all();
-//        dd( $requests);
+
         $return=AccountingReturn::create($requests);
         $user=User::find($requests['user_id']);
 
@@ -184,7 +198,7 @@ class SaleController extends Controller
         foreach ($merges as $merge)
         {
             $product=AccountingProduct::find($merge['0']);
-            if($product->quantity>0){
+            if($product->quantity > 0){
                 $item= AccountingReturn::create([
                     'product_id'=>$merge['0'],
                     'quantity'=> $merge['1'],

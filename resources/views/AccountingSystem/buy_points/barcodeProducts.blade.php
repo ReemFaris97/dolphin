@@ -22,7 +22,8 @@
     $sumQuantity=\App\Models\AccountingSystem\AccountingPurchaseItem::where('product_id',$product->id)->sum('quantity');
     $sumPrice=\App\Models\AccountingSystem\AccountingPurchaseItem::where('product_id',$product->id)->sum('price');
     if($sumPrice){
-        $average= $sumQuantity/$sumPrice;
+        $average= $sumPrice/$sumQuantity;
+
     }else{
         $average=0;
     }
