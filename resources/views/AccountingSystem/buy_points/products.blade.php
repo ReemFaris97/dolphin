@@ -13,9 +13,15 @@
     $lastPrice=\App\Models\AccountingSystem\AccountingPurchaseItem::where('product_id',$product->id)->latest()->first();
 
     $sumQuantity=\App\Models\AccountingSystem\AccountingPurchaseItem::where('product_id',$product->id)->sum('quantity');
-    $sumPrice=\App\Models\AccountingSystem\AccountingPurchaseItem::where('product_id',$product->id)->sum('price');
-    if($sumPrice){
-        $average= $sumPrice/$sumQuantity;
+    $arrPrice=DB::table('accounting_purchases_items')->where('product_id',$product->id)
+        ->selectRaw('SUM(price * quantity) as total')
+        ->pluck('total');
+    $total=0;
+    foreach ($arrPrice as $price){
+      $total+= $price;
+    }
+    if($sumQuantity!=0){
+        $average= $total/$sumQuantity;
     }else{
         $average=0;
     }
