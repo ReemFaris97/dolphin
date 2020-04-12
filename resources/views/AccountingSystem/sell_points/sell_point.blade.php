@@ -98,7 +98,15 @@
 					<input type="hidden" name="shift_id" value="{{$session->shift_id}}">
 					<input type="hidden" name="client_id" id="client_id_val">
 
-					<table border="1" class="finalTb mabi3at-bill bill-table">
+					<table border="1" class="finalTb mabi3at-bill bill-table"
+							{{(getsetting('name_enable_sales')==1) ? 'name_enable':'' }}
+							{{(getsetting('barcode_enable_sales')==1) ? 'barcode_enable':'' }}
+							{{(getsetting('unit_enable_sales')==1) ? 'unit_enable':'' }}
+							{{(getsetting('quantity_enable_sales')==1) ? 'quantity_enable':'' }}
+							{{(getsetting('unit_price_before_enable_sales') == 1) ? 'unit_price_before_enable':''}}
+							{{(getsetting('unit_price_after_enable_sales')==1) ? 'unit_price_after_enable':'' }}
+							{{(getsetting('total_price_before_enable_sales')==1) ? 'total_price_before_enable':'' }}
+							{{(getsetting('total_price_after_enable_sales')==1) ? 'total_price_after_enable':'' }} 					>
 						<thead>
 							<tr>
 								<th rowspan="2">م</th>
@@ -344,7 +352,7 @@
                             <input type="hidden" name="product_id[]" value=${productId}>
 							<td class="product-name">${productName}</td>
 							<td class="product-unit">
-								<select class="form-control js-example-basic-single">
+								<select class="form-control js-example-basic-single" name="unit_id[${productId}]">
 									${optss}
 								</select>
 							</td>

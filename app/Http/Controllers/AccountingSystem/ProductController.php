@@ -320,7 +320,8 @@ class ProductController extends Controller
         $taxsproduct=AccountingProductTax::where('product_id',$id)->get();
         $tax=AccountingProductTax::where('product_id',$id)->first();
         $has_tax=($tax)?'1':'0';
-        return $this->toEdit(compact('industrials','taxs','face','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores','units','subunits','taxsproduct','has_tax'));
+        $price_has_tax=($tax->price_has_tax==1)?'1':'0';
+        return $this->toEdit(compact('industrials','taxs','face','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores','units','subunits','taxsproduct','has_tax','price_has_tax'));
 
 
     }
