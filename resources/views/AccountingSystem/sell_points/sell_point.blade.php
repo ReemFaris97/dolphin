@@ -4,7 +4,6 @@
 @section('action', URL::route('accounting.categories.index'))
 @section('styles')
 <link href="{{asset('admin/assets/css/jquery.datetimepicker.min.css')}}" rel="stylesheet" type="text/css">
-
 <link href="{{asset('admin/assets/css/all.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/bill.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/customized.css')}}" rel="stylesheet" type="text/css">
@@ -37,7 +36,6 @@
 					</div>
 					<div class="col-md-4 col-sm-6 col-xs-12">
 						<div class="form-group"><label> اسم الوردية: </label>
-
 							{{$session->shift->name}}
 						</div>
 					</div>
@@ -56,25 +54,20 @@
 							<label> رقم الفاتوره </label>
 							{!! Form::text("bill_num",null,['class'=>'selectpicker form-control inline-control','placeholder'=>' رقم الفاتوره',"id"=>'bill_num'])!!}
 						</div> --}}
-
-
 						<div class="form-group col-sm-4">
 							<label for="bill_date"> تاريخ الفاتورة </label>
 							{!! Form::text("bill_date",null,['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' تاريخ الفاتورة',"id"=>'bill_date'])!!}
 						</div>
-
 						{{-- <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="form-group block-gp">
                             <label>اسم القسم </label>
                             {!! Form::select("category_id",$categories,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}
                         </div>
                     </div> --}}
-
 						<div class="form-group block-gp col-md-4 col-sm-4 ">
 							<label>بحث بالباركود </label>
 							<input class="form-control" type="text" id="barcode_search">
 						</div>
-
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<div class="form-group block-gp">
@@ -82,7 +75,6 @@
 							{!! Form::select("category_id",$categories,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}
 						</div>
 					</div>
-
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<div class="yurProdc">
 						</div>
@@ -97,35 +89,26 @@
 					<input type="hidden" name="session_id" value="{{$session->id}}">
 					<input type="hidden" name="shift_id" value="{{$session->shift_id}}">
 					<input type="hidden" name="client_id" id="client_id_val">
-
-					<table border="1" class="finalTb mabi3at-bill bill-table"
-							{{(getsetting('name_enable_sales')==1) ? 'name_enable':'' }}
-							{{(getsetting('barcode_enable_sales')==1) ? 'barcode_enable':'' }}
-							{{(getsetting('unit_enable_sales')==1) ? 'unit_enable':'' }}
-							{{(getsetting('quantity_enable_sales')==1) ? 'quantity_enable':'' }}
-							{{(getsetting('unit_price_before_enable_sales') == 1) ? 'unit_price_before_enable':''}}
-							{{(getsetting('unit_price_after_enable_sales')==1) ? 'unit_price_after_enable':'' }}
-							{{(getsetting('total_price_before_enable_sales')==1) ? 'total_price_before_enable':'' }}
-							{{(getsetting('total_price_after_enable_sales')==1) ? 'total_price_after_enable':'' }} 					>
+					<table border="1" class="finalTb mabi3at-bill bill-table {{(getsetting('name_enable_sales')==1) ? 'name_enable':'' }} {{(getsetting('barcode_enable_sales')==1) ? 'barcode_enable':'' }} {{(getsetting('unit_enable_sales')==1) ? 'unit_enable':'' }} {{(getsetting('quantity_enable_sales')==1) ? 'quantity_enable':'' }} {{(getsetting('unit_price_before_enable_sales') == 1) ? 'unit_price_before_enable':''}} {{(getsetting('unit_price_after_enable_sales')==1) ? 'unit_price_after_enable':'' }} {{(getsetting('total_price_before_enable_sales')==1) ? 'total_price_before_enable':'' }} {{(getsetting('total_price_after_enable_sales')==1) ? 'total_price_after_enable':'' }}">
 						<thead>
 							<tr>
 								<th rowspan="2">م</th>
-								<th rowspan="2">اسم الصنف</th>
-								<th rowspan="2">الوحدة</th>
-								<th rowspan="2">الكمية</th>
-								<th colspan="2" rowspan="1" class="th_lg">
+								<th rowspan="2" class="maybe-hidden name_enable">اسم الصنف</th>
+								<th rowspan="2" class="maybe-hidden unit_enable">الوحدة</th>
+								<th rowspan="2" class="maybe-hidden quantity_enable">الكمية</th>
+								<th colspan="2" rowspan="1" class="th_lg maybe-hidden">
 									سعر الوحدة
 								</th>
-								<th colspan="2" rowspan="1" class="th_lg">
+								<th colspan="2" rowspan="1" class="th_lg maybe-hidden name_enable">
 									الإجمالى
 								</th>
 								<th rowspan="2"> حذف </th>
 							</tr>
 							<tr>
-								<th rowspan="1">قبل الضريبة</th>
-								<th rowspan="1">بعد الضريبة</th>
-								<th rowspan="1">قبل الضريبة</th>
-								<th rowspan="1">بعد الضريبة</th>
+								<th rowspan="1" class="maybe-hidden unit_price_before_enable">قبل الضريبة</th>
+								<th rowspan="1" class="maybe-hidden unit_price_after_enable">بعد الضريبة</th>
+								<th rowspan="1" class="maybe-hidden total_price_before_enable">قبل الضريبة</th>
+								<th rowspan="1" class="maybe-hidden total_price_after_enable">بعد الضريبة</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -225,10 +208,8 @@
 							</tr>
 						</tfoot>
 					</table>
-
 				</form>
 				<div class="newly-added-2-btns-">
-
 					@if(auth()->user()->is_saler==1)
 					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
 						اغلاق الجلسة [F8]
@@ -256,7 +237,6 @@
 									<label style="color:black"> الباسورد</label>
 									<input type="password" name="password" class="form-control">
 								</form>
-
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
@@ -295,7 +275,6 @@
 	$("#client_id").on('change', function() {
 		var client = $(this).val();
 		$('#client_id_val').val(client);
-
 	});
 	var rowNum = 0;
 	$(".category_id").on('change', function() {
@@ -348,25 +327,25 @@
 						optss += '<option data-uni-price="' + unitPrice[i] + '" value="' + unitId[i] + '"> ' + unitName[i] + '</option> ';
 					}
 					$(".bill-table tbody").append(`<tr class="single-row-wrapper">
-							<td class="row-num">${rowNum}</td>
-                            <input type="hidden" name="product_id[]" value=${productId}>
-							<td class="product-name">${productName}</td>
-							<td class="product-unit">
-								<select class="form-control js-example-basic-single" name="unit_id[${productId}]">
-									${optss}
-								</select>
-							</td>
-							<td class="product-quantity">
-								<input type="number" placeholder="الكمية" min="1" value="1" id="sale" name="quantity[]" class="form-control">
-							</td>
-							<td class="single-price-before">${singlePriceBefore}</td>
-							<td class="single-price-after">${singlePriceAfter}</td>
-							<td class="whole-price-before">${singlePriceBefore}</td>
-							<td class="whole-price-after">${singlePriceAfter}</td>
-							<td class="delete-single-row">
-								<a href="#"><span class="icon-cross"></span></a>
-							</td>
-						</tr>`);
+						<td class="row-num">${rowNum}</td>
+						<input type="hidden" name="product_id[]" value=${productId}>
+						<td class="product-name maybe-hidden name_enable">${productName}</td>
+						<td class="product-unit maybe-hidden unit_enable">
+							<select class="form-control js-example-basic-single" name="unit_id[${productId}]">
+								${optss}
+							</select>
+						</td>
+						<td class="product-quantity maybe-hidden quantity_enable">
+							<input type="number" placeholder="الكمية" min="1" value="1" id="sale" name="quantity[]" class="form-control">
+						</td>
+						<td class="single-price-before maybe-hidden unit_price_before_enable">${singlePriceBefore}</td>
+						<td class="single-price-after maybe-hidden unit_price_after_enable">${singlePriceAfter}</td>
+						<td class="whole-price-before maybe-hidden total_price_before_enable">${singlePriceBefore}</td>
+						<td class="whole-price-after maybe-hidden total_price_after_enable">${singlePriceAfter}</td>
+						<td class="delete-single-row">
+							<a href="#"><span class="icon-cross"></span></a>
+						</td>
+					</tr>`);
 					var wholePriceBefore, wholePriceAfter = 0;
 					$(".product-unit select").change(function() {
 						var selectedUnit = $(this).find(":selected");
@@ -432,7 +411,6 @@
 							}
 							total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100));
 							$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
-
 						});
 						$("input#byAmount").change(function() {
 							if ((Number($(this).val())) > Number($("tr#amountAfterDariba span.dynamic-span").html())) {
@@ -442,10 +420,8 @@
 							total = Number(amountAfterDariba) - (Number($(this).val()));
 							$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
 							$("#total").val(total);
-
 						});
 					}
-
 					$("input#byPercentage").change(function() {
 						if ((Number($(this).val())) > 100) {
 							alert('لا يمكن ان تكون قيم الخصم بالنسبة أكبر من 100% .');
@@ -454,9 +430,7 @@
 						total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100));
 						$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
 						$("#total").val(total);
-
 					});
-
 					$("input#byAmount").change(function() {
 						if ((Number($(this).val())) > Number($("tr#amountAfterDariba span.dynamic-span").html())) {
 							alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $("tr#amountAfterDariba span.dynamic-span").html());
@@ -491,8 +465,6 @@
 			}
 		});
 	});
-
-
 	//	For Ajax Search By Product Bar Code
 	$('#barcode_search').keyup(function(e) {
 		var barcode_search = $(this).val();
@@ -553,25 +525,25 @@
 			optss += '<option data-uni-price="' + unitPrice[i] + '" value="' + unitId[i] + '" > ' + unitName[i] + '</option> ';
 		}
 		$(".bill-table tbody").append(`<tr class="single-row-wrapper">
-							<td class="row-num">${rowNum}</td>
-                            <input type="hidden" name="product_id[]" value=${productId}>
-							<td class="product-name">${productName}</td>
-							<td class="product-unit">
-								<select class="form-control js-example-basic-single">
-									${optss}
-								</select>
-							</td>
-							<td class="product-quantity">
-								<input type="number" placeholder="الكمية" min="1" value="1" id="sale" name="quantity[]" class="form-control">
-							</td>
-							<td class="single-price-before">${singlePriceBefore}</td>
-							<td class="single-price-after">${singlePriceAfter}</td>
-							<td class="whole-price-before">${singlePriceBefore}</td>
-							<td class="whole-price-after">${singlePriceAfter}</td>
-							<td class="delete-single-row">
-								<a href="#"><span class="icon-cross"></span></a>
-							</td>
-						</tr>`);
+			<td class="row-num">${rowNum}</td>
+			<input type="hidden" name="product_id[]" value=${productId}>
+			<td class="product-name maybe-hidden name_enable">${productName}</td>
+			<td class="product-unit maybe-hidden unit_enable">
+				<select class="form-control js-example-basic-single" name="unit_id[${productId}]">
+					${optss}
+				</select>
+			</td>
+			<td class="product-quantity maybe-hidden quantity_enable">
+				<input type="number" placeholder="الكمية" min="1" value="1" id="sale" name="quantity[]" class="form-control">
+			</td>
+			<td class="single-price-before maybe-hidden unit_price_before_enable">${singlePriceBefore}</td>
+			<td class="single-price-after maybe-hidden unit_price_after_enable">${singlePriceAfter}</td>
+			<td class="whole-price-before maybe-hidden total_price_before_enable">${singlePriceBefore}</td>
+			<td class="whole-price-after maybe-hidden total_price_after_enable">${singlePriceAfter}</td>
+			<td class="delete-single-row">
+				<a href="#"><span class="icon-cross"></span></a>
+			</td>
+		</tr>`);
 		var wholePriceBefore, wholePriceAfter = 0;
 		$(".product-unit select").change(function() {
 			var selectedUnit = $(this).find(":selected");
@@ -634,7 +606,6 @@
 					}
 					total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100));
 					$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
-
 				});
 				$("input#byAmount").change(function() {
 					if ((Number($(this).val())) > Number($("tr#amountAfterDariba span.dynamic-span").html())) {
@@ -644,10 +615,8 @@
 					total = Number(amountAfterDariba) - (Number($(this).val()));
 					$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
 					$("#total").val(total);
-
 				});
 			}
-
 			$("input#byPercentage").change(function() {
 				if ((Number($(this).val())) > 100) {
 					alert('لا يمكن ان تكون قيم الخصم بالنسبة أكبر من 100% .');
@@ -656,9 +625,7 @@
 				total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100));
 				$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
 				$("#total").val(total);
-
 			});
-
 			$("input#byAmount").change(function() {
 				if ((Number($(this).val())) > Number($("tr#amountAfterDariba span.dynamic-span").html())) {
 					alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $("tr#amountAfterDariba span.dynamic-span").html());
@@ -690,24 +657,7 @@
 				}
 			})
 		});
-
-
-
-
-
-
-
-
 	}
-
-
-
-
-
-
-
-
-
 	$(document).keydown(function(event) {
 		if (event.which == 118) { //F7 حفظ
 			$("#sllForm").submit();
@@ -736,18 +686,13 @@
 <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
 <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
 <!---- new design --->
-
 <script>
 	@if(!empty(\Illuminate\ Support\ Facades\ Session::has('sale_id')))
 	@php($sale_id = \Illuminate\ Support\ Facades\ Session::get('sale_id'))
-
-
 	window.open(
 		"{{route('accounting.sales.show',$sale_id)}}",
 		"_blank"
 	).print();
-
-
 	@endif
 </script>
 <script>
@@ -769,6 +714,4 @@
 	}
 	setInterval(refreshTime, 1000)
 </script>
-
-
 @endsection
