@@ -249,6 +249,38 @@
 					</div>
 				</div>
 				@endif
+				
+				
+				<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel"> إزالة الصنف </h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<form method="post" action="#" id="form5">
+									@csrf
+									<div class="col-md-12">
+										<label style="color:black"> البريد الإلكتروني</label>
+										<input type="mail" name="" class="form-control">
+									</div>
+									<div class="col-md-12">
+										<label style="color:black"> الباسورد</label>
+										<input type="password" name="" class="form-control">
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-primary" onclick="document.getElementById('form5').submit()">تحقق</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				
 			</div>
 		</section>
 		<!----------------  End Bill Content ----------------->
@@ -349,6 +381,9 @@
 						<td class="whole-price-after maybe-hidden total_price_after_enable">${singlePriceAfter}</td>
 						<td class="delete-single-row">
 							<a href="#"><span class="icon-cross"></span></a>
+						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal">
+							<span class="icon-cross"></span>
+						</button>
 						</td>
 					</tr>`);
 					var wholePriceBefore, wholePriceAfter = 0;
@@ -549,6 +584,9 @@
 			<td class="whole-price-after maybe-hidden total_price_after_enable">${singlePriceAfter}</td>
 			<td class="delete-single-row">
 				<a href="#"><span class="icon-cross"></span></a>
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal">
+					<span class="icon-cross"></span>
+				</button>
 			</td>
 		</tr>`);
 		var wholePriceBefore, wholePriceAfter = 0;
