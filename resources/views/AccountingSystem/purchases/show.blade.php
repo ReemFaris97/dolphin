@@ -957,7 +957,7 @@
 										<td colspan="7">{!! $purchase->discount !!}</td>
 									</tr>
 									<tr>
-										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"> <i class="ti-plus"></i> القيمة المضافة</td>
+										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"> <i class="ti-plus"></i> قيمة الضريبه</td>
 										<td colspan="7"> {!! $purchase->totalTaxs !!}</td>
 									</tr>
 									<tr>
