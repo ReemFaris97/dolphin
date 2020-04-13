@@ -266,7 +266,7 @@
 					var ProductId = $('#selectID').val();
 					var productName = selectedProduct.data('name');
 					var productLink = selectedProduct.data('link');
-					var lastPrice = selectedProduct.data('last-price').toFixed(2);
+					var lastPrice = selectedProduct.data('last-price');
 					var avgPrice = selectedProduct.data('average').toFixed(2);
 					var barCode = selectedProduct.data('bar-code');
 					var productPrice = selectedProduct.data('price');
@@ -695,7 +695,7 @@
 		var ProductId = $('#selectID2').val();
 		var productName = selectedProduct.data('name');
 		var productLink = selectedProduct.data('link');
-		var lastPrice = selectedProduct.data('last-price').toFixed(2);
+		var lastPrice = selectedProduct.data('last-price');
 		var avgPrice = selectedProduct.data('average').toFixed(2);
 		var barCode = selectedProduct.data('bar-code');
 		var productPrice = selectedProduct.data('price');
