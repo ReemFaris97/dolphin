@@ -1029,3 +1029,45 @@
 </script>
 @stop
 <!--=================================================================================================================================-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<tr id="amountBeforeDariba">
+								<th colspan="2"> المجموع</th>
+								<input type="hidden" class="dynamic-input">
+								<th colspan="7" class="rel-cols">
+									<span class="dynamic-span">0</span>
+									<span class="rs"> ر.س </span>
+								</th>
+							</tr>
+							<tr id="amountOfDariba">
+								<th colspan="2"> قيمة الضريبة</th>
+								<input type="hidden" class="dynamic-input" name="totalTaxs" id="amountOfDariba1">
+								<th colspan="7" class="rel-cols">
+									<span class="dynamic-span">0</span>
+									<span class="rs"> ر.س </span>
+								</th>
+							</tr>
+							<tr id="amountAfterDariba">
+								<th colspan="2">المجموع بعد الضريبة</th>
+								<input type="hidden" class="dynamic-input" name="amount" id="amountAfterDarib1">
+								<th colspan="7" class="rel-cols">
+									<span class="dynamic-span">0</span>
+									<span class="rs"> ر.س </span>
+								</th>
+							</tr>
