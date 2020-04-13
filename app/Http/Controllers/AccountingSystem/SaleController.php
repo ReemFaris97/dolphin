@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AccountingSystem;
 
 use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingBranchShift;
+use App\Models\AccountingSystem\AccountingClient;
 use App\Models\AccountingSystem\AccountingCompany;
 
 use App\Models\AccountingSystem\AccountingOffer;
@@ -65,7 +66,7 @@ class SaleController extends Controller
     public function store(Request $request)
     {
         $requests = $request->all();
-//    dd( $requests);
+//   dd( $requests);
         if(!$request->client_id){
 
             $requests['client_id']=5;
@@ -151,7 +152,23 @@ class SaleController extends Controller
                 }
 
     }
-//    dd($sale);
+
+        if($sale->payment=='cash'){
+
+            $store_id=auth()->user()->accounting_store_id;
+            $store=AccountingStore::find($store_id);
+            $safe=AccountingSafe::where('model_type', $store->model_type)->where('model_id', $store->model_id)->first();
+            $safe->update([
+                'amount'=>$safe->amount-$sale->total
+            ]);
+        }elseif ($sale->payment=='agel'){
+
+            $client=AccountingClient::find( $sale-> client_id);
+            $client->update([
+                'amount'=>$client->amount +$sale->total
+            ]);
+
+        }
         alert()->success('تمت عملية البيع بنجاح !')->autoclose(5000);
         return back()->with('sale_id',$sale->id);
     }

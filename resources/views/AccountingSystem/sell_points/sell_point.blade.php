@@ -411,6 +411,7 @@
 							}
 							total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100));
 							$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
+							$("#total").val(total);
 						});
 						$("input#byAmount").change(function() {
 							if ((Number($(this).val())) > Number($("tr#amountAfterDariba span.dynamic-span").html())) {
@@ -606,6 +607,7 @@
 					}
 					total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100));
 					$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
+					$("#total").val(total.toFixed(2));
 				});
 				$("input#byAmount").change(function() {
 					if ((Number($(this).val())) > Number($("tr#amountAfterDariba span.dynamic-span").html())) {
@@ -614,7 +616,7 @@
 					}
 					total = Number(amountAfterDariba) - (Number($(this).val()));
 					$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
-					$("#total").val(total);
+					$("#total").val(total.toFixed(2));
 				});
 			}
 			$("input#byPercentage").change(function() {
@@ -624,6 +626,7 @@
 				}
 				total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100));
 				$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
+
 				$("#total").val(total);
 			});
 			$("input#byAmount").change(function() {
