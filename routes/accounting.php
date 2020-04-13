@@ -192,6 +192,8 @@ Route::middleware('admin')->group(function () {
 
     Route::get('/pro_search/{name}', 'SellPointController@pro_search');
     Route::get('/barcode_search/{name}', 'BuyPointController@barcode_search');
+    Route::get('/barcode_search_sale/{name}', 'SellPointController@barcode_search');
+
 
     Route::post('/confirm', 'SessionController@confirm')->name('sessions.confirm');
 

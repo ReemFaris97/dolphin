@@ -6,6 +6,7 @@ use App\Models\AccountingSystem\AccountingClient;
 
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
+use App\Models\AccountingSystem\AccountingProductSubUnit;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingDevice;
@@ -63,15 +64,7 @@ class SellPointController extends Controller
 
     }
 
-    public  function barcode_search($q){
 
-        $products=AccountingProduct::where('bar_code',$q)->get();
-
-        return response()->json([
-            'status'=>true,
-            'data'=>view('AccountingSystem.sell_points.sell')->with('products',$products)->render()
-        ]);
-    }
     /**
      * Store a newly created resource in storage.
      *
@@ -132,6 +125,36 @@ class SellPointController extends Controller
      */
     public function destroy($id)
     {
+
+
+    }
+
+
+    public  function barcode_search($q){
+
+
+        $products=AccountingProduct::where('bar_code',$q)->get();
+
+        if(!$products->isEmpty())
+        {
+            $selectd_unit_id = 'main-'.$products[0]->id;
+        }
+        else
+        {
+            $product_unit=AccountingProductSubUnit::where('bar_code',$q)->pluck('product_id');
+            $products=AccountingProduct::whereIn('id',$product_unit)->get();
+            $unit=	AccountingProductSubUnit::where('bar_code',$q)->first();
+            if($unit)
+                $selectd_unit_id = $unit->id;
+            else
+                $select_unit_id = 0;
+        }
+
+
+        return response()->json([
+            'status'=>true,
+            'data'=>view('AccountingSystem.sell_points.barcodeProducts',compact('products','selectd_unit_id'))->render()
+        ]);
 
 
     }
