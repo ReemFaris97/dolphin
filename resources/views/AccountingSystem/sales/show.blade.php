@@ -1055,8 +1055,6 @@
                                                 @endif
                                             </td>
 										</tr>
-										
-
 										<tr>
 											<td  colspan="2" data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-money"></i>المدفوع</td>
 											<td  colspan="3">{!! $sale->payed ??0 !!}</td>
