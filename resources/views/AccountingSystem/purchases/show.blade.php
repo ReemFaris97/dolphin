@@ -862,37 +862,10 @@
 									<th rowspan="1" class="fixed-ta-hd maybe-hidden total_price_after_enable">بعد الضريبة</th>
 								</tr>
 								<tbody>
-									@foreach($product_items as $row)
-<!--
-									<tr>
-										<td>
-											<span class="big-ser-hed-tit">{!! $row->product->category->ar_name!!}</span>
-											<ol class="sml-ser-tits">
-												<li>{!! $row->product->name!!}</li>
-												<li><span> : الكمية {{$row->quantity}}</span></li>
-												@foreach ($row->discount() as $key=>$discount)
-												@if($key=='percentage')
-												<li><span> : نسبةالخصم {{$discount}}</span></li>
-												@elseif($key=='amount')
-												<li><span> : مبلغ الخصم {{$discount}} </span></li>
-												@endif
-												@endforeach
-											</ol>
-										</td>
-										<td>
-											<span class="all-sub-services-unit-pri-wrapper">
-												<span class="sml-ser-uni-pr">
-													{!! $row->price !!}
-												</span>
-											</span>
-										</td>
-									</tr>
--->
-									
-									
-									
+									@foreach($product_items as $key=>$row)
+
 						<tr class="single-row-wrapper">
-							<td class="row-num">1</td>
+							<td class="row-num">{{$loop->iteration}}</td>
 							<td class="product-name maybe-hidden name_enable">{!! $row->product->name!!}</td>
 							<td class="product-unit maybe-hidden unit_enable">
 								@if ($row->unit_type=='main')
@@ -904,25 +877,26 @@
 
 							</td>
 							<td class="product-quantity maybe-hidden quantity_enable">
-								{{$row->quantity}}
+								{{$row->quantity??0}}
 							</td>
 							<td class="single-price-before maybe-hidden unit_price_before_enable">
-								{{$row->price}}
+								{{$row->price??0}}
 							</td>
 							<td class="single-price-after maybe-hidden unit_price_after_enable">
-								{{$row->tax}}
+								{{$row->tax??0}}
 							</td>
 							<td class="single-price-after maybe-hidden expiration_enable">
-								{{$row->expire_date}}
+								{{$row->expire_date??'-'}}
 							</td>
 							<td class="single-price-after maybe-hidden unit_price_after_enable">
-								{{--@dd($row->allDiscounts)--}}
+								@if(count($row->allDiscounts)!=0)
+
 								@foreach ($row->allDiscounts as $discount)
 									<span class="single-5asm">
 										@if($discount->discount_type=='percentage')
-										<span>  {{$discount->discount}} % </span>
+										<span>  {{$discount->discount??0}} % </span>
 										@elseif($key=='amount')
-										<span>   {{$discount->discount}} ر.س </span>
+										<span>   {{$discount->discount??0}} ر.س </span>
 										@endif
 										|
                                   	@if($discount->affect_tax=='1')
@@ -932,6 +906,9 @@
 										@endif
 									</span>
 								@endforeach
+									@else
+									-
+								@endif
 							</td>
 							<td class="whole-price-before maybe-hidden total_price_before_enable">{{$row->price*$row->quantity}}</td>
 							<td class="whole-price-after maybe-hidden total_price_after_enable">{{$row->price_after_tax*$row->quantity}}</td>
@@ -940,7 +917,7 @@
 									@endforeach
 									<tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-money"></i>الإجمالي</td>
-										<td colspan="7"><span class="tot-money">{!! $purchase->amount !!}</span></td>
+										<td colspan="7"><span class="tot-money">{!! $purchase->amount??0 !!}</span></td>
 									</tr>
 									<tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-minus"></i> نوع الخصم</td>
@@ -954,15 +931,15 @@
 									</tr>
 									<tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-minus"></i>قيمه الخصم على الفاتورة</td>
-										<td colspan="7">{!! $purchase->discount !!}</td>
+										<td colspan="7">{!! $purchase->discount??0 !!}</td>
 									</tr>
 									<tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"> <i class="ti-plus"></i> قيمة الضريبه</td>
-										<td colspan="7"> {!! $purchase->totalTaxs !!}</td>
+										<td colspan="7"> {!! $purchase->totalTaxs??0 !!}</td>
 									</tr>
 									<tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-money"></i> المطلوب سداده</td>
-										<td colspan="7">{!! $purchase->total !!}</td>
+										<td colspan="7">{!! $purchase->total ??0 !!}</td>
 									</tr>
 									<tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-bag"></i> طريقة الدفع</td>
@@ -971,6 +948,8 @@
 											نقدى
 											@elseif( $purchase->payment=='agel')
 											اجل
+												@else
+												-
 											@endif
 										</td>
 									</tr>
@@ -981,9 +960,9 @@
 									<tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-money"></i>المدفوع</td>
 										@if( $purchase->payment=='cash')
-										<td colspan="7">{!! $purchase->total !!}</td>
+										<td colspan="7">{!! $purchase->total??0 !!}</td>
 										@else
-										<td colspan="7">{!! $purchase->payed !!}</td>
+										<td colspan="7">{!! $purchase->payed ??0 !!}</td>
 										@endif
 									</tr>
 									<tr>
@@ -991,7 +970,7 @@
 										@if( $purchase->payment=='cash')
 										<td colspan="7">0</td>
 										@else
-										<td colspan="7">{!! $purchase->total- $purchase->payed !!}</td>
+										<td colspan="7">{!! ($purchase->total- $purchase->payed)??0 !!}</td>
 										@endif
 									</tr>
 								</tbody>
