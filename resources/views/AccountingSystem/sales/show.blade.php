@@ -967,14 +967,17 @@
 						</div>
 
 
+
+
 						<div class="flex-col">
 							<table class="tablesaw a-new-table table-hover table table-bordered" data-tablesaw-mode="stack" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
 								<tbody>
-									{{-- <tr>
-										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-mobile"></i> اسم الشركة </td>
-										<td> {!! optional($sale->company)->name !!}</td>
-									</tr> --}}
-
+								@if(getsetting('daily_number_sales')==1)
+									 <tr>
+										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-mobile"></i>رقم الفاتوره اليومى </td>
+										<td> {!! $sale->daily_number !!}</td>
+									</tr>
+							    	@endif
 									<tr>
 										<th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-user"></i>اسم العميل </th>
 										<td> {!! $sale->client->name !!}</td>
@@ -1025,7 +1028,7 @@
 											</td>
 
 											<td>
-												<span class="all-sub-services-unit-pri-wrapper">
+										git  		<span class="all-sub-services-unit-pri-wrapper">
 													<span class="sml-ser-uni-pr">
 														{!! $row->price !!}
 													</span>
@@ -1036,20 +1039,20 @@
                                         @endforeach
 										<tr>
 											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-money"></i>الإجمالي</td>
-											<td><span class="tot-money">{!! $sale->amount !!}</span></td>
+											<td><span class="tot-money">{!! $sale->amount??0 !!}</span></td>
 										</tr>
 
 										<tr>
 											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-minus"></i>الخصم</td>
-											<td>{!! $sale->discount !!}</td>
+											<td>{!! $sale->discount ??0 !!}</td>
 										</tr>
 										<tr>
-											<td data-tablesaw-sortable-col data-tablesaw-priority="6"> <i class="ti-plus"></i> القيمة المضافة</td>
-											<td>	{!! $sale->totalTaxs !!}</td>
+											<td data-tablesaw-sortable-col data-tablesaw-priority="6"> <i class="ti-plus"></i> قيمة الضريبه</td>
+											<td>	{!! $sale->totalTaxs ??0 !!}</td>
 										</tr>
 										<tr>
 											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-money"></i> المطلوب سداده</td>
-											<td>{!! $sale->total !!}</td>
+											<td>{!! $sale->total ??0 !!}</td>
 										</tr>
 										<tr>
 											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-bag"></i> طريقة الدفع</td>
@@ -1068,12 +1071,12 @@
 
 										<tr>
 											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-money"></i>المدفوع</td>
-											<td>{!! $sale->payed !!}</td>
+											<td>{!! $sale->payed ??0 !!}</td>
 										</tr>
 
 										<tr>
 											<th data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-export"></i>المتبقي</th>
-											<td>{!! $sale->total - $sale->payed  !!}</td>
+											<td>{!! ($sale->total - $sale->payed )??0 !!}</td>
 										</tr>
 
 									</tbody>
