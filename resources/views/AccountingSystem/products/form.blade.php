@@ -13,7 +13,7 @@
 		<li><a data-toggle="tab" href="#menu1">بيانات المنتج</a></li>
 		<li><a data-toggle="tab" href="#menu2">بيانات البيع</a></li>
 		<li><a data-toggle="tab" href="#menu3">مواصفات أخرى (إختياري)</a></li>
-		<li><a data-toggle="tab" href="#menu4">العروض والخصومات</a></li>
+		<li><a data-toggle="tab" href="#menu4"> الخصومات</a></li>
 		<li><a data-toggle="tab" href="#menu5">الضريبه المضافة</a></li>
 	</ul>
 	<div class="tab-content">
