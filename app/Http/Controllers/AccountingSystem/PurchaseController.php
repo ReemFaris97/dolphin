@@ -65,7 +65,7 @@ class PurchaseController extends Controller
     public function store(Request $request)
     {
         $requests = $request->except('user_id');
-         dd($requests);
+
         $rules = [
            'supplier_id'=>'required|numeric|exists:accounting_suppliers,id',
                 // 'reminder'=>'required|numeric|gt:0',
@@ -94,15 +94,16 @@ class PurchaseController extends Controller
         $itemTax = collect($request['itemTax']);
 
         $merges = $products->zip($qtys,$unit_id,$prices,$itemTax);
-
         $i=1;
+//        dd($merges);
         foreach ($merges as $merge)
         {
+
             $product=AccountingProduct::find($merge['0']);
             if($merge['2']!='main-'.$product->id){
                 $unit=AccountingProductSubUnit::where('product_id',$merge['0'])->where('id',$merge['2'])->first();
             }
-            if($product->quantity>0){
+//            if($product->quantity>0){
             $item= AccountingPurchaseItem::create([
                 'product_id'=>$merge['0'],
                 'quantity'=> $merge['1'],
@@ -179,7 +180,7 @@ class PurchaseController extends Controller
                          'quantity' => $productstore->quantity + $merge['1'],
                      ]);
                  }
-        }
+
 
 /////////////////////////discount/////////////////
             if($requests['discount_byPercentage']!=0&&$requests['discount_byAmount']==0){
