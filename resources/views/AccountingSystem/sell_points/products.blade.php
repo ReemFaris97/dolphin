@@ -31,7 +31,7 @@
                     data-subunits="{{json_encode($merged)}}"
                     data-total_discounts="{{$product->total_discounts}}"
             >
-                {{$product->name}} - {{$product->bar_code}}
+                {{$product->name}}
             </option>
         @endforeach
     </select>
