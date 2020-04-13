@@ -156,21 +156,22 @@
 						</tr>
 					</thead>
 					<tbody class="add-products">
-						{{--@if (isset($subunits))--}}
-						{{--@foreach($subunits as $unit)--}}
-						{{--<tr>--}}
-							{{--<td>{{$unit->name}}</td>--}}
-							{{--<td>{{$unit->bar_code}}</td>--}}
-							{{--<td>{{$unit->main_unit_present}}</td>--}}
-							{{--<td>{{$unit->selling_price}}</td>--}}
-							{{--<td>{{$unit->purchasing_price}}</td>--}}
-							{{--<td>{{$unit->quantity}}</td>--}}
-							{{--<td>--}}
-								{{--<a href="#" onclick="Delete({{$unit->id}})" class="delete-sub-unit">حذف</a>--}}
-							{{--</td>--}}
-						{{--</tr>--}}
-						{{--@endforeach--}}
-						{{--@endif--}}
+					{{--@dd($subunits)--}}
+						@if (isset($is_edit))
+						@foreach($subunits as $unit)
+						<tr>
+							<td>{{$unit->name}}</td>
+							<td>{{$unit->bar_code}}</td>
+							<td>{{$unit->main_unit_present}}</td>
+							<td>{{$unit->selling_price}}</td>
+							<td>{{$unit->purchasing_price}}</td>
+							<td>{{$unit->quantity}}</td>
+							<td>
+								<a href="#" onclick="Delete({{$unit->id}})" class="delete-sub-unit">حذف</a>
+							</td>
+						</tr>
+						@endforeach
+						@endif
 					</tbody>
 				</table>
 				<!-- services table-->
@@ -551,24 +552,24 @@
 			$("#discounts_button").hide();
 			$(".percent").hide();
 			$('.js-example-basic-single').select2();
-			$("#productsTable").hide();
+			// $("#productsTable").hide();
 			$("#componentTable").hide();
 			$("#offerTable").hide();
 			$("#discountTable").hide();
 			$("#serviceTable").hide();
 
 
-			// $('input[name="price_has_tax"]').click(function() {
-			// 	if ($(this).is(':checked')) {
-			// 		var id = $(this).val();
-			//
-			// 		if (id == 1) {
-			// 			$(".prices_taxs").show();
-			// 		} else if (id == 0) {
-			// 			$(".prices_taxs").show();
-			// 		}
-			// 	}
-			// // });
+			$('input[name="price_has_tax"]').click(function() {
+				if ($(this).is(':checked')) {
+					var id = $(this).val();
+
+					if (id == 1) {
+						$(".prices_taxs").show();
+					} else if (id == 0) {
+						$(".prices_taxs").show();
+					}
+				}
+			// });
 
 			$('input[name="tax"]').click(function () {
 				if ($(this).is(':checked')) {
