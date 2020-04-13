@@ -310,9 +310,12 @@
 							</td>
 						</tr>
 					`);
+						$(".tempDisabled").removeClass("tempDisabled");
+					calcInfo();
 						$('.popover-dismiss').popover({
 							trigger: 'focus'
 						});
+						
 						$("#modals-area").append(`<div id="discMod${rowNum}" class="modal fade special-discount-modal" role="dialog">
 					  <div class="modal-dialog">
 						<div class="modal-content">
