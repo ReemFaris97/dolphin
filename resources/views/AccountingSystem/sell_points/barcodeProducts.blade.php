@@ -36,7 +36,7 @@
                     data-unit-id="{{$selectd_unit_id}}"
 
             >
-                {{$product->name}} - {{$product->bar_code}}
+                {{$product->name}}
             </option>
         </select>
     </div>
