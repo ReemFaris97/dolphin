@@ -1011,52 +1011,43 @@
 							<div class="flex-col mar-top-15">
 								<table class="tablesaw bill-table-whole-wrapper table-bordered table-hover table" data-tablesaw-mode="stack" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
 									<tr class="bill-table-tr-wrapper fixed-ta-hd">
-										<!--                                 <th scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col data-tablesaw-priority="10"></th>-->
-										<th scope="col" class="fixed-ta-hd" data-tablesaw-sortable-col data-tablesaw-priority="persist">المنتجات</th>
+										<th scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col data-tablesaw-priority="persist">م</th>
+										<th scope="col" class="fixed-ta-hd" data-tablesaw-sortable-col data-tablesaw-priority="persist">المنتج</th>
+										<th scope="col" class="fixed-ta-hd" data-tablesaw-sortable-col data-tablesaw-priority="persist">الكمية</th>
 										<th scope="col" class="fixed-ta-hd" data-tablesaw-sortable-col data-tablesaw-priority="persist">السعر</th>
+										<th scope="col" class="fixed-ta-hd" data-tablesaw-sortable-col data-tablesaw-priority="persist">إجمالي السعر</th>
 									</tr>
 
 									<tbody>
                                         @foreach($product_items as $row)
 										<tr>
-											<td>
-												<span class="big-ser-hed-tit">{!! $row->product->category->ar_name!!}</span>
-												<ol class="sml-ser-tits">
-                                                    <li>{!! $row->product->name!!}</li>
-                                                    <li><span> :  الكمية {{$row->quantity}}</span></li>
-												</ol>
-											</td>
-
-											<td>
-										 		<span class="all-sub-services-unit-pri-wrapper">
-													<span class="sml-ser-uni-pr">
-														{!! $row->price !!}
-													</span>
-												</span>
-											</td>
-
+											<td>{{$loop->iteration}}</td>
+											<td>{!!$row->product->name!!}</td>
+											<td>{{$row->quantity}}</td>
+											<td>{!!$row->price !!}</td>
+											<td>{!!$row->price *$row->quantity !!}</td>
                                         </tr>
                                         @endforeach
 										<tr>
-											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-money"></i>الإجمالي</td>
-											<td><span class="tot-money">{!! $sale->amount??0 !!}</span></td>
+											<td colspan="2" data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-money"></i>الإجمالي</td>
+											<td colspan="3"><span class="tot-money">{!! $sale->amount??0 !!}</span></td>
 										</tr>
 
 										<tr>
-											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-minus"></i>الخصم</td>
-											<td>{!! $sale->discount ??0 !!}</td>
+											<td  colspan="2" data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-minus"></i>الخصم</td>
+											<td  colspan="3">{!! $sale->discount ??0 !!}</td>
 										</tr>
 										<tr>
-											<td data-tablesaw-sortable-col data-tablesaw-priority="6"> <i class="ti-plus"></i> قيمة الضريبه</td>
-											<td>	{!! $sale->totalTaxs ??0 !!}</td>
+											<td  colspan="2" data-tablesaw-sortable-col data-tablesaw-priority="6"> <i class="ti-plus"></i> قيمة الضريبه</td>
+											<td  colspan="3">	{!! $sale->totalTaxs ??0 !!}</td>
 										</tr>
 										<tr>
-											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-money"></i> المطلوب سداده</td>
-											<td>{!! $sale->total ??0 !!}</td>
+											<td  colspan="2" data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-money"></i> المطلوب سداده</td>
+											<td  colspan="3">{!! $sale->total ??0 !!}</td>
 										</tr>
 										<tr>
-											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-bag"></i> طريقة الدفع</td>
-                                            <td>
+											<td  colspan="2" data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-bag"></i> طريقة الدفع</td>
+                                            <td  colspan="3">
                                                 @if( $sale->payment=='cash')
                                                نقدى
                                                 @elseif( $sale->payment=='agel')
@@ -1064,19 +1055,16 @@
                                                 @endif
                                             </td>
 										</tr>
-										{{-- <tr>
-											<td data-tablesaw-sortable-col data-tablesaw-priority="6"> <i class="ti-signal"></i> شبكة</td>
-											<td>15</td>
-										</tr> --}}
+										
 
 										<tr>
-											<td data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-money"></i>المدفوع</td>
-											<td>{!! $sale->payed ??0 !!}</td>
+											<td  colspan="2" data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-money"></i>المدفوع</td>
+											<td  colspan="3">{!! $sale->payed ??0 !!}</td>
 										</tr>
 
 										<tr>
-											<th data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-export"></i>المتبقي</th>
-											<td>{!! ($sale->total - $sale->payed )??0 !!}</td>
+											<th  colspan="2" data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-export"></i>المتبقي</th>
+											<td  colspan="3">{!! ($sale->total - $sale->payed )??0 !!}</td>
 										</tr>
 
 									</tbody>
