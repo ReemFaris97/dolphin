@@ -1021,11 +1021,11 @@
 									<tbody>
                                         @foreach($product_items as $row)
 										<tr>
-											<td>1</td>
+											<td>{{$loop->iteration}}</td>
 											<td>{!!$row->product->name!!}</td>
 											<td>{{$row->quantity}}</td>
-											<td>10</td>
 											<td>{!!$row->price !!}</td>
+											<td>{!!$row->price *$row->quantity !!}</td>
                                         </tr>
                                         @endforeach
 										<tr>
