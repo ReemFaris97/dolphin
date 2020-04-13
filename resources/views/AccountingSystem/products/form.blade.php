@@ -351,7 +351,7 @@
 					</span>
 					@endif
 				</div>
-				@if (isset($is_edit))
+				@if (isset($price_has_tax))
 
 					<div id="shamel-mesh">
 						<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left form-line new-radio-big-wrapper shamel-mesh">
