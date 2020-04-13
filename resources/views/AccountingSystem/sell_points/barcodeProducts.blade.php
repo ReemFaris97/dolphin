@@ -24,7 +24,7 @@
     <div class="form-group block-gp col-md-12">
         <select class=" form-control js-example-basic-single"  name="product_id" placeholder="اختر المنتج" id="selectID2">
 
-            <option value="{{$product->id}}"
+            <option class="ssID" value="{{$product->id}}"
                     data-name="{{$product->name}}"
                     data-price="{{$product->selling_price -(($product->selling_price*$product->total_discounts)/100)}}"
                     data-main-unit="{{$product->	main_unit}}"

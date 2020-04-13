@@ -65,7 +65,7 @@ class SaleController extends Controller
     public function store(Request $request)
     {
         $requests = $request->all();
-//        dd( $requests);
+    dd( $requests);
         if(!$request->client_id){
 
             $requests['client_id']=5;

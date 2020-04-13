@@ -498,8 +498,8 @@
 		$(".tempDisabled").removeClass("tempDisabled");
 		$(".tempobar").find('option').prop('selected', true);
 		var selectedProduct = $(".tempobar").find('option').prop('selected', true);
-		//  alert($('#selectID').val());
-		var productId = $('#selectID').val();
+//		  alert($('option.ssID').val());
+		var productId = $('option.ssID').val();
 		var productName = selectedProduct.text();
 		var productPrice = selectedProduct.data('price');
 		var priceHasTax = selectedProduct.data('price-has-tax');
