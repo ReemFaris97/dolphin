@@ -335,6 +335,20 @@ table.mabi3at-bill .rs {
     left: 7px;
     font-size: 15px;
 }
+.finalTb td.delete-single-row button {
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: unset;
+}
+.finalTb td.delete-single-row button span{
+    font-size: 35px !important;
+    line-height: unset;
+}
 /******* Responsive ****************/
 @media (max-width: 1199px){
     .count {
