@@ -435,4 +435,21 @@ class SaleController extends Controller
 
     }
 
+    public  function confirm_user(Request $request)
+    {
+
+
+        if(Auth::attempt(['email'=>$request['email'],'password'=>$request['password'],'is_saler'=>1])){
+
+            return response()->json([
+                'status'=>true,
+                'data'=>('success')
+            ]);
+        }
+        return response()->json([
+            'status'=>true,
+            'data'=>('failed')
+        ]);
+    }
+
 }

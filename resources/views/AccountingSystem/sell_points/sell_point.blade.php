@@ -262,16 +262,16 @@
 									@csrf
 									<div class="col-md-12">
 										<label style="color:black"> البريد الإلكتروني</label>
-										<input type="mail" name="" class="form-control">
+										<input type="email" name="" class="form-control" id="email">
 									</div>
 									<div class="col-md-12">
 										<label style="color:black"> الباسورد</label>
-										<input type="password" name="" class="form-control">
+										<input type="password" name="" class="form-control" id="password">
 									</div>
 								</form>
 							</div>
 							<div class="modal-footer">
-								<button type="submit" class="btn btn-primary" onclick="document.getElementById('form5').submit()">تحقق</button>
+								<button type="submit" class="btn btn-primary confirm_delete"  id="confirm_delete">تحقق</button>
 							</div>
 						</div>
 					</div>
@@ -292,6 +292,8 @@
 		$('.inlinedatepicker').text(new Date().toLocaleString());
 		$('.inlinedatepicker').val(new Date().toLocaleString());
 	});
+
+
 	// For preventing user from inserting two methods of discount
 	function preventDiscount() {
 		$("input#byPercentage").change(function() {
@@ -329,7 +331,7 @@
 				$('.yurProdc').html(data.data);
 				$('#selectID').attr('data-live-search', 'true');
 				$('#selectID').selectpicker('refresh');
-				$('#selectID').change(function() {
+				$('#selectID').change(function () {
 					rowNum++;
 					var selectedProduct = $(this).find(":selected");
 					//  alert($('#selectID').val());
@@ -380,15 +382,15 @@
 							@if(auth()->user()->is_admin==1)
 							<a href="#"><span class="icon-cross"></span></a>
 							@else
-						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal">
-							<span class="icon-cross"></span>
-						</button>
-							@endif
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal">
+                                <span class="icon-cross"></span>
+                            </button>
+@endif
 
-						</td>
-					</tr>`);
+							</td>
+                        </tr>`);
 					var wholePriceBefore, wholePriceAfter = 0;
-					$(".product-unit select").change(function() {
+					$(".product-unit select").change(function () {
 						var selectedUnit = $(this).find(":selected");
 						var productPrice = selectedUnit.data('uni-price');
 						if (Number(priceHasTax) === 0) {
@@ -404,7 +406,7 @@
 						$(this).parents('.single-row-wrapper').find(".single-price-before").text(singlePriceBefore.toFixed(2));
 						$(this).parents('.single-row-wrapper').find(".single-price-after").text(singlePriceAfter.toFixed(2));
 					});
-					$(".product-quantity input").change(function() {
+					$(".product-quantity input").change(function () {
 						if (($(this).val()) < 0) {
 							$(this).val(0);
 							$(this).text('0');
@@ -417,19 +419,19 @@
 					});
 					$(".bill-table tbody").trigger('change');
 					$(".tempDisabled").removeClass("tempDisabled");
-					$(".delete-single-row a").on('click', function() {
+					$(".delete-single-row a").on('click', function () {
 						$(this).parents('tr').remove();
 						$(".bill-table tbody").trigger('change');
 					})
 				});
-				$(".bill-table tbody").change(function() {
+				$(".bill-table tbody").change(function () {
 					preventDiscount();
 					var amountBeforeDariba = 0;
-					$(".whole-price-before").each(function() {
+					$(".whole-price-before").each(function () {
 						amountBeforeDariba += Number($(this).text());
 					});
 					var amountAfterDariba = 0;
-					$(".whole-price-after").each(function() {
+					$(".whole-price-after").each(function () {
 						amountAfterDariba += Number($(this).text());
 					});
 					var amountOfDariba = Number(amountAfterDariba) - Number(amountBeforeDariba);
@@ -445,7 +447,7 @@
 					if (byAmount == 0 && byPercentage == 0) {
 						$("#demandedAmount span.dynamic-span").html(amountAfterDariba.toFixed(2));
 					} else {
-						$("input#byPercentage").change(function() {
+						$("input#byPercentage").change(function () {
 							if ((Number($(this).val())) > 100) {
 								alert('لا يمكن ان تكون قيم الخصم بالنسبة أكبر من 100% .');
 								$(this).val(0);
@@ -454,7 +456,7 @@
 							$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
 							$("#total").val(total);
 						});
-						$("input#byAmount").change(function() {
+						$("input#byAmount").change(function () {
 							if ((Number($(this).val())) > Number($("#amountAfterDariba span.dynamic-span").html())) {
 								alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $("#amountAfterDariba span.dynamic-span").html());
 								$(this).val(0);
@@ -464,7 +466,7 @@
 							$("#total").val(total);
 						});
 					}
-					$("input#byPercentage").change(function() {
+					$("input#byPercentage").change(function () {
 						if ((Number($(this).val())) > 100) {
 							alert('لا يمكن ان تكون قيم الخصم بالنسبة أكبر من 100% .');
 							$(this).val(0);
@@ -473,7 +475,7 @@
 						$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
 						$("#total").val(total);
 					});
-					$("input#byAmount").change(function() {
+					$("input#byAmount").change(function () {
 						if ((Number($(this).val())) > Number($("#amountAfterDariba span.dynamic-span").html())) {
 							alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $("#amountAfterDariba span.dynamic-span").html());
 							$(this).val(0);
@@ -482,7 +484,7 @@
 						$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
 						$("#total").val(total);
 					});
-					$("#byCache , #byNet").change(function() {
+					$("#byCache , #byNet").change(function () {
 						var allPaid = Number($("#byCache").val()) + Number($("#byNet").val());
 						$("#allPaid").html(allPaid.toFixed(2));
 						$("#allPaid1").val(allPaid);
@@ -504,9 +506,31 @@
 						}
 					})
 				});
+
+
+				$("#confirm_delete").click(function() {
+					var email = $("#email").val();
+					var password = $("#password").val();
+					$.ajax({
+						url: "/accounting/confirm_user/",
+						type: "GET",
+						data:{'email':email,'password':password},
+						success: function (data) {
+							alert(data.data);
+						},
+						error: function (error) {
+							alert("error")
+						}
+
+					});
+				});
+
 			}
 		});
 	});
+
+
+
 	//	For Ajax Search By Product Bar Code
 	$('#barcode_search').keyup(function(e) {
 		var barcode_search = $(this).val();
@@ -594,6 +618,9 @@
 					@endif
 			</td>
 		</tr>`);
+
+
+
 		var wholePriceBefore, wholePriceAfter = 0;
 		$(".product-unit select").change(function() {
 			var selectedUnit = $(this).find(":selected");
