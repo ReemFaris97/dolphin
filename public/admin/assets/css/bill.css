@@ -349,6 +349,30 @@ table.mabi3at-bill .rs {
     font-size: 35px !important;
     line-height: unset;
 }
+.table-upper-options input {
+    width: 100% !important;
+}
+.table-upper-options {
+    display: inline-flex;
+    justify-content: space-between;
+    width: 100%;
+}
+table.mabi3at-bill.finalTb tfoot th .colorfulSpan {
+    font-size: 16px;
+    margin-left: 20px;
+}
+table.mabi3at-bill tfoot tr th#amountBeforeDariba, table.mabi3at-bill tfoot tr th#amountOfDariba, table.mabi3at-bill tfoot tr th#amountAfterDariba {
+    background: #2ecc71 !important;
+    text-align: center !important;
+}
+table.mabi3at-bill tfoot tr th#amountBeforeDariba span.dynamic-span,
+table.mabi3at-bill tfoot tr th#amountOfDariba span.dynamic-span ,
+table.mabi3at-bill tfoot tr th#amountAfterDariba span.dynamic-span{
+    font-size: 28px !important;
+    padding: 0 5px !important;
+    color: #241E32;
+    font-weight: 900;
+}
 /******* Responsive ****************/
 @media (max-width: 1199px){
     .count {
