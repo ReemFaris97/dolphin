@@ -89,17 +89,20 @@
 					<input type="hidden" name="session_id" value="{{$session->id}}">
 					<input type="hidden" name="shift_id" value="{{$session->shift_id}}">
 					<input type="hidden" name="client_id" id="client_id_val">
-					<table border="1" class="finalTb mabi3at-bill bill-table {{(getsetting('name_enable_sales')==1) ? 'name_enable':'' }} {{(getsetting('barcode_enable_sales')==1) ? 'barcode_enable':'' }} {{(getsetting('unit_enable_sales')==1) ? 'unit_enable':'' }} {{(getsetting('quantity_enable_sales')==1) ? 'quantity_enable':'' }} {{(getsetting('unit_price_before_enable_sales') == 1) ? 'unit_price_before_enable':''}} {{(getsetting('unit_price_after_enable_sales')==1) ? 'unit_price_after_enable':'' }} {{(getsetting('total_price_before_enable_sales')==1) ? 'total_price_before_enable':'' }} {{(getsetting('total_price_after_enable_sales')==1) ? 'total_price_after_enable':'' }}">
+					<table border="1" class="finalTb mabi3at-bill bill-table 
+					{{(getsetting('name_enable_sales')==1) ? 'name_enable':'' }} {{(getsetting('barcode_enable_sales')==1) ? 'barcode_enable':'' }} 
+					{{(getsetting('unit_enable_sales')==1) ? 'unit_enable':'' }} {{(getsetting('quantity_enable_sales')==1) ? 'quantity_enable':'' }} {{(getsetting('unit_price_before_enable_sales') == 1) ? 'unit_price_before_enable':''}} {{(getsetting('unit_price_after_enable_sales')==1) ? 'unit_price_after_enable':'' }} {{(getsetting('total_price_before_enable_sales')==1) ? 'total_price_before_enable':'' }} {{(getsetting('total_price_after_enable_sales')==1) ? 'total_price_after_enable':'' }}">
 						<thead>
 							<tr>
 								<th rowspan="2">م</th>
 								<th rowspan="2" class="maybe-hidden name_enable">اسم الصنف</th>
+								<th rowspan="2" class="maybe-hidden barcode_enable">باركود</th>
 								<th rowspan="2" class="maybe-hidden unit_enable">الوحدة</th>
 								<th rowspan="2" class="maybe-hidden quantity_enable">الكمية</th>
-								<th colspan="2" rowspan="1" class="th_lg maybe-hidden">
+								<th colspan="2" rowspan="1" class="th_lg">
 									سعر الوحدة
 								</th>
-								<th colspan="2" rowspan="1" class="th_lg maybe-hidden name_enable">
+								<th colspan="2" rowspan="1" class="th_lg">
 									الإجمالى
 								</th>
 								<th rowspan="2"> حذف </th>
@@ -303,6 +306,7 @@
 					//  alert($('#selectID').val());
 					var productId = $('#selectID').val();
 					var productName = selectedProduct.text();
+					var productBarCode = selectedProduct.data('bar-code');
 					var productPrice = selectedProduct.data('price');
 					var priceHasTax = selectedProduct.data('price-has-tax');
 					var totalTaxes = selectedProduct.data('total-taxes');
@@ -330,6 +334,7 @@
 						<td class="row-num">${rowNum}</td>
 						<input type="hidden" name="product_id[]" value=${productId}>
 						<td class="product-name maybe-hidden name_enable">${productName}</td>
+						<td class="product-name maybe-hidden barcode_enable">${productBarCode}</td>
 						<td class="product-unit maybe-hidden unit_enable">
 							<select class="form-control js-example-basic-single" name="unit_id[${productId}]">
 								${optss}
@@ -501,6 +506,7 @@
 //		  alert($('option.ssID').val());
 		var productId = $('option.ssID').val();
 		var productName = selectedProduct.text();
+		var productBarCode = selectedProduct.data('bar-code');
 		var productPrice = selectedProduct.data('price');
 		var priceHasTax = selectedProduct.data('price-has-tax');
 		var totalTaxes = selectedProduct.data('total-taxes');
@@ -528,6 +534,7 @@
 			<td class="row-num">${rowNum}</td>
 			<input type="hidden" name="product_id[]" value=${productId}>
 			<td class="product-name maybe-hidden name_enable">${productName}</td>
+				<td class="product-name maybe-hidden barcode_enable">${productBarCode}</td>
 			<td class="product-unit maybe-hidden unit_enable">
 				<select class="form-control js-example-basic-single" name="unit_id[${productId}]">
 					${optss}
