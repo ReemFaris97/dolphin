@@ -37,7 +37,7 @@
    data-total-taxes="{{ isset($producttax)? $product->total_taxes : '0'}}"
    data-subunits="{{json_encode($merged)}}"
    data-total_discounts="{{$product->total_discounts}}"
-   data-last-price="{{($lastPrice)? $lastPrice->price:'0' }}"
+        data-last-price="{{$lastPrice->price??0 }}"
    data-average="{{($average)? $average:'0' }}" 
    data-product_expiration="{{($product->type=='product_expiration')? '1':'0' }}"
    >
