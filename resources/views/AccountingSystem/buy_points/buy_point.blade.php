@@ -340,8 +340,9 @@
 							</td>
 						</tr>
 					`);
-					$("#row" + rowNum).trigger('change');
-					
+//					$("#row" + rowNum).find('.product-quantity').find('input').trigger('change');
+					$(".tempDisabled").removeClass("tempDisabled");
+					calcInfo();
 					$('.popover-dismiss').popover({
 						trigger: 'focus'
 					});
