@@ -340,6 +340,8 @@
 							</td>
 						</tr>
 					`);
+					$("#row" + rowNum).trigger('change');
+					
 					$('.popover-dismiss').popover({
 						trigger: 'focus'
 					});
