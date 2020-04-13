@@ -118,7 +118,7 @@ class PurchaseReturnController extends Controller
             if ($merge['2'] != 'main-' . $product->id) {
                 $unit = AccountingProductSubUnit::where('product_id', $merge['0'])->where('id', $merge['2'])->first();
             }
-            if ($product->quantity > 0) {
+
                 $item = AccountingPurchaseReturnItem::create([
                     'product_id' => $merge['0'],
                     'quantity' => $merge['1'],
@@ -203,7 +203,7 @@ class PurchaseReturnController extends Controller
                     ]);
                 }
 
-            }
+
         }
 
         if ($return->payment == 'cash') {
