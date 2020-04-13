@@ -469,7 +469,7 @@
 	$('#barcode_search').keyup(function(e) {
 		var barcode_search = $(this).val();
 		$.ajax({
-			url: "/accounting/barcode_search/" + barcode_search,
+			url: "/accounting/barcode_search_sale/" + barcode_search,
 			type: "GET",
 			success: function(data) {
 				//				didddddddd *******************************
