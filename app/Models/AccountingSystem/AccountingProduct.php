@@ -55,22 +55,20 @@ class AccountingProduct extends Model
         return $total;
     }
 
-    public function getDiscountTypeAttribute()
-    {
-        $discount=AccountingProductDiscount::where('product_id',$this->id)->first();
-
-
-
-        return $discount->discount_type;
-    }
-
-    public function getPercentAttribute()
-    {
-        $discount = AccountingProductDiscount::where('product_id', $this->id)->first();
-
-
-        return $discount->percent;
-    }
+//    public function getDiscountTypeAttribute()
+//    {
+//        $discount=AccountingProductDiscount::where('product_id',$this->id)->first();
+//
+//        return $discount->discount_type;
+//    }
+//
+//    public function getPercentAttribute()
+//    {
+//        $discount = AccountingProductDiscount::where('product_id', $this->id)->first();
+//
+//
+//        return $discount->percent;
+//    }
     public function items()
     {
         return $this->hasMany(AccountingSaleItem::class,'product_id');

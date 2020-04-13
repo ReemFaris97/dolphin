@@ -314,12 +314,12 @@
 			<div class="row">
 				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
 					<label> نوع الخصم </label>
-					{!! Form::select("discount_type",['percent'=>'نسبة','quantity'=>'كمية'],isset($is_edit)?$product->discount_type:null,['class'=>'form-control js-example-basic-single','id'=>'discount_id','placeholder'=>' اختر الخصم '])!!}
+					{!! Form::select("discount_type",['percent'=>'نسبة','quantity'=>'كمية'],isset($discount)?$discount->discount_type:null,['class'=>'form-control js-example-basic-single','id'=>'discount_id','placeholder'=>' اختر الخصم '])!!}
 				</div>
 
 				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left ">
 					<label> النسبة </label>
-					{!! Form::text("percent",isset($is_edit)?$product->percent:null,['class'=>'form-control','placeholder'=>' النسبة '])!!}
+					{!! Form::text("percent",isset($discount)?$discount->percent:null,['class'=>'form-control','placeholder'=>' النسبة '])!!}
 				</div>
 				{{--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal4" id="discounts_button">--}}
 					{{--العروض والخصومات--}}
