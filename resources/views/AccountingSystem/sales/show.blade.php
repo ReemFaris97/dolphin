@@ -1028,7 +1028,7 @@
 											</td>
 
 											<td>
-										git  		<span class="all-sub-services-unit-pri-wrapper">
+										 		<span class="all-sub-services-unit-pri-wrapper">
 													<span class="sml-ser-uni-pr">
 														{!! $row->price !!}
 													</span>
