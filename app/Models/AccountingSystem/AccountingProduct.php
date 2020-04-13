@@ -10,9 +10,10 @@ class AccountingProduct extends Model
     'column_id','bar_code','main_unit','selling_price','purchasing_price','min_quantity',
     'max_quantity','expired_at','image'
     ,'size','color','height','width','num_days_recession','industrial_id','quantity','unit_price',
-    'is_settlement','date_settlement','settlement_store_id','cell_id','alert_duration'
+    'is_settlement','date_settlement','settlement_store_id','cell_id','alert_duration',
+
 ];
-    protected $appends = ['total_taxes','total_discounts'];
+    protected $appends = ['total_taxes','total_discounts','discount_type','percent'];
     public function store()
     {
         return $this->belongsTo(AccountingStore::class,'store_id');
@@ -54,6 +55,22 @@ class AccountingProduct extends Model
         return $total;
     }
 
+    public function getDiscountTypeAttribute()
+    {
+        $discount=AccountingProductDiscount::where('product_id',$this->id)->first();
+
+
+
+        return $discount->discount_type;
+    }
+
+    public function getPercentAttribute()
+    {
+        $discount = AccountingProductDiscount::where('product_id', $this->id)->first();
+
+
+        return $discount->percent;
+    }
     public function items()
     {
         return $this->hasMany(AccountingSaleItem::class,'product_id');

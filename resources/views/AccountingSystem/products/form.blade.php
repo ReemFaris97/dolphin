@@ -282,12 +282,30 @@
 			<table id="discountTable" class="table ">
 				<thead>
 					<tr>
+						<th>  نوع العرض</th>
 						<th> الكمية الاساسية</th>
 						<th> الكمية الهدية</th>
-						<th>العمليات</th>
+
 					</tr>
 				</thead>
-				<tbody class="add-discounts">
+				<tbody>
+
+				@if (isset($is_edit))
+					@foreach($discounts as $discount)
+						<tr>
+							@if ($discount->discount_type=="quantity")
+								<td>هدية</td>
+								@else
+								<td>خصم نسبه</td>
+							@endif
+							<td>{{$unit->quantity}}</td>
+							<td>{{$unit->gift_quantity}}</td>
+							<td>{{$unit->quantity}}</td>
+							<td>{{$unit->percent}}</td>
+						</tr>
+					@endforeach
+				@endif
+
 				</tbody>
 			</table>
 			<!-- end table-->
@@ -296,15 +314,16 @@
 			<div class="row">
 				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
 					<label> نوع الخصم </label>
-					{!! Form::select("discount_type",['percent'=>'نسبة','quantity'=>'كمية'],null,['class'=>'form-control js-example-basic-single','id'=>'discount_id','placeholder'=>' اختر الخصم '])!!}
+					{!! Form::select("discount_type",['percent'=>'نسبة','quantity'=>'كمية'],isset($is_edit)?$product->discount_type:null,['class'=>'form-control js-example-basic-single','id'=>'discount_id','placeholder'=>' اختر الخصم '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left percent">
+
+				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left ">
 					<label> النسبة </label>
-					{!! Form::text("percent",null,['class'=>'form-control','placeholder'=>' النسبة '])!!}
+					{!! Form::text("percent",isset($is_edit)?$product->percent:null,['class'=>'form-control','placeholder'=>' النسبة '])!!}
 				</div>
-				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal4" id="discounts_button">
-					العروض والخصومات
-				</button>
+				{{--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal4" id="discounts_button">--}}
+					{{--العروض والخصومات--}}
+				{{--</button>--}}
 			</div>
 		</div>
 		<div id="menu5" class="tab-pane fade">
@@ -312,6 +331,7 @@
 				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left taxs form-line new-radio-big-wrapper ">
 					{{--{!! Form::radio("tax",$has_tax,['class'=>'form-control','id'=>'yes1','value'=>==)!!}--}}
 					@if (isset($is_edit))
+						{{--@dd($product->discount_type)--}}
 					<span class="new-radio-wrap">
 						<label for="yes1">يوجد ضريبة </label>
 						<input type="radio" name="tax" class="form-control" id="yes1" value={{($has_tax==1)?1:0}} {{($has_tax==1)?'checked':null }}>
@@ -555,21 +575,20 @@
 			// $("#productsTable").hide();
 			$("#componentTable").hide();
 			$("#offerTable").hide();
-			$("#discountTable").hide();
+			// $("#discountTable").hide();
 			$("#serviceTable").hide();
 
-
-			$('input[name="price_has_tax"]').click(function() {
-				if ($(this).is(':checked')) {
-					var id = $(this).val();
-
-					if (id == 1) {
-						$(".prices_taxs").show();
-					} else if (id == 0) {
-						$(".prices_taxs").show();
-					}
-				}
-			// });
+			// $('input[name="price_has_tax"]').click(function() {
+			// 	if ($(this).is(':checked')) {
+			// 		var id = $(this).val();
+			//
+			// 		if (id == 1) {
+			// 			$(".prices_taxs").show();
+			// 		} else if (id == 0) {
+			// 			$(".prices_taxs").show();
+			// 		}
+			// 	}
+			// // });
 
 			$('input[name="tax"]').click(function () {
 				if ($(this).is(':checked')) {
@@ -789,6 +808,8 @@
 			} ///if_end
 		}
 		function myFun3(event) {
+
+		// console.log(event);
 			event.preventDefault();
 			var offer_data = {};
 			offer_data.child_product = $('#child_product option:selected').text();
