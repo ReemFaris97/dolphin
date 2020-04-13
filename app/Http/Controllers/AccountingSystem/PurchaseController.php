@@ -94,10 +94,11 @@ class PurchaseController extends Controller
         $itemTax = collect($request['itemTax']);
 
         $merges = $products->zip($qtys,$unit_id,$prices,$itemTax);
-
         $i=1;
+        dd($merges);
         foreach ($merges as $merge)
         {
+
             $product=AccountingProduct::find($merge['0']);
             if($merge['2']!='main-'.$product->id){
                 $unit=AccountingProductSubUnit::where('product_id',$merge['0'])->where('id',$merge['2'])->first();
