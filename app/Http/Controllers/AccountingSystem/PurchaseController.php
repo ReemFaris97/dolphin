@@ -78,7 +78,7 @@ class PurchaseController extends Controller
 
         $purchase=AccountingPurchase::create($requests);
         if ($requests['total']==Null){
-            $requests['total']=$purchase->amount;
+            $requests['total']=$purchase->amount+$requests['totalTaxs'];
         }
         $purchase->update([
             'bill_num'=>$purchase->bill_num."-".$purchase->created_at->toDateString(),

@@ -30,7 +30,7 @@
     {{--@dd($lastPrice)--}}
 <option value="{{$product->id}}"
    data-name="{{$product->name}}"
-   data-price="{{$product->purchasing_price -(($product->purchasing_price*$product->total_discounts)/100)}}"
+   data-price="{{$product->purchasing_price -(($product->purchasing_price*$product->total_discounts)/100) +  $product->total_taxes??0 }}"
    data-bar-code="{{$product->bar_code}}"
    data-link= "{{route('accounting.products.show',['id'=>$product->id])}}"
    data-price-has-tax="{{isset($producttax)? $producttax->price_has_tax : '-1' }}"

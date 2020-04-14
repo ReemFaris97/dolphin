@@ -941,6 +941,10 @@
 				$("#amountBeforeDariba span.dynamic-span").html(amountBeforeDariba.toFixed(2));
 				$("#amountAfterDariba span.dynamic-span").html(amountAfterDariba.toFixed(2));
 				$("#amountOfDariba span.dynamic-span").html(amountOfDariba.toFixed(2));
+
+				$("#amountOfDariba2").val(amountOfDariba);
+				console.log($("#amountOfDariba2").val());
+
 				var byAmount = $("input#byAmount").val();
 				var byPercentage = $("input#byPercentage").val();
 				$("input#byAmount").attr('max', amountAfterDariba);
