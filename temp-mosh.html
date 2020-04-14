@@ -178,7 +178,7 @@
 <script>
 	$(document).ready(function() {
 		$('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
-	})
+	});
 	// For preventing user from inserting two methods of discount
 	function preventDiscount() {
 		$("input#byPercentage").change(function() {
@@ -190,7 +190,7 @@
 	}
 	$(document).ready(function() {
 		preventDiscount();
-	})
+	});
 	$("#supplier_id").on('change', function() {
 		$("#supplier_id_val").val($(this).val());
 	});
@@ -398,11 +398,11 @@
 					$("td.whole-price-before").each(function() {
 						amountBeforeDariba += Number($(this).text());
 						$("#amountBeforeDariba1").val(amountBeforeDariba);
-					})
+					});
 					var amountAfterDariba = 0;
 					$("td.whole-price-after").each(function() {
 						amountAfterDariba += Number($(this).text());
-					})
+					});
 					var amountOfDariba = Number(amountAfterDariba) - Number(amountBeforeDariba);
 					$("#amountBeforeDariba span.dynamic-span").html(amountBeforeDariba);
 					$("#amountAfterDariba span.dynamic-span").html(amountAfterDariba);

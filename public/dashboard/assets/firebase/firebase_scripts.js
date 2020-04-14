@@ -44,7 +44,7 @@ messaging.onTokenRefresh(function () {
 
 messaging.onMessage(function (payload) {
     console.log(payload.data);
-    var message=payload.data.message
+    var message=payload.data.message;
 
 
      $('#notification-items').append('<div class="m-list-timeline__item">'+

@@ -75,7 +75,7 @@
             $("#threee-emps .one-single-emp-wrapper:nth-child(2) , #threee-emps .one-single-emp-wrapper:nth-child(3)").toggleClass('shown');
             $(".the-checklabel").on('click' , function(){
                 $(this).parents('.checker-wrapper').next(".will-be-toggled").toggleClass('shown')
-            })
+            });
 
             $(".the-big-checklabel").on('click' , function(){
                 $("#threee-emps .one-single-emp-wrapper:nth-child(2) , #threee-emps .one-single-emp-wrapper:nth-child(3)").toggleClass('shown');

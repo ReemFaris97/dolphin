@@ -1,7 +1,7 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','عرض الخزائن')
-@section('parent_title','إدارة  خزائن البيع')
-@section('action', URL::route('accounting.products.index'))
+@section('parent_title','إدارة  الخزائن ')
+@section('action', URL::route('accounting.safes.index'))
 
 @section('styles')
 

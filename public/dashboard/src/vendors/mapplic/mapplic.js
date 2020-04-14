@@ -64,7 +64,7 @@
 			}
 
 			return self;
-		}
+		};
 
 		// Tooltip
 		function Tooltip() {
@@ -98,7 +98,7 @@
 				self.map.append(this.el);
 
 				return this;
-			}
+			};
 
 			this.show = function(location) {
 				if (location) {
@@ -138,7 +138,7 @@
 					this.el.stop().show();
 					this.zoom(location);
 				}
-			}
+			};
 
 			this.position = function() {
 				if (this.location) {
@@ -180,7 +180,7 @@
 					});
 					this.drop = this.el.outerHeight() + this.shift;
 				}
-			}
+			};
 
 			this.zoom = function(location) {
 				var ry = 0.5,
@@ -188,7 +188,7 @@
 				
 				ry = ((self.container.height() - this.drop) / 2 + this.drop) / self.container.height();
 				self.moveTo(location.x, location.y, zoom, 600, 'easeInOutCubic', ry);
-			}
+			};
 
 			this.hide = function() {
 				var s = this;
@@ -223,7 +223,7 @@
 				self.el.append(this.el);
 
 				return this;
-			}
+			};
 
 			this.show = function(location) {
 				this.location = location;
@@ -256,7 +256,7 @@
 
 				// Hide tooltip
 				if (self.tooltip) self.tooltip.hide();
-			}
+			};
 
 			this.hide = function() {
 				this.location = null;
@@ -315,7 +315,7 @@
 				self.map.append(this.el);
 
 				return this;
-			}
+			};
 
 			this.show = function(location) {
 				if (self.tooltip.location != location) {
@@ -325,7 +325,7 @@
 
 					this.el.stop().fadeIn(100);
 				}
-			}
+			};
 
 			this.position = function(location) {
 				var cx = self.map.offset().left + self.map.width() * location.x - self.container.offset().left,
@@ -360,7 +360,7 @@
 					marginTop: mt,
 					marginLeft: ml
 				});
-			}
+			};
 
 			this.hide = function() {
 				this.el.stop().fadeOut(200);
@@ -381,24 +381,24 @@
 					}
 					return false;
 				}
-			}
+			};
 
 			this.check = function(easing) {
 				var id = this.getUrlParam(this.param);
 				self.showLocation(id, easing, true);
-			}
+			};
 
 			this.getUrlParam = function(name) {
 				name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
 				var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
 					results = regex.exec(location.search);
 				return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-			}
+			};
 
 			this.update = function(id) {
 				var url = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + this.param + '=' + id;
 				window.history.pushState({path: url}, '', url);
-			}
+			};
 
 			// Clear
 			this.clear = function() {
@@ -417,16 +417,16 @@
 				$(window).on('hashchange', function() {
 					s.check(600);
 				});
-			}
+			};
 
 			this.check = function(easing) {
 				var id = location.hash.slice(this.param.length + 2);
 				self.showLocation(id, easing, true);
-			}
+			};
 
 			this.update = function(id) {
 				window.location.hash = this.param + '-' + id;
-			}
+			};
 
 			this.clear = function() {
 				window.location.hash = this.param;
@@ -448,7 +448,7 @@
 
 					self.moveTo(x, y, self.scale / self.fitscale, 100);
 				});
-			}
+			};
 
 			this.addLayer = function(data) {
 				var layer = $('<div></div>').addClass('mapplic-minimap-layer').attr('data-floor', data.id).appendTo(this.el),
@@ -460,12 +460,12 @@
 					s.update();
 					$(this).addClass('mapplic-clip-transition');
 				}).appendTo(layer);
-			}
+			};
 
 			this.show = function(target) {
 				$('.mapplic-minimap-layer', this.el).hide();
 				$('.mapplic-minimap-layer[data-floor="' + target + '"]', this.el).show();
-			}
+			};
 
 			this.update = function(x, y) {
 				var active = $('.mapplic-minimap-active', this.el);
@@ -525,7 +525,7 @@
 				this.notfound = $('<p></p>').addClass('mapplic-not-found').text('Nothing found. Please try a different search.').appendTo(listContainer);
 
 				if (!self.o.search) listContainer.css('padding-top', '0');
-			}
+			};
 
 			this.addCategories = function(categories) {
 				var list = this.list;
@@ -547,7 +547,7 @@
 						list.append(item);
 					});
 				}
-			}
+			};
 
 			this.addLocation = function(data) {
 				var item = $('<li></li>').addClass('mapplic-list-location').addClass('mapplic-list-shown').attr('data-location', data.id);
@@ -564,7 +564,7 @@
 				}).appendTo(item);
 
 				if (data.thumbnail) $('<img>').attr('src', data.thumbnail).addClass('mapplic-list-thumbnail').appendTo(link);
-				$('<h4></h4>').text(data.title).appendTo(link)
+				$('<h4></h4>').text(data.title).appendTo(link);
 				$('<span></span>').html(data.about).appendTo(link);
 				var category = $('.mapplic-list-category[data-category="' + data.category + '"]');
 
@@ -573,7 +573,7 @@
 
 				// Count
 				$('.mapplic-list-count', category).text($('.mapplic-list-shown', category).length);
-			}
+			};
 
 			this.search = function(keyword) {
 				if (keyword) self.clear.fadeIn(100);
@@ -677,7 +677,7 @@
 				});
 
 				return this;
-			}
+			};
 
 			this.update = function(scale) {
 				this.zoomin.removeClass('mapplic-disabled');
@@ -962,13 +962,13 @@
 
 			// Controls
 			if (self.o.zoom) addControls();
-		}
+		};
 
 		var addControls = function() {
 			var map = self.map,
 				mapbody = $('.mapplic-map-image', self.map);
 
-			document.ondragstart = function() { return false; } // IE drag fix
+			document.ondragstart = function() { return false; }; // IE drag fix
 
 			// Drag & drop
 			mapbody.on('mousedown', function(e) {
@@ -1103,7 +1103,7 @@
 
 				zoomTo(self.x, self.y, self.scale, 100);
 			});
-		}
+		};
 
 		/* PRIVATE METHODS */
 
@@ -1120,23 +1120,23 @@
 				x: ((lng - self.data.leftLng) * (self.data.mapwidth / deltaLng)) / self.data.mapwidth,
 				y: (self.data.mapheight - ((mapWidth / 2 * Math.log((1 + Math.sin(lat)) / (1 - Math.sin(lat)))) - mapOffsetY)) / self.data.mapheight
 			};
-		}
+		};
 
 		// jQuery bug add/remove class workaround (will be fixed in jQuery 3)
 		var addClass = function(element, c) {
 			var classes = element.attr('class');
 			if (classes.indexOf(c) == -1) element.attr('class', classes + ' ' + c);
-		}
+		};
 
 		var removeClass = function(element, c) {
 			var classes = element.attr('class');
 			if (classes) element.attr('class', classes.replace(c, '').trim());
-		}
+		};
 
 		var hasClass = function(element, c) {
 			var classes = element.attr('class');
 			return (classes.indexOf(c) > -1);
-		}
+		};
 
 		// Normalizing x, y and scale
 		var normalizeX = function(x) {
@@ -1149,7 +1149,7 @@
 			else x = minX/2;
 
 			return x;
-		}
+		};
 
 		var normalizeY = function(y) {
 			var minY = self.container.height() - self.contentHeight * self.scale;
@@ -1161,7 +1161,7 @@
 			else y = minY/2;
 
 			return y;
-		}
+		};
 
 		var normalizeScale = function(scale) {
 			if (scale < self.fitscale) scale = self.fitscale;
@@ -1170,7 +1170,7 @@
 			if (self.zoombuttons) self.zoombuttons.update(scale);
 
 			return scale;
-		}
+		};
 
 		var zoomTo = function(x, y, scale, d, easing) {
 			if (scale !== undefined) {
@@ -1194,7 +1194,7 @@
 
 			// Trigger event
 			self.el.trigger('positionchanged', location);
-		}
+		};
 
 		/* PUBLIC METHODS */
 		self.switchLevel = function(target) {
@@ -1239,7 +1239,7 @@
 
 			// Trigger event
 			self.el.trigger('levelswitched', target);
-		}
+		};
 
 		self.moveTo = function(x, y, s, duration, easing, ry) {
 			duration = typeof duration !== 'undefined' ? duration : 400;
@@ -1252,7 +1252,7 @@
 			self.y = normalizeY(self.container.height() * ry - self.scale * self.contentHeight * y);
 
 			zoomTo(self.x, self.y, self.scale, duration, easing);
-		}
+		};
 
 		self.getLocationData = function(id) {
 			var data = null;
@@ -1264,7 +1264,7 @@
 				});
 			});
 			return data;
-		}
+		};
 
 		self.showLocation = function(id, duration, check) {
 			$.each(self.data.levels, function(index, level) {
@@ -1314,7 +1314,7 @@
 					}
 				});
 			});
-		}
+		};
 
 		self.hideLocation = function() {
 			removeClass($('.mapplic-active', self.el), 'mapplic-active');
@@ -1323,7 +1323,7 @@
 
 			// Trigger event
 			self.el.trigger('locationclosed');
-		}
+		};
 
 		self.updateLocation = function(id) {
 			var location = self.getLocationData(id);

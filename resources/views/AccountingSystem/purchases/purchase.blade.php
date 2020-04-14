@@ -12,7 +12,7 @@
         <td>{{$purchase->client->name}}</td>
         <td>{{$purchase->total}}</td>
         <td>
-            <a href="javascript:;" id="" class="btn btn-danger" onclick="show({{$purchase->id}})">عرض الفاتورة</a>
+            <a href="javascript:" id="" class="btn btn-danger" onclick="show({{$purchase->id}})">عرض الفاتورة</a>
         </td>
              </tr>
     </tbody>

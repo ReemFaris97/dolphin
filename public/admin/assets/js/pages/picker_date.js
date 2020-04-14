@@ -426,7 +426,7 @@ $(function() {
         disable: [
             3, 5, 7
         ]
-    })
+    });
 
 
     // Disable times

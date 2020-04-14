@@ -177,4 +177,12 @@ class ClientController extends Controller
     }
 
 
+    public function getClient($id){
+        $client=AccountingClient::find($id);
+        return response()->json([
+            'status'=>true,
+            'data'=>($client->balance)
+        ]);
+    }
+
 }

@@ -95,9 +95,7 @@ function drawDiff() {
 
     // Draw our chart, passing in some options
     diff.draw(diffData, options);
-};
-
-
+}
 // Resize chart
 // ------------------------------
 

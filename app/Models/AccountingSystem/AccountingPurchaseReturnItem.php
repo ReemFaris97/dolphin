@@ -10,7 +10,7 @@ class AccountingPurchaseReturnItem extends Model
 {
 
 
-    protected $fillable = ['product_id','quantity','purchase_return_id'];
+    protected $fillable = ['product_id','quantity','purchase_return_id','price','unit_id','tax','price_after_tax','unit_type'];
     protected $table='accounting_purchase_return_items';
 
     public function product()

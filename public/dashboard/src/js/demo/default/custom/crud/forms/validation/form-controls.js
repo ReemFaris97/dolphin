@@ -65,7 +65,7 @@ var FormControls = function () {
                 //form[0].submit(); // submit the form
             }
         });       
-    }
+    };
 
     var demo2 = function () {
         $( "#m_form_2" ).validate({
@@ -135,7 +135,7 @@ var FormControls = function () {
                 //form[0].submit(); // submit the form
             }
         });       
-    }
+    };
 
     var demo3 = function () {
         $( "#m_form_3" ).validate({
@@ -214,7 +214,7 @@ var FormControls = function () {
                 return false;
             }
         });       
-    }
+    };
 
     return {
         // public functions

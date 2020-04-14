@@ -10,8 +10,8 @@
 
 
 <div class="form-group col-md-6 pull-left">
-    <label>اسم العميل  </label>
-    {!! Form::text("name",null,['class'=>'form-control','placeholder'=>'  اسم العميل  '])!!}
+    <label>اسم المورد  </label>
+    {!! Form::text("name",null,['class'=>'form-control','placeholder'=>'  اسم المورد  '])!!}
 </div>
 
 
@@ -22,32 +22,44 @@
 
 
 <div class="form-group col-md-6 pull-left">
-    <label>ايميل   </label>
-    {!! Form::email("email",null,['class'=>'form-control','placeholder'=>'  الايميل  '])!!}
+    <label>البريد الالكترونى   </label>
+    {!! Form::email("email",null,['class'=>'form-control','placeholder'=>'  البريد الالكترونى  '])!!}
 </div>
 
 
-<div class="form-group col-md-4 pull-left">
-    <label>  اختر الفرع  </label>
-    {!! Form::select("branch_id",branches(),null,['class'=>'form-control selectpicker ','placeholder'=>' اختر اسم الفرع  '])!!}
+<div class="form-group col-md-6 pull-left">
+    <label>كلمه المرور</label>
+    {!! Form::password('password',['class'=>'form-control  m-input','placeholder'=>'ادخل كلمه المرور'])!!}
 </div>
 
-<div class="form-group col-md-4 pull-left">
-    <label>  اختر اسم الصنف  </label>
-    {!! Form::select("product_id[]",$products,null,['class'=>'form-control selectpicker ','multiple','placeholder'=>' اختر اسم الصنف  '])!!}
-</div>
+@if( isset($supplier))
 
+    <div class="form-group col-md-6 pull-left">
+        <label>صوره المورد الحالية : </label>
+        <img src="{{getimg($supplier->image)}}" style="width:100px; height:100px">
+    </div>
+@endif
+
+
+<div class="form-group col-md-12 pull-left">
+    <label>صوره المورد  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+    {!! Form::file("image",null,['class'=>'form-control'])!!}
+</div>
+<div class="clearfix"></div>
 
 <div class="form-group col-md-6 pull-left ">
 
-    <div class="form-group col-md-6 pull-left credit ">
+    <div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left taxs form-line new-radio-big-wrapper  credit">
         <label>السياسة الائتمانية </label>
-
-        <label>حد دين </label>
+        <span class="new-radio-wrap">
+         <label for="amount">حد دين </label>
         {!! Form::radio("credit","1",['class'=>'form-control','id'=>'amount','value'=>"1" ])!!}
+        </span>
 
-        <label>فترة دين </label>
+        <span class="new-radio-wrap">
+        <label for="period">فترة دين </label>
         {!! Form::radio("credit","0",['class'=>'form-control', 'id'=>'period','value'=>"0"])!!}
+        </span>
     </div>
     <div class="form-group col-md-6  amount">
         <label>حد الدين</label>
@@ -57,6 +69,29 @@
         <label>فتره الدين  </label>
         {!! Form::text("period",null,['class'=>'form-control'])!!}
     </div>
+</div>
+
+<div class="clearfix"></div>
+
+<div class="form-group col-md-4 pull-left">
+<label>  اختر اسم البنك   </label>
+{!! Form::select("bank_id",$banks,null,['class'=>'form-control selectpicker ', 'placeholder'=>' اختر اسم البنك  '])!!}
+</div>
+
+
+<div class="form-group col-md-4 pull-left">
+    <label>  رقم  الحساب </label>
+    {!! Form::text("bank_account_number",null,['class'=>'form-control','placeholder'=>' رقم  الحساب '])!!}
+</div>
+
+<div class="form-group col-md-4 pull-left">
+    <label>  الرقم  الضريبى </label>
+    {!! Form::text("tax_number",null,['class'=>'form-control','placeholder'=>' الرقم  الضريبى '])!!}
+</div>
+
+<div class="form-group col-md-4 pull-left">
+    <label> اختر  شركات  التورديد   </label>
+    {!! Form::select("company_id[]",$companies,null,['class'=>'form-control selectpicker ' ,'multiple'])!!}
 </div>
 
 <div class="text-center col-md-12">
@@ -75,6 +110,8 @@
 
     });
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
+
     <script>
 
         $(function(){

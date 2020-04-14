@@ -358,7 +358,7 @@ $(function() {
         // Remove if cancelled
         notice.get().find('button[name=cancel]').on('click', function() {
             notice.remove();
-        })
+        });
 
         // Submit form
         notice.get().submit(function() {
@@ -458,12 +458,12 @@ $(function() {
             },
             addclass: 'stack-top-right',
             stack: stack_top_left
-        })
+        });
 
         // On confirm
         notice.get().on('pnotify.confirm', function() {
             alert('Ok, cool.');
-        })
+        });
 
         // On cancel
         notice.get().on('pnotify.cancel', function() {
@@ -522,7 +522,7 @@ $(function() {
                 addclass: 'stack-top-right',
                 stack: stack_top_left
             });
-        })
+        });
 
         // On cancel
         notice.get().on('pnotify.cancel', function(e, notice) {

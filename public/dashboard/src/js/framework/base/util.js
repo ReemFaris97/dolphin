@@ -1061,7 +1061,7 @@ var mUtil = function() {
 
                     target = target.parentNode;
                 }
-            }
+            };
 
             mUtil.addEvent(element, event, mUtilDelegatedEventHandlers[eventId]);
 

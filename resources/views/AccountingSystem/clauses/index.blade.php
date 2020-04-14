@@ -37,7 +37,7 @@
                 @foreach($clauses as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
-                        <td>{!! $row->benod->ar_name!!}</td>
+                        <td>{!!optional($row->benod)->ar_name!!}</td>
 
                         <td>{!! $row->amount!!}</td>
                         <td>{!!optional($row->safe)->name!!}</td>

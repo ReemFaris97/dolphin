@@ -12,7 +12,7 @@ class AccountingBranch extends Model
 
 
 
-    protected $fillable = ['company_id', 'name', 'phone', 'password', 'email', 'image' ];
+    protected $fillable = ['company_id', 'name', 'phone', 'password', 'email', 'image' ,'code'];
 
     public function company()
     {
@@ -28,5 +28,26 @@ class AccountingBranch extends Model
 
         return $this->hasMany(AccountingBranchFace::class,'branch_id');
     }
+
+    public function stores()
+    {
+        return $this->morphMany(AccountingStore::class, 'model');
+    }
+
+    public function safes()
+    {
+        return $this->morphMany(AccountingSafe::class, 'model');
+    }
+
+    function products(){
+
+        $stores_company= AccountingStore::where('model_id', $this->company->id)->where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->pluck('id');
+        $stores_branch=AccountingStore::where('model_id', $this->id)->where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->pluck('id');
+        $stores = array_merge(json_decode($stores_branch), json_decode($stores_company));
+        $products= AccountingProductStore::whereIn('store_id',$stores)->pluck('quantity', 'product_id');
+        return $products;
+
+    }
+
 
 }

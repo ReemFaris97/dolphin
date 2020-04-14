@@ -142,7 +142,7 @@
 
         if ($('#company').is(':checked')) {
             $(".companies").show();
-        }elseif ($('#branch').is(':checked')) {
+        }elseif ($('#branch').is(':checked')); {
             $(".branches").show();
         }
 

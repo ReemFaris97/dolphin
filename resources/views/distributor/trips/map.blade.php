@@ -54,7 +54,7 @@
     // var pointC = new google.maps.LatLng(30.9711082, 31.2643653);
     function initMap() {
         var directionsService = new google.maps.DirectionsService;
-        var directionsDisplay = new google.maps.DirectionsRenderer
+        var directionsDisplay = new google.maps.DirectionsRenderer;
 
         map = new google.maps.Map(document.getElementById('map'), {
             center: {lat: -34.397, lng: 150.644},
@@ -125,7 +125,7 @@
 						
 						
 //						Special loop for center points
-						console.log('center points is' + centerPoint.length )
+						console.log('center points is' + centerPoint.length );
 				for (var s = 0; s < centerPoint.length ; s++) {
 
                   console.log('pointt ' + centerPoint[s]);

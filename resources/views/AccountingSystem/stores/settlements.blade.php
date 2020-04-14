@@ -32,7 +32,7 @@
                 </div>
                 <div class="form-group col-md-4 pull-left">
                     <label>اختر الصنف </label>
-                    {!! Form::select("product_id[]",products_not_settement(),null,['class'=>'form-control js-example-basic-single product_id','multiple','id'=>'product_id'])!!}
+                    {!! Form::select("product_id[]",products_not_settement(),null,['class'=>'form-control product_id','multiple','id'=>'product_id'])!!}
                 </div>
 
 
@@ -99,10 +99,10 @@
             var purchasing_price = $(".purchasing_price").val();
             var cost=quantity*selling_price;
             var  price=quantity*purchasing_price;
-            $(".cost").empty()
+            $(".cost").empty();
 
             $(".cost").append('<div class="form-group col-md-4 pull-left"> <label> التكلفة</lable> <input type="text" name="cost" value="' + cost + '"  class="form-control" readonly> </div>');
-            $(".price").empty()
+            $(".price").empty();
             $(".price").append('<div class="form-group col-md-4 pull-left"> <label> القيمة</lable> <input type="text" name="price" value="' + price + '"  class="form-control" readonly> </div>');
 
         });

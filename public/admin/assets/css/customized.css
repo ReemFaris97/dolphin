@@ -822,7 +822,7 @@ form.form.phone_validate .panel-title > a {
 }
 
 .newly-added-2-btns- .btn {
-	width: 140px;
+	width: 170px;
 	float: right;
 	margin-top: 7px;
 }
@@ -989,7 +989,20 @@ select.selectpicker {
 	-webkit-box-align: center;
 	-ms-flex-align: center;
 	align-items: center;
-	width: 100%;
+
+	text-align: right !important;
+}
+
+.form-line.sanads {
+	display: -webkit-inline-box;
+	display: -ms-inline-flexbox;
+	display: inline-flex;
+	-webkit-box-pack: space-evenly;
+	-ms-flex-pack: space-evenly;
+	justify-content: space-evenly;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
 	text-align: right !important;
 }
 
@@ -1012,6 +1025,31 @@ span.new-radio-wrap {
 	flex-direction: row-reverse;
 }
 
+span.new-radio-wrap-sanad {
+	display: -webkit-inline-box;
+	display: -ms-inline-flexbox;
+	display: inline-flex;
+	-webkit-box-pack: end;
+	-ms-flex-pack: end;
+	justify-content: flex-end;
+
+	-ms-flex-align: center;
+
+	text-align: right;
+	width: 100% !important;
+	padding: 0 15px;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: reverse;
+	-ms-flex-direction: row-reverse;
+	flex-direction: row-reverse;
+}
+
+span.new-radio-wrap-sanad input {
+	width: 20px;
+	margin-left: 10px;
+	margin-top: -3px;
+}
+
 span.new-radio-wrap input {
 	width: 20px;
 	margin-left: 10px;
@@ -1022,6 +1060,9 @@ span.new-radio-wrap label {
 	color: #333 !important;
 }
 
+span.new-radio-wrap-sanad label {
+	color: #333 !important;
+}
 .backed-eee > div {
 	background: #eee;
 	padding: 0 5px;
@@ -1085,7 +1126,7 @@ table.mabi3at-bill.moshtraiat-bill tfoot tr th:first-child {
 table.mabi3at-bill.moshtraiat-bill tfoot tr th span.colorfulSpan {
 	font-weight: 400;
 	color: #2ECC71;
-    font-size: 12px;
+	font-size: 12px;
 }
 
 label.wit-lbl {
@@ -1111,16 +1152,21 @@ table.mabi3at-bill.moshtraiat-bill .rs {
 	margin-top: -2px;
 	font-weight: 100;
 }
+
 .normal-lbls label {
-    width: auto !important;
+	width: auto !important;
 }
+
 .panel-flat.summaryy > .panel-heading + .panel-body span {
-    font-size: 16px;
-    padding-right: 10px;
+	font-size: 16px;
+	padding-right: 10px;
 }
-.ddd-none , .tempobar{
+
+.ddd-none,
+.tempobar {
 	display: none !important
 }
+
 table.mabi3at-bill.moshtraiat-bill .form-group .rs {
 	margin-top: -67px;
 }
@@ -1128,8 +1174,9 @@ table.mabi3at-bill.moshtraiat-bill .form-group .rs {
 table.mabi3at-bill.moshtraiat-bill .form-group {
 	margin-bottom: 0
 }
+
 table.mabi3at-bill.moshtraiat-bill th input {
-    min-width: 120px;
+	min-width: 120px;
 }
 
 td.delete-single-row a span {
@@ -1140,51 +1187,117 @@ td.delete-single-row a {
 	margin-top: 0 !important;
 	background: #E74C3C !important
 }
+
 table.bill-table > tfoot.tempDisabled:after {
-    content: "من فضلك قم بإختيار الصنف وكميته أولا ";
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    background: rgba(0,0,0,0.5);
-    color: #fff;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
+	content: "من فضلك قم بإختيار الصنف وكميته أولا ";
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	background: rgba(0, 0, 0, 0.5);
+	color: #fff;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 30px;
 }
+
 a.removeThisSinglSpecDisc {
-    position: absolute;
-    left: 15px;
-    background: #E74C3C;
-    color: #fff;
-    font-size: 18px;
-    width: 25px;
-    text-align: center;
-    margin-top: 20px;
-    transition: 0.4s all ease-in-out;
+	position: absolute;
+	left: 15px;
+	background: #E74C3C;
+	color: #fff;
+	font-size: 18px;
+	width: 25px;
+	text-align: center;
+	margin-top: 20px;
+	transition: 0.4s all ease-in-out;
 }
-a.removeThisSinglSpecDisc:hover{
+
+a.removeThisSinglSpecDisc:hover {
 	color: #E74C3C;
 	background: #fff;
-	box-shadow: 0px 5px 20px rgba(0,0,0,0.15);
+	box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.15);
 	border-radius: 50%
 }
+
 .row.clearfix.single-special-dis-wrap {
-    background: #eee;
-    border-radius: 5px;
-    margin-bottom: 5px;
-    padding: 5px 0;
+	background: #eee;
+	border-radius: 5px;
+	margin-bottom: 5px;
+	padding: 5px 0;
 }
+
 .row.clearfix.single-special-dis-wrap .form-group {
-    margin-bottom: 0;
+	margin-bottom: 0;
 }
+
 a.appendAnewDiscount.btn.btn-success {
-    margin-top: 20px;
+	margin-top: 20px;
 }
+.pos-rel{
+	position: relative
+}
+.pos-abs-btn{
+	position: absolute;
+}
+.pos-rel .pos-abs-btn {
+    left: 10px;
+    top: 33px;
+    color: #fff;
+}
+.yourBill .yurSections  .form-group {
+    margin-bottom: 5px;
+}
+td.product-name a {
+    color: #fff;
+	transition: 0.4s all ease-in-out
+}
+td.product-name a:hover{
+	color: #2ECC71
+}
+td.last-prices-info > div p {
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 2px;
+}
+td.last-prices-info > div p span:first-child{
+    color: #2ECC71;
+    padding-left: 5px;
+    font-size: 10px;
+    width: 75px;
+}
+.bill-cogs{
+	    float: left;
+    margin-left: 120px;
+	color: #fff !important
+}
+td button.btn.btn-primary.popover-dismiss {
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    margin-top: -20px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+td button.btn.btn-primary.popover-dismiss span.icon-coin-dollar {
+    font-size: 24px;
+    margin-top: -2px;
+}
+.bootstrap-select.btn-group.show-tick .dropdown-menu li.selected a span.check-mark {
+    margin-top: -7px;
+}
+
+.yourBill .yurSections .form-group.block-gp input#barcode_search{
+    width: calc(100% - 130px);
+}
+
+
 
 /******************* media query  *******************/
 @media (min-width: 992px) {
@@ -1199,8 +1312,11 @@ a.appendAnewDiscount.btn.btn-success {
 
 	.navbar-nav > li > .dropdown-menu,
 	.dropdown-menu > .dropdown-submenu > .dropdown-menu {
-		min-width: 220px;
+		min-width: 240px;
 	}
+	.dropdown-menu > li > a {
+    text-overflow: unset;
+}
 }
 
 @media(max-width:991px) {

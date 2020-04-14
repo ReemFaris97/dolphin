@@ -16,7 +16,7 @@ CKEDITOR.editorConfig = function( config ) {
     config.contentsLangDirection = 'rtl';
     config.dialog_buttonsOrder = 'rtl';
     config.language = 'ar';
-    contentsLanguage:'ar';
+    'ar';
 
 
 	// Toolbar

@@ -326,6 +326,53 @@ table.finalTb tfoot.tempDisabled > tr , table.finalTb tfoot.tempDisabled > tr th
     text-align: right;
     padding-right: 50px;
 }
+table.mabi3at-bill.finalTb tfoot th {
+    font-size: 28px !important;
+    padding: 0 5px !important;
+}
+table.mabi3at-bill .rs {
+    
+    left: 7px;
+    font-size: 15px;
+}
+.finalTb td.delete-single-row button {
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: unset;
+}
+.finalTb td.delete-single-row button span{
+    font-size: 35px !important;
+    line-height: unset;
+}
+.table-upper-options input {
+    width: 100% !important;
+}
+.table-upper-options {
+    display: inline-flex;
+    justify-content: space-between;
+    width: 100%;
+}
+table.mabi3at-bill.finalTb tfoot th .colorfulSpan {
+    font-size: 16px;
+    margin-left: 20px;
+}
+table.mabi3at-bill tfoot tr th#amountBeforeDariba, table.mabi3at-bill tfoot tr th#amountOfDariba, table.mabi3at-bill tfoot tr th#amountAfterDariba {
+    background: #2ecc71 !important;
+    text-align: center !important;
+}
+table.mabi3at-bill tfoot tr th#amountBeforeDariba span.dynamic-span,
+table.mabi3at-bill tfoot tr th#amountOfDariba span.dynamic-span ,
+table.mabi3at-bill tfoot tr th#amountAfterDariba span.dynamic-span{
+    font-size: 28px !important;
+    padding: 0 5px !important;
+    color: #241E32;
+    font-weight: 900;
+}
 /******* Responsive ****************/
 @media (max-width: 1199px){
     .count {
@@ -354,6 +401,7 @@ table.finalTb tfoot.tempDisabled > tr , table.finalTb tfoot.tempDisabled > tr th
 .unit_price_before_enable .maybe-hidden.unit_price_before_enable ,
 .unit_price_after_enable .maybe-hidden.unit_price_after_enable ,
 .total_price_before_enable .maybe-hidden.total_price_before_enable ,
+.total_expiration_enable .maybe-hidden.expiration_enable ,
 .total_price_after_enable .maybe-hidden.total_price_after_enable{
 	display: table-cell !important
 }

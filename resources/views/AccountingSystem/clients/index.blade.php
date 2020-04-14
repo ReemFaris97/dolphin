@@ -31,6 +31,7 @@
                     <th> قائمة الاسعار </th>
                     <th> السياسه الائتمانيه </th>
                     <th>  التعاملات الضربيه </th>
+                    <th> رصيد العميل </th>
                     <th class="text-center">العمليات</th>
                 </tr>
                 </thead>
@@ -64,7 +65,7 @@
                             @endif
 
                         </td>
-
+                        <td>{!! $row->amount!!}</td>
 
                         <td class="text-center">
                             <a href="{{route('accounting.clients.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
