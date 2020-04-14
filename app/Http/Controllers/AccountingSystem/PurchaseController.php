@@ -65,7 +65,7 @@ class PurchaseController extends Controller
     public function store(Request $request)
     {
         $requests = $request->except('user_id');
-//
+
         $rules = [
            'supplier_id'=>'required|numeric|exists:accounting_suppliers,id',
                 // 'reminder'=>'required|numeric|gt:0',
@@ -77,7 +77,9 @@ class PurchaseController extends Controller
         $requests['company_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingCompany')?$user->store->model_id:Null;
 
         $purchase=AccountingPurchase::create($requests);
-//       dd( $requests['branch_id']);
+        if ($requests['total']==Null){
+            $requests['total']=$purchase->amount;
+        }
         $purchase->update([
             'bill_num'=>$purchase->bill_num."-".$purchase->created_at->toDateString(),
             'branch_id'=>$requests['branch_id'],
