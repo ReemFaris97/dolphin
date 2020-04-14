@@ -373,6 +373,7 @@ table.mabi3at-bill tfoot tr th#amountAfterDariba span.dynamic-span{
     color: #241E32;
     font-weight: 900;
 }
+
 /******* Responsive ****************/
 @media (max-width: 1199px){
     .count {
