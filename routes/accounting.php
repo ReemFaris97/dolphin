@@ -15,6 +15,7 @@ Route::middleware('admin')->group(function () {
     Route::resource('stores', 'StoreController');
     Route::resource('storeKeepers', 'StoreKeeperController');
     Route::resource('taxs', 'TaxsController');
+    Route::resource('banks', 'BankController');
     /////////////////سندات  ادخال المنتجات فى المخازن
     Route::get('/company_stores/{id}', 'StoreController@company_stores');
     Route::get('/branch_stores/{id}', 'StoreController@branch_stores');

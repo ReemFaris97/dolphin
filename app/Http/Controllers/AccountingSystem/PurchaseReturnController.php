@@ -97,7 +97,9 @@ class PurchaseReturnController extends Controller
         $user=User::find(auth()->user()->id);
         $requests['branch_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:Null;
         $requests['company_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingCompany')?$user->store->model_id:Null;
-
+        if ($requests['total']==Null){
+            $requests['total']=$return->amount;
+        }
         $return->update([
             'bill_num' =>$return->bill_num."-".$return->created_at->toDateString(),
             'branch_id'=>$requests['branch_id'],

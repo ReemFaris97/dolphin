@@ -97,7 +97,7 @@ class PurchaseController extends Controller
 
         $merges = $products->zip($qtys,$unit_id,$prices,$itemTax);
         $i=1;
-//        dd($merges);
+
         foreach ($merges as $merge)
         {
 
