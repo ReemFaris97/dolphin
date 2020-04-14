@@ -77,7 +77,9 @@ class PurchaseController extends Controller
         $requests['company_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingCompany')?$user->store->model_id:Null;
 
         $purchase=AccountingPurchase::create($requests);
-//       dd( $requests['branch_id']);
+        if ($requests['total']==Null){
+            $requests['total']=$purchase->amount;
+        }
         $purchase->update([
             'bill_num'=>$purchase->bill_num."-".$purchase->created_at->toDateString(),
             'branch_id'=>$requests['branch_id'],
@@ -132,7 +134,7 @@ class PurchaseController extends Controller
                                     'discount_type'=>'percentage',
                                     'item_id'=>$item->id,
                                     'type'=>'purchase',
-                                    'affect_tax'=>$item1['discount_item_effectTax'][$k1]
+                                    'affect_tax'=>$item1['discount_item_effectTax'][$k1]??0,
                                 ]);
                            }
 
@@ -145,7 +147,7 @@ class PurchaseController extends Controller
                                 'discount_type'=>'amount',
                                 'item_id'=>$item->id,
                                 'type'=>'purchase',
-                                'affect_tax'=>$item1['discount_item_effectTax'][$k1]
+                                'affect_tax'=>$item1['discount_item_effectTax'][$k1]??0,
                                 ]);
                              }
 
@@ -211,7 +213,7 @@ class PurchaseController extends Controller
                 ]);
                 }elseif ($purchase->payment=='agel'){
 
-            $supplier=AccountingSupplier::find( $purchase->supplier_id);
+            $supplier=AccountingSupplier::find($purchase->supplier_id);
             $supplier->update([
                 'balance'=>$supplier->balance +$purchase->total
             ]);

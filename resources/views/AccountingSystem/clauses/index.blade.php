@@ -43,13 +43,16 @@
                         <td>{!!optional($row->safe)->name!!}</td>
                         <td>
                             @if ($row->type=="expenses")
-                                <label class="label label-info"> مصروف</label>
+                                <label class="label label-info"> صرف </label>
+                                @elseif($row->type=="revenue")
+                                <label class="label label-success"> قبض</label>
                                 @else
-                                <label class="label label-success"> ايراد</label>
+                                <label class="label label-success"> عام</label>
                         @endif
                         </td>
 
                         <td class="text-center">
+                            <a href="{{route('accounting.clauses.show',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>
                             <a href="{{route('accounting.clauses.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
                             {!!Form::open( ['route' => ['accounting.clauses.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
