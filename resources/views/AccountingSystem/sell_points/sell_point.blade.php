@@ -31,12 +31,13 @@
 					<div class="col-md-4 col-sm-6 col-xs-12">
 						<div class="form-group">
 							<label> اسم الكاشير: </label>
+							{{--@dd($session->shift->name)--}}
 							{{$session->user->name}}
 						</div>
 					</div>
 					<div class="col-md-4 col-sm-6 col-xs-12">
 						<div class="form-group"><label> اسم الوردية: </label>
-							{{$session->shift->name}}
+							{{optional($session->shift)->name}}
 						</div>
 					</div>
 					<div class="col-md-4 col-sm-6 col-xs-12">
@@ -379,7 +380,7 @@
 						<td class="whole-price-before maybe-hidden total_price_before_enable">${singlePriceBefore}</td>
 						<td class="whole-price-after maybe-hidden total_price_after_enable">${singlePriceAfter}</td>
 						<td class="delete-single-row">
-							@if(auth()->user()->is_admin==1)
+							@if($session->user->is_admin==1)
 							<a href="#"><span class="icon-cross"></span></a>
 							@else
 							<button type="button" class="btn btn-primary in-row-del" data-toggle="modal" data-target="#deleteModal">
@@ -610,7 +611,7 @@
 		<td class="whole-price-before maybe-hidden total_price_before_enable">${singlePriceBefore}</td>
 		<td class="whole-price-after maybe-hidden total_price_after_enable">${singlePriceAfter}</td>
 		<td class="delete-single-row">
-			@if(auth()->user()->is_admin==1)
+			@if($session->user->is_admin==1)
 			<a href="#"><span class="icon-cross"></span></a>
 			@else
 			<button type="button" class="btn btn-primary in-row-del" data-toggle="modal" data-target="#deleteModal">
