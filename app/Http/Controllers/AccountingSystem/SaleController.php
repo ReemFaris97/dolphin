@@ -439,17 +439,24 @@ class SaleController extends Controller
     {
 
 
-        if(Auth::attempt(['email'=>$request['email'],'password'=>$request['password'],'is_saler'=>1])){
+        $saler = User::where('email', $request['email'])->first();
+        if ($saler) {
+            if ($saler->is_saler == 1) {
+                if (Hash::check($request['password'], $saler->password)) {
+                    return response()->json([
+                        'status' => true,
+                        'data' => ('success')
+                    ]);
+                }
+            }
 
-            return response()->json([
-                'status'=>true,
-                'data'=>('success')
-            ]);
         }
         return response()->json([
-            'status'=>true,
-            'data'=>('failed')
+            'status' => true,
+            'data' => ('failed')
         ]);
+
+
     }
 
 }
