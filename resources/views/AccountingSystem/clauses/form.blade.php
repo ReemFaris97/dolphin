@@ -121,7 +121,7 @@
     {!! Form::select("type",['revenue'=>'قبض','expenses'=>'مصروف'],null,['class'=>'form-control','placeholder'=>' نوع السند  '])!!}
 </div>
 
-<div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left">
+<div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left benods">
     <label>   اسم  البند </label>
     {!! Form::select("benod_id",$benods,null,['class'=>'form-control','placeholder'=>' اختر  اسم البند '])!!}
 </div>
@@ -135,10 +135,14 @@
     {!! Form::date("date",null,['class'=>'form-control'])!!}
 </div>
 
-<div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left">
-    <label> العمله الافتراضية  </label>
-    {!! Form::select("currency",currency(),null,['class'=>'form-control','placeholder'=>' العمله الافتراضية'])!!}
+<div class="form-group col-md-9 col-sm-9 col-xs-9  pull-left ">
+    <label>البيان </label>
+    {!! Form::text("description",null,['class'=>'form-control','placeholder'=>' البيان  '])!!}
 </div>
+{{--<div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left">--}}
+    {{--<label> العمله الافتراضية  </label>--}}
+    {{--{!! Form::select("currency",currency(),null,['class'=>'form-control','placeholder'=>' العمله الافتراضية'])!!}--}}
+{{--</div>--}}
 
 <div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left">
     <label>المبلغ </label>
@@ -225,6 +229,7 @@
         $('.clients').hide();
         $('.banks').hide();
         $(".suppliers").hide();
+
         $('.name').hide();
         $('.js-example-basic-single').select2();
 
@@ -257,15 +262,21 @@
     function myFunction() {
         $(".clients").show();
         $(".suppliers").hide();
+        $('.name').hide();
     }
     function myFunction2() {
         $(".clients").hide();
         $(".suppliers").show();
+        $('.name').hide();
+        $(".benods").hide();
+
     }
     function myFunction3() {
         $(".clients").hide();
         $(".suppliers").hide();
         $('.name').show();
+        $(".benods").show();
+
 
     }
 

@@ -65,7 +65,7 @@ class PurchaseController extends Controller
     public function store(Request $request)
     {
         $requests = $request->except('user_id');
-
+//
         $rules = [
            'supplier_id'=>'required|numeric|exists:accounting_suppliers,id',
                 // 'reminder'=>'required|numeric|gt:0',
@@ -132,7 +132,7 @@ class PurchaseController extends Controller
                                     'discount_type'=>'percentage',
                                     'item_id'=>$item->id,
                                     'type'=>'purchase',
-                                    'affect_tax'=>$item1['discount_item_effectTax'][$k1]
+                                    'affect_tax'=>$item1['discount_item_effectTax'][$k1]??0,
                                 ]);
                            }
 
@@ -145,7 +145,7 @@ class PurchaseController extends Controller
                                 'discount_type'=>'amount',
                                 'item_id'=>$item->id,
                                 'type'=>'purchase',
-                                'affect_tax'=>$item1['discount_item_effectTax'][$k1]
+                                'affect_tax'=>$item1['discount_item_effectTax'][$k1]??0,
                                 ]);
                              }
 
@@ -211,7 +211,7 @@ class PurchaseController extends Controller
                 ]);
                 }elseif ($purchase->payment=='agel'){
 
-            $supplier=AccountingSupplier::find( $purchase->supplier_id);
+            $supplier=AccountingSupplier::find($purchase->supplier_id);
             $supplier->update([
                 'balance'=>$supplier->balance +$purchase->total
             ]);

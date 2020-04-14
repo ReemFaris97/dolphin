@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AccountingMoneyClause extends Model
 {
-    protected $fillable = ['benod_id','type','default','sanad_num','user_id','num',
+    protected $fillable = ['benod_id','type','default','sanad_num','user_id','num','description',
     'safe_id','amount','concerned','client_id','supplier_id','notes','payment','company_id','branch_id',
         'bank_id','num_transaction','image','name'];
 
