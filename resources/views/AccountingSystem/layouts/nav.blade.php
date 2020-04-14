@@ -260,6 +260,15 @@
 								<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.benods.create')}}"><i class="icon-add-to-list"></i> اضافة بند جديد</a> </li>
 							</ul>
 						</li>
+
+
+						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-justify"></i> البنوك</a>
+							<ul class="dropdown-menu">
+								<li><a href="{{route('accounting.banks.index')}}"><i class="icon-eye"></i> عرض البنوك</a></li>
+								<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.banks.create')}}"><i class="icon-add-to-list"></i> اضافة بنك جديد</a> </li>
+							</ul>
+						</li>
+
 					</ul>
 				</li>
 

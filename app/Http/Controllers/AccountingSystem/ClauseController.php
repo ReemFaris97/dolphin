@@ -215,7 +215,9 @@ class ClauseController extends Controller
 
     }
 
-    public  function  show(){
+    public  function  show($id){
 
+        $clause =AccountingMoneyClause::findOrFail($id);
+        return view('AccountingSystem.clauses.show',compact('clause'));
     }
 }
