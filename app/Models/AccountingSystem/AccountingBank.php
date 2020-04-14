@@ -10,7 +10,7 @@ class AccountingBank extends Model
 {
 
 
-    protected $fillable = ['name','bank_account_number',
+    protected $fillable = ['name','bank_number','en_name',
  ];
     protected $table='accounting_banks';
 

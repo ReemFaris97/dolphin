@@ -10,15 +10,20 @@
 
 
 
+
 <div class="form-group col-md-6 pull-left">
-    <label>اسم البنك  </label>
-    {!! Form::text("name",null,['class'=>'form-control','placeholder'=>'  اسم البنك  '])!!}
+    <label> رمز البنك</label>
+    {!! Form::text("bank_number",null,['class'=>'form-control','placeholder'=>'  رمز البنك   '])!!}
 </div>
 
+<div class="form-group col-md-6 pull-left">
+    <label>اسم البنك  باللغه العربيه  </label>
+    {!! Form::text("name",null,['class'=>'form-control','placeholder'=>'اسم البنك  باللغه العربيه '])!!}
+</div>
 
 <div class="form-group col-md-6 pull-left">
-    <label>رقم الحساب   </label>
-    {!! Form::text("bank_account_number",null,['class'=>'form-control','placeholder'=>' رقم الحساب   '])!!}
+    <label>اسم البنك  باللفه الانجليزيه </label>
+    {!! Form::text("en_name",null,['class'=>'form-control','placeholder'=>' اسم البنك  باللفه الانجليزيه '])!!}
 </div>
 
 <div class="text-center col-md-12">

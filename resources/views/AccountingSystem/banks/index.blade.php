@@ -25,21 +25,24 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th> اسم  البنك </th>
-                    <th> رقم الحساب</th>
+
+                    <th> رمز البنك</th>
+                    <th> اسم  البنك  باللغه العربيه</th>
+                    <th> اسم  البنك  باللغه الانجليزيه</th>
 
                     <th class="text-center">العمليات</th>
                 </tr>
                 </thead>
                 <tbody>
 
-                @foreach($cells as $row)
+                @foreach($banks as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
+
+                        <td>{!! $row->bank_number!!}</td>
+
                         <td>{!! $row->name!!}</td>
-                        <td>{!! $row->bank_account_number!!}</td>
-
-
+                        <td>{!! $row->en_name!!}</td>
 
                         <td class="text-center">
                             <a href="{{route('accounting.banks.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
@@ -72,7 +75,7 @@
             console.log(item_id);
             swal({
                 title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذة الخلية ؟",
+                text: "هل تريد حذف هذا البنك ؟",
                 icon: "warning",
                 buttons: ["الغاء", "موافق"],
                 dangerMode: true,
@@ -82,7 +85,7 @@
                     document.getElementById('delete-form'+item_id).submit();
                 }
                 else{
-                    swal("تم االإلفاء", "حذف  الخلية  تم الغاؤه",'info',{buttons:'موافق'});
+                    swal("تم االإلفاء", "حذف  البنك  تم الغاؤه",'info',{buttons:'موافق'});
                 }
             });
         }
