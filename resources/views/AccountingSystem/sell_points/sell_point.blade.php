@@ -388,7 +388,6 @@
 							@endif
 							</td>
                         </tr>`);
-					
 						// assign id for the clicked button on the deleting modal
 						$(".in-row-del").on('click' , function(){
 							var tempRowNum = $(this).parents('tr').attr('id');
@@ -413,7 +412,6 @@
 							   });
 							});
 						})
-					
 					var wholePriceBefore, wholePriceAfter = 0;
 					$(".product-unit select").change(function () {
 						var selectedUnit = $(this).find(":selected");
@@ -531,18 +529,9 @@
 						}
 					})
 				});
-
-				
-				
-				
-				
-				
 			}
 		});
 	});
-
-
-
 	//	For Ajax Search By Product Bar Code
 	$('#barcode_search').keyup(function(e) {
 		var barcode_search = $(this).val();
@@ -776,10 +765,8 @@
 	}
 	$(document).keydown(function(event) {
 		if (event.which == 118) { //F7 حفظ
-
 			$("#sllForm").submit();
 			return false;
-
 		}
 		if (event.which == 119) { //F8 اغلاق الجلسة
 			$("button[data-target='#exampleModal']").trigger('click');
@@ -805,7 +792,6 @@
 		var feloos = Number($("tr#remaindedAmount span.dynamic-span").text())
 		if (feloos >= 0) {
 			$("#sllForm").submit();
-			return false;
 		} else {
 			event.preventDefault();
 			alert('عفوا , لابد من استيفاء المبلوغ الطلوب دفعه قبل حفظ الفاتورة')
