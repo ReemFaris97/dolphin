@@ -220,7 +220,7 @@
 						اضافة فاتورة مرتجع [F9] </a>
 					<a class="btn btn-warning" id="ta3liik" href="#" target="_blank"> تعليق الفاتورة [F10] </a>
 				</div>
-				@if(auth()->user()->is_saler==1)
+				@if($session->user->is_saler==1)
 				<!-- Modal -->
 				<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 					<div class="modal-dialog" role="document">
@@ -232,7 +232,7 @@
 								</button>
 							</div>
 							<div class="modal-body">
-								<form method="post" action="{{route('accounting.sales.end',auth()->user()->is_saler)}}" id="form1">
+								<form method="post" action="{{route('accounting.sales.end',$session->user->is_saler)}}" id="form1">
 									@csrf
 									<input type="hidden" name="session_id" value="{{$session->id}}">
 									<label style="color:black"> الباسورد</label>

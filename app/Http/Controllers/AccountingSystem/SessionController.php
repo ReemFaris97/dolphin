@@ -156,4 +156,17 @@ private $viewable = 'AccountingSystem.sessions.';
 
     }
 
+    public function close($id){
+
+        $session=AccountingSession::find($id);
+        $session->update([
+            'status'=>'closed',
+        ]);
+
+        alert()->success('تم اغلاق الجلسه  من  قبل  الكاشير بنجاح !')->autoclose(5000);
+        return back();
+    }
+
+
+
 }

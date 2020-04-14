@@ -141,6 +141,7 @@ Route::middleware('admin')->group(function () {
 
 
     Route::post('/sale_end/{id}', 'SaleController@sale_end')->name('sales.end');
+    Route::get('/close/{id}', 'SessionController@close')->name('sessions.close');
 
 
     Route::get('/end_session/{id}', 'SaleController@end_session')->name('sales.end_session');
