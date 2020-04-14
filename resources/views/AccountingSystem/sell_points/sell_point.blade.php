@@ -361,7 +361,7 @@
 					for (var i = 0; i < productUnits.length; i++) {
 						optss += '<option data-uni-price="' + unitPrice[i] + '" value="' + unitId[i] + '"> ' + unitName[i] + '</option> ';
 					}
-					$(".bill-table tbody").append(`<tr class="single-row-wrapper">
+					$(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}">
 						<td class="row-num">${rowNum}</td>
 						<input type="hidden" name="product_id[]" value=${productId}>
 						<td class="product-name maybe-hidden name_enable">${productName}</td>
@@ -382,13 +382,39 @@
 							@if(auth()->user()->is_admin==1)
 							<a href="#"><span class="icon-cross"></span></a>
 							@else
-							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal">
+							<button type="button" class="btn btn-primary in-row-del" data-toggle="modal" data-target="#deleteModal">
                                 <span class="icon-cross"></span>
                             </button>
-@endif
-
+							@endif
 							</td>
                         </tr>`);
+					
+						// assign id for the clicked button on the deleting modal
+						$(".in-row-del").on('click' , function(){
+							var tempRowNum = $(this).parents('tr').attr('id');
+							$("#deleteModal").attr('data-tempdelrow' , tempRowNum);
+							$("#confirm_delete").click(function() {
+							   var email = $("#email").val();
+							   var password = $("#password").val();
+							   $.ajax({
+								  url: "/accounting/confirm_user/",
+								  type: "GET",
+								  data:{'email':email,'password':password},
+								  success: function (data) {
+									  if(data.data == 'success'){
+										  $("#" + tempRowNum).remove();
+										  $(".bill-table tbody").trigger('change');
+										  $('#deleteModal').modal('hide');
+									  }else{
+									  }
+								  },
+								  error: function (error) {
+									 alert("لقد حدث خطأ ما من فضلك أعد المحاولة")
+								  }
+							   });
+							});
+						})
+					
 					var wholePriceBefore, wholePriceAfter = 0;
 					$(".product-unit select").change(function () {
 						var selectedUnit = $(this).find(":selected");
@@ -507,24 +533,11 @@
 					})
 				});
 
-
-				$("#confirm_delete").click(function() {
-					var email = $("#email").val();
-					var password = $("#password").val();
-					$.ajax({
-						url: "/accounting/confirm_user/",
-						type: "GET",
-						data:{'email':email,'password':password},
-						success: function (data) {
-							alert(data.data);
-						},
-						error: function (error) {
-							alert("error")
-						}
-
-					});
-				});
-
+				
+				
+				
+				
+				
 			}
 		});
 	});
@@ -591,33 +604,59 @@
 		for (var i = 0; i < productUnits.length; i++) {
 			optss += '<option data-uni-price="' + unitPrice[i] + '" value="' + unitId[i] + '" > ' + unitName[i] + '</option> ';
 		}
-		$(".bill-table tbody").append(`<tr class="single-row-wrapper">
-			<td class="row-num">${rowNum}</td>
-			<input type="hidden" name="product_id[]" value=${productId}>
-			<td class="product-name maybe-hidden name_enable">${productName}</td>
-				<td class="product-name maybe-hidden barcode_enable">${productBarCode}</td>
-			<td class="product-unit maybe-hidden unit_enable">
-				<select class="form-control js-example-basic-single" name="unit_id[${productId}]">
-					${optss}
-				</select>
-			</td>
-			<td class="product-quantity maybe-hidden quantity_enable">
-				<input type="number" placeholder="الكمية" min="1" value="1" id="sale" name="quantity[]" class="form-control">
-			</td>
-			<td class="single-price-before maybe-hidden unit_price_before_enable">${singlePriceBefore}</td>
-			<td class="single-price-after maybe-hidden unit_price_after_enable">${singlePriceAfter}</td>
-			<td class="whole-price-before maybe-hidden total_price_before_enable">${singlePriceBefore}</td>
-			<td class="whole-price-after maybe-hidden total_price_after_enable">${singlePriceAfter}</td>
-			<td class="delete-single-row">
-				@if(auth()->user()->is_admin==1)
-					<a href="#"><span class="icon-cross"></span></a>
-					@else
-				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal">
-					<span class="icon-cross"></span>
-				</button>
-					@endif
+		$(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}">
+		<td class="row-num">${rowNum}</td>
+		<input type="hidden" name="product_id[]" value=${productId}>
+		<td class="product-name maybe-hidden name_enable">${productName}</td>
+		<td class="product-name maybe-hidden barcode_enable">${productBarCode}</td>
+		<td class="product-unit maybe-hidden unit_enable">
+			<select class="form-control js-example-basic-single" name="unit_id[${productId}]">
+				${optss}
+			</select>
+		</td>
+		<td class="product-quantity maybe-hidden quantity_enable">
+			<input type="number" placeholder="الكمية" min="1" value="1" id="sale" name="quantity[]" class="form-control">
+		</td>
+		<td class="single-price-before maybe-hidden unit_price_before_enable">${singlePriceBefore}</td>
+		<td class="single-price-after maybe-hidden unit_price_after_enable">${singlePriceAfter}</td>
+		<td class="whole-price-before maybe-hidden total_price_before_enable">${singlePriceBefore}</td>
+		<td class="whole-price-after maybe-hidden total_price_after_enable">${singlePriceAfter}</td>
+		<td class="delete-single-row">
+			@if(auth()->user()->is_admin==1)
+			<a href="#"><span class="icon-cross"></span></a>
+			@else
+			<button type="button" class="btn btn-primary in-row-del" data-toggle="modal" data-target="#deleteModal">
+				<span class="icon-cross"></span>
+			</button>
+			@endif
 			</td>
 		</tr>`);
+
+		// assign id for the clicked button on the deleting modal
+		$(".in-row-del").on('click' , function(){
+			var tempRowNum = $(this).parents('tr').attr('id');
+			$("#deleteModal").attr('data-tempdelrow' , tempRowNum);
+			$("#confirm_delete").click(function() {
+			   var email = $("#email").val();
+			   var password = $("#password").val();
+			   $.ajax({
+				  url: "/accounting/confirm_user/",
+				  type: "GET",
+				  data:{'email':email,'password':password},
+				  success: function (data) {
+					  if(data.data == 'success'){
+						  $("#" + tempRowNum).remove();
+						  $(".bill-table tbody").trigger('change');
+						  $('#deleteModal').modal('hide');
+					  }else{
+					  }
+				  },
+				  error: function (error) {
+					 alert("لقد حدث خطأ ما من فضلك أعد المحاولة")
+				  }
+			   });
+			});
+		})
 
 
 
