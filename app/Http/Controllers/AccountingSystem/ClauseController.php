@@ -214,4 +214,8 @@ class ClauseController extends Controller
 
 
     }
+
+    public  function  show(){
+
+    }
 }
