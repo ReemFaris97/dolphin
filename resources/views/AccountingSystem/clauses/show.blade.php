@@ -1,165 +1,180 @@
 @extends('AccountingSystem.layouts.master')
 
-@section('title','عرض  سند')
-@section('parent_title','إدارة  سندات  القبض  والصرف')
+@section('title','عرض سند')
+@section('parent_title','إدارة سندات القبض والصرف')
 @section('styles')
-
+<style>
+	.form-group label:not(.label-info), .media-body label:not(.label-info) {
+    font-size: 20px;
+}
+	.form-group label:not(.label-info) + span, .media-body label:not(.label-info) + span {
+    padding-right: 10px;
+    font-size: 16px;
+}
+	.row.banks{
+		display: inline-block;
+		width: 100%;
+		padding: 0 15px;
+	}
+	.row.banks img{
+		height: 150px;
+		width: 100%
+	}
+	.print-wrapper{
+		text-align: center;
+		display: inline-block;
+		width: 100%;
+		padding: 15px
+	}
+	@media print {
+		@page {size: portrait}
+    .myDivToPrint {
+        background-color: white !important;
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        margin: 0;
+        padding: 15px;
+        font-size: 14px;
+        line-height: 18px;
+		z-index: 999999 !important;
+		border: 4px dashed #000 !important;
+		padding-top: 20px !important
+    }
+	.print-wrapper{
+		display: none !important
+	}
+		h3 {
+    page-break-after: always;
+  }
+}
+</style>
 @endsection
 
 @section('content')
-    <div class="panel panel-flat">
-        <div class="panel-heading">
-            <h5 class="panel-title"> عرض سند   </h5>
-            <div class="heading-elements">
-                <ul class="icons-list">
-                    <li><a data-action="collapse"></a></li>
-                    <li><a data-action="reload"></a></li>
-                    <li><a data-action="close"></a></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="panel-body">
-
-            <div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left">
-                <label>  السند  ل </label>
-                @if ($clause->concerned=="client")
-                    <span > عميل </span>
-                @elseif($clause->concerned=="supplier")
-                    <span> مورد</span>
-                @else
-                    <span> عام</span>
-                @endif
-            </div>
-            <div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left">
-                <label> رقم السند</label>
-                {{$clause->num}}
-            </div>
-            <div class="clearfix"></div>
-            <div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left">
-                <label> اسم الشركة </label>
-                <span>{{optional($clause->company)->name}}</span>
-            </div>
-            @if ($clause->concerned=="client")
-            <div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left clients">
-                <label>   اسم العميل</label>
-                {{optional($clause->client)->name}}
-            </div>
-            <div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left clients">
-                <label>  رصيد العميل</label>
-                {{optional($clause->client)->amount}}
-            </div>
-
-            @endif
-            @if ($clause->concerned=="suppiler")
-            <div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left suppliers">
-                <label>   اسم المورد </label>
-                {{optional($clause->suppiler)->name}}
-            </div>
-
-            <div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left suppliers">
-                <label>   رصيد المورد </label>
-                {{optional($clause->suppiler)->balance}}
-            </div>
-
-           @endif
-
-            <div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left">
-                <label> نوع السند  </label>
-                @if ($clause->type=="expenses")
-                    <span> صرف </span>
-                @elseif($clause->type=="revenue")
-                    <span> قبض</span>
-
-                @endif
-            </div>
-
-            <div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left benods">
-                <label>   اسم  البند </label>
-                {{optional($clause->benod)->ar_name}}
-            </div>
-            @if ($clause->concerned=="general")
-            <div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left name">
-                <label>المكرم /السيد </label>
-
-                {{$clause->name}}
-            </div>
-                @endif
-            <div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left">
-                <label> التاريخ</label>
-                {{$clause->date}}
-            </div>
-
-            <div class="form-group col-md-9 col-sm-9 col-xs-9  pull-left ">
-                <label>البيان </label>
-                {{$clause->description}}
-            </div>
-            {{--<div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left">--}}
-            {{--<label> العمله الافتراضية  </label>--}}
-            {{--{!! Form::select("currency",currency(),null,['class'=>'form-control','placeholder'=>' العمله الافتراضية'])!!}--}}
-            {{--</div>--}}
-
-            <div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left">
-                <label>المبلغ </label>
-                {{$clause->amount}}
-            </div>
-
-            <div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left">
-                <label>  خزينة الدفع</label>
-                {{optional($clause->safe)->name}}
-
-            </div>
-
-
-
-            <div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left ">
-                <label >طريقه الدفع</label>
-                @if ($clause->payment=="cash")
-                    <span> نقدى </span>
-                @elseif($clause->payment=="network")
-                    <label class="label label-success"> شبكة</label>
-                @elseif($clause->payment=="bank_translation")
-                    <label class="label label-success"> تحويل بنكى </label>
-                @elseif($clause->payment=="check")
-                    <label class="label label-success"> شيك</label>
-
-                @endif
-
-
-
-            </div>
-            <div class="clearfix"></div>
-            @if(isset($clause->bank_id))
-            <div class="banks">
-
-                <div class="form-group col-md-4  pull-left">
-                    <label> اسم البنك </label>
-                    {{optional($clause->bank)->name}}
-                </div>
-
-
-                <div class="form-group col-md-4 pull-left">
-                    <label>رقم  التحويل او الشيك </label>
-                      {{$clause->num_transaction}}
-                </div>
-
-                <div class="form-group col-md-4 pull-left">
-                    <label>صورة التحويل</label>
-                 <img src="{!!getimg($clause->image)!!}" style="width:100px; height:100px">
-
-                </div>
-
-            </div>
-                @endif
-            <div class="form-group col-md-6 col-sm-6 col-xs-12  pull-left">
-                <label> ملاحظات</label>
-                {{$clause->notes}}
-            </div>
-
-
-        </div>
-
-
-    </div>
-
- @endsection
+<div class="panel panel-flat">
+	<div class="panel-heading">
+		<h5 class="panel-title"> عرض سند </h5>
+		<div class="heading-elements">
+			<ul class="icons-list">
+				<li><a data-action="collapse"></a></li>
+				<li><a data-action="reload"></a></li>
+				<li><a data-action="close"></a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="panel-body myDivToPrint">
+		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left">
+			<label> السند ل </label>
+			@if ($clause->concerned=="client")
+			<span> عميل </span>
+			@elseif($clause->concerned=="supplier")
+			<span> مورد</span>
+			@else
+			<span> عام</span>
+			@endif
+		</div>
+		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left">
+			<label> رقم السند</label>
+			<span>{{$clause->num}}</span>
+		</div>
+		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left">
+			<label> اسم الشركة </label>
+			<span>{{optional($clause->company)->name}}</span>
+		</div>
+		@if ($clause->concerned=="client")
+		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left clients">
+			<label> اسم العميل</label>
+			<span>{{optional($clause->client)->name}}</span>
+		</div>
+		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left clients">
+			<label> رصيد العميل</label>
+			<span>{{optional($clause->client)->amount}}</span>
+		</div>
+		@endif
+		@if ($clause->concerned=="suppiler")
+		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left suppliers">
+			<label> اسم المورد </label>
+			<span>{{optional($clause->suppiler)->name}}</span>
+		</div>
+		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left suppliers">
+			<label> رصيد المورد </label>
+			<span>{{optional($clause->suppiler)->balance}}</span>
+		</div>
+		@endif
+		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left">
+			<label> نوع السند </label>
+			@if ($clause->type=="expenses")
+			<span> صرف </span>
+			@elseif($clause->type=="revenue")
+			<span> قبض</span>
+			@endif
+		</div>
+		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left benods">
+			<label> اسم البند </label>
+			<span>{{optional($clause->benod)->ar_name}}</span>
+		</div>
+		@if ($clause->concerned=="general")
+		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left name">
+			<label>المكرم /السيد </label>
+			<span>{{$clause->name}}</span>
+		</div>
+		@endif
+		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left">
+			<label> التاريخ</label>
+			<span>{{$clause->date}}</span>
+		</div>
+		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left ">
+			<label>البيان </label>
+			<span>{{$clause->description}}</span>
+		</div>
+		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left">
+			<label>المبلغ </label>
+			<span>{{$clause->amount}}</span>
+		</div>
+		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left">
+			<label> خزينة الدفع</label>
+			<span>{{optional($clause->safe)->name}}</span>
+		</div>
+		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left ">
+			<label>طريقه الدفع</label>
+			@if ($clause->payment=="cash")
+			<span> نقدى </span>
+			@elseif($clause->payment=="network")
+			<span class="label label-success"> شبكة</span>
+			@elseif($clause->payment=="bank_translation")
+			<span class="label label-info"> تحويل بنكى </span>
+			@elseif($clause->payment=="check")
+			<span class="label label-warning"> شيك</span>
+			@endif
+		</div>
+		<hr />
+		@if(isset($clause->bank_id))
+		<div class="banks row">
+			<div class="form-group col-md-4  pull-left">
+				<label> اسم البنك </label>
+				<span>{{optional($clause->bank)->name}}</span>
+			</div>
+			<div class="form-group col-md-4 pull-left">
+				<label>رقم التحويل او الشيك </label>
+				<span>{{$clause->num_transaction}}</span>
+			</div>
+			<div class="form-group col-md-4 pull-left">
+				<label>صورة التحويل</label>
+				<span><img src="{!!getimg($clause->image)!!}"></span>
+			</div>
+		</div>
+		@endif
+		<div class="form-group col-md-12 col-sm-12 col-xs-12 pull-left" >
+			<label> ملاحظات</label>
+			<span>{{$clause->notes}}</span>
+		</div>
+		<h3></h3>
+	</div>
+	<div class="row print-wrapper">
+		<button class="btn btn-success" onclick="window.print()">طباعة</button>
+	</div>
+</div>
+@endsection
