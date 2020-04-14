@@ -56,9 +56,19 @@ class UserController extends Controller
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'photos');
         }
-        $requests['is_admin']=1;
-        
+//        $requests['is_admin']=1;
+//        dd($requests);
+
+        if ($requests['role']=='is_accountant')
+        {
+            $requests['is_accountant']=1;
+        }elseif($requests['role']=='is_saler'){
+            $requests['is_saler']=1;
+        }elseif($requests['role']=='is_admin'){
+            $requests['is_admin']=1;
+        }
         User::create($requests);
+
         alert()->success('تم اضافة المستخدم بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.users.index');
     }

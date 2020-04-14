@@ -23,8 +23,21 @@
     {!! Form::email("email",null,['class'=>'form-control','placeholder'=>'  إيميل العضو'])!!}
 </div>
 
+<div class="form-group col-md-6 pull-left">
+<label> الصلاحية  </label>
+{!! Form::select("role",['is_admin'=>'ادمن','is_sale'=>'كاشير','is_accountant'=>'محاسب'],Null,['class'=>'form-control','placeholder'=>' اختر الصلاحيه  '])!!}
+</div>
 
 
+<div class="form-group col-md-6 pull-left">
+    <label> صلاحية حذف المنتج </label>
+    {!! Form::select("delete_product",['0'=>'لا','1'=>'نعم'],Null,['class'=>'form-control'])!!}
+</div>
+
+<div class="form-group col-md-6 pull-left">
+<label> اسم المخزن: </label>
+{!! Form::select("accounting_store_id",AllStore(),null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم المخزن '])!!}
+</div>
 <div class="form-group col-md-6 pull-left">
     <label>كلمه المرور</label>
     {!! Form::password('password',['class'=>'form-control  m-input','placeholder'=>'ادخل كلمه المرور'])!!}
