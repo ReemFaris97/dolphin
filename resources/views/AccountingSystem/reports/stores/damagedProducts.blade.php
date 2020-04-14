@@ -38,15 +38,7 @@
                 </div>
             </section>
 
-            <div class="form-group col-md-12 pull-left">
-                {{--<label class="label label-info">  الشركة    : </label>--}}
-                <center>
-                @if(isset($requests['company_id']))
-                    @php($company=\App\Models\AccountingSystem\AccountingCompany::find($requests['company_id']))
-                    <span><img src="{!!getimg($company->image)!!}" style="width:100px; height:100px"> </span>
-                @endif
-                </center>
-            </div>
+            
 <!--
             @if(isset($requests['company_id']))
             <div class="form-group col-md-2 pull-left">
@@ -56,6 +48,7 @@
             </div>
             @endif
 -->
+
 <!--
             @if(isset($requests['branch_id']))
             <div class="form-group col-md-2 pull-left">
@@ -92,7 +85,46 @@
             </div>
 -->
             <table class="table datatable-button-init-basic">
+               
+				
                 <thead>
+                <tr>
+               		@if(isset($requests['company_id']))
+                	<td>
+						@php($company=\App\Models\AccountingSystem\AccountingCompany::find($requests['company_id']))
+						<span><img src="{!!getimg($company->image)!!}" style="width:100px; height:100px"> </span>
+                	</td>
+                	@endif
+                	@if(isset($requests['company_id']))
+						@php($company=\App\Models\AccountingSystem\AccountingCompany::find($requests['company_id']))
+						<td class="footTdLbl">الشركة : <span>{{$company->name}}</span></td>
+					@endif
+                </tr>
+                <tr>
+					@if(isset($requests['branch_id']))
+						@php($branch=\App\Models\AccountingSystem\AccountingBranch::find($requests['branch_id']))
+						<td class="footTdLbl">الفرع : <span>{{$branch->name}}</span></td>
+					@endif
+					
+					@if(isset($requests['store_id']))
+						@php($store=\App\Models\AccountingSystem\AccountingStore::find($requests['store_id']))
+						<td class="footTdLbl">المخزن : <span>{{$store->ar_name}}</span></td>
+					@endif
+					
+					@if(isset($requests['product_id']))
+						@php($product=\App\Models\AccountingSystem\AccountingProduct::find($requests['product_id']))
+						<td class="footTdLbl">الصنف : <span>{{$product->name}}</span></td>
+					@endif
+					
+					@if(isset($requests['from']))
+						<td class="footTdLbl">من<span>{{$requests['from']}}</span></td>
+					@endif
+					
+					@if(isset($requests['to']))
+						<td class="footTdLbl">إلى<span>{{$requests['to']}}</span></td>
+					@endif
+					
+					</tr>
                 <tr>
                     <th>#</th>
                     <th> تاريخ اليوم </th>
@@ -104,6 +136,8 @@
                     <th> وقت العملية </th>
                 </tr>
                 </thead>
+                			
+					
                 <tbody>
                     @isset($damages)
                 @foreach($damages as $row)
@@ -122,44 +156,7 @@
                 @endforeach
                         @endisset
                 </tbody>
-				<tfoot>
-					<tr>
-					@if(isset($requests['company_id']))
-						@php($company=\App\Models\AccountingSystem\AccountingCompany::find($requests['company_id']))
-						<td class="footTdLbl">الشركة</td>
-						<td><span>{{$company->name}}</span></td>
-					@endif
-					
-					@if(isset($requests['branch_id']))
-						@php($branch=\App\Models\AccountingSystem\AccountingBranch::find($requests['branch_id']))
-						<td class="footTdLbl">الفرع</td>
-						<td><span>{{$branch->name}}</span></td>
-					@endif
-					
-					@if(isset($requests['store_id']))
-						@php($store=\App\Models\AccountingSystem\AccountingStore::find($requests['store_id']))
-						<td class="footTdLbl">المخزن</td>
-						<td><span>{{$store->ar_name}}</span></td>
-					@endif
-					
-					@if(isset($requests['product_id']))
-						@php($product=\App\Models\AccountingSystem\AccountingProduct::find($requests['product_id']))
-						<td class="footTdLbl">الصنف</td>
-						<td><span>{{$product->name}}</span></td>
-					@endif
-					
-					@if(isset($requests['from']))
-						<td class="footTdLbl">من</td>
-						<td><span>{{$requests['from']}}</span></td>
-					@endif
-					
-					@if(isset($requests['to']))
-						<td class="footTdLbl">إلى</td>
-						<td><span>{{$requests['to']}}</span></td>
-					@endif
-					
-					</tr>
-				</tfoot>
+	
             </table>
             {{--@if($damages != [])--}}
                 {{--{{ $damages->appends(\Illuminate\Support\Facades\Input::except('page'))->links() }}--}}
