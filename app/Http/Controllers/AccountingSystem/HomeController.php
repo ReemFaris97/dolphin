@@ -14,6 +14,7 @@ use App\Models\AccountingSystem\AccountingBranch as Branch;
 
 use App\Models\AccountingSystem\AccountingBranchShift;
 use App\Models\AccountingSystem\AccountingSession;
+use App\Models\AccountingSystem\AccountingSupplier;
 use App\User;
 
 class HomeController extends Controller
@@ -59,7 +60,8 @@ class HomeController extends Controller
     	$safes = $branch->safes;
         $users = User::select(['id', 'name'])->whereIn('accounting_store_id', $stores)->get();
         $shifts = AccountingBranchShift::where('branch_id', $branch_id)->get();
-    	return response()->json(['users' => $users, 'safes' => $safes, 'shifts' => $shifts]);
+        $suppliers = AccountingSupplier::where('branch_id', $branch_id)->get();
+    	return response()->json(['users' => $users, 'safes' => $safes, 'shifts' => $shifts, 'suppliers' => $suppliers]);
     }
 
     public function getProducts($id)
@@ -72,5 +74,11 @@ class HomeController extends Controller
     {
         $sessions = AccountingSession::where('shift_id', $id)->get();
     	return response()->json($sessions);
+    }
+
+    public function getSuppliers($id)
+    {
+        $suppliers = AccountingSupplier::where('branch_id', $id)->get();
+        return response()->json($suppliers);
     }
 }
