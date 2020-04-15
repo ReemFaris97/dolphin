@@ -22,7 +22,7 @@
     <label> إيميل العضو </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
     {!! Form::email("email",null,['class'=>'form-control','placeholder'=>'  إيميل العضو'])!!}
 </div>
-@if (!$user)
+@if (!isset($user))
     <div class="form-group col-md-6 pull-left">
         <label> الصلاحية  </label>
         {!! Form::select("role",['is_admin'=>'ادمن','is_saler'=>'كاشير','is_accountant'=>'محاسب'],Null,['class'=>'form-control','placeholder'=>' اختر الصلاحيه  '])!!}
