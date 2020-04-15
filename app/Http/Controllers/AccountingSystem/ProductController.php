@@ -156,7 +156,7 @@ class ProductController extends Controller
            AccountingProductStore::create([
                'store_id'=>$inputs['store_id'] ,
                'product_id'=>$product->id,
-               'quantity'=>$unit['5'] ,
+               'quantity'=>$unit['2']*$unit['5'] ,
                'unit_id'=>$uni->id
 
            ]);

@@ -365,14 +365,24 @@ table.mabi3at-bill tfoot tr th#amountBeforeDariba, table.mabi3at-bill tfoot tr t
     background: #2ecc71 !important;
     text-align: center !important;
 }
-table.mabi3at-bill tfoot tr th#amountBeforeDariba span.dynamic-span,
+table.mabi3at-bill tfoot tr th#amountBeforeDariba span.colorfulSpan,
+table.mabi3at-bill tfoot tr th#amountOfDariba span.colorfulSpan ,
+table.mabi3at-bill tfoot tr th#amountAfterDariba span.colorfulSpan{
+	color: #fff !important
+}
+	
+	table.mabi3at-bill tfoot tr th#amountBeforeDariba span.dynamic-span,
 table.mabi3at-bill tfoot tr th#amountOfDariba span.dynamic-span ,
 table.mabi3at-bill tfoot tr th#amountAfterDariba span.dynamic-span{
     font-size: 28px !important;
     padding: 0 5px !important;
     color: #241E32;
     font-weight: 900;
+    position: relative;
+    margin: 0;
+    right: 0;
 }
+
 /******* Responsive ****************/
 @media (max-width: 1199px){
     .count {

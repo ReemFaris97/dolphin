@@ -49,7 +49,7 @@ class StoresController extends Controller
             $stores = AccountingStore::where('model_id',1)->where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->pluck('id');
             $damages_id = AccountingDamage::whereIn('store_id', $stores)->whereBetween('created_at', [$from, $to])->pluck('id');
             $damages = AccountingDamageProduct::whereIn('damage_id', $damages_id)->get();
-            dd( $stores);
+
 
         }
 
@@ -64,9 +64,6 @@ class StoresController extends Controller
         }else{
             $damages=[];
         }
-
-//
-//       dd($damages);
 
 
         return view('AccountingSystem.reports.stores.damagedProducts', compact('damages','requests'));
@@ -291,12 +288,13 @@ class StoresController extends Controller
                 }
             }
 
-//         dd($stagnant_sales);
+//            dd($quantites);
         } //company_and_branch_only
         elseif (\request('company_id') != Null && \request('branch_id') != Null && \request('store_id') == Null && \request('product_id') == Null) {
             $filter['branch']=\request('branch_id');
             $stores = AccountingStore::where('model_id', \request('branch_id'))->where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->pluck('id');
             $product_quantity = AccountingProductStore::whereIn('store_id', $stores)->pluck('quantity', 'product_id');
+//            dd($product_quantity);
             foreach ($product_quantity as $key => $item) {
                 $product = AccountingProduct::find($key);
 
@@ -313,7 +311,7 @@ class StoresController extends Controller
                     }
                 }
             }
-
+//dd($quantites[4]);
         } //company_and_branch_and_store_only
         elseif (\request('company_id') != Null && \request('branch_id') != Null && \request('store_id') != Null ) {
             $store=\request('store_id');
@@ -334,9 +332,8 @@ class StoresController extends Controller
                     }
                 }
             }
-//
-//            dd( $quantites);
-        } //company_and_branch_and_store_and_product
+
+        }
 
 
          else {

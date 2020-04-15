@@ -32,7 +32,8 @@
                     <th>   بداية الجلسة  </th>
                     <th>  نهايةالجلسة  </th>
                     <th>  العهده  </th>
-                    <th>  الحاله  </th>
+
+                    <th>  اغلاق  الجلسه    للكاشير  </th>
                     <th class="text-center">العمليات</th>
                 </tr>
                 </thead>
@@ -50,17 +51,26 @@
                         <td>{!! $row->start_session!!}</td>
                         <td>{!! $row->end_session!!}</td>
                         <td>{!! $row->custody!!}</td>
+                        {{--<td>--}}
+                             {{--@if($row->status=='open')--}}
+                             {{--<label class="lable lable-success">مفتوحة </label>--}}
+                             {{--@elseif($row->status=='closed')--}}
+                             {{--<label class="lable lable-warning">مغلقة </label>--}}
+                                {{--@else--}}
+                                {{--<label class="lable lable-warning">تم  تاكيد الاغلاق </label>--}}
+
+                             {{--@endif--}}
+                            {{--</td>--}}
                         <td>
-                             @if($row->status=='open')
-                             <label class="lable lable-success">مفتوحة </label>
-                             @elseif($row->status=='closed')
-                             <label class="lable lable-warning">مغلقة </label>
-                                @else
-                                <label class="lable lable-warning">تم  تاكيد الاغلاق </label>
+                            @if($row->status=='open')
+                            <a href="{{route('accounting.sessions.close',['id'=>$row->id])}}" data-toggle="tooltip"  class="btn btn-danger" > اغلاق  الجلسه</a>
+                            @elseif($row->status=='closed')
+                                <label class="lable lable-warning">مغلقة </label>
+                            @else
+                                <label class="lable lable-warning">تم  تاكيد الاغلاق  </label>
 
-                             @endif
-                            </td>
-
+                            @endif
+                        </td>
                         <td class="text-center">
                             <a href="{{route('accounting.sessions.show',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>

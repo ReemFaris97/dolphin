@@ -74,13 +74,18 @@ class ClauseController extends Controller
 
         //--------------------------client----------------------------------------
         if ($clause->concerned == 'client') {
-
+            $client = AccountingClient::find($requests['client_id']);
             if ($clause->type == 'revenue') {
                 //من  العميل  للخزينه رصيد الخزينة  بيزيدالايراااد
                 //المبيعات
                 $safe->update([
 
                     'amount' => $safe->amount + $requests['amount']
+
+                ]);
+                $client->update([
+
+                    'balance' => $client->balance -$requests['balance']
 
                 ]);
 
@@ -94,6 +99,9 @@ class ClauseController extends Controller
 
                     ]);
                 }
+                $client->update([
+                    'balance' => $client->balance+$requests['balance']
+                ]);
             }
             //--------------------------supplier------------------------------------
         } elseif ($clause->concerned == 'supplier') {

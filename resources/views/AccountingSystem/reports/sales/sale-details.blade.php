@@ -19,7 +19,7 @@
         </div>
 
         <div class="panel-body">
-           
+
 
             <table class="table datatable-button-init-basic">
                 <thead>
@@ -33,8 +33,8 @@
                     <th> الخصم </th>
                     <th> المدفوع </th>
                     <th> المتبقي </th>
-                    {{--<th> لإجمالي بعد الخصم والضريبة </th>--}}
-                    
+                    <th> لإجمالي بعد الخصم والضريبة </th>
+
                     <th class="text-center">العمليات</th>
                 </tr>
                 </thead>
@@ -51,7 +51,7 @@
                         <td>{!! $row->payed !!}</td>
                         <td>{!! $row->total - $row->payed !!}</td>
 
-                        {{--<td>{!! $row->total !!}</td>--}}
+                        <td>{!! $row->total !!}</td>
 
                         <td class="text-center">
                             <a href="{{route('accounting.sales.show',['id'=>$row->id])}}" target="_blank" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
@@ -65,6 +65,8 @@
 
                 </tbody>
             </table>
+
+
         </div>
 
     </div>

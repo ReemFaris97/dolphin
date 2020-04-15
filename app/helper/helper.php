@@ -148,6 +148,8 @@ function devices()
 
 
 
+
+
 function keepers($store= null)
 {
     if ($store != null) {
@@ -159,6 +161,15 @@ function keepers($store= null)
     }
 
     return $keepers;
+}
+
+function AllStore()
+{
+    $stores =App\Models\AccountingSystem\AccountingStore::all()->mapWithKeys(function ($q) {
+        return [$q['id'] => $q['ar_name']];
+    });
+// dd($devices);
+    return $stores;
 }
 
 function branches($company = null)

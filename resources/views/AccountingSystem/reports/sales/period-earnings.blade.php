@@ -30,7 +30,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <form action="" method="get" accept-charset="utf-8">
-                                
+
                             <div class="form-group col-sm-3">
                                 <label> الشركة </label>
                                 {!! Form::select("company_id",companies(), request('company_id'),['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الشركة','data-live-search'=>'true','id'=>'company_id'])!!}
@@ -47,17 +47,17 @@
                                     @endif
                                 </select>
                             </div>
-                            {{--<div class="form-group col-sm-3">--}}
-                                {{--<label> القائم بالعملية </label>--}}
-                                {{--<select name="user_id" data-live-search="true" class="selectpicker form-control inline-control" id="user_id">--}}
-                                    {{--@if(request()->has('user_id') && request('user_id') != null)--}}
-                                        {{--@php $user = \App\User::find(request('user_id')); @endphp--}}
-                                        {{--<option value="{{ $user->id }}" selected="">{{ $user->name }}</option>--}}
-                                    {{--@else--}}
-                                        {{--<option value="" selected="" disabled="">القائم بالعملية</option>--}}
-                                    {{--@endif--}}
-                                {{--</select>--}}
-                            {{--</div>--}}
+                            <div class="form-group col-sm-3">
+                                <label> الكاشير </label>
+                                <select name="user_id" data-live-search="true" class="selectpicker form-control inline-control" id="user_id">
+                                    @if(request()->has('user_id') && request('user_id') != null)
+                                        @php $user = \App\User::find(request('user_id')); @endphp
+                                        <option value="{{ $user->id }}" selected="">{{ $user->name }}</option>
+                                    @else
+                                        <option value="" selected="" disabled="">القائم بالعملية</option>
+                                    @endif
+                                </select>
+                            </div>
 
 
                                 <div class="form-group col-sm-3">
@@ -75,7 +75,7 @@
 
                                 <div class="form-group col-sm-3">
                                     <label> الجلسة </label>
-                                    <select name="safe_id" data-live-search="true" class="selectpicker form-control inline-control" id="session_id">
+                                    <select name="session_id" data-live-search="true" class="selectpicker form-control inline-control" id="session_id">
                                         @if(request()->has('session_id') && request('session_id') != null)
                                             @php $session = \App\Models\AccountingSystem\AccountingSession::find(request('session_id')); @endphp
                                             <option value="{{ $session->id }}" selected="">{{ $session->code }}</option>
@@ -108,7 +108,7 @@
                                     <label for="from"> الى </label>
                                     {!! Form::date("to",request('date'),['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' الفترة من ',"id"=>'date'])!!}
                                 </div>
-                            
+
                             <div class="form-group col-sm-12">
                                 <button type="submit" class="btn btn-success btn-block">بحث</button>
                             </div>
@@ -118,63 +118,76 @@
                     </div>
                 </div>
             </section>
-        
 
-            <table class="table">
+
+            <table class="table datatable-button-init-basic">
                 <thead>
+
+                <tr class="normal-bgc">
+                    @if(isset($requests['company_id']))
+                        <td class="company-imgg-td" colspan="8">
+                            @php $company=\App\Models\AccountingSystem\AccountingCompany::find($requests['company_id'])@endphp
+                            <span><img src="{!!getimg($company->image)!!}" style="width:100px; height:100px"> </span>
+                            <span>{{$company->name}}</span>
+                        </td>
+                    @endif
+
+                </tr>
+
+                <tr  class="normal-bgc">
+                    @if(isset($requests['branch_id']))
+                        @php$branch=\App\Models\AccountingSystem\AccountingBranch::find($requests['branch_id']) @endphp
+                        <td class="footTdLbl" colspan="2">الفرع : <span>{{$branch->name}}</span></td>
+                    @endif
+
+                    {{--@if(isset($requests['user_id']))--}}
+                        {{--@php $user=\App\User::find($requests['user_id']) @endphp--}}
+                        {{--<td class="footTdLbl" colspan="2">القائم بالعمليه : <span>{{$user->name}}</span></td>--}}
+                    {{--@endif--}}
+
+                    {{--@if(isset($requests['session_id']))--}}
+                        {{--@php $session=\App\Models\AccountingSystem\AccountingSession::find($requests['session_id']) @endphp--}}
+                        {{--<td class="footTdLbl" colspan="2">كود الجلسه : <span>{{$session->code}}</span></td>--}}
+                    {{--@endif--}}
+
+                    @if(isset($requests['product_id']))
+                        @php$product=\App\Models\AccountingSystem\AccountingProduct::find($requests['product_id']) @endphp
+                        <td class="footTdLbl" colspan="2">الصنف : <span>{{$product->name}}</span></td>
+                    @endif
+
+                    @if(isset($requests['date']))
+                        <td class="footTdLbl" colspan="2"> يوم:<span>{{$requests['date']}}</span></td>
+                    @endif
+
+                </tr>
                 <tr>
                     <th> التاريخ </th>
                     <th> إجمالي تكلفة المنتجات المباعة كمشتريات </th>
                     <th> إجمالي المببيعات </th>
                     <th> إجمالي الخصومات </th>
                     <th> إجمالي  الربح</th>
+                    <th> عرض</th>
                 </tr>
                 </thead>
                 <tbody>
                         @foreach($sales as  $sale)
                     <tr>
                         <td>{!!$sale['date']!!}</td>
-                        <td>{!!$purchase_cost!!}</td>
+                        <td>{!!$sale['productPrice']!!}</td>
                         <td>{!!$sale['all_amounts']!!}</td>
                         <td>{!!$sale['discounts']!!}</td>
-                        <td>{!!$sale['all_amounts']-$sale['discounts']-$purchase_cost!!}</td>
+                        <td>{!!$sale['all_amounts']-$sale['discounts'] - $sale['productPrice'] !!}</td>
+                        <td class="text-center">
+                            <a href="{{route('accounting.reports.sale_details')}}?date={{ $sale->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
+
+                        </td>
                     </tr>
                         @endforeach
 
                 </tbody>
             </table>
 
-            <div class="clearfix"></div>
-            {{--(رقم وكود الفاتورة- العميل- اسم الكاشير – الإجمالي – إجمالي سعر الشراء – إجمالي سعر البيع – الخصم - الضريبة - الربح).--}}
 
-            <table class="table datatable-button-init-basic">
-                <thead>
-                <tr>
-                    <th> كود الفاتورة </th>
-                    <th>  العميل </th>
-                    <th> اسم الكاشير </th>
-                    <th> الاجمالى </th>
-                    <th> إجمالي  سعر الشراء</th>
-                    <th> إجمالي الخصم </th>
-                    <th> إجمالي  الضريبه </th>
-                    <th> إجمالي  الربح </th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($sales_bills as  $sale)
-                    <tr>
-                        <td><a href="{{route('accounting.sales.show',['id'=>$sale->id])}}">{!! $sale ->id!!} </a></td>
-                        <td>{!!$sale ->client->name!!}</td>
-                        <td>{!!$sale ->user->name!!}</td>
-                        <td>{!!$sale->item_cost!!}</td>
-                        <td>{!!$sale ->amount !!}</td>
-                        <td>{!!$sale ->discount !!}</td>
-                        <td>{!!$sale ->totalTaxs !!}</td>
-                        <td>{!!$sale ->total -$sale->item_cost  !!}</td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
         </div>
 
     </div>
@@ -184,86 +197,87 @@
 
 @section('scripts')
 
-    <script>
-        $(function() {
-            $(document).on('change', '#company_id', function () {
-                let branchSelect = $('#branch_id');
-                $.ajax({
-                    url: `{{ url('accounting/ajax/branches') }}/${$(this).val()}`,
-                    type: "get",
-                    success (data) {
-                        //console.log(data)
-                        branchSelect.empty();
-                        branchSelect.append('<option value="">اختر الفرع</option>');
-                        data.forEach( branch => {
-                            branchSelect.append(`
-                                <option value="${branch.id}">${branch.name}</option>
-                            `);
-                        });
-                        branchSelect.selectpicker('refresh');
-                    },
-                    error (error) {
-                        console.log(error)
-                    }
-                })
-            })
+{{--    <script>--}}
+{{--        $(function() {--}}
+{{--            $(document).on('change', '#company_id', function () {--}}
+{{--                let branchSelect = $('#branch_id');--}}
+{{--                $.ajax({--}}
+{{--                    url: `{{ url('accounting/ajax/branches') }}/${$(this).val()}`,--}}
+{{--                    type: "get",--}}
+{{--                    success (data) {--}}
+{{--                        //console.log(data)--}}
+{{--                        branchSelect.empty();--}}
+{{--                        branchSelect.append('<option value="">اختر الفرع</option>');--}}
+{{--                        data.forEach( branch => {--}}
+{{--                            branchSelect.append(`--}}
+{{--                                <option value="${branch.id}">${branch.name}</option>--}}
+{{--                            `);--}}
+{{--                        });--}}
+{{--                        branchSelect.selectpicker('refresh');--}}
+{{--                    },--}}
+{{--                    error (error) {--}}
+{{--                        console.log(error)--}}
+{{--                    }--}}
+{{--                })--}}
+{{--            })--}}
 
-            $(document).on('change', '#branch_id', function () {
-                let userSelect = $('#user_id');
-                let cases = $('#safe_id');
-                $.ajax({
-                    url: `{{ url('accounting/ajax/users-by-branches') }}/${$(this).val()}`,
-                    type: "get",
-                    success (data) {
-                        // console.log(data)
-                        userSelect.empty();
-                        cases.empty();
-                        userSelect.append('<option value="">القائم بالعملية</option>');
-                        cases.append('<option value="">الخزينة</option>');
-                        data.users.forEach( user => {
-                            userSelect.append(`
-                                <option value="${user.id}">${user.name}</option>
-                            `);
-                        });
-                        data.safes.forEach( safe => {
-                            cases.append(`
-                                <option value="${safe.id}">${safe.name}</option>
-                            `);
-                        });
-                        userSelect.selectpicker('refresh');
-                        cases.selectpicker('refresh');
-                    },
-                    error (error) {
-                        console.log(error)
-                    }
-                })
-            })
+{{--            $(document).on('change', '#branch_id', function () {--}}
+{{--                let userSelect = $('#user_id');--}}
+{{--                let cases = $('#safe_id');--}}
+{{--                $.ajax({--}}
+{{--                    url: `{{ url('accounting/ajax/users-by-branches') }}/${$(this).val()}`,--}}
+{{--                    type: "get",--}}
+{{--                    success (data) {--}}
+{{--                        // console.log(data)--}}
+{{--                        userSelect.empty();--}}
+{{--                        cases.empty();--}}
+{{--                        userSelect.append('<option value="">القائم بالعملية</option>');--}}
+{{--                        cases.append('<option value="">الخزينة</option>');--}}
+{{--                        data.users.forEach( user => {--}}
+{{--                            userSelect.append(`--}}
+{{--                                <option value="${user.id}">${user.name}</option>--}}
+{{--                            `);--}}
+{{--                        });--}}
+{{--                        data.safes.forEach( safe => {--}}
+{{--                            cases.append(`--}}
+{{--                                <option value="${safe.id}">${safe.name}</option>--}}
+{{--                            `);--}}
+{{--                        });--}}
+{{--                        userSelect.selectpicker('refresh');--}}
+{{--                        cases.selectpicker('refresh');--}}
+{{--                    },--}}
+{{--                    error (error) {--}}
+{{--                        console.log(error)--}}
+{{--                    }--}}
+{{--                })--}}
+{{--            })--}}
 
-            $(document).on('change', '#category_id', function () {
-                let productSelect = $('#product_id');
-                $.ajax({
-                    url: `{{ url('accounting/ajax/products') }}/${$(this).val()}`,
-                    type: "get",
-                    success (data) {
-                        //console.log(data)
-                        productSelect.empty();
-                        productSelect.append('<option value="">الصنف</option>');
-                        data.forEach( product => {
-                            productSelect.append(`
-                                <option value="${product.id}">${product.name}</option>
-                            `);
-                        });
-                        productSelect.selectpicker('refresh');
-                    },
-                    error (error) {
-                        console.log(error)
-                    }
-                })
-            })
+{{--            $(document).on('change', '#category_id', function () {--}}
+{{--                let productSelect = $('#product_id');--}}
+{{--                $.ajax({--}}
+{{--                    url: `{{ url('accounting/ajax/products') }}/${$(this).val()}`,--}}
+{{--                    type: "get",--}}
+{{--                    success (data) {--}}
+{{--                        //console.log(data)--}}
+{{--                        productSelect.empty();--}}
+{{--                        productSelect.append('<option value="">الصنف</option>');--}}
+{{--                        data.forEach( product => {--}}
+{{--                            productSelect.append(`--}}
+{{--                                <option value="${product.id}">${product.name}</option>--}}
+{{--                            `);--}}
+{{--                        });--}}
+{{--                        productSelect.selectpicker('refresh');--}}
+{{--                    },--}}
+{{--                    error (error) {--}}
+{{--                        console.log(error)--}}
+{{--                    }--}}
+{{--                })--}}
+{{--            })--}}
 
 
-        })
-    </script>
+{{--        })--}}
+{{--    </script>--}}
+
     @include('AccountingSystem.reports.sales.script')
 
 @stop

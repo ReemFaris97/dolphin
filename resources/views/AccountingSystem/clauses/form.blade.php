@@ -263,6 +263,8 @@
         $(".clients").show();
         $(".suppliers").hide();
         $('.name').hide();
+
+        $('.benods').hide();
     }
     function myFunction2() {
         $(".clients").hide();
