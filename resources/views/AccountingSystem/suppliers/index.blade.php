@@ -51,7 +51,7 @@
 
                         <td>
                             <a href="{{route('accounting.suppliers.show',['id'=>$row->id])}}" data-toggle="tooltip"
-                               data-original-title="كشف سداد  ">كشف سداد  </a>
+                               data-original-title="كشف سداد  ">كشف حساب  </a>
 
                             <a href="{{route('accounting.suppliers.edit',['id'=>$row->id])}}" data-toggle="tooltip"
                                data-original-title="تعديل">تعديل </a>
