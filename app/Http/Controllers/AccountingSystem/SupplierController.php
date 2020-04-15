@@ -13,6 +13,7 @@ use App\Models\AccountingSystem\AccountingDelegateProduct;
 use App\Models\AccountingSystem\AccountingMoneyClause;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
+use App\Models\AccountingSystem\AccountingPurchase;
 use App\Models\AccountingSystem\AccountingSafe;
 use App\Models\AccountingSystem\AccountingSupplier;
 use App\Models\AccountingSystem\AccountingSupplierCompany;
@@ -103,8 +104,12 @@ class SupplierController extends Controller
     public function show($id)
     {
         $supplier =AccountingSupplier::findOrFail($id);
-        $clauses = AccountingMoneyClause::where('concerned','supplier')->where('supplier_id',$id)->get()->reverse();
-        return view('AccountingSystem.suppliers.show',compact('clauses','supplier'));
+        $clauses = AccountingMoneyClause::where('concerned','supplier')->where('supplier_id',$id)->where('type','revenue')->get()->reverse();
+        $clauses_sum = AccountingMoneyClause::where('concerned','supplier')->where('supplier_id',$id)->where('type','revenue')->sum('amount');
+
+        $purchases=AccountingPurchase::where('supplier_id',$id)->get();
+        $purchases_sum=AccountingPurchase::where('supplier_id',$id)->sum('total');
+        return view('AccountingSystem.suppliers.show',compact('clauses','supplier','purchases','clauses_sum','purchases_sum'));
     }
 
     /**

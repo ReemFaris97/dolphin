@@ -67,7 +67,7 @@ class UserController extends Controller
         }elseif($requests['role']=='is_admin'){
             $requests['is_admin']=1;
         }
-        User::create($requests);
+        $user=User::create($requests);
 
         alert()->success('تم اضافة المستخدم بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.users.index');
