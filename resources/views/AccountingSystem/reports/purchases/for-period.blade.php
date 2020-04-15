@@ -129,12 +129,12 @@
                     @endif
 
                     @if(isset($requests['store_id']))
-                        @php$store=\App\Models\AccountingSystem\AccountingStore::find($requests['store_id'])@endphp
+                        @php  $store=\App\Models\AccountingSystem\AccountingStore::find($requests['store_id'])@endphp
                         <td class="footTdLbl" colspan="2">المخزن : <span>{{$store->ar_name}}</span></td>
                     @endif
 
                     @if(isset($requests['product_id']))
-                        @php$product=\App\Models\AccountingSystem\AccountingProduct::find($requests['product_id'])@endphp
+                        @php   $product=\App\Models\AccountingSystem\AccountingProduct::find($requests['product_id'])@endphp
                         <td class="footTdLbl" colspan="2">الصنف : <span>{{$product->name}}</span></td>
                     @endif
 
