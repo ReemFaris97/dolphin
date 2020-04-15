@@ -439,7 +439,7 @@ class SaleController extends Controller
     {
 
 
-        $saler = User::where('email', $request['email'])->first();
+        $saler = User::where('email', $request['email'])->where('delete_product',1)->first();
         if ($saler) {
             if ($saler->is_saler == 1) {
                 if (Hash::check($request['password'], $saler->password)) {
