@@ -26,8 +26,9 @@
         <div class="panel-body">
             <ul class="nav nav-tabs">
 
-                <li class="active"><a data-toggle="tab" role="tab" aria-controls="menu1"  href="#menu1"> كشف سداد سندات المورد</a></li>
-                <li><a data-toggle="tab" role="tab" aria-controls="menu2" href="#menu2"> عمليات الشراء </a></li>
+                <li class="active"><a data-toggle="tab" role="tab" aria-controls="menu1"  href="#menu1">  سندات القبض</a></li>
+                <li><a data-toggle="tab" role="tab" aria-controls="menu2" href="#menu2"> سندات الصرف </a></li>
+                <li><a data-toggle="tab" role="tab" aria-controls="menu3" href="#menu3"> عمليات الشراء </a></li>
 
             </ul>
             <br>
@@ -36,8 +37,8 @@
             <div class="tab-content">
                 <div role="tabpanel" id="menu1" class="tab-pane active ">
                     <div class="form-group  pull-left">
-                        <label>اجمالى المبالغ المسددة  </label>
-                        <span>{{$clauses_sum}}</span>
+                        <label>اجمالى    </label>
+                        <span>{{$clauses_revenue_sum}}</span>
                     </div>
             <table class="table datatable-button-init-basic">
                 <thead>
@@ -54,7 +55,7 @@
                 </thead>
                 <tbody>
 
-                @foreach($clauses as $row)
+                @foreach($clauses_revenue as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->created_at!!}</td>
@@ -76,7 +77,50 @@
                 </tbody>
             </table>
                 </div>
-                <div role="tabpanel" id="menu2" class="tab-pane">
+                <div role="tabpanel" id="menu2" class="tab-pane ">
+                    <div class="form-group  pull-left">
+                        <label>اجمالى    </label>
+                        <span>{{$clauses_expenses_sum}}</span>
+                    </div>
+                    <table class="table datatable-button-init-basic">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>  تاريخ  السداد </th>
+                            <th> رقم  السند  </th>
+                            <th> المبلغ المدفوع </th>
+
+                            <th> الشركة  </th>
+
+                            <th class="text-center">عرض</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        @foreach($clauses_expenses as $row)
+                            <tr>
+                                <td>{!!$loop->iteration!!}</td>
+                                <td>{!! $row->created_at!!}</td>
+                                <td>{!! $row->num!!}</td>
+                                <td>{!! $row->amount!!}</td>
+                                <td>{!!optional($row->company)->name!!}</td>
+
+
+                                <td class="text-center">
+                                    <a href="{{route('accounting.clauses.show',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>
+
+                                </td>
+                            </tr>
+
+                        @endforeach
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div role="tabpanel" id="menu3" class="tab-pane">
                     <div class="form-group  pull-left">
                         <label>اجمالى مبالغ فواتير الشراء  </label>
                         <span>{{$purchases_sum}}</span>

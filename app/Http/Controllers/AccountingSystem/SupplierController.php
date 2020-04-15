@@ -104,12 +104,15 @@ class SupplierController extends Controller
     public function show($id)
     {
         $supplier =AccountingSupplier::findOrFail($id);
-        $clauses = AccountingMoneyClause::where('concerned','supplier')->where('supplier_id',$id)->where('type','revenue')->get()->reverse();
-        $clauses_sum = AccountingMoneyClause::where('concerned','supplier')->where('supplier_id',$id)->where('type','revenue')->sum('amount');
+        $clauses_revenue= AccountingMoneyClause::where('concerned','supplier')->where('supplier_id',$id)->where('type','revenue')->get()->reverse();
+        $clauses_revenue_sum = AccountingMoneyClause::where('concerned','supplier')->where('supplier_id',$id)->where('type','revenue')->sum('amount');
+
+        $clauses_expenses = AccountingMoneyClause::where('concerned','supplier')->where('supplier_id',$id)->where('type','expenses')->get()->reverse();
+        $clauses_expenses_sum = AccountingMoneyClause::where('concerned','supplier')->where('supplier_id',$id)->where('type','expenses')->sum('amount');
 
         $purchases=AccountingPurchase::where('supplier_id',$id)->get();
         $purchases_sum=AccountingPurchase::where('supplier_id',$id)->sum('total');
-        return view('AccountingSystem.suppliers.show',compact('clauses','supplier','purchases','clauses_sum','purchases_sum'));
+        return view('AccountingSystem.suppliers.show',compact('clauses_revenue','supplier','purchases','clauses_revenue_sum','clauses_expenses','clauses_expenses_sum','purchases_sum'));
     }
 
     /**
