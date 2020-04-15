@@ -20,7 +20,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::where('is_admin',1)->get()->reverse();
+        $users = User::all()->reverse();
         return $this->toIndex(compact('users'));
     }
 
@@ -119,15 +119,23 @@ class UserController extends Controller
         ];
         $this->validate($request,$rules);
         $requests = $request->except('image','password');
+//        dd($requests);
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'photos');
         }
-        $requests['is_admin']=1;
+
         if($request->password != null) {$user->update(['password'=>bcrypt($request->password),]);}
 
+
+        if ($requests['role']=='is_accountant')
+        {
+            $requests['is_accountant']=1;
+        }elseif($requests['role']=='is_saler'){
+            $requests['is_saler']=1;
+        }elseif($requests['role']=='is_admin'){
+            $requests['is_admin']=1;
+        }
         $user->update(array_except($requests,['password']));
-
-
         alert()->success('تم تعديل  العضو بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.users.index');
 

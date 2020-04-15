@@ -105,8 +105,7 @@
 								</th>
 								<th id="amountOfDariba" class="rel-cols" colspan="3">
 									<span class="colorfulSpan"> قيمة الضريبة</span>
-									<input type="hidden" class="dynamic-input">
-									<span class="dynamic-span">0</span>
+									<input type="hidden" class="dynamic-input" name="totalTaxs" id="amountOfDariba2">									<span class="dynamic-span">0</span>
 									<span class="rs"> ر.س </span>
 								</th>
 								<th id="amountAfterDariba" class="rel-cols" colspan="3">
@@ -158,7 +157,7 @@
 									</div>
 								</th>
 							</tr>
-							<input type="hidden" name="totalTaxs">
+							{{--<input type="hidden" name="totalTaxs">--}}
 							<tr>
 								<th colspan="9">
 									<button type="submit">حفظ</button>

@@ -71,11 +71,11 @@
 					@endif
 					
 					@if(isset($requests['from']))
-						<td class="footTdLbl" colspan="2">من<span>{{$requests['from']}}</span></td>
+						<td class="footTdLbl" colspan="2"> من:<span>{{$requests['from']}}</span></td>
 					@endif
 					
 					@if(isset($requests['to']))
-						<td class="footTdLbl" colspan="2">إلى<span>{{$requests['to']}}</span></td>
+						<td class="footTdLbl" colspan="2">إلى :<span>{{$requests['to']}}</span></td>
 					@endif
 					
 					</tr>

@@ -22,11 +22,26 @@
     <label> إيميل العضو </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
     {!! Form::email("email",null,['class'=>'form-control','placeholder'=>'  إيميل العضو'])!!}
 </div>
+@if (!$user)
+    <div class="form-group col-md-6 pull-left">
+        <label> الصلاحية  </label>
+        {!! Form::select("role",['is_admin'=>'ادمن','is_saler'=>'كاشير','is_accountant'=>'محاسب'],Null,['class'=>'form-control','placeholder'=>' اختر الصلاحيه  '])!!}
+    </div>
+    @else
 
-<div class="form-group col-md-6 pull-left">
-<label> الصلاحية  </label>
-{!! Form::select("role",['is_admin'=>'ادمن','is_sale'=>'كاشير','is_accountant'=>'محاسب'],Null,['class'=>'form-control','placeholder'=>' اختر الصلاحيه  '])!!}
-</div>
+    <div class="form-group col-md-6 pull-left">
+        <select class="form-control js-example-basic-single pull-right" name="role">
+                   <option> اختر الصلاحية</option>
+                    <option value="is_admin"   {{($user->is_admin==1 ? 'selected' : '')}} > ادمن</option>
+                     <option value="is_saler"  {{($user->is_saler==1 ? 'selected' : '')}}>كاشير</option>
+                       <option value="is_accountant"  {{($user->is_accountant==1 ? 'selected' : '')}}>محاسب</option>
+
+
+        </select>
+           </div>
+
+@endif
+
 
 
 <div class="form-group col-md-6 pull-left">

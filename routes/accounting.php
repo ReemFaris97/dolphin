@@ -230,7 +230,7 @@ Route::middleware('admin')->group(function () {
             Route::get('/', ['as' => 'purchases', 'uses' => 'PurchasesController@index']);
             Route::get('details', ['as' => 'purchase_details', 'uses' => 'PurchasesController@details']);
             Route::get('days', ['as' => 'purchases_day', 'uses' => 'PurchasesController@byDay']);
-            Route::get('returns', ['as' => 'purchases_returns', 'uses' => 'PurchasesController@index']);
+            Route::get('returns', ['as' => 'purchases_returns', 'uses' => 'PurchasesController@returnsPeriod']);
             Route::get('returns-details', ['as' => 'purchase_returns_details', 'uses' => 'PurchasesController@returnDetails']);
             Route::get('returns-days', ['as' => 'purchases_returns_day', 'uses' => 'PurchasesController@returnsDay']);
         });

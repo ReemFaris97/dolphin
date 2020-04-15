@@ -87,6 +87,7 @@ class PurchaseController extends Controller
             'user_id'=>auth()->user()->id,
             'store_id'=>$user->accounting_store_id,
             'total'=>$requests['total'],
+            'totalTaxs'=>$requests['totalTaxs'],
         ]);
 
         $products = collect($requests['product_id']);
