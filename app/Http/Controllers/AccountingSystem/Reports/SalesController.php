@@ -77,12 +77,13 @@ class SalesController extends Controller
          if ($request->has('date') && $request->date != null) {
             $sales = $sales->whereDate('created_at', Carbon::parse($request->date));
          }
-
+//          dd($sales);
          $sales = $sales->groupBy('date')->get();
 
       } else {
          $sales = collect();
       }
+
       return view('AccountingSystem.reports.sales.day', compact('sales','requests'));
 
    }
@@ -100,11 +101,9 @@ class SalesController extends Controller
             $sales = $sales->where('branch_id', $request->branch_id);
          }
 
-
-
-         if ($request->has('user_id') && $request->user_id != null ) {
-            $sales = $sales->where('user_id', $request->user_id);
-         }
+//         if ($request->has('user_id') && $request->user_id != null ) {
+//            $sales = $sales->where('user_id', $request->user_id);
+//         }
 
          if ($request->has('product_id') && $request->product_id != null ) {
             $sales = $sales->whereHas('items', function ($item) use ($request) {
@@ -117,10 +116,11 @@ class SalesController extends Controller
          }
 
          $sales = $sales->groupBy('date')->get();
-         // dd($sales);
+
       } else {
          $sales = collect();
       }
+//      dd($sales);
       return view('AccountingSystem.reports.sales.returns-period', compact('sales','requests'));
    }
 
@@ -168,41 +168,54 @@ class SalesController extends Controller
 
    public  function daily_earnings(Request $request)
    {
+       $requests=request()->all();
        if ($request->has('company_id')) {
            $sales = AccountingSale::join('accounting_sales_items', 'accounting_sales.id','accounting_sales_items.sale_id')
-               ->select('accounting_sales.id',\DB::raw('DATE(accounting_sales.created_at) as date'), \DB::raw('count(*) as num'), \DB::raw('sum(accounting_sales.total) as all_total'), \DB::raw('sum(accounting_sales.amount) as all_amounts'), \DB::raw('sum(accounting_sales.totalTaxs) as total_tax'), \DB::raw('sum(accounting_sales.discount) as discounts'),\DB::raw('sum(accounting_sales_items.price) as productPrice'),'accounting_sales.created_at');
+               ->select('accounting_sales.id',\DB::raw('DATE(accounting_sales.created_at) as date'),
+                   \DB::raw('count(*) as num'),
+                   \DB::raw('sum(accounting_sales.total) as all_total'),
+                   \DB::raw('sum(accounting_sales.amount) as all_amounts'),
+                   \DB::raw('sum(accounting_sales.totalTaxs) as total_tax'),
+                   \DB::raw('sum(accounting_sales.discount) as discounts'),
+                   \DB::raw('sum(accounting_sales_items.price) as productPrice'),'accounting_sales.created_at');
            if ($request->has('branch_id') && $request->branch_id != null) {
                $sales = $sales->where('branch_id', $request->branch_id);
+
            }
+
            if ($request->has('session_id') && $request->session_id != null ) {
                $sales = $sales->where('session_id', $request->session_id);
            }
+
            if ($request->has('user_id') && $request->user_id != null ) {
                $sales = $sales->where('user_id', $request->user_id);
            }
+
            if ($request->has('product_id') && $request->product_id != null ) {
-            ;
+
                $sales = $sales->whereHas('items', function ($item) use ($request) {
                    $item->where('product_id', $request->product_id);
 
                });
 
            }
+
            if ($request->has('date') && $request->date != null) {
 
                $sales=$sales->whereDate('accounting_sales.created_at',Carbon::parse($request->date));
-//               $sales_bills = $sales_bills->whereDate('created_at',Carbon::parse($request->date));
            }
+//           dd($sales->get());
            $sales = $sales->groupBy('date')->get();
 
        } else {
            $sales = collect();
 
        }
-       return view('AccountingSystem.reports.sales.daily-earnings', compact('sales'));
+       return view('AccountingSystem.reports.sales.daily-earnings', compact('sales','requests'));
    }
     public  function period_earnings(Request $request)
     {
+        $requests=request()->all();
         if ($request->has('company_id')) {
             $sales = AccountingSale::join('accounting_sales_items', 'accounting_sales.id','accounting_sales_items.sale_id')
                 ->select('accounting_sales.id',\DB::raw('DATE(accounting_sales.created_at) as date'), \DB::raw('count(*) as num'), \DB::raw('sum(accounting_sales.total) as all_total'), \DB::raw('sum(accounting_sales.amount) as all_amounts'), \DB::raw('sum(accounting_sales.totalTaxs) as total_tax'), \DB::raw('sum(accounting_sales.discount) as discounts'),\DB::raw('sum(accounting_sales_items.price) as productPrice'),'accounting_sales.created_at');
@@ -234,7 +247,7 @@ class SalesController extends Controller
 
         }
 
-        return view('AccountingSystem.reports.sales.period-earnings', compact('sales'));
+        return view('AccountingSystem.reports.sales.period-earnings', compact('sales','requests'));
 
     }
 }

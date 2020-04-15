@@ -238,7 +238,7 @@ Route::middleware('admin')->group(function () {
             Route::get('period', ['as' => 'sales_period', 'uses' => 'SalesController@index']);
             Route::get('details', ['as' => 'sale_details', 'uses' => 'SalesController@details']);
             Route::get('days', ['as' => 'sales_day', 'uses' => 'SalesController@byDay']);
-            Route::get('returns', ['as' => 'sales_returns', 'uses' => 'SalesController@returnsPeriodgetBalance']);
+            Route::get('returns', ['as' => 'sales_returns', 'uses' => 'SalesController@returnsPeriod']);
             Route::get('returns-details', ['as' => 'sales_returns_details', 'uses' => 'SalesController@returnDetails']);
             Route::get('returns-days', ['as' => 'sales_returns_day', 'uses' => 'SalesController@returnsDay']);
 

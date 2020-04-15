@@ -33,7 +33,7 @@
                     <th> الخصم </th>
                     <th> المدفوع </th>
                     <th> المتبقي </th>
-                    {{--<th> لإجمالي بعد الخصم والضريبة </th>--}}
+                    <th> لإجمالي بعد الخصم والضريبة </th>
 
                     <th class="text-center">العمليات</th>
                 </tr>
@@ -51,7 +51,7 @@
                         <td>{!! $row->payed !!}</td>
                         <td>{!! $row->total - $row->payed !!}</td>
 
-                        {{--<td>{!! $row->total !!}</td>--}}
+                        <td>{!! $row->total !!}</td>
 
                         <td class="text-center">
                             <a href="{{route('accounting.sales.show',['id'=>$row->id])}}" target="_blank" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
@@ -66,36 +66,6 @@
                 </tbody>
             </table>
 
-            <div class="clearfix"></div>
-            {{--(رقم وكود الفاتورة- العميل- اسم الكاشير – الإجمالي – إجمالي سعر الشراء – إجمالي سعر البيع – الخصم - الضريبة - الربح).--}}
-
-            <table class="table datatable-button-init-basic">
-            <thead>
-            <tr>
-                <th> رقم وكود الفاتورة </th>
-                <th> العميل </th>
-                <th> اسم القائم بالعملية </th>
-                {{-- <th> الإجمالي </th> --}}
-                <th> إجمالي سعر البيع </th>
-                <th> الخصم </th>
-                <th> المدفوع </th>
-                <th> المتبقي </th>
-            </tr>
-            </thead>
-            <tbody>
-
-            <tr>
-                <td>#</td>
-                <td>--</td>
-                <td>--</td>
-                <td>{!! $sales->sum('amount') !!}</td>
-                <td>{!! $sales->sum('discount') !!}</td>
-                <td>{!! $sales->sum('payed') !!}</td>
-                <td>{!! $sales->sum('total') - $sales->sum('payed') !!}</td>
-            </tr>
-
-            </tbody>
-            </table>
 
         </div>
 
