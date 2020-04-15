@@ -131,7 +131,7 @@
 
                 <tr  class="normal-bgc">
                     @if(isset($requests['branch_id']))
-                        @php$branch=\App\Models\AccountingSystem\AccountingBranch::find($requests['branch_id']) @endphp
+                        @php $branch=\App\Models\AccountingSystem\AccountingBranch::find($requests['branch_id']) @endphp
                         <td class="footTdLbl" colspan="2">الفرع : <span>{{$branch->name}}</span></td>
                     @endif
 
@@ -146,7 +146,7 @@
                         @endif
 
                         @if(isset($requests['product_id']))
-                            @php$product=\App\Models\AccountingSystem\AccountingProduct::find($requests['product_id']) @endphp
+                            @php $product=\App\Models\AccountingSystem\AccountingProduct::find($requests['product_id']) @endphp
                             <td class="footTdLbl" colspan="2">الصنف : <span>{{$product->name}}</span></td>
                         @endif
 
