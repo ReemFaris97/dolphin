@@ -220,7 +220,11 @@ Route::middleware('admin')->group(function () {
 
         Route::group(['prefix' => 'suppliers', 'as' => 'suppliers.'], function () {
             Route::get('purchases', ['as' => 'purchases', 'uses' => 'SuppliersController@purchases']);
+            Route::get('purchases-all', ['as' => 'purchases-all', 'uses' => 'SuppliersController@purchasesAll']);
+
             Route::get('purchases-returns', ['as' => 'purchases-returns', 'uses' => 'SuppliersController@purchasesReturns']);
+            Route::get('purchases-returns-all', ['as' => 'purchases-returns-all', 'uses' => 'SuppliersController@purchasesReturnsAll']);
+
             Route::get('account-statement', ['as' => 'account-statement', 'uses' => 'SuppliersController@accountStatement']);
 
 

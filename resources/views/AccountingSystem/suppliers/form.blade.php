@@ -31,6 +31,11 @@
     <label>كلمه المرور</label>
     {!! Form::password('password',['class'=>'form-control  m-input','placeholder'=>'ادخل كلمه المرور'])!!}
 </div>
+<div class="form-group col-md-4 pull-left">
+    <label>  اختراسم الفرع التابع له </label>
+    {!! Form::select("branch_id",$branches,null,['class'=>'form-control  ', 'placeholder'=>' اختراسم الفرع التابع له  '])!!}
+</div>
+
 
 @if( isset($supplier))
 

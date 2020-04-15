@@ -1,5 +1,5 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تقرير مشتريات مورد خلال فترة')
+@section('title','تقرير مشتريات كل الموردين خلال فترة')
 @section('parent_title','التقارير ')
 {{-- @section('action', URL::route('accounting.purchases.index')) --}}
 
@@ -16,7 +16,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">تقرير مشتريات مورد خلال فترة زمنية</h5>
+            <h5 class="panel-title">تقرير مشتريات كل الموردين خلال فترة زمنية</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -49,17 +49,17 @@
                                     @endif
                                 </select>
                             </div>
-                            <div class="form-group col-sm-3">
-                                <label> المورد </label>
-                                <select name="supplier_id" data-live-search="true" class="selectpicker form-control inline-control" id="supplier_id">
-                                    @if(request()->has('supplier_id') && request('supplier_id') != null)
-                                        @php $supplier = \App\Models\AccountingSystem\AccountingSupplier::find(request('supplier_id')); @endphp
-                                        <option value="{{ $supplier->id }}" selected="">{{ $supplier->name }}</option>
-                                    @else
-                                        <option value="" selected="" disabled=""> المورد </option>
-                                    @endif
-                                </select>
-                            </div>
+                            {{--<div class="form-group col-sm-3">--}}
+                                {{--<label> المورد </label>--}}
+                                {{--<select name="supplier_id" data-live-search="true" class="selectpicker form-control inline-control" id="supplier_id">--}}
+                                    {{--@if(request()->has('supplier_id') && request('supplier_id') != null)--}}
+                                        {{--@php $supplier = \App\Models\AccountingSystem\AccountingSupplier::find(request('supplier_id')); @endphp--}}
+                                        {{--<option value="{{ $supplier->id }}" selected="">{{ $supplier->name }}</option>--}}
+                                    {{--@else--}}
+                                        {{--<option value="" selected="" disabled=""> المورد </option>--}}
+                                    {{--@endif--}}
+                                {{--</select>--}}
+                            {{--</div>--}}
                                 <div class="form-group col-sm-3">
                                 <label> القائم بالعملية </label>
                                 <select name="user_id" data-live-search="true" class="selectpicker form-control inline-control" id="user_id">
