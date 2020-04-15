@@ -39,51 +39,7 @@
             </section>
 
             
-<!--
-            @if(isset($requests['company_id']))
-            <div class="form-group col-md-2 pull-left">
-                <label class="label label-info">  الشركة    : </label>
-                  @php($company=\App\Models\AccountingSystem\AccountingCompany::find($requests['company_id']))
-                <span>{{$company->name}}</span>
-            </div>
-            @endif
--->
 
-<!--
-            @if(isset($requests['branch_id']))
-            <div class="form-group col-md-2 pull-left">
-                <label class="label label-info">  الفرع   : </label>
-                    @php($branch=\App\Models\AccountingSystem\AccountingBranch::find($requests['branch_id']))
-                    <span>{{$branch->name}}</span>
-            </div>
-            @endif
-            @if(isset($requests['store_id']))
-            <div class="form-group col-md-2 pull-left">
-                <label class="label label-info"> المخزن: </label>
-                    @php($store=\App\Models\AccountingSystem\AccountingStore::find($requests['store_id']))
-                    <span>{{$store->ar_name}}</span>
-            </div>
-            @endif
-            @if(isset($requests['product_id']))
-            <div class="form-group col-md-2 pull-left">
-                <label class="label label-info"> الصنف: </label>
-                    @php($product=\App\Models\AccountingSystem\AccountingProduct::find($requests['product_id']))
-                    <span>{{$product->name}}</span>
-            </div>
-            @endif
-            <div class="form-group col-md-2 pull-left">
-                <label class="label label-info"> من: </label>
-                @if(isset($requests['from']))
-                    <span>{{$requests['from']}}</span>
-                @endif
-            </div>
-            <div class="form-group col-md-2 pull-left">
-                <label class="label label-info"> الى: </label>
-                @if(isset($requests['to']))
-                    <span>{{$requests['to']}}</span>
-                @endif
-            </div>
--->
             <table class="table datatable-button-init-basic">
                
 				
@@ -138,7 +94,11 @@
 					
                 <tbody>
                     @isset($damages)
+                        @php($sum=0)
+                        @php($quantities=0)
                 @foreach($damages as $row)
+                    @php( $quantities+=$row->quantity)
+                    @php( $sum+=$row->product->purchasing_price * $row->quantity)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! date($row->created_at)!!}</td>
@@ -156,10 +116,11 @@
                 </tbody>
                 <tfoot>
                 	<tr>
-                		<td colspan="4">المجموع</td>
-                		<td>20</td>
-                		<td>150</td>
-                		<td colspan="2"> - </td>
+                		<td colspan="3">المجموع</td>
+                		<td>{{$quantities}}</td>
+                        <td></td>
+                		<td>{{$sum}}</td>
+                		<td colspan="2">  </td>
                 	</tr>
                 </tfoot>
 	

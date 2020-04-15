@@ -46,8 +46,10 @@ class HomeController extends Controller
 
     public  function getProductStore($id)
     {
-        $store_products = AccountingProductStore::select(['id', 'product_id'])->where('store_id', $id)->get();
+        $store_products = AccountingProductStore::select(['id', 'product_id'])->where('store_id', $id)->pluck('product_id');
+
         $products = AccountingProduct::whereIn('id', $store_products)->select(['id', 'name'])->get();
+
         return response()->json($products);
     }
     public function getUsersByBranch($branch_id)
