@@ -88,40 +88,38 @@
                
 				
                 <thead>
-                <tr>
+                <tr class="normal-bgc">
                		@if(isset($requests['company_id']))
-                	<td>
+                	<td class="company-imgg-td" colspan="8">
 						@php($company=\App\Models\AccountingSystem\AccountingCompany::find($requests['company_id']))
 						<span><img src="{!!getimg($company->image)!!}" style="width:100px; height:100px"> </span>
+               			<span>{{$company->name}}</span>
                 	</td>
                 	@endif
-                	@if(isset($requests['company_id']))
-						@php($company=\App\Models\AccountingSystem\AccountingCompany::find($requests['company_id']))
-						<td class="footTdLbl">الشركة : <span>{{$company->name}}</span></td>
-					@endif
+                	
                 </tr>
-                <tr>
+                <tr  class="normal-bgc">
 					@if(isset($requests['branch_id']))
 						@php($branch=\App\Models\AccountingSystem\AccountingBranch::find($requests['branch_id']))
-						<td class="footTdLbl">الفرع : <span>{{$branch->name}}</span></td>
+						<td class="footTdLbl" colspan="2">الفرع : <span>{{$branch->name}}</span></td>
 					@endif
 					
 					@if(isset($requests['store_id']))
 						@php($store=\App\Models\AccountingSystem\AccountingStore::find($requests['store_id']))
-						<td class="footTdLbl">المخزن : <span>{{$store->ar_name}}</span></td>
+						<td class="footTdLbl" colspan="2">المخزن : <span>{{$store->ar_name}}</span></td>
 					@endif
 					
 					@if(isset($requests['product_id']))
 						@php($product=\App\Models\AccountingSystem\AccountingProduct::find($requests['product_id']))
-						<td class="footTdLbl">الصنف : <span>{{$product->name}}</span></td>
+						<td class="footTdLbl" colspan="2">الصنف : <span>{{$product->name}}</span></td>
 					@endif
 					
 					@if(isset($requests['from']))
-						<td class="footTdLbl">من<span>{{$requests['from']}}</span></td>
+						<td class="footTdLbl" colspan="2">من<span>{{$requests['from']}}</span></td>
 					@endif
 					
 					@if(isset($requests['to']))
-						<td class="footTdLbl">إلى<span>{{$requests['to']}}</span></td>
+						<td class="footTdLbl" colspan="2">إلى<span>{{$requests['to']}}</span></td>
 					@endif
 					
 					</tr>
@@ -156,6 +154,14 @@
                 @endforeach
                         @endisset
                 </tbody>
+                <tfoot>
+                	<tr>
+                		<td colspan="4">المجموع</td>
+                		<td>20</td>
+                		<td>150</td>
+                		<td colspan="2"> - </td>
+                	</tr>
+                </tfoot>
 	
             </table>
             {{--@if($damages != [])--}}
