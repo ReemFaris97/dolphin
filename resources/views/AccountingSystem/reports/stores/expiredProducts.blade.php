@@ -63,7 +63,7 @@
                 {{--(اسم الصنف – الوحدة – الكمية الحالية - الكمية الحالية التي قاربت على الانتهاء– تاريخ الانتهاء – المدة المتبقية على الانتهاء)--}}
             </section>
             <div class="form-group col-md-12 pull-left">
-
+<div id="print-window">
             <table class="table datatable-button-init-basic">
 
                 <thead>
@@ -145,6 +145,10 @@
             {{--@if($expire_products != [])--}}
                 {{--{{ $expire_products->appends(\Illuminate\Support\Facades\Input::except('page'))->links() }}--}}
             {{--@endif--}}
+       	</div>
+        </div>
+<div class="row print-wrapper">
+        	<button class="btn btn-success" id="print-all">طباعة</button>
         </div>
     </div>
 

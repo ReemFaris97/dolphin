@@ -118,7 +118,7 @@
             </section>
 
 
-
+<div id="print-window">
             <table class="table datatable-button-init-basic">
                 <thead>
                 <tr class="normal-bgc">
@@ -222,6 +222,10 @@
                 </tr>
                 </tfoot>
             </table>
+       	</div>
+        </div>
+<div class="row print-wrapper">
+        	<button class="btn btn-success" id="print-all">طباعة</button>
         </div>
 
     </div>

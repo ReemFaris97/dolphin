@@ -20,7 +20,7 @@
 
         <div class="panel-body">
 
-
+<div id="print-window">
             <table class="table datatable-button-init-basic">
                 <thead>
                 <tr>
@@ -65,8 +65,10 @@
 
                 </tbody>
             </table>
-
-
+	</div>
+        </div>
+<div class="row print-wrapper">
+        	<button class="btn btn-success" id="print-all">طباعة</button>
         </div>
 
     </div>

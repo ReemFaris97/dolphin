@@ -115,7 +115,7 @@
                 </div>
             </section>
 
-
+<div id="print-window">
             <table class="table datatable-button-init-basic">
                 <thead>
                 <tr class="normal-bgc">
@@ -181,8 +181,8 @@
 
                 </tbody>
             </table>
-
-            <div class="clearfix"></div>
+			</div>
+           
             {{--(رقم وكود الفاتورة- العميل- اسم الكاشير – الإجمالي – إجمالي سعر الشراء – إجمالي سعر البيع – الخصم - الضريبة - الربح).--}}
 
             {{--<table class="table datatable-button-init-basic">--}}
@@ -214,7 +214,9 @@
                 {{--</tbody>--}}
             {{--</table>--}}
         </div>
-
+<div class="row print-wrapper">
+        	<button class="btn btn-success" id="print-all">طباعة</button>
+        </div>
     </div>
 
 
