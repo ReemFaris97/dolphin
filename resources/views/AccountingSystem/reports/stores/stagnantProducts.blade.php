@@ -64,7 +64,7 @@
                 {{--التفاصيل (اسم الصنف – الوحدة - الكمية الحالية – الحد الأدنى – تاريخ آخر عملية بيع).--}}
             </section>
 
-
+<div id="print-window">
             <table class="table datatable-button-init-basic">
                 <thead>
                 <tr class="normal-bgc">
@@ -146,6 +146,10 @@
             {{--@if($expire_products != [])--}}
                 {{--{{ $expire_products->appends(\Illuminate\Support\Facades\Input::except('page'))->links() }}--}}
             {{--@endif--}}
+        	</div>
+        </div>
+<div class="row print-wrapper">
+        	<button class="btn btn-success" id="print-all">طباعة</button>
         </div>
     </div>
 
