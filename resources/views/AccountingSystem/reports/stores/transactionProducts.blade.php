@@ -85,7 +85,7 @@
                 @endif
             </div>
             {{---         التفاصيل (التاريخ - اسم الصنف – الوحدة - الكمية الحالية بالمخزن المحول منه الكمية الحالية بالمخزن المحول إليه – السعر - إجمالي سعر).--}}
-
+<div id="print-window">
             <table class="table datatable-button-init-basic">
                 <thead>
                 <tr>
@@ -127,6 +127,10 @@
             @if($transactions != [])
                 {{ $transactions->appends(\Illuminate\Support\Facades\Input::except('page'))->links() }}
             @endif
+        	</div>
+        </div>
+<div class="row print-wrapper">
+        	<button class="btn btn-success" id="print-all">طباعة</button>
         </div>
     </div>
 

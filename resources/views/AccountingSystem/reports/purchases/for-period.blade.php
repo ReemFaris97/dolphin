@@ -10,6 +10,9 @@
     .filter {
         margin-bottom: 30px;
     }
+	table.table.datatable-button-init-basic {
+   table-layout: auto !important;
+}
 </style>
 @endsection
 
@@ -107,55 +110,54 @@
                     </div>
                 </div>
             </section>
-
-
-            <table class="table datatable-button-init-basic">
+			<div id="print-window">
+            	<table class="table datatable-button-init-basic">
                 <thead>
 
                 <tr class="normal-bgc">
                     @if(isset($requests['company_id']))
-                        <td class="company-imgg-td" colspan="8">
+                        <th class="company-imgg-td" colspan="8">
                             @php $company=\App\Models\AccountingSystem\AccountingCompany::find($requests['company_id']) @endphp
                             <span><img src="{!!getimg($company->image)!!}" style="width:100px; height:100px"> </span>
                             <span>{{$company->name}}</span>
-                        </td>
+                        </th>
                     @endif
 
                 </tr>
                 <tr  class="normal-bgc">
                     @if(isset($requests['branch_id']))
                         @php $branch=\App\Models\AccountingSystem\AccountingBranch::find($requests['branch_id']) @endphp
-                        <td class="footTdLbl" colspan="2">الفرع : <span>{{$branch->name}}</span></td>
+                        <th class="footTdLbl" colspan="2">الفرع : <span>{{$branch->name}}</span></th>
                     @endif
 
                     @if(isset($requests['store_id']))
                         @php  $store=\App\Models\AccountingSystem\AccountingStore::find($requests['store_id'])@endphp
-                        <td class="footTdLbl" colspan="2">المخزن : <span>{{$store->ar_name}}</span></td>
+                        <th class="footTdLbl" colspan="2">المخزن : <span>{{$store->ar_name}}</span></th>
                     @endif
 
                     @if(isset($requests['product_id']))
                         @php   $product=\App\Models\AccountingSystem\AccountingProduct::find($requests['product_id'])@endphp
-                        <td class="footTdLbl" colspan="2">الصنف : <span>{{$product->name}}</span></td>
+                        <th class="footTdLbl" colspan="2">الصنف : <span>{{$product->name}}</span></th>
                     @endif
 
                     @if(isset($requests['from']))
-                        <td class="footTdLbl" colspan="2"> من:<span>{{$requests['from']}}</span></td>
+                        <th class="footTdLbl" colspan="2"> من:<span>{{$requests['from']}}</span></th>
                     @endif
 
                     @if(isset($requests['to']))
-                        <td class="footTdLbl" colspan="2">إلى :<span>{{$requests['to']}}</span></td>
+                        <th class="footTdLbl" colspan="2">إلى :<span>{{$requests['to']}}</span></th>
                     @endif
 
                 </tr>
                 <tr>
                     <th>#</th>
-                    <th> التاريخ </th>
-                    <th> إجمالي المشتريات </th>
-                    <th> إجمالي الخصومات </th>
-                    <th> إجمالي الضريبة </th>
-                    <th> إجمالي بعد الخصومات والضريبة </th>
+					<th><span> التاريخ </span></th>
+					<th><span> إجمالي المشتريات </span></th>
+					<th><span> إجمالي الخصومات </span></th>
+					<th><span> إجمالي الضريبة </span></th>
+					<th><span> إجمالي بعد الخصومات والضريبة </span></th>
                     
-                    <th class="text-center">العمليات</th>
+                    <th class="text-center"><span>العمليات</span></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -195,11 +197,12 @@
                 </tr>
                 </tfoot>
             </table>
+			</div>
         </div>
-
+        <div class="row print-wrapper">
+        	<button class="btn btn-success" id="print-all">طباعة</button>
+        </div>
     </div>
-
-
 @endsection
 
 @section('scripts')
@@ -213,6 +216,8 @@
         })
     </script> --}}
 
+   
+   
     <script>
         $(function() {
             $(document).on('change', '#company_id', function () {

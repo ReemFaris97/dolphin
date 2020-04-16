@@ -108,6 +108,9 @@
                 {{--@endif--}}
             {{--</div>--}}
             {{---         التفاصيل (اسم الصنف – الوحدة - الكمية الحالية – الحد الأدنى – سعر الشراء).--}}
+            
+            
+            <div id="print-window">
             <table class="table datatable-button-init-basic">
 
                 <thead>
@@ -174,8 +177,10 @@
                 </tbody>
             </table>
 
-
-
+	</div>
+        </div>
+<div class="row print-wrapper">
+        	<button class="btn btn-success" id="print-all">طباعة</button>
         </div>
     </div>
 
