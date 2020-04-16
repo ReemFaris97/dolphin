@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AccountingSystem\Reports;
 
 use App\Models\AccountingSystem\AccountingPurchase as Purchase;
 use App\Models\AccountingSystem\AccountingPurchaseReturn as PurchaseReturn;
+use App\Models\AccountingSystem\AccountingSupplierLog;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -188,5 +189,17 @@ class SuppliersController extends Controller
     }
 
 
+    public function accountStatement(Request $request){
+        $requests=request()->all();
+        if ($request->has('supplier_id')) {
+
+            $accounts=AccountingSupplierLog::where('supplier_id', $request->supplier_id)->
+            whereBetween('created_at', [Carbon::parse($request->from), Carbon::parse($request->to)])->get();
+        }
+
+        return view('AccountingSystem.reports.suppliers.accounts-period', compact('accounts','requests'));
+
+
+    }
 
 }

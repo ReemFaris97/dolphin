@@ -8,7 +8,11 @@
     </div>
 @endif
 <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
-    <label> اسم الفرع  </label>
+    <label> اسم الشركة </label>
+    {!! Form::select("company_id",companies(),null,['class'=>'form-control js-example-basic-single company_id','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له المنتج '])!!}
+</div>
+<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
+    <label> اسم الفرع التابع </label>
     {!! Form::select("branch_id",branches(),null,['class'=>'form-control selectpicker branch_id','id'=>'branch_id','multiple','placeholder'=>' اختر اسم الفرع التابع له المنتج '])!!}
 </div>
 <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
@@ -41,5 +45,7 @@
     <script src="{{asset('admin/assets/js/get_faces_by_branch.js')}}"></script>
     <script src="{{asset('admin/assets/js/get_cells_by_column.js')}}"></script>
     <script src="{{asset('admin/assets/js/get_columns_by_face.js')}}"></script>
+    <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
+
 
 @endsection

@@ -406,9 +406,11 @@
 										  $(".bill-table tbody").trigger('change');
 										  $('#deleteModal').modal('hide');
 									  }else{
+										  alert('البيانات التي ادخلتها غير صحيحة .');
 									  }
 								  },
 								  error: function (error) {
+									  alert('البيانات التي ادخلتها غير صحيحة .');
 								  }
 							   });
 							});
@@ -638,9 +640,11 @@
 						  $(".bill-table tbody").trigger('change');
 						  $('#deleteModal').modal('hide');
 					  }else{
+						  alert('البيانات التي ادخلتها غير صحيحة .');
 					  }
 				  },
 				  error: function (error) {
+					  alert('البيانات التي ادخلتها غير صحيحة .');
 				  }
 			   });
 			});

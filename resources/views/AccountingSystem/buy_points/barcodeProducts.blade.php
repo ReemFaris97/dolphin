@@ -21,7 +21,7 @@
         $lastPrice=\App\Models\AccountingSystem\AccountingPurchaseItem::where('product_id',$product->id)->latest()->first();
         $sumQuantity=\App\Models\AccountingSystem\AccountingPurchaseItem::where('product_id',$product->id)->sum('quantity');
         $arrPrice=DB::table('accounting_purchases_items')->where('product_id',$product->id)
-            ->selectRaw('SUM(price * quantity) as total')
+            ->selectRaw('SUM(price_after_tax * quantity) as total')
             ->pluck('total');
         $total=0;
         foreach ($arrPrice as $price){
@@ -33,11 +33,9 @@
             $average=0;
         }
 
-
         ?>
 <div class="form-group block-gp col-md-12">
     <select class=" form-control js-example-basic-single"  name="product_id" placeholder="اختر المنتج" id="selectID2">
-
     <option value="{{$product->id}}"
        data-name="{{$product->name}}"
        data-price="{{$product->purchasing_price -(($product->purchasing_price*$product->total_discounts)/100)  }}"
@@ -48,7 +46,7 @@
        data-subunits="{{json_encode($arr,JSON_UNESCAPED_UNICODE)}}"
        data-total_discounts="{{$product->total_discounts}}"
        data-unit-id="{{$selectd_unit_id}}"
-       data-last-price="{{($lastPrice)? $lastPrice->price:'0' }}"
+       data-last-price="{{($lastPrice)? $lastPrice->price_after_tax:'0' }}"
        data-average="{{($average)? $average:'0' }}" 
        data-product_expiration="{{($product->type=='product_expiration')? '1':'0' }}"
     >

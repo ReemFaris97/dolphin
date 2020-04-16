@@ -83,9 +83,10 @@ class ClauseController extends Controller
                     'amount' => $safe->amount + $requests['amount']
 
                 ]);
+
                 $client->update([
 
-                    'balance' => $client->balance -$requests['balance']
+                    'balance' => $client->balance -$requests['amount']
 
                 ]);
 

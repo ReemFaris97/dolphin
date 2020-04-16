@@ -38,7 +38,9 @@ class PurchaseObserver
                 $log->supplier_id=$supplier->id;
                 $log->purchase_id=$purchase->id;
                 $log->amount=$purchase->total;
-                $log->status='debit';
+                $log->status='creditor';
+                $log->type='مشتريات';
+                $log->new_balance=round($supplier->balance,2);
                 $log->save();
 //                dd($log);
             }
