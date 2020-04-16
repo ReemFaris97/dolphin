@@ -64,57 +64,44 @@
                 {{--التفاصيل (اسم الصنف – الوحدة - الكمية الحالية – الحد الأدنى – تاريخ آخر عملية بيع).--}}
             </section>
 
-            <div class="form-group col-md-12 pull-left">
-                {{--<label class="label label-info">  الشركة    : </label>--}}
-                <center>
-                    @if(isset($requests['company_id']))
-                        @php($company=\App\Models\AccountingSystem\AccountingCompany::find($requests['company_id']))
-                        <span><img src="{!!getimg($company->image)!!}" style="width:100px; height:100px"> </span>
-                    @endif
-                </center>
-            </div>
-            <div class="form-group col-md-2 pull-left">
-                <label class="label label-info">  الشركة    : </label>
-                @if(isset($requests['company_id']))
-                    @php($company=\App\Models\AccountingSystem\AccountingCompany::find($requests['company_id']))
-                    <span>{{$company->name}}</span>
-                @endif
-            </div>
-            @if(isset($requests['branch_id']))
-            <div class="form-group col-md-2 pull-left">
-                <label class="label label-info">  الفرع   : </label>
-                    @php($branch=\App\Models\AccountingSystem\AccountingBranch::find($requests['branch_id']))
-                    <span>{{$branch->name}}</span>
-            </div>
-            @endif
-            @if(isset($requests['store_id']))
-            <div class="form-group col-md-2 pull-left">
-                <label class="label label-info"> المخزن: </label>
-                    @php($store=\App\Models\AccountingSystem\AccountingStore::find($requests['store_id']))
-                    <span>{{$store->ar_name}}</span>
-            </div>
-            @endif
-            @if(isset($requests['product_id']))
-            <div class="form-group col-md-2 pull-left">
-                <label class="label label-info"> الصنف: </label>
-                    @php($product=\App\Models\AccountingSystem\AccountingProduct::find($requests['product_id']))
-                    <span>{{$product->name}}</span>
-            </div>
-            @endif
-            <div class="form-group col-md-2 pull-left">
-                <label class="label label-info"> من: </label>
-                @if(isset($requests['from']))
-                    <span>{{$requests['from']}}</span>
-                @endif
-            </div>
-            <div class="form-group col-md-2 pull-left">
-                <label class="label label-info"> الى: </label>
-                @if(isset($requests['to']))
-                    <span>{{$requests['to']}}</span>
-                @endif
-            </div>
+<div id="print-window">
             <table class="table datatable-button-init-basic">
                 <thead>
+                <tr class="normal-bgc">
+                    @if(isset($requests['company_id']))
+                        <td class="company-imgg-td" colspan="8">
+                            @php($company=\App\Models\AccountingSystem\AccountingCompany::find($requests['company_id']))
+                            <span><img src="{!!getimg($company->image)!!}" style="width:100px; height:100px"> </span>
+                            <span>{{$company->name}}</span>
+                        </td>
+                    @endif
+
+                </tr>
+                <tr  class="normal-bgc">
+                    @if(isset($requests['branch_id']))
+                        @php($branch=\App\Models\AccountingSystem\AccountingBranch::find($requests['branch_id']))
+                        <td class="footTdLbl" colspan="2">الفرع : <span>{{$branch->name}}</span></td>
+                    @endif
+
+                    @if(isset($requests['store_id']))
+                        @php($store=\App\Models\AccountingSystem\AccountingStore::find($requests['store_id']))
+                        <td class="footTdLbl" colspan="2">المخزن : <span>{{$store->ar_name}}</span></td>
+                    @endif
+
+                    @if(isset($requests['product_id']))
+                        @php($product=\App\Models\AccountingSystem\AccountingProduct::find($requests['product_id']))
+                        <td class="footTdLbl" colspan="2">الصنف : <span>{{$product->name}}</span></td>
+                    @endif
+
+                    @if(isset($requests['from']))
+                        <td class="footTdLbl" colspan="2">من:<span>{{$requests['from']}}</span></td>
+                    @endif
+
+                    @if(isset($requests['to']))
+                        <td class="footTdLbl" colspan="2"> إلى :<span>{{$requests['to']}}</span></td>
+                    @endif
+
+                </tr>
                 <tr>
                     <th>#</th>
                     <th> اسم الصنف </th>
@@ -125,8 +112,11 @@
                 </tr>
                 </thead>
                 <tbody>
+
                     @isset($stagnant_sales)
+                        @php($sum=0)
                 @foreach($stagnant_sales as $row)
+                    @php( $sum+=$quantites[$row->product->id])
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->product->name!!}</td>
@@ -144,10 +134,22 @@
                 @endforeach
                         @endisset
                 </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="3">اجمالى الكمية</td>
+                    <td>{{$sum}}</td>
+                    <td colspan="2"></td>
+
+                </tr>
+                </tfoot>
             </table>
             {{--@if($expire_products != [])--}}
                 {{--{{ $expire_products->appends(\Illuminate\Support\Facades\Input::except('page'))->links() }}--}}
             {{--@endif--}}
+        	</div>
+        </div>
+<div class="row print-wrapper">
+        	<button class="btn btn-success" id="print-all">طباعة</button>
         </div>
     </div>
 

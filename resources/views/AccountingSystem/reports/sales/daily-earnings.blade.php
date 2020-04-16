@@ -30,7 +30,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <form action="" method="get" accept-charset="utf-8">
-                                
+
                             <div class="form-group col-sm-3">
                                 <label> الشركة </label>
                                 {!! Form::select("company_id",companies(), request('company_id'),['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الشركة','data-live-search'=>'true','id'=>'company_id'])!!}
@@ -104,7 +104,7 @@
                                 <label for="from"> التاريخ </label>
                                 {!! Form::date("date",request('date'),['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' الفترة من ',"id"=>'date'])!!}
                             </div>
-                            
+
                             <div class="form-group col-sm-12">
                                 <button type="submit" class="btn btn-success btn-block">بحث</button>
                             </div>
@@ -114,33 +114,75 @@
                     </div>
                 </div>
             </section>
-        
 
-            <table class="table">
+<div id="print-window">
+            <table class="table datatable-button-init-basic">
                 <thead>
+                <tr class="normal-bgc">
+                    @if(isset($requests['company_id']))
+                        <td class="company-imgg-td" colspan="8">
+                            @php $company=\App\Models\AccountingSystem\AccountingCompany::find($requests['company_id'])@endphp
+                            <span><img src="{!!getimg($company->image)!!}" style="width:100px; height:100px"> </span>
+                            <span>{{$company->name}}</span>
+                        </td>
+                    @endif
+
+                </tr>
+
+                <tr  class="normal-bgc">
+                    @if(isset($requests['branch_id']))
+                        @php $branch=\App\Models\AccountingSystem\AccountingBranch::find($requests['branch_id']) @endphp
+                        <td class="footTdLbl" colspan="2">الفرع : <span>{{$branch->name}}</span></td>
+                    @endif
+
+                        @if(isset($requests['user_id']))
+                        @php $user=\App\User::find($requests['user_id']) @endphp
+                        <td class="footTdLbl" colspan="2">القائم بالعمليه : <span>{{$user->name}}</span></td>
+                        @endif
+
+                        @if(isset($requests['session_id']))
+                        @php $session=\App\Models\AccountingSystem\AccountingSession::find($requests['session_id']) @endphp
+                        <td class="footTdLbl" colspan="2">كود الجلسه : <span>{{$session->code}}</span></td>
+                        @endif
+
+                        @if(isset($requests['product_id']))
+                            @php $product=\App\Models\AccountingSystem\AccountingProduct::find($requests['product_id']) @endphp
+                            <td class="footTdLbl" colspan="2">الصنف : <span>{{$product->name}}</span></td>
+                        @endif
+
+                    @if(isset($requests['date']))
+                        <td class="footTdLbl" colspan="2"> يوم:<span>{{$requests['date']}}</span></td>
+                    @endif
+
+                </tr>
                 <tr>
                     <th> التاريخ </th>
                     <th> إجمالي تكلفة المنتجات المباعة كمشتريات </th>
                     <th> إجمالي المببيعات </th>
                     <th> إجمالي الخصومات </th>
                     <th> إجمالي  الربح</th>
+                    <th class="text-center">العمليات</th>
                 </tr>
                 </thead>
                 <tbody>
                         @foreach($sales as  $sale)
                     <tr>
                         <td>{!!$sale['date']!!}</td>
-                        <td>{!!$purchase_cost!!}</td>
+                        <td>{!!$sale['productPrice']!!}</td>
                         <td>{!!$sale['all_amounts']!!}</td>
                         <td>{!!$sale['discounts']!!}</td>
-                        <td>{!!$sale['all_amounts']-$sale['discounts']-$purchase_cost!!}</td>
+                        <td>{!!$sale['all_amounts']-$sale['discounts'] - $sale['productPrice'] !!}</td>
+                        <td class="text-center">
+                            <a href="{{route('accounting.reports.sale_details')}}?date={{ $sale->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
+
+                        </td>
                     </tr>
                         @endforeach
 
                 </tbody>
             </table>
-
-            <div class="clearfix"></div>
+			</div>
+           
             {{--(رقم وكود الفاتورة- العميل- اسم الكاشير – الإجمالي – إجمالي سعر الشراء – إجمالي سعر البيع – الخصم - الضريبة - الربح).--}}
 
             {{--<table class="table datatable-button-init-basic">--}}
@@ -172,7 +214,9 @@
                 {{--</tbody>--}}
             {{--</table>--}}
         </div>
-
+<div class="row print-wrapper">
+        	<button class="btn btn-success" id="print-all">طباعة</button>
+        </div>
     </div>
 
 

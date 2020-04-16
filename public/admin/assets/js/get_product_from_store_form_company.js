@@ -52,6 +52,7 @@ $(function () {
 
 
     $(document).on('change', '#store_id', function () {
+
         let productSelect = $('#product_id');
         var store_id= $(this).val();
         $.ajax({

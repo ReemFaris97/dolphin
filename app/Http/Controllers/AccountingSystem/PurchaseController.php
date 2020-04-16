@@ -78,7 +78,7 @@ class PurchaseController extends Controller
 
         $purchase=AccountingPurchase::create($requests);
         if ($requests['total']==Null){
-            $requests['total']=$purchase->amount;
+            $requests['total']=$purchase->amount+$requests['totalTaxs'];
         }
         $purchase->update([
             'bill_num'=>$purchase->bill_num."-".$purchase->created_at->toDateString(),
@@ -87,6 +87,7 @@ class PurchaseController extends Controller
             'user_id'=>auth()->user()->id,
             'store_id'=>$user->accounting_store_id,
             'total'=>$requests['total'],
+            'totalTaxs'=>$requests['totalTaxs'],
         ]);
 
         $products = collect($requests['product_id']);
@@ -169,10 +170,12 @@ class PurchaseController extends Controller
              if($merge['2']!='main-'.$product->id){
 
                  $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',$merge['2'])->first();
+                 if($productstore) {
+                     $productstore->update([
+                         'quantity' => $productstore->quantity + $merge['1'],
 
-                 $productstore->update([
-                'quantity'=>$productstore->quantity + $merge['1'],
-            ]);
+                     ]);
+                 }
         }else{
 
             $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',Null)->first();

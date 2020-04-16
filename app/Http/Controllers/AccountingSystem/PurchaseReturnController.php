@@ -98,7 +98,7 @@ class PurchaseReturnController extends Controller
         $requests['branch_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:Null;
         $requests['company_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingCompany')?$user->store->model_id:Null;
         if ($requests['total']==Null){
-            $requests['total']=$return->amount;
+            $requests['total']=$return->amount + $requests['totalTaxs'];
         }
         $return->update([
             'bill_num' =>$return->bill_num."-".$return->created_at->toDateString(),
@@ -106,6 +106,7 @@ class PurchaseReturnController extends Controller
             'company_id'=>$requests['company_id'],
             'user_id'=>auth()->user()->id,
             'store_id'=>$user->accounting_store_id,
+            'total'=>$requests['total']
         ]);
 
         $products = collect($requests['product_id']);
@@ -217,19 +218,17 @@ class PurchaseReturnController extends Controller
             $safe->update([
                 'amount' => $safe->amount + $return->total
             ]);
-        }elseif ($return->payment == 'agel'){
+        }else{
 
             $supplier = AccountingSupplier::find($return->supplier_id);
 
             if ($supplier) {
-                if($return->payment=='agel') {
 
                     $supplier->update([
                         'balance'=>$supplier->balance - $return->total
                     ]);
 
                 }
-            }
         }
 
         alert()->success('تمت عملية الاسترجاع بنجاح !')->autoclose(5000);

@@ -1,10 +1,12 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تقرير المشتريات خلال يوم')
+@section('title','تقرير مرتجعات مشتريات مورد خلال فترة')
 @section('parent_title','التقارير ')
 {{-- @section('action', URL::route('accounting.purchases.index')) --}}
 
 @section('styles')
 <style>
+    /*<link href="{{--asset('admin/assets/css/jquery.datetimepicker.min.css')--}}" rel="stylesheet" type="text/css">*/
+
     .filter {
         margin-bottom: 30px;
     }
@@ -14,9 +16,8 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">تقرير المشتريات خلال يوم</h5>
+            <h5 class="panel-title">تقرير مرتجعات مشتريات مورد خلال فترة زمنية</h5>
             <div class="heading-elements">
-
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
                     <li><a data-action="reload"></a></li>
@@ -32,11 +33,11 @@
                         <div class="col-xs-12">
                             <form action="" method="get" accept-charset="utf-8">
 
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-3">
                                 <label> الشركة </label>
                                 {!! Form::select("company_id",companies(), request('company_id'),['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الشركة','data-live-search'=>'true','id'=>'company_id'])!!}
                             </div>
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-3">
                                 <label> الفرع </label>
                                 {{-- {!! Form::select("branch_id",[],request('branch_id'),['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الفرع','data-live-search'=>'true','id'=>'branch_id'])!!} --}}
                                 <select name="branch_id" data-live-search="true" class="selectpicker form-control inline-control" id="branch_id">
@@ -48,7 +49,18 @@
                                     @endif
                                 </select>
                             </div>
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-3">
+                                <label> المورد </label>
+                                <select name="supplier_id" data-live-search="true" class="selectpicker form-control inline-control" id="supplier_id">
+                                    @if(request()->has('supplier_id') && request('supplier_id') != null)
+                                        @php $supplier = \App\Models\AccountingSystem\AccountingSupplier::find(request('supplier_id')); @endphp
+                                        <option value="{{ $supplier->id }}" selected="">{{ $supplier->name }}</option>
+                                    @else
+                                        <option value="" selected="" disabled=""> المورد </option>
+                                    @endif
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-3">
                                 <label> القائم بالعملية </label>
                                 <select name="user_id" data-live-search="true" class="selectpicker form-control inline-control" id="user_id">
                                     @if(request()->has('user_id') && request('user_id') != null)
@@ -59,7 +71,6 @@
                                     @endif
                                 </select>
                             </div>
-                                <div class="clearfix"></div>
                             {{--<div class="form-group col-sm-3">--}}
                                 {{--<label> الخزينة </label>--}}
                                 {{--<select name="safe_id" data-live-search="true" class="selectpicker form-control inline-control" id="safe_id">--}}
@@ -71,12 +82,12 @@
                                     {{--@endif--}}
                                 {{--</select>--}}
                             {{--</div>--}}
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-3">
                                 <label> القسم </label>
                                 {!! Form::select("category_id",productCategories(),request('category_id'),['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}
                             </div>
 
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-3">
                                 <label> الصنف </label>
                                 <select name="product_id" data-live-search="true" class="selectpicker form-control inline-control" id="product_id">
                                     @if(request()->has('product_id') && request('product_id') != null)
@@ -87,9 +98,13 @@
                                     @endif
                                 </select>
                             </div>
-                            <div class="form-group col-sm-4">
-                                <label for="from"> التاريخ </label>
-                                {!! Form::date("date",request('date'),['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' الفترة من ',"id"=>'date'])!!}
+                            <div class="form-group col-sm-3">
+                                <label for="from"> الفترة من </label>
+                                {!! Form::date("from",request('from'),['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' الفترة من ',"id"=>'from'])!!}
+                            </div>
+                            <div class="form-group col-sm-3">
+                                <label for="to"> الفترة إلي </label>
+                                {!! Form::date("to",request('to'),['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' الفترة إلي ',"id"=>'to'])!!}
                             </div>
 
                             <div class="form-group col-sm-12">
@@ -102,10 +117,10 @@
                 </div>
             </section>
 
+
 <div id="print-window">
             <table class="table datatable-button-init-basic">
                 <thead>
-
                 <tr class="normal-bgc">
                     @if(isset($requests['company_id']))
                         <td class="company-imgg-td" colspan="8">
@@ -123,37 +138,56 @@
                         <td class="footTdLbl" colspan="2">الفرع : <span>{{$branch->name}}</span></td>
                     @endif
 
-                    @if(isset($requests['store_id']))
-                        @php $store=\App\Models\AccountingSystem\AccountingStore::find($requests['store_id']) @endphp
-                        <td class="footTdLbl" colspan="2">المخزن : <span>{{$store->ar_name}}</span></td>
-                    @endif
+                    {{--@if(isset($requests['supplier_id']))--}}
+                    {{--@php $supplier=\App\Models\AccountingSystem\AccountingSupplier::find($requests['supplier_id']) @endphp--}}
+                    {{--<td class="footTdLbl" colspan="2">المورد : <span>{{$supplier->name}}</span></td>--}}
+                    {{--@endif--}}
+
+
+                    {{--@if(isset($requests['user_id']))--}}
+                    {{--@php $user=\App\User::find($requests['user_id']) @endphp--}}
+                    {{--<td class="footTdLbl" colspan="2">القائم بالعمليه : <span>{{$user->name}}</span></td>--}}
+                    {{--@endif--}}
 
                     @if(isset($requests['product_id']))
                         @php $product=\App\Models\AccountingSystem\AccountingProduct::find($requests['product_id']) @endphp
                         <td class="footTdLbl" colspan="2">الصنف : <span>{{$product->name}}</span></td>
                     @endif
+                    {{--@if(isset($requests['session_id']))--}}
+                    {{--@php $session=\App\Models\AccountingSystem\AccountingSession::find($requests['session_id']) @endphp--}}
+                    {{--<td class="footTdLbl" colspan="2">كود الجلسه : <span>{{$session->code}}</span></td>--}}
+                    {{--@endif--}}
 
-                    @if(isset($requests['date']))
-                        <td class="footTdLbl" colspan="2"> يوم:<span>{{$requests['date']}}</span></td>
+                    @if(isset($requests['from']))
+                        <td class="footTdLbl" colspan="2"> من:<span>{{$requests['from']}}</span></td>
+                    @endif
+
+                    @if(isset($requests['to']))
+                        <td class="footTdLbl" colspan="2">إلى :<span>{{$requests['to']}}</span></td>
                     @endif
 
                 </tr>
+
+
                 <tr>
                     <th>#</th>
                     <th> التاريخ </th>
-                    <th> إجمالي المشتريات </th>
+                    <th> إجمالي مرتجعات المشتريات </th>
                     <th> إجمالي الخصومات </th>
                     <th> إجمالي الضريبة </th>
                     <th> إجمالي بعد الخصومات والضريبة </th>
+                    {{--<th> إجمالي المرتجع الكاش </th>--}}
+                    {{--<th> إجمالي مرتجع الخصم من المديونية </th>--}}
 
                     <th class="text-center">العمليات</th>
                 </tr>
                 </thead>
+
                 <tbody>
-           @php $all_amounts=0; $discounts=0; $total_tax=0; $all_total=0; @endphp
+                @php $all_amounts=0; $discounts=0; $total_tax=0; $all_total=0; @endphp
 
                 @foreach($purchases as $row)
-               @php $all_amounts+=$row->all_amounts; $discounts+=$row->discounts; $total_tax+=$row->total_tax; $all_total+=$row->all_total;@endphp
+                    @php $all_amounts+=$row->all_amounts; $discounts+=$row->discounts; $total_tax+=$row->total_tax; $all_total+=$row->all_total;@endphp
 
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
@@ -162,9 +196,11 @@
                         <td>{!! $row->discounts !!}</td>
                         <td>{!! $row->total_tax !!}</td>
                         <td>{!! $row->all_total !!}</td>
+                        {{--<td>{!! $row->return_cash !!}</td>--}}
+                        {{--<td>{!! $row->return_agel !!}</td>--}}
 
                         <td class="text-center">
-                            <a href="{{route('accounting.reports.purchase_details')}}?date={{ $row->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.reports.purchase_returns_details')}}?date={{ $row->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
 
                         </td>
                     </tr>
@@ -186,7 +222,7 @@
                 </tr>
                 </tfoot>
             </table>
-            </div>
+        	</div>
         </div>
 <div class="row print-wrapper">
         	<button class="btn btn-success" id="print-all">طباعة</button>
@@ -197,6 +233,15 @@
 @endsection
 
 @section('scripts')
+    {{-- <script src="{{asset('admin/assets/js/jquery.datetimepicker.full.min.js')}}"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
+            $('.inlinedatepicker').text(new Date().toLocaleString());
+            $('.inlinedatepicker').val(new Date().toLocaleString());
+        })
+    </script> --}}
 
     <script>
         $(function() {
@@ -225,6 +270,7 @@
             $(document).on('change', '#branch_id', function () {
                 let userSelect = $('#user_id');
                 let cases = $('#safe_id');
+                let suppliers = $('#supplier_id');
                 $.ajax({
                     url: `{{ url('accounting/ajax/users-by-branches') }}/${$(this).val()}`,
                     type: "get",
@@ -232,8 +278,10 @@
                         // console.log(data)
                         userSelect.empty();
                         cases.empty();
+                        suppliers.empty();
                         userSelect.append('<option value="">القائم بالعملية</option>');
                         cases.append('<option value="">الخزينة</option>');
+                        suppliers.append('<option value="">المورد</option>');
                         data.users.forEach( user => {
                             userSelect.append(`
                                 <option value="${user.id}">${user.name}</option>
@@ -244,8 +292,14 @@
                                 <option value="${safe.id}">${safe.name}</option>
                             `);
                         });
+                        data.suppliers.forEach( supplier => {
+                            suppliers.append(`
+                                <option value="${supplier.id}">${supplier.name}</option>
+                            `);
+                        });
                         userSelect.selectpicker('refresh');
                         cases.selectpicker('refresh');
+                        suppliers.selectpicker('refresh');
                     },
                     error (error) {
                         console.log(error)

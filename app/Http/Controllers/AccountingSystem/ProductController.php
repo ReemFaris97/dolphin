@@ -143,9 +143,9 @@ class ProductController extends Controller
          $uni=   AccountingProductSubUnit::create([
                 'name'=>$unit['0'],
                 'bar_code'=> $unit['1'],
-                'main_unit_present'=>$unit['2'],
+                'main_unit_present'=>$unit['4'],
                 'selling_price'=>$unit['3'],
-                'purchasing_price'=>$unit['4'],
+                'purchasing_price'=>$unit['2'],
                 'quantity'=>$unit['5'],
                 'product_id'=>$product->id
             ]);
@@ -156,7 +156,7 @@ class ProductController extends Controller
            AccountingProductStore::create([
                'store_id'=>$inputs['store_id'] ,
                'product_id'=>$product->id,
-               'quantity'=>$unit['5'] ,
+               'quantity'=>$unit['2']*$unit['5'] ,
                'unit_id'=>$uni->id
 
            ]);

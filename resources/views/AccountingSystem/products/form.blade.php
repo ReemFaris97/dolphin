@@ -278,37 +278,7 @@
 					{!! Form::number("num_days_recession",null,['class'=>'form-control'])!!}
 				</div>
 			</div>
-			<!--discounts table-->
-			<table id="discountTable" class="table ">
-				<thead>
-					<tr>
-						<th>  نوع العرض</th>
-						<th> الكمية الاساسية</th>
-						<th> الكمية الهدية</th>
 
-					</tr>
-				</thead>
-				<tbody>
-
-				@if (isset($is_edit))
-					@foreach($discounts as $discount)
-						<tr>
-							@if ($discount->discount_type=="quantity")
-								<td>هدية</td>
-								@else
-								<td>خصم نسبه</td>
-							@endif
-							<td>{{$unit->quantity}}</td>
-							<td>{{$unit->gift_quantity}}</td>
-							<td>{{$unit->quantity}}</td>
-							<td>{{$unit->percent}}</td>
-						</tr>
-					@endforeach
-				@endif
-
-				</tbody>
-			</table>
-			<!-- end table-->
 		</div>
 		<div id="menu4" class="tab-pane fade">
 			<div class="row">
@@ -321,10 +291,40 @@
 					<label> النسبة </label>
 					{!! Form::text("percent",isset($discount)?$discount->percent:null,['class'=>'form-control','placeholder'=>' النسبة '])!!}
 				</div>
-				{{--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal4" id="discounts_button">--}}
-					{{--العروض والخصومات--}}
-				{{--</button>--}}
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal4" id="discounts_button">
+					العروض والخصومات
+				</button>
 			</div>
+
+			<!--discounts table-->
+			<table id="discountTable" class="table ">
+				<thead>
+				<tr>
+
+					<th> الكمية الاساسية</th>
+					<th> الكمية الهدية</th>
+					<th>  العمليات</th>
+				</tr>
+				</thead>
+				<tbody class="add-discounts">
+
+				@if (isset($discounts))
+				@foreach($discounts as $discount)
+					@if ($discount->discount_type=="quantity")
+				<tr>
+
+						<td>{{$discount->quantity}}</td>
+						<td>{{$discount->gift_quantity}}</td>
+					<td></td>
+
+				</tr>
+					@endif
+				@endforeach
+				@endif
+
+				</tbody>
+			</table>
+			<!-- end table-->
 		</div>
 		<div id="menu5" class="tab-pane fade">
 			<div class="row">
@@ -658,7 +658,7 @@
                 </tr>
                 `);
 				});
-				$('.add-products').empty().append(appendProducts);
+				$('.add-products').append(appendProducts);
 				$('.delete-this-row').click(function(e) {
 					var $this = $(this);
 					var row_index = $(this).parents('tr').index();
@@ -908,6 +908,7 @@
 					buttons: ["موافق"],
 					dangerMode: true,
 				})
+
 				bigDataDiscount.push(discount_data);
 				$("#discountTable").show();
 				var appendDiscount = bigDataDiscount.map(function(discount) {
@@ -928,6 +929,7 @@
 					</tr>
 					`);
 				});
+
 				$('.add-discounts').empty().append(appendDiscount);
 				//////////////////////////////////////////////////////////////////////
 				$('.delete-this-row-discount').click(function(e) {
@@ -952,13 +954,17 @@
 					});
 				});
 				$('.edit-this-row-discount').click(function(e) {
+					// alert("dsfs");
 					var $this = $(this);
+
+
 					e.preventDefault();
 					$this.parents('tr').addClass('editted-row');
-					$('#exampleModal4 #basic_quantity').val($this.parents('tr').find('.basic_quantity').html());
-					$('#exampleModal4 #gift_quantity').val($this.parents('tr').find('.gift_quantity').html());
+					$('#exampleModal4 #basic_quantity').val($this.parents('tr').find('#basic_quantity').html());
+					$('#exampleModal4 #gift_quantity').val($this.parents('tr').find('#gift_quantity').html());
 					var row_index_discount = $(this).parents('tr').index();
-					bigDataDiscount.splice(row_index_discount, 1);
+					 bigDataDiscount.splice(row_index_discount,1);
+					// alert(bigDataDiscount);
 				});
 				document.getElementById("name").val = " ";
 				$('[data-dismiss=modal]').on('click', function(e) {

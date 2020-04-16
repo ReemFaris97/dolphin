@@ -13,7 +13,7 @@ class AccountingProduct extends Model
     'is_settlement','date_settlement','settlement_store_id','cell_id','alert_duration',
 
 ];
-    protected $appends = ['total_taxes','total_discounts','discount_type','percent'];
+    protected $appends = ['total_taxes','total_discounts'];
     public function store()
     {
         return $this->belongsTo(AccountingStore::class,'store_id');

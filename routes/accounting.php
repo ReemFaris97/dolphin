@@ -141,6 +141,7 @@ Route::middleware('admin')->group(function () {
 
 
     Route::post('/sale_end/{id}', 'SaleController@sale_end')->name('sales.end');
+    Route::get('/close/{id}', 'SessionController@close')->name('sessions.close');
 
 
     Route::get('/end_session/{id}', 'SaleController@end_session')->name('sales.end_session');
@@ -217,8 +218,14 @@ Route::middleware('admin')->group(function () {
         Route::get('movements-products', ['as' => 'movements-products', 'uses' => 'StoresController@movements']);
 
 
-        Route::group(['prefix' => 'suppliers'], function () {
-            Route::get('balances', ['as' => 'suppliers-balances', 'uses' => 'SuppliersController@balances']);
+        Route::group(['prefix' => 'suppliers', 'as' => 'suppliers.'], function () {
+            Route::get('purchases', ['as' => 'purchases', 'uses' => 'SuppliersController@purchases']);
+            Route::get('purchases-all', ['as' => 'purchases-all', 'uses' => 'SuppliersController@purchasesAll']);
+
+            Route::get('purchases-returns', ['as' => 'purchases-returns', 'uses' => 'SuppliersController@purchasesReturns']);
+            Route::get('purchases-returns-all', ['as' => 'purchases-returns-all', 'uses' => 'SuppliersController@purchasesReturnsAll']);
+
+            Route::get('account-statement', ['as' => 'account-statement', 'uses' => 'SuppliersController@accountStatement']);
 
 
         });
@@ -227,7 +234,7 @@ Route::middleware('admin')->group(function () {
             Route::get('/', ['as' => 'purchases', 'uses' => 'PurchasesController@index']);
             Route::get('details', ['as' => 'purchase_details', 'uses' => 'PurchasesController@details']);
             Route::get('days', ['as' => 'purchases_day', 'uses' => 'PurchasesController@byDay']);
-            Route::get('returns', ['as' => 'purchases_returns', 'uses' => 'PurchasesController@index']);
+            Route::get('returns', ['as' => 'purchases_returns', 'uses' => 'PurchasesController@returnsPeriod']);
             Route::get('returns-details', ['as' => 'purchase_returns_details', 'uses' => 'PurchasesController@returnDetails']);
             Route::get('returns-days', ['as' => 'purchases_returns_day', 'uses' => 'PurchasesController@returnsDay']);
         });
@@ -235,7 +242,7 @@ Route::middleware('admin')->group(function () {
             Route::get('period', ['as' => 'sales_period', 'uses' => 'SalesController@index']);
             Route::get('details', ['as' => 'sale_details', 'uses' => 'SalesController@details']);
             Route::get('days', ['as' => 'sales_day', 'uses' => 'SalesController@byDay']);
-            Route::get('returns', ['as' => 'sales_returns', 'uses' => 'SalesController@returnsPeriodgetBalance']);
+            Route::get('returns', ['as' => 'sales_returns', 'uses' => 'SalesController@returnsPeriod']);
             Route::get('returns-details', ['as' => 'sales_returns_details', 'uses' => 'SalesController@returnDetails']);
             Route::get('returns-days', ['as' => 'sales_returns_day', 'uses' => 'SalesController@returnsDay']);
 
@@ -253,6 +260,7 @@ Route::middleware('admin')->group(function () {
         Route::get('users-by-branches/{branch_id}', 'HomeController@getUsersByBranch');
         Route::get('products/{id}', 'HomeController@getProducts');
         Route::get('sessions/{id}', 'HomeController@getSessions');
+        Route::get('suppliers/{id}', 'HomeController@getSuppliers');
     });
 
 });

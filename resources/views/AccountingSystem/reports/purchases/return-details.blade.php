@@ -19,7 +19,7 @@
         </div>
 
         <div class="panel-body">
-           
+           <div id="print-window">
 
             <table class="table datatable-button-init-basic">
                 <thead>
@@ -31,7 +31,7 @@
                     {{-- <th> الإجمالي </th> --}}
                     <th> إجمالي سعر الشراء </th>
                     <th> الخصم </th>
-                    <th> المدفوع </th>
+                    {{--<th> المدفوع </th>--}}
                     <th> المتبقي </th>
                     <th> الضريبة </th>
                     <th> لإجمالي بعد الخصم والضريبة </th>
@@ -50,7 +50,7 @@
                         <td>{!! $row->user()->exists() ? $row->user->name : '-' !!}</td>
                         <td>{!! $row->amount !!}</td>
                         <td>{!! $row->discount !!}</td>
-                        <td>{!! $row->payed !!}</td>
+                        {{--<td>{!! $row->payed !!}</td>--}}
                         <td>{!! $row->total - $row->payed !!}</td>
                         <td>{!! $row->totalTaxs !!}</td>
                         <td>{!! $row->total !!}</td>
@@ -73,8 +73,11 @@
 
                 </tbody>
             </table>
+			</div>
         </div>
-
+<div class="row print-wrapper">
+        	<button class="btn btn-success" id="print-all">طباعة</button>
+        </div>
     </div>
 
 

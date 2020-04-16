@@ -82,17 +82,17 @@
                                     @endif
                                 </select>
                             </div>
-                            <div class="form-group col-sm-3">
-                                <label> الخزينة </label>
-                                <select name="safe_id" data-live-search="true" class="selectpicker form-control inline-control" id="safe_id">
-                                    @if(request()->has('safe_id') && request('safe_id') != null)
-                                        @php $safe = \App\Models\AccountingSystem\AccountingSafe::find(request('safe_id')); @endphp
-                                        <option value="{{ $safe->id }}" selected="">{{ $safe->name }}</option>
-                                    @else
-                                        <option value="" selected="" disabled="">اختر الخزينة</option>
-                                    @endif
-                                </select>
-                            </div>
+                            {{--<div class="form-group col-sm-3">--}}
+                                {{--<label> الخزينة </label>--}}
+                                {{--<select name="safe_id" data-live-search="true" class="selectpicker form-control inline-control" id="safe_id">--}}
+                                    {{--@if(request()->has('safe_id') && request('safe_id') != null)--}}
+                                        {{--@php $safe = \App\Models\AccountingSystem\AccountingSafe::find(request('safe_id')); @endphp--}}
+                                        {{--<option value="{{ $safe->id }}" selected="">{{ $safe->name }}</option>--}}
+                                    {{--@else--}}
+                                        {{--<option value="" selected="" disabled="">اختر الخزينة</option>--}}
+                                    {{--@endif--}}
+                                {{--</select>--}}
+                            {{--</div>--}}
                             <div class="form-group col-sm-3">
                                 <label> القسم </label>
                                 {!! Form::select("category_id",productCategories(),request('category_id'),['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}
@@ -127,58 +127,50 @@
                     </div>
                 </div>
             </section>
-
-            <div class="form-group col-md-12 pull-left">
-                {{--<label class="label label-info">  الشركة    : </label>--}}
-                <center>
-                    @if(isset($requests['company_id']))
-                        @php($company=\App\Models\AccountingSystem\AccountingCompany::find($requests['company_id']))
-                        <span><img src="{!!getimg($company->image)!!}" style="width:100px; height:100px"> </span>
-                    @endif
-                </center>
-            </div>
-            @if(isset($requests['company_id']))
-                <div class="form-group col-md-2 pull-left">
-                    <label class="label label-info">  الشركة    : </label>
-                    @php($company=\App\Models\AccountingSystem\AccountingCompany::find($requests['company_id']))
-                    <span>{{$company->name}}</span>
-                </div>
-            @endif
-            @if(isset($requests['branch_id']))
-                <div class="form-group col-md-2 pull-left">
-                    <label class="label label-info">  الفرع   : </label>
-                    @php($branch=\App\Models\AccountingSystem\AccountingBranch::find($requests['branch_id']))
-                    <span>{{$branch->name}}</span>
-                </div>
-            @endif
-            @if(isset($requests['store_id']))
-                <div class="form-group col-md-2 pull-left">
-                    <label class="label label-info"> المخزن: </label>
-                    @php($store=\App\Models\AccountingSystem\AccountingStore::find($requests['store_id']))
-                    <span>{{$store->ar_name}}</span>
-                </div>
-            @endif
-            @if(isset($requests['product_id']))
-                <div class="form-group col-md-2 pull-left">
-                    <label class="label label-info"> الصنف: </label>
-                    @php($product=\App\Models\AccountingSystem\AccountingProduct::find($requests['product_id']))
-                    <span>{{$product->name}}</span>
-                </div>
-            @endif
-            @if(isset($requests['from']))
-                <div class="form-group col-md-2 pull-left">
-                    <label class="label label-info"> من: </label>
-                    <span>{{$requests['from']}}</span>
-                </div>
-            @endif
-            @if(isset($requests['to']))
-                <div class="form-group col-md-2 pull-left">
-                    <label class="label label-info"> الى: </label>
-                    <span>{{$requests['to']}}</span>
-                </div>
-            @endif
+<div id="print-window">
             <table class="table datatable-button-init-basic">
                 <thead>
+
+                <tr class="normal-bgc">
+                    @if(isset($requests['company_id']))
+                        <td class="company-imgg-td" colspan="8">
+                            @php $company=\App\Models\AccountingSystem\AccountingCompany::find($requests['company_id'])@endphp
+                            <span><img src="{!!getimg($company->image)!!}" style="width:100px; height:100px"> </span>
+                            <span>{{$company->name}}</span>
+                        </td>
+                    @endif
+
+                </tr>
+
+                <tr  class="normal-bgc">
+                    @if(isset($requests['branch_id']))
+                        @php $branch=\App\Models\AccountingSystem\AccountingBranch::find($requests['branch_id']) @endphp
+                        <td class="footTdLbl" colspan="2">الفرع : <span>{{$branch->name}}</span></td>
+                    @endif
+
+                    {{--@if(isset($requests['user_id']))--}}
+                        {{--@php $user=\App\User::find($requests['user_id']) @endphp--}}
+                        {{--<td class="footTdLbl" colspan="2">القائم بالعمليه : <span>{{$user->name}}</span></td>--}}
+                    {{--@endif--}}
+
+                    @if(isset($requests['product_id']))
+                        @php $product=\App\Models\AccountingSystem\AccountingProduct::find($requests['product_id']) @endphp
+                        <td class="footTdLbl" colspan="2">الصنف : <span>{{$product->name}}</span></td>
+                    @endif
+                        {{--@if(isset($requests['session_id']))--}}
+                            {{--@php $session=\App\Models\AccountingSystem\AccountingSession::find($requests['session_id']) @endphp--}}
+                            {{--<td class="footTdLbl" colspan="2">كود الجلسه : <span>{{$session->code}}</span></td>--}}
+                        {{--@endif--}}
+
+                        @if(isset($requests['from']))
+                            <td class="footTdLbl" colspan="2"> من:<span>{{$requests['from']}}</span></td>
+                        @endif
+
+                        @if(isset($requests['to']))
+                            <td class="footTdLbl" colspan="2">إلى :<span>{{$requests['to']}}</span></td>
+                        @endif
+
+                </tr>
                 <tr>
                     <th>#</th>
                     <th> التاريخ </th>
@@ -192,7 +184,11 @@
                 </thead>
                 <tbody>
 
+                @php $all_amounts=0; $discounts=0; $total_tax=0; $all_total=0; @endphp
+
                 @foreach($sales as $row)
+                    @php $all_amounts+=$row->all_amounts; $discounts+=$row->discounts; $total_tax+=$row->total_tax; $all_total+=$row->all_total;@endphp
+
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->created_at->locale('ar')->toDayDateTimeString() !!}</td>
@@ -212,9 +208,23 @@
 
 
                 </tbody>
+                <tfoot>
+                <tr>
+                    <td>المجموع</td>
+                    <td></td>
+                    <td>{{$all_amounts}}</td>
+                    <td>{{$discounts}}</td>
+                    <td>{{$total_tax}}</td>
+                    <td>{{$all_total}}  </td>
+                    <td></td>
+                </tr>
+                </tfoot>
             </table>
         </div>
-
+        </div>
+<div class="row print-wrapper">
+        	<button class="btn btn-success" id="print-all">طباعة</button>
+        </div>
     </div>
 
 
