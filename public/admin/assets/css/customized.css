@@ -381,6 +381,14 @@ td.dataTables_empty {
 .dataTables_filter > label:after {
 	color: #2ecc71
 }
+.print-wrapper {
+    text-align: center;
+    display: inline-block;
+    width: 100%;
+    padding: 15px;
+}
+
+
 
 tr td img {
 	border-radius: 50% !important;
@@ -684,6 +692,11 @@ div.dt-button-collection a.dt-button.active:not(.disabled) {
 @media print {
 	.datatable-button-init-basic {
 		direction: rtl !important
+	}
+	
+	#print-window .datatable-header , #print-window .datatable-footer{
+		display: none !important;
+		visibility: hidden !important
 	}
 }
 
