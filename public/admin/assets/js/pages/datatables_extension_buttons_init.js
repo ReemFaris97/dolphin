@@ -22,6 +22,7 @@ td.company-imgg-td span {
     text-align: center;
 margin-top : 10px
 }
+
 </style>
 `;
     let win = window.open('', '', 'height=700,width=700');
