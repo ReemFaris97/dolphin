@@ -152,7 +152,7 @@
                     @php($quantities=0)
                     @php($price=0)
                     @foreach($sales as $row)
-                        @php( $quantities+=$row->quantity)
+                        @php( $quantities +=$row->quantity)
                         @php( $price+=$row->price)
                         <tr>
                             <td>{!!$loop->iteration!!}</td>
@@ -177,7 +177,7 @@
                     @php($quantities=0)
                     @php($price=0)
                     @foreach($damages as $row)
-                        @php( $quantities+=$row->quantity)
+                        @php( $quantities +=$row->quantity)
                         @php( $price+=$row->price)
                         <tr>
                             <td>{!!$loop->iteration!!}</td>
@@ -196,7 +196,7 @@
 
                     @endforeach
                 @endif
-       @endif
+
                 </tbody>
                 <tfoot>
                 <tr>
@@ -208,6 +208,7 @@
                     <td colspan="4"></td>
                 </tr>
                 </tfoot>
+                @endif
             </table>
 
             {{--@if($expire_products != [])--}}
