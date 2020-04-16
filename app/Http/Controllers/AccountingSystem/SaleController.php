@@ -322,7 +322,7 @@ class SaleController extends Controller
            $sales_payed_cash=AccountingSale::where('session_id',$request['session_id'])->sum('cash');
            $sales_payed_network=AccountingSale::where('session_id',$request['session_id'])->sum('network');
            $sales_payed=AccountingSale::where('session_id',$request['session_id'])->sum('payed');
-           $returns_total=AccountingReturn::where('session_id',$request['session_id'])->sum('price');
+           $returns_total=AccountingReturn::where('session_id',$request['session_id'])->sum('total');
 
 
 
