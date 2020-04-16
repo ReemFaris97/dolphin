@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\AccountingSystem\AccountingMoneyClause;
 use App\Models\AccountingSystem\AccountingPurchase;
 use App\Models\AccountingSystem\AccountingSale;
+use App\Observers\MoneyClauseLogObserver;
 use App\Observers\PurchaseObserver;
 use App\Observers\SaleObserver;
 use Illuminate\Support\Facades\Schema;
@@ -34,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
 
               AccountingSale::observe(SaleObserver::class);
               AccountingPurchase::observe(PurchaseObserver::class);
+        AccountingMoneyClause::observe(MoneyClauseLogObserver::class);
 
     }
 }
