@@ -57,13 +57,13 @@ class ClauseController extends Controller
     public function store(Request $request)
     {
     //    dd($request->all());
-         $rules = [
-
-             'benod_id'=>'required|numeric|exists:accounting_benods,id',
-
-
-         ];
-         $this->validate($request,$rules);
+//         $rules = [
+//
+//             'benod_id'=>'required|numeric|exists:accounting_benods,id',
+//
+//
+//         ];
+//         $this->validate($request,$rules);
         $requests = $request->all();
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'photos');
@@ -83,9 +83,10 @@ class ClauseController extends Controller
                     'amount' => $safe->amount + $requests['amount']
 
                 ]);
+
                 $client->update([
 
-                    'balance' => $client->balance -$requests['balance']
+                    'balance' => $client->balance -$requests['amount']
 
                 ]);
 
