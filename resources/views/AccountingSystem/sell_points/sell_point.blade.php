@@ -679,7 +679,7 @@ $("#barcode_search").scannerDetection({
 	avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms
 	preventDefault: true,
 	endChar: [13],
-	onComplete: function(barcode, qty){
+	onComplete: function(barcode, qty){	
    		validScan = true;
 		$.ajax({
 			url: "/accounting/barcode_search_sale/" + barcode,
@@ -705,7 +705,7 @@ $("#barcode_search").scannerDetection({
 		});
     },
 	onError: function(string, qty) {
-		alert(string);
+		$('#barcode_search').val ($('#barcode_search').val()  + string);
 	}
 });
 
