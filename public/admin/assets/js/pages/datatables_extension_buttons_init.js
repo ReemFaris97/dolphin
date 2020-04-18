@@ -27,7 +27,7 @@ margin-top : 10px
 `;
     let win = window.open('', '', 'height=700,width=700');
     win.document.write('<html><head>');
-    win.document.write('<title>Profile</title>');
+    win.document.write('<title>التقرير</title>');
     win.document.write(style);
     win.document.write('</head>');
     win.document.write('<body>');

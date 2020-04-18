@@ -2,31 +2,41 @@
 
 namespace App\Observers;
 
-
-use Carbon\Carbon;
+use App\Models\AccountingSystem\AccountingMoneyClause;
+use App\Models\AccountingSystem\AccountingSupplier;
+use App\Models\AccountingSystem\AccountingSupplierLog;
 
 class MoneyClauseLogObserver
 {
-    /**
-     * Handle the clause log "created" event.
-     *
-     * @param \App\ClauseLog $clauseLog
-     * @return void
-     */
-    public function created(ClauseLog $clauseLog)
-    {
-        $depends_tasks = Task::where('type', 'depends')->where('clause_id', $clauseLog->clause_id)->get();
 
-        foreach ($depends_tasks as $task) {
-            $statment = $task->clause_amount . ' ' . $task->equation_mark . ' ' . $task->clause_amount . ';';
-            if (eval($statment)) {
-                $task->fill(['date' => Carbon::now()])->save();
-                $task->save();
+    public function created(AccountingMoneyClause $clause)
+    {
+
+//        dd($clause);
+        if ($clause->concerned=='supplier'){
+            $supplier = AccountingSupplier::find($clause->supplier_id);
+
+            if ($clause->type=='revenue'){
+                $log=new AccountingSupplierLog();
+
+                $log->supplier_id=$supplier->id;
+                $log->clause_id=$clause->id;
+                $log->amount=$clause->amount;
+                $log->status='creditor';
+                $log->type='سند قبض';
+                $log->new_balance=round($supplier->balance,2);
+                $log->save();
+            }else{
+                $log=new AccountingSupplierLog();
+
+                $log->supplier_id=$supplier->id;
+                $log->clause_id=$clause->id;
+                $log->amount=$clause->amount;
+                $log->status='debit';
+                $log->type='سند صرف';
+                $log->new_balance=round($supplier->balance,2);
+                $log->save();
             }
         }
-
-
     }
-
-
 }

@@ -10,7 +10,7 @@ class AccountingSupplierLog extends Model
 {
 
 
-    protected $fillable = ['supplier_id','purchase_id','clause_id','status','amount'
+    protected $fillable = ['supplier_id','purchase_id','clause_id','status','amount','type','new_balance','return_id'
  ];
     protected $table='accounting_supplier_log';
 

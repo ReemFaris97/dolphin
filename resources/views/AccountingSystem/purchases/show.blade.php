@@ -894,7 +894,7 @@
 								@foreach ($row->allDiscounts as $discount)
 									<span class="single-5asm">
 										@if($discount->discount_type=='percentage')
-										<span>  {{$discount->discount??0}} % </span>
+										<span>  {{$discount->discount*$row->price??0}} ر.س </span>
 										@elseif($key=='amount')
 										<span>   {{$discount->discount??0}} ر.س </span>
 										@endif
@@ -931,7 +931,7 @@
 									</tr>
 									<tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-minus"></i>قيمه الخصم على الفاتورة</td>
-										<td colspan="7">{!! $purchase->discount??0 !!}</td>
+										<td colspan="7">{!! $purchase->discount* $purchase->amount??0 !!}</td>
 									</tr>
 									<tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"> <i class="ti-plus"></i> قيمة الضريبه</td>

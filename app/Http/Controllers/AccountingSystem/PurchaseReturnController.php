@@ -106,7 +106,8 @@ class PurchaseReturnController extends Controller
             'company_id'=>$requests['company_id'],
             'user_id'=>auth()->user()->id,
             'store_id'=>$user->accounting_store_id,
-            'total'=>$requests['total']
+            'total'=>round($requests['total'],2),
+
         ]);
 
         $products = collect($requests['product_id']);
