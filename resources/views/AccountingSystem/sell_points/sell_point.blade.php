@@ -642,37 +642,6 @@
 	});
 	//	For Ajax Search By Product Bar Code
 
-	var BarcodeScanerEvents = function() {
-     this.initialize.apply(this, arguments);
-};
-
-BarcodeScanerEvents.prototype = {
-    initialize: function() {
-       $(document).on({
-          keyup: $.proxy(this._keyup, this)
-       });
-    },
-    _timeoutHandler: 0,
-    _inputString: '',
-    _keyup: function (e) {
-        if (this._timeoutHandler) {
-            clearTimeout(this._timeoutHandler);
-            this._inputString += String.fromCharCode(e.which);
-        } 
-
-        this._timeoutHandler = setTimeout($.proxy(function () {
-            if (this._inputString.length <= 3) {
-                this._inputString = '';
-                return;
-            }
-
-            $(document).trigger('onbarcodescaned', this._inputString);
-
-            this._inputString = '';
-
-        }, this), 20);
-    }
-};
 
 
 	
@@ -705,7 +674,7 @@ BarcodeScanerEvents.prototype = {
 //	
 //	});
 
-$(document).scannerDetection({
+$("#barcode_search").scannerDetection({
 	timeBeforeScanTest: 200, // wait for the next character for upto 200ms
 	avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms
 	preventDefault: true,
