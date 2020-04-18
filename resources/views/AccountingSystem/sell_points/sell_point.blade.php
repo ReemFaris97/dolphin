@@ -699,6 +699,7 @@ $("#barcode_search").scannerDetection({
 						$('#barcode_search').val('');
 						rowNum++;
 						byBarcode();
+						$('.product-quantity').find('input').trigger('change');
 					}	
 				}
 			}
@@ -726,6 +727,7 @@ $("#barcode_search").scannerDetection({
 						$('#barcode_search').val('');
 						rowNum++;
 						byBarcode();
+						$('.product-quantity').find('input').trigger('change');
 					}	
 				}
 			}
