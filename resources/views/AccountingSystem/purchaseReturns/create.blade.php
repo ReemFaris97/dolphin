@@ -235,7 +235,7 @@
 						var productName = selectedProduct.data('name');
 						var productLink = selectedProduct.data('link');
 						var lastPrice = selectedProduct.data('last-price');
-						var avgPrice = selectedProduct.data('average').toFixed(2);
+						var avgPrice = selectedProduct.data('average');
 						var barCode = selectedProduct.data('bar-code');
 						var productPrice = selectedProduct.data('price');
 						var priceHasTax = selectedProduct.data('price-has-tax');
@@ -702,7 +702,7 @@
 			var productName = selectedProduct.data('name');
 			var productLink = selectedProduct.data('link');
 			var lastPrice = selectedProduct.data('last-price');
-			var avgPrice = selectedProduct.data('average').toFixed(2);
+			var avgPrice = selectedProduct.data('average');
 			var barCode = selectedProduct.data('bar-code');
 			var productPrice = selectedProduct.data('price');
 			var priceHasTax = selectedProduct.data('price-has-tax');

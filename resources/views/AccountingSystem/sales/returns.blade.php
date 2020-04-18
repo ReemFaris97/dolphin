@@ -294,6 +294,8 @@
         });
 
 
+
+
         // For preventing user from inserting two methods of discount
         function preventDiscount() {
             $("input#byPercentage").change(function() {
