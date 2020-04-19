@@ -207,7 +207,7 @@
 @endsection
 @section('scripts')
 <script src="{{asset('admin/assets/js/jquery.datetimepicker.full.min.js')}}"></script>
-<!--<script src="https://rawgit.com/kabachello/jQuery-Scanner-Detection/master/jquery.scannerdetection.js"></script>-->
+<script src="{{asset('admin/assets/js/scanner.js')}}"></script>
 <script>
 	$(document).ready(function() {
 		$('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
@@ -267,7 +267,7 @@
 					var productName = selectedProduct.data('name');
 					var productLink = selectedProduct.data('link');
 					var lastPrice = selectedProduct.data('last-price');
-					var avgPrice = selectedProduct.data('average').toFixed(2);
+					var avgPrice = selectedProduct.data('average');
 					var barCode = selectedProduct.data('bar-code');
 					var productPrice = selectedProduct.data('price');
 					var priceHasTax = selectedProduct.data('price-has-tax');
@@ -664,13 +664,20 @@
 		});
 	});
 	//	For Ajax Search By Product Bar Code
-	$('#barcode_search').keyup(function(e) {
-		var barcode_search = $(this).val();
+	
+$("#barcode_search").scannerDetection({
+	timeBeforeScanTest: 200, // wait for the next character for upto 200ms
+	avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms
+	preventDefault: true,
+	endChar: [13],
+	onComplete: function(barcode, qty){
+   		validScan = true;
 		$.ajax({
-			url: "/accounting/barcode_search/" + barcode_search,
+			url: "/accounting/barcode_search_sale/" + barcode,
 			type: "GET",
 			success: function(data) {
 				if (data.data.length !== 0) {
+					$('#barcode_search').val('');
 					$(".tempobar").html(data.data);
 					var selectedID = $(".tempobar").find('option').data('unit-id');
 					var alreadyChosen = $(".bill-table tbody td select option[value=" + selectedID + "]");
@@ -680,16 +687,45 @@
 						repeatedInputVal.text(repeatedInputVal.val());
 						$('.product-quantity').find('input').trigger('change');
 					} else {
+						$('#barcode_search').val('');
 						rowNum++;
 						byBarcode();
 						$('.product-quantity').find('input').trigger('change');
-					}
-					$('#barcode_search').val('');
+					}	
 				}
 			}
 		});
-
-	});
+    },
+	onError: function(string, qty) {
+		$('#barcode_search').val ($('#barcode_search').val()  + string);
+		var barcode = $('#barcode_search').val();
+		validScan = true;
+		$.ajax({
+			url: "/accounting/barcode_search_sale/" + barcode,
+			type: "GET",
+			success: function(data) {
+				if (data.data.length !== 0) {
+					$('#barcode_search').val('');
+					$(".tempobar").html(data.data);
+					var selectedID = $(".tempobar").find('option').data('unit-id');
+					var alreadyChosen = $(".bill-table tbody td select option[value=" + selectedID + "]");
+					var repeatedInputVal = $(".bill-table tbody td select option[value=" + selectedID + "]:selected").parents('tr').find('.product-quantity').find('input');
+					if (alreadyChosen.length > 0 && alreadyChosen.is(':selected')) {
+						repeatedInputVal.val(Number(repeatedInputVal.val()) + 1);
+						repeatedInputVal.text(repeatedInputVal.val());
+						$('.product-quantity').find('input').trigger('change');
+					} else {
+						$('#barcode_search').val('');
+						rowNum++;
+						byBarcode();
+						$('.product-quantity').find('input').trigger('change');
+					}	
+				}
+			}
+		});
+		
+	}
+});
 
 	function byBarcode() {
 		$(".tempDisabled").removeClass("tempDisabled");
@@ -699,7 +735,7 @@
 		var productName = selectedProduct.data('name');
 		var productLink = selectedProduct.data('link');
 		var lastPrice = selectedProduct.data('last-price');
-		var avgPrice = selectedProduct.data('average').toFixed(2);
+		var avgPrice = selectedProduct.data('average');
 		var barCode = selectedProduct.data('bar-code');
 		var productPrice = selectedProduct.data('price');
 		var priceHasTax = selectedProduct.data('price-has-tax');
