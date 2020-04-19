@@ -239,7 +239,7 @@
 				</div>
 				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
 					<label> الكمية </label>
-					{!! Form::text("quantity",null,['class'=>'form-control','placeholder'=>' الكمية '])!!}
+					{!! Form::text("quantity",isset($is_edit)?$product->getTotalQuantities():null,['class'=>'form-control','placeholder'=>' الكمية '])!!}
 				</div>
 				<div class="form-group col-xs-12 pull-left">
 					<label> اسم الشركة المصنعة </label>
