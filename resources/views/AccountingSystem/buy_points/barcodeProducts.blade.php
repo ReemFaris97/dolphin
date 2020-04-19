@@ -48,8 +48,7 @@
        data-unit-id="{{$selectd_unit_id}}"
        data-last-price="{{$lastPrice->price_after_tax??0 }}"
        data-average="{{($average)??0 }}"
-       data-product_expiration="{{($product->type=='product_expiration')? '1':'0' }}"
-    >
+       data-product_expiration="{{($product->type=='product_expiration')? '1':'0' }}">
         {{$product->name}} - {{$product->bar_code}}
        </option>
     </select>
