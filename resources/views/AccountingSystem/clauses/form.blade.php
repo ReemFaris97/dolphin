@@ -327,15 +327,18 @@
         });
         $("#amount").on('change', function() {
             var amount= $(this).val();
-            var balance=  $('#balance').val();
+            var balance_client=  $('#client_balance').val();
             var new_balance=0;
             var type=$('#type').val();
+
             if (type=='revenue') {
-                new_balance=Number(balance)-Number(amount);
-            }else{
-                new_balance=Number(balance)+Number(amount);
+                new_balance=Number(balance_client)-Number(amount);
+            }else if(type=='expenses'){
+
+                new_balance=Number(balance_client) + Number(amount);
+
             }
-            $('#new_balance').val(new_balance);
+            $('#new_client_balance').val(new_balance);
 
         });
     });
