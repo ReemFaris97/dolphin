@@ -8,7 +8,7 @@ $(function() {
 
       $("#discounts_button").show();
 
-          $(".percent").hide();
+          $("#nesba-wrp").hide();
 
       }
 
@@ -16,7 +16,7 @@ $(function() {
         if (id =='percent')
         {
 
-            $(".percent").show();
+            $("#nesba-wrp").show();
 
             $("#discounts_button").hide();
 

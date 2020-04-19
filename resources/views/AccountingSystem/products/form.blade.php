@@ -287,13 +287,16 @@
 					{!! Form::select("discount_type",['percent'=>'نسبة','quantity'=>'كمية'],isset($discount)?$discount->discount_type:null,['class'=>'form-control js-example-basic-single','id'=>'discount_id','placeholder'=>' اختر الخصم '])!!}
 				</div>
 
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left ">
+				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left  " id="nesba-wrp">
 					<label> النسبة </label>
 					{!! Form::text("percent",isset($discount)?$discount->percent:null,['class'=>'form-control','placeholder'=>' النسبة '])!!}
 				</div>
-				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal4" id="discounts_button">
+				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left  " id="discounts_button">
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal4" >
 					العروض والخصومات
 				</button>
+				</div>
+				
 			</div>
 
 			<!--discounts table-->
@@ -625,7 +628,7 @@
 				swal({
 					title: "تم إضافة الوحدة الفرعية بنجاح",
 					text: "",
-					timer: 3000,
+					timer: 1000,
 					icon: "success",
 					buttons: ["موافق"],
 					dangerMode: true,
@@ -658,7 +661,7 @@
                 </tr>
                 `);
 				});
-				$('.add-products').append(appendProducts);
+				$('.add-products').html(appendProducts);
 				$('.delete-this-row').click(function(e) {
 					var $this = $(this);
 					var row_index = $(this).parents('tr').index();
@@ -689,6 +692,7 @@
 					$('#exampleModal #main_unit_present').val($this.parents('tr').find('.prod-pre').html());
 					$('#exampleModal #selling_price').val($this.parents('tr').find('.prod-spri').html());
 					$('#exampleModal #purchasing_price').val($this.parents('tr').find('.prod-ppri').html());
+					$('#exampleModal #quantity').val($this.parents('tr').find('.prod-quantity').html());
 					var row_index_edit = $(this).parents('tr').index();
 					bigData.splice(row_index_edit, 1);
 				});
@@ -907,6 +911,7 @@
 					icon: "success",
 					buttons: ["موافق"],
 					dangerMode: true,
+					timer: 1000
 				})
 
 				bigDataDiscount.push(discount_data);
