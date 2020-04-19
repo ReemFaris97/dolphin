@@ -641,7 +641,7 @@
 	onComplete: function(barcode, qty){
    		validScan = true;
 		$.ajax({
-			url: "/accounting/barcode_search_sale/" + barcode,
+			url: "/accounting/barcode_search/" + barcode,
 			type: "GET",
 			success: function(data) {
 				if (data.data.length !== 0) {
@@ -669,7 +669,7 @@
 		var barcode = $('#barcode_search').val();
 		validScan = true;
 		$.ajax({
-			url: "/accounting/barcode_search_sale/" + barcode,
+			url: "/accounting/barcode_search/" + barcode,
 			type: "GET",
 			success: function(data) {
 				if (data.data.length !== 0) {
