@@ -46,10 +46,16 @@
        data-subunits="{{json_encode($arr,JSON_UNESCAPED_UNICODE)}}"
        data-total_discounts="{{$product->total_discounts}}"
        data-unit-id="{{$selectd_unit_id}}"
+<<<<<<< HEAD
             data-last-price="{{$lastPrice->price_after_tax??0 }}"
        data-average="{{($average)??0 }}"
        data-product_expiration="{{($product->type=='product_expiration')? '1':'0' }}"
     >
+=======
+       data-last-price="{{$lastPrice->price_after_tax??0 }}"
+       data-average="{{($average)??0 }}"
+       data-product_expiration="{{($product->type=='product_expiration')? '1':'0' }}">
+>>>>>>> afb8fb5d06a0304b28526d0087aa14d9ba8a5b70
         {{$product->name}} - {{$product->bar_code}}
        </option>
     </select>
