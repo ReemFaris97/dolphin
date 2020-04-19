@@ -109,7 +109,7 @@ class PurchaseController extends Controller
 
                 if($unit){
                     $unit->update([
-                        'quantity'=>$unit->quantity - $merge['1'],
+                        'quantity'=>$unit->quantity + $merge['1'],
                     ]);
 
                 }

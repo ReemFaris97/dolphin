@@ -125,6 +125,12 @@ class SaleController extends Controller
             $product=AccountingProduct::find($merge['0']);
             if($merge['2']!='main-'.$product->id){
                 $unit=AccountingProductSubUnit::where('product_id',$merge['0'])->where('id',$merge['2'])->first();
+                if($unit){
+                    $unit->update([
+                        'quantity'=>$unit->quantity - $merge['1'],
+                    ]);
+
+                }
             }
                 $item= AccountingSaleItem::create([
                     'product_id'=>$merge['0'],
@@ -241,6 +247,12 @@ class SaleController extends Controller
             $product=AccountingProduct::find($merge['0']);
             if($merge['2']!='main-'.$product->id){
                 $unit=AccountingProductSubUnit::where('product_id',$merge['0'])->where('id',$merge['2'])->first();
+                if($unit){
+                    $unit->update([
+                        'quantity'=>$unit->quantity + $merge['1'],
+                    ]);
+
+                }
             }
             $item= AccountingReturnSaleItem::create([
                 'product_id'=>$merge['0'],
