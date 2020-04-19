@@ -9,9 +9,7 @@ $(function(){
     $("#branch_id").on('change', function() {
         var idddd = $(this).val();
 
-        //alert(idddd);
-        console.log(idddd);
-
+   
 
         $.ajax({
             url: "/accounting/faces_branch/" + idddd,
@@ -23,10 +21,9 @@ $(function(){
             if(data.length ==0)
                 data.push('لا توجد  اوجه لفرع');
             var val;
-            faces.push('<option disabled selected> اختر الوجه</option>');
+            faces.push('<option selected> اختر الوجه</option>');
             $.each(data, function(i,n){
                 val = i;
-
                 faces.push('<option value='+i+'>'+n+'</option>');
             });
             if(val==0)
