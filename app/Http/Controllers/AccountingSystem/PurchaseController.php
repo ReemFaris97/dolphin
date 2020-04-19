@@ -65,7 +65,7 @@ class PurchaseController extends Controller
     public function store(Request $request)
     {
         $requests = $request->except('user_id');
-
+//dd($requests);
         $rules = [
            'supplier_id'=>'required|numeric|exists:accounting_suppliers,id',
                 // 'reminder'=>'required|numeric|gt:0',
@@ -90,6 +90,7 @@ class PurchaseController extends Controller
             'totalTaxs'=>$requests['totalTaxs'],
         ]);
 
+
         $products = collect($requests['product_id']);
         $qtys = collect($requests['quantity']);
         $unit_id = collect($requests['unit_id']);
@@ -105,6 +106,14 @@ class PurchaseController extends Controller
             $product=AccountingProduct::find($merge['0']);
             if($merge['2']!='main-'.$product->id){
                 $unit=AccountingProductSubUnit::where('product_id',$merge['0'])->where('id',$merge['2'])->first();
+
+                if($unit){
+                    $unit->update([
+                        'quantity'=>$unit->quantity - $merge['1'],
+                    ]);
+
+                }
+
             }
 //            if($product->quantity>0){
             $item= AccountingPurchaseItem::create([
@@ -205,7 +214,7 @@ class PurchaseController extends Controller
 
         }
     }
-
+//        dd($purchase);
         if($purchase->payment=='cash'){
 
                $store_id=auth()->user()->accounting_store_id;
