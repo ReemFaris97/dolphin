@@ -118,7 +118,7 @@
 
 <div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left">
     <label>نوع السند [قبض-صرف]</label>
-    {!! Form::select("type",['revenue'=>'قبض','expenses'=>'مصروف'],null,['class'=>'form-control','placeholder'=>' نوع السند  '])!!}
+    {!! Form::select("type",['revenue'=>'قبض','expenses'=>'مصروف'],null,['class'=>'form-control','placeholder'=>' نوع السند  ','id'=>'type'])!!}
 </div>
 
 <div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left benods">
@@ -295,14 +295,24 @@
         }).fail(function (error) {
             console.log(error);
         });
+        $("#amount").on('change', function() {
+            var amount= $(this).val();
+            var balance=  $('#balance').val();
+            var new_balance=0;
+            var type=$('#type').val();
+            if (type=='revenue') {
+             new_balance=Number(balance)+Number(amount);
+
+              }else{
+                new_balance=Number(balance)-Number(amount);
+
+            }
+            $('#new_balance').val(new_balance);
+
+        });
     });
 
-    $("#amount").on('change', function() {
-        var amount= $(this).val();
-        var balance=  $('#balance').val();
-         var new_balance=balance-amount;
-        $('#new_balance').val(new_balance.toFixed(2));
-    });
+
 
     $("#client_id").on('change', function() {
         var id= $(this).val();
@@ -315,13 +325,21 @@
         }).fail(function (error) {
             console.log(error);
         });
+        $("#amount").on('change', function() {
+            var amount= $(this).val();
+            var balance=  $('#balance').val();
+            var new_balance=0;
+            var type=$('#type').val();
+            if (type=='revenue') {
+                new_balance=Number(balance)-Number(amount);
+            }else{
+                new_balance=Number(balance)+Number(amount);
+            }
+            $('#new_balance').val(new_balance);
+
+        });
     });
 
-    $("#amount").on('change', function() {
-        var amount= $(this).val();
-        var client_balance=  $('#client_balance').val();
-        var new_balance=client_balance-amount;
-        $('#new_client_balance').val(new_balance.toFixed(2));
-    });
+
 </script>
 @endsection
