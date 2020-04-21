@@ -230,6 +230,7 @@ class PurchaseController extends Controller
                 'balance'=>$supplier->balance +$purchase->total
             ]);
         }
+
         alert()->success('تمت عملية الشراء بنجاح !')->autoclose(5000);
         return back();
     }

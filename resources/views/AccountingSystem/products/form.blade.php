@@ -155,24 +155,26 @@
 							<th>العمليات</th>
 						</tr>
 					</thead>
+					@if (isset($is_edit))
 					<tbody class="add-products">
-					{{--@dd($subunits)--}}
-						@if (isset($is_edit))
-						@foreach($subunits as $unit)
-						<tr>
-							<td>{{$unit->name}}</td>
-							<td>{{$unit->bar_code}}</td>
-							<td>{{$unit->main_unit_present}}</td>
-							<td>{{$unit->selling_price}}</td>
-							<td>{{$unit->purchasing_price}}</td>
-							<td>{{$unit->quantity}}</td>
-							<td>
-								<a href="#" onclick="Delete({{$unit->id}})" class="delete-sub-unit">حذف</a>
-							</td>
-						</tr>
-						@endforeach
-						@endif
+							@foreach($subunits as $unit)
+								<tr>
+									<td>{{$unit->name}}</td>
+									<td>{{$unit->bar_code}}</td>
+									<td>{{$unit->main_unit_present}}</td>
+									<td>{{$unit->selling_price}}</td>
+									<td>{{$unit->purchasing_price}}</td>
+									<td>{{$unit->quantity}}</td>
+									<td>
+										<a href="#" onclick="Delete({{$unit->id}})" class="delete-sub-unit">حذف</a>
+									</td>
+								</tr>
+							@endforeach
 					</tbody>
+					<tbody class="edit-products"></tbody>
+					@else
+					<tbody class="add-products"></tbody>
+					@endif
 				</table>
 				<!-- services table-->
 				<span> الخدمات </span>
@@ -661,7 +663,17 @@
                 </tr>
                 `);
 				});
+				
+				@if (isset($is_edit))
+			
+				
+				$('.edit-products').html(appendProducts);
+				
+				
+				@else
 				$('.add-products').html(appendProducts);
+				@endif
+				
 				$('.delete-this-row').click(function(e) {
 					var $this = $(this);
 					var row_index = $(this).parents('tr').index();
@@ -697,17 +709,7 @@
 					bigData.splice(row_index_edit, 1);
 				});
 				document.getElementById("name").val = " ";
-				$('[data-dismiss=modal]').on('click', function(e) {
-					var $t = $(this),
-							target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
-					$(target)
-							.find("input,textarea,select")
-							.val('')
-							.end()
-							.find("input[type=checkbox], input[type=radio]")
-							.prop("checked", "")
-							.end();
-				})
+				
 			} else {
 				swal({
 					title: "من فضلك قم بملئ كل البيانات المميزة بالعلامة الحمراء",

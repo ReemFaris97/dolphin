@@ -284,6 +284,14 @@
 
     </script>
 <script>
+    $("#type").on('change', function() {
+        $('#new_balance').val("");
+        $('#new_client_balance').val("");
+        $('#amount').val("");
+
+    });
+
+
     $("#supplier_id").on('change', function() {
         var id= $(this).val();
         $.ajax({
@@ -325,6 +333,7 @@
         }).fail(function (error) {
             console.log(error);
         });
+
         $("#amount").on('change', function() {
             var amount= $(this).val();
             var balance_client=  $('#client_balance').val();

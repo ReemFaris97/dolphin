@@ -949,13 +949,13 @@
 						</div>
 
 						<div class="one-bill-inpt the-bill-date" style="direction: ltr;border-bottom: 0px;display:inline-block;width:50%;text-align: center!important;margin-bottom: 0px;padding-bottom:0px;margin-top: 0px;float:right">
-							<span class="bill-lbl"><?php echo Carbon\Carbon::now()->format('d-m-Y') ?></span>
+							<span class="bill-lbl"><?php echo $sale->date  ?></span>
 							<i class="ti-calendar" style="float: none;"></i>
 						</div>
-						<div class="one-bill-inpt the-bill-date" style="direction: ltr;border-bottom: 0px;display:inline-block;width:50%;text-align: center!important;margin-bottom: 0px;padding-bottom:0px;margin-top: 0px;float:right">
-							<span class="bill-lbl"><?php echo Carbon\Carbon::now()->format('g:i a') ?></span>
-							<i class="ti-alarm-clock" style="float: none;"></i>
-						</div>
+						{{--<div class="one-bill-inpt the-bill-date" style="direction: ltr;border-bottom: 0px;display:inline-block;width:50%;text-align: center!important;margin-bottom: 0px;padding-bottom:0px;margin-top: 0px;float:right">--}}
+							{{--<span class="bill-lbl"><?php echo $sale->date ?></span>--}}
+							{{--<i class="ti-alarm-clock" style="float: none;"></i>--}}
+						{{--</div>--}}
 						<div class="one-bill-inpt the-cust-name" style="border-bottom: 0px;display:block;width:100%;margin-bottom: 0px;padding-bottom: 0px;border-bottom:1px solid #333!important">
 							<i class="ti-user"></i>
 							<span class="bill-lbl" style="float:right;text-align:right;">مدخل الفاتوره : </span>

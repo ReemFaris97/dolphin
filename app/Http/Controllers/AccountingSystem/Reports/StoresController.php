@@ -218,7 +218,9 @@ class StoresController extends Controller
                 $expire=new Carbon($product->expired_at);
                 if ($expire->diff(Carbon::now())->days <= $product->alert_duration) {
 //                    $product_store=AccountingProductStore::find($item);
-                    array_push($expire_products, $product);
+                    if(!in_array($product,$expire_products)) {
+                        array_push($expire_products, $product);
+                    }
                 }
             }
 
@@ -234,7 +236,9 @@ class StoresController extends Controller
                 $expire=new Carbon($product->expired_at);
                 if ($expire->diff(Carbon::now())->days <= $product->alert_duration) {
 //                    $product_store=AccountingProductStore::find($item);
-                    array_push($expire_products, $product);
+                    if(!in_array($product,$expire_products)) {
+                        array_push($expire_products, $product);
+                    }
                 }
             }
         } //company_and_branch_and_store_only
@@ -248,8 +252,9 @@ class StoresController extends Controller
                 $expire=new Carbon($product->expired_at);
                 if ($expire->diff(Carbon::now())->days <= $product->alert_duration) {
 //                    $product_store=AccountingProductStore::find($item);
-                    array_push($expire_products, $product);
-                }
+                    if(!in_array($product,$expire_products)) {
+                        array_push($expire_products, $product);
+                    }                }
             }
 //      dd($expire_products);
         }
@@ -352,33 +357,85 @@ class StoresController extends Controller
 //      dd(request()->all());
         $requests=request()->all();
         //purchases
-       if (\request('company_id') != Null && \request('branch_id') != Null && \request('store_id') != Null && \request('product_id') != Null && \request('type') == 'purchases') {
-      ;
-           $product = AccountingProduct::find(\request('product_id'));
-           $store_id = \request('store_id');
-           $purchases = AccountingPurchaseItem::where('product_id', '=', $product->id)
-               ->whereHas('purchase', function ($query) use ($store_id, $from, $to) {
-                   $query->where('store_id',$store_id)->whereBetween('created_at', [Carbon::parse($from), Carbon::parse($to)]);
-               })->get();
-
-
-        }elseif (\request('company_id') != Null && \request('branch_id') != Null && \request('store_id') != Null && \request('product_id') != Null && \request('type') == 'sales') {
+       if (\request('company_id') != Null && \request('branch_id') != Null && \request('product_id') != Null && \request('type') == 'purchases') {
 
            $product = AccountingProduct::find(\request('product_id'));
-           $store_id = \request('store_id');
-           $sales= AccountingSaleItem::where('product_id', '=', $product->id)
-               ->whereHas('sale', function ($query) use ($store_id, $from, $to) {
-                   $query->where('store_id',$store_id)->whereBetween('created_at', [Carbon::parse($from), Carbon::parse($to)]);
-               })->get();
 
-       }elseif (\request('company_id') != Null && \request('branch_id') != Null && \request('store_id') != Null && \request('product_id') != Null && \request('type') == 'damaged') {
+
+           if (\request('store_id') != Null){
+               $store_id = \request('store_id');
+               $purchases = AccountingPurchaseItem::where('product_id', '=', $product->id)
+                   ->whereHas('purchase', function ($query) use ($store_id, $from, $to) {
+                       $query->where('store_id',$store_id)->whereBetween('created_at', [Carbon::parse($from), Carbon::parse($to)]);
+                   })->get();
+           }else
+           {
+               $purchases = AccountingPurchaseItem::where('product_id', '=', $product->id)
+                   ->whereHas('purchase', function ($query) use ( $from, $to) {
+                       $query->whereBetween('created_at', [Carbon::parse($from), Carbon::parse($to)]);
+                   })->get();
+           }
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+       elseif (\request('company_id') != Null && \request('branch_id') != Null &&  \request('product_id') != Null && \request('type') == 'sales') {
+
+           $product = AccountingProduct::find(\request('product_id'));
+
+           if (\request('store_id') != Null) {
+
+               $store_id = \request('store_id');
+               $sales= AccountingSaleItem::where('product_id', '=', $product->id)
+                   ->whereHas('sale', function ($query) use ($store_id, $from, $to) {
+                       $query->where('store_id',$store_id)->whereBetween('created_at', [Carbon::parse($from), Carbon::parse($to)]);
+                   })->get();
+
+           }else{
+               $store_id = \request('store_id');
+               $sales= AccountingSaleItem::where('product_id', '=', $product->id)
+                   ->whereHas('sale', function ($query) use ( $from, $to) {
+                       $query->whereBetween('created_at', [Carbon::parse($from), Carbon::parse($to)]);
+                   })->get();
+
+           }
+
+       }elseif (\request('company_id') != Null && \request('branch_id') != Null  && \request('product_id') != Null && \request('type') == 'damaged') {
         $product = AccountingProduct::find(\request('product_id'));
-        $store_id = \request('store_id');
-        $damages = AccountingDamageProduct::where('product_id', '=', $product->id)
-            ->whereHas('damage', function ($query) use ($store_id, $from, $to) {
-                $query->where('store_id',$store_id)->whereBetween('created_at', [Carbon::parse($from), Carbon::parse($to)]);
-            })->get();
-    }
+
+        if (\request('store_id') != Null){
+            $store_id = \request('store_id');
+            $damages = AccountingDamageProduct::where('product_id', '=', $product->id)
+                ->whereHas('damage', function ($query) use ($store_id, $from, $to) {
+                    $query->where('store_id',$store_id)->whereBetween('created_at', [Carbon::parse($from), Carbon::parse($to)]);
+                })->get();
+        }else{
+
+
+            $damages = AccountingDamageProduct::where('product_id', '=', $product->id)
+                ->whereHas('damage', function ($query) use ( $from, $to) {
+                    $query->whereBetween('created_at', [Carbon::parse($from), Carbon::parse($to)]);
+                })->get();
+        }
+
+        //----------------all------------------------------------------------------
+    }elseif (\request('company_id') != Null && \request('branch_id') != Null && \request('store_id') != Null && \request('product_id') != Null && \request('type') == 'all') {
+           $product = AccountingProduct::find(\request('product_id'));
+           $store_id = \request('store_id');
+           $damages = AccountingDamageProduct::where('product_id', '=', $product->id)
+               ->whereHas('damage', function ($query) use ($store_id, $from, $to) {
+                   $query->where('store_id',$store_id)->whereBetween('created_at', [Carbon::parse($from), Carbon::parse($to)]);
+               })->get();
+       }
 
         else{
             $purchases=[];

@@ -1,5 +1,4 @@
 @extends('AccountingSystem.layouts.master')
-
 @section('title','عرض سند')
 @section('parent_title','إدارة سندات القبض والصرف')
 @section('styles')
@@ -36,11 +35,9 @@
         top: 0;
         left: 0;
         margin: 0;
-        padding: 15px;
         font-size: 14px;
         line-height: 18px;
 		z-index: 999999 !important;
-		border: 4px dashed #000 !important;
 		padding-top: 20px !important
     }
 	.print-wrapper{
@@ -66,7 +63,58 @@
 		</div>
 	</div>
 	<div class="panel-body myDivToPrint">
-		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left">
+	
+	
+		<div class="sanad-design">
+			<div class="sanad-header-wrap">
+				<div>التاريخ : <span class="fillable"> 15 / 2 / 2020 </span></div>
+				<div class="sanad-head-mid">
+					<img src="//via.placeholder.com/150x150" alt="اسم الشركة">
+					<h3><span class="fillable">اسم الشركة</span></h3>
+					<p>نوع السند / <span class="fillable"> قبض </span></p>
+				</div>
+				<div>رقم السند : <span class="fillable"> 115 </span></div>
+			</div>
+			<div class="sanad-body-wap">
+				<p>
+					 تفضلوا بالصرف للمكرم / السيد : <span class="fillable"> محمد السيد ابراهيم </span>
+				</p>
+				<p>
+					تم الاستلام من المكرم / السيد :  <span class="fillable"> محمد السيد ابراهيم </span> 
+				</p>
+				<p>
+					وذلك تحت اسم بند / <span class="fillable">إسم البند</span> بمبلغ وقدره <span class="fillable"> 200 </span>
+				</p>
+				<p>
+				وذلك تحت بيان / <span class="fillable"> اسم البيان هنا </span>
+				</p>
+				<p>
+					طريقة الدفع / <span class="fillable"> نقدي </span>
+				</p>
+				<div class="bank-wrap">
+					<p>
+						<span class="col-xs-6"> اسم البنك : <span class="fillable"> اسم البنك هنا </span> </span>
+						<span class="col-xs-6"> رقم التحويل أو رقم الشيك : <span class="fillable"> رقم التحويل هنا </span> </span>
+					</p>
+					<p class="ta7weel-img">
+						<span>صورة التحويل أو الشيك</span>
+						<img src="//via.placeholder.com/400x200" alt="صورة التحويل" >
+					</p>
+				</div>
+				<p>
+					من خلال خزينة الدفع : <span class="fillable"> اسم الخزينة </span>
+				</p>
+			</div>
+			<div class="sanad-footer-wrap">
+				<div>المحاسب / <span class="fillable"> محمد المرسي </span></div>
+				<div>المستلم / <span class="fillable"> محمد المرسي </span></div>
+				<div>المدير / <span class="fillable"> محمد المرسي </span></div>
+			</div>
+		</div>
+	
+<!--
+<div class="tempo">
+			<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left">
 			<label> السند ل </label>
 			@if ($clause->concerned=="client")
 			<span> عميل </span>
@@ -76,6 +124,7 @@
 			<span> عام</span>
 			@endif
 		</div>
+		
 		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left">
 			<label> رقم السند</label>
 			<span>{{$clause->num}}</span>
@@ -94,14 +143,14 @@
 			<span>{{optional($clause->client)->amount}}</span>
 		</div>
 		@endif
-		@if ($clause->concerned=="suppiler")
+		@if ($clause->concerned=="supplier")
 		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left suppliers">
 			<label> اسم المورد </label>
-			<span>{{optional($clause->suppiler)->name}}</span>
+			<span>{{optional($clause->supplier)->name}}</span>
 		</div>
 		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left suppliers">
 			<label> رصيد المورد </label>
-			<span>{{optional($clause->suppiler)->balance}}</span>
+			<span>{{optional($clause->supplier)->balance}}</span>
 		</div>
 		@endif
 		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left">
@@ -172,6 +221,10 @@
 			<span>{{$clause->notes}}</span>
 		</div>
 		<h3></h3>
+		
+</div>
+-->
+
 	</div>
 	<div class="row print-wrapper">
 		<button class="btn btn-success" onclick="window.print()">طباعة</button>

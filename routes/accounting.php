@@ -256,7 +256,10 @@ Route::middleware('admin')->group(function () {
     Route::group(['prefix' => 'ajax'], function () {
         Route::get('branches/{id}', 'HomeController@getBranches');
         Route::get('stores/{id}', 'HomeController@getStores');
+        Route::get('stores-form-company/{id}', 'HomeController@getStoresCompany');
         Route::get('products-store/{id}', 'HomeController@getProductStore');
+        Route::get('products-store-branch/{id}', 'HomeController@getProductStoreBranch');
+
         Route::get('users-by-branches/{branch_id}', 'HomeController@getUsersByBranch');
         Route::get('products/{id}', 'HomeController@getProducts');
         Route::get('sessions/{id}', 'HomeController@getSessions');
