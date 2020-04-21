@@ -69,46 +69,88 @@
 			<div class="sanad-header-wrap">
 				<div>التاريخ : <span class="fillable"> 15 / 2 / 2020 </span></div>
 				<div class="sanad-head-mid">
-					<img src="//via.placeholder.com/150x150" alt="اسم الشركة">
-					<h3><span class="fillable">اسم الشركة</span></h3>
-					<p>نوع السند / <span class="fillable"> قبض </span></p>
+					<img src="{!!getimg($clause->company->image)!!}" alt="اسم الشركة">
+					<h3><span class="fillable">{{optional($clause->company)->name}}</span></h3>
+					<p>نوع السند / <span class="fillable">
+							@if ($clause->type=="expenses")
+							صرف
+							@elseif($clause->type=="revenue")
+								 قبض
+							@endif
+						</span>
+					</p>
 				</div>
-				<div>رقم السند : <span class="fillable"> 115 </span></div>
+				<div>رقم السند : <span class="fillable"> {{$clause->num}} </span></div>
 			</div>
 			<div class="sanad-body-wap">
+				@if ($clause->type=="expenses")
 				<p>
-					 تفضلوا بالصرف للمكرم / السيد : <span class="fillable"> محمد السيد ابراهيم </span>
+					 تفضلوا بالصرف للمكرم / السيد : <span class="fillable">
+					@if ($clause->concerned=="client")
+							{{optional($clause->client)->name}}
+						@elseif($clause->concerned=="supplier")
+							{{optional($clause->supplier)->name}}
+						@else
+							{{$clause->name}}
+						@endif
+					</span>
+				</p>
+				@elseif($clause->type=="revenue")
+
+				<p>
+					تم الاستلام من المكرم / السيد :  <span class="fillable">
+					@if ($clause->concerned=="client")
+							{{optional($clause->client)->name}}
+						@elseif($clause->concerned=="supplier")
+							{{optional($clause->supplier)->name}}
+						@else
+							{{$clause->name}}
+						@endif
+					</span>
+				</p>
+				@endif
+				<p>
+					وذلك تحت اسم بند / <span class="fillable">{{optional($clause->benod)->ar_name}}</span> بمبلغ وقدره <span class="fillable"> {{$clause->amount}} </span>
 				</p>
 				<p>
-					تم الاستلام من المكرم / السيد :  <span class="fillable"> محمد السيد ابراهيم </span> 
+				وذلك تحت بيان / <span class="fillable">{{$clause->description}} </span>
 				</p>
 				<p>
-					وذلك تحت اسم بند / <span class="fillable">إسم البند</span> بمبلغ وقدره <span class="fillable"> 200 </span>
+					طريقة الدفع / <span class="fillable">
+
+						@if ($clause->payment=="cash")
+							نقدى
+						@elseif($clause->payment=="network")
+							شبكة
+						@elseif($clause->payment=="check")
+							شيك
+
+						@else
+							تحويل بنكى
+
+						@endif
+					</span>
 				</p>
-				<p>
-				وذلك تحت بيان / <span class="fillable"> اسم البيان هنا </span>
-				</p>
-				<p>
-					طريقة الدفع / <span class="fillable"> نقدي </span>
-				</p>
+					@if(isset($clause->bank_id))
 				<div class="bank-wrap">
 					<p>
-						<span class="col-xs-6"> اسم البنك : <span class="fillable"> اسم البنك هنا </span> </span>
-						<span class="col-xs-6"> رقم التحويل أو رقم الشيك : <span class="fillable"> رقم التحويل هنا </span> </span>
+						<span class="col-xs-6"> اسم البنك : <span class="fillable"> {{optional($clause->bank)->name}} </span> </span>
+						<span class="col-xs-6"> رقم التحويل أو رقم الشيك : <span class="fillable">   {{$clause->num_transaction}} </span> </span>
 					</p>
 					<p class="ta7weel-img">
 						<span>صورة التحويل أو الشيك</span>
-						<img src="//via.placeholder.com/400x200" alt="صورة التحويل" >
+						<img src="{!!getimg($clause->image)!!}" alt="صورة التحويل" >
 					</p>
 				</div>
+					@endif
 				<p>
-					من خلال خزينة الدفع : <span class="fillable"> اسم الخزينة </span>
+					من خلال خزينة الدفع : <span class="fillable"> {{optional($clause->safe)->name}}</span>
 				</p>
 			</div>
 			<div class="sanad-footer-wrap">
-				<div>المحاسب / <span class="fillable"> محمد المرسي </span></div>
-				<div>المستلم / <span class="fillable"> محمد المرسي </span></div>
-				<div>المدير / <span class="fillable"> محمد المرسي </span></div>
+				<div>المحاسب / <span class="fillable">   </span></div>
+				<div>المستلم / <span class="fillable">   </span></div>
+				<div>المدير / <span class="fillable">   </span></div>
 			</div>
 		</div>
 	

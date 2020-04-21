@@ -19,6 +19,11 @@ class AccountingMoneyClause extends Model
         return $this->belongsTo(AccountingClient::class,'client_id');
     }
 
+    public function bank()
+    {
+        return $this->belongsTo(AccountingBank::class,'bank_id');
+    }
+
     public function supplier()
     {
         return $this->belongsTo(AccountingSupplier::class,'supplier_id');
