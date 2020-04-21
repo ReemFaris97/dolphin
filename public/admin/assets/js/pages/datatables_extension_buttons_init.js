@@ -22,7 +22,6 @@ td.company-imgg-td span {
     text-align: center;
 margin-top : 10px
 }
-
 </style>
 `;
     let win = window.open('', '', 'height=700,width=700');
@@ -40,27 +39,6 @@ margin-top : 10px
 
 
 	
-//	function pdf() {
-//    let t = document.getElementById('print-window').innerHTML;
-//    let style = "<style>";
-//    style = style + "html , body , table {direction : rtl !important}";
-//    style = style + "table {width: 100%; font-size: 17px;}";
-//    style = style + "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
-//    style = style + "padding: 2px 3px;text-align: center;}";
-//    style = style + "</style>";
-//    let win = window.open('', '', 'height=700,width=700');
-//    win.document.write('<html><head>');
-//    win.document.write('<title>Profile</title>');
-//    win.document.write(style);
-//    win.document.write('</head>');
-//    win.document.write('<body>');
-//    win.document.write(t);
-//    win.document.write('</body></html>');
-//    win.document.close();
-//    win.print();
-//}
-	
-	
     // Table setup
     // ------------------------------
 
@@ -75,11 +53,11 @@ margin-top : 10px
             paginate: { 'first': 'First', 'last': 'Last', 'next': '&larr;', 'previous': '&rarr;' }
         }
     });
-
-
-    // Basic initialization
-    $('.datatable-button-init-basic').DataTable({
-        buttons: {
+	
+	var table =  $('.datatable-button-init-basic');
+    var tableOptions = {
+        'bPaginate': true,
+		buttons: {
             dom: {
                 button: {
                     className: 'btn btn-default'
@@ -93,7 +71,32 @@ margin-top : 10px
                 {extend: 'print', footer: true , header : true}
             ]
         }
+    };
+   table.DataTable(tableOptions);
+   $('#print-all').on('click', function() {        
+        table.DataTable().destroy()
+        tableOptions.bPaginate = false;
+        table.DataTable(tableOptions);
     });
+
+
+    // Basic initialization
+//    $('.datatable-button-init-basic').DataTable({
+//        buttons: {
+//            dom: {
+//                button: {
+//                    className: 'btn btn-default'
+//                }
+//            },
+//            buttons: [
+//                {extend: 'copy', footer: true},
+//                {extend: 'csv', footer: true},
+//                {extend: 'excel', footer: true},
+//                {extend: 'pdf', footer: true},
+//                {extend: 'print', footer: true , header : true}
+//            ]
+//        }
+//    });
 
 
     // Custom button
