@@ -632,7 +632,6 @@
 			});
 		});
 		//	For Ajax Search By Product Bar Code
-		
 		$("#barcode_search").scannerDetection({
 	timeBeforeScanTest: 200, // wait for the next character for upto 200ms
 	avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms

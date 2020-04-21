@@ -697,6 +697,8 @@ div.dt-button-collection a.dt-button.active:not(.disabled) {
 	#print-window .datatable-header , #print-window .datatable-footer{
 		display: none !important;
 		visibility: hidden !important
+	}#print-window th.company-imgg-td img{
+		border-radius: 0px !important;
 	}
 }
 
