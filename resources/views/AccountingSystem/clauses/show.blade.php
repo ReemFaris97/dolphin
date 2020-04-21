@@ -94,14 +94,14 @@
 			<span>{{optional($clause->client)->amount}}</span>
 		</div>
 		@endif
-		@if ($clause->concerned=="suppiler")
+		@if ($clause->concerned=="supplier")
 		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left suppliers">
 			<label> اسم المورد </label>
-			<span>{{optional($clause->suppiler)->name}}</span>
+			<span>{{optional($clause->supplier)->name}}</span>
 		</div>
 		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left suppliers">
 			<label> رصيد المورد </label>
-			<span>{{optional($clause->suppiler)->balance}}</span>
+			<span>{{optional($clause->supplier)->balance}}</span>
 		</div>
 		@endif
 		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left">

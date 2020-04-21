@@ -23,7 +23,7 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>  البند </th>
+                    {{--<th>  البند </th>--}}
 
                     <th> المبلغ  </th>
                     <th>  اسم  الخزنيه  </th>
@@ -37,7 +37,7 @@
                 @foreach($clauses as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
-                        <td>{!!optional($row->benod)->ar_name!!}</td>
+                        {{--<td>{!!optional($row->benod)->ar_name!!}</td>--}}
 
                         <td>{!! $row->amount!!}</td>
                         <td>{!!optional($row->safe)->name!!}</td>

@@ -661,7 +661,7 @@
                 </tr>
                 `);
 				});
-				$('.add-products').html(appendProducts);
+				$('.add-products').empty().append(appendProducts);
 				$('.delete-this-row').click(function(e) {
 					var $this = $(this);
 					var row_index = $(this).parents('tr').index();
