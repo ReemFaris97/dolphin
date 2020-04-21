@@ -125,7 +125,7 @@
                         <td>{!!  ($quantites[$row->product->id]) !!}</td>
 
 
-                        <td>{!! $row->product->min_quantity!!}</td>
+                        <td>{!! $row->product->min_quantity?? 0!!}</td>
 
                         <td>{!! $row->created_at !!}</td>
 

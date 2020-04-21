@@ -69,7 +69,7 @@ class SaleController extends Controller
     public function store(Request $request)
     {
         $requests = $request->all();
-
+//dd($requests);
         if(!$request->client_id){
 
             $requests['client_id']=5;
@@ -77,6 +77,7 @@ class SaleController extends Controller
 
         $user=User::find($requests['user_id']);
         $requests['branch_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:Null;
+
 
 
         $sale=AccountingSale::create($requests);
@@ -88,6 +89,7 @@ class SaleController extends Controller
         $sale->update([
             'bill_num'=>$sale->id."-".$sale->created_at,
             'user_id'=>$requests['user_id'] ,
+            'date'=>$requests['bill_date'] ,
             'store_id'=>$user->accounting_store_id,
             'debts'=>$requests['reminder'] ,
             'payment'=>'agel',
@@ -142,6 +144,13 @@ class SaleController extends Controller
 
                 if($merge['2']!='main-'.$product->id){
 
+                    $unit=AccountingProductSubUnit::where('product_id',$merge['0'])->where('id',$merge['2'])->first();
+                    if($unit){
+                        $unit->update([
+                            'quantity'=>$unit->quantity - $merge['1'],
+                        ]);
+
+                    }
                     $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',$merge['2'])->first();
                    if ($productstore) {
                        if ($productstore->quantity >= 0) {
@@ -157,6 +166,17 @@ class SaleController extends Controller
                             if ($productstore) {
                                 $productstore->update([
                                     'quantity' => $productstore->quantity - $merge['1'],
+                                ]);
+                            }
+                        }
+                    }
+
+                    $product=AccountingProduct::findOrFail($merge['0']);
+                    if ($product) {
+                        if($product->quantity >= 0) {
+                            if ($product) {
+                                $product->update([
+                                    'quantity' => $product->quantity - $merge['1'],
                                 ]);
                             }
                         }

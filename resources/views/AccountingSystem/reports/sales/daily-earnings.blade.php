@@ -165,21 +165,44 @@
                 </tr>
                 </thead>
                 <tbody>
-                        @foreach($sales as  $sale)
+
+                @php $purchases_products=0; $sales_total=0; $discounts=0; $all_total=0; @endphp
+
+                @foreach($sales as $sale)
+                    @php
+                        $purchases_products+=$sale['productPrice'];
+                        $discounts+=$sale['discounts'];
+                        $sales_total+=$sale['all_amounts'];
+                        $all_total+=$sale['all_amounts']-$sale['discounts'] - $sale['productPrice'];
+                    @endphp
+
                     <tr>
                         <td>{!!$sale['date']!!}</td>
-                        <td>{!!$sale['productPrice']!!}</td>
-                        <td>{!!$sale['all_amounts']!!}</td>
-                        <td>{!!$sale['discounts']!!}</td>
+                        <td>{!!$sale['productPrice']?? 0!!}</td>
+                        <td>{!!$sale['all_amounts']?? 0!!}</td>
+                        <td>{!!$sale['discounts']?? 0!!}</td>
                         <td>{!!$sale['all_amounts']-$sale['discounts'] - $sale['productPrice'] !!}</td>
                         <td class="text-center">
                             <a href="{{route('accounting.reports.sale_details')}}?date={{ $sale->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
 
                         </td>
                     </tr>
+
                         @endforeach
 
                 </tbody>
+
+                <tfoot>
+                <tr>
+                    <td>المجموع</td>
+
+                    <td>{{$purchases_products}}</td>
+                    <td>{{$sales_total}}</td>
+                    <td>{{$discounts}}</td>
+                    <td>{{$all_total}}  </td>
+                    <td></td>
+                </tr>
+                </tfoot>
             </table>
 			</div>
            

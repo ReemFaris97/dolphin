@@ -158,10 +158,10 @@
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->created_at->locale('ar')->toDayDateTimeString() !!}</td>
-                        <td>{!! $row->all_amounts !!}</td>
-                        <td>{!! $row->discounts !!}</td>
-                        <td>{!! $row->total_tax !!}</td>
-                        <td>{!! $row->all_total !!}</td>
+                        <td>{!! $row->all_amounts?? 0 !!}</td>
+                        <td>{!! $row->discounts ?? 0 !!}</td>
+                        <td>{!! $row->total_tax?? 0 !!}</td>
+                        <td>{!! $row->all_total?? 0 !!}</td>
 
                         <td class="text-center">
                             <a href="{{route('accounting.reports.purchase_details')}}?date={{ $row->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>

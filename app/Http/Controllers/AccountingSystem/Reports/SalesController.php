@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\AccountingSystem\Reports;
 
+use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingPurchase;
 use App\Models\AccountingSystem\AccountingReturn;
 use App\Models\AccountingSystem\AccountingSale;
+use App\Models\AccountingSystem\AccountingStore;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingSale as Sale;
@@ -17,13 +19,16 @@ class SalesController extends Controller
     {
         $requests=request()->all();
         if ($request->has('company_id')) {
-            $sales = Sale::select('id',\DB::raw('DATE(created_at) as date'), \DB::raw('count(*) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'),'created_at');
+            $stores_company = AccountingStore::where('model_id', \request('company_id'))->where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->pluck('id');
+            $branches = AccountingBranch::where('company_id', \request('company_id'))->pluck('id');
+            $stores_branch = AccountingStore::whereIn('model_id', $branches)->where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->pluck('id');
+            $stores = array_merge(json_decode($stores_branch), json_decode($stores_company));
+
+            $sales = Sale::whereIn('store_id',$stores)->select('id',\DB::raw('DATE(created_at) as date'), \DB::raw('count(*) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'),'created_at');
 
          if ($request->has('branch_id') && $request->branch_id != null) {
             $sales = $sales->where('branch_id', $request->branch_id);
          }
-
-
 
             if ($request->has('user_id') && $request->user_id != null ) {
                 $sales = $sales->where('user_id', $request->user_id);

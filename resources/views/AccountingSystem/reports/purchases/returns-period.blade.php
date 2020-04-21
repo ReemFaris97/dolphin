@@ -170,10 +170,10 @@
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->created_at->locale('ar')->toDayDateTimeString() !!}</td>
-                        <td>{!! $row->all_amounts !!}</td>
-                        <td>{!! $row->discounts !!}</td>
-                        <td>{!! $row->total_tax !!}</td>
-                        <td>{!! $row->all_total !!}</td>
+                        <td>{!! $row->all_amounts?? 0 !!}</td>
+                        <td>{!! $row->discounts?? 0 !!}</td>
+                        <td>{!! $row->total_tax?? 0 !!}</td>
+                        <td>{!! $row->all_total?? 0 !!}</td>
                         {{--<td>{!! $row->return_cash !!}</td>--}}
                         {{--<td>{!! $row->return_agel !!}</td>--}}
 
