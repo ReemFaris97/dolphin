@@ -27,7 +27,7 @@
                 <div class="yurSections">
                     <div class="row">
                         <div class="col-xs-12">
-                            {!!Form::open( ['route' => 'accounting.reports.movements-products' ,'class'=>'form phone_validate', 'method' => 'GET','files' => true]) !!}
+                            {!!Form::open( ['route' => 'accounting.reports.movements-products' ,'class'=>'form phone_validate', 'method' => 'post','files' => true]) !!}
                             <div class="form-group col-sm-3">
                                 <label> الشركة </label>
                                 {!! Form::select("company_id",companies(),null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الشركة','data-live-search'=>'true','id'=>'company_id'])!!}

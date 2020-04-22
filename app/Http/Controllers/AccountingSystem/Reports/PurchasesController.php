@@ -16,15 +16,19 @@ class PurchasesController extends Controller
     
     public function index(Request $request)
    	{
-        $users=User::where('is_saler',1)->get();
         $requests=request()->all();
-   		if ($request->has('company_id')) {
-   			$purchases = Purchase::select('id',\DB::raw('DATE(created_at) as date'), \DB::raw('count(*) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'),'created_at');
+//	    dd($requests);
+        $users=User::where('is_saler',1)->get();
 
+   		if ($request->has('company_id')) {
+
+   			$purchases = Purchase::select('id',\DB::raw('DATE(created_at) as date'), \DB::raw('count(*) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'),'created_at');
             if ($request->has('branch_id') && $request->branch_id != null) {
                $purchases = $purchases->where('branch_id', $request->branch_id);
-            }
 
+
+            }
+//            dd($purchases);
 //   			if ($request->has('safe_id') && $request->safe_id != null ) {
 //   				$purchases = $purchases->where('safe_id', $request->safe_id);
 //   			}
@@ -37,8 +41,10 @@ class PurchasesController extends Controller
                $purchases = $purchases->whereHas('items', function ($item) use ($request) {
                   $item->where('product_id', $request->product_id);
                });
+
             }
    			if ($request->has('from') && $request->has('to')) {
+
 
    				$purchases = $purchases->whereBetween('created_at', [Carbon::parse($request->from), Carbon::parse($request->to)]);
    			}
@@ -100,6 +106,7 @@ class PurchasesController extends Controller
       {
 
           $requests=request()->all();
+
          if ($request->has('company_id')) {
             $purchases = PurchaseReturn::select('id',\DB::raw('DATE(created_at) as date'), \DB::raw('count(*) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'),'created_at');
 

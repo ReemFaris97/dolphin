@@ -27,7 +27,7 @@
                 <div class="yurSections">
                     <div class="row">
                         <div class="col-xs-12">
-                            {!!Form::open( ['route' => 'accounting.reports.stagnant-products' ,'class'=>'form phone_validate', 'method' => 'GET','files' => true]) !!}
+                            {!!Form::open( ['route' => 'accounting.reports.stagnant-products' ,'class'=>'form phone_validate', 'method' => 'post','files' => true]) !!}
 
                             @if (count($errors) > 0)
                                 {{--@php popup('error',$errors->all()) @endphp--}}
