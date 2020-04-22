@@ -14,7 +14,7 @@ $(function() {
 	$("#print-all").click(function(){
 	let t = document.getElementById('print-window').innerHTML;
 		let style = `<style>.datatable-header , .datatable-footer{display: none !important;visibility: hidden !important}
-					 html , body , table {direction : rtl !important}table {width: 100%; font-size: 17px;}
+					 html , body , table {direction : rtl !important}table {width: 100%; font-size: 17px;} table .td-display-none{display:none!important}
 table, th, td {border: solid 1px #DDD; border-collapse: collapse;padding: 2px 3px;text-align: center;}
 td.company-imgg-td span {
     display: block;
