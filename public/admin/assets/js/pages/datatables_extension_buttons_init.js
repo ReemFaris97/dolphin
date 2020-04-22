@@ -14,7 +14,7 @@ $(function() {
 	$("#print-all").click(function(){
 	let t = document.getElementById('print-window').innerHTML;
 		let style = `<style>.datatable-header , .datatable-footer{display: none !important;visibility: hidden !important}
-					 html , body , table {direction : rtl !important}table {width: 100%; font-size: 17px;}
+					 html , body , table {direction : rtl !important}table {width: 100%; font-size: 17px;} table .td-display-none{display:none!important}
 table, th, td {border: solid 1px #DDD; border-collapse: collapse;padding: 2px 3px;text-align: center;}
 td.company-imgg-td span {
     display: block;
@@ -25,13 +25,7 @@ margin-top : 10px
 </style>
 `;
     let win = window.open('', '', 'height=700,width=700');
-    win.document.write('<html><head>');
-    win.document.write('<title>التقرير</title>');
-    win.document.write(style);
-    win.document.write('</head>');
-    win.document.write('<body>');
-    win.document.write(t);
-    win.document.write('</body></html>');
+    win.document.write(`<html><head><title>التقرير</title>${style}</head><body>${t}</body></html>`);
     win.document.close();
     win.print();
 	})

@@ -67,9 +67,12 @@
 	
 		<div class="sanad-design">
 			<div class="sanad-header-wrap">
-				<div>التاريخ : <span class="fillable"> 15 / 2 / 2020 </span></div>
+				<div>
+				التاريخ : <span class="fillable"> 15 / 2 / 2020 </span>
+				<br>
+				رقم السند : <span class="fillable"> {{$clause->num}} </span>
+				</div>
 				<div class="sanad-head-mid">
-					<img src="{!!getimg($clause->company->image)!!}" alt="اسم الشركة">
 					<h3><span class="fillable">{{optional($clause->company)->name}}</span></h3>
 					<p>نوع السند / <span class="fillable">
 							@if ($clause->type=="expenses")
@@ -80,7 +83,10 @@
 						</span>
 					</p>
 				</div>
-				<div>رقم السند : <span class="fillable"> {{$clause->num}} </span></div>
+				<div class="logo-wrappe">
+<!--					<img src="{!!getimg($clause->company->image)!!}" alt="{{optional($clause->company)->name}}">-->
+					<img src="//via.placeholder.com/500x100" alt="{{optional($clause->company)->name}}">
+				</div>
 			</div>
 			<div class="sanad-body-wap">
 				@if ($clause->type=="expenses")
@@ -93,6 +99,7 @@
 						@else
 							{{$clause->name}}
 						@endif
+						<b style="margin-right:60px">المحترم</b>
 					</span>
 				</p>
 				@elseif($clause->type=="revenue")
@@ -106,6 +113,7 @@
 						@else
 							{{$clause->name}}
 						@endif
+						<b style="margin-right:60px">المحترم</b>
 					</span>
 				</p>
 				@endif
@@ -113,7 +121,7 @@
 					وذلك تحت اسم بند / <span class="fillable">{{optional($clause->benod)->ar_name}}</span> بمبلغ وقدره <span class="fillable"> {{$clause->amount}} </span>
 				</p>
 				<p>
-				وذلك تحت بيان / <span class="fillable">{{$clause->description}} </span>
+				وذلك عن / <span class="fillable">{{$clause->description}} </span>
 				</p>
 				<p>
 					طريقة الدفع / <span class="fillable">
@@ -134,8 +142,8 @@
 					@if(isset($clause->bank_id))
 				<div class="bank-wrap">
 					<p>
-						<span class="col-xs-6"> اسم البنك : <span class="fillable"> {{optional($clause->bank)->name}} </span> </span>
-						<span class="col-xs-6"> رقم التحويل أو رقم الشيك : <span class="fillable">   {{$clause->num_transaction}} </span> </span>
+						<span class="col-xs-6"> على البنك : <span class="fillable"> {{optional($clause->bank)->name}} </span> </span>
+						<span class="col-xs-6"> برقم : <span class="fillable">   {{$clause->num_transaction}} </span> </span>
 					</p>
 					<p class="ta7weel-img">
 						<span>صورة التحويل أو الشيك</span>
@@ -144,13 +152,24 @@
 				</div>
 					@endif
 				<p>
-					من خلال خزينة الدفع : <span class="fillable"> {{optional($clause->safe)->name}}</span>
+					 خزينة الدفع : <span class="fillable"> {{optional($clause->safe)->name}}</span>
 				</p>
 			</div>
 			<div class="sanad-footer-wrap">
-				<div>المحاسب / <span class="fillable">   </span></div>
-				<div>المستلم / <span class="fillable">   </span></div>
-				<div>المدير / <span class="fillable">   </span></div>
+				<div>
+					المحاسب / <span class="fillable">   </span>
+					<b>التوقيع / .......................</b>
+				</div>
+				
+				<div>
+					المستلم / <span class="fillable">   </span>
+					<b>التوقيع / .......................</b>
+				</div>
+				
+				<div>
+					المدير / <span class="fillable">   </span>
+					<b>التوقيع / .......................</b>
+				</div>
 			</div>
 		</div>
 	
@@ -268,6 +287,8 @@
 -->
 
 	</div>
+	
+	
 	<div class="row print-wrapper">
 		<button class="btn btn-success" onclick="window.print()">طباعة</button>
 	</div>
