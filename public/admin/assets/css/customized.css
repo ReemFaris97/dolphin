@@ -788,6 +788,7 @@ p.ta7weel-img img{
 	.ta7weel-img img{
 		display: none !important
 	}
+	table .td-display-none{display:none!important}
 	
 	body {
   -webkit-print-color-adjust: exact !important;
