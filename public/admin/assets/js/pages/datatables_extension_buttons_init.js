@@ -25,13 +25,7 @@ margin-top : 10px
 </style>
 `;
     let win = window.open('', '', 'height=700,width=700');
-    win.document.write('<html><head>');
-    win.document.write('<title>التقرير</title>');
-    win.document.write(style);
-    win.document.write('</head>');
-    win.document.write('<body>');
-    win.document.write(t);
-    win.document.write('</body></html>');
+    win.document.write(`<html><head><title>التقرير</title>${style}</head><body>${t}</body></html>`);
     win.document.close();
     win.print();
 	})
