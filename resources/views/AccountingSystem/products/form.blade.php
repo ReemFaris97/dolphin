@@ -121,7 +121,7 @@
 				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
 					<label>الوحدة الاساسية </label><span style="color: #ff0000; margin-right: 15px;">[جرام -كيلو-لتر]</span>
 					<!-- Button trigger modal -->
-					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+					<button type="button" class="btn btn-primary" id="openExampleModal" data-toggle="modal" data-target="#exampleModal">
 						الوحدات الفرعية
 					</button>
 					{{--<input class="form-control autocomplete" placeholder="Enter A" />--}}
@@ -583,18 +583,6 @@
 			// $("#discountTable").hide();
 			$("#serviceTable").hide();
 
-			// $('input[name="price_has_tax"]').click(function() {
-			// 	if ($(this).is(':checked')) {
-			// 		var id = $(this).val();
-			//
-			// 		if (id == 1) {
-			// 			$(".prices_taxs").show();
-			// 		} else if (id == 0) {
-			// 			$(".prices_taxs").show();
-			// 		}
-			// 	}
-			// // });
-
 			$('input[name="tax"]').click(function () {
 				if ($(this).is(':checked')) {
 					var id = $(this).val();
@@ -610,7 +598,13 @@
 			});
 
 
+			$("button#openExampleModal").click(function(){
+				$("#exampleModal").find("input,textarea,select").val('');
+				$("#exampleModal").find("input[type=checkbox], input[type=radio]").prop("checked", "");
+			})
+			
 		});
+
 		var bigData = [];
 		var bigDataComponent = [];
 		var bigDataOffer = [];
@@ -637,6 +631,7 @@
 				})
 				bigData.push(data);
 				$("#productsTable").show();
+				
 				var appendProducts = bigData.map(function(product) {
 					return (`
                 <tr class="single-product">
@@ -736,6 +731,7 @@
 					buttons: ["موافق"],
 					dangerMode: true,
 				})
+				
 				bigDataComponent.push(component_data);
 				$("#componentTable").show();
 				var appendComponent = bigDataComponent.map(function(component) {
@@ -792,17 +788,7 @@
 					bigDataComponent.splice(row_index_edit_component, 1);
 				});
 				document.getElementById("name").val = " ";
-				$('[data-dismiss=modal]').on('click', function(e) {
-					var $t = $(this),
-							target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
-					$(target)
-							.find("input,textarea,select")
-							.val('')
-							.end()
-							.find("input[type=checkbox], input[type=radio]")
-							.prop("checked", "")
-							.end();
-				})
+				
 			} else {
 				swal({
 					title: "من فضلك قم بملئ كل البيانات المميزة بالعلامة الحمراء",
