@@ -161,7 +161,7 @@
                     <th> إجمالي المببيعات </th>
                     <th> إجمالي الخصومات </th>
                     <th> إجمالي  الربح</th>
-                    <th class="text-center">العمليات</th>
+                    <th class="text-center td-display-none">العمليات</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -182,7 +182,7 @@
                         <td>{!!$sale['all_amounts']?? 0!!}</td>
                         <td>{!!$sale['discounts']?? 0!!}</td>
                         <td>{!!$sale['all_amounts']-$sale['discounts'] - $sale['productPrice'] !!}</td>
-                        <td class="text-center">
+                        <td class="text-center td-display-none">
                             <a href="{{route('accounting.reports.sale_details')}}?date={{ $sale->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
 
                         </td>
@@ -205,7 +205,7 @@
                 </tfoot>
             </table>
 			</div>
-           
+
             {{--(رقم وكود الفاتورة- العميل- اسم الكاشير – الإجمالي – إجمالي سعر الشراء – إجمالي سعر البيع – الخصم - الضريبة - الربح).--}}
 
             {{--<table class="table datatable-button-init-basic">--}}

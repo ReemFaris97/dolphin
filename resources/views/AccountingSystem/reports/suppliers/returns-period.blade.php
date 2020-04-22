@@ -179,7 +179,7 @@
                     {{--<th> إجمالي المرتجع الكاش </th>--}}
                     {{--<th> إجمالي مرتجع الخصم من المديونية </th>--}}
 
-                    <th class="text-center">العمليات</th>
+                    <th class="text-center td-display-none" >العمليات</th>
                 </tr>
                 </thead>
 
