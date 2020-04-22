@@ -30,7 +30,7 @@
                 <div class="yurSections">
                     <div class="row">
                         <div class="col-xs-12">
-                            {!!Form::open( ['route' => 'accounting.reports.damaged-products' ,'class'=>'form phone_validate', 'method' => 'GET','files' => true]) !!}
+                            {!!Form::open( ['route' => 'accounting.reports.damaged-products' ,'class'=>'form phone_validate', 'method' => 'post','files' => true]) !!}
                             @include('AccountingSystem.reports.stores.filter')
                             {!!Form::close() !!}
                         </div>

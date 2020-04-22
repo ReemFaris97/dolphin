@@ -209,45 +209,45 @@ Route::middleware('admin')->group(function () {
 
 
     Route::group(['prefix' => 'reports', 'namespace' => 'Reports', 'as' => 'reports.'], function () {
-        Route::get('damaged-products', ['as' => 'damaged-products', 'uses' => 'StoresController@damages']);
-        Route::get('inventory-products', ['as' => 'inventory-products', 'uses' => 'StoresController@inventory']);
-        Route::get('deficiency-products', ['as' => 'deficiency-products', 'uses' => 'StoresController@deficiency']);
-        Route::get('transaction-products', ['as' => 'transaction-products', 'uses' => 'StoresController@transactions']);
-        Route::get('expiration-products', ['as' => 'expiration-products', 'uses' => 'StoresController@expirations']);
-        Route::get('stagnant-products', ['as' => 'stagnant-products', 'uses' => 'StoresController@stagnants']);
-        Route::get('movements-products', ['as' => 'movements-products', 'uses' => 'StoresController@movements']);
+        Route::any('damaged-products', ['as' => 'damaged-products', 'uses' => 'StoresController@damages']);
+        Route::any('inventory-products', ['as' => 'inventory-products', 'uses' => 'StoresController@inventory']);
+        Route::any('deficiency-products', ['as' => 'deficiency-products', 'uses' => 'StoresController@deficiency']);
+        Route::any('transaction-products', ['as' => 'transaction-products', 'uses' => 'StoresController@transactions']);
+        Route::any('expiration-products', ['as' => 'expiration-products', 'uses' => 'StoresController@expirations']);
+        Route::any('stagnant-products', ['as' => 'stagnant-products', 'uses' => 'StoresController@stagnants']);
+        Route::any('movements-products', ['as' => 'movements-products', 'uses' => 'StoresController@movements']);
 
 
         Route::group(['prefix' => 'suppliers', 'as' => 'suppliers.'], function () {
-            Route::get('purchases', ['as' => 'purchases', 'uses' => 'SuppliersController@purchases']);
-            Route::get('purchases-all', ['as' => 'purchases-all', 'uses' => 'SuppliersController@purchasesAll']);
+            Route::any('purchases', ['as' => 'purchases', 'uses' => 'SuppliersController@purchases']);
+            Route::any('purchases-all', ['as' => 'purchases-all', 'uses' => 'SuppliersController@purchasesAll']);
 
-            Route::get('purchases-returns', ['as' => 'purchases-returns', 'uses' => 'SuppliersController@purchasesReturns']);
-            Route::get('purchases-returns-all', ['as' => 'purchases-returns-all', 'uses' => 'SuppliersController@purchasesReturnsAll']);
+            Route::any('purchases-returns', ['as' => 'purchases-returns', 'uses' => 'SuppliersController@purchasesReturns']);
+            Route::any('purchases-returns-all', ['as' => 'purchases-returns-all', 'uses' => 'SuppliersController@purchasesReturnsAll']);
 
-            Route::get('account-statement', ['as' => 'account-statement', 'uses' => 'SuppliersController@accountStatement']);
+            Route::any('account-statement', ['as' => 'account-statement', 'uses' => 'SuppliersController@accountStatement']);
 
 
         });
 
         Route::group(['prefix' => 'purchases'], function () {
-            Route::get('/', ['as' => 'purchases', 'uses' => 'PurchasesController@index']);
-            Route::get('details', ['as' => 'purchase_details', 'uses' => 'PurchasesController@details']);
-            Route::get('days', ['as' => 'purchases_day', 'uses' => 'PurchasesController@byDay']);
-            Route::get('returns', ['as' => 'purchases_returns', 'uses' => 'PurchasesController@returnsPeriod']);
-            Route::get('returns-details', ['as' => 'purchase_returns_details', 'uses' => 'PurchasesController@returnDetails']);
-            Route::get('returns-days', ['as' => 'purchases_returns_day', 'uses' => 'PurchasesController@returnsDay']);
+            Route::any('/', ['as' => 'purchases', 'uses' => 'PurchasesController@index']);
+            Route::any('details', ['as' => 'purchase_details', 'uses' => 'PurchasesController@details']);
+            Route::any('days', ['as' => 'purchases_day', 'uses' => 'PurchasesController@byDay']);
+            Route::any('returns', ['as' => 'purchases_returns', 'uses' => 'PurchasesController@returnsPeriod']);
+            Route::any('returns-details', ['as' => 'purchase_returns_details', 'uses' => 'PurchasesController@returnDetails']);
+            Route::any('returns-days', ['as' => 'purchases_returns_day', 'uses' => 'PurchasesController@returnsDay']);
         });
         Route::group(['prefix' => 'sales'], function () {
-            Route::get('period', ['as' => 'sales_period', 'uses' => 'SalesController@index']);
-            Route::get('details', ['as' => 'sale_details', 'uses' => 'SalesController@details']);
-            Route::get('days', ['as' => 'sales_day', 'uses' => 'SalesController@byDay']);
-            Route::get('returns', ['as' => 'sales_returns', 'uses' => 'SalesController@returnsPeriod']);
-            Route::get('returns-details', ['as' => 'sales_returns_details', 'uses' => 'SalesController@returnDetails']);
-            Route::get('returns-days', ['as' => 'sales_returns_day', 'uses' => 'SalesController@returnsDay']);
+            Route::any('period', ['as' => 'sales_period', 'uses' => 'SalesController@index']);
+            Route::any('details', ['as' => 'sale_details', 'uses' => 'SalesController@details']);
+            Route::any('days', ['as' => 'sales_day', 'uses' => 'SalesController@byDay']);
+            Route::any('returns', ['as' => 'sales_returns', 'uses' => 'SalesController@returnsPeriod']);
+            Route::any('returns-details', ['as' => 'sales_returns_details', 'uses' => 'SalesController@returnDetails']);
+            Route::any('returns-days', ['as' => 'sales_returns_day', 'uses' => 'SalesController@returnsDay']);
 
-            Route::get('daily-earnings', ['as' => 'daily_earnings', 'uses' => 'SalesController@daily_earnings']);
-            Route::get('period-earnings', ['as' => 'period_earnings', 'uses' => 'SalesController@period_earnings']);
+            Route::any('daily-earnings', ['as' => 'daily_earnings', 'uses' => 'SalesController@daily_earnings']);
+            Route::any('period-earnings', ['as' => 'period_earnings', 'uses' => 'SalesController@period_earnings']);
 
         });
     });

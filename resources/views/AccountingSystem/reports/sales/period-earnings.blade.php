@@ -29,8 +29,8 @@
                 <div class="yurSections">
                     <div class="row">
                         <div class="col-xs-12">
-                            <form action="" method="get" accept-charset="utf-8">
-
+                            <form action="" method="post" accept-charset="utf-8">
+                                @csrf
                             <div class="form-group col-sm-3">
                                 <label> الشركة </label>
                                 {!! Form::select("company_id",companies(), request('company_id'),['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الشركة','data-live-search'=>'true','id'=>'company_id'])!!}
