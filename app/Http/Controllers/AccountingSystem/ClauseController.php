@@ -101,7 +101,7 @@ class ClauseController extends Controller
                     ]);
                 }
                 $client->update([
-                    'balance' => $client->balance +$requests['balance']
+                    'balance' => $client->balance + $requests['amount']
                 ]);
             }
             //--------------------------supplier------------------------------------
