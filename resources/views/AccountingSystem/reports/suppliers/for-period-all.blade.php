@@ -174,7 +174,7 @@
                     <th> إجمالي الضريبة </th>
                     <th> إجمالي بعد الخصومات والضريبة </th>
 
-                    <th class="text-center">العمليات</th>
+                    <th class="text-center td-display-none">العمليات</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -192,7 +192,7 @@
                         <td>{!! $row->total_tax ??0!!}</td>
                         <td>{!! $row->all_total ?? 0 !!}</td>
 
-                        <td class="text-center">
+                        <td class="text-center td-display-none">
                             <a href="{{route('accounting.reports.purchase_details')}}?date={{ $row->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
 
                         </td>

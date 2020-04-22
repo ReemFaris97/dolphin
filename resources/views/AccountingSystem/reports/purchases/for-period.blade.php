@@ -156,8 +156,8 @@
 					<th><span> إجمالي الخصومات </span></th>
 					<th><span> إجمالي الضريبة </span></th>
 					<th><span> إجمالي بعد الخصومات والضريبة </span></th>
-                    
-                    <th class="text-center"><span>العمليات</span></th>
+
+                    <th class="text-center td-display-none"><span>العمليات</span></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -174,7 +174,7 @@
                         <td>{!! $row->total_tax?? 0 !!}</td>
                         <td>{!! $row->all_total?? 0 !!}</td>
 
-                        <td class="text-center">
+                        <td class="text-center td-display-none">
                             <a href="{{route('accounting.reports.purchase_details')}}?date={{ $row->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
 
                         </td>
@@ -216,8 +216,8 @@
         })
     </script> --}}
 
-   
-   
+
+
     <script>
         $(function() {
             $(document).on('change', '#company_id', function () {

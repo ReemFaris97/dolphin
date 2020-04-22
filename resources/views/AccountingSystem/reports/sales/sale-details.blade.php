@@ -35,7 +35,7 @@
                     <th> المتبقي </th>
                     <th> لإجمالي بعد الخصم والضريبة </th>
 
-                    <th class="text-center">العمليات</th>
+                    <th class="text-center td-display-none">العمليات</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -53,7 +53,7 @@
 
                         <td>{!! $row->total?? 0 !!}</td>
 
-                        <td class="text-center">
+                        <td class="text-center td-display-none">
                             <a href="{{route('accounting.sales.show',['id'=>$row->id])}}" target="_blank" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
 
                         </td>
