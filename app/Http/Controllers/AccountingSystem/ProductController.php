@@ -169,7 +169,6 @@ class ProductController extends Controller
         $qtys= collect($request['qtys']);
         $main_units= collect($request['main_units']);
         $components= $component_names->zip($qtys,$main_units);
-
         foreach ($components as $component)
 
         {
@@ -181,10 +180,7 @@ class ProductController extends Controller
             ]);
 
         }
-
-
-/////////////////////////////////////offers _products///////////////////////////////////
-
+/////////////////////////////offers _products///////////////////////////////////
         if (isset($inputs['offers']))
         {
             $offers=$inputs['offers'];
@@ -195,8 +191,6 @@ class ProductController extends Controller
                 'parent_product_id'=>$product->id,
             ]);
         }
-
-
         ////////////////////discounts Arrays////////////////////////////////
         if (isset($request['discount_type'])){
             if($request['discount_type']=='percent'){
@@ -238,7 +232,6 @@ class ProductController extends Controller
             }
         }
 //////////////////////product_services////////////////////////////
-
         if (isset($request['service_type'])){
             $service_type= collect($request['service_type']);
             $services_code= collect($request['services_code']);
@@ -393,7 +386,8 @@ class ProductController extends Controller
         $main_unit_presents= collect($request['main_unit_present']);
         $selling_price= collect($request['selling_price']);
         $purchasing_price= collect($request['purchasing_price']);
-        $units = $names->zip($par_codes,$purchasing_price,$selling_price,$main_unit_presents);
+        $quantities= collect($request['unit_quantities']);
+        $units = $names->zip($par_codes,$purchasing_price,$selling_price,$main_unit_presents,$quantities);
 
         foreach ($units as $unit)
 
@@ -401,9 +395,10 @@ class ProductController extends Controller
             AccountingProductSubUnit::create([
                 'name'=>$unit['0'],
                 'bar_code'=> $unit['1'],
-                'main_unit_present'=>$unit['2'],
+                'main_unit_present'=>$unit['4'],
                 'selling_price'=>$unit['3'],
-                'purchasing_price'=>$unit['4'],
+                'purchasing_price'=>$unit['2'],
+                'quantity'=>$unit['5'],
                 'product_id'=>$product->id
             ]);
 

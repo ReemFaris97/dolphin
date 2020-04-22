@@ -48,7 +48,7 @@ class SupplierController extends Controller
         $products=AccountingProduct::pluck('name','id')->toArray();
         $banks=AccountingBank::pluck('name','id')->toArray();
         $companies=AccountingCompany::pluck('name','id')->toArray();
-        $branches=AccountingCompany::pluck('name','id')->toArray();
+        $branches=AccountingBranch::pluck('name','id')->toArray();
         return $this->toCreate(compact('products','banks','companies','branches'));
     }
 
@@ -128,7 +128,8 @@ class SupplierController extends Controller
 
         $banks=AccountingBank::pluck('name','id')->toArray();
         $companies=AccountingCompany::pluck('name','id')->toArray();
-        $branches=AccountingCompany::pluck('name','id')->toArray();
+        $branches=AccountingBranch::pluck('name','id')->toArray();
+
 
         return $this->toEdit(compact('supplier','products','banks','companies','branches'));
 

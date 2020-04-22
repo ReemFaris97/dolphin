@@ -673,7 +673,7 @@ $("#barcode_search").scannerDetection({
 	onComplete: function(barcode, qty){
    		validScan = true;
 		$.ajax({
-			url: "/accounting/barcode_search_sale/" + barcode,
+			url: "/accounting/barcode_search/" + barcode,
 			type: "GET",
 			success: function(data) {
 				if (data.data.length !== 0) {
@@ -701,7 +701,7 @@ $("#barcode_search").scannerDetection({
 		var barcode = $('#barcode_search').val();
 		validScan = true;
 		$.ajax({
-			url: "/accounting/barcode_search_sale/" + barcode,
+			url: "/accounting/barcode_search/" + barcode,
 			type: "GET",
 			success: function(data) {
 				if (data.data.length !== 0) {
@@ -751,7 +751,7 @@ $("#barcode_search").scannerDetection({
 		}
 		var unitName = productUnits.map(a => a.name);
 		var unitId = productUnits.map(c => c.id);
-		var unitPrice = productUnits.map(b => b.selling_price);
+		var unitPrice = productUnits.map(b => b.purchasing_price);
 		var singlePriceBefore, singlePriceAfter = 0;
 		if (Number(priceHasTax) === 0) {
 			var singlePriceBefore = Number(productPrice);

@@ -1,5 +1,5 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تقرير مرتجعات مبيعات خلال يوم')
+@section('title','تقرير مرتجعات مشتريات خلال يوم')
 @section('parent_title','التقارير ')
 {{-- @section('action', URL::route('accounting.purchases.index')) --}}
 
@@ -14,7 +14,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">تقرير مرتجعات مبيعات خلال يوم</h5>
+            <h5 class="panel-title">تقرير مرتجعات مشتريات خلال يوم</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -29,8 +29,8 @@
                 <div class="yurSections">
                     <div class="row">
                         <div class="col-xs-12">
-                            <form action="" method="get" accept-charset="utf-8">
-                                
+                            <form action="" method="post" accept-charset="utf-8">
+                                @csrf
                             <div class="form-group col-sm-3">
                                 <label> الشركة </label>
                                 {!! Form::select("company_id",companies(), request('company_id'),['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الشركة','data-live-search'=>'true','id'=>'company_id'])!!}
@@ -157,10 +157,10 @@
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->created_at->locale('ar')->toDayDateTimeString() !!}</td>
-                        <td>{!! $row->all_amounts !!}</td>
-                        <td>{!! $row->discounts !!}</td>
-                        <td>{!! $row->total_tax !!}</td>
-                        <td>{!! $row->all_total !!}</td>
+                        <td>{!! $row->all_amounts ?? 0 !!}</td>
+                        <td>{!! $row->discounts ?? 0 !!}</td>
+                        <td>{!! $row->total_tax?? 0 !!}</td>
+                        <td>{!! $row->all_total?? 0 !!}</td>
 
                         <td class="text-center">
                             <a href="{{route('accounting.reports.purchase_returns_details')}}?date={{ $row->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>

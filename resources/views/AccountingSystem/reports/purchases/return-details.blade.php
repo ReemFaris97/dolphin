@@ -48,12 +48,12 @@
                         <td>{!! $row->bill_num !!}</td>
                         <td>{!! $row->supplier()->exists() ? $row->supplier->name : '-' !!}</td>
                         <td>{!! $row->user()->exists() ? $row->user->name : '-' !!}</td>
-                        <td>{!! $row->amount !!}</td>
-                        <td>{!! $row->discount !!}</td>
+                        <td>{!! $row->amount ?? 0 !!}</td>
+                        <td>{!! $row->discount ?? 0 !!}</td>
                         {{--<td>{!! $row->payed !!}</td>--}}
-                        <td>{!! $row->total - $row->payed !!}</td>
-                        <td>{!! $row->totalTaxs !!}</td>
-                        <td>{!! $row->total !!}</td>
+                        <td>{!! ($row->total - $row->payed)?? 0 !!}</td>
+                        <td>{!! $row->totalTaxs?? 0 !!}</td>
+                        <td>{!! $row->total?? 0 !!}</td>
                         <td>@if(!is_null($row->payment))
                             {!! $row->payment == 'cash' ? 'كاش' : 'خصم من المديونية'  !!}
                             @else

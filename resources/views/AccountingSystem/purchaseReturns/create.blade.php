@@ -632,7 +632,6 @@
 			});
 		});
 		//	For Ajax Search By Product Bar Code
-		
 		$("#barcode_search").scannerDetection({
 	timeBeforeScanTest: 200, // wait for the next character for upto 200ms
 	avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms
@@ -641,7 +640,7 @@
 	onComplete: function(barcode, qty){
    		validScan = true;
 		$.ajax({
-			url: "/accounting/barcode_search_sale/" + barcode,
+			url: "/accounting/barcode_search/" + barcode,
 			type: "GET",
 			success: function(data) {
 				if (data.data.length !== 0) {
@@ -669,7 +668,7 @@
 		var barcode = $('#barcode_search').val();
 		validScan = true;
 		$.ajax({
-			url: "/accounting/barcode_search_sale/" + barcode,
+			url: "/accounting/barcode_search/" + barcode,
 			type: "GET",
 			success: function(data) {
 				if (data.data.length !== 0) {

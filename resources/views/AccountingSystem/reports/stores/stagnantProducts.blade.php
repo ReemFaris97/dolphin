@@ -27,7 +27,7 @@
                 <div class="yurSections">
                     <div class="row">
                         <div class="col-xs-12">
-                            {!!Form::open( ['route' => 'accounting.reports.stagnant-products' ,'class'=>'form phone_validate', 'method' => 'GET','files' => true]) !!}
+                            {!!Form::open( ['route' => 'accounting.reports.stagnant-products' ,'class'=>'form phone_validate', 'method' => 'post','files' => true]) !!}
 
                             @if (count($errors) > 0)
                                 {{--@php popup('error',$errors->all()) @endphp--}}
@@ -125,7 +125,7 @@
                         <td>{!!  ($quantites[$row->product->id]) !!}</td>
 
 
-                        <td>{!! $row->product->min_quantity!!}</td>
+                        <td>{!! $row->product->min_quantity?? 0!!}</td>
 
                         <td>{!! $row->created_at !!}</td>
 

@@ -30,7 +30,7 @@
                 <div class="yurSections">
                     <div class="row">
                         <div class="col-xs-12">
-                            {!!Form::open( ['route' => 'accounting.reports.damaged-products' ,'class'=>'form phone_validate', 'method' => 'GET','files' => true]) !!}
+                            {!!Form::open( ['route' => 'accounting.reports.damaged-products' ,'class'=>'form phone_validate', 'method' => 'post','files' => true]) !!}
                             @include('AccountingSystem.reports.stores.filter')
                             {!!Form::close() !!}
                         </div>
@@ -91,7 +91,7 @@
                 </tr>
                 </thead>
                 			
-					
+
                 <tbody>
                     @isset($damages)
                         @php($sum=0)
@@ -103,9 +103,9 @@
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! date($row->created_at)!!}</td>
                         <td>{!! $row->product->name!!}</td>
-                        <td>{!! $row->quantity!!}</td>
-                        <td>{!! $row->product->purchasing_price!!}</td>
-                        <td>{!! $row->product->purchasing_price * $row->quantity!!}</td>
+                        <td>{!! $row->quantity ?? 0!!}</td>
+                        <td>{!! $row->product->purchasing_price ?? 0!!}</td>
+                        <td>{!! $row->product->purchasing_price * $row->quantity !!}</td>
                         <td>{!! optional($row->damage->user)->name!!}</td>
                         <td>{!! $row->created_at!!}</td>
 
@@ -137,5 +137,5 @@
 
 @endsection
 @section('scripts')
-    <script src="{{asset('admin/assets/js/get_product_from_store_form_company.js')}}"></script>
+            <script src="{{asset('admin/assets/js/get_product_from_store_form_company.js')}}"></script>
 @stop

@@ -31,8 +31,8 @@
                 <div class="yurSections">
                     <div class="row">
                         <div class="col-xs-12">
-                            <form action="" method="get" accept-charset="utf-8">
-                                
+                            <form action="" method="post" accept-charset="utf-8">
+                                @csrf
                             <div class="form-group col-sm-3">
                                 <label> الشركة </label>
                                 {!! Form::select("company_id",companies(), request('company_id'),['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الشركة','data-live-search'=>'true','id'=>'company_id'])!!}
@@ -113,7 +113,7 @@
 
                 <tr  class="normal-bgc">
                     @if(isset($requests['branch_id']))
-                        @php$branch=\App\Models\AccountingSystem\AccountingBranch::find($requests['branch_id']) @endphp
+                        @php $branch=\App\Models\AccountingSystem\AccountingBranch::find($requests['branch_id']) @endphp
                         <td class="footTdLbl" colspan="2">الفرع : <span>{{$branch->name}}</span></td>
                     @endif
 
@@ -123,7 +123,7 @@
                     {{--@endif--}}
 
                     @if(isset($requests['product_id']))
-                        @php$product=\App\Models\AccountingSystem\AccountingProduct::find($requests['product_id']) @endphp
+                        @php $product=\App\Models\AccountingSystem\AccountingProduct::find($requests['product_id']) @endphp
                         <td class="footTdLbl" colspan="2">الصنف : <span>{{$product->name}}</span></td>
                     @endif
                     {{--@if(isset($requests['session_id']))--}}
@@ -163,12 +163,11 @@
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->created_at->locale('ar')->toDayDateTimeString() !!}</td>
-                        <td>{!! $row->all_amounts !!}</td>
-                        <td>{!! $row->discounts !!}</td>
-                        <td>{!! $row->total_tax !!}</td>
-                        <td>{!! $row->all_total !!}</td>
-                        {{--<td>{!! $row->return_cash !!}</td>--}}
-                        {{--<td>{!! $row->return_agel !!}</td>--}}
+                        <td>{!! $row->all_amounts?? 0 !!}</td>
+                        <td>{!! $row->discounts?? 0 !!}</td>
+                        <td>{!! $row->total_tax?? 0 !!}</td>
+                        <td>{!! $row->all_total?? 0 !!}</td>
+
 
                         <td class="text-center">
                             <a href="{{route('accounting.reports.sales_returns_details')}}?date={{ $row->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>

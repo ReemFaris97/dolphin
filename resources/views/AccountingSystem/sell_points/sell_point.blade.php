@@ -55,7 +55,7 @@
 					</div>
 					<div class="form-group block-gp col-md-4 col-sm-4">
 						<label for="bill_date"> تاريخ الفاتورة </label>
-						{!! Form::text("bill_date",null,['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' تاريخ الفاتورة',"id"=>'bill_date'])!!}
+						{!! Form::text("__bill_date",null,['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' تاريخ الفاتورة',"id"=>'bill_date'])!!}
 					</div>
 					<div class="form-group block-gp col-md-4 col-sm-4">
 						<label>بحث بالباركود </label>
@@ -77,6 +77,8 @@
 					<input type="hidden" name="user_id" value="{{$session->user_id}}">
 					<input type="hidden" name="session_id" value="{{$session->id}}">
 					<input type="hidden" name="shift_id" value="{{$session->shift_id}}">
+					<input type="hidden" name="bill_date" id="bill_date_val">
+
 					<input type="hidden" name="client_id" id="client_id_val">
 					<table border="1" class="finalTb mabi3at-bill bill-table 
 					{{(getsetting('name_enable_sales')==1) ? 'name_enable':'' }} {{(getsetting('barcode_enable_sales')==1) ? 'barcode_enable':'' }} 
@@ -311,6 +313,12 @@
 	$("#client_id").on('change', function() {
 		var client = $(this).val();
 		$('#client_id_val').val(client);
+	});
+
+	$("#bill_date_val").val(new Date().toLocaleString())
+
+	$("#bill_date").on('change', function() {
+		$("#bill_date_val").val($(this).val());
 	});
 	var rowNum = 0;
 	$(".category_id").on('change', function() {

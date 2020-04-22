@@ -27,7 +27,7 @@
                 <div class="yurSections">
                     <div class="row">
                         <div class="col-xs-12">
-                            {!!Form::open( ['route' => 'accounting.reports.expiration-products' ,'class'=>'form phone_validate', 'method' => 'GET','files' => true]) !!}
+                            {!!Form::open( ['route' => 'accounting.reports.expiration-products' ,'class'=>'form phone_validate', 'method' => 'post','files' => true]) !!}
 
                             @if (count($errors) > 0)
                                 {{--@php popup('error',$errors->all()) @endphp--}}
@@ -63,7 +63,7 @@
                 {{--(اسم الصنف – الوحدة – الكمية الحالية - الكمية الحالية التي قاربت على الانتهاء– تاريخ الانتهاء – المدة المتبقية على الانتهاء)--}}
             </section>
             <div class="form-group col-md-12 pull-left">
-<div id="print-window">
+          <div id="print-window">
             <table class="table datatable-button-init-basic">
 
                 <thead>
@@ -116,7 +116,6 @@
                         @php($sum=0)
                 @foreach($expire_products as $row)
                     @php( $sum+=$quantites[$row->id])
-
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->name!!}</td>

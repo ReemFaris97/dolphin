@@ -121,7 +121,7 @@
 				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
 					<label>الوحدة الاساسية </label><span style="color: #ff0000; margin-right: 15px;">[جرام -كيلو-لتر]</span>
 					<!-- Button trigger modal -->
-					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+					<button type="button" class="btn btn-primary" id="openExampleModal" data-toggle="modal" data-target="#exampleModal">
 						الوحدات الفرعية
 					</button>
 					{{--<input class="form-control autocomplete" placeholder="Enter A" />--}}
@@ -155,24 +155,26 @@
 							<th>العمليات</th>
 						</tr>
 					</thead>
+					@if (isset($is_edit))
 					<tbody class="add-products">
-					{{--@dd($subunits)--}}
-						@if (isset($is_edit))
-						@foreach($subunits as $unit)
-						<tr>
-							<td>{{$unit->name}}</td>
-							<td>{{$unit->bar_code}}</td>
-							<td>{{$unit->main_unit_present}}</td>
-							<td>{{$unit->selling_price}}</td>
-							<td>{{$unit->purchasing_price}}</td>
-							<td>{{$unit->quantity}}</td>
-							<td>
-								<a href="#" onclick="Delete({{$unit->id}})" class="delete-sub-unit">حذف</a>
-							</td>
-						</tr>
-						@endforeach
-						@endif
+							@foreach($subunits as $unit)
+								<tr>
+									<td>{{$unit->name}}</td>
+									<td>{{$unit->bar_code}}</td>
+									<td>{{$unit->main_unit_present}}</td>
+									<td>{{$unit->selling_price}}</td>
+									<td>{{$unit->purchasing_price}}</td>
+									<td>{{$unit->quantity}}</td>
+									<td>
+										<a href="#" onclick="Delete({{$unit->id}})" class="delete-sub-unit">حذف</a>
+									</td>
+								</tr>
+							@endforeach
 					</tbody>
+					<tbody class="edit-products"></tbody>
+					@else
+					<tbody class="add-products"></tbody>
+					@endif
 				</table>
 				<!-- services table-->
 				<span> الخدمات </span>
@@ -287,13 +289,16 @@
 					{!! Form::select("discount_type",['percent'=>'نسبة','quantity'=>'كمية'],isset($discount)?$discount->discount_type:null,['class'=>'form-control js-example-basic-single','id'=>'discount_id','placeholder'=>' اختر الخصم '])!!}
 				</div>
 
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left ">
+				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left  " id="nesba-wrp">
 					<label> النسبة </label>
 					{!! Form::text("percent",isset($discount)?$discount->percent:null,['class'=>'form-control','placeholder'=>' النسبة '])!!}
 				</div>
-				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal4" id="discounts_button">
+				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left  " id="discounts_button">
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal4" >
 					العروض والخصومات
 				</button>
+				</div>
+				
 			</div>
 
 			<!--discounts table-->
@@ -578,18 +583,6 @@
 			// $("#discountTable").hide();
 			$("#serviceTable").hide();
 
-			// $('input[name="price_has_tax"]').click(function() {
-			// 	if ($(this).is(':checked')) {
-			// 		var id = $(this).val();
-			//
-			// 		if (id == 1) {
-			// 			$(".prices_taxs").show();
-			// 		} else if (id == 0) {
-			// 			$(".prices_taxs").show();
-			// 		}
-			// 	}
-			// // });
-
 			$('input[name="tax"]').click(function () {
 				if ($(this).is(':checked')) {
 					var id = $(this).val();
@@ -605,7 +598,13 @@
 			});
 
 
+			$("button#openExampleModal").click(function(){
+				$("#exampleModal").find("input,textarea,select").val('');
+				$("#exampleModal").find("input[type=checkbox], input[type=radio]").prop("checked", "");
+			})
+			
 		});
+
 		var bigData = [];
 		var bigDataComponent = [];
 		var bigDataOffer = [];
@@ -625,13 +624,14 @@
 				swal({
 					title: "تم إضافة الوحدة الفرعية بنجاح",
 					text: "",
-					timer: 3000,
+					timer: 1000,
 					icon: "success",
 					buttons: ["موافق"],
 					dangerMode: true,
 				})
 				bigData.push(data);
 				$("#productsTable").show();
+				
 				var appendProducts = bigData.map(function(product) {
 					return (`
                 <tr class="single-product">
@@ -658,7 +658,17 @@
                 </tr>
                 `);
 				});
-				$('.add-products').append(appendProducts);
+				
+				@if (isset($is_edit))
+			
+				
+				$('.edit-products').html(appendProducts);
+				
+				
+				@else
+				$('.add-products').html(appendProducts);
+				@endif
+				
 				$('.delete-this-row').click(function(e) {
 					var $this = $(this);
 					var row_index = $(this).parents('tr').index();
@@ -689,21 +699,12 @@
 					$('#exampleModal #main_unit_present').val($this.parents('tr').find('.prod-pre').html());
 					$('#exampleModal #selling_price').val($this.parents('tr').find('.prod-spri').html());
 					$('#exampleModal #purchasing_price').val($this.parents('tr').find('.prod-ppri').html());
+					$('#exampleModal #quantity').val($this.parents('tr').find('.prod-quantity').html());
 					var row_index_edit = $(this).parents('tr').index();
 					bigData.splice(row_index_edit, 1);
 				});
 				document.getElementById("name").val = " ";
-				$('[data-dismiss=modal]').on('click', function(e) {
-					var $t = $(this),
-							target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
-					$(target)
-							.find("input,textarea,select")
-							.val('')
-							.end()
-							.find("input[type=checkbox], input[type=radio]")
-							.prop("checked", "")
-							.end();
-				})
+				
 			} else {
 				swal({
 					title: "من فضلك قم بملئ كل البيانات المميزة بالعلامة الحمراء",
@@ -730,6 +731,7 @@
 					buttons: ["موافق"],
 					dangerMode: true,
 				})
+				
 				bigDataComponent.push(component_data);
 				$("#componentTable").show();
 				var appendComponent = bigDataComponent.map(function(component) {
@@ -786,17 +788,7 @@
 					bigDataComponent.splice(row_index_edit_component, 1);
 				});
 				document.getElementById("name").val = " ";
-				$('[data-dismiss=modal]').on('click', function(e) {
-					var $t = $(this),
-							target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
-					$(target)
-							.find("input,textarea,select")
-							.val('')
-							.end()
-							.find("input[type=checkbox], input[type=radio]")
-							.prop("checked", "")
-							.end();
-				})
+				
 			} else {
 				swal({
 					title: "من فضلك قم بملئ كل البيانات المميزة بالعلامة الحمراء",
@@ -907,6 +899,7 @@
 					icon: "success",
 					buttons: ["موافق"],
 					dangerMode: true,
+					timer: 1000
 				})
 
 				bigDataDiscount.push(discount_data);

@@ -195,8 +195,10 @@ class SuppliersController extends Controller
 
             $accounts=AccountingSupplierLog::where('supplier_id', $request->supplier_id)->
             whereBetween('created_at', [Carbon::parse($request->from), Carbon::parse($request->to)])->get();
+//            dd($accounts);
+        }else {
+            $accounts = collect();
         }
-
         return view('AccountingSystem.reports.suppliers.accounts-period', compact('accounts','requests'));
 
 

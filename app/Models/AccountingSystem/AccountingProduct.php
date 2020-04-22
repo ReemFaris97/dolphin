@@ -42,6 +42,16 @@ class AccountingProduct extends Model
         return $total;
     }
 
+    public function getTotalQuantities()
+    {
+        $units=AccountingProductSubUnit::where('product_id',$this->id)->get();
+        $totalQuantity = 0;
+        foreach($units as $unit){
+            $totalQuantity+=$unit->quantity*$unit->main_unit_present;
+        }
+        return $totalQuantity+$this->quantity;
+    }
+
 
 
 

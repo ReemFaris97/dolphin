@@ -56,7 +56,7 @@ class ClauseController extends Controller
      */
     public function store(Request $request)
     {
-    //    dd($request->all());
+//   dd($request->all());
 //         $rules = [
 //
 //             'benod_id'=>'required|numeric|exists:accounting_benods,id',
@@ -101,7 +101,7 @@ class ClauseController extends Controller
                     ]);
                 }
                 $client->update([
-                    'balance' => $client->balance+$requests['balance']
+                    'balance' => $client->balance +$requests['balance']
                 ]);
             }
             //--------------------------supplier------------------------------------
@@ -115,7 +115,7 @@ class ClauseController extends Controller
                     'amount' => $safe->amount + $requests['amount']
                 ]);
                 $supplier->update([
-                    'amount' => $supplier->amount + $requests['amount']
+                    'balance' => $supplier->balance + $requests['amount']
                 ]);
             } elseif ($clause->type == 'expenses') {
                 // من المورد للخزنه  بيقلل رصيد الخزنه والرصيد للمورد كمان هيقل
@@ -125,10 +125,10 @@ class ClauseController extends Controller
                         'amount' => $safe->amount - $requests['amount']
                     ]);
                 }
-                if ($requests['amount'] <= $supplier->amount) {
+                if ($requests['amount'] <= $supplier->balance) {
 
                     $supplier->update([
-                        'amount' => $supplier->amount - $requests['amount']
+                        'balance' => $supplier->balance - $requests['amount']
                     ]);
                 }
             }

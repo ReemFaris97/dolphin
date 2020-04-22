@@ -1,5 +1,4 @@
 @extends('AccountingSystem.layouts.master')
-
 @section('title','عرض سند')
 @section('parent_title','إدارة سندات القبض والصرف')
 @section('styles')
@@ -36,11 +35,9 @@
         top: 0;
         left: 0;
         margin: 0;
-        padding: 15px;
         font-size: 14px;
         line-height: 18px;
 		z-index: 999999 !important;
-		border: 4px dashed #000 !important;
 		padding-top: 20px !important
     }
 	.print-wrapper{
@@ -66,7 +63,119 @@
 		</div>
 	</div>
 	<div class="panel-body myDivToPrint">
-		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left">
+	
+	
+		<div class="sanad-design">
+			<div class="sanad-header-wrap">
+				<div>
+				التاريخ : <span class="fillable"> 15 / 2 / 2020 </span>
+				<br>
+				رقم السند : <span class="fillable"> {{$clause->num}} </span>
+				</div>
+				<div class="sanad-head-mid">
+					<h3><span class="fillable">{{optional($clause->company)->name}}</span></h3>
+					<p>نوع السند / <span class="fillable">
+							@if ($clause->type=="expenses")
+							صرف
+							@elseif($clause->type=="revenue")
+								 قبض
+							@endif
+						</span>
+					</p>
+				</div>
+				<div class="logo-wrappe">
+<!--					<img src="{!!getimg($clause->company->image)!!}" alt="{{optional($clause->company)->name}}">-->
+					<img src="//via.placeholder.com/500x100" alt="{{optional($clause->company)->name}}">
+				</div>
+			</div>
+			<div class="sanad-body-wap">
+				@if ($clause->type=="expenses")
+				<p>
+					 تفضلوا بالصرف للمكرم / السيد : <span class="fillable">
+					@if ($clause->concerned=="client")
+							{{optional($clause->client)->name}}
+						@elseif($clause->concerned=="supplier")
+							{{optional($clause->supplier)->name}}
+						@else
+							{{$clause->name}}
+						@endif
+						<b style="margin-right:60px">المحترم</b>
+					</span>
+				</p>
+				@elseif($clause->type=="revenue")
+
+				<p>
+					تم الاستلام من المكرم / السيد :  <span class="fillable">
+					@if ($clause->concerned=="client")
+							{{optional($clause->client)->name}}
+						@elseif($clause->concerned=="supplier")
+							{{optional($clause->supplier)->name}}
+						@else
+							{{$clause->name}}
+						@endif
+						<b style="margin-right:60px">المحترم</b>
+					</span>
+				</p>
+				@endif
+				<p>
+					وذلك تحت اسم بند / <span class="fillable">{{optional($clause->benod)->ar_name}}</span> بمبلغ وقدره <span class="fillable"> {{$clause->amount}} </span>
+				</p>
+				<p>
+				وذلك عن / <span class="fillable">{{$clause->description}} </span>
+				</p>
+				<p>
+					طريقة الدفع / <span class="fillable">
+
+						@if ($clause->payment=="cash")
+							نقدى
+						@elseif($clause->payment=="network")
+							شبكة
+						@elseif($clause->payment=="check")
+							شيك
+
+						@else
+							تحويل بنكى
+
+						@endif
+					</span>
+				</p>
+					@if(isset($clause->bank_id))
+				<div class="bank-wrap">
+					<p>
+						<span class="col-xs-6"> على البنك : <span class="fillable"> {{optional($clause->bank)->name}} </span> </span>
+						<span class="col-xs-6"> برقم : <span class="fillable">   {{$clause->num_transaction}} </span> </span>
+					</p>
+					<p class="ta7weel-img">
+						<span>صورة التحويل أو الشيك</span>
+						<img src="{!!getimg($clause->image)!!}" alt="صورة التحويل" >
+					</p>
+				</div>
+					@endif
+				<p>
+					 خزينة الدفع : <span class="fillable"> {{optional($clause->safe)->name}}</span>
+				</p>
+			</div>
+			<div class="sanad-footer-wrap">
+				<div>
+					المحاسب / <span class="fillable">   </span>
+					<b>التوقيع / .......................</b>
+				</div>
+				
+				<div>
+					المستلم / <span class="fillable">   </span>
+					<b>التوقيع / .......................</b>
+				</div>
+				
+				<div>
+					المدير / <span class="fillable">   </span>
+					<b>التوقيع / .......................</b>
+				</div>
+			</div>
+		</div>
+	
+<!--
+<div class="tempo">
+			<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left">
 			<label> السند ل </label>
 			@if ($clause->concerned=="client")
 			<span> عميل </span>
@@ -76,6 +185,7 @@
 			<span> عام</span>
 			@endif
 		</div>
+		
 		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left">
 			<label> رقم السند</label>
 			<span>{{$clause->num}}</span>
@@ -94,14 +204,14 @@
 			<span>{{optional($clause->client)->amount}}</span>
 		</div>
 		@endif
-		@if ($clause->concerned=="suppiler")
+		@if ($clause->concerned=="supplier")
 		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left suppliers">
 			<label> اسم المورد </label>
-			<span>{{optional($clause->suppiler)->name}}</span>
+			<span>{{optional($clause->supplier)->name}}</span>
 		</div>
 		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left suppliers">
 			<label> رصيد المورد </label>
-			<span>{{optional($clause->suppiler)->balance}}</span>
+			<span>{{optional($clause->supplier)->balance}}</span>
 		</div>
 		@endif
 		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left">
@@ -172,7 +282,13 @@
 			<span>{{$clause->notes}}</span>
 		</div>
 		<h3></h3>
+		
+</div>
+-->
+
 	</div>
+	
+	
 	<div class="row print-wrapper">
 		<button class="btn btn-success" onclick="window.print()">طباعة</button>
 	</div>

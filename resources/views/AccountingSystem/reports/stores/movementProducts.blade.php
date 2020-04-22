@@ -27,7 +27,7 @@
                 <div class="yurSections">
                     <div class="row">
                         <div class="col-xs-12">
-                            {!!Form::open( ['route' => 'accounting.reports.movements-products' ,'class'=>'form phone_validate', 'method' => 'GET','files' => true]) !!}
+                            {!!Form::open( ['route' => 'accounting.reports.movements-products' ,'class'=>'form phone_validate', 'method' => 'post','files' => true]) !!}
                             <div class="form-group col-sm-3">
                                 <label> الشركة </label>
                                 {!! Form::select("company_id",companies(),null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الشركة','data-live-search'=>'true','id'=>'company_id'])!!}
@@ -135,13 +135,13 @@
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! \Carbon\Carbon::now()!!}</td>
-                        <td>{!! $row->quantity!!}</td>
-                        <td>{!! $row->price!!}</td>
+                        <td>{!! $row->quantity?? 0!!}</td>
+                        <td>{!! $row->price ?? 0!!}</td>
                         <td>مشتريات</td>
                         <td><a href="{{route('accounting.purchases.show',['id'=>$row->purchase->id])}}">{{$row->purchase->id}}</a></td>
                         @php($store_product=\App\Models\AccountingSystem\AccountingProductStore::where('product_id',$row->product->id)
                         ->where('store_id',$row->purchase->store_id)->first())
-                        <td>{!! $store_product->quantity !!}</td>
+                        <td>{!! $store_product->quantity?? 0 !!}</td>
                         <td>{!!optional( $row->purchase->branch)->name !!}</td>
                         <td>{!!optional( $row->purchase->store)->ar_name !!}</td>
                         <td>{!!optional( $row->purchase->user)->name !!}</td>
@@ -157,8 +157,8 @@
                         <tr>
                             <td>{!!$loop->iteration!!}</td>
                             <td>{!! \Carbon\Carbon::now()!!}</td>
-                            <td>{!! $row->quantity!!}</td>
-                            <td>{!! $row->price!!}</td>
+                            <td>{!! $row->quantity?? 0!!}</td>
+                            <td>{!! $row->price?? 0!!}</td>
                             <td>مبيعات</td>
                             <td><a href="{{route('accounting.sales.show',['id'=>$row->sale->id])}}">{{$row->sale->id}}</a></td>
 
@@ -182,9 +182,10 @@
                         <tr>
                             <td>{!!$loop->iteration!!}</td>
                             <td>{!! \Carbon\Carbon::now()!!}</td>
-                            <td>{!! $row->quantity!!}</td>
-                            <td>{!! $row->price!!}</td>
+                            <td>{!! $row->quantity ?? 0!!}</td>
+                            <td>{!! $row->price ?? 0 !!}</td>
                             <td>توالف</td>
+                            <td>--</td>
                             @php($store_product=\App\Models\AccountingSystem\AccountingProductStore::where('product_id',$row->product->id)
                             ->where('store_id',$row->damage->store_id)->first())
                             <td>{!! ($store_product)?$store_product->quantity:0 !!}</td>

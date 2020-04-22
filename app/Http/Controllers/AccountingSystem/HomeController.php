@@ -45,6 +45,31 @@ class HomeController extends Controller
         return response()->json($stores);
     }
 
+    public function getStoresCompany($id)
+    {
+        $branch=AccountingBranch::find($id);
+
+        $stores= AccountingStore::select(['id', 'ar_name'])->where('model_id', $id)->where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->get();
+
+
+        return response()->json($stores);
+    }
+
+    public  function getProductStoreBranch($id)
+    {
+        $branch=AccountingBranch::find($id);
+        $stores_branch = AccountingStore::select(['id', 'ar_name'])->where('model_id', $id)->where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->pluck('id');
+        $stores_company = AccountingStore::select(['id', 'ar_name'])->where('model_id', $branch->company_id)->where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->pluck('id');
+        $_stores_branch= json_encode($stores_branch);
+        $_stores_company= json_encode($stores_company);
+        $stores=array_merge(json_decode($_stores_branch),json_decode($_stores_company));
+        $store_products = AccountingProductStore::select(['id', 'product_id'])->whereIn('store_id', $stores)->pluck('product_id');
+
+        $products = AccountingProduct::whereIn('id', $store_products)->select(['id', 'name'])->get();
+
+        return response()->json($products);
+    }
+
     public  function getProductStore($id)
     {
         $store_products = AccountingProductStore::select(['id', 'product_id'])->where('store_id', $id)->pluck('product_id');

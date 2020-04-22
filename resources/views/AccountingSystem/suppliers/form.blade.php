@@ -31,11 +31,15 @@
     <label>كلمه المرور</label>
     {!! Form::password('password',['class'=>'form-control  m-input','placeholder'=>'ادخل كلمه المرور'])!!}
 </div>
-<div class="form-group col-md-4 pull-left">
-    <label>  اختراسم الفرع التابع له </label>
-    {!! Form::select("branch_id",$branches,null,['class'=>'form-control  ', 'placeholder'=>' اختراسم الفرع التابع له  '])!!}
-</div>
 
+<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
+    <label> اسم الشركة </label>
+    {!! Form::select("company_id",companies(),null,['class'=>'form-control js-example-basic-single company_id','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له المنتج '])!!}
+</div>
+<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
+    <label> اسم الفرع التابع </label>
+    {!! Form::select("branch_id",branches(),null,['class'=>'form-control  branch_id','id'=>'branch_id','placeholder'=>' اختر اسم الفرع التابع له المنتج '])!!}
+</div>
 
 @if( isset($supplier))
 
@@ -116,6 +120,7 @@
     });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
+    <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
 
     <script>
 
