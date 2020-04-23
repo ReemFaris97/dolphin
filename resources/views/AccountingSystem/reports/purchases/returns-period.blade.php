@@ -173,8 +173,8 @@
                     <th> إجمالي بعد الخصومات والضريبة </th>
                     {{--<th> إجمالي المرتجع الكاش </th>--}}
                     {{--<th> إجمالي مرتجع الخصم من المديونية </th>--}}
-                    
-                    <th class="text-center">العمليات</th>
+
+                    <th class="text-center td-display-none">العمليات</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -194,7 +194,7 @@
                         {{--<td>{!! $row->return_cash !!}</td>--}}
                         {{--<td>{!! $row->return_agel !!}</td>--}}
 
-                        <td class="text-center">
+                        <td class="text-center td-display-none">
                             <a href="{{route('accounting.reports.purchase_returns_details')}}?date={{ $row->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
 
                         </td>

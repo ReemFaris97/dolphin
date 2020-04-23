@@ -130,7 +130,7 @@
                                 <label for="from"> التاريخ </label>
                                 {!! Form::date("date",request('date'),['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' الفترة من ',"id"=>'date'])!!}
                             </div>
-                            
+
                             <div class="form-group col-sm-12">
                                 <button type="submit" class="btn btn-success btn-block">بحث</button>
                             </div>
@@ -183,8 +183,8 @@
                     <th> إجمالي الخصومات </th>
                     <th> إجمالي الضريبة </th>
                     <th> إجمالي بعد الخصومات والضريبة </th>
-                    
-                    <th class="text-center">العمليات</th>
+
+                    <th class="text-center td-display-none">العمليات</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -200,7 +200,7 @@
                         <td>{!! $row->discounts?? 0 !!}</td>
                         <td>{!! $row->total_tax?? 0 !!}</td>
                         <td>{!! $row->all_total?? 0 !!}</td>
-                        <td class="text-center">
+                        <td class="text-center td-display-none">
                             <a href="{{route('accounting.reports.sale_details')}}?date={{ $row->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
 
                         </td>

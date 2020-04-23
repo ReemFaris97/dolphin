@@ -19,7 +19,7 @@
         </div>
 
         <div class="panel-body">
-           
+
 <div id="print-window">
             <table class="table datatable-button-init-basic">
                 <thead>
@@ -35,8 +35,8 @@
                     {{--<th> المتبقي </th>--}}
                     <th> الضريبة </th>
                     <th> لإجمالي بعد الخصم والضريبة </th>
-                    
-                    <th class="text-center">العمليات</th>
+
+                    <th class="text-center td-display-none">العمليات</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -54,7 +54,7 @@
                         <td>{!! $row->totalTaxs ?? 0 !!}</td>
                         <td>{!! $row->total?? 0 !!}</td>
 
-                        <td class="text-center">
+                        <td class="text-center td-display-none">
                             <a href="{{route('accounting.purchases.show',['id'=>$row->id])}}" target="_blank" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
 
                         </td>
