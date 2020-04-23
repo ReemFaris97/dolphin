@@ -47,6 +47,12 @@
                                     @endif
                                 </select>
                             </div>
+
+                                <div class="form-group col-sm-3">
+                                    <label> المخزن </label>
+                                    {!! Form::select("store_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر المخزن','data-live-search'=>'true','id'=>'store_id'])!!}
+                                </div>
+
                             <div class="form-group col-sm-3">
                                 <label> القائم بالعملية </label>
                                 <select name="user_id" data-live-search="true" class="selectpicker form-control inline-control" id="user_id">
@@ -84,12 +90,21 @@
                                         @endif
                                     </select>
                                 </div>
-                            <div class="form-group col-sm-3">
-                                <label> القسم </label>
-                                {!! Form::select("category_id",productCategories(),request('category_id'),['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}
-                            </div>
+                                <div class="form-group col-sm-3">
+                                    <label> القسم </label>
+                                    {{--{!! Form::select("category_id",productCategories(),request('category_id'),['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}--}}
+                                    <select name="category_id" data-live-search="true" class="selectpicker form-control inline-control" id="category_id">
+                                        @if(request()->has('category_id') && request('category_id') != null)
+                                            @php $category = \App\Models\AccountingSystem\AccountingProductCategory::find(request('category_id')); @endphp
+                                            <option value="{{ $category->id }}" selected="">{{ $category->name }}</option>
+                                        @else
+                                            <option value="" selected="" disabled="">اختر القسم</option>
+                                        @endif
+                                    </select>
+                                </div>
 
-                            <div class="form-group col-sm-3">
+
+                                <div class="form-group col-sm-3">
                                 <label> الصنف </label>
                                 <select name="product_id" data-live-search="true" class="selectpicker form-control inline-control" id="product_id">
                                     @if(request()->has('product_id') && request('product_id') != null)
@@ -251,6 +266,7 @@
         $(function() {
             $(document).on('change', '#company_id', function () {
                 let branchSelect = $('#branch_id');
+                let categorySelect = $('#category_id');
                 $.ajax({
                     url: `{{ url('accounting/ajax/branches') }}/${$(this).val()}`,
                     type: "get",
@@ -269,6 +285,25 @@
                         console.log(error)
                     }
                 })
+                $.ajax({
+                    url: `{{ url('accounting/ajax/categories') }}/${$(this).val()}`,
+                    type: "get",
+                    success (data) {
+                        //console.log(data)
+                        categorySelect.empty();
+                        categorySelect.append('<option value="">اختر القسم</option>');
+                        data.forEach( category => {
+                            categorySelect.append(`
+                                <option value="${category.id}">${category.ar_name}</option>
+                            `);
+                        });
+                        categorySelect.selectpicker('refresh');
+                    },
+                    error (error) {
+                        console.log(error)
+                    }
+                })
+
             })
 
             $(document).on('change', '#branch_id', function () {

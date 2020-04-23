@@ -256,6 +256,8 @@ Route::middleware('admin')->group(function () {
     Route::group(['prefix' => 'ajax'], function () {
         Route::get('branches/{id}', 'HomeController@getBranches');
         Route::get('stores/{id}', 'HomeController@getStores');
+        Route::get('categories/{id}', 'HomeController@getCategories');
+
         Route::get('stores-form-company/{id}', 'HomeController@getStoresCompany');
         Route::get('products-store/{id}', 'HomeController@getProductStore');
         Route::get('products-store-branch/{id}', 'HomeController@getProductStoreBranch');

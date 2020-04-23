@@ -48,6 +48,10 @@
                                     @endif
                                 </select>
                             </div>
+                                <div class="form-group col-sm-3">
+                                    <label> المخزن </label>
+                                    {!! Form::select("store_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر المخزن','data-live-search'=>'true','id'=>'store_id'])!!}
+                                </div>
                             <div class="form-group col-sm-4">
                                 <label> القائم بالعملية </label>
                                 <select name="user_id" data-live-search="true" class="selectpicker form-control inline-control" id="user_id">
@@ -59,7 +63,7 @@
                                     @endif
                                 </select>
                             </div>
-                                <div class="clearfix"></div>
+                                {{--<div class="clearfix"></div>--}}
                             {{--<div class="form-group col-sm-3">--}}
                                 {{--<label> الخزينة </label>--}}
                                 {{--<select name="safe_id" data-live-search="true" class="selectpicker form-control inline-control" id="safe_id">--}}
@@ -73,7 +77,15 @@
                             {{--</div>--}}
                             <div class="form-group col-sm-4">
                                 <label> القسم </label>
-                                {!! Form::select("category_id",productCategories(),request('category_id'),['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}
+                                {{--{!! Form::select("category_id",productCategories(),request('category_id'),['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}--}}
+                                <select name="category_id" data-live-search="true" class="selectpicker form-control inline-control" id="category_id">
+                                    @if(request()->has('category_id') && request('category_id') != null)
+                                        @php $category = \App\Models\AccountingSystem\AccountingProductCategory::find(request('category_id')); @endphp
+                                        <option value="{{ $category->id }}" selected="">{{ $category->name }}</option>
+                                    @else
+                                        <option value="" selected="" disabled="">اختر القسم</option>
+                                    @endif
+                                </select>
                             </div>
 
                             <div class="form-group col-sm-4">
@@ -202,6 +214,7 @@
         $(function() {
             $(document).on('change', '#company_id', function () {
                 let branchSelect = $('#branch_id');
+                let categorySelect = $('#category_id');
                 $.ajax({
                     url: `{{ url('accounting/ajax/branches') }}/${$(this).val()}`,
                     type: "get",
@@ -220,6 +233,26 @@
                         console.log(error)
                     }
                 })
+
+                $.ajax({
+                    url: `{{ url('accounting/ajax/categories') }}/${$(this).val()}`,
+                    type: "get",
+                    success (data) {
+                        //console.log(data)
+                        categorySelect.empty();
+                        categorySelect.append('<option value="">اختر القسم</option>');
+                        data.forEach( category => {
+                            categorySelect.append(`
+                                <option value="${category.id}">${category.ar_name}</option>
+                            `);
+                        });
+                        categorySelect.selectpicker('refresh');
+                    },
+                    error (error) {
+                        console.log(error)
+                    }
+                })
+
             })
 
             $(document).on('change', '#branch_id', function () {
@@ -254,20 +287,20 @@
             })
 
             $(document).on('change', '#category_id', function () {
-                let productSelect = $('#product_id');
+                let productSelect_ = $('#product_id');
                 $.ajax({
                     url: `{{ url('accounting/ajax/products') }}/${$(this).val()}`,
                     type: "get",
                     success (data) {
                         //console.log(data)
-                        productSelect.empty();
-                        productSelect.append('<option value="">الصنف</option>');
+                        productSelect_.empty();
+                        productSelect_.append('<option value="">الصنف</option>');
                         data.forEach( product => {
-                            productSelect.append(`
+                            productSelect_.append(`
                                 <option value="${product.id}">${product.name}</option>
                             `);
                         });
-                        productSelect.selectpicker('refresh');
+                        productSelect_.selectpicker('refresh');
                     },
                     error (error) {
                         console.log(error)
@@ -278,4 +311,6 @@
 
         })
     </script>
+    <script src="{{asset('admin/assets/js/get_product_from_store_form_company_category.js')}}"></script>
+
 @stop
