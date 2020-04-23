@@ -917,7 +917,7 @@
 									@endforeach
 									<tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-money"></i>الإجمالي</td>
-										<td colspan="7"><span class="tot-money">{!! $purchase->amount??0 !!}</span></td>
+										<td colspan="7"><span class="tot-money">{!! $purchase->amount+$purchase->totalTaxs??0 !!}</span></td>
 									</tr>
 									<tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-minus"></i> نوع الخصم</td>

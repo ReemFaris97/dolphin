@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingProduct;
 
+use App\Models\AccountingSystem\AccountingProductCategory;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingBranch as Branch;
@@ -32,6 +33,11 @@ class HomeController extends Controller
     	return response()->json($branches);
     }
 
+    public function getCategories($id)
+    {
+        $categories = AccountingProductCategory::select(['id', 'ar_name'])->where('company_id', $id)->get();
+        return response()->json($categories);
+    }
     public function getstores($id)
     {
         $branch=AccountingBranch::find($id);
@@ -72,10 +78,15 @@ class HomeController extends Controller
 
     public  function getProductStore($id)
     {
+         $requests= \Request::all();
+
         $store_products = AccountingProductStore::select(['id', 'product_id'])->where('store_id', $id)->pluck('product_id');
+        if($requests['category_id']){
+        $products = AccountingProduct::whereIn('id', $store_products)->select(['id', 'name'])->where('category_id', $requests['category_id'])->get();
+            }else{
+            $products = AccountingProduct::whereIn('id', $store_products)->select(['id', 'name'])->get();
 
-        $products = AccountingProduct::whereIn('id', $store_products)->select(['id', 'name'])->get();
-
+        }
         return response()->json($products);
     }
     public function getUsersByBranch($branch_id)
@@ -91,6 +102,7 @@ class HomeController extends Controller
 
     public function getProducts($id)
     {
+
     	$products = AccountingProduct::where('category_id', $id)->get();
     	return response()->json($products);
     }
