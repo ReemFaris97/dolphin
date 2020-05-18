@@ -58,7 +58,7 @@
                         </td>
 
                         <td>{!! $row->code!!}</td>
-                        <td>{!! $row->model->name!!}</td>
+                        <td>{!! optional($row->model)->name!!}</td>
                         <td><img src="{!! getimg($row->image)!!}" style="width:100px; height:100px"> </td>
 
 

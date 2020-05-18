@@ -55,7 +55,7 @@ class SuppliersController extends Controller
             $purchases = collect();
         }
 
-
+//dd($purchases);
         return view('AccountingSystem.reports.suppliers.for-period', compact('purchases','users','requests'));
     }
 
