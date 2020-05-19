@@ -78,24 +78,17 @@ class StoreController extends Controller
             $requests['image'] = saveImage($request->image, 'photos');
         }
 
-
         if ($requests['company_id']==NULL & $requests['branch_id']!=NULL)
         {
-
             $requests['model_id']= $requests['branch_id'];
-               $requests[ 'model_type']='App\Models\AccountingSystem\AccountingBranch';
-
-
-
+            $requests[ 'model_type']='App\Models\AccountingSystem\AccountingBranch';
         }
         if ($requests['branch_id']==NULL & $requests['company_id']!=NULL)
         {
-
             $requests[ 'model_id']= $requests['company_id'];
-             $requests[ 'model_type']='App\Models\AccountingSystem\AccountingCompany';
-
+            $requests[ 'model_type']='App\Models\AccountingSystem\AccountingCompany';
         }
-//dd($requests);
+
        AccountingStore::create($requests);
 
         alert()->success('تم اضافة  الفرع بنجاح !')->autoclose(5000);

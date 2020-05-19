@@ -29,7 +29,7 @@
                     <th>  نوع المخزن </th>
                     <th>  حالة المخزن </th>
                     <th> كود المخزن </th>
-                    <th>  المخزن تابع الى </th>
+                    {{--<th>  المخزن تابع الى </th>--}}
                     <th> صورة المخزن </th>
 
                     <th class="text-center">العمليات</th>
@@ -58,7 +58,7 @@
                         </td>
 
                         <td>{!! $row->code!!}</td>
-                        <td>{!! $row->model->name ??''!!}</td>
+                        {{--<td>{!! $row->model->name ??''!!}</td>--}}
                         <td><img src="{!! getimg($row->image)!!}" style="width:100px; height:100px"> </td>
 
 

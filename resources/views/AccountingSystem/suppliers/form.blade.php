@@ -87,7 +87,6 @@
 {!! Form::select("bank_id",$banks,null,['class'=>'form-control selectpicker ', 'placeholder'=>' اختر اسم البنك  '])!!}
 </div>
 
-
 <div class="form-group col-md-4 pull-left">
     <label>  رقم  الحساب </label>
     {!! Form::text("bank_account_number",null,['class'=>'form-control','placeholder'=>' رقم  الحساب '])!!}
