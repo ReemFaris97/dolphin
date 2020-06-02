@@ -9,7 +9,7 @@
 @endif
 @if( isset($store))
     @if($store->model_type=='App\Models\AccountingSystem\AccountingBranch')
-        <div class="form-group ">
+        <div class="form-group r-group">
             <label class="display-block text-semibold">المخزن تابع الى</label>
             <label class="radio-inline">
                 <input type="radio" name="radio-inline-left" class="styled" id="company"  onclick="myFunction()" disabled>
@@ -22,7 +22,7 @@
             </label>
         </div>
         @elseif($store->model_type=='App\Models\AccountingSystem\AccountingCompany')
-        <div class="form-group">
+        <div class="form-group r-group">
             <label class="display-block text-semibold">المخزن تابع الى</label>
             <label class="radio-inline">
                 <input type="radio" name="radio-inline-left" class="styled" id="company" checked="checked" onclick="myFunction()" disabled>
@@ -36,7 +36,7 @@
         </div>
         @endif
     @else
-    <div class="form-group">
+    <div class="form-group r-group">
         <label class="display-block text-semibold">المخزن تابع الى</label>
         <label class="radio-inline">
             <input type="radio" name="radio-inline-left" class="styled" id="company" checked="checked" onclick="myFunction()">
@@ -83,7 +83,7 @@
 @if( isset($store))
     @if ($store->type==1)
 
-        <div class="form-group">
+        <div class="form-group r-group">
             <label class="display-block text-semibold">  نوع المخزن</label>
             <label class="radio-inline">
                 <input type="radio" name="type" class="styled type"  value="1"   checked="checked" disabled >
@@ -96,7 +96,7 @@
             </label>
         </div>
     @else
-        <div class="form-group">
+        <div class="form-group r-group">
             <label class="display-block text-semibold">  نوع المخزن</label>
             <label class="radio-inline">
                 <input type="radio" name="type" class="styled type"  value="1" disabled>
@@ -110,7 +110,7 @@
         </div>
     @endif
     @else
-    <div class="form-group col-xs-12 pull-left">
+    <div class="form-group r-group col-xs-12 pull-left">
         <label class="display-block text-semibold">  نوع المخزن</label>
         <label class="radio-inline">
             <input type="radio" name="type" class="styled type" id="basic"   value="1">
@@ -141,19 +141,19 @@
 </div>
 
 <div class="form-group col-sm-6 col-xs-12 pull-left">
-    <label>اسم المخزن باللغة الانجليزية:  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+    <label>اسم المخزن باللغة الانجليزية:  </label><span style="color: #ff0000; margin-right: 15px;" class="sm-span">اختيارى</span>
     {!! Form::text("en_name",null,['class'=>'form-control','placeholder'=>' اسم المخزن باللغة الانجليزية  '])!!}
 </div>
 
 
 <div class="form-group col-sm-6 col-xs-12 pull-left">
-    <label>عنوان المخزن:  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+    <label>عنوان المخزن:  </label><span style="color: #ff0000; margin-right: 15px;"class="sm-span">اختيارى</span>
     {!! Form::text("address",null,['class'=>'form-control','placeholder'=>' عنوان المخزن   '])!!}
 </div>
 
 
 <div class="form-group col-sm-6 col-xs-12 pull-left">
-    <label> مساحة المخزن:  </label><span style="color: #ff0000; margin-right: 15px;">بالمتر المربع</span>
+    <label> مساحة المخزن:  </label><span style="color: #ff0000; margin-right: 15px;"class="sm-span">بالمتر المربع</span>
     {!! Form::text("width",null,['class'=>'form-control','placeholder'=>' مساحة المخزن'])!!}
 </div>
 
@@ -226,7 +226,7 @@
 
 @if( isset($store))
         @if ($store->is_active==1)
-            <div class="form-group col-xs-12">
+            <div class="form-group r-group col-xs-12">
                 <label class="display-block text-semibold">  تفعيل المخزن</label>
                 <label class="radio-inline right30">
                     <input type="radio" name="is_active" class="styled" value="1"  checked>
@@ -239,7 +239,7 @@
                 </label>
             </div>
         @else
-            <div class="form-group col-xs-12">
+            <div class="form-group r-group col-xs-12">
                 <label class="display-block text-semibold">   تفعيل المخزن</label>
                 <label class="radio-inline right30">
                     <input type="radio" name="is_active"  class="styled"  value="1">
@@ -253,7 +253,7 @@
         @endif
 
     @else
-    <div class="form-group col-xs-12">
+    <div class="form-group r-group col-xs-12">
         <label class="display-block text-semibold"> تفعيل المخزن</label>
         <label class="radio-inline right30">
             <input type="radio" name="is_active"  value="1" checked>
@@ -268,7 +268,7 @@
 @endif
 @if( isset($store))
 
-    <div class="form-group col-md-6 pull-left">
+    <div class="form-group col-xs-12 pull-left">
         <label>صوره المخزن الحالية : </label>
         <img src="{{getimg($store->image)}}" style="width:100px; height:100px" class="file-styled">
     </div>
@@ -276,7 +276,7 @@
 
 @endif
 <div class="form-group col-md-6 pull-left ">
-    <label>صوره المخزن  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+    <label>صوره المخزن  </label><span style="color: #ff0000; margin-right: 15px;"class="sm-span">اختيارى</span>
     {!! Form::file("image",null,['class'=>'file-styled'])!!}
 </div>
 
@@ -286,13 +286,13 @@
 <div class="form-group col-xs-12 pull-left"><label>  تحديد موقع المخزن  على الخريطة  </label>     <div class="form-group">
         <div id="map" style="width: 100%; height: 300px;"></div><div class="clearfix">&nbsp;</div>
         <div class="m-t-small map-inputs">
-            <div class="col-sm-2 col-xs-12">
+            <div class="col-sm-6 col-xs-12">
                 <label class="p-r-small control-label">خط الطول</label>
             </div>
             <div class="col-sm-10 col-xs-12">
                 {{ Form::text('lat', null,['id'=>'lat','class'=>'form-control']) }}
             </div>
-            <div class="col-sm-2 col-xs-12">
+            <div class="col-sm-6 col-xs-12">
                 <label class="p-r-small  control-label">خط العرض </label>
             </div>
             <div class="col-sm-10 col-xs-12">

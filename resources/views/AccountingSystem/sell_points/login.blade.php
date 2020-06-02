@@ -32,12 +32,12 @@
         </ul>
     </div>
 @endif
-<div class="form-group col-md-4 pull-left">
+<div class="form-group col-sm-6 col-xs-12 pull-left">
     <label> اسم الوردية </label>
     {!! Form::select("shift_id",shifts(),null,['class'=>'form-control js-example-basic-single ','placeholder'=>' اختر اسم الشركة التابع له المنتج '])!!}
 </div>
 
-<div class="form-group col-md-4 pull-left">
+<div class="form-group col-sm-6 col-xs-12 pull-left">
     <label>  كود الجهاز </label>
     {!! Form::select("device_id",$devices,null,['class'=>'form-control js-example-basic-single ','placeholder'=>'   اختر كود الجهاز  '])!!}
 </div>
@@ -45,14 +45,14 @@
 
 
 
-<div class="form-group col-md-6 pull-left">
+<div class="form-group col-sm-6 col-xs-12 pull-left">
     <label> إيميل الكاشير </label>
     {!! Form::email("email",null,['class'=>'form-control','placeholder'=>'  إيميل الكاشير'])!!}
 </div>
 
 
 
-<div class="form-group col-md-6 pull-left">
+<div class="form-group col-sm-6 col-xs-12 pull-left">
     <label>  كلمه المرور </label>
     {!! Form::password('password',['class'=>'form-control  m-input','placeholder'=>' كلمه المرور'])!!}
 </div>

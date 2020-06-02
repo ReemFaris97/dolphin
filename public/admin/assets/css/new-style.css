@@ -9,3 +9,49 @@
     max-width: 100%;
 
 }
+/*************** 6/2/2020 ***********/
+div.metro-big > a img, div.metro-small > a img {
+    width: 42px;
+}
+div.metro-huge > a img {
+    width: 52px;
+}
+.metro-small.termssm span.label.bottom, .metro-small span.label.bottom, .metro-big span.label.bottom, .metro-huge span.label.bottom {
+    font-size: 15px;
+    overflow-wrap: break-word;
+    white-space: pre-line;
+}
+.panel-flat > .panel-heading > .panel-title {
+    font-size: 21px;
+}
+.single-shortcut a img {
+    max-width: 80px;
+}
+.single-shortcut a span {
+    font-size: 16px;
+}
+.custom-tabs .text-center.col-md-12.m--margin-bottom-5 {
+    margin: 30px auto 0 auto;
+}
+.r-group .radio-inline{
+    width: auto !important;
+}
+.sm-span{
+    position: absolute;
+    left: 12px;
+}
+tbody a {
+    color: #fff;
+}
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    padding: 9px 20px;
+}
+.panel-body h4.header-title.m-t-0.m-b-30 {
+    font-size: 16px;
+    margin-bottom: 16px;
+}
+.panel-flat > .panel-heading {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}

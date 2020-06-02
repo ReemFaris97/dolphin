@@ -33,34 +33,34 @@
             @endif
 
                <input type="hidden" name="type" value="entry">
-            <div class="form-group col-md-6 pull-left">
+            <div class="form-group col-sm-6 col-xs-12 pull-left">
                 <label> رقم السند</label>
                 <input value="<?php echo mt_rand();?>" name="bond_num" class="form-control" placeholder="رقم السند">
 
             </div>
 
-            <div class="form-group col-md-6 pull-left">
+            <div class="form-group col-sm-6 col-xs-12 pull-left">
                 <label>تاريخ السند  </label>
                 {!! Form::date("date",null,['class'=>'form-control'])!!}
             </div>
-            <div class="form-group col-md-6 pull-left">
+            <div class="form-group col-sm-6 col-xs-12 pull-left">
                 <label>بيان السند</label>
                 {!! Form::text("description",null,['class'=>'form-control','placeholder'=>'بيان السند  '])!!}
             </div>
 
-            <div class="form-group col-md-4 pull-left">
+            <div class="form-group col-sm-6 col-xs-12 pull-left">
                 <label>اختر المخزن </label>
                 {!! Form::select("store_id",allstores(),null,['class'=>'form-control js-example-basic-single store_id','placeholder'=>' اختر  المخزن'])!!}
             </div>
 
-            <div class="form-group col-md-4 pull-left">
+            <div class="form-group col-xs-12 pull-left">
                 <label>اختر امين المخزن </label>
                 {!! Form::select("user_id",keepers(),null,['class'=>'form-control js-example-basic-single storekeeper_id','id'=>'storekeeper_id','placeholder'=>' اختر امين المخزن'])!!}
             </div>
 
             <div class="clearfix"></div>
 
-            <div class="form-group col-md-6">
+            <div class="form-group col-sm-6 col-xs-12">
                 <label>اسم الصنف</label>
                 <select class="form-control"
                         id="product"
@@ -79,7 +79,7 @@
                 @endif
             </div>
 
-            <div class="form-group col-md-6">
+            <div class="form-group col-sm-6 col-xs-12">
                 <label>الكمية</label>
                 <input id="qty" type="number" value="{{old('qty')}}"
                        data-parsley-trigger="keyup"
@@ -138,7 +138,7 @@
                 </table>
             </div>
 
-            <div class="text-center col-md-12">
+            <div class="text-center col-xs-12">
                 <div class="text-right">
                     <button type="submit" id="register" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i></button>
                 </div>

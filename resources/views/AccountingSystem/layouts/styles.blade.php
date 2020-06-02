@@ -10,6 +10,7 @@
 <link href="{{asset('admin/assets/css/customized.css')}}" rel="stylesheet" type="text/css">
 
 <link href="{{asset('admin/assets/css/custom-tabs.css')}}" rel="stylesheet" type="text/css">
+<link href="{{asset('admin/assets/css/new-style.css')}}" rel="stylesheet" type="text/css">
 
 @yield('styles')
 

@@ -47,7 +47,7 @@
 
 
 <div class=" media-body">
-    <label>صوره الفرع  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+    <label>صوره الفرع  </label><span style="color: #ff0000; margin-right: 15px;" class="sm-span">اختيارى</span>
     {!! Form::file("image",null,['class'=>'file-styled'])!!}
     
 </div>

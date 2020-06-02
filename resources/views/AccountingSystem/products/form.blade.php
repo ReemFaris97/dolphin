@@ -105,7 +105,7 @@
 					<label> اسم التصنيف </label>
 					{!! Form::select("category_id",$categories,null,['class'=>'form-control js-example-basic-single','id'=>'company_id','placeholder'=>' اختر اسم التصنيف التابع له المنتج '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class="form-group col-xs-12 pull-left">
 					<label>النوع </label>
 					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2" id="components_button">
 						المكونات
@@ -118,7 +118,7 @@
 					</button>
 					{!! Form::select("type",['store'=>'مخزون','service'=>'خدمه','offer'=>'مجموعة منتجات ','creation'=>'تصنيع','product_expiration'=>'منتج بتاريخ صلاحيه'],null,['class'=>'form-control js-example-basic-single type','placeholder'=>' نوع المنتج ','id'=>'type'])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class="form-group col-xs-12 pull-left">
 					<label>الوحدة الاساسية </label><span style="color: #ff0000; margin-right: 15px;">[جرام -كيلو-لتر]</span>
 					<!-- Button trigger modal -->
 					<button type="button" class="btn btn-primary" id="openExampleModal" data-toggle="modal" data-target="#exampleModal">
