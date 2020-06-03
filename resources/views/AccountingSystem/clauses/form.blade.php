@@ -163,7 +163,7 @@
 
 
 
-<div class="form-group col-md-6 col-xs-12 pull-left taxs  form-line sanads">
+<div class="form-group col-xs-12 pull-left taxs  form-line sanads">
     <label>طريقه الدفع</label>
 
     <span class="new-radio-wrap-sanad">
@@ -209,7 +209,7 @@
 
         </div>
 
-<div class="form-group col-md-6 col-sm-6 col-xs-12  pull-left">
+<div class="form-group col-xs-12  pull-left">
     <label> ملاحظات</label>
    {!! Form::textarea("notes",null,['class'=>'form-control'])!!}
 </div>

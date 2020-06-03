@@ -252,16 +252,24 @@ span.price input:focus{
 	color: #fff
 }
 table.finalTb button[type = "submit"] {
-    background: #2ECC71;
-    width: 100%;
+    background: #0b843f;
+    width: max-content;
     border: 0;
     padding: 5px;
     font-size: 16px;
+    color: #fff;
 }
 .discount-options span {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+}
+.yourBill a#add-mortaga3 {
+    background-color: #2ecc71;
+    border-color: #2ecc71;
+}
+table.finalTb.mabi3at-bill.bill-table {
+    margin-top: 30px;
 }
 .discount-options span label {
     color: #2ECC71;
@@ -285,11 +293,19 @@ tr.newProd input[type="number"] {
     width: 75px;
 }
 table.mabi3at-bill thead, table.mabi3at-bill thead th ,  table.mabi3at-bill tfoot tr th:first-child {
-    background: #2ecc71 !important;
+    border-color: rgba(86, 86, 86, 0.5);
     color: #fff;
     text-align: center;
-    font-size: 16px !important;
+    font-size: 13px !important;
     font-weight: 700;
+}
+table.finalTb tfoot.tempDisabled > tr, table.finalTb tfoot.tempDisabled > tr th {
+    background-color: #fff !important;
+    cursor: not-allowed;
+    color: #212121;
+}
+tr.single-row-wrapper {
+    background-color: #616161;
 }
 table.mabi3at-bill  th{
 	padding: 10px 15px !important
@@ -326,12 +342,7 @@ table.finalTb tfoot.tempDisabled > tr , table.finalTb tfoot.tempDisabled > tr th
     text-align: right;
     padding-right: 50px;
 }
-table.mabi3at-bill.finalTb tfoot th {
-    font-size: 28px !important;
-    padding: 0 5px !important;
-}
 table.mabi3at-bill .rs {
-    
     left: 7px;
     font-size: 15px;
 }
@@ -381,6 +392,10 @@ table.mabi3at-bill tfoot tr th#amountAfterDariba span.dynamic-span{
     position: relative;
     margin: 0;
     right: 0;
+}
+table.finalTb.mabi3at-bill.bill-table tfoot th {
+    background-color: #fff;
+    color: #000000;
 }
 
 /******* Responsive ****************/
