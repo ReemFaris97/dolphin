@@ -8,6 +8,7 @@ use App\Models\AccountingSystem\AccountingColumnCell;
 use App\Models\AccountingSystem\AccountingCompany;
 
 use App\Models\AccountingSystem\AccountingFaceColumn;
+use App\Models\AccountingSystem\AccountingSafe;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
@@ -63,22 +64,23 @@ class DeviceController extends Controller
 
         if ($requests['company_id']==NULL & $requests['branch_id']!=NULL)
         {
-
             $requests['model_id']= $requests['branch_id'];
                $requests[ 'model_type']='App\Models\AccountingSystem\AccountingBranch';
-
-
-
         }
         if ($requests['branch_id']==NULL & $requests['company_id']!=NULL)
         {
-
             $requests[ 'model_id']= $requests['company_id'];
              $requests[ 'model_type']='App\Models\AccountingSystem\AccountingCompany';
-
         }
+        $device=AccountingDevice::create($requests);
+        AccountingSafe::create([
+            'device_id'=>$device->id,
+            'name'=>$device->name,
+            'status'=>'cashier',
+            'model_type'=>$device->model_type='App\Models\AccountingSystem\AccountingBranch'?'App\Models\AccountingSystem\AccountingBranch':'App\Models\AccountingSystem\AccountingCompany',
+            'model_id'=>$device->model_id,
 
-        AccountingDevice::create($requests);
+        ]);
         alert()->success('تم اضافة  الجهاز بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.devices.index');
     }

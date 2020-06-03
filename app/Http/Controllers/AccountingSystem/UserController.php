@@ -8,6 +8,8 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
+use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -31,8 +33,8 @@ class UserController extends Controller
      */
     public function create()
     {
-
-        return $this->toCreate();
+        $roles = Role::all();
+        return $this->toCreate(compact('roles'));
     }
 
     /**
@@ -68,6 +70,10 @@ class UserController extends Controller
             $requests['is_admin']=1;
         }
         $user=User::create($requests);
+        $user->assignRole(Role::find($request->input('role_id')));
+
+//dd(Role::find($request->input('role_id'))->permissions()->pluck('id'));
+        $user->syncPermissions(Role::find($request->input('role_id'))->permissions()->pluck('id'));
 
         alert()->success('تم اضافة المستخدم بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.users.index');
@@ -93,8 +99,9 @@ class UserController extends Controller
     public function edit($id)
     {
         $user =User::findOrFail($id);
+        $userRole = $user->roles->pluck('name','id')->all();
 
-        return $this->toEdit(compact('user'));
+        return $this->toEdit(compact('user','userRole'));
 
 
     }
@@ -136,6 +143,13 @@ class UserController extends Controller
             $requests['is_admin']=1;
         }
         $user->update(array_except($requests,['password']));
+
+        DB::table('model_has_roles')->where('model_id',$id)->delete();
+        DB::table('model_has_permissions')->where('model_id',$id)->delete();
+
+        $user->assignRole(Role::find($request->input('role_id')));
+        $user->syncPermissions(Role::find($request->input('role_id'))->permissions()->pluck('id'));
+
         alert()->success('تم تعديل  العضو بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.users.index');
 

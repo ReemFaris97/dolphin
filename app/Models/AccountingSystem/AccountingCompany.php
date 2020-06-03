@@ -58,4 +58,13 @@ class AccountingCompany extends Authenticatable
 
     }
 
+    public  function  getGeneralBalances(){
+        $generalbalances=AccountingSafe::where('model_type','App\Models\AccountingSystem\AccountingBranch')->where('model_id',$this->id)->sum('amount');
+        return $generalbalances;
+    }
+    public  function  getRealBalances(){
+        $realbalances=AccountingSafe::where('model_type','App\Models\AccountingSystem\AccountingBranch')->where('model_id',$this->id)->where('status','branch')->sum('amount');
+        return $realbalances;
+    }
+
 }

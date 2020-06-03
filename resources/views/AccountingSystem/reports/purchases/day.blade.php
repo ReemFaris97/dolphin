@@ -175,6 +175,7 @@
                         <td>{!! $row->total_tax?? 0 !!}</td>
                         <td>{!! $row->all_total?? 0 !!}</td>
 
+
                         <td class="text-center td-display-none">
                             <a href="{{route('accounting.reports.purchase_details')}}?date={{ $row->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
 
@@ -194,7 +195,7 @@
                     <td>{{$discounts}}</td>
                     <td>{{$total_tax}}</td>
                     <td>{{$all_total}}  </td>
-                    <td></td>
+                    <td>عدد الفواتير:{{$purchases->sum('num')}}</td>
                 </tr>
                 </tfoot>
             </table>

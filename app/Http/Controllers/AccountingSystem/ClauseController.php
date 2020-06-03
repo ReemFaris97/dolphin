@@ -57,13 +57,19 @@ class ClauseController extends Controller
     public function store(Request $request)
     {
 //   dd($request->all());
-//         $rules = [
-//
-//             'benod_id'=>'required|numeric|exists:accounting_benods,id',
-//
-//
-//         ];
-//         $this->validate($request,$rules);
+         $rules = [
+          'concerned'=>'required',
+             'type'=>'required',
+             'amount'=>'required',
+
+         ];
+        $message=[
+            'concerned.required'=>'جهة السند  مطلوب ',
+            'type.required'=>'نوع السند  مطلوب ',
+            'amount.required'=>' المبلغ  مطلوب ',
+
+        ];
+        $this->validate($request,$rules,$message);
         $requests = $request->all();
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'photos');
@@ -124,6 +130,9 @@ class ClauseController extends Controller
                     $safe->update([
                         'amount' => $safe->amount - $requests['amount']
                     ]);
+                }else{
+                    alert()->error('المبلغ  غير  متوفر  بالخزنه   !')->autoclose(5000);
+                    return back();
                 }
                 if ($requests['amount'] <= $supplier->balance) {
 

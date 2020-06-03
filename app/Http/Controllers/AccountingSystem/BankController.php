@@ -53,12 +53,16 @@ class BankController extends Controller
     {
         $rules = [
 
-            'name'=>'nullable|string',
-            'en_name'=>'nullable|string',
-            'bank_number'=>'nullable|string',
+            'name'=>'required|string',
+            'en_name'=>'required|string',
+            'bank_number'=>'required|string',
 
         ];
-        $this->validate($request,$rules);
+        $message=[
+            'en_name.required'=>'اسم البنك باللغه الانجليزيه مطلوب ',
+            'bank_number.required'=>'رمز البنك مطلوب',
+        ];
+        $this->validate($request,$rules,$message);
         $requests = $request->all();
         AccountingBank::create($requests);
         alert()->success('تم حفظ البنك  بنجاح !')->autoclose(5000);
@@ -105,11 +109,15 @@ class BankController extends Controller
 
         $rules = [
 
-            'name'=>'nullable|string',
-            'en_name'=>'nullable|string',
-            'bank_number'=>'nullable|string',
+            'name'=>'required|string',
+            'en_name'=>'required|string',
+            'bank_number'=>'required|string',
         ];
-        $this->validate($request,$rules);
+        $message=[
+            'en_name.required'=>'اسم البنك باللغه الانجليزيه مطلوب ',
+            'bank_number.required'=>'رمز البنك مطلوب',
+        ];
+        $this->validate($request,$rules,$message);
         $requests = $request->all();
         $bank->update($requests);
         alert()->success('تم تعديل  البنك بنجاح !')->autoclose(5000);

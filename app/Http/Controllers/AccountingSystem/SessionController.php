@@ -10,6 +10,7 @@ use App\Models\AccountingSystem\AccountingCompany;
 
 use App\Models\AccountingSystem\AccountingMoneyClause;
 use App\Models\AccountingSystem\AccountingProductCategory;
+use App\Models\AccountingSystem\AccountingSafe;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingDevice;
@@ -153,6 +154,11 @@ private $viewable = 'AccountingSystem.sessions.';
            'status'=>'confirmed',
            'custody'=>$request['custody']
        ]);
+        $safe=AccountingSafe::find($request['safe_id']);
+        $safe->update([
+            'amount'=>$safe->amount+$request['custody']
+        ]);
+        alert()->success('تم تاكيداغلاق الجلسه  من  قبل  المحاسب بنجاح !')->autoclose(5000);
 
     }
 
@@ -162,6 +168,7 @@ private $viewable = 'AccountingSystem.sessions.';
         $session->update([
             'status'=>'closed',
         ]);
+
 
         alert()->success('تم اغلاق الجلسه  من  قبل  الكاشير بنجاح !')->autoclose(5000);
         return back();

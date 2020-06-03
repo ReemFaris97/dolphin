@@ -27,7 +27,17 @@
         <label> الصلاحية  </label>
         {!! Form::select("role",['is_admin'=>'ادمن','is_saler'=>'كاشير','is_accountant'=>'محاسب'],Null,['class'=>'form-control','placeholder'=>' اختر الصلاحيه  '])!!}
     </div>
-    @else
+    <div class="form-group col-md-6 pull-left">
+        <select name="role_id" class="form-control role" >
+            <option  >اختر الدور/المهام</option>
+
+            @foreach($roles as $role)
+                <option value="{{$role->id}}">{{$role->name}}</option>
+            @endforeach
+        </select>
+    </div>
+
+@else
 
     <div class="form-group col-sm-6 col-xs-12 pull-left">
         <select class="form-control js-example-basic-single pull-right" name="role">
@@ -39,6 +49,14 @@
 
         </select>
            </div>
+
+    <div class="form-group col-md-6 pull-left">
+        <select name="role_id" class="form-control role" id="role_id">
+            @foreach($roles as $role)
+                <option value="{{$role->id}}" @if($user->role_id==$role->id) selected @endif >{{$role->name}}</option>
+            @endforeach
+        </select>
+    </div>
 
 @endif
 

@@ -21,25 +21,36 @@
 
         <div class="panel-body">
             <div class="form-group col-md-6 pull-left">
-                <label class="label ">  اسم الشركة التابع  لها   الفرع  : </label>
+                <label class="label label-info">  اسم الشركة التابع  لها   الفرع  : </label>
                 <span>{!! $branch->company->name !!}</span>
             </div>
             <div class="form-group col-md-6 pull-left">
-                <label class="label ">  اسم الفرع  : </label>
+                <label class="label label-info">  اسم الفرع  : </label>
                 <span>{!! $branch->name !!}</span>
             </div>
 
             <div class="form-group col-md-6 pull-left">
-                <label class="label ">  جوال الفرع  : </label>
+                <label class="label label-info">  جوال الفرع  : </label>
                 <span>{!! $branch->phone !!}</span>
             </div>
             <div class="form-group col-md-6 pull-left">
-                <label class="label ">  ايميل الفرع  : </label>
+                <label class="label label-info">  ايميل الفرع  : </label>
                 <span>{!! $branch->email !!}</span>
             </div>
 
+
             <div class="form-group col-md-6 pull-left">
-                <label class="label ">  صورة الفرع  : </label>
+                <label class="label label-info ">   الرصيد العام لخزائن الفرع : </label>
+                <span>{!! $branch->getGeneralBalances() !!}</span>
+            </div>
+            <div class="form-group col-md-6 pull-left">
+                <label class="label label-info">   الرصيد الفعلى لخزائن الفرع  : </label>
+                <span>{!! $branch->getRealBalances() !!}</span>
+            </div>
+
+
+            <div class="form-group col-md-6 pull-left">
+                <label class="label label-info ">  صورة الفرع  : </label>
                 <span><img src="{!! getimg($branch->image)!!}" style="width:100px; height:100px"> </span>
             </div>
             <div class="clearfix">
@@ -47,7 +58,7 @@
             </div>
             <h4>عرض الورديات بالفرع</h4>
             <div class="form-group col-md-12 pull-left">
-                @foreach($shifts  as $shift)
+
                    <table class="table init-basic">
                        <thead>
                        <tr>
@@ -57,12 +68,16 @@
                        </tr>
                        </thead>
                        <tbody>
+                       @foreach($shifts  as $shift)
+                       <tr>
                        <td>{!! $shift->name !!}</td>
                        <td>{!! $shift->from !!}</td>
                        <td>{!! $shift->to !!}</td>
+                       </tr>
+                       @endforeach
                        </tbody>
                    </table>
-                    @endforeach
+
             </div>
 
         </div>

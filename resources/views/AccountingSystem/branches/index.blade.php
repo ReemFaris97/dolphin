@@ -28,6 +28,8 @@
                     <th> اسم الشركة التابع  لها  </th>
                     <th> جوال الفرع </th>
                     <th> ايميل الفرع </th>
+                    <th>  الرصيد العام لخزائن الفرع </th>
+                    <th>  الرصيد الفعلى لخزائن الفرع  </th>
                     <th> صورة الفرع </th>
                     <th class="text-center">العمليات</th>
                 </tr>
@@ -42,6 +44,9 @@
                         <td><a href="{{route('accounting.companies.show',['id'=>$row->company_id])}}">{!! $row->company->name!!}</a></td>
                         <td>{!! $row->phone!!}</td>
                         <td>{!! $row->email!!}</td>
+                        <td>{!! $row->getGeneralBalances()!!}</td>
+                        <td>{!! $row->getRealBalances()!!}</td>
+
                         <td><img src="{!! getimg($row->image)!!}" style="width:100px; height:100px"> </td>
 
 
