@@ -325,6 +325,20 @@
     } );
 } );
 </script>
+<!--- scroll to the last table row -->
+<script>
+//    setTimeout(function(){ 
+//  $('.table').animate({
+//  scrollTop: $('tbody').get(0).scrollHeight}, 2000);
+//}, 500);
+    
+    
+$('table').on('DOMSubtreeModified', 'tbody', function(){
+//  alert('enzl ta7t ya tbody');
+    $("tbody").animate({ scrollTop: $('tbody').prop("scrollHeight")}, 1000);
+
+});
+</script>
 
 <!--- end datatable -->
 <script src="{{asset('admin/assets/js/jquery.datetimepicker.full.min.js')}}"></script>
