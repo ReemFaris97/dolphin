@@ -66,11 +66,14 @@ class SafeController extends Controller
 
             $requests['model_id'] = $requests['branch_id'];
             $requests['model_type'] = 'App\Models\AccountingSystem\AccountingBranch';
+            $requests['status'] = 'branch';
         }
         if ($requests['branch_id'] == NULL & $requests['company_id'] != NULL) {
 
             $requests['model_id'] = $requests['company_id'];
             $requests['model_type'] = 'App\Models\AccountingSystem\AccountingCompany';
+            $requests['status'] = 'company';
+
         }
 
         AccountingSafe::create($requests);
@@ -87,8 +90,17 @@ class SafeController extends Controller
     public function show($id)
     {
         $transactions = AccountingTransactionSafe::where('safe_form_id', $id)->get();
-        //   dd($transactions);
-        return $this->toShow(compact('transactions'));
+
+        $safe = AccountingSafe::findOrFail($id);
+        //branch_all_safes
+        $safes_cashier= AccountingSafe::where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->where('model_id',$safe->model_id)->where('id','!=',$id)->get();
+        $safes_branch= AccountingSafe::where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->where('model_id',$safe->model_id)->where('status','branch')->where('id','!=',$id)->get();
+        $safe_company=AccountingSafe::where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->where('model_id',$safe->branch->company_id)->first();
+        $safes_branch->push($safe_company);
+
+        $safes_company=AccountingSafe::where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->where('model_id',$safe->branch->company_id)->get();
+
+        return $this->toShow(compact('transactions','safe','safes_branch','safes_cashier','safes_company'));
     }
 
     /**
@@ -184,29 +196,38 @@ class SafeController extends Controller
     {
 
         $inputs = $request->all();
-        // dd($inputs);
+
         AccountingTransactionSafe::create([
             'safe_form_id' => $inputs['safe_form_id'],
             'safe_to_id' => $inputs['safe_to_id'],
             'amount' => $inputs['amount'],
             'notes' => $inputs['notes'],
+            'type'=>'manual',
+            'user_id'=>auth()->user()->id,
         ]);
 
         $safe_form = AccountingSafe::where('id', $inputs['safe_form_id'])->first();
         $safe_to = AccountingSafe::where('id', $inputs['safe_to_id'])->first();
-        if ($safe_form->amount >= 0) {
+        if ($safe_form->amount >= $inputs['amount']) {
+
             $safe_form->update([
                 'amount' => $safe_form->amount - $inputs['amount']
             ]);
             $safe_to->update([
                 'amount' => $safe_to->amount + $inputs['amount']
             ]);
+            alert()->success('تم   التحويل من الخزنة بنجاح !')->autoclose(5000);
+            return back();
+
+        }else{
+
+            alert()->error('المبلغ بالخزنه غير كافى !')->autoclose(5000);
+            return back();
         }
 
 
 
 
-        alert()->success('تم  اضافة التحويل من الخزنة بنجاح !')->autoclose(5000);
-        return back();
+
     }
 }

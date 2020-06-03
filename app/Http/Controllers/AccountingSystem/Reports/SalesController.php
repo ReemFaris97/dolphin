@@ -133,7 +133,7 @@ class SalesController extends Controller
    {
        $requests=request()->all();
       if ($request->has('company_id')) {
-         $sales = AccountingReturn::select('id',\DB::raw('DATE(created_at) as date'), \DB::raw('sum(amount) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'),'created_at');
+         $sales = AccountingReturn::select('id',\DB::raw('DATE(created_at) as date'), \DB::raw('sum(amount) as num'),  \DB::raw('count(*) as counter'),\DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'),'created_at');
 
          if ($request->has('branch_id') && $request->branch_id != null) {
             $sales = $sales->where('branch_id', $request->branch_id);

@@ -24,6 +24,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use phpDocumentor\Reflection\Types\Self_;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -39,9 +40,9 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $fillable = [
         'name', 'phone', 'email', 'password', 'image', 'job', 'nationality', 'company_name', 'blocked_at', 'is_admin', 'remember_token'
-,'is_distributor','is_supplier','supplier_type','tex_number','lat','lng','bank_id','verification_code','parent_user_id','bank_account_number',
-'distributor_status','settle_commission','sell_commission','reword_value','store_id','route_id','is_storekeeper'
-        ,'accounting_store_id','is_saler','is_accountant','delete_product'
+        ,'is_distributor','is_supplier','supplier_type','tex_number','lat','lng','bank_id','verification_code','parent_user_id','bank_account_number',
+         'distributor_status','settle_commission','sell_commission','reword_value','store_id','route_id','is_storekeeper'
+        ,'accounting_store_id','is_saler','is_accountant','delete_product','role_id'
     ];
 
     /**
@@ -83,6 +84,10 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+    public function role()
+    {
+        return $this->belongsTo(Role::class,'role_id');
     }
 
 

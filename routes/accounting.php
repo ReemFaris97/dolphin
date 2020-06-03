@@ -16,6 +16,8 @@ Route::middleware('admin')->group(function () {
     Route::resource('storeKeepers', 'StoreKeeperController');
     Route::resource('taxs', 'TaxsController');
     Route::resource('banks', 'BankController');
+    Route::resource('roles', 'roleController');
+
     /////////////////سندات  ادخال المنتجات فى المخازن
     Route::get('/company_stores/{id}', 'StoreController@company_stores');
     Route::get('/branch_stores/{id}', 'StoreController@branch_stores');
@@ -206,6 +208,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/productsAjexPurchase/{id}', 'BuyPointController@getProductAjex');
     Route::resource('purchases', 'PurchaseController');
     Route::get('/productReturnPurchase', 'PurchaseReturnController@product');
+    Route::get('/backup', 'SettingController@backup')->name('backup');
 
 
     Route::group(['prefix' => 'reports', 'namespace' => 'Reports', 'as' => 'reports.'], function () {

@@ -196,7 +196,9 @@
                     <td>{{$discounts}}</td>
                     <td>{{$total_tax}}</td>
                     <td>{{$all_total}}  </td>
-                    <td></td>
+                    <td>عدد الفواتير:{{$purchases->sum('counter')}}</td>
+
+
                 </tr>
                 </tfoot>
             </table>

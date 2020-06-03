@@ -50,7 +50,6 @@
                         <td>{!! $row->end_session!!}</td>
 
 
-
                             <td>
                                 @if ($row->custody==Null)
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-id="{{$row->id}}" onclick="openModal({{$row->id}})" data-target="#exampleModal{{$row->id}}" id="button{{$row->id}}">
@@ -97,9 +96,16 @@
                     <label> عهده  الجلسه</label>
                     <input type="text" class="form-control" name="custody">
                 </div>
+
+                    <label style="color:black">الخزينة المحول  اليها </label>
+                    <select name="safe_id" class="form-control">
+                        @foreach(\App\Models\AccountingSystem\AccountingSafe::where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->where('model_id',$row->device->branch->id)->where('status','branch')->get()  as  $safe)
+                            <option value="{{$safe->id}}">{{$safe->name}}</option>
+                        @endforeach
+                    </select>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
-                    <button class="btn btn-primary" id="real{{$row->id}}" type="button" data-dismiss="modal"="">    اضافة    عهدة الجلسة   </button>
+                    <button class="btn btn-primary" id="real{{$row->id}}" type="button" data-dismiss="modal">    اضافة    عهدة الجلسة   </button>
                 </div>
                 </form>
                 {{--{!!Form::close() !!}--}}

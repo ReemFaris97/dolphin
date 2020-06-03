@@ -34,7 +34,7 @@
 @endif
 <div class="form-group col-md-4 pull-left">
     <label> اسم الوردية </label>
-    {!! Form::select("shift_id",shifts(),null,['class'=>'form-control js-example-basic-single ','placeholder'=>' اختر اسم الشركة التابع له المنتج '])!!}
+    {!! Form::select("shift_id",shifts(),null,['class'=>'form-control js-example-basic-single ','placeholder'=>' اختر اسم الوردية '])!!}
 </div>
 
 <div class="form-group col-md-4 pull-left">

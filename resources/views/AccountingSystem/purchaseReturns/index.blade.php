@@ -80,7 +80,7 @@
             console.log(item_id);
             swal({
                 title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذة  الضريبة ؟",
+                text: "هل تريد حذف هذة  الفاتورة ؟",
                 icon: "warning",
                 buttons: ["الغاء", "موافق"],
                 dangerMode: true,
@@ -90,7 +90,7 @@
                     document.getElementById('delete-form'+item_id).submit();
                 }
                 else{
-                    swal("تم االإلفاء", "حذف  الضريبة  تم الغاؤه",'info',{buttons:'موافق'});
+                    swal("تم االإلفاء", "حذف  الفاتورة  تم الغاؤه",'info',{buttons:'موافق'});
                 }
             });
         }

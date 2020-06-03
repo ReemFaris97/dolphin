@@ -21,7 +21,7 @@
 
 
                 <h4 class="header-title m-t-0 m-b-30">كل  اعدادات النظام</h4>
-
+        <a href="{{route('accounting.backup')}}" class="btn btn-success">نسخ كافة البيانات </a>
 
                 <table id="datatable-buttons" class="table datatable-button-init-basic" cellspacing="0" width="100%">
                     <thead>
@@ -45,9 +45,6 @@
                     @endforeach
                     </tbody>
                 </table>
-
-
-
 
         </div>
     @endsection

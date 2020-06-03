@@ -189,7 +189,7 @@ class SaleController extends Controller
 
             $store_id=auth()->user()->accounting_store_id;
             $store=AccountingStore::find($store_id);
-            $safe=AccountingSafe::where('model_type', $store->model_type)->where('model_id', $store->model_id)->first();
+            $safe=AccountingSafe::where('device_id', $sale->session->device_id)->first();
             $safe->update([
                 'amount'=>$safe->amount-$sale->total
             ]);
@@ -311,7 +311,9 @@ class SaleController extends Controller
 
             $store_id=auth()->user()->accounting_store_id;
             $store=AccountingStore::find($store_id);
-            $safe=AccountingSafe::where('model_type', $store->model_type)->where('model_id', $store->model_id)->first();
+//            $safe=AccountingSafe::where('model_type', $store->model_type)->where('model_id', $store->model_id)->first();
+            $safe=AccountingSafe::where('device_id', $returnSale->session->device_id)->first();
+
             $safe->update([
                 'amount'=>$safe->amount-$returnSale->total
             ]);
