@@ -55,3 +55,17 @@ tbody a {
     padding-top: 10px;
     padding-bottom: 10px;
 }
+.table{
+    width: 100% !important;
+}
+.dataTable tr td.child > ul > li {
+    display: block;
+}
+
+table.finalTb.mabi3at-bill.bill-table tfoot th, table.finalTb.mabi3at-bill.bill-table tfoot td {
+    border-top: 0;
+}
+form#sllForm {
+    max-width: 100%;
+    overflow-x: scroll;
+}

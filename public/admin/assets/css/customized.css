@@ -500,7 +500,6 @@ td a.show-file:hover {
 
 tbody {
 	background-color: rgb(69, 90, 100);
-	color: #fff;
 }
 
 .font-c {
@@ -617,20 +616,15 @@ li.read-all-notis a:focus {
 /**************************************************/
 /*********modfication*/
 /****************************************************/
-div.dt-buttons {
-	margin-top: -30px;
-	margin-left: 5px
-}
-
 button.dt-button,
 div.dt-button,
 a.dt-button {
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#222325), to(#222325)) !important;
-	background-image: -o-linear-gradient(top, #222325 0%, #222325 100%) !important;
-	background-image: linear-gradient(to bottom, #222325 0%, #222325 100%) !important;
-	background-color: #222325 !important;
-	color: #fff !important;
-	font-size: 13px !important
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#241e32), to(#241e32)) !important;
+    background-image: -o-linear-gradient(top, #241e32 0%, #241e32 100%) !important;
+    background-image: linear-gradient(to bottom, #241e32 0%, #241e32 100%) !important;
+    background-color: #241e32!important;
+    color: #fff !important;
+    font-size: 13px !important;
 }
 
 button.dt-button:hover,
@@ -845,14 +839,6 @@ p.ta7weel-img img{
 .table > tbody > tr > td img {
 	width: 65px !important;
 	height: 65px !important;
-}
-
-.dataTables_length {
-	margin-top: -30px !important;
-}
-
-.dataTables_filter {
-	margin-top: -30px !important;
 }
 
 .panel-body > h6.text-semibold {
@@ -1289,7 +1275,7 @@ table.mabi3at-bill.moshtraiat-bill th input {
 }
 
 td.delete-single-row a span {
-	font-size: 30px;
+	font-size: 26px;
 }
 
 td.delete-single-row a {
@@ -1468,4 +1454,7 @@ table.dataTable#DataTables_Table_0 tfoot {
 		width: 40px;
 		padding: 5px
 	}
+    .table-upper-options, .newly-added-2-btns- {
+    display: block;
+    }
 }

@@ -3,6 +3,13 @@
 @section('parent_title','إدارة نقطه البيع')
 @section('action', URL::route('accounting.categories.index'))
 @section('styles')
+<!--- start datatable -->
+<link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css
+" rel="stylesheet" type="text/css">
+<!--- end datatable -->
+
 <link href="{{asset('admin/assets/css/jquery.datetimepicker.min.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/all.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/bill.css')}}" rel="stylesheet" type="text/css">
@@ -26,8 +33,9 @@
 		<!----------------  Start Bill Content ----------------->
 		<section class="yourBill">
 			<div class="yurSections">
+<!--
 				<div class="row table-upper-options">
-					<!-- Nav tabs -->
+					 Nav tabs 
 					<div class="col-md-4 col-sm-6 col-xs-12">
 						<div class="form-group">
 							<label> اسم الكاشير: </label>
@@ -47,25 +55,26 @@
 						</div>
 					</div>
 				</div>
+-->
 				<div class="row table-upper-options">
 					<!-- Nav tabs -->
-					<div class="form-group block-gp col-md-4 col-sm-4">
+					<div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
 						<label> إسم العميل: </label>
 						{!! Form::select("client",$clients,null,['class'=>'selectpicker form-control inline-control','data-live-search'=>'true','id'=>'client_id'])!!}
 					</div>
-					<div class="form-group block-gp col-md-4 col-sm-4">
+					<div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
 						<label for="bill_date"> تاريخ الفاتورة </label>
 						{!! Form::text("__bill_date",null,['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' تاريخ الفاتورة',"id"=>'bill_date'])!!}
 					</div>
-					<div class="form-group block-gp col-md-4 col-sm-4">
+					<div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
 						<label>بحث بالباركود </label>
 						<input class="form-control" type="text" id="barcode_search">
 					</div>
-					<div class="form-group block-gp col-md-4 col-sm-4">
+					<div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
 						<label>اسم القسم </label>
 						{!! Form::select("category_id",$categories,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}
 					</div>
-					<div class="form-group block-gp col-md-4 col-sm-4">
+					<div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
 						<div class="yurProdc"></div>
 						<div class="tempobar"></div>
 					</div>
@@ -80,7 +89,7 @@
 					<input type="hidden" name="bill_date" id="bill_date_val">
 
 					<input type="hidden" name="client_id" id="client_id_val">
-					<table border="1" class="finalTb mabi3at-bill bill-table 
+					<table border="1" class="table datatable-button-init-basic finalTb mabi3at-bill bill-table 
 					{{(getsetting('name_enable_sales')==1) ? 'name_enable':'' }} {{(getsetting('barcode_enable_sales')==1) ? 'barcode_enable':'' }} 
 					{{(getsetting('unit_enable_sales')==1) ? 'unit_enable':'' }} {{(getsetting('quantity_enable_sales')==1) ? 'quantity_enable':'' }} {{(getsetting('unit_price_before_enable_sales') == 1) ? 'unit_price_before_enable':''}} {{(getsetting('unit_price_after_enable_sales')==1) ? 'unit_price_after_enable':'' }} {{(getsetting('total_price_before_enable_sales')==1) ? 'total_price_before_enable':'' }} {{(getsetting('total_price_after_enable_sales')==1) ? 'total_price_after_enable':'' }}">
 						<thead>
@@ -214,11 +223,11 @@
 				</form>
 				<div class="newly-added-2-btns-">
 					@if(auth()->user()->is_saler==1)
-					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+					<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
 						اغلاق الجلسة [F8]
 					</button>
 					@endif
-					<a class="btn btn-danger" id="add-mortaga3" href="{{route('accounting.sales.returns',$session->id)}}">
+					<a class="btn btn-primary" id="add-mortaga3" href="{{route('accounting.sales.returns',$session->id)}}">
 						اضافة فاتورة مرتجع [F9] </a>
 					<a class="btn btn-warning" id="ta3liik" href="#" target="_blank"> تعليق الفاتورة [F10] </a>
 				</div>
@@ -288,6 +297,36 @@
 </div>
 @endsection
 @section('scripts')
+<!--- start datatable -->
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.5/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js
+"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js
+"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js
+"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js
+"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js
+"></script>
+
+<script>
+    $(document).ready(function() {
+    var table = $('.table').DataTable( {
+        responsive: true,
+         dom: 'Bfrtip',
+        buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5'
+        ]
+    } );
+} );
+</script>
+
+<!--- end datatable -->
 <script src="{{asset('admin/assets/js/jquery.datetimepicker.full.min.js')}}"></script>
 <script src="{{asset('admin/assets/js/scanner.js')}}"></script>
 <script>
