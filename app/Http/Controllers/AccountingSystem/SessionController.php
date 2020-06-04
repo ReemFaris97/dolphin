@@ -58,14 +58,12 @@ private $viewable = 'AccountingSystem.sessions.';
     {
 
        $inputs= $request->all();
-
         $rules = [
             'shift_id'=>'required|numeric|exists:accounting_branch_shifts,id',
             'device_id'=>'required|numeric|exists:accounting_devices,id',
             'email'=>'required',
             'password'=>'required|string|max:191',
         ];
-
         $messsage = [
             'shift_id.required'=>" اسم الوردية مطلوبة",
             'device_id.required'=>"اسم الجهاز مطلوب",
