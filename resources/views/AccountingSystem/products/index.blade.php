@@ -4,10 +4,6 @@
 @section('action', URL::route('accounting.products.index'))
 
 @section('styles')
-<!--- Parsley -->
-<link href="https://cdn.jsdelivr.net/gh/guillaumepotier/Parsley.js@2.9.2/bower_components/bootstrap/dist/css/bootstrap.css" type="text/css">
-<link href="https://cdn.jsdelivr.net/gh/guillaumepotier/Parsley.js@2.9.2/doc/assets/docs.css" type="text/css">
-<link href="https://cdn.jsdelivr.net/gh/guillaumepotier/Parsley.js@2.9.2/src/parsley.css" type="text/css">
 
 @endsection
 
@@ -95,20 +91,6 @@
 
 @section('scripts')
 
-	<!--- parsley js --->
-	<script src="https://parsleyjs.org/dist/parsley.min.js"></script>
-   <script>
-       $(function () {
-  $('#demo-form').parsley().on('field:validated', function() {
-    var ok = $('.parsley-error').length === 0;
-    $('.bs-callout-info').toggleClass('hidden', !ok);
-    $('.bs-callout-warning').toggleClass('hidden', ok);
-  })
-  .on('form:submit', function() {
-    return false; // Don't submit form for this demo
-  });
-});
-</script>
     <script>
         function Delete(id) {
             var item_id=id;
