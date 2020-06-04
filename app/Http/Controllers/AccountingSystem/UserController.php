@@ -100,8 +100,8 @@ class UserController extends Controller
     {
         $user =User::findOrFail($id);
         $userRole = $user->roles->pluck('name','id')->all();
-
-        return $this->toEdit(compact('user','userRole'));
+        $roles = Role::all();
+        return $this->toEdit(compact('user','userRole','roles'));
 
 
     }
