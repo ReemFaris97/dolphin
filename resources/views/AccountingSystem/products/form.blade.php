@@ -21,18 +21,18 @@
 			<div class="row">
 				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
 					<label> اسم الشركة </label>
-					{!! Form::select("company_id",companies(),null,['class'=>'form-control js-example-basic-single company_id','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له المنتج '])!!}
+					{!! Form::select("company_id",companies(),null,['class'=>'form-control js-example-basic-single company_id','required','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له المنتج '])!!}
 				</div>
 				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
 					<label> اسم الفرع التابع </label>
-					{!! Form::select("branch_id",branches(),null,['class'=>'form-control selectpicker branch_id','id'=>'branch_id','multiple','placeholder'=>' اختر اسم الفرع التابع له المنتج '])!!}
+					{!! Form::select("branch_id",branches(),null,['class'=>'form-control selectpicker branch_id','required','id'=>'branch_id','multiple','placeholder'=>' اختر اسم الفرع التابع له المنتج '])!!}
 				</div>
 				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left" id="store_id">
 					<label> اسم المخزن </label>
 					@if (!isset($product))
-					{!! Form::select("store_id",stores(),null,['class'=>'form-control js-example-basic-single store_id','id'=>'store_id','placeholder'=>' اختر اسم المخزن التابع له المنتج '])!!}
+					{!! Form::select("store_id",stores(),null,['class'=>'form-control js-example-basic-single store_id','required','id'=>'store_id','placeholder'=>' اختر اسم المخزن التابع له المنتج '])!!}
 					@else
-					<select class="form-control js-example-basic-single pull-right" name="store_id">
+					<select class="form-control js-example-basic-single pull-right" name="store_id" required>
 						@foreach ($stores as $store)
 						@if ($product->store_id == $store->id)
 						<option value="{{$store->id}}" selected>{{$store->ar_name}}</option>
@@ -46,10 +46,10 @@
 				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
 					<label> اسم الوجه </label>
 					@if (!isset($product))
-					{!! Form::select("face_id",faces(),null,['class'=>'form-control selectpicker face_id','id'=>'face_id','placeholder'=>' اختر وجه للمنتج '])!!}
+					{!! Form::select("face_id",faces(),null,['class'=>'form-control selectpicker face_id','id'=>'face_id','required','placeholder'=>' اختر وجه للمنتج '])!!}
 					@else
 					{{-- @dd($product->cell()->first()->column->face_id) --}}
-					<select class="form-control js-example-basic-single pull-right" name="column_id">
+					<select class="form-control js-example-basic-single pull-right" name="column_id" required>
 						@foreach ($faces as $face)
 						@if($product->cell()->first()->column->face_id == $face->id)
 						<option value="{{$face->id}}" selected>{{$face->name}}</option>
@@ -63,9 +63,9 @@
 				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
 					<label> اسم العمود التابع للوجه </label>
 					@if (!isset($product))
-					{!! Form::select("column_id",colums(),null,['class'=>'form-control selectpicker column_id','id'=>'column_id','placeholder'=>' اختر عمود للمنتج '])!!}
+					{!! Form::select("column_id",colums(),null,['class'=>'form-control selectpicker column_id','required','id'=>'column_id','placeholder'=>' اختر عمود للمنتج '])!!}
 					@else
-					<select class="form-control js-example-basic-single pull-right" name="column_id">
+					<select class="form-control js-example-basic-single pull-right" name="column_id" required>
 						@foreach ($columns as $column)
 						@if ($product->column_id == $column->id)
 						<option value="{{$column->id}}" selected>{{$column->name}}</option>
@@ -80,9 +80,9 @@
 					<label> اسم الخلية التابعة للعمود </label>
 					{{-- {!! Form::text("cell",null,['class'=>'form-control','placeholder'=>'  ادخل اسم  الخلية  '])!!} --}}
 					@if (!isset($product))
-					{!! Form::select("cell_id",cells(),null,['class'=>'form-control selectpicker cell_id','id'=>'cell_id','placeholder'=>' اختر خلية للمنتج '])!!}
+					{!! Form::select("cell_id",cells(),null,['class'=>'form-control selectpicker cell_id','required','id'=>'cell_id','required',placeholder'=>' اختر خلية للمنتج '])!!}
 					@else
-					<select class="form-control js-example-basic-single pull-right" name="cell_id">
+					<select class="form-control js-example-basic-single pull-right" name="cell_id" required>
 						@foreach ($cells as $cell)
 						@if ($product->cell_id==$cell->id)
 						<option value="{{$cell->id}}" selected>{{$cell->name}}</option>
@@ -97,15 +97,20 @@
 		</div>
 		<div id="menu1" class="tab-pane fade">
 			<div class="row">
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label>اسم المنتج </label>
-					{!! Form::text("name_product",isset($is_edit)?$product->name:null,['class'=>'form-control','placeholder'=>' اسم المنتج '])!!}
+					{!! Form::text("name_product",isset($is_edit)?$product->name:null,['class'=>'form-control','placeholder'=>' اسم المنتج ','required'])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> اسم التصنيف </label>
-					{!! Form::select("category_id",$categories,null,['class'=>'form-control js-example-basic-single','id'=>'company_id','placeholder'=>' اختر اسم التصنيف التابع له المنتج '])!!}
+					{!! Form::select("category_id",$categories,null,['class'=>'form-control js-example-basic-single','required',id'=>'company_id','placeholder'=>' اختر اسم التصنيف التابع له المنتج '])!!}
 				</div>
-				<div class="form-group col-xs-12 pull-left">
+				</div>
+				<div class="col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label>النوع </label>
 					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2" id="components_button">
 						المكونات
@@ -116,16 +121,19 @@
 					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal5" style="display: none;" id="services_button">
 						الخدمات
 					</button>
-					{!! Form::select("type",['store'=>'مخزون','service'=>'خدمه','offer'=>'مجموعة منتجات ','creation'=>'تصنيع','product_expiration'=>'منتج بتاريخ صلاحيه'],null,['class'=>'form-control js-example-basic-single type','placeholder'=>' نوع المنتج ','id'=>'type'])!!}
+					{!! Form::select("type",['store'=>'مخزون','service'=>'خدمه','offer'=>'مجموعة منتجات ','creation'=>'تصنيع','product_expiration'=>'منتج بتاريخ صلاحيه'],null,['class'=>'form-control js-example-basic-single type','placeholder'=>' نوع المنتج ','required','id'=>'type'])!!}
 				</div>
-				<div class="form-group col-xs-12 pull-left">
+				</div>
+				<div class="col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label>الوحدة الاساسية </label><span style="color: #ff0000; margin-right: 15px;">[جرام -كيلو-لتر]</span>
 					<!-- Button trigger modal -->
 					<button type="button" class="btn btn-primary" id="openExampleModal" data-toggle="modal" data-target="#exampleModal">
 						الوحدات الفرعية
 					</button>
 					{{--<input class="form-control autocomplete" placeholder="Enter A" />--}}
-					{!! Form::text("main_unit",null,['class'=>'form-control autocomplete','placeholder'=>' الوحدة الاساسية '])!!}
+					{!! Form::text("main_unit",null,['class'=>'form-control autocomplete','required',placeholder'=>' الوحدة الاساسية '])!!}
+				</div>
 				</div>
 				<div class="form-group col-xs-12 pull-left">
 					<label>وصف المنتج </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
@@ -209,94 +217,128 @@
 		</div>
 		<div id="menu2" class="tab-pane fade">
 			<div class="row">
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left taxs form-line new-radio-big-wrapper ">
+				<div class="form-group col-xs-12 pull-left taxs form-line new-radio-big-wrapper ">
 					<span class="new-radio-wrap">
 						<label for="active">مفعل </label>
-						{!! Form::radio("is_active",1,['class'=>'form-control','id'=>'active'])!!}
+						{!! Form::radio("is_active",1,['class'=>'form-control','required',id'=>'active'])!!}
 					</span>
 					<span class="new-radio-wrap">
 						<label for="dis_active">غير مفعل </label>
 						{!! Form::radio("is_active",0,['class'=>'form-control','id'=>'dis_active'])!!}
 					</span>
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label>الباركود </label>
-					{!! Form::text("bar_code",null,['class'=>'form-control','placeholder'=>' الباركود '])!!}
+					{!! Form::text("bar_code",null,['class'=>'form-control','required',placeholder'=>' الباركود '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label>سعر البيع </label>
-					{!! Form::text("product_selling_price",isset($is_edit)?$product->selling_price:null,['class'=>'form-control','placeholder'=>' سعر البيع '])!!}
+					{!! Form::text("product_selling_price",isset($is_edit)?$product->selling_price:null,['class'=>'form-control','required',placeholder'=>' سعر البيع '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label>سعر الشراء </label>
-					{!! Form::text("product_purchasing_price",isset($is_edit)?$product->purchasing_price:null,['class'=>'form-control','placeholder'=>'سعر الشراء '])!!}
+					{!! Form::text("product_purchasing_price",isset($is_edit)?$product->purchasing_price:null,['class'=>'form-control','required','placeholder'=>'سعر الشراء '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label>الحد الادنى من الكمية </label>
-					{!! Form::text("min_quantity",null,['class'=>'form-control','placeholder'=>'الحد الادنى من الكمية'])!!}
+					{!! Form::text("min_quantity",null,['class'=>'form-control','required','placeholder'=>'الحد الادنى من الكمية'])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> الحد الاقصى من الكمية </label>
-					{!! Form::text("max_quantity",null,['class'=>'form-control','placeholder'=>' الحد الاقصى من الكمية '])!!}
+					{!! Form::text("max_quantity",null,['class'=>'form-control','required','placeholder'=>' الحد الاقصى من الكمية '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> الكمية </label>
-					{!! Form::text("quantity",null,['class'=>'form-control','placeholder'=>' الكمية '])!!}
+					{!! Form::text("quantity",null,['class'=>'form-control','required','placeholder'=>' الكمية '])!!}
 				</div>
-				<div class="form-group col-xs-12 pull-left">
+				</div>
+				<div class="col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> اسم الشركة المصنعة </label>
-					{!! Form::select("industrial_id",$industrials,null,['class'=>'form-control js-example-basic-single','id'=>'industrial_id','placeholder'=>' اختر اسم الشركة المصنعة المنتج '])!!}
+					{!! Form::select("industrial_id",$industrials,null,['class'=>'form-control js-example-basic-single','id'=>'industrial_id','required','placeholder'=>' اختر اسم الشركة المصنعة المنتج '])!!}
+				</div>
 				</div>
 			</div>
 		</div>
 		<div id="menu3" class="tab-pane fade">
 			<div class="row">
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> الحجم </label><span style="color: #ff0000; margin-right: 15px;"> اختيارى ويكون بالسنتمتر المكعب</span>
 					{!! Form::text("size",null,['class'=>'form-control','placeholder'=>' الحجم '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> اللون </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
 					{!! Form::text("color",null,['class'=>'form-control','placeholder'=>' اللون '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> الارتفاع </label><span style="color: #ff0000; margin-right: 15px;">اختيارى ويكون بالسنتمتر</span>
 					{!! Form::text("height",null,['class'=>'form-control','placeholder'=>'الارتفاع '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> العرض </label><span style="color: #ff0000; margin-right: 15px;">اختيارى ويكون بالسنتمتر المربع</span>
 					{!! Form::text("width",null,['class'=>'form-control','placeholder'=>' العرض '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> تاريخ الانتهاء </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
 					{!! Form::date("expired_at",null,['class'=>'form-control'])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label>مده التنبية</label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
 					{!! Form::number("alert_duration",null,['class'=>'form-control'])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label>عدد أيام فترة الركود</label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
 					{!! Form::number("num_days_recession",null,['class'=>'form-control'])!!}
+				</div>
 				</div>
 			</div>
 
 		</div>
 		<div id="menu4" class="tab-pane fade">
 			<div class="row">
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> نوع الخصم </label>
-					{!! Form::select("discount_type",['percent'=>'نسبة','quantity'=>'كمية'],isset($discount)?$discount->discount_type:null,['class'=>'form-control js-example-basic-single','id'=>'discount_id','placeholder'=>' اختر الخصم '])!!}
+					{!! Form::select("discount_type",['percent'=>'نسبة','quantity'=>'كمية'],isset($discount)?$discount->discount_type:null,['class'=>'form-control js-example-basic-single','required','id'=>'discount_id','placeholder'=>' اختر الخصم '])!!}
+				</div>
 				</div>
 
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left  " id="nesba-wrp">
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left  " id="nesba-wrp">
+				<div class=" form-group">
 					<label> النسبة </label>
-					{!! Form::text("percent",isset($discount)?$discount->percent:null,['class'=>'form-control','placeholder'=>' النسبة '])!!}
+					{!! Form::text("percent",isset($discount)?$discount->percent:null,['class'=>'form-control','required','placeholder'=>' النسبة '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left  " id="discounts_button">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left  " id="discounts_button">
+				<div class=" form-group">
 					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal4" >
 					العروض والخصومات
 				</button>
+				</div>
 				</div>
 				
 			</div>
@@ -339,7 +381,7 @@
 						{{--@dd($product->discount_type)--}}
 					<span class="new-radio-wrap">
 						<label for="yes1">يوجد ضريبة </label>
-						<input type="radio" name="tax" class="form-control" id="yes1" value={{($has_tax==1)?1:0}} {{($has_tax==1)?'checked':null }}>
+						<input type="radio" name="tax" class="form-control" id="yes1" value={{($has_tax==1)?1:0}} {{($has_tax==1)?'checked':null }} required>
 					</span>
 					<span class="new-radio-wrap">
 						<label for="no1">لايوجد ضريبة</label>
@@ -348,7 +390,7 @@
 					@else
 					<span class="new-radio-wrap">
 						<label for="yes1">يوجد ضريبة </label>
-						<input type="radio" name="tax" class="form-control" checked id="yes1" value="1">
+						<input type="radio" name="tax" class="form-control" checked id="yes1" value="1" required>
 					</span>
 					<span class="new-radio-wrap">
 						<label for="no1">لايوجد ضريبة</label>
@@ -362,7 +404,7 @@
 						<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left form-line new-radio-big-wrapper shamel-mesh">
 						<span class="new-radio-wrap">
 							<label > السعر شامل الضريبة </label>
-							<input type="radio" name="price_has_tax"   class="form-control"  value={{($price_has_tax==1)?1:0}} {{($price_has_tax==1)?'checked':null }}>
+							<input type="radio" name="price_has_tax"   class="form-control"  value={{($price_has_tax==1)?1:0}} {{($price_has_tax==1)?'checked':null }} required>
 						</span>
 							<span class="new-radio-wrap">
 							<label >السعر غير شامل الضريبة </label>
@@ -371,7 +413,7 @@
 						</div>
 						<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left prices_taxs">
 							<label> اسم شريحة الضرائب</label>
-							{!! Form::select("tax_band_id[]",$taxs,null,['class'=>'form-control selectpicker','multiple'])!!}
+							{!! Form::select("tax_band_id[]",$taxs,null,['class'=>'form-control selectpicker','multiple','required'])!!}
 						</div>
 					</div>
                  @else
@@ -379,7 +421,7 @@
 					<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left form-line new-radio-big-wrapper shamel-mesh">
 						<span class="new-radio-wrap">
 							<label > السعر شامل الضريبة </label>
-							<input type="radio" name="price_has_tax"   class="form-control"  value="1">
+							<input type="radio" name="price_has_tax"   class="form-control"  value="1" required>
 						</span>
 						<span class="new-radio-wrap">
 							<label >السعر غير شامل الضريبة </label>
@@ -388,7 +430,7 @@
 					</div>
 					<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left prices_taxs">
 						<label> اسم شريحة الضرائب</label>
-						{!! Form::select("tax_band_id[]",$taxs,null,['class'=>'form-control selectpicker','multiple'])!!}
+						{!! Form::select("tax_band_id[]",$taxs,null,['class'=>'form-control selectpicker','multiple','required'])!!}
 					</div>
 				</div>
 				@endif
@@ -1092,4 +1134,5 @@
 	<script src="{{asset('admin/assets/js/offer.js')}}"></script>
 	<script src="{{asset('admin/assets/js/discount.js')}}"></script>
 	<script src="{{asset('admin/assets/js/tax.js')}}"></script>
+	
 @endsection
