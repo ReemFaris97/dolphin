@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AccountingSafe extends Model
 {
-    protected $fillable = ['device_id','name','custody','model_type','type','model_id','amount'];
+    protected $fillable = ['device_id','name','custody','model_type','type','model_id','amount','status'];
 
 protected  $table='accounting_safes';
 

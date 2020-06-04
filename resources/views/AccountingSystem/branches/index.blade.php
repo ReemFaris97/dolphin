@@ -28,6 +28,8 @@
                     <th> اسم الشركة التابع  لها  </th>
                     <th> جوال الفرع </th>
                     <th> ايميل الفرع </th>
+                    <th>  الرصيد العام لخزائن الفرع </th>
+                    <th>  الرصيد الفعلى لخزائن الفرع  </th>
                     <th> صورة الفرع </th>
                     <th class="text-center">العمليات</th>
                 </tr>
@@ -42,18 +44,23 @@
                         <td><a href="{{route('accounting.companies.show',['id'=>$row->company_id])}}">{!! $row->company->name!!}</a></td>
                         <td>{!! $row->phone!!}</td>
                         <td>{!! $row->email!!}</td>
+                        <td>{!! $row->getGeneralBalances()!!}</td>
+                        <td>{!! $row->getRealBalances()!!}</td>
+
                         <td><img src="{!! getimg($row->image)!!}" style="width:100px; height:100px"> </td>
 
 
                         <td class="text-center">
                             <a href="{{route('accounting.branches.show',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>
-
+                            @can('تعديل الفرع')
                             <a href="{{route('accounting.branches.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
+                           @endcan
+                            @can('حذف الفرع')
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
 
                             {!!Form::open( ['route' => ['accounting.branches.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
                             {!!Form::close() !!}
-
+                            @endcan
                         </td>
                     </tr>
 

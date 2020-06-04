@@ -9,7 +9,8 @@ use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingSetting;
 use App\Traits\SettingOperation;
 use App\Setting;
-
+use Artisan;
+use ZipArchive;
 use Illuminate\Http\Request;
 
 
@@ -117,6 +118,32 @@ class SettingController extends Controller
         return redirect()->back();
 
 
+
+    }
+
+    public  function backup(){
+
+      try {
+            // start the backup process
+//            Artisan::call('backup:run --only-db');
+//            Artisan::call('backup:run',['--only-db'=>true]);
+            Artisan::call('backup:run',['--only-db'=>true]);
+
+            $output = Artisan::output();
+
+            // log the results
+//            Log::info("Backpack\BackupManager -- new backup started from admin interface \r\n" . $output);
+            // return the results as a response to the ajax call
+
+            alert()->success('تم نسخ بيانات البرنامج  بنجاح !')->autoclose(5000);
+
+          return redirect()->back();
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            alert()->error('لم يتم نسخ بيانات البرنامج  حاول  مره اخرى !')->autoclose(5000);
+
+            return redirect()->back();
+        }
 
     }
 

@@ -11,7 +11,7 @@
 
 @if( isset($safe))
     @if($safe->model_type=='App\Models\AccountingSystem\AccountingBranch')
-        <div class="form-group ">
+        <div class="form-group r-group">
             <label class="display-block text-semibold">الخزنية تابع الى</label>
             <label class="radio-inline">
                 <input type="radio" name="radio-inline-left" class="styled" id="company"  onclick="myFunction()" disabled>
@@ -24,7 +24,7 @@
             </label>
         </div>
         @elseif($safe->model_type=='App\Models\AccountingSystem\AccountingCompany')
-        <div class="form-group">
+        <div class="form-group r-group">
             <label class="display-block text-semibold">الخزنة تابع الى</label>
             <label class="radio-inline">
                 <input type="radio" name="radio-inline-left" class="styled" id="company" checked="checked" onclick="myFunction()" disabled>
@@ -38,7 +38,7 @@
         </div>
         @endif
     @else
-    <div class="form-group">
+    <div class="form-group r-group">
         <label class="display-block text-semibold">الخزنة تابع الى</label>
         <label class="radio-inline">
             <input type="radio" name="radio-inline-left" class="styled" id="company" checked="checked" onclick="myFunction()">
@@ -84,7 +84,7 @@
     @if ($safe->type==1)
 
         <div class="form-group">
-            <label class="display-block text-semibold">  نوع الخزنة</label>
+            <label class="display-block text-semibold r-group">  نوع الخزنة</label>
             <label class="radio-inline">
                 <input type="radio" name="type" class="styled type"  value="1"   checked="checked" disabled >
                 رئيسى
@@ -96,7 +96,7 @@
             </label>
         </div>
     @else
-        <div class="form-group">
+        <div class="form-group r-group">
             <label class="display-block text-semibold"> نوع الخزنة</label>
             <label class="radio-inline">
                 <input type="radio" name="type" class="styled type"  value="1" disabled>
@@ -110,7 +110,7 @@
         </div>
     @endif
     @else
-    <div class="form-group col-xs-12 pull-left">
+    <div class="form-group col-xs-12 pull-left r-group">
         <label class="display-block text-semibold">  نوع الخزنة</label>
         <label class="radio-inline">
             <input type="radio" name="type" class="styled type" id="basic"   value="1">

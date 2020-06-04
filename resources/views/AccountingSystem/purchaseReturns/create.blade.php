@@ -3,6 +3,13 @@
 @section('parent_title','إدارة المشتريات')
 @section('action', URL::route('accounting.suppliers.index'))
 @section('styles')
+<!--- start datatable -->
+<link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css
+" rel="stylesheet" type="text/css">
+<!--- end datatable -->
+
 <link href="{{asset('admin/assets/css/jquery.datetimepicker.min.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/all.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/bill.css')}}" rel="stylesheet" type="text/css">
@@ -66,7 +73,7 @@
 					<input type="hidden" name="supplier_id" id="supplier_id_val">
 					<input type="hidden" name="bill_num" id="bill_num_val">
 					<input type="hidden" name="bill_date" id="bill_date_val">
-					<table border="1" class="finalTb moshtraiat-bill mabi3at-bill bill-table
+					<table border="1" class="table datatable-button-init-basic finalTb moshtraiat-bill mabi3at-bill bill-table
                     {{(getsetting('name_enable')==1) ? 'name_enable':'' }}
                     {{(getsetting('barcode_enable')==1) ? 'barcode_enable':'' }}
                     {{(getsetting('unit_enable')==1) ? 'unit_enable':'' }}
@@ -174,6 +181,41 @@
 </div>
 @endsection
 @section('scripts')
+<!--- start datatable -->
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.5/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js
+"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js
+"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js
+"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js
+"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js
+"></script>
+
+<script>
+    $(document).ready(function() {
+    var table = $('.table').DataTable( {
+        responsive: true,
+         dom: 'Bfrtip',
+        buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5'
+        ]
+    } );
+} );
+</script>
+<!--- scroll to the last table row -->
+<script>
+$('table').on('DOMSubtreeModified', 'tbody', function(){
+    $("tbody").animate({ scrollTop: $('tbody').prop("scrollHeight")}, 1000);
+});
+</script>
+<!--- end datatable -->
 	<script src="{{asset('admin/assets/js/jquery.datetimepicker.full.min.js')}}"></script>
 	<script src="{{asset('admin/assets/js/scanner.js')}}"></script>
 	<script>

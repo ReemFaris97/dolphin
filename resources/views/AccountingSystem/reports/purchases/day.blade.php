@@ -32,11 +32,11 @@
                         <div class="col-xs-12">
                             <form action="" method="post" accept-charset="utf-8">
                                 @csrf
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-4 col-xs-6">
                                 <label> الشركة </label>
                                 {!! Form::select("company_id",companies(), request('company_id'),['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الشركة','data-live-search'=>'true','id'=>'company_id'])!!}
                             </div>
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-4 col-xs-6">
                                 <label> الفرع </label>
                                 {{-- {!! Form::select("branch_id",[],request('branch_id'),['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الفرع','data-live-search'=>'true','id'=>'branch_id'])!!} --}}
                                 <select name="branch_id" data-live-search="true" class="selectpicker form-control inline-control" id="branch_id">
@@ -48,7 +48,7 @@
                                     @endif
                                 </select>
                             </div>
-                                <div class="form-group col-sm-3">
+                                <div class="form-group col-sm-4 col-xs-6">
                                     <label> المخزن </label>
                                     {!! Form::select("store_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر المخزن','data-live-search'=>'true','id'=>'store_id'])!!}
                                 </div>
@@ -75,7 +75,7 @@
                                     {{--@endif--}}
                                 {{--</select>--}}
                             {{--</div>--}}
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-4 col-xs-6">
                                 <label> القسم </label>
                                 {{--{!! Form::select("category_id",productCategories(),request('category_id'),['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}--}}
                                 <select name="category_id" data-live-search="true" class="selectpicker form-control inline-control" id="category_id">
@@ -88,7 +88,7 @@
                                 </select>
                             </div>
 
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-4 col-xs-6">
                                 <label> الصنف </label>
                                 <select name="product_id" data-live-search="true" class="selectpicker form-control inline-control" id="product_id">
                                     @if(request()->has('product_id') && request('product_id') != null)
@@ -99,12 +99,12 @@
                                     @endif
                                 </select>
                             </div>
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-4 col-xs-6">
                                 <label for="from"> التاريخ </label>
                                 {!! Form::date("date",request('date'),['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' الفترة من ',"id"=>'date'])!!}
                             </div>
 
-                            <div class="form-group col-sm-12">
+                            <div class="form-group col-xs-12">
                                 <button type="submit" class="btn btn-success btn-block">بحث</button>
                             </div>
                             </form>
@@ -175,6 +175,7 @@
                         <td>{!! $row->total_tax?? 0 !!}</td>
                         <td>{!! $row->all_total?? 0 !!}</td>
 
+
                         <td class="text-center td-display-none">
                             <a href="{{route('accounting.reports.purchase_details')}}?date={{ $row->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
 
@@ -194,7 +195,7 @@
                     <td>{{$discounts}}</td>
                     <td>{{$total_tax}}</td>
                     <td>{{$all_total}}  </td>
-                    <td></td>
+                    <td>عدد الفواتير:{{$purchases->sum('num')}}</td>
                 </tr>
                 </tfoot>
             </table>

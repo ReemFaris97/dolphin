@@ -10,6 +10,7 @@ use App\Models\AccountingSystem\AccountingCompany;
 
 use App\Models\AccountingSystem\AccountingMoneyClause;
 use App\Models\AccountingSystem\AccountingProductCategory;
+use App\Models\AccountingSystem\AccountingSafe;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingDevice;
@@ -57,13 +58,24 @@ private $viewable = 'AccountingSystem.sessions.';
     {
 
        $inputs= $request->all();
+
         $rules = [
-
-
+            'shift_id'=>'required|numeric|exists:accounting_branch_shifts,id',
+            'device_id'=>'required|numeric|exists:accounting_devices,id',
+            'email'=>'required',
+            'password'=>'required|string|max:191',
         ];
-        $this->validate($request,$rules);
 
-       $session= AccountingSession::create($inputs);
+        $messsage = [
+            'shift_id.required'=>" اسم الوردية مطلوبة",
+            'device_id.required'=>"اسم الجهاز مطلوب",
+            'email.required'=>"ايميل  الكاشير مطلوب",
+            'password.required'=>"كلمة المرور مطلوبة",
+        ];
+        $this->validate($request,$rules,$messsage);
+
+
+        $session= AccountingSession::create($inputs);
       $user=User::where('email',$inputs['email'])->first();
         $session->update([
             'user_id'=>$user->id,
@@ -153,6 +165,11 @@ private $viewable = 'AccountingSystem.sessions.';
            'status'=>'confirmed',
            'custody'=>$request['custody']
        ]);
+        $safe=AccountingSafe::find($request['safe_id']);
+        $safe->update([
+            'amount'=>$safe->amount+$request['custody']
+        ]);
+        alert()->success('تم تاكيداغلاق الجلسه  من  قبل  المحاسب بنجاح !')->autoclose(5000);
 
     }
 
@@ -162,6 +179,7 @@ private $viewable = 'AccountingSystem.sessions.';
         $session->update([
             'status'=>'closed',
         ]);
+
 
         alert()->success('تم اغلاق الجلسه  من  قبل  الكاشير بنجاح !')->autoclose(5000);
         return back();
