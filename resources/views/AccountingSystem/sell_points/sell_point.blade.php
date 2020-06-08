@@ -35,7 +35,7 @@
 			<div class="yurSections">
 <!--
 				<div class="row table-upper-options">
-					 Nav tabs 
+					 Nav tabs
 					<div class="col-md-4 col-sm-6 col-xs-12">
 						<div class="form-group">
 							<label> اسم الكاشير: </label>
@@ -89,8 +89,8 @@
 					<input type="hidden" name="bill_date" id="bill_date_val">
 
 					<input type="hidden" name="client_id" id="client_id_val">
-					<table border="1" class="table datatable-button-init-basic finalTb mabi3at-bill bill-table 
-					{{(getsetting('name_enable_sales')==1) ? 'name_enable':'' }} {{(getsetting('barcode_enable_sales')==1) ? 'barcode_enable':'' }} 
+					<table border="1" class="table datatable-button-init-basic finalTb mabi3at-bill bill-table
+					{{(getsetting('name_enable_sales')==1) ? 'name_enable':'' }} {{(getsetting('barcode_enable_sales')==1) ? 'barcode_enable':'' }}
 					{{(getsetting('unit_enable_sales')==1) ? 'unit_enable':'' }} {{(getsetting('quantity_enable_sales')==1) ? 'quantity_enable':'' }} {{(getsetting('unit_price_before_enable_sales') == 1) ? 'unit_price_before_enable':''}} {{(getsetting('unit_price_after_enable_sales')==1) ? 'unit_price_after_enable':'' }} {{(getsetting('total_price_before_enable_sales')==1) ? 'total_price_before_enable':'' }} {{(getsetting('total_price_after_enable_sales')==1) ? 'total_price_after_enable':'' }}">
 						<thead>
 							<tr>
@@ -327,12 +327,12 @@
 </script>
 <!--- scroll to the last table row -->
 <script>
-//    setTimeout(function(){ 
+//    setTimeout(function(){
 //  $('.table').animate({
 //  scrollTop: $('tbody').get(0).scrollHeight}, 2000);
 //}, 500);
-    
-    
+
+
 $('table').on('DOMSubtreeModified', 'tbody', function(){
 //  alert('enzl ta7t ya tbody');
     $("tbody").animate({ scrollTop: $('tbody').prop("scrollHeight")}, 1000);
@@ -627,7 +627,7 @@ $("#barcode_search").scannerDetection({
 						rowNum++;
 						byBarcode();
 						$('.product-quantity').find('input').trigger('change');
-					}	
+					}
 				}
 			}
 		});
@@ -655,11 +655,11 @@ $("#barcode_search").scannerDetection({
 						rowNum++;
 						byBarcode();
 						$('.product-quantity').find('input').trigger('change');
-					}	
+					}
 				}
 			}
 		});
-		
+
 	}
 });
 
