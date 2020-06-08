@@ -97,15 +97,20 @@
 		</div>
 		<div id="menu1" class="tab-pane fade">
 			<div class="row">
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label>اسم المنتج </label>
 					{!! Form::text("name_product",isset($is_edit)?$product->name:null,['class'=>'form-control','placeholder'=>' اسم المنتج '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> اسم التصنيف </label>
 					{!! Form::select("category_id",$categories,null,['class'=>'form-control js-example-basic-single','id'=>'company_id','placeholder'=>' اختر اسم التصنيف التابع له المنتج '])!!}
 				</div>
-				<div class="form-group col-xs-12 pull-left">
+				</div>
+				<div class="col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label>النوع </label>
 					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2" id="components_button">
 						المكونات
@@ -118,7 +123,9 @@
 					</button>
 					{!! Form::select("type",['store'=>'مخزون','service'=>'خدمه','offer'=>'مجموعة منتجات ','creation'=>'تصنيع','product_expiration'=>'منتج بتاريخ صلاحيه'],null,['class'=>'form-control js-example-basic-single type','placeholder'=>' نوع المنتج ','id'=>'type'])!!}
 				</div>
-				<div class="form-group col-xs-12 pull-left">
+				</div>
+				<div class="col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label>الوحدة الاساسية </label><span style="color: #ff0000; margin-right: 15px;">[جرام -كيلو-لتر]</span>
 					<!-- Button trigger modal -->
 					<button type="button" class="btn btn-primary" id="openExampleModal" data-toggle="modal" data-target="#exampleModal">
@@ -126,6 +133,7 @@
 					</button>
 					{{--<input class="form-control autocomplete" placeholder="Enter A" />--}}
 					{!! Form::text("main_unit",null,['class'=>'form-control autocomplete','placeholder'=>' الوحدة الاساسية '])!!}
+				</div>
 				</div>
 				<div class="form-group col-xs-12 pull-left">
 					<label>وصف المنتج </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
@@ -209,7 +217,7 @@
 		</div>
 		<div id="menu2" class="tab-pane fade">
 			<div class="row">
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left taxs form-line new-radio-big-wrapper ">
+				<div class="form-group col-xs-12 pull-left taxs form-line new-radio-big-wrapper ">
 					<span class="new-radio-wrap">
 						<label for="active">مفعل </label>
 						{!! Form::radio("is_active",1,['class'=>'form-control','id'=>'active'])!!}
@@ -219,84 +227,118 @@
 						{!! Form::radio("is_active",0,['class'=>'form-control','id'=>'dis_active'])!!}
 					</span>
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label>الباركود </label>
 					{!! Form::text("bar_code",null,['class'=>'form-control','placeholder'=>' الباركود '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label>سعر البيع </label>
 					{!! Form::text("product_selling_price",isset($is_edit)?$product->selling_price:null,['class'=>'form-control','placeholder'=>' سعر البيع '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label>سعر الشراء </label>
 					{!! Form::text("product_purchasing_price",isset($is_edit)?$product->purchasing_price:null,['class'=>'form-control','placeholder'=>'سعر الشراء '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label>الحد الادنى من الكمية </label>
 					{!! Form::text("min_quantity",null,['class'=>'form-control','placeholder'=>'الحد الادنى من الكمية'])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> الحد الاقصى من الكمية </label>
 					{!! Form::text("max_quantity",null,['class'=>'form-control','placeholder'=>' الحد الاقصى من الكمية '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> الكمية </label>
 					{!! Form::text("quantity",null,['class'=>'form-control','placeholder'=>' الكمية '])!!}
 				</div>
-				<div class="form-group col-xs-12 pull-left">
+				</div>
+				<div class="col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> اسم الشركة المصنعة </label>
 					{!! Form::select("industrial_id",$industrials,null,['class'=>'form-control js-example-basic-single','id'=>'industrial_id','placeholder'=>' اختر اسم الشركة المصنعة المنتج '])!!}
+				</div>
 				</div>
 			</div>
 		</div>
 		<div id="menu3" class="tab-pane fade">
 			<div class="row">
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> الحجم </label><span style="color: #ff0000; margin-right: 15px;"> اختيارى ويكون بالسنتمتر المكعب</span>
 					{!! Form::text("size",null,['class'=>'form-control','placeholder'=>' الحجم '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> اللون </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
 					{!! Form::text("color",null,['class'=>'form-control','placeholder'=>' اللون '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> الارتفاع </label><span style="color: #ff0000; margin-right: 15px;">اختيارى ويكون بالسنتمتر</span>
 					{!! Form::text("height",null,['class'=>'form-control','placeholder'=>'الارتفاع '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> العرض </label><span style="color: #ff0000; margin-right: 15px;">اختيارى ويكون بالسنتمتر المربع</span>
 					{!! Form::text("width",null,['class'=>'form-control','placeholder'=>' العرض '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> تاريخ الانتهاء </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
 					{!! Form::date("expired_at",null,['class'=>'form-control'])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label>مده التنبية</label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
 					{!! Form::number("alert_duration",null,['class'=>'form-control'])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label>عدد أيام فترة الركود</label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
 					{!! Form::number("num_days_recession",null,['class'=>'form-control'])!!}
+				</div>
 				</div>
 			</div>
 
 		</div>
 		<div id="menu4" class="tab-pane fade">
 			<div class="row">
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> نوع الخصم </label>
 					{!! Form::select("discount_type",['percent'=>'نسبة','quantity'=>'كمية'],isset($discount)?$discount->discount_type:null,['class'=>'form-control js-example-basic-single','id'=>'discount_id','placeholder'=>' اختر الخصم '])!!}
 				</div>
+				</div>
 
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left  " id="nesba-wrp">
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left  " id="nesba-wrp">
+				<div class=" form-group">
 					<label> النسبة </label>
 					{!! Form::text("percent",isset($discount)?$discount->percent:null,['class'=>'form-control','placeholder'=>' النسبة '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left  " id="discounts_button">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left  " id="discounts_button">
+				<div class=" form-group">
 					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal4" >
 					العروض والخصومات
 				</button>
+				</div>
 				</div>
 				
 			</div>
@@ -1092,4 +1134,5 @@
 	<script src="{{asset('admin/assets/js/offer.js')}}"></script>
 	<script src="{{asset('admin/assets/js/discount.js')}}"></script>
 	<script src="{{asset('admin/assets/js/tax.js')}}"></script>
+	
 @endsection
