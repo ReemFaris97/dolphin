@@ -13,7 +13,7 @@
 </div>
 <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
     <label> اسم الفرع التابع </label>
-    {!! Form::select("branch_id",branches(),null,['class'=>'form-control selectpicker branch_id','id'=>'branch_id','multiple','placeholder'=>' اختر اسم الفرع التابع له المنتج '])!!}
+    {!! Form::select("branch_id",branches(),null,['class'=>'form-control selectpicker branch_id','id'=>'branch_id','placeholder'=>' اختر اسم الفرع التابع له المنتج '])!!}
 </div>
 <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
     <label> اختر الوجه </label>

@@ -25,7 +25,7 @@
 
 <script>
     $(document).ready(function() {
-    var table = $('.table').DataTable( {
+    var table = $('.table:not(.finalTb)').DataTable( {
         responsive: true,
          dom: 'Bfrtip',
         buttons: [

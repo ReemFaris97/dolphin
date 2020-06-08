@@ -35,6 +35,10 @@
     <input type="password" class="form-control" name="password" placeholder="اكتب هنا الباسورد" >
 </div>
 
+<div class="form-group col-md-6 pull-left">
+    <label>كود الفرع:  </label>
+    {!! Form::text("code",null,['class'=>'form-control','placeholder'=>'  كود الفرع  '])!!}
+</div>
 @if( isset($branch))
 
     <div class="form-group col-md-6 pull-left">

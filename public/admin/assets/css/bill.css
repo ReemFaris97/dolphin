@@ -258,6 +258,7 @@ table.finalTb button[type = "submit"] {
     padding: 5px;
     font-size: 16px;
     color: #fff;
+	width: 100%
 }
 .discount-options span {
     display: flex;
@@ -293,19 +294,26 @@ tr.newProd input[type="number"] {
     width: 75px;
 }
 table.mabi3at-bill thead, table.mabi3at-bill thead th ,  table.mabi3at-bill tfoot tr th:first-child {
+	background: #2ecc71 !important;
     border-color: rgba(86, 86, 86, 0.5);
     color: #fff;
     text-align: center;
-    font-size: 13px !important;
+    font-size: 16px !important;
     font-weight: 700;
 }
+/*
 table.finalTb tfoot.tempDisabled > tr, table.finalTb tfoot.tempDisabled > tr th {
     background-color: #fff !important;
     cursor: not-allowed;
     color: #212121;
 }
-tr.single-row-wrapper {
-    background-color: #616161;
+*/
+tr#remaindedAmount th {
+    font-size: 24px !important;
+}
+
+.finalTb  tr.single-row-wrapper {
+    background-color: #fff;
 }
 table.mabi3at-bill  th{
 	padding: 10px 15px !important
@@ -341,6 +349,10 @@ table.finalTb tfoot.tempDisabled > tr , table.finalTb tfoot.tempDisabled > tr th
     content: "حالة الدفع : المبلغ المدفوع مساو للمبلغ المطلوب";
     text-align: right;
     padding-right: 50px;
+}
+table.mabi3at-bill.finalTb tfoot th {
+    font-size: 28px !important;
+    padding: 0 5px !important;
 }
 table.mabi3at-bill .rs {
     left: 7px;
@@ -393,10 +405,7 @@ table.mabi3at-bill tfoot tr th#amountAfterDariba span.dynamic-span{
     margin: 0;
     right: 0;
 }
-table.finalTb.mabi3at-bill.bill-table tfoot th {
-    background-color: #fff;
-    color: #000000;
-}
+
 
 /******* Responsive ****************/
 @media (max-width: 1199px){
