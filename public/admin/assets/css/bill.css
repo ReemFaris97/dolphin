@@ -301,17 +301,18 @@ table.mabi3at-bill thead, table.mabi3at-bill thead th ,  table.mabi3at-bill tfoo
     font-size: 16px !important;
     font-weight: 700;
 }
-/*
-table.finalTb tfoot.tempDisabled > tr, table.finalTb tfoot.tempDisabled > tr th {
-    background-color: #fff !important;
-    cursor: not-allowed;
-    color: #212121;
-}
-*/
 tr#remaindedAmount th {
     font-size: 24px !important;
 }
-
+.yourBill td.product-name a {
+    color: #333;
+}
+.yourBill input[type="date"].form-control{
+	padding: 0
+}
+.yourBill td.delete-single-row {
+    white-space: nowrap;
+}
 .finalTb  tr.single-row-wrapper {
     background-color: #fff;
 }

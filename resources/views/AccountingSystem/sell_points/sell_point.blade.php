@@ -9,7 +9,6 @@
 <link href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css
 " rel="stylesheet" type="text/css">
 <!--- end datatable -->
-
 <link href="{{asset('admin/assets/css/jquery.datetimepicker.min.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/all.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/bill.css')}}" rel="stylesheet" type="text/css">
@@ -33,7 +32,7 @@
 		<!----------------  Start Bill Content ----------------->
 		<section class="yourBill">
 			<div class="yurSections">
-<!--
+				<!--
 				<div class="row table-upper-options">
 					 Nav tabs
 					<div class="col-md-4 col-sm-6 col-xs-12">
@@ -87,7 +86,6 @@
 					<input type="hidden" name="session_id" value="{{$session->id}}">
 					<input type="hidden" name="shift_id" value="{{$session->shift_id}}">
 					<input type="hidden" name="bill_date" id="bill_date_val">
-
 					<input type="hidden" name="client_id" id="client_id_val">
 					<table border="1" class="table datatable-button-init-basic finalTb mabi3at-bill bill-table
 					{{(getsetting('name_enable_sales')==1) ? 'name_enable':'' }} {{(getsetting('barcode_enable_sales')==1) ? 'barcode_enable':'' }}
@@ -118,9 +116,6 @@
 							<!--						Space For Appended Products-->
 						</tbody>
 						<tfoot class="tempDisabled">
-
-
-
 							<tr>
 								<th id="amountBeforeDariba" class="rel-cols" colspan="3">
 									<span class="colorfulSpan"> المجموع</span>
@@ -141,16 +136,6 @@
 									<span class="rs"> ر.س </span>
 								</th>
 							</tr>
-
-
-
-
-
-
-
-
-
-
 							<tr id="discountArea">
 								<th colspan="2">
 									الخصم
@@ -283,7 +268,7 @@
 								</form>
 							</div>
 							<div class="modal-footer">
-								<button type="submit" class="btn btn-primary confirm_delete"  id="confirm_delete">تحقق</button>
+								<button type="submit" class="btn btn-primary confirm_delete" id="confirm_delete">تحقق</button>
 							</div>
 						</div>
 					</div>
@@ -300,19 +285,12 @@
 
 <!--- scroll to the last table row -->
 <script>
-//    setTimeout(function(){
-//  $('.table').animate({
-//  scrollTop: $('tbody').get(0).scrollHeight}, 2000);
-//}, 500);
-
-
-$('table').on('DOMSubtreeModified', 'tbody', function(){
-//  alert('enzl ta7t ya tbody');
-    $("tbody").animate({ scrollTop: $('tbody').prop("scrollHeight")}, 1000);
-
-});
+	$('table').on('DOMSubtreeModified', 'tbody', function() {
+		$("tbody").animate({
+			scrollTop: $('tbody').prop("scrollHeight")
+		}, 1000);
+	});
 </script>
-
 <!--- end datatable -->
 <script src="{{asset('admin/assets/js/jquery.datetimepicker.full.min.js')}}"></script>
 <script src="{{asset('admin/assets/js/scanner.js')}}"></script>
@@ -367,7 +345,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 				$('.yurProdc').html(data.data);
 				$('#selectID').attr('data-live-search', 'true');
 				$('#selectID').selectpicker('refresh');
-				$('#selectID').change(function () {
+				$('#selectID').change(function() {
 					rowNum++;
 					var selectedProduct = $(this).find(":selected");
 					//  alert($('#selectID').val());
@@ -424,34 +402,38 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 							@endif
 							</td>
                         </tr>`);
-						// assign id for the clicked button on the deleting modal
-						$(".in-row-del").on('click' , function(){
-							var tempRowNum = $(this).parents('tr').attr('id');
-							$("#deleteModal").attr('data-tempdelrow' , tempRowNum);
-							$("#confirm_delete").click(function() {
-							   var email = $("#email").val();
-							   var password = $("#password").val();
-							   $.ajax({
-								  url: "/accounting/confirm_user/",
-								  type: "GET",
-								  data:{'email':email,'password':password},
-								  success: function (data) {
-									  if(data.data == 'success'){
-										  $("#" + tempRowNum).remove();
-										  $(".bill-table tbody").trigger('change');
-										  $('#deleteModal').modal('hide');
-									  }else{
-										  alert('البيانات التي ادخلتها غير صحيحة .');
-									  }
-								  },
-								  error: function (error) {
-									  alert('البيانات التي ادخلتها غير صحيحة .');
-								  }
-							   });
+					
+					// assign id for the clicked button on the deleting modal
+					$(".in-row-del").on('click', function() {
+						var tempRowNum = $(this).parents('tr').attr('id');
+						$("#deleteModal").attr('data-tempdelrow', tempRowNum);
+						$("#confirm_delete").click(function() {
+							var email = $("#email").val();
+							var password = $("#password").val();
+							$.ajax({
+								url: "/accounting/confirm_user/",
+								type: "GET",
+								data: {
+									'email': email,
+									'password': password
+								},
+								success: function(data) {
+									if (data.data == 'success') {
+										$("#" + tempRowNum).remove();
+										$(".bill-table tbody").trigger('change');
+										$('#deleteModal').modal('hide');
+									} else {
+										alert('البيانات التي ادخلتها غير صحيحة .');
+									}
+								},
+								error: function(error) {
+									alert('البيانات التي ادخلتها غير صحيحة .');
+								}
 							});
-						})
+						});
+					})
 					var wholePriceBefore, wholePriceAfter = 0;
-					$(".product-unit select").change(function () {
+					$(".product-unit select").change(function() {
 						var selectedUnit = $(this).find(":selected");
 						var productPrice = selectedUnit.data('uni-price');
 						if (Number(priceHasTax) === 0) {
@@ -466,8 +448,9 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 						}
 						$(this).parents('.single-row-wrapper').find(".single-price-before").text(singlePriceBefore.toFixed(2));
 						$(this).parents('.single-row-wrapper').find(".single-price-after").text(singlePriceAfter.toFixed(2));
+						$(this).parents('.single-row-wrapper').find(".product-quantity input").trigger('change');
 					});
-					$(".product-quantity input").change(function () {
+					$(".product-quantity input").change(function() {
 						if (($(this).val()) < 0) {
 							$(this).val(0);
 							$(this).text('0');
@@ -480,19 +463,19 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 					});
 					$(".bill-table tbody").trigger('change');
 					$(".tempDisabled").removeClass("tempDisabled");
-					$(".delete-single-row a").on('click', function () {
+					$(".delete-single-row a").on('click', function() {
 						$(this).parents('tr').remove();
 						$(".bill-table tbody").trigger('change');
 					})
 				});
-				$(".bill-table tbody").change(function () {
+				$(".bill-table tbody").change(function() {
 					preventDiscount();
 					var amountBeforeDariba = 0;
-					$(".whole-price-before").each(function () {
+					$(".whole-price-before").each(function() {
 						amountBeforeDariba += Number($(this).text());
 					});
 					var amountAfterDariba = 0;
-					$(".whole-price-after").each(function () {
+					$(".whole-price-after").each(function() {
 						amountAfterDariba += Number($(this).text());
 					});
 					var amountOfDariba = Number(amountAfterDariba) - Number(amountBeforeDariba);
@@ -508,7 +491,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 					if (byAmount == 0 && byPercentage == 0) {
 						$("#demandedAmount span.dynamic-span").html(amountAfterDariba.toFixed(2));
 					} else {
-						$("input#byPercentage").change(function () {
+						$("input#byPercentage").change(function() {
 							if ((Number($(this).val())) > 100) {
 								alert('لا يمكن ان تكون قيم الخصم بالنسبة أكبر من 100% .');
 								$(this).val(0);
@@ -517,7 +500,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 							$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
 							$("#total").val(total);
 						});
-						$("input#byAmount").change(function () {
+						$("input#byAmount").change(function() {
 							if ((Number($(this).val())) > Number($("#amountAfterDariba span.dynamic-span").html())) {
 								alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $("#amountAfterDariba span.dynamic-span").html());
 								$(this).val(0);
@@ -527,7 +510,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 							$("#total").val(total);
 						});
 					}
-					$("input#byPercentage").change(function () {
+					$("input#byPercentage").change(function() {
 						if ((Number($(this).val())) > 100) {
 							alert('لا يمكن ان تكون قيم الخصم بالنسبة أكبر من 100% .');
 							$(this).val(0);
@@ -536,7 +519,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 						$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
 						$("#total").val(total);
 					});
-					$("input#byAmount").change(function () {
+					$("input#byAmount").change(function() {
 						if ((Number($(this).val())) > Number($("#amountAfterDariba span.dynamic-span").html())) {
 							alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $("#amountAfterDariba span.dynamic-span").html());
 							$(this).val(0);
@@ -545,7 +528,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 						$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
 						$("#total").val(total);
 					});
-					$("#byCache , #byNet").change(function () {
+					$("#byCache , #byNet").change(function() {
 						var allPaid = Number($("#byCache").val()) + Number($("#byNet").val());
 						$("#allPaid").html(allPaid.toFixed(2));
 						$("#allPaid1").val(allPaid);
@@ -571,70 +554,67 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 		});
 	});
 	//	For Ajax Search By Product Bar Code
-
-
-
-$("#barcode_search").scannerDetection({
-	timeBeforeScanTest: 200, // wait for the next character for upto 200ms
-	avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms
-	preventDefault: true,
-	endChar: [13],
-	onComplete: function(barcode, qty){
-   		validScan = true;
-		$.ajax({
-			url: "/accounting/barcode_search_sale/" + barcode,
-			type: "GET",
-			success: function(data) {
-				if (data.data.length !== 0) {
-					$('#barcode_search').val('');
-					$(".tempobar").html(data.data);
-					var selectedID = $(".tempobar").find('option').data('unit-id');
-					var alreadyChosen = $(".bill-table tbody td select option[value=" + selectedID + "]");
-					var repeatedInputVal = $(".bill-table tbody td select option[value=" + selectedID + "]:selected").parents('tr').find('.product-quantity').find('input');
-					if (alreadyChosen.length > 0 && alreadyChosen.is(':selected')) {
-						repeatedInputVal.val(Number(repeatedInputVal.val()) + 1);
-						repeatedInputVal.text(repeatedInputVal.val());
-						$('.product-quantity').find('input').trigger('change');
-					} else {
+	$("#barcode_search").scannerDetection({
+		timeBeforeScanTest: 200, // wait for the next character for upto 200ms
+		avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms
+		preventDefault: true,
+		endChar: [13],
+		onComplete: function(barcode, qty) {
+			validScan = true;
+			$.ajax({
+				url: "/accounting/barcode_search_sale/" + barcode,
+				type: "GET",
+				success: function(data) {
+					if (data.data.length !== 0) {
 						$('#barcode_search').val('');
-						rowNum++;
-						byBarcode();
-						$('.product-quantity').find('input').trigger('change');
+						$(".tempobar").html(data.data);
+						var selectedID = $(".tempobar").find('option').data('unit-id');
+						var alreadyChosen = $(".bill-table tbody td select option[value=" + selectedID + "]");
+						var repeatedInputVal = $(".bill-table tbody td select option[value=" + selectedID + "]:selected").parents('tr').find('.product-quantity').find('input');
+						if (alreadyChosen.length > 0 && alreadyChosen.is(':selected')) {
+							repeatedInputVal.val(Number(repeatedInputVal.val()) + 1);
+							repeatedInputVal.text(repeatedInputVal.val());
+							$('.product-quantity').find('input').trigger('change');
+						} else {
+							$('#barcode_search').val('');
+							rowNum++;
+							byBarcode();
+							$('.product-quantity').find('input').trigger('change');
+						}
 					}
 				}
-			}
-		});
-    },
-	onError: function(string, qty) {
-		$('#barcode_search').val ($('#barcode_search').val()  + string);
-		var barcode = $('#barcode_search').val();
-		validScan = true;
-		$.ajax({
-			url: "/accounting/barcode_search_sale/" + barcode,
-			type: "GET",
-			success: function(data) {
-				if (data.data.length !== 0) {
-					$('#barcode_search').val('');
-					$(".tempobar").html(data.data);
-					var selectedID = $(".tempobar").find('option').data('unit-id');
-					var alreadyChosen = $(".bill-table tbody td select option[value=" + selectedID + "]");
-					var repeatedInputVal = $(".bill-table tbody td select option[value=" + selectedID + "]:selected").parents('tr').find('.product-quantity').find('input');
-					if (alreadyChosen.length > 0 && alreadyChosen.is(':selected')) {
-						repeatedInputVal.val(Number(repeatedInputVal.val()) + 1);
-						repeatedInputVal.text(repeatedInputVal.val());
-						$('.product-quantity').find('input').trigger('change');
-					} else {
+			});
+		},
+		onError: function(string, qty) {
+			$('#barcode_search').val($('#barcode_search').val() + string);
+			var barcode = $('#barcode_search').val();
+			validScan = true;
+			$.ajax({
+				url: "/accounting/barcode_search_sale/" + barcode,
+				type: "GET",
+				success: function(data) {
+					if (data.data.length !== 0) {
 						$('#barcode_search').val('');
-						rowNum++;
-						byBarcode();
-						$('.product-quantity').find('input').trigger('change');
+						$(".tempobar").html(data.data);
+						var selectedID = $(".tempobar").find('option').data('unit-id');
+						var alreadyChosen = $(".bill-table tbody td select option[value=" + selectedID + "]");
+						var repeatedInputVal = $(".bill-table tbody td select option[value=" + selectedID + "]:selected").parents('tr').find('.product-quantity').find('input');
+						if (alreadyChosen.length > 0 && alreadyChosen.is(':selected')) {
+							repeatedInputVal.val(Number(repeatedInputVal.val()) + 1);
+							repeatedInputVal.text(repeatedInputVal.val());
+							$('.product-quantity').find('input').trigger('change');
+						} else {
+							$('#barcode_search').val('');
+							rowNum++;
+							byBarcode();
+							$('.product-quantity').find('input').trigger('change');
+						}
 					}
 				}
-			}
-		});
+			});
 
-	}
-});
+		}
+	});
 
 	function byBarcode() {
 		$(".tempDisabled").removeClass("tempDisabled");
@@ -696,29 +676,32 @@ $("#barcode_search").scannerDetection({
 		</tr>`);
 
 		// assign id for the clicked button on the deleting modal
-		$(".in-row-del").on('click' , function(){
+		$(".in-row-del").on('click', function() {
 			var tempRowNum = $(this).parents('tr').attr('id');
-			$("#deleteModal").attr('data-tempdelrow' , tempRowNum);
+			$("#deleteModal").attr('data-tempdelrow', tempRowNum);
 			$("#confirm_delete").click(function() {
-			   var email = $("#email").val();
-			   var password = $("#password").val();
-			   $.ajax({
-				  url: "/accounting/confirm_user/",
-				  type: "GET",
-				  data:{'email':email,'password':password},
-				  success: function (data) {
-					  if(data.data == 'success'){
-						  $("#" + tempRowNum).remove();
-						  $(".bill-table tbody").trigger('change');
-						  $('#deleteModal').modal('hide');
-					  }else{
-						  alert('البيانات التي ادخلتها غير صحيحة .');
-					  }
-				  },
-				  error: function (error) {
-					  alert('البيانات التي ادخلتها غير صحيحة .');
-				  }
-			   });
+				var email = $("#email").val();
+				var password = $("#password").val();
+				$.ajax({
+					url: "/accounting/confirm_user/",
+					type: "GET",
+					data: {
+						'email': email,
+						'password': password
+					},
+					success: function(data) {
+						if (data.data == 'success') {
+							$("#" + tempRowNum).remove();
+							$(".bill-table tbody").trigger('change');
+							$('#deleteModal').modal('hide');
+						} else {
+							alert('البيانات التي ادخلتها غير صحيحة .');
+						}
+					},
+					error: function(error) {
+						alert('البيانات التي ادخلتها غير صحيحة .');
+					}
+				});
 			});
 		})
 
@@ -740,6 +723,7 @@ $("#barcode_search").scannerDetection({
 			}
 			$(this).parents('.single-row-wrapper').find(".single-price-before").text(singlePriceBefore.toFixed(2));
 			$(this).parents('.single-row-wrapper').find(".single-price-after").text(singlePriceAfter.toFixed(2));
+			$(this).parents('.single-row-wrapper').find(".product-quantity input").trigger('change');
 		});
 		$(".product-quantity input").change(function() {
 			if (($(this).val()) < 0) {
@@ -840,6 +824,7 @@ $("#barcode_search").scannerDetection({
 			})
 		});
 	}
+
 	$(document).keydown(function(event) {
 		if (event.which == 118) { //F7 حفظ
 			$("#sllForm").submit();
