@@ -19,6 +19,8 @@
 //                $average=0;
 //            }
 
+
+
             ?>
             <option value="{{$product->id}}"
                    data-main-unit="{{$product->	main_unit}}"

@@ -10,7 +10,7 @@ class AccountingProduct extends Model
     'column_id','bar_code','main_unit','selling_price','purchasing_price','min_quantity',
     'max_quantity','expired_at','image'
     ,'size','color','height','width','num_days_recession','industrial_id','quantity','unit_price',
-    'is_settlement','date_settlement','settlement_store_id','cell_id','alert_duration',
+    'is_settlement','date_settlement','settlement_store_id','cell_id','alert_duration','supplier_id'
 
 ];
     protected $appends = ['total_taxes','total_discounts'];
@@ -51,6 +51,7 @@ class AccountingProduct extends Model
         }
         return $totalQuantity+$this->quantity;
     }
+
 
 
 
@@ -103,6 +104,7 @@ class AccountingProduct extends Model
             $q->where('store_id',1);
         });
     }
+
 
 
 

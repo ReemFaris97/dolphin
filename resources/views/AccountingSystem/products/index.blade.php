@@ -11,6 +11,13 @@
     <div class="panel panel-flat">
         <div class="panel-heading">
             <h5 class="panel-title">عرض كل المنتجات</h5>
+
+            <div class="btn-group">
+                <a href="{{route('accounting.products.create')}}" class="btn btn-success">
+                    إضافه منتج  جديد
+                    <span class="m-l-5"><i class="fa fa-plus"></i></span>
+                </a>
+            </div>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>

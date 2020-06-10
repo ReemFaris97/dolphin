@@ -21,6 +21,7 @@ use App\Models\AccountingSystem\AccountingProductSubUnit;
 use App\Models\AccountingSystem\AccountingProductTax;
 use App\Models\AccountingSystem\AccountingService;
 use App\Models\AccountingSystem\AccountingStore;
+use App\Models\AccountingSystem\AccountingSupplier;
 use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -56,10 +57,10 @@ class ProductController extends Controller
         $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
         $products=AccountingProduct::pluck('name','id')->toArray();
         $taxs=AccountingTaxBand::pluck('name','id')->toArray();
-
+        $suppliers=AccountingSupplier::pluck('name','id')->toArray();
         $units=collect($unit)->toJson();
         //dd($units);
-        return $this->toCreate(compact('branches','categories','products','industrials','units','taxs'));
+        return $this->toCreate(compact('branches','categories','products','industrials','units','taxs','suppliers'));
     }
 
     /**
@@ -126,7 +127,6 @@ class ProductController extends Controller
             }
 
         }
-
 
         ///////  /// / //////subunits Arrays//////////////////////////////
         $names = collect($request['name']);
@@ -255,7 +255,9 @@ class ProductController extends Controller
 
 
         alert()->success('تم اضافة المنتج بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.products.index');
+//        return redirect()->route('accounting.products.index');
+      return $this->show($product->id);
+
     }
 
 
@@ -318,8 +320,10 @@ class ProductController extends Controller
         }
         $discounts=AccountingProductDiscount::where('product_id',$id)->get();
         $discount = AccountingProductDiscount::where('product_id', $id)->first();
+        $suppliers=AccountingSupplier::pluck('name','id')->toArray();
 
-        return $this->toEdit(compact('industrials','taxs','face','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores','units','subunits'
+        return $this->toEdit(compact('suppliers',
+            'industrials','taxs','face','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores','units','subunits'
             ,'taxsproduct','has_tax','price_has_tax','discounts','discount'));
 
 

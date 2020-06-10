@@ -109,6 +109,12 @@
 					{!! Form::select("category_id",$categories,null,['class'=>'form-control js-example-basic-single','id'=>'company_id','placeholder'=>' اختر اسم التصنيف التابع له المنتج '])!!}
 				</div>
 				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+					<div class=" form-group">
+						<label> اسم المورد </label>
+						{!! Form::select("supplier_id",$suppliers,null,['class'=>'form-control js-example-basic-single','id'=>'supplier_id','placeholder'=>' اختر اسم المورد للمنتج '])!!}
+					</div>
+				</div>
 				<div class="col-sm-6 col-xs-12 pull-left">
 				<div class=" form-group">
 					<label>النوع </label>

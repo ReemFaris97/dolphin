@@ -10,6 +10,11 @@
 
 <div class="form-group col-md-6 pull-left">
     <label> اسم الشركة التابع لها الفرع: </label>
+    <div class="btn-group">
+        <a href="{{route('accounting.companies.create')}}" class="btn btn-success">
+            <span class="m-l-5"><i class="fa fa-plus"></i></span>
+        </a>
+    </div>
     {!! Form::select("company_id",$companies,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الشركة التابع لها الفرع '])!!}
 </div>
 

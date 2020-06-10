@@ -386,7 +386,7 @@
 							</select>
 						</td>
 						<td class="product-quantity maybe-hidden quantity_enable">
-							<input type="number" placeholder="الكمية" min="1" value="1" id="sale" name="quantity[]" class="form-control">
+							<input type="number" placeholder="الكمية" max="" min="1" value="1" id="sale" name="quantity[]" class="form-control">
 						</td>
 						<td class="single-price-before maybe-hidden unit_price_before_enable">${singlePriceBefore}</td>
 						<td class="single-price-after maybe-hidden unit_price_after_enable">${singlePriceAfter}</td>
