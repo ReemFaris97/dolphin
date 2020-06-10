@@ -104,3 +104,8 @@ form#sllForm {
 .parsley-errors-list.filled {
   opacity: 1;
 }
+.adding-new-comp {
+    position: absolute;
+    left: 45px;
+    z-index: 9;
+}
