@@ -93,7 +93,7 @@
 						<thead>
 							<tr>
 								<th rowspan="2">م</th>
-								<th rowspan="2" class="maybe-hidden name_enable">اسم الصنف</th>
+								<th rowspan="2" class="maybe-hidden name_enable" width="230">اسم الصنف</th>
 								<th rowspan="2" class="maybe-hidden barcode_enable">باركود</th>
 								<th rowspan="2" class="maybe-hidden unit_enable">الوحدة</th>
 								<th rowspan="2" class="maybe-hidden quantity_enable">الكمية</th>
@@ -378,7 +378,7 @@
 					$(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}">
 						<td class="row-num">${rowNum}</td>
 						<input type="hidden" name="product_id[]" value=${productId}>
-						<td class="product-name maybe-hidden name_enable">${productName}</td>
+						<td class="product-name maybe-hidden name_enable" width="230">${productName}</td>
 						<td class="product-name maybe-hidden barcode_enable">${productBarCode}</td>
 						<td class="product-unit maybe-hidden unit_enable">
 							<select class="form-control js-example-basic-single" name="unit_id[${productId}]">
@@ -536,17 +536,11 @@
 						$("#remaindedAmount span.dynamic-span").html(remaindedAmount.toFixed(2));
 						$('#remainder-inputt').val(Math.abs(remaindedAmount));
 						if (remaindedAmount > 0) {
-							$("#remaindedAmount .rel-cols").removeClass("aagel-case");
-							$("#remaindedAmount .rel-cols").removeClass("tmam-case");
-							$("#remaindedAmount .rel-cols").addClass("motabaqy-case");
+							$("#remaindedAmount .rel-cols").removeClass("aagel-case").removeClass("tmam-case").addClass("motabaqy-case");
 						} else if (remaindedAmount < 0) {
-							$("#remaindedAmount .rel-cols").removeClass("motabaqy-case");
-							$("#remaindedAmount .rel-cols").removeClass("tmam-case");
-							$("#remaindedAmount .rel-cols").addClass("aagel-case");
+							$("#remaindedAmount .rel-cols").removeClass("motabaqy-case").removeClass("tmam-case").addClass("aagel-case");
 						} else {
-							$("#remaindedAmount .rel-cols").removeClass("motabaqy-case");
-							$("#remaindedAmount .rel-cols").removeClass("aagel-case");
-							$("#remaindedAmount .rel-cols").addClass("tmam-case");
+							$("#remaindedAmount .rel-cols").removeClass("motabaqy-case").removeClass("aagel-case").addClass("tmam-case");
 						}
 					})
 				});
@@ -650,7 +644,7 @@
 		$(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}">
 		<td class="row-num">${rowNum}</td>
 		<input type="hidden" name="product_id[]" value=${productId}>
-		<td class="product-name maybe-hidden name_enable">${productName}</td>
+		<td class="product-name maybe-hidden name_enable " width="230">${productName}</td>
 		<td class="product-name maybe-hidden barcode_enable">${productBarCode}</td>
 		<td class="product-unit maybe-hidden unit_enable">
 			<select class="form-control js-example-basic-single" name="unit_id[${productId}]">
@@ -704,9 +698,6 @@
 				});
 			});
 		})
-
-
-
 		var wholePriceBefore, wholePriceAfter = 0;
 		$(".product-unit select").change(function() {
 			var selectedUnit = $(this).find(":selected");
@@ -809,25 +800,20 @@
 				$("#remaindedAmount span.dynamic-span").html(remaindedAmount.toFixed(2));
 				$('#remainder-inputt').val(Math.abs(remaindedAmount));
 				if (remaindedAmount > 0) {
-					$("#remaindedAmount .rel-cols").removeClass("aagel-case");
-					$("#remaindedAmount .rel-cols").removeClass("tmam-case");
-					$("#remaindedAmount .rel-cols").addClass("motabaqy-case");
+					$("#remaindedAmount .rel-cols").removeClass("aagel-case").removeClass("tmam-case").addClass("motabaqy-case");
 				} else if (remaindedAmount < 0) {
-					$("#remaindedAmount .rel-cols").removeClass("motabaqy-case");
-					$("#remaindedAmount .rel-cols").removeClass("tmam-case");
-					$("#remaindedAmount .rel-cols").addClass("aagel-case");
+					$("#remaindedAmount .rel-cols").removeClass("motabaqy-case").removeClass("tmam-case").addClass("aagel-case");
+					
 				} else {
-					$("#remaindedAmount .rel-cols").removeClass("motabaqy-case");
-					$("#remaindedAmount .rel-cols").removeClass("aagel-case");
-					$("#remaindedAmount .rel-cols").addClass("tmam-case");
+					$("#remaindedAmount .rel-cols").removeClass("motabaqy-case").removeClass("aagel-case").addClass("tmam-case");
 				}
 			})
 		});
 	}
 
 	$(document).keydown(function(event) {
-		if (event.which == 118) { //F7 حفظ
-			$("#sllForm").submit();
+		if (event.which == 118 || event.which == 13) { //F7 حفظ
+			confirmSubmit(event);
 			return false;
 		}
 		if (event.which == 119) { //F8 اغلاق الجلسة
@@ -849,16 +835,49 @@
 			return false;
 		}
 	});
-
-	$(document).on('submit', '#sllForm', function(event) {
-		var feloos = Number($("tr#remaindedAmount span.dynamic-span").text())
-		if (feloos >= 0) {
-			$("#sllForm").submit();
+	function confirmSubmit(event){
+		var feloos = Number($("tr#remaindedAmount span.dynamic-span").text());
+		if (feloos >= 0 ) {
+			event.preventDefault();
+			swal({
+			  title: "تنبيه !",
+			  text: "هل أنت متأكد من الحفظ ؟",
+			  icon: "warning",
+			  buttons: true,
+			  dangerMode: true,
+              buttons: ['لا', 'نعم']
+			})
+			.then((willDelete) => {
+			  if (willDelete) {
+				swal("جار الحفظ !", {
+				  icon: "success",
+					buttons : false
+				});
+				$("#sllForm").submit();
+			  } else {
+				swal({
+					title : 'الغاء الحفظ',
+					text : 'تم إلغاء الحفظ !',
+					icon : 'success',
+					buttons : false,
+					timer : 1500
+				});
+			  }
+			});
 		} else {
 			event.preventDefault();
-			alert('عفوا , لابد من استيفاء المبلوغ الطلوب دفعه قبل حفظ الفاتورة')
+			swal({
+			  title : "تنبيه !",
+			  text: "عفوا , لابد من استيفاء المبلوغ المطلوب دفعه قبل حفظ الفاتورة",
+			  icon: "warning",
+			  buttons : false,
+			  timer : 1500
+			})
 		}
-	});
+	}
+	$(".finalTb button[type='submit']").click(function(event){
+			confirmSubmit(event)
+	})
 </script>
 <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
 <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
@@ -875,13 +894,12 @@
 <script>
 	//   For Alerting Before closing the window
 	window.onbeforeunload = function(e) {
-		e = e || window.event;
-		if (e) {
-			e.returnValue = 'هل أنت متأكد من غلق هذه الصفحة ؟ سيتم فقدان كال البيانات التي تم ادخالها!!';
-		}
-		return 'هل أنت متأكد من غلق هذه الصفحة ؟ سيتم فقدان كال البيانات التي تم ادخالها!!';
-	};
-
+			e = e || window.event;
+			if (e) {
+				e.returnValue = 'هل انت متأكد من مغادرة الصفحة ؟!';
+			}
+			return 'هل انت متأكد من مغادرة الصفحة ؟!';
+		};
 	function refreshTime() {
 		var today = new Date();
 		var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
