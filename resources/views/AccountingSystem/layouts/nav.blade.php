@@ -44,7 +44,7 @@
                     @can('إدارة  الفروع')
 					<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-home2 position-left"></i> إدارة فروع الشركات </a>
 						<ul class="dropdown-menu dropdown-menu-right">
-							@can('عرض  الفروع')
+							@can('عرض الفروع')
 							<li><a href="{{route('accounting.branches.index')}}"><i class="icon-eye"></i> عرض فروع الشركات</a></li>
 							@endcan
 							@can('اضافة الفرع')
@@ -62,7 +62,7 @@
                     @can('إدارة الخزائن')
 					<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i> إدارة الخزائن <span class="caret"></span> </a>
 						<ul class="dropdown-menu dropdown-menu-right">
-							@can('عرض  الخزائن')
+							@can('عرض  الخزائن')
 							<li><a href="{{route('accounting.safes.index')}}"><i class="icon-eye"></i> عرض الخزائن</a></li>
 							@endcan
 							@can('اضافة خزينه')
@@ -74,7 +74,7 @@
                     @can('إدارة  الاجهزة')
 					<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i> إدارة الاجهزة <span class="caret"></span> </a>
 						<ul class="dropdown-menu dropdown-menu-right">
-							@can('عرض  الاجهزه')
+							@can('عرض الاجهزه')
 							<li><a href="{{route('accounting.devices.index')}}"><i class="icon-eye"></i> عرض الاجهزة</a></li>
 					     	@endcan
 							@can('اضافة جهاز')
@@ -91,7 +91,7 @@
 				<ul class="dropdown-menu dropdown-menu-right">
 					<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-cabinet position-left"></i> إدارة المخازن </a>
 						<ul class="dropdown-menu dropdown-menu-right">
-							@can('عرض  المخازن')
+							@can('عرض المخازن')
 							<li><a href="{{route('accounting.stores.index')}}"><i class="icon-eye"></i> عرض المخازن</a></li>
 							@endcan
 							@can('اضافة مخزن')

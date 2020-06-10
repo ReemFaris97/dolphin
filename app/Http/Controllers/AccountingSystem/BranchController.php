@@ -46,8 +46,7 @@ class BranchController extends Controller
     public function store(Request $request)
     {
         $rules = [
-
-            'name'=>'required|string|max:191',
+            'name'=>'required|string|max:191|branch_name:accounting_branches,name,company_id,'.$request['name'].','.$request['company_id'],
             'phone'=>'required|numeric|unique:accounting_branches,phone',
             'email'=>'required|string|unique:accounting_branches,email',
             'password'=>'required|string|max:191',

@@ -247,6 +247,14 @@
                         </table>
                             </div>
                         </div>
+
+
+                   <div class="text-center col-md-12 m--margin-bottom-5">
+                       <div class="text-center">
+                           <a href="{{route('accounting.products.edit',['id'=>$product->id])}}" data-toggle="tooltip" data-original-title="تعديل" class="btn btn-success"> تعديل المنتج </a>
+
+                       </div>
+                   </div>
                         </div>
 
               </div>

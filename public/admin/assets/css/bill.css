@@ -7,6 +7,9 @@
     padding: 5px 0;
     border-bottom: 1px solid #2ECC71;
 }
+.yurSections .alert ul{
+	border-bottom: 0
+}
 .yurSections li{
     display: inline-block;
     border-left: 1px solid #ddd;
@@ -301,17 +304,21 @@ table.mabi3at-bill thead, table.mabi3at-bill thead th ,  table.mabi3at-bill tfoo
     font-size: 16px !important;
     font-weight: 700;
 }
-/*
-table.finalTb tfoot.tempDisabled > tr, table.finalTb tfoot.tempDisabled > tr th {
-    background-color: #fff !important;
-    cursor: not-allowed;
-    color: #212121;
-}
-*/
 tr#remaindedAmount th {
     font-size: 24px !important;
 }
+.yourBill td.product-name a , .yourBill td.product-name{
+    color: #333;
+    font-size: 15px;
+    font-weight: 800;
+}
 
+.yourBill input[type="date"].form-control{
+	padding: 0
+}
+.yourBill td.delete-single-row {
+    white-space: nowrap;
+}
 .finalTb  tr.single-row-wrapper {
     background-color: #fff;
 }
@@ -438,4 +445,17 @@ table.mabi3at-bill tfoot tr th#amountAfterDariba span.dynamic-span{
 .total_expiration_enable .maybe-hidden.expiration_enable ,
 .total_price_after_enable .maybe-hidden.total_price_after_enable{
 	display: table-cell !important
+}
+.swal-button:not([disabled]):hover {
+    background-color: #2CC26B !important;
+}
+.swal-button {
+    background-color: #2ECC71 !important;
+	color: #fff !important
+}
+.swal-button--danger:not([disabled]) {
+    background-color: #F44336 !important;
+}
+.swal-button--danger:not([disabled]):hover {
+    background-color: #df4740 !important;
 }
