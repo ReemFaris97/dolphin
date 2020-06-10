@@ -94,7 +94,7 @@
 				</div>
 			</div>
 			<div class="result">
-				<form method="post" action="{{route('accounting.purchases.store')}}">
+				<form method="post" id="buyForm" action="{{route('accounting.purchases.store')}}">
 					@csrf
 					<input type="hidden" name="supplier_id" id="supplier_id_val">
 					<input type="hidden" name="bill_num" id="bill_num_val">
@@ -114,7 +114,7 @@
 						<thead>
 							<tr>
 								<th rowspan="2">م</th>
-								<th rowspan="2" class="maybe-hidden name_enable">اسم الصنف</th>
+								<th rowspan="2" class="maybe-hidden name_enable" width="230">اسم الصنف</th>
 								<th rowspan="2" class="maybe-hidden unit_enable">الوحدة</th>
 								<th rowspan="2" class="maybe-hidden quantity_enable">الكمية</th>
 								<th rowspan="2" class="maybe-hidden expiration_enable">تاريخ الصلاحية</th>
@@ -318,7 +318,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 					$(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}" data-ifhastax="${priceHasTax}" data-tot-taxes="${totalTaxes}">
 							<td class="row-num">${rowNum}</td>
                             <input type="hidden" name="product_id[]" value="${ProductId}">
-							<td class="product-name maybe-hidden name_enable"><a href="${productLink}" target="_blank" rel="noopener noreferrer">${productName}</a></td>
+							<td class="product-name maybe-hidden name_enable" width="230"><a href="${productLink}" target="_blank" rel="noopener noreferrer">${productName}</a></td>
 							<td class="product-unit maybe-hidden unit_enable">
 								<select class="form-control js-example-basic-single" name="unit_id[${ProductId}]" >
 									${optss}
@@ -786,7 +786,7 @@ $("#barcode_search").scannerDetection({
 		$(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}" data-ifhastax="${priceHasTax}" data-tot-taxes="${totalTaxes}">
 							<td class="row-num">${rowNum}</td>
                             <input type="hidden" name="product_id[]" value="${ProductId}">
-							<td class="product-name maybe-hidden name_enable"><a href="${productLink}" target="_blank" rel="noopener noreferrer">${productName}</a></td>
+							<td class="product-name maybe-hidden name_enable" width="230"><a href="${productLink}" target="_blank" rel="noopener noreferrer">${productName}</a></td>
 							<td class="product-unit maybe-hidden unit_enable">
 								<select class="form-control js-example-basic-single" name="unit_id[${ProductId}]" >
 									${optss}
@@ -1125,11 +1125,42 @@ $("#barcode_search").scannerDetection({
 
 	}
 	$(document).keydown(function(event) {
-		if (event.which == 118) { //F7
-			$("button[type='submit']").trigger('click');
-			return false;
+			if (event.which == 118 || event.which == 13) { //F7
+				confirmSubmit(event);
+				return false;
+			}
+		});
+		function confirmSubmit(event){
+				event.preventDefault();
+				swal({
+				  title: "تنبيه !",
+				  text: "هل أنت متأكد من الحفظ ؟",
+				  icon: "warning",
+				  buttons: true,
+				  dangerMode: true,
+				  buttons: ['لا', 'نعم']
+				})
+				.then((willDelete) => {
+				  if (willDelete) {
+					swal("جار الحفظ !", {
+					  icon: "success",
+						buttons : false
+					});
+					$("#buyForm").submit();
+				  } else {
+					swal({
+						title : 'الغاء الحفظ',
+						text : 'تم إلغاء الحفظ !',
+						icon : 'success',
+						buttons : false,
+						timer : 1500
+					});
+				  }
+				});	
 		}
-	});
+		$(".finalTb button[type='submit']").click(function(event){
+				confirmSubmit(event)
+		})
 </script>
 
 <script>
@@ -1152,12 +1183,12 @@ $("#barcode_search").scannerDetection({
 <script>
 	//   For Alerting Before closing the window
 	window.onbeforeunload = function(e) {
-		e = e || window.event;
-		if (e) {
-			e.returnValue = 'هل أنت متأكد من غلق هذه الصفحة ؟ سيتم فقدان كال البيانات التي تم ادخالها!!';
-		}
-		return 'هل أنت متأكد من غلق  هذه الصفحة ؟ سيتم فقدان كال البيانات التي تم ادخالها!!';
-	};
+			e = e || window.event;
+			if (e) {
+				e.returnValue = 'هل انت متأكد من مغادرة الصفحة ؟!';
+			}
+			return 'هل انت متأكد من مغادرة الصفحة ؟!';
+		};
 
 	function refreshTime() {
 		var today = new Date();
