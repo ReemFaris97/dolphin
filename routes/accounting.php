@@ -17,9 +17,12 @@ Route::middleware('admin')->group(function () {
     Route::resource('taxs', 'TaxsController');
     Route::resource('banks', 'BankController');
     Route::resource('roles', 'roleController');
+    Route::get('/user_permissions/{id}', 'UserController@user_permissions')->name('user_permissions.edit');
+    Route::post('/user_permissions/{id}', 'UserController@user_permissions_up')->name('user_permissions.update');
+    Route::get('getBranchesPermission/{id}', 'UserController@getBranchesPermission')->name('getBranchesPermission');
 
     /////////////////سندات  ادخال المنتجات فى المخازن
-    Route::get('/company_stores/{id}', 'StoreController@company_stores');
+    Route::get('/company_stores/{id}', 'StoreController@user_permissions');
     Route::get('/branch_stores/{id}', 'StoreController@branch_stores');
     Route::get('/store-active/{id}', 'StoreController@active')->name('stores.is_active');
     Route::get('/store-dis_active/{id}', 'StoreController@dis_active')->name('stores.dis_active');

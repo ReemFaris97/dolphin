@@ -55,7 +55,7 @@ class SafeController extends Controller
     {
         $rules = [
 
-            'name' => 'required|string|max:191',
+            'name'=>'required|string|max:191|device_name:accounting_safes,name,company_id,branch_id,'.$request['name'].','.$request['company_id'].','.$request['branch_id'],
 
 
         ];

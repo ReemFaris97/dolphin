@@ -72,26 +72,32 @@ class ProductController extends Controller
     public function store(Request $request)
     {
  //dd($request->all());
-//        $rules = [
-//
-//            'description'=>'nullable|string',
-//            'category_id'=>'nullable|numeric|exists:accounting_product_categories,id',
-//            'bar_code'=>'nullable|string',
-//            'product_selling_price'=>'required',
-//            'product_purchasing_price'=>'required',
-//            'min_quantity'=>'required|string|numeric',
-//            'max_quantity'=>'required|string|numeric',
-//            'expired_at'=>'nullable|string|date',
-//            'size'=>'nullable|string',
-//            'color'=>'nullable|string',
-//            'height'=>'nullable|string',
-//            'image'=>'nullable|sometimes|image',
-//            'width'=>'nullable|string',
-//            'num_days_recession'=>'nullable|string',
-//            // 'cell_id'=>'required',
-//
-//        ];
-//        $this->validate($request,$rules);
+        $rules = [
+            'name'=>'required|string|max:191|product_name:accounting_products,name,category_id,'.$request['name'].','.$request['category_id'],
+
+            'description'=>'nullable|string',
+            'category_id'=>'nullable|numeric|exists:accounting_product_categories,id',
+            'bar_code'=>'nullable|string|product_name:accounting_products,bar_code,category_id,'.$request['bar_code'].','.$request['category_id'],
+            'product_selling_price'=>'required',
+            'product_purchasing_price'=>'required',
+            'min_quantity'=>'required|string|numeric',
+            'max_quantity'=>'required|string|numeric',
+            'expired_at'=>'nullable|string|date',
+            'size'=>'nullable|string',
+            'color'=>'nullable|string',
+            'height'=>'nullable|string',
+            'image'=>'nullable|sometimes|image',
+            'width'=>'nullable|string',
+            'num_days_recession'=>'nullable|string',
+            // 'cell_id'=>'required',
+
+        ];
+        $messsage = [
+            'name.store_name'=>"اسم المنتج موجود بالفعل بالتصنيف",
+            'code.store_code'=>"باركود المنتج موجود بالفعل بالتصنيف",
+
+        ];
+        $this->validate($request,$rules,$messsage);
 // dd($request['quantities']);
         $inputs = $request->except('name','image','main_unit_present','purchasing_price','selling_price','component_names','qtys','main_units');
         $inputs['name']=$inputs['name_product'];

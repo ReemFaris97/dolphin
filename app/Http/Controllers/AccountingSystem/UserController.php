@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
+use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingCompany;
 
+use App\Models\AccountingSystem\AccountingStore;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -171,5 +173,21 @@ class UserController extends Controller
             return back();
 
 
+    }
+
+    public  function  user_permissions($id){
+        $user =User::findOrFail($id);
+        $companies=AccountingCompany::all();
+        $branches=AccountingBranch::all();
+        $stores=AccountingStore::all();
+        return view('AccountingSystem.users.permissions',compact('user','companies','branches','stores'));
+
+    }
+    public  function getBranchesPermission($id){
+        $branches=AccountingBranch::where('company_id',$id)->get();
+        return response()->json([
+            'status'=>true,
+            'data'=>view('AccountingSystem.users.branches')->with('branches',$branches)->render()
+        ]);
     }
 }
