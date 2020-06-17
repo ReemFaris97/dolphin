@@ -5,6 +5,7 @@ namespace App;
 use App\Http\Traits\FirebasOperation;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingStore;
+use App\Models\AccountingSystem\AccountingUserPermission;
 use App\Models\Bank;
 use App\Models\Charge;
 use App\Models\FcmToken;
@@ -308,6 +309,8 @@ class User extends Authenticatable implements JWTSubject
 
 //    ******************************************************
 
-
+//public  function permissions(){
+//        Return $this->hasMany(AccountingUserPermission::class,'user_id');
+//}
 
 }

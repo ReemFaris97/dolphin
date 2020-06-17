@@ -11,7 +11,7 @@
     <div class="panel panel-flat">
         <div class="panel-heading">
             <h5 class="panel-title">عرض كل الاعمده</h5>
-            <div class="btn-group">
+            <div class="btn-group beside-btn-title">
                 <a href="{{route('accounting.columns.create')}}" class="btn btn-success">
                     إضافه عمود  جديد
                     <span class="m-l-5"><i class="fa fa-plus"></i></span>

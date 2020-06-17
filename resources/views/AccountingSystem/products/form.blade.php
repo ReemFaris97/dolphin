@@ -21,15 +21,39 @@
 			<div class="row">
 				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
 					<label> اسم الشركة </label>
+					<div class="btn-group adding-new-comp">
+						<a href="{{route('accounting.companies.create')}}" class="btn btn-success">
+						  <span class="m-l-5">
+						   إضافة شركة
+						   <i class="fa fa-plus"></i>
+						   </span>
+						</a>
+					</div>
 					{!! Form::select("company_id",companies(),null,['class'=>'form-control js-example-basic-single company_id','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له المنتج '])!!}
 				</div>
 				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
 					<label> اسم الفرع التابع </label>
+					<div class="btn-group adding-new-comp">
+						<a href="{{route('accounting.branches.create')}}" class="btn btn-success">
+						  <span class="m-l-5">
+						   إضافة فرع
+						   <i class="fa fa-plus"></i>
+						   </span>
+						</a>
+					</div>
 					{!! Form::select("branch_id",branches(),null,['class'=>'form-control selectpicker branch_id','id'=>'branch_id','multiple','placeholder'=>' اختر اسم الفرع التابع له المنتج '])!!}
 				</div>
 				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left" id="store_id">
 					<label> اسم المخزن </label>
 					@if (!isset($product))
+						<div class="btn-group adding-new-comp">
+							<a href="{{route('accounting.stores.create')}}" class="btn btn-success">
+						  <span class="m-l-5">
+						   إضافة مخزن
+						   <i class="fa fa-plus"></i>
+						   </span>
+							</a>
+						</div>
 					{!! Form::select("store_id",stores(),null,['class'=>'form-control js-example-basic-single store_id','id'=>'store_id','placeholder'=>' اختر اسم المخزن التابع له المنتج '])!!}
 					@else
 					<select class="form-control js-example-basic-single pull-right" name="store_id">
@@ -106,12 +130,29 @@
 				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
 				<div class=" form-group">
 					<label> اسم التصنيف </label>
+
+					<div class="btn-group adding-new-comp">
+						<a href="{{route('accounting.categories.create')}}" class="btn btn-success">
+						  <span class="m-l-5">
+						   إضافة تصنيف
+						   <i class="fa fa-plus"></i>
+						   </span>
+						</a>
+					</div>
 					{!! Form::select("category_id",$categories,null,['class'=>'form-control js-example-basic-single','id'=>'company_id','placeholder'=>' اختر اسم التصنيف التابع له المنتج '])!!}
 				</div>
 				</div>
 				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
 					<div class=" form-group">
 						<label> اسم المورد </label>
+						<div class="btn-group adding-new-comp">
+							<a href="{{route('accounting.suppliers.create')}}" class="btn btn-success">
+						  <span class="m-l-5">
+						   إضافة مورد
+						   <i class="fa fa-plus"></i>
+						   </span>
+							</a>
+						</div>
 						{!! Form::select("supplier_id",$suppliers,null,['class'=>'form-control js-example-basic-single','id'=>'supplier_id','placeholder'=>' اختر اسم المورد للمنتج '])!!}
 					</div>
 				</div>
@@ -272,6 +313,14 @@
 				<div class="col-sm-6 col-xs-12 pull-left">
 				<div class=" form-group">
 					<label> اسم الشركة المصنعة </label>
+					<div class="btn-group adding-new-comp">
+						<a href="{{route('accounting.industrials.create')}}" class="btn btn-success">
+						  <span class="m-l-5">
+						   إضافة شركة
+						   <i class="fa fa-plus"></i>
+						   </span>
+						</a>
+					</div>
 					{!! Form::select("industrial_id",$industrials,null,['class'=>'form-control js-example-basic-single','id'=>'industrial_id','placeholder'=>' اختر اسم الشركة المصنعة المنتج '])!!}
 				</div>
 				</div>
@@ -419,6 +468,15 @@
 						</div>
 						<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left prices_taxs">
 							<label> اسم شريحة الضرائب</label>
+							<div class="btn-group adding-new-comp">
+								<a href="{{route('accounting.taxs.create')}}" class="btn btn-success">
+						  <span class="m-l-5">
+						   إضافة شريحة
+						   <i class="fa fa-plus"></i>
+						   </span>
+								</a>
+							</div>
+
 							{!! Form::select("tax_band_id[]",$taxs,null,['class'=>'form-control selectpicker','multiple'])!!}
 						</div>
 					</div>

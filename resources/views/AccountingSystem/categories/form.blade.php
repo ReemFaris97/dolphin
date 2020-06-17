@@ -10,6 +10,14 @@
 
 <div class="form-group col-md-4 pull-left">
     <label> اسم الشركة </label>
+    <div class="btn-group adding-new-comp">
+        <a href="{{route('accounting.companies.create')}}" class="btn btn-success">
+            <span class="m-l-5">
+				إضافة شركة
+				<i class="fa fa-plus"></i>
+			</span>
+        </a>
+    </div>
     {!! Form::select("company_id",companies(),null,['class'=>'form-control js-example-basic-single company_id','id'=>'company_id','placeholder'=>' اختر اسم الشركة '])!!}
 </div>
 <div class="clearfix"></div>

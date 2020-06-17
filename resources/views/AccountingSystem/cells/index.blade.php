@@ -10,13 +10,14 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">عرض كل الخلايا</h5>
-            <div class="btn-group">
+            <h5 class="panel-title">عرض كل الخلايا
+            <div class="btn-group beside-btn-title">
                 <a href="{{route('accounting.cells.create')}}" class="btn btn-success">
                     إضافه  خلية  جديدة
                     <span class="m-l-5"><i class="fa fa-plus"></i></span>
                 </a>
             </div>
+            </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>

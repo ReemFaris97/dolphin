@@ -383,7 +383,6 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 								</div>
 								<div class="form-group col-xs-4">
 									<label>يؤثر في الضريبة <input class="effectTax" type="checkbox" name="items[${rowNum}][discount_item_effectTax][]" value="1"></label>
-									<label>لا يؤثر في الضريبة <input class="" type="checkbox" name="items[${rowNum}][discount_item_effectTax][]" value="0"></label>
 								</div>
 							</div>
 							<div class="anotherAddedSpecialDiscounts"></div>
@@ -415,7 +414,6 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 							</div>
 							<div class="form-group col-xs-4">
 								<label>يؤثر في الضريبة <input class="effectTax" type="checkbox" name="items[${rowNum}][discount_item_effectTax][]" value="1"></label>
-								<label>لا يؤثر في الضريبة <input class="" type="checkbox" name="items[${rowNum}][discount_item_effectTax][]" value="0"></label>
 
 								</div>
 							<a href="#" class="removeThisSinglSpecDisc"><span class="icon-cross"></span></a>
@@ -848,7 +846,6 @@ $("#barcode_search").scannerDetection({
 								</div>
 								<div class="form-group col-xs-4">
 									<label>يؤثر في الضريبة <input class="effectTax" type="checkbox" name="items[${rowNum}][discount_item_effectTax][]" value="1"></label>
-									<label>لا يؤثر في الضريبة <input class="" type="checkbox" name="items[${rowNum}][discount_item_effectTax][]" value="0"></label>
 								</div>
 							</div>
 							<div class="anotherAddedSpecialDiscounts"></div>
@@ -880,7 +877,6 @@ $("#barcode_search").scannerDetection({
 							</div>
 							<div class="form-group col-xs-4">
 								<label>يؤثر في الضريبة <input class="effectTax" type="checkbox" name="items[${rowNum}][discount_item_effectTax][]" value="1"></label>
-								<label>لا يؤثر في الضريبة <input class="" type="checkbox" name="items[${rowNum}][discount_item_effectTax][]" value="0"></label>
 
                             </div>
 							<a href="#" class="removeThisSinglSpecDisc"><span class="icon-cross"></span></a>

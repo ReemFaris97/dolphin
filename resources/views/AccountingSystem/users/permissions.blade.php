@@ -31,50 +31,54 @@
                     <strong>الشركات:</strong>
                     <br/>
                     <div class="row flex2">
+
                         @foreach($companies as $value)
                             <div class="checkbox checkbox-left checkbox-switchery col-md-3 col-sm-6 col-xs-12">
-                                <input type="checkbox" name="permission[]" value="{{$value->id}}" class="switchery company" id="{{$value->id}}" >
-                                <label style="margin-left: 20px;"  for={{$value->id}}>
+                                <input type="checkbox" name="companies[]" value="{{$value->id}}" class="switchery company" id="company-{{$value->id}}" @if(in_array($value->id,$userpermisionscompany)) checked  @endif  >
+                                <label style="margin-left: 20px;"  for=company-{{$value->id}} >
                                     {{ $value->name }}
                                 </label>
                             </div>
-                        @endforeach
+                                @endforeach
+
                     </div>
                 </div>
-
-            {!!Form::close() !!}
-
         </div>
+
             <div class="col-sm-12 col-xs-12">
                 <div class="form-group form-float">
                     <strong>الفروع:</strong>
                     <br/>
                     <div class="row flex2 branches">
-                        {{--@foreach($branches as $value)--}}
-                            {{--<div class="checkbox checkbox-left checkbox-switchery col-md-3 col-sm-6 col-xs-12">--}}
-                                {{--<input type="checkbox" name="permission[]" value="{{$value->id}}" class="switchery" id="{{$value->id}}" >--}}
-                                {{--<label style="margin-left: 20px;"  for={{$value->id}}>--}}
-                                    {{--{{ $value->name }}--}}
-                                {{--</label>--}}
-                            {{--</div>--}}
-                        {{--@endforeach--}}
+                        @foreach($userpermisionsbranch as $value)
+                            <div class="checkbox checkbox-left checkbox-switchery col-md-3 col-sm-6 col-xs-12">
+                                <input type="checkbox" name="branches[]" value="{{$value}}" class="switchery branch" id="branch-{{$value}}" checked  >
+                                <label style="margin-left: 20px;"  for=branch-{{$value}}>
+                                    @php($branch=\App\Models\AccountingSystem\AccountingBranch::find($value))
+                                    {{ $branch->name }}
+
+                                </label>
+                            </div>
+                        @endforeach
 
                     </div>
                 </div>
-    </div>
+            </div>
             <div class="col-sm-12 col-xs-12">
                 <div class="form-group form-float">
                     <strong>المخازن:</strong>
                     <br/>
                     <div class="row flex2 stores">
-                        {{--@foreach($stores as $value)--}}
-                            {{--<div class="checkbox checkbox-left checkbox-switchery col-md-3 col-sm-6 col-xs-12">--}}
-                                {{--<input type="checkbox" name="permission[]" value="{{$value->id}}" class="switchery" id="{{$value->id}}" >--}}
-                                {{--<label style="margin-left: 20px;"  for={{$value->id}}>--}}
-                                    {{--{{ $value->ar_name }}--}}
-                                {{--</label>--}}
-                            {{--</div>--}}
-                        {{--@endforeach--}}
+                        @foreach($userpermisionsstore as $value)
+                            <div class="checkbox checkbox-left checkbox-switchery col-md-3 col-sm-6 col-xs-12">
+                                <input type="checkbox" name="stores[]" value="{{$value}}" class="switchery store" id="store-{{$value}}" checked  >
+                                <label style="margin-left: 20px;"  for=store-{{$value}}>
+                                    @php($branch=\App\Models\AccountingSystem\AccountingStore::find($value))
+                                    {{ $branch->ar_name }}
+
+                                </label>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -84,7 +88,11 @@
                     <button type="submit" id="register" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i></button>
                 </div>
             </div>
-         </div>
+            {!!Form::close() !!}
+
+        </div>
+
+
 @endsection
 
         @section('scripts')
@@ -100,12 +108,28 @@
                             type: "GET",
                         }).done(function (data) {
 
-                            $('.branches').append(data.data);
+                            $('.branches').append(data.branch);
+                        }).fail(function (error) {
+                            console.log(error);
+                        });
+
+                        $.ajax({
+                            url: "/accounting/getStoresCampanyPermission/" + company_id,
+                            type: "GET",
+                        }).done(function (data) {
+
+                            $('.stores').append(data.store);
                         }).fail(function (error) {
                             console.log(error);
                         });
                     }
 
+
+
                 });
+
+
+
+
             </script>
             @endsection

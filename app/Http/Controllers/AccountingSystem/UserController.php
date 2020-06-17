@@ -6,6 +6,7 @@ use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingCompany;
 
 use App\Models\AccountingSystem\AccountingStore;
+use App\Models\AccountingSystem\AccountingUserPermission;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -180,14 +181,66 @@ class UserController extends Controller
         $companies=AccountingCompany::all();
         $branches=AccountingBranch::all();
         $stores=AccountingStore::all();
-        return view('AccountingSystem.users.permissions',compact('user','companies','branches','stores'));
+        $userpermisionscompany=AccountingUserPermission::where('model_type','App\Models\AccountingSystem\AccountingCompany')->where('user_id',$id)->pluck('model_id')->all();
+        $userpermisionsbranch=AccountingUserPermission::where('model_type','App\Models\AccountingSystem\AccountingBranch')->where('user_id',$id)->pluck('model_id')->all();
+        $userpermisionsstore=AccountingUserPermission::where('model_type','App\Models\AccountingSystem\AccountingStore')->where('user_id',$id)->pluck('model_id')->all();
+
+        return view('AccountingSystem.users.permissions',compact('user','companies','branches','stores','userpermisionscompany','userpermisionsbranch','userpermisionsstore'));
 
     }
+
+
     public  function getBranchesPermission($id){
         $branches=AccountingBranch::where('company_id',$id)->get();
         return response()->json([
             'status'=>true,
-            'data'=>view('AccountingSystem.users.branches')->with('branches',$branches)->render()
+            'branch'=>view('AccountingSystem.users.branches')->with('branches',$branches)->render()
         ]);
+    }
+
+
+    public  function getStoresPermission($id){
+        $stores=AccountingStore::where('model_id',$id)->where('model_type','App\Models\AccountingSystem\AccountingBranch')->get();
+        return response()->json([
+            'status'=>true,
+            'store'=>view('AccountingSystem.users.stores')->with('stores',$stores)->render()
+        ]);
+    }
+
+    public  function getStoresCampanyPermission($id){
+        $stores=AccountingStore::where('model_id',$id)->where('model_type','App\Models\AccountingSystem\AccountingCompany')->get();
+        return response()->json([
+            'status'=>true,
+            'store'=>view('AccountingSystem.users.stores')->with('stores',$stores)->render()
+        ]);
+    }
+
+    public  function  user_permissions_update(Request $request,$id){
+        $user =User::findOrFail($id);
+        $user->permissions()->delete();
+        $inputs= $request->all();
+        foreach ($inputs['companies'] as $company){
+            AccountingUserPermission::create([
+                'user_id'=>$id,
+                'model_type'=>'App\Models\AccountingSystem\AccountingCompany',
+                'model_id'=>$company
+            ]);
+        }
+        foreach ($inputs['branches'] as $branch){
+            AccountingUserPermission::create([
+                'user_id'=>$id,
+                'model_type'=>'App\Models\AccountingSystem\AccountingBranch',
+                'model_id'=>$branch
+            ]);
+        }
+        foreach ($inputs['stores'] as $store){
+            AccountingUserPermission::create([
+                'user_id'=>$id,
+                'model_type'=>'App\Models\AccountingSystem\AccountingStore',
+                'model_id'=>$store
+            ]);
+        }
+        alert()->success('تم تحديث صلاحيات  العضو بنجاح !')->autoclose(5000);
+        return back();
     }
 }

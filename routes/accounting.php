@@ -18,8 +18,11 @@ Route::middleware('admin')->group(function () {
     Route::resource('banks', 'BankController');
     Route::resource('roles', 'roleController');
     Route::get('/user_permissions/{id}', 'UserController@user_permissions')->name('user_permissions.edit');
-    Route::post('/user_permissions/{id}', 'UserController@user_permissions_up')->name('user_permissions.update');
+    Route::patch('/user_permissions/{id}', 'UserController@user_permissions_update')->name('user_permissions.update');
     Route::get('getBranchesPermission/{id}', 'UserController@getBranchesPermission')->name('getBranchesPermission');
+    Route::get('getStoresPermission/{id}', 'UserController@getStoresPermission')->name('getStoresPermission');
+    Route::get('getStoresCampanyPermission/{id}', 'UserController@getStoresCampanyPermission')->name('getStoresCampanyPermission');
+
 
     /////////////////سندات  ادخال المنتجات فى المخازن
     Route::get('/company_stores/{id}', 'StoreController@user_permissions');
