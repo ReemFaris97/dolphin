@@ -10,6 +10,7 @@
 
 <div class="form-group col-xs-6 pull-left">
     <label> اسم الشركة </label>
+
     {!! Form::select("company_id",companies(),null,['class'=>'form-control js-example-basic-single company_id','id'=>'company_id','placeholder'=>' اختر اسم الشركة  '])!!}
 </div>
 

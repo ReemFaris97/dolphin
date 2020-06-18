@@ -10,7 +10,7 @@
         <div class="panel-heading">
             <h5 class="panel-title">عرض كل الاعضاء</h5>
 
-            <div class="btn-group">
+            <div class="btn-group beside-btn-title">
                 <a href="{{route('accounting.users.create')}}" class="btn btn-success">
                     إضافه  عضو  جديد
                     <span class="m-l-5"><i class="fa fa-plus"></i></span>
@@ -49,7 +49,10 @@
 
 
                         <td class="text-center">
+                            <a href="{{route('accounting.user_permissions.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-users" style="margin-left: 10px"></i> </a>
+
                             <a href="{{route('accounting.users.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
+
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
 
                             {!!Form::open( ['route' => ['accounting.users.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}

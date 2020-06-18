@@ -54,7 +54,10 @@ class BranchController extends Controller
             'company_id'=>'required|numeric|exists:accounting_companies,id',
 
         ];
-        $this->validate($request,$rules);
+        $messsage = [
+            'name.branch_name'=>"اسم الفرع موجود بالفعل بالشركة",
+                  ];
+        $this->validate($request,$rules,$messsage);
         $requests = $request->except('image');
 
 
