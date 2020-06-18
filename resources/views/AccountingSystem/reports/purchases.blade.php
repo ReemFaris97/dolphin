@@ -41,7 +41,7 @@
                     </div>
                 </div>
             </section>
-        
+
 
             <table class="table datatable-button-init-basic">
                 <thead>
@@ -50,7 +50,7 @@
                     <th> رقم  الفاتورة </th>
                     <th> تاريخ الفاتورة </th>
                     <th> قيمة الفاتورة </th>
-                    <th class="text-center">العمليات</th>
+                    <th class="text-center td-display-none">العمليات</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -63,7 +63,7 @@
                         <td>{!! $row->total!!}</td>
 
 
-                        <td class="text-center">
+                        <td class="text-center td-display-none">
                             <a href="{{route('accounting.purchases.show',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
 

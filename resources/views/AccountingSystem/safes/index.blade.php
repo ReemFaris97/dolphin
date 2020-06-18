@@ -10,7 +10,14 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">عرض كل  الخزائن </h5>
+            <h5 class="panel-title">عرض كل  الخزائن
+            <div class="btn-group beside-btn-title">
+                <a href="{{route('accounting.safes.create')}}" class="btn btn-success">
+                    إضافه خزينة  جديدة
+                    <span class="m-l-5"><i class="fa fa-plus"></i></span>
+                </a>
+            </div>
+            </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -62,59 +69,59 @@
                         @endif
                         </td>
                         <td>
-                        @if($row->type==1)
+                        {{--@if($row->type==1)--}}
 
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal{{$row->id}}">
-                               تحويل
-                               </button>
+                            {{--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal{{$row->id}}">--}}
+                               {{--تحويل--}}
+                               {{--</button>--}}
 
-                               <!-- Modal -->
-                        <div class="modal fade" id="exampleModal{{$row->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel"> تحويل  مالى  </h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form method="post" action="{{route('accounting.transactionsafe_store',$row->id)}}" id="form{{$row->id}}">
-                                            @csrf
+                               {{--<!-- Modal -->--}}
+                        {{--<div class="modal fade" id="exampleModal{{$row->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">--}}
+                            {{--<div class="modal-dialog" role="document">--}}
+                                {{--<div class="modal-content">--}}
+                                    {{--<div class="modal-header">--}}
+                                        {{--<h5 class="modal-title" id="exampleModalLabel"> تحويل  مالى  </h5>--}}
+                                        {{--<button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
+                                            {{--<span aria-hidden="true">&times;</span>--}}
+                                        {{--</button>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="modal-body">--}}
+                                        {{--<form method="post" action="{{route('accounting.transactionsafe_store',$row->id)}}" id="form{{$row->id}}">--}}
+                                            {{--@csrf--}}
 
-                                            <input type="hidden" name="safe_form_id"  value="{{$row->id}}" >
+                                            {{--<input type="hidden" name="safe_form_id"  value="{{$row->id}}" >--}}
 
-                                            <label style="color:black">الخزينة المنقول اليها </label>
-                                            <select name="safe_to_id" class="form-control">
-                                                @foreach($safes_followed  as  $safe)
-                                                <option value="{{$safe->id}}">{{$safe->name}}</option>
-                                                    @endforeach
-                                            </select>
+                                            {{--<label style="color:black">الخزينة المنقول اليها </label>--}}
+                                            {{--<select name="safe_to_id" class="form-control">--}}
+                                                {{--@foreach($safes_followed  as  $safe)--}}
+                                                {{--<option value="{{$safe->id}}">{{$safe->name}}</option>--}}
+                                                    {{--@endforeach--}}
+                                            {{--</select>--}}
 
-                                            <label style="color:black"> المبلغ</label>
-                                            <input type="text" name="amount"  class="form-control">
-                                            <label style="color:black"> ملاحظات</label>
-                                            <input type="textarea"  name="notes"  class="form-control">
-                                        </form>
+                                            {{--<label style="color:black"> المبلغ</label>--}}
+                                            {{--<input type="text" name="amount"  class="form-control">--}}
+                                            {{--<label style="color:black"> ملاحظات</label>--}}
+                                            {{--<input type="textarea"  name="notes"  class="form-control">--}}
+                                        {{--</form>--}}
 
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
-                                        <button type="submit" class="btn btn-primary" onclick="document.getElementById('form{{$row->id}}').submit()">تحويل</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                    {{--</div>--}}
+                                    {{--<div class="modal-footer">--}}
+                                        {{--<button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>--}}
+                                        {{--<button type="submit" class="btn btn-primary" onclick="document.getElementById('form{{$row->id}}').submit()">تحويل</button>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
 
 
-            @endif
+            {{--@endif--}}
         </td>
 
                         <td class="text-center">
-                            @if($row->type==1)
+                            {{--@if($row->type==1)--}}
                             <a href="{{route('accounting.safes.show',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
 
-                                @endif
+                                {{--@endif--}}
                             <a href="{{route('accounting.safes.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
 

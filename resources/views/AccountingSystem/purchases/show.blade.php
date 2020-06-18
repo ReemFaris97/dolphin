@@ -894,7 +894,7 @@
 								@foreach ($row->allDiscounts as $discount)
 									<span class="single-5asm">
 										@if($discount->discount_type=='percentage')
-										<span>  {{$discount->discount??0}} % </span>
+										<span>  {{($discount->discount*$row->price)/100??0}} ر.س </span>
 										@elseif($key=='amount')
 										<span>   {{$discount->discount??0}} ر.س </span>
 										@endif
@@ -917,7 +917,7 @@
 									@endforeach
 									<tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-money"></i>الإجمالي</td>
-										<td colspan="7"><span class="tot-money">{!! $purchase->amount??0 !!}</span></td>
+										<td colspan="7"><span class="tot-money">{!! $purchase->amount+$purchase->totalTaxs??0 !!}</span></td>
 									</tr>
 									<tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-minus"></i> نوع الخصم</td>
@@ -931,7 +931,13 @@
 									</tr>
 									<tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-minus"></i>قيمه الخصم على الفاتورة</td>
-										<td colspan="7">{!! $purchase->discount??0 !!}</td>
+										<td colspan="7">
+											@if($purchase->discount_type=='percentage')
+											{!! ($purchase->discount* $purchase->amount)/100 ??0 !!}
+												@else
+												{!! $purchase->discount??0 !!}
+											@endif
+										</td>
 									</tr>
 									<tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"> <i class="ti-plus"></i> قيمة الضريبه</td>
@@ -1047,27 +1053,27 @@
 
 
 
-<tr id="amountBeforeDariba">
-								<th colspan="2"> المجموع</th>
-								<input type="hidden" class="dynamic-input">
-								<th colspan="7" class="rel-cols">
-									<span class="dynamic-span">0</span>
-									<span class="rs"> ر.س </span>
-								</th>
-							</tr>
-							<tr id="amountOfDariba">
-								<th colspan="2"> قيمة الضريبة</th>
-								<input type="hidden" class="dynamic-input" name="totalTaxs" id="amountOfDariba1">
-								<th colspan="7" class="rel-cols">
-									<span class="dynamic-span">0</span>
-									<span class="rs"> ر.س </span>
-								</th>
-							</tr>
-							<tr id="amountAfterDariba">
-								<th colspan="2">المجموع بعد الضريبة</th>
-								<input type="hidden" class="dynamic-input" name="amount" id="amountAfterDarib1">
-								<th colspan="7" class="rel-cols">
-									<span class="dynamic-span">0</span>
-									<span class="rs"> ر.س </span>
-								</th>
-							</tr>
+{{--<tr id="amountBeforeDariba">--}}
+								{{--<th colspan="2"> المجموع</th>--}}
+								{{--<input type="hidden" class="dynamic-input">--}}
+								{{--<th colspan="7" class="rel-cols">--}}
+									{{--<span class="dynamic-span">0</span>--}}
+									{{--<span class="rs"> ر.س </span>--}}
+								{{--</th>--}}
+							{{--</tr>--}}
+							{{--<tr id="amountOfDariba">--}}
+								{{--<th colspan="2"> قيمة الضريبة</th>--}}
+								{{--<input type="hidden" class="dynamic-input" name="totalTaxs" id="amountOfDariba1">--}}
+								{{--<th colspan="7" class="rel-cols">--}}
+									{{--<span class="dynamic-span">0</span>--}}
+									{{--<span class="rs"> ر.س </span>--}}
+								{{--</th>--}}
+							{{--</tr>--}}
+							{{--<tr id="amountAfterDariba">--}}
+								{{--<th colspan="2">المجموع بعد الضريبة</th>--}}
+								{{--<input type="hidden" class="dynamic-input" name="amount" id="amountAfterDarib1">--}}
+								{{--<th colspan="7" class="rel-cols">--}}
+									{{--<span class="dynamic-span">0</span>--}}
+									{{--<span class="rs"> ر.س </span>--}}
+								{{--</th>--}}
+							{{--</tr>--}}

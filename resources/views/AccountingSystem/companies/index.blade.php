@@ -9,7 +9,14 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">عرض كل الشركات</h5>
+            <h5 class="panel-title">عرض كل الشركات
+            <div class="btn-group beside-btn-title">
+                <a href="{{route('accounting.companies.create')}}" class="btn btn-success">
+                    إضافه شركة  جديدة
+                    <span class="m-l-5"><i class="fa fa-plus"></i></span>
+                </a>
+            </div>
+            </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -46,13 +53,17 @@
 
                         <td class="text-center">
                             <a href="{{route('accounting.companies.show',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>
+                            @can('تعديل الشركه')
 
                             <a href="{{route('accounting.companies.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
+                            @endcan
+                            @can('حذف الشركه')
+
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
 
                             {!!Form::open( ['route' => ['accounting.companies.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
                             {!!Form::close() !!}
-
+                             @endcan
                         </td>
                     </tr>
 

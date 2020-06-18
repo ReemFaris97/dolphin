@@ -11,7 +11,28 @@
 
 $(function() {
 
+	$("#print-all").click(function(){
+	let t = document.getElementById('print-window').innerHTML;
+		let style = `<style>.datatable-header , .datatable-footer{display: none !important;visibility: hidden !important}
+					 html , body , table {direction : rtl !important}table {width: 100%; font-size: 17px;} table .td-display-none{display:none!important}
+table, th, td {border: solid 1px #DDD; border-collapse: collapse;padding: 2px 3px;text-align: center;}
+td.company-imgg-td span {
+    display: block;
+    width: 100% !important;
+    text-align: center;
+margin-top : 10px
+}
+</style>
+`;
+    let win = window.open('', '', 'height=700,width=700');
+    win.document.write(`<html><head><title>التقرير</title>${style}</head><body>${t}</body></html>`);
+    win.document.close();
+    win.print();
+	})
 
+
+
+	
     // Table setup
     // ------------------------------
 
@@ -26,25 +47,50 @@ $(function() {
             paginate: { 'first': 'First', 'last': 'Last', 'next': '&larr;', 'previous': '&rarr;' }
         }
     });
-
-
-    // Basic initialization
-    $('.datatable-button-init-basic').DataTable({
-        buttons: {
+	
+	var table =  $('.datatable-button-init-basic');
+    var tableOptions = {
+        'bPaginate': true,
+		buttons: {
             dom: {
                 button: {
                     className: 'btn btn-default'
                 }
             },
             buttons: [
-                {extend: 'copy'},
-                {extend: 'csv'},
-                {extend: 'excel'},
-                {extend: 'pdf'},
-                {extend: 'print'}
+                {extend: 'copy', footer: true},
+                {extend: 'csv', footer: true},
+                {extend: 'excel', footer: true},
+                {extend: 'pdf', footer: true},
+                {extend: 'print', footer: true , header : true}
             ]
         }
+    };
+   table.DataTable(tableOptions);
+   $('#print-all').on('click', function() {        
+        table.DataTable().destroy()
+        tableOptions.bPaginate = false;
+        table.DataTable(tableOptions);
     });
+
+
+    // Basic initialization
+//    $('.datatable-button-init-basic').DataTable({
+//        buttons: {
+//            dom: {
+//                button: {
+//                    className: 'btn btn-default'
+//                }
+//            },
+//            buttons: [
+//                {extend: 'copy', footer: true},
+//                {extend: 'csv', footer: true},
+//                {extend: 'excel', footer: true},
+//                {extend: 'pdf', footer: true},
+//                {extend: 'print', footer: true , header : true}
+//            ]
+//        }
+//    });
 
 
     // Custom button

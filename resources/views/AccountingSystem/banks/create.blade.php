@@ -10,7 +10,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">إضافة بنك جديدة</h5>
+            <h5 class="panel-title">إضافة بنك جديد</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -21,8 +21,8 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::open( ['route' => 'accounting.cells.store' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
-            @include('AccountingSystem.cells.form')
+            {!!Form::open( ['route' => 'accounting.banks.store' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
+            @include('AccountingSystem.banks.form')
             {!!Form::close() !!}
         </div>
 

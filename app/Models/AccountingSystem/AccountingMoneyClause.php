@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AccountingMoneyClause extends Model
 {
-    protected $fillable = ['benod_id','type','default','sanad_num','user_id','num','description',
+    protected $fillable = ['benod_id','type','default','sanad_num','user_id','num','description','date',
     'safe_id','amount','concerned','client_id','supplier_id','notes','payment','company_id','branch_id',
         'bank_id','num_transaction','image','name'];
 
@@ -18,6 +18,17 @@ class AccountingMoneyClause extends Model
     {
         return $this->belongsTo(AccountingClient::class,'client_id');
     }
+
+    public function bank()
+    {
+        return $this->belongsTo(AccountingBank::class,'bank_id');
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo(AccountingSupplier::class,'supplier_id');
+    }
+
     public function company()
     {
         return $this->belongsTo(AccountingCompany::class,'company_id');

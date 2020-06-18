@@ -10,6 +10,9 @@
     .filter {
         margin-bottom: 30px;
     }
+	table.table.datatable-button-init-basic {
+   table-layout: auto !important;
+}
 </style>
 @endsection
 
@@ -31,8 +34,8 @@
                 <div class="yurSections">
                     <div class="row">
                         <div class="col-xs-12">
-                            <form action="" method="get" accept-charset="utf-8">
-                                
+                            <form action="" method="post" accept-charset="utf-8" >
+                              @csrf
                             <div class="form-group col-sm-3">
                                 <label> الشركة </label>
                                 {!! Form::select("company_id",companies(), request('company_id'),['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الشركة','data-live-search'=>'true','id'=>'company_id'])!!}
@@ -49,6 +52,15 @@
                                     @endif
                                 </select>
                             </div>
+
+
+
+                                <div class="form-group col-sm-3">
+                                    <label> المخزن </label>
+                                    {!! Form::select("store_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر المخزن','data-live-search'=>'true','id'=>'store_id'])!!}
+                                </div>
+
+
                             <div class="form-group col-sm-3">
                                 <label> القائم بالعملية </label>
                                 <select name="user_id" data-live-search="true" class="selectpicker form-control inline-control" id="user_id">
@@ -60,25 +72,35 @@
                                     @endif
                                 </select>
                             </div>
-                            <div class="form-group col-sm-3">
-                                <label> الخزينة </label>
-                                <select name="safe_id" data-live-search="true" class="selectpicker form-control inline-control" id="safe_id">
-                                    @if(request()->has('safe_id') && request('safe_id') != null)
-                                        @php $safe = \App\Models\AccountingSystem\AccountingSafe::find(request('safe_id')); @endphp
-                                        <option value="{{ $safe->id }}" selected="">{{ $safe->name }}</option>
-                                    @else
-                                        <option value="" selected="" disabled="">اختر الخزينة</option>
-                                    @endif
-                                </select>
-                            </div>
-                            <div class="form-group col-sm-3">
-                                <label> القسم </label>
-                                {!! Form::select("category_id",productCategories(),request('category_id'),['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}
-                            </div>
+                                <div class="clearfix"></div>
+
+                                {{--<div class="form-group col-sm-3">--}}
+                                {{--<label> الخزينة </label>--}}
+                                {{--<select name="safe_id" data-live-search="true" class="selectpicker form-control inline-control" id="safe_id">--}}
+                                    {{--@if(request()->has('safe_id') && request('safe_id') != null)--}}
+                                        {{--@php $safe = \App\Models\AccountingSystem\AccountingSafe::find(request('safe_id')); @endphp--}}
+                                        {{--<option value="{{ $safe->id }}" selected="">{{ $safe->name }}</option>--}}
+                                    {{--@else--}}
+                                        {{--<option value="" selected="" disabled="">اختر الخزينة</option>--}}
+                                    {{--@endif--}}
+                                {{--</select>--}}
+                            {{--</div>--}}
+                                <div class="form-group col-sm-4">
+                                    <label> القسم </label>
+                                    {{--{!! Form::select("category_id",productCategories(),request('category_id'),['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}--}}
+                                    <select name="category_id" data-live-search="true" class="selectpicker form-control inline-control" id="category_id">
+                                        @if(request()->has('category_id') && request('category_id') != null)
+                                            @php $category = \App\Models\AccountingSystem\AccountingProductCategory::find(request('category_id')); @endphp
+                                            <option value="{{ $category->id }}" selected="">{{ $category->name }}</option>
+                                        @else
+                                            <option value="" selected="" disabled="">اختر القسم</option>
+                                        @endif
+                                    </select>
+                                </div>
 
                             <div class="form-group col-sm-3">
                                 <label> الصنف </label>
-                                <select name="product_id" data-live-search="true" class="selectpicker form-control inline-control" id="product_id">
+                                <select name="product_id" data-live-search="true" class="selectpicker form-control inline-control " id="product_id">
                                     @if(request()->has('product_id') && request('product_id') != null)
                                         @php $product = \App\Models\AccountingSystem\AccountingProduct::find(request('product_id')); @endphp
                                         <option value="{{ $product->id }}" selected="">{{ $product->name }}</option>
@@ -105,81 +127,71 @@
                     </div>
                 </div>
             </section>
-
-            <div class="form-group col-md-12 pull-left">
-                {{--<label class="label label-info">  الشركة    : </label>--}}
-                <center>
-                    @if(isset($requests['company_id']))
-                        @php($company=\App\Models\AccountingSystem\AccountingCompany::find($requests['company_id']))
-                        <span><img src="{!!getimg($company->image)!!}" style="width:100px; height:100px"> </span>
-                    @endif
-                </center>
-            </div>
-            @if(isset($requests['company_id']))
-            <div class="form-group col-md-2 pull-left">
-                <label class="label label-info">  الشركة    : </label>
-                    @php($company=\App\Models\AccountingSystem\AccountingCompany::find($requests['company_id']))
-                    <span>{{$company->name}}</span>
-            </div>
-            @endif
-            @if(isset($requests['branch_id']))
-                <div class="form-group col-md-2 pull-left">
-                    <label class="label label-info">  الفرع   : </label>
-                    @php($branch=\App\Models\AccountingSystem\AccountingBranch::find($requests['branch_id']))
-                    <span>{{$branch->name}}</span>
-                </div>
-            @endif
-            @if(isset($requests['store_id']))
-                <div class="form-group col-md-2 pull-left">
-                    <label class="label label-info"> المخزن: </label>
-                    @php($store=\App\Models\AccountingSystem\AccountingStore::find($requests['store_id']))
-                    <span>{{$store->ar_name}}</span>
-                </div>
-            @endif
-            @if(isset($requests['product_id']))
-                <div class="form-group col-md-2 pull-left">
-                    <label class="label label-info"> الصنف: </label>
-                    @php($product=\App\Models\AccountingSystem\AccountingProduct::find($requests['product_id']))
-                    <span>{{$product->name}}</span>
-                </div>
-            @endif
-            @if(isset($requests['from']))
-            <div class="form-group col-md-2 pull-left">
-                <label class="label label-info"> من: </label>
-                    <span>{{$requests['from']}}</span>
-            </div>
-            @endif
-            @if(isset($requests['to']))
-            <div class="form-group col-md-2 pull-left">
-                <label class="label label-info"> الى: </label>
-                    <span>{{$requests['to']}}</span>
-            </div>
-            @endif
-            <table class="table datatable-button-init-basic">
+			<div id="print-window">
+            	<table class="table datatable-button-init-basic">
                 <thead>
+
+                <tr class="normal-bgc">
+                    @if(isset($requests['company_id']))
+                        <th class="company-imgg-td" colspan="8">
+                            @php $company=\App\Models\AccountingSystem\AccountingCompany::find($requests['company_id']) @endphp
+                            <span><img src="{!!getimg($company->image)!!}" style="width:100px; height:100px"> </span>
+                            <span>{{$company->name}}</span>
+                        </th>
+                    @endif
+
+                </tr>
+                <tr  class="normal-bgc">
+                    @if(isset($requests['branch_id']))
+                        @php $branch=\App\Models\AccountingSystem\AccountingBranch::find($requests['branch_id']) @endphp
+                        <th class="footTdLbl" colspan="2">الفرع : <span>{{$branch->name}}</span></th>
+                    @endif
+
+                    @if(isset($requests['store_id']))
+                        @php  $store=\App\Models\AccountingSystem\AccountingStore::find($requests['store_id'])@endphp
+                        <th class="footTdLbl" colspan="2">المخزن : <span>{{$store->ar_name}}</span></th>
+                    @endif
+
+                    @if(isset($requests['product_id']))
+                        @php   $product=\App\Models\AccountingSystem\AccountingProduct::find($requests['product_id'])@endphp
+                        <th class="footTdLbl" colspan="2">الصنف : <span>{{$product->name}}</span></th>
+                    @endif
+
+                    @if(isset($requests['from']))
+                        <th class="footTdLbl" colspan="2"> من:<span>{{$requests['from']}}</span></th>
+                    @endif
+
+                    @if(isset($requests['to']))
+                        <th class="footTdLbl" colspan="2">إلى :<span>{{$requests['to']}}</span></th>
+                    @endif
+
+                </tr>
                 <tr>
                     <th>#</th>
-                    <th> التاريخ </th>
-                    <th> إجمالي المشتريات </th>
-                    <th> إجمالي الخصومات </th>
-                    <th> إجمالي الضريبة </th>
-                    <th> إجمالي بعد الخصومات والضريبة </th>
-                    
-                    <th class="text-center">العمليات</th>
+					<th><span> التاريخ </span></th>
+					<th><span> إجمالي المشتريات </span></th>
+					<th><span> إجمالي الخصومات </span></th>
+					<th><span> إجمالي الضريبة </span></th>
+					<th><span> إجمالي بعد الخصومات والضريبة </span></th>
+
+                    <th class="text-center td-display-none"><span>العمليات</span></th>
                 </tr>
                 </thead>
                 <tbody>
+                @php $all_amounts=0; $discounts=0; $total_tax=0; $all_total=0; @endphp
 
                 @foreach($purchases as $row)
+                    @php $all_amounts+=$row->all_amounts; $discounts+=$row->discounts; $total_tax+=$row->total_tax; $all_total+=$row->all_total;@endphp
+
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->created_at->locale('ar')->toDayDateTimeString() !!}</td>
-                        <td>{!! $row->all_amounts !!}</td>
-                        <td>{!! $row->discounts !!}</td>
-                        <td>{!! $row->total_tax !!}</td>
-                        <td>{!! $row->all_total !!}</td>
+                        <td>{!! $row->all_amounts?? 0 !!}</td>
+                        <td>{!! $row->discounts ?? 0 !!}</td>
+                        <td>{!! $row->total_tax?? 0 !!}</td>
+                        <td>{!! $row->all_total?? 0 !!}</td>
 
-                        <td class="text-center">
+                        <td class="text-center td-display-none">
                             <a href="{{route('accounting.reports.purchase_details')}}?date={{ $row->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
 
                         </td>
@@ -190,12 +202,25 @@
 
 
                 </tbody>
+                <tfoot>
+                <tr>
+                    <td>المجموع</td>
+                    <td></td>
+                    <td>{{$all_amounts}}</td>
+                    <td>{{$discounts}}</td>
+                    <td>{{$total_tax}}</td>
+                    <td>{{$all_total}}  </td>
+                    <td>عدد الفواتير:{{$purchases->sum('num')}}</td>
+
+                </tr>
+                </tfoot>
             </table>
+			</div>
         </div>
-
+        <div class="row print-wrapper">
+        	<button class="btn btn-success" id="print-all">طباعة</button>
+        </div>
     </div>
-
-
 @endsection
 
 @section('scripts')
@@ -209,10 +234,13 @@
         })
     </script> --}}
 
+
+
     <script>
         $(function() {
             $(document).on('change', '#company_id', function () {
                 let branchSelect = $('#branch_id');
+                let categorySelect = $('#category_id');
                 $.ajax({
                     url: `{{ url('accounting/ajax/branches') }}/${$(this).val()}`,
                     type: "get",
@@ -231,6 +259,25 @@
                         console.log(error)
                     }
                 })
+                $.ajax({
+                    url: `{{ url('accounting/ajax/categories') }}/${$(this).val()}`,
+                    type: "get",
+                    success (data) {
+                        //console.log(data)
+                        categorySelect.empty();
+                        categorySelect.append('<option value="">اختر القسم</option>');
+                        data.forEach( category => {
+                            categorySelect.append(`
+                                <option value="${category.id}">${category.ar_name}</option>
+                            `);
+                        });
+                        categorySelect.selectpicker('refresh');
+                    },
+                    error (error) {
+                        console.log(error)
+                    }
+                })
+
             })
 
             $(document).on('change', '#branch_id', function () {
@@ -265,20 +312,20 @@
             })
 
             $(document).on('change', '#category_id', function () {
-                let productSelect = $('#product_id');
+                let productSelect_ = $('#product_id');
                 $.ajax({
                     url: `{{ url('accounting/ajax/products') }}/${$(this).val()}`,
                     type: "get",
                     success (data) {
                         //console.log(data)
-                        productSelect.empty();
-                        productSelect.append('<option value="">الصنف</option>');
+                        productSelect_.empty();
+                        productSelect_.append('<option value="">الصنف</option>');
                         data.forEach( product => {
-                            productSelect.append(`
+                            productSelect_.append(`
                                 <option value="${product.id}">${product.name}</option>
                             `);
                         });
-                        productSelect.selectpicker('refresh');
+                        productSelect_.selectpicker('refresh');
                     },
                     error (error) {
                         console.log(error)
@@ -289,4 +336,7 @@
 
         })
     </script>
+
+    <script src="{{asset('admin/assets/js/get_product_from_store_form_company_category.js')}}"></script>
+
 @stop

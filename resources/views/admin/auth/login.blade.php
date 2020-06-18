@@ -56,7 +56,7 @@
                         @csrf
                         <div class="form-group m-form__group">
 
-                            <input class="form-control m-input {{ $errors->has('email') ? ' is-invalid' : '' }}" type="text" placeholder="البريد الإلكتروني" name="email" autocomplete="off">
+                            <input class="form-control m-input" type="text" placeholder="البريد الإلكتروني او إسم المستخدم" name="email" autocomplete="off">
 
 
                             @if ($errors->has('email'))

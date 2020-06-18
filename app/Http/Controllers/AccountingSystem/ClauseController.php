@@ -56,14 +56,20 @@ class ClauseController extends Controller
      */
     public function store(Request $request)
     {
-    //    dd($request->all());
+//   dd($request->all());
          $rules = [
-
-             'benod_id'=>'required|numeric|exists:accounting_benods,id',
-
+          'concerned'=>'required',
+             'type'=>'required',
+             'amount'=>'required',
 
          ];
-         $this->validate($request,$rules);
+        $message=[
+            'concerned.required'=>'جهة السند  مطلوب ',
+            'type.required'=>'نوع السند  مطلوب ',
+            'amount.required'=>' المبلغ  مطلوب ',
+
+        ];
+        $this->validate($request,$rules,$message);
         $requests = $request->all();
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'photos');
@@ -74,13 +80,19 @@ class ClauseController extends Controller
 
         //--------------------------client----------------------------------------
         if ($clause->concerned == 'client') {
-
+            $client = AccountingClient::find($requests['client_id']);
             if ($clause->type == 'revenue') {
                 //من  العميل  للخزينه رصيد الخزينة  بيزيدالايراااد
                 //المبيعات
                 $safe->update([
 
                     'amount' => $safe->amount + $requests['amount']
+
+                ]);
+
+                $client->update([
+
+                    'balance' => $client->balance -$requests['amount']
 
                 ]);
 
@@ -94,6 +106,9 @@ class ClauseController extends Controller
 
                     ]);
                 }
+                $client->update([
+                    'balance' => $client->balance + $requests['amount']
+                ]);
             }
             //--------------------------supplier------------------------------------
         } elseif ($clause->concerned == 'supplier') {
@@ -106,7 +121,7 @@ class ClauseController extends Controller
                     'amount' => $safe->amount + $requests['amount']
                 ]);
                 $supplier->update([
-                    'amount' => $supplier->amount + $requests['amount']
+                    'balance' => $supplier->balance + $requests['amount']
                 ]);
             } elseif ($clause->type == 'expenses') {
                 // من المورد للخزنه  بيقلل رصيد الخزنه والرصيد للمورد كمان هيقل
@@ -115,11 +130,14 @@ class ClauseController extends Controller
                     $safe->update([
                         'amount' => $safe->amount - $requests['amount']
                     ]);
+                }else{
+                    alert()->error('المبلغ  غير  متوفر  بالخزنه   !')->autoclose(5000);
+                    return back();
                 }
-                if ($requests['amount'] <= $supplier->amount) {
+                if ($requests['amount'] <= $supplier->balance) {
 
                     $supplier->update([
-                        'amount' => $supplier->amount - $requests['amount']
+                        'balance' => $supplier->balance - $requests['amount']
                     ]);
                 }
             }
@@ -213,5 +231,11 @@ class ClauseController extends Controller
             return back();
 
 
+    }
+
+    public  function  show($id){
+
+        $clause =AccountingMoneyClause::findOrFail($id);
+        return view('AccountingSystem.clauses.show',compact('clause'));
     }
 }

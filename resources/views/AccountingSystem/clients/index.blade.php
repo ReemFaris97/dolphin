@@ -11,6 +11,13 @@
     <div class="panel panel-flat">
         <div class="panel-heading">
             <h5 class="panel-title">عرض كل  العملاء</h5>
+            <div class="btn-group beside-btn-title">
+                <a href="{{route('accounting.clients.create')}}" class="btn btn-success">
+                    إضافه  عميل  جديد
+                    <span class="m-l-5"><i class="fa fa-plus"></i></span>
+                </a>
+            </div>
+
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -68,12 +75,15 @@
                         <td>{!! $row->amount!!}</td>
 
                         <td class="text-center">
+                            @can('تعديل العميل')
                             <a href="{{route('accounting.clients.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
-                            <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
+                            @endcan
+                             @can('حذف العميل')
+                              <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
 
                             {!!Form::open( ['route' => ['accounting.clients.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
                             {!!Form::close() !!}
-
+                           @endcan
                         </td>
                     </tr>
 

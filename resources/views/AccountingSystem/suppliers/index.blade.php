@@ -10,7 +10,15 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">عرض كل الموردين</h5>
+            <h5 class="panel-title">عرض كل الموردين
+
+            <div class="btn-group beside-btn-title">
+                <a href="{{route('accounting.suppliers.create')}}" class="btn btn-success">
+                    إضافه  مورد  جديد
+                    <span class="m-l-5"><i class="fa fa-plus"></i></span>
+                </a>
+            </div>
+            </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -51,11 +59,11 @@
 
                         <td>
                             <a href="{{route('accounting.suppliers.show',['id'=>$row->id])}}" data-toggle="tooltip"
-                               data-original-title="كشف سداد  ">كشف سداد  </a>
-
+                               data-original-title="كشف سداد  ">كشف حساب  </a>
+                            @can('تعديل مورد')
                             <a href="{{route('accounting.suppliers.edit',['id'=>$row->id])}}" data-toggle="tooltip"
                                data-original-title="تعديل">تعديل </a>
-
+                            @endcan
                             @if ($row->is_active==0)
                                 <a href="{{route('accounting.suppliers.is_active',['id'=>$row->id])}}"
                                    data-toggle="tooltip" data-original-title=" تفعيل "> تفعيل</a>
@@ -63,12 +71,13 @@
                                 <a href="{{route('accounting.suppliers.dis_active',['id'=>$row->id])}}"
                                    data-toggle="tooltip" data-original-title=" الغاء التفيل">الغاء التفعيل </a>
                             @endif
-
+                            @can('حذف المورد')
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف">
                                 حذف</a>
 
                             {!!Form::open( ['route' => ['accounting.suppliers.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
                             {!!Form::close() !!}
+                                @endcan
 
                         </td>
                     </tr>

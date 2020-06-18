@@ -56,7 +56,6 @@ class ColumnController extends Controller
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
-
         AccountingFaceColumn::create($requests);
         alert()->success('تم اضافة  العمود بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.faces.index');

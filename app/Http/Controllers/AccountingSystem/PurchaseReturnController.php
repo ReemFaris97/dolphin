@@ -97,13 +97,17 @@ class PurchaseReturnController extends Controller
         $user=User::find(auth()->user()->id);
         $requests['branch_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:Null;
         $requests['company_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingCompany')?$user->store->model_id:Null;
-
+        if ($requests['total']==Null){
+            $requests['total']=$return->amount + $requests['totalTaxs'];
+        }
         $return->update([
             'bill_num' =>$return->bill_num."-".$return->created_at->toDateString(),
             'branch_id'=>$requests['branch_id'],
             'company_id'=>$requests['company_id'],
             'user_id'=>auth()->user()->id,
             'store_id'=>$user->accounting_store_id,
+            'total'=>round($requests['total'],2),
+
         ]);
 
         $products = collect($requests['product_id']);
@@ -117,6 +121,13 @@ class PurchaseReturnController extends Controller
             $product = AccountingProduct::find($merge['0']);
             if ($merge['2'] != 'main-' . $product->id) {
                 $unit = AccountingProductSubUnit::where('product_id', $merge['0'])->where('id', $merge['2'])->first();
+
+                if($unit){
+                    $unit->update([
+                        'quantity'=>$unit->quantity - $merge['1'],
+                    ]);
+
+                }
             }
 
                 $item = AccountingPurchaseReturnItem::create([
@@ -215,19 +226,17 @@ class PurchaseReturnController extends Controller
             $safe->update([
                 'amount' => $safe->amount + $return->total
             ]);
-        }elseif ($return->payment == 'agel'){
+        }else{
 
             $supplier = AccountingSupplier::find($return->supplier_id);
 
             if ($supplier) {
-                if($return->payment=='agel') {
 
                     $supplier->update([
                         'balance'=>$supplier->balance - $return->total
                     ]);
 
                 }
-            }
         }
 
         alert()->success('تمت عملية الاسترجاع بنجاح !')->autoclose(5000);

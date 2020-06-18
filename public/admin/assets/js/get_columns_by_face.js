@@ -22,7 +22,7 @@ $(function(){
             if(data.length ==0)
                 data.push('لا توجد  اوجه لفرع');
             var val;
-            columns.push('<option disabled selected> اختر العمود</option>');
+            columns.push('<option selected> اختر العمود</option>');
             $.each(data, function(i,n){
                 val = i;
 

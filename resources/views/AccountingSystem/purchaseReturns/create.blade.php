@@ -3,6 +3,13 @@
 @section('parent_title','إدارة المشتريات')
 @section('action', URL::route('accounting.suppliers.index'))
 @section('styles')
+<!--- start datatable -->
+<link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css
+" rel="stylesheet" type="text/css">
+<!--- end datatable -->
+
 <link href="{{asset('admin/assets/css/jquery.datetimepicker.min.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/all.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/bill.css')}}" rel="stylesheet" type="text/css">
@@ -61,12 +68,12 @@
 				</div>
 			</div>
 			<div class="result">
-				<form method="post" action="{{route('accounting.puchaseReturns.store')}}">
+				<form method="post" id="buyForm" action="{{route('accounting.puchaseReturns.store')}}">
 					@csrf
 					<input type="hidden" name="supplier_id" id="supplier_id_val">
 					<input type="hidden" name="bill_num" id="bill_num_val">
 					<input type="hidden" name="bill_date" id="bill_date_val">
-					<table border="1" class="finalTb moshtraiat-bill mabi3at-bill bill-table
+					<table border="1" class="table datatable-button-init-basic finalTb moshtraiat-bill mabi3at-bill bill-table
                     {{(getsetting('name_enable')==1) ? 'name_enable':'' }}
                     {{(getsetting('barcode_enable')==1) ? 'barcode_enable':'' }}
                     {{(getsetting('unit_enable')==1) ? 'unit_enable':'' }}
@@ -78,7 +85,7 @@
 						<thead>
 							<tr>
 								<th rowspan="2">م</th>
-								<th rowspan="2" class="maybe-hidden name_enable">اسم الصنف</th>
+								<th rowspan="2" class="maybe-hidden name_enable" width="230">اسم الصنف</th>
 								<th rowspan="2" class="maybe-hidden unit_enable">الوحدة</th>
 								<th rowspan="2" class="maybe-hidden quantity_enable">الكمية</th>
 								<th rowspan="2" class="maybe-hidden unit_price_before_enable">سعر الوحدة</th>
@@ -105,8 +112,7 @@
 								</th>
 								<th id="amountOfDariba" class="rel-cols" colspan="3">
 									<span class="colorfulSpan"> قيمة الضريبة</span>
-									<input type="hidden" class="dynamic-input">
-									<span class="dynamic-span">0</span>
+									<input type="hidden" class="dynamic-input" name="totalTaxs" id="amountOfDariba2">									<span class="dynamic-span">0</span>
 									<span class="rs"> ر.س </span>
 								</th>
 								<th id="amountAfterDariba" class="rel-cols" colspan="3">
@@ -158,7 +164,7 @@
 									</div>
 								</th>
 							</tr>
-							<input type="hidden" name="totalTaxs">
+							{{--<input type="hidden" name="totalTaxs">--}}
 							<tr>
 								<th colspan="9">
 									<button type="submit">حفظ</button>
@@ -174,10 +180,17 @@
 	</div>
 </div>
 @endsection
-
 @section('scripts')
+
+<!--- scroll to the last table row -->
+<script>
+$('table').on('DOMSubtreeModified', 'tbody', function(){
+    $("tbody").animate({ scrollTop: $('tbody').prop("scrollHeight")}, 1000);
+});
+</script>
+<!--- end datatable -->
 	<script src="{{asset('admin/assets/js/jquery.datetimepicker.full.min.js')}}"></script>
-	<!--<script src="https://rawgit.com/kabachello/jQuery-Scanner-Detection/master/jquery.scannerdetection.js"></script>-->
+	<script src="{{asset('admin/assets/js/scanner.js')}}"></script>
 	<script>
 		$(document).ready(function() {
 			$('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
@@ -237,7 +250,7 @@
 						var productName = selectedProduct.data('name');
 						var productLink = selectedProduct.data('link');
 						var lastPrice = selectedProduct.data('last-price');
-						var avgPrice = selectedProduct.data('average').toFixed(2);
+						var avgPrice = selectedProduct.data('average');
 						var barCode = selectedProduct.data('bar-code');
 						var productPrice = selectedProduct.data('price');
 						var priceHasTax = selectedProduct.data('price-has-tax');
@@ -274,7 +287,7 @@
 						$(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}" data-ifhastax="${priceHasTax}" data-tot-taxes="${totalTaxes}">
 							<td class="row-num">${rowNum}</td>
                             <input type="hidden" name="product_id[]" value="${ProductId}">
-							<td class="product-name maybe-hidden name_enable"><a href="${productLink}" target="_blank" rel="noopener noreferrer">${productName}</a></td>
+							<td class="product-name maybe-hidden name_enable" width="230"><a href="${productLink}" target="_blank" rel="noopener noreferrer">${productName}</a></td>
 							<td class="product-unit maybe-hidden unit_enable">
 								<select class="form-control js-example-basic-single" name="unit_id[${ProductId}]" >
 									${optss}
@@ -634,33 +647,67 @@
 			});
 		});
 		//	For Ajax Search By Product Bar Code
-		$('#barcode_search').keyup(function(e) {
-			var barcode_search = $(this).val();
-			$.ajax({
-				url: "/accounting/barcode_search/" + barcode_search,
-				type: "GET",
-				success: function(data) {
-					if (data.data.length !== 0) {
-						$(".tempobar").html(data.data);
-						var selectedID = $(".tempobar").find('option').data('unit-id');
-						var alreadyChosen = $(".bill-table tbody td select option[value=" + selectedID + "]");
-						var repeatedInputVal = $(".bill-table tbody td select option[value=" + selectedID + "]:selected").parents('tr').find('.product-quantity').find('input');
-						if (alreadyChosen.length > 0 && alreadyChosen.is(':selected')) {
-							repeatedInputVal.val(Number(repeatedInputVal.val()) + 1);
-							repeatedInputVal.text(repeatedInputVal.val());
-							$('.product-quantity').find('input').trigger('change');
-						} else {
-							rowNum++;
-							byBarcode();
-							$('.product-quantity').find('input').trigger('change');
-						}
+		$("#barcode_search").scannerDetection({
+	timeBeforeScanTest: 200, // wait for the next character for upto 200ms
+	avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms
+	preventDefault: true,
+	endChar: [13],
+	onComplete: function(barcode, qty){
+   		validScan = true;
+		$.ajax({
+			url: "/accounting/barcode_search/" + barcode,
+			type: "GET",
+			success: function(data) {
+				if (data.data.length !== 0) {
+					$('#barcode_search').val('');
+					$(".tempobar").html(data.data);
+					var selectedID = $(".tempobar").find('option').data('unit-id');
+					var alreadyChosen = $(".bill-table tbody td select option[value=" + selectedID + "]");
+					var repeatedInputVal = $(".bill-table tbody td select option[value=" + selectedID + "]:selected").parents('tr').find('.product-quantity').find('input');
+					if (alreadyChosen.length > 0 && alreadyChosen.is(':selected')) {
+						repeatedInputVal.val(Number(repeatedInputVal.val()) + 1);
+						repeatedInputVal.text(repeatedInputVal.val());
+						$('.product-quantity').find('input').trigger('change');
+					} else {
 						$('#barcode_search').val('');
-					}
+						rowNum++;
+						byBarcode();
+						$('.product-quantity').find('input').trigger('change');
+					}	
 				}
-			});
-
+			}
 		});
-
+    },
+	onError: function(string, qty) {
+		$('#barcode_search').val ($('#barcode_search').val()  + string);
+		var barcode = $('#barcode_search').val();
+		validScan = true;
+		$.ajax({
+			url: "/accounting/barcode_search/" + barcode,
+			type: "GET",
+			success: function(data) {
+				if (data.data.length !== 0) {
+					$('#barcode_search').val('');
+					$(".tempobar").html(data.data);
+					var selectedID = $(".tempobar").find('option').data('unit-id');
+					var alreadyChosen = $(".bill-table tbody td select option[value=" + selectedID + "]");
+					var repeatedInputVal = $(".bill-table tbody td select option[value=" + selectedID + "]:selected").parents('tr').find('.product-quantity').find('input');
+					if (alreadyChosen.length > 0 && alreadyChosen.is(':selected')) {
+						repeatedInputVal.val(Number(repeatedInputVal.val()) + 1);
+						repeatedInputVal.text(repeatedInputVal.val());
+						$('.product-quantity').find('input').trigger('change');
+					} else {
+						$('#barcode_search').val('');
+						rowNum++;
+						byBarcode();
+						$('.product-quantity').find('input').trigger('change');
+					}	
+				}
+			}
+		});
+		
+	}
+});
 		function byBarcode() {
 			$(".tempDisabled").removeClass("tempDisabled");
 			$(".tempobar").find('option').prop('selected', true);
@@ -669,7 +716,7 @@
 			var productName = selectedProduct.data('name');
 			var productLink = selectedProduct.data('link');
 			var lastPrice = selectedProduct.data('last-price');
-			var avgPrice = selectedProduct.data('average').toFixed(2);
+			var avgPrice = selectedProduct.data('average');
 			var barCode = selectedProduct.data('bar-code');
 			var productPrice = selectedProduct.data('price');
 			var priceHasTax = selectedProduct.data('price-has-tax');
@@ -706,7 +753,7 @@
 			$(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}" data-ifhastax="${priceHasTax}" data-tot-taxes="${totalTaxes}">
 							<td class="row-num">${rowNum}</td>
                             <input type="hidden" name="product_id[]" value="${ProductId}">
-							<td class="product-name maybe-hidden name_enable"><a href="${productLink}" target="_blank" rel="noopener noreferrer">${productName}</a></td>
+							<td class="product-name maybe-hidden name_enable" width="230"><a href="${productLink}" target="_blank" rel="noopener noreferrer">${productName}</a></td>
 							<td class="product-unit maybe-hidden unit_enable">
 								<select class="form-control js-example-basic-single" name="unit_id[${ProductId}]" >
 									${optss}
@@ -941,6 +988,10 @@
 				$("#amountBeforeDariba span.dynamic-span").html(amountBeforeDariba.toFixed(2));
 				$("#amountAfterDariba span.dynamic-span").html(amountAfterDariba.toFixed(2));
 				$("#amountOfDariba span.dynamic-span").html(amountOfDariba.toFixed(2));
+
+				$("#amountOfDariba2").val(amountOfDariba);
+				console.log($("#amountOfDariba2").val());
+
 				var byAmount = $("input#byAmount").val();
 				var byPercentage = $("input#byPercentage").val();
 				$("input#byAmount").attr('max', amountAfterDariba);
@@ -1039,16 +1090,45 @@
 				}
 			});
 			calcInfo();
-
 		}
 		$(document).keydown(function(event) {
-			if (event.which == 118) { //F7
-				$("button[type='submit']").trigger('click');
+			if (event.which == 118 || event.which == 13) { //F7
+				confirmSubmit(event);
 				return false;
 			}
 		});
+		function confirmSubmit(event){
+				event.preventDefault();
+				swal({
+				  title: "تنبيه !",
+				  text: "هل أنت متأكد من الحفظ ؟",
+				  icon: "warning",
+				  buttons: true,
+				  dangerMode: true,
+				  buttons: ['لا', 'نعم']
+				})
+				.then((willDelete) => {
+				  if (willDelete) {
+					swal("جار الحفظ !", {
+					  icon: "success",
+						buttons : false
+					});
+					$("#buyForm").submit();
+				  } else {
+					swal({
+						title : 'الغاء الحفظ',
+						text : 'تم إلغاء الحفظ !',
+						icon : 'success',
+						buttons : false,
+						timer : 1500
+					});
+				  }
+				});	
+		}
+		$(".finalTb button[type='submit']").click(function(event){
+				confirmSubmit(event)
+		})
 	</script>
-
 	<script>
 		$("#supplier_id").on('change', function() {
 			var id= $(this).val();
@@ -1071,9 +1151,9 @@
 		window.onbeforeunload = function(e) {
 			e = e || window.event;
 			if (e) {
-				e.returnValue = 'هل أنت متأكد من غلق هذه الصفحة ؟ سيتم فقدان كال البيانات التي تم ادخالها!!';
+				e.returnValue = 'هل انت متأكد من مغادرة الصفحة ؟!';
 			}
-			return 'هل أنت متأكد من غلق هذه الصفحة ؟ سيتم فقدان كال البيانات التي تم ادخالها!!';
+			return 'هل انت متأكد من مغادرة الصفحة ؟!';
 		};
 
 		function refreshTime() {

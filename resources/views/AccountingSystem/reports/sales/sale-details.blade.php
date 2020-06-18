@@ -19,8 +19,8 @@
         </div>
 
         <div class="panel-body">
-           
 
+<div id="print-window">
             <table class="table datatable-button-init-basic">
                 <thead>
                 <tr>
@@ -33,9 +33,9 @@
                     <th> الخصم </th>
                     <th> المدفوع </th>
                     <th> المتبقي </th>
-                    {{--<th> لإجمالي بعد الخصم والضريبة </th>--}}
-                    
-                    <th class="text-center">العمليات</th>
+                    <th> لإجمالي بعد الخصم والضريبة </th>
+
+                    <th class="text-center td-display-none">العمليات</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -46,14 +46,14 @@
                         <td>{!! $row->bill_num !!}</td>
                         <td>{!! $row->client()->exists() ? $row->client->name : '-' !!}</td>
                         <td>{!! $row->user()->exists() ? $row->user->name : '-' !!}</td>
-                        <td>{!! $row->amount !!}</td>
-                        <td>{!! $row->discount !!}</td>
-                        <td>{!! $row->payed !!}</td>
-                        <td>{!! $row->total - $row->payed !!}</td>
+                        <td>{!! $row->amount?? 0 !!}</td>
+                        <td>{!! $row->discount?? 0 !!}</td>
+                        <td>{!! $row->payed?? 0 !!}</td>
+                        <td>{!! ($row->total - $row->payed)?? 0 !!}</td>
 
-                        {{--<td>{!! $row->total !!}</td>--}}
+                        <td>{!! $row->total?? 0 !!}</td>
 
-                        <td class="text-center">
+                        <td class="text-center td-display-none">
                             <a href="{{route('accounting.sales.show',['id'=>$row->id])}}" target="_blank" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
 
                         </td>
@@ -65,6 +65,10 @@
 
                 </tbody>
             </table>
+	</div>
+        </div>
+<div class="row print-wrapper">
+        	<button class="btn btn-success" id="print-all">طباعة</button>
         </div>
 
     </div>

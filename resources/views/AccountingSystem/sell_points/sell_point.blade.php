@@ -3,6 +3,12 @@
 @section('parent_title','إدارة نقطه البيع')
 @section('action', URL::route('accounting.categories.index'))
 @section('styles')
+<!--- start datatable -->
+<link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css
+" rel="stylesheet" type="text/css">
+<!--- end datatable -->
 <link href="{{asset('admin/assets/css/jquery.datetimepicker.min.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/all.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/bill.css')}}" rel="stylesheet" type="text/css">
@@ -26,17 +32,19 @@
 		<!----------------  Start Bill Content ----------------->
 		<section class="yourBill">
 			<div class="yurSections">
+				<!--
 				<div class="row table-upper-options">
-					<!-- Nav tabs -->
+					 Nav tabs
 					<div class="col-md-4 col-sm-6 col-xs-12">
 						<div class="form-group">
 							<label> اسم الكاشير: </label>
+							{{--@dd($session->shift->name)--}}
 							{{$session->user->name}}
 						</div>
 					</div>
 					<div class="col-md-4 col-sm-6 col-xs-12">
 						<div class="form-group"><label> اسم الوردية: </label>
-							{{$session->shift->name}}
+							{{optional($session->shift)->name}}
 						</div>
 					</div>
 					<div class="col-md-4 col-sm-6 col-xs-12">
@@ -46,25 +54,26 @@
 						</div>
 					</div>
 				</div>
+-->
 				<div class="row table-upper-options">
 					<!-- Nav tabs -->
-					<div class="form-group block-gp col-md-4 col-sm-4">
+					<div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
 						<label> إسم العميل: </label>
 						{!! Form::select("client",$clients,null,['class'=>'selectpicker form-control inline-control','data-live-search'=>'true','id'=>'client_id'])!!}
 					</div>
-					<div class="form-group block-gp col-md-4 col-sm-4">
+					<div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
 						<label for="bill_date"> تاريخ الفاتورة </label>
-						{!! Form::text("bill_date",null,['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' تاريخ الفاتورة',"id"=>'bill_date'])!!}
+						{!! Form::text("__bill_date",null,['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' تاريخ الفاتورة',"id"=>'bill_date'])!!}
 					</div>
-					<div class="form-group block-gp col-md-4 col-sm-4">
+					<div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
 						<label>بحث بالباركود </label>
 						<input class="form-control" type="text" id="barcode_search">
 					</div>
-					<div class="form-group block-gp col-md-4 col-sm-4">
+					<div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
 						<label>اسم القسم </label>
 						{!! Form::select("category_id",$categories,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}
 					</div>
-					<div class="form-group block-gp col-md-4 col-sm-4">
+					<div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
 						<div class="yurProdc"></div>
 						<div class="tempobar"></div>
 					</div>
@@ -76,14 +85,15 @@
 					<input type="hidden" name="user_id" value="{{$session->user_id}}">
 					<input type="hidden" name="session_id" value="{{$session->id}}">
 					<input type="hidden" name="shift_id" value="{{$session->shift_id}}">
+					<input type="hidden" name="bill_date" id="bill_date_val">
 					<input type="hidden" name="client_id" id="client_id_val">
-					<table border="1" class="finalTb mabi3at-bill bill-table 
-					{{(getsetting('name_enable_sales')==1) ? 'name_enable':'' }} {{(getsetting('barcode_enable_sales')==1) ? 'barcode_enable':'' }} 
+					<table border="1" class="table datatable-button-init-basic finalTb mabi3at-bill bill-table
+					{{(getsetting('name_enable_sales')==1) ? 'name_enable':'' }} {{(getsetting('barcode_enable_sales')==1) ? 'barcode_enable':'' }}
 					{{(getsetting('unit_enable_sales')==1) ? 'unit_enable':'' }} {{(getsetting('quantity_enable_sales')==1) ? 'quantity_enable':'' }} {{(getsetting('unit_price_before_enable_sales') == 1) ? 'unit_price_before_enable':''}} {{(getsetting('unit_price_after_enable_sales')==1) ? 'unit_price_after_enable':'' }} {{(getsetting('total_price_before_enable_sales')==1) ? 'total_price_before_enable':'' }} {{(getsetting('total_price_after_enable_sales')==1) ? 'total_price_after_enable':'' }}">
 						<thead>
 							<tr>
 								<th rowspan="2">م</th>
-								<th rowspan="2" class="maybe-hidden name_enable">اسم الصنف</th>
+								<th rowspan="2" class="maybe-hidden name_enable" width="230">اسم الصنف</th>
 								<th rowspan="2" class="maybe-hidden barcode_enable">باركود</th>
 								<th rowspan="2" class="maybe-hidden unit_enable">الوحدة</th>
 								<th rowspan="2" class="maybe-hidden quantity_enable">الكمية</th>
@@ -106,9 +116,6 @@
 							<!--						Space For Appended Products-->
 						</tbody>
 						<tfoot class="tempDisabled">
-
-
-
 							<tr>
 								<th id="amountBeforeDariba" class="rel-cols" colspan="3">
 									<span class="colorfulSpan"> المجموع</span>
@@ -129,16 +136,6 @@
 									<span class="rs"> ر.س </span>
 								</th>
 							</tr>
-
-
-
-
-
-
-
-
-
-
 							<tr id="discountArea">
 								<th colspan="2">
 									الخصم
@@ -211,15 +208,15 @@
 				</form>
 				<div class="newly-added-2-btns-">
 					@if(auth()->user()->is_saler==1)
-					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+					<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
 						اغلاق الجلسة [F8]
 					</button>
 					@endif
-					<a class="btn btn-danger" id="add-mortaga3" href="{{route('accounting.sales.returns',$session->id)}}">
+					<a class="btn btn-primary" id="add-mortaga3" href="{{route('accounting.sales.returns',$session->id)}}">
 						اضافة فاتورة مرتجع [F9] </a>
 					<a class="btn btn-warning" id="ta3liik" href="#" target="_blank"> تعليق الفاتورة [F10] </a>
 				</div>
-				@if(auth()->user()->is_saler==1)
+				@if($session->user->is_saler==1)
 				<!-- Modal -->
 				<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 					<div class="modal-dialog" role="document">
@@ -231,7 +228,7 @@
 								</button>
 							</div>
 							<div class="modal-body">
-								<form method="post" action="{{route('accounting.sales.end',auth()->user()->is_saler)}}" id="form1">
+								<form method="post" action="{{route('accounting.sales.end',$session->user->is_saler)}}" id="form1">
 									@csrf
 									<input type="hidden" name="session_id" value="{{$session->id}}">
 									<label style="color:black"> الباسورد</label>
@@ -271,7 +268,7 @@
 								</form>
 							</div>
 							<div class="modal-footer">
-								<button type="submit" class="btn btn-primary confirm_delete"  id="confirm_delete">تحقق</button>
+								<button type="submit" class="btn btn-primary confirm_delete" id="confirm_delete">تحقق</button>
 							</div>
 						</div>
 					</div>
@@ -285,7 +282,18 @@
 </div>
 @endsection
 @section('scripts')
+
+<!--- scroll to the last table row -->
+<script>
+	$('table').on('DOMSubtreeModified', 'tbody', function() {
+		$("tbody").animate({
+			scrollTop: $('tbody').prop("scrollHeight")
+		}, 1000);
+	});
+</script>
+<!--- end datatable -->
 <script src="{{asset('admin/assets/js/jquery.datetimepicker.full.min.js')}}"></script>
+<script src="{{asset('admin/assets/js/scanner.js')}}"></script>
 <script>
 	$(document).ready(function() {
 		$('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
@@ -310,6 +318,12 @@
 		var client = $(this).val();
 		$('#client_id_val').val(client);
 	});
+
+	$("#bill_date_val").val(new Date().toLocaleString())
+
+	$("#bill_date").on('change', function() {
+		$("#bill_date_val").val($(this).val());
+	});
 	var rowNum = 0;
 	$(".category_id").on('change', function() {
 		var id = $(this).val();
@@ -331,7 +345,7 @@
 				$('.yurProdc').html(data.data);
 				$('#selectID').attr('data-live-search', 'true');
 				$('#selectID').selectpicker('refresh');
-				$('#selectID').change(function () {
+				$('#selectID').change(function() {
 					rowNum++;
 					var selectedProduct = $(this).find(":selected");
 					//  alert($('#selectID').val());
@@ -361,10 +375,10 @@
 					for (var i = 0; i < productUnits.length; i++) {
 						optss += '<option data-uni-price="' + unitPrice[i] + '" value="' + unitId[i] + '"> ' + unitName[i] + '</option> ';
 					}
-					$(".bill-table tbody").append(`<tr class="single-row-wrapper">
+					$(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}">
 						<td class="row-num">${rowNum}</td>
 						<input type="hidden" name="product_id[]" value=${productId}>
-						<td class="product-name maybe-hidden name_enable">${productName}</td>
+						<td class="product-name maybe-hidden name_enable" width="230">${productName}</td>
 						<td class="product-name maybe-hidden barcode_enable">${productBarCode}</td>
 						<td class="product-unit maybe-hidden unit_enable">
 							<select class="form-control js-example-basic-single" name="unit_id[${productId}]">
@@ -372,25 +386,54 @@
 							</select>
 						</td>
 						<td class="product-quantity maybe-hidden quantity_enable">
-							<input type="number" placeholder="الكمية" min="1" value="1" id="sale" name="quantity[]" class="form-control">
+							<input type="number" placeholder="الكمية" max="" min="1" value="1" id="sale" name="quantity[]" class="form-control">
 						</td>
 						<td class="single-price-before maybe-hidden unit_price_before_enable">${singlePriceBefore}</td>
 						<td class="single-price-after maybe-hidden unit_price_after_enable">${singlePriceAfter}</td>
 						<td class="whole-price-before maybe-hidden total_price_before_enable">${singlePriceBefore}</td>
 						<td class="whole-price-after maybe-hidden total_price_after_enable">${singlePriceAfter}</td>
 						<td class="delete-single-row">
-							@if(auth()->user()->is_admin==1)
+							@if($session->user->is_admin==1)
 							<a href="#"><span class="icon-cross"></span></a>
 							@else
-							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal">
+							<button type="button" class="btn btn-primary in-row-del" data-toggle="modal" data-target="#deleteModal">
                                 <span class="icon-cross"></span>
                             </button>
-@endif
-
+							@endif
 							</td>
                         </tr>`);
+					
+					// assign id for the clicked button on the deleting modal
+					$(".in-row-del").on('click', function() {
+						var tempRowNum = $(this).parents('tr').attr('id');
+						$("#deleteModal").attr('data-tempdelrow', tempRowNum);
+						$("#confirm_delete").click(function() {
+							var email = $("#email").val();
+							var password = $("#password").val();
+							$.ajax({
+								url: "/accounting/confirm_user/",
+								type: "GET",
+								data: {
+									'email': email,
+									'password': password
+								},
+								success: function(data) {
+									if (data.data == 'success') {
+										$("#" + tempRowNum).remove();
+										$(".bill-table tbody").trigger('change');
+										$('#deleteModal').modal('hide');
+									} else {
+										alert('البيانات التي ادخلتها غير صحيحة .');
+									}
+								},
+								error: function(error) {
+									alert('البيانات التي ادخلتها غير صحيحة .');
+								}
+							});
+						});
+					})
 					var wholePriceBefore, wholePriceAfter = 0;
-					$(".product-unit select").change(function () {
+					$(".product-unit select").change(function() {
 						var selectedUnit = $(this).find(":selected");
 						var productPrice = selectedUnit.data('uni-price');
 						if (Number(priceHasTax) === 0) {
@@ -405,8 +448,9 @@
 						}
 						$(this).parents('.single-row-wrapper').find(".single-price-before").text(singlePriceBefore.toFixed(2));
 						$(this).parents('.single-row-wrapper').find(".single-price-after").text(singlePriceAfter.toFixed(2));
+						$(this).parents('.single-row-wrapper').find(".product-quantity input").trigger('change');
 					});
-					$(".product-quantity input").change(function () {
+					$(".product-quantity input").change(function() {
 						if (($(this).val()) < 0) {
 							$(this).val(0);
 							$(this).text('0');
@@ -419,19 +463,19 @@
 					});
 					$(".bill-table tbody").trigger('change');
 					$(".tempDisabled").removeClass("tempDisabled");
-					$(".delete-single-row a").on('click', function () {
+					$(".delete-single-row a").on('click', function() {
 						$(this).parents('tr').remove();
 						$(".bill-table tbody").trigger('change');
 					})
 				});
-				$(".bill-table tbody").change(function () {
+				$(".bill-table tbody").change(function() {
 					preventDiscount();
 					var amountBeforeDariba = 0;
-					$(".whole-price-before").each(function () {
+					$(".whole-price-before").each(function() {
 						amountBeforeDariba += Number($(this).text());
 					});
 					var amountAfterDariba = 0;
-					$(".whole-price-after").each(function () {
+					$(".whole-price-after").each(function() {
 						amountAfterDariba += Number($(this).text());
 					});
 					var amountOfDariba = Number(amountAfterDariba) - Number(amountBeforeDariba);
@@ -447,7 +491,7 @@
 					if (byAmount == 0 && byPercentage == 0) {
 						$("#demandedAmount span.dynamic-span").html(amountAfterDariba.toFixed(2));
 					} else {
-						$("input#byPercentage").change(function () {
+						$("input#byPercentage").change(function() {
 							if ((Number($(this).val())) > 100) {
 								alert('لا يمكن ان تكون قيم الخصم بالنسبة أكبر من 100% .');
 								$(this).val(0);
@@ -456,7 +500,7 @@
 							$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
 							$("#total").val(total);
 						});
-						$("input#byAmount").change(function () {
+						$("input#byAmount").change(function() {
 							if ((Number($(this).val())) > Number($("#amountAfterDariba span.dynamic-span").html())) {
 								alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $("#amountAfterDariba span.dynamic-span").html());
 								$(this).val(0);
@@ -466,7 +510,7 @@
 							$("#total").val(total);
 						});
 					}
-					$("input#byPercentage").change(function () {
+					$("input#byPercentage").change(function() {
 						if ((Number($(this).val())) > 100) {
 							alert('لا يمكن ان تكون قيم الخصم بالنسبة أكبر من 100% .');
 							$(this).val(0);
@@ -475,7 +519,7 @@
 						$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
 						$("#total").val(total);
 					});
-					$("input#byAmount").change(function () {
+					$("input#byAmount").change(function() {
 						if ((Number($(this).val())) > Number($("#amountAfterDariba span.dynamic-span").html())) {
 							alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $("#amountAfterDariba span.dynamic-span").html());
 							$(this).val(0);
@@ -484,7 +528,7 @@
 						$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
 						$("#total").val(total);
 					});
-					$("#byCache , #byNet").change(function () {
+					$("#byCache , #byNet").change(function() {
 						var allPaid = Number($("#byCache").val()) + Number($("#byNet").val());
 						$("#allPaid").html(allPaid.toFixed(2));
 						$("#allPaid1").val(allPaid);
@@ -492,72 +536,78 @@
 						$("#remaindedAmount span.dynamic-span").html(remaindedAmount.toFixed(2));
 						$('#remainder-inputt').val(Math.abs(remaindedAmount));
 						if (remaindedAmount > 0) {
-							$("#remaindedAmount .rel-cols").removeClass("aagel-case");
-							$("#remaindedAmount .rel-cols").removeClass("tmam-case");
-							$("#remaindedAmount .rel-cols").addClass("motabaqy-case");
+							$("#remaindedAmount .rel-cols").removeClass("aagel-case").removeClass("tmam-case").addClass("motabaqy-case");
 						} else if (remaindedAmount < 0) {
-							$("#remaindedAmount .rel-cols").removeClass("motabaqy-case");
-							$("#remaindedAmount .rel-cols").removeClass("tmam-case");
-							$("#remaindedAmount .rel-cols").addClass("aagel-case");
+							$("#remaindedAmount .rel-cols").removeClass("motabaqy-case").removeClass("tmam-case").addClass("aagel-case");
 						} else {
-							$("#remaindedAmount .rel-cols").removeClass("motabaqy-case");
-							$("#remaindedAmount .rel-cols").removeClass("aagel-case");
-							$("#remaindedAmount .rel-cols").addClass("tmam-case");
+							$("#remaindedAmount .rel-cols").removeClass("motabaqy-case").removeClass("aagel-case").addClass("tmam-case");
 						}
 					})
 				});
-
-
-				$("#confirm_delete").click(function() {
-					var email = $("#email").val();
-					var password = $("#password").val();
-					$.ajax({
-						url: "/accounting/confirm_user/",
-						type: "GET",
-						data:{'email':email,'password':password},
-						success: function (data) {
-							alert(data.data);
-						},
-						error: function (error) {
-							alert("error")
-						}
-
-					});
-				});
-
 			}
 		});
 	});
-
-
-
 	//	For Ajax Search By Product Bar Code
-	$('#barcode_search').keyup(function(e) {
-		var barcode_search = $(this).val();
-		$.ajax({
-			url: "/accounting/barcode_search_sale/" + barcode_search,
-			type: "GET",
-			success: function(data) {
-				//				didddddddd *******************************
-				if (data.data.length !== 0) {
-					$(".tempobar").html(data.data);
-					var selectedID = $(".tempobar").find('option').data('unit-id');
-					var alreadyChosen = $(".bill-table tbody td select option[value=" + selectedID + "]");
-					var repeatedInputVal = $(".bill-table tbody td select option[value=" + selectedID + "]:selected").parents('tr').find('.product-quantity').find('input');
-					if (alreadyChosen.length > 0 && alreadyChosen.is(':selected')) {
-						repeatedInputVal.val(Number(repeatedInputVal.val()) + 1);
-						repeatedInputVal.text(repeatedInputVal.val());
-						$('.product-quantity').find('input').trigger('change');
-					} else {
-						rowNum++;
-						byBarcode();
-						$('.product-quantity').find('input').trigger('change');
+	$("#barcode_search").scannerDetection({
+		timeBeforeScanTest: 200, // wait for the next character for upto 200ms
+		avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms
+		preventDefault: true,
+		endChar: [13],
+		onComplete: function(barcode, qty) {
+			validScan = true;
+			$.ajax({
+				url: "/accounting/barcode_search_sale/" + barcode,
+				type: "GET",
+				success: function(data) {
+					if (data.data.length !== 0) {
+						$('#barcode_search').val('');
+						$(".tempobar").html(data.data);
+						var selectedID = $(".tempobar").find('option').data('unit-id');
+						var alreadyChosen = $(".bill-table tbody td select option[value=" + selectedID + "]");
+						var repeatedInputVal = $(".bill-table tbody td select option[value=" + selectedID + "]:selected").parents('tr').find('.product-quantity').find('input');
+						if (alreadyChosen.length > 0 && alreadyChosen.is(':selected')) {
+							repeatedInputVal.val(Number(repeatedInputVal.val()) + 1);
+							repeatedInputVal.text(repeatedInputVal.val());
+							$('.product-quantity').find('input').trigger('change');
+						} else {
+							$('#barcode_search').val('');
+							rowNum++;
+							byBarcode();
+							$('.product-quantity').find('input').trigger('change');
+						}
 					}
-					$('#barcode_search').val('');
 				}
-				//				didddddddd *******************************
-			}
-		});
+			});
+		},
+		onError: function(string, qty) {
+			$('#barcode_search').val($('#barcode_search').val() + string);
+			var barcode = $('#barcode_search').val();
+			validScan = true;
+			$.ajax({
+				url: "/accounting/barcode_search_sale/" + barcode,
+				type: "GET",
+				success: function(data) {
+					if (data.data.length !== 0) {
+						$('#barcode_search').val('');
+						$(".tempobar").html(data.data);
+						var selectedID = $(".tempobar").find('option').data('unit-id');
+						var alreadyChosen = $(".bill-table tbody td select option[value=" + selectedID + "]");
+						var repeatedInputVal = $(".bill-table tbody td select option[value=" + selectedID + "]:selected").parents('tr').find('.product-quantity').find('input');
+						if (alreadyChosen.length > 0 && alreadyChosen.is(':selected')) {
+							repeatedInputVal.val(Number(repeatedInputVal.val()) + 1);
+							repeatedInputVal.text(repeatedInputVal.val());
+							$('.product-quantity').find('input').trigger('change');
+						} else {
+							$('#barcode_search').val('');
+							rowNum++;
+							byBarcode();
+							$('.product-quantity').find('input').trigger('change');
+						}
+					}
+				}
+			});
+
+		}
 	});
 
 	function byBarcode() {
@@ -591,36 +641,63 @@
 		for (var i = 0; i < productUnits.length; i++) {
 			optss += '<option data-uni-price="' + unitPrice[i] + '" value="' + unitId[i] + '" > ' + unitName[i] + '</option> ';
 		}
-		$(".bill-table tbody").append(`<tr class="single-row-wrapper">
-			<td class="row-num">${rowNum}</td>
-			<input type="hidden" name="product_id[]" value=${productId}>
-			<td class="product-name maybe-hidden name_enable">${productName}</td>
-				<td class="product-name maybe-hidden barcode_enable">${productBarCode}</td>
-			<td class="product-unit maybe-hidden unit_enable">
-				<select class="form-control js-example-basic-single" name="unit_id[${productId}]">
-					${optss}
-				</select>
-			</td>
-			<td class="product-quantity maybe-hidden quantity_enable">
-				<input type="number" placeholder="الكمية" min="1" value="1" id="sale" name="quantity[]" class="form-control">
-			</td>
-			<td class="single-price-before maybe-hidden unit_price_before_enable">${singlePriceBefore}</td>
-			<td class="single-price-after maybe-hidden unit_price_after_enable">${singlePriceAfter}</td>
-			<td class="whole-price-before maybe-hidden total_price_before_enable">${singlePriceBefore}</td>
-			<td class="whole-price-after maybe-hidden total_price_after_enable">${singlePriceAfter}</td>
-			<td class="delete-single-row">
-				@if(auth()->user()->is_admin==1)
-					<a href="#"><span class="icon-cross"></span></a>
-					@else
-				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal">
-					<span class="icon-cross"></span>
-				</button>
-					@endif
+		$(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}">
+		<td class="row-num">${rowNum}</td>
+		<input type="hidden" name="product_id[]" value=${productId}>
+		<td class="product-name maybe-hidden name_enable " width="230">${productName}</td>
+		<td class="product-name maybe-hidden barcode_enable">${productBarCode}</td>
+		<td class="product-unit maybe-hidden unit_enable">
+			<select class="form-control js-example-basic-single" name="unit_id[${productId}]">
+				${optss}
+			</select>
+		</td>
+		<td class="product-quantity maybe-hidden quantity_enable">
+			<input type="number" placeholder="الكمية" min="1" value="1" id="sale" name="quantity[]" class="form-control">
+		</td>
+		<td class="single-price-before maybe-hidden unit_price_before_enable">${singlePriceBefore}</td>
+		<td class="single-price-after maybe-hidden unit_price_after_enable">${singlePriceAfter}</td>
+		<td class="whole-price-before maybe-hidden total_price_before_enable">${singlePriceBefore}</td>
+		<td class="whole-price-after maybe-hidden total_price_after_enable">${singlePriceAfter}</td>
+		<td class="delete-single-row">
+			@if($session->user->is_admin==1)
+			<a href="#"><span class="icon-cross"></span></a>
+			@else
+			<button type="button" class="btn btn-primary in-row-del" data-toggle="modal" data-target="#deleteModal">
+				<span class="icon-cross"></span>
+			</button>
+			@endif
 			</td>
 		</tr>`);
 
-
-
+		// assign id for the clicked button on the deleting modal
+		$(".in-row-del").on('click', function() {
+			var tempRowNum = $(this).parents('tr').attr('id');
+			$("#deleteModal").attr('data-tempdelrow', tempRowNum);
+			$("#confirm_delete").click(function() {
+				var email = $("#email").val();
+				var password = $("#password").val();
+				$.ajax({
+					url: "/accounting/confirm_user/",
+					type: "GET",
+					data: {
+						'email': email,
+						'password': password
+					},
+					success: function(data) {
+						if (data.data == 'success') {
+							$("#" + tempRowNum).remove();
+							$(".bill-table tbody").trigger('change');
+							$('#deleteModal').modal('hide');
+						} else {
+							alert('البيانات التي ادخلتها غير صحيحة .');
+						}
+					},
+					error: function(error) {
+						alert('البيانات التي ادخلتها غير صحيحة .');
+					}
+				});
+			});
+		})
 		var wholePriceBefore, wholePriceAfter = 0;
 		$(".product-unit select").change(function() {
 			var selectedUnit = $(this).find(":selected");
@@ -637,6 +714,7 @@
 			}
 			$(this).parents('.single-row-wrapper').find(".single-price-before").text(singlePriceBefore.toFixed(2));
 			$(this).parents('.single-row-wrapper').find(".single-price-after").text(singlePriceAfter.toFixed(2));
+			$(this).parents('.single-row-wrapper').find(".product-quantity input").trigger('change');
 		});
 		$(".product-quantity input").change(function() {
 			if (($(this).val()) < 0) {
@@ -722,27 +800,21 @@
 				$("#remaindedAmount span.dynamic-span").html(remaindedAmount.toFixed(2));
 				$('#remainder-inputt').val(Math.abs(remaindedAmount));
 				if (remaindedAmount > 0) {
-					$("#remaindedAmount .rel-cols").removeClass("aagel-case");
-					$("#remaindedAmount .rel-cols").removeClass("tmam-case");
-					$("#remaindedAmount .rel-cols").addClass("motabaqy-case");
+					$("#remaindedAmount .rel-cols").removeClass("aagel-case").removeClass("tmam-case").addClass("motabaqy-case");
 				} else if (remaindedAmount < 0) {
-					$("#remaindedAmount .rel-cols").removeClass("motabaqy-case");
-					$("#remaindedAmount .rel-cols").removeClass("tmam-case");
-					$("#remaindedAmount .rel-cols").addClass("aagel-case");
+					$("#remaindedAmount .rel-cols").removeClass("motabaqy-case").removeClass("tmam-case").addClass("aagel-case");
+					
 				} else {
-					$("#remaindedAmount .rel-cols").removeClass("motabaqy-case");
-					$("#remaindedAmount .rel-cols").removeClass("aagel-case");
-					$("#remaindedAmount .rel-cols").addClass("tmam-case");
+					$("#remaindedAmount .rel-cols").removeClass("motabaqy-case").removeClass("aagel-case").addClass("tmam-case");
 				}
 			})
 		});
 	}
+
 	$(document).keydown(function(event) {
-		if (event.which == 118) { //F7 حفظ
-
-			$("#sllForm").submit();
+		if (event.which == 118 || event.which == 13) { //F7 حفظ
+			confirmSubmit(event);
 			return false;
-
 		}
 		if (event.which == 119) { //F8 اغلاق الجلسة
 			$("button[data-target='#exampleModal']").trigger('click');
@@ -763,17 +835,49 @@
 			return false;
 		}
 	});
-
-	$(document).on('submit', '#sllForm', function(event) {
-		var feloos = Number($("tr#remaindedAmount span.dynamic-span").text())
-		if (feloos >= 0) {
-			$("#sllForm").submit();
-			return false;
+	function confirmSubmit(event){
+		var feloos = Number($("tr#remaindedAmount span.dynamic-span").text());
+		if (feloos >= 0 ) {
+			event.preventDefault();
+			swal({
+			  title: "تنبيه !",
+			  text: "هل أنت متأكد من الحفظ ؟",
+			  icon: "warning",
+			  buttons: true,
+			  dangerMode: true,
+              buttons: ['لا', 'نعم']
+			})
+			.then((willDelete) => {
+			  if (willDelete) {
+				swal("جار الحفظ !", {
+				  icon: "success",
+					buttons : false
+				});
+				$("#sllForm").submit();
+			  } else {
+				swal({
+					title : 'الغاء الحفظ',
+					text : 'تم إلغاء الحفظ !',
+					icon : 'success',
+					buttons : false,
+					timer : 1500
+				});
+			  }
+			});
 		} else {
 			event.preventDefault();
-			alert('عفوا , لابد من استيفاء المبلوغ الطلوب دفعه قبل حفظ الفاتورة')
+			swal({
+			  title : "تنبيه !",
+			  text: "عفوا , لابد من استيفاء المبلوغ المطلوب دفعه قبل حفظ الفاتورة",
+			  icon: "warning",
+			  buttons : false,
+			  timer : 1500
+			})
 		}
-	});
+	}
+	$(".finalTb button[type='submit']").click(function(event){
+			confirmSubmit(event)
+	})
 </script>
 <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
 <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
@@ -790,13 +894,12 @@
 <script>
 	//   For Alerting Before closing the window
 	window.onbeforeunload = function(e) {
-		e = e || window.event;
-		if (e) {
-			e.returnValue = 'هل أنت متأكد من غلق هذه الصفحة ؟ سيتم فقدان كال البيانات التي تم ادخالها!!';
-		}
-		return 'هل أنت متأكد من غلق هذه الصفحة ؟ سيتم فقدان كال البيانات التي تم ادخالها!!';
-	};
-
+			e = e || window.event;
+			if (e) {
+				e.returnValue = 'هل انت متأكد من مغادرة الصفحة ؟!';
+			}
+			return 'هل انت متأكد من مغادرة الصفحة ؟!';
+		};
 	function refreshTime() {
 		var today = new Date();
 		var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();

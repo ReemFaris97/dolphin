@@ -62,15 +62,19 @@ class StoreController extends Controller
      */
     public function store(Request $request)
     {
+//        dd($request->all());
         $rules = [
 
-            'ar_name'=>'required|string|max:191',
+            'ar_name'=>'required|string|max:191|store_name:accounting_stores,ar_name,company_id,branch_id,'.$request['ar_name'].','.$request['company_id'].','.$request['branch_id'],
             'en_name'=>'nullable|string|max:191',
             'image'=>'nullable|sometimes|image',
             'company_id'=>'nullable|numeric|exists:accounting_companies,id',
 
         ];
-        $this->validate($request,$rules);
+        $messsage = [
+            'name.store_name'=>"اسم المخزن موجود بالفعل بالشركة",
+        ];
+        $this->validate($request,$rules,$messsage);
         $requests = $request->except('image');
        // dd($requests);
 
@@ -78,24 +82,17 @@ class StoreController extends Controller
             $requests['image'] = saveImage($request->image, 'photos');
         }
 
-
         if ($requests['company_id']==NULL & $requests['branch_id']!=NULL)
         {
-
             $requests['model_id']= $requests['branch_id'];
-               $requests[ 'model_type']='App\Models\AccountingSystem\AccountingBranch';
-
-
-
+            $requests[ 'model_type']='App\Models\AccountingSystem\AccountingBranch';
         }
         if ($requests['branch_id']==NULL & $requests['company_id']!=NULL)
         {
-
             $requests[ 'model_id']= $requests['company_id'];
-             $requests[ 'model_type']='App\Models\AccountingSystem\AccountingCompany';
-
+            $requests[ 'model_type']='App\Models\AccountingSystem\AccountingCompany';
         }
-//dd($requests);
+
        AccountingStore::create($requests);
 
         alert()->success('تم اضافة  الفرع بنجاح !')->autoclose(5000);

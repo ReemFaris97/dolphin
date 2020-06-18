@@ -65,7 +65,7 @@ class PurchaseController extends Controller
     public function store(Request $request)
     {
         $requests = $request->except('user_id');
-//
+dd($requests);
         $rules = [
            'supplier_id'=>'required|numeric|exists:accounting_suppliers,id',
                 // 'reminder'=>'required|numeric|gt:0',
@@ -77,15 +77,19 @@ class PurchaseController extends Controller
         $requests['company_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingCompany')?$user->store->model_id:Null;
 
         $purchase=AccountingPurchase::create($requests);
-//       dd( $requests['branch_id']);
+        if ($requests['total']==Null){
+            $requests['total']=$purchase->amount+$requests['totalTaxs'];
+        }
         $purchase->update([
             'bill_num'=>$purchase->bill_num."-".$purchase->created_at->toDateString(),
             'branch_id'=>$requests['branch_id'],
             'company_id'=>$requests['company_id'],
             'user_id'=>auth()->user()->id,
             'store_id'=>$user->accounting_store_id,
-            'total'=>$requests['total'],
+            'total'=>round($requests['total'],2),
+            'totalTaxs'=>$requests['totalTaxs'],
         ]);
+
 
         $products = collect($requests['product_id']);
         $qtys = collect($requests['quantity']);
@@ -95,13 +99,21 @@ class PurchaseController extends Controller
 
         $merges = $products->zip($qtys,$unit_id,$prices,$itemTax);
         $i=1;
-//        dd($merges);
+
         foreach ($merges as $merge)
         {
 
             $product=AccountingProduct::find($merge['0']);
             if($merge['2']!='main-'.$product->id){
                 $unit=AccountingProductSubUnit::where('product_id',$merge['0'])->where('id',$merge['2'])->first();
+
+                if($unit){
+                    $unit->update([
+                        'quantity'=>$unit->quantity + $merge['1'],
+                    ]);
+
+                }
+
             }
 //            if($product->quantity>0){
             $item= AccountingPurchaseItem::create([
@@ -167,10 +179,12 @@ class PurchaseController extends Controller
              if($merge['2']!='main-'.$product->id){
 
                  $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',$merge['2'])->first();
+                 if($productstore) {
+                     $productstore->update([
+                         'quantity' => $productstore->quantity + $merge['1'],
 
-                 $productstore->update([
-                'quantity'=>$productstore->quantity + $merge['1'],
-            ]);
+                     ]);
+                 }
         }else{
 
             $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',Null)->first();
@@ -200,7 +214,7 @@ class PurchaseController extends Controller
 
         }
     }
-
+//        dd($purchase);
         if($purchase->payment=='cash'){
 
                $store_id=auth()->user()->accounting_store_id;
@@ -216,6 +230,7 @@ class PurchaseController extends Controller
                 'balance'=>$supplier->balance +$purchase->total
             ]);
         }
+
         alert()->success('تمت عملية الشراء بنجاح !')->autoclose(5000);
         return back();
     }

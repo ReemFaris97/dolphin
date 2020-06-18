@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\AccountingSystem\AccountingPurchase;
 use App\Models\AccountingSystem\AccountingSupplier;
+use App\Models\AccountingSystem\AccountingSupplierLog;
 
 class PurchaseObserver
 {
@@ -31,6 +32,17 @@ class PurchaseObserver
             if($purchase->payment=='agel') {
                 $balance=$purchase->total;
                 $supplier->balance = +$balance;
+
+                $log=new AccountingSupplierLog();
+
+                $log->supplier_id=$supplier->id;
+                $log->purchase_id=$purchase->id;
+                $log->amount=$purchase->total;
+                $log->status='creditor';
+                $log->type='مشتريات';
+                $log->new_balance=round($supplier->balance,2);
+                $log->save();
+//                dd($log);
             }
         }
     }

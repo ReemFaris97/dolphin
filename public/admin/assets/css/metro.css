@@ -382,6 +382,10 @@ span.required--in {
 }
 }
 
+@media (max-width : 480px){
+    .dataTables_filter input {
+    width: 183px;
+    }
 @media (max-width : 991px){
 	.wrap, .wrap2, .start {
     width: 100%;
@@ -390,9 +394,11 @@ span.required--in {
     float: right;
 }
 }
+/*
 @media (max-width : 767px){
 	.dataTables_filter {
     margin-top: -65px !important;
     margin-bottom: 40px;
 }
 }
+*/

@@ -27,7 +27,7 @@
                 <div class="yurSections">
                     <div class="row">
                         <div class="col-xs-12">
-                            {!!Form::open( ['route' => 'accounting.reports.transaction-products' ,'class'=>'form phone_validate', 'method' => 'GET','files' => true]) !!}
+                            {!!Form::open( ['route' => 'accounting.reports.transaction-products' ,'class'=>'form phone_validate', 'method' => 'post','files' => true]) !!}
                             @include('AccountingSystem.reports.stores.filter')
                             {!!Form::close() !!}
                         </div>
@@ -85,7 +85,7 @@
                 @endif
             </div>
             {{---         التفاصيل (التاريخ - اسم الصنف – الوحدة - الكمية الحالية بالمخزن المحول منه الكمية الحالية بالمخزن المحول إليه – السعر - إجمالي سعر).--}}
-
+<div id="print-window">
             <table class="table datatable-button-init-basic">
                 <thead>
                 <tr>
@@ -127,6 +127,10 @@
             @if($transactions != [])
                 {{ $transactions->appends(\Illuminate\Support\Facades\Input::except('page'))->links() }}
             @endif
+        	</div>
+        </div>
+<div class="row print-wrapper">
+        	<button class="btn btn-success" id="print-all">طباعة</button>
         </div>
     </div>
 

@@ -9,6 +9,13 @@
     <div class="panel panel-flat">
         <div class="panel-heading">
             <h5 class="panel-title">عرض كل السندات </h5>
+            <div class="btn-group beside-btn-title">
+                <a href="{{route('accounting.clauses.create')}}" class="btn btn-success">
+                    إضافه  سند  جديد
+                    <span class="m-l-5"><i class="fa fa-plus"></i></span>
+                </a>
+            </div>
+
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -23,7 +30,7 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>  البند </th>
+                    {{--<th>  البند </th>--}}
 
                     <th> المبلغ  </th>
                     <th>  اسم  الخزنيه  </th>
@@ -37,19 +44,22 @@
                 @foreach($clauses as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
-                        <td>{!!optional($row->benod)->ar_name!!}</td>
+                        {{--<td>{!!optional($row->benod)->ar_name!!}</td>--}}
 
                         <td>{!! $row->amount!!}</td>
                         <td>{!!optional($row->safe)->name!!}</td>
                         <td>
                             @if ($row->type=="expenses")
-                                <label class="label label-info"> مصروف</label>
+                                <label class="label label-info"> صرف </label>
+                                @elseif($row->type=="revenue")
+                                <label class="label label-success"> قبض</label>
                                 @else
-                                <label class="label label-success"> ايراد</label>
+                                <label class="label label-success"> عام</label>
                         @endif
                         </td>
 
                         <td class="text-center">
+                            <a href="{{route('accounting.clauses.show',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>
                             <a href="{{route('accounting.clauses.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
                             {!!Form::open( ['route' => ['accounting.clauses.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
@@ -78,7 +88,7 @@
             console.log(item_id);
             swal({
                 title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذا  البند ؟",
+                text: "هل تريد حذف هذا  السند ؟",
                 icon: "warning",
                 buttons: ["الغاء", "موافق"],
                 dangerMode: true,
@@ -88,7 +98,7 @@
                     document.getElementById('delete-form'+item_id).submit();
                 }
                 else{
-                    swal("تم االإلفاء", "حذف  البند  تم الغاؤه",'info',{buttons:'موافق'});
+                    swal("تم االإلفاء", "حذف  السند  تم الغاؤه",'info',{buttons:'موافق'});
                 }
             });
         }

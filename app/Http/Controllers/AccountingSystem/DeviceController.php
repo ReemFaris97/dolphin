@@ -8,6 +8,7 @@ use App\Models\AccountingSystem\AccountingColumnCell;
 use App\Models\AccountingSystem\AccountingCompany;
 
 use App\Models\AccountingSystem\AccountingFaceColumn;
+use App\Models\AccountingSystem\AccountingSafe;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
@@ -52,33 +53,40 @@ class DeviceController extends Controller
     {
         $rules = [
 
-            'name'=>'required|string|max:191',
+            'name'=>'required|string|max:191|device_name:accounting_devices,name,company_id,branch_id,'.$request['name'].','.$request['company_id'].','.$request['branch_id'],
+            'code'=>'required|string|max:191|device_code:accounting_devices,code,company_id,branch_id,'.$request['code'].','.$request['company_id'].','.$request['branch_id'],
 
             // 'column_id'=>'required|numeric|exists:accounting_face_columns,id',
 
         ];
-        $this->validate($request,$rules);
+        $messsage = [
+            'name.store_name'=>"اسم الجهاز موجود بالفعل بالشركة",
+            'code.store_code'=>"كود الجهاز موجود بالفعل بالشركة",
+
+        ];
+        $this->validate($request,$rules,$messsage);
         $requests = $request->all();
 
 
         if ($requests['company_id']==NULL & $requests['branch_id']!=NULL)
         {
-
             $requests['model_id']= $requests['branch_id'];
                $requests[ 'model_type']='App\Models\AccountingSystem\AccountingBranch';
-
-
-
         }
         if ($requests['branch_id']==NULL & $requests['company_id']!=NULL)
         {
-
             $requests[ 'model_id']= $requests['company_id'];
              $requests[ 'model_type']='App\Models\AccountingSystem\AccountingCompany';
-
         }
+        $device=AccountingDevice::create($requests);
+        AccountingSafe::create([
+            'device_id'=>$device->id,
+            'name'=>$device->name,
+            'status'=>'cashier',
+            'model_type'=>$device->model_type='App\Models\AccountingSystem\AccountingBranch'?'App\Models\AccountingSystem\AccountingBranch':'App\Models\AccountingSystem\AccountingCompany',
+            'model_id'=>$device->model_id,
 
-        AccountingDevice::create($requests);
+        ]);
         alert()->success('تم اضافة  الجهاز بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.devices.index');
     }

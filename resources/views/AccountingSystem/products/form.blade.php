@@ -21,15 +21,39 @@
 			<div class="row">
 				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
 					<label> اسم الشركة </label>
+					<div class="btn-group adding-new-comp">
+						<a href="{{route('accounting.companies.create')}}" class="btn btn-success">
+						  <span class="m-l-5">
+						   إضافة شركة
+						   <i class="fa fa-plus"></i>
+						   </span>
+						</a>
+					</div>
 					{!! Form::select("company_id",companies(),null,['class'=>'form-control js-example-basic-single company_id','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له المنتج '])!!}
 				</div>
 				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
 					<label> اسم الفرع التابع </label>
+					<div class="btn-group adding-new-comp">
+						<a href="{{route('accounting.branches.create')}}" class="btn btn-success">
+						  <span class="m-l-5">
+						   إضافة فرع
+						   <i class="fa fa-plus"></i>
+						   </span>
+						</a>
+					</div>
 					{!! Form::select("branch_id",branches(),null,['class'=>'form-control selectpicker branch_id','id'=>'branch_id','multiple','placeholder'=>' اختر اسم الفرع التابع له المنتج '])!!}
 				</div>
 				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left" id="store_id">
 					<label> اسم المخزن </label>
 					@if (!isset($product))
+						<div class="btn-group adding-new-comp">
+							<a href="{{route('accounting.stores.create')}}" class="btn btn-success">
+						  <span class="m-l-5">
+						   إضافة مخزن
+						   <i class="fa fa-plus"></i>
+						   </span>
+							</a>
+						</div>
 					{!! Form::select("store_id",stores(),null,['class'=>'form-control js-example-basic-single store_id','id'=>'store_id','placeholder'=>' اختر اسم المخزن التابع له المنتج '])!!}
 					@else
 					<select class="form-control js-example-basic-single pull-right" name="store_id">
@@ -97,15 +121,43 @@
 		</div>
 		<div id="menu1" class="tab-pane fade">
 			<div class="row">
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label>اسم المنتج </label>
 					{!! Form::text("name_product",isset($is_edit)?$product->name:null,['class'=>'form-control','placeholder'=>' اسم المنتج '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> اسم التصنيف </label>
+
+					<div class="btn-group adding-new-comp">
+						<a href="{{route('accounting.categories.create')}}" class="btn btn-success">
+						  <span class="m-l-5">
+						   إضافة تصنيف
+						   <i class="fa fa-plus"></i>
+						   </span>
+						</a>
+					</div>
 					{!! Form::select("category_id",$categories,null,['class'=>'form-control js-example-basic-single','id'=>'company_id','placeholder'=>' اختر اسم التصنيف التابع له المنتج '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+					<div class=" form-group">
+						<label> اسم المورد </label>
+						<div class="btn-group adding-new-comp">
+							<a href="{{route('accounting.suppliers.create')}}" class="btn btn-success">
+						  <span class="m-l-5">
+						   إضافة مورد
+						   <i class="fa fa-plus"></i>
+						   </span>
+							</a>
+						</div>
+						{!! Form::select("supplier_id",$suppliers,null,['class'=>'form-control js-example-basic-single','id'=>'supplier_id','placeholder'=>' اختر اسم المورد للمنتج '])!!}
+					</div>
+				</div>
+				<div class="col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label>النوع </label>
 					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2" id="components_button">
 						المكونات
@@ -118,14 +170,17 @@
 					</button>
 					{!! Form::select("type",['store'=>'مخزون','service'=>'خدمه','offer'=>'مجموعة منتجات ','creation'=>'تصنيع','product_expiration'=>'منتج بتاريخ صلاحيه'],null,['class'=>'form-control js-example-basic-single type','placeholder'=>' نوع المنتج ','id'=>'type'])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label>الوحدة الاساسية </label><span style="color: #ff0000; margin-right: 15px;">[جرام -كيلو-لتر]</span>
 					<!-- Button trigger modal -->
-					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+					<button type="button" class="btn btn-primary" id="openExampleModal" data-toggle="modal" data-target="#exampleModal">
 						الوحدات الفرعية
 					</button>
 					{{--<input class="form-control autocomplete" placeholder="Enter A" />--}}
 					{!! Form::text("main_unit",null,['class'=>'form-control autocomplete','placeholder'=>' الوحدة الاساسية '])!!}
+				</div>
 				</div>
 				<div class="form-group col-xs-12 pull-left">
 					<label>وصف المنتج </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
@@ -155,24 +210,26 @@
 							<th>العمليات</th>
 						</tr>
 					</thead>
+					@if (isset($is_edit))
 					<tbody class="add-products">
-					{{--@dd($subunits)--}}
-						@if (isset($is_edit))
-						@foreach($subunits as $unit)
-						<tr>
-							<td>{{$unit->name}}</td>
-							<td>{{$unit->bar_code}}</td>
-							<td>{{$unit->main_unit_present}}</td>
-							<td>{{$unit->selling_price}}</td>
-							<td>{{$unit->purchasing_price}}</td>
-							<td>{{$unit->quantity}}</td>
-							<td>
-								<a href="#" onclick="Delete({{$unit->id}})" class="delete-sub-unit">حذف</a>
-							</td>
-						</tr>
-						@endforeach
-						@endif
+							@foreach($subunits as $unit)
+								<tr>
+									<td>{{$unit->name}}</td>
+									<td>{{$unit->bar_code}}</td>
+									<td>{{$unit->main_unit_present}}</td>
+									<td>{{$unit->selling_price}}</td>
+									<td>{{$unit->purchasing_price}}</td>
+									<td>{{$unit->quantity}}</td>
+									<td>
+										<a href="#" onclick="Delete({{$unit->id}})" class="delete-sub-unit">حذف</a>
+									</td>
+								</tr>
+							@endforeach
 					</tbody>
+					<tbody class="edit-products"></tbody>
+					@else
+					<tbody class="add-products"></tbody>
+					@endif
 				</table>
 				<!-- services table-->
 				<span> الخدمات </span>
@@ -207,7 +264,7 @@
 		</div>
 		<div id="menu2" class="tab-pane fade">
 			<div class="row">
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left taxs form-line new-radio-big-wrapper ">
+				<div class="form-group col-xs-12 pull-left taxs form-line new-radio-big-wrapper ">
 					<span class="new-radio-wrap">
 						<label for="active">مفعل </label>
 						{!! Form::radio("is_active",1,['class'=>'form-control','id'=>'active'])!!}
@@ -217,114 +274,159 @@
 						{!! Form::radio("is_active",0,['class'=>'form-control','id'=>'dis_active'])!!}
 					</span>
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label>الباركود </label>
 					{!! Form::text("bar_code",null,['class'=>'form-control','placeholder'=>' الباركود '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label>سعر البيع </label>
 					{!! Form::text("product_selling_price",isset($is_edit)?$product->selling_price:null,['class'=>'form-control','placeholder'=>' سعر البيع '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label>سعر الشراء </label>
 					{!! Form::text("product_purchasing_price",isset($is_edit)?$product->purchasing_price:null,['class'=>'form-control','placeholder'=>'سعر الشراء '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label>الحد الادنى من الكمية </label>
 					{!! Form::text("min_quantity",null,['class'=>'form-control','placeholder'=>'الحد الادنى من الكمية'])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> الحد الاقصى من الكمية </label>
 					{!! Form::text("max_quantity",null,['class'=>'form-control','placeholder'=>' الحد الاقصى من الكمية '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> الكمية </label>
 					{!! Form::text("quantity",null,['class'=>'form-control','placeholder'=>' الكمية '])!!}
 				</div>
-				<div class="form-group col-xs-12 pull-left">
+				</div>
+				<div class="col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> اسم الشركة المصنعة </label>
+					<div class="btn-group adding-new-comp">
+						<a href="{{route('accounting.industrials.create')}}" class="btn btn-success">
+						  <span class="m-l-5">
+						   إضافة شركة
+						   <i class="fa fa-plus"></i>
+						   </span>
+						</a>
+					</div>
 					{!! Form::select("industrial_id",$industrials,null,['class'=>'form-control js-example-basic-single','id'=>'industrial_id','placeholder'=>' اختر اسم الشركة المصنعة المنتج '])!!}
+				</div>
 				</div>
 			</div>
 		</div>
 		<div id="menu3" class="tab-pane fade">
 			<div class="row">
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> الحجم </label><span style="color: #ff0000; margin-right: 15px;"> اختيارى ويكون بالسنتمتر المكعب</span>
 					{!! Form::text("size",null,['class'=>'form-control','placeholder'=>' الحجم '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> اللون </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
 					{!! Form::text("color",null,['class'=>'form-control','placeholder'=>' اللون '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> الارتفاع </label><span style="color: #ff0000; margin-right: 15px;">اختيارى ويكون بالسنتمتر</span>
 					{!! Form::text("height",null,['class'=>'form-control','placeholder'=>'الارتفاع '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> العرض </label><span style="color: #ff0000; margin-right: 15px;">اختيارى ويكون بالسنتمتر المربع</span>
 					{!! Form::text("width",null,['class'=>'form-control','placeholder'=>' العرض '])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label> تاريخ الانتهاء </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
 					{!! Form::date("expired_at",null,['class'=>'form-control'])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label>مده التنبية</label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
 					{!! Form::number("alert_duration",null,['class'=>'form-control'])!!}
 				</div>
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
 					<label>عدد أيام فترة الركود</label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
 					{!! Form::number("num_days_recession",null,['class'=>'form-control'])!!}
 				</div>
+				</div>
 			</div>
+
+		</div>
+		<div id="menu4" class="tab-pane fade">
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
+					<label> نوع الخصم </label>
+					{!! Form::select("discount_type",['percent'=>'نسبة','quantity'=>'كمية'],isset($discount)?$discount->discount_type:null,['class'=>'form-control js-example-basic-single','id'=>'discount_id','placeholder'=>' اختر الخصم '])!!}
+				</div>
+				</div>
+
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left  " id="nesba-wrp">
+				<div class=" form-group">
+					<label> النسبة </label>
+					{!! Form::text("percent",isset($discount)?$discount->percent:null,['class'=>'form-control','placeholder'=>' النسبة '])!!}
+				</div>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left  " id="discounts_button">
+				<div class=" form-group">
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal4" >
+					العروض والخصومات
+				</button>
+				</div>
+				</div>
+				
+			</div>
+
 			<!--discounts table-->
 			<table id="discountTable" class="table ">
 				<thead>
-					<tr>
-						<th>  نوع العرض</th>
-						<th> الكمية الاساسية</th>
-						<th> الكمية الهدية</th>
+				<tr>
 
-					</tr>
+					<th> الكمية الاساسية</th>
+					<th> الكمية الهدية</th>
+					<th>  العمليات</th>
+				</tr>
 				</thead>
-				<tbody>
+				<tbody class="add-discounts">
 
-				@if (isset($is_edit))
-					@foreach($discounts as $discount)
-						<tr>
-							@if ($discount->discount_type=="quantity")
-								<td>هدية</td>
-								@else
-								<td>خصم نسبه</td>
-							@endif
-							<td>{{$unit->quantity}}</td>
-							<td>{{$unit->gift_quantity}}</td>
-							<td>{{$unit->quantity}}</td>
-							<td>{{$unit->percent}}</td>
-						</tr>
-					@endforeach
+				@if (isset($discounts))
+				@foreach($discounts as $discount)
+					@if ($discount->discount_type=="quantity")
+				<tr>
+
+						<td>{{$discount->quantity}}</td>
+						<td>{{$discount->gift_quantity}}</td>
+					<td></td>
+
+				</tr>
+					@endif
+				@endforeach
 				@endif
 
 				</tbody>
 			</table>
 			<!-- end table-->
-		</div>
-		<div id="menu4" class="tab-pane fade">
-			<div class="row">
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left">
-					<label> نوع الخصم </label>
-					{!! Form::select("discount_type",['percent'=>'نسبة','quantity'=>'كمية'],isset($discount)?$discount->discount_type:null,['class'=>'form-control js-example-basic-single','id'=>'discount_id','placeholder'=>' اختر الخصم '])!!}
-				</div>
-
-				<div class="form-group col-md-6 col-sm-6 col-xs-12 pull-left ">
-					<label> النسبة </label>
-					{!! Form::text("percent",isset($discount)?$discount->percent:null,['class'=>'form-control','placeholder'=>' النسبة '])!!}
-				</div>
-				{{--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal4" id="discounts_button">--}}
-					{{--العروض والخصومات--}}
-				{{--</button>--}}
-			</div>
 		</div>
 		<div id="menu5" class="tab-pane fade">
 			<div class="row">
@@ -366,6 +468,15 @@
 						</div>
 						<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left prices_taxs">
 							<label> اسم شريحة الضرائب</label>
+							<div class="btn-group adding-new-comp">
+								<a href="{{route('accounting.taxs.create')}}" class="btn btn-success">
+						  <span class="m-l-5">
+						   إضافة شريحة
+						   <i class="fa fa-plus"></i>
+						   </span>
+								</a>
+							</div>
+
 							{!! Form::select("tax_band_id[]",$taxs,null,['class'=>'form-control selectpicker','multiple'])!!}
 						</div>
 					</div>
@@ -578,18 +689,6 @@
 			// $("#discountTable").hide();
 			$("#serviceTable").hide();
 
-			// $('input[name="price_has_tax"]').click(function() {
-			// 	if ($(this).is(':checked')) {
-			// 		var id = $(this).val();
-			//
-			// 		if (id == 1) {
-			// 			$(".prices_taxs").show();
-			// 		} else if (id == 0) {
-			// 			$(".prices_taxs").show();
-			// 		}
-			// 	}
-			// // });
-
 			$('input[name="tax"]').click(function () {
 				if ($(this).is(':checked')) {
 					var id = $(this).val();
@@ -605,7 +704,13 @@
 			});
 
 
+			$("button#openExampleModal").click(function(){
+				$("#exampleModal").find("input,textarea,select").val('');
+				$("#exampleModal").find("input[type=checkbox], input[type=radio]").prop("checked", "");
+			})
+			
 		});
+
 		var bigData = [];
 		var bigDataComponent = [];
 		var bigDataOffer = [];
@@ -625,13 +730,14 @@
 				swal({
 					title: "تم إضافة الوحدة الفرعية بنجاح",
 					text: "",
-					timer: 3000,
+					timer: 1000,
 					icon: "success",
 					buttons: ["موافق"],
 					dangerMode: true,
 				})
 				bigData.push(data);
 				$("#productsTable").show();
+				
 				var appendProducts = bigData.map(function(product) {
 					return (`
                 <tr class="single-product">
@@ -658,7 +764,17 @@
                 </tr>
                 `);
 				});
-				$('.add-products').empty().append(appendProducts);
+				
+				@if (isset($is_edit))
+			
+				
+				$('.edit-products').html(appendProducts);
+				
+				
+				@else
+				$('.add-products').html(appendProducts);
+				@endif
+				
 				$('.delete-this-row').click(function(e) {
 					var $this = $(this);
 					var row_index = $(this).parents('tr').index();
@@ -689,21 +805,12 @@
 					$('#exampleModal #main_unit_present').val($this.parents('tr').find('.prod-pre').html());
 					$('#exampleModal #selling_price').val($this.parents('tr').find('.prod-spri').html());
 					$('#exampleModal #purchasing_price').val($this.parents('tr').find('.prod-ppri').html());
+					$('#exampleModal #quantity').val($this.parents('tr').find('.prod-quantity').html());
 					var row_index_edit = $(this).parents('tr').index();
 					bigData.splice(row_index_edit, 1);
 				});
 				document.getElementById("name").val = " ";
-				$('[data-dismiss=modal]').on('click', function(e) {
-					var $t = $(this),
-							target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
-					$(target)
-							.find("input,textarea,select")
-							.val('')
-							.end()
-							.find("input[type=checkbox], input[type=radio]")
-							.prop("checked", "")
-							.end();
-				})
+				
 			} else {
 				swal({
 					title: "من فضلك قم بملئ كل البيانات المميزة بالعلامة الحمراء",
@@ -730,6 +837,7 @@
 					buttons: ["موافق"],
 					dangerMode: true,
 				})
+				
 				bigDataComponent.push(component_data);
 				$("#componentTable").show();
 				var appendComponent = bigDataComponent.map(function(component) {
@@ -786,17 +894,7 @@
 					bigDataComponent.splice(row_index_edit_component, 1);
 				});
 				document.getElementById("name").val = " ";
-				$('[data-dismiss=modal]').on('click', function(e) {
-					var $t = $(this),
-							target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
-					$(target)
-							.find("input,textarea,select")
-							.val('')
-							.end()
-							.find("input[type=checkbox], input[type=radio]")
-							.prop("checked", "")
-							.end();
-				})
+				
 			} else {
 				swal({
 					title: "من فضلك قم بملئ كل البيانات المميزة بالعلامة الحمراء",
@@ -907,7 +1005,9 @@
 					icon: "success",
 					buttons: ["موافق"],
 					dangerMode: true,
+					timer: 1000
 				})
+
 				bigDataDiscount.push(discount_data);
 				$("#discountTable").show();
 				var appendDiscount = bigDataDiscount.map(function(discount) {
@@ -928,6 +1028,7 @@
 					</tr>
 					`);
 				});
+
 				$('.add-discounts').empty().append(appendDiscount);
 				//////////////////////////////////////////////////////////////////////
 				$('.delete-this-row-discount').click(function(e) {
@@ -952,13 +1053,17 @@
 					});
 				});
 				$('.edit-this-row-discount').click(function(e) {
+					// alert("dsfs");
 					var $this = $(this);
+
+
 					e.preventDefault();
 					$this.parents('tr').addClass('editted-row');
-					$('#exampleModal4 #basic_quantity').val($this.parents('tr').find('.basic_quantity').html());
-					$('#exampleModal4 #gift_quantity').val($this.parents('tr').find('.gift_quantity').html());
+					$('#exampleModal4 #basic_quantity').val($this.parents('tr').find('#basic_quantity').html());
+					$('#exampleModal4 #gift_quantity').val($this.parents('tr').find('#gift_quantity').html());
 					var row_index_discount = $(this).parents('tr').index();
-					bigDataDiscount.splice(row_index_discount, 1);
+					 bigDataDiscount.splice(row_index_discount,1);
+					// alert(bigDataDiscount);
 				});
 				document.getElementById("name").val = " ";
 				$('[data-dismiss=modal]').on('click', function(e) {
@@ -1093,4 +1198,5 @@
 	<script src="{{asset('admin/assets/js/offer.js')}}"></script>
 	<script src="{{asset('admin/assets/js/discount.js')}}"></script>
 	<script src="{{asset('admin/assets/js/tax.js')}}"></script>
+	
 @endsection

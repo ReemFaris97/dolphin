@@ -21,6 +21,7 @@ use App\Models\AccountingSystem\AccountingProductSubUnit;
 use App\Models\AccountingSystem\AccountingProductTax;
 use App\Models\AccountingSystem\AccountingService;
 use App\Models\AccountingSystem\AccountingStore;
+use App\Models\AccountingSystem\AccountingSupplier;
 use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -56,10 +57,10 @@ class ProductController extends Controller
         $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
         $products=AccountingProduct::pluck('name','id')->toArray();
         $taxs=AccountingTaxBand::pluck('name','id')->toArray();
-
+        $suppliers=AccountingSupplier::pluck('name','id')->toArray();
         $units=collect($unit)->toJson();
         //dd($units);
-        return $this->toCreate(compact('branches','categories','products','industrials','units','taxs'));
+        return $this->toCreate(compact('branches','categories','products','industrials','units','taxs','suppliers'));
     }
 
     /**
@@ -72,10 +73,11 @@ class ProductController extends Controller
     {
  //dd($request->all());
         $rules = [
+            'name'=>'required|string|max:191|product_name:accounting_products,name,category_id,'.$request['name'].','.$request['category_id'],
 
             'description'=>'nullable|string',
             'category_id'=>'nullable|numeric|exists:accounting_product_categories,id',
-            'bar_code'=>'nullable|string',
+            'bar_code'=>'nullable|string|product_name:accounting_products,bar_code,category_id,'.$request['bar_code'].','.$request['category_id'],
             'product_selling_price'=>'required',
             'product_purchasing_price'=>'required',
             'min_quantity'=>'required|string|numeric',
@@ -90,7 +92,12 @@ class ProductController extends Controller
             // 'cell_id'=>'required',
 
         ];
-        $this->validate($request,$rules);
+        $messsage = [
+            'name.store_name'=>"اسم المنتج موجود بالفعل بالتصنيف",
+            'code.store_code'=>"باركود المنتج موجود بالفعل بالتصنيف",
+
+        ];
+        $this->validate($request,$rules,$messsage);
 // dd($request['quantities']);
         $inputs = $request->except('name','image','main_unit_present','purchasing_price','selling_price','component_names','qtys','main_units');
         $inputs['name']=$inputs['name_product'];
@@ -127,7 +134,6 @@ class ProductController extends Controller
 
         }
 
-
         ///////  /// / //////subunits Arrays//////////////////////////////
         $names = collect($request['name']);
         $par_codes = collect($request['par_codes']);
@@ -143,9 +149,9 @@ class ProductController extends Controller
          $uni=   AccountingProductSubUnit::create([
                 'name'=>$unit['0'],
                 'bar_code'=> $unit['1'],
-                'main_unit_present'=>$unit['2'],
+                'main_unit_present'=>$unit['4'],
                 'selling_price'=>$unit['3'],
-                'purchasing_price'=>$unit['4'],
+                'purchasing_price'=>$unit['2'],
                 'quantity'=>$unit['5'],
                 'product_id'=>$product->id
             ]);
@@ -156,7 +162,7 @@ class ProductController extends Controller
            AccountingProductStore::create([
                'store_id'=>$inputs['store_id'] ,
                'product_id'=>$product->id,
-               'quantity'=>$unit['5'] ,
+               'quantity'=>$unit['2']*$unit['5'] ,
                'unit_id'=>$uni->id
 
            ]);
@@ -169,7 +175,6 @@ class ProductController extends Controller
         $qtys= collect($request['qtys']);
         $main_units= collect($request['main_units']);
         $components= $component_names->zip($qtys,$main_units);
-
         foreach ($components as $component)
 
         {
@@ -181,10 +186,7 @@ class ProductController extends Controller
             ]);
 
         }
-
-
-/////////////////////////////////////offers _products///////////////////////////////////
-
+/////////////////////////////offers _products///////////////////////////////////
         if (isset($inputs['offers']))
         {
             $offers=$inputs['offers'];
@@ -195,8 +197,6 @@ class ProductController extends Controller
                 'parent_product_id'=>$product->id,
             ]);
         }
-
-
         ////////////////////discounts Arrays////////////////////////////////
         if (isset($request['discount_type'])){
             if($request['discount_type']=='percent'){
@@ -238,7 +238,6 @@ class ProductController extends Controller
             }
         }
 //////////////////////product_services////////////////////////////
-
         if (isset($request['service_type'])){
             $service_type= collect($request['service_type']);
             $services_code= collect($request['services_code']);
@@ -262,7 +261,9 @@ class ProductController extends Controller
 
 
         alert()->success('تم اضافة المنتج بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.products.index');
+//        return redirect()->route('accounting.products.index');
+      return $this->show($product->id);
+
     }
 
 
@@ -325,8 +326,10 @@ class ProductController extends Controller
         }
         $discounts=AccountingProductDiscount::where('product_id',$id)->get();
         $discount = AccountingProductDiscount::where('product_id', $id)->first();
+        $suppliers=AccountingSupplier::pluck('name','id')->toArray();
 
-        return $this->toEdit(compact('industrials','taxs','face','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores','units','subunits'
+        return $this->toEdit(compact('suppliers',
+            'industrials','taxs','face','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores','units','subunits'
             ,'taxsproduct','has_tax','price_has_tax','discounts','discount'));
 
 
@@ -393,7 +396,8 @@ class ProductController extends Controller
         $main_unit_presents= collect($request['main_unit_present']);
         $selling_price= collect($request['selling_price']);
         $purchasing_price= collect($request['purchasing_price']);
-        $units = $names->zip($par_codes,$purchasing_price,$selling_price,$main_unit_presents);
+        $quantities= collect($request['unit_quantities']);
+        $units = $names->zip($par_codes,$purchasing_price,$selling_price,$main_unit_presents,$quantities);
 
         foreach ($units as $unit)
 
@@ -401,9 +405,10 @@ class ProductController extends Controller
             AccountingProductSubUnit::create([
                 'name'=>$unit['0'],
                 'bar_code'=> $unit['1'],
-                'main_unit_present'=>$unit['2'],
+                'main_unit_present'=>$unit['4'],
                 'selling_price'=>$unit['3'],
-                'purchasing_price'=>$unit['4'],
+                'purchasing_price'=>$unit['2'],
+                'quantity'=>$unit['5'],
                 'product_id'=>$product->id
             ]);
 
