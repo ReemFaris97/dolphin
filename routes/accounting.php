@@ -277,5 +277,12 @@ Route::middleware('admin')->group(function () {
         Route::get('suppliers/{id}', 'HomeController@getSuppliers');
     });
 
+
+    Route::group(['prefix' => 'ChartsAccounts'], function () {
+        Route::resource('ChartsAccounts', 'AccountController');
+        Route::resource('AccountSettings', 'AccountSettingController');
+        Route::get('active/{id}', 'AccountController@active')->name('ChartsAccounts.active');
+        Route::get('dis-active/{id}', 'AccountController@dis_active')->name('ChartsAccounts.dis_active');
+    });
 });
 

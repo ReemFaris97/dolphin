@@ -326,7 +326,7 @@
 			<ul class="dropdown-menu dropdown-menu-right"> @if (Cookie::get('session')) <li><a href="{{route('accounting.sells_points.sells_point',Cookie::get('session'))}}"><i class="icon-eye"></i> نقطه البيع</a></li> @else <li><a href="{{route('accounting.sells_points.login')}}"><i class="icon-eye"></i> تسجيل دخول نقطة البيع</a></li> @endif </ul>
 		</li>
 			@endcan
-		<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-cabinet position-left"></i> الحسابات <span class="caret"></span> </a>
+		<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-cabinet position-left"></i> السندات <span class="caret"></span> </a>
 			<ul class="dropdown-menu dropdown-menu-right">
 				<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-newspaper position-left"></i> سندات القبض والصرف <span class="caret"></span> </a>
 					<ul class="dropdown-menu dropdown-menu-right">
@@ -358,6 +358,16 @@
 
 			</ul>
 		</li>
+
+
+
+			<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i> الحسابات </a>
+				<ul class="dropdown-menu dropdown-menu-right">
+					<li><a href="{{route('accounting.ChartsAccounts.index')}}"><i class="icon-eye"></i> الدليل المحاسبى</a></li>
+
+				</ul>
+			</li>
+
             @can('إدارة التقارير')
             <!-- ================== Reports ============================= -->
 		<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-cabinet position-left"></i> التقارير <span class="caret"></span> </a>
@@ -414,11 +424,16 @@
 		</li>
             @endcan
             @can(' الاعدادات العامة')
-		<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i> إدارة الاعدات العامه <span class="caret"></span> </a>
+		<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="glyphicon glyphicon-cog	 position-left"></i> إدارة الاعدادات العامه <span class="caret"></span> </a>
 			<ul class="dropdown-menu dropdown-menu-right">
-				<li><a href="{{route('accounting.settings.index')}}"><i class="icon-eye"></i> الأعدادت </a></li>
-				<li><a href="{{route('accounting.roles.index')}}"><i class="icon-eye"></i> الصلاحيات  </a></li>
+				<li><a href="{{route('accounting.settings.index')}}"><i class="glyphicon glyphicon-cog"></i> الأعدادت </a></li>
+				<li><a href="{{route('accounting.roles.index')}}"><i class="glyphicon glyphicon-cog"></i> الصلاحيات  </a></li>
+				<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="glyphicon glyphicon-cog	 position-left"></i> إعدادات النظامى  المالى </a>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li><a href="{{route('accounting.AccountSettings.create')}}"><i class="glyphicon glyphicon-cog"></i> إعدادات الدليل المحاسبى  </a></li>
 
+					</ul>
+				</li>
 			</ul>
 		</li>
             @endcan
