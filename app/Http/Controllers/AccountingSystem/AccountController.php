@@ -45,23 +45,20 @@ class AccountController extends Controller
         $rules = [
             'ar_name'=>'required|string|max:50',
             'en_name'=>'required|string|max:100',
-            'code'=>'required|numeric',
             'kind'=>'required|in:main,sub',
             'status'=>'required|in:debtor,Creditor',
         ];
         $message=[
             'en_name.required'=>'اسم الحساب باللغه الانجليزيه مطلوب ',
             'ar_name.required'=>'اسم الحساب باللغه  العربيه مطلوب',
-            'code.required'=>'كود الحساب مطلوب',
-            'code.numeric'=>'  كود الحساب مطلوب يكون رقما',
         ];
         $this->validate($request,$rules,$message);
         $requests = $request->all();
           $account= AccountingAccount::create($requests);
-          AccountingAccountSetting::create([
-            'account_id'=>$account->id,
-             'main_code'=>$account->code,
-        ]);
+//          AccountingAccountSetting::create([
+//            'account_id'=>$account->id,
+//             'main_code'=>$account->code,
+//        ]);
 
         alert()->success('تم انشاء حسابا  بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.ChartsAccounts.index');
@@ -107,15 +104,14 @@ class AccountController extends Controller
         $rules = [
             'ar_name'=>'required|string|max:50',
             'en_name'=>'required|string|max:100',
-            'code'=>'required|numeric',
             'kind'=>'required|in:main,sub',
             'status'=>'required|in:debtor,Creditor',
         ];
         $message=[
             'en_name.required'=>'اسم الحساب باللغه الانجليزيه مطلوب ',
-            'ar_name.required'=>'اسم الحساب باللغه  العربيه مطلوب',
-            'code.required'=>'كود الحساب مطلوب',
-            'code.numeric'=>'  كود الحساب مطلوب يكون رقما',
+           'ar_name.required'=>'اسم الحساب باللغه  العربيه مطلوب',
+//            'code.required'=>'كود الحساب مطلوب',
+//            'code.numeric'=>'  كود الحساب مطلوب يكون رقما',
         ];
         $this->validate($request,$rules,$message);
         $requests = $request->all();

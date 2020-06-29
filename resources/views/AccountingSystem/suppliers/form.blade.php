@@ -25,7 +25,13 @@
     <label>البريد الالكترونى   </label>
     {!! Form::email("email",null,['class'=>'form-control','placeholder'=>'  البريد الالكترونى  '])!!}
 </div>
+@if (getsetting('automatic_supplier')==0)
+    <div class="form-group col-md-6 pull-left">
+        <label> اختر الحساب </label>
+        {!! Form::select("account_id",accounts(),null,['class'=>'form-control','placeholder'=>' اختر الحساب'])!!}
+    </div>
 
+@endif
 
 <div class="form-group col-md-6 pull-left">
     <label>كلمه المرور</label>

@@ -39,6 +39,7 @@
                     <th> السياسه الائتمانيه </th>
                     <th>  التعاملات الضربيه </th>
                     <th> رصيد العميل </th>
+                    <th> اسم الحساب النابع  له  </th>
                     <th class="text-center">العمليات</th>
                 </tr>
                 </thead>
@@ -73,7 +74,7 @@
 
                         </td>
                         <td>{!! $row->amount!!}</td>
-
+                        <td>{!! optional($row->account)->ar_name!!}</td>
                         <td class="text-center">
                             @can('تعديل العميل')
                             <a href="{{route('accounting.clients.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>

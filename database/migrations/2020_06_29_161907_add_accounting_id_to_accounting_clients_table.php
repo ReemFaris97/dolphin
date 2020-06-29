@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAccountingAccountsSettingsTable extends Migration
+class AddAccountingIdToAccountingClientsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,13 @@ class CreateAccountingAccountsSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('accounting_accounts_settings', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::table('accounting_clients', function (Blueprint $table) {
+
             $table->unsignedBigInteger('account_id')->nullable();
             $table->foreign('account_id')->references('id')
                 ->on('accounting_accounts')->onDelete('cascade')
                 ->onUpdate('cascade');
-            $table->enum('status',['increase','serial'])->nullable();
-            $table->string('main_code')->nullable();
-            $table->string('increased_number')->nullable();
-            $table->boolean('automatic')->nullable();
 
-            $table->timestamps();
         });
     }
 
@@ -35,6 +30,8 @@ class CreateAccountingAccountsSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accounting_accounts_settings');
+        Schema::table('accounting_clients', function (Blueprint $table) {
+            //
+        });
     }
 }

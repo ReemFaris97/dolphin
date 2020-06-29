@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\AccountingSystem\AccountingAccount;
 use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingDevice;
 use App\Models\AccountingSystem\AccountingMoneyClause;
@@ -12,6 +13,7 @@ use App\Models\AccountingSystem\AccountingPurchaseReturn;
 use App\Models\AccountingSystem\AccountingSafe;
 use App\Models\AccountingSystem\AccountingSale;
 use App\Models\AccountingSystem\AccountingStore;
+use App\Observers\AccountObserver;
 use App\Observers\MoneyClauseLogObserver;
 use App\Observers\PurchaseObserver;
 use App\Observers\PurchaseReturnObserver;
@@ -48,6 +50,8 @@ class AppServiceProvider extends ServiceProvider
               AccountingPurchase::observe(PurchaseObserver::class);
               AccountingMoneyClause::observe(MoneyClauseLogObserver::class);
               AccountingPurchaseReturn::observe(PurchaseReturnObserver::class);
+              AccountingSale::observe(SaleObserver::class);
+              AccountingAccount::observe(AccountObserver::class);
 
 
         Validator::extend('branch_name', function ($attribute, $value, $parameters) {

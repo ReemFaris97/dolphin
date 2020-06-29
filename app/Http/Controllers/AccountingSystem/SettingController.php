@@ -6,10 +6,12 @@ namespace App\Http\Controllers\AccountingSystem;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingAccount;
 use App\Models\AccountingSystem\AccountingSetting;
 use App\Traits\SettingOperation;
 use App\Setting;
 use Artisan;
+use Illuminate\Support\Facades\DB;
 use ZipArchive;
 use Illuminate\Http\Request;
 
@@ -41,7 +43,7 @@ class SettingController extends Controller
 
 
      //dd("dddvvc");
-        $settings = AccountingSetting::groupBy('page')->distinct()->get();
+        $settings = AccountingSetting::groupBy('page')->distinct()->where('accounting_type',Null)->get();
 
         return view('AccountingSystem.settings.index',compact('settings'));
 
@@ -52,7 +54,7 @@ class SettingController extends Controller
     public function show($slug)
 
     {
-       // dd("ddd");
+        // dd("ddd");
 
         $settings = AccountingSetting::where('slug', $slug)->get();
 
@@ -63,11 +65,52 @@ class SettingController extends Controller
 
         $settings_page = $settings->pluck('page')->first();
 
+        if ($settings_page == 'اعدادات النظام المالى')
+        {
+            $chart_accounts = AccountingAccount::all();
+        return view('AccountingSystem.settings.accounts_setting')
+            ->with('settings_page', $settings_page)
+            ->with('settings', AccountingSetting::where('slug', $slug)->get())
+            ->with('chart_accounts', $chart_accounts);
+
+    }elseif ($settings_page == 'اعاده تعين حسابات المشتريات')
+        {
+            $chart_accounts = AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->pluck('code_name','id')->toArray();
+            return view('AccountingSystem.settings.purchases_setting')
+                ->with('settings_page', $settings_page)
+                ->with('purchases_settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_purchases')->get())
+                ->with('supplier_settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_supplier')->get())
+                ->with('returns_settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_purchases_returns')->get())
+                ->with('chart_accounts', $chart_accounts);
+
+        }elseif ($settings_page == 'اعاده تعين حسابات المبيعات')
+        {
+            $chart_accounts = AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->pluck('code_name','id')->toArray();
+            return view('AccountingSystem.settings.sales_setting')
+                ->with('settings_page', $settings_page)
+                ->with('sales_settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_sales')->get())
+                ->with('clients_settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_clients')->get())
+                ->with('returns_settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_sales_returns')->get())
+                ->with('chart_accounts', $chart_accounts);
+
+        }elseif ($settings_page == 'اعاده تعين حسابات المخزون')
+        {
+            $chart_accounts = AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->pluck('code_name','id')->toArray();
+            return view('AccountingSystem.settings.products_setting')
+                ->with('settings_page', $settings_page)
+                ->with('settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_products')->get())
+            ->with('chart_accounts', $chart_accounts);
+
+        }
+
+        else{
         return view('AccountingSystem.settings.setting')
 
             ->with('settings_page', $settings_page)
 
-            ->with('settings', $settings);
+            ->with('settings', AccountingSetting::where('slug', $slug)->get());
+
+        }
 
     }
 

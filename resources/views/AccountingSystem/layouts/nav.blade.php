@@ -415,7 +415,6 @@
 
 						<li><a href="{{route('accounting.reports.suppliers.purchases-returns')}}"><i class="icon-eye"></i> تقرير مرتجعات مشتريات مورد خلال فترة زمنية  </a></li>
 						<li><a href="{{route('accounting.reports.suppliers.purchases-returns-all')}}"><i class="icon-eye"></i> تقرير مرتجعات مشتريات كل الموردين خلال فترة زمنية  </a></li>
-
 						<li><a href="{{route('accounting.reports.suppliers.account-statement')}}"><i class="icon-eye"></i> تقرير كشف حساب مورد خلال فترة زمنية  </a></li>
 			        </ul>
 		       </li>
@@ -430,8 +429,15 @@
 				<li><a href="{{route('accounting.roles.index')}}"><i class="glyphicon glyphicon-cog"></i> الصلاحيات  </a></li>
 				<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="glyphicon glyphicon-cog	 position-left"></i> إعدادات النظامى  المالى </a>
 					<ul class="dropdown-menu dropdown-menu-right">
-						<li><a href="{{route('accounting.AccountSettings.create')}}"><i class="glyphicon glyphicon-cog"></i> إعدادات الدليل المحاسبى  </a></li>
+						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="glyphicon glyphicon-cog	position-left"></i> إعدادات الدليل المحاسبى </a>
+							<ul class="dropdown-menu dropdown-menu-right">
+								<li><a href="{{route('accounting.settings.show',['accounting_chart'])}}"><i class="glyphicon glyphicon-cog"></i>  شجره الحسابات  </a></li>
+								<li><a href="{{route('accounting.settings.show',['accounting_purchases'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين حسابات المشتريات  </a></li>
+								<li><a href="{{route('accounting.settings.show',['accounting_sales'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين حسابات المبيعات  </a></li>
+								<li><a href="{{route('accounting.settings.show',['accounting_products'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين حسابات المخزون  </a></li>
 
+							</ul>
+						</li>
 					</ul>
 				</li>
 			</ul>

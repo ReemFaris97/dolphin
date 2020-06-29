@@ -370,6 +370,14 @@
 					{!! Form::number("num_days_recession",null,['class'=>'form-control'])!!}
 				</div>
 				</div>
+
+				@if (getsetting('automatic_products')==0)
+					<div class="form-group col-md-6 pull-left">
+						<label> اختر الحساب </label>
+						{!! Form::select("account_id",accounts(),null,['class'=>'form-control','placeholder'=>' اختر الحساب'])!!}
+					</div>
+
+				@endif
 			</div>
 
 		</div>

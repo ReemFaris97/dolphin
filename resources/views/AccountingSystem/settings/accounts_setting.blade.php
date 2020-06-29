@@ -24,51 +24,102 @@
 			<li class="active"><a data-toggle="tab" role="tab" aria-controls="menu1" href="#menu1"> التكويد الشجرى</a></li>
 			<li><a data-toggle="tab" role="tab" aria-controls="menu2" href="#menu2">لوحة التحكم</a></li>
 		</ul>
+		</ul>
 
 		<div class="tab-content">
-			<div role="tabpanel" id="menu1" class="tab-pane active ">
+			<div role="tabpanel" id="menu1" class="tab-pane active">
 		       <div class="panel-body">
-			@foreach($accounts as $account)
-			{!!Form::open( ['route' => ['accounting.AccountSettings.update',$account->id] , 'method' => 'PATCH','files'=>true,'id'=>$account->id]) !!}
 
-				<h1>{{$account->account->ar_name}}</h1>
-				<div class="form-group col-xs-3 pull-left">
-					<label> تلقائى</label>
-					<input type="radio" name="automatic"  @if($account->automatic=='1') checked @endif class="form-control" value="1">
-				</div>
-				<div class="form-group col-xs-3  pull-left">
-					<label> رقم التكويد الاساسى</label>
-				<input type="text" name="main_code" class="form-control" value={{$account->main_code}}  >
-				</div>
+                   {!!Form::open( ['route' => 'accounting.settings.store' , 'method' => 'Post','files'=>true]) !!}
+                   @foreach($settings as $setting)
+                       @if($setting->type=='check')
+                           <div class="form-group col-xs-4 backed-eee {{ $errors->has('name') ? ' has-error' : '' }}">
+                               <div>
+                                   <label> {{$setting->title}}</label>
 
-				<div class="form-group col-xs-3 pull-left">
-					<label> الرقم  المتصاعد</label>
-					<input type="text" name="increased_number" class="form-control"  value={{$account->increased_number}} >
-				</div>
+                                   <div class="form-line new-radio-big-wrapper clearfix  {{$setting->name}}">
+                                       @if($setting->value=='1')
+                                           <span class="new-radio-wrap">
+											<label>نعم</label>
+											{!! Form::radio($setting->name.'[]',1,true,['class'=>'form-control'])!!}
+									    	</span>
 
-				<div class="form-group col-xs-3 backed-eee {{ $errors->has('name') ? ' has-error' : '' }}">
-					<label> نوع التكويد</label>
-					<div class="form-line new-radio-big-wrapper clearfix">
-						<span class="new-radio-wrap">
-						<label>متزايد</label>
-			     	<input type="radio" name="status" value="increase" class="form-control" @if($account->status=='increase') checked @endif >
-					</span>
-						<span class="new-radio-wrap">
-						<label> متسلسل</label>
-			     	<input type="radio" name="status" value="serial" class="form-control" @if($account->status=='serial') checked @endif >
-					</span>
-					</div>
-				</div>
+                                           <span class="new-radio-wrap">
+											<label> لا</label>
+											{!! Form::radio($setting->name.'[]',0,false,['class'=>'form-control'])!!}
+										</span>
+                                       @elseif($setting->value=='0')
+                                           <span class="new-radio-wrap">
+										<label>نعم</label>
+										{!! Form::radio($setting->name.'[]',1,false,['class'=>'form-control'])!!}
+									</span>
+                                           <span class="new-radio-wrap">
+											<label> لا</label>
+											{!! Form::radio($setting->name.'[]',0,true,['class'=>'form-control'])!!}
+										</span>
+                                       @endif
+                                   </div>
+                               </div>
+                           </div>
+                       @endif
 
-			<div class="text-right col-xs-3 ">
-				<button type="submit" class="btn btn-success" onclick="this.form.submit();">حفظ <i class="icon-arrow-left13 position-right"></i></button>
-			</div>
-			{!!Form::close() !!}
-			@endforeach
+                       @if($setting->type=='radio')
+                           <div class="form-group col-xs-4 backed-eee {{ $errors->has('name') ? ' has-error' : '' }}">
+
+                                   <label> {{$setting->title}}</label>
+                                   @if($setting->name=='coding_status')
+                                       <div class="form-line new-radio-big-wrapper clearfix  {{$setting->name}}">
+                                           @if($setting->value=='1')
+                                               <span class="new-radio-wrap">
+											<label>تزايدى</label>
+											{!! Form::radio($setting->name.'[]',1,true,['class'=>'form-control'])!!}
+								      		</span>
+									       <span class="new-radio-wrap">
+											<label>تسلسلى</label>
+											{!! Form::radio($setting->name.'[]',0,false,['class'=>'form-control'])!!}
+										   </span>
+                                           @elseif($setting->value=='0')
+									    	<span class="new-radio-wrap">
+										    <label>تزايدى</label>
+											{!! Form::radio($setting->name.'[]',1,false,['class'=>'form-control'])!!}
+											  </span>
+											  <span class="new-radio-wrap">
+											<label>تسلسلى</label>
+											{!! Form::radio($setting->name.'[]',0,true,['class'=>'form-control'])!!}
+											</span>
+                                       </div>
+                                   @endif
+
+
+
+                                   @endif
+
+                           </div>
+                       @endif
+                   @endforeach
+				   <div class="clearfix"></div>
+				   @foreach($settings as $setting)
+					   @if($setting->type == 'text')
+						   <div class="form-group col-xs-4 {{ $errors->has('name') ? ' has-error' : '' }} {{$setting->name}} ">
+							   <label> {{$setting->title}} </label>
+							   <div class="form-group col-ms-6 pull-left">
+								   {!! Form::text($setting->name.'[]',$setting->value,['class'=>'form-control'])!!}
+							   </div>
+						   </div>
+					   @endif
+				   @endforeach
+				   <div class="clearfix"></div>
+
+
+                   <div class="text-right ">
+                       <button type="submit" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i></button>
+                   </div>
+                   {!!Form::close() !!}
 	     	</div>
-			</div>
+		</div>
+		</div>
 			<div role="tabpanel" id="menu2" class="tab-pane">
-
+				<div class="panel-body">
 				<table class="table ">
 					<thead>
 					<tr>
@@ -95,11 +146,12 @@
 					@endforeach
 					</tbody>
 				</table>
+				</div>
 
-			</div>
-		</div>
+	      	</div>
 
 		</div><!-- end col -->
+	</div>
 		@endsection
 		@section('scripts')
 

@@ -107,7 +107,9 @@ class ProductController extends Controller
         if ($request->hasFile('image')) {
             $inputs['image'] = saveImage($request->image, 'photos');
         }
-        // dd($inputs);
+        if (getsetting('automatic_products')==1){
+            $requests['account_id']=getsetting('accounting_id_products');
+        }
        $product= AccountingProduct::create($inputs);
 
        if (isset($inputs['store_id']))

@@ -46,7 +46,11 @@
                 @foreach($accounts as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
-                        <td><a href="{{route('accounting.ChartsAccounts.show',['id'=>$row->id])}}">{!! $row->ar_name!!}</a></td>
+                        <td>
+                            {{--<a href="{{route('accounting.ChartsAccounts.show',['id'=>$row->id])}}">--}}
+                                {!! $row->ar_name!!}
+                            {{--</a>--}}
+                        </td>
                         <td>{!! $row->code!!}</td>
                         <td>
                             @if ($row->kind=='main')

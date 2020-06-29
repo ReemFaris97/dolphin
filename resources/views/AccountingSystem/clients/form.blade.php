@@ -58,9 +58,18 @@
     <label> العمله الافتراضية  </label>
     {!! Form::select("currency",currency(),null,['class'=>'form-control','placeholder'=>' العمله الافتراضية'])!!}
 </div>
-<div class="clearfix ">
 
-</div>
+@if (getsetting('automatic_clients')==0)
+    <div class="form-group col-md-6 pull-left">
+        <label> اختر الحساب </label>
+        {!! Form::select("account_id",accounts(),null,['class'=>'form-control','placeholder'=>' اختر الحساب'])!!}
+    </div>
+    @else
+
+    <div class="clearfix ">
+
+    </div>
+@endif
 
 <div class="form-group col-md-4 pull-left ">
 
@@ -98,6 +107,9 @@
     {!! Form::radio("taxes_status",1,['class'=>'form-control','value'=>1])!!}
     </span>
 </div>
+
+
+
 
 {{--<div class="form-group col-md-4 pull-left credit ">--}}
     {{--<label> التصنيف </label>--}}
