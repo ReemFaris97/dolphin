@@ -24,7 +24,7 @@
 			<li class="active"><a data-toggle="tab" role="tab" aria-controls="menu1" href="#menu1"> التكويد الشجرى</a></li>
 			<li><a data-toggle="tab" role="tab" aria-controls="menu2" href="#menu2">لوحة التحكم</a></li>
 		</ul>
-		</ul>
+
 
 		<div class="tab-content">
 			<div role="tabpanel" id="menu1" class="tab-pane active">
@@ -34,7 +34,7 @@
                    @foreach($settings as $setting)
                        @if($setting->type=='check')
                            <div class="form-group col-xs-4 backed-eee {{ $errors->has('name') ? ' has-error' : '' }}">
-                               <div>
+
                                    <label> {{$setting->title}}</label>
 
                                    <div class="form-line new-radio-big-wrapper clearfix  {{$setting->name}}">
@@ -58,7 +58,7 @@
 											{!! Form::radio($setting->name.'[]',0,true,['class'=>'form-control'])!!}
 										</span>
                                        @endif
-                                   </div>
+
                                </div>
                            </div>
                        @endif
@@ -68,7 +68,7 @@
 
                                    <label> {{$setting->title}}</label>
                                    @if($setting->name=='coding_status')
-                                       <div class="form-line new-radio-big-wrapper clearfix  {{$setting->name}}">
+                                       <div class="form-line new-radio-big-wrapper clearfix ">
                                            @if($setting->value=='1')
                                                <span class="new-radio-wrap">
 											<label>تزايدى</label>
@@ -87,8 +87,8 @@
 											<label>تسلسلى</label>
 											{!! Form::radio($setting->name.'[]',0,true,['class'=>'form-control'])!!}
 											</span>
+										   @endif
                                        </div>
-                                   @endif
 
 
 
@@ -108,15 +108,15 @@
 						   </div>
 					   @endif
 				   @endforeach
-				   <div class="clearfix"></div>
-
+				   <div class="clearfix"> </div>
 
                    <div class="text-right ">
                        <button type="submit" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i></button>
                    </div>
+
                    {!!Form::close() !!}
-	     	</div>
-		</div>
+	        	</div>
+
 		</div>
 			<div role="tabpanel" id="menu2" class="tab-pane">
 				<div class="panel-body">
