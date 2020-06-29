@@ -737,6 +737,14 @@ function currency(){
 ];
 }
 
+
+function accounts(){
+
+
+    $accounts=\App\Models\AccountingSystem\AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->pluck('code_name','id')->toArray();
+return $accounts;
+}
+
 function pay_type(){
 
     return [

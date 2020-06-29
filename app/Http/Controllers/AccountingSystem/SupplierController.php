@@ -80,6 +80,9 @@ class SupplierController extends Controller
             $requests['image'] = saveImage($request->image, 'photos');
         }
 
+        if (getsetting('automatic_supplier')==1){
+            $requests['account_id']=getsetting('accounting_id_supplier');
+        }
         $supplier=AccountingSupplier::create($requests);
 
         foreach ($requests['company_id'] as $company){
