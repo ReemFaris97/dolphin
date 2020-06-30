@@ -66,6 +66,7 @@
                        @if($setting->type=='radio')
                            <div class="form-group col-xs-4 backed-eee {{ $errors->has('name') ? ' has-error' : '' }}">
 
+
                                    <label> {{$setting->title}}</label>
                                    @if($setting->name=='coding_status')
                                        <div class="form-line new-radio-big-wrapper clearfix ">
