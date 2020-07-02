@@ -368,6 +368,14 @@
 				</ul>
 			</li>
 
+			<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i> القيود المحاسبيه </a>
+				<ul class="dropdown-menu dropdown-menu-right">
+					<li><a href="{{route('accounting.entries.create')}}"><i class="icon-add-to-list"></i> اضافة قيد يدوى</a></li>
+					<li><a href="{{route('accounting.entries.index')}}"><i class="icon-eye"></i> عرض  القيود</a></li>
+
+				</ul>
+			</li>
+
             @can('إدارة التقارير')
             <!-- ================== Reports ============================= -->
 		<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-cabinet position-left"></i> التقارير <span class="caret"></span> </a>
@@ -429,15 +437,14 @@
 				<li><a href="{{route('accounting.roles.index')}}"><i class="glyphicon glyphicon-cog"></i> الصلاحيات  </a></li>
 				<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="glyphicon glyphicon-cog	 position-left"></i> إعدادات النظامى  المالى </a>
 					<ul class="dropdown-menu dropdown-menu-right">
-						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="glyphicon glyphicon-cog	position-left"></i> إعدادات الدليل المحاسبى </a>
-							<ul class="dropdown-menu dropdown-menu-right">
+
 								<li><a href="{{route('accounting.settings.show',['accounting_chart'])}}"><i class="glyphicon glyphicon-cog"></i>  شجره الحسابات  </a></li>
 								<li><a href="{{route('accounting.settings.show',['accounting_purchases'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين حسابات المشتريات  </a></li>
 								<li><a href="{{route('accounting.settings.show',['accounting_sales'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين حسابات المبيعات  </a></li>
 								<li><a href="{{route('accounting.settings.show',['accounting_products'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين حسابات المخزون  </a></li>
+				        		<li><a href="{{route('accounting.settings.show',['accounting_entries'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين  القيود المحاسبيه  </a></li>
 
-							</ul>
-						</li>
+
 					</ul>
 				</li>
 			</ul>

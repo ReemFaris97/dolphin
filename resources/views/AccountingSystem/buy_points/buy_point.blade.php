@@ -54,17 +54,24 @@
 						</div>
 						@if (getsetting('show_supplier_balance')==1)
 
-							<div class="form-group col-md-2  pull-left suppliers">
+							<div class="form-group col-md-1  pull-left suppliers">
 								<label>   رصيد المورد </label>
 								<input type="text" id="balance" class="form-control" readonly>
 							</div>
 						@endif
 
-						<div class="form-group col-sm-4">
+                        @if (getsetting('automatic_purchases')==0)
+                            <div class="form-group col-sm-3">
+                                <label> اختر الحساب </label>
+                                {!! Form::select("account_id",accounts(),null,['class'=>'form-control','placeholder'=>' اختر الحساب'])!!}
+                            </div>
+
+                        @endif
+						<div class="form-group col-sm-3">
 							<label> رقم الفاتوره </label>
 							{!! Form::text("bill_num",null,['class'=>'selectpicker form-control inline-control','placeholder'=>' رقم الفاتوره',"id"=>'bill_num'])!!}
 						</div>
-						<div class="form-group col-sm-4">
+						<div class="form-group col-sm-3">
 							<label for="bill_date"> تاريخ الفاتورة </label>
 							{!! Form::text("__bill_date",null,['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' تاريخ الفاتورة',"id"=>'bill_date'])!!}
 						</div>
@@ -109,7 +116,7 @@
                     {{(getsetting('unit_price_before_enable') == 1) ? 'unit_price_before_enable':''}}
                     {{(getsetting('unit_price_after_enable')==1) ? 'unit_price_after_enable':'' }}
                     {{(getsetting('total_price_before_enable')==1) ? 'total_price_before_enable':'' }}
-                    {{(getsetting('total_price_after_enable')==1) ? 'total_price_after_enable':'' }} 
+                    {{(getsetting('total_price_after_enable')==1) ? 'total_price_after_enable':'' }}
                     ">
 						<thead>
 							<tr>
@@ -342,10 +349,10 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 							<td class="add-specific-discount">
 								<a href="#" class="btn btn-info" data-toggle="modal" data-target="#discMod${rowNum}">إضافة خصم</a>
 							</td>
-							
+
 							<td class="delete-single-row">
 								<a href="#"><span class="icon-cross"></span></a>
-								<button type="button" class="btn btn-primary popover-dismiss" 
+								<button type="button" class="btn btn-primary popover-dismiss"
 										data-toggle="popover" title="أخر سعر : ${lastPrice}"
 										data-container="body" data-toggle="popover"
 										data-placement="right" data-content="متوسط السعر : ${avgPrice}">
@@ -676,7 +683,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 		});
 	});
 	//	For Ajax Search By Product Bar Code
-	
+
 $("#barcode_search").scannerDetection({
 	timeBeforeScanTest: 200, // wait for the next character for upto 200ms
 	avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms
@@ -703,7 +710,7 @@ $("#barcode_search").scannerDetection({
 						rowNum++;
 						byBarcode();
 						$('.product-quantity').find('input').trigger('change');
-					}	
+					}
 				}
 			}
 		});
@@ -731,11 +738,11 @@ $("#barcode_search").scannerDetection({
 						rowNum++;
 						byBarcode();
 						$('.product-quantity').find('input').trigger('change');
-					}	
+					}
 				}
 			}
 		});
-		
+
 	}
 });
 
@@ -1152,7 +1159,7 @@ $("#barcode_search").scannerDetection({
 						timer : 1500
 					});
 				  }
-				});	
+				});
 		}
 		$(".finalTb button[type='submit']").click(function(event){
 				confirmSubmit(event)

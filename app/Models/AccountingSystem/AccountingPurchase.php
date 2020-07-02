@@ -12,7 +12,7 @@ class AccountingPurchase extends Model
 
 
     protected $fillable = ['supplier_id','total','amount','discount','payment','payed','debts','package_id','store_id','bill_num','totalTaxs'
-             ,'safe_id','user_id','company_id','branch_id','discount_type','bill_date','counter','daily_number','counter_purchase'];
+             ,'safe_id','user_id','company_id','branch_id','discount_type','bill_date','counter','daily_number','counter_purchase','account_id'];
     protected $table='accounting_purchases';
 
 

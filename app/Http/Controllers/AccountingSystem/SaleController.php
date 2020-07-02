@@ -77,7 +77,9 @@ class SaleController extends Controller
 
         $user=User::find($requests['user_id']);
         $requests['branch_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:Null;
-
+        if (getsetting('automatic_sales')==1){
+            $requests['account_id']=getsetting('accounting_id_sales');
+        }
 
 
         $sale=AccountingSale::create($requests);

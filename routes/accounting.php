@@ -135,6 +135,7 @@ Route::middleware('admin')->group(function () {
     Route::resource('devices', 'DeviceController');
     Route::resource('settings', 'SettingController');
 
+
     Route::post('/store_returns', 'SaleController@store_returns')->name('sales.store_returns');
 
     Route::get('/returns/{id}', 'SaleController@returns')->name('sales.returns');
@@ -283,6 +284,11 @@ Route::middleware('admin')->group(function () {
         Route::resource('AccountSettings', 'AccountSettingController');
         Route::get('active/{id}', 'AccountController@active')->name('ChartsAccounts.active');
         Route::get('dis-active/{id}', 'AccountController@dis_active')->name('ChartsAccounts.dis_active');
+    });
+    Route::group(['prefix' => 'entries'], function () {
+        Route::resource('entries', 'EntryController');
+        Route::get('filter', ['as' => 'entries.filter', 'uses' => 'EntryController@filter']);
+
     });
 });
 
