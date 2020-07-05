@@ -2,6 +2,8 @@
 
 namespace App\Observers;
 
+use App\Models\AccountingSystem\AccountingEntry;
+use App\Models\AccountingSystem\AccountingEntryAccount;
 use App\Models\AccountingSystem\AccountingPurchase;
 use App\Models\AccountingSystem\AccountingSupplier;
 use App\Models\AccountingSystem\AccountingSupplierLog;
@@ -45,5 +47,24 @@ class PurchaseObserver
 //                dd($log);
             }
         }
+       if ($purchase->payment=='agel'){
+           $entry=AccountingEntry::create([
+              'date'=>$purchase->created_at,
+              'source'=>'مشتريات',
+              'type'=>'automatic',
+              'details'=>'فاتوره مشتريات'.$purchase->bill_num,
+              'status'=>'new'
+           ]);
+
+           AccountingEntryAccount::create([
+               'entry_id'=>$entry->id,
+               'from_account_id'=>$purchase->account_id,
+               'to_account_id'=>$supplier->account_id,
+               'amount'=>$purchase->total,
+           ]);
+       }
+
+
+
     }
 }

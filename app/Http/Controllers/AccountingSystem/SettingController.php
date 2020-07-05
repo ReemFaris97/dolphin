@@ -101,7 +101,14 @@ class SettingController extends Controller
                 ->with('settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_products')->get())
             ->with('chart_accounts', $chart_accounts);
 
+        }elseif ($settings_page == 'القيود المحاسبيه')
+        {
+
+            return view('AccountingSystem.settings.entries_setting')
+                ->with('settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_entries')->get());
+
         }
+
 
         else{
         return view('AccountingSystem.settings.setting')

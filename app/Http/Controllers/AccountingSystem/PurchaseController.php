@@ -72,7 +72,9 @@ class PurchaseController extends Controller
         ];
         $this->validate($request,$rules);
         $user=User::find(auth()->user()->id);
-
+        if (getsetting('automatic_purchases')==1){
+            $requests['account_id']=getsetting('accounting_id_purchases');
+        }
         $requests['branch_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:Null;
         $requests['company_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingCompany')?$user->store->model_id:Null;
 

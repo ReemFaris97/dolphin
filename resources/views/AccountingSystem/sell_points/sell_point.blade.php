@@ -69,6 +69,13 @@
 						<label>بحث بالباركود </label>
 						<input class="form-control" type="text" id="barcode_search">
 					</div>
+                    @if (getsetting('automatic_sales')==0)
+                        <div class="form-group col-sm-3">
+                            <label> اختر الحساب </label>
+                            {!! Form::select("account_id",accounts(),null,['class'=>'form-control','placeholder'=>' اختر الحساب'])!!}
+                        </div>
+
+                    @endif
 					<div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
 						<label>اسم القسم </label>
 						{!! Form::select("category_id",$categories,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}
@@ -402,7 +409,7 @@
 							@endif
 							</td>
                         </tr>`);
-					
+
 					// assign id for the clicked button on the deleting modal
 					$(".in-row-del").on('click', function() {
 						var tempRowNum = $(this).parents('tr').attr('id');
@@ -803,7 +810,7 @@
 					$("#remaindedAmount .rel-cols").removeClass("aagel-case").removeClass("tmam-case").addClass("motabaqy-case");
 				} else if (remaindedAmount < 0) {
 					$("#remaindedAmount .rel-cols").removeClass("motabaqy-case").removeClass("tmam-case").addClass("aagel-case");
-					
+
 				} else {
 					$("#remaindedAmount .rel-cols").removeClass("motabaqy-case").removeClass("aagel-case").addClass("tmam-case");
 				}
