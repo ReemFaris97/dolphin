@@ -124,7 +124,7 @@
 				<div class=" col-md-6 col-sm-6 col-xs-12 pull-left">
 				<div class=" form-group">
 					<label>اسم المنتج </label>
-					{!! Form::text("name_product",isset($is_edit)?$product->name:null,['class'=>'form-control','placeholder'=>' اسم المنتج '])!!}
+					{!! Form::text("name",isset($is_edit)?$product->name:null,['class'=>'form-control','placeholder'=>' اسم المنتج '])!!}
 				</div>
 				</div>
 				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
@@ -403,7 +403,7 @@
 				</button>
 				</div>
 				</div>
-				
+
 			</div>
 
 			<!--discounts table-->
@@ -716,7 +716,7 @@
 				$("#exampleModal").find("input,textarea,select").val('');
 				$("#exampleModal").find("input[type=checkbox], input[type=radio]").prop("checked", "");
 			})
-			
+
 		});
 
 		var bigData = [];
@@ -745,7 +745,7 @@
 				})
 				bigData.push(data);
 				$("#productsTable").show();
-				
+
 				var appendProducts = bigData.map(function(product) {
 					return (`
                 <tr class="single-product">
@@ -772,17 +772,17 @@
                 </tr>
                 `);
 				});
-				
+
 				@if (isset($is_edit))
-			
-				
+
+
 				$('.edit-products').html(appendProducts);
-				
-				
+
+
 				@else
 				$('.add-products').html(appendProducts);
 				@endif
-				
+
 				$('.delete-this-row').click(function(e) {
 					var $this = $(this);
 					var row_index = $(this).parents('tr').index();
@@ -818,7 +818,7 @@
 					bigData.splice(row_index_edit, 1);
 				});
 				document.getElementById("name").val = " ";
-				
+
 			} else {
 				swal({
 					title: "من فضلك قم بملئ كل البيانات المميزة بالعلامة الحمراء",
@@ -845,7 +845,7 @@
 					buttons: ["موافق"],
 					dangerMode: true,
 				})
-				
+
 				bigDataComponent.push(component_data);
 				$("#componentTable").show();
 				var appendComponent = bigDataComponent.map(function(component) {
@@ -902,7 +902,7 @@
 					bigDataComponent.splice(row_index_edit_component, 1);
 				});
 				document.getElementById("name").val = " ";
-				
+
 			} else {
 				swal({
 					title: "من فضلك قم بملئ كل البيانات المميزة بالعلامة الحمراء",
@@ -1206,5 +1206,5 @@
 	<script src="{{asset('admin/assets/js/offer.js')}}"></script>
 	<script src="{{asset('admin/assets/js/discount.js')}}"></script>
 	<script src="{{asset('admin/assets/js/tax.js')}}"></script>
-	
+
 @endsection

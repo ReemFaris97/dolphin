@@ -51,7 +51,7 @@
                             </div>
                             <div class="form-group col-md-6 pull-left">
                                 <label> اسم التصنيف </label>
-                                {!! $product->category->ar_name !!}
+                                {!! optional($product->category)->ar_name !!}
                             </div>
                             {{--<div class="form-group col-md-6 pull-left">--}}
                                 {{--<label>النوع </label>--}}

@@ -25,12 +25,10 @@ class AccountingPurchase extends Model
     {
         return $this->belongsTo(AccountingSession::class,'session_id');
     }
-
     public function safe()
     {
         return $this->belongsTo(AccountingSafe::class,'safe_id');
     }
-
     public function company()
     {
         return $this->belongsTo(AccountingCompany::class,'company_id');

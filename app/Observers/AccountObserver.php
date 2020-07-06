@@ -80,15 +80,19 @@ class AccountObserver
 
             }elseif($account->kind=='sub'){
 
+
                 $perantAccount= AccountingAccount::find($account->account_id);
                 $lastsubAcount = AccountingAccount::where('kind', 'sub')->where('account_id',$account->account_id)->latest()->first();
 
                 if (!is_null($lastsubAcount)) {
+
                     $account->code = $lastsubAcount->code + 1;
+
                 }else{
                     $account->code = $perantAccount->code . getsetting('increased_number');
 
                 }
+
             }
         }
 
