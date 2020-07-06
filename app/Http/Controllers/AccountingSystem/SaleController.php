@@ -372,7 +372,7 @@ class SaleController extends Controller
             return response('false', 200);
         }else{
             // dd('Write here your update password code');
-            return view('AccountingSystem.sell_points.session_summary',compact('session','sales','sales_payed_cash','sales_payed_network','sales_payed','returns_total'));
+            return view('AccountingSystem.sell_points.session_summary',compact('session','sales_payed_cash','sales_payed_network','sales_payed','returns_total'));
         }
 
 
