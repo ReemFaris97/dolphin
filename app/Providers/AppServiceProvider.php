@@ -15,6 +15,7 @@ use App\Models\AccountingSystem\AccountingPurchaseReturn;
 use App\Models\AccountingSystem\AccountingSafe;
 use App\Models\AccountingSystem\AccountingSale;
 use App\Models\AccountingSystem\AccountingStore;
+use App\Models\AccountingSystem\AccountingSupplier;
 use App\Observers\AccountObserver;
 use App\Observers\EntryAccountObserver;
 use App\Observers\EntryObserver;
@@ -22,6 +23,7 @@ use App\Observers\MoneyClauseLogObserver;
 use App\Observers\PurchaseObserver;
 use App\Observers\PurchaseReturnObserver;
 use App\Observers\SaleObserver;
+use App\Observers\SupplierObserver;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -58,6 +60,7 @@ class AppServiceProvider extends ServiceProvider
               AccountingAccount::observe(AccountObserver::class);
               AccountingEntry::observe(EntryObserver::class);
               AccountingEntryAccount::observe(EntryAccountObserver::class);
+              AccountingSupplier::observe(SupplierObserver::class);
 
 
         Validator::extend('branch_name', function ($attribute, $value, $parameters) {

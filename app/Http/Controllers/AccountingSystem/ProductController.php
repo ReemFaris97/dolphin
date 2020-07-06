@@ -71,13 +71,13 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
- //dd($request->all());
+//dd($request->all());
         $rules = [
-            'name'=>'required|string|max:191|product_name:accounting_products,name,category_id,'.$request['name'].','.$request['category_id'],
+           'name'=>'required|string|max:191|product_name:accounting_products,name,category_id,'.$request['name'].','.$request['category_id'],
 
             'description'=>'nullable|string',
             'category_id'=>'nullable|numeric|exists:accounting_product_categories,id',
-            'bar_code'=>'nullable|string|product_name:accounting_products,bar_code,category_id,'.$request['bar_code'].','.$request['category_id'],
+         'bar_code'=>'nullable|string|product_name:accounting_products,bar_code,category_id,'.$request['bar_code'].','.$request['category_id'],
             'product_selling_price'=>'required',
             'product_purchasing_price'=>'required',
             'min_quantity'=>'required|string|numeric',
@@ -93,14 +93,14 @@ class ProductController extends Controller
 
         ];
         $messsage = [
-            'name.store_name'=>"اسم المنتج موجود بالفعل بالتصنيف",
-            'code.store_code'=>"باركود المنتج موجود بالفعل بالتصنيف",
+            'name.product_name'=>"اسم المنتج موجود بالفعل بالتصنيف",
+            'code.barcode_name'=>"باركود المنتج موجود بالفعل بالتصنيف",
 
         ];
         $this->validate($request,$rules,$messsage);
 // dd($request['quantities']);
-        $inputs = $request->except('name','image','main_unit_present','purchasing_price','selling_price','component_names','qtys','main_units');
-        $inputs['name']=$inputs['name_product'];
+        $inputs = $request->except('image','main_unit_present','purchasing_price','selling_price','component_names','qtys','main_units');
+//        $inputs['name']=$inputs['name_product'];
         $inputs['selling_price']=$inputs['product_selling_price'];
         $inputs['purchasing_price']=$inputs['product_purchasing_price'];
 
@@ -121,7 +121,7 @@ class ProductController extends Controller
 
            ]);
        }
-        $product->name=$inputs['name_product'];
+//        $product->name=$inputs['name_product'];
 
 
 
@@ -230,13 +230,15 @@ class ProductController extends Controller
 /////////////////////product_taxs//////////////////////////////////////
         if (isset($request['tax'])&$request['tax']==1){
             // dd($request->all());
-            foreach($request['tax_band_id'] as $tax_band_id){
-            AccountingProductTax::create([
-                'product_id'=>$product->id,
-                'tax'=>$request['tax'],
-                'price_has_tax'=>isset($request['price_has_tax'])?$request['price_has_tax']:Null,
-                'tax_band_id'=>$tax_band_id,
-            ]);
+            if (isset($request['tax_band_id'] )) {
+                foreach ($request['tax_band_id'] as $tax_band_id) {
+                    AccountingProductTax::create([
+                        'product_id' => $product->id,
+                        'tax' => $request['tax'],
+                        'price_has_tax' => isset($request['price_has_tax']) ? $request['price_has_tax'] : Null,
+                        'tax_band_id' => $tax_band_id,
+                    ]);
+                }
             }
         }
 //////////////////////product_services////////////////////////////
@@ -374,8 +376,8 @@ class ProductController extends Controller
         $this->validate($request,$rules);
         $requests = $request->all();
 
-        $inputs = $request->except('name','image','bar_code','main_unit_present','purchasing_price','selling_price','component_names','qtys','main_units');
-        $inputs['name']=$inputs['name_product'];
+        $inputs = $request->except('image','bar_code','main_unit_present','purchasing_price','selling_price','component_names','qtys','main_units');
+//        $inputs['name']=$inputs['name_product'];
         $inputs['selling_price']=$inputs['product_selling_price'];
         $inputs['purchasing_price']=$inputs['product_purchasing_price'];
 
@@ -391,7 +393,7 @@ class ProductController extends Controller
                 'product_id'=>$product->id,
             ]);
         }
-        $product->name=$inputs['name_product'];
+//        $product->name=$inputs['name_product'];
         ///////  /// / //////subunits Arrays//////////////////////////////
         $names = collect($request['name']);
         $par_codes = collect($request['par_codes']);
