@@ -26,6 +26,8 @@
         $average=0;
     }
 
+
+
  ?>
     {{--@dd($lastPrice)--}}
 <option value="{{$product->id}}"

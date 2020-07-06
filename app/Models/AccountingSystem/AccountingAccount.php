@@ -6,12 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class AccountingAccount extends Model
 {
-    protected $fillable = ['ar_name','en_name','kind','status','code','account_id','active'];
+    protected $fillable = ['ar_name','en_name','kind','status','code','account_id','active','amount'];
     protected $table='accounting_accounts';
-
     public function account()
     {
         return $this->belongsTo(AccountingAccount::class,'account_id');
     }
-
 }

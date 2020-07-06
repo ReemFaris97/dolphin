@@ -442,7 +442,8 @@
 								<li><a href="{{route('accounting.settings.show',['accounting_purchases'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين حسابات المشتريات  </a></li>
 								<li><a href="{{route('accounting.settings.show',['accounting_sales'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين حسابات المبيعات  </a></li>
 								<li><a href="{{route('accounting.settings.show',['accounting_products'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين حسابات المخزون  </a></li>
-				        		<li><a href="{{route('accounting.settings.show',['accounting_entries'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين  القيود المحاسبيه  </a></li>
+                                <li><a href="{{route('accounting.settings.show',['accounting_cash'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين  حسابات النقدية  </a></li>
+                                 <li><a href="{{route('accounting.settings.show',['accounting_entries'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين  القيود المحاسبيه  </a></li>
 
 
 					</ul>

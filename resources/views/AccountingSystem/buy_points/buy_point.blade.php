@@ -63,9 +63,8 @@
                         @if (getsetting('automatic_purchases')==0)
                             <div class="form-group col-sm-3">
                                 <label> اختر الحساب </label>
-                                {!! Form::select("account_id",accounts(),null,['class'=>'form-control','placeholder'=>' اختر الحساب'])!!}
+                                {!! Form::select("_account_id",accounts(),null,['class'=>'form-control','placeholder'=>' اختر الحساب','id'=>'account_id'])!!}
                             </div>
-
                         @endif
 						<div class="form-group col-sm-3">
 							<label> رقم الفاتوره </label>
@@ -85,16 +84,17 @@
 							اضافه منتج جديد
 						</a>
 					</div>
-					<div class="col-md-4 col-sm-4 col-xs-12">
+{{--					<div class="col-md-4 col-sm-4 col-xs-12">--}}
 
 
-						<div class="form-group block-gp">
-							<label>اسم القسم </label>
-							{!! Form::select("category_id",$categories,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}
-						</div>
-					</div>
+{{--						<div class="form-group block-gp">--}}
+{{--							<label>اسم القسم </label>--}}
+{{--							{!! Form::select("category_id",$categories,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}--}}
+{{--						</div>--}}
+{{--					</div>--}}
 					<div class="col-md-4 col-sm-4 col-xs-12">
 						<div class="yurProdc">
+
 						</div>
 					</div>
 					<div class="tempobar"></div>
@@ -106,7 +106,9 @@
 					<input type="hidden" name="supplier_id" id="supplier_id_val">
 					<input type="hidden" name="bill_num" id="bill_num_val">
 					<input type="hidden" name="bill_date" id="bill_date_val">
-
+                    @if (getsetting('automatic_purchases')==0)
+                    <input type="hidden" name="account_id" id="account_id_val">
+                        @endif
 					<table border="1" class="table finalTb moshtraiat-bill mabi3at-bill bill-table
                     {{(getsetting('name_enable')==1) ? 'name_enable':'' }}
                     {{(getsetting('barcode_enable')==1) ? 'barcode_enable':'' }}
@@ -250,6 +252,10 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 	$("#supplier_id").on('change', function() {
 		$("#supplier_id_val").val($(this).val());
 	});
+
+    $("#account_id").on('change', function() {
+        $("#account_id_val").val($(this).val());
+    });
 	$("#bill_num").on('change', function() {
 		$("#bill_num_val").val($(this).val());
 	});
