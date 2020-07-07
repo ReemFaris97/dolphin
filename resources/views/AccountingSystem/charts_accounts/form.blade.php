@@ -29,6 +29,20 @@
     <label>  اختر الحساب الرئيسى </label>
     {!! Form::select("account_id",$accounts,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الحساب ',])!!}
 </div>
+
+<div class="form-group col-xs-6 pull-left  ">
+    <label>طبيعة الحساب  </label>
+    <div class="form-line new-radio-big-wrapper">
+	<span class="new-radio-wrap">
+		<label for="Creditor">دائن </label>
+			{!! Form::radio("status",'Creditor',['class'=>'form-control','id'=>'Creditor'])!!}
+    </span>
+        <span class="new-radio-wrap">
+		<label for="debtor"> مدين </label>
+	     {!! Form::radio("status",'debtor',['class'=>'form-control','id'=>'debtor'])!!}
+	</span>
+    </div>
+</div>
 <div class="form-group col-xs-6 pull-left  ">
     <label>طبيعة الحساب  </label>
     <div class="form-line new-radio-big-wrapper">
