@@ -23,7 +23,7 @@ use App\Http\Controllers\Controller;
 
 class StoresController extends Controller
 {
-    
+
 
 
     public function damages()
@@ -183,9 +183,11 @@ class StoresController extends Controller
 
             foreach ($product_quantity as $key => $item) {
                 $product = AccountingProduct::find($key);
+                if (isset($product)){
                 $quantites[$product->id]=AccountingProductStore::where('product_id', '=', $product->id)->where('store_id',$store)->sum('quantity');
                 if ($product->min_quantity >= $quantites[$product->id]) {
                     array_push($deficiencies, $product);
+                }
                 }
             }
         }
