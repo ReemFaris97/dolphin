@@ -145,7 +145,7 @@ class StoresController extends Controller
     {
         $requests=request()->all();
         $deficiencies=[];
-        $stores=[];
+
         //company_only
         if (\request('company_id') != Null && \request('branch_id') == Null && \request('store_id') == Null && \request('product_id') == Null) {
             $stores_company = AccountingStore::where('model_id', \request('company_id'))->where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->pluck('id');
@@ -197,7 +197,7 @@ class StoresController extends Controller
             $deficiencies=[];
             $stores=[];
         }
-
+dd($stores);
         return view('AccountingSystem.reports.stores.deficiencyProducts', compact('deficiencies','stores','quantites','requests'));
     }
 
