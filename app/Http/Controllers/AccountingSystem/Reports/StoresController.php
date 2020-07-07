@@ -197,7 +197,7 @@ class StoresController extends Controller
             $deficiencies=[];
             $stores=[];
         }
-dd($stores);
+
         return view('AccountingSystem.reports.stores.deficiencyProducts', compact('deficiencies','stores','quantites','requests'));
     }
 
