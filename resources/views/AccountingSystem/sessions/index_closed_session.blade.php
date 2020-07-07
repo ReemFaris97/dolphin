@@ -98,6 +98,11 @@
                 </div>
 
                     <label style="color:black">الخزينة المحول  اليها </label>
+                    <select name="safe_id" class="form-control">
+                        @foreach(\App\Models\AccountingSystem\AccountingSafe::where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->where('model_id',$row->device->branch->id)->where('status','branch')->get()  as  $safe)
+                            <option value="{{$safe->id}}">{{$safe->name}}</option>
+                        @endforeach
+                    </select>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
