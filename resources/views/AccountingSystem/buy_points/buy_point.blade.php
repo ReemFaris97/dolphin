@@ -317,24 +317,8 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 		$("#bill_date_val").val($(this).val());
 	});
 	var rowNum = 0;
-	$(".category_id").on('change', function() {
-		var id = $(this).val();
-		var store_id = $('#store_id').val();
-		$('#store_val').val(store_id);
-		var branch_id = $('#branch_id').val();
-		$('#branch_val').val(branch_id);
-		var company_id = $('#company_id').val();
-		$('#company_val').val(company_id);
-		$.ajax({
-			type: 'get',
-			url: "/accounting/productsAjexPurchase/" + id,
-			data: {
-				id: id,
-				store_id: store_id
-			},
-			dataType: 'json',
-			success: function(data) {
-				$('.yurProdc').html(data.data);
+
+//	*********************************** 7/7
 				$('#selectID').attr('data-live-search', 'true');
 				$('#selectID').attr('placeholder', 'اختر الصنف');
 				$('#selectID').selectpicker('refresh');
@@ -723,9 +707,8 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 						}
 					})
 				});
-			}
-		});
-	});
+//	*********************************** 7/7
+
 	//	For Ajax Search By Product Name
 	$('#pro_search').keyup(function(e) {
 		var pro_search = $(this).val();
