@@ -58,23 +58,44 @@ class PurchaseObserver
 
 
        if ($purchase->payment=='agel'){
-
-       $fromAccount=AccountingAccount::where('supplier_id',$supplier->id)->first();
+           //حساب  المشتريات و المورد
+       $toAccount=AccountingAccount::where('supplier_id',$supplier->id)->first();
            AccountingEntryAccount::create([
                'entry_id'=>$entry->id,
-               'from_account_id'=>$purchase->account_id,
-               'to_account_id'=>$fromAccount,
+               'from_account_id'=>getsetting('accounting_id_purchases'),
+               'to_account_id'=>$toAccount->id,
                'amount'=>$purchase->total,
            ]);
-       }elseif ($purchase->payment=='cash'){
 
+           //حساب  المشتريات والمخزون
+           $storeAccount=AccountingAccount::where('store_id',$purchase->store_id)->first();
            AccountingEntryAccount::create([
                'entry_id'=>$entry->id,
-               'from_account_id'=>$purchase->account_id,
+               'from_account_id'=>$storeAccount->id,
+               'to_account_id'=>getsetting('accounting_id_purchases'),
+               'amount'=>$purchase->total,
+           ]);
+
+       }elseif ($purchase->payment=='cash'){
+
+           //حساب  المشتريات والنقدية
+           AccountingEntryAccount::create([
+               'entry_id'=>$entry->id,
+               'from_account_id'=>getsetting('accounting_id_purchases'),
                'to_account_id'=>getsetting('accounting_id_cash'),
                'amount'=>$purchase->total,
            ]);
+           //حساب  المشتريات والمخزون
+           $storeAccount=AccountingAccount::where('store_id',$purchase->store_id)->first();
+           AccountingEntryAccount::create([
+               'entry_id'=>$entry->id,
+               'from_account_id'=>$storeAccount->id,
+               'to_account_id'=>getsetting('accounting_id_purchases'),
+               'amount'=>$purchase->total,
+           ]);
        }
+
+
 
 
 

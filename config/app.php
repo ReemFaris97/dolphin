@@ -136,6 +136,7 @@ return [
 
 
     'providers' => [
+        Arcanedev\LogViewer\LogViewerServiceProvider::class,
 
         /*
          * Laravel Framework Service Providers...
@@ -178,7 +179,6 @@ return [
         App\Providers\ModelServiceProvider::class,
         App\Providers\DirectiveServiceProvider::class,
         UxWeb\SweetAlert\SweetAlertServiceProvider::class,
-        Arcanedev\LogViewer\LogViewerServiceProvider::class,
 
 
     ],

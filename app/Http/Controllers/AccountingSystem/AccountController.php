@@ -45,7 +45,7 @@ class AccountController extends Controller
         $rules = [
             'ar_name'=>'required|string|max:50',
             'en_name'=>'required|string|max:100',
-            'kind'=>'required|in:main,sub',
+            'kind'=>'required|in:main,sub,following_main',
             'status'=>'required|in:debtor,Creditor',
         ];
         $message=[
@@ -104,7 +104,7 @@ class AccountController extends Controller
         $rules = [
             'ar_name'=>'required|string|max:50',
             'en_name'=>'required|string|max:100',
-            'kind'=>'required|in:main,sub',
+            'kind'=>'required|in:main,sub,following_main',
             'status'=>'required|in:debtor,Creditor',
         ];
         $message=[

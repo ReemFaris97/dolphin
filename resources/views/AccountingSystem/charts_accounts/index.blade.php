@@ -55,8 +55,10 @@
                         <td>
                             @if ($row->kind=='main')
                                 رئيسى
-                                @else
+                                @elseif($row->kind=='sub')
                                 فرعى
+                            @else
+                                رئيسى تابع
                             @endif
                         </td>
                         <td>

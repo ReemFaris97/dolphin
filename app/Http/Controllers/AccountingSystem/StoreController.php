@@ -76,7 +76,6 @@ class StoreController extends Controller
         ];
         $this->validate($request,$rules,$messsage);
         $requests = $request->except('image');
-       // dd($requests);
 
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'photos');

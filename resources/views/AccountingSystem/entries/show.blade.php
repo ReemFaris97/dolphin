@@ -48,7 +48,7 @@
                     <div class="form-group col-sm-6 col-xs-12 pull-left">
                         <label> النوع  </label>
                         <select class="form-control" disabled>
-                            <option selected>@if ($entry->type=='manual') يدوى @else  ألى @endif</option>
+                            <option selected>@if ($entry->type=='manual') يدوى @else  آلى @endif</option>
                         </select>
                     </div>
 {{--                        <div class="form-group col-sm-6 col-xs-12 pull-left">--}}
@@ -73,53 +73,58 @@
                     <table class="table datatable-button-init-basic">
                         <thead>
                         <tr>
-                            <th>#</th>
+{{--                            <th>#</th>--}}
 
                             <th> الكود </th>
-                            <th> الاجراء </th>
-
-                            <th> اسم الحساب </th>
-                            <th>  مدين </th>
-                            <th>  دائن </th>
                             <th> التاريخ </th>
+
+                            <th colspan="2">  تفاصيل القيد </th>
+
                             <th> العمله </th>
                             <th> الوصف </th>
                         </tr>
                         </thead>
                         <tbody>
+                        <tr>
+                        <td>
+                            <a href="{{route('accounting.entries.show',['id'=>$entry->id])}}" class="link">
+                                {!! $entry->code!!}
+                            </a>
+                        </td>
+                            <td>
+                                {!! $entry->date!!}
+                            </td>
+                            <td colspan="2">
+                                    <table class="table datatable-button-init-basic">
+                                        <thead class="header_table">
+                                        <th style="color:#333">  من </th>
+                                        <th style="color:#333">  الى </th>
+                                        <th style="color:#333">  مدين </th>
+                                        <th style="color:#333">  دائن </th>
+                                        </thead>
+                                           <tbody>
+                                                        @foreach($logs as $row)
+                                                            <tr>
+                                                                @if(isset($row->debtor))
+                                                                    <td>{!! $row->account->ar_name!!}</td>
+                                                                     <td></td>
+                                                                    <td>{!! $row->debtor??'---'!!}</td>
+                                                                    <td>{!! $row->creditor??'---'!!}</td>
+                                                                @else
+                                                                    <td></td>
+                                                                    <td>{!! $row->account->ar_name!!}</td>
+                                                                    <td>{!! $row->debtor??'---'!!}</td>
+                                                                    <td>{!! $row->creditor??'---'!!}</td>
+                                                                @endif
+                                                            </tr>
+                                                        @endforeach
+                                        </tbody>
+                                    </table>
+                            </td>
 
-                        @foreach($logs as $row)
-                            <tr>
-                                <td>{!!$loop->iteration!!}</td>
-
-                                <td>
-                                    <a href="{{route('accounting.entries.show',['id'=>$row->id])}}" class="link">
-                                        {!! $row->entry->code!!}
-                                    </a>
-                                </td>
-                                <td>
-                                    {!! $row->operation!!}
-                                </td>
-
-                                <td>{!! $row->account->ar_name!!}</td>
-                                <td>{!! $row->debtor??'---'!!}</td>
-                                <td>{!! $row->creditor??'---'!!}</td>
-
-                                <td>{!! $row->entry->date!!}</td>
-                                <td>{!! $row->entry->currency!!}</td>
-                                <td>{!! $row->entry->details!!}</td>
-
-                                {{--<td>--}}
-                                    {{--@if ($row->status=='new')--}}
-                                        {{--جديد--}}
-                                    {{--@else--}}
-                                        {{--مرحلة--}}
-                                    {{--@endif--}}
-                                {{--</td>--}}
-                            </tr>
-
-                        @endforeach
-
+                            <td>{!! $entry->currency!!}</td>
+                            <td>{!! $entry->details!!}</td>
+                        </tr>
                         </tbody>
                     </table>
                     <div class="btn-group beside-btn-title">
@@ -134,13 +139,14 @@
                             <span class="m-l-5"><i class="icon-pencil7 text-inverse"></i></span>
                         </a>
                     </div>
+                    @if($entry->status=='new')
                     <div class="btn-group beside-btn-title">
-                        <a href="{{route('accounting.entries.create')}}" class="btn btn-success">
+                        <a class="btn btn-warning" href="{{route('accounting.entries.posting',['id'=>$entry->id])}}">
 
                            ترحيل
                         </a>
                     </div>
-
+                    @endif
                 </div>
             </div>
 

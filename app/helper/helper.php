@@ -98,9 +98,8 @@ function products_purchase($purchase=null){
 function getsetting($name)
 {
     $settings=App\Models\AccountingSystem\AccountingSetting::where('name',$name)->first();
-
-    return $settings->value;
-
+//    dd($settings);
+    return $settings->value ;
 }
 
 function products_not_settement($store=null){

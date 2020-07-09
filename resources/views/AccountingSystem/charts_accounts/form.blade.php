@@ -22,7 +22,7 @@
 {{--</div>--}}
 <div class="form-group col-sm-6 col-xs-12 pull-left">
     <label> نوع  الحساب  </label>
-    {!! Form::select("kind",['main'=>'حساب رئيسى','sub'=>'حساب فرعى',],Null,['class'=>'form-control','id'=>'kind'])!!}
+    {!! Form::select("kind",['main'=>'حساب رئيسى','sub'=>'حساب فرعى','following_main'=>' حساب رئيسى تابع'],Null,['class'=>'form-control','id'=>'kind'])!!}
 </div>
 
 <div class="form-group col-sm-6 col-xs-12 pull-left accounts">
@@ -70,6 +70,9 @@
              if (kind=='main'){
                  $('.accounts').hide();
              }else if(kind=='sub') {
+                 $('.accounts').show();
+
+             }else if(kind=='following_main') {
                  $('.accounts').show();
 
              }

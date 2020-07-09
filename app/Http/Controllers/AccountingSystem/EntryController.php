@@ -142,8 +142,6 @@ class EntryController extends Controller
         $shift->delete();
         alert()->success('تم حذف القيد بنجاح !')->autoclose(5000);
             return back();
-
-
     }
 
     public  function filter(Request $request){
@@ -167,6 +165,27 @@ class EntryController extends Controller
         $entries = $entries->get();
 
 dd($entries);
+
+    }
+
+    public  function posting($id){
+        $entry=AccountingEntry::find($id);
+        $entry->update([
+            'status'=>'posted'
+        ]);
+        foreach ($entry->accounts as $account){
+           $fromAccount=AccountingAccount::find($account->from_account_id);
+            $toAccount=AccountingAccount::find($account->to_account_id);
+            $fromAccount->update([
+                'amount'=>$fromAccount->amount+$account->amount
+            ]);
+            $toAccount->update([
+                'amount'=>$toAccount->amount-$account->amount
+            ]);
+        }
+
+            alert()->success('تم ترحيل القيد بنجاح !')->autoclose(5000);
+            return back();
 
     }
 }
