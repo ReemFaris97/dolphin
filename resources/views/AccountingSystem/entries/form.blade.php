@@ -25,10 +25,10 @@
     {!! Form::text("type",'يدوى',['class'=>'form-control','placeholder'=>'  يدوى   ','readonly'])!!}
 </div>
 
-<div class="form-group col-sm-6 col-xs-12 pull-left">
-    <label>   المبلغ  </label>
-    {!! Form::text("amount",null,['class'=>'form-control','placeholder'=>' المبلغ  ',])!!}
-</div>
+{{--<div class="form-group col-sm-6 col-xs-12 pull-left">--}}
+{{--    <label>   المبلغ  </label>--}}
+{{--    {!! Form::text("amount",null,['class'=>'form-control','placeholder'=>' المبلغ  ',])!!}--}}
+{{--</div>--}}
 
 <div class="form-group col-sm-6 col-xs-12 pull-left">
     <label> نوع  العملة  </label>

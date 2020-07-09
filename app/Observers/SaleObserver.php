@@ -2,6 +2,9 @@
 
 namespace App\Observers;
 
+use App\Models\AccountingSystem\AccountingAccount;
+use App\Models\AccountingSystem\AccountingEntry;
+use App\Models\AccountingSystem\AccountingEntryAccount;
 use App\Models\AccountingSystem\AccountingSale;
 
 class SaleObserver
@@ -58,4 +61,38 @@ class SaleObserver
 
 
     }
+
+    public  function  created(AccountingSale $sale){
+
+        $entry=AccountingEntry::create([
+            'date'=>$sale->created_at,
+            'source'=>'مبيعات',
+            'type'=>'automatic',
+            'details'=>'فاتوره مبيعات'.$sale->bill_num,
+            'status'=>'new'
+        ]);
+
+        if ($sale->payment=='cash'){
+
+            //حساب  المبيعات والنقدية
+            AccountingEntryAccount::create([
+                'entry_id'=>$entry->id,
+                'from_account_id'=>getsetting('accounting_id_cash'),
+                'to_account_id'=>getsetting('accounting_id_sales'),
+                'amount'=>$sale->total,
+            ]);
+            //حساب  المبيعات والمخزون
+            $storeAccount=AccountingAccount::where('store_id',$sale->store_id)->first();
+            AccountingEntryAccount::create([
+                'entry_id'=>$entry->id,
+                'from_account_id'=>getsetting('accounting_id_sales'),
+                'to_account_id'=>$storeAccount->id,
+                'amount'=>$sale->total,
+            ]);
+        }
+
+
+    }
+
+
 }
