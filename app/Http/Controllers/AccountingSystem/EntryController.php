@@ -59,7 +59,7 @@ class EntryController extends Controller
 
         $requests = $request->except('from_account_id','to_account_id');
         $requests['type']='manual';
-        dd($requests);
+
         $entry=AccountingEntry::create($requests);
            AccountingEntryAccount::create([
                'entry_id'=>$entry->id,
