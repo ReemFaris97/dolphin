@@ -56,7 +56,6 @@ class PurchaseObserver
             'status'=>'new'
         ]);
 
-
        if ($purchase->payment=='agel'){
            //حساب  المشتريات و المورد
        $toAccount=AccountingAccount::where('supplier_id',$supplier->id)->first();
@@ -77,7 +76,6 @@ class PurchaseObserver
            ]);
 
        }elseif ($purchase->payment=='cash'){
-
            //حساب  المشتريات والنقدية
            AccountingEntryAccount::create([
                'entry_id'=>$entry->id,
@@ -94,9 +92,6 @@ class PurchaseObserver
                'amount'=>$purchase->total,
            ]);
        }
-
-
-
 
 
     }

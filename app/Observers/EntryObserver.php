@@ -19,14 +19,14 @@ class EntryObserver
                 }
     }
 
-    public  function  created(AccountingEntry $entry){
-
-
-    }
-
-    public  function  updated(AccountingEntry $entry){
-
-
-    }
+//    public  function  created(AccountingEntry $entry){
+//
+//
+//    }
+//
+//    public  function  updated(AccountingEntry $entry){
+//
+//
+//    }
 
 }

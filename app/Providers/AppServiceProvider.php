@@ -57,7 +57,6 @@ class AppServiceProvider extends ServiceProvider
               AccountingPurchase::observe(PurchaseObserver::class);
               AccountingMoneyClause::observe(MoneyClauseLogObserver::class);
               AccountingPurchaseReturn::observe(PurchaseReturnObserver::class);
-              AccountingSale::observe(SaleObserver::class);
               AccountingAccount::observe(AccountObserver::class);
               AccountingEntry::observe(EntryObserver::class);
               AccountingEntryAccount::observe(EntryAccountObserver::class);

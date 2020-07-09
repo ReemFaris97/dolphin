@@ -77,16 +77,18 @@ class SaleController extends Controller
 
         $user=User::find($requests['user_id']);
         $requests['branch_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:Null;
-        if (getsetting('automatic_sales')==1){
-            $requests['account_id']=getsetting('accounting_id_sales');
+//        if (getsetting('automatic_sales')==1){
+//            $requests['account_id']=getsetting('accounting_id_sales');
+//        }
+        if($requests['reminder']==0){
+            $requests['payment']='cash';
         }
-
-
+        if ($requests['total']==Null){
+            $requests['total']= $requests['amount'];
+        }
+        $requests['store_id']=$user->accounting_store_id;
         $sale=AccountingSale::create($requests);
 
-        if ($requests['total']==Null){
-            $requests['total']=$sale->amount;
-        }
 
         $sale->update([
             'bill_num'=>$sale->id."-".$sale->created_at,
@@ -112,11 +114,7 @@ class SaleController extends Controller
                 'discount'=>$requests['discount_byAmount'],
             ]);
         }
-        if($requests['reminder']==0){
-            $sale->update([
-            'payment'=>'cash'
-            ]);
-        }
+
         $products=$requests['product_id'];
         $quantities=$requests['quantity'];
         $products = collect($requests['product_id']);
@@ -192,9 +190,11 @@ class SaleController extends Controller
             $store_id=auth()->user()->accounting_store_id;
             $store=AccountingStore::find($store_id);
             $safe=AccountingSafe::where('device_id', $sale->session->device_id)->first();
-            $safe->update([
-                'amount'=>$safe->amount-$sale->total
-            ]);
+           if ($safe) {
+               $safe->update([
+                   'amount' => $safe->amount - $sale->total
+               ]);
+           }
         }elseif ($sale->payment=='agel'){
 
             $client=AccountingClient::find( $sale-> client_id);
