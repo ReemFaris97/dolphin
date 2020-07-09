@@ -23,6 +23,7 @@ use App\Observers\MoneyClauseLogObserver;
 use App\Observers\PurchaseObserver;
 use App\Observers\PurchaseReturnObserver;
 use App\Observers\SaleObserver;
+use App\Observers\StoreObserver;
 use App\Observers\SupplierObserver;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -61,7 +62,7 @@ class AppServiceProvider extends ServiceProvider
               AccountingEntry::observe(EntryObserver::class);
               AccountingEntryAccount::observe(EntryAccountObserver::class);
               AccountingSupplier::observe(SupplierObserver::class);
-
+              AccountingStore::observe(StoreObserver::class);
 
         Validator::extend('branch_name', function ($attribute, $value, $parameters) {
             $count= AccountingBranch::where($parameters[1],$parameters[3])->

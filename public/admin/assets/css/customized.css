@@ -770,7 +770,7 @@ p.ta7weel-img img{
 	.datatable-button-init-basic {
 		direction: rtl !important
 	}
-	
+
 	#print-window .datatable-header , #print-window .datatable-footer{
 		display: none !important;
 		visibility: hidden !important
@@ -784,7 +784,7 @@ p.ta7weel-img img{
 		display: none !important
 	}
 	table .td-display-none{display:none!important}
-	
+
 	body {
   -webkit-print-color-adjust: exact !important;
 }
@@ -1458,17 +1458,18 @@ table.dataTable#DataTables_Table_0 tfoot {
 		font-size: 14px;
 		color: #fff;
 	}
-
 	.row.all-shortcuts-wrapper {
 		-ms-flex-wrap: wrap;
 		flex-wrap: wrap;
 	}
-
 	.single-shortcut a img {
 		width: 40px;
 		padding: 5px
 	}
     .table-upper-options, .newly-added-2-btns- {
     display: block;
+    }
+     th .header_table{
+        color: #333333;
     }
 }

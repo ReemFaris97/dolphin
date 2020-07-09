@@ -77,7 +77,7 @@ class PurchaseController extends Controller
         }
         $requests['branch_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:Null;
         $requests['company_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingCompany')?$user->store->model_id:Null;
-
+        $requests['store_id']=$user->accounting_store_id;
         $purchase=AccountingPurchase::create($requests);
         if ($requests['total']==Null){
             $requests['total']=$purchase->amount+$requests['totalTaxs'];
@@ -87,7 +87,6 @@ class PurchaseController extends Controller
             'branch_id'=>$requests['branch_id'],
             'company_id'=>$requests['company_id'],
             'user_id'=>auth()->user()->id,
-            'store_id'=>$user->accounting_store_id,
             'total'=>round($requests['total'],2),
             'totalTaxs'=>$requests['totalTaxs'],
         ]);

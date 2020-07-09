@@ -96,9 +96,9 @@ class SettingController extends Controller
         }elseif ($settings_page == 'اعاده تعين حسابات المخزون')
         {
             $chart_accounts = AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->pluck('code_name','id')->toArray();
-            return view('AccountingSystem.settings.products_setting')
+            return view('AccountingSystem.settings.stores_setting')
                 ->with('settings_page', $settings_page)
-                ->with('settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_products')->get())
+                ->with('settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_stores')->get())
             ->with('chart_accounts', $chart_accounts);
 
         }elseif ($settings_page == 'القيود المحاسبيه')

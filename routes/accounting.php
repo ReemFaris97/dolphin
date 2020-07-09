@@ -288,6 +288,7 @@ Route::middleware('admin')->group(function () {
     Route::group(['prefix' => 'entries'], function () {
         Route::resource('entries', 'EntryController');
         Route::get('filter', ['as' => 'entries.filter', 'uses' => 'EntryController@filter']);
+        Route::get('posting/{id}', ['as' => 'entries.posting', 'uses' => 'EntryController@posting']);
 
     });
 });

@@ -23,7 +23,7 @@ class AccountObserver
                     $account->code = 1000;
                 }
 
-            }elseif($account->kind=='sub'){
+            }elseif($account->kind=='sub'||$account->kind=='following_main'){
 
                $perantAccount= AccountingAccount::find($account->account_id);
                 $lastsubAcount = AccountingAccount::where('kind', 'sub')->where('account_id',$account->account_id)->latest()->first();
@@ -50,7 +50,7 @@ class AccountObserver
                     $account->code =getsetting('main_coding');
                 }
 
-            }elseif($account->kind=='sub'){
+            }elseif($account->kind=='sub'||$account->kind=='following_main'){
 
                 $perantAccount= AccountingAccount::find($account->account_id);
                 $lastsubAcount = AccountingAccount::where('kind', 'sub')->where('account_id',$account->account_id)->latest()->first();
@@ -58,6 +58,7 @@ class AccountObserver
                 if (!is_null($lastsubAcount)) {
                     $account->code = $lastsubAcount->code + 1;
                 }else{
+
                     $account->code = $perantAccount->code . 1;
 
                 }
@@ -78,7 +79,7 @@ class AccountObserver
                     $account->code =getsetting('main_coding');
                 }
 
-            }elseif($account->kind=='sub'){
+            }elseif($account->kind=='sub'||$account->kind=='following_main'){
 
 
                 $perantAccount= AccountingAccount::find($account->account_id);

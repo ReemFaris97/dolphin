@@ -58,18 +58,21 @@
                     <div class="form-group col-sm-6 col-xs-12 pull-left">
                         <label> نوع الحساب </label>
                         <select class="form-control" disabled>
-                            <option selected>@if ($account->kind=='main')حساب رئيسى @else حساب فرعى @endif</option>
+                            <option selected>@if ($account->kind=='main')حساب رئيسى @elseif ($account->kind=='sub')حساب فرعى@else حساب رئيسى تابع @endif</option>
                         </select>
                     </div>
                     @if ($account->kind=='sub')
                         <div class="form-group col-sm-6 col-xs-12 pull-left">
                             <label> الحساب الرئيسى </label>
                             <select class="form-control" disabled>
-                                <option selected> {{$account->account->en_name}}</option>
+                                <option selected> {{$account->account->ar_name}}</option>
                             </select>
                         </div>
                     @endif
-
+                    <div class="form-group col-sm-6 col-xs-12 pull-left">
+                        <label>المبلغ بالحساب </label>
+                        <input type="text" name="amount" class="form-control" value="{{$account->amount}}" disabled>
+                    </div>
 
                     <div class="form-group col-xs-6 pull-left  ">
                         <label>طبيعة الحساب </label>
