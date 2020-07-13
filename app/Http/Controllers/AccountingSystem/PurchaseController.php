@@ -9,6 +9,7 @@ use App\Models\AccountingSystem\AccountingCompany;
 use App\Models\AccountingSystem\AccountingOffer;
 use App\Models\AccountingSystem\AccountingPackage;
 use App\Models\AccountingSystem\AccountingProduct;
+use App\Models\AccountingSystem\AccountingProductCategory;
 use App\Models\AccountingSystem\AccountingSale;
 use App\Models\AccountingSystem\AccountingSaleItem;
 use App\Models\AccountingSystem\AccountingSupplier;
@@ -251,6 +252,8 @@ class PurchaseController extends Controller
         $purchase =AccountingPurchase::findOrFail($id);
         $product_items=AccountingPurchaseItem::where('purchase_id',$id)->get();
 
+
+
         return $this->toShow(compact('purchase','product_items'));
     }
 
@@ -263,10 +266,16 @@ class PurchaseController extends Controller
      */
     public function edit($id)
     {
-        $shift =AccountingBranchShift::findOrFail($id);
-        $branches=AccountingBranch::pluck('name','id')->toArray();
+        $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
 
-        return $this->toEdit(compact('shift','branches'));
+        $suppliers=AccountingSupplier::pluck('name','id')->toArray();
+        $safes=AccountingSafe::pluck('name','id')->toArray();
+
+        $store_product=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->pluck('product_id','id')->toArray();
+        $products=AccountingProduct::whereIn('id',$store_product)->get();
+        $purchase =AccountingPurchase::findOrFail($id);
+        $product_items=AccountingPurchaseItem::where('purchase_id',$id)->get();
+        return $this->toEdit(compact('categories','suppliers','safes','products','product_items','purchase'));
     }
 
     /**
