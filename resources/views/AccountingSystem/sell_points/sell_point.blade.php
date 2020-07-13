@@ -373,7 +373,7 @@
 						var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
 					} else if (Number(priceHasTax) === 1) {
 						var onllyDariba = Number(productPrice) - (Number(productPrice) * (100/(100 + Number(totalTaxes))));
-						var singlePriceBefore = Number(productPrice) - (Number(onllyDariba);
+						var singlePriceBefore = Number(productPrice) - Number(onllyDariba);
 						var singlePriceAfter = Number(productPrice);
 					} else {
 						var singlePriceBefore = Number(productPrice);
@@ -396,10 +396,10 @@
 						<td class="product-quantity maybe-hidden quantity_enable">
 							<input type="number" placeholder="الكمية" max="" min="1" value="1" id="sale" name="quantity[]" class="form-control">
 						</td>
-						<td class="single-price-before maybe-hidden unit_price_before_enable">${singlePriceBefore}</td>
-						<td class="single-price-after maybe-hidden unit_price_after_enable">${singlePriceAfter}</td>
-						<td class="whole-price-before maybe-hidden total_price_before_enable">${singlePriceBefore}</td>
-						<td class="whole-price-after maybe-hidden total_price_after_enable">${singlePriceAfter}</td>
+						<td class="single-price-before maybe-hidden unit_price_before_enable">${singlePriceBefore.toFixed(2)}</td>
+						<td class="single-price-after maybe-hidden unit_price_after_enable">${singlePriceAfter.toFixed(2)}</td>
+						<td class="whole-price-before maybe-hidden total_price_before_enable">${singlePriceBefore.toFixed(2)}</td>
+						<td class="whole-price-after maybe-hidden total_price_after_enable">${singlePriceAfter.toFixed(2)}</td>
 						<td class="delete-single-row">
 							@if($session->user->is_admin==1)
 							<a href="#"><span class="icon-cross"></span></a>
@@ -449,7 +449,7 @@
 							var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
 						} else if (Number(priceHasTax) === 1) {
 							var onllyDariba = Number(productPrice) - (Number(productPrice) * (100/(100 + Number(totalTaxes))));
-							var singlePriceBefore = Number(productPrice) - (Number(onllyDariba);
+							var singlePriceBefore = Number(productPrice) - Number(onllyDariba);
 							var singlePriceAfter = Number(productPrice);
 						} else {
 							var singlePriceBefore = Number(productPrice);
@@ -488,8 +488,8 @@
 						amountAfterDariba += Number($(this).text());
 					});
 					var amountOfDariba = Number(amountAfterDariba) - Number(amountBeforeDariba);
-					$("#amountBeforeDariba span.dynamic-span").html(amountBeforeDariba);
-					$("#amountAfterDariba span.dynamic-span").html(amountAfterDariba);
+					$("#amountBeforeDariba span.dynamic-span").html(amountBeforeDariba.toFixed(2));
+					$("#amountAfterDariba span.dynamic-span").html(amountAfterDariba.toFixed(2));
 					$("#amountOfDariba span.dynamic-span").html(amountOfDariba.toFixed(2));
 					$("#amountOfDariba1").val(amountOfDariba);
 					var byAmount = $("input#byAmount").val();
@@ -641,7 +641,7 @@
 			var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
 		} else if (Number(priceHasTax) === 1) {
 			var onllyDariba = Number(productPrice) - (Number(productPrice) * (100/(100 + Number(totalTaxes))));
-			var singlePriceBefore = Number(productPrice) - (Number(onllyDariba);
+			var singlePriceBefore = Number(productPrice) - Number(onllyDariba);
 			var singlePriceAfter = Number(productPrice);
 		} else {
 			var singlePriceBefore = Number(productPrice);
@@ -664,10 +664,10 @@
 		<td class="product-quantity maybe-hidden quantity_enable">
 			<input type="number" placeholder="الكمية" min="1" value="1" id="sale" name="quantity[]" class="form-control">
 		</td>
-		<td class="single-price-before maybe-hidden unit_price_before_enable">${singlePriceBefore}</td>
-		<td class="single-price-after maybe-hidden unit_price_after_enable">${singlePriceAfter}</td>
-		<td class="whole-price-before maybe-hidden total_price_before_enable">${singlePriceBefore}</td>
-		<td class="whole-price-after maybe-hidden total_price_after_enable">${singlePriceAfter}</td>
+		<td class="single-price-before maybe-hidden unit_price_before_enable">${singlePriceBefore.toFixed(2)}</td>
+		<td class="single-price-after maybe-hidden unit_price_after_enable">${singlePriceAfter.toFixed(2)}</td>
+		<td class="whole-price-before maybe-hidden total_price_before_enable">${singlePriceBefore.toFixed(2)}</td>
+		<td class="whole-price-after maybe-hidden total_price_after_enable">${singlePriceAfter.toFixed(2)}</td>
 		<td class="delete-single-row">
 			@if($session->user->is_admin==1)
 			<a href="#"><span class="icon-cross"></span></a>
@@ -717,7 +717,7 @@
 				var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
 			} else if (Number(priceHasTax) === 1) {
 				var onllyDariba = Number(productPrice) - (Number(productPrice) * (100/(100 + Number(totalTaxes))));
-				var singlePriceBefore = Number(productPrice) - (Number(onllyDariba);
+				var singlePriceBefore = Number(productPrice) - Number(onllyDariba);
 				var singlePriceAfter = Number(productPrice);
 			} else {
 				var singlePriceBefore = Number(productPrice);
@@ -753,8 +753,8 @@
 				amountAfterDariba += Number($(this).text());
 			});
 			var amountOfDariba = Number(amountAfterDariba) - Number(amountBeforeDariba);
-			$("#amountBeforeDariba span.dynamic-span").html(amountBeforeDariba);
-			$("#amountAfterDariba span.dynamic-span").html(amountAfterDariba);
+			$("#amountBeforeDariba span.dynamic-span").html(amountBeforeDariba.toFixed(2));
+			$("#amountAfterDariba span.dynamic-span").html(amountAfterDariba.toFixed(2));
 			$("#amountOfDariba span.dynamic-span").html(amountOfDariba.toFixed(2));
 			$("#amountOfDariba1").val(amountOfDariba);
 			var byAmount = $("input#byAmount").val();
