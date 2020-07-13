@@ -372,7 +372,8 @@
 						var singlePriceBefore = Number(productPrice);
 						var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
 					} else if (Number(priceHasTax) === 1) {
-						var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
+						var onllyDariba = Number(productPrice) - (Number(productPrice) * (100/(100 + Number(totalTaxes))));
+						var singlePriceBefore = Number(productPrice) - (Number(onllyDariba);
 						var singlePriceAfter = Number(productPrice);
 					} else {
 						var singlePriceBefore = Number(productPrice);
@@ -447,7 +448,8 @@
 							var singlePriceBefore = Number(productPrice);
 							var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
 						} else if (Number(priceHasTax) === 1) {
-							var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
+							var onllyDariba = Number(productPrice) - (Number(productPrice) * (100/(100 + Number(totalTaxes))));
+							var singlePriceBefore = Number(productPrice) - (Number(onllyDariba);
 							var singlePriceAfter = Number(productPrice);
 						} else {
 							var singlePriceBefore = Number(productPrice);
@@ -638,7 +640,8 @@
 			var singlePriceBefore = Number(productPrice);
 			var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
 		} else if (Number(priceHasTax) === 1) {
-			var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
+			var onllyDariba = Number(productPrice) - (Number(productPrice) * (100/(100 + Number(totalTaxes))));
+			var singlePriceBefore = Number(productPrice) - (Number(onllyDariba);
 			var singlePriceAfter = Number(productPrice);
 		} else {
 			var singlePriceBefore = Number(productPrice);
@@ -713,7 +716,8 @@
 				var singlePriceBefore = Number(productPrice);
 				var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
 			} else if (Number(priceHasTax) === 1) {
-				var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
+				var onllyDariba = Number(productPrice) - (Number(productPrice) * (100/(100 + Number(totalTaxes))));
+				var singlePriceBefore = Number(productPrice) - (Number(onllyDariba);
 				var singlePriceAfter = Number(productPrice);
 			} else {
 				var singlePriceBefore = Number(productPrice);
