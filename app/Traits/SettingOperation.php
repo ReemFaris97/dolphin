@@ -14,9 +14,9 @@ trait SettingOperation
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function RegisterSetting(Request $request)
+    public function RegisterSetting($requests)
     {
-        $data = $request->all();
+        $data = $requests;
         // dd($data);
         foreach ($data as $key => $value) {
             if ($key == '_token' || !$value) continue;

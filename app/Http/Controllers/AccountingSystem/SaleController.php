@@ -69,17 +69,17 @@ class SaleController extends Controller
     public function store(Request $request)
     {
         $requests = $request->all();
-//dd($requests);
         if(!$request->client_id){
-
             $requests['client_id']=5;
         }
 
         $user=User::find($requests['user_id']);
+            if (isset($user->store->model_type)){
         $requests['branch_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:Null;
-//        if (getsetting('automatic_sales')==1){
-//            $requests['account_id']=getsetting('accounting_id_sales');
-//        }
+            }
+        if (getsetting('automatic_sales')==1){
+            $requests['account_id']=getsetting('accounting_id_sales');
+        }
         if($requests['reminder']==0){
             $requests['payment']='cash';
         }

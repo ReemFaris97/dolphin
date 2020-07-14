@@ -54,7 +54,7 @@ class SaleObserver
                $sale->counter_sale = $sale->daily_number . "-" . $sale->branch->code??'' . "-" . $sale->session->device->code;
            } else {
                $sale->daily_number =1;
-               $sale->counter_sale = $sale->daily_number . "-" . $sale->branch->code??'' . "-" . $sale->session->device->code;
+               $sale->counter_sale = $sale->daily_number . "-" . optional($sale->branch)->code??'' . "-" . $sale->session->device->code;
 
            }
         }
@@ -73,22 +73,25 @@ class SaleObserver
         ]);
 
         if ($sale->payment=='cash'){
+            $saleAccount=AccountingAccount::find(getsetting('accounting_id_sales'));
+            if (isset($saleAccount)) {
 
-            //حساب  المبيعات والنقدية
-            AccountingEntryAccount::create([
-                'entry_id'=>$entry->id,
-                'from_account_id'=>getsetting('accounting_id_cash'),
-                'to_account_id'=>getsetting('accounting_id_sales'),
-                'amount'=>$sale->total,
-            ]);
-            //حساب  المبيعات والمخزون
-            $storeAccount=AccountingAccount::where('store_id',$sale->store_id)->first();
-            AccountingEntryAccount::create([
-                'entry_id'=>$entry->id,
-                'from_account_id'=>getsetting('accounting_id_sales'),
-                'to_account_id'=>$storeAccount->id,
-                'amount'=>$sale->total,
-            ]);
+                //حساب  المبيعات والنقدية
+                AccountingEntryAccount::create([
+                    'entry_id' => $entry->id,
+                    'from_account_id' => getsetting('accounting_id_cash'),
+                    'to_account_id' => getsetting('accounting_id_sales'),
+                    'amount' => $sale->total,
+                ]);
+                //حساب  المبيعات والمخزون
+                $storeAccount = AccountingAccount::where('store_id', $sale->store_id)->first();
+                AccountingEntryAccount::create([
+                    'entry_id' => $entry->id,
+                    'from_account_id' => getsetting('accounting_id_sales'),
+                    'to_account_id' => $storeAccount->id,
+                    'amount' => $sale->total,
+                ]);
+            }
         }
 
 
