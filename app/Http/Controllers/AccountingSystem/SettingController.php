@@ -68,10 +68,12 @@ class SettingController extends Controller
         if ($settings_page == 'اعدادات النظام المالى')
         {
             $chart_accounts = AccountingAccount::all();
+            $accounts = AccountingAccount::where('kind','main')->get();
         return view('AccountingSystem.settings.accounts_setting')
             ->with('settings_page', $settings_page)
             ->with('settings', AccountingSetting::where('slug', $slug)->get())
-            ->with('chart_accounts', $chart_accounts);
+            ->with('chart_accounts', $chart_accounts)
+            ->with('accounts', $accounts);
 
     }elseif ($settings_page == 'اعاده تعين حسابات المشتريات')
         {
@@ -168,8 +170,14 @@ class SettingController extends Controller
     public function store(Request $request)
 
     {
-
-        $this->RegisterSetting($request);
+        $requests=$request->except('accounts');
+        $this->RegisterSetting($requests);
+            foreach ($request['accounts'] as $key=>$value){
+                    $account=AccountingAccount::find($key);
+                    $account->update([
+                        'code'=>$value
+                    ]);
+            }
 
         alert()->success('تم حفظ الاعدادات بنجاح !')->autoclose(5000);
 

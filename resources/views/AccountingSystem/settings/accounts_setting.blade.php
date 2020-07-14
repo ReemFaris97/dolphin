@@ -50,9 +50,9 @@
 										</span>
                                        @elseif($setting->value=='0')
                                            <span class="new-radio-wrap">
-										<label>نعم</label>
-										{!! Form::radio($setting->name.'[]',1,false,['class'=>'form-control'])!!}
-									</span>
+                                            <label>نعم</label>
+                                            {!! Form::radio($setting->name.'[]',1,false,['class'=>'form-control'])!!}
+                                               </span>
                                            <span class="new-radio-wrap">
 											<label> لا</label>
 											{!! Form::radio($setting->name.'[]',0,true,['class'=>'form-control'])!!}
@@ -65,8 +65,6 @@
 
                        @if($setting->type=='radio')
                            <div class="form-group col-xs-4 backed-eee {{ $errors->has('name') ? ' has-error' : '' }}">
-
-
                                    <label> {{$setting->title}}</label>
                                    @if($setting->name=='coding_status')
                                        <div class="form-line new-radio-big-wrapper clearfix ">
@@ -111,6 +109,15 @@
 				   @endforeach
 				   <div class="clearfix"> </div>
 
+                   @foreach($accounts as $account)
+
+                       <div class="form-group col-xs-4 {{ $errors->has('name') ? ' has-error' : '' }} ">
+                           <label> {{$account->ar_name}} </label>
+                           <div class="form-group col-ms-6 pull-left">
+                               {!! Form::text("accounts[$account->id]",$account->code,['class'=>'form-control'])!!}
+                           </div>
+                       </div>
+                   @endforeach
                    <div class="text-right ">
                        <button type="submit" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i></button>
                    </div>

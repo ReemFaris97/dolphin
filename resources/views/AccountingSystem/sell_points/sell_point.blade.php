@@ -32,6 +32,7 @@
 		<!----------------  Start Bill Content ----------------->
 		<section class="yourBill">
 			<div class="yurSections">
+{{--            @dd(auth()->user()->accounting_store_id)--}}
 				<!--
 				<div class="row table-upper-options">
 					 Nav tabs
