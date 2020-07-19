@@ -29,7 +29,15 @@
         @endif
         <input type="file" class="form-control m-input" name="image">
     </div>
+    <div class="form-group m-form__group">
+        <label>كلمه المرور</label>
+        {!! Form::password('password',['class'=>'form-control  m-input','placeholder'=>'ادخل كلمه المرور'])!!}
+    </div>
+    <div class="form-group m-form__group">
+        <label> تأكيد كلمه المرور </label>
 
+        {!! Form::password('password_confirmation',['class'=>'form-control   m-input','placeholder'=>'ادخل تأكيد كلمه المرور'])!!}
+    </div>
 </div>
 
 

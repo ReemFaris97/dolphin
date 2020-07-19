@@ -6,7 +6,9 @@ use App\Http\Resources\Supplier\SupplierLogsResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UsersResource;
 use App\Models\SupplierLog;
+use App\Models\SupplierPrice;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\ApiResponses;
@@ -23,7 +25,10 @@ class EmployeesController extends Controller
     }
 
     public function getLog($id){
-        $logs = SupplierLog::where('user_id',$id)->paginate($this->paginateNumber);
+        $request= request()->all();
+
+        $logs = SupplierLog::where('user_id',$id)->whereBetween('created_at', [$request['from'], $request['to']])->paginate($this->paginateNumber);
+
         return $this->apiResponse(new SupplierLogsResource($logs));
     }
 
@@ -71,8 +76,34 @@ class EmployeesController extends Controller
 
         return $this->apiResponse(new UserResource($user));
 
-
-
+    }
+    public function active($id){
+        $user = User::find($id);
+        if(!$user) return $this->apiResponse(null,"المستخدم غير موجود");
+        $user = $this->ActiveSupplierEmployee($user);
+        $this->RegisterLog("تفعيل موظف");
+        return $this->apiResponse('تم تفعيل  الموضف التابع  بنجاح');
 
     }
+    public function dis_active($id){
+        $user = User::find($id);
+        if(!$user) return $this->apiResponse(null,"المستخدم غير موجود");
+        $user = $this->DisActiveSupplierEmployee($user);
+        $this->RegisterLog(" الغاءتفعيل موظف");
+        return $this->apiResponse('تم الغاء التفعيل للموظف  بنجاح');
+    }
+
+    public function destroy($id)
+    {
+        $user= User::find($id);
+        if($user){
+            $user->delete();
+            $this->RegisterLog("حذف  موظف تابع");
+            return $this->apiResponse('تم حذف الموظف بنجاح');
+        }
+        else{
+            return $this->apiResponse(null,"الموظف غير موجود",false);
+        }
+    }
+
 }

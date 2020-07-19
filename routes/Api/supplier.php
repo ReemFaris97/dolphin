@@ -40,10 +40,12 @@ Route::group(['middleware' => ['jwt.auth']], function () {
 
     /* Employees .... */
         Route::get('/employees','EmployeesController@index');            // all emp
-        Route::get('/employees/log/{id}','EmployeesController@getLog');   // emp log
+        Route::post('/employees/log/{id}','EmployeesController@getLog');   // emp log
         Route::post('/employees','EmployeesController@store');           // store emp
         Route::post('/employees/{id}','EmployeesController@update');      // update emp
-
+        Route::get('/employees/active/{id}','EmployeesController@active');      // active emp
+       Route::get('/employees/dis-active/{id}','EmployeesController@dis_active');      // dis-active emp
+        Route::delete('/employees/{id}','EmployeesController@destroy');           // delete emp
 
 
 

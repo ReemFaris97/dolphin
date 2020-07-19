@@ -41,6 +41,8 @@ class UserResource extends JsonResource
                  'bank_name'=>optional($this->bank)->name?optional($this->bank)->name:"",
              ]),
              'is_verified'=>$this->is_verified,
+             'is_actived'=>$this->active,
+
              'token' =>$this->token??"",
             ];
     }

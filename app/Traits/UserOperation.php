@@ -53,5 +53,17 @@ trait UserOperation
         $user->syncPermissions($request->permissions);
         return $user;
     }
+    public function ActiveSupplierEmployee($user){
+        $user->update([
+            'active'=>1
+        ]);
+        return $user;
+    }
 
+    public function DisActiveSupplierEmployee($user){
+        $user->update([
+            'active'=>0
+        ]);
+        return $user;
+    }
 }
