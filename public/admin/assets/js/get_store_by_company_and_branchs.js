@@ -12,9 +12,9 @@ $(function() {
         console.log(list);
     });
 
-    $("#company_id").on('change', function() {
-        var company_id = $(this).val();
-        console.log(company_id);
+    // $("#company_id").on('change', function() {
+    //     var company_id = $(this).val();
+    //     console.log(company_id);
 
 
 
@@ -62,6 +62,6 @@ $(function() {
 
 
 
-});
+// });
 
 

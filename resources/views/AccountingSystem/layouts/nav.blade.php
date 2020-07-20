@@ -15,7 +15,7 @@
 							<div class="single-shortcut"> <a href="{{route('accounting.stores.create')}}"> <img src="{{asset('admin/assets/images/shop.png')}}" alt=""> <span>إضافة مخزن</span> </a> </div>
 							<div class="single-shortcut"> <a href="{{route('accounting.categories.create')}}"> <img src="{{asset('admin/assets/images/interface.png')}}" alt=""> <span>إضافة تصنيف</span> </a> </div>
 							<div class="single-shortcut"> <a href="{{route('accounting.clauses.create')}}"> <img src="{{asset('admin/assets/images/terms.png')}}" alt=""> <span>إضافة سند قبض وصرف</span> </a> </div>
-							<div class="single-shortcut"> <a href="{{route('accounting.shifts.create')}}"> <img src="{{asset('admin/assets/images/shift.png')}}" alt=""> <span>إضافة وردية</span> </a> </div>
+{{--							<div class="single-shortcut"> <a href="{{route('accounting.shifts.create')}}"> <img src="{{asset('admin/assets/images/shift.png')}}" alt=""> <span>إضافة وردية</span> </a> </div>--}}
 						</div>
 					</div>
 				</div>
@@ -190,28 +190,28 @@
 						<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.products.create')}}"><i class="icon-add-to-list"></i> اضافة منتج جديد</a> </li>
 					</ul>
 				</li>
-				<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-center"></i> الارفف </a>
-					<ul class="dropdown-menu">
-						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-justify"></i> الاوجه </a>
-							<ul class="dropdown-menu">
-								<li><a href="{{route('accounting.faces.index')}}"><i class="icon-eye"></i> عرض الاوجة</a></li>
-								<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.faces.create')}}"><i class="icon-add-to-list"></i> اضافة وجة جديد</a> </li>
-							</ul>
-						</li>
-						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-left"></i> الاعمده </a>
-							<ul class="dropdown-menu">
-								<li><a href="{{route('accounting.columns.index')}}"><i class="icon-eye"></i> عرض الاعمده </a></li>
-								<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.columns.create')}}"><i class="icon-add-to-list"></i> اضافة عمود جديده</a> </li>
-							</ul>
-						</li>
-						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-right"></i> الخلايا </a>
-							<ul class="dropdown-menu">
-								<li><a href="{{route('accounting.cells.index')}}"><i class="icon-eye"></i> عرض الخلايا </a></li>
-								<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.cells.create')}}"><i class="icon-add-to-list"></i> اضافة خلية جديد</a> </li>
-							</ul>
-						</li>
-					</ul>
-				</li>
+{{--				<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-center"></i> الارفف </a>--}}
+{{--					<ul class="dropdown-menu">--}}
+{{--						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-justify"></i> الاوجه </a>--}}
+{{--							<ul class="dropdown-menu">--}}
+{{--								<li><a href="{{route('accounting.faces.index')}}"><i class="icon-eye"></i> عرض الاوجة</a></li>--}}
+{{--								<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.faces.create')}}"><i class="icon-add-to-list"></i> اضافة وجة جديد</a> </li>--}}
+{{--							</ul>--}}
+{{--						</li>--}}
+{{--						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-left"></i> الاعمده </a>--}}
+{{--							<ul class="dropdown-menu">--}}
+{{--								<li><a href="{{route('accounting.columns.index')}}"><i class="icon-eye"></i> عرض الاعمده </a></li>--}}
+{{--								<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.columns.create')}}"><i class="icon-add-to-list"></i> اضافة عمود جديده</a> </li>--}}
+{{--							</ul>--}}
+{{--						</li>--}}
+{{--						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-right"></i> الخلايا </a>--}}
+{{--							<ul class="dropdown-menu">--}}
+{{--								<li><a href="{{route('accounting.cells.index')}}"><i class="icon-eye"></i> عرض الخلايا </a></li>--}}
+{{--								<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.cells.create')}}"><i class="icon-add-to-list"></i> اضافة خلية جديد</a> </li>--}}
+{{--							</ul>--}}
+{{--						</li>--}}
+{{--					</ul>--}}
+{{--				</li>--}}
 			</ul>
 		</li>
                @endcan
@@ -252,14 +252,14 @@
 						@can('اضافة عميل')
 						<li><a href="{{route('accounting.clients.create')}}"><i class="icon-add-to-list"></i> اضافة عميل جديد</a></li>
 						@endcan
-						<li><a href="{{route('accounting.clients.permiums')}}"><i class="icon-eye"></i>تقسيط مديوينه العملاء</a></li>
-						<li><a href="{{route('accounting.clients.offers_copy')}}"><i class="icon-eye"></i> نسخ عروض العملاء</a></li>
-						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-history"></i> عروض الاسعار </a>
-							<ul class="dropdown-menu">
-								<li><a href="{{route('accounting.offers.index')}}"><i class="icon-eye"></i> عرض عروض الاسعار للعملاء</a></li>
-								<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.offers.create')}}"><i class="icon-add-to-list"></i> اضافة عرض سعر جديده</a> </li>
-							</ul>
-						</li>
+{{--						<li><a href="{{route('accounting.clients.permiums')}}"><i class="icon-eye"></i>تقسيط مديوينه العملاء</a></li>--}}
+{{--						<li><a href="{{route('accounting.clients.offers_copy')}}"><i class="icon-eye"></i> نسخ عروض العملاء</a></li>--}}
+{{--						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-history"></i> عروض الاسعار </a>--}}
+{{--							<ul class="dropdown-menu">--}}
+{{--								<li><a href="{{route('accounting.offers.index')}}"><i class="icon-eye"></i> عرض عروض الاسعار للعملاء</a></li>--}}
+{{--								<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.offers.create')}}"><i class="icon-add-to-list"></i> اضافة عرض سعر جديده</a> </li>--}}
+{{--							</ul>--}}
+{{--						</li>--}}
 					</ul>
 				</li>
 					@can('عرض فواتير مرتجعات المبيعات')
