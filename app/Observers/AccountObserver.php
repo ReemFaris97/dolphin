@@ -82,11 +82,8 @@ class AccountObserver
                 }
 
             }elseif($account->kind=='sub'||$account->kind=='following_main'){
-
-
                 $perantAccount= AccountingAccount::find($account->account_id);
-                $lastsubAcount = AccountingAccount::where('kind', 'sub')->where('account_id',$account->account_id)->latest()->first();
-
+                $lastsubAcount = AccountingAccount::whereIn('kind',['following_main', 'sub'])->where('account_id',$account->account_id)->latest()->first();
                 if (!is_null($lastsubAcount)) {
 
                     $account->code = $lastsubAcount->code + 1;
