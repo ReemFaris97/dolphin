@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
-use App\Models\AccountingSystem\AccountingAccount;
 use App\Models\AccountingSystem\AccountingBank;
 use App\Models\AccountingSystem\AccountingBenod;
 use App\Models\AccountingSystem\AccountingBranch;
@@ -13,15 +12,14 @@ use App\Models\AccountingSystem\AccountingCompany;
 use App\Models\AccountingSystem\AccountingCurrency;
 use App\Models\AccountingSystem\AccountingMoneyClause;
 use App\Models\AccountingSystem\AccountingProductCategory;
-use App\Models\AccountingSystem\AccountingSafe;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
 
-class BankController extends Controller
+class CurrencyController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.banks.';
+    private $viewable = 'AccountingSystem.currencies.';
     /**
      * Display a listing of the resource.
      *
@@ -30,8 +28,8 @@ class BankController extends Controller
     public function index()
     {
 
-        $banks=AccountingBank::all();
-        return $this->toIndex(compact('banks'));
+        $currencies=AccountingCurrency::all();
+        return $this->toIndex(compact('currencies'));
     }
 
     /**
@@ -41,12 +39,9 @@ class BankController extends Controller
      */
     public function create()
     {
-        $banks=AccountingBank::all();
-        $safes=AccountingSafe::all();
 
-        $currencies=AccountingCurrency::pluck('ar_name','id')->toArray();
-        $branches=AccountingBranch::pluck('name','id')->toArray();
-        return $this->toCreate(compact('branches','currencies','banks','safes'));
+
+        return $this->toCreate();
     }
 
     /**
@@ -59,20 +54,18 @@ class BankController extends Controller
     {
         $rules = [
 
-            'name'=>'required|string',
+            'ar_name'=>'required|string',
             'en_name'=>'required|string',
-            'bank_number'=>'required|string',
 
         ];
         $message=[
-            'en_name.required'=>'اسم البنك باللغه الانجليزيه مطلوب ',
-            'bank_number.required'=>'رمز البنك مطلوب',
+            'en_name.required'=>'اسم العملة باللغه الانجليزيه مطلوب ',
         ];
         $this->validate($request,$rules,$message);
         $requests = $request->all();
-        AccountingBank::create($requests);
-        alert()->success('تم حفظ البنك  بنجاح !')->autoclose(5000);
-        return back();
+        AccountingCurrency::create($requests);
+        alert()->success('تم حفظ العملة  بنجاح !')->autoclose(5000);
+        return redirect()->route('accounting.currencies.index');
 
     }
 
@@ -96,10 +89,10 @@ class BankController extends Controller
     public function edit($id)
     {
 
-        $bank=AccountingBank::find($id);
+        $currency=AccountingCurrency::find($id);
 
 
-        return $this->toEdit(compact('bank'));
+        return $this->toEdit(compact('currency'));
     }
 
     /**
@@ -111,23 +104,21 @@ class BankController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $bank =AccountingBank::findOrFail($id);
+        $currency =AccountingCurrency::findOrFail($id);
 
         $rules = [
 
-            'name'=>'required|string',
+            'ar_name'=>'required|string',
             'en_name'=>'required|string',
-            'bank_number'=>'required|string',
         ];
         $message=[
-            'en_name.required'=>'اسم البنك باللغه الانجليزيه مطلوب ',
-            'bank_number.required'=>'رمز البنك مطلوب',
+            'en_name.required'=>'اسم العملة باللغه الانجليزيه مطلوب ',
         ];
         $this->validate($request,$rules,$message);
         $requests = $request->all();
-        $bank->update($requests);
+        $currency->update($requests);
         alert()->success('تم تعديل  البنك بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.banks.index');
+        return redirect()->route('accounting.currencies.index');
 
 
 
@@ -141,24 +132,14 @@ class BankController extends Controller
      */
     public function destroy($id)
     {
-        $bank =AccountingBank::findOrFail($id);
-        $bank->delete();
-        alert()->success('تم حذف   البنك  بنجاح !')->autoclose(5000);
+        $currency =AccountingCurrency::findOrFail($id);
+        $currency->delete();
+        alert()->success('تم حذف   العملة  بنجاح !')->autoclose(5000);
             return back();
 
 
     }
 
 
-    public function getbenods($type)
-    {
 
-        $clauses=AccountingMoneyClause::where('type',$type)->get();
-        return response()->json([
-            'status'=>true,
-            'data'=>view('AccountingSystem.benods.getAjaxBenods')->with('clauses',$clauses)->render()
-        ]);
-
-
-    }
 }

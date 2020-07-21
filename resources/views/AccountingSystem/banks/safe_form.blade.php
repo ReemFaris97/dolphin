@@ -9,26 +9,13 @@
 @endif
 
 
-
-
 <div class="form-group col-md-6 pull-left">
-    <label> رمز البنك</label>
-    {!! Form::text("bank_number",null,['class'=>'form-control','placeholder'=>'  رمز البنك   '])!!}
-</div>
-
-<div class="form-group col-md-6 pull-left">
-    <label>اسم البنك  باللغه العربيه  </label>
+    <label>اسم الصندوق  باللغه العربيه  </label>
     {!! Form::text("name",null,['class'=>'form-control','placeholder'=>'اسم البنك  باللغه العربيه '])!!}
 </div>
 
 <div class="form-group col-md-6 pull-left">
-    <label>اسم البنك  باللفه الانجليزيه </label>
-    {!! Form::text("en_name",null,['class'=>'form-control','placeholder'=>' اسم البنك  باللفه الانجليزيه '])!!}
-</div>
-
-<div class="form-group col-md-6 pull-left">
     <label>اسم الحساب </label>
-
     {!! Form::text("account_name",null,['class'=>'form-control','placeholder'=>' اسم الحساب  '])!!}
 </div>
 <div class="form-group col-md-6 pull-left">
@@ -42,7 +29,6 @@
 <div class="form-group col-md-6 pull-left">
     <label>  الصلاحيات </label>
     {!! Form::select("branch_id",$branches,null,['class'=>'form-control js-example-basic-single branch_id','id'=>'branch_id','multiple'])!!}
-
 </div>
 
 <div class="form-group col-xs-6 pull-left  ">

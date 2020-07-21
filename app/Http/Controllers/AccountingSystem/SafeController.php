@@ -60,25 +60,25 @@ class SafeController extends Controller
 
         ];
         $this->validate($request, $rules);
-        $requests = $request->all();
+        $requests = $request->except('company_id','model_type','status','branch_id');
+//          dd($requests);
+            if (isset($requests['company_id'])) {
+                dd("wq");
+                if ($requests['company_id'] == NULL & $requests['branch_id'] != NULL) {
+                    $requests['model_id'] = $requests['branch_id'];
+                    $requests['model_type'] = 'App\Models\AccountingSystem\AccountingBranch';
+                    $requests['status'] = 'branch';
+                }
+                if ($requests['branch_id'] == NULL & $requests['company_id'] != NULL) {
+                    $requests['model_id'] = $requests['company_id'];
+                    $requests['model_type'] = 'App\Models\AccountingSystem\AccountingCompany';
+                    $requests['status'] = 'company';
 
-        if ($requests['company_id'] == NULL & $requests['branch_id'] != NULL) {
-
-            $requests['model_id'] = $requests['branch_id'];
-            $requests['model_type'] = 'App\Models\AccountingSystem\AccountingBranch';
-            $requests['status'] = 'branch';
-        }
-        if ($requests['branch_id'] == NULL & $requests['company_id'] != NULL) {
-
-            $requests['model_id'] = $requests['company_id'];
-            $requests['model_type'] = 'App\Models\AccountingSystem\AccountingCompany';
-            $requests['status'] = 'company';
-
-        }
-
+                }
+            }
         AccountingSafe::create($requests);
         alert()->success('تم اضافة الخزينة بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.safes.index');
+        return back();
     }
 
     /**
