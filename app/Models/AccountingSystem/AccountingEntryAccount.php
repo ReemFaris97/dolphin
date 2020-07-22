@@ -15,5 +15,13 @@ class AccountingEntryAccount extends Model
     {
         return $this->belongsTo(AccountingEntry::class,'entry_id');
     }
+    public function from_account()
+    {
+        return $this->belongsTo(AccountingAccount::class,'from_account_id');
+    }
+    public function to_account()
+    {
+        return $this->belongsTo(AccountingAccount::class,'to_account_id');
+    }
 }
 
