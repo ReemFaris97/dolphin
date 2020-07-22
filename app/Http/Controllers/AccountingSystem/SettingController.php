@@ -7,6 +7,7 @@ namespace App\Http\Controllers\AccountingSystem;
 
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingAccount;
+use App\Models\AccountingSystem\AccountingPayment;
 use App\Models\AccountingSystem\AccountingSetting;
 use App\Traits\SettingOperation;
 use App\Setting;
@@ -117,7 +118,22 @@ class SettingController extends Controller
                 ->with('settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_cash')->get())
                 ->with('chart_accounts', $chart_accounts);
 
+        }elseif ($settings_page == 'تعين خيارات الدفع') {
+            $payments = AccountingPayment::all();
+            return view('AccountingSystem.settings.payment_setting')
+                ->with('settings_page', $settings_page)
+                ->with('setting', AccountingSetting::where('slug', $slug)->where('accounting_type', 'Acc_payment')->first())
+                ->with('payments', $payments);
+        }elseif ($settings_page == 'تعين حسابات البنوك والصناديق')
+        {
+            $chart_accounts = AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->pluck('code_name','id')->toArray();
+            return view('AccountingSystem.settings.banks_safes_setting')
+                ->with('settings_page', $settings_page)
+                ->with('settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_banks_safes')->get())
+                ->with('chart_accounts', $chart_accounts);
+
         }
+
 
 
         else{
@@ -172,13 +188,14 @@ class SettingController extends Controller
     {
         $requests=$request->except('accounts');
         $this->RegisterSetting($requests);
-            foreach ($request['accounts'] as $key=>$value){
-                    $account=AccountingAccount::find($key);
-                    $account->update([
-                        'code'=>$value
-                    ]);
+        if (isset($request['accounts'])) {
+            foreach ($request['accounts'] as $key => $value) {
+                $account = AccountingAccount::find($key);
+                $account->update([
+                    'code' => $value
+                ]);
             }
-
+        }
         alert()->success('تم حفظ الاعدادات بنجاح !')->autoclose(5000);
 
         return redirect()->back();

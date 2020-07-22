@@ -3,11 +3,13 @@
 namespace App\Providers;
 
 use App\Models\AccountingSystem\AccountingAccount;
+use App\Models\AccountingSystem\AccountingBank;
 use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingDevice;
 use App\Models\AccountingSystem\AccountingEntry;
 use App\Models\AccountingSystem\AccountingEntryAccount;
 use App\Models\AccountingSystem\AccountingMoneyClause;
+use App\Models\AccountingSystem\AccountingPayment;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
 use App\Models\AccountingSystem\AccountingPurchase;
@@ -17,11 +19,14 @@ use App\Models\AccountingSystem\AccountingSale;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingSupplier;
 use App\Observers\AccountObserver;
+use App\Observers\BankObserver;
 use App\Observers\EntryAccountObserver;
 use App\Observers\EntryObserver;
 use App\Observers\MoneyClauseLogObserver;
+use App\Observers\PaymentObserver;
 use App\Observers\PurchaseObserver;
 use App\Observers\PurchaseReturnObserver;
+use App\Observers\SafeObserver;
 use App\Observers\SaleObserver;
 use App\Observers\StoreObserver;
 use App\Observers\SupplierObserver;
@@ -62,6 +67,9 @@ class AppServiceProvider extends ServiceProvider
               AccountingEntryAccount::observe(EntryAccountObserver::class);
               AccountingSupplier::observe(SupplierObserver::class);
               AccountingStore::observe(StoreObserver::class);
+              AccountingPayment::observe(PaymentObserver::class);
+             AccountingBank::observe(BankObserver::class);
+            AccountingSafe::observe(SafeObserver::class);
 
         Validator::extend('branch_name', function ($attribute, $value, $parameters) {
             $count= AccountingBranch::where($parameters[1],$parameters[3])->
