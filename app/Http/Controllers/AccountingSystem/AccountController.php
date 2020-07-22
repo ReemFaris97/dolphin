@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\AccountingSystem;
 
 use App\Models\AccountingSystem\AccountingAccount;
+use App\Models\AccountingSystem\AccountingAccountLog;
 use App\Models\AccountingSystem\AccountingAccountSetting;
+use App\Models\AccountingSystem\AccountingEntryAccount;
+use App\Models\AccountingSystem\AccountingEntryLog;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
@@ -74,7 +77,8 @@ class AccountController extends Controller
     public function show($id)
     {
         $account=AccountingAccount::find($id);
-        return view("AccountingSystem.charts_accounts.show",compact('account'));
+        $logs=AccountingAccountLog::where('account_id',$id)->get();
+        return view("AccountingSystem.charts_accounts.show",compact('account','logs'));
 
     }
 

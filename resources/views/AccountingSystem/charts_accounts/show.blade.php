@@ -88,6 +88,54 @@
                         </div>
                     </div>
 
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+
+                            <th>كود </th>
+                            <th>التاريخ</th>
+                            <th> اسم الحساب </th>
+                            <th>المبلغ</th>
+                            <th>التاثير</th>
+
+                            <th>التفاصيل</th>
+                            <th>الرصيد بعد العملية</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        @foreach($logs as $row)
+                            <tr>
+                                <td>{!!$loop->iteration!!}</td>
+                                <td>{!! $row->account->code!!}</td>
+                                <td>{!! $row->entry->date!!}</td>
+                                <td>{!! $row->another_account->ar_name!!}</td>
+                                <td>{!! $row->amount!!}</td>
+                                <td>
+                                    @if($row->affect=='debtor')
+                                        مدين <i class="fa fa-arrow-up" style="margin-left: 10px"></i>
+                                    @else
+                                        دائن<i class="fa fa-arrow-down" style="margin-left: 10px"></i>
+                                   @endif
+                                </td>
+
+                                <td>
+                                    {{$row->entry->details}}
+                                </td>
+                                <td>
+                                    {{$row->account_amount_after}}
+                                </td>
+                            </tr>
+
+                        @endforeach
+
+
+
+                        </tbody>
+                    </table>
+
                 </div>
             </div>
 

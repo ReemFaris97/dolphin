@@ -66,7 +66,7 @@
                 </tr>
                 </thead>
                 <tbody>
-@php($i=1)
+                @php($i=1)
                 @foreach($banks as $row)
                     <tr>
                         <td>{!!$i++!!}</td>
