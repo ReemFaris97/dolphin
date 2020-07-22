@@ -26,15 +26,15 @@
     {!! Form::text("en_name",null,['class'=>'form-control','placeholder'=>' اسم البنك  باللفه الانجليزيه '])!!}
 </div>
 
-<div class="form-group col-md-6 pull-left">
-    <label>اسم الحساب </label>
+{{--<div class="form-group col-md-6 pull-left">--}}
+{{--    <label>اسم الحساب </label>--}}
 
-    {!! Form::text("account_name",null,['class'=>'form-control','placeholder'=>' اسم الحساب  '])!!}
-</div>
-<div class="form-group col-md-6 pull-left">
-    <label>    كودالحساب  </label>
-    {!! Form::text("account_num",null,['class'=>'form-control','placeholder'=>'   كود  الحساب  '])!!}
-</div>
+{{--    {!! Form::text("account_name",null,['class'=>'form-control','placeholder'=>' اسم الحساب  '])!!}--}}
+{{--</div>--}}
+{{--<div class="form-group col-md-6 pull-left">--}}
+{{--    <label>    كودالحساب  </label>--}}
+{{--    {!! Form::text("account_num",null,['class'=>'form-control','placeholder'=>'   كود  الحساب  '])!!}--}}
+{{--</div>--}}
 <div class="form-group col-md-6 pull-left">
     <label>  العملة </label>
     {!! Form::select("currency_id",$currencies,null,['class'=>'form-control js-example-basic-single currency_id','id'=>'currency_id','placeholder'=>' اختر العملة '])!!}

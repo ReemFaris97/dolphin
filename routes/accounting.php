@@ -288,6 +288,7 @@ Route::middleware('admin')->group(function () {
         Route::get('dis-active/{id}', 'AccountController@dis_active')->name('ChartsAccounts.dis_active');
     });
     Route::resource('currencies', 'CurrencyController');
+    Route::resource('payments', 'PaymentController');
 
     Route::group(['prefix' => 'entries'], function () {
         Route::resource('entries', 'EntryController');

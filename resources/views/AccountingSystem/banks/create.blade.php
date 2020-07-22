@@ -71,7 +71,7 @@
                     <tr>
                         <td>{!!$i++!!}</td>
                         <td>{!! $row->name!!}</td>
-                        <td>{!! $row->account_num!!}</td>
+                        <td>{!! optional($row->account)->code!!}</td>
                         <td></td>
                         <td>{!!optional($row->currency)->ar_name!!}</td>
 
@@ -103,7 +103,7 @@
 
 
                         <td>{!! $row->name!!}</td>
-                        <td>{!! $row->account_num!!}</td>
+                        <td>{!! optional($row->account)->code!!}</td>
                         <td></td>
                         <td>{!!optional($row->currency)->ar_name!!}</td>
 

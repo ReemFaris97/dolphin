@@ -353,6 +353,12 @@
 							</ul>
 						</li>
 
+                            <li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-justify"></i> خيارات الدفع</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{route('accounting.payments.index')}}"><i class="icon-eye"></i> عرض خيارات الدفع</a></li>
+                                    <li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.payments.create')}}"><i class="icon-add-to-list"></i> اضافة خيار جديد</a> </li>
+                                </ul>
+                            </li>
 					</ul>
 				</li>
 
@@ -444,6 +450,8 @@
 								<li><a href="{{route('accounting.settings.show',['accounting_stores'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين حسابات المخزون  </a></li>
                                 <li><a href="{{route('accounting.settings.show',['accounting_cash'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين  حسابات النقدية  </a></li>
                                  <li><a href="{{route('accounting.settings.show',['accounting_entries'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين  القيود المحاسبيه  </a></li>
+                        <li><a href="{{route('accounting.settings.show',['accounting_banks_safes'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين  حسابات البنوك والصناديق </a></li>
+                        <li><a href="{{route('accounting.settings.show',['accounting_payment'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين  خيارات الدفع  </a></li>
 
 
 					</ul>
