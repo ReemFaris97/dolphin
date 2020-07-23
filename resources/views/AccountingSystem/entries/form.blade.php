@@ -36,13 +36,16 @@
 </div>
 <div class="form-group col-sm-6 col-xs-12 pull-left accounts">
     <label>  من حساب </label>
-    {!! Form::select("from_account_id",$accounts,null,['class'=>'form-control selectpicker ','multiple'])!!}
+    {!! Form::select("from_account_id",$accounts,null,['class'=>'form-control selectpicker ','id'=>'from_account_id'])!!}
 </div>
 
 
-<div class="form-group col-sm-6 col-xs-12 pull-left accounts">
-    <label>  الى حساب </label>
-    {!! Form::select("to_account_id",$accounts,null,['class'=>'form-control selectpicker ','multiple',])!!}
+
+<div class="toAccounts">
+    <div class="form-group col-sm-6 col-xs-12 pull-left accounts">
+        <label>  الى حساب </label>
+        {!! Form::select("to_account_id",$accounts,null,['class'=>'form-control  ',])!!}
+    </div>
 </div>
 
 
@@ -65,6 +68,24 @@
 
 
         });
+
+        $("#from_account_id").on('change', function() {
+
+                var id = $(this).val();
+                console.log(id);
+                $('.toAccounts').empty();
+                $.ajax({
+                    url:"/accounting/entries/toAccounts/"+id,
+                    type:"get",
+                    data:{'ids':id,}
+
+                }).done(function (data) {
+
+                    $('.toAccounts').html(data.data);
+                }).fail(function (error) {
+                    console.log(error);
+                });
+        })
     </script>
 
 @endsection

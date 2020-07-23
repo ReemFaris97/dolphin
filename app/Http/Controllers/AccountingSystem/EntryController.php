@@ -34,7 +34,7 @@ class EntryController extends Controller
      */
     public function create()
     {
-        $accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->pluck('code_name','id')->toArray();
+        $accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->where('kind','sub')->pluck('code_name','id')->toArray();
         return $this->toCreate(compact('accounts'));
     }
 
@@ -52,8 +52,8 @@ class EntryController extends Controller
             'date'=>'required',
             'amount'=>'required',
             'type'=>'required',
-           'from_account_id'=>'required|array|exists:accounting_accounts,id',
-           'to_account_id'=>'required|array|exists:accounting_accounts,id',
+           'from_account_id'=>'required|exists:accounting_accounts,id',
+           'to_account_id'=>'required|exists:accounting_accounts,id',
         ];
         $message=[
             'from_account_id.required'=>'اسم الحساب الاول(المدين) مطلوب ',
@@ -100,7 +100,7 @@ class EntryController extends Controller
     public function edit($id)
     {
         $entry =AccountingEntry::findOrFail($id);
-        $accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->pluck('code_name','id')->toArray();
+        $accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->where('kind','sub')->pluck('code_name','id')->toArray();
 
         return $this->toEdit(compact('entry','accounts'));
 
@@ -197,6 +197,17 @@ class EntryController extends Controller
 
             alert()->success('تم ترحيل القيد بنجاح !')->autoclose(5000);
             return back();
+
+    }
+
+    public function  toaccounts($id){
+
+        $accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->where('kind','sub')->where('id','!=',$id)->pluck('code_name','id')->toArray();
+
+        return response()->json([
+            'status'=>true,
+            'data'=>view('AccountingSystem.entries.account')->with('accounts',$accounts)->render()
+        ]);
 
     }
 }
