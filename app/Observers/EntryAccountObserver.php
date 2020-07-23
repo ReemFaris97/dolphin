@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-
+use App\Models\AccountingSystem\AccountingAccount;
 use App\Models\AccountingSystem\AccountingAccountLog;
 use App\Models\AccountingSystem\AccountingEntry;
 use App\Models\AccountingSystem\AccountingEntryAccount;
@@ -50,6 +50,17 @@ class EntryAccountObserver
             'account_amount_after'=>optional($entryAccount->from_account)->amount-$entryAccount->amount,
             'affect'=>'creditor',
         ]);
+
+     $debtorAccount=AccountingAccount::find($entryAccount->to_account_id);
+     $creditorAccount=AccountingAccount::find($entryAccount->from_account_id);
+     
+     $debtorAccount->update([
+        'amount'=>$debtorAccount->amount+$entryAccount->amount,
+     ]);
+
+     $creditorAccount->update([
+        'amount'=>$creditorAccount->amount-$entryAccount->amount,
+     ]);
     }
 
     public  function  updated(AccountingEntryAccount $entryAccount){
