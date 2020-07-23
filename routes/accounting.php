@@ -294,6 +294,7 @@ Route::middleware('admin')->group(function () {
         Route::resource('entries', 'EntryController');
         Route::get('filter', ['as' => 'entries.filter', 'uses' => 'EntryController@filter']);
         Route::get('posting/{id}', ['as' => 'entries.posting', 'uses' => 'EntryController@posting']);
+        Route::get('toAccounts/{id}', ['as' => 'entries.toAccounts', 'uses' => 'EntryController@toaccounts']);
 
     });
 });
