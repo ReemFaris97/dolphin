@@ -52,8 +52,8 @@ class EntryController extends Controller
             'date'=>'required',
             'amount'=>'required',
             'type'=>'required',
-           'from_account_id'=>'required|array|exists:accounting_accounts,id',
-           'to_account_id'=>'required|array|exists:accounting_accounts,id',
+           'from_account_id'=>'required|exists:accounting_accounts,id',
+           'to_account_id'=>'required|exists:accounting_accounts,id',
         ];
         $message=[
             'from_account_id.required'=>'اسم الحساب الاول(المدين) مطلوب ',
