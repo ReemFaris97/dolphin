@@ -52,10 +52,15 @@ class EntryController extends Controller
             'date'=>'required',
             'amount'=>'required',
             'type'=>'required',
-//            'from_account_id'=>'required|array|exists:accounting_accounts,id',
-//            'to_account_id'=>'required|array|exists:accounting_accounts,id',
+           'from_account_id'=>'required|array|exists:accounting_accounts,id',
+           'to_account_id'=>'required|array|exists:accounting_accounts,id',
         ];
-        $this->validate($request,$rules);
+        $message=[
+            'from_account_id.required'=>'اسم الحساب الاول(المدين) مطلوب ',
+            'to_account_id.required'=>'اسم الحساب الثانى(الدائن) مطلوب ',
+
+        ];
+        $this->validate($request,$rules,$message);
 
         $requests = $request->except('from_account_id','to_account_id');
         $requests['type']='manual';
@@ -151,22 +156,26 @@ class EntryController extends Controller
 
         if ($request->has('code')&$request->code!=NULL) {
 
-            $entries = AccountingEntry::where('code', $requests['code']);
+            $entries = AccountingEntry::where('code', $requests['code'])->get();
         }elseif ($request->has('date')&$request->date!=NULL) {
 
-            $entries = AccountingEntry::where('date', $requests['date']);
+            $entries = AccountingEntry::where('date', $requests['date'])->get();
 
-            dd($requests['date']);
+
         }elseif ($request->has('type')&$request->type!=NULL) {
-            dd("type");
-            $entries = AccountingEntry::where('type', $requests['type']);
+                    if($requests['type']=='يدوى'){
+            $entries = AccountingEntry::where('type','manual')->get();
+                    }elseif($requests['type']=='الى'){
+             $entries = AccountingEntry::where('type','automatic')->get();
+                    }
         }elseif ($request->has('source')&$request->source!=NULL) {
-            $entries = AccountingEntry::where('source', $requests['source']);
+            $entries = AccountingEntry::where('source', $requests['source'])->get();
+        }else{
+            $entries = AccountingEntry::all()->reverse();
+
         }
+        return $this->toIndex(compact('entries'));
 
-        $entries = $entries->get();
-
-dd($entries);
 
     }
 
