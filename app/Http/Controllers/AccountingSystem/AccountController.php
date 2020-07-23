@@ -50,10 +50,12 @@ class AccountController extends Controller
             'en_name'=>'required|string|max:100',
             'kind'=>'required|in:main,sub,following_main',
             'status'=>'required|in:debtor,Creditor',
+            'account_id'=>'required_if:kind, in :,sub,following_main|numeric|exists:accounting_accounts,id'
         ];
         $message=[
             'en_name.required'=>'اسم الحساب باللغه الانجليزيه مطلوب ',
             'ar_name.required'=>'اسم الحساب باللغه  العربيه مطلوب',
+            'account_id.required_if'=>'الحساب الرئيسى مطلوب فى حالة نوع الحساب  رئيسى تابع او فرعى',
         ];
         $this->validate($request,$rules,$message);
         $requests = $request->all();

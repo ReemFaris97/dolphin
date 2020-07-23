@@ -25,10 +25,25 @@
     {!! Form::select("kind",['main'=>'حساب رئيسى','sub'=>'حساب فرعى','following_main'=>' حساب رئيسى تابع'],Null,['class'=>'form-control','id'=>'kind'])!!}
 </div>
 
+
 <div class="form-group col-sm-6 col-xs-12 pull-left accounts">
     <label>  اختر الحساب الرئيسى </label>
-    {!! Form::select("account_id",$accounts,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الحساب ',])!!}
+    {!! Form::select("account_id",$accounts,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الحساب ','disablePlaceholder' => true])!!}
 </div>
+@if(isset($account))
+@if($account->kind=='following_main'||$account->kind=='sub')
+
+
+<div class="form-group col-sm-6 col-xs-12 pull-left ">
+    <label>  اختر الحساب الرئيسى </label>
+    {!! Form::select("account_id",$accounts,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الحساب ','disablePlaceholder' => true])!!}
+</div>
+
+
+
+@endif
+
+@endif
 
 
 <div class="form-group col-xs-6 pull-left  ">
