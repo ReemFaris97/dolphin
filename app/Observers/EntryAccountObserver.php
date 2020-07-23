@@ -37,7 +37,7 @@ class EntryAccountObserver
             'account_amount_before'=>optional($entryAccount->to_account)->amount,
             'another_account_id'=>$entryAccount->from_account_id,
             'amount'=>$entryAccount->amount,
-            'account_amount_after'=>optional($entryAccount->to_account)->amount+$entryAccount->amount,
+            'account_amount_after'=>optional($entryAccount->to_account)->amount-$entryAccount->amount,
             'affect'=>'debtor',
         ]);
 ////////////////////////الحساب الدائن
@@ -47,19 +47,19 @@ class EntryAccountObserver
             'account_amount_before'=>optional($entryAccount->form_account)->amount,
             'another_account_id'=>$entryAccount->to_account_id,
             'amount'=>$entryAccount->amount,
-            'account_amount_after'=>optional($entryAccount->from_account)->amount-$entryAccount->amount,
+            'account_amount_after'=>optional($entryAccount->from_account)->amount+$entryAccount->amount,
             'affect'=>'creditor',
         ]);
 
      $debtorAccount=AccountingAccount::find($entryAccount->to_account_id);
      $creditorAccount=AccountingAccount::find($entryAccount->from_account_id);
-     
+
      $debtorAccount->update([
-        'amount'=>$debtorAccount->amount+$entryAccount->amount,
+        'amount'=>$debtorAccount->amount-$entryAccount->amount,
      ]);
 
      $creditorAccount->update([
-        'amount'=>$creditorAccount->amount-$entryAccount->amount,
+        'amount'=>$creditorAccount->amount+$entryAccount->amount,
      ]);
     }
 
