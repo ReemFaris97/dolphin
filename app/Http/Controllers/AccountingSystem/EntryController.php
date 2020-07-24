@@ -47,7 +47,7 @@ class EntryController extends Controller
     public function store(Request $request)
     {
 
-        $rules = [
+       $rules = [
             'source'=>'required|string|max:191',
             'date'=>'required',
             'amount'=>'required',
@@ -58,7 +58,6 @@ class EntryController extends Controller
         $message=[
             'from_account_id.required'=>'اسم الحساب الاول(المدين) مطلوب ',
             'to_account_id.required'=>'اسم الحساب الثانى(الدائن) مطلوب ',
-
         ];
         $this->validate($request,$rules,$message);
 
@@ -163,13 +162,13 @@ class EntryController extends Controller
 
 
         }elseif ($request->has('type')&$request->type!=NULL) {
-                    if($requests['type']=='يدوى'){
+                    if($requests['type']=='manual'){
             $entries = AccountingEntry::where('type','manual')->get();
-                    }elseif($requests['type']=='الى'){
+                    }elseif($requests['type']=='automatic'){
              $entries = AccountingEntry::where('type','automatic')->get();
                     }
         }elseif ($request->has('source')&$request->source!=NULL) {
-            $entries = AccountingEntry::where('source', $requests['source'])->get();
+            $entries = AccountingEntry::where('source','Like', '%'.$requests['source'].'%')->get();
         }else{
             $entries = AccountingEntry::all()->reverse();
 

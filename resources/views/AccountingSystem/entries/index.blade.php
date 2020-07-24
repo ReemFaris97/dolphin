@@ -45,11 +45,17 @@
                             </div>
                             <div class="form-group col-sm-3">
                                 <label>مصدر  العمليه  </label>
-                                {!! Form::text("source",null,['class'=>'form-control'])!!}
+                                {{-- {!! Form::select("source",['قيد يدوى'=>'قيد يدوى','مشتريات'=>'مشتريات','مبيعات'=>'مبيعات ','مرتجعات'=>'مرتجعات'],null,['class'=>'form-control','placeholder'=>'اختر مصدر العمل'])!!} --}}
+                          <select class="form-control" name="source">
+                              <option></option>
+                              <option value="قيد يدوى">قيد يدوى</option>
+                              <option value="مبيعات">مبيعات</option>
+                              <option value="مشتريات">مشتريات</option>
+                          </select>
                             </div>
                             <div class="form-group col-sm-3 col-xs-12 ">
                                 <label> نوع  العمليه  </label>
-                                {!! Form::text("type",null,['class'=>'form-control'])!!}
+                                {!! Form::select("type",['manual'=>'يدوى','automatic'=>'الى'],null,['class'=>'form-control'])!!}
                             </div>
 
                             <div class="form-group col-sm-3">
