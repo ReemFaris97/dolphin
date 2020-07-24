@@ -37,7 +37,7 @@ class AccountingProduct extends Model
         $taxs=AccountingProductTax::where('product_id',$this->id)->get();
         $total = 0;
         foreach($taxs as $tax){
-            $total+=$tax->Taxband->percent;
+            $total+=optional($tax->Taxband)->percent;
         }
         return $total;
     }
