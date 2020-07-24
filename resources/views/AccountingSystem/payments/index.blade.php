@@ -1,7 +1,7 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض العملات ')
-@section('parent_title','اعدات العملات')
-@section('action', URL::route('accounting.currencies.index'))
+@section('title','عرض خيارات الدفع ')
+@section('parent_title','اعدات خيارات الدفع')
+@section('action', URL::route('accounting.payments.index'))
 
 @section('styles')
 
@@ -10,10 +10,10 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">عرض كل العملات
+            <h5 class="panel-title">عرض كل خيارات الدفع
             <div class="btn-group beside-btn-title">
                 <a href="{{route('accounting.payments.create')}}" class="btn btn-success">
-                    إضافه  عملة  جديد
+                    إضافه  خيار دفع جديد
                     <span class="m-l-5"><i class="fa fa-plus"></i></span>
                 </a>
             </div>
@@ -51,9 +51,9 @@
                         <td>{!! $row->name!!}</td>
                         <td>
                             @if($row->type=='bank')
-                                {{$row->bank->name  }}
+                                {{optional( $row->bank)->name  }}
                                 @else
-                                {{$row->safe->name  }}
+                                {{optional($row->safe)->name  }}
 
                             @endif
                         </td>
@@ -67,10 +67,10 @@
                         </td>
 
                         <td class="text-center">
-                            <a href="{{route('accounting.currencies.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.payments.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
 
-                            {!!Form::open( ['route' => ['accounting.currencies.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
+                            {!!Form::open( ['route' => ['accounting.payments.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
                             {!!Form::close() !!}
 
                         </td>

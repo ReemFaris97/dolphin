@@ -31,7 +31,8 @@ class BankController extends Controller
     {
 
         $banks=AccountingBank::all();
-        return $this->toIndex(compact('banks'));
+        $safes=AccountingSafe::all();
+        return $this->toIndex(compact('banks','safes'));
     }
 
     /**

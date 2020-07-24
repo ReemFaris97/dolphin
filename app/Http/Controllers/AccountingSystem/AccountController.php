@@ -45,12 +45,13 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
+
         $rules = [
             'ar_name'=>'required|string|max:50',
             'en_name'=>'required|string|max:100',
             'kind'=>'required|in:main,sub,following_main',
             'status'=>'required|in:debtor,Creditor',
-            'account_id'=>'required_if:kind, in :,sub,following_main|numeric|exists:accounting_accounts,id'
+            'account_id'=>'required_if:kind,sub|required_if:kind,following_main'
         ];
         $message=[
             'en_name.required'=>'اسم الحساب باللغه الانجليزيه مطلوب ',

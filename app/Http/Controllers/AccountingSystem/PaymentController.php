@@ -59,17 +59,20 @@ class PaymentController extends Controller
         $rules = [
 
             'name'=>'required|string',
-
+            'bank_id'=>'required_if:type,bank',
+             'safe_id'=>'required_if:type,safe'
 
         ];
         $message=[
             'name.required'=>'مسمى خيار الدفع مطلوب ',
+            'bank_id.required_if'=>'اسم البنك  مطلوب ',
+            'safe_id.required_if'=>'اسم الصندوق  مطلوب ',
         ];
         $this->validate($request,$rules,$message);
         $requests = $request->all();
         AccountingPayment::create($requests);
         alert()->success('تم حفظ خيار الدفع  بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.payments.index');
+        return back();
 
     }
 

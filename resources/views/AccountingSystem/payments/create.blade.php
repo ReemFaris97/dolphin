@@ -48,9 +48,9 @@
                     <td>{!! $row->name!!}</td>
                     <td>
                         @if($row->type=='bank')
-                            {{$row->bank->name  }}
+                            {{optional($row->bank)->name  }}
                         @else
-                            {{$row->safe->name  }}
+                            {{optional($row->safe)->name  }}
 
                         @endif
                     </td>
@@ -64,10 +64,10 @@
                     </td>
 
                     <td class="text-center">
-                        <a href="{{route('accounting.currencies.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
+                        <a href="{{route('accounting.payments.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
                         <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
 
-                        {!!Form::open( ['route' => ['accounting.currencies.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
+                        {!!Form::open( ['route' => ['accounting.payments.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
                         {!!Form::close() !!}
 
                     </td>
