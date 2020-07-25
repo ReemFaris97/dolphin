@@ -80,15 +80,16 @@ class SaleController extends Controller
         if (getsetting('automatic_sales')==1){
             $requests['account_id']=getsetting('accounting_id_sales');
         }
-        if($requests['reminder']==0){
+
             $requests['payment']='cash';
-        }
+
         if ($requests['total']==Null){
             $requests['total']= $requests['amount'];
         }
         $requests['store_id']=$user->accounting_store_id;
-        $sale=AccountingSale::create($requests);
 
+
+        $sale=AccountingSale::create($requests);
 
         $sale->update([
             'bill_num'=>$sale->id."-".$sale->created_at,
@@ -96,7 +97,7 @@ class SaleController extends Controller
             'date'=>$requests['bill_date'] ,
             'store_id'=>$user->accounting_store_id,
             'debts'=>$requests['reminder'] ,
-            'payment'=>'agel',
+//            'payment'=>'agel',
             'total'=>$requests['total'],
             'branch_id'=>($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:Null,
         ]);

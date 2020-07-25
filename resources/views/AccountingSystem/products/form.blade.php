@@ -12,25 +12,25 @@
 		<li class="active"><a data-toggle="tab" href="#home">بيانات المكان</a></li>
 		<li><a data-toggle="tab" href="#menu1">بيانات المنتج</a></li>
 		<li><a data-toggle="tab" href="#menu2">بيانات البيع</a></li>
-{{--		<li><a data-toggle="tab" href="#menu3">مواصفات أخرى (إختياري)</a></li>--}}
+		<li><a data-toggle="tab" href="#menu3">مواصفات أخرى (إختياري)</a></li>
 		<li><a data-toggle="tab" href="#menu4"> الخصومات</a></li>
 		<li><a data-toggle="tab" href="#menu5">الضريبه المضافة</a></li>
 	</ul>
 	<div class="tab-content">
 		<div id="home" class="tab-pane fade in active">
 			<div class="row">
-{{--				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">--}}
-{{--					<label> اسم الشركة </label>--}}
-{{--					<div class="btn-group adding-new-comp">--}}
-{{--						<a href="{{route('accounting.companies.create')}}" class="btn btn-success">--}}
-{{--						  <span class="m-l-5">--}}
-{{--						   إضافة شركة--}}
-{{--						   <i class="fa fa-plus"></i>--}}
-{{--						   </span>--}}
-{{--						</a>--}}
-{{--					</div>--}}
-{{--					{!! Form::select("company_id",companies(),null,['class'=>'form-control js-example-basic-single company_id','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له المنتج '])!!}--}}
-{{--				</div>--}}
+				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
+					<label> اسم الشركة </label>
+					<div class="btn-group adding-new-comp">
+						<a href="{{route('accounting.companies.create')}}" class="btn btn-success">
+						  <span class="m-l-5">
+						   إضافة شركة
+						   <i class="fa fa-plus"></i>
+						   </span>
+						</a>
+					</div>
+					{!! Form::select("company_id",companies(),null,['class'=>'form-control js-example-basic-single company_id','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له المنتج '])!!}
+				</div>
 				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
 					<label> اسم الفرع التابع </label>
 					<div class="btn-group adding-new-comp">
@@ -67,56 +67,56 @@
 					</select>
 					@endif
 				</div>
-{{--				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">--}}
-{{--					<label> اسم الوجه </label>--}}
-{{--					@if (!isset($product))--}}
-{{--					{!! Form::select("face_id",faces(),null,['class'=>'form-control selectpicker face_id','id'=>'face_id','placeholder'=>' اختر وجه للمنتج '])!!}--}}
-{{--					@else--}}
-{{--					--}}{{-- @dd($product->cell()->first()->column->face_id) --}}
-{{--					<select class="form-control js-example-basic-single pull-right" name="column_id">--}}
-{{--						@foreach ($faces as $face)--}}
-{{--						@if($product->cell()->first()->column->face_id == $face->id)--}}
-{{--						<option value="{{$face->id}}" selected>{{$face->name}}</option>--}}
-{{--						@else--}}
-{{--						<option value="{{$face->id}}">{{$face->name}}</option>--}}
-{{--						@endif--}}
-{{--						@endforeach--}}
-{{--					</select>--}}
-{{--					@endif--}}
-{{--				</div>--}}
-{{--				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">--}}
-{{--					<label> اسم العمود التابع للوجه </label>--}}
-{{--					@if (!isset($product))--}}
-{{--					{!! Form::select("column_id",colums(),null,['class'=>'form-control selectpicker column_id','id'=>'column_id','placeholder'=>' اختر عمود للمنتج '])!!}--}}
-{{--					@else--}}
-{{--					<select class="form-control js-example-basic-single pull-right" name="column_id">--}}
-{{--						@foreach ($columns as $column)--}}
-{{--						@if ($product->column_id == $column->id)--}}
-{{--						<option value="{{$column->id}}" selected>{{$column->name}}</option>--}}
-{{--						@else--}}
-{{--						<option value="{{$column->id}}">{{$column->name}}</option>--}}
-{{--						@endif--}}
-{{--						@endforeach--}}
-{{--					</select>--}}
-{{--					@endif--}}
-{{--				</div>--}}
-{{--				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">--}}
-{{--					<label> اسم الخلية التابعة للعمود </label>--}}
-{{--					--}}{{-- {!! Form::text("cell",null,['class'=>'form-control','placeholder'=>'  ادخل اسم  الخلية  '])!!} --}}
-{{--					@if (!isset($product))--}}
-{{--					{!! Form::select("cell_id",cells(),null,['class'=>'form-control selectpicker cell_id','id'=>'cell_id','placeholder'=>' اختر خلية للمنتج '])!!}--}}
-{{--					@else--}}
-{{--					<select class="form-control js-example-basic-single pull-right" name="cell_id">--}}
-{{--						@foreach ($cells as $cell)--}}
-{{--						@if ($product->cell_id==$cell->id)--}}
-{{--						<option value="{{$cell->id}}" selected>{{$cell->name}}</option>--}}
-{{--						@else--}}
-{{--						<option value="{{$cell->id}}">{{$cell->name}}</option>--}}
-{{--						@endif--}}
-{{--						@endforeach--}}
-{{--					</select>--}}
-{{--					@endif--}}
-{{--				</div>--}}
+				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
+					<label> اسم الوجه </label>
+					@if (!isset($product))
+					{!! Form::select("face_id",faces(),null,['class'=>'form-control selectpicker face_id','id'=>'face_id','placeholder'=>' اختر وجه للمنتج '])!!}
+					@else
+					 @dd($product->cell()->first()->column->face_id)
+					<select class="form-control js-example-basic-single pull-right" name="column_id">
+						@foreach ($faces as $face)
+						@if($product->cell()->first()->column->face_id == $face->id)
+						<option value="{{$face->id}}" selected>{{$face->name}}</option>
+						@else
+						<option value="{{$face->id}}">{{$face->name}}</option>
+						@endif
+						@endforeach
+					</select>
+					@endif
+				</div>
+				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
+					<label> اسم العمود التابع للوجه </label>
+					@if (!isset($product))
+					{!! Form::select("column_id",colums(),null,['class'=>'form-control selectpicker column_id','id'=>'column_id','placeholder'=>' اختر عمود للمنتج '])!!}
+					@else
+					<select class="form-control js-example-basic-single pull-right" name="column_id">
+						@foreach ($columns as $column)
+						@if ($product->column_id == $column->id)
+						<option value="{{$column->id}}" selected>{{$column->name}}</option>
+						@else
+						<option value="{{$column->id}}">{{$column->name}}</option>
+						@endif
+						@endforeach
+					</select>
+					@endif
+				</div>
+				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
+					<label> اسم الخلية التابعة للعمود </label>
+					 {!! Form::text("cell",null,['class'=>'form-control','placeholder'=>'  ادخل اسم  الخلية  '])!!}
+					@if (!isset($product))
+					{!! Form::select("cell_id",cells(),null,['class'=>'form-control selectpicker cell_id','id'=>'cell_id','placeholder'=>' اختر خلية للمنتج '])!!}
+					@else
+					<select class="form-control js-example-basic-single pull-right" name="cell_id">
+						@foreach ($cells as $cell)
+						@if ($product->cell_id==$cell->id)
+						<option value="{{$cell->id}}" selected>{{$cell->name}}</option>
+						@else
+						<option value="{{$cell->id}}">{{$cell->name}}</option>
+						@endif
+						@endforeach
+					</select>
+					@endif
+				</div>
 			</div>
 		</div>
 		<div id="menu1" class="tab-pane fade">
@@ -326,61 +326,61 @@
 				</div>
 			</div>
 		</div>
-{{--		<div id="menu3" class="tab-pane fade">--}}
-{{--			<div class="row">--}}
-{{--				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">--}}
-{{--				<div class=" form-group">--}}
-{{--					<label> الحجم </label><span style="color: #ff0000; margin-right: 15px;"> اختيارى ويكون بالسنتمتر المكعب</span>--}}
-{{--					{!! Form::text("size",null,['class'=>'form-control','placeholder'=>' الحجم '])!!}--}}
-{{--				</div>--}}
-{{--				</div>--}}
-{{--				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">--}}
-{{--				<div class=" form-group">--}}
-{{--					<label> اللون </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>--}}
-{{--					{!! Form::text("color",null,['class'=>'form-control','placeholder'=>' اللون '])!!}--}}
-{{--				</div>--}}
-{{--				</div>--}}
-{{--				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">--}}
-{{--				<div class=" form-group">--}}
-{{--					<label> الارتفاع </label><span style="color: #ff0000; margin-right: 15px;">اختيارى ويكون بالسنتمتر</span>--}}
-{{--					{!! Form::text("height",null,['class'=>'form-control','placeholder'=>'الارتفاع '])!!}--}}
-{{--				</div>--}}
-{{--				</div>--}}
-{{--				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">--}}
-{{--				<div class=" form-group">--}}
-{{--					<label> العرض </label><span style="color: #ff0000; margin-right: 15px;">اختيارى ويكون بالسنتمتر المربع</span>--}}
-{{--					{!! Form::text("width",null,['class'=>'form-control','placeholder'=>' العرض '])!!}--}}
-{{--				</div>--}}
-{{--				</div>--}}
-{{--				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">--}}
-{{--				<div class=" form-group">--}}
-{{--					<label> تاريخ الانتهاء </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>--}}
-{{--					{!! Form::date("expired_at",null,['class'=>'form-control'])!!}--}}
-{{--				</div>--}}
-{{--				</div>--}}
-{{--				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">--}}
-{{--				<div class=" form-group">--}}
-{{--					<label>مده التنبية</label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>--}}
-{{--					{!! Form::number("alert_duration",null,['class'=>'form-control'])!!}--}}
-{{--				</div>--}}
-{{--				</div>--}}
-{{--				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">--}}
-{{--				<div class=" form-group">--}}
-{{--					<label>عدد أيام فترة الركود</label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>--}}
-{{--					{!! Form::number("num_days_recession",null,['class'=>'form-control'])!!}--}}
-{{--				</div>--}}
-{{--				</div>--}}
+		<div id="menu3" class="tab-pane fade">
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
+					<label> الحجم </label><span style="color: #ff0000; margin-right: 15px;"> اختيارى ويكون بالسنتمتر المكعب</span>
+					{!! Form::text("size",null,['class'=>'form-control','placeholder'=>' الحجم '])!!}
+				</div>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
+					<label> اللون </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+					{!! Form::text("color",null,['class'=>'form-control','placeholder'=>' اللون '])!!}
+				</div>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
+					<label> الارتفاع </label><span style="color: #ff0000; margin-right: 15px;">اختيارى ويكون بالسنتمتر</span>
+					{!! Form::text("height",null,['class'=>'form-control','placeholder'=>'الارتفاع '])!!}
+				</div>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
+					<label> العرض </label><span style="color: #ff0000; margin-right: 15px;">اختيارى ويكون بالسنتمتر المربع</span>
+					{!! Form::text("width",null,['class'=>'form-control','placeholder'=>' العرض '])!!}
+				</div>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
+					<label> تاريخ الانتهاء </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+					{!! Form::date("expired_at",null,['class'=>'form-control'])!!}
+				</div>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
+					<label>مده التنبية</label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+					{!! Form::number("alert_duration",null,['class'=>'form-control'])!!}
+				</div>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
+				<div class=" form-group">
+					<label>عدد أيام فترة الركود</label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+					{!! Form::number("num_days_recession",null,['class'=>'form-control'])!!}
+				</div>
+				</div>
 
-{{--				@if (getsetting('automatic_products')==0)--}}
-{{--					<div class="form-group col-md-6 pull-left">--}}
-{{--						<label> اختر الحساب </label>--}}
-{{--						{!! Form::select("account_id",accounts(),null,['class'=>'form-control','placeholder'=>' اختر الحساب'])!!}--}}
-{{--					</div>--}}
+				@if (getsetting('automatic_products')==0)
+					<div class="form-group col-md-6 pull-left">
+						<label> اختر الحساب </label>
+						{!! Form::select("account_id",accounts(),null,['class'=>'form-control','placeholder'=>' اختر الحساب'])!!}
+					</div>
 
-{{--				@endif--}}
-{{--			</div>--}}
+				@endif
+			</div>
 
-{{--		</div>--}}
+		</div>
 		<div id="menu4" class="tab-pane fade">
 			<div class="row">
 				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
@@ -1204,10 +1204,10 @@
 		});
 	</script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
-{{--	<script src="{{asset('admin/assets/js/get_faces_by_branch.js')}}"></script>--}}
-{{--	<script src="{{asset('admin/assets/js/get_cells_by_column.js')}}"></script>--}}
-{{--	<script src="{{asset('admin/assets/js/get_columns_by_face.js')}}"></script>--}}
-{{--	<script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>--}}
+	<script src="{{asset('admin/assets/js/get_faces_by_branch.js')}}"></script>
+	<script src="{{asset('admin/assets/js/get_cells_by_column.js')}}"></script>
+	<script src="{{asset('admin/assets/js/get_columns_by_face.js')}}"></script>
+	<script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
 	<script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
 	<script src="{{asset('admin/assets/js/creation.js')}}"></script>
 	<script src="{{asset('admin/assets/js/services.js')}}"></script>
