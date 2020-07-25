@@ -74,9 +74,8 @@ class SaleObserver
 
         if ($sale->payment=='cash'){
             $saleAccount=AccountingAccount::find(getsetting('accounting_id_sales'));
-
             if (isset($saleAccount)) {
-                dd($saleAccount);
+
                 //حساب  المبيعات والنقدية
                 AccountingEntryAccount::create([
                     'entry_id' => $entry->id,

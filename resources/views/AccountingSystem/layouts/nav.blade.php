@@ -190,28 +190,28 @@
 						<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.products.create')}}"><i class="icon-add-to-list"></i> اضافة منتج جديد</a> </li>
 					</ul>
 				</li>
-{{--				<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-center"></i> الارفف </a>--}}
-{{--					<ul class="dropdown-menu">--}}
-{{--						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-justify"></i> الاوجه </a>--}}
-{{--							<ul class="dropdown-menu">--}}
-{{--								<li><a href="{{route('accounting.faces.index')}}"><i class="icon-eye"></i> عرض الاوجة</a></li>--}}
-{{--								<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.faces.create')}}"><i class="icon-add-to-list"></i> اضافة وجة جديد</a> </li>--}}
-{{--							</ul>--}}
-{{--						</li>--}}
-{{--						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-left"></i> الاعمده </a>--}}
-{{--							<ul class="dropdown-menu">--}}
-{{--								<li><a href="{{route('accounting.columns.index')}}"><i class="icon-eye"></i> عرض الاعمده </a></li>--}}
-{{--								<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.columns.create')}}"><i class="icon-add-to-list"></i> اضافة عمود جديده</a> </li>--}}
-{{--							</ul>--}}
-{{--						</li>--}}
-{{--						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-right"></i> الخلايا </a>--}}
-{{--							<ul class="dropdown-menu">--}}
-{{--								<li><a href="{{route('accounting.cells.index')}}"><i class="icon-eye"></i> عرض الخلايا </a></li>--}}
-{{--								<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.cells.create')}}"><i class="icon-add-to-list"></i> اضافة خلية جديد</a> </li>--}}
-{{--							</ul>--}}
-{{--						</li>--}}
-{{--					</ul>--}}
-{{--				</li>--}}
+				<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-center"></i> الارفف </a>
+					<ul class="dropdown-menu">
+						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-justify"></i> الاوجه </a>
+							<ul class="dropdown-menu">
+								<li><a href="{{route('accounting.faces.index')}}"><i class="icon-eye"></i> عرض الاوجة</a></li>
+								<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.faces.create')}}"><i class="icon-add-to-list"></i> اضافة وجة جديد</a> </li>
+							</ul>
+						</li>
+						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-left"></i> الاعمده </a>
+							<ul class="dropdown-menu">
+								<li><a href="{{route('accounting.columns.index')}}"><i class="icon-eye"></i> عرض الاعمده </a></li>
+								<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.columns.create')}}"><i class="icon-add-to-list"></i> اضافة عمود جديده</a> </li>
+							</ul>
+						</li>
+						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-right"></i> الخلايا </a>
+							<ul class="dropdown-menu">
+								<li><a href="{{route('accounting.cells.index')}}"><i class="icon-eye"></i> عرض الخلايا </a></li>
+								<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.cells.create')}}"><i class="icon-add-to-list"></i> اضافة خلية جديد</a> </li>
+							</ul>
+						</li>
+					</ul>
+				</li>
 			</ul>
 		</li>
                @endcan
