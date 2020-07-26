@@ -144,7 +144,7 @@
                                 <input type="hidden" name="inventory_id" value="{{$inventory->id}}">
                                 @endisset
                                 <label> الكميه الفعليه</label>
-                                <input type="text" class="form-control" name="Real_quantity"  required>
+                                <input type="text" class="form-control" name="Real_quantity" id="Real_quantity{{$row->id}}" required>
 
                             </div>
                             <div class="modal-footer">
@@ -189,7 +189,10 @@
                                     <span>{!! $row->quantity !!}</span>
                                 </div>
 
-
+                                <div class="form-group col-md-6 pull-left">
+                                    <label class="label label-info">   الكمية الفعلية  : </label>
+                                    <span id="Real_quantity_val{{$row->id}}"></span>
+                                </div>
 
                             </div>
                             </form>
@@ -270,38 +273,39 @@
 
             function openModal(id) {
 
-         $('.product_id').val(id);
-         var  token=$('#csrf_token').val();
+                $('.product_id').val(id);
+                var token = $('#csrf_token').val();
 
-            $(`#real${id}`).click(function (e) {
-                e.preventDefault();
-
-
-                // var form = $(`form${id}`);
-                // console.log(form);
+                $(`#real${id}`).click(function (e) {
+                    e.preventDefault();
 
 
-                $.ajax({
-                    type: "post",
+                    // var form = $(`form${id}`);
+                    // console.log(form);
+                    var Real_quantity = $("#Real_quantity" + id).val();
+                    if (Real_quantity == '') {
+                        alert("الكمية الفعلية مطلوبة");
+                    } else {
+                        $.ajax({
+                            type: "post",
 
-                    url: '{{route('accounting.inventory_settlement.store')}}',
-                    data:   $('#form'+id).serialize()+"&_token="+token,
-                    success: function (data) {
+                            url: '{{route('accounting.inventory_settlement.store')}}',
+                            data: $('#form' + id).serialize() + "&_token=" + token,
+                            success: function (data) {
 
-                        $('#button'+id).remove();
+                                $('#button' + id).remove();
+                                $("#Real_quantity_val"+id).html(Real_quantity);
 
+                            }, error: function (data) {
+                                console.log(data);
+                            }
 
+                        });
+                        $("#alert").modal('show');
 
-                    },error:function (data) {
-                        console.log(data);
                     }
-
-                });
-                 $("#alert").modal('show');
-            })
-
+                })
             }
-
    </script>
     <script src="{{asset('admin/assets/js/get_keepers_by_store.js')}}"></script>
 

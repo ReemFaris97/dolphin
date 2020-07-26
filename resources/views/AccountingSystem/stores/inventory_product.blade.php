@@ -26,7 +26,15 @@
 
                 {!!Form::open( ['route' => 'accounting.stores.filter_inventory_product' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
 
-
+                @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 {{--<div class="col-sm-6 col-xs-6 pull-left" >--}}
                     {{--<div class="form-group form-float">--}}
                         {{--<label class="form-label"> رقم السند</label>--}}

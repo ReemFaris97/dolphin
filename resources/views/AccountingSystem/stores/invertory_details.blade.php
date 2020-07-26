@@ -94,6 +94,7 @@
                 <form id="form1"  action="{{route('accounting.inventory_bond.store')}}" method="post">
                     {{--<input type="hidden" name="csrf_token" id="csrf_token" value="{{ csrf_token() }}">--}}
 @csrf
+
                     <div class="modal-body">
                         <input type="hidden" name="inventory_id"  value="{{$inventory->id}}">
 
