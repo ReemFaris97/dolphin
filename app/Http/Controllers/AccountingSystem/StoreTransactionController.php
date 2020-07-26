@@ -84,7 +84,6 @@ class StoreTransactionController extends Controller
     }
 
     public function transaction(Request $request,$id){
-        dd("333333333333333");
         $inputs=$request->all();
         //  dd($inputs);
         $trans=  AccountingTransaction::create([
@@ -344,6 +343,10 @@ class StoreTransactionController extends Controller
     public function damaged_store(Request $request){
 
         $inputs=$request->all();
+        $rules = [
+            'user_id'=>'required|numeric|exists:users,id',
+        ];
+        $this->validate($request,$rules);
 
         $quantity=collect($inputs['quantity']);
         $products=collect($inputs['product_id']);
@@ -351,8 +354,6 @@ class StoreTransactionController extends Controller
       $damage= AccountingDamage::create([
             'store_id' => $request['store_id'],
             'user_id' => $request['user_id'],
-
-
         ]);
 
         foreach ($merges as $merge) {

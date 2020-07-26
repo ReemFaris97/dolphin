@@ -376,7 +376,21 @@ class StoreController extends Controller
     {
         $inputs = $request->all();
         $bond = AccountingBond::create($inputs);
+        $rules = [
+        'user_id'=>'required|numeric|exists:users,id',
+            'qtys'=>'required|array',
+            'products'=>'required|array',
+            'prices'=>'required|array',
 
+        ];
+        $massage=[
+            'qtys.required'=>'كميات الاصناف مطلويه',
+            'products.required'=>'الاصناف مطلوبة',
+            'prices.required'=>'اسعار الاصناف مطلوبة',
+
+        ];
+
+        $this->validate($request,$rules,$massage);
 
         if ($bond->type == 'entry'||$bond->type == 'exchange') {
             $products_store = AccountingProductStore::where('store_id', $bond->store_id)->get();
