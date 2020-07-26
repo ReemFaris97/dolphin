@@ -32,7 +32,7 @@
                 </div>
             @endif
 
-            <input type="hidden" name="type" value="exchange">
+            <input type="hidden" name="type" value="transactions">
 
             <div class="form-group col-md-6 pull-left">
                 <label> رقم السند</label>

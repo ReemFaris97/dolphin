@@ -43,6 +43,7 @@
     </div>
     {!! Form::select("face_id",faces(),null,['class'=>'form-control selectpicker face_id','id'=>'face_id','placeholder'=>' اختر وجه للخلية '])!!}
 </div>
+
 <div class="form-group col-md-6 pull-left">
     <label> اسم العمود التابع له الخلية </label>
     <div class="btn-group adding-new-comp">
@@ -53,8 +54,7 @@
 			</span>
         </a>
     </div>
-
-    {!! Form::select("column_id",colums(),null,['class'=>'form-control selectpicker column_id','id'=>'column_id','placeholder'=>' اختر عمود الخلية '])!!}
+    {!! Form::select("column_id",colums($cell->column_id),isset($cell)?$cell->column_id:null,['class'=>'form-control selectpicker column_id','id'=>'column_id','placeholder'=>' اختر عمود الخلية '])!!}
 </div>
 
 <div class="form-group col-md-6 pull-left">

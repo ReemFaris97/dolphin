@@ -236,7 +236,7 @@ function faces($branch=null){
 
 
 
-function colums($face=null){
+function colums($face=null,$cell=null){
     if ($face != null) {
 
 
@@ -245,6 +245,10 @@ function colums($face=null){
         });
     }else{
         $colums=[];
+    }
+    if($cell!= null){
+        dd($cell->column_id);
+       return $cell->column_id;
     }
 
     return $colums;
