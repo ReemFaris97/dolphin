@@ -84,7 +84,7 @@ class StoreTransactionController extends Controller
     }
 
     public function transaction(Request $request,$id){
-
+        dd("333333333333333");
         $inputs=$request->all();
         //  dd($inputs);
         $trans=  AccountingTransaction::create([
@@ -101,6 +101,7 @@ class StoreTransactionController extends Controller
         $product_store_form=AccountingProductStore::where('store_id',$id)->where('product_id',$request['product_id'])->first();
         if ($product_store_form->quantity-$request['quantity'] >= 0)
         {
+            dd("rrrrrrrrrrrrrr");
             $product_store_form->update([
                 'quantity' => $product_store_form->quantity - $request['quantity'],
             ]);
@@ -169,6 +170,7 @@ class StoreTransactionController extends Controller
             $product_store_form = AccountingProductStore::where('store_id', $store_form)->where('product_id',$merge[0])->first();
             //  dd($product_store_form->quantity-$request['quantity'] );
             if ($product_store_form->quantity - $merge[1] >= 0) {
+
                 $product_store_form->update([
                     'quantity' => $product_store_form->quantity - $merge[1],
                 ]);

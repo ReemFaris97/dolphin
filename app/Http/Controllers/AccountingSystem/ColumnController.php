@@ -103,11 +103,14 @@ class ColumnController extends Controller
 
             'name'=>'required|string|max:191',
 
-            'face_id'=>'required|numeric|exists:accounting_branch_faces,id',
+//            'face_id'=>'required|numeric|exists:accounting_branch_faces,id',
 
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
+        if ($requests['face_id']==Null){
+            $requests['face_id']=$column-> face_id;
+        }
         $column->update($requests);
         alert()->success('تم تعديل  العمود بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.columns.index');
