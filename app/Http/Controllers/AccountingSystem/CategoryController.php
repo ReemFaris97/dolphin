@@ -54,6 +54,7 @@ class CategoryController extends Controller
             'ar_description'=>'nullable|string',
             'en_description'=>'nullable|string',
             'image'=>'nullable|sometimes|image',
+            'company_id'=>'required|numeric|exists:accounting_companies,id',
 
 
 
@@ -114,6 +115,8 @@ class CategoryController extends Controller
             'ar_description'=>'nullable|string',
             'en_description'=>'nullable|string',
             'image'=>'nullable|sometimes|image',
+            'company_id'=>'required|numeric|exists:accounting_companies,id',
+
         ];
         $this->validate($request,$rules);
         $requests = $request->except('image');

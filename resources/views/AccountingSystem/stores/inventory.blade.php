@@ -144,7 +144,7 @@
                                 <input type="hidden" name="inventory_id" value="{{$inventory->id}}">
                                 @endisset
                                 <label> الكميه الفعليه</label>
-                                <input type="text" class="form-control" name="Real_quantity"  >
+                                <input type="text" class="form-control" name="Real_quantity"  required>
 
                             </div>
                             <div class="modal-footer">

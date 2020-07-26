@@ -39,7 +39,7 @@
                 @foreach($requests as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
-                        <td>{!! $row->store->ar_name!!}</td>
+                        <td>{!! $row->getStoreFrom->ar_name!!}</td>
 
                         <td>@if (  $row->status=='pending')
                            <label class="label label-warning">على  قيد الانتظار </label>

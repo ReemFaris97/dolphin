@@ -28,7 +28,7 @@
                 <label class="label "> بيان  السند  : </label>
                 <span>{!! $bond->description !!}</span>
             </div>
-            @if ($bond->type=='entry')
+            @if ($bond->type=='entry'||$bond->type == 'exchange')
             <div class="form-group col-md-6 pull-left">
                 <label class="label ">  المخزن  : </label>
                 <span>{!!  $bond->store->ar_name !!}</span>
