@@ -530,8 +530,8 @@ class ProductController extends Controller
             $requests=\Request::all();
 
             $company_id=$requests['company_id'];
-            dd($company_id[0]);
-            $branches_1= AccountingBranch::where('company_id',$company_id)->get();
+
+            $branches_1= AccountingBranch::where('company_id',$company_id[0])->get();
             $stores_branch = [];
             foreach ($branches_1 as $branch) {
                 $store_branch = AccountingStore::where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->where('model_id', $branch->id)->first();
