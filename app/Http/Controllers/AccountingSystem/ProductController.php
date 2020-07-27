@@ -329,7 +329,7 @@ class ProductController extends Controller
         $suppliers=AccountingSupplier::pluck('name','id')->toArray();
 
         return $this->toEdit(compact('suppliers',
-            'industrials','taxs','face','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores','units','subunits'
+            'industrials','taxs','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores','units','subunits'
             ,'taxsproduct','has_tax','price_has_tax','discounts','discount'));
 
 
