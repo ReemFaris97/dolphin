@@ -14,6 +14,14 @@ class AccountingProduct extends Model
 
 ];
     protected $appends = ['total_taxes','total_discounts'];
+    public function cell_product()
+    {
+        return $this->belongsTo(AccountingColumnCell::class,'cell_id');
+    }
+    public function cell()
+    {
+        return $this->belongsTo(AccountingColumnCell::class,'cell_id');
+    }
     public function store()
     {
         return $this->belongsTo(AccountingStore::class,'store_id');
@@ -27,10 +35,7 @@ class AccountingProduct extends Model
         return $this->belongsTo(AccountingProductCategory::class,'category_id');
     }
 
-    public function cell()
-    {
-        return $this->belongsTo(AccountingColumnCell::class,'cell_id');
-    }
+
 
     public function getTotalTaxesAttribute()
     {
