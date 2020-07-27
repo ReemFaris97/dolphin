@@ -44,7 +44,18 @@
 
             <div class="form-group col-md-4 pull-left">
                 <label> اسم الخلية </label>
-                {!! $product->cell_id!!}
+
+                {!! $product->cell_product->name !!}
+            </div>
+            <div class="form-group col-md-4 pull-left">
+                <label> اسم العمود </label>
+
+                {!! $product->cell_product->column->name !!}
+            </div>
+            <div class="form-group col-md-4 pull-left">
+                <label> اسم الوجه </label>
+
+                {!! $product->cell_product->column->face->name !!}
             </div>
         </div>
                    </div>
