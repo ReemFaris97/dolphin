@@ -40,6 +40,12 @@
                                 <label> اسم المخزن </label>
                                {!! optional($store)->ar_name??"" !!}
                             </div>
+
+
+            <div class="form-group col-md-4 pull-left">
+                <label> اسم الخلية </label>
+                {!! $product->cell_id!!}
+            </div>
         </div>
                    </div>
 

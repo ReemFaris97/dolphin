@@ -189,6 +189,7 @@ Route::middleware('admin')->group(function () {
 
     Route::resource('products', 'ProductController');
     Route::get('/company_branch/{id}', 'ProductController@getBranch')->name('company.branch');
+    Route::get('/company_branch_without_all/{id}', 'ProductController@branches_only')->name('company.branches_only');
 
     Route::get('/branches_store/{id}', 'ProductController@getStores');
     Route::get('/columns_face/{id}', 'ProductController@getcolums')->name('columns_face');

@@ -480,6 +480,13 @@ class ProductController extends Controller
         //dd("sdfs");
         return branches($id);
     }
+    public function branches_only($id)
+    {
+
+        //dd("sdfs");
+        return branches_only($id);
+    }
+
 
     public function getfaces($id)
     {
