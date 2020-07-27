@@ -90,12 +90,12 @@ class ProductController extends Controller
             'width'=>'nullable|string',
             'num_days_recession'=>'nullable|string',
             // 'cell_id'=>'required',
-
+            'type'=>'required|string',
         ];
         $messsage = [
             'name.product_name'=>"اسم المنتج موجود بالفعل بالتصنيف",
             'code.barcode_name'=>"باركود المنتج موجود بالفعل بالتصنيف",
-
+            'type.required'=>'نوع المنتج مطلوب ادخاله',
         ];
         $this->validate($request,$rules,$messsage);
 
@@ -116,15 +116,12 @@ class ProductController extends Controller
        {
            $product->update([
                'store_id'=>$inputs['store_id'] ,
-
            ]);
            AccountingProductStore::create([
                'store_id'=>$inputs['store_id'] ,
                'product_id'=>$product->id,
                'quantity'=>$inputs['quantity'] ,
-
            ]);
-
        }
         if (isset($request['main_unit'])){
             $main_unit=AccountingProductMainUnit::where('main_unit',$request['main_unit'])->first();
@@ -134,9 +131,7 @@ class ProductController extends Controller
                  'main_unit'=>  $request['main_unit']
                 ]);
             }
-
         }
-
         ///////  /// / //////subunits Arrays//////////////////////////////
         $names = collect($request['name']);
         $par_codes = collect($request['par_codes']);
