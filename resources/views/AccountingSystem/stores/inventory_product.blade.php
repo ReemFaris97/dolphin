@@ -141,6 +141,7 @@
                                 <label class="btn-success" id="done">تم التسوية</label>
                             @endif
 
+                            <span id="qty{{$product->id}}"></span>
                         </td>
                     </tr>
 
@@ -170,7 +171,7 @@
                                 <input type="hidden" name="inventory_id" value="{{$inventory->id}}">
                                 @endisset
                                 <label> الكميه الفعليه</label>
-                                <input type="text" class="form-control" name="Real_quantity">
+                                <input type="text" class="form-control" name="Real_quantity" id="Real_quantity{{$product->id}}">
 
                             </div>
                             <div class="modal-footer">
@@ -218,7 +219,7 @@
                 // alert('dsa');
                 // var form = $(`form${id}`);
                 // console.log(form);
-
+                var real_quantity=$('#Real_quantity'+id).val()
 
                 $.ajax({
                     type: "post",
@@ -226,15 +227,12 @@
                     url: '{{route('accounting.inventory_settlement.store')}}',
                     data:   $('#form'+id).serialize()+"&_token="+token,
                     success: function (data) {
-
                         $('#button'+id).remove();
 
-
-
+                        $('#qty'+id).html(real_quantity);
                     },error:function (data) {
                         console.log(data);
                     }
-
                 });
             })
 

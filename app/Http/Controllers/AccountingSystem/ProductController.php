@@ -512,20 +512,15 @@ class ProductController extends Controller
         $stores=[];
         if ($branches != 'all') {
             $branches_ids = explode(',', $branches);
-
             $branch = AccountingBranch::find($branches_ids[0]);
             $company_id = $branch->company_id;
-
             $stores_company = AccountingStore::where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->where('model_id', $company_id)->get();
             $collect1 = collect($stores_company);
 
             $stores_branch = [];
             foreach ($branches_ids as $branch_id) {
                 $store_branch = AccountingStore::where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->where('model_id', $branch_id)->first();
-
                 array_push($stores_branch, $store_branch);
-
-
             }
             $collect2 = collect($stores_branch);
             $merged = $collect2->merge($collect1);
@@ -533,8 +528,9 @@ class ProductController extends Controller
             $stores = collect($stores_)->filter();
         }else{
             $requests=\Request::all();
-            dd($requests);
+
             $company_id=$requests['company_id'];
+            dd($company_id[0]);
             $branches_1= AccountingBranch::where('company_id',$company_id)->get();
             $stores_branch = [];
             foreach ($branches_1 as $branch) {
