@@ -674,7 +674,7 @@
 			</div>
 			<div class="modal-body">
 				<span class="required--in">*</span>
-				 {!! Form::select("type",['Delivery'=>'توصيل','composing'=>'تركيب','maintenance'=>'صيانة'],null,['class'=>'form-control js-example-basic-single','id'=>'service_type','placeholder'=>' اختر  خدمة الصنف '])!!}
+				 {!! Form::select("service_type",['Delivery'=>'توصيل','composing'=>'تركيب','maintenance'=>'صيانة'],null,['class'=>'form-control js-example-basic-single','id'=>'service_type','placeholder'=>' اختر  خدمة الصنف '])!!}
 				<label>السعر</label>
 				<span class="required--in">*</span>
 				<input type="text" class="form-control" id="sevices_price">
