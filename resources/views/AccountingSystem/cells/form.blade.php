@@ -54,7 +54,7 @@
 			</span>
         </a>
     </div>
-    {!! Form::select("column_id",colums($cell->column_id),isset($cell)?$cell->column_id:null,['class'=>'form-control selectpicker column_id','id'=>'column_id','placeholder'=>' اختر عمود الخلية '])!!}
+    {!! Form::select("column_id",colums(),isset($cell)?$cell->column_id:null,['class'=>'form-control selectpicker column_id','id'=>'column_id','placeholder'=>' اختر عمود الخلية '])!!}
 </div>
 
 <div class="form-group col-md-6 pull-left">
@@ -77,7 +77,8 @@
     <script src="{{asset('admin/assets/js/get_faces_by_branch.js')}}"></script>
     <script src="{{asset('admin/assets/js/get_cells_by_column.js')}}"></script>
     <script src="{{asset('admin/assets/js/get_columns_by_face.js')}}"></script>
-    <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
+{{--    <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>--}}
+    <script src="{{asset('admin/assets/js/get_branch_by_company_without_all.js')}}"></script>
 
 
 @endsection

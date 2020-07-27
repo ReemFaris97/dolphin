@@ -227,15 +227,12 @@ function faces($branch=null,$company_id=null){
             return [$item['id'] => $item['name']];
         });
         }else{
-            $branches=App\Models\AccountingSystem\AccountingBranch::where('company_id',$company_id)->get();
+            $branches=App\Models\AccountingSystem\AccountingBranch::where('company_id',$company_id)->pluck('id','id')->toArray();
             $faces=[];
-            foreach ($branches as $branch) {
-               $face=$branch->faces->mapWithKeys(function ($item) {
-                      return [$item['id'] => $item['name']];
-                  });
-                }
-              array_push($faces,$face);
-            dd($faces);
+
+               $faces=\App\Models\AccountingSystem\AccountingBranchFace::whereIn('branch_id',$branches)->pluck('name','id')->toArray();
+
+
         }
 
     }else{
