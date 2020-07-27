@@ -210,10 +210,9 @@ class StoreInventroyController extends Controller
                 ]);
 
         }
-
         alert()->success('تم  حفظ جرد الصنف بنجاح !')->autoclose(5000);
 
-        return view('AccountingSystem.stores.inventory_product',compact('stores','products','inventory','product','stores_quantity'));
+        return view('AccountingSystem.stores.inventory_product',compact('products','inventory','product','stores_quantity'));
 
     }
     public  function inventory_settlement_product(Request $request){

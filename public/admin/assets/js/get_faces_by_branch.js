@@ -8,13 +8,14 @@ $(function(){
 
     $("#branch_id").on('change', function() {
         var idddd = $(this).val();
+        var company_id = $('#company_id').val();
 
-   
+
 
         $.ajax({
             url: "/accounting/faces_branch/" + idddd,
             type: "GET",
-
+            data: {company_id: company_id},
         }).done(function (data) {
 
             faces=[];
