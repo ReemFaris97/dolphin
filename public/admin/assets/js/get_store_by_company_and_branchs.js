@@ -21,7 +21,7 @@ $(function() {
         var stores;
         $("#branch_id").on('change', function() {
             var id = $(this).val();
-            var company_id = $(this).val();
+            var company_id = $('#company_id').val();
             console.log(id);
             $.ajax({
                 url:"/accounting/branches_store/"+id,

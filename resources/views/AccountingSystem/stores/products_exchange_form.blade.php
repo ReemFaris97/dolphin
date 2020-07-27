@@ -234,5 +234,6 @@
 
 
     </script>
+    <script src="{{asset('admin/assets/js/get_keepers_by_store.js')}}"></script>
 
 @endsection
