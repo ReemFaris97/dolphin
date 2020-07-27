@@ -72,10 +72,9 @@
 					@if (!isset($product))
 					{!! Form::select("face_id",faces(),null,['class'=>'form-control selectpicker face_id','id'=>'face_id','placeholder'=>' اختر وجه للمنتج '])!!}
 					@else
-					 @dd($product->cell()->first()->column->face_id)
 					<select class="form-control js-example-basic-single pull-right" name="column_id">
 						@foreach ($faces as $face)
-						@if($product->cell()->first()->column->face_id == $face->id)
+						@if($product->cell_product->column->face_id == $face->id)
 						<option value="{{$face->id}}" selected>{{$face->name}}</option>
 						@else
 						<option value="{{$face->id}}">{{$face->name}}</option>
@@ -675,7 +674,7 @@
 			</div>
 			<div class="modal-body">
 				<span class="required--in">*</span>
-				 {!! Form::select("type",['Delivery'=>'توصيل','composing'=>'تركيب','maintenance'=>'صيانة'],null,['class'=>'form-control js-example-basic-single','id'=>'service_type','placeholder'=>' اختر  خدمة الصنف '])!!}
+				 {!! Form::select("service_type",['Delivery'=>'توصيل','composing'=>'تركيب','maintenance'=>'صيانة'],null,['class'=>'form-control js-example-basic-single','id'=>'service_type','placeholder'=>' اختر  خدمة الصنف '])!!}
 				<label>السعر</label>
 				<span class="required--in">*</span>
 				<input type="text" class="form-control" id="sevices_price">

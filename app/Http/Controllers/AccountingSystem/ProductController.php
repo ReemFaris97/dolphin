@@ -98,12 +98,12 @@ class ProductController extends Controller
 
         ];
         $this->validate($request,$rules,$messsage);
-// dd($request['quantities']);
+
         $inputs = $request->except('image','main_unit_present','purchasing_price','selling_price','component_names','qtys','main_units');
 //        $inputs['name']=$inputs['name_product'];
         $inputs['selling_price']=$inputs['product_selling_price'];
         $inputs['purchasing_price']=$inputs['product_purchasing_price'];
-
+//        dd($inputs);
         if ($request->hasFile('image')) {
             $inputs['image'] = saveImage($request->image, 'photos');
         }
@@ -114,17 +114,18 @@ class ProductController extends Controller
 
        if (isset($inputs['store_id']))
        {
+           $product->update([
+               'store_id'=>$inputs['store_id'] ,
+
+           ]);
            AccountingProductStore::create([
                'store_id'=>$inputs['store_id'] ,
                'product_id'=>$product->id,
                'quantity'=>$inputs['quantity'] ,
 
            ]);
+
        }
-//        $product->name=$inputs['name_product'];
-
-
-
         if (isset($request['main_unit'])){
             $main_unit=AccountingProductMainUnit::where('main_unit',$request['main_unit'])->first();
             if (!isset($main_unit))
@@ -385,7 +386,11 @@ class ProductController extends Controller
             $inputs['image'] = saveImage($request->image, 'photos');
         }
         $product->update($inputs);
+//
+        $product->update([
+            'store_id'=>$inputs['store_id'] ,
 
+        ]);
         if (isset($inputs['store_id']))
         {
             AccountingProductStore::create([
