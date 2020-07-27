@@ -220,13 +220,24 @@ function stores($branch=null){
 }
 
 
-function faces($branch=null){
+function faces($branch=null,$company_id=null){
     if ($branch != null) {
-
-
+        if ($branch != 'all') {
         $faces=App\Models\AccountingSystem\AccountingBranch::find($branch)->faces->mapWithKeys(function ($item) {
             return [$item['id'] => $item['name']];
         });
+        }else{
+            $branches=App\Models\AccountingSystem\AccountingBranch::where('company_id',$company_id)->get();
+            $faces=[];
+            foreach ($branches as $branch) {
+               $face=$branch->faces->mapWithKeys(function ($item) {
+                      return [$item['id'] => $item['name']];
+                  });
+                }
+              array_push($faces,$face);
+            dd($faces);
+        }
+
     }else{
         $faces=[];
     }
