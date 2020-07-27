@@ -38,8 +38,10 @@
         <div class="row">
             <div class="form-group col-md-4 pull-left" id="store_id">
                                 <label> اسم المخزن </label>
-                               {!! optional($store)->ar_name??"" !!}
-                            </div>
+{{--                               {!! optional($store)->ar_name??"" !!}--}}
+                {!!optional($product->store)->ar_name !!}
+
+            </div>
 
 
             <div class="form-group col-md-4 pull-left">

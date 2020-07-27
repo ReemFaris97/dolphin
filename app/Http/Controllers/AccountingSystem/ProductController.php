@@ -120,11 +120,11 @@ class ProductController extends Controller
                'quantity'=>$inputs['quantity'] ,
 
            ]);
+           $product->update([
+               'store_id'=>$inputs['store_id'] ,
+
+           ]);
        }
-//        $product->name=$inputs['name_product'];
-
-
-
         if (isset($request['main_unit'])){
             $main_unit=AccountingProductMainUnit::where('main_unit',$request['main_unit'])->first();
             if (!isset($main_unit))
@@ -385,7 +385,11 @@ class ProductController extends Controller
             $inputs['image'] = saveImage($request->image, 'photos');
         }
         $product->update($inputs);
+//
+        $product->update([
+            'store_id'=>$inputs['store_id'] ,
 
+        ]);
         if (isset($inputs['store_id']))
         {
             AccountingProductStore::create([

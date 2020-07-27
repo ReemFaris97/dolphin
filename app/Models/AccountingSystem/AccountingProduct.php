@@ -8,7 +8,7 @@ class AccountingProduct extends Model
 {
     protected $fillable = ['name','description','type','is_active','category_id',
     'column_id','bar_code','main_unit','selling_price','purchasing_price','min_quantity',
-    'max_quantity','expired_at','image'
+    'max_quantity','expired_at','image','store_id'
     ,'size','color','height','width','num_days_recession','industrial_id','quantity','unit_price',
     'is_settlement','date_settlement','settlement_store_id','cell_id','alert_duration','supplier_id','account_id'
 
