@@ -58,7 +58,7 @@ $(function () {
         $.ajax({
             url:"/accounting/ajax/stores/" + branch_id,
             type: "get",
-            data: {company_id: company_id },
+            data: {company_id: company_id},
             success(data) {
                 console.log(data);
 
@@ -79,8 +79,9 @@ $(function () {
         $.ajax({
             url: "/accounting/ajax/products-store-branch/" + branch_id,
             type: "get",
+
             success(data) {
-                console.log(data)
+                console.log(data);
 
                 productSelect.empty();
                 productSelect.append('<option value="">اختر الصنف</option>');
