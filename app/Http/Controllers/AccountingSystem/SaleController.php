@@ -210,6 +210,11 @@ class SaleController extends Controller
 
     }
 
+    public function index_returns()
+    {
+        $sales_returns =AccountingReturn::all()->reverse();
+     return view('AccountingSystem.sales.index_returns',compact('sales_returns'));
+    }
 
     public function store_returns(Request $request){
 
@@ -545,6 +550,25 @@ class SaleController extends Controller
             'status' => true,
             'data' => ('failed')
         ]);
+
+
+    }
+    public function show_return($id)
+    {
+
+        $sale_return =AccountingReturn::findOrFail($id);
+
+        $product_items=AccountingReturnSaleItem::where('sale_return_id',$id)->get();
+        return view('AccountingSystem.sales.show_return',compact('sale_return','product_items'));
+    }
+
+    public function destroy_return($id)
+    {
+        $returns =AccountingReturn::findOrFail($id);
+        $returns->delete();
+        alert()->success('تم حذف  الفاتوره بنجاح !')->autoclose(5000);
+        return back();
+
 
 
     }

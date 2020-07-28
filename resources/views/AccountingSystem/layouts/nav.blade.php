@@ -265,7 +265,7 @@
 					@can('عرض فواتير مرتجعات المبيعات')
 				<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-cabinet position-left"></i> مرتجعات  المبيعات  </a>
 					<ul class="dropdown-menu">
-						<li><a href="{{route('accounting.sales.index')}}"><i class="icon-eye"></i> عرض فواتير المرتجعات </a></li>
+						<li><a href="{{route('accounting.sales.index_returns')}}"><i class="icon-eye"></i> عرض فواتير المرتجعات </a></li>
 					</ul>
 				</li>
                 @endcan
