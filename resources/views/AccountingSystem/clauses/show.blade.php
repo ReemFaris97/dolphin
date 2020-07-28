@@ -63,8 +63,8 @@
 		</div>
 	</div>
 	<div class="panel-body myDivToPrint">
-	
-	
+
+
 		<div class="sanad-design">
 			<div class="sanad-header-wrap">
 				<div>
@@ -84,7 +84,7 @@
 					</p>
 				</div>
 				<div class="logo-wrappe">
-<!--					<img src="{!!getimg($clause->company->image)!!}" alt="{{optional($clause->company)->name}}">-->
+{{--<!--					<img src="{!!getimg($clause->company->image)!!}" alt="{{optional($clause->company)->name}}">-->--}}
 					<img src="//via.placeholder.com/500x100" alt="{{optional($clause->company)->name}}">
 				</div>
 			</div>
@@ -160,19 +160,19 @@
 					المحاسب / <span class="fillable">   </span>
 					<b>التوقيع / .......................</b>
 				</div>
-				
+
 				<div>
 					المستلم / <span class="fillable">   </span>
 					<b>التوقيع / .......................</b>
 				</div>
-				
+
 				<div>
 					المدير / <span class="fillable">   </span>
 					<b>التوقيع / .......................</b>
 				</div>
 			</div>
 		</div>
-	
+
 <!--
 <div class="tempo">
 			<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left">
@@ -185,7 +185,7 @@
 			<span> عام</span>
 			@endif
 		</div>
-		
+
 		<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left">
 			<label> رقم السند</label>
 			<span>{{$clause->num}}</span>
@@ -282,13 +282,13 @@
 			<span>{{$clause->notes}}</span>
 		</div>
 		<h3></h3>
-		
+
 </div>
 -->
 
 	</div>
-	
-	
+
+
 	<div class="row print-wrapper">
 		<button class="btn btn-success" onclick="window.print()">طباعة</button>
 	</div>

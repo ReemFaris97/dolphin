@@ -118,7 +118,7 @@
 
 <div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left">
     <label>نوع السند [قبض-صرف]</label>
-    {!! Form::select("type",['revenue'=>'قبض','expenses'=>'مصروف'],null,['class'=>'form-control','placeholder'=>' نوع السند  ','id'=>'type'])!!}
+    {!! Form::select("type",['revenue'=>'قبض','expenses'=>'صرف'],null,['class'=>'form-control','placeholder'=>' نوع السند  ','id'=>'type'])!!}
 </div>
 
 <div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left benods">

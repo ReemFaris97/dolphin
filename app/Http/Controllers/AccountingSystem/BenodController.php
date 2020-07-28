@@ -52,9 +52,12 @@ class BenodController extends Controller
     public function store(Request $request)
     {
         $rules = [
-
+            'ar_name'=>'required|string',
             'desc'=>'nullable|string',
             'image'=>'nullable|sometimes|image',
+        ];
+        $message=[
+            'ar_name.required'=>'اسم البند مطلوب'
         ];
         $this->validate($request,$rules);
         $requests = $request->except('image');
