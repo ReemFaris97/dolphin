@@ -84,15 +84,15 @@ class SupplierController extends Controller
             $requests['account_id']=getsetting('accounting_id_supplier');
         }
         $supplier=AccountingSupplier::create($requests);
+            if (isset($requests['company_id'])) {
+                foreach ($requests['company_id'] as $company) {
+                    AccountingSupplierCompany::create([
+                        'company_id' => $company,
+                        'supplier_id' => $supplier->id
+                    ]);
 
-        foreach ($requests['company_id'] as $company){
-                AccountingSupplierCompany::create([
-                    'company_id'=>$company,
-                    'supplier_id'=>$supplier->id
-                ]);
-
-        }
-
+                }
+            }
 
         alert()->success('تم اضافة   المورد  بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.suppliers.index');

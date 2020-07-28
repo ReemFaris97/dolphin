@@ -146,6 +146,9 @@ Route::middleware('admin')->group(function () {
     Route::get('/returns_Sale/{id}', 'SaleController@returns_Sale');
     Route::get('/sale_details/{id}', 'SaleController@sale_details');
 
+    Route::get('/index_returns', 'SaleController@index_returns')->name('sales.index_returns');
+    Route::Delete('/destroy_return/{id}', 'SaleController@destroy_return')->name('sales.destroy_return');
+    Route::get('/show_return/{id}', 'SaleController@show_return')->name('sales.show_return');
 
     Route::get('/returns_purchases', 'PurchaseController@returns')->name('purchases.returns');
     Route::post('/store_returns_purchases', 'PurchaseController@store_returns')->name('purchases.store_returns');
@@ -190,7 +193,6 @@ Route::middleware('admin')->group(function () {
     Route::resource('products', 'ProductController');
     Route::get('/company_branch/{id}', 'ProductController@getBranch')->name('company.branch');
     Route::get('/company_branch_without_all/{id}', 'ProductController@branches_only')->name('company.branches_only');
-
     Route::get('/branches_store/{id}', 'ProductController@getStores');
     Route::get('/columns_face/{id}', 'ProductController@getcolums')->name('columns_face');
     Route::get('/cells_column/{id}', 'ProductController@getcells')->name('cells_column');
