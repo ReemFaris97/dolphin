@@ -369,8 +369,9 @@ class SaleController extends Controller
 
         //    dd($session);
            if(!Hash::check($request['password'],$user->password)){
-
-            return response('false', 200);
+               alert()->error('الرقم السرى  خاطئ ,حاول مرة اخرى !')->autoclose(5000);
+                    return back();
+//            return response('false', 200);
         }else{
             // dd('Write here your update password code');
             return view('AccountingSystem.sell_points.session_summary',compact('session','sales_payed_cash','sales_payed_network','sales_payed','returns_total'));
