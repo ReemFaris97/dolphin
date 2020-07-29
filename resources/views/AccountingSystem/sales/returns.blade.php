@@ -223,6 +223,14 @@
                                 اغلاق الجلسة [F8]
                             </button>
                         @endif
+                            @if (Cookie::get('session'))
+                            <a class="btn btn-primary" id="add-mortaga3" href="{{route('accounting.sells_points.sells_point',Cookie::get('session'))}}">
+                                فتح نقطه البيع  </a>
+                            @else
+                                <a class="btn btn-primary" id="add-mortaga3" href="{{route('accounting.sells_points.login')}}">
+                                    تسجيل دخول نقطة البيع </a>
+                            @endif
+
                                <a class="btn btn-warning" id="ta3liik" href="#" target="_blank"> تعليق الفاتورة [F10] </a>
                     </div>
                 @if($session->user->is_saler==1)
@@ -551,7 +559,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
             });
         });
         //	For Ajax Search By Product Bar Code
-      	
+
 $("#barcode_search").scannerDetection({
 	timeBeforeScanTest: 200, // wait for the next character for upto 200ms
 	avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms
@@ -578,7 +586,7 @@ $("#barcode_search").scannerDetection({
 						rowNum++;
 						byBarcode();
 						$('.product-quantity').find('input').trigger('change');
-					}	
+					}
 				}
 			}
 		});
@@ -606,11 +614,11 @@ $("#barcode_search").scannerDetection({
 						rowNum++;
 						byBarcode();
 						$('.product-quantity').find('input').trigger('change');
-					}	
+					}
 				}
 			}
 		});
-		
+
 	}
 });
 

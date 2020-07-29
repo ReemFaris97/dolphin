@@ -34,20 +34,32 @@
     <label> نوع  العملة  </label>
     {!! Form::select("currency",currency(),null,['class'=>'form-control','placeholder'=>'اختر العملة',])!!}
 </div>
+@if(!isset($entry))
 <div class="form-group col-sm-6 col-xs-12 pull-left accounts">
     <label>  من حساب </label>
     {!! Form::select("from_account_id",$accounts,null,['class'=>'form-control selectpicker ','id'=>'from_account_id'])!!}
 </div>
+@else
+    <div class="form-group col-sm-6 col-xs-12 pull-left accounts">
+        <label>  من حساب </label>
+        {!! Form::select("from_account_id",$accounts,$entryAccount->from_account_id,['class'=>'form-control selectpicker ','id'=>'from_account_id'])!!}
+    </div>
+    @endif
 
 
-
+@if(!isset($entry))
 <div class="toAccounts">
     <div class="form-group col-sm-6 col-xs-12 pull-left accounts">
         <label>  الى حساب </label>
         {!! Form::select("to_account_id",$accounts,null,['class'=>'form-control  ',])!!}
     </div>
 </div>
-
+@else
+    <div class="form-group col-sm-6 col-xs-12 pull-left accounts">
+        <label>  الى حساب </label>
+        {!! Form::select("to_account_id",$accounts,$entryAccount->to_account_id,['class'=>'form-control selectpicker ','id'=>'to_account_id'])!!}
+    </div>
+@endif
 
 <div class="form-group col-sm-6 col-xs-12 pull-left">
     <label>   التفاصيل  </label>
