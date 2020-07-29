@@ -37,7 +37,6 @@
     <script>
         $(document).ready(function () {
             $('.js-example-basic-single').select2();
-
         });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
