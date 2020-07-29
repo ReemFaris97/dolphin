@@ -57,18 +57,12 @@ function stores_to($id=Null)
 }
 
 function products($store=null){
-    if ($store != null) {
 
-        $products_id=App\Models\AccountingSystem\AccountingProductStore::where('store_id',$store)->where('quantity','!=',Null)->where('quantity','>',0)->pluck('product_id')->toArray();
-
-          $products=App\Models\AccountingSystem\AccountingProduct::whereIn('id',$products_id)->get()->mapWithKeys(function ($q) {
+          $products=App\Models\AccountingSystem\AccountingProduct::all()->mapWithKeys(function ($q) {
             return [$q['id'] => $q['name']];
         });
 
 
-    }else{
-        $products=[];
-    }
 
     return $products;
 }

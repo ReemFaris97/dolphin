@@ -101,7 +101,7 @@
 				</div>
 				<div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
 					<label> اسم الخلية التابعة للعمود </label>
-					 {!! Form::text("cell",null,['class'=>'form-control','placeholder'=>'  ادخل اسم  الخلية  '])!!}
+{{--					 {!! Form::text("cell",null,['class'=>'form-control','placeholder'=>'  ادخل اسم  الخلية  '])!!}--}}
 					@if (!isset($product))
 					{!! Form::select("cell_id",cells(),null,['class'=>'form-control selectpicker cell_id','id'=>'cell_id','placeholder'=>' اختر خلية للمنتج '])!!}
 					@else
@@ -598,7 +598,7 @@
 			<div class="modal-body">
 				<label> اسم المكون</label>
 				<span class="required--in">*</span>
-				{!! Form::select("product_id",products(),null,['class'=>'form-control js-example-basic-single','id'=>'component_name','placeholder'=>' اختر اسم الشركة التابع له الوجه '])!!}
+				{!! Form::select("product_id",products(),null,['class'=>'form-control js-example-basic-single','id'=>'component_name','placeholder'=>' اختر اسم المنتج المكون '])!!}
 				<label> الكمية</label>
 				<span class="required--in">*</span>
 				<input type="text" class="form-control" id="component_quantity">
