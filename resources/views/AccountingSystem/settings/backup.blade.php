@@ -20,27 +20,46 @@
     <div class="panel-body">
 
 
-                <h4 class="header-title m-t-0 m-b-30">كل  اعدادات النظام</h4>
-        <a href="{{route('accounting.backups.index')}}" class="btn btn-success">نسخ كافة البيانات </a>
+                <h4 class="header-title m-t-0 m-b-30">Administer Database Backups</h4>
 
+        <div class="row">
+            <div class="col-xs-12 clearfix">
+                <a id="create-new-backup-button" href="{{route('accounting.backups.create')}}" class="btn btn-primary pull-right"
+                   style="margin-bottom:2em;"><i
+                        class="fa fa-plus"></i> Create New Backup
+                </a>
+            </div>
                 <table id="datatable-buttons" class="table datatable-button-init-basic" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th>#</th>
-                        <th>اسم الصفحة</th>
-                        <th>العمليات</th>
+                    <tr>
+                        <th>File</th>
+                        <th>Size</th>
+                        <th>Date</th>
+                        <th>Age</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
                     @php $i = 1; @endphp
-                    @foreach($settings as $key=>$item)
+                    @foreach($backups as $backup)
                         <tr>
-                            <td>{{$key+1}}</td>
-
-                            <td>{{$item->page}}</td>
-                            <td><a href="{{route('accounting.settings.show',$item->slug)}}"><i class="fa fa-eye"></i></a>
+                            <td>{{ $backup['file_name'] }}</td>
+                            <td>{{ humanFilesize($backup['file_size']) }}</td>
+                            <td>
+                                {{ formatTimeStamp($backup['last_modified'], 'F jS, Y, g:ia (T)') }}
                             </td>
-
+                            <td>
+                                {{ diffTimeStamp($backup['last_modified']) }}
+                            </td>
+                            <td class="text-right">
+                                <a class="btn btn-xs btn-default"
+                                   href="{{ url('backup/download/'.$backup['file_name']) }}"><i
+                                        class="fa fa-cloud-download"></i> Download</a>
+                                <a class="btn btn-xs btn-danger" data-button-type="delete"
+                                   href="{{ url('backup/delete/'.$backup['file_name']) }}"><i class="fa fa-trash-o"></i>
+                                    Delete</a>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>

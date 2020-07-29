@@ -145,13 +145,20 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('category_name', function ($attribute, $value, $parameters) {
             $count= AccountingProductCategory::where($parameters[1],$parameters[3])->
                 where($parameters[2], $parameters[4])->count()===0;
-
             return $count;
 
         });
 
         Validator::extend('product_name', function ($attribute, $value, $parameters) {
             $count= AccountingProduct::where($parameters[1],$parameters[3])->
+                where($parameters[2], $parameters[4])->count()===0;
+
+            return $count;
+
+        });
+
+        Validator::extend('supplier_name', function ($attribute, $value, $parameters) {
+            $count= AccountingSupplier::where($parameters[1],$parameters[3])->
                 where($parameters[2], $parameters[4])->count()===0;
 
             return $count;
