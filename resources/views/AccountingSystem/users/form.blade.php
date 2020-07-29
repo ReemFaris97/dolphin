@@ -19,7 +19,7 @@
 </div>
 
 <div class="form-group col-xs-12 pull-left">
-    <label> إيميل العضو </label><span style="color: #ff0000; margin-right: 15px;" class="sm-span">اختيارى</span>
+    <label> إيميل العضو </label>
     {!! Form::email("email",null,['class'=>'form-control','placeholder'=>'  إيميل العضو'])!!}
 </div>
 @if (!isset($user))
