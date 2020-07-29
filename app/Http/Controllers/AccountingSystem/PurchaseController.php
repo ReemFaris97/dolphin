@@ -248,12 +248,8 @@ class PurchaseController extends Controller
      */
     public function show($id)
     {
-
         $purchase =AccountingPurchase::findOrFail($id);
         $product_items=AccountingPurchaseItem::where('purchase_id',$id)->get();
-
-
-
         return $this->toShow(compact('purchase','product_items'));
     }
 
