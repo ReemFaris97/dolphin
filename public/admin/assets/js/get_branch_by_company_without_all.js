@@ -39,6 +39,7 @@ $(function(){
             if(data.length ==0)
                 data.push('لا توجد فروع فى هذه الشركة');
             var val;
+            branches.push('<option  selected> اختر الفرع</option>');
 
             $.each(data, function(i,n){
                 val = i;
