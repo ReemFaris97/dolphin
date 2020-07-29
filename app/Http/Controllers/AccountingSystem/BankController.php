@@ -99,8 +99,10 @@ class BankController extends Controller
 
         $bank=AccountingBank::find($id);
 
+        $currencies=AccountingCurrency::pluck('ar_name','id')->toArray();
+        $branches=AccountingBranch::pluck('name','id')->toArray();
 
-        return $this->toEdit(compact('bank'));
+        return $this->toEdit(compact('bank','currencies','branches'));
     }
 
     /**
@@ -127,6 +129,14 @@ class BankController extends Controller
         $this->validate($request,$rules,$message);
         $requests = $request->all();
         $bank->update($requests);
+        $account=AccountingAccount::where('bank_id',$bank->id)->first();
+        if ($account){
+
+            $account->update([
+              'ar_name'=>$request['name'],
+              'en_name'=>$request['en_name'],
+            ]);
+        }
         alert()->success('تم تعديل  البنك بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.banks.index');
 

@@ -166,9 +166,9 @@ class DeviceController extends Controller
      */
     public function destroy($id)
     {
-        $shift =AccountingBranchShift::findOrFail($id);
-        $shift->delete();
-        alert()->success('تم حذف  الوردية بنجاح !')->autoclose(5000);
+        $device =AccountingDevice::findOrFail($id);
+        $device->delete();
+        alert()->success('تم حذف  الجهاز بنجاح !')->autoclose(5000);
             return back();
 
 
