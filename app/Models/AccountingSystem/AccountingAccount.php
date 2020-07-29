@@ -12,4 +12,14 @@ class AccountingAccount extends Model
     {
      return $this->belongsTo(AccountingAccount::class,'account_id');
     }
+    public function balance()
+    {
+        if ($this->kind=='sub')
+            return $this->amount;
+        else{
+         $balance=AccountingAccount::where('account_id',$this->id)->sum('amount');
+         return  $balance;
+        }
+
+    }
 }

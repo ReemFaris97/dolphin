@@ -42,7 +42,6 @@
 
                 </div>
                 <div role="tabpanel" id="menu4" class="tab-pane active">
-
                     <div class="form-group col-sm-6 col-xs-12 pull-left">
                         <label>اسم الحساب باللغة العربية </label>
                         <input type="text" name="ar_name" class="form-control" value="{{$account->ar_name}}" disabled>
@@ -71,7 +70,7 @@
                     @endif
                     <div class="form-group col-sm-6 col-xs-12 pull-left">
                         <label>المبلغ بالحساب </label>
-                        <input type="text" name="amount" class="form-control" value="{{$account->amount}}" disabled>
+                        <input type="text" name="amount" class="form-control" value="{{$account->balance()}}" disabled>
                     </div>
 
                     <div class="form-group col-xs-6 pull-left  ">
