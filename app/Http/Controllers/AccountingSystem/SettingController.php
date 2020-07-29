@@ -94,6 +94,8 @@ class SettingController extends Controller
                 ->with('sales_settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_sales')->get())
                 ->with('clients_settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_clients')->get())
                 ->with('returns_settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_sales_returns')->get())
+                ->with('sales_cost_settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_sales_cost')->get())
+
                 ->with('chart_accounts', $chart_accounts);
 
         }elseif ($settings_page == 'اعاده تعين حسابات المخزون')
@@ -213,14 +215,25 @@ class SettingController extends Controller
             Artisan::call('backup:run',['--only-db'=>true]);
 
             $output = Artisan::output();
-dd($output);
+
             // log the results
 //            Log::info("Backpack\BackupManager -- new backup started from admin interface \r\n" . $output);
             // return the results as a response to the ajax call
 
             alert()->success('تم نسخ بيانات البرنامج  بنجاح !')->autoclose(5000);
 
-          return  response()->download($pathToFile)->deleteFileAfterSend(true);
+//          return  response()->download('')->deleteFileAfterSend(true);
+
+
+
+
+
+
+
+
+
+
+
         } catch (\Exception $e) {
             dd($e->getMessage());
             alert()->error('لم يتم نسخ بيانات البرنامج  حاول  مره اخرى !')->autoclose(5000);

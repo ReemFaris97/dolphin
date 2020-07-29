@@ -17,6 +17,8 @@ Route::middleware('admin')->group(function () {
     Route::resource('taxs', 'TaxsController');
     Route::resource('banks', 'BankController');
     Route::resource('roles', 'roleController');
+    Route::resource('backups', 'BackupController');
+
     Route::get('/user_permissions/{id}', 'UserController@user_permissions')->name('user_permissions.edit');
     Route::patch('/user_permissions/{id}', 'UserController@user_permissions_update')->name('user_permissions.update');
     Route::get('getBranchesPermission/{id}', 'UserController@getBranchesPermission')->name('getBranchesPermission');

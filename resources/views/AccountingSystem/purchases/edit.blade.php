@@ -240,19 +240,19 @@
                                 <th id="amountBeforeDariba" class="rel-cols" colspan="3">
                                     <span class="colorfulSpan"> المجموع</span>
                                     <input type="hidden" class="dynamic-input" id="amountBeforeDariba1" name="amount">
-                                    <span class="dynamic-span">0</span>
+                                    <span class="dynamic-span">{{$purchase->amount}}</span>
                                     <span class="rs"> ر.س </span>
                                 </th>
                                 <th id="amountOfDariba" class="rel-cols" colspan="3">
                                     <span class="colorfulSpan"> قيمة الضريبة</span>
                                     <input type="hidden" class="dynamic-input" name="totalTaxs" id="amountOfDariba2">
-                                    <span class="dynamic-span">0</span>
+                                    <span class="dynamic-span">{{$purchase->totalTaxs}}</span>
                                     <span class="rs"> ر.س </span>
                                 </th>
                                 <th id="amountAfterDariba" class="rel-cols" colspan="3">
                                     <span class="colorfulSpan">المجموع بعد الضريبة</span>
                                     <input type="hidden" class="dynamic-input">
-                                    <span class="dynamic-span">0</span>
+                                    <span class="dynamic-span">{{$purchase->total}}</span>
                                     <span class="rs"> ر.س </span>
                                 </th>
                             </tr>
@@ -265,14 +265,14 @@
                                         <div class="form-group">
                                             <div>
                                                 <label for="byPercentage" class="wit-lbl">ادخل نسبة الخصم</label>
-                                                <input type="number" step="any" placeholder="النسبة المئوية للخصم" min="0" value="0" max="100" id="byPercentage" name="discount_byPercentage" class="form-control dynamic-input">
+                                                <input type="number" step="any" placeholder="النسبة المئوية للخصم" min="0"  max="100" id="byPercentage" name="discount_byPercentage" class="form-control dynamic-input" value="{{(isset($purchase)&$purchase->discount_type=='percentage')?$purchase->discount:0}}">
                                                 <span class="rs"> % </span>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div>
                                                 <label for="byAmount" class="wit-lbl">ادخل مبلغ الخصم</label>
-                                                <input type="number" step="any" placeholder="مبلغ الخصم" min="0" value="0" max="1" id="byAmount" name="discount_byAmount" class="form-control dynamic-input">
+                                                <input type="number" step="any" placeholder="مبلغ الخصم" min="0"  max="1" id="byAmount" name="discount_byAmount" class="form-control dynamic-input" value="{{(isset($purchase)&$purchase->discount_type=='amount')?$purchase->discount:0}}">
                                                 <span class="rs"> ر.س </span>
                                             </div>
                                         </div>
@@ -281,18 +281,18 @@
                                 <th class="rel-cols" colspan="3" id="demandedAmount">
                                     <span class="colorfulSpan">المطلوب دفعه</span>
                                     <input type="hidden" name="total" id="demandedAmount1">
-                                    <span class="dynamic-span">0</span>
+                                    <span class="dynamic-span">{{$purchase->total}}</span>
                                     <span class="rs"> ر.س </span>
                                 </th>
                                 <th id="paymentMethod" colspan="3" class="rel-cols">
                                     <span class="colorfulSpan">طريقة الدفع</span>
                                     <div class="inline_divs">
                                         <div class="form-group rel-cols radiBtnwrap">
-                                            <input type="radio" id="tazaBTaza" name="payment" value="cash">
+                                            <input type="radio" id="tazaBTaza" name="payment" value="cash" {{(isset($purchase)&$purchase->payment=='cash')?'checked':0}}>
                                             <label for="tazaBTaza">نقدا</label>
                                         </div>
                                         <div class="form-group rel-cols radiBtnwrap">
-                                            <input type="radio" id="tataBTata" name="payment" value="agel">
+                                            <input type="radio" id="tataBTata" name="payment" value="agel" {{(isset($purchase)&$purchase->payment=='agel')?'checked':0}}>
                                             <label for="tataBTata">اجل</label>
                                         </div>
                                     </div>
