@@ -133,12 +133,14 @@
                             <span class="m-l-5"><i class="fa fa-plus"></i></span>
                         </a>
                     </div>
+                    @if ($row->status=='new'&&$row->type=='manual')
                     <div class="btn-group beside-btn-title">
                         <a href="{{route('accounting.entries.edit',['id'=>$entry->id])}}" class="btn btn-success">
                            تعديل القيد
                             <span class="m-l-5"><i class="icon-pencil7 text-inverse"></i></span>
                         </a>
                     </div>
+                    @endif
                     @if($entry->status=='new')
                     <div class="btn-group beside-btn-title">
                         <a class="btn btn-warning" href="{{route('accounting.entries.posting',['id'=>$entry->id])}}">

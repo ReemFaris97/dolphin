@@ -100,8 +100,9 @@ class EntryController extends Controller
     {
         $entry =AccountingEntry::findOrFail($id);
         $accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->where('kind','sub')->pluck('code_name','id')->toArray();
+        $entryAccount=AccountingEntryAccount::where('entry_id',$id)->first();
 
-        return $this->toEdit(compact('entry','accounts'));
+        return $this->toEdit(compact('entry','accounts','entryAccount'));
 
 
     }
@@ -122,13 +123,21 @@ class EntryController extends Controller
             'date'=>'required',
             'amount'=>'required',
             'type'=>'required',
-            'from_account_id'=>'required|numeric|exists:accounting_accounts,id',
-            'to_account_id'=>'required|numeric|exists:accounting_accounts,id',
+//            'from_account_id'=>'required|numeric|exists:accounting_accounts,id',
+//            'to_account_id'=>'required|numeric|exists:accounting_accounts,id',
         ];
         $this->validate($request,$rules);
 
         $requests = $request->all();
         $entry->update($requests);
+        $entryAccount=AccountingEntryAccount::where('entry_id',$id)->first();
+        $entryAccount->update([
+            'from_account_id'=>$request['from_account_id'],
+            'to_account_id'=>$request['to_account_id'],
+            'amount'=>$request['amount'],
+        ]);
+
+
         alert()->success('تم تعديل  القيد بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.entries.index');
 
