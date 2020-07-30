@@ -60,6 +60,7 @@ class AccountingSale extends Model
         foreach ($products_item as $key=>$product_id){
             $product=AccountingProduct::find($product_id);
             $cost+=$product->purchasing_price * $key;
+
         }
 
         return $cost;

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
+use App\Models\AccountingSystem\AccountingAccount;
 use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingBranchShift;
 use App\Models\AccountingSystem\AccountingClient;
 use App\Models\AccountingSystem\AccountingCompany;
 
+use App\Models\AccountingSystem\AccountingEntry;
+use App\Models\AccountingSystem\AccountingEntryAccount;
 use App\Models\AccountingSystem\AccountingOffer;
 use App\Models\AccountingSystem\AccountingPackage;
 use App\Models\AccountingSystem\AccountingProduct;
@@ -204,6 +207,40 @@ class SaleController extends Controller
             ]);
 
         }
+        /////////////////////////////////////////Accounts//////////////////////
+
+        $entry=AccountingEntry::create([
+            'date'=>$sale->created_at,
+            'source'=>'مبيعات',
+            'type'=>'automatic',
+            'details'=>'فاتوره مبيعات'.$sale->bill_num,
+            'status'=>'new'
+        ]);
+
+        if ($sale->payment=='cash'){
+            $saleAccount=AccountingAccount::find(getsetting('accounting_id_sales'));
+            if (isset($saleAccount)) {
+
+                //حساب  المبيعات والنقدية
+                AccountingEntryAccount::create([
+                    'entry_id' => $entry->id,
+                    'from_account_id' => getsetting('accounting_id_clients'),
+                    'to_account_id' => getsetting('accounting_id_sales'),
+                    'amount' => $sale->total,
+                ]);
+//                dd($sale->getItemCostAttribute());
+                //حساب  المبيعات والمخزون
+                $storeAccount = AccountingAccount::where('store_id', $sale->store_id)->first();
+                AccountingEntryAccount::create([
+                    'entry_id' => $entry->id,
+                    'from_account_id' =>getsetting('accounting_sales_cost_id'),
+                    'to_account_id' => $storeAccount->id,
+                    'amount' => $sale->getItemCostAttribute(),
+                ]);
+            }
+        }
+
+
 //        dd($sale);
         alert()->success('تمت عملية البيع بنجاح !')->autoclose(5000);
         return back()->with('sale_id',$sale->id);
