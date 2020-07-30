@@ -116,3 +116,68 @@ form#sllForm {
     color: #333333;
     opacity: 1;
 }
+
+/*wa2fa*/
+.awesome-card-design {
+    width: 50%;
+    min-width: 280px;
+    text-align: center;
+    margin: auto;
+    padding: 20px;
+    box-shadow: 0px 5px 15px rgba(40,40,40,0.2);
+    border-radius: 5px;
+}
+
+.awesome-card-design img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+.awesome-card-design h3 {
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+.awesome-card-design .card-design-contact a:hover {
+	color: #2ECC71;
+}
+.card-design-contact a i {
+    color: #2ECC71;
+    font-size: 18px;
+    margin-left: 5px;
+}
+.awesome-card-design .card-design-contact a {
+    color: #333;
+    font-size: 16px;
+}
+.card-design-contact {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.card-design-info {
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+.card-design-info label{
+    color: #2ECC71;
+}
+.datatable-button-init-basic.dataTable tbody a {
+    color: #333;
+}
+.datatable-button-init-basic.dataTable tbody a:hover {
+    color: #2ECC71;
+}
+
+
+
+
+
+
+
+
+
+/*wa2fa*/

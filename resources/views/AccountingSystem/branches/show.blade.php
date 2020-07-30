@@ -20,42 +20,25 @@
         </div>
 
         <div class="panel-body">
-            <div class="form-group col-md-6 pull-left">
-                <label class="label label-info">  اسم الشركة التابع  لها   الفرع  : </label>
-                <span>{!! $branch->company->name !!}</span>
-            </div>
-            <div class="form-group col-md-6 pull-left">
-                <label class="label label-info">  اسم الفرع  : </label>
-                <span>{!! $branch->name !!}</span>
-            </div>
-
-            <div class="form-group col-md-6 pull-left">
-                <label class="label label-info">  جوال الفرع  : </label>
-                <span>{!! $branch->phone !!}</span>
-            </div>
-            <div class="form-group col-md-6 pull-left">
-                <label class="label label-info">  ايميل الفرع  : </label>
-                <span>{!! $branch->email !!}</span>
-            </div>
-
-
-            <div class="form-group col-md-6 pull-left">
-                <label class="label label-info ">   الرصيد العام لخزائن الفرع : </label>
-                <span>{!! $branch->getGeneralBalances() !!}</span>
-            </div>
-            <div class="form-group col-md-6 pull-left">
-                <label class="label label-info">   الرصيد الفعلى لخزائن الفرع  : </label>
-                <span>{!! $branch->getRealBalances() !!}</span>
-            </div>
-
-
-            <div class="form-group col-md-6 pull-left">
-                <label class="label label-info ">  صورة الفرع  : </label>
-                <span><img src="{!! getimg($branch->image)!!}" style="width:100px; height:100px"> </span>
-            </div>
-            <div class="clearfix">
-
-            </div>
+            <div class="awesome-card-design">
+           		<img src="{!! getimg($branch->image)!!}">
+           		<h3>{!! $branch->name !!} ( {!! $branch->company->name !!} )</h3>
+           		<div class="card-design-contact">
+           			<a href="tel:{!! $branch->phone !!}"><i class="icon-mobile"></i><span>{!! $branch->phone !!}</span></a>
+           			<a href="mailto:{!! $branch->email !!}"><i class="icon-envelop"></i><span>{!! $branch->email !!}</span></a>
+           		</div>
+           		<div class="card-design-info">
+           			 <p>
+           			 	<label> الرصيد العام لخزائن الفرع : </label>
+                		<span>{!! $branch->getGeneralBalances() !!}</span>
+           			 </p>
+           			 <p>
+           			 	<label>  الرصيد الفعلى لخزائن الفرع  :  </label>
+               			<span>{!! $branch->getRealBalances() !!}</span>
+           			 </p>
+           		</div>
+           </div>
+            <div class="clearfix"></div>
             <h4>عرض الورديات بالفرع</h4>
             <div class="form-group col-md-12 pull-left">
 
