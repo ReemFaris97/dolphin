@@ -16,10 +16,12 @@
     <label>اسم الحساب باللغة الانجليزية   </label>
     {!! Form::text("en_name",null,['class'=>'form-control','placeholder'=>'  اسم الحساب باللغة الانجليزية  '])!!}
 </div>
-{{--<div class="form-group col-sm-6 col-xs-12 pull-left">--}}
-    {{--<label>الكود  </label>--}}
-    {{--{!! Form::text("code",null,['class'=>'form-control','placeholder'=>'  الكود   '])!!}--}}
-{{--</div>--}}
+@if(isset($account))
+ <div class="form-group col-sm-6 col-xs-12 pull-left">
+ <label>الكود  </label>
+   {!! Form::text("code",null,['class'=>'form-control','placeholder'=>'  الكود   '])!!}
+</div>
+@endif
 <div class="form-group col-sm-6 col-xs-12 pull-left">
     <label> نوع  الحساب  </label>
     {!! Form::select("kind",['main'=>'حساب رئيسى','sub'=>'حساب فرعى','following_main'=>' حساب رئيسى تابع'],Null,['class'=>'form-control','id'=>'kind'])!!}
