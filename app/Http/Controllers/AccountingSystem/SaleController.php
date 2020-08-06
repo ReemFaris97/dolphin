@@ -93,7 +93,7 @@ class SaleController extends Controller
 
 
         $sale=AccountingSale::create($requests);
-
+dd($sale->store_id);
         $sale->update([
             'bill_num'=>$sale->id."-".$sale->created_at,
             'user_id'=>$requests['user_id'] ,
