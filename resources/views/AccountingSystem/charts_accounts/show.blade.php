@@ -13,7 +13,7 @@
             <h5 class="panel-title">عرض {{$account->ar_name}}
 
 {{--                @dd($account->allChildrenAccounts->first()->allChildrenAccounts)--}}
-                @foreach ($account->allChildrenAccounts as $child)
+                {{-- @foreach ($account->allChildrenAccounts as $child)
                     @foreach (   $child->allChildrenAccounts as $aa)
                         {{$aa->ar_name}}
                     @endforeach
@@ -22,7 +22,7 @@
                 <ul>
 
 
-                </ul>
+                </ul> --}}
             </h5>
             <div class="heading-elements">
                 <ul class="icons-list">

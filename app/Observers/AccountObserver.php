@@ -100,15 +100,15 @@ class AccountObserver
 
     }
 
-    public function updating(AccountingAccount $account)
-    {
+    // public function updating(AccountingAccount $account)
+    // {
 
-            $account->update([
-                'amount' => $account->children()->sum('amount'),
-            ]);
+    //         $account->update([
+    //             'amount' => $account->children()->sum('amount'),
+    //         ]);
 
 
 
-    }
+    // }
 
 }
