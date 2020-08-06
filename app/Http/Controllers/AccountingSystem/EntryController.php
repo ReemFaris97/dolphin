@@ -201,6 +201,18 @@ class EntryController extends Controller
             $toAccount->update([
                 'amount'=>$toAccount->amount-$account->amount
             ]);
+
+            $fromAccountParent=AccountingAccount::find($account->from_account_id);
+            $toAccount=AccountingAccount::find($account->to_account_id);
+            $fromAccount->update([
+                'amount'=>$fromAccount->amount+$account->amount
+            ]);
+
+            $toAccount->update([
+                'amount'=>$toAccount->amount-$account->amount
+            ]);
+
+
         }
 
             alert()->success('تم ترحيل القيد بنجاح !')->autoclose(5000);

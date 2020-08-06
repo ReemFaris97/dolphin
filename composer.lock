@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "53d83fedb0fafebd8cc7e51924275c02",
+    "content-hash": "9cdb71c1636f294c40d955bb27803cb4",
     "packages": [
         {
             "name": "anahkiasen/underscore-php",
@@ -2843,6 +2843,96 @@
             ],
             "description": "Laravel Eloquent HasManyThrough relationship with unlimited levels",
             "time": "2019-02-26T16:06:17+00:00"
+        },
+        {
+            "name": "staudenmeir/laravel-adjacency-list",
+            "version": "v1.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/staudenmeir/laravel-adjacency-list.git",
+                "reference": "f61b048b4e7d9c3e5ef1927f35142f9664ab0abf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/staudenmeir/laravel-adjacency-list/zipball/f61b048b4e7d9c3e5ef1927f35142f9664ab0abf",
+                "reference": "f61b048b4e7d9c3e5ef1927f35142f9664ab0abf",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "5.8.*",
+                "php": "^7.1.3",
+                "staudenmeir/laravel-cte": "^1.1.3"
+            },
+            "require-dev": {
+                "laravel/homestead": "^8.0",
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Staudenmeir\\LaravelAdjacencyList\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonas Staudenmeir",
+                    "email": "mail@jonas-staudenmeir.de"
+                }
+            ],
+            "description": "Recursive Laravel Eloquent relationships with CTEs",
+            "time": "2020-05-04T18:12:24+00:00"
+        },
+        {
+            "name": "staudenmeir/laravel-cte",
+            "version": "v1.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/staudenmeir/laravel-cte.git",
+                "reference": "b798014a55670e679b350e7312d8e398d8d46747"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/staudenmeir/laravel-cte/zipball/b798014a55670e679b350e7312d8e398d8d46747",
+                "reference": "b798014a55670e679b350e7312d8e398d8d46747",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "5.8.*",
+                "php": "^7.1.3"
+            },
+            "require-dev": {
+                "laravel/homestead": "^8.0",
+                "orchestra/testbench": "3.8.*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Staudenmeir\\LaravelCte\\DatabaseServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Staudenmeir\\LaravelCte\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonas Staudenmeir",
+                    "email": "mail@jonas-staudenmeir.de"
+                }
+            ],
+            "description": "Laravel queries with common table expressions",
+            "time": "2020-07-11T12:07:29+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

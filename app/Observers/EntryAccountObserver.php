@@ -54,13 +54,13 @@ class EntryAccountObserver
      $debtorAccount=AccountingAccount::find($entryAccount->to_account_id);
      $creditorAccount=AccountingAccount::find($entryAccount->from_account_id);
 
-     $debtorAccount->update([
-        'amount'=>$debtorAccount->amount-$entryAccount->amount,
-     ]);
-
-     $creditorAccount->update([
-        'amount'=>$creditorAccount->amount+$entryAccount->amount,
-     ]);
+//     $debtorAccount->update([
+//        'amount'=>$debtorAccount->amount-$entryAccount->amount,
+//     ]);
+//
+//     $creditorAccount->update([
+//        'amount'=>$creditorAccount->amount+$entryAccount->amount,
+//     ]);
     }
 
     public  function  updated(AccountingEntryAccount $entryAccount){
