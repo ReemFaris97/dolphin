@@ -79,7 +79,8 @@ class AccountController extends Controller
      */
     public function show($id)
     {
-        $account=AccountingAccount::find($id);
+        $account=AccountingAccount::with('allChildrenAccounts')->where('id',$id)->first();
+
         $logs=AccountingAccountLog::where('account_id',$id)->get();
         return view("AccountingSystem.charts_accounts.show",compact('account','logs'));
 

@@ -11,6 +11,18 @@
     <div class="panel panel-flat">
         <div class="panel-heading">
             <h5 class="panel-title">عرض {{$account->ar_name}}
+
+{{--                @dd($account->allChildrenAccounts->first()->allChildrenAccounts)--}}
+                {{-- @foreach ($account->allChildrenAccounts as $child)
+                    @foreach (   $child->allChildrenAccounts as $aa)
+                        {{$aa->ar_name}}
+                    @endforeach
+                @endforeach
+
+                <ul>
+
+
+                </ul> --}}
             </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
@@ -70,7 +82,7 @@
                     @endif
                     <div class="form-group col-sm-6 col-xs-12 pull-left">
                         <label>المبلغ بالحساب </label>
-                        <input type="text" name="amount" class="form-control" value="{{$account->balance()}}" disabled>
+                        <input type="text" name="amount" class="form-control" value="{{$account->amount}}" disabled>
                     </div>
 
                     <div class="form-group col-xs-6 pull-left  ">

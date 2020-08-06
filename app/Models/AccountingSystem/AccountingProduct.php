@@ -112,7 +112,11 @@ class AccountingProduct extends Model
             $q->where('store_id',1);
         });
     }
-
+    public function store_quantity($store_id=null)
+    {
+      $quantity=AccountingProductStore::where('store_id',$store_id)->where('product_id',$this->id)->sum('quantity');
+        return $quantity;
+    }
 
 
 
