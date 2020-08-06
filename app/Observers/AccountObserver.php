@@ -96,19 +96,17 @@ class AccountObserver
             }
         }
 
+    }
+
+    public function posting(AccountingAccount $account)
+    {
+
+            $account->update([
+                'amount' => $account->children()->sum('amount'),
+            ]);
+
 
 
     }
-
-    // public function updating(AccountingAccount $account)
-    // {
-
-    //         $account->update([
-    //             'amount' => $account->children()->sum('amount'),
-    //         ]);
-
-
-
-    // }
 
 }

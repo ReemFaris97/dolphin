@@ -13,6 +13,21 @@ class AccountingAccount extends Model
 
     protected $fillable = ['ar_name','en_name','kind','status','code','account_id','active','amount','supplier_id','store_id','bank_id'];
     protected $table='accounting_accounts';
+
+
+
+
+    protected $observables = [
+        'posted',
+
+    ];
+
+    public function posted()
+    {
+      // fire custom event on the model
+      $this->fireModelEvent('posted',true);
+
+    }
     public function account()
     {
      return $this->belongsTo(AccountingAccount::class,'account_id');
@@ -47,9 +62,9 @@ class AccountingAccount extends Model
 //        return $this->where('account_id',$this->id)->with('children')->get();
 //    }
 //
-    public function parent()
+    public function parents()
     {
-        return $this->belongsTo(AccountingAccount::class,'account_id')->with('parent');
+        return $this->belongsTo(AccountingAccount::class,'account_id');
     }
 
     public function children()
@@ -57,10 +72,13 @@ class AccountingAccount extends Model
         return $this->hasMany(AccountingAccount::class,'account_id');
     }
 
+
     public function allChildrenAccounts()
     {
         return $this->children()->with('allChildrenAccounts');
     }
+
+
 
 //    public function balance()
 //    {
