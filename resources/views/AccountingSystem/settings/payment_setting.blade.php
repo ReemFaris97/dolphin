@@ -33,7 +33,7 @@
 
                    {!!Form::open( ['route' => 'accounting.settings.store' , 'method' => 'Post','files'=>true]) !!}
 
-                           <div class="form-group col-xs-4 backed-eee {{ $errors->has('name') ? ' has-error' : '' }}">
+                           <div class="form-group col-xs-12 backed-eee {{ $errors->has('name') ? ' has-error' : '' }}">
                                <div>
                                    <label> {{$setting->title}}</label>
 
