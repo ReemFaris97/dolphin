@@ -11,7 +11,7 @@ class AccountingAccount extends Model
 
   use \Staudenmeir\LaravelCte\Eloquent\QueriesExpressions;
 
-    protected $fillable = ['ar_name','en_name','kind','status','code','account_id','active','amount','supplier_id','store_id','bank_id'];
+    protected $fillable = ['ar_name','en_name','kind','status','code','account_id','active','amount','supplier_id','store_id','bank_id','cost_center'];
     protected $table='accounting_accounts';
 
 
