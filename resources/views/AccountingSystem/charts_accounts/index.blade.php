@@ -4,6 +4,8 @@
 @section('action', URL::route('accounting.ChartsAccounts.index'))
 
 @section('styles')
+<link href="{{asset('admin/assets/css/easyTree.min.css')}}" rel="stylesheet" type="text/css">
+
 
 @endsection
 
@@ -29,6 +31,49 @@
         </div>
 
         <div class="panel-body">
+    <div class="easy-tree">
+        <ul>
+            <li>رئيسي 1</li>
+            <li>رئيسي 2</li>
+            <li>رئيسي 3
+                <ul>
+                    <li>فرعي 1 من رئيسي3</li>
+                    <li>فرعي 2 من رئيسي3
+                        <ul>
+                            <li>فرعي جدا 1 من فرعي 2 من رئيسي 3</li>
+                            <li>فرعي جدا 2 من فرعي 2 من رئيسي 3</li>
+                            <li>فرعي جدا 3 من فرعي 2 من رئيسي 3</li>
+                            <li>فرعي جدا 4 من فرعي 2 من رئيسي 3</li>
+                        </ul>
+                    </li>
+                    <li>فرعي 3 من رئيسي3</li>
+                    <li>فرعي 4 من رئيسي3</li>
+                </ul>
+            </li>
+            <li>رئيسي 4
+                <ul>
+                    <li>فرعي 1 من رئيسي4</li>
+                    <li>فرعي 2 من رئيسي4</li>
+                    <li>فرعي 3 من رئيسي4</li>
+                    <li>فرعي 4 من رئيسي4
+                        <ul>
+                            <li>فرعي جدا 1 من فرعي 4 من رئيسي 4</li>
+                            <li>فرعي جدا 2 من فرعي 4 من رئيسي 4</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+           
+           
+           
+           
+<!--
+           
+           
+           
+           
             <table class="table datatable-button-init-basic">
                 <thead>
                 <tr>
@@ -51,7 +96,7 @@
                                 {!! $row->ar_name!!}
                             </a>
                         </td>
-                        <td>{!! $row->code!!}</td>
+                        <td>{!! $row->code !!}</td>
                         <td>
                             @if ($row->kind=='main')
                                 رئيسى
@@ -85,6 +130,7 @@
 
                 </tbody>
             </table>
+-->
         </div>
 
     </div>
@@ -93,6 +139,15 @@
 @endsection
 
 @section('scripts')
+    <script type="text/javascript" src="{{asset('admin/assets/js/easyTree.js')}}"></script>
+    <script>
+		(function ($) {
+			function init() {
+				$('.easy-tree').EasyTree();
+			}
+			window.onload = init();
+		})(jQuery)
+	</script>
 
     <script>
         function Delete(id) {

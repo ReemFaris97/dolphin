@@ -172,8 +172,20 @@ form#sllForm {
     color: #2ECC71;
 }
 
+.easy-tree ul {
+list-style-type: none;
+}
 
-
+.easy-tree ul .glyphicon {
+    color: #2ECC71;
+    margin-left: 5px;
+}
+.easy-tree ul li {
+    margin-bottom: 5px;
+}
+.easy-tree ul span a {
+    color: #333;
+}
 
 
 
