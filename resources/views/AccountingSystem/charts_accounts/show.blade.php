@@ -36,9 +36,11 @@
         <div class="panel-body">
             <ul class="nav nav-tabs">
                 <li><a data-toggle="tab" role="tab" aria-controls="menu1" href="#menu1">دفتر اليوميه </a></li>
-                <li><a data-toggle="tab" role="tab" aria-controls="menu2" href="#menu2">مركز التكلفه </a></li>
+              @if( $account->cost_center==1)
+                <li  @if( $account->cost_center==1) class="active" @endif  ><a data-toggle="tab" role="tab" aria-controls="menu2" href="#menu2">مركز التكلفه </a></li>
+                @endif
                 <li><a data-toggle="tab" role="tab" aria-controls="menu3" href="#menu3"> دفتر الاستاذ </a></li>
-                <li class="active"><a data-toggle="tab" role="tab" aria-controls="menu4" href="#menu4"> تفاصيل
+                <li  @if( $account->cost_center==0) class="active" @endif ><a data-toggle="tab" role="tab" aria-controls="menu4" href="#menu4"> تفاصيل
                         الحساب </a></li>
 
             </ul>
@@ -46,14 +48,16 @@
                 <div role="tabpanel" id="menu1" class="tab-pane  ">
 
                 </div>
-                <div role="tabpanel" id="menu2" class="tab-pane">
+                @if( $account->cost_center==1)
+                <div role="tabpanel" id="menu2" @if( $account->cost_center==1) class=" tab-pane active" @else  class=" tab-pane" @endif >
 
 
                 </div>
+                @endif
                 <div role="tabpanel" id="menu3" class="tab-pane">
 
                 </div>
-                <div role="tabpanel" id="menu4" class="tab-pane active">
+                <div role="tabpanel" id="menu4" @if( $account->cost_center==0) class=" tab-pane active" @else  class=" tab-pane" @endif >
                     <div class="form-group col-sm-6 col-xs-12 pull-left">
                         <label>اسم الحساب باللغة العربية </label>
                         <input type="text" name="ar_name" class="form-control" value="{{$account->ar_name}}" disabled>
@@ -100,52 +104,6 @@
                     </div>
 
 
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-
-                            <th>كود </th>
-                            <th>التاريخ</th>
-                            <th> اسم الحساب </th>
-                            <th>المبلغ</th>
-                            <th>التاثير</th>
-
-                            <th>التفاصيل</th>
-                            <th>الرصيد بعد العملية</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-
-                        @foreach($logs as $row)
-                            <tr>
-                                <td>{!!$loop->iteration!!}</td>
-                                <td>{!! $row->account->code!!}</td>
-                                <td>{!! $row->entry->date!!}</td>
-                                <td>{!! $row->another_account->ar_name!!}</td>
-                                <td>{!! $row->amount!!}</td>
-                                <td>
-                                    @if($row->affect=='debtor')
-                                        مدين <i class="fa fa-arrow-up" style="margin-left: 10px"></i>
-                                    @else
-                                        دائن<i class="fa fa-arrow-down" style="margin-left: 10px"></i>
-                                   @endif
-                                </td>
-
-                                <td>
-                                    {{$row->entry->details}}
-                                </td>
-                                <td>
-                                    {{$row->account_amount_after}}
-                                </td>
-                            </tr>
-
-                        @endforeach
-
-
-
-                        </tbody>
-                    </table>
 
                 </div>
             </div>

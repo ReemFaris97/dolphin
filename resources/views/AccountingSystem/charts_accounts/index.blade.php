@@ -4,6 +4,8 @@
 @section('action', URL::route('accounting.ChartsAccounts.index'))
 
 @section('styles')
+<link href="{{asset('admin/assets/css/easyTree.min.css')}}" rel="stylesheet" type="text/css">
+
 
 @endsection
 
@@ -29,6 +31,38 @@
         </div>
 
         <div class="panel-body">
+            <ul class="nav nav-tabs">
+                <li><a data-toggle="tab" role="tab" aria-controls="menu1" href="#menu1"> شجرة الحسابات</a></li>
+                <li><a data-toggle="tab" role="tab" aria-controls="menu2" href="#menu2">مراكز التكلفه </a></li>
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" id="menu1" class="tab-pane active">
+                        <div class="easy-tree">
+                            <ul>
+                                {!! MyHelper::tree($accounts) !!}
+                            </ul>
+
+                        </div>
+                </div>
+                <div role="tabpanel" id="menu2" class="tab-pane">
+                    <div class="easy-tree">
+                        <ul>
+
+                            {!! MyHelperCostCenter::treecost($accounts) !!}
+                        </ul>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+
+<!--
+
+
+
+
             <table class="table datatable-button-init-basic">
                 <thead>
                 <tr>
@@ -51,7 +85,7 @@
                                 {!! $row->ar_name!!}
                             </a>
                         </td>
-                        <td>{!! $row->code!!}</td>
+                        <td>{!! $row->code !!}</td>
                         <td>
                             @if ($row->kind=='main')
                                 رئيسى
@@ -85,6 +119,7 @@
 
                 </tbody>
             </table>
+-->
         </div>
 
     </div>
@@ -93,6 +128,15 @@
 @endsection
 
 @section('scripts')
+    <script type="text/javascript" src="{{asset('admin/assets/js/easyTree.js')}}"></script>
+    <script>
+		(function ($) {
+			function init() {
+				$('.easy-tree').EasyTree();
+			}
+			window.onload = init();
+		})(jQuery)
+	</script>
 
     <script>
         function Delete(id) {

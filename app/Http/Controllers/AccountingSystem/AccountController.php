@@ -22,7 +22,11 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $accounts=AccountingAccount::all();
+        $accounts=AccountingAccount::where('kind','main')->get();
+        // $accounts_centercost=AccountingAccount::whereHas('children', function($query) {
+        //     $query->whereHas('children');
+        // })->get();
+        // dd($accounts_centercost);
         return view("AccountingSystem.charts_accounts.index",compact('accounts'));
     }
 

@@ -62,6 +62,25 @@
     </div>
 </div>
 
+<div class="form-group col-xs-6 col-xs-12 ">
+    <label> مركزتكلفه  </label>
+    <div class="form-line new-radio-big-wrapper">
+	<span class="new-radio-wrap">
+		<label for="yes">نعم </label>
+			{!! Form::radio("cost_center",'1',['class'=>'form-control','id'=>'yes'])!!}
+    </span>
+    <span class="new-radio-wrap">
+		<label for="no"> لا </label>
+	     {!! Form::radio("cost_center",'0',['class'=>'form-control','id'=>'no'])!!}
+	</span>
+    </div>
+</div>
+
+
+
+
+
+
 <div class="text-center col-md-12">
     <div class="text-right">
         <button type="submit" id="register" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i></button>
