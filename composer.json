@@ -34,7 +34,8 @@
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^3.0",
         "phpunit/phpunit": "^7.5",
-        "tymon/jwt-auth": "dev-develop"
+        "tymon/jwt-auth": "^1.0.0-beta.3@dev"
+
     },
     "config": {
         "optimize-autoloader": true,
