@@ -9,7 +9,7 @@ class AccountingAccount extends Model
 {
 //  use \Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 
-  use \Staudenmeir\LaravelCte\Eloquent\QueriesExpressions;
+//   use \Staudenmeir\LaravelCte\Eloquent\QueriesExpressions;
 
     protected $fillable = ['ar_name','en_name','kind','status','code','account_id','active','amount','supplier_id','store_id','bank_id','cost_center'];
     protected $table='accounting_accounts';
@@ -72,6 +72,11 @@ class AccountingAccount extends Model
         return $this->hasMany(AccountingAccount::class,'account_id');
     }
 
+    public function childrenCostCenter()
+    {
+        return $this->hasMany(AccountingAccount::class,'account_id')->where('cost_center',1)->where('kind','sub');
+
+    }
 
     public function allChildrenAccounts()
     {

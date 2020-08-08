@@ -14,7 +14,8 @@ class AddCostCenterToAccountingAccountsTable extends Migration
     public function up()
     {
         Schema::table('accounting_accounts', function (Blueprint $table) {
-            //
+            $table->boolean('cost_center')->default('0')->nullable();
+
         });
     }
 
@@ -26,7 +27,6 @@ class AddCostCenterToAccountingAccountsTable extends Migration
     public function down()
     {
         Schema::table('accounting_accounts', function (Blueprint $table) {
-            $table->boolean('cost_center')->default('1')->nullable();
 
         });
     }

@@ -141,6 +141,7 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
+
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
@@ -237,6 +238,8 @@ return [
         'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
         'Alert' => UxWeb\SweetAlert\SweetAlert::class,
 //        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'MyHelper'  => App\Helpers\MyHelper::class,
+       'MyHelperCostCenter' => App\Helpers\MyHelperCostCenter::class,
 
 
     ],
