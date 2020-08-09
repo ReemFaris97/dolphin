@@ -56,7 +56,7 @@ class SuppliersController extends Controller
         }
 
 //dd($purchases);
-        return view('AccountingSystem.reports.suppliers.for-period', compact('purchases','users','requests'));
+        return view('AccountingSystem.reports.suppliers.for-period', compact('purchases','requests'));
     }
 
     public function purchasesAll(Request $request)
@@ -102,7 +102,7 @@ class SuppliersController extends Controller
         }
 
 
-        return view('AccountingSystem.reports.suppliers.for-period-all', compact('purchases','users','requests'));
+        return view('AccountingSystem.reports.suppliers.for-period-all', compact('purchases','requests'));
     }
 
     public function purchasesReturns(Request $request)

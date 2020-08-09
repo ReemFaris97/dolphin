@@ -288,6 +288,8 @@ Route::middleware('admin')->group(function () {
 
     Route::group(['prefix' => 'ChartsAccounts'], function () {
         Route::resource('ChartsAccounts', 'AccountController');
+        Route::get('trial-balance', 'AccountController@trial_balance')->name('ChartsAccounts.trial_balance');
+
         Route::resource('AccountSettings', 'AccountSettingController');
         Route::get('active/{id}', 'AccountController@active')->name('ChartsAccounts.active');
         Route::get('dis-active/{id}', 'AccountController@dis_active')->name('ChartsAccounts.dis_active');
