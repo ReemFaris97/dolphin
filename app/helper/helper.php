@@ -2,10 +2,27 @@
 
 
 //Json array response
+
+use App\Models\AccountingSystem\AccountingAccount;
 use Carbon\Carbon;
 
 
+class MyHelperAccountingAmount{
 
+    public static function amount($account, $step = 0)
+   {
+       $totalAmount = 0;
+               if($account->kind == 'sub'){
+                $totalAmount=$account->amount;
+           }else{
+            if($account->children){
+               
+                $totalAmount=AccountingAccount::where('account_id',$account->id)->sum('amount')+self::amount($account->children, $step+1);
+                }
+           }
+       return $totalAmount;
+     }
+   }
 
 
 
@@ -19,7 +36,7 @@ class MyHelper{
         {
             $output .=
 
-            '<li name="'.$account->id.'"> '. $account->ar_name;
+            '<li name="'.$account->id.'"> '. $account->code . " -".$account->ar_name;
 
             // '<option  value="'.$account->id.'">'.str_repeat('&nbsp;&nbsp;&nbsp;',$step). $account->ar_name.'</option>';
             if($account->kind!='sub'){
@@ -47,19 +64,18 @@ class MyHelperCostCenter{
        $base_url = url('/ChartsAccounts/ChartsAccounts/');
            foreach($accounts as $account)
            {
-
-
                // '<option  value="'.$account->id.'">'.str_repeat('&nbsp;&nbsp;&nbsp;',$step). $account->ar_name.'</option>';
                if($account->kind!='sub'){
 
                         if($account->children)
                         {
                             $output .=
-                            '<li name="'.$account->id.'"> '. $account->ar_name;
+                            '<li name="'.$account->id.'"> '. $account->code . " -".$account->ar_name;
                             $output .= '<ul>'. self::treecost($account->children, $step+1).'</ul>'.'</li>';
                         }
             }elseif($account->kind=='sub'&&$account->cost_center==1){
-                $output .= '<li name="'.$account->id.'"> '. $account->ar_name;
+                $output .=  '<li name="'.$account->id.'"> '. $account->code . " -".$account->ar_name;
+
                     $output .='</li>';
 
 

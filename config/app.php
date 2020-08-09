@@ -240,6 +240,8 @@ return [
 //        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'MyHelper'  => App\Helpers\MyHelper::class,
        'MyHelperCostCenter' => App\Helpers\MyHelperCostCenter::class,
+       'MyHelperAccountingAmount' => App\Helpers\MyHelperAccountingAmount::class,
+
 
 
     ],

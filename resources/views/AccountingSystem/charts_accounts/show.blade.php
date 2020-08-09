@@ -12,17 +12,7 @@
         <div class="panel-heading">
             <h5 class="panel-title">عرض {{$account->ar_name}}
 
-{{--                @dd($account->allChildrenAccounts->first()->allChildrenAccounts)--}}
-                {{-- @foreach ($account->allChildrenAccounts as $child)
-                    @foreach (   $child->allChildrenAccounts as $aa)
-                        {{$aa->ar_name}}
-                    @endforeach
-                @endforeach
-
-                <ul>
-
-
-                </ul> --}}
+                {!! MyHelperAccountingAmount::amount($account) !!}
             </h5>
             <div class="heading-elements">
                 <ul class="icons-list">

@@ -166,4 +166,11 @@ class AccountController extends Controller
     }
 
 
+    public function trial_balance(){
+        $accounts=AccountingAccount::all();
+        return view("AccountingSystem.charts_accounts.edit",compact('accounts'));
+
+    }
+
+
 }

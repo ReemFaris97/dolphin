@@ -365,12 +365,10 @@
 			</ul>
 		</li>
 
-
-
 			<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i> الحسابات </a>
 				<ul class="dropdown-menu dropdown-menu-right">
 					<li><a href="{{route('accounting.ChartsAccounts.index')}}"><i class="icon-eye"></i> الدليل المحاسبى</a></li>
-
+					<li><a href="{{route('accounting.ChartsAccounts.trial_balance')}}"><i class="icon-eye"></i>  ميزان المراجعة</a></li>
 				</ul>
 			</li>
 
@@ -437,7 +435,7 @@
 		</li>
             @endcan
             @can(' الاعدادات العامة')
-		<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="glyphicon glyphicon-cog	 position-left"></i> إدارة الاعدادات العامه <span class="caret"></span> </a>
+		<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="glyphicon glyphicon-cog	 position-left"></i> إدارة الاعدادات  <span class="caret"></span> </a>
 			<ul class="dropdown-menu dropdown-menu-right">
 				<li><a href="{{route('accounting.settings.index')}}"><i class="glyphicon glyphicon-cog"></i> الأعدادت </a></li>
 				<li><a href="{{route('accounting.roles.index')}}"><i class="glyphicon glyphicon-cog"></i> الصلاحيات  </a></li>

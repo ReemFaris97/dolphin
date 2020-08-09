@@ -29,7 +29,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable 
+class User extends Authenticatable implements JWTSubject
 {
     use Notifiable, softDeletes,HasRoles,HashPassword,FirebasOperation,ApiResponses;
 
