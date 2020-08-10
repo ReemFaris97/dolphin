@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','عرض  الحسابات')
-@section('parent_title','  الدليل المحاسبى')
+@section('parent_title',' ميزان المراجعة')
 @section('action', URL::route('accounting.ChartsAccounts.index'))
 
 @section('styles')
@@ -12,14 +12,8 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">عرض  الدليل المحاسبى
+            <h5 class="panel-title">ميزان المراجعة
 
-            {{-- <div class="btn-group beside-btn-title">
-                <a href="{{route('accounting.ChartsAccounts.create')}}" class="btn btn-success">
-                    انشاء حساب  جديد
-                    <span class="m-l-5"><i class="fa fa-plus"></i></span>
-                </a>
-            </div> --}}
             </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
@@ -29,17 +23,43 @@
                 </ul>
             </div>
         </div>
-
+        <div class="row">
+            <div class="col-xs-12">
+                <form action="" method="post" accept-charset="utf-8" >
+                  @csrf
+        <div class="form-group col-sm-3">
+            <label for="from"> الفترة من </label>
+            {!! Form::date("from",request('from'),['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' الفترة من ',"id"=>'from'])!!}
+        </div>
+        <div class="form-group col-sm-3">
+            <label for="to"> الفترة إلي </label>
+            {!! Form::date("to",request('to'),['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' الفترة إلي ',"id"=>'to'])!!}
+        </div>
+        <div class="form-group col-sm-12">
+            <button type="submit" class="btn btn-success btn-block">بحث</button>
+        </div>
+        </form>
+    </div>
+        </div>
         <div class="panel-body">
-
-
             <table class="table datatable-button-init-basic">
                 <thead>
+                <tr  >
+                    <th >#</th>
+                    <th > الحساب </th>
+                    <th colspan="2">الرصيد الافتتاحى </th>
+                    <th colspan="2"> الحركات خلال الفتره </th>
+                    <th colspan="2">   الرصيد الختامى </th>
+                </tr>
                 <tr>
-                    <th>#</th>
-                    <th>اسم الحساب </th>
-                    <th>كود الحساب </th>
-                    <th> نوع الحساب </th>
+                        <td></td>
+                        <td> </td>
+                       <td>مدين</td>
+                        <td> دائن</td>
+                        <td>مدين</td>
+                        <td> دائن</td>
+                        <td>مدين</td>
+                        <td> دائن</td>
                 </tr>
                 </thead>
                 <tbody>
@@ -47,22 +67,17 @@
                 @foreach($accounts as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
-                        <td>
+                        <td >
                             <a href="{{route('accounting.ChartsAccounts.show',['id'=>$row->id])}}" class="link">
                                 {!! $row->ar_name!!}
                             </a>
                         </td>
-                        <td>{!! $row->code !!}</td>
-                        <td>
-                            @if ($row->kind=='main')
-                                رئيسى
-                                @elseif($row->kind=='sub')
-                                فرعى
-                            @else
-                                رئيسى تابع
-                            @endif
-                        </td>
-
+                        <td></td>
+                        <td></td>
+                    <td>{{$row->logs_debtor($request)}}</td>
+                    <td>{{$row->logs_creditor($request)}}</td>
+                        <td></td>
+                        <td> </td>
                     </tr>
 
                 @endforeach
@@ -76,68 +91,7 @@
 
 
 
-<!--
 
-
-
-
-            <table class="table datatable-button-init-basic">
-                <thead>
-                <tr>
-                    <th>#</th>
-
-                    <th>اسم الحساب </th>
-                    <th>كود الحساب </th>
-                    <th> نوع الحساب </th>
-                    <th> طبيعه  الحساب </th>
-                    <th class="text-center">العمليات</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                @foreach($accounts as $row)
-                    <tr>
-                        <td>{!!$loop->iteration!!}</td>
-                        <td>
-                            <a href="{{route('accounting.ChartsAccounts.show',['id'=>$row->id])}}" class="link">
-                                {!! $row->ar_name!!}
-                            </a>
-                        </td>
-                        <td>{!! $row->code !!}</td>
-                        <td>
-                            @if ($row->kind=='main')
-                                رئيسى
-                                @elseif($row->kind=='sub')
-                                فرعى
-                            @else
-                                رئيسى تابع
-                            @endif
-                        </td>
-                        <td>
-                            @if ($row->status=='Creditor')
-                                دائن
-                            @else
-                                مدين
-                            @endif
-                        </td>
-                        <td class="text-center">
-                            <a href="{{route('accounting.ChartsAccounts.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
-
-                            <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
-
-                            {!!Form::open( ['route' => ['accounting.ChartsAccounts.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
-                            {!!Form::close() !!}
-
-                        </td>
-                    </tr>
-
-                @endforeach
-
-
-
-                </tbody>
-            </table>
--->
         </div>
 
     </div>

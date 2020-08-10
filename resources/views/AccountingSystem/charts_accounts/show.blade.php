@@ -12,7 +12,8 @@
         <div class="panel-heading">
             <h5 class="panel-title">عرض {{$account->ar_name}}
 
-                {!! MyHelperAccountingAmount::amount($account) !!}
+                {{-- {!! MyHelperAccountingAmount::amount($account) !!} --}}
+                
             </h5>
             <div class="heading-elements">
                 <ul class="icons-list">

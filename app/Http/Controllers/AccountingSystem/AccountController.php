@@ -10,6 +10,7 @@ use App\Models\AccountingSystem\AccountingEntryLog;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class AccountController extends Controller
@@ -166,10 +167,19 @@ class AccountController extends Controller
     }
 
 
-    public function trial_balance(){
-        $accounts=AccountingAccount::all();
-        return view("AccountingSystem.charts_accounts.edit",compact('accounts'));
+    public function trial_balance(Request $request){
 
+
+        $accounts=AccountingAccount::all();
+
+    //     $accountsTransactions=  AccountingAccountLog::where('account_id',51)->select('id',
+    //     \DB::raw('count(*) as num'), \DB::raw('IF(affect ="creditor",sum(amount),0) AS creditor_amount'),
+    //     \DB::raw('IF(affect ="debtor",sum(amount),0) AS debtor_amount'));
+    //     if ($request->has('from') && $request->has('to')) {
+    //         $accountsTransactions = $accountsTransactions->whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::parse($request->to)]);
+    //     }
+    //    dd($accountsTransactions->get());
+        return view("AccountingSystem.charts_accounts.trial_balance",compact('accounts','request'));
     }
 
 

@@ -2,15 +2,19 @@
 
 namespace App\Models\AccountingSystem;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class AccountingAccount extends Model
 
 {
-//  use \Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
+ use \Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 
 //   use \Staudenmeir\LaravelCte\Eloquent\QueriesExpressions;
-
+public function getParentKeyName()
+{
+    return 'account_id';
+}
     protected $fillable = ['ar_name','en_name','kind','status','code','account_id','active','amount','supplier_id','store_id','bank_id','cost_center'];
     protected $table='accounting_accounts';
 
@@ -112,4 +116,28 @@ class AccountingAccount extends Model
 ////
 ////
 ////    }
+
+        public function logs_debtor($request=null){
+
+        $transaction=AccountingAccountLog::where('account_id',$this->id)->where('affect','creditor');
+     if ($request->has('from') && $request->has('to')) {
+            $transaction = $transaction->whereBetween('created_at', [Carbon::parse($request->from), Carbon::parse($request->to)]);
+        }else{
+            $transaction = $transaction->whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()]);
+
+        }
+            return $transaction->sum('amount');
+    }
+
+    public function logs_creditor($request=null){
+
+        $transaction=AccountingAccountLog::where('account_id',$this->id)->where('affect','creditor');
+     if ($request->has('from') && $request->has('to')) {
+            $transaction = $transaction->whereBetween('created_at', [Carbon::parse($request->from), Carbon::parse($request->to)]);
+        }else{
+            $transaction = $transaction->whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()]);
+
+        }
+            return $transaction->sum('amount');
+    }
 }
