@@ -13,7 +13,7 @@ use Carbon\Carbon;
 
 class PurchasesController extends Controller
 {
-    
+
     public function index(Request $request)
    	{
         $requests=request()->all();
@@ -61,7 +61,6 @@ class PurchasesController extends Controller
       public function details()
       {
          $purchases = Purchase::whereDate('created_at', request('date'))->get();
-
          return view('AccountingSystem.reports.purchases.purchase-details', compact('purchases'));
       }
 
@@ -99,7 +98,7 @@ class PurchasesController extends Controller
          }
 //         dd($requests);
          return view('AccountingSystem.reports.purchases.day', compact('purchases','requests'));
-      
+
       }
 
       public function returnsPeriod(Request $request)
@@ -112,7 +111,6 @@ class PurchasesController extends Controller
 
             if ($request->has('branch_id') && $request->branch_id != null) {
                $purchases = $purchases->where('branch_id', $request->branch_id);
-
             }
 
             if ($request->has('safe_id') && $request->safe_id != null ) {
@@ -127,14 +125,12 @@ class PurchasesController extends Controller
                $purchases = $purchases->whereHas('items', function ($item) use ($request) {
                   $item->where('product_id', $request->product_id);
                });
-
             }
 
             if ($request->has('from') && $request->has('to')) {
                $purchases = $purchases->whereBetween('created_at', [Carbon::parse($request->from), Carbon::parse($request->to)]);
 
             }
-
             $purchases = $purchases->groupBy('date')->get();
 
 
@@ -185,6 +181,6 @@ class PurchasesController extends Controller
       public function returnDetails()
       {
          $purchases = PurchaseReturn::whereDate('created_at', request('date'))->get();
-         return view('AccountingSystem.reports.purchases.return-details', compact('purchases'));  
+         return view('AccountingSystem.reports.purchases.return-details', compact('purchases'));
       }
 }

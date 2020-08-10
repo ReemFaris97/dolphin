@@ -141,7 +141,7 @@
                     </div>
                 </div>
             </section>
-<div id="print-window">
+           <div id="print-window">
             <table class="table datatable-button-init-basic">
                 <thead>
 
