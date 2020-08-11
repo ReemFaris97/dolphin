@@ -145,8 +145,10 @@
                     </div>
                 </div>
                 <div class="result">
-                    <form method="post" id="buyForm" action="{{route('accounting.purchases.store')}}">
-                        @csrf
+                    {!!Form::model($purchase, ['route' => ['accounting.purchases.update' ,$purchase->id] ,'class'=>'phone_validate','id'=>'buyForm','method' => 'PATCH','files'=>true]) !!}
+
+                    {{-- <form method="update" id="buyForm" action="{{route('accounting.purchases.update',$purchase->id)}}">
+                        @csrf --}}
                         <input type="hidden" name="supplier_id" id="supplier_id_val">
                         <input type="hidden" name="bill_num" id="bill_num_val">
                         <input type="hidden" name="bill_date" id="bill_date_val">

@@ -13,7 +13,7 @@
             <h5 class="panel-title">عرض {{$account->ar_name}}
 
                 {{-- {!! MyHelperAccountingAmount::amount($account) !!} --}}
-                
+
             </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
@@ -47,6 +47,75 @@
                 @endif
                 <div role="tabpanel" id="menu3" class="tab-pane">
 
+
+
+            <table class="table datatable-button-init-basic">
+                <thead>
+                <tr>
+
+                    <th> # </th>
+                    <th> الكود </th>
+                    <th>التاريخ </th>
+                    <th>المبلغ </th>
+                    <th>الحساب </th>
+                </tr>
+                </thead>
+                <tbody>
+
+                @foreach($accountLogsForm as $row)
+                    <tr>
+                        <td>{!!$loop->iteration!!}</td>
+
+                        <td>{!! $row->entry->code !!}</td>
+                        <td>{!! $row->entry->date !!}</td>
+                        <td>{!! $row->amount !!}</td>
+
+                        <td>
+                            <a href="{{route('accounting.ChartsAccounts.show',['id'=>$row->another_account->id])}}" class="link">
+                                {!! $row->another_account->ar_name!!}
+                            </a>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+
+            <table class="table datatable-button-init-basic">
+                <thead>
+                <tr>
+
+                    <th> # </th>
+
+
+
+                    <th>الحساب </th>
+                    <th>المبلغ </th>
+                    <th>التاريخ </th>
+                    <th> الكود </th>
+                </tr>
+                </thead>
+                <tbody>
+
+                @foreach($accountLogsTo as $row)
+                    <tr>
+                        <td>{!!$loop->iteration!!}</td>
+                        <td>
+                            <a href="{{route('accounting.ChartsAccounts.show',['id'=>$row->another_account->id])}}" class="link">
+                                {!! $row->another_account->ar_name!!}
+                            </a>
+                        </td>
+                        <td>{!! $row->amount !!}</td>
+                        <td>{!! $row->entry->date !!}</td>
+                        <td>{!! $row->entry->code !!}</td>
+
+
+
+
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+
                 </div>
                 <div role="tabpanel" id="menu4" @if( $account->cost_center==0) class=" tab-pane active" @else  class=" tab-pane" @endif >
                     <div class="form-group col-sm-6 col-xs-12 pull-left">
@@ -76,10 +145,14 @@
                         </div>
                     @endif
                     <div class="form-group col-sm-6 col-xs-12 pull-left">
-                        <label>المبلغ بالحساب </label>
+                        <label>الرصيد الحالى بالحساب </label>
                         <input type="text" name="amount" class="form-control" value="{{$account->amount}}" disabled>
                     </div>
 
+                    <div class="form-group col-sm-6 col-xs-12 pull-left">
+                        <label>الرصيد الافتتاحى  </label>
+                        <input type="text" name="openning_balance" class="form-control" value="{{$account->openning_balance}}" disabled>
+                    </div>
                     <div class="form-group col-xs-6 pull-left  ">
                         <label>طبيعة الحساب </label>
                         <div class="form-line new-radio-big-wrapper">

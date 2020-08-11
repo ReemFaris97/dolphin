@@ -9,6 +9,7 @@ use App\Models\AccountingSystem\AccountingEntryAccount;
 use App\Models\AccountingSystem\AccountingEntryLog;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingEntry;
 use App\Traits\Viewable;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -85,9 +86,13 @@ class AccountController extends Controller
     public function show($id)
     {
         $account=AccountingAccount::with('allChildrenAccounts')->where('id',$id)->first();
-
         $logs=AccountingAccountLog::where('account_id',$id)->get();
-        return view("AccountingSystem.charts_accounts.show",compact('account','logs'));
+        $postingEntries=AccountingEntry::where('status','posted')->pluck('id');
+
+        $accountLogsForm=AccountingAccountLog::where('account_id',$id)->whereIn('entry_id',$postingEntries)->where('affect','debtor')->get();
+        $accountLogsTo=AccountingAccountLog::where('account_id',$id)->whereIn('entry_id',$postingEntries)->where('affect','creditor')->get();
+
+        return view("AccountingSystem.charts_accounts.show",compact('account','logs','accountLogsForm','accountLogsTo'));
 
     }
 

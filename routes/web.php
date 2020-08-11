@@ -18,8 +18,6 @@ Route::get('test',function(){
     $user=AccountingAccount::find(31);
     dd($user->descendants);
 
-
-
 });
 Route::get('/', function () {
     return redirect()->route('admin.login');

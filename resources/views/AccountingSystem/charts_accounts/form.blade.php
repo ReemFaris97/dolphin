@@ -78,7 +78,10 @@
 
 
 
-
+<div class="form-group col-sm-6 col-xs-12 pull-left openning_balance">
+    <label>الرصيد الافتتاحى  </label>
+      {!! Form::text("openning_balance",null,['class'=>'form-control','placeholder'=>'  الرصيد الافتتاحى    '])!!}
+   </div>
 
 
 <div class="text-center col-md-12">
@@ -94,7 +97,7 @@
             $('.js-example-basic-single').select2();
             $('.accounts').hide();
 
-
+            $('.openning_balance').hide();
 
         });
     </script>
@@ -105,12 +108,14 @@
              var kind = $('#kind').val();
              if (kind=='main'){
                  $('.accounts').hide();
+                 $('.openning_balance').hide();
+
              }else if(kind=='sub') {
                  $('.accounts').show();
-
+            $('.openning_balance').show();
              }else if(kind=='following_main') {
                  $('.accounts').show();
-
+                 $('.openning_balance').hide();
              }
         });
 
