@@ -87,11 +87,11 @@
 
 
                     <?php
-                    $last_blalance=0
+                    $last_blalance=0;
                      if($row->status=='debtor'){
-                   $last_blalance=$row->descendants->sum('openning_balance')+$row->logs_debtor($request)-$row->logs_creditor($request)
+                   $last_blalance=$row->descendants->sum('openning_balance')+$row->logs_debtor($request)-$row->logs_creditor($request);
                      }elseif($row->status=='Creditor'){
-                    $last_blalance= $row->logs_debtor($request)-$row->descendants->sum('openning_balance')-$row->logs_creditor($request)
+                    $last_blalance= $row->logs_debtor($request)-$row->descendants->sum('openning_balance')-$row->logs_creditor($request);
                      }
                     ?>
 
