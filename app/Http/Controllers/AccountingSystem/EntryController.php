@@ -46,7 +46,6 @@ class EntryController extends Controller
      */
     public function store(Request $request)
     {
-
        $rules = [
             'source'=>'required|string|max:191',
             'date'=>'required',
@@ -101,7 +100,6 @@ class EntryController extends Controller
         $entry =AccountingEntry::findOrFail($id);
         $accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->where('kind','sub')->pluck('code_name','id')->toArray();
         $entryAccount=AccountingEntryAccount::where('entry_id',$id)->first();
-
         return $this->toEdit(compact('entry','accounts','entryAccount'));
 
 

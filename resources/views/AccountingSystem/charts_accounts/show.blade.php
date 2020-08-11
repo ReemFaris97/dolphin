@@ -28,10 +28,10 @@
             <ul class="nav nav-tabs">
                 <li><a data-toggle="tab" role="tab" aria-controls="menu1" href="#menu1">دفتر اليوميه </a></li>
               @if( $account->cost_center==1)
-                <li  @if( $account->cost_center==1) class="active" @endif  ><a data-toggle="tab" role="tab" aria-controls="menu2" href="#menu2">مركز التكلفه </a></li>
+                <li   ><a data-toggle="tab" role="tab" aria-controls="menu2" href="#menu2">مركز التكلفه </a></li>
                 @endif
                 <li><a data-toggle="tab" role="tab" aria-controls="menu3" href="#menu3"> دفتر الاستاذ </a></li>
-                <li  @if( $account->cost_center==0) class="active" @endif ><a data-toggle="tab" role="tab" aria-controls="menu4" href="#menu4"> تفاصيل
+                <li class="active" ><a data-toggle="tab" role="tab" aria-controls="menu4" href="#menu4"> تفاصيل
                         الحساب </a></li>
 
             </ul>
@@ -86,7 +86,7 @@
 
                 </div>
                 @if( $account->cost_center==1)
-                <div role="tabpanel" id="menu2" @if( $account->cost_center==1) class=" tab-pane active" @else  class=" tab-pane" @endif >
+                <div role="tabpanel" id="menu2"   class=" tab-pane"  >
 
 
                 </div>
@@ -95,8 +95,11 @@
 
 
 
-            <table class="table datatable-button-init-basic">
+            <table class="table ">
                 <thead>
+                    <tr>
+                        <th colspan="5">المدين</th>
+                    </tr>
                 <tr>
 
                     <th> # </th>
@@ -126,14 +129,13 @@
                 </tbody>
             </table>
 
-            <table class="table datatable-button-init-basic">
+            <table class="table ">
                 <thead>
+                    <tr>
+                        <th colspan="5">الدائن</th>
+                    </tr>
                 <tr>
-
                     <th> # </th>
-
-
-
                     <th>الحساب </th>
                     <th>المبلغ </th>
                     <th>التاريخ </th>
@@ -163,7 +165,7 @@
             </table>
 
                 </div>
-                <div role="tabpanel" id="menu4" @if( $account->cost_center==0) class=" tab-pane active" @else  class=" tab-pane" @endif >
+                <div role="tabpanel" id="menu4"  class=" tab-pane active"  >
                     <div class="form-group col-sm-6 col-xs-12 pull-left">
                         <label>اسم الحساب باللغة العربية </label>
                         <input type="text" name="ar_name" class="form-control" value="{{$account->ar_name}}" disabled>

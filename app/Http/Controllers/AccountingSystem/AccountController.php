@@ -64,14 +64,18 @@ class AccountController extends Controller
             'ar_name.required'=>'اسم الحساب باللغه  العربيه مطلوب',
             'account_id.required_if'=>'الحساب الرئيسى مطلوب فى حالة نوع الحساب  رئيسى تابع او فرعى',
         ];
+
         $this->validate($request,$rules,$message);
         $requests = $request->all();
-          $account= AccountingAccount::create($requests);
+        $account= AccountingAccount::create($requests);
 //          AccountingAccountSetting::create([
 //            'account_id'=>$account->id,
 //             'main_code'=>$account->code,
 //        ]);
 
+            // if(isset($requests['openning_balance'])){
+
+            // }
         alert()->success('تم انشاء حسابا  بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.ChartsAccounts.index');
 
@@ -87,8 +91,8 @@ class AccountController extends Controller
     {
         $account=AccountingAccount::with('allChildrenAccounts')->where('id',$id)->first();
         $logs=AccountingAccountLog::where('account_id',$id)->get();
+        
         $postingEntries=AccountingEntry::where('status','posted')->pluck('id');
-
         $accountLogsForm=AccountingAccountLog::where('account_id',$id)->whereIn('entry_id',$postingEntries)->where('affect','debtor')->get();
         $accountLogsTo=AccountingAccountLog::where('account_id',$id)->whereIn('entry_id',$postingEntries)->where('affect','creditor')->get();
 
