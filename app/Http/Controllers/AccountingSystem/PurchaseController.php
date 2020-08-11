@@ -281,6 +281,187 @@ class PurchaseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function update(Request $request,$id){
+
+        $purchase_ =AccountingPurchase::findOrFail($id);
+        $purchase_->delete();
+
+        $requests = $request->except('user_id');
+        // dd( $requests);
+        $rules = [
+           'supplier_id'=>'required|numeric|exists:accounting_suppliers,id',
+                // 'reminder'=>'required|numeric|gt:0',
+        ];
+        $this->validate($request,$rules);
+        $user=User::find(auth()->user()->id);
+        if (getsetting('automatic_purchases')==1){
+            $requests['account_id']=getsetting('accounting_id_purchases');
+        }
+        $requests['branch_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:Null;
+        $requests['company_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingCompany')?$user->store->model_id:Null;
+        $requests['store_id']=$user->accounting_store_id;
+        $purchase=AccountingPurchase::create($requests);
+        if ($requests['total']==Null){
+            $requests['total']=$purchase->amount+$requests['totalTaxs'];
+        }
+        $purchase->update([
+            'bill_num'=>$purchase->bill_num."-".$purchase->created_at->toDateString(),
+            'branch_id'=>$requests['branch_id'],
+            'company_id'=>$requests['company_id'],
+            'user_id'=>auth()->user()->id,
+            'total'=>round($requests['total'],2),
+            'totalTaxs'=>$requests['totalTaxs'],
+        ]);
+
+
+        $products = collect($requests['product_id']);
+        $qtys = collect($requests['quantity']);
+        $unit_id = collect($requests['unit_id']);
+        $prices = collect($requests['prices']);
+        $itemTax = collect($request['itemTax']);
+
+        $merges = $products->zip($qtys,$unit_id,$prices,$itemTax);
+        $i=1;
+
+        foreach ($merges as $merge)
+        {
+
+            $product=AccountingProduct::find($merge['0']);
+            if($merge['2']!='main-'.$product->id){
+                $unit=AccountingProductSubUnit::where('product_id',$merge['0'])->where('id',$merge['2'])->first();
+
+                if($unit){
+                    $unit->update([
+                        'quantity'=>$unit->quantity + $merge['1'],
+                    ]);
+
+                }
+
+            }
+//            if($product->quantity>0){
+
+            $item= AccountingPurchaseItem::create([
+                'product_id'=>$merge['0'],
+                'quantity'=> $merge['1'],
+                'price'=>$merge['3'],
+                'unit_id'=>($merge['2']!='main-'.$product->id)?$unit->id:null,
+                'unit_type'=>($merge['2']!='main-'.$product->id)?'sub':'main',
+                'tax'=>$merge['4'],
+                'price_after_tax'=>$merge['3']+$merge['4'],
+                'expire_date'=>isset($requests['expire_date'])?$requests['expire_date']:null,
+                'purchase_id'=>$purchase->id
+            ]);
+            $items=$request->items;
+            foreach( $items as  $key=>$item1)
+            {
+                  if($key==$i){
+                foreach($item1 as $ke=>$item2)
+                {
+
+                    if($ke=='discount_item_percentage'){
+                        foreach ($item2 as $k1 => $value) {
+
+                                if($item2[$k1]!=0){
+
+                                    $discountItem= AccountingItemDiscount::create([
+                                    'discount'=> $item2[$k1],
+                                    'discount_type'=>'percentage',
+                                    'item_id'=>$item->id,
+                                    'type'=>'purchase',
+                                    'affect_tax'=>$item1['discount_item_effectTax'][$k1]??0,
+                                ]);
+                           }
+
+                        }
+                    }elseif($ke=='discount_item_value'){
+                        foreach ($item2 as $k1 => $value) {
+                            if($item2[$k1]!=0){
+                                $discountItem= AccountingItemDiscount::create([
+                                'discount'=> $item2[$k1],
+                                'discount_type'=>'amount',
+                                'item_id'=>$item->id,
+                                'type'=>'purchase',
+                                'affect_tax'=>$item1['discount_item_effectTax'][$k1]??0,
+                                ]);
+                             }
+
+                    }
+
+                    }
+                }
+
+              }
+            }
+
+            $i++;
+
+
+            //update_product_quantity
+
+             ///if-main-unit
+
+             if($merge['2']!='main-'.$product->id){
+
+                 $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',$merge['2'])->first();
+                 if($productstore) {
+                     $productstore->update([
+                         'quantity' => $productstore->quantity + $merge['1'],
+
+                     ]);
+                 }
+        }else{
+
+            $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',Null)->first();
+//              dd(auth()->user()->accounting_store_id);
+                 if($productstore) {
+                     $productstore->update([
+                         'quantity' => $productstore->quantity + $merge['1'],
+                     ]);
+                 }
+
+
+/////////////////////////discount/////////////////
+            if($requests['discount_byPercentage']!=0&&$requests['discount_byAmount']==0){
+                $purchase->update([
+                    'discount_type'=>'percentage',
+                    'discount'=>$requests['discount_byPercentage'],
+
+                ]);
+
+            }elseif($requests['discount_byAmount']!=0&&$requests['discount_byPercentage']==0){
+
+                $purchase->update([
+                    'discount_type'=>'amount',
+                    'discount'=>$requests['discount_byAmount'],
+                ]);
+            }
+
+        }
+    }
+
+        if($purchase->payment=='cash'){
+
+               $store_id=auth()->user()->accounting_store_id;
+                $store=AccountingStore::find($store_id);
+                 $safe=AccountingSafe::where('model_type', $store->model_type)->where('model_id', $store->model_id)->first();
+                $safe->update([
+                    'amount'=>$safe->amount-$purchase->total
+                ]);
+                }elseif ($purchase->payment=='agel'){
+
+            $supplier=AccountingSupplier::find($purchase->supplier_id);
+            $supplier->update([
+                'balance'=>$supplier->balance +$purchase->total
+            ]);
+        }
+        $purchases =AccountingPurchase::all()->reverse();
+// dd($purchases);
+        alert()->success('تمت عمليةتعديل الشراء بنجاح !')->autoclose(5000);
+
+        return $this->toIndex(compact('purchases'));
+
+
+    }
 
     /**
      * Remove the specified resource from storage.

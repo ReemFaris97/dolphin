@@ -245,11 +245,11 @@
 									<span class="colorfulSpan">طريقة الدفع</span>
 									<div class="inline_divs">
 										<div class="form-group rel-cols radiBtnwrap">
-											<input type="radio" id="tazaBTaza" name="payment" value="cash">
+											<input type="radio" id="tazaBTaza" name="payment" value="cash" required>
 											<label for="tazaBTaza">نقدا</label>
 										</div>
 										<div class="form-group rel-cols radiBtnwrap">
-											<input type="radio" id="tataBTata" name="payment" value="agel">
+											<input type="radio" id="tataBTata" name="payment" value="agel" required>
 											<label for="tataBTata">اجل</label>
 										</div>
 									</div>
