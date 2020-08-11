@@ -144,11 +144,18 @@
                             </select>
                         </div>
                     @endif
+                    @if($account->kind=='sub' )
                     <div class="form-group col-sm-6 col-xs-12 pull-left">
                         <label>الرصيد الحالى بالحساب </label>
-                        <input type="text" name="amount" class="form-control" value=@if($account->kind=='sub' ){{$account->amount}} @else {{$account->descendants->sum('amount')}} @endif    disabled>
+                        <input type="text" name="amount" class="form-control" value="{{$account->amount}}"    disabled>
+                    </div>
+                    @else
+                    <div class="form-group col-sm-6 col-xs-12 pull-left">
+                        <label>الرصيد الحالى بالحساب </label>
+                        <input type="text" name="amount" class="form-control" value="{{$account->descendants->sum('amount')}}"    disabled>
                     </div>
 
+                    @endif
                     <div class="form-group col-sm-6 col-xs-12 pull-left">
                         <label>الرصيد الافتتاحى  </label>
                         <input type="text" name="openning_balance" class="form-control" value="{{$account->openning_balance}}" disabled>
