@@ -30,7 +30,19 @@ class EntryAccountObserver
             'creditor'=>$entryAccount->amount
         ]);
 
+
 ////////////////////////الحساب المدين
+AccountingAccountLog::create([
+    'entry_id'=>$entryAccount->entry_id,
+    'account_id'=>$entryAccount->from_account_id,
+    'account_amount_before'=>optional($entryAccount->form_account)->amount,
+    'another_account_id'=>$entryAccount->to_account_id,
+    'amount'=>$entryAccount->amount,
+    'account_amount_after'=>optional($entryAccount->from_account)->amount+$entryAccount->amount,
+    'affect'=>'debtor',
+]);
+
+////////////////////////الحساب الدائن
         AccountingAccountLog::create([
             'entry_id'=>$entryAccount->entry_id,
             'account_id'=>$entryAccount->to_account_id,
@@ -38,18 +50,9 @@ class EntryAccountObserver
             'another_account_id'=>$entryAccount->from_account_id,
             'amount'=>$entryAccount->amount,
             'account_amount_after'=>optional($entryAccount->to_account)->amount-$entryAccount->amount,
-            'affect'=>'debtor',
-        ]);
-////////////////////////الحساب الدائن
-        AccountingAccountLog::create([
-            'entry_id'=>$entryAccount->entry_id,
-            'account_id'=>$entryAccount->from_account_id,
-            'account_amount_before'=>optional($entryAccount->form_account)->amount,
-            'another_account_id'=>$entryAccount->to_account_id,
-            'amount'=>$entryAccount->amount,
-            'account_amount_after'=>optional($entryAccount->from_account)->amount+$entryAccount->amount,
             'affect'=>'creditor',
         ]);
+
 
      $debtorAccount=AccountingAccount::find($entryAccount->to_account_id);
      $creditorAccount=AccountingAccount::find($entryAccount->from_account_id);
