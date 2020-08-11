@@ -146,7 +146,7 @@
                     @endif
                     <div class="form-group col-sm-6 col-xs-12 pull-left">
                         <label>الرصيد الحالى بالحساب </label>
-                        <input type="text" name="amount" class="form-control" value="{{$account->amount}}" disabled>
+                        <input type="text" name="amount" class="form-control" value=@if($account->kind=='sub'){{$account->amount}}@else {{$account->descendants->sum('amount')}} @endif disabled>
                     </div>
 
                     <div class="form-group col-sm-6 col-xs-12 pull-left">
