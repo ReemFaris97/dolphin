@@ -151,7 +151,7 @@
 
                     <div class="form-group col-sm-6 col-xs-12 pull-left">
                         <label>الرصيد الافتتاحى  </label>
-                        <input type="text" name="amount" class="form-control" value="{{$account->amount}}" disabled>
+                        <input type="text" name="openning_balance" class="form-control" value="{{$account->openning_balance}}" disabled>
                     </div>
                     <div class="form-group col-xs-6 pull-left  ">
                         <label>طبيعة الحساب </label>

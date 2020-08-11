@@ -72,12 +72,40 @@
                                 {!! $row->ar_name!!}
                             </a>
                         </td>
-                        <td></td>
-                        <td></td>
+                    <td>
+                          @if ($row->status=='debtor')
+                        {{$row->descendants->sum('openning_balance')}}
+                            @endif
+                    </td>
+                    <td>
+                        @if ($row->status=='Creditor')
+                      {{$row->descendants->sum('openning_balance')}}
+                          @endif
+                  </td>
                     <td>{{$row->logs_debtor($request)}}</td>
                     <td>{{$row->logs_creditor($request)}}</td>
-                        <td></td>
-                        <td> </td>
+
+
+                    <?php
+                    $last_blalance=0
+                     if($row->status=='debtor'){
+                   $last_blalance=$row->descendants->sum('openning_balance')+$row->logs_debtor($request)-$row->logs_creditor($request)
+                     }elseif($row->status=='Creditor'){
+                    $last_blalance= $row->logs_debtor($request)-$row->descendants->sum('openning_balance')-$row->logs_creditor($request)
+                     }
+                    ?>
+
+
+                        <td>
+                                    @if( $last_blalance>0)
+                                    {{ $last_blalance}}
+                                    @endif
+                        </td>
+                        <td>
+                            @if( $last_blalance< 0)
+                            {{ $last_blalance}}
+                            @endif
+                        </td>
                     </tr>
 
                 @endforeach
