@@ -15,7 +15,7 @@ public function getParentKeyName()
 {
     return 'account_id';
 }
-    protected $fillable = ['ar_name','en_name','kind','status','code','account_id','active','amount','supplier_id','store_id','bank_id','cost_center'];
+    protected $fillable = ['ar_name','en_name','kind','status','code','account_id','active','amount','supplier_id','store_id','bank_id','cost_center','openning_balance'];
     protected $table='accounting_accounts';
 
 

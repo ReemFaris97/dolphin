@@ -539,7 +539,10 @@ class SaleController extends Controller
 //        $session=AccountingSession::find(Cookie::get('session'));
         $clients=AccountingClient::pluck('name','id')->toArray();
         $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
-    return view('AccountingSystem.sales.returns',compact('sales','session','clients','categories'));
+        $sales_items=AccountingSaleItem::where('sale_id',$id)->pluck('product_id','id')->toArray();
+        $products=AccountingProduct::whereIn('id',$sales_items)->get();
+
+    return view('AccountingSystem.sales.returns',compact('sales','session','clients','categories','products'));
     }
     public function returns_Sale($id){
 
