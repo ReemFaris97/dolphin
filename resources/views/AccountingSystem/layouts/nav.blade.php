@@ -369,7 +369,25 @@
 				<ul class="dropdown-menu dropdown-menu-right">
 					<li><a href="{{route('accounting.ChartsAccounts.index')}}"><i class="icon-eye"></i> الدليل المحاسبى</a></li>
 					<li><a href="{{route('accounting.ChartsAccounts.trial_balance')}}"><i class="icon-eye"></i>  ميزان المراجعة</a></li>
-				</ul>
+                    <li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i> السنوات المالية </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="{{route('accounting.fiscalYears.create')}}"><i class="icon-eye"></i>  اضافه سنة ماليه</a></li>
+                            <li><a href="{{route('accounting.fiscalYears.index')}}"><i class="icon-eye"></i>   عرض السنوات المالية</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i> الفترات المالية </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="{{route('accounting.fiscalPeriods.create')}}"><i class="icon-eye"></i>  اضافه فترة ماليه</a></li>
+                            <li><a href="{{route('accounting.fiscalPeriods.index')}}"><i class="icon-eye"></i>   عرض الفترات المالية</a></li>
+                      </ul>
+                    </li>
+                    <li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i>  مراكز التكلفة </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="{{route('accounting.costCenters.create')}}"><i class="icon-eye"></i>  اضافه مركز تكلفة</a></li>
+                            <li><a href="{{route('accounting.costCenters.index')}}"><i class="icon-eye"></i>   عرض  مراكز التكلفة</a></li>
+                      </ul>
+                    </li>
+                </ul>
 			</li>
 
 			<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i> القيود المحاسبيه </a>

@@ -77,6 +77,10 @@
 </div>
 
 
+<div class="form-group col-sm-6 col-xs-12 pull-left centers">
+    <label>   مراكز التكلفة </label>
+    {!! Form::select("center_id[]",$centers,null,['class'=>'form-control selectpicker ','multiple','id'=>'center_id'])!!}
+</div>
 
 <div class="form-group col-sm-6 col-xs-12 pull-left openning_balance">
     <label>الرصيد الافتتاحى  </label>
@@ -96,7 +100,7 @@
         $(document).ready(function () {
             $('.js-example-basic-single').select2();
             $('.accounts').hide();
-
+            $(".centers").hide();
             $('.openning_balance').hide();
 
         });
@@ -118,6 +122,16 @@
                  $('.openning_balance').hide();
              }
         });
+
+        $('input[type=radio][name=cost_center]').change(function() {
+    if (this.value == 1) {
+        $(".centers").show();
+    }
+    else if (this.value ==0) {
+        $(".centers").hide();
+
+    }
+});
 
     </script>
 @endsection
