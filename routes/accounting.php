@@ -138,6 +138,9 @@ Route::middleware('admin')->group(function () {
     Route::resource('safes', 'SafeController');
     Route::resource('devices', 'DeviceController');
     Route::resource('settings', 'SettingController');
+    Route::resource('fiscalYears', 'FiscalYearController');
+    Route::resource('fiscalPeriods', 'FiscalPeriodController');
+    Route::resource('costCenters', 'CostCenterController');
 
 
     Route::post('/store_returns', 'SaleController@store_returns')->name('sales.store_returns');

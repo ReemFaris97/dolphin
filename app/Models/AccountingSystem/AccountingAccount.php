@@ -76,6 +76,7 @@ public function getParentKeyName()
         return $this->hasMany(AccountingAccount::class,'account_id');
     }
 
+    
     public function childrenCostCenter()
     {
         return $this->hasMany(AccountingAccount::class,'account_id')->where('cost_center',1)->where('kind','sub');

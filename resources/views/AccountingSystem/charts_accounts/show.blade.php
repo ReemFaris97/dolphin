@@ -88,6 +88,37 @@
                 @if( $account->cost_center==1)
                 <div role="tabpanel" id="menu2"   class=" tab-pane"  >
 
+                    <table class="table datatable-button-init-basic">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th> اسم المركز </th>
+
+                            <th> الحالة </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        @foreach($centers as $row)
+                            <tr>
+                                <td>{!!$loop->iteration!!}</td>
+                                <td>{!! $row->center->name!!}</td>
+
+                                <td>
+                                    @if($row->active==1)
+                                    مفعل
+                                    @else
+                                    غير مفعل
+                                    @endif
+                                </td>
+                            </tr>
+
+                        @endforeach
+
+
+
+                        </tbody>
+                    </table>
 
                 </div>
                 @endif
