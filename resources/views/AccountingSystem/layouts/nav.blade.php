@@ -27,8 +27,17 @@
 						<ul class="dropdown-menu dropdown-menu-right">
 							<li><a href="{{route('accounting.users.index')}}"><i class="icon-eye"></i> عرض العضويات</a></li>
 							<li><a href="{{route('accounting.users.create')}}"><i class="icon-add-to-list"></i> اضافة عضو جديد</a></li>
-						</ul>
-					</li>
+                            <li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i>  إدارة المسميات الوظفية </a>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li><a href="{{route('accounting.jobTitles.create')}}"><i class="icon-eye"></i>  اضافه مسمى  وظيفى</a></li>
+                                    <li><a href="{{route('accounting.jobTitles.index')}}"><i class="icon-eye"></i> عرض  المسميات الوظيفية</a></li>
+                              </ul>
+                            </li>
+                            <li><a href="{{route('accounting.users.pay_salaries')}}"><i class="icon-add-to-list"></i> دفع رواتب الموظفين </a></li>
+
+                        </ul>
+                    </li>
+
                     @can('إدارة الشركات')
 					<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i> إدارة الشركات </a>
 						<ul class="dropdown-menu dropdown-menu-right">

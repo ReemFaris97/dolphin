@@ -43,7 +43,7 @@ class AccountController extends Controller
     {
         $accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->pluck('code_name','id')->toArray();
 
-        $centers=AccountingCostCenter::pluck('name','id')->toArray();
+        $centers=AccountingCostCenter::where('active',1)->pluck('name','id')->toArray();
         return view("AccountingSystem.charts_accounts.create",compact('accounts','centers'));
     }
 
@@ -126,7 +126,7 @@ class AccountController extends Controller
         $account=AccountingAccount::find($id);
         $accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->pluck('code_name','id')->toArray();
 
-        $centers=AccountingCostCenter::pluck('name','id')->toArray();
+        $centers=AccountingCostCenter::where('active',1)->pluck('name','id')->toArray();
         return view("AccountingSystem.charts_accounts.edit",compact('account','accounts','centers'));
     }
 

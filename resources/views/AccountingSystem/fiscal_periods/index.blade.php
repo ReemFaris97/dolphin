@@ -46,7 +46,21 @@
                 @foreach($periods as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
-                        <td>{!! $row->name!!}</td>
+                        <td>
+                            @if($row->type=='manual')
+                            {!! $row->name!!}
+                            @elseif($row->type=='automatic'&&$row->duration=='monthly')
+                            {!! chooseMonthly($row->name) !!}
+                            @elseif($row->type=='automatic'&&$row->duration=='quarterly')
+                            {!! choosequarterly($row->name) !!}
+                            @elseif($row->type=='automatic'&&$row->duration=='half')
+                            {!!($row->name==1)?'النصف السنوى الاول':'النصف السنوى الثانى' !!}
+                            @elseif($row->type=='automatic'&&$row->duration=='yearly')
+                                سنويا
+                            @endif
+
+
+                        </td>
                         <td>
                             @if($row->type=='manual')
                             محدد

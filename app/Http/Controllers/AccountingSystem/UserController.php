@@ -10,6 +10,7 @@ use App\Models\AccountingSystem\AccountingUserPermission;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingJobTitle;
 use App\Traits\Viewable;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
@@ -37,7 +38,8 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all();
-        return $this->toCreate(compact('roles'));
+        $titles = AccountingJobTitle::pluck('name','id')->toArray();
+        return $this->toCreate(compact('roles','titles'));
     }
 
     /**
@@ -104,7 +106,9 @@ class UserController extends Controller
         $user =User::findOrFail($id);
         $userRole = $user->roles->pluck('name','id')->all();
         $roles = Role::all();
-        return $this->toEdit(compact('user','userRole','roles'));
+        $titles = AccountingJobTitle::pluck('name','id')->toArray();
+
+        return $this->toEdit(compact('user','userRole','roles','titles'));
 
 
     }
