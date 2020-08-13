@@ -16,7 +16,7 @@ class MyHelperAccountingAmount{
                 $totalAmount=$account->amount;
            }else{
             if($account->children){
-               
+
                 $totalAmount=AccountingAccount::where('account_id',$account->id)->sum('amount')+self::amount($account->children, $step+1);
                 }
            }
@@ -846,4 +846,47 @@ function productCategories()
         return [$q['id'] => $q['ar_name']];
     });
     return $categories;
+}
+
+function months(){
+
+    return [
+        'Jan'=>'يناير',
+        'Feb'=>'فبراير',
+        'Mar'=>'مارس',
+        'Apr'=>'ابريل',
+        'May'=>'مايو',
+        'Jun'=>'يونيه',
+        'Jul'=>'يوليو',
+        'Aug'=>'أغسطس',
+        'Sep'=>'سبتمبر',
+        'Oct'=>'أكتوبر',
+        'Nov'=>'نوفمبر',
+        'Dec'=>'ديسمبر'
+
+    ];
+}
+function chooseMonthly($month){
+    if(array_key_exists($month,months())){
+        return months()[$month];
+    }
+    return $month;
+
+}
+
+
+  function quarterly(){
+   return [
+    '1'=>'الربع السنوى الاول',
+    '2'=>'الربع السنوى الثاتى',
+    '3'=>'الربع السنوى الثالث',
+    '4'=>'الربع السنوى الرابع',
+   ];
+}
+function choosequarterly($quarter){
+    if(array_key_exists($quarter,quarterly())){
+        return quarterly()[$quarter];
+    }
+    return $quarter;
+
 }

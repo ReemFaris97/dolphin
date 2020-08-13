@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Http\Traits\FirebasOperation;
+use App\Models\AccountingSystem\AccountingJobTitle;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingUserPermission;
@@ -43,7 +44,7 @@ class User extends Authenticatable implements JWTSubject
         'name', 'phone', 'email', 'password', 'image', 'job', 'nationality', 'company_name', 'blocked_at', 'is_admin', 'remember_token'
         ,'is_distributor','is_supplier','supplier_type','tex_number','lat','lng','bank_id','verification_code','parent_user_id','bank_account_number',
          'distributor_status','settle_commission','sell_commission','reword_value','store_id','route_id','is_storekeeper'
-        ,'accounting_store_id','is_saler','is_accountant','delete_product','role_id'
+        ,'accounting_store_id','is_saler','is_accountant','delete_product','role_id','hiring_date','salary','title_id'
     ];
 
     /**
@@ -91,7 +92,10 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Role::class,'role_id');
     }
 
-
+    public function title()
+    {
+        return $this->belongsTo(AccountingJobTitle::class,'title_id');
+    }
     public function messages()
     {
         return $this->hasMany(Message::class);

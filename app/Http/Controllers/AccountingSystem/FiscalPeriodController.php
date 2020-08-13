@@ -44,14 +44,58 @@ class FiscalPeriodController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name'=>'required|string|max:191',
+            'name'=>'sometimes',
             'year_id'=>'required|numeric|exists:accounting_fiscal_years,id',
 
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
+        if($requests['type']=='automatic'){
+                    if($requests['duration']=='monthly')
+                    {
+                        foreach(months() as $key=>$month){
+                            AccountingFiscalPeriod::create([
+                            'year_id'=>$requests['year_id'],
+                            'type'=>$requests['type'],
+                            'duration'=>$requests['duration'],
+                            'name'=>$key
+                            ]);
+                        }
+                    }if($requests['duration']=='quarterly'){
 
+                        foreach(quarterly() as $key=>$month){
+                            AccountingFiscalPeriod::create([
+                            'year_id'=>$requests['year_id'],
+                            'type'=>$requests['type'],
+                            'duration'=>$requests['duration'],
+                            'name'=>$key
+                            ]);
+                        }
+                    }if($requests['duration']=='half'){
+                        AccountingFiscalPeriod::create([
+                            'year_id'=>$requests['year_id'],
+                            'type'=>$requests['type'],
+                            'duration'=>$requests['duration'],
+                            'name'=>1
+                            ]);
+                            AccountingFiscalPeriod::create([
+                                'year_id'=>$requests['year_id'],
+                                'type'=>$requests['type'],
+                                'duration'=>$requests['duration'],
+                                'name'=>2
+                                ]);
+                    }if($requests['duration']=='yearly'){
+                        AccountingFiscalPeriod::create([
+                            'year_id'=>$requests['year_id'],
+                            'type'=>$requests['type'],
+                            'duration'=>$requests['duration'],
+                            'name'=>'year'
+                            ]);
+                    }
+
+        }elseif($requests['type']=='manual'){
         AccountingFiscalPeriod::create($requests);
+        }
         alert()->success('تم اضافة  الفترة المالية بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.fiscalPeriods.index');
     }

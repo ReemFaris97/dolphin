@@ -141,6 +141,16 @@ Route::middleware('admin')->group(function () {
     Route::resource('fiscalYears', 'FiscalYearController');
     Route::resource('fiscalPeriods', 'FiscalPeriodController');
     Route::resource('costCenters', 'CostCenterController');
+    Route::resource('jobTitles', 'JobTitleController');
+
+    Route::get('active/{id}', 'CostCenterController@active')->name('costCenters.active');
+    Route::get('dis-active/{id}', 'CostCenterController@dis_active')->name('costCenters.dis_active');
+    Route::get('active-title/{id}', 'JobTitleController@active')->name('jobTitles.active');
+    Route::get('dis-active-title/{id}', 'JobTitleController@dis_active')->name('jobTitles.dis_active');
+    Route::get('pay-salaries', 'SalaryController@index')->name('users.pay_salaries');
+    Route::get('salaries', 'SalaryController@salaries')->name('users.salaries_paid');
+
+    Route::post('pay', 'SalaryController@pay')->name('users.pay');
 
 
     Route::post('/store_returns', 'SaleController@store_returns')->name('sales.store_returns');

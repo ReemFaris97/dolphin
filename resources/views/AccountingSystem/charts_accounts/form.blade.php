@@ -76,7 +76,6 @@
     </div>
 </div>
 
-
 <div class="form-group col-sm-6 col-xs-12 pull-left centers">
     <label>   مراكز التكلفة </label>
     {!! Form::select("center_id[]",$centers,null,['class'=>'form-control selectpicker ','multiple','id'=>'center_id'])!!}

@@ -1,7 +1,7 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض مراكز التكلفة ')
-@section('parent_title','إدارة   مراكز التكلفة')
-@section('action', URL::route('accounting.fiscalYears.index'))
+@section('title','عرض المسميات الوظفية ')
+@section('parent_title','إدارةالمسميات الوظفية ')
+@section('action', URL::route('accounting.jobTitles.index'))
 
 @section('styles')
 
@@ -10,10 +10,10 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">عرض كل   مراكز التكلفة
+            <h5 class="panel-title">  عرض كل المسميات الوظفية
             <div class="btn-group beside-btn-title">
-                <a href="{{route('accounting.costCenters.create')}}" class="btn btn-success">
-                    إضافه  مراكز تكلفة جديدة
+                <a href="{{route('accounting.jobTitles.create')}}" class="btn btn-success">
+                إضافه  مسمى جديد
                     <span class="m-l-5"><i class="fa fa-plus"></i></span>
                 </a>
             </div>
@@ -32,7 +32,7 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th> اسم المركز </th>
+                    <th> اسم المسمى الوظيفى </th>
 
                     <th> الحالة </th>
                     <th class="text-center">العمليات</th>
@@ -40,7 +40,7 @@
                 </thead>
                 <tbody>
 
-                @foreach($centers as $row)
+                @foreach($titles as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->name!!}</td>
@@ -56,15 +56,15 @@
 
 
                         <td class="text-center">
-                            <a href="{{route('accounting.costCenters.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.jobTitles.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
                             @if ($row->active==0)
-                            <a href="{{route('accounting.costCenters.active',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="  "> <i class="fa fa-close"></i></a>
+                            <a href="{{route('accounting.jobTitles.active',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="  "> <i class="fa fa-close"></i></a>
                             @else
-                            <a href="{{route('accounting.costCenters.dis_active',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="  "> <i class="icon-checkmark-circle" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.jobTitles.dis_active',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="  "> <i class="icon-checkmark-circle" style="margin-left: 10px"></i> </a>
                         @endif
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
 
-                            {!!Form::open( ['route' => ['accounting.costCenters.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
+                            {!!Form::open( ['route' => ['accounting.jobTitles.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
                             {!!Form::close() !!}
 
                         </td>

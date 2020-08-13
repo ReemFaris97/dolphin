@@ -10,15 +10,12 @@
 
 
 
-<div class="form-group col-xs-6 pull-left branches">
+<div class="form-group col-xs-6 pull-left ">
     <label> السنة المالية </label>
     {!! Form::select("year_id",$years,null,['class'=>'form-control js-example-basic-single','id'=>'year_id','placeholder'=>' اختر السنة المالية  '])!!}
     </div>
 
-    <div class="form-group col-md-6 pull-left">
-        <label>اسم الفتره المالية   </label>
-        {!! Form::text("name",null,['class'=>'form-control','placeholder'=>'  اسم الفتره الماليه  '])!!}
-    </div>
+
 
     <div class="form-group col-xs-6 pull-left type ">
         <label> نوع الفترة  </label>
@@ -35,9 +32,13 @@
     </div>
 
 
+
+<div class="form-group col-xs-6  pull-right period">
+    <label>اسم الفتره المالية   </label>
+    {!! Form::text("name",null,['class'=>'form-control','placeholder'=>'  اسم الفتره الماليه  '])!!}
+</div>
 <div class="clearfix">
 </div>
-
 <div class="form-group col-md-6 pull-left period">
     <label>من </label>
     {!! Form::date("from",null,['class'=>'form-control'])!!}

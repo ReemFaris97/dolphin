@@ -27,7 +27,8 @@
         <label> الصلاحية  </label>
         {!! Form::select("role",['is_admin'=>'ادمن','is_saler'=>'كاشير','is_accountant'=>'محاسب'],Null,['class'=>'form-control','placeholder'=>' اختر الصلاحيه  '])!!}
     </div>
-    <div class="form-group col-md-6 pull-left">
+    <div class="form-group col-sm-6 col-xs-12  pull-left">
+        <label  >اختر الدور/المهام</label>
         <select name="role_id" class="form-control role" >
             <option  >اختر الدور/المهام</option>
 
@@ -91,6 +92,23 @@
     {!! Form::file("image",null,['class'=>'form-control'])!!}
 </div>
 
+
+
+<div class="form-group col-sm-6 col-xs-12 pull-left">
+    <label>الراتب </label>
+    {!! Form::number("salary",null,['class'=>'form-control','placeholder'=>' الراتب  '])!!}
+</div>
+
+<div class="form-group col-md-6 pull-left ">
+    <label>تاريخ التعين  </label>
+    {!! Form::date("hiring_date",null,['class'=>'form-control'])!!}
+</div>
+
+
+<div class="form-group col-sm-6 col-xs-12 pull-left">
+    <label>  المسمى الوظيفى </label>
+    {!! Form::select("title_id",$titles,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر المسمى الوظيفى '])!!}
+    </div>
 <div class="text-center col-xs-12">
     <div class="text-right">
         <button type="submit" id="register" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i></button>
