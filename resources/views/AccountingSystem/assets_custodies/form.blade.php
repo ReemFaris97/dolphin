@@ -1,0 +1,80 @@
+@if (count($errors) > 0)
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+
+
+
+<div class="form-group col-md-6 pull-left">
+    <label>اسم  الاصل   </label>
+    {!! Form::text("name",null,['class'=>'form-control','placeholder'=>'   اسم الاصل '])!!}
+</div>
+
+
+<div class="form-group col-md-6 pull-left">
+    <label>  العملة </label>
+    {!! Form::select("currency_id",$currencies,null,['class'=>'form-control js-example-basic-single currency_id','id'=>'currency_id','placeholder'=>' اختر العملة '])!!}
+</div>
+
+<div class="form-group col-sm-6 pull-left">
+    <label>قيمة الشراء </label>
+    {!! Form::text("purchase_price",null,['class'=>'form-control','placeholder'=>'قيمة الشراء'])!!}
+</div>
+
+
+
+<div class="form-group col-md-6 pull-left">
+    <label> اختر الحساب </label>
+    {!! Form::select("account_id",accounts(),null,['class'=>'form-control','placeholder'=>' اختر الحساب'])!!}
+</div>
+
+<div class="form-group col-md-6 pull-left ">
+    <label>تاريخ الشراء  </label>
+    {!! Form::date("purchase_date",null,['class'=>'form-control'])!!}
+</div>
+
+<div class="form-group col-xs-6 pull-left ">
+    <label>  اختر طريقةالدفع</label>
+    {!! Form::select("payment_id",$payments,null,['class'=>'form-control js-example-basic-single','id'=>'payment_id','placeholder'=>' اختر طريقةالدفع   '])!!}
+    </div>
+
+    <div class="form-group col-md-6 pull-left ">
+        <label> تاريخ بداية الاهلاك</label>
+        {!! Form::date("damage_start_date",null,['class'=>'form-control'])!!}
+    </div>
+    <div class="form-group col-md-6 pull-left ">
+        <label> تاريخ نهاية الاهلاك </label>
+        {!! Form::date("damage_end_date",null,['class'=>'form-control'])!!}
+    </div>
+    <div class="form-group col-sm-6 col-xs-12 pull-left">
+        <label>طريقة الاهلاك </label>
+        {!! Form::select("damage_type",['fixed_installment'=>'التقسيط الثابت'],Null,['class'=>'form-control','id'=>'type'])!!}
+    </div>
+    <div class="form-group col-sm-6 pull-left">
+        <label> مبلغ الشراء </label>
+        {!! Form::text("purchase_price",null,['class'=>'form-control','placeholder'=>'مبلغ الشراء '])!!}
+    </div>
+
+<div class="text-center col-md-12">
+    <div class="text-right">
+        <button type="submit" id="register" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i></button>
+    </div>
+</div>
+
+@section('scripts')
+    <script>
+    $(document).ready(function () {
+    $('.js-example-basic-single').select2();
+
+
+    });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
+
+@endsection

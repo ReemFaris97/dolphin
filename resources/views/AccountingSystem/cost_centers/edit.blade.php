@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تعديل  المركز'.{{$center->name}})
-@section('parent_title','إدارة   مراكز التكلفة')
+@section('title','تعديل  المركز'.$center->name)
+@section('parent_title','إدارة مراكز التكلفة')
 @section('action', URL::route('accounting.taxs.index'))
 
 @section('content')
