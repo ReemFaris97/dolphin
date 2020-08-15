@@ -38,7 +38,7 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all();
-        $titles = AccountingJobTitle::pluck('name','id')->toArray();
+        $titles = AccountingJobTitle::where('active','1')->pluck('name','id')->toArray();
         return $this->toCreate(compact('roles','titles'));
     }
 
@@ -106,7 +106,7 @@ class UserController extends Controller
         $user =User::findOrFail($id);
         $userRole = $user->roles->pluck('name','id')->all();
         $roles = Role::all();
-        $titles = AccountingJobTitle::pluck('name','id')->toArray();
+        $titles = AccountingJobTitle::where('active','1')->pluck('name','id')->toArray();
 
         return $this->toEdit(compact('user','userRole','roles','titles'));
 

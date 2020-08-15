@@ -29,11 +29,12 @@
 							<li><a href="{{route('accounting.users.create')}}"><i class="icon-add-to-list"></i> اضافة عضو جديد</a></li>
                             <li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i>  إدارة المسميات الوظفية </a>
                                 <ul class="dropdown-menu dropdown-menu-right">
-                                    <li><a href="{{route('accounting.jobTitles.create')}}"><i class="icon-eye"></i>  اضافه مسمى  وظيفى</a></li>
+                                    <li><a href="{{route('accounting.jobTitles.create')}}"><i class="icon-add-to-list"></i>  اضافه مسمى  وظيفى</a></li>
                                     <li><a href="{{route('accounting.jobTitles.index')}}"><i class="icon-eye"></i> عرض  المسميات الوظيفية</a></li>
                               </ul>
                             </li>
                             <li><a href="{{route('accounting.users.pay_salaries')}}"><i class="icon-add-to-list"></i> دفع رواتب الموظفين </a></li>
+                            <li><a href="{{route('accounting.users.salaries_paid')}}"><i class="icon-eye"></i>  رواتب الموظفين </a></li>
 
                         </ul>
                     </li>
@@ -475,8 +476,9 @@
 								<li><a href="{{route('accounting.settings.show',['accounting_stores'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين حسابات المخزون  </a></li>
                                 <li><a href="{{route('accounting.settings.show',['accounting_cash'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين  حسابات النقدية  </a></li>
                                  <li><a href="{{route('accounting.settings.show',['accounting_entries'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين  القيود المحاسبيه  </a></li>
-                        <li><a href="{{route('accounting.settings.show',['accounting_banks_safes'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين  حسابات البنوك والصناديق </a></li>
-                        <li><a href="{{route('accounting.settings.show',['accounting_payment'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين  خيارات الدفع  </a></li>
+                                <li><a href="{{route('accounting.settings.show',['accounting_banks_safes'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين  حسابات البنوك والصناديق </a></li>
+                                <li><a href="{{route('accounting.settings.show',['accounting_payment'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين  خيارات الدفع  </a></li>
+                                <li><a href="{{route('accounting.settings.show',['accounting_salaries'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين  حسابات الاجور والمرتبات </a></li>
 
 
 					</ul>

@@ -68,7 +68,7 @@ class StoreTransactionController extends Controller
 
 
 
-    public function productdamage(Request $request)
+    public function productdmage(Request $request)
     {
 
         $ids=$request['ids'];

@@ -30,16 +30,25 @@
                 {!! Form::select("user_id",$users,null,['class'=>'form-control js-example-basic-single','id'=>'user_id','placeholder'=>' اختر  اسم الموظف  '])!!}
                 </div>
 
-                <div class="form-group col-xs-6 pull-left one_employee">
+                {{-- <div class="form-group col-xs-6 pull-left one_employee">
                     <label> مكافئة </label>
                     {!! Form::text("bouns",null,['class'=>'form-control','placeholder'=>'  مكافئة '])!!}
-                </div>
+                </div> --}}
 
 
                 <div class="form-group col-xs-6 pull-left job_title ">
                     <label>  اختر المسمى الوظيفى </label>
-                    {!! Form::select("title_id",$titles,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر المسمى الوظيفى '])!!}
+                    {!! Form::select("title_id",$titles,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر المسمى الوظيفى ','id'=>'title_id'])!!}
                 </div>
+                <div class="form-group col-xs-6 pull-left ">
+                    <label>  اختر طريقةالدفع</label>
+                    {!! Form::select("payment_id",$payments,null,['class'=>'form-control js-example-basic-single','id'=>'payment_id','placeholder'=>' اختر طريقةالدفع   '])!!}
+                    </div>
+
+                <div class="salaries">
+
+                </div>
+
                 <div class="text-center col-md-12">
                     <div class="text-right">
                         <button type="submit" id="register" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i></button>
@@ -48,6 +57,32 @@
 
             {!!Form::close() !!}
         </div>
+        <table class="table datatable-button-init-basic">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th> اسم الموظف </th>
+                <th> المسمى الوظيفى </th>
+                <th> الراتب </th>
+                <th> المكافأة  </th>
+                <th> المدفوع  </th>
+                <th> تاريخ الدفع  </th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($salaries as $row)
+                <tr>
+                    <td>{!!$loop->iteration!!}</td>
+                    <td>{!! $row->user->name!!}</td>
+                    <td>{!!optional($row->user->title)->name !!}</td>
+                    <td>{!! $row->user->salary!!}</td>
+                    <td>{!! $row->bouns!!}</td>
+                    <td>{!! $row->total_salary!!}</td>
+                    <td>{!! $row->created_at!!}</td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
 
         </div>
     </div>
@@ -72,6 +107,7 @@
     if (type=='one_employee'){
         $('.one_employee').show();
         $('.job_title').hide();
+
     }else if(type=='job_title') {
         $('.job_title').show();
         $('.one_employee').hide();
@@ -80,6 +116,33 @@
         $('.one_employee').hide();
     }
 });
+          $("#user_id").on('change', function() {
+            var user_id = $('#user_id').val();
+            var id = $(this).val();
+            $.ajax({
+                url:"/accounting/userSalary",
+                type:"get",
+                data:{'user_id':user_id}
+            }).done(function (data) {
+                $('.salaries').html(data.data);
+            }).fail(function (error) {
+                console.log(error);
+            });
+        });
+
+        $("#title_id").on('change', function() {
+            var title_id = $('#title_id').val();
+            var id = $(this).val();
+            $.ajax({
+                url:"/accounting/titleSalary",
+                type:"get",
+                data:{'title_id':title_id}
+            }).done(function (data) {
+                $('.salaries').html(data.data);
+            }).fail(function (error) {
+                console.log(error);
+            });
+        });
 
 </script>
 @endsection
