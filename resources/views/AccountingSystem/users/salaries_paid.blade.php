@@ -1,5 +1,5 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض الاعضاء')
+@section('title','عرض الرواتب المدفوعة')
 @section('parent_title','إدارة اعضاء الادارة')
 @section('styles')
 
@@ -45,7 +45,7 @@
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->user->name!!}</td>
-                        <td>{!! $row->user->title->name!!}</td>
+                        <td>{!!optional($row->user->title)->name !!}</td>
                         <td>{!! $row->user->salary!!}</td>
                         <td>{!! $row->bouns!!}</td>
                         <td>{!! $row->total_salary!!}</td>

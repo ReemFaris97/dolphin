@@ -134,7 +134,16 @@ class SettingController extends Controller
                 ->with('settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_banks_safes')->get())
                 ->with('chart_accounts', $chart_accounts);
 
+        }elseif ($settings_page == 'تعين حسابات الاجور')
+        {
+            $chart_accounts = AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->pluck('code_name','id')->toArray();
+            return view('AccountingSystem.settings.salary_setting')
+                ->with('settings_page', $settings_page)
+                ->with('settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_salaries')->get())
+                ->with('chart_accounts', $chart_accounts);
+
         }
+
 
 
 

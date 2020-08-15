@@ -149,6 +149,8 @@ Route::middleware('admin')->group(function () {
     Route::get('dis-active-title/{id}', 'JobTitleController@dis_active')->name('jobTitles.dis_active');
     Route::get('pay-salaries', 'SalaryController@index')->name('users.pay_salaries');
     Route::get('salaries', 'SalaryController@salaries')->name('users.salaries_paid');
+    Route::get('/userSalary', 'SalaryController@userSalary');
+    Route::get('/titleSalary', 'SalaryController@titleSalary');
 
     Route::post('pay', 'SalaryController@pay')->name('users.pay');
 
