@@ -5,15 +5,19 @@ namespace App\Http\Controllers\AccountingSystem;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingAccount;
 use App\Models\AccountingSystem\AccountingAsset;
 use App\Models\AccountingSystem\AccountingCostCenter;
+use App\Models\AccountingSystem\AccountingCurrency;
 use App\Models\AccountingSystem\AccountingJobTitle;
+use App\Models\AccountingSystem\AccountingPayment;
 use App\Traits\Viewable;
+use DB;
 
-class AssetCustodyController extends Controller
+class AssetController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.assets_custodies.';
+    private $viewable = 'AccountingSystem.assetss.';
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +26,7 @@ class AssetCustodyController extends Controller
     public function index()
     {
 
-        $assets=AccountingAsset::all()->reverse();
+        $assets=AccountingAsset::where('type','asset')->reverse();
 
         return $this->toIndex(compact('assets'));
     }
@@ -34,7 +38,11 @@ class AssetCustodyController extends Controller
      */
     public function create()
     {
-        return $this->toCreate();
+
+        $currencies=AccountingCurrency::pluck('ar_name','id')->toArray();
+        $payments = AccountingPayment::where('active','1')->pluck('name','id')->toArray();
+        $accounts=AccountingAccount::select('id',DB::raw("concat(ar_name, ' - ',code) as code_name"))->where('kind','!=','sub')->pluck('code_name','id')->toArray();
+        return $this->toCreate(compact('currencies','payments','accounts'));
     }
 
     /**
@@ -54,7 +62,7 @@ class AssetCustodyController extends Controller
 
         AccountingAsset::create($requests);
         alert()->success('تم اضافة  الاصل بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.assets-custodies.index');
+        return redirect()->route('accounting.assets.index');
     }
 
     /**
@@ -92,21 +100,15 @@ class AssetCustodyController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $asset =AccountingAsset::findOrFail($id);
         $rules = [
-
             'name'=>'required|string|max:191',
-
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
-
         $asset->update($requests);
-        alert()->success('تم تعديل المسمى الوظيفى بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.assets-custodies.index');
-
-
+        alert()->success('تم تعديل لاصل بنجاح !')->autoclose(5000);
+        return redirect()->route('accounting.assets.index');
 
     }
 

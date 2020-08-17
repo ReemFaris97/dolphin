@@ -10,10 +10,10 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">  عرض كل المسميات الوظفية
+            <h5 class="panel-title">  عرض كل  الاصول
             <div class="btn-group beside-btn-title">
-                <a href="{{route('accounting.assets-custodies.create')}}" class="btn btn-success">
-                إضافه  مسمى جديد
+                <a href="{{route('accounting.assets.create')}}" class="btn btn-success">
+                إضافه  اصل جديد
                     <span class="m-l-5"><i class="fa fa-plus"></i></span>
                 </a>
             </div>
@@ -32,39 +32,33 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th> اسم المسمى الوظيفى </th>
+                    <th> اسم الاصل </th>
 
-                    <th> الحالة </th>
+                    <th> قيمه الشراء </th>
+                    <th>  تاريخ التشغيل </th>
+                    <th> طريقة الاهلاك  </th>
+                    <th> بداية الاهلاك  </th>
+                    <th> نهاية الاهلاك  </th>
                     <th class="text-center">العمليات</th>
                 </tr>
                 </thead>
                 <tbody>
 
-                @foreach($titles as $row)
+                @foreach($assets as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->name!!}</td>
-
-                        <td>
-                            @if($row->active==1)
-                            مفعل
-                            @else
-                            غير مفعل
-                            @endif
-                        </td>
-
+                        <td>{!! $row->purchase_price!!}</td>
+                        <td>{!! $row->purchase_date!!}</td>
+                        <td>{!! $row->damage_type!!}</td>
+                        <td>{!! $row->damage_start_date!!}</td>
+                        <td>{!! $row->damage_end_date!!}</td>
 
 
                         <td class="text-center">
-                            <a href="{{route('accounting.jobTitles.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
-                            @if ($row->active==0)
-                            <a href="{{route('accounting.jobTitles.active',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="  "> <i class="fa fa-close"></i></a>
-                            @else
-                            <a href="{{route('accounting.jobTitles.dis_active',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="  "> <i class="icon-checkmark-circle" style="margin-left: 10px"></i> </a>
-                        @endif
+                            <a href="{{route('accounting.assets.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
-
-                            {!!Form::open( ['route' => ['accounting.jobTitles.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
+                            {!!Form::open( ['route' => ['accounting.assets.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
                             {!!Form::close() !!}
 
                         </td>

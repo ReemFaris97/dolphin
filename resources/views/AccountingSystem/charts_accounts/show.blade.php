@@ -30,6 +30,9 @@
               @if( $account->cost_center==1)
                 <li   ><a data-toggle="tab" role="tab" aria-controls="menu2" href="#menu2">مركز التكلفه </a></li>
                 @endif
+                @if($account->asset_id!=null)
+                <li><a data-toggle="tab" role="tab" aria-controls="menu5" href="#menu5"> الاهلاك </a></li>
+                 @endif
                 <li><a data-toggle="tab" role="tab" aria-controls="menu3" href="#menu3"> دفتر الاستاذ </a></li>
                 <li class="active" ><a data-toggle="tab" role="tab" aria-controls="menu4" href="#menu4"> تفاصيل
                         الحساب </a></li>
@@ -256,6 +259,54 @@
 
 
                 </div>
+
+                @if($account->asset_id!=null)
+                <div role="tabpanel" id="menu5"  class=" tab-pane">
+
+
+                       <table class="table datatable-button-init-basic">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th> الكود  </th>
+                                <th> تاريخ الاهلاك </th>
+                                <th> اسم الحساب </th>
+                                <th> مبلغ الاهلاك </th>
+                                <th> القيمه بعد الاهلاك </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($asset->AssetLogs as $row)
+                                <tr>
+                                    <td>{!!$loop->iteration!!}</td>
+                                    <td>{!! $row->code!!}</td>
+
+                                    <td>
+                                        {!! $row->date!!}
+                                    </td>
+
+                                    <td>
+                                        {!! $row->asset->name!!}
+                                    </td>
+                                    <td>
+                                        {!! $row->asset->damage_price!!}
+                                    </td>
+                                    <td>
+                                        {!! $row->amount_asset_after!!}
+                                    </td>
+                                </tr>
+
+                            @endforeach
+
+
+
+                            </tbody>
+                        </table>
+
+
+
+                </div>
+                @endif
             </div>
 
         </div>

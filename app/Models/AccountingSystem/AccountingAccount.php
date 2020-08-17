@@ -15,17 +15,11 @@ public function getParentKeyName()
 {
     return 'account_id';
 }
-    protected $fillable = ['ar_name','en_name','kind','status','code','account_id','active','amount','supplier_id','store_id','bank_id','cost_center','openning_balance'];
+    protected $fillable = ['ar_name','en_name','kind','status','code','account_id','active','amount','supplier_id','store_id','bank_id','cost_center','openning_balance','asset_id'];
     protected $table='accounting_accounts';
-
-
-
-
     protected $observables = [
         'posted',
-
     ];
-
     public function posted()
     {
       // fire custom event on the model
@@ -37,6 +31,7 @@ public function getParentKeyName()
      return $this->belongsTo(AccountingAccount::class,'account_id');
     }
 
+   
 
 
 //    public function getParentKeyName()
@@ -76,7 +71,7 @@ public function getParentKeyName()
         return $this->hasMany(AccountingAccount::class,'account_id');
     }
 
-    
+
     public function childrenCostCenter()
     {
         return $this->hasMany(AccountingAccount::class,'account_id')->where('cost_center',1)->where('kind','sub');

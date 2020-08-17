@@ -397,6 +397,21 @@
                             <li><a href="{{route('accounting.costCenters.index')}}"><i class="icon-eye"></i>   عرض  مراكز التكلفة</a></li>
                       </ul>
                     </li>
+
+
+                    <li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i> اداره الاصول </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="{{route('accounting.assets.create')}}"><i class="icon-eye"></i>  اضافه اصل جديد</a></li>
+                            <li><a href="{{route('accounting.assets.index')}}"><i class="icon-eye"></i>   عرض الاصول </a></li>
+                      </ul>
+                    </li>
+
+                    <li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i>  ادارة العهدة </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="{{route('accounting.custodies.create')}}"><i class="icon-eye"></i>  اضافه عهده جديد</a></li>
+                            <li><a href="{{route('accounting.custodies.index')}}"><i class="icon-eye"></i>   عرض العهد </a></li>
+                      </ul>
+                    </li>
                 </ul>
 			</li>
 
