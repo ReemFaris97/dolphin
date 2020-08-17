@@ -9,6 +9,7 @@ use App\Models\AccountingSystem\AccountingEntryAccount;
 use App\Models\AccountingSystem\AccountingEntryLog;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingAsset;
 use App\Models\AccountingSystem\AccountingCenterAccount;
 use App\Models\AccountingSystem\AccountingCostCenter;
 use App\Models\AccountingSystem\AccountingEntry;
@@ -27,10 +28,7 @@ class AccountController extends Controller
     public function index()
     {
         $accounts=AccountingAccount::where('kind','main')->get();
-        // $accounts_centercost=AccountingAccount::whereHas('children', function($query) {
-        //     $query->whereHas('children');
-        // })->get();
-        // dd($accounts_centercost);
+
         return view("AccountingSystem.charts_accounts.index",compact('accounts'));
     }
 
@@ -41,8 +39,7 @@ class AccountController extends Controller
      */
     public function create()
     {
-        $accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->pluck('code_name','id')->toArray();
-
+        $accounts=AccountingAccount::whereIn('kind',['sub','following_main'])->select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->pluck('code_name','id')->toArray();
         $centers=AccountingCostCenter::where('active',1)->pluck('name','id')->toArray();
         return view("AccountingSystem.charts_accounts.create",compact('accounts','centers'));
     }
@@ -110,8 +107,9 @@ class AccountController extends Controller
         $accountLogsForm=AccountingAccountLog::where('account_id',$id)->whereIn('entry_id',$postingEntries)->where('affect','debtor')->get();
         $accountLogsTo=AccountingAccountLog::where('account_id',$id)->whereIn('entry_id',$postingEntries)->where('affect','creditor')->get();
         $centers=AccountingCenterAccount::where('account_id',$id)->get();
+        $asset=AccountingAsset::find($account->asset_id);
 
-        return view("AccountingSystem.charts_accounts.show",compact('account','logs','accountLogsForm','accountLogsTo','centers'));
+        return view("AccountingSystem.charts_accounts.show",compact('account','logs','accountLogsForm','accountLogsTo','centers','asset'));
 
     }
 
@@ -125,6 +123,7 @@ class AccountController extends Controller
     {
         $account=AccountingAccount::find($id);
         $accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->pluck('code_name','id')->toArray();
+
 
         $centers=AccountingCostCenter::where('active',1)->pluck('name','id')->toArray();
         return view("AccountingSystem.charts_accounts.edit",compact('account','accounts','centers'));

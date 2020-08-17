@@ -10,10 +10,11 @@
 
 
 
+<input type="hidden" name="type"  value="asset"  >
 
 <div class="form-group col-md-6 pull-left">
-    <label>اسم  الاصل   </label>
-    {!! Form::text("name",null,['class'=>'form-control','placeholder'=>'   اسم الاصل '])!!}
+    <label> اسم  الاصل   </label>
+    {!! Form::text("name",null,['class'=>'form-control','placeholder'=>' الاصل  اسم  '])!!}
 </div>
 
 
@@ -22,7 +23,7 @@
     {!! Form::select("currency_id",$currencies,null,['class'=>'form-control js-example-basic-single currency_id','id'=>'currency_id','placeholder'=>' اختر العملة '])!!}
 </div>
 
-<div class="form-group col-sm-6 pull-left">
+<div class="form-group col-md-6 pull-left">
     <label>قيمة الشراء </label>
     {!! Form::text("purchase_price",null,['class'=>'form-control','placeholder'=>'قيمة الشراء'])!!}
 </div>
@@ -31,7 +32,7 @@
 
 <div class="form-group col-md-6 pull-left">
     <label> اختر الحساب </label>
-    {!! Form::select("account_id",accounts(),null,['class'=>'form-control','placeholder'=>' اختر الحساب'])!!}
+    {!! Form::select("account_id",$accounts,null,['class'=>'form-control','placeholder'=>' اختر الحساب'])!!}
 </div>
 
 <div class="form-group col-md-6 pull-left ">
@@ -39,26 +40,40 @@
     {!! Form::date("purchase_date",null,['class'=>'form-control'])!!}
 </div>
 
-<div class="form-group col-xs-6 pull-left ">
+<div class="form-group col-md-6 pull-left ">
     <label>  اختر طريقةالدفع</label>
     {!! Form::select("payment_id",$payments,null,['class'=>'form-control js-example-basic-single','id'=>'payment_id','placeholder'=>' اختر طريقةالدفع   '])!!}
-    </div>
-
+</div>
+    <hr>
+    <p class="panel-title">  <h5><u>اضافة اهلاك</u></h5></p>
+    <hr>
     <div class="form-group col-md-6 pull-left ">
         <label> تاريخ بداية الاهلاك</label>
         {!! Form::date("damage_start_date",null,['class'=>'form-control'])!!}
     </div>
     <div class="form-group col-md-6 pull-left ">
         <label> تاريخ نهاية الاهلاك </label>
-        {!! Form::date("damage_end_date",null,['class'=>'form-control'])!!}
+        {!!
+        Form::date("damage_end_date",null,['class'=>'form-control'])!!}
     </div>
-    <div class="form-group col-sm-6 col-xs-12 pull-left">
+    <div class="form-group col-md-6 col-xs-12 pull-left">
         <label>طريقة الاهلاك </label>
-        {!! Form::select("damage_type",['fixed_installment'=>'التقسيط الثابت'],Null,['class'=>'form-control','id'=>'type'])!!}
+        {!! Form::select("damage_type",['fixed_installment'=>'التقسيط الثابت'],Null,['class'=>'form-control','id'=>'type','placeholder'=>'اختر طريقة الاهلاك '])!!}
     </div>
-    <div class="form-group col-sm-6 pull-left">
-        <label> مبلغ الشراء </label>
-        {!! Form::text("purchase_price",null,['class'=>'form-control','placeholder'=>'مبلغ الشراء '])!!}
+    <div class="form-group col-md-6 pull-left fixed_installment">
+        <label> مبلغ الاهلاك </label>
+        {!! Form::text("damage_price",null,['class'=>'form-control','placeholder'=>'مبلغ الاهلاك '])!!}
+    </div>
+
+    <div class="form-group col-md-6 pull-left fixed_installment">
+        <label>  مدة الاهلاك </label>
+        <div class="form-group col-sm-3 pull-left">
+            {!! Form::text("damage_period",null,['class'=>'form-control'])!!}
+        </div>
+
+        <div class="form-group col-sm-3 pull-left">
+            {!! Form::select("damage_period_type",['hour'=>' ساعة','day'=>'يوم','week'=>'اسبوع','month'=>'شهر','year'=>'سنه'],Null,['class'=>'form-control','id'=>'type'])!!}
+        </div>
     </div>
 
 <div class="text-center col-md-12">
@@ -71,8 +86,13 @@
     <script>
     $(document).ready(function () {
     $('.js-example-basic-single').select2();
+    $('.fixed_installment').hide();
+    });
 
-
+    $('#payment_id').change(function() {
+    var type = $('#payment_id').val();
+    if (type=='fixed_installment'){
+     $('.fixed_installment').show();
     });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>

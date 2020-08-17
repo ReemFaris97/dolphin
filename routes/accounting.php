@@ -142,6 +142,10 @@ Route::middleware('admin')->group(function () {
     Route::resource('fiscalPeriods', 'FiscalPeriodController');
     Route::resource('costCenters', 'CostCenterController');
     Route::resource('jobTitles', 'JobTitleController');
+    Route::resource('assets', 'AssetController');
+    Route::resource('custodies', 'CustodyController');
+    Route::post('add_amount/{id}', 'CustodyController@add_amount')->name('custodies.add_amount');
+    Route::post('decreased_amount/{id}', 'CustodyController@decreased_amount')->name('custodies.decreased_amount');
 
     Route::get('active/{id}', 'CostCenterController@active')->name('costCenters.active');
     Route::get('dis-active/{id}', 'CostCenterController@dis_active')->name('costCenters.dis_active');
