@@ -79,7 +79,9 @@ class CustodyController extends Controller
     {
 
         $custody =AccountingAsset::findOrFail($id);
-        return $this->toShow(compact('custody'));
+        $payments = AccountingPayment::where('active','1')->pluck('name','id')->toArray();
+
+        return $this->toShow(compact('custody','payments'));
     }
 
     /**
@@ -142,9 +144,10 @@ class CustodyController extends Controller
             'code'=>rand(10000,4),
             'date'=>Carbon::now(),
             'amount'=>$request['amount'],
-            'amount_asset_after'=> $last->amount_asset_after+$request['amount']
+            'amount_asset_after'=> $last->amount_asset_after +$request['amount'],
+            'payment_id'=>$request['payment_id']
         ]);
-
+        $payment=AccountingPayment::find($request['payment_id']);
         $entry=AccountingEntry::create([
             'date'=>Carbon::now(),
             'source'=>'العهد',
@@ -156,7 +159,7 @@ class CustodyController extends Controller
         AccountingEntryAccount::create([
             'entry_id'=>$entry->id,
             'from_account_id'=> $acount->id,
-            'to_account_id'=>$custody->payment->bank->account->id,
+            'to_account_id'=>$payment->bank->account_id??$payment->safe->account_id,
             'amount'=>$request['amount'],
         ]);
 

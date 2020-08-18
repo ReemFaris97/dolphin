@@ -344,7 +344,11 @@
                                                  @csrf
                                                  <label style="color:black"> المبلغ</label>
                                                  <input type="text" name="amount"  class="form-control">
-                                             </form>
+
+                                                    <label>  اختر طريقةالدفع</label>
+                                                    {!! Form::select("payment_id",$payments,null,['class'=>'form-control js-example-basic-single','id'=>'payment_id','placeholder'=>' اختر طريقةالدفع   '])!!}
+                                             
+                                                </form>
                                          </div>
                                          <div class="modal-footer">
                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>

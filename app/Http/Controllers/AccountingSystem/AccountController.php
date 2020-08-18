@@ -13,6 +13,7 @@ use App\Models\AccountingSystem\AccountingAsset;
 use App\Models\AccountingSystem\AccountingCenterAccount;
 use App\Models\AccountingSystem\AccountingCostCenter;
 use App\Models\AccountingSystem\AccountingEntry;
+use App\Models\AccountingSystem\AccountingPayment;
 use App\Traits\Viewable;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -109,7 +110,9 @@ class AccountController extends Controller
         $centers=AccountingCenterAccount::where('account_id',$id)->get();
         $asset=AccountingAsset::find($account->asset_id);
         $custody=AccountingAsset::find($account->asset_id);
-        return view("AccountingSystem.charts_accounts.show",compact('account','logs','accountLogsForm','accountLogsTo','centers','asset','custody'));
+        $payments = AccountingPayment::where('active','1')->pluck('name','id')->toArray();
+
+        return view("AccountingSystem.charts_accounts.show",compact('account','logs','accountLogsForm','accountLogsTo','centers','asset','custody','payments'));
 
     }
 

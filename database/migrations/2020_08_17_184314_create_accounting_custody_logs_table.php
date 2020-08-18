@@ -13,7 +13,7 @@ class CreateAccountingCustodyLogsTable extends Migration
      */
     public function up()
     {
-        Schema::create('accounting_custody_logs', function (Blueprint $table) {
+        Schema::table('accounting_custody_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('code')->nullable();
             $table->string('operation_name')->nullable();
