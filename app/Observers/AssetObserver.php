@@ -35,7 +35,6 @@ class AssetObserver
 
         if($asset->type=='asset'){
 
-
             $accountDamged=  AccountingAccount::create([
                 'ar_name'=>'مجمع اهلاك'.' '. $asset->name,
                 'en_name'=>$asset->name,
