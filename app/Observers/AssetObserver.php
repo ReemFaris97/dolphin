@@ -34,6 +34,22 @@ class AssetObserver
         ]);
 
         if($asset->type=='asset'){
+
+
+            $accountDamged=  AccountingAccount::create([
+                'ar_name'=>'مجمع اهلاك'. $asset->name,
+                'en_name'=>$asset->name,
+                'kind'=>'sub',
+                'status'=>'creditor',
+                'active'=>'1',
+                'account_id'=>$asset->account_id,
+                'asset_id'=>$asset->id,
+
+            ]);
+            $accountDamged->update([
+                'code'=> '**'.$account->code
+            ]);
+            
           AccountingAssetDamageLog::create([
             'asset_id'=>$asset->id,
             'code'=>rand(10000,4),
@@ -41,6 +57,9 @@ class AssetObserver
             'amount'=>0,
             'amount_asset_after'=>$asset->purchase_price
         ]);
+
+
+
 
         $entry=AccountingEntry::create([
             'date'=>$account->created_at,
@@ -53,7 +72,7 @@ class AssetObserver
         AccountingEntryAccount::create([
             'entry_id'=>$entry->id,
             'from_account_id'=>$account->id,
-            'to_account_id'=>$asset->payment->bank->account->id,
+            'to_account_id'=>$asset->payment->bank->account->id?? $asset->payment->safe->account->id,
             'amount'=>$asset->purchase_price,
         ]);
 
