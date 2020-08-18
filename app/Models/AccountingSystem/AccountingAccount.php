@@ -31,7 +31,11 @@ public function getParentKeyName()
      return $this->belongsTo(AccountingAccount::class,'account_id');
     }
 
-   
+    public function asset()
+    {
+     return $this->belongsTo(AccountingAsset::class,'asset_id');
+    }
+
 
 
 //    public function getParentKeyName()

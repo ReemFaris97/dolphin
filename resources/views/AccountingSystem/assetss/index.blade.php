@@ -1,7 +1,7 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','عرض  الاصول ')
 @section('parent_title',' اداره الاصول والعهد ')
-@section('action', URL::route('accounting.assets-custodies.index'))
+@section('action', URL::route('accounting.assets.index'))
 
 @section('styles')
 

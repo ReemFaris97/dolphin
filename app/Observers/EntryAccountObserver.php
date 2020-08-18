@@ -30,9 +30,9 @@ class EntryAccountObserver
             'creditor'=>$entryAccount->amount
         ]);
 
-
+// dd($entryAccount->to_account_id);
 ////////////////////////الحساب المدين
-AccountingAccountLog::create([
+ $aa=AccountingAccountLog::create([
     'entry_id'=>$entryAccount->entry_id,
     'account_id'=>$entryAccount->from_account_id,
     'account_amount_before'=>optional($entryAccount->form_account)->amount,
@@ -41,7 +41,6 @@ AccountingAccountLog::create([
     'account_amount_after'=>optional($entryAccount->from_account)->amount+$entryAccount->amount,
     'affect'=>'debtor',
 ]);
-
 ////////////////////////الحساب الدائن
         AccountingAccountLog::create([
             'entry_id'=>$entryAccount->entry_id,

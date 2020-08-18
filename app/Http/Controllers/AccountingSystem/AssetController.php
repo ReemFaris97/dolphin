@@ -26,7 +26,7 @@ class AssetController extends Controller
     public function index()
     {
 
-        $assets=AccountingAsset::where('type','asset')->reverse();
+        $assets=AccountingAsset::where('type','asset')->get()->reverse();
 
         return $this->toIndex(compact('assets'));
     }

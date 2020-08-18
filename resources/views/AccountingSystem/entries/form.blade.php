@@ -12,18 +12,18 @@
     <label>تاريخ العملية  </label>
     {!! Form::date("date",null,['class'=>'form-control'])!!}
 </div>
-<div class="form-group col-sm-6 col-xs-12 pull-left">
+{{-- <div class="form-group col-sm-6 col-xs-12 pull-left">
     <label>مصدر  العمليه  </label>
     {!! Form::text("source",'قيد يدوى',['class'=>'form-control','readonly'])!!}
-</div>
+</div> --}}
 {{--<div class="form-group col-sm-6 col-xs-12 pull-left">--}}
     {{--<label>الكود  </label>--}}
     {{--{!! Form::text("code",null,['class'=>'form-control','placeholder'=>'  الكود   '])!!}--}}
 {{--</div>--}}
-<div class="form-group col-sm-6 col-xs-12 pull-left">
+{{-- <div class="form-group col-sm-6 col-xs-12 pull-left">
     <label> نوع  العمليه  </label>
     {!! Form::text("type",'يدوى',['class'=>'form-control','placeholder'=>'  يدوى   ','readonly'])!!}
-</div>
+</div> --}}
 
 <div class="form-group col-sm-6 col-xs-12 pull-left">
     <label>   المبلغ  </label>
@@ -34,7 +34,12 @@
     <label> نوع  العملة  </label>
     {!! Form::select("currency",currency(),null,['class'=>'form-control','placeholder'=>'اختر العملة',])!!}
 </div>
-@if(!isset($entry))
+
+<div class="form-group col-sm-6 col-xs-12 pull-left">
+    <label>   التفاصيل  </label>
+    {!! Form::textarea("details",null,['class'=>'form-control','placeholder'=>' التفاصيل  '])!!}
+</div>
+{{-- @if(!isset($entry))
 <div class="form-group col-sm-6 col-xs-12 pull-left accounts">
     <label>  من حساب </label>
     {!! Form::select("from_account_id",$accounts,null,['class'=>'form-control selectpicker ','id'=>'from_account_id'])!!}
@@ -59,12 +64,9 @@
         <label>  الى حساب </label>
         {!! Form::select("to_account_id",$accounts,$entryAccount->to_account_id,['class'=>'form-control selectpicker ','id'=>'to_account_id'])!!}
     </div>
-@endif
+@endif --}}
 
-<div class="form-group col-sm-6 col-xs-12 pull-left">
-    <label>   التفاصيل  </label>
-    {!! Form::textarea("details",null,['class'=>'form-control','placeholder'=>' التفاصيل  '])!!}
-</div>
+
 <div class="text-center col-md-12">
     <div class="text-right">
         <button type="submit" id="register" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i></button>

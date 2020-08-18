@@ -10,6 +10,8 @@ use App\Models\AccountingSystem\AccountingAsset;
 use App\Models\AccountingSystem\AccountingCostCenter;
 use App\Models\AccountingSystem\AccountingCurrency;
 use App\Models\AccountingSystem\AccountingCustodyLog;
+use App\Models\AccountingSystem\AccountingEntry;
+use App\Models\AccountingSystem\AccountingEntryAccount;
 use App\Models\AccountingSystem\AccountingJobTitle;
 use App\Models\AccountingSystem\AccountingPayment;
 use App\Traits\Viewable;
@@ -131,15 +133,31 @@ class CustodyController extends Controller
 
     }
     public function add_amount(Request $request,$id){
-
-$last=AccountingCustodyLog::where('asset_id',$id)->latest()->first();
+     $custody=AccountingAsset::find($id);
+     $acount=AccountingAccount::where('asset_id',$id)->first();
+     $last=AccountingCustodyLog::where('asset_id',$id)->latest()->first();
         AccountingCustodyLog::create([
             'asset_id'=>$id,
             'operation_name'=>'اضافه عهدة',
             'code'=>rand(10000,4),
             'date'=>Carbon::now(),
             'amount'=>$request['amount'],
-            'amount_asset_after'=> $last->amount_asset_after??0 +$request['amount']
+            'amount_asset_after'=> $last->amount_asset_after+$request['amount']
+        ]);
+
+        $entry=AccountingEntry::create([
+            'date'=>Carbon::now(),
+            'source'=>'العهد',
+            'type'=>'automatic',
+            'details'=>' اضافه عهده'.$custody->ar_name,
+            'status'=>'new'
+        ]);
+
+        AccountingEntryAccount::create([
+            'entry_id'=>$entry->id,
+            'from_account_id'=> $acount->id,
+            'to_account_id'=>$custody->payment->bank->account->id,
+            'amount'=>$request['amount'],
         ]);
 
         alert()->success('تم اضافه العهده  العهدة بنجاح !')->autoclose(5000);
@@ -148,7 +166,8 @@ $last=AccountingCustodyLog::where('asset_id',$id)->latest()->first();
 
 
     public function decreased_amount(Request $request,$id){
-
+        $custody=AccountingAsset::find($id);
+        $acount=AccountingAccount::where('asset_id',$id)->first();
         $last=AccountingCustodyLog::where('asset_id',$id)->latest()->first();
              $log=   AccountingCustodyLog::create([
                     'asset_id'=>$id,
@@ -159,7 +178,21 @@ $last=AccountingCustodyLog::where('asset_id',$id)->latest()->first();
                     'amount_asset_after'=> $last->amount_asset_after-$request['amount']
                 ]);
 
-              
+                $entry=AccountingEntry::create([
+                    'date'=>Carbon::now(),
+                    'source'=>'العهد',
+                    'type'=>'automatic',
+                    'details'=>' تخفيض عهده'.$custody->ar_name,
+                    'status'=>'new'
+                ]);
+
+                AccountingEntryAccount::create([
+                    'entry_id'=>$entry->id,
+                    'from_account_id'=>$custody->payment->bank->account->id,
+                    'to_account_id'=> $acount->id,
+                    'amount'=>$request['amount'],
+                ]);
+
                 alert()->success('تم  تخفيض العهده  العهدة بنجاح !')->autoclose(5000);
                 return back();
             }

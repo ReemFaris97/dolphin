@@ -40,7 +40,7 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel"> تحويل  مالى  </h5>
+                                        <h5 class="modal-title" id="exampleModalLabel">     اضافة عهده  </h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -93,6 +93,7 @@
                    <table class="table init-basic">
                        <thead>
                        <tr>
+                        <th>#</th>
                            <th> الكود </th>
                            <th>تاريخ العهدة </th>
                            <th>اسم العملية  </th>
@@ -103,6 +104,7 @@
                        <tbody>
                        @foreach($custody->custodyLogs  as $log)
                        <tr>
+                        <td>{!!$loop->iteration!!}</td>
                        <td>{!! $log->code !!}</td>
                        <td>{!! $log->date  !!}</td>
                        <td>{!! $log->operation_name  !!}</td>

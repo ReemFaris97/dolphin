@@ -494,6 +494,7 @@
                                 <li><a href="{{route('accounting.settings.show',['accounting_banks_safes'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين  حسابات البنوك والصناديق </a></li>
                                 <li><a href="{{route('accounting.settings.show',['accounting_payment'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين  خيارات الدفع  </a></li>
                                 <li><a href="{{route('accounting.settings.show',['accounting_salaries'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين  حسابات الاجور والمرتبات </a></li>
+                                <li><a href="{{route('accounting.settings.show',['accounting_damages'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين  حسابات  الاهلاك </a></li>
 
 
 					</ul>

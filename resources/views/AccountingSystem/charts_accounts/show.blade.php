@@ -30,8 +30,12 @@
               @if( $account->cost_center==1)
                 <li   ><a data-toggle="tab" role="tab" aria-controls="menu2" href="#menu2">مركز التكلفه </a></li>
                 @endif
-                @if($account->asset_id!=null)
+
+                @if(optional($account->asset)->type =='asset')
                 <li><a data-toggle="tab" role="tab" aria-controls="menu5" href="#menu5"> الاهلاك </a></li>
+                 @endif
+                 @if(optional($account->asset)->type=='custdoy')
+                 <li><a data-toggle="tab" role="tab" aria-controls="menu6" href="#menu6"> العهد </a></li>
                  @endif
                 <li><a data-toggle="tab" role="tab" aria-controls="menu3" href="#menu3"> دفتر الاستاذ </a></li>
                 <li class="active" ><a data-toggle="tab" role="tab" aria-controls="menu4" href="#menu4"> تفاصيل
@@ -260,7 +264,7 @@
 
                 </div>
 
-                @if($account->asset_id!=null)
+                @if(optional($account->asset)->type == 'asset')
                 <div role="tabpanel" id="menu5"  class=" tab-pane">
 
 
@@ -289,7 +293,7 @@
                                         {!! $row->asset->name!!}
                                     </td>
                                     <td>
-                                        {!! $row->asset->damage_price!!}
+                                        {!! $row->amount!!}
                                     </td>
                                     <td>
                                         {!! $row->amount_asset_after!!}
@@ -303,6 +307,106 @@
                             </tbody>
                         </table>
 
+
+
+                </div>
+                @endif
+                @if(optional($account->asset)->type=='custdoy')
+
+                <div role="tabpanel" id="menu6"  class=" tab-pane">
+                    <div class="awesome-card-design">
+
+                        <h3>{!! $custody->name !!} </h3>
+
+
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal1">
+                                    اضافة
+                                    </button>
+
+
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal2">
+             تخفيض
+             </button>
+                 </div>
+
+                                    {{--<!-- Modal -->--}}
+                             <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                 <div class="modal-dialog" role="document">
+                                     <div class="modal-content">
+                                         <div class="modal-header">
+                                             <h5 class="modal-title" id="exampleModalLabel">   اضافة عهده  </h5>
+                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                 <span aria-hidden="true">&times;</span>
+                                             </button>
+                                         </div>
+                                         <div class="modal-body">
+                                             <form method="post" action="{{route('accounting.custodies.add_amount',$custody->id)}}" id="form1">
+                                                 @csrf
+                                                 <label style="color:black"> المبلغ</label>
+                                                 <input type="text" name="amount"  class="form-control">
+                                             </form>
+                                         </div>
+                                         <div class="modal-footer">
+                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+                                             <button type="submit" class="btn btn-primary" onclick="document.getElementById('form1').submit()">اضافه  العهدة</button>
+                                         </div>
+                                     </div>
+                                 </div>
+
+                            </div>
+
+                                {{--<!-- Modal -->--}}
+                                <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                 <div class="modal-content">
+                                     <div class="modal-header">
+                                         <h5 class="modal-title" id="exampleModalLabel">   تخفيض العهدة  </h5>
+                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                             <span aria-hidden="true">&times;</span>
+                                         </button>
+                                     </div>
+                                     <div class="modal-body">
+                                         <form method="post" action="{{route('accounting.custodies.decreased_amount',$custody->id)}}" id="form2">
+                                             @csrf
+                                             <label style="color:black"> المبلغ</label>
+                                             <input type="text" name="amount"  class="form-control">
+                                         </form>
+                                     </div>
+                                     <div class="modal-footer">
+                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+                                         <button type="submit" class="btn btn-primary" onclick="document.getElementById('form2').submit()">تخفيض</button>
+                                     </div>
+                                 </div>
+                             </div>
+                                </div>
+
+                    <div class="clearfix"></div>
+                    <h4>عرض  عمليات العهد</h4>
+                    <table class="table init-basic">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th> الكود </th>
+                            <th>تاريخ العهدة </th>
+                            <th>اسم العملية  </th>
+                            <th> المبلغ  </th>
+                            <th>المبلغ بعد العملية   </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($custody->custodyLogs  as $log)
+                        <tr>
+                         <td>{!!$loop->iteration!!}</td>
+                        <td>{!! $log->code !!}</td>
+                        <td>{!! $log->date  !!}</td>
+                        <td>{!! $log->operation_name  !!}</td>
+                        <td>{!! $log->amount !!}</td>
+                        <td>{!! $log->amount_asset_after !!}</td>
+
+                        </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
 
 
                 </div>

@@ -143,6 +143,15 @@ class SettingController extends Controller
                 ->with('chart_accounts', $chart_accounts);
 
         }
+        elseif ($settings_page == 'تعين حسابات الاهلاك')
+        {
+            $chart_accounts = AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->pluck('code_name','id')->toArray();
+            return view('AccountingSystem.settings.damage_setting')
+                ->with('settings_page', $settings_page)
+                ->with('settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_damages')->get())
+                ->with('chart_accounts', $chart_accounts);
+
+        }
 
 
 

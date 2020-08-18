@@ -7,6 +7,8 @@ use App\Models\AccountingSystem\AccountingAsset;
 use App\Models\AccountingSystem\AccountingAssetDamageLog;
 use App\Models\AccountingSystem\AccountingBank;
 use App\Models\AccountingSystem\AccountingCustodyLog;
+use App\Models\AccountingSystem\AccountingEntry;
+use App\Models\AccountingSystem\AccountingEntryAccount;
 use App\Models\AccountingSystem\AccountingPayment;
 use App\Models\Task;
 use Carbon\Carbon;
@@ -39,6 +41,22 @@ class AssetObserver
             'amount'=>0,
             'amount_asset_after'=>$asset->purchase_price
         ]);
+
+        $entry=AccountingEntry::create([
+            'date'=>$account->created_at,
+            'source'=>'الاصول',
+            'type'=>'automatic',
+            'details'=>' اضافه اصل'.$account->ar_name,
+            'status'=>'new'
+        ]);
+
+        AccountingEntryAccount::create([
+            'entry_id'=>$entry->id,
+            'from_account_id'=>$account->id,
+            'to_account_id'=>$asset->payment->bank->account->id,
+            'amount'=>$asset->purchase_price,
+        ]);
+
           }elseif($asset->type=='custdoy'){
 
             AccountingCustodyLog::create([
@@ -48,6 +66,25 @@ class AssetObserver
                 'date'=>Carbon::now(),
                 'amount'=>0,
                 'amount_asset_after'=>$asset->purchase_price
+            ]);
+
+
+
+
+
+            $entry=AccountingEntry::create([
+                'date'=>$account->created_at,
+                'source'=>'العهد',
+                'type'=>'automatic',
+                'details'=>' اضافه عهده'.$account->ar_name,
+                'status'=>'new'
+            ]);
+
+            AccountingEntryAccount::create([
+                'entry_id'=>$entry->id,
+                'from_account_id'=>$account->id,
+                'to_account_id'=>$asset->payment->bank->account->id,
+                'amount'=>$asset->purchase_price,
             ]);
 
           }
