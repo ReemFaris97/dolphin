@@ -18,14 +18,14 @@ class EntryAccountObserver
         AccountingEntryLog::create([
          'entry_id'=>$entryAccount->entry_id,
           'operation'=>'إضافة',
-          'user_id'=>auth()->user()->id,
+        //   'user_id'=>auth()->user()->id,
           'account_id'=>$entryAccount->from_account_id,
             'debtor'=>$entryAccount->amount
         ]);
         AccountingEntryLog::create([
             'entry_id'=>$entryAccount->entry_id,
             'operation'=>'إضافة',
-            'user_id'=>auth()->user()->id,
+            // 'user_id'=>auth()->user()->id,
             'account_id'=>$entryAccount->to_account_id,
             'creditor'=>$entryAccount->amount
         ]);

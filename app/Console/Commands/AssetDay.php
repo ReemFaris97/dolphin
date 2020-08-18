@@ -40,16 +40,20 @@ class AssetDay extends Command
      */
     public function handle()
     {
+
         $today=Carbon::now();
         $Assets=AccountingAsset::where('damage_period_type','day')->get();
         foreach($Assets as $asset)
         {
                 if($today->between($asset->damage_start_date,$asset->damage_end_date)){
+
                     $lastDamage=AccountingAssetDamageLog::where('asset_id',$asset->id)->latest()->first();
+                   
                     AccountingAssetDamageLog::create([
                         'asset_id'=>$asset->id,
-                        'code'=>rand(4),
+                        'code'=>rand(1000,4),
                         'date'=>$today,
+                        'amount'=>$asset->damage_price,
                         'amount_asset_after'=>$lastDamage->amount_asset_after-$asset->damage_price
                     ]);
 
