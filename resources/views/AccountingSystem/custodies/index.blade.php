@@ -49,7 +49,7 @@
                         <td>
                             <a href="{{route('accounting.custodies.show',['id'=>$row->id])}}" class="link">
 
-                             {!! $row->name!!}عهده
+                             {!! $row->name!!}
                             </a>
                             </td>
 
