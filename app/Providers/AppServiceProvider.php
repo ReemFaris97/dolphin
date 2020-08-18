@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\AccountingSystem\AccountingAccount;
 use App\Models\AccountingSystem\AccountingAsset;
+use App\Models\AccountingSystem\AccountingAssetDamageLog;
 use App\Models\AccountingSystem\AccountingBank;
 use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingDevice;
@@ -20,6 +21,7 @@ use App\Models\AccountingSystem\AccountingSale;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingSupplier;
 use App\Observers\AccountObserver;
+use App\Observers\AssetDamageObserver;
 use App\Observers\AssetObserver;
 use App\Observers\BankObserver;
 use App\Observers\EntryAccountObserver;
@@ -73,6 +75,7 @@ class AppServiceProvider extends ServiceProvider
              AccountingBank::observe(BankObserver::class);
             AccountingSafe::observe(SafeObserver::class);
             AccountingAsset::observe(AssetObserver::class);
+            AccountingAssetDamageLog::observe(AssetDamageObserver::class);
 
 
         Validator::extend('branch_name', function ($attribute, $value, $parameters) {

@@ -108,8 +108,8 @@ class AccountController extends Controller
         $accountLogsTo=AccountingAccountLog::where('account_id',$id)->whereIn('entry_id',$postingEntries)->where('affect','creditor')->get();
         $centers=AccountingCenterAccount::where('account_id',$id)->get();
         $asset=AccountingAsset::find($account->asset_id);
-
-        return view("AccountingSystem.charts_accounts.show",compact('account','logs','accountLogsForm','accountLogsTo','centers','asset'));
+        $custody=AccountingAsset::find($account->asset_id);
+        return view("AccountingSystem.charts_accounts.show",compact('account','logs','accountLogsForm','accountLogsTo','centers','asset','custody'));
 
     }
 

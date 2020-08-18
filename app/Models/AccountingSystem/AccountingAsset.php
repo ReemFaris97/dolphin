@@ -21,6 +21,10 @@ class AccountingAsset extends Model
         return $this->belongsTo(AccountingCurrency::class,'currency_id');
     }
 
+    public function payment()
+    {
+        return $this->belongsTo(AccountingPayment::class,'payment_id');
+    }
     public function account()
     {
         return $this->belongsTo(AccountingAccount::class,'account_id');

@@ -14,7 +14,7 @@
 
 <div class="form-group col-md-6 pull-left">
     <label> اسم  الاصل   </label>
-    {!! Form::text("name",null,['class'=>'form-control','placeholder'=>' الاصل  اسم  '])!!}
+    {!! Form::text("name",null,['class'=>'form-control','placeholder'=>'   اسم الاصل '])!!}
 </div>
 
 
@@ -58,7 +58,7 @@
     </div>
     <div class="form-group col-md-6 col-xs-12 pull-left">
         <label>طريقة الاهلاك </label>
-        {!! Form::select("damage_type",['fixed_installment'=>'التقسيط الثابت'],Null,['class'=>'form-control','id'=>'type','placeholder'=>'اختر طريقة الاهلاك '])!!}
+        {!! Form::select("damage_type",['fixed_installment'=>'التقسيط الثابت'],Null,['class'=>'form-control','id'=>'damage_type','placeholder'=>'اختر طريقة الاهلاك '])!!}
     </div>
     <div class="form-group col-md-6 pull-left fixed_installment">
         <label> مبلغ الاهلاك </label>
@@ -72,7 +72,7 @@
         </div>
 
         <div class="form-group col-sm-3 pull-left">
-            {!! Form::select("damage_period_type",['hour'=>' ساعة','day'=>'يوم','week'=>'اسبوع','month'=>'شهر','year'=>'سنه'],Null,['class'=>'form-control','id'=>'type'])!!}
+            {!! Form::select("damage_period_type",['day'=>'يوم','week'=>'اسبوع','month'=>'شهر',],Null,['class'=>'form-control','id'=>'type'])!!}
         </div>
     </div>
 
@@ -89,10 +89,12 @@
     $('.fixed_installment').hide();
     });
 
-    $('#payment_id').change(function() {
-    var type = $('#payment_id').val();
+    $('#damage_type').change(function() {
+    var type = $('#damage_type').val();
     if (type=='fixed_installment'){
+
      $('.fixed_installment').show();
+    }
     });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
