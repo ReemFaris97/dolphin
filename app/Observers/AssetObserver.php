@@ -37,7 +37,7 @@ class AssetObserver
 
 
             $accountDamged=  AccountingAccount::create([
-                'ar_name'=>'مجمع اهلاك'. $asset->name,
+                'ar_name'=>'مجمع اهلاك'.' '. $asset->name,
                 'en_name'=>$asset->name,
                 'kind'=>'sub',
                 'status'=>'creditor',
@@ -49,7 +49,7 @@ class AssetObserver
             $accountDamged->update([
                 'code'=> '**'.$account->code
             ]);
-            
+
           AccountingAssetDamageLog::create([
             'asset_id'=>$asset->id,
             'code'=>rand(10000,4),
