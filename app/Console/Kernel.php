@@ -35,11 +35,11 @@ class Kernel extends ConsoleKernel
         ->everyMinute();
 
 
-        $schedule->command('assetWeek:cron')
-        ->weeklyOn(5, '8:00');
+        // $schedule->command('assetWeek:cron')
+        // ->weeklyOn(5, '8:00');
 
-        $schedule->command('assetMonthly:cron')
-        ->monthlyOn(1, '8:00');
+        // $schedule->command('assetMonthly:cron')
+        // ->monthlyOn(1, '8:00');
     }
 
     /**
