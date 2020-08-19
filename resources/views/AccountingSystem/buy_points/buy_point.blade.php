@@ -348,15 +348,16 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 					let unitPrice = productUnits.map(b => b.purchasing_price);
 					var singlePriceBefore, singlePriceAfter = 0;
 					if (Number(priceHasTax) === 0) {
-						var singlePriceBefore = Number(productPrice);
-						var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
-					} else if (Number(priceHasTax) ===1) {
-						var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
-						var singlePriceAfter = Number(productPrice);
-					} else {
-						var singlePriceBefore = Number(productPrice);
-						var singlePriceAfter = Number(productPrice);
-					}
+							var singlePriceBefore = Number(productPrice);
+							var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
+						} else if (Number(priceHasTax) === 1) {
+							var onllyDariba = Number(productPrice) - (Number(productPrice) * (100/(100 + Number(totalTaxes))));
+							var singlePriceBefore = Number(productPrice) - Number(onllyDariba);
+							var singlePriceAfter = Number(productPrice);
+						} else {
+							var singlePriceBefore = Number(productPrice);
+							var singlePriceAfter = Number(productPrice);
+						}
 					var discountNum = 1;
 					var netTax = (Number(singlePriceAfter) - Number(singlePriceBefore)).toFixed(2);
 					var optss = ``;
@@ -521,7 +522,8 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 							var singlePriceBefore = Number(productPrice);
 							var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
 						} else if (Number(priceHasTax) === 1) {
-							var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
+							var onllyDariba = Number(productPrice) - (Number(productPrice) * (100/(100 + Number(totalTaxes))));
+							var singlePriceBefore = Number(productPrice) - Number(onllyDariba);
 							var singlePriceAfter = Number(productPrice);
 						} else {
 							var singlePriceBefore = Number(productPrice);
@@ -566,7 +568,8 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 							var singlePriceBefore = Number(productPrice);
 							var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
 						} else if (Number(priceHasTax) === 1) {
-							var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
+							var onllyDariba = Number(productPrice) - (Number(productPrice) * (100/(100 + Number(totalTaxes))));
+							var singlePriceBefore = Number(productPrice) - Number(onllyDariba);
 							var singlePriceAfter = Number(productPrice);
 						} else {
 							var singlePriceBefore = Number(productPrice);
@@ -816,7 +819,8 @@ $("#barcode_search").scannerDetection({
 			var singlePriceBefore = Number(productPrice);
 			var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
 		} else if (Number(priceHasTax) === 1) {
-			var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
+			var onllyDariba = Number(productPrice) - (Number(productPrice) * (100/(100 + Number(totalTaxes))));
+			var singlePriceBefore = Number(productPrice) - Number(onllyDariba);
 			var singlePriceAfter = Number(productPrice);
 		} else {
 			var singlePriceBefore = Number(productPrice);
@@ -980,7 +984,8 @@ $("#barcode_search").scannerDetection({
 				var singlePriceBefore = Number(productPrice);
 				var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
 			} else if (Number(priceHasTax) === 1) {
-				var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
+				var onllyDariba = Number(productPrice) - (Number(productPrice) * (100/(100 + Number(totalTaxes))));
+				var singlePriceBefore = Number(productPrice) - Number(onllyDariba);
 				var singlePriceAfter = Number(productPrice);
 			} else {
 				var singlePriceBefore = Number(productPrice);
@@ -1025,7 +1030,8 @@ $("#barcode_search").scannerDetection({
 				var singlePriceBefore = Number(productPrice);
 				var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
 			} else if (Number(priceHasTax) === 1) {
-				var singlePriceBefore = Number(productPrice) - (Number(productPrice) * (Number(totalTaxes) / 100));
+				var onllyDariba = Number(productPrice) - (Number(productPrice) * (100/(100 + Number(totalTaxes))));
+				var singlePriceBefore = Number(productPrice) - Number(onllyDariba);
 				var singlePriceAfter = Number(productPrice);
 			} else {
 				var singlePriceBefore = Number(productPrice);
