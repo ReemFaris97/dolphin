@@ -815,12 +815,8 @@ function chooseNationality($nationality){
 }
 
 function currency(){
-
-    return [
-        "rial"=> "ريال",
-        "pound"=> "جنيه",
-
-];
+$currencies=\App\Models\AccountingSystem\AccountingCurrency::pluck('ar_name','id')->toArray();
+    return $currencies;
 }
 
 
