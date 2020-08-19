@@ -369,7 +369,15 @@
                                     <li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.payments.create')}}"><i class="icon-add-to-list"></i> اضافة خيار جديد</a> </li>
                                 </ul>
                             </li>
-					</ul>
+                    </ul>
+
+
+                    <li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-cabinet position-left"></i> إدارة العملات </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="{{route('accounting.currencies.index')}}"><i class="icon-eye"></i> عرض  العملات</a></li>
+                            <li><a href="{{route('accounting.currencies.create')}}"><i class="icon-add-to-list"></i> اضافة عملة جديدة</a></li>
+                        </ul>
+                    </li>
 				</li>
 
 			</ul>
@@ -421,7 +429,9 @@
 					<li><a href="{{route('accounting.entries.index')}}"><i class="icon-eye"></i> عرض  القيود</a></li>
 
 				</ul>
-			</li>
+            </li>
+
+
 
             @can('إدارة التقارير')
             <!-- ================== Reports ============================= -->

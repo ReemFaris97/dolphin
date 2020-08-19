@@ -12,11 +12,17 @@ use App\Models\AccountingSystem\AccountingMoneyClause;
 use App\Models\AccountingSystem\AccountingProductCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingAccount;
 use App\Models\AccountingSystem\AccountingBenod;
 use App\Models\AccountingSystem\AccountingClient;
+use App\Models\AccountingSystem\AccountingCostCenter;
+use App\Models\AccountingSystem\AccountingEntry;
+use App\Models\AccountingSystem\AccountingEntryAccount;
+use App\Models\AccountingSystem\AccountingPayment;
 use App\Models\AccountingSystem\AccountingSafe;
 use App\Models\AccountingSystem\AccountingSupplier;
 use App\Traits\Viewable;
+use DB;
 
 class ClauseController extends Controller
 {
@@ -40,12 +46,13 @@ class ClauseController extends Controller
      */
     public function create()
     {
-        $banks =AccountingBank::pluck('name','id')->toArray();
-        $safes =AccountingSafe::pluck('name','id')->toArray();
-        $clients =AccountingClient::pluck('name','id')->toArray();
-        $suppliers =AccountingSupplier::pluck('name','id')->toArray();
+
         $benods=AccountingBenod::pluck('ar_name','id')->toArray();
-        return $this->toCreate(compact('safes','clients','suppliers','benods','banks'));
+        $payments=AccountingPayment::where('active',1)->pluck('name','id')->toArray();
+        $centers=AccountingCostCenter::pluck('name','id')->toArray();
+        $accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->where('kind','sub')->pluck('code_name','id')->toArray();
+
+        return $this->toCreate(compact('payments','benods','centers','accounts'));
     }
 
     /**
@@ -58,13 +65,13 @@ class ClauseController extends Controller
     {
 //   dd($request->all());
          $rules = [
-          'concerned'=>'required',
+
              'type'=>'required',
              'amount'=>'required',
 
          ];
         $message=[
-            'concerned.required'=>'جهة السند  مطلوب ',
+
             'type.required'=>'نوع السند  مطلوب ',
             'amount.required'=>' المبلغ  مطلوب ',
 
@@ -74,94 +81,40 @@ class ClauseController extends Controller
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'photos');
         }
-        $safe = AccountingSafe::find($requests['safe_id']);
 
         $clause = AccountingMoneyClause::create($requests);
 
-        //--------------------------client----------------------------------------
-        if ($clause->concerned == 'client') {
-            $client = AccountingClient::find($requests['client_id']);
-            if ($clause->type == 'revenue') {
-                //من  العميل  للخزينه رصيد الخزينة  بيزيدالايراااد
-                //المبيعات
-                $safe->update([
+        if($clause->type=='revenue'){
 
-                    'amount' => $safe->amount + $requests['amount']
-
-                ]);
-
-                $client->update([
-
-                    'balance' => $client->balance -$requests['amount']
-
-                ]);
-
-            } elseif ($clause->type == 'expenses') {
-                //من االخزنه للعمييل  بيقلل مد
-                //فى حاله المرتجاع   للمبيعات
-                if ($requests['amount'] <= $safe->amount) {
-                    $safe->update([
-
-                        'amount' => $safe->amount - $requests['amount']
-
-                    ]);
-                }
-                $client->update([
-                    'balance' => $client->balance + $requests['amount']
-                ]);
-            }
-            //--------------------------supplier------------------------------------
-        } elseif ($clause->concerned == 'supplier') {
-
-            $supplier = AccountingSupplier::find($requests['supplier_id']);
-            if ($clause->type == 'revenue') {
-                //من  المورد  للخزينه رصيد الخزينة  بيزيدالايراااد
-                // فى  حاله  المرتجعات
-                $safe->update([
-                    'amount' => $safe->amount + $requests['amount']
-                ]);
-                $supplier->update([
-                    'balance' => $supplier->balance + $requests['amount']
-                ]);
-            } elseif ($clause->type == 'expenses') {
-                // من المورد للخزنه  بيقلل رصيد الخزنه والرصيد للمورد كمان هيقل
-                //فى حاله  انشاء  مشترى
-                if ($requests['amount'] <= $safe->amount) {
-                    $safe->update([
-                        'amount' => $safe->amount - $requests['amount']
-                    ]);
-                }else{
-                    alert()->error('المبلغ  غير  متوفر  بالخزنه   !')->autoclose(5000);
-                    return back();
-                }
-                if ($requests['amount'] <= $supplier->balance) {
-
-                    $supplier->update([
-                        'balance' => $supplier->balance - $requests['amount']
-                    ]);
-                }
-            }
-//            ------------------------general---------------------------
-        }elseif($clause->concerned == 'general'){
-
-
-            if ($clause->type == 'revenue') {
-
-            $safe->update([
-                'amount' => $safe->amount + $requests['amount']
+            $entry=AccountingEntry::create([
+                'date'=>$clause->date,
+                'source'=>'السندات',
+                'type'=>'automatic',
+                'details'=>' اضافه سند قبض',
+                'status'=>'new'
             ]);
 
-        } elseif ($clause->type == 'expenses') {
-                // من  بيقلل رصيد الخزنه والرصيد  كمان هيقل
-                //فى حاله  انشاء  مشترى
-                if ($requests['amount'] <= $safe->amount) {
-                    $safe->update([
-                        'amount' => $safe->amount - $requests['amount']
-                    ]);
-                }
+            AccountingEntryAccount::create([
+                'entry_id'=>$entry->id,
+                'from_account_id'=>$clause->account_id,
+                'to_account_id'=>$clause->payment->bank->account->id?? $clause->payment->safe->account->id,
+                'amount'=>$clause->amount,
+            ]);
+        }elseif($clause->type=='expenses'){
+            $entry=AccountingEntry::create([
+                'date'=>$clause->date,
+                'source'=>'السندات',
+                'type'=>'automatic',
+                'details'=>' اضافه سند صرف',
+                'status'=>'new'
+            ]);
 
-            }
-
+            AccountingEntryAccount::create([
+                'entry_id'=>$entry->id,
+                'from_account_id'=>$clause->payment->bank->account->id ?? $clause->payment->safe->account->id,
+                'to_account_id'=>$clause->account_id,
+                  'amount'=>$clause->amount,
+            ]);
         }
 
         alert()->success('تم اضافة السند بنجاح !')->autoclose(5000);
