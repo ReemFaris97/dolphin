@@ -34,7 +34,7 @@ class EntryController extends Controller
      */
     public function create()
     {
-        $accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->where('kind','sub')->pluck('code_name','id')->toArray();
+        $accounts=AccountingAccount::where('kind','sub')->get();
         return $this->toCreate(compact('accounts'));
     }
 
@@ -219,13 +219,16 @@ class EntryController extends Controller
     }
 
     public function  toaccounts($id){
-
+        $acount=AccountingAccount::find($id);
         $accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->where('kind','sub')->where('id','!=',$id)->pluck('code_name','id')->toArray();
-
+        $perent=AccountingAccount::where('id', $acount->account_id)->first();
+  
         return response()->json([
             'status'=>true,
+            'perent'=>$perent->ar_name,
             'data'=>view('AccountingSystem.entries.account')->with('accounts',$accounts)->render()
-        ]);
+
+            ]);
 
     }
 }
