@@ -56,6 +56,38 @@ class MyHelper{
 }
 
 
+
+class MyHelperCostCenter_view{
+
+    public static function center($centers, $step = 0)
+   {
+       $output = '';
+       $base_url = url('/ChartsAccounts/ChartsAccounts/');
+           foreach($centers as $center)
+           {
+               $output .=
+
+               '<li name="'.$center->id.'"> '. $center->code . " -".$center->name;
+
+               // '<option  value="'.$account->id.'">'.str_repeat('&nbsp;&nbsp;&nbsp;',$step). $account->ar_name.'</option>';
+               if($center->kind!='sub'){
+               if($center->children)
+               {
+                   $output .= '<ul>'. self::center($center->children, $step+1).'</ul>'.'</li>';
+               }
+           }else{
+
+                   $output .= '</li>';
+
+               }
+           }
+       return $output;
+   }
+
+   }
+
+
+
 class MyHelperCostCenter{
 
     public static function treecost($accounts, $step = 0)

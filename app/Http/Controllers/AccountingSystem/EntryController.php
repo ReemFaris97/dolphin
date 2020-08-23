@@ -46,6 +46,7 @@ class EntryController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
        $rules = [
             'source'=>'required|string|max:191',
             'date'=>'required',
@@ -222,7 +223,7 @@ class EntryController extends Controller
         $acount=AccountingAccount::find($id);
         $accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->where('kind','sub')->where('id','!=',$id)->pluck('code_name','id')->toArray();
         $perent=AccountingAccount::where('id', $acount->account_id)->first();
-  
+
         return response()->json([
             'status'=>true,
             'perent'=>$perent->ar_name,

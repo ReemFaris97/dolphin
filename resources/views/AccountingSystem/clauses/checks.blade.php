@@ -8,12 +8,12 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">عرض كل السندات </h5>
+            <h5 class="panel-title">عرض كل الشيكات </h5>
             <div class="btn-group beside-btn-title">
-                <a href="{{route('accounting.clauses.create')}}" class="btn btn-success">
+                {{-- <a href="{{route('accounting.clauses.create')}}" class="btn btn-success">
                     إضافه  سند  جديد
                     <span class="m-l-5"><i class="fa fa-plus"></i></span>
-                </a>
+                </a> --}}
             </div>
 
             <div class="heading-elements">
@@ -31,7 +31,7 @@
                 <tr>
                     <th>#</th>
                     {{--<th>  البند </th>--}}
-
+                    <th>  رقم الشيك  </th>
                     <th> المبلغ  </th>
                     {{-- <th>  اسم  الخزنيه  </th> --}}
                     <th> نوع السند  </th>
@@ -45,7 +45,7 @@
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         {{--<td>{!!optional($row->benod)->ar_name!!}</td>--}}
-
+                        <td>{!! $row->num!!}</td>
                         <td>{!! $row->amount!!}</td>
                         {{-- <td>{!!optional($row->safe)->name!!}</td> --}}
                         <td>

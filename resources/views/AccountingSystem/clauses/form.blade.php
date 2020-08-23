@@ -15,15 +15,13 @@
 
 <div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left">
     <label>نوع السند [قبض-صرف]</label>
-    {!! Form::select("type",['revenue'=>'قبض','expenses'=>'صرف'],null,['class'=>'form-control','placeholder'=>' نوع السند  ','id'=>'type'])!!}
+    {!! Form::select("type",['revenue'=>'قبض','expenses'=>'صرف','check_revenue'=>'شيك قبض ','check_expenses'=>' شيك صرف '],null,['class'=>'form-control','placeholder'=>' نوع السند  ','id'=>'type'])!!}
 </div>
-
 
 <div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left">
     <label> التاريخ</label>
     {!! Form::date("date",null,['class'=>'form-control'])!!}
 </div>
-
 
 <div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left">
     <label>المبلغ </label>
@@ -39,11 +37,20 @@
     {!! Form::text("description",null,['class'=>'form-control','placeholder'=>' البيان  '])!!}
 </div> --}}
 
-
-
-<div class="form-group col-xs-6 pull-left">
+<div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left check">
+    <label> رقم الشيك</label>
+    {!! Form::text("num",null,['class'=>'form-control'])!!}
+</div>
+<div class="form-group col-xs-6 pull-left payments ">
     <label>  اختر طريقةالدفع</label>
     {!! Form::select("payment_id",$payments,null,['class'=>'form-control js-example-basic-single','id'=>'payment_id','placeholder'=>' اختر طريقةالدفع   '])!!}
+</div>
+
+
+
+<div class="form-group col-xs-6 pull-left revenue_accounts">
+    <label>  اختر طريقة القبض</label>
+    {!! Form::select("revenue_account_id",$accounts,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر طريقة القبض   '])!!}
 </div>
 
 <div class="form-group col-xs-6 pull-left">
@@ -91,14 +98,53 @@
 
 <script>
     $(document).ready(function() {
-        $('.js-example-basic-single').select2();
+          $('.js-example-basic-single').select2();
           $('.centers').hide();
+          $('.revenue_accounts').hide();
+          $('.payments').hide();
+          $('.check').hide();
     });
 </script>
 
 <script>
   function myFunction(){
     $('.centers').show();
+
   }
+
+  $("#type").on('change', function() {
+
+            var type=$('#type').val();
+
+            if (type=='revenue'||type=='check_revenue') {
+
+                $('.revenue_accounts').show();
+                $('.payments').hide();
+
+
+              }else{
+               $('.revenue_accounts').hide();
+               $('.payments').show();
+            }
+
+
+            if (type=='check_revenue'||type=='check_expenses') {
+                $('.check').show();
+
+            }else{
+                $('.check').hide();
+
+            }
+
+  });
+
+  $('input[type=checkbox][name=cost_center]').change(function() {
+    if (this.checked ==true) {
+        $('.centers').show();
+    }
+    else if (this.checked == false) {
+        $('.centers').hide();
+    }
+});
 </script>
 @endsection

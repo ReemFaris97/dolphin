@@ -28,11 +28,22 @@
         </div>
 
         <div class="panel-body">
-            <table class="table datatable-button-init-basic">
+
+            <div class="easy-tree">
+                <ul>
+
+                    {!! MyHelperCostCenter_view::center($centers) !!}
+                </ul>
+
+            </div>
+        </div>
+
+            {{-- <table class="table datatable-button-init-basic">
                 <thead>
                 <tr>
                     <th>#</th>
                     <th> اسم المركز </th>
+                    <th> الكود </th>
 
                     <th> الحالة </th>
                     <th class="text-center">العمليات</th>
@@ -44,6 +55,7 @@
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->name!!}</td>
+                        <td>{!! $row->code!!}</td>
 
                         <td>
                             @if($row->active==1)
@@ -75,7 +87,7 @@
 
 
                 </tbody>
-            </table>
+            </table> --}}
         </div>
 
     </div>
@@ -85,25 +97,14 @@
 
 @section('scripts')
 
-    <script>
-        function Delete(id) {
-            var item_id=id;
-            console.log(item_id);
-            swal({
-                title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذة  الضريبة ؟",
-                icon: "warning",
-                buttons: ["الغاء", "موافق"],
-                dangerMode: true,
-
-            }).then(function(isConfirm){
-                if(isConfirm){
-                    document.getElementById('delete-form'+item_id).submit();
-                }
-                else{
-                    swal("تم االإلفاء", "حذف  الضريبة  تم الغاؤه",'info',{buttons:'موافق'});
-                }
-            });
+<script type="text/javascript" src="{{asset('admin/assets/js/easyTree.js')}}"></script>
+<script>
+    (function ($) {
+        function init() {
+            $('.easy-tree').EasyTree();
         }
-    </script>
+        window.onload = init();
+    })(jQuery)
+</script>
+
 @stop
