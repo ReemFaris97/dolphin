@@ -15,12 +15,11 @@
     <label>اسم  مركز التكلفة   </label>
     {!! Form::text("name",null,['class'=>'form-control','placeholder'=>'  اسم  مركز التكلفة  '])!!}
 </div>
-@if(isset($center))
+
  <div class="form-group col-sm-6 col-xs-12 pull-left">
  <label>الكود  </label>
    {!! Form::text("code",null,['class'=>'form-control','placeholder'=>'  الكود   '])!!}
 </div>
-@endif
 <div class="form-group col-sm-6 col-xs-12 pull-left">
     <label> نوع  المركز  </label>
     {!! Form::select("kind",['main'=>'مركز رئيسى','sub'=>'مركز فرعى','following_main'=>' مركز رئيسى تابع'],Null,['class'=>'form-control','id'=>'kind'])!!}
