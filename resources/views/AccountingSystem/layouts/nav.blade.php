@@ -345,7 +345,9 @@
 							<ul class="dropdown-menu">
 								<li><a href="{{route('accounting.clauses.index')}}"><i class="icon-eye"></i> عرض السندات</a></li>
 								<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.clauses.create')}}"><i class="icon-add-to-list"></i> اضافة سند جديد</a> </li>
-							</ul>
+                                <li><a href="{{route('accounting.clauses.checks')}}"><i class="icon-eye"></i> عرض الشيكات</a></li>
+
+                            </ul>
 						</li>
 						@endcan
 						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-justify"></i> بنود القبض والصرف </a>

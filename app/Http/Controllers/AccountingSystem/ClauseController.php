@@ -81,7 +81,7 @@ class ClauseController extends Controller
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'photos');
         }
-
+// dd($requests);
         $clause = AccountingMoneyClause::create($requests);
 
         if($clause->type=='revenue'){
@@ -97,15 +97,50 @@ class ClauseController extends Controller
             AccountingEntryAccount::create([
                 'entry_id'=>$entry->id,
                 'from_account_id'=>$clause->account_id,
-                'to_account_id'=>$clause->payment->bank->account->id?? $clause->payment->safe->account->id,
+                'to_account_id'=>$clause->revenue_account_id,
                 'amount'=>$clause->amount,
             ]);
-        }elseif($clause->type=='expenses'){
+        }
+
+       else if($clause->type=='check_revenue'){
+
+            $entry=AccountingEntry::create([
+                'date'=>$clause->date,
+                'source'=>'السندات',
+                'type'=>'automatic',
+                'details'=>'  اضافه سند قبض شيك',
+                'status'=>'new'
+            ]);
+
+            AccountingEntryAccount::create([
+                'entry_id'=>$entry->id,
+                'from_account_id'=>$clause->account_id,
+                'to_account_id'=>$clause->revenue_account_id,
+                'amount'=>$clause->amount,
+            ]);
+        }
+        elseif($clause->type=='expenses'){
             $entry=AccountingEntry::create([
                 'date'=>$clause->date,
                 'source'=>'السندات',
                 'type'=>'automatic',
                 'details'=>' اضافه سند صرف',
+                'status'=>'new'
+            ]);
+
+            AccountingEntryAccount::create([
+                'entry_id'=>$entry->id,
+                'from_account_id'=>$clause->payment->bank->account->id ?? $clause->payment->safe->account->id,
+                'to_account_id'=>$clause->account_id,
+                  'amount'=>$clause->amount,
+            ]);
+        }
+        elseif($clause->type=='check_expenses'){
+            $entry=AccountingEntry::create([
+                'date'=>$clause->date,
+                'source'=>'السندات',
+                'type'=>'automatic',
+                'details'=>'  اضافه سند صرف شيك',
                 'status'=>'new'
             ]);
 
@@ -190,5 +225,13 @@ class ClauseController extends Controller
 
         $clause =AccountingMoneyClause::findOrFail($id);
         return view('AccountingSystem.clauses.show',compact('clause'));
+    }
+
+
+    public function checks(){
+
+        $clauses=AccountingMoneyClause::whereIn('type',['check_revenue','check_expenses'])->get();
+        return view('AccountingSystem.clauses.checks',compact('clauses'));
+
     }
 }

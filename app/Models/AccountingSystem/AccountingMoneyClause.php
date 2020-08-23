@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class AccountingMoneyClause extends Model
 {
     protected $fillable = ['benod_id','type','default','sanad_num','user_id','num','description','date',
-    'safe_id','amount','notes',
+    'safe_id','amount','notes','revenue_account_id',
         'bank_id','num_transaction','image','name','center_id','account_id','payment_id'];
 
     public function  safe(){

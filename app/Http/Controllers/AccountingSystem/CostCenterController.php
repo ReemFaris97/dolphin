@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingCostCenter;
 use App\Traits\Viewable;
+use DB;
 
 class CostCenterController extends Controller
 {
@@ -32,7 +33,10 @@ class CostCenterController extends Controller
      */
     public function create()
     {
-        return $this->toCreate();
+
+        $centers=AccountingCostCenter::whereIn('kind',['main','following_main'])->select('id', DB::raw("concat(name, ' - ',code) as code_name"))->pluck('code_name','id')->toArray();
+
+        return $this->toCreate(compact('centers'));
     }
 
     /**
@@ -75,8 +79,9 @@ class CostCenterController extends Controller
     public function edit($id)
     {
         $center =AccountingCostCenter::findOrFail($id);
+        $centers=AccountingCostCenter::whereIn('kind',['sub','following_main'])->select('id', DB::raw("concat(name, ' - ',code) as code_name"))->pluck('code_name','id')->toArray();
 
-        return $this->toEdit(compact('center'));
+        return $this->toEdit(compact('center','centers'));
 
 
     }

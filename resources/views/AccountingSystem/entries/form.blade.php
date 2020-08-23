@@ -28,7 +28,8 @@
     <label>   المبلغ  </label>
     {!! Form::text("amount",null,['class'=>'form-control','placeholder'=>' المبلغ  ',])!!}
 </div> --}}
-
+<input type="hidden" name="type" value="يدوى">
+<input type="hidden" name="source" value=" قيديدوى">
 <div class="form-group col-sm-6 col-xs-12 pull-left">
 	<label> نوع العملة </label>
 	{!! Form::select("currency",currency(),null,['class'=>'form-control','placeholder'=>'اختر العملة',])!!}
@@ -38,32 +39,6 @@
 	<label> البيان العام </label>
 	{!! Form::text("details",null,['class'=>'form-control','placeholder'=>' التفاصيل '])!!}
 </div>
-{{-- @if(!isset($entry))
-<div class="form-group col-sm-6 col-xs-12 pull-left accounts">
-    <label>  من حساب </label>
-    {!! Form::select("from_account_id",$accounts,null,['class'=>'form-control selectpicker ','id'=>'from_account_id'])!!}
-</div>
-@else
-    <div class="form-group col-sm-6 col-xs-12 pull-left accounts">
-        <label>  من حساب </label>
-        {!! Form::select("from_account_id",$accounts,$entryAccount->from_account_id,['class'=>'form-control selectpicker ','id'=>'from_account_id'])!!}
-    </div>
-    @endif
-
-
-@if(!isset($entry))
-<div class="toAccounts">
-    <div class="form-group col-sm-6 col-xs-12 pull-left accounts">
-        <label>  الى حساب </label>
-        {!! Form::select("to_account_id",$accounts,null,['class'=>'form-control  ',])!!}
-    </div>
-</div>
-@else
-    <div class="form-group col-sm-6 col-xs-12 pull-left accounts">
-        <label>  الى حساب </label>
-        {!! Form::select("to_account_id",$accounts,$entryAccount->to_account_id,['class'=>'form-control selectpicker ','id'=>'to_account_id'])!!}
-    </div>
-@endif --}}
 
 <table id="qyoud-table">
 	<thead>
@@ -71,8 +46,8 @@
 			<th> رقم الحركة</th>
 			<th>الحساب </th>
 			<th> الوصف</th>
-			<th> دائن </th>
 			<th> مدين </th>
+			<th> دائن </th>
 			<th> حذف </th>
 		</tr>
 	</thead>
@@ -82,46 +57,48 @@
 			<td>
 				<select name="account_id[]" class="form-control">
 					@foreach ($accounts as $account)
-					<option value={{$account->id}}>{{$account->ar_name}}</option>
+					<option value={{$account->id}}>{{$account->ar_name}} -{{$account->code}}</option>
 					@endforeach
 				</select>
 			</td>
 			<td>
-				<input type="text" name="details" class="form-control">
+				<input type="text" name="details[{{$account->id}}]" class="form-control">
 			</td>
 			<td>
-				<input type="number" min="0" name="debtor[]" class="form-control debtor" value="0">
+				<input type="number" min="0" name="debtor[{{$account->id}}]" class="form-control debtor" value="0">
 			</td>
 			<td>
-				<input type="number" min="0" name="creditor[]" class="form-control creditor" value="0">
+				<input type="number" min="0" name="creditor[{{$account->id}}]" class="form-control creditor" value="0">
 			</td>
 			<td></td>
 		</tr>
 	</tbody>
 	<tfoot>
+		<td>
+			<button type="button" class="btn btn-success" id="add-new">إضافة حساب اخر <i class="icon-arrow-left13 position-right"></i></button>
+		</td>
 		<td>1</td>
 			<td>
-				
+
+			</td>
+
+			<td>
+				<input type="number" min="0" name="debtor_total" class="form-control" id="debtor" readonly>
 			</td>
 			<td>
-				
+				<input type="number" min="0" name="creditor_total"  class="form-control" id="creditor" readonly>
 			</td>
 			<td>
-				<input type="number" min="0" name="" class="form-control" id="debtor" readonly>
+
 			</td>
-			<td>
-				<input type="number" min="0" name="" class="form-control" id="creditor" readonly>
-			</td>
-			<td>
-				<button type="button" class="btn btn-success" id="add-new">إضافة قيد اخر <i class="icon-arrow-left13 position-right"></i></button>
-			</td>
+
 	</tfoot>
 </table>
 
 <div class="text-center col-md-12">
 	<div class="text-right">
 		<button type="submit" id="register" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i></button>
-		
+
 	</div>
 </div>
 @section('scripts')
@@ -160,7 +137,7 @@
 			<td>
 				<select name="account_id[]" class="form-control">
 					@foreach ($accounts as $account)
-					<option value={{$account->id}}>{{$account->ar_name}}</option>
+					<option value={{$account->id}}>{{$account->ar_name}} -{{$account->code}}</option>
 					@endforeach
 				</select>
 			</td>

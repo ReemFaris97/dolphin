@@ -155,6 +155,7 @@ Route::middleware('admin')->group(function () {
     Route::get('salaries', 'SalaryController@salaries')->name('users.salaries_paid');
     Route::get('/userSalary', 'SalaryController@userSalary');
     Route::get('/titleSalary', 'SalaryController@titleSalary');
+    Route::get('/checks', 'ClauseController@checks')->name('clauses.checks');
 
     Route::post('pay', 'SalaryController@pay')->name('users.pay');
 
