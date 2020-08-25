@@ -239,7 +239,9 @@
 					<ul class="dropdown-menu">
 
 						<li><a href="{{route('accounting.sales.index')}}"><i class="icon-eye"></i> عرض الفواتير </a></li>
-					</ul>
+                        <li><a href="{{route('accounting.sales.create')}}"><i class="icon-eye"></i>  فاتوره بيع </a></li>
+
+                    </ul>
 				</li>
 				@endcan
 

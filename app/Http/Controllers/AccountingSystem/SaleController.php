@@ -60,7 +60,12 @@ class SaleController extends Controller
     public function create()
     {
 
-        return $this->toCreate(compact('branches'));
+        $clients=AccountingClient::pluck('name','id')->toArray();
+        $store_product=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->pluck('product_id','id')->toArray();
+        $products=AccountingProduct::whereIn('id',$store_product)->get();
+
+
+        return $this->toCreate(compact('clients','products'));
     }
 
     /**
@@ -193,12 +198,12 @@ class SaleController extends Controller
 
             $store_id=auth()->user()->accounting_store_id;
             $store=AccountingStore::find($store_id);
-            $safe=AccountingSafe::where('device_id', $sale->session->device_id)->first();
-           if ($safe) {
-               $safe->update([
-                   'amount' => $safe->amount - $sale->total
-               ]);
-           }
+        //     $safe=AccountingSafe::where('device_id', $sale->session->device_id)->first();
+        //    if ($safe) {
+        //        $safe->update([
+        //            'amount' => $safe->amount - $sale->total
+        //        ]);
+        //    }
         }elseif ($sale->payment=='agel'){
 
             $client=AccountingClient::find( $sale-> client_id);
@@ -359,12 +364,12 @@ class SaleController extends Controller
 
             $store_id=auth()->user()->accounting_store_id;
             $store=AccountingStore::find($store_id);
-//            $safe=AccountingSafe::where('model_type', $store->model_type)->where('model_id', $store->model_id)->first();
-            $safe=AccountingSafe::where('device_id', $returnSale->session->device_id)->first();
+// //            $safe=AccountingSafe::where('model_type', $store->model_type)->where('model_id', $store->model_id)->first();
+//             $safe=AccountingSafe::where('device_id', $returnSale->session->device_id)->first();
 
-            $safe->update([
-                'amount'=>$safe->amount-$returnSale->total
-            ]);
+//             $safe->update([
+//                 'amount'=>$safe->amount-$returnSale->total
+//             ]);
         }elseif ($returnSale->payment=='agel'){
 
             $client=AccountingClient::find( $returnSale-> client_id);

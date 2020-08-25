@@ -13,6 +13,7 @@ class CreateAccountingEntriesLogTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('accounting_entries_log');
         Schema::create('accounting_entries_log', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('entry_id')->nullable();

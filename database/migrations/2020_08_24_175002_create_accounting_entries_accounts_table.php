@@ -13,6 +13,7 @@ class CreateAccountingEntriesAccountsTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('accounting_entries_accounts');
         Schema::create('accounting_entries_accounts', function (Blueprint $table) {
             $table->bigIncrements('id');
 
@@ -20,17 +21,12 @@ class CreateAccountingEntriesAccountsTable extends Migration
             $table->foreign('entry_id')->references('id')
                 ->on('accounting_entries')->onDelete('cascade')
                 ->onUpdate('cascade');
-            $table->unsignedBigInteger('from_account_id')->nullable();
-            $table->foreign('from_account_id')->references('id')
+            $table->unsignedBigInteger('account_id')->nullable();
+            $table->foreign('account_id')->references('id')
                 ->on('accounting_accounts')->onDelete('cascade')
                 ->onUpdate('cascade');
-            $table->unsignedBigInteger('to_account_id')->nullable();
-            $table->foreign('to_account_id')->references('id')
-                ->on('accounting_accounts')->onDelete('cascade')
-                ->onUpdate('cascade');
+            $table->enum('affect',['debtor','creditor'])->nullable();
             $table->string('amount')->nullable();
-//            $table->string('creditor')->nullable();
-
 
 
             $table->timestamps();

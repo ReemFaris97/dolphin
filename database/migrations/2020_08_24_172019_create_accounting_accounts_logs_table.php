@@ -13,6 +13,7 @@ class CreateAccountingAccountsLogsTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('accounting_accounts_logs');
         Schema::create('accounting_accounts_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
 

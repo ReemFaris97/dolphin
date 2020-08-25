@@ -25,7 +25,8 @@
 
 <div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left">
     <label>المبلغ </label>
-    {!! Form::text("amount",null,['class'=>'form-control','placeholder'=>' المبلغ    ','id'=>'amount'])!!}
+    {{-- {!! Form::number("amount",null,['class'=>'form-control','placeholder'=>' المبلغ','id'=>'amount','pattern'=>'^\d+(\.|\,)\d{2}$'])!!} --}}
+    <input type="number" value="1000" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="currency" id="c1" />
 </div>
 <div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left">
     <label> العمله   </label>

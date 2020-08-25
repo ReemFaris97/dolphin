@@ -19,10 +19,11 @@ class EntryObserver
                 }
     }
 
-//    public  function  created(AccountingEntry $entry){
-//
-//
-//    }
+   public  function  created(AccountingEntry $entry){
+
+    // dd( $entry->accounts_debtor());
+
+   }
 //
 //    public  function  updated(AccountingEntry $entry){
 //

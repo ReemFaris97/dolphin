@@ -103,6 +103,7 @@
                                         <th style="color:#333">  دائن </th>
                                         </thead>
                                            <tbody>
+                                            
                                                         @foreach($logs as $row)
                                                             <tr>
                                                                 @if(isset($row->debtor))
@@ -112,7 +113,7 @@
                                                                     <td>{!! $row->creditor??'---'!!}</td>
                                                                 @else
                                                                     <td></td>
-                                                                    <td>{!! $row->account->ar_name!!}</td>
+                                                                    <td>{!! $row->account->ar_name !!}</td>
                                                                     <td>{!! $row->debtor??'---'!!}</td>
                                                                     <td>{!! $row->creditor??'---'!!}</td>
                                                                 @endif
