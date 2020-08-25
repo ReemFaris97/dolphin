@@ -12,6 +12,10 @@
         <div class="panel-heading">
             <h5 class="panel-title">عرض {{$account->ar_name}}
 
+                <a href="#" onclick="Delete({{$account->id}})" data-toggle="tooltip" data-original-title="حذف" class="btn btn-danger"> حذف الحساب <i class="icon-trash text-inverse "></i></a>
+
+                {!!Form::open( ['route' => ['accounting.ChartsAccounts.destroy',$account->id] ,'id'=>'delete-form'.$account->id, 'method' => 'Delete']) !!}
+                {!!Form::close() !!}
                 {{-- {!! MyHelperAccountingAmount::amount($account) !!} --}}
 
             </h5>
@@ -238,7 +242,7 @@
                     @else
                     <div class="form-group col-sm-6 col-xs-12 pull-left">
                         <label>الرصيد الحالى بالحساب </label>
-                        <input type="text" name="amount" class="form-control" value="{{$account->descendants->sum('amount')}}"    disabled>
+                        {{-- <input type="text" name="amount" class="form-control" value="{{$account->descendants->sum('amount')}}"    disabled> --}}
                     </div>
 
                     @endif
@@ -347,7 +351,7 @@
 
                                                     <label>  اختر طريقةالدفع</label>
                                                     {!! Form::select("payment_id",$payments,null,['class'=>'form-control js-example-basic-single','id'=>'payment_id','placeholder'=>' اختر طريقةالدفع   '])!!}
-                                             
+
                                                 </form>
                                          </div>
                                          <div class="modal-footer">
@@ -424,5 +428,25 @@
 
 @section('scripts')
 
+<script>
+    function Delete(id) {
+        var item_id=id;
+        console.log(item_id);
+        swal({
+            title: "هل أنت متأكد ",
+            text: "هل تريد حذف هذا الحساب ؟",
+            icon: "warning",
+            buttons: ["الغاء", "موافق"],
+            dangerMode: true,
 
+        }).then(function(isConfirm){
+            if(isConfirm){
+                document.getElementById('delete-form'+item_id).submit();
+            }
+            else{
+                swal("تم االإلفاء", "حذف  الحساب  تم الغاؤه",'info',{buttons:'موافق'});
+            }
+        });
+    }
+</script>
 @stop
