@@ -242,7 +242,7 @@
                     @else
                     <div class="form-group col-sm-6 col-xs-12 pull-left">
                         <label>الرصيد الحالى بالحساب </label>
-                        {{-- <input type="text" name="amount" class="form-control" value="{{$account->descendants->sum('amount')}}"    disabled> --}}
+                        <input type="text" name="amount" class="form-control" value="{{$account->descendants->sum('amount')}}"    disabled>
                     </div>
 
                     @endif
