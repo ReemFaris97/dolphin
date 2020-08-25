@@ -13,6 +13,8 @@ class CreateAccountingEntriesTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('accounting_entries');
+
         Schema::create('accounting_entries', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->date('date')->nullable();
