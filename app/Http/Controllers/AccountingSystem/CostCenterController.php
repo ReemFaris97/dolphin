@@ -21,8 +21,7 @@ class CostCenterController extends Controller
     public function index()
     {
 
-        $centers =AccountingCostCenter::all()->reverse();
-
+        $centers=AccountingCostCenter::where('kind','main')->get();
         return $this->toIndex(compact('centers'));
     }
 

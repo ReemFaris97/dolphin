@@ -31,10 +31,8 @@
 
             <div class="easy-tree">
                 <ul>
-
                     {!! MyHelperCostCenter_view::center($centers) !!}
                 </ul>
-
             </div>
         </div>
 

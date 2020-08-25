@@ -62,13 +62,13 @@
 				</select>
 			</td>
 			<td>
-				<input type="text" name="details[{{$account->id}}]" class="form-control">
+				<input type="text" name="details[]" class="form-control">
 			</td>
 			<td>
-				<input type="number" min="0" name="debtor[{{$account->id}}]" class="form-control debtor" value="0">
+				<input type="number" min="0" name="debtor[]" class="form-control debtor" value="0">
 			</td>
 			<td>
-				<input type="number" min="0" name="creditor[{{$account->id}}]" class="form-control creditor" value="0">
+				<input type="number" min="0" name="creditor[]" class="form-control creditor" value="0">
 			</td>
 			<td></td>
 		</tr>
