@@ -7,3 +7,21 @@
 [21-May-2019 13:42:14 UTC] PHP Fatal error:  Cannot redeclare App\Models\TaskUser::findNext() in /home/panoramaq/dolphin-system.panorama-q.com/dolpin-system/app/Models/TaskUser.php on line 21
 [30-May-2019 11:11:10 UTC] PHP Parse error:  syntax error, unexpected '<<' (T_SL) in /home/panoramaq/dolphin-system.panorama-q.com/dolpin-system/app/helper/helper.php on line 131
 [30-May-2019 11:11:39 UTC] PHP Parse error:  syntax error, unexpected '<<' (T_SL) in /home/panoramaq/dolphin-system.panorama-q.com/dolpin-system/app/helper/helper.php on line 131
+<<<<<<< refs/remotes/origin/Develop
+=======
+[07-Jul-2020 17:00:28 Asia/Riyadh] PHP Fatal error:  Uncaught Error: Call to undefined function Symfony\Component\Debug\Exception\get_debug_type() in /home/panoramaq/AccountingSystem.panorama-q.com/dolphin-system-new/vendor/symfony/debug/Exception/FatalThrowableError.php:29
+Stack trace:
+#0 /home/panoramaq/AccountingSystem.panorama-q.com/dolphin-system-new/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(86): Symfony\Component\Debug\Exception\FatalThrowableError->__construct(Object(Error))
+#1 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleException(Object(Error))
+#2 {main}
+  thrown in /home/panoramaq/AccountingSystem.panorama-q.com/dolphin-system-new/vendor/symfony/debug/Exception/FatalThrowableError.php on line 29
+[11-Aug-2020 20:25:22 Asia/Riyadh] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 708608 bytes) in /home/panoramaq/AccountingSystem.panorama-q.com/dolphin-system-new/vendor/maximebf/debugbar/src/DebugBar/JavascriptRenderer.php on line 1014
+[11-Aug-2020 20:25:57 Asia/Riyadh] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 708608 bytes) in /home/panoramaq/AccountingSystem.panorama-q.com/dolphin-system-new/vendor/maximebf/debugbar/src/DebugBar/JavascriptRenderer.php on line 1014
+[11-Aug-2020 21:52:55 Asia/Riyadh] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 708608 bytes) in /home/panoramaq/AccountingSystem.panorama-q.com/dolphin-system-new/vendor/maximebf/debugbar/src/DebugBar/JavascriptRenderer.php on line 1014
+[12-Aug-2020 11:10:41 Asia/Riyadh] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 708608 bytes) in /home/panoramaq/AccountingSystem.panorama-q.com/dolphin-system-new/vendor/maximebf/debugbar/src/DebugBar/JavascriptRenderer.php on line 1014
+[12-Aug-2020 12:30:38 Asia/Riyadh] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 708608 bytes) in /home/panoramaq/AccountingSystem.panorama-q.com/dolphin-system-new/vendor/maximebf/debugbar/src/DebugBar/JavascriptRenderer.php on line 1014
+[12-Aug-2020 13:25:46 Asia/Riyadh] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 708608 bytes) in /home/panoramaq/AccountingSystem.panorama-q.com/dolphin-system-new/vendor/maximebf/debugbar/src/DebugBar/JavascriptRenderer.php on line 1014
+[15-Aug-2020 17:04:59 Asia/Riyadh] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 753664 bytes) in /home/panoramaq/AccountingSystem.panorama-q.com/dolphin-system-new/vendor/maximebf/debugbar/src/DebugBar/JavascriptRenderer.php on line 1014
+[15-Aug-2020 17:49:32 Asia/Riyadh] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 753664 bytes) in /home/panoramaq/AccountingSystem.panorama-q.com/dolphin-system-new/vendor/maximebf/debugbar/src/DebugBar/JavascriptRenderer.php on line 1014
+[15-Aug-2020 19:03:08 Asia/Riyadh] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 757760 bytes) in /home/panoramaq/AccountingSystem.panorama-q.com/dolphin-system-new/vendor/maximebf/debugbar/src/DebugBar/JavascriptRenderer.php on line 1014
+>>>>>>> local
