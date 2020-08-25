@@ -35,6 +35,14 @@
             <label for="to"> الفترة إلي </label>
             {!! Form::date("to",request('to'),['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' الفترة إلي ',"id"=>'to'])!!}
         </div>
+
+
+
+        <div class="form-group col-sm-3">
+            <label >  اختر المستوى الشجرى </label>
+            {!! Form::select("level",levels(),null,['class'=>' form-control js-example-basic-single ','placeholder'=>'  اختر المستوى الشجرى '])!!}
+        </div>
+
         <div class="form-group col-sm-12">
             <button type="submit" class="btn btn-success btn-block">بحث</button>
         </div>
@@ -44,12 +52,12 @@
         <div class="panel-body">
             <table class="table datatable-button-init-basic">
                 <thead>
-                <tr  >
+                <tr>
                     <th >#</th>
                     <th > الحساب </th>
                     <th colspan="2">الرصيد الافتتاحى </th>
                     <th colspan="2"> الحركات خلال الفتره </th>
-                    <th colspan="2">   الرصيد الختامى </th>
+                    <th colspan="2">   الرصيدالختامى </th>
                 </tr>
                 <tr>
                         <td></td>
@@ -64,12 +72,13 @@
                 </thead>
                 <tbody>
 
+
                 @foreach($accounts as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td >
                             <a href="{{route('accounting.ChartsAccounts.show',['id'=>$row->id])}}" class="link">
-                                {!! $row->ar_name!!}
+                                {!! $row->ar_name!!}- {!! $row->code!!}
                             </a>
                         </td>
                     <td>
@@ -86,7 +95,7 @@
                     <td>{{$row->logs_creditor($request)}}</td>
 
 
-                    <?php
+                  <?php
                     $last_blalance=0;
                      if($row->status=='debtor'){
                    $last_blalance=$row->descendants->sum('openning_balance')+$row->logs_debtor($request)-$row->logs_creditor($request);

@@ -9,6 +9,7 @@ use App\Models\AccountingSystem\AccountingEntryAccount;
 use App\Models\AccountingSystem\AccountingEntryLog;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingAccountLog;
 use App\Traits\Viewable;
 use Illuminate\Support\Facades\DB;
 
@@ -46,32 +47,87 @@ class EntryController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
        $rules = [
             'source'=>'required|string|max:191',
             'date'=>'required',
             'amount'=>'required',
             'type'=>'required',
-           'from_account_id'=>'required|exists:accounting_accounts,id',
-           'to_account_id'=>'required|exists:accounting_accounts,id',
+        //    'from_account_id'=>'required|exists:accounting_accounts,id',
+        //    'to_account_id'=>'required|exists:accounting_accounts,id',
         ];
-        $message=[
-            'from_account_id.required'=>'اسم الحساب الاول(المدين) مطلوب ',
-            'to_account_id.required'=>'اسم الحساب الثانى(الدائن) مطلوب ',
-        ];
-        $this->validate($request,$rules,$message);
+        // $message=[
+        //     'from_account_id.required'=>'اسم الحساب الاول(المدين) مطلوب ',
+        //     'to_account_id.required'=>'اسم الحساب الثانى(الدائن) مطلوب ',
+        // ];
+        // $this->validate($request,$rules,$message);
 
         $requests = $request->except('from_account_id','to_account_id');
         $requests['type']='manual';
 
         $entry=AccountingEntry::create($requests);
-           AccountingEntryAccount::create([
-               'entry_id'=>$entry->id,
-               'from_account_id'=>$request['from_account_id'],
-               'to_account_id'=>$request['to_account_id'],
-               'amount'=>$request['amount'],
-           ]);
+        $account_id=collect($request['account_id']);
+        $debtor=collect($request['debtor']);
+        $creditor=collect($request['creditor']);
+        $types=[];
+        foreach($debtor as $key=>$item){
+            if($item==0){
+                $types[$key]='creditor';
+            }else{
+                $types[$key]='debtor';
+            }
+        }
 
+        $all= $account_id->zip($debtor,$creditor,$types);
+        $debtorAccounts=[];
+        $creditorAccounts=[];
+
+       foreach($all as $key=>$item){
+            if($item[3]=='debtor'){
+               $debator= AccountingEntryAccount::create([
+                    'entry_id'=>$entry->id,
+                    'account_id'=>$item['0'],
+                    'affect'=>'debtor',
+                    'amount'=>$item['1'],
+                ]);
+               array_push( $debtorAccounts,$debator);
+            }
+            if($item[3]=='creditor'){
+              $creditor = AccountingEntryAccount::create([
+                    'entry_id'=>$entry->id,
+                    'affect'=>'creditor',
+                    'account_id'=>$item['0'],
+                    'amount'=>$item['2'],
+                ]);
+                array_push( $creditorAccounts,$creditor);
+            }
+       }
+        foreach($debtorAccounts as$debtorAccount){
+                foreach($creditorAccounts as $creditorAccount){
+                AccountingAccountLog::create([
+                'entry_id'=>$entry->id,
+                'account_id'=>$debtorAccount->account_id,
+                'account_amount_before'=>$debtorAccount->account->amount,
+                'another_account_id'=>$creditorAccount->account_id,
+                'amount'=>$creditorAccount->amount,
+                'account_amount_after'=>$creditorAccount->account->amount-$debtorAccount->amount,
+                'affect'=>'debtor',
+                    ]);
+                }
+        }
+        foreach($creditorAccounts as$creditorAccount){
+              foreach($debtorAccounts as$debtorAccount){
+                    AccountingAccountLog::create([
+                    'entry_id'=>$entry->id,
+                    'account_id'=>$creditorAccount->account_id,
+                    'account_amount_before'=>$creditorAccount->account->amount,
+                    'another_account_id'=>$debtorAccount->account_id,
+                    'amount'=>$debtorAccount->amount,
+                    'account_amount_after'=>$debtorAccount->account->amount+$creditorAccount->amount,
+                    'affect'=>'creditor',
+                    ]);
+        }
+    }
         alert()->success('تم اضافةالقيد اليومى بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.entries.index');
     }
@@ -191,28 +247,44 @@ class EntryController extends Controller
         $entry->update([
             'status'=>'posted'
         ]);
-        foreach ($entry->accounts as $account){
-           $fromAccount=AccountingAccount::find($account->from_account_id);
-            $toAccount=AccountingAccount::find($account->to_account_id);
-            $fromAccount->update([
-                'amount'=>$fromAccount->amount+$account->amount
-            ]);
-            $toAccount->update([
-                'amount'=>$toAccount->amount-$account->amount
-            ]);
 
-            $fromAccountParent=AccountingAccount::find($account->from_account_id);
-            $toAccount=AccountingAccount::find($account->to_account_id);
-            $fromAccount->update([
-                'amount'=>$fromAccount->amount+$account->amount
+        foreach ($entry->accounts_debtor() as $account){
+          $DebatorAccount=AccountingAccount::find($account->account_id);
+           $DebatorAccount->update([
+                'amount'=>$DebatorAccount->amount+$account->amount
             ]);
-
-            $toAccount->update([
-                'amount'=>$toAccount->amount-$account->amount
-            ]);
-
-
         }
+
+        foreach ($entry->accounts_creditor() as $account){
+            $CreditorAccount=AccountingAccount::find($account->account_id);
+             $CreditorAccount->update([
+                  'amount'=>$CreditorAccount->amount+$account->amount
+              ]);
+          }
+
+
+        // foreach ($entry->accounts as $account){
+        //    $fromAccount=AccountingAccount::find($account->from_account_id);
+        //     $toAccount=AccountingAccount::find($account->to_account_id);
+        //     $fromAccount->update([
+        //         'amount'=>$fromAccount->amount+$account->amount
+        //     ]);
+        //     $toAccount->update([
+        //         'amount'=>$toAccount->amount-$account->amount
+        //     ]);
+
+        //     $fromAccountParent=AccountingAccount::find($account->from_account_id);
+        //     $toAccount=AccountingAccount::find($account->to_account_id);
+        //     $fromAccount->update([
+        //         'amount'=>$fromAccount->amount+$account->amount
+        //     ]);
+
+        //     $toAccount->update([
+        //         'amount'=>$toAccount->amount-$account->amount
+        //     ]);
+
+
+        // }
 
             alert()->success('تم ترحيل القيد بنجاح !')->autoclose(5000);
             return back();

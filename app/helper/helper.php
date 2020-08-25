@@ -62,7 +62,8 @@ class MyHelperCostCenter_view{
     public static function center($centers, $step = 0)
    {
        $output = '';
-       $base_url = url('/ChartsAccounts/ChartsAccounts/');
+
+      $base_url = url('/ChartsAccounts/ChartsAccounts/');
            foreach($centers as $center)
            {
                $output .=
@@ -79,12 +80,13 @@ class MyHelperCostCenter_view{
 
                    $output .= '</li>';
 
-               }
+                }
            }
        return $output;
    }
 
    }
+
 
 
 
@@ -911,6 +913,30 @@ function chooseMonthly($month){
     '4'=>'الربع السنوى الرابع',
    ];
 }
+
+
+
+function levels(){
+    return [
+     '1'=>' المستوى الاول  ',
+     '2'=>' المستوى الثاتى',
+     '3'=>' المستوى الثالث',
+     '4'=>' المستوى الرابع',
+     '5'=>' المستوى الخامس',
+     '6'=>' المستوى السادس',
+     '7'=>' المستوى السابع',
+     '8'=>' المستوى التامن',
+     '9'=>' المستوى التاسع',
+     '10'=>' المستوى العاشر',
+     '11'=>' المستوى الاحد عشر',
+     '12'=>' المستوى الاثنى عشر',
+     '13'=>' المستوى الثالث عشر',
+     '14'=>' المستوى الرابع عشر',
+     '15'=>' المستوى الخامس عشر',
+     '16'=>' المستوى السادس عشر',
+     '17'=>' المستوى السابع عشر',
+    ];
+ }
 function choosequarterly($quarter){
     if(array_key_exists($quarter,quarterly())){
         return quarterly()[$quarter];

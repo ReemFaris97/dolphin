@@ -15,6 +15,16 @@ class AccountingEntry extends Model
     {
         return $this->hasMany(AccountingEntryAccount::class,'entry_id');
     }
+    public function accounts_debtor()
+    {
+        $accounts_debtor=AccountingEntryAccount::where('entry_id',$this->id)->where('affect','debtor')->get();
+        return $accounts_debtor;
+    }
 
+    public function accounts_creditor()
+    {
+        $accounts_creditor=AccountingEntryAccount::where('entry_id',$this)->where('affect','creditor')->get();
+        return $accounts_creditor;
+    }
 }
 
