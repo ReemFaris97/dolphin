@@ -176,12 +176,13 @@ class AccountController extends Controller
             $account =AccountingAccount::findOrFail($id);
             $account->delete();
             alert()->success('تم حذف  الحساب بنجاح !')->autoclose(5000);
+            return redirect()->route('accounting.ChartsAccounts.index');
+
         }else{
             alert()->warning('لا يمكن حذف الحساب  لوجود قيود   !')->autoclose(5000);
-
+               return back();
         }
 
-        return redirect()->route('accounting.ChartsAccounts.index');
 
     }
 
