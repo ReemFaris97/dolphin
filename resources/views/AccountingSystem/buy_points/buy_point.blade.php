@@ -158,29 +158,32 @@
 					@if (getsetting('automatic_purchases')==0)
 					<input type="hidden" name="account_id" id="account_id_val">
 					@endif
+<!--
 					<table border="1" class="table finalTb moshtraiat-bill mabi3at-bill bill-table
                     {{(getsetting('name_enable')==1) ? 'name_enable':'' }}
                     {{(getsetting('barcode_enable')==1) ? 'barcode_enable':'' }}
                     {{(getsetting('unit_enable')==1) ? 'unit_enable':'' }}
                     {{(getsetting('quantity_enable')==1) ? 'quantity_enable':'' }}
 					{{(getsetting('product_expire_date')==1) ? 'total_expiration_enable':'' }}
-                    {{(getsetting('unit_price_before_enable') == 1) ? 'unit_price_before_enable':''}}
+                    {{(getsetting('unit_price_before_enable') == 1) ? 'unit_price_enable':''}}
                     {{(getsetting('unit_price_after_enable')==1) ? 'unit_price_after_enable':'' }}
                     {{(getsetting('total_price_after_enable')==1) ? 'total_price_after_enable':'' }}
                     ">
+-->
+						<table border="1" class="table finalTb moshtraiat-bill mabi3at-bill bill-table name_enable unit_enable quantity_enable expiration_enable unit_price_enable total_enable gifts_enable discounts_enable total_taxes_enable operations_enable">
 						<thead>
 							<tr>
-								<th rowspan="2">م</th>
-								<th rowspan="2" class="maybe-hidden name_enable" width="230">اسم الصنف</th>
-								<th rowspan="2" class="maybe-hidden unit_enable">الوحدة</th>
-								<th rowspan="2" class="maybe-hidden quantity_enable">الكمية</th>
-								<th rowspan="2" class="maybe-hidden expiration_enable">تاريخ الصلاحية</th>
-								<th rowspan="2" class="maybe-hidden unit_price_before_enable">سعر الوحدة</th>
-								<th colspan="2" class="maybe-hidden total_enable">الإجمالى</th>
-								<th colspan="2" class="maybe-hidden gifts_enable">هدايا</th>
+								<th rowspan="2" width="40">م</th>
+								<th rowspan="2" class="maybe-hidden name_enable" width="270">اسم الصنف</th>
+								<th rowspan="2" class="maybe-hidden unit_enable" width="70">الوحدة</th>
+								<th rowspan="2" class="maybe-hidden quantity_enable" width="70">الكمية</th>
+								<th rowspan="2" class="maybe-hidden expiration_enable" width="120">تاريخ الصلاحية</th>
+								<th rowspan="2" class="maybe-hidden unit_price_enable" width="70">سعر الوحدة</th>
+								<th colspan="2" class="maybe-hidden total_enable" width="70">الإجمالى</th>
+								<th colspan="2" class="maybe-hidden gifts_enable" width="70">هدايا</th>
 								<th colspan="2" class="maybe-hidden discounts_enable">الخصومات</th>
-								<th rowspan="2" class="maybe-hidden total_taxes_enable">قيمة الضريبة</th>
-								<th rowspan="2" class="maybe-hidden operations_enable"> عمليات </th>
+								<th rowspan="2" class="maybe-hidden total_taxes_enable" width="70">قيمة الضريبة</th>
+								<th rowspan="2" class="maybe-hidden operations_enable"  width="160"> عمليات </th>
 							</tr>
 						</thead>
 						<tbody>
@@ -352,42 +355,44 @@
 			optss += '<option data-uni-price="' + unitPrice[i] + '" value="' + unitId[i] + '" > ' + unitName[i] + '</option> ';
 		}
 		
+		
+								
+		
 		$(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}" data-ifhastax="${priceHasTax}" data-tot-taxes="${totalTaxes}">
-							<td class="row-num">${rowNum}</td>
+							<td class="row-num" width="40">${rowNum}</td>
                             <input type="hidden" name="product_id[]" value="${ProductId}">
-							<td class="product-name maybe-hidden name_enable" width="230"><a href="${productLink}" target="_blank" rel="noopener noreferrer">${productName}</a></td>
-							<td class="product-unit maybe-hidden unit_enable">
-								<select class="form-control js-example-basic-single" name="unit_id[${ProductId}]" >
-									${optss}
-								</select>
+							<td class="product-name maybe-hidden name_enable" width="270"><a href="${productLink}" target="_blank" rel="noopener noreferrer">${productName}</a></td>
+							<td class="product-unit maybe-hidden unit_enable" width="70">
+								<select class="form-control js-example-basic-single" name="unit_id[${ProductId}]">${optss}</select>
 							</td>
-							<td class="product-quantity maybe-hidden quantity_enable">
+							<td class="product-quantity maybe-hidden quantity_enable" width="70">
 								<input type="number" placeholder="الكمية" step="1" min="1" value="1" id="sale" class="form-control" name="quantity[${ProductId}]">
 							</td>
-							<td class="expiration-date maybe-hidden expiration_enable">
+							<td class="expiration-date maybe-hidden expiration_enable" width="120">
 								${dateInpt}
 							</td>
-							<td class="single-price-before maybe-hidden unit_price_before_enable">
-								<input type="number" class="form-control" step="any" value="${singlePriceBefore}" name="prices[${ProductId}]">
+							<td class="single-price-before maybe-hidden unit_price_enable" width="70">
+								<input type="number" class="form-control" step="any" data-value="${singlePriceBefore}" value="${productPrice}" name="prices[${ProductId}]">
 							</td>
-                            <input type="hidden" name="itemTax[${ProductId}]" value="${netTax}">
-							<td class="single-price-after maybe-hidden unit_price_after_enable" data-sinAft="${singlePriceAfter}">
+                           	<td class="whole-price-after maybe-hidden total_enable" width="70">${singlePriceAfter}</td>
+                           	<td class="whole-product-gifts maybe-hidden gifts_enable" width="70">
+								<input type="number" placeholder="الهدايا" step="1" min="0" value="0" class="form-control" name="">
+							</td>
+							<td class="whole-product-discounts maybe-hidden discounts_enable"></td>
+							<input type="hidden" name="itemTax[${ProductId}]" value="${netTax}">
+							<td class="single-price-after maybe-hidden total_taxes_enable" data-sinAft="${singlePriceAfter}" width="70">
 								${netTax}
 							</td>
-							<td class="whole-price-before maybe-hidden total_price_before_enable">${singlePriceBefore}</td>
-							<td class="whole-price-after maybe-hidden total_price_after_enable">${singlePriceAfter}</td>
-							<td class="add-specific-discount">
-								<a href="#" class="btn btn-info" data-toggle="modal" data-target="#discMod${rowNum}">إضافة خصم</a>
-							</td>
-
-							<td class="delete-single-row">
-								<a href="#"><span class="icon-cross"></span></a>
+							<td class="bill-operations-td maybe-hidden operations_enable" width="160">
+								<a href="#" class="remove-prod-from-list"><span class="icon-cross"></span></a>
 								<button type="button" class="btn btn-primary popover-dismiss"
 										data-toggle="popover" title="أخر سعر : ${lastPrice}"
 										data-container="body" data-toggle="popover"
 										data-placement="right" data-content="متوسط السعر : ${avgPrice}">
 										<span class="icon-coin-dollar"></span>
 								</button>
+								<a href="${productLink}" target="_blank" rel="noopener noreferrer"><span class="icon-file-text"></span></a>
+								<a href="#" data-toggle="modal" data-target="#discMod${rowNum}"><span class="icon-magic-wand"></span></a>
 							</td>
 						</tr>
 					`);
@@ -688,7 +693,7 @@
 		//**************    Calc while changing table body ***********************
 		$(".bill-table tbody").change(calcInfo);
 		//**************    Calc while removing a product ************************
-		$("td.delete-single-row a").on('click', function(e) {
+		$(".remove-prod-from-list").on('click', function(e) {
 			e.preventDefault();
 			$(this).parents("tr").remove();
 			calcInfo();
@@ -823,7 +828,7 @@
 		$(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}" data-ifhastax="${priceHasTax}" data-tot-taxes="${totalTaxes}">
 							<td class="row-num">${rowNum}</td>
                             <input type="hidden" name="product_id[]" value="${ProductId}">
-							<td class="product-name maybe-hidden name_enable" width="230"><a href="${productLink}" target="_blank" rel="noopener noreferrer">${productName}</a></td>
+							<td class="product-name maybe-hidden name_enable" width="270"><a href="${productLink}" target="_blank" rel="noopener noreferrer">${productName}</a></td>
 							<td class="product-unit maybe-hidden unit_enable">
 								<select class="form-control js-example-basic-single" name="unit_id[${ProductId}]" >
 									${optss}
@@ -1149,7 +1154,7 @@
 		//**************    Calc while changing table body ***********************
 		$(".bill-table tbody").change(calcInfo);
 		//**************    Calc while removing a product ************************
-		$("td.delete-single-row a").on('click', function(e) {
+		$(".remove-prod-from-list").on('click', function(e) {
 			e.preventDefault();
 			$(this).parents("tr").remove();
 			calcInfo();
