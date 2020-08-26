@@ -65,11 +65,34 @@
                         </thead>
                         <tbody>
 
+                            @if(isset($log_openning_balance))
+                                <tr  style="background:orange;">
+                                    <td></td>
+                                    <td></td>
+                                    <td>{!! $log_openning_balance->created_at!!}</td>
+                                    <td></td>
+
+                                    <td>{!! $log_openning_balance->amount!!}</td>
+                                    <td>
+                                    @if($log_openning_balance->affect=='debtor')
+                                        مدين <i class="fa fa-arrow-up" style="margin-left: 10px"></i>
+                                    @else
+                                        دائن<i class="fa fa-arrow-down" style="margin-left: 10px"></i>
+                                   @endif
+                                    </td>
+                                    <td>
+                                        رصيد افتتاحى  للحساب
+                                    </td>
+                                    <td>{!! $log_openning_balance->account_amount_after!!}</td>
+
+                                </tr>
+
+                            @endif
                         @foreach($logs as $row)
                             <tr>
                                 <td>{!!$loop->iteration!!}</td>
                                 <td>{!! $row->account->code!!}</td>
-                                <td>{!! $row->entry->date!!}</td>
+                                <td>{!! optional($row->entry)->date!!}</td>
                                 <td>{!! $row->another_account->ar_name!!}</td>
                                 <td>{!! $row->amount!!}</td>
                                 <td>
