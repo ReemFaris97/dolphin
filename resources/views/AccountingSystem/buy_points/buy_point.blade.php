@@ -355,9 +355,6 @@
 			optss += '<option data-uni-price="' + unitPrice[i] + '" value="' + unitId[i] + '" > ' + unitName[i] + '</option> ';
 		}
 		
-		
-								
-		
 		$(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}" data-ifhastax="${priceHasTax}" data-tot-taxes="${totalTaxes}">
 							<td class="row-num" width="40">${rowNum}</td>
                             <input type="hidden" name="product_id[]" value="${ProductId}">
@@ -384,24 +381,32 @@
 								${netTax}
 							</td>
 							<td class="bill-operations-td maybe-hidden operations_enable" width="160">
-								<a href="#" class="remove-prod-from-list"><span class="icon-cross"></span></a>
-								<button type="button" class="btn btn-primary popover-dismiss"
+								<a href="#" title="مسح" class="remove-prod-from-list"><span class="icon-cross"></span></a>
+								<button type="button" title="متوسط السعر" class="btn btn-primary popover-dismiss"
 										data-toggle="popover" title="أخر سعر : ${lastPrice}"
 										data-container="body" data-toggle="popover"
 										data-placement="right" data-content="متوسط السعر : ${avgPrice}">
 										<span class="icon-coin-dollar"></span>
 								</button>
-								<a href="${productLink}" target="_blank" rel="noopener noreferrer"><span class="icon-file-text"></span></a>
-								<a href="#" data-toggle="modal" data-target="#discMod${rowNum}"><span class="icon-magic-wand"></span></a>
+								<a href="${productLink}" target="_blank" title="عرض المنتح" rel="noopener noreferrer">
+									<span class="icon-file-text"></span>
+								</a>
+								<a href="#" data-toggle="modal" title="إضافة خصم" data-target="#discMod${rowNum}"><span class="icon-magic-wand"></span></a>
 							</td>
 						</tr>
 					`);
 		//					$("#row" + rowNum).find('.product-quantity').find('input').trigger('change');
+//		Enable Tfoot control 
 		$(".tempDisabled").removeClass("tempDisabled");
+		
 		calcInfo();
+		
+//		Initialize popover
 		$('.popover-dismiss').popover({
 			trigger: 'focus'
 		});
+		
+//		Append a special discount modal for the added product
 		$("#modals-area").append(`<div id="discMod${rowNum}" class="modal fade special-discount-modal" role="dialog">
 					  <div class="modal-dialog">
 						<div class="modal-content">
@@ -438,7 +443,9 @@
 						</div>
 					  </div>
 					</div>`);
-		$("#discMod" + rowNum + "  a.appendAnewDiscount").on('click', function() {
+		
+//		Function for calculation of the special discounts
+			$("#discMod" + rowNum + "  .appendAnewDiscount").on('click', function() {
 			discountNum++;
 			var itemNumber = $(this).data('id');
 			$(this).parent().prev('.anotherAddedSpecialDiscounts').append(`<div class="single-special-dis-wrap clearfix row">
@@ -463,10 +470,12 @@
 			$(".product-quantity input").each(function() {
 				$(this).trigger('change');
 			});
-			$("a.removeThisSinglSpecDisc").on('click', function(e) {
+//			remove appended single special discount
+			$(".removeThisSinglSpecDisc").on('click', function(e) {
 				e.preventDefault();
 				$(this).parents(".single-special-dis-wrap").remove();
 			});
+				
 			$(".singleSpecialDiscByPer").each(function() {
 				$(this).on('change', function() {
 					$(this).parents('.single-special-dis-wrap').find('.singleSpecialDiscByVal').val(0);
@@ -486,6 +495,7 @@
 				})
 			});
 		});
+		
 		$(".singleSpecialDiscByPer").each(function() {
 			$(this).on('change', function() {
 				$(this).parents('.single-special-dis-wrap').find('.singleSpecialDiscByVal').val(0);

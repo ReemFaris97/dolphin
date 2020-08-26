@@ -477,3 +477,7 @@ table.mabi3at-bill tfoot tr th#amountAfterDariba span.dynamic-span{
 .finalTb.moshtraiat-bill.table > tbody > tr > td select {
     padding: 0 3px !important;
 }
+
+.finalTb.moshtraiat-bill.table tbody tr td a.remove-prod-from-list {
+    background: red !important;
+}
