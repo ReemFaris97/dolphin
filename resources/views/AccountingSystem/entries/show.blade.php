@@ -103,7 +103,7 @@
                                         <th style="color:#333">  دائن </th>
                                         </thead>
                                            <tbody>
-                                            
+
                                                         @foreach($logs as $row)
                                                             <tr>
                                                                 @if(isset($row->debtor))
@@ -134,7 +134,7 @@
                             <span class="m-l-5"><i class="fa fa-plus"></i></span>
                         </a>
                     </div>
-                    @if ($row->status=='new'&&$row->type=='manual')
+                    @if ($entry->status=='new'&&$entry->type=='manual')
                     <div class="btn-group beside-btn-title">
                         <a href="{{route('accounting.entries.edit',['id'=>$entry->id])}}" class="btn btn-success">
                            تعديل القيد
