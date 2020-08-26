@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AccountingAccountLog extends Model
 {
-    protected $fillable = ['entry_id','account_id','account_amount_before','another_account_id','affect','amount','account_amount_after'];
+    protected $fillable = ['entry_id','account_id','account_amount_before','another_account_id','affect','amount','account_amount_after','status'];
     protected $table='accounting_accounts_logs';
 
     public function entry()
