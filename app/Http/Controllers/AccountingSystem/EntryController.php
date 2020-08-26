@@ -104,26 +104,30 @@ class EntryController extends Controller
        }
         foreach($debtorAccounts as$debtorAccount){
                 foreach($creditorAccounts as $creditorAccount){
+                    $last=AccountingAccountLog::where('account_id',$debtorAccount->account_id)->latest()->first();
                 AccountingAccountLog::create([
                 'entry_id'=>$entry->id,
                 'account_id'=>$debtorAccount->account_id,
-                'account_amount_before'=>$debtorAccount->account->amount,
+                'account_amount_before'=>$last->account_amount_after ??$debtorAccount->account->amount,
                 'another_account_id'=>$creditorAccount->account_id,
                 'amount'=>$creditorAccount->amount,
-                'account_amount_after'=>$creditorAccount->account->amount-$debtorAccount->amount,
+                'account_amount_after'=>isset($last)?$last->account_amount_after  - $creditorAccount->amount :$debtorAccount->account->amount - $creditorAccount->amount,
                 'affect'=>'debtor',
                     ]);
                 }
         }
         foreach($creditorAccounts as$creditorAccount){
+
               foreach($debtorAccounts as$debtorAccount){
+                $last=AccountingAccountLog::where('account_id',$creditorAccount->account_id)->latest()->first();
+
                     AccountingAccountLog::create([
                     'entry_id'=>$entry->id,
                     'account_id'=>$creditorAccount->account_id,
-                    'account_amount_before'=>$creditorAccount->account->amount,
+                    'account_amount_before'=>$last->account_amount_after??$creditorAccount->account->amount,
                     'another_account_id'=>$debtorAccount->account_id,
                     'amount'=>$debtorAccount->amount,
-                    'account_amount_after'=>$debtorAccount->account->amount+$creditorAccount->amount,
+                    'account_amount_after'=>isset($last)?$last->account_amount_after+ $debtorAccount->amount : $creditorAccount->account->amount + $debtorAccount->amount,
                     'affect'=>'creditor',
                     ]);
         }
