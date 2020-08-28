@@ -46,6 +46,7 @@ class AccountObserver
                 $lastsubAcount = AccountingAccount::where('kind','sub')->where('account_id',$account->account_id)->latest()->first();
 
                 if (!is_null($lastsubAcount)) {
+
                     $account->code = $lastsubAcount->code + 1;
                     $account->level = $lastsubAcount->level;
 
@@ -97,7 +98,10 @@ class AccountObserver
                 $perantAccount= AccountingAccount::find($account->account_id);
                 $lastsubAcount = AccountingAccount::whereIn('kind',['following_main', 'sub'])->where('account_id',$account->account_id)->latest()->first();
                 if (!is_null($lastsubAcount)) {
-
+                    if (strpos($lastsubAcount->code, '*') == true) {
+                        $lastsubAcount->code = rtrim($lastsubAcount->code, '*');
+                      
+                    }
                     $account->code = $lastsubAcount->code + 1;
                     $account->level = $lastsubAcount->level;
 

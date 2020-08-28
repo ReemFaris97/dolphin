@@ -70,15 +70,12 @@ class AccountController extends Controller
 
         $this->validate($request,$rules,$message);
         $requests = $request->all();
+
         $account= AccountingAccount::create($requests);
 //          AccountingAccountSetting::create([
 //            'account_id'=>$account->id,
 //             'main_code'=>$account->code,
 //        ]);
-
-            // if(isset($requests['openning_balance'])){
-
-            // }
 
             if(isset($requests['center_id'])){
                     foreach($requests['center_id'] as $center_id){
@@ -89,6 +86,41 @@ class AccountController extends Controller
                     }
 
             }
+
+
+                /////الرصيد الافتتاحى
+            if($account->kind=='sub'&&$account->type == "exist"){
+                //++++++++++فى حاله  تساوى  طبيعه  الحساب  مع  طبيعه الارصييد الافتتاحى
+                if($requests['status']==$requests['affect']){
+                  dd("fddddddddddd");
+                    AccountingAccountLog::create([
+                        'entry_id'=>null,
+                        'account_id'=>$account->id,
+                        'account_amount_before'=>null,
+                        'another_account_id'=>null,
+                        'amount'=>$requests['openning_balance'],
+                        'account_amount_after'=>$requests['openning_balance'],
+                        'affect'=>$requests['affect'],
+                        'status'=>'opening_balance',
+                    ]);
+                }else{
+                    // dd("fdre3wer");
+                    AccountingAccountLog::create([
+
+                        'entry_id'=>null,
+                        'account_id'=>$account->id,
+                        'account_amount_before'=>null,
+                        'another_account_id'=>null,
+                        'amount'=>-$requests['openning_balance'],
+                        'account_amount_after'=>-$requests['openning_balance'],
+                        'affect'=>$requests['affect'],
+                        'status'=>'opening_balance',
+
+                    ]);
+                }
+
+            }
+
         alert()->success('تم انشاء حسابا  بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.ChartsAccounts.index');
 
@@ -103,7 +135,8 @@ class AccountController extends Controller
     public function show($id)
     {
         $account=AccountingAccount::with('allChildrenAccounts')->where('id',$id)->first();
-        $logs=AccountingAccountLog::where('account_id',$id)->get();
+        $logs=AccountingAccountLog::where('account_id',$id)->where('status','entry')->get();
+        $log_openning_balance=AccountingAccountLog::where('account_id',$id)->where('status','opening_balance')->first();
 
         $postingEntries=AccountingEntry::where('status','posted')->pluck('id');
         $accountLogsForm=AccountingAccountLog::where('account_id',$id)->whereIn('entry_id',$postingEntries)->where('affect','debtor')->get();
@@ -113,7 +146,7 @@ class AccountController extends Controller
         $custody=AccountingAsset::find($account->asset_id);
         $payments = AccountingPayment::where('active','1')->pluck('name','id')->toArray();
 
-        return view("AccountingSystem.charts_accounts.show",compact('account','logs','accountLogsForm','accountLogsTo','centers','asset','custody','payments'));
+        return view("AccountingSystem.charts_accounts.show",compact('account','logs','log_openning_balance','accountLogsForm','accountLogsTo','centers','asset','custody','payments'));
 
     }
 
@@ -170,10 +203,20 @@ class AccountController extends Controller
      */
     public function destroy($id)
     {
-        $account =AccountingAccount::findOrFail($id);
-        $account->delete();
-        alert()->success('تم حذف  الحساب بنجاح !')->autoclose(5000);
-        return back();
+        $entries=AccountingEntryAccount::where('account_id',$id)->get();
+
+        if($entries->count()==0){
+            $account =AccountingAccount::findOrFail($id);
+            $account->delete();
+            alert()->success('تم حذف  الحساب بنجاح !')->autoclose(5000);
+            return redirect()->route('accounting.ChartsAccounts.index');
+
+        }else{
+            alert()->warning('لا يمكن حذف الحساب  لوجود قيود   !')->autoclose(5000);
+               return back();
+        }
+
+
     }
 
     public  function  active($id){

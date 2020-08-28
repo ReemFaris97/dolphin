@@ -12,6 +12,10 @@
         <div class="panel-heading">
             <h5 class="panel-title">عرض {{$account->ar_name}}
 
+                <a href="#" onclick="Delete({{$account->id}})" data-toggle="tooltip" data-original-title="حذف" class="btn btn-danger"> حذف الحساب <i class="icon-trash text-inverse "></i></a>
+
+                {!!Form::open( ['route' => ['accounting.ChartsAccounts.destroy',$account->id] ,'id'=>'delete-form'.$account->id, 'method' => 'Delete']) !!}
+                {!!Form::close() !!}
                 {{-- {!! MyHelperAccountingAmount::amount($account) !!} --}}
 
             </h5>
@@ -61,11 +65,34 @@
                         </thead>
                         <tbody>
 
+                            @if(isset($log_openning_balance))
+                                <tr  style="background:orange;">
+                                    <td></td>
+                                    <td></td>
+                                    <td>{!! $log_openning_balance->created_at!!}</td>
+                                    <td></td>
+
+                                    <td>{!! $log_openning_balance->amount!!}</td>
+                                    <td>
+                                    @if($log_openning_balance->affect=='debtor')
+                                        مدين <i class="fa fa-arrow-up" style="margin-left: 10px"></i>
+                                    @else
+                                        دائن<i class="fa fa-arrow-down" style="margin-left: 10px"></i>
+                                   @endif
+                                    </td>
+                                    <td>
+                                        رصيد افتتاحى  للحساب
+                                    </td>
+                                    <td>{!! $log_openning_balance->account_amount_after!!}</td>
+
+                                </tr>
+
+                            @endif
                         @foreach($logs as $row)
                             <tr>
                                 <td>{!!$loop->iteration!!}</td>
                                 <td>{!! $row->account->code!!}</td>
-                                <td>{!! $row->entry->date!!}</td>
+                                <td>{!! optional($row->entry)->date!!}</td>
                                 <td>{!! $row->another_account->ar_name!!}</td>
                                 <td>{!! $row->amount!!}</td>
                                 <td>
@@ -347,7 +374,7 @@
 
                                                     <label>  اختر طريقةالدفع</label>
                                                     {!! Form::select("payment_id",$payments,null,['class'=>'form-control js-example-basic-single','id'=>'payment_id','placeholder'=>' اختر طريقةالدفع   '])!!}
-                                             
+
                                                 </form>
                                          </div>
                                          <div class="modal-footer">
@@ -424,5 +451,25 @@
 
 @section('scripts')
 
+<script>
+    function Delete(id) {
+        var item_id=id;
+        console.log(item_id);
+        swal({
+            title: "هل أنت متأكد ",
+            text: "هل تريد حذف هذا الحساب ؟",
+            icon: "warning",
+            buttons: ["الغاء", "موافق"],
+            dangerMode: true,
 
+        }).then(function(isConfirm){
+            if(isConfirm){
+                document.getElementById('delete-form'+item_id).submit();
+            }
+            else{
+                swal("تم االإلفاء", "حذف  الحساب  تم الغاؤه",'info',{buttons:'موافق'});
+            }
+        });
+    }
+</script>
 @stop

@@ -81,10 +81,29 @@
     {!! Form::select("center_id[]",$centers,null,['class'=>'form-control selectpicker ','multiple','id'=>'center_id'])!!}
 </div>
 
+
+<div class="form-group col-xs-6 col-xs-12  type">
+    <div class="form-line new-radio-big-wrapper">.
+        <span class="new-radio-wrap">
+            <label for="exist"> حساب قائم </label>
+             {!! Form::radio("type",'exist',['class'=>'form-control','id'=>'exist'])!!}
+        </span>
+	<span class="new-radio-wrap">
+		<label for="new">حساب جديد </label>
+			{!! Form::radio("type",'new',['class'=>'form-control','id'=>'new'])!!}
+    </span>
+
+    </div>
+</div>
 <div class="form-group col-sm-6 col-xs-12 pull-left openning_balance">
     <label>الرصيد الافتتاحى  </label>
       {!! Form::text("openning_balance",null,['class'=>'form-control','placeholder'=>'  الرصيد الافتتاحى    '])!!}
    </div>
+
+   <div class="form-group col-sm-6 col-xs-12 pull-left affect">
+    <label>   طبيعه الرصيد الافتتاحى  </label>
+    {!! Form::select("affect",['debtor'=>'مدين','Creditor'=>'دائن'],Null,['class'=>'form-control','id'=>'affect'])!!}
+</div>
 
 
 <div class="text-center col-md-12">
@@ -100,6 +119,8 @@
             $('.js-example-basic-single').select2();
             $('.accounts').hide();
             $(".centers").hide();
+            $('.type').hide();
+            $('.affect').hide();
             $('.openning_balance').hide();
 
         });
@@ -112,22 +133,42 @@
              if (kind=='main'){
                  $('.accounts').hide();
                  $('.openning_balance').hide();
+                 $('.affect').hide();
+
+                 $('.type').hide();
 
              }else if(kind=='sub') {
                  $('.accounts').show();
-            $('.openning_balance').show();
+                 $('.type').show();
+
+            // $('.openning_balance').show();
              }else if(kind=='following_main') {
                  $('.accounts').show();
                  $('.openning_balance').hide();
+                 $('.affect').hide();
+                 $('.type').hide();
+
              }
         });
 
-        $('input[type=radio][name=cost_center]').change(function() {
-    if (this.value == 1) {
-        $(".centers").show();
+            $('input[type=radio][name=cost_center]').change(function() {
+        if (this.value == 1) {
+            $(".centers").show();
+        }
+        else if (this.value ==0) {
+            $(".centers").hide();
+
+        }
+    });
+
+    $('input[type=radio][name=type]').change(function() {
+    if (this.value == 'exist') {
+        $(".openning_balance").show();
+        $('.affect').show();
     }
-    else if (this.value ==0) {
-        $(".centers").hide();
+    else if (this.value =='new') {
+        $(".openning_balance").hide();
+        $('.affect').hide();
 
     }
 });
