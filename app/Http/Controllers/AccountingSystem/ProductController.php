@@ -323,6 +323,8 @@ class ProductController extends Controller
         $has_tax=($tax)?'1':'0';
         if (isset($tax)) {
             $price_has_tax = ($tax->price_has_tax == 1) ? '1' : '0';
+        }else{
+            $price_has_tax =0;
         }
         $discounts=AccountingProductDiscount::where('product_id',$id)->get();
         $discount = AccountingProductDiscount::where('product_id', $id)->first();
