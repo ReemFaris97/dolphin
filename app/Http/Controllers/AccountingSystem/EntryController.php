@@ -10,12 +10,14 @@ use App\Models\AccountingSystem\AccountingEntryLog;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingAccountLog;
+use App\Traits\Entries\ManualCreateEntry;
+use App\Traits\ManualCreateEntry as TraitsManualCreateEntry;
 use App\Traits\Viewable;
 use Illuminate\Support\Facades\DB;
 
 class EntryController extends Controller
 {
-    use Viewable;
+    use  ManualCreateEntry, Viewable;
     private $viewable = 'AccountingSystem.entries.';
     /**
      * Display a listing of the resource.
@@ -62,77 +64,11 @@ class EntryController extends Controller
         // ];
         // $this->validate($request,$rules,$message);
 
-        $requests = $request->except('from_account_id','to_account_id');
-        $requests['type']='manual';
 
-        $entry=AccountingEntry::create($requests);
-        $account_id=collect($request['account_id']);
-        $debtor=collect($request['debtor']);
-        $creditor=collect($request['creditor']);
-        $types=[];
-        foreach($debtor as $key=>$item){
-            if($item==0){
-                $types[$key]='creditor';
-            }else{
-                $types[$key]='debtor';
-            }
-        }
+        $this->ManualCreateEntry($request);
 
-        $all= $account_id->zip($debtor,$creditor,$types);
-        $debtorAccounts=[];
-        $creditorAccounts=[];
 
-       foreach($all as $key=>$item){
-            if($item[3]=='debtor'){
-               $debator= AccountingEntryAccount::create([
-                    'entry_id'=>$entry->id,
-                    'account_id'=>$item['0'],
-                    'affect'=>'debtor',
-                    'amount'=>$item['1'],
-                ]);
-               array_push( $debtorAccounts,$debator);
-            }
-            if($item[3]=='creditor'){
-              $creditor = AccountingEntryAccount::create([
-                    'entry_id'=>$entry->id,
-                    'affect'=>'creditor',
-                    'account_id'=>$item['0'],
-                    'amount'=>$item['2'],
-                ]);
-                array_push( $creditorAccounts,$creditor);
-            }
-       }
-        foreach($debtorAccounts as$debtorAccount){
-                foreach($creditorAccounts as $creditorAccount){
-                    $last=AccountingAccountLog::where('account_id',$debtorAccount->account_id)->latest()->first();
-                AccountingAccountLog::create([
-                'entry_id'=>$entry->id,
-                'account_id'=>$debtorAccount->account_id,
-                'account_amount_before'=>$last->account_amount_after ??$debtorAccount->account->amount,
-                'another_account_id'=>$creditorAccount->account_id,
-                'amount'=>$creditorAccount->amount,
-                'account_amount_after'=>isset($last)?$last->account_amount_after  - $creditorAccount->amount :$debtorAccount->account->amount - $creditorAccount->amount,
-                'affect'=>'debtor',
-                    ]);
-                }
-        }
-        foreach($creditorAccounts as$creditorAccount){
-
-              foreach($debtorAccounts as$debtorAccount){
-                $last=AccountingAccountLog::where('account_id',$creditorAccount->account_id)->latest()->first();
-
-                    AccountingAccountLog::create([
-                    'entry_id'=>$entry->id,
-                    'account_id'=>$creditorAccount->account_id,
-                    'account_amount_before'=>$last->account_amount_after??$creditorAccount->account->amount,
-                    'another_account_id'=>$debtorAccount->account_id,
-                    'amount'=>$creditorAccount->amount,
-                    'account_amount_after'=>isset($last)?$last->account_amount_after+ ($creditorAccount->amount) : $creditorAccount->account->amount + ($creditorAccount->amount),
-                    'affect'=>'creditor',
-                    ]);
-        }
-    }
-        alert()->success('تم اضافةالقيد اليومى بنجاح !')->autoclose(5000);
+            alert()->success('تم اضافةالقيد اليومى بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.entries.index');
     }
 
@@ -146,6 +82,7 @@ class EntryController extends Controller
     {
         $entry=AccountingEntry::find($id);
         $logs=AccountingEntryLog::where('entry_id',$id)->get();
+
         return view("AccountingSystem.entries.show",compact('entry','logs'));
 
     }
@@ -159,7 +96,7 @@ class EntryController extends Controller
     public function edit($id)
     {
         $entry =AccountingEntry::findOrFail($id);
-        $accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->where('kind','sub')->pluck('code_name','id')->toArray();
+        $accounts=AccountingAccount::where('kind','sub')->get();
         $entryAccount=AccountingEntryAccount::where('entry_id',$id)->first();
         return $this->toEdit(compact('entry','accounts','entryAccount'));
 
@@ -189,14 +126,12 @@ class EntryController extends Controller
 
         $requests = $request->all();
         $entry->update($requests);
-        $entryAccount=AccountingEntryAccount::where('entry_id',$id)->first();
-        $entryAccount->update([
-            'from_account_id'=>$request['from_account_id'],
-            'to_account_id'=>$request['to_account_id'],
-            'amount'=>$request['amount'],
-        ]);
+        $entryAccounts=AccountingEntryAccount::where('entry_id',$id)->get();
+        foreach($entryAccounts as $entryAccount){
+                $entryAccount->delete();
 
-
+        }
+        $this->ManualCreateEntry($request);
         alert()->success('تم تعديل  القيد بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.entries.index');
 
@@ -215,6 +150,14 @@ class EntryController extends Controller
         $shift =AccountingEntry::findOrFail($id);
         $shift->delete();
         alert()->success('تم حذف القيد بنجاح !')->autoclose(5000);
+            return back();
+    }
+    public function destroy_account($id)
+    {
+
+        $account =AccountingEntryAccount::findOrFail($id);
+        $account->delete();
+        alert()->success('تم حذف الحساب من القيد بنجاح !')->autoclose(5000);
             return back();
     }
 

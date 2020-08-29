@@ -400,7 +400,7 @@ table.mabi3at-bill tfoot tr th#amountOfDariba span.colorfulSpan ,
 table.mabi3at-bill tfoot tr th#amountAfterDariba span.colorfulSpan{
 	color: #fff !important
 }
-	
+
 	table.mabi3at-bill tfoot tr th#amountBeforeDariba span.dynamic-span,
 table.mabi3at-bill tfoot tr th#amountOfDariba span.dynamic-span ,
 table.mabi3at-bill tfoot tr th#amountAfterDariba span.dynamic-span{
@@ -433,7 +433,7 @@ table.mabi3at-bill tfoot tr th#amountAfterDariba span.dynamic-span{
 .maybe-hidden{
 	display: none !important
 }
-       
+
 
 .name_enable .maybe-hidden.name_enable ,
 .barcode_enable .maybe-hidden.barcode_enable ,
@@ -450,7 +450,7 @@ table.mabi3at-bill tfoot tr th#amountAfterDariba span.dynamic-span{
 .gifts_enable .maybe-hidden.gifts_enable ,
 .discounts_enable .maybe-hidden.discounts_enable ,
 .total_taxes_enable .maybe-hidden.total_taxes_enable ,
-.operations_enable .maybe-hidden.only_taxes_enable ,
+.total_pure_enable .maybe-hidden.total_pure_enable ,
 .operations_enable .maybe-hidden.operations_enable ,
 .total_price_after_enable .maybe-hidden.total_price_after_enable{
 	display: table-cell !important

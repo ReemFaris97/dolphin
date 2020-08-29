@@ -52,6 +52,40 @@
 		</tr>
 	</thead>
 	<tbody id="qyoud-table-tbody">
+        @if(isset($entry))
+            @foreach($entry->accounts()->get() as $key=>$accountEntry)
+        <tr class="single-row">
+			<td>{{++$key}}</td>
+			<td>
+				<select name="account_id[]" class="form-control">
+                    @foreach ($accounts as $account)
+                    @if($accountEntry->account_id==$account->id)
+					<option value={{$account->id}}    selected >{{$account->ar_name}} -{{$account->code}}</option>
+                    @else
+                    <option value={{$account->id}}     >{{$account->ar_name}} -{{$account->code}}</option>
+                     @endif
+                    @endforeach
+				</select>
+			</td>
+			<td>
+				<input type="text" name="details[]" class="form-control">
+            </td>
+
+			<td>
+				<input type="number" min="0" name="debtor[]" class="form-control debtor" @if($accountEntry->affect=='debtor')value= "{{$accountEntry->amount}}" @else value="0" @endif>
+			</td>
+			<td>
+				<input type="number" min="0" name="creditor[]" class="form-control creditor" @if($accountEntry->affect=='creditor')value= "{{$accountEntry->amount}}" @else value="0" @endif>
+			</td>
+			</td>
+			<td>
+            <a href="{{route("accounting.entries.destroy_account",['id'=>$accountEntry->id])}}" data-toggle="tooltip" class="delete-it">X</a>
+                {{-- {!!Form::open( ['route' => ['accounting.entries.destroy_account',$accountEntry->id] ,'id'=>'delete-form'.$accountEntry->id, 'method' => 'Delete']) !!}
+                {!!Form::close() !!} --}}
+            </td>
+        </tr>
+        @endforeach
+        @else
 		<tr class="single-row">
 			<td>1</td>
 			<td>
@@ -70,8 +104,11 @@
 			<td>
 				<input type="number" min="0" name="creditor[]" class="form-control creditor" value="0">
 			</td>
-			<td></td>
-		</tr>
+			<td>
+
+            </td>
+        </tr>
+        @endif
 	</tbody>
 	<tfoot>
 		<td>
@@ -181,5 +218,26 @@
 			}
 		})
 	})
+</script>
+<script>
+    function Delete(id) {
+        var item_id=id;
+        console.log(item_id);
+        swal({
+            title: "هل أنت متأكد ",
+            text: "هل تريد حذف هذا الحساب م القيد ؟",
+            icon: "warning",
+            buttons: ["الغاء", "موافق"],
+            dangerMode: true,
+
+        }).then(function(isConfirm){
+            if(isConfirm){
+                document.getElementById('delete-form'+item_id).submit();
+            }
+            else{
+                swal("تم االإلفاء", "حذف  الحساب  تم الغاؤه",'info',{buttons:'موافق'});
+            }
+        });
+    }
 </script>
 @endsection

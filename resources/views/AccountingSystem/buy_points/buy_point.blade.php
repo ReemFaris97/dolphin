@@ -160,7 +160,7 @@
                     {{(getsetting('unit_price_before_enable') == 1) ? 'unit_price_before_enable':''}}
                     {{(getsetting('unit_price_after_enable')==1) ? 'unit_price_after_enable':'' }}
                     {{(getsetting('total_price_before_enable')==1) ? 'total_price_before_enable':'' }}
-                    {{(getsetting('total_price_after_enable')==1) ? 'total_price_after_enable':'' }} 
+                    {{(getsetting('total_price_after_enable')==1) ? 'total_price_after_enable':'' }}
                     ">
 						<thead>
 							<tr>
@@ -181,25 +181,44 @@
 							</tr>
 						</thead>
 -->
-					
-					<table border="1" class="table finalTb moshtraiat-bill mabi3at-bill bill-table name_enable unit_enable quantity_enable expiration_enable unit_price_enable total_enable gifts_enable discounts_enable total_taxes_enable operations_enable">
-						<thead>
-							<tr>
-								<th rowspan="2" width="40">م</th>
-								<th rowspan="2" class="maybe-hidden name_enable" width="270">اسم الصنف</th>
-								<th rowspan="2" class="maybe-hidden unit_enable" width="70">الوحدة</th>
-								<th rowspan="2" class="maybe-hidden quantity_enable" width="70">الكمية</th>
-								<th rowspan="2" class="maybe-hidden expiration_enable" width="120">تاريخ الصلاحية</th>
-								<th rowspan="2" class="maybe-hidden unit_price_enable" width="70">سعر الوحدة</th>
-								<th colspan="2" class="maybe-hidden total_enable" width="70">الإجمالى</th>
-								<th colspan="2" class="maybe-hidden gifts_enable" width="70">هدايا</th>
-								<th colspan="2" class="maybe-hidden discounts_enable">الخصومات</th>
-								<th rowspan="2" class="maybe-hidden total_taxes_enable" width="70">قيمة الضريبة</th>
-								<th rowspan="2" class="maybe-hidden total_taxes_enable" width="70">صافي الإجمالي</th>
-								<th rowspan="2" class="maybe-hidden operations_enable"  width="160"> عمليات </th>
-							</tr>
-						</thead>
-					
+
+
+<table border="1" class="table finalTb moshtraiat-bill mabi3at-bill bill-table
+{{(getsetting('name_enable')==1) ? 'name_enable':'' }}
+{{(getsetting('barcode_enable')==1) ? 'barcode_enable':'' }}
+{{(getsetting('unit_enable')==1) ? 'unit_enable':'' }}
+{{(getsetting('quantity_enable')==1) ? 'quantity_enable':'' }}
+{{(getsetting('product_expire_date')==1) ? 'expiration_enable':'' }}
+{{(getsetting('unit_price_enable') == 1) ? 'unit_price_enable':''}}
+{{(getsetting('total_enable')==1) ? 'total_enable':'' }}
+{{(getsetting('gifts_enable')==1) ? 'gifts_enable':'' }}
+{{(getsetting('discounts_enable')==1) ? 'discounts_enable':'' }}
+{{(getsetting('total_taxes_enable')==1) ? 'total_taxes_enable':'' }}
+{{(getsetting('operations_enable')==1) ? 'operations_enable':'' }}
+{{(getsetting('total_pure_enable')==1) ? 'total_pure_enable':'' }}
+
+">
+
+{{-- name_enable unit_enable quantity_enable
+ expiration_enable unit_price_enable total_enable gifts_enable
+  discounts_enable total_taxes_enable operations_enable total_pure_enable"> --}}
+    <thead>
+        <tr>
+            <th rowspan="2" width="40">م</th>
+            <th rowspan="2" class="maybe-hidden name_enable" width="270">اسم الصنف</th>
+            <th rowspan="2" class="maybe-hidden unit_enable" width="70">الوحدة</th>
+            <th rowspan="2" class="maybe-hidden quantity_enable" width="70">الكمية</th>
+            <th rowspan="2" class="maybe-hidden expiration_enable" width="120">تاريخ الصلاحية</th>
+            <th rowspan="2" class="maybe-hidden unit_price_enable" width="70">سعر الوحدة</th>
+            <th colspan="2" class="maybe-hidden total_enable" width="70">الإجمالى</th>
+            <th colspan="2" class="maybe-hidden gifts_enable" width="70">هدايا</th>
+            <th colspan="2" class="maybe-hidden discounts_enable">الخصومات</th>
+            <th rowspan="2" class="maybe-hidden total_taxes_enable" width="70">قيمة الضريبة</th>
+            <th rowspan="2" class="maybe-hidden total_pure_enable" width="70">صافي الإجمالي</th>
+            <th rowspan="2" class="maybe-hidden operations_enable"  width="160"> عمليات </th>
+        </tr>
+    </thead>
+
 						<tbody>
 							<!--Space For Appended Products-->
 						</tbody>
@@ -297,12 +316,12 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 	$(document).ready(function() {
 		// scroll to the last table row
 		$('table').on('DOMSubtreeModified', 'tbody', function() {$("tbody").animate({scrollTop: $('tbody').prop("scrollHeight")}, 1000)});
-		
-		// For initializing now date 
+
+		// For initializing now date
 		$('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
 		$('.inlinedatepicker').text(new Date().toLocaleString());
 		$('.inlinedatepicker').val(new Date().toLocaleString());
-		
+
 		// For preventing user from inserting two methods of discount
 		$("#byPercentage").change(function() {
 			$("#byAmount").val(0);
@@ -310,9 +329,9 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 		$("#byAmount").change(function() {
 			$("#byPercentage").val(0);
 		});
-		
+
 	});
-	
+
 	//	get duppliedr id in the form
 	$("#supplier_id").on('change', function() {
 		$("#supplier_id_val").val($(this).val());
@@ -359,7 +378,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 					let unitName = productUnits.map(a => a.name);
 					let unitId = productUnits.map(c => c.id);
 					let unitPrice = productUnits.map(b => b.purchasing_price);
-					
+
 					//		Getting prices and taxes Code
 					var singlePriceBefore, singlePriceAfter = 0;
 					if (Number(priceHasTax) === 0) {
@@ -374,7 +393,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 						var singlePriceAfter = Number(productPrice);
 					}
 					var netTax = (Number(singlePriceAfter) - Number(singlePriceBefore)).toFixed(2);
-					
+
 					var discountNum = 1;
 					var optss = ``;
 					for (var i = 0; i < productUnits.length; i++) {
@@ -410,12 +429,12 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 							</td>
 
                             <input type="hidden" name="itemTax[${ProductId}]" value="${netTax}">
-							<td class="single-price-after maybe-hidden only_taxes_enable" data-sinAft="${singlePriceAfter}" width="70">
+							<td class="single-price-after maybe-hidden total_taxes_enable" data-sinAft="${singlePriceAfter}" width="70">
 								${netTax}
 							</td>
-							<td class="whole-price-before maybe-hidden">${singlePriceBefore}</td>
-							<td class="whole-price-after maybe-hidden total_taxes_enable" width="70">${singlePriceAfter}</td>
-							
+							<td class="whole-price-before maybe-hidden ">${singlePriceBefore}</td>
+							<td class="whole-price-after maybe-hidden total_pure_enable" width="70">${singlePriceAfter}</td>
+
 							<td class="bill-operations-td maybe-hidden operations_enable" width="160">
 								<a href="${productLink}" target="_blank" title="عرض المنتح" rel="noopener noreferrer">
 									<span class="icon-file-text"></span>
@@ -586,10 +605,10 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 						var productPrice = $(this).parents("tr.single-row-wrapper").find(".unit-price input").val();
 						var theUnitTax = $(this).parents("tr.single-row-wrapper").data("tot-taxes");
 						var netTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
-						
+
 						var quantityXprice = Number(productPrice) * Number(theQuantity);
 						$(this).parents('.single-row-wrapper').find(".quantityXprice").text(quantityXprice.toFixed(2));
-						
+
 						$(this).parents('.single-row-wrapper').find(".single-price-after").text(netTax.toFixed(2));
 						var wholePriceBefore = Number($(this).parents('.single-row-wrapper').find(".single-price-before input").val()) * Number($(this).val());
 						$(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(2));
@@ -598,7 +617,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 						$(this).parents('.single-row-wrapper').find(".whole-price-before").attr('tempPriBef', wholePriceBefore.toFixed(2));
 					});
 					//**************    Calc while changing single price input ***************
-		
+
 					$(".unit-price input").change(function() {
 						var productPrice = $(this).val();
 						var priceHasTax = $(this).parents("tr.single-row-wrapper").data('ifhastax');
@@ -731,14 +750,14 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 							$('#row' + onlyModNum).find('.whole-price-after').text(newWholePriceAfter.toFixed(2));
 							calcInfo();
 						}
-						
+
 						for (var i = 0; i < rows.length; i++) {
 							if(($(rows[i]).find('.singleSpecialDiscByVal').val()) > 0){
 								discountsText = discountsText + ($(rows[i]).find('.singleSpecialDiscByVal').val()) + 'ريال'
 							}else{
 								discountsText = discountsText + ($(rows[i]).find('.singleSpecialDiscByPer').val()) + '%'
 							}
-							
+
 							if ($(rows[i]).find(".effectTax").is(":checked")) {
 								discountsText = discountsText + '(مؤثر على الضرية) **** '
 							}else{
@@ -774,7 +793,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 		});
 	});
 	//	For Ajax Search By Product Bar Code
-	
+
 $("#barcode_search").scannerDetection({
 	timeBeforeScanTest: 200, // wait for the next character for upto 200ms
 	avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms
@@ -801,7 +820,7 @@ $("#barcode_search").scannerDetection({
 						rowNum++;
 						byBarcode();
 						$('.product-quantity').find('input').trigger('change');
-					}	
+					}
 				}
 			}
 		});
@@ -829,11 +848,11 @@ $("#barcode_search").scannerDetection({
 						rowNum++;
 						byBarcode();
 						$('.product-quantity').find('input').trigger('change');
-					}	
+					}
 				}
 			}
 		});
-		
+
 	}
 });
 
@@ -1255,7 +1274,7 @@ $("#barcode_search").scannerDetection({
 						timer : 1500
 					});
 				  }
-				});	
+				});
 		}
 		$(".finalTb button[type='submit']").click(function(event){
 				confirmSubmit(event)

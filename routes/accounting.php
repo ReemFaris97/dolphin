@@ -324,5 +324,7 @@ Route::middleware('admin')->group(function () {
         Route::get('toAccounts/{id}', ['as' => 'entries.toAccounts', 'uses' => 'EntryController@toaccounts']);
 
     });
+    Route::get('/destroy_account/{id}',['as'=>'entries.destroy_account', 'uses' => 'EntryController@destroy_account']);
+
 });
 
