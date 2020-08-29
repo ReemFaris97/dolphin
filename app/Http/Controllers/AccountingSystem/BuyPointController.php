@@ -34,8 +34,8 @@ class BuyPointController extends Controller
         $safes=AccountingSafe::pluck('name','id')->toArray();
 
         $store_product=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->pluck('product_id','id')->toArray();
-        $products=AccountingProduct::whereIn('id',$store_product)->get();
-
+        // $products=AccountingProduct::whereIn('id',$store_product)->get();
+        $products=AccountingProduct::all();
 
         return  view('AccountingSystem.buy_points.buy_point',compact('categories','suppliers','safes','products'));
     }
