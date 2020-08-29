@@ -11,8 +11,9 @@
     <div class="panel panel-flat">
         <div class="panel-heading">
             <h5 class="panel-title">عرض {{$account->ar_name}}
+                <a href="{{route('accounting.ChartsAccounts.edit',['id'=>$account->id])}}" data-toggle="tooltip" data-original-title="تعديل" class="btn btn-warning"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
 
-                <a href="#" onclick="Delete({{$account->id}})" data-toggle="tooltip" data-original-title="حذف" class="btn btn-danger"> حذف الحساب <i class="icon-trash text-inverse "></i></a>
+                <a href="#" onclick="Delete({{$account->id}})" data-toggle="tooltip" data-original-title="حذف" class="btn btn-danger">   <i class="icon-trash text-inverse "></i></a>
 
                 {!!Form::open( ['route' => ['accounting.ChartsAccounts.destroy',$account->id] ,'id'=>'delete-form'.$account->id, 'method' => 'Delete']) !!}
                 {!!Form::close() !!}

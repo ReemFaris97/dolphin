@@ -92,7 +92,6 @@ class AccountController extends Controller
             if($account->kind=='sub'&&$account->type == "exist"){
                 //++++++++++فى حاله  تساوى  طبيعه  الحساب  مع  طبيعه الارصييد الافتتاحى
                 if($requests['status']==$requests['affect']){
-                  dd("fddddddddddd");
                     AccountingAccountLog::create([
                         'entry_id'=>null,
                         'account_id'=>$account->id,
@@ -191,6 +190,39 @@ class AccountController extends Controller
         $this->validate($request,$rules,$message);
         $requests = $request->all();
         $account->update($requests);
+         if($account->kind=='sub'&&$account->type == "exist"){
+           $logs=AccountingAccountLog::where('account_id',$account->id)->get();
+           foreach($logs as $log){
+            $log->delete();
+           }
+                //++++++++++فى حاله  تساوى  طبيعه  الحساب  مع  طبيعه الارصييد الافتتاحى
+                if($requests['status']==$requests['affect']){
+                    AccountingAccountLog::create([
+                        'entry_id'=>null,
+                        'account_id'=>$account->id,
+                        'account_amount_before'=>null,
+                        'another_account_id'=>null,
+                        'amount'=>$requests['openning_balance'],
+                        'account_amount_after'=>$requests['openning_balance'],
+                        'affect'=>$requests['affect'],
+                        'status'=>'opening_balance',
+                    ]);
+                }else{
+                    // dd("fdre3wer");
+                    AccountingAccountLog::create([
+
+                        'entry_id'=>null,
+                        'account_id'=>$account->id,
+                        'account_amount_before'=>null,
+                        'another_account_id'=>null,
+                        'amount'=>-$requests['openning_balance'],
+                        'account_amount_after'=>-$requests['openning_balance'],
+                        'affect'=>$requests['affect'],
+                        'status'=>'opening_balance',
+
+                    ]);
+                }
+            }
         alert()->success('تم تعديل  الحساب بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.ChartsAccounts.index');
     }
@@ -203,6 +235,8 @@ class AccountController extends Controller
      */
     public function destroy($id)
     {
+        $account =AccountingAccount::findOrFail($id);
+           if($account->kind=='sub'){
         $entries=AccountingEntryAccount::where('account_id',$id)->get();
 
         if($entries->count()==0){
@@ -212,10 +246,23 @@ class AccountController extends Controller
             return redirect()->route('accounting.ChartsAccounts.index');
 
         }else{
-            alert()->warning('لا يمكن حذف الحساب  لوجود قيود   !')->autoclose(5000);
+            alert()->warning('لا يمكن حذف الحساب  لوجود قيود!')->autoclose(5000);
+               return back();
+        }
+     }elseif($account->kind=='main'||$account->kind=='following_main'){
+
+        if($account->children->count()==0){
+            $account =AccountingAccount::findOrFail($id);
+            $account->delete();
+            alert()->success('تم حذف  الحساب بنجاح !')->autoclose(5000);
+            return redirect()->route('accounting.ChartsAccounts.index');
+
+        }else{
+            alert()->warning('لا يمكن حذف الحساب  لوجود حسابات   تابعه له!')->autoclose(5000);
                return back();
         }
 
+     }
 
     }
 

@@ -105,7 +105,24 @@
     {!! Form::select("affect",['debtor'=>'مدين','Creditor'=>'دائن'],Null,['class'=>'form-control','id'=>'affect'])!!}
 </div>
 
+@if(isset($account))
+@if($account->kind=='sub')
 
+
+
+<div class="form-group col-sm-6 col-xs-12 pull-left ">
+    <label>الرصيد الافتتاحى  </label>
+      {!! Form::text("openning_balance",null,['class'=>'form-control','placeholder'=>'  الرصيد الافتتاحى    '])!!}
+   </div>
+
+   <div class="form-group col-sm-6 col-xs-12 pull-left ">
+    <label>   طبيعه الرصيد الافتتاحى  </label>
+    {!! Form::select("affect",['debtor'=>'مدين','Creditor'=>'دائن'],Null,['class'=>'form-control','id'=>'affect'])!!}
+</div>
+
+@endif
+
+@endif
 <div class="text-center col-md-12">
     <div class="text-right">
         <button type="submit" id="register" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i></button>
