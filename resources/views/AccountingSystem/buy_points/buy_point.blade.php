@@ -542,7 +542,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 							var singlePriceBefore = Number(productPrice);
 							var singlePriceAfter = Number(productPrice);
 						}
-						
+
 						var theQuantity = $(this).parents("tr.single-row-wrapper").find(".product-quantity input").val();
 						var theUnitPrice = $(this).parents("tr.single-row-wrapper").find(".single-price-before input").val();
 						var theUnitTax = $(this).parents("tr.single-row-wrapper").data("tot-taxes");
@@ -716,7 +716,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 							} else if (!($(rows[i]).find(".effectTax").is(":checked"))) {
 								var newNetTax = $('#row' + onlyModNum).find('.single-price-after').text()
 							}
-							
+
 							var newWholePriceAfter = Number(finalAftDisc) + Number(newNetTax);
 							$('#row' + onlyModNum).find('.whole-price-after').text(newWholePriceAfter.toFixed(2));
 							calcInfo();
@@ -1050,7 +1050,7 @@ $("#barcode_search").scannerDetection({
 							var singlePriceBefore = Number(productPrice);
 							var singlePriceAfter = Number(productPrice);
 						}
-						
+
 						var theQuantity = $(this).parents("tr.single-row-wrapper").find(".product-quantity input").val();
 						var theUnitPrice = $(this).parents("tr.single-row-wrapper").find(".single-price-before input").val();
 						var theUnitTax = $(this).parents("tr.single-row-wrapper").data("tot-taxes");
