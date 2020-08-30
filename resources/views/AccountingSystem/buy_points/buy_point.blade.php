@@ -4,6 +4,8 @@
 @section('action', URL::route('accounting.suppliers.index'))
 @section('styles')
 <!--- start datatable -->
+<link href="https://cdn.jsdelivr.net/gh/guillaumepotier/Parsley.js@2.9.2/doc/assets/docs.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.jsdelivr.net/gh/guillaumepotier/Parsley.js@2.9.2/src/parsley.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css
@@ -36,6 +38,8 @@
 	<div class="panel-body">
 		<!----------------  Start Bill Content ----------------->
 		<section class="yourBill">
+		<form method="post" id="buyForm" action="{{route('accounting.purchases.store')}}" data-parsley-validate="">
+					@csrf
 			<div class="yurSections">
 				<div class="row">
 					@if (count($errors) > 0)
@@ -50,7 +54,7 @@
 					<div class="col-xs-12">
 						<div class="form-group  {{(getsetting('show_supplier_balance')==1) ? 'show_supplier_balance_enable col-sm-2':'col-sm-4' }}">
 							<label> إسم المورد </label>
-							{!! Form::select("supplier_id",$suppliers,null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر اسم المورد','data-live-search'=>'true','id'=>'supplier_id'])!!}
+							{!! Form::select("supplier_id",$suppliers,null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر اسم المورد','data-live-search'=>'true','data-parsley-required-message'=>'من فضلك اختر المورد','id'=>'supplier_id','required'=>''])!!}
 						</div>
 						@if (getsetting('show_supplier_balance')==1)
 
@@ -62,11 +66,11 @@
 
 						<div class="form-group col-sm-4">
 							<label> رقم الفاتوره </label>
-							{!! Form::text("bill_num",null,['class'=>'selectpicker form-control inline-control','placeholder'=>' رقم الفاتوره',"id"=>'bill_num'])!!}
+							{!! Form::text("bill_num",null,['class'=>'selectpicker form-control inline-control','placeholder'=>' رقم الفاتوره','data-parsley-required-message'=>'من فضلك رقم الفاتورة',"id"=>'bill_num','required'=>''])!!}
 						</div>
 						<div class="form-group col-sm-4">
 							<label for="bill_date"> تاريخ الفاتورة </label>
-							{!! Form::text("__bill_date",null,['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' تاريخ الفاتورة',"id"=>'bill_date'])!!}
+							{!! Form::text("__bill_date",null,['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' تاريخ الفاتورة',"id"=>'bill_date','data-parsley-required-message'=>'من فضلك التاريخ','required'=>''])!!}
 						</div>
 					</div>
 					<div class="col-md-4 col-sm-4 col-xs-12 pos-rel">
@@ -87,7 +91,7 @@
 					</div>
 -->
 					<div class="col-md-4 col-sm-4 col-xs-12">
-												<div class="yurProdc">
+						<div class="yurProdc">
 							<!--Select Products-->
 							<div class="form-group block-gp">
 								<label>بحث بإسم الصنف أو الباركود</label>
@@ -144,44 +148,8 @@
 				</div>
 			</div>
 			<div class="result">
-				<form method="post" id="buyForm" action="{{route('accounting.purchases.store')}}">
-					@csrf
-					<input type="hidden" name="supplier_id" id="supplier_id_val">
-					<input type="hidden" name="bill_num" id="bill_num_val">
+				
 					<input type="hidden" name="bill_date" id="bill_date_val">
-
-<!--
-					<table border="1" class="table finalTb moshtraiat-bill mabi3at-bill bill-table
-                    {{(getsetting('name_enable')==1) ? 'name_enable':'' }}
-                    {{(getsetting('barcode_enable')==1) ? 'barcode_enable':'' }}
-                    {{(getsetting('unit_enable')==1) ? 'unit_enable':'' }}
-                    {{(getsetting('quantity_enable')==1) ? 'quantity_enable':'' }}
-					{{(getsetting('product_expire_date')==1) ? 'total_expiration_enable':'' }}
-                    {{(getsetting('unit_price_before_enable') == 1) ? 'unit_price_before_enable':''}}
-                    {{(getsetting('unit_price_after_enable')==1) ? 'unit_price_after_enable':'' }}
-                    {{(getsetting('total_price_before_enable')==1) ? 'total_price_before_enable':'' }}
-                    {{(getsetting('total_price_after_enable')==1) ? 'total_price_after_enable':'' }}
-                    ">
-						<thead>
-							<tr>
-								<th rowspan="2">م</th>
-								<th rowspan="2" class="maybe-hidden name_enable" width="230">اسم الصنف</th>
-								<th rowspan="2" class="maybe-hidden unit_enable">الوحدة</th>
-								<th rowspan="2" class="maybe-hidden quantity_enable">الكمية</th>
-								<th rowspan="2" class="maybe-hidden expiration_enable">تاريخ الصلاحية</th>
-								<th rowspan="2" class="maybe-hidden unit_price_before_enable">سعر الوحدة</th>
-								<th rowspan="2" class="maybe-hidden unit_price_after_enable">قيمة الضريبة</th>
-								<th colspan="2" rowspan="1" class="th_lg">الإجمالى</th>
-								<th colspan="1" rowspan="2" class="th_lg">الخصم</th>
-								<th rowspan="2"> عمليات </th>
-							</tr>
-							<tr>
-								<th rowspan="1" class="maybe-hidden total_price_before_enable">قبل الضريبة</th>
-								<th rowspan="1" class="maybe-hidden total_price_after_enable">بعد الضريبة</th>
-							</tr>
-						</thead>
--->
-
 
 <table border="1" class="table finalTb moshtraiat-bill mabi3at-bill bill-table
 {{(getsetting('name_enable')==1) ? 'name_enable':'' }}
@@ -275,7 +243,8 @@
 									<span class="colorfulSpan">طريقة الدفع</span>
 									<div class="inline_divs">
 										<div class="form-group rel-cols radiBtnwrap">
-											<input type="radio" id="tazaBTaza" name="payment" value="cash">
+											<input type="radio" id="tazaBTaza" name="payment" value="cash" required="" data-parsley-required-message="من فضلك اختر طريقة الدفع"
+>
 											<label for="tazaBTaza">نقدا</label>
 										</div>
 										<div class="form-group rel-cols radiBtnwrap">
@@ -293,16 +262,30 @@
 							</tr>
 						</tfoot>
 					</table>
-					<div id="modals-area"></div>
-				</form>
+			<div id="modals-area"></div>
 			</div>
+			</form>
 		</section>
 		<!----------------  End Bill Content ----------------->
 	</div>
 </div>
 @endsection
 @section('scripts')
-
+<!-- Begin Form Validation-->
+<script src="https://cdn.jsdelivr.net/gh/guillaumepotier/Parsley.js@2.9.2/dist/parsley.js"></script>
+<script>
+	$(function () {
+	  $('#buyForm').parsley().on('field:validated', function() {
+		var ok = $('.parsley-error').length === 0;
+		$('.bs-callout-info').toggleClass('hidden', !ok);
+		$('.bs-callout-warning').toggleClass('hidden', ok);
+	  })
+	  .on('form:submit', function() {
+		return false; // Don't submit form for this demo
+	  });
+	});
+</script>
+<!-- End Form Validation-->
 <!--- scroll to the last table row -->
 <script>
 $('table').on('DOMSubtreeModified', 'tbody', function(){
@@ -332,24 +315,6 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 
 	});
 
-	//	get duppliedr id in the form
-	$("#supplier_id").on('change', function() {
-		$("#supplier_id_val").val($(this).val());
-	});
-	//	get account id in the form
-	$("#account_id").on('change', function() {
-		$("#account_id_val").val($(this).val());
-	});
-	//	get bill num in the form
-	$("#bill_num").on('change', function() {
-		$("#bill_num_val").val($(this).val());
-	});
-	//	get bill date in the form without change
-	$("#bill_date_val").val(new Date().toLocaleString())
-	//	get bill date in the form if changed
-	$("#bill_date").on('change', function() {
-		$("#bill_date_val").val($(this).val());
-	});
 	//	variable for enumeration of bill products id
 	var rowNum = 0;
 	$('#selectID').selectpicker();
@@ -1312,10 +1277,6 @@ $("#barcode_search").scannerDetection({
 			})
 			.then((willDelete) => {
 			  if (willDelete) {
-				swal("جار الحفظ !", {
-				  icon: "success",
-					buttons : false
-				});
 				$("#buyForm").submit();
 			  } else {
 				swal({
