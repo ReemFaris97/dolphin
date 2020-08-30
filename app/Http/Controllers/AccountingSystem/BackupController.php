@@ -54,9 +54,9 @@ class BackupController extends Controller
     {
         try {
             // start the backup process
-            Artisan::call('backup:run');
+            Artisan::call('backup:run --only-db');
             $output = Artisan::output();
-            // dd($output);
+            dd($output);
             // log the results
 //            Log::info("Backpack\BackupManager -- new backup started from admin interface \r\n" . $output);
             // return the results as a response to the ajax call
