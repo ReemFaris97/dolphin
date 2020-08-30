@@ -482,3 +482,13 @@ table.mabi3at-bill tfoot tr th#amountAfterDariba span.dynamic-span{
 .finalTb.moshtraiat-bill.table tbody tr td a.remove-prod-from-list {
     background: red !important;
 }
+.yurSections ul.parsley-errors-list {
+    border-bottom: 0 !important;
+}
+.parsley-errors-list.filled li {
+    position: absolute;
+    left: 5px;
+    top: 0;
+    border: 0;
+    font-size: 14px;
+}
