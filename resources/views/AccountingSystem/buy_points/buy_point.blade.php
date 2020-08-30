@@ -694,6 +694,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 						var theUnitTax = $('#row' + onlyModNum).data("tot-taxes");
 						var theSingleTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
 						$('#row' + onlyModNum).find(".single-price-after").text(theSingleTax.toFixed(2));
+						$('#row' + onlyModNum).find(".product-quantity input").trigger('change');
 					});
 
 					$('#discMod' + rowNum).on('hidden.bs.modal', function(e) {
@@ -1203,6 +1204,7 @@ $("#barcode_search").scannerDetection({
 						var theUnitTax = $('#row' + onlyModNum).data("tot-taxes");
 						var theSingleTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
 						$('#row' + onlyModNum).find(".single-price-after").text(theSingleTax.toFixed(2));
+						$('#row' + onlyModNum).find(".product-quantity input").trigger('change');
 					});
 
 					$('#discMod' + rowNum).on('hidden.bs.modal', function(e) {
