@@ -14,7 +14,7 @@ class AddGiftsToAccountingPurchasesItemsTable extends Migration
     public function up()
     {
         Schema::table('accounting_purchases_items', function (Blueprint $table) {
-            $table->string('ghifts')->nullable();
+            $table->string('gifts')->nullable();
 
 
 

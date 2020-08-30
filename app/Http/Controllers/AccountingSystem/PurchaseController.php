@@ -128,7 +128,7 @@ class PurchaseController extends Controller
                 'tax'=>$merge['4'],
                 'price_after_tax'=>$merge['3']+$merge['4'],
                 'expire_date'=>isset($requests['expire_date'])?$requests['expire_date']:null,
-                'ghifts'=>$merge['5'],
+                'gifts'=>$merge['5'],
                 'purchase_id'=>$purchase->id
             ]);
             $items=$request->items;

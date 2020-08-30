@@ -129,8 +129,6 @@ class AppServiceProvider extends ServiceProvider
             }
 
 
-
-
         });
 
         Validator::extend('safe_name', function ($attribute, $value, $parameters) {

@@ -54,16 +54,15 @@ class SafeController extends Controller
     public function store(Request $request)
     {
         $rules = [
-
-            'name'=>'required|string|max:191|device_name:accounting_safes,name,company_id,branch_id,'.$request['name'].','.$request['company_id'].','.$request['branch_id'],
-
-
+            'name'=>'required|string|max:191|safe_name:accounting_safes,name,company_id,branch_id,'.$request['name'].','.$request['company_id'].','.$request['branch_id'],
         ];
-        $this->validate($request, $rules);
+        $messsage = [
+            'name.safe_name'=>"اسم الخزنه  موجود بالفعل بالشركة",
+        ];
+        $this->validate($request,$rules,$messsage);
         $requests = $request->except('company_id','model_type','status','branch_id');
 //          dd($requests);
             if (isset($requests['company_id'])) {
-                dd("wq");
                 if ($requests['company_id'] == NULL & $requests['branch_id'] != NULL) {
                     $requests['model_id'] = $requests['branch_id'];
                     $requests['model_type'] = 'App\Models\AccountingSystem\AccountingBranch';
@@ -73,7 +72,6 @@ class SafeController extends Controller
                     $requests['model_id'] = $requests['company_id'];
                     $requests['model_type'] = 'App\Models\AccountingSystem\AccountingCompany';
                     $requests['status'] = 'company';
-
                 }
             }
         AccountingSafe::create($requests);
