@@ -55,7 +55,7 @@ class BackupController extends Controller
     {
         // try {
             // start the backup process
-            Artisan::call('backup:run');
+            Artisan::call('backup:run ');
             $output = Artisan::output();
 
             // log the results
