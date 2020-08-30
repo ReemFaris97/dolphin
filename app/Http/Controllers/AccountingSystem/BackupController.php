@@ -56,12 +56,12 @@ class BackupController extends Controller
             // start the backup process
             Artisan::call('backup:run --only-db');
             $output = Artisan::output();
-            dd($output);
+            // dd($output);
             // log the results
 //            Log::info("Backpack\BackupManager -- new backup started from admin interface \r\n" . $output);
             // return the results as a response to the ajax call
             alert()->success('تم نسخ بيانات البرنامج  بنجاح !')->autoclose(5000);
-            return redirect()->back();
+            return redirect()->download($output);
         } catch (\Exception $e) {
             alert()->error('لم يتم نسخ بيانات البرنامج  حاول  مره اخرى !')->autoclose(5000);
             return redirect()->back();
