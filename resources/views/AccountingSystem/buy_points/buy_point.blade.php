@@ -577,7 +577,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 							var singlePriceBefore = Number(productPrice);
 							var singlePriceAfter = Number(productPrice);
 						}
-						
+
 						var theQuantity = $(this).parents("tr.single-row-wrapper").find(".product-quantity input").val();
 						var theUnitPrice = $(this).parents("tr.single-row-wrapper").find(".single-price-before input").val();
 						var theUnitTax = $(this).parents("tr.single-row-wrapper").data("tot-taxes");
@@ -1082,7 +1082,7 @@ $("#barcode_search").scannerDetection({
 							var singlePriceBefore = Number(productPrice);
 							var singlePriceAfter = Number(productPrice);
 						}
-						
+
 						var theQuantity = $(this).parents("tr.single-row-wrapper").find(".product-quantity input").val();
 						var theUnitPrice = $(this).parents("tr.single-row-wrapper").find(".single-price-before input").val();
 						var theUnitTax = $(this).parents("tr.single-row-wrapper").data("tot-taxes");

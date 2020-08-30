@@ -66,7 +66,7 @@ class PurchaseController extends Controller
     public function store(Request $request)
     {
         $requests = $request->except('user_id');
-
+        // dd($requests);
         $rules = [
            'supplier_id'=>'required|numeric|exists:accounting_suppliers,id',
                 // 'reminder'=>'required|numeric|gt:0',
@@ -98,8 +98,9 @@ class PurchaseController extends Controller
         $unit_id = collect($requests['unit_id']);
         $prices = collect($requests['prices']);
         $itemTax = collect($request['itemTax']);
+        $gifts = collect($requests['gifts']);
 
-        $merges = $products->zip($qtys,$unit_id,$prices,$itemTax);
+        $merges = $products->zip($qtys,$unit_id,$prices,$itemTax,$gifts);
         $i=1;
 
         foreach ($merges as $merge)
@@ -111,7 +112,7 @@ class PurchaseController extends Controller
 
                 if($unit){
                     $unit->update([
-                        'quantity'=>$unit->quantity + $merge['1'],
+                        'quantity'=>$unit->quantity + $merge['1']+$merge['5'],
                     ]);
 
                 }
@@ -127,6 +128,7 @@ class PurchaseController extends Controller
                 'tax'=>$merge['4'],
                 'price_after_tax'=>$merge['3']+$merge['4'],
                 'expire_date'=>isset($requests['expire_date'])?$requests['expire_date']:null,
+                'ghifts'=>$merge['5'],
                 'purchase_id'=>$purchase->id
             ]);
             $items=$request->items;
@@ -193,7 +195,7 @@ class PurchaseController extends Controller
 //              dd(auth()->user()->accounting_store_id);
                  if($productstore) {
                      $productstore->update([
-                         'quantity' => $productstore->quantity + $merge['1'],
+                         'quantity' => $productstore->quantity + $merge['1']+$merge['5'],
                      ]);
                  }
 
