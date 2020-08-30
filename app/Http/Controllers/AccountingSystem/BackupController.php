@@ -11,8 +11,12 @@ use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
 use Artisan;
 use Storage;
+use App\Traits\Db_Backup;
+
 class BackupController extends Controller
 {
+
+    use Db_Backup;
 
     /**
      * Display a listing of the resource.
@@ -22,28 +26,30 @@ class BackupController extends Controller
     public function index()
     {
 
+      $this->EXPORT_DATABASE('https://accountingsystem.panorama-q.com/','panoramaq_AccountingSystem','88eYDr4YQsqn','panoramaq_AccountingSystem');
+     return redirect()->back();
 
-        $disk = Storage::disk(config('laravel-backup.backup.destination.disks')[0]);
+        // $disk = Storage::disk(config('laravel-backup.backup.destination.disks')[0]);
 
-        $files = $disk->files(config('laravel-backup.backup.name'));
-        $backups = [];
-        // make an array of backup files, with their filesize and creation date
-        foreach ($files as $k => $f) {
-            // only take the zip files into account
-            if (substr($f, -4) == '.zip' && $disk->exists($f)) {
-                $backups[] = [
-                    'file_path' => $f,
-                    'file_name' => str_replace(config('laravel-backup.backup.name') . '/', '', $f),
-                    'file_size' => $disk->size($f),
-                    'last_modified' => $disk->lastModified($f),
-                ];
-            }
-        }
-        // reverse the backups, so the newest one would be on top
-        $backups = array_reverse($backups);
+        // $files = $disk->files(config('laravel-backup.backup.name'));
+        // $backups = [];
+        // // make an array of backup files, with their filesize and creation date
+        // foreach ($files as $k => $f) {
+        //     // only take the zip files into account
+        //     if (substr($f, -4) == '.zip' && $disk->exists($f)) {
+        //         $backups[] = [
+        //             'file_path' => $f,
+        //             'file_name' => str_replace(config('laravel-backup.backup.name') . '/', '', $f),
+        //             'file_size' => $disk->size($f),
+        //             'last_modified' => $disk->lastModified($f),
+        //         ];
+        //     }
+        // }
+        // // reverse the backups, so the newest one would be on top
+        // $backups = array_reverse($backups);
 
-        return view("AccountingSystem.settings.backup")->with(compact('backups'));
-    }
+    //     return view("AccountingSystem.settings.backup")->with(compact('backups'));
+     }
 
     /**
      * Show the form for creating a new resource.
@@ -61,7 +67,7 @@ class BackupController extends Controller
 //            Log::info("Backpack\BackupManager -- new backup started from admin interface \r\n" . $output);
             // return the results as a response to the ajax call
             alert()->success('تم نسخ بيانات البرنامج  بنجاح !')->autoclose(5000);
-            return redirect()->download($output);
+            return redirect()->download();
         } catch (\Exception $e) {
             alert()->error('لم يتم نسخ بيانات البرنامج  حاول  مره اخرى !')->autoclose(5000);
             return redirect()->back();
