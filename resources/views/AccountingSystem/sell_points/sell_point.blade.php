@@ -109,7 +109,7 @@
 
                                     ?>
                                     <option value="{{$product->id}}"
-                                            data-main-unit="{{$product->	main_unit}}"
+                                            data-main-unit="{{$product->main_unit}}"
                                             data-name="{{$product->name}}"
                                             data-price="{{$product->selling_price -(($product->selling_price*$product->total_discounts)/100)}}"
                                             data-bar-code="{{$product->bar_code}}"
@@ -143,24 +143,14 @@
 					{{(getsetting('unit_enable_sales')==1) ? 'unit_enable':'' }} {{(getsetting('quantity_enable_sales')==1) ? 'quantity_enable':'' }} {{(getsetting('unit_price_before_enable_sales') == 1) ? 'unit_price_before_enable':''}} {{(getsetting('unit_price_after_enable_sales')==1) ? 'unit_price_after_enable':'' }} {{(getsetting('total_price_before_enable_sales')==1) ? 'total_price_before_enable':'' }} {{(getsetting('total_price_after_enable_sales')==1) ? 'total_price_after_enable':'' }}">
 						<thead>
 							<tr>
-								<th rowspan="2">م</th>
-								<th rowspan="2" class="maybe-hidden name_enable" width="230">اسم الصنف</th>
-								<th rowspan="2" class="maybe-hidden barcode_enable">باركود</th>
-								<th rowspan="2" class="maybe-hidden unit_enable">الوحدة</th>
-								<th rowspan="2" class="maybe-hidden quantity_enable">الكمية</th>
-								<th colspan="2" rowspan="1" class="th_lg">
-									سعر الوحدة
-								</th>
-								<th colspan="2" rowspan="1" class="th_lg">
-									الإجمالى
-								</th>
-								<th rowspan="2"> حذف </th>
-							</tr>
-							<tr>
-								<th rowspan="1" class="maybe-hidden unit_price_before_enable">قبل الضريبة</th>
-								<th rowspan="1" class="maybe-hidden unit_price_after_enable">بعد الضريبة</th>
-								<th rowspan="1" class="maybe-hidden total_price_before_enable">قبل الضريبة</th>
-								<th rowspan="1" class="maybe-hidden total_price_after_enable">بعد الضريبة</th>
+								<th rowspan="2" width="40">م</th>
+								<th rowspan="2" class="maybe-hidden name_enable">اسم الصنف</th>
+								<th rowspan="2" class="maybe-hidden barcode_enable" width="110">باركود</th>
+								<th rowspan="2" class="maybe-hidden unit_enable" width="110">الوحدة</th>
+								<th rowspan="2" class="maybe-hidden quantity_enable" width="100">الكمية</th>
+								<th colspan="2" class="maybe-hidden unit_price_after_enable" width="100">سعر الوحدة</th>
+								<th colspan="2" class="maybe-hidden total_price_after_enable" width="100">صافي الإجمالى</th>
+								<th rowspan="2" width="70"> حذف </th>
 							</tr>
 						</thead>
 						<tbody>
@@ -294,8 +284,6 @@
 					</div>
 				</div>
 				@endif
-
-
 				<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
@@ -324,8 +312,6 @@
 						</div>
 					</div>
 				</div>
-
-
 			</div>
 		</section>
 		<!----------------  End Bill Content ----------------->
@@ -333,6 +319,23 @@
 </div>
 @endsection
 @section('scripts')
+
+<!-- Begin Form Validation-->
+<script src="https://cdn.jsdelivr.net/gh/guillaumepotier/Parsley.js@2.9.2/dist/parsley.js"></script>
+<script>
+	$(function () {
+	  $('#buyForm').parsley().on('field:validated', function() {
+		var ok = $('.parsley-error').length === 0;
+		$('.bs-callout-info').toggleClass('hidden', !ok);
+		$('.bs-callout-warning').toggleClass('hidden', ok);
+	  })
+	  .on('form:submit', function() {
+		return false; // Don't submit form for this demo
+	  });
+	});
+</script>
+<!-- End Form Validation-->
+
 <!--- scroll to the last table row -->
 <script>
 	$('table').on('DOMSubtreeModified', 'tbody', function() {
@@ -386,9 +389,11 @@
 		var totalTaxes = selectedProduct.data('total-taxes');
 		var mainUnit = selectedProduct.data('main-unit');
 		var productUnits = selectedProduct.data('subunits');
+		
 		let unitName = productUnits.map(a => a.name);
 		let unitPrice = productUnits.map(b => b.selling_price);
 		var unitId = productUnits.map(c => c.id);
+		
 		var singlePriceBefore, singlePriceAfter = 0;
 		if (Number(priceHasTax) === 0) {
 			var singlePriceBefore = Number(productPrice);
@@ -405,24 +410,26 @@
 		for (var i = 0; i < productUnits.length; i++) {
 			optss += '<option data-uni-price="' + unitPrice[i] + '" value="' + unitId[i] + '"> ' + unitName[i] + '</option> ';
 		}
+	
 		$(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}">
-			<td class="row-num">${rowNum}</td>
-			<input type="hidden" name="product_id[]" value=${productId}>
-			<td class="product-name maybe-hidden name_enable" width="230">${productName}</td>
-			<td class="product-name maybe-hidden barcode_enable">${productBarCode}</td>
-			<td class="product-unit maybe-hidden unit_enable">
+			<td class="row-num" width="40">${rowNum}</td>
+			<input type="hidden" name="product_id[]" value="${productId}">
+			<td class="product-name maybe-hidden name_enable">${productName}</td>
+			<td class="product-name maybe-hidden barcode_enable" width="110">${productBarCode}</td>
+			<td class="product-unit maybe-hidden unit_enable" width="110">
 				<select class="form-control js-example-basic-single" name="unit_id[${productId}]">
 					${optss}
 				</select>
 			</td>
-			<td class="product-quantity maybe-hidden quantity_enable">
+			<td class="product-quantity maybe-hidden quantity_enable" width="100">
 				<input type="number" placeholder="الكمية" max="" min="1" value="1" id="sale" name="quantity[]" class="form-control">
 			</td>
-			<td class="single-price-before maybe-hidden unit_price_before_enable">${singlePriceBefore.toFixed(2)}</td>
-			<td class="single-price-after maybe-hidden unit_price_after_enable">${singlePriceAfter.toFixed(2)}</td>
-			<td class="whole-price-before maybe-hidden total_price_before_enable">${singlePriceBefore.toFixed(2)}</td>
-			<td class="whole-price-after maybe-hidden total_price_after_enable">${singlePriceAfter.toFixed(2)}</td>
-			<td class="delete-single-row">
+			<td class="single-unit-price maybe-hidden unit_price_after_enable" width="100">${productPrice.toFixed(2)}</td>
+			<td class="single-price-before maybe-hidden">${singlePriceBefore.toFixed(2)}</td>
+			<td class="single-price-after maybe-hidden">${singlePriceAfter.toFixed(2)}</td>
+			<td class="whole-price-before maybe-hidden">${singlePriceBefore.toFixed(2)}</td>
+			<td class="whole-price-after maybe-hidden total_price_after_enable" width="100">${singlePriceAfter.toFixed(2)}</td>
+			<td class="delete-single-row" width="70">
 				@if($session->user->is_admin==1)
 				<a href="#"><span class="icon-cross"></span></a>
 				@else
@@ -477,6 +484,7 @@
 				var singlePriceBefore = Number(productPrice);
 				var singlePriceAfter = Number(productPrice);
 			}
+			$(this).parents('.single-row-wrapper').find(".single-unit-price").text(productPrice);
 			$(this).parents('.single-row-wrapper').find(".single-price-before").text(singlePriceBefore.toFixed(2));
 			$(this).parents('.single-row-wrapper').find(".single-price-after").text(singlePriceAfter.toFixed(2));
 			$(this).parents('.single-row-wrapper').find(".product-quantity input").trigger('change');
@@ -670,32 +678,33 @@
 			optss += '<option data-uni-price="' + unitPrice[i] + '" value="' + unitId[i] + '" > ' + unitName[i] + '</option> ';
 		}
 		$(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}">
-		<td class="row-num">${rowNum}</td>
-		<input type="hidden" name="product_id[]" value=${productId}>
-		<td class="product-name maybe-hidden name_enable " width="230">${productName}</td>
-		<td class="product-name maybe-hidden barcode_enable">${productBarCode}</td>
-		<td class="product-unit maybe-hidden unit_enable">
-			<select class="form-control js-example-basic-single" name="unit_id[${productId}]">
-				${optss}
-			</select>
-		</td>
-		<td class="product-quantity maybe-hidden quantity_enable">
-			<input type="number" placeholder="الكمية" min="1" value="1" id="sale" name="quantity[]" class="form-control">
-		</td>
-		<td class="single-price-before maybe-hidden unit_price_before_enable">${singlePriceBefore.toFixed(2)}</td>
-		<td class="single-price-after maybe-hidden unit_price_after_enable">${singlePriceAfter.toFixed(2)}</td>
-		<td class="whole-price-before maybe-hidden total_price_before_enable">${singlePriceBefore.toFixed(2)}</td>
-		<td class="whole-price-after maybe-hidden total_price_after_enable">${singlePriceAfter.toFixed(2)}</td>
-		<td class="delete-single-row">
-			@if($session->user->is_admin==1)
-			<a href="#"><span class="icon-cross"></span></a>
-			@else
-			<button type="button" class="btn btn-primary in-row-del" data-toggle="modal" data-target="#deleteModal">
-				<span class="icon-cross"></span>
-			</button>
-			@endif
+			<td class="row-num" width="40">${rowNum}</td>
+			<input type="hidden" name="product_id[]" value="${productId}">
+			<td class="product-name maybe-hidden name_enable">${productName}</td>
+			<td class="product-name maybe-hidden barcode_enable" width="110">${productBarCode}</td>
+			<td class="product-unit maybe-hidden unit_enable" width="110">
+				<select class="form-control js-example-basic-single" name="unit_id[${productId}]">
+					${optss}
+				</select>
 			</td>
-		</tr>`);
+			<td class="product-quantity maybe-hidden quantity_enable" width="100">
+				<input type="number" placeholder="الكمية" max="" min="1" value="1" id="sale" name="quantity[]" class="form-control">
+			</td>
+			<td class="single-unit-price maybe-hidden unit_price_after_enable" width="100">${productPrice.toFixed(2)}</td>
+			<td class="single-price-before maybe-hidden">${singlePriceBefore.toFixed(2)}</td>
+			<td class="single-price-after maybe-hidden">${singlePriceAfter.toFixed(2)}</td>
+			<td class="whole-price-before maybe-hidden">${singlePriceBefore.toFixed(2)}</td>
+			<td class="whole-price-after maybe-hidden total_price_after_enable" width="100">${singlePriceAfter.toFixed(2)}</td>
+			<td class="delete-single-row" width="70">
+				@if($session->user->is_admin==1)
+				<a href="#"><span class="icon-cross"></span></a>
+				@else
+				<button type="button" class="btn btn-primary in-row-del" data-toggle="modal" data-target="#deleteModal">
+					<span class="icon-cross"></span>
+				</button>
+				@endif
+				</td>
+			</tr>`);
 
 		// assign id for the clicked button on the deleting modal
 		$(".in-row-del").on('click', function() {
@@ -741,6 +750,7 @@
 				var singlePriceBefore = Number(productPrice);
 				var singlePriceAfter = Number(productPrice);
 			}
+			$(this).parents('.single-row-wrapper').find(".single-unit-price").text(productPrice);
 			$(this).parents('.single-row-wrapper').find(".single-price-before").text(singlePriceBefore.toFixed(2));
 			$(this).parents('.single-row-wrapper').find(".single-price-after").text(singlePriceAfter.toFixed(2));
 			$(this).parents('.single-row-wrapper').find(".product-quantity input").trigger('change');

@@ -148,7 +148,7 @@
 				</div>
 			</div>
 			<div class="result">
-				
+
 					<input type="hidden" name="bill_date" id="bill_date_val">
 
 <table border="1" class="table finalTb moshtraiat-bill mabi3at-bill bill-table
@@ -274,16 +274,13 @@
 <!-- Begin Form Validation-->
 <script src="https://cdn.jsdelivr.net/gh/guillaumepotier/Parsley.js@2.9.2/dist/parsley.js"></script>
 <script>
-	$(function () {
-	  $('#buyForm').parsley().on('field:validated', function() {
-		var ok = $('.parsley-error').length === 0;
-		$('.bs-callout-info').toggleClass('hidden', !ok);
-		$('.bs-callout-warning').toggleClass('hidden', ok);
-	  })
-	  .on('form:submit', function() {
-		return false; // Don't submit form for this demo
-	  });
-	});
+    $(function () {
+      $('#buyForm').parsley().on('field:validated', function() {
+        var ok = $('.parsley-error').length === 0;
+        $('.bs-callout-info').toggleClass('hidden', !ok);
+        $('.bs-callout-warning').toggleClass('hidden', ok);
+      })
+    });
 </script>
 <!-- End Form Validation-->
 <!--- scroll to the last table row -->
@@ -385,7 +382,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 							</td>
 							<td class="quantityXprice maybe-hidden total_enable" width="70">${productPrice}</td>
 							<td class="whole-product-gifts maybe-hidden gifts_enable" width="70">
-								<input type="number" placeholder="الهدايا" step="1" min="0" value="0" class="form-control" name="">
+								<input type="number" placeholder="الهدايا" step="1" min="0" value="0" class="form-control" name="gifts[${ProductId}]">
 							</td>
 							<td class="whole-product-discounts maybe-hidden discounts_enable"></td>
 
@@ -697,6 +694,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 						var theUnitTax = $('#row' + onlyModNum).data("tot-taxes");
 						var theSingleTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
 						$('#row' + onlyModNum).find(".single-price-after").text(theSingleTax.toFixed(2));
+						$('#row' + onlyModNum).find(".product-quantity input").trigger('change');
 					});
 
 					$('#discMod' + rowNum).on('hidden.bs.modal', function(e) {
@@ -1206,6 +1204,7 @@ $("#barcode_search").scannerDetection({
 						var theUnitTax = $('#row' + onlyModNum).data("tot-taxes");
 						var theSingleTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
 						$('#row' + onlyModNum).find(".single-price-after").text(theSingleTax.toFixed(2));
+						$('#row' + onlyModNum).find(".product-quantity input").trigger('change');
 					});
 
 					$('#discMod' + rowNum).on('hidden.bs.modal', function(e) {
