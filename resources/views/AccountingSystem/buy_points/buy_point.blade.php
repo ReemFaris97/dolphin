@@ -751,7 +751,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 							} else if (!($(rows[i]).find(".effectTax").is(":checked"))) {
 								var newNetTax = $('#row' + onlyModNum).find('.single-price-after').text()
 							}
-							
+
 							var newWholePriceAfter = Number(finalAftDisc) + Number(newNetTax);
 							$('#row' + onlyModNum).find('.whole-price-after').text(newWholePriceAfter.toFixed(2));
 							calcInfo();

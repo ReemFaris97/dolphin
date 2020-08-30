@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
 use Artisan;
+use Illuminate\Support\Facades\File;
 use Storage;
 class BackupController extends Controller
 {
@@ -23,9 +24,9 @@ class BackupController extends Controller
     {
 
 
-        $disk = Storage::disk(config('laravel-backup.backup.destination.disks')[0]);
 
-        $files = $disk->files(config('laravel-backup.backup.name'));
+        $files = Storage::allFiles(storage_path('app/public/Laravel'));
+        dd($files);
         $backups = [];
         // make an array of backup files, with their filesize and creation date
         foreach ($files as $k => $f) {
@@ -34,8 +35,8 @@ class BackupController extends Controller
                 $backups[] = [
                     'file_path' => $f,
                     'file_name' => str_replace(config('laravel-backup.backup.name') . '/', '', $f),
-                    'file_size' => $disk->size($f),
-                    'last_modified' => $disk->lastModified($f),
+                    'file_size' => Storage::size($f),
+                    // 'last_modified' => $disk->lastModified($f),
                 ];
             }
         }
@@ -52,20 +53,20 @@ class BackupController extends Controller
      */
     public function create()
     {
-        try {
+        // try {
             // start the backup process
             Artisan::call('backup:run');
             $output = Artisan::output();
-            dd($output);
+
             // log the results
 //            Log::info("Backpack\BackupManager -- new backup started from admin interface \r\n" . $output);
             // return the results as a response to the ajax call
             alert()->success('تم نسخ بيانات البرنامج  بنجاح !')->autoclose(5000);
             return redirect()->back();
-        } catch (\Exception $e) {
-            alert()->error('لم يتم نسخ بيانات البرنامج  حاول  مره اخرى !')->autoclose(5000);
-            return redirect()->back();
-        }
+        // } catch (\Exception $e) {
+        //     alert()->error('لم يتم نسخ بيانات البرنامج  حاول  مره اخرى !')->autoclose(5000);
+        //     return redirect()->back();
+        // }
     }
 
     /**
