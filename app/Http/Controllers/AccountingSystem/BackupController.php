@@ -26,7 +26,7 @@ class BackupController extends Controller
     public function index()
     {
 
-      $this->EXPORT_DATABASE('https://accountingsystem.panorama-q.com/','panoramaq_AccountingSystem','88eYDr4YQsqn','panoramaq_AccountingSystem');
+      $this->EXPORT_DATABASE('127.0.0.1','panoramaq_AccountingSystem','88eYDr4YQsqn','panoramaq_AccountingSystem');
      return redirect()->back();
 
         // $disk = Storage::disk(config('laravel-backup.backup.destination.disks')[0]);
