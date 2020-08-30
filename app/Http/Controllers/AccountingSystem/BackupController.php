@@ -26,7 +26,7 @@ class BackupController extends Controller
 
 
         $files = Storage::allFiles(storage_path('app/public/Laravel'));
-        dd($files);
+        // dd($files);
         $backups = [];
         // make an array of backup files, with their filesize and creation date
         foreach ($files as $k => $f) {
