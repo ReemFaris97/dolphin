@@ -577,7 +577,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 							var singlePriceBefore = Number(productPrice);
 							var singlePriceAfter = Number(productPrice);
 						}
-						
+
 						var theQuantity = $(this).parents("tr.single-row-wrapper").find(".product-quantity input").val();
 						var theUnitPrice = $(this).parents("tr.single-row-wrapper").find(".single-price-before input").val();
 						var theUnitTax = $(this).parents("tr.single-row-wrapper").data("tot-taxes");
@@ -594,6 +594,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 						var wholePriceAfter = Number($(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft')) * Number($(this).parents('.single-row-wrapper').find(".product-quantity input").val());
 						$(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(2));
 						$(this).parents("tr.single-row-wrapper").find(".product-quantity input").trigger('change');
+						$('.special-discount-modal').trigger('hidden.bs.modal');
 					});
 					//**************    Calc while changing quantity input *******************
 					$(".product-quantity input").change(function() {
@@ -617,9 +618,9 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 						var wholePriceAfter = Number($(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft')) * Number($(this).val());
 						$(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(2));
 						$(this).parents('.single-row-wrapper').find(".whole-price-before").attr('tempPriBef', wholePriceBefore.toFixed(2));
+						$('.special-discount-modal').trigger('hidden.bs.modal');
 					});
 					//**************    Calc while changing single price input ***************
-
 					$(".unit-price input").change(function() {
 						var productPrice = $(this).val();
 						var priceHasTax = $(this).parents("tr.single-row-wrapper").data('ifhastax');
@@ -651,6 +652,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 						$(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(2));
 						$(this).parents('.single-row-wrapper').find(".whole-price-before").attr('tempPriBef', wholePriceBefore.toFixed(2));
 						$(this).parents("tr.single-row-wrapper").find(".product-quantity input").trigger('change');
+						$('.special-discount-modal').trigger('hidden.bs.modal');
 					});
 
 					function calcInfo() {
@@ -749,6 +751,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 							} else if (!($(rows[i]).find(".effectTax").is(":checked"))) {
 								var newNetTax = $('#row' + onlyModNum).find('.single-price-after').text()
 							}
+							
 							var newWholePriceAfter = Number(finalAftDisc) + Number(newNetTax);
 							$('#row' + onlyModNum).find('.whole-price-after').text(newWholePriceAfter.toFixed(2));
 							calcInfo();
@@ -1082,7 +1085,7 @@ $("#barcode_search").scannerDetection({
 							var singlePriceBefore = Number(productPrice);
 							var singlePriceAfter = Number(productPrice);
 						}
-						
+
 						var theQuantity = $(this).parents("tr.single-row-wrapper").find(".product-quantity input").val();
 						var theUnitPrice = $(this).parents("tr.single-row-wrapper").find(".single-price-before input").val();
 						var theUnitTax = $(this).parents("tr.single-row-wrapper").data("tot-taxes");
@@ -1099,6 +1102,7 @@ $("#barcode_search").scannerDetection({
 						var wholePriceAfter = Number($(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft')) * Number($(this).parents('.single-row-wrapper').find(".product-quantity input").val());
 						$(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(2));
 						$(this).parents("tr.single-row-wrapper").find(".product-quantity input").trigger('change');
+						$('.special-discount-modal').trigger('hidden.bs.modal');
 					});
 					//**************    Calc while changing quantity input *******************
 					$(".product-quantity input").change(function() {
@@ -1122,6 +1126,7 @@ $("#barcode_search").scannerDetection({
 						var wholePriceAfter = Number($(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft')) * Number($(this).val());
 						$(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(2));
 						$(this).parents('.single-row-wrapper').find(".whole-price-before").attr('tempPriBef', wholePriceBefore.toFixed(2));
+						$('.special-discount-modal').trigger('hidden.bs.modal');
 					});
 					//**************    Calc while changing single price input ***************
 
@@ -1156,6 +1161,7 @@ $("#barcode_search").scannerDetection({
 						$(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(2));
 						$(this).parents('.single-row-wrapper').find(".whole-price-before").attr('tempPriBef', wholePriceBefore.toFixed(2));
 						$(this).parents("tr.single-row-wrapper").find(".product-quantity input").trigger('change');
+						$('.special-discount-modal').trigger('hidden.bs.modal');
 					});
 
 					function calcInfo() {
