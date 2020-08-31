@@ -149,7 +149,7 @@
 							<tr>
 								<th rowspan="2" width="40">م</th>
 								<th rowspan="2" class="maybe-hidden name_enable">اسم الصنف</th>
-								<th rowspan="2" class="maybe-hidden barcode_enable" width="110">باركود</th>
+								<th rowspan="2" class="maybe-hidden barcode_enable" width="140">باركود</th>
 								<th rowspan="2" class="maybe-hidden unit_enable" width="110">الوحدة</th>
 								<th rowspan="2" class="maybe-hidden quantity_enable" width="100">الكمية</th>
 								<th colspan="2" class="maybe-hidden unit_price_after_enable" width="100">سعر الوحدة</th>
@@ -324,21 +324,7 @@
 @endsection
 @section('scripts')
 
-<!-- Begin Form Validation-->
-<script src="https://cdn.jsdelivr.net/gh/guillaumepotier/Parsley.js@2.9.2/dist/parsley.js"></script>
-<script>
-	$(function () {
-	  $('#buyForm').parsley().on('field:validated', function() {
-		var ok = $('.parsley-error').length === 0;
-		$('.bs-callout-info').toggleClass('hidden', !ok);
-		$('.bs-callout-warning').toggleClass('hidden', ok);
-	  })
-	  .on('form:submit', function() {
-		return false; // Don't submit form for this demo
-	  });
-	});
-</script>
-<!-- End Form Validation-->
+
 
 <!--- scroll to the last table row -->
 <script>
@@ -419,7 +405,7 @@
 			<td class="row-num" width="40">${rowNum}</td>
 			<input type="hidden" name="product_id[]" value="${productId}">
 			<td class="product-name maybe-hidden name_enable">${productName}</td>
-			<td class="product-name maybe-hidden barcode_enable" width="110">${productBarCode}</td>
+			<td class="product-name maybe-hidden barcode_enable" width="140">${productBarCode}</td>
 			<td class="product-unit maybe-hidden unit_enable" width="110">
 				<select class="form-control js-example-basic-single" name="unit_id[${productId}]">
 					${optss}
@@ -685,7 +671,7 @@
 			<td class="row-num" width="40">${rowNum}</td>
 			<input type="hidden" name="product_id[]" value="${productId}">
 			<td class="product-name maybe-hidden name_enable">${productName}</td>
-			<td class="product-name maybe-hidden barcode_enable" width="110">${productBarCode}</td>
+			<td class="product-name maybe-hidden barcode_enable" width="140">${productBarCode}</td>
 			<td class="product-unit maybe-hidden unit_enable" width="110">
 				<select class="form-control js-example-basic-single" name="unit_id[${productId}]">
 					${optss}
