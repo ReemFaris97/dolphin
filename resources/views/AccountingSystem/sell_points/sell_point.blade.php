@@ -139,8 +139,12 @@
 					<input type="hidden" name="bill_date" id="bill_date_val">
 					<input type="hidden" name="client_id" id="client_id_val">
 					<table border="1" class="table datatable-button-init-basic finalTb mabi3at-bill bill-table
-					{{(getsetting('name_enable_sales')==1) ? 'name_enable':'' }} {{(getsetting('barcode_enable_sales')==1) ? 'barcode_enable':'' }}
-					{{(getsetting('unit_enable_sales')==1) ? 'unit_enable':'' }} {{(getsetting('quantity_enable_sales')==1) ? 'quantity_enable':'' }} {{(getsetting('unit_price_before_enable_sales') == 1) ? 'unit_price_before_enable':''}} {{(getsetting('unit_price_after_enable_sales')==1) ? 'unit_price_after_enable':'' }} {{(getsetting('total_price_before_enable_sales')==1) ? 'total_price_before_enable':'' }} {{(getsetting('total_price_after_enable_sales')==1) ? 'total_price_after_enable':'' }}">
+                    {{(getsetting('name_enable_sales')==1) ? 'name_enable':'' }}
+                    {{(getsetting('barcode_enable_sales')==1) ? 'barcode_enable':'' }}
+                    {{(getsetting('unit_enable_sales')==1) ? 'unit_enable':'' }}
+                     {{(getsetting('quantity_enable_sales')==1) ? 'quantity_enable':'' }}
+                     {{(getsetting('unit_price_enable_sales')==1) ? 'unit_price_after_enable':'' }}
+                      {{(getsetting('total_price_enable_sales')==1) ? 'total_price_after_enable':'' }}">
 						<thead>
 							<tr>
 								<th rowspan="2" width="40">م</th>
@@ -389,11 +393,11 @@
 		var totalTaxes = selectedProduct.data('total-taxes');
 		var mainUnit = selectedProduct.data('main-unit');
 		var productUnits = selectedProduct.data('subunits');
-		
+
 		let unitName = productUnits.map(a => a.name);
 		let unitPrice = productUnits.map(b => b.selling_price);
 		var unitId = productUnits.map(c => c.id);
-		
+
 		var singlePriceBefore, singlePriceAfter = 0;
 		if (Number(priceHasTax) === 0) {
 			var singlePriceBefore = Number(productPrice);
@@ -410,7 +414,7 @@
 		for (var i = 0; i < productUnits.length; i++) {
 			optss += '<option data-uni-price="' + unitPrice[i] + '" value="' + unitId[i] + '"> ' + unitName[i] + '</option> ';
 		}
-	
+
 		$(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}">
 			<td class="row-num" width="40">${rowNum}</td>
 			<input type="hidden" name="product_id[]" value="${productId}">

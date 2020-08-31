@@ -440,12 +440,12 @@
 	td > .single-5asm:last-child{
 		margin-bottom: 0
 	}
-	
+
 	tr.bill-table-tr-wrapper.fixed-ta-hd > th {
     vertical-align: middle;
 }
-	
-	
+
+
 	@media print {
 		.a-new-table.tablesaw-sortable>tbody>tr>td:first-child:after,
 		.a-new-table.tablesaw-sortable>tbody>tr>th:first-child:after {
@@ -854,7 +854,9 @@
 									<th rowspan="2" class="fixed-ta-hd maybe-hidden unit_price_after_enable">قيمة الضريبة</th>
 									<th rowspan="2" class="fixed-ta-hd maybe-hidden expiration_enable"> تاريخ انتهاء الصلاحيه</th>
 
-									<th rowspan="2" class="fixed-ta-hd maybe-hidden unit_price_after_enable">الخصومات</th>
+                                    <th rowspan="2" class="fixed-ta-hd maybe-hidden unit_price_after_enable">الخصومات</th>
+                                    <th rowspan="2" class="fixed-ta-hd maybe-hidden unit_price_after_enable">الهدايا</th>
+
 									<th colspan="2" rowspan="1" class="fixed-ta-hd th_lg">الإجمالى</th>
 								</tr>
 								<tr class="bill-table-tr-wrapper fixed-ta-hd">
@@ -889,9 +891,9 @@
 								{{$row->expire_date??'-'}}
 							</td>
 							<td class="single-price-after maybe-hidden unit_price_after_enable">
-								@if(count($row->allDiscounts)!=0)
+								@if($row->allDiscounts()->count() !=0)
 
-								@foreach ($row->allDiscounts as $discount)
+								@foreach ($row->allDiscounts() as $discount)
 									<span class="single-5asm">
 										@if($discount->discount_type=='percentage')
 										<span>  {{($discount->discount*$row->price)/100??0}} ر.س </span>
@@ -909,11 +911,12 @@
 									@else
 									-
 								@endif
-							</td>
+                            </td>
+                            <td class="whole-price-before maybe-hidden total_price_before_enable">{{$row->gifts}}</td>
+
 							<td class="whole-price-before maybe-hidden total_price_before_enable">{{$row->price*$row->quantity}}</td>
 							<td class="whole-price-after maybe-hidden total_price_after_enable">{{$row->price_after_tax*$row->quantity}}</td>
 						</tr>
-
 									@endforeach
 									<tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-money"></i>الإجمالي</td>
