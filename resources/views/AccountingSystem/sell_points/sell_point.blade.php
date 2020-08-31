@@ -324,21 +324,7 @@
 @endsection
 @section('scripts')
 
-<!-- Begin Form Validation-->
-<script src="https://cdn.jsdelivr.net/gh/guillaumepotier/Parsley.js@2.9.2/dist/parsley.js"></script>
-<script>
-	$(function () {
-	  $('#buyForm').parsley().on('field:validated', function() {
-		var ok = $('.parsley-error').length === 0;
-		$('.bs-callout-info').toggleClass('hidden', !ok);
-		$('.bs-callout-warning').toggleClass('hidden', ok);
-	  })
-	  .on('form:submit', function() {
-		return false; // Don't submit form for this demo
-	  });
-	});
-</script>
-<!-- End Form Validation-->
+
 
 <!--- scroll to the last table row -->
 <script>
