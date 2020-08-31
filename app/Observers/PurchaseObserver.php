@@ -59,6 +59,7 @@ class PurchaseObserver
        if ($purchase->payment=='agel'){
            //حساب  المشتريات و المورد
        $toAccount=AccountingAccount::where('supplier_id',$supplier->id)->first();
+       dd( $toAccount);
            AccountingEntryAccount::create([
                'entry_id'=>$entry->id,
                'account_id'=>getsetting('accounting_id_purchases'),
