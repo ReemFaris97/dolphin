@@ -102,30 +102,30 @@ class PurchaseObserver
            'affect'=>'debtor'
            ]);
 
-           AccountingEntryAccount::create([
-            'entry_id'=>$entry->id,
-          'account_id'=>getsetting('accounting_id_cash'),
-            'amount'=>$purchase->total,
-        'affect'=>'creditor'
-        ]);
-           //حساب  المشتريات والمخزون
-
-        //    $storeAccount=AccountingAccount::where('store_id',$purchase->store_id)->first();
-        //    AccountingEntryAccount::create([
-        //        'entry_id'=>$entry->id,
-        //     //    'from_account_id'=>$storeAccount->id,
-        //        'account_id'=>getsetting('accounting_id_purchases'),
-        //        'amount'=>$purchase->total,
-        //        'affect'=>'creditor',
-        //    ]);
-
         //    AccountingEntryAccount::create([
         //     'entry_id'=>$entry->id,
-        //    'account_id'=>$storeAccount->id,
-        //     // 'account_id'=>getsetting('accounting_id_purchases'),
+        //   'account_id'=>getsetting('accounting_id_cash'),
         //     'amount'=>$purchase->total,
-        //     'affect'=>'debtor',
+        // 'affect'=>'creditor'
         // ]);
+           //حساب  المشتريات والمخزون
+
+           $storeAccount=AccountingAccount::where('store_id',$purchase->store_id)->first();
+           AccountingEntryAccount::create([
+               'entry_id'=>$entry->id,
+            //    'from_account_id'=>$storeAccount->id,
+               'account_id'=>getsetting('accounting_id_purchases'),
+               'amount'=>$purchase->total,
+               'affect'=>'creditor',
+           ]);
+
+           AccountingEntryAccount::create([
+            'entry_id'=>$entry->id,
+           'account_id'=>$storeAccount->id,
+            // 'account_id'=>getsetting('accounting_id_purchases'),
+            'amount'=>$purchase->total,
+            'affect'=>'debtor',
+        ]);
        }
 
 
