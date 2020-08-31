@@ -891,7 +891,7 @@ $("#barcode_search").scannerDetection({
 							</td>
 							<td class="quantityXprice maybe-hidden total_enable" width="70">${productPrice}</td>
 							<td class="whole-product-gifts maybe-hidden gifts_enable" width="70">
-								<input type="number" placeholder="الهدايا" step="1" min="0" value="0" class="form-control" name="">
+								<input type="number" placeholder="الهدايا" step="1" min="0" value="0" class="form-control" name="gifts[${ProductId}]">
 							</td>
 							<td class="whole-product-discounts maybe-hidden discounts_enable"></td>
 

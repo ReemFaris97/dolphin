@@ -379,7 +379,7 @@
 		var totalTaxes = selectedProduct.data('total-taxes');
 		var mainUnit = selectedProduct.data('main-unit');
 		var productUnits = selectedProduct.data('subunits');
-
+		console.table(productUnits);
 		let unitName = productUnits.map(a => a.name);
 		let unitPrice = productUnits.map(b => b.selling_price);
 		var unitId = productUnits.map(c => c.id);
