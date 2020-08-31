@@ -545,7 +545,9 @@ class SaleController extends Controller
         $clients=AccountingClient::pluck('name','id')->toArray();
         $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
         $sales_items=AccountingSaleItem::where('sale_id',$id)->pluck('product_id','id')->toArray();
-        $products=AccountingProduct::whereIn('id',$sales_items)->get();
+        $store_product=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->pluck('product_id','id')->toArray();
+        $products=AccountingProduct::whereIn('id',$store_product)->get();
+
 
     return view('AccountingSystem.sales.returns',compact('sales','session','clients','categories','products'));
     }

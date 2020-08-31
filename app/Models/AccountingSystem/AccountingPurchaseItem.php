@@ -48,13 +48,14 @@ class AccountingPurchaseItem extends Model
 
 
     public  function  allDiscounts(){
-        return $this->hasMany(AccountingItemDiscount::class,'item_id');
-
+        // return $this->hasMany(AccountingItemDiscount::class,'item_id');
+        $discounts=AccountingItemDiscount::where('item_id',$this->id)->where('type','purchase')->get();
+          return $discounts;
     }
 
 
     public function discount(){
-        $discounts=AccountingItemDiscount::where('item_id',$this->id)->get();
+        $discounts=AccountingItemDiscount::where('item_id',$this->id)->where('type','purchase')->get();
         $total=[];
         $total['percentage']=0;
         $total['amount']=0;
