@@ -66,7 +66,7 @@ class PurchaseController extends Controller
     public function store(Request $request)
     {
         $requests = $request->except('user_id');
-    //   dd($requests);
+        // dd($requests);
         $rules = [
            'supplier_id'=>'required|numeric|exists:accounting_suppliers,id',
                 // 'reminder'=>'required|numeric|gt:0',
@@ -79,9 +79,7 @@ class PurchaseController extends Controller
         $requests['branch_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:Null;
         $requests['company_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingCompany')?$user->store->model_id:Null;
         $requests['store_id']=$user->accounting_store_id;
-        // dd($user->store->model_id);
         $purchase=AccountingPurchase::create($requests);
-    
         if ($requests['total']==Null){
             $requests['total']=$purchase->amount+$requests['totalTaxs'];
         }
@@ -96,7 +94,6 @@ class PurchaseController extends Controller
 
 
         $products = collect($requests['product_id']);
-
         $qtys = collect($requests['quantity']);
         $unit_id = collect($requests['unit_id']);
         $prices = collect($requests['prices']);
@@ -104,7 +101,6 @@ class PurchaseController extends Controller
         $gifts = collect($requests['gifts']);
 
         $merges = $products->zip($qtys,$unit_id,$prices,$itemTax,$gifts);
-
         $i=1;
 
         foreach ($merges as $merge)
@@ -121,6 +117,10 @@ class PurchaseController extends Controller
 
                 }
 
+            }else{
+                $product->update([
+                    'quantity'=>$product->quantity + $merge['1']+$merge['5'],
+                ]);
             }
 //            if($product->quantity>0){
             $item= AccountingPurchaseItem::create([
@@ -189,7 +189,7 @@ class PurchaseController extends Controller
                  $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',$merge['2'])->first();
                  if($productstore) {
                      $productstore->update([
-                         'quantity' => $productstore->quantity + $merge['1']+ $merge['5'],
+                         'quantity' => $productstore->quantity + $merge['1'],
 
                      ]);
                  }
@@ -202,13 +202,18 @@ class PurchaseController extends Controller
                          'quantity' => $productstore->quantity + $merge['1']+$merge['5'],
                      ]);
                  }
+
+
 /////////////////////////discount/////////////////
             if($requests['discount_byPercentage']!=0&&$requests['discount_byAmount']==0){
                 $purchase->update([
                     'discount_type'=>'percentage',
                     'discount'=>$requests['discount_byPercentage'],
+
                 ]);
+
             }elseif($requests['discount_byAmount']!=0&&$requests['discount_byPercentage']==0){
+
                 $purchase->update([
                     'discount_type'=>'amount',
                     'discount'=>$requests['discount_byAmount'],
