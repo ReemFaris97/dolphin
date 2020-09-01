@@ -27,6 +27,7 @@ use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingReturn;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Models\AccountingSystem\AccountingStore;
+use App\Traits\SaleOperation;
 use App\Traits\Viewable;
 use App\User;
 use Auth;
@@ -40,6 +41,7 @@ use Session;
 class SaleController extends Controller
 {
     use Viewable;
+    use SaleOperation;
     private $viewable = 'AccountingSystem.sales.';
     /**
      * Display a listing of the resource.
@@ -364,12 +366,7 @@ class SaleController extends Controller
 
             $store_id=auth()->user()->accounting_store_id;
             $store=AccountingStore::find($store_id);
-// //            $safe=AccountingSafe::where('model_type', $store->model_type)->where('model_id', $store->model_id)->first();
-//             $safe=AccountingSafe::where('device_id', $returnSale->session->device_id)->first();
 
-//             $safe->update([
-//                 'amount'=>$safe->amount-$returnSale->total
-//             ]);
         }elseif ($returnSale->payment=='agel'){
 
             $client=AccountingClient::find( $returnSale-> client_id);
@@ -458,10 +455,16 @@ class SaleController extends Controller
      */
     public function edit($id)
     {
-        $shift =AccountingBranchShift::findOrFail($id);
-        $branches=AccountingBranch::pluck('name','id')->toArray();
+        $sale =AccountingSale::findOrFail($id);
+        $clients=AccountingClient::pluck('name','id')->toArray();
+        $store_product=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->pluck('product_id','id')->toArray();
+        $products=AccountingProduct::whereIn('id',$store_product)->get();
+        $product_items=AccountingSaleItem::where('sale_id',$id)->get();
+        $session=AccountingSession::findOrFail($sale->session_id);
 
-        return $this->toEdit(compact('shift','branches'));
+
+
+        return view('AccountingSystem.sales.edit',compact('sale','clients','products','product_items','session'));
     }
 
     /**
@@ -473,21 +476,28 @@ class SaleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $shift =AccountingBranchShift::findOrFail($id);
+        $requests=$request->all();
 
-        $rules = [
-            'name'=>'required|string|max:191',
-            'from'=>'required|string',
-            'to'=>'required|string',
-            'branch_id'=>'required|numeric|exists:accounting_branches,id',
-        ];
-        $this->validate($request,$rules);
-        $requests = $request->all();
-        $shift->update($requests);
-        alert()->success('تم تعديل  الوردية بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.shifts.index');
+        $sale =AccountingSale::findOrFail($id);
+        $sale -> update([
+            'bill_num'=>$sale->id."-".$sale->created_at,
+            'user_id'=>$requests['user_id'] ,
+            'date'=>$requests['bill_date'] ,
+            'debts'=>$requests['reminder'] ,
+            "totalTaxs" => $requests['totalTaxs'],
+            "amount" => $requests['amount'],
+            "total" => $requests['total'],
+            "cash" => $requests['cash'],
+            "network" =>$requests['network'],
+            "payed" => $requests['payed'],
+        ]);
 
 
+        $this->createItem($request,$sale);
+        $this->editItem($request,$sale);
+
+        alert()->success('تمت تعديل  الفاتوره بنجاح !')->autoclose(5000);
+        return back()->with('sale_id',$sale->id);
     }
 
     /**
