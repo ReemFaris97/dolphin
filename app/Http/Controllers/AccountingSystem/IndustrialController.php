@@ -50,7 +50,7 @@ class IndustrialController extends Controller
     {
         $rules = [
 
-            'name'=>'required|string|max:191',
+            'name'=>'required|string|max:191|unique',
 
 
         ];
