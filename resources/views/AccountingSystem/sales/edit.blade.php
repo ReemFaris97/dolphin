@@ -134,7 +134,7 @@
 						<tbody>
                             <!--						Space For Appended Products-->
                                 @foreach ($product_items as $key=>$item)
-                            <tr class="single-row-wrapper" id="row1">
+                            <tr class="single-row-wrapper" id="row{{++$key}}">
 
                             <td class="row-num" width="40">{{++$key}}</td>
                             <input type="hidden" name="product_id_old[]" value="{{$item->product_id}}">
