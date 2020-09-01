@@ -97,8 +97,6 @@ trait SaleOperation
 
 
         $requests = $request->all();
-
-
         $products = collect($requests['product_id_old']);
         $qtys = collect($requests['quantity_old']);
         $unit_id = collect($requests['unit_id_old']);
@@ -106,7 +104,6 @@ trait SaleOperation
         $merges = $products->zip($qtys,$unit_id,$prices);
          foreach($merges as $merge){
             $product=AccountingProduct::find($merge['0']);
-
             $item_old=AccountingSaleItem::where('sale_id',$sale->id)->where('product_id',$merge[0])->first();
       if($item_old){
             $item_old->update([
