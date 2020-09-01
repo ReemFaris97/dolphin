@@ -191,7 +191,8 @@
 						<tbody>
                             <!--Space For Appended Products-->
                             @foreach($product_items as $key=>$row)
-                            <tr class="single-row-wrapper" id="row{{++$key}}" data-ifhastax="1" data-tot-taxes="15">
+
+                        <tr class="single-row-wrapper" id="row{{++$key}}" data-ifhastax="{{($row->tax==0)?0:1}}" data-tot-taxes="{{$row->tax}}">
                                 <td class="row-num" width="40">{{++$key}}</td>
                                 <input type="hidden" name="product_id_old[]" value="{{$row->product_id}}">
                                 <td class="product-name maybe-hidden name_enable" width="270"><a href="{{route('accounting.products.show',['id'=>$row->product_id])}}" target="_blank" rel="noopener noreferrer">{{$row->product->name}}</a></td>
@@ -354,7 +355,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 <script src="{{asset('admin/assets/js/scanner.js')}}"></script>
 <script>
 	$(document).ready(function() {
-		
+
 		// scroll to the last table row
 		$('table').on('DOMSubtreeModified', 'tbody', function() {$("tbody").animate({scrollTop: $('tbody').prop("scrollHeight")}, 1000)});
 

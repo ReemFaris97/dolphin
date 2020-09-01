@@ -156,10 +156,10 @@
                                 </td>
                                 <td class="single-unit-price maybe-hidden unit_price_after_enable" width="100">{{$item->price}}</td>
                                 <input type="hidden" name="prices_old[{{$item->price}}]">
-                                <td class="single-price-before maybe-hidden">12</td>
-                                <td class="single-price-after maybe-hidden">12</td>
-                                <td class="whole-price-before maybe-hidden">12</td>
-                                <td class="whole-price-after maybe-hidden total_price_after_enable" width="100">{{$item->quantity * $item->price}}</td>
+                                <td class="single-price-before maybe-hidden">{{$item->price}}</td>
+                                <td class="single-price-after maybe-hidden">{{$item->price_after_tax}}</td>
+                                <td class="whole-price-before maybe-hidden">{{$item->quantity * $item->price}}</td>
+                                <td class="whole-price-after maybe-hidden total_price_after_enable" width="100">{{$item->quantity * $item->price_after_tax}}</td>
                                 <td class="delete-single-row" width="70">
                                     @if($session->user->is_admin==1)
                                     <a href="#"><span class="icon-cross"></span></a>
@@ -500,14 +500,14 @@
 				$(this).val(0);
 				$(this).text('0');
 			}
-			
+
 			var wholePriceBefore = Number($(this).parents('.single-row-wrapper').find(".single-price-before").text()) * Number($(this).val());
 			$(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(2));
 			var wholePriceAfter = Number($(this).parents('.single-row-wrapper').find(".single-price-after").text()) * Number($(this).val());
 			$(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(2));
 		});
 		$(".bill-table tbody").trigger('change');
-		
+
 		$(".delete-single-row a").on('click', function() {
 			$(this).parents('tr').remove();
 			$(".bill-table tbody").trigger('change');
@@ -652,7 +652,7 @@
 		}
 	});
 	function byBarcode() {
-		
+
 		$(".tempobar").find('option').prop('selected', true);
 		var selectedProduct = $(".tempobar").find('option').prop('selected', true);
 		//		  alert($('option.ssID').val());
@@ -766,7 +766,7 @@
 				$(this).val(0);
 				$(this).text('0');
 			}
-			
+
 			var wholePriceBefore = Number($(this).parents('.single-row-wrapper').find(".single-price-before").text()) * Number($(this).val());
 			$(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(2));
 			var wholePriceAfter = Number($(this).parents('.single-row-wrapper').find(".single-price-after").text()) * Number($(this).val());
