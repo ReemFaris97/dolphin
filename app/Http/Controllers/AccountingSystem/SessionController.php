@@ -192,6 +192,11 @@ private $viewable = 'AccountingSystem.sessions.';
             'status'=>'closed',
         ]);
 
+        Cookie::queue(Cookie::forget('session'));
+           $device=AccountingDevice::find($session->device_id);
+           $device->update([
+               'available'=>'1'
+           ]);
 
         alert()->success('تم اغلاق الجلسه  من  قبل  الكاشير بنجاح !')->autoclose(5000);
         return back();

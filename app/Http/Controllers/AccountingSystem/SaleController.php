@@ -436,13 +436,14 @@ class SaleController extends Controller
 
            ]);
 
+
+        //    Session::forget('session_id');
+
+           Cookie::queue(Cookie::forget('session'));
            $device=AccountingDevice::find($session->device_id);
            $device->update([
                'available'=>'1'
            ]);
-        //    Session::forget('session_id');
-
-           Cookie::queue(Cookie::forget('session'));
         $devices=AccountingDevice::where('available',1)->pluck('name','id')->toArray();
 
            return view('AccountingSystem.sell_points.login',compact('users','devices'));

@@ -191,7 +191,8 @@
 						<tbody>
                             <!--Space For Appended Products-->
                             @foreach($product_items as $key=>$row)
-                            <tr class="single-row-wrapper" id="row{{++$key}}" data-ifhastax="${priceHasTax}" data-tot-taxes="${totalTaxes}">
+
+                        <tr class="single-row-wrapper" id="row{{++$key}}" data-ifhastax="{{($row->tax==0)?0:1}}" data-tot-taxes="{{$row->tax}}">
                                 <td class="row-num" width="40">{{++$key}}</td>
                                 <input type="hidden" name="product_id_old[]" value="{{$row->product_id}}">
                                 <td class="product-name maybe-hidden name_enable" width="270"><a href="{{route('accounting.products.show',['id'=>$row->product_id])}}" target="_blank" rel="noopener noreferrer">{{$row->product->name}}</a></td>
@@ -216,7 +217,7 @@
                                     <input type="number" class="form-control" step="any" value="{{round($row->price,3)}}" name="">
                                 </td>
                                 <td class="quantityXprice maybe-hidden total_enable" width="70">
-                                    <input type="number" class="form-control" step="any" value="{{round($row->price,3)}}" name="">
+                                    <input type="number" class="form-control" step="any" readonly value="{{round($row->price,3)}}" name="">
                                 </td>
                                 <td class="whole-product-gifts maybe-hidden gifts_enable" width="70">
                                     <input type="number" placeholder="الهدايا" step="1" min="0" value="{{$row->gifts}}" class="form-control" name="gifts_old[{{$row->product_id}}]">
@@ -250,7 +251,7 @@
                             </tr>
                             @endforeach
 						</tbody>
-						<tfoot class="tempDisabled">
+						<tfoot>
 							<tr>
 								<th id="amountBeforeDariba" class="rel-cols" colspan="3">
 									<span class="colorfulSpan"> المجموع</span>
@@ -354,6 +355,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 <script src="{{asset('admin/assets/js/scanner.js')}}"></script>
 <script>
 	$(document).ready(function() {
+
 		// scroll to the last table row
 		$('table').on('DOMSubtreeModified', 'tbody', function() {$("tbody").animate({scrollTop: $('tbody').prop("scrollHeight")}, 1000)});
 
@@ -1354,6 +1356,13 @@ $("#barcode_search").scannerDetection({
 </script>
 
 <script>
+$(document).ready(function(){
+	$("#selectID").prop("selectedIndex", 1);
+	$('#selectID').trigger('change');
+	$("table.bill-table tbody tr:last-child").remove();
+	$("td.product-quantity input").trigger('change');
+	calcInfo();
+})
 	$("#supplier_id").on('change', function() {
 		var id= $(this).val();
 		$.ajax({
