@@ -192,6 +192,7 @@ private $viewable = 'AccountingSystem.sessions.';
             'status'=>'closed',
         ]);
 
+        \Auth::logoutOtherDevices();
 
         alert()->success('تم اغلاق الجلسه  من  قبل  الكاشير بنجاح !')->autoclose(5000);
         return back();
