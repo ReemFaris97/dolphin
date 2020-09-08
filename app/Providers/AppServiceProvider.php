@@ -7,6 +7,7 @@ use App\Models\AccountingSystem\AccountingAsset;
 use App\Models\AccountingSystem\AccountingAssetDamageLog;
 use App\Models\AccountingSystem\AccountingBank;
 use App\Models\AccountingSystem\AccountingBranch;
+use App\Models\AccountingSystem\AccountingClient;
 use App\Models\AccountingSystem\AccountingDevice;
 use App\Models\AccountingSystem\AccountingEntry;
 use App\Models\AccountingSystem\AccountingEntryAccount;
@@ -24,6 +25,7 @@ use App\Observers\AccountObserver;
 use App\Observers\AssetDamageObserver;
 use App\Observers\AssetObserver;
 use App\Observers\BankObserver;
+use App\Observers\ClientObsever;
 use App\Observers\EntryAccountObserver;
 use App\Observers\EntryObserver;
 use App\Observers\MoneyClauseLogObserver;
@@ -72,11 +74,11 @@ class AppServiceProvider extends ServiceProvider
               AccountingSupplier::observe(SupplierObserver::class);
               AccountingStore::observe(StoreObserver::class);
               AccountingPayment::observe(PaymentObserver::class);
-             AccountingBank::observe(BankObserver::class);
-            AccountingSafe::observe(SafeObserver::class);
-            AccountingAsset::observe(AssetObserver::class);
-            AccountingAssetDamageLog::observe(AssetDamageObserver::class);
-
+               AccountingBank::observe(BankObserver::class);
+                AccountingSafe::observe(SafeObserver::class);
+                AccountingAsset::observe(AssetObserver::class);
+                AccountingAssetDamageLog::observe(AssetDamageObserver::class);
+                AccountingClient::observe(ClientObsever::class);
 
         Validator::extend('branch_name', function ($attribute, $value, $parameters) {
             $count= AccountingBranch::where($parameters[1],$parameters[3])->

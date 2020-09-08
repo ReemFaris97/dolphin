@@ -51,8 +51,10 @@ class ClauseController extends Controller
         $payments=AccountingPayment::where('active',1)->pluck('name','id')->toArray();
         $centers=AccountingCostCenter::pluck('name','id')->toArray();
         $accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->where('kind','sub')->pluck('code_name','id')->toArray();
+        $client_accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->where('kind','sub')->where('client_id','!=',Null)->pluck('code_name','id')->toArray();
+        $supplier_accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->where('kind','sub')->where('supplier_id','!=',Null)->pluck('code_name','id')->toArray();
 
-        return $this->toCreate(compact('payments','benods','centers','accounts'));
+        return $this->toCreate(compact('payments','benods','centers','accounts','client_accounts','supplier_accounts'));
     }
 
     /**
