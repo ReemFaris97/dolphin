@@ -123,7 +123,7 @@
 				<div class=" col-md-6 col-sm-6 col-xs-12 pull-left">
 				<div class=" form-group">
 					<label>اسم المنتج </label>
-					{!! Form::text("name",isset($is_edit)?$product->name:null,['class'=>'form-control','placeholder'=>' اسم المنتج '])!!}
+					{!! Form::text("product_name",isset($is_edit)?$product->name:null,['class'=>'form-control','placeholder'=>' اسم المنتج '])!!}
 				</div>
 				</div>
 				<div class="col-md-6 col-sm-6 col-xs-12 pull-left">
