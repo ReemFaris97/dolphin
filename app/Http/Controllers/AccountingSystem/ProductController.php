@@ -93,7 +93,7 @@ class ProductController extends Controller
             'type'=>'required|string',
         ];
         $messsage = [
-            'name.product_name'=>"اسم المنتج موجود بالفعل بالتصنيف",
+            'product_name.product_name'=>"اسم المنتج موجود بالفعل بالتصنيف",
             'code.barcode_name'=>"باركود المنتج موجود بالفعل بالتصنيف",
             'type.required'=>'نوع المنتج مطلوب ادخاله',
         ];
