@@ -100,7 +100,7 @@ class ProductController extends Controller
         $this->validate($request,$rules,$messsage);
 
         $inputs = $request->except('image','main_unit_present','purchasing_price','selling_price','component_names','qtys','main_units');
-       $inputs['name']=$inputs['name_product'];
+       $inputs['name']=$inputs['product_name'];
         $inputs['selling_price']=$inputs['product_selling_price'];
         $inputs['purchasing_price']=$inputs['product_purchasing_price'];
 //        dd($inputs);
