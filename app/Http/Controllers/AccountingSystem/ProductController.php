@@ -73,7 +73,7 @@ class ProductController extends Controller
     {
 //dd($request->all());
         $rules = [
-           'product_name'=>'required|string|max:191|product_name:accounting_products,name,category_id,'.$request['name'].','.$request['category_id'],
+           'product_name'=>'required|string|max:191|product_name:accounting_products,name,category_id,'.$request['product_name'].','.$request['category_id'],
 
             'description'=>'nullable|string',
             'category_id'=>'nullable|numeric|exists:accounting_product_categories,id',
