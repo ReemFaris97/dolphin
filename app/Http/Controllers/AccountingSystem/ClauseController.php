@@ -236,4 +236,6 @@ class ClauseController extends Controller
         return view('AccountingSystem.clauses.checks',compact('clauses'));
 
     }
+
+    
 }

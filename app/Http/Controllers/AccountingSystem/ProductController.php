@@ -73,11 +73,11 @@ class ProductController extends Controller
     {
 //dd($request->all());
         $rules = [
-           'name'=>'required|string|max:191|product_name:accounting_products,name,category_id,'.$request['name'].','.$request['category_id'],
+           'product_name'=>'required|string|max:191|product_name:accounting_products,name,category_id,'.$request['name'].','.$request['category_id'],
 
             'description'=>'nullable|string',
             'category_id'=>'nullable|numeric|exists:accounting_product_categories,id',
-         'bar_code'=>'nullable|string|product_name:accounting_products,bar_code,category_id,'.$request['bar_code'].','.$request['category_id'],
+            'bar_code'=>'nullable|string|product_name:accounting_products,bar_code,category_id,'.$request['bar_code'].','.$request['category_id'],
             'product_selling_price'=>'required',
             'product_purchasing_price'=>'required',
             'min_quantity'=>'required|string|numeric',
@@ -100,7 +100,7 @@ class ProductController extends Controller
         $this->validate($request,$rules,$messsage);
 
         $inputs = $request->except('image','main_unit_present','purchasing_price','selling_price','component_names','qtys','main_units');
-//        $inputs['name']=$inputs['name_product'];
+       $inputs['name']=$inputs['name_product'];
         $inputs['selling_price']=$inputs['product_selling_price'];
         $inputs['purchasing_price']=$inputs['product_purchasing_price'];
 //        dd($inputs);
