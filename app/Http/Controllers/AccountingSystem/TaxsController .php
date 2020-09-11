@@ -42,12 +42,12 @@ class  TaxsController extends Controller
     {
         $rules = [
 
-            'name'=>'required|string|max:191|unique',
+            'name'=>'required|string|max:191|unique:accounting_tax_bands,name',
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
         AccountingTaxBand::create($requests);
-    
+
         alert()->success('تم اضافة  الضريبة بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.taxs.index');
     }
