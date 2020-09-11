@@ -52,13 +52,19 @@ class UserController extends Controller
     {
 
         $rules = [
+
             'name'=>'required|string|max:191',
             'phone'=>'required|numeric|unique:users,phone',
             'email'=>'required|string|unique:users,email',
             'password'=>'required|string|max:191',
             'image'=>'nullable|sometimes|image',
+            'role_id'=>'required|numeric|exists:roles,id',
+
         ];
-        $this->validate($request,$rules);
+        $messsage = [
+            'role_id.required'=>"تحديد الدور او المهام مطلول",
+        ];
+        $this->validate($request,$rules,$messsage);
         $requests = $request->except('image');
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'photos');
