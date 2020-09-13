@@ -104,7 +104,7 @@
 <div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left">
     <label>المبلغ </label>
     {{-- {!! Form::number("amount",null,['class'=>'form-control','placeholder'=>' المبلغ','id'=>'amount','pattern'=>'^\d+(\.|\,)\d{2}$'])!!} --}}
-    <input type="number"  min="0" step="0.01"  class="form-control" />
+    <input type="number"  name="amount"min="0" step="0.01"  class="form-control" />
 </div>
 <div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left">
     <label> العمله   </label>
