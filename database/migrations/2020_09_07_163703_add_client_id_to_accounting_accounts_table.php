@@ -14,7 +14,10 @@ class AddClientIdToAccountingAccountsTable extends Migration
     public function up()
     {
         Schema::table('accounting_accounts', function (Blueprint $table) {
-            //
+            $table->unsignedBigInteger('client_id')->nullable();
+            $table->foreign('client_id')->references('id')
+                ->on('accounting_clients')->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 
