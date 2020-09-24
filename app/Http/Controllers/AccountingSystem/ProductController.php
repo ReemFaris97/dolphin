@@ -77,7 +77,7 @@ class ProductController extends Controller
 
             'description'=>'nullable|string',
             'category_id'=>'nullable|numeric|exists:accounting_product_categories,id',
-            'bar_code'=>'nullable|string|product_name:accounting_products,bar_code,category_id,'.$request['bar_code'].','.$request['category_id'],
+            'bar_code'=>'uniqe|nullable|string|product_name:accounting_products,bar_code,category_id,'.$request['bar_code'].','.$request['category_id'],
             'product_selling_price'=>'required',
             'product_purchasing_price'=>'required',
             'min_quantity'=>'required|string|numeric',

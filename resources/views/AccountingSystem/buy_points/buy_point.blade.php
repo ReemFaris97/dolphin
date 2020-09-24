@@ -50,7 +50,8 @@
 								@endforeach
 							</ul>
 						</div>
-					@endif
+                    @endif
+
 					<div class="col-xs-12">
 						<div class="form-group  {{(getsetting('show_supplier_balance')==1) ? 'show_supplier_balance_enable col-sm-2':'col-sm-4' }}">
 							<label> إسم المورد </label>
@@ -81,15 +82,18 @@
 						<a href="{{route('accounting.products.create')}}" target="_blank" class="btn btn-primary pos-abs-btn">
 							اضافه منتج جديد
 						</a>
-					</div>
-<!--
-					<div class="col-md-4 col-sm-4 col-xs-12">
+                    </div>
+                    @if(count($stores)>1)
+                    <div class="col-md-4 col-sm-4 col-xs-12">
 						<div class="form-group block-gp">
-							<label>اسم القسم </label>
-							{!! Form::select("category_id",$categories,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}
+							<label> اختر المخزن </label>
+							{!! Form::select("store_id",$stores,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'store_id','placeholder'=>' اختر المخزن ','data-live-search'=>'true'])!!}
 						</div>
 					</div>
--->
+                    @endif
+
+
+
 					<div class="col-md-4 col-sm-4 col-xs-12">
 						<div class="yurProdc">
 							<!--Select Products-->

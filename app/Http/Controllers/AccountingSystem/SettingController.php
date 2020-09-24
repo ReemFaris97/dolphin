@@ -84,6 +84,8 @@ class SettingController extends Controller
                 ->with('purchases_settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_purchases')->get())
                 ->with('supplier_settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_supplier')->get())
                 ->with('returns_settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_purchases_returns')->get())
+                ->with('discounts_settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_purchases_returns')->get())
+
                 ->with('chart_accounts', $chart_accounts);
 
         }elseif ($settings_page == 'اعاده تعين حسابات المبيعات')

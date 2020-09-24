@@ -60,8 +60,8 @@ class DeviceController extends Controller
 
         ];
         $messsage = [
-            'name.store_name'=>"اسم الجهاز موجود بالفعل بالشركة",
-            'code.store_code'=>"كود الجهاز موجود بالفعل بالشركة",
+            'name.device_name'=>"اسم الجهاز موجود بالفعل بالشركة",
+            'code.device_code'=>"كود الجهاز موجود بالفعل بالشركة",
 
         ];
         $this->validate($request,$rules,$messsage);
@@ -87,6 +87,7 @@ class DeviceController extends Controller
             'model_id'=>$device->model_id,
 
         ]);
+
         alert()->success('تم اضافة  الجهاز بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.devices.index');
     }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AccountingProduct extends Model
 {
-    protected $fillable = ['name','description','type','is_active','category_id',
+    protected $fillable = ['name','en_name','description','type','is_active','category_id',
     'column_id','bar_code','main_unit','selling_price','purchasing_price','min_quantity',
     'max_quantity','expired_at','image','store_id'
     ,'size','color','height','width','num_days_recession','industrial_id','quantity','unit_price',

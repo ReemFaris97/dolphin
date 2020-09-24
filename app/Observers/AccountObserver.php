@@ -10,6 +10,7 @@ class AccountObserver
 
     public function creating(AccountingAccount $account)
     {
+
 ///////////////////////تلقائى
         if (getsetting('automatic')=='1') {
 
@@ -81,7 +82,7 @@ class AccountObserver
         ////////////////////////غير تلقائى-------------تزايدى
 
         elseif (getsetting('automatic')=='0'&&getsetting('coding_status')=='1'){
-
+            // dd($account);
             if ($account->kind=='main'){
                 $lastMainAcount = AccountingAccount::where('kind', 'main')->latest()->first();
                 if (!is_null($lastMainAcount)) {
@@ -96,17 +97,19 @@ class AccountObserver
 
             }elseif($account->kind=='sub'||$account->kind=='following_main'){
                 $perantAccount= AccountingAccount::find($account->account_id);
+                // dd($perantAccount);
                 $lastsubAcount = AccountingAccount::whereIn('kind',['following_main', 'sub'])->where('account_id',$account->account_id)->latest()->first();
                 if (!is_null($lastsubAcount)) {
                     if (strpos($lastsubAcount->code, '*') == true) {
                         $lastsubAcount->code = rtrim($lastsubAcount->code, '*');
-                      
+
                     }
                     $account->code = $lastsubAcount->code + 1;
                     $account->level = $lastsubAcount->level;
 
 
                 }else{
+
                     $account->code = $perantAccount->code . 1;
                     $account->level = $perantAccount->level +1;
 

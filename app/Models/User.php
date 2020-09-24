@@ -304,7 +304,6 @@ class User extends Authenticatable implements JWTSubject
         return $this->supplierBills()->sum('amount_rest');
     }
 
-
     public function TotalOfSupplierReceivables() : float {
         $amount_rest = $this->totalRestMoneyInBill();
         $paid = $this->supplierPaidMoneyInTransactions() + $this->totalPaidMoneyInBill();

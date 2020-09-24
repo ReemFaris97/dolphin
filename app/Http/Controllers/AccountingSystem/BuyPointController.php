@@ -11,7 +11,10 @@ use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingProductSubUnit;
 use App\Models\AccountingSystem\AccountingPurchaseItem;
 use App\Models\AccountingSystem\AccountingSafe;
+use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingSupplier;
+use App\Models\AccountingSystem\AccountingUserPermission;
+use App\Models\UserPermission;
 use App\Traits\Viewable;
 use App\User;
 use Illuminate\Validation\Rules\Exists;
@@ -33,11 +36,23 @@ class BuyPointController extends Controller
         $suppliers=AccountingSupplier::pluck('name','id')->toArray();
         $safes=AccountingSafe::pluck('name','id')->toArray();
 
-        $store_product=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->pluck('product_id','id')->toArray();
-        // $products=AccountingProduct::whereIn('id',$store_product)->get();
-        $products=AccountingProduct::all();
 
-        return  view('AccountingSystem.buy_points.buy_point',compact('categories','suppliers','safes','products'));
+        // $products=AccountingProduct::all();
+        $userstores=AccountingUserPermission::where('user_id',auth()->user()->id)->where('model_type','App\Models\AccountingSystem\AccountingStore')->pluck('model_id','id')->toArray();
+        $stores=AccountingStore::whereIn('id',$userstores)->pluck('ar_name','id')->toArray();
+
+        if(count($userstores) > 1){
+        $store_product=AccountingProductStore::whereIn('store_id',$userstores)->pluck('product_id','id')->toArray();
+        $products=[];
+
+    }elseif(count($userstores)==1){
+        $store_product=AccountingProductStore::whereIn('store_id',$userstores)->toArray();
+        $products=AccountingProduct::whereIn('id',$store_product)->get();
+      }else{
+        $products=[];
+      }
+
+       return  view('AccountingSystem.buy_points.buy_point',compact('categories','suppliers','safes','products','stores'));
     }
 
 
