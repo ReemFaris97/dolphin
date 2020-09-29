@@ -1513,3 +1513,104 @@ table#qyoud-table thead tr th {
 #qyoud-table tbody tr td a.delete-it {
     margin-top: 0;
 }
+.custom-tabs.tabs-2020 .col-md-12.inside-form-tbl {
+    /* display: inline-block; */
+    width: 96%;
+    background: #eee;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    margin-right: 2%;
+    border: 1px solid #2ECC71;
+}
+.custom-tabs.tabs-2020 .col-md-12.inside-form-tbl > span {
+    font-size: 17px;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    padding: 2px 5px;
+    color: #fff;
+    background: #000;
+    margin-bottom: 3px;
+    border-radius: 40px;
+    margin-top: 3px;
+}
+.custom-tabs.tabs-2020 .col-md-12.inside-form-tbl > table {
+    width: 100%;
+    margin-bottom: 3px;
+}
+.custom-tabs.tabs-2020 .col-md-12.inside-form-tbl .dt-buttons , 
+.custom-tabs.tabs-2020 .col-md-12.inside-form-tbl .dataTables_filter{
+    margin: 0 0 0 0;
+}
+.custom-tabs.tabs-2020 .dataTables_info, .dataTables_paginate.paging_simple_numbers {
+    margin-bottom: 0 !important;
+}
+.custom-tabs.tabs-2020 .asidee-in-input-btn{
+	position: absolute;
+    left: 10px;
+    top: 27px
+}
+
+.custom-tabs.tabs-2020  .form-group label + span.asided-hint {
+    position: absolute;
+    left: 10px;
+    top: 0;
+	color: #f00 
+}
+.custom-tabs.tabs-2020 .form-group label {
+    font-size: 12px;
+    margin-bottom: 2px;
+}
+.custom-tabs.tabs-2020 .row .form-group.col-md-4.col-sm-6.col-xs-12.pull-left {
+    margin-bottom: 4px;
+}
+.custom-tabs.tabs-2020 .adding-new-comp a {
+    padding: 8px 3px;
+    font-size: 12px;
+}
+.custom-tabs.tabs-2020 .adding-new-comp {
+    left: 35px;
+}
+
+.custom-tabs.tabs-2020  .btn.btn-primary {
+    position: absolute;
+    left: 10px;
+    top: 22px;
+	z-index: 99
+}
+.custom-tabs.tabs-2020 textarea.form-control {
+    height: 60px;
+    resize: none;
+}
+.custom-tabs.tabs-2020 > div {
+    background: #eee;
+    padding: 5px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+.custom-tabs.tabs-2020 .form-line.new-radio-big-wrapper > label {
+    position: absolute;
+    top: 0;
+    right: 10px;
+}
+.custom-tabs.tabs-2020 .form-group.col-lg-3.col-md-4.col-sm-6.col-xs-12.pull-left.form-line.new-radio-big-wrapper {
+    padding-top: 30px;
+}
+.custom-tabs.tabs-2020 .text-center.col-md-12.m--margin-bottom-5 {
+    margin: 0;
+    background: transparent;
+    margin-top: -20px;
+    margin-bottom: -10px;
+}
+.custom-tabs.tabs-2020 table tbody {
+    background-color: rgb(69, 90, 100);
+    color: #fff;
+}
+.custom-tabs.tabs-2020  .parsley-errors-list {
+    opacity: 1;
+    position: absolute;
+    left: 10px;
+    color: red;
+    bottom: 0;
+    z-index: 9;
+}

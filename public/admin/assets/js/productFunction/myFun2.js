@@ -16,7 +16,7 @@ function myFun2(event) {
         })
 
         bigDataComponent.push(component_data);
-        $("#componentTable").show();
+        $("#componentTable-wrap").show();
         var appendComponent = bigDataComponent.map(function(component) {
             return (`
             <tr class="single-product">

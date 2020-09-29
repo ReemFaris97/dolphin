@@ -15,7 +15,7 @@ function myFun3(event) {
                 dangerMode: true,
             })
             bigDataOffer.push(offer_data);
-            $("#offerTable").show();
+            $("#offerTable-wrap").show();
             var appendOffer = bigDataOffer.map(function(offer) {
                 return (`
                 <tr class="single-product">

@@ -15,7 +15,7 @@ function myFun4(event) {
         })
 
         bigDataDiscount.push(discount_data);
-        $("#discountTable").show();
+        $("#discountTable-wrap").show();
         var appendDiscount = bigDataDiscount.map(function(discount) {
             return (`
             <tr class="single-product">

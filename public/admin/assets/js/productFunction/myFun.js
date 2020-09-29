@@ -18,7 +18,7 @@ function myFun(event) {
             dangerMode: true,
         })
         bigData.push(data);
-        $("#productsTable").show();
+        $("#productsTable-wrap").show();
 
         var appendProducts = bigData.map(function(product) {
             return (`

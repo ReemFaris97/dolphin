@@ -15,7 +15,7 @@
 					dangerMode: true,
 				})
 				bigDataService.push(service_data);
-				$("#serviceTable").show();
+				$("#serviceTable-wrap").show();
 				var appendService = bigDataService.map(function(service) {
 					return (`
 					<tr class="single-product">

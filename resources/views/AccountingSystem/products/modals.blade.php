@@ -11,21 +11,21 @@
 			<div class="modal-body">
 				<label> اسم الوحده</label>
 				<span class="required--in">*</span>
-				<input type="text" class="form-control the-unit-name" id="name" required>
+				<input type="text" class="form-control the-unit-name" id="name" >
 				<label> باركود</label>
-				<input type="text" class="form-control the-unit-bar" id="par_code" required>
+				<input type="text" class="form-control the-unit-bar" id="par_code" >
 				<label>مقدارها بالنسبة للوحده الاساسية</label>
 				<span class="required--in">*</span>
-				<input type="text" class="form-control the-unit-pre" id="main_unit_present" required>
+				<input type="text" class="form-control the-unit-pre" id="main_unit_present" >
 				<label> سعرالبيع</label>
 				<span class="required--in">*</span>
-				<input type="text" class="form-control the-unit-spri" id="selling_price" required>
+				<input type="text" class="form-control the-unit-spri" id="selling_price" >
 				<label>سعر الشراء</label>
 				<span class="required--in">*</span>
-				<input type="text" class="form-control the-unit-ppri" id="purchasing_price" required>
+				<input type="text" class="form-control the-unit-ppri" id="purchasing_price" >
 				<label> الكميه</label>
 				<span class="required--in">*</span>
-				<input type="text" class="form-control the-unit-quantity" id="quantity" required>
+				<input type="text" class="form-control the-unit-quantity" id="quantity" >
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
