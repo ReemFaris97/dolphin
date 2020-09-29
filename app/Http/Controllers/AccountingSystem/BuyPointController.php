@@ -41,14 +41,12 @@ class BuyPointController extends Controller
         $userstores=AccountingUserPermission::where('user_id',auth()->user()->id)->where('model_type','App\Models\AccountingSystem\AccountingStore')->pluck('model_id','id')->toArray();
         $stores=AccountingStore::whereIn('id',$userstores)->pluck('ar_name','id')->toArray();
 
-        if(count($userstores) > 1){
+        if($userstores){
         $store_product=AccountingProductStore::whereIn('store_id',$userstores)->pluck('product_id','id')->toArray();
-        $products=[];
+            $products=AccountingProduct::whereIn('id',$store_product)->get();
 
-    }elseif(count($userstores)==1){
-        $store_product=AccountingProductStore::whereIn('store_id',$userstores)->toArray();
-        $products=AccountingProduct::whereIn('id',$store_product)->get();
-      }else{
+
+             }else{
         $products=[];
       }
 
@@ -62,8 +60,9 @@ class BuyPointController extends Controller
      * @return \Illuminate\Http\Response
      */
     public  function getProductAjex(Request $request){
-        $store_product=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->pluck('product_id','id')->toArray();
-        $products=AccountingProduct::where('category_id',$request['id'])->whereIn('id',$store_product)->get();
+        $store_product=AccountingProductStore::where('store_id',$request['id'])->pluck('product_id','id')->toArray();
+        $products=AccountingProduct::whereIn('id',$store_product)->get();
+//dd($products);
 
         return response()->json([
             'status'=>true,
@@ -82,10 +81,12 @@ class BuyPointController extends Controller
 
     }
 
-    public  function barcode_search($q){
+    public  function barcode_search(Request $request,$q){
+
+        $store_product=AccountingProductStore::where('store_id',$request['id'])->pluck('product_id','id')->toArray();
 
 
-        $products=AccountingProduct::where('bar_code',$q)->get();
+        $products=AccountingProduct::where('bar_code',$q)->whereIn('id',$store_product)->get();
 
 		if(!$products->isEmpty())
 		{
@@ -94,7 +95,7 @@ class BuyPointController extends Controller
         else
         {
             $product_unit=AccountingProductSubUnit::where('bar_code',$q)->pluck('product_id');
-            $products=AccountingProduct::whereIn('id',$product_unit)->get();
+            $products=AccountingProduct::whereIn('id',$product_unit)->whereIn('id',$store_product)->get();
             $unit=	AccountingProductSubUnit::where('bar_code',$q)->first();
 			if($unit)
 			$selectd_unit_id = $unit->id;
