@@ -273,7 +273,7 @@
 							اضاقه باركود اخر
 					   </button>
 						<label>الباركود </label>
-						{!! Form::text("bar_code",null,['class'=>'form-control','required','placeholder'=>' الباركود '])!!}
+						{!! Form::text("bar_code",null,['class'=>'form-control','id'=>'TheBarCodeInput','required','placeholder'=>' الباركود '])!!}
 					</div>
 				</div>
 				<div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left">
@@ -517,7 +517,10 @@
 @section('scripts')
 	<script>
 		$(document).ready(function() {
-			
+			$("#TheBarCodeInput").change(function(e){
+				e.stopPropagation();
+				e.preventDefault();
+			})
 			$("select[multiple]").each(function(){
 				$(this).parent().find("ul.dropdown-menu.inner").children('li:first-child').removeClass('selected')
 				$(this).children('option:first-child').attr('selected' , false);
