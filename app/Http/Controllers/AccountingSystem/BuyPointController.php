@@ -46,7 +46,7 @@ class BuyPointController extends Controller
         $products=[];
 
     }elseif(count($userstores)==1){
-        $store_product=AccountingProductStore::whereIn('store_id',$userstores)->toArray();
+        $store_product=AccountingProductStore::whereIn('store_id',$userstores)->pluck('product_id','id')->toArray();
         $products=AccountingProduct::whereIn('id',$store_product)->get();
       }else{
         $products=[];
@@ -62,8 +62,9 @@ class BuyPointController extends Controller
      * @return \Illuminate\Http\Response
      */
     public  function getProductAjex(Request $request){
-        $store_product=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->pluck('product_id','id')->toArray();
-        $products=AccountingProduct::where('category_id',$request['id'])->whereIn('id',$store_product)->get();
+        $store_product=AccountingProductStore::where('store_id',$request['id'])->pluck('product_id','id')->toArray();
+        $products=AccountingProduct::whereIn('id',$store_product)->get();
+//dd($products);
 
         return response()->json([
             'status'=>true,
@@ -82,7 +83,9 @@ class BuyPointController extends Controller
 
     }
 
-    public  function barcode_search($q){
+    public  function barcode_search(Request $request,$q){
+
+        $store_product=AccountingProductStore::where('store_id',$request['id'])->pluck('product_id','id')->toArray();
 
 
         $products=AccountingProduct::where('bar_code',$q)->get();
