@@ -43,11 +43,11 @@
 <table id="qyoud-table">
 	<thead>
 		<tr>
-			<th> رقم الحركة</th>
-			<th>الحساب </th>
-			<th> الوصف</th>
+			<th> رقم الحركة </th>
 			<th> مدين </th>
 			<th> دائن </th>
+			<th> الحساب </th>
+			<th> الوصف </th>
 			<th> حذف </th>
 		</tr>
 	</thead>
@@ -56,6 +56,15 @@
             @foreach($entry->accounts()->get() as $key=>$accountEntry)
         <tr class="single-row">
 			<td>{{++$key}}</td>
+			
+
+			<td>
+				<input type="number" min="0" name="debtor[]" class="form-control debtor" @if($accountEntry->affect=='debtor')value= "{{$accountEntry->amount}}" @else value="0" @endif>
+			</td>
+			<td>
+				<input type="number" min="0" name="creditor[]" class="form-control creditor" @if($accountEntry->affect=='creditor')value= "{{$accountEntry->amount}}" @else value="0" @endif>
+			</td>
+			
 			<td>
 				<select name="account_id[]" class="form-control">
                     @foreach ($accounts as $account)
@@ -70,14 +79,7 @@
 			<td>
 				<input type="text" name="details[]" class="form-control">
             </td>
-
-			<td>
-				<input type="number" min="0" name="debtor[]" class="form-control debtor" @if($accountEntry->affect=='debtor')value= "{{$accountEntry->amount}}" @else value="0" @endif>
-			</td>
-			<td>
-				<input type="number" min="0" name="creditor[]" class="form-control creditor" @if($accountEntry->affect=='creditor')value= "{{$accountEntry->amount}}" @else value="0" @endif>
-			</td>
-			</td>
+            
 			<td>
             <a href="{{route("accounting.entries.destroy_account",['id'=>$accountEntry->id])}}" data-toggle="tooltip" class="delete-it">X</a>
                 {{-- {!!Form::open( ['route' => ['accounting.entries.destroy_account',$accountEntry->id] ,'id'=>'delete-form'.$accountEntry->id, 'method' => 'Delete']) !!}
@@ -88,6 +90,13 @@
         @else
 		<tr class="single-row">
 			<td>1</td>
+			
+			<td>
+				<input type="number" min="0" name="debtor[]" class="form-control debtor" value="0">
+			</td>
+			<td>
+				<input type="number" min="0" name="creditor[]" class="form-control creditor" value="0">
+			</td>
 			<td>
 				<select name="account_id[]" class="form-control">
 					@foreach ($accounts as $account)
@@ -99,32 +108,26 @@
 				<input type="text" name="details[]" class="form-control">
 			</td>
 			<td>
-				<input type="number" min="0" name="debtor[]" class="form-control debtor" value="0">
-			</td>
-			<td>
-				<input type="number" min="0" name="creditor[]" class="form-control creditor" value="0">
-			</td>
-			<td>
 
             </td>
         </tr>
         @endif
 	</tbody>
 	<tfoot>
-		<td>
-			<button type="button" class="btn btn-success" id="add-new">إضافة حساب اخر <i class="icon-arrow-left13 position-right"></i></button>
-		</td>
-		<td>1</td>
 			<td>
-
+				<button type="button" class="btn btn-success" id="add-new">إضافة حساب اخر <i class="icon-arrow-left13 position-right"></i></button>
 			</td>
-
 			<td>
 				<input type="number" min="0" name="debtor_total" class="form-control" id="debtor" readonly>
 			</td>
 			<td>
 				<input type="number" min="0" name="creditor_total"  class="form-control" id="creditor" readonly>
 			</td>
+			<td>
+
+			</td>
+
+			
 			<td>
 
 			</td>
@@ -171,6 +174,13 @@
 			var num = $("#qyoud-table-tbody tr").length + 1;
 			$("#qyoud-table-tbody").append(`<tr class="single-row">
 			<td>${num}</td>
+			
+			<td>
+				<input type="number" min="0" name="debtor[]" class="form-control debtor" value="0">
+			</td>
+			<td>
+				<input type="number" min="0" name="creditor[]" class="form-control creditor" value="0">
+			</td>
 			<td>
 				<select name="account_id[]" class="form-control">
 					@foreach ($accounts as $account)
@@ -180,12 +190,6 @@
 			</td>
 			<td>
 				<input type="text" name="details" class="form-control">
-			</td>
-			<td>
-				<input type="number" min="0" name="debtor[]" class="form-control debtor" value="0">
-			</td>
-			<td>
-				<input type="number" min="0" name="creditor[]" class="form-control creditor" value="0">
 			</td>
 			<td>
 				<a href="#" class="delete-it">X</a>
@@ -217,6 +221,16 @@
 				})
 			}
 		})
+		
+		$("#entries-forma").submit(function(){
+			var creditor = Number($("#creditor").val());
+			var debtor = Number($("#debtor").val());
+			if(creditor !== debtor){
+				return false
+			}
+		})
+		
+		
 	})
 </script>
 <script>
