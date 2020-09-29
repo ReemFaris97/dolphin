@@ -155,7 +155,7 @@
 
 					<input type="hidden" name="bill_date" id="bill_date_val">
 {{--{{getsetting('rounding_number')}}--}}
-
+{{--{{getsetting('free_taxs')}}--}}
 <table border="1" class="table finalTb moshtraiat-bill mabi3at-bill bill-table
 {{(getsetting('name_enable')==1) ? 'name_enable':'' }}
 {{(getsetting('barcode_enable')==1) ? 'barcode_enable':'' }}
