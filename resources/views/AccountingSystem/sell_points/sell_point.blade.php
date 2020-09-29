@@ -82,46 +82,19 @@
 {{--						{!! Form::select("category_id",$categories,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}--}}
 {{--					</div>--}}
 
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="form-group block-gp">
+                            <label> اختر المخزن </label>
+                            {!! Form::select("store_id",$stores,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'store_id','placeholder'=>' اختر المخزن ','data-live-search'=>'true'])!!}
+                        </div>
+                    </div>
 					<div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
 						<div class="yurProdc">
                            <div class="form-group block-gp">
                             <label>بحث بإسم الصنف أو الباركود</label>
                             <select class=" form-control js-example-basic-single"  name="product_id" placeholder="اختر المنتج" id="selectID">
-                                <option value="" > اختر الصنف</option>
-                                @foreach ($products as $product)
-                                    <?php
-                                    $producttax=\App\Models\AccountingSystem\AccountingProductTax::where('product_id',$product->id)->first();
-                                    $units=\App\Models\AccountingSystem\AccountingProductSubUnit::where('product_id',$product->id)->get();
-                                    $subunits= collect($units);
-                                    $allunits=json_encode($subunits,JSON_UNESCAPED_UNICODE);
-                                    $mainunits=json_encode(collect([['id'=>'main-'.$product->id,'name'=>$product->main_unit , 'selling_price'=>$product->selling_price]]),JSON_UNESCAPED_UNICODE);
-                                    $merged = array_merge(json_decode($mainunits), json_decode($allunits));
-                                    $lastPrice=\App\Models\AccountingSystem\AccountingPurchaseItem::where('product_id',$product->id)->latest()->first();
-                                    //            $sumQuantity=\App\Models\AccountingSystem\AccountingPurchaseItem::where('product_id',$product->id)->sum('quantity');
-                                    //            $sumPrice=\App\Models\AccountingSystem\AccountingPurchaseItem::where('product_id',$product->id)->sum('price');
-                                    //            if($sumPrice){
-                                    //                $average= $sumQuantity/$sumPrice;
-                                    //            }else{
-                                    //                $average=0;
-                                    //            }
+                                <option value="">  حدد  المخزن اولا</option>
 
-
-
-                                    ?>
-                                    <option value="{{$product->id}}"
-                                            data-main-unit="{{$product->main_unit}}"
-                                            data-name="{{$product->name}}"
-                                            data-price="{{$product->selling_price -(($product->selling_price*$product->total_discounts)/100)}}"
-                                            data-bar-code="{{$product->bar_code}}"
-                                            data-link= "{{route('accounting.products.show',['id'=>$product->id])}}"
-                                            data-price-has-tax="{{isset($producttax)? $producttax->price_has_tax : '0' }}"
-                                            data-total-taxes="{{ isset($producttax)? $product->total_taxes : '0'}}"
-                                            data-subunits="{{json_encode($merged)}}"
-                                            data-total_discounts="{{$product->total_discounts}}"
-                                    >
-                                        {{$product->name}}
-                                    </option>
-                                @endforeach
                             </select>
                         </div>
 
@@ -367,6 +340,25 @@
 	var rowNum = 0;
 	$('#selectID').attr('data-live-search', 'true');
 	$('#selectID').selectpicker('refresh');
+    $("#store_id").on('change', function() {
+        var id = $(this).val();
+
+        var store_id = $('#store_id').val();
+        $('#store_val').val(store_id);
+        var branch_id = $('#branch_id').val();
+        $('#branch_val').val(branch_id);
+        var company_id = $('#company_id').val();
+        $('#company_val').val(company_id);
+        $.ajax({
+            type: 'get',
+            url: "/accounting/productsAjexPurchase/" + id,
+            data: {
+                id: id,
+
+            },
+            dataType: 'json',
+            success: function (data) {
+                $('.yurProdc').html(data.data);
 	$('#selectID').change(function() {
 		rowNum++;
 		var selectedProduct = $(this).find(":selected");
@@ -573,6 +565,7 @@
 						}
 					})
 				});
+
 	//	For Ajax Search By Product Bar Code
 	$("#barcode_search").scannerDetection({
 		timeBeforeScanTest: 200, // wait for the next character for upto 200ms
