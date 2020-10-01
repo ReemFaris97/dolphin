@@ -1614,3 +1614,19 @@ table#qyoud-table thead tr th {
     bottom: 0;
     z-index: 9;
 }
+.addo-saleo a, .showo-producto a{
+	background: #8e44ad;
+	padding:5px 10px;
+	color: #fff;
+	border-radius: 5px;
+	margin-top: 5px;
+}
+.addo-saleo, .showo-producto{
+	width:100%;
+	display: inline-block;
+	margin-top: 10px;
+}
+.showo-producto a{
+	background: #d35400;
+	
+}

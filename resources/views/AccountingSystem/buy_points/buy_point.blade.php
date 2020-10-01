@@ -387,16 +387,19 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 							<td class="whole-price-after maybe-hidden total_pure_enable" width="70">${singlePriceAfter}</td>
 
 							<td class="bill-operations-td maybe-hidden operations_enable" width="160">
-								<a href="${productLink}" target="_blank" title="عرض المنتح" rel="noopener noreferrer">
-									<span class="icon-file-text"></span>
-								</a>
-								<button type="button" title="متوسط السعر" class="btn btn-primary popover-dismiss"
-										data-toggle="popover" title="أخر سعر : ${lastPrice}"
-										data-container="body" data-toggle="popover"
-										data-placement="right" data-content="متوسط السعر : ${avgPrice}">
+								
+								<button type="button"
+										class="btn btn-primary popover-dismiss"
+										role="button" 
+										data-toggle="popover" 
+										title="عمليات أخرى"
+										data-html="true"
+										data-container="body"
+										data-toggle="popover"
+										data-placement="right"
+										data-content='<div class="lasto-prico">أخر سعر : ${lastPrice}</div><div class="averageo-priceo"> متوسط السعر : ${avgPrice} </div> <div class="showo-producto"><a href="${productLink}" target="_blank" title="عرض المنتح" rel="noopener noreferrer">عرض المنتج</a></div><div class="addo-saleo"><a href="#" data-toggle="modal" title="إضافة خصم" data-target="#discMod${rowNum}">إضافة خصم</a></div>'>
 										<span class="icon-coin-dollar"></span>
 								</button>
-								<a href="#" data-toggle="modal" title="إضافة خصم" data-target="#discMod${rowNum}"><span class="icon-magic-wand"></span></a>
 								<a href="#" title="مسح" class="remove-prod-from-list"><span class="icon-cross"></span></a>
 							</td>
 						</tr>
@@ -686,15 +689,20 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
                         $('#row' + onlyModNum).find(".single-price-after").text(theSingleTax.toFixed(2));
                         $('#row' + onlyModNum).find(".product-quantity input").trigger('change');
                     });
-
                     $('#discMod' + rowNum).on('hidden.bs.modal', function (e) {
                         var modId = $(this).attr('id');
                         var onlyModNum = modId.substr(7, modId.length);
                         var finalAftDisc = Number($('#row' + onlyModNum).find('.whole-price-before').attr('tempPriBef'));
-                        var discountsText = ' **** ';
+                        var discountsText = ' *** ';
                         var rows = $(this).find('.single-special-dis-wrap');
                         for (var i = 0; i < rows.length; i++) {
+							if(($(rows[i]).find('.singleSpecialDiscByVal').val()) != 0){
+								discountsText = discountsText + ($(rows[i]).find('.singleSpecialDiscByVal').val()) + 'ريال *** ';
+							}
                             finalAftDisc -= Number($(rows[i]).find('.singleSpecialDiscByVal').val());
+							if(((Number($(rows[i]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc) != 0){
+								discountsText = discountsText + ((Number($(rows[i]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc) + 'ريال *** '
+							}
                             finalAftDisc -= (Number($(rows[i]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc;
                             $('#row' + onlyModNum).find('.whole-price-before').text(finalAftDisc.toFixed(2));
                             if ($(rows[i]).find(".effectTax").is(":checked")) {
@@ -704,26 +712,11 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
                             } else if (!($(rows[i]).find(".effectTax").is(":checked"))) {
                                 var newNetTax = $('#row' + onlyModNum).find('.single-price-after').text()
                             }
-
                             var newWholePriceAfter = Number(finalAftDisc) + Number(newNetTax);
                             $('#row' + onlyModNum).find('.whole-price-after').text(newWholePriceAfter.toFixed(2));
                             calcInfo();
                         }
-
-                        for (var i = 0; i < rows.length; i++) {
-                            if (($(rows[i]).find('.singleSpecialDiscByVal').val()) > 0) {
-                                discountsText = discountsText + ($(rows[i]).find('.singleSpecialDiscByVal').val()) + 'ريال'
-                            } else {
-                                discountsText = discountsText + ($(rows[i]).find('.singleSpecialDiscByPer').val()) + '%'
-                            }
-
-                            if ($(rows[i]).find(".effectTax").is(":checked")) {
-                                discountsText = discountsText + '(مؤثر على الضرية) **** '
-                            } else {
-                                discountsText = discountsText + ' **** '
-                            }
-                        }
-                        $('#row' + onlyModNum).find(".whole-product-discounts").text(discountsText);
+                        $('#row' + onlyModNum).find(".whole-product-discounts").text(discountsText);						
                     });
                     //**************    Calc while changing table body ***********************
                     $(".bill-table tbody").change(calcInfo);
