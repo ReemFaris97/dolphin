@@ -153,7 +153,7 @@
 			<div class="modal-body">
 				<label>  الباركود</label>
 				<span class="required--in">*</span>
-				<input type="text" class="form-control" id="barcode" value="">
+				<input type="text" class="form-control" id="barcode" value="" >
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>

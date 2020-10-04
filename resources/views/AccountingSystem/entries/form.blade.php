@@ -56,7 +56,7 @@
             @foreach($entry->accounts()->get() as $key=>$accountEntry)
         <tr class="single-row">
 			<td>{{++$key}}</td>
-			
+
 
 			<td>
 				<input type="number" min="0" name="debtor[]" class="form-control debtor" @if($accountEntry->affect=='debtor')value= "{{$accountEntry->amount}}" @else value="0" @endif>
@@ -64,7 +64,7 @@
 			<td>
 				<input type="number" min="0" name="creditor[]" class="form-control creditor" @if($accountEntry->affect=='creditor')value= "{{$accountEntry->amount}}" @else value="0" @endif>
 			</td>
-			
+
 			<td>
 				<select name="account_id[]" class="form-control">
                     @foreach ($accounts as $account)
@@ -79,7 +79,7 @@
 			<td>
 				<input type="text" name="details[]" class="form-control">
             </td>
-            
+
 			<td>
             <a href="{{route("accounting.entries.destroy_account",['id'=>$accountEntry->id])}}" data-toggle="tooltip" class="delete-it">X</a>
                 {{-- {!!Form::open( ['route' => ['accounting.entries.destroy_account',$accountEntry->id] ,'id'=>'delete-form'.$accountEntry->id, 'method' => 'Delete']) !!}
@@ -90,7 +90,7 @@
         @else
 		<tr class="single-row">
 			<td>1</td>
-			
+
 			<td>
 				<input type="number" min="0" name="debtor[]" class="form-control debtor" value="0">
 			</td>
@@ -100,7 +100,7 @@
 			<td>
 				<select name="account_id[]" class="form-control">
 					@foreach ($accounts as $account)
-					<option value={{$account->id}}>{{$account->ar_name}} -{{$account->code}}</option>
+					<option value={{$account->id}}>{{$account->ar_name}} -{{$account->amount}}</option>
 					@endforeach
 				</select>
 			</td>
@@ -127,7 +127,7 @@
 
 			</td>
 
-			
+
 			<td>
 
 			</td>
@@ -174,7 +174,7 @@
 			var num = $("#qyoud-table-tbody tr").length + 1;
 			$("#qyoud-table-tbody").append(`<tr class="single-row">
 			<td>${num}</td>
-			
+
 			<td>
 				<input type="number" min="0" name="debtor[]" class="form-control debtor" value="0">
 			</td>
@@ -221,7 +221,7 @@
 				})
 			}
 		})
-		
+
 		$("#entries-forma").submit(function(){
 			var creditor = Number($("#creditor").val());
 			var debtor = Number($("#debtor").val());
@@ -229,8 +229,8 @@
 				return false
 			}
 		})
-		
-		
+
+
 	})
 </script>
 <script>

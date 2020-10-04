@@ -44,7 +44,7 @@
 
             <div class="form-group col-md-4 pull-left" id="store_id">
                 <label> اسم الشركة  التابع  لها  المخزن </label>
-                {!! $product->store->model->name  !!}
+                {!! $product->store->model->name ??''  !!}
 
             </div>
 
