@@ -8,8 +8,7 @@
 <link href="https://cdn.jsdelivr.net/gh/guillaumepotier/Parsley.js@2.9.2/src/parsley.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.min.css" rel="stylesheet" type="text/css">
-<link href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css
-" rel="stylesheet" type="text/css">
+<link href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">
 <!--- end datatable -->
 <link href="{{asset('admin/assets/css/jquery.datetimepicker.min.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/all.css')}}" rel="stylesheet" type="text/css">
@@ -129,7 +128,6 @@
 {{(getsetting('total_taxes_enable')==1) ? 'total_taxes_enable':'' }}
 {{(getsetting('operations_enable')==1) ? 'operations_enable':'' }}
 {{(getsetting('total_pure_enable')==1) ? 'total_pure_enable':'' }}
-
 ">
 
 {{-- name_enable unit_enable quantity_enable
@@ -250,7 +248,7 @@
 <!-- End Form Validation-->
 <!--- scroll to the last table row -->
 <script>
-$('table').on('DOMSubtreeModified', 'tbody', function(){
+$('table').on('DOMSubtreeModified', 'tbody', function(){ 
     $("tbody").animate({ scrollTop: $('tbody').prop("scrollHeight")}, 1000);
 });
 </script>
@@ -260,7 +258,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 <script>
 	$(document).ready(function() {
 		// scroll to the last table row
-		$('table').on('DOMSubtreeModified', 'tbody', function() {$("tbody").animate({scrollTop: $('tbody').prop("scrollHeight")}, 1000)});
+//		$('table').on('DOMSubtreeModified', 'tbody', function() {$("tbody").animate({scrollTop: $('tbody').prop("scrollHeight")}, 1000)});
 
 		// For initializing now date
 		$('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
@@ -629,7 +627,6 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
                         $("#amountOfDariba span.dynamic-span").html(amountOfDariba.toFixed(2));
 
                         $("#amountOfDariba2").val(amountOfDariba);
-                        console.log($("#amountOfDariba2").val());
                         var byAmount = $("input#byAmount").val();
                         var byPercentage = $("input#byPercentage").val();
                         $("input#byAmount").attr('max', amountAfterDariba);
@@ -1145,7 +1142,6 @@ $("#barcode_search").scannerDetection({
 						$("#amountOfDariba span.dynamic-span").html(amountOfDariba.toFixed(2));
 
 						$("#amountOfDariba2").val(amountOfDariba);
-						console.log($("#amountOfDariba2").val());
 						var byAmount = $("input#byAmount").val();
 						var byPercentage = $("input#byPercentage").val();
 						$("input#byAmount").attr('max', amountAfterDariba);
