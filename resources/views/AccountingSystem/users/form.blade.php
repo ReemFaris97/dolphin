@@ -29,7 +29,7 @@
     </div>
     <div class="form-group col-sm-6 col-xs-12  pull-left">
         <label  >اختر الدور/المهام</label>
-        <select name="role_id" class="form-control role" >
+        <select name="role_id" class="form-control role" id="role_id">
             <option  >اختر الدور/المهام</option>
 
             @foreach($roles as $role)
@@ -63,15 +63,15 @@
 
 
 
-<div class="form-group col-sm-6 col-xs-12 pull-left">
-    <label> صلاحية حذف المنتج </label>
-    {!! Form::select("delete_product",['0'=>'لا','1'=>'نعم'],Null,['class'=>'form-control'])!!}
-</div>
+{{--<div class="form-group col-sm-6 col-xs-12 pull-left">--}}
+{{--    <label> صلاحية حذف المنتج </label>--}}
+{{--    {!! Form::select("delete_product",['0'=>'لا','1'=>'نعم'],Null,['class'=>'form-control'])!!}--}}
+{{--</div>--}}
 
-<div class="form-group col-sm-6 col-xs-12 pull-left">
-<label> اسم المخزن: </label>
-{!! Form::select("accounting_store_id",AllStore(),null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم المخزن '])!!}
-</div>
+{{--<div class="form-group col-sm-6 col-xs-12 pull-left">--}}
+{{--<label> اسم المخزن: </label>--}}
+{{--{!! Form::select("accounting_store_id",AllStore(),null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم المخزن '])!!}--}}
+{{--</div>--}}
 <div class="form-group col-sm-6 col-xs-12 pull-left">
     <label>كلمه المرور</label>
     {!! Form::password('password',['class'=>'form-control  m-input','placeholder'=>'ادخل كلمه المرور'])!!}
@@ -101,7 +101,7 @@
 
 <div class="form-group col-md-6 pull-left ">
     <label>تاريخ التعين  </label>
-    {!! Form::date("hiring_date",null,['class'=>'form-control'])!!}
+    {!! Form::date("hiring_date", null,['class'=>'form-control'])!!}
 </div>
 
 
@@ -109,8 +109,26 @@
     <label>  المسمى الوظيفى </label>
     {!! Form::select("title_id",$titles,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر المسمى الوظيفى '])!!}
     </div>
+
+<div class="permissions"></div>
 <div class="text-center col-xs-12">
     <div class="text-right">
         <button type="submit" id="register" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i></button>
     </div>
 </div>
+<script>
+
+    $("#role_id").on('change', function() {
+        var id = $(this).val();
+        $.ajax({
+            url: "/accounting/get-permissions/" + id,
+            type: "GET",
+        }).done(function (data) {
+            $('.permissions').empty();
+            $('.permissions').append(data.permission);
+        }).fail(function (error) {
+            console.log(error);
+        });
+
+        });
+</script>

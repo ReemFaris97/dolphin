@@ -1,9 +1,10 @@
+var bigDataBarcode = [];
 function myFun6(event) {
-    
+
     event.preventDefault();
     var barcode_data = {};
 
-    barcode_data.barcode_data_val = $('#barcode').val();
+    barcode_data.barcode = $('#barcode').val();
 
     if (barcode_data.barcode !== '' ) {
         $("tr.editted-row").remove();
@@ -16,6 +17,7 @@ function myFun6(event) {
         })
 
         bigDataBarcode.push(barcode_data);
+
         $("#BarcodeTable").show();
         var appendBarcode = bigDataBarcode.map(function(barcode) {
             return (`
@@ -30,7 +32,7 @@ function myFun6(event) {
                     <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i>
                 </a>
             </td>
-        <input type="hidden" name="barcode[]" value="${barcode.barcode}" >
+        <input type="hidden" name="barcodes[]" value="${barcode.barcode}" >
 
             </tr>
             `);
@@ -64,7 +66,7 @@ function myFun6(event) {
             $this.parents('tr').addClass('editted-row');
             $('#exampleModal6 #barcode').val($this.parents('tr').find('.barcode').html());
             var row_index_edit_barcode = $(this).parents('tr').index();
-            bigDataComponent.splice(row_index_edit_barcode, 1);
+            bigDataBarcode.splice(row_index_edit_barcode, 1);
         });
         document.getElementById("barcode").val = " ";
 

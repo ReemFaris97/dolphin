@@ -253,4 +253,12 @@ class UserController extends Controller
         alert()->success('تم تحديث صلاحيات  العضو بنجاح !')->autoclose(5000);
         return back();
     }
+    public  function  permissions($id){
+        $role =Role::findOrFail($id);
+       $permissions= $role->permissions()->get();
+        return response()->json([
+            'status'=>true,
+            'permission'=>view('AccountingSystem.users.permission')->with('permissions',$permissions)->render()
+        ]);
+    }
 }

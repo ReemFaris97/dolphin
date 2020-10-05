@@ -17,7 +17,7 @@ class CreateAccountingProductsBarcodesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedbigInteger('product_id');
             $table->foreign('product_id')->references('id')
-                ->on('products')->onDelete('cascade')
+                ->on('accounting_products')->onDelete('cascade')
                 ->onUpdate('cascade');
 
                 $table->string('barcode')->nullable();

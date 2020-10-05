@@ -234,6 +234,7 @@
 					<tbody class="add-services"></tbody>
 				</table>
 				</div>
+
 				<!-- component table-->
 				<div class="col-md-12 inside-form-tbl" id="componentTable-wrap" style="display:none">
 					<span> مكونات المنتجات </span>
@@ -322,6 +323,20 @@
 				</div>
 			</div>
 		</div>
+    <!-- barcodes table-->
+    <div class="col-md-12 inside-form-tbl" id="BarcodeTable" style="display:none">
+        <span> الباركود </span>
+        <table id="BarcodeTable">
+            <thead>
+            <tr>
+
+                <th>الباكود</th>
+                <th>العمليات</th>
+            </tr>
+            </thead>
+            <tbody class="add-Barcodes"></tbody>
+        </table>
+    </div>
 		<div>
 			<div class="row">
 				<div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left">
@@ -537,7 +552,7 @@
 			$("#services_button").hide();
 			}
 			});
-			
+
 			$("#type").on('change', function () {
 			var id = $(this).val();
 			if (id =='offer')
@@ -549,7 +564,7 @@
 			$("#offers_button").hide();
 			}
 			});
-			
+
 			$(".percent").hide();
 			$('.js-example-basic-single').select2();
 			$('input[name="tax"]').click(function () {
@@ -575,7 +590,7 @@
 		var bigDataOffer = [];
 		var bigDataDiscount = [];
 		var bigDataService = [];
-        var bigDataBarcode = [];
+
 		$(function() {
 			var availableTags = <?php echo $units; ?>;
 			$(".autocomplete").autocomplete({
@@ -586,8 +601,8 @@
 		<script src="https://cdn.jsdelivr.net/gh/guillaumepotier/Parsley.js@2.9.2/dist/parsley.js"></script>
 		<script src="{{asset('admin/assets/js/i18n/ar.js')}}"></script>
 	<script>
-		$(function () {
-  $('#montag-form').parsley()
+	// 	$(function () {
+  // $('#montag-form').parsley()
 	</script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
 	<script src="{{asset('admin/assets/js/get_faces_by_branch.js')}}"></script>
