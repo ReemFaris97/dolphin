@@ -69,23 +69,23 @@ class LoginController extends Controller
         return $this->loggedOut($request) ?: redirect()->route('admin.login');
     }
 
-    protected function authenticated(Request $request, $user)
-    {
-//        if($user->enable==0){
-//
-//            $this->guard()->logout();
-//
-//            $request->session()->invalidate();
-//            alert()->error(' لايمكن الدخول بهذا المستخدم ,مسجل بجهاز اخر !')->autoclose(5000);
-//
-//            return $this->loggedOut($request) ?: redirect()->route('admin.login');
-//
-//            }else{
-//                $user->update([
-//                    'enable'=>0
-//                ]);
-//            }
-//
-//
-   }
+//    protected function authenticated(Request $request, $user)
+//    {
+////        if($user->enable==0){
+////
+////            $this->guard()->logout();
+////
+////            $request->session()->invalidate();
+////            alert()->error(' لايمكن الدخول بهذا المستخدم ,مسجل بجهاز اخر !')->autoclose(5000);
+////
+////            return $this->loggedOut($request) ?: redirect()->route('admin.login');
+////
+////            }else{
+////                $user->update([
+////                    'enable'=>0
+////                ]);
+////            }
+////
+////
+//   }
 }
