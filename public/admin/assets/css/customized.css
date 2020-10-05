@@ -1630,3 +1630,122 @@ table#qyoud-table thead tr th {
 	background: #d35400;
 	
 }
+body.full-scr .navbar.navbar-inverse, body.full-scr .page-header.page-header-default, body.full-scr .footer.text-muted {
+    display: none !important;
+}
+
+body.full-scr .content {
+    padding: 0;
+}
+body.full-scr .content .panel.panel-flat{
+	margin-bottom: 0
+}
+
+
+
+#container {
+
+  position: relative;
+}
+
+#enlarge-scr {
+    position: relative;
+    width: 35px;
+    height: 35px;
+    float: right;
+    margin: 0;
+    margin-left: 10px;
+}
+.fullscreen-icon {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    margin: 0;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+
+.square {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  overflow: hidden;
+  transition: all 1s ease-in-out;
+}
+
+.square-1--expand {
+  transform: rotate(0deg);
+  top: 0;
+  left: 0;
+}
+
+.square-2--expand {
+  transform: rotate(0deg);
+  top: 0;
+  right: 0;
+}
+
+.square-3--expand {
+  transform: rotate(0deg);
+  bottom: 0;
+  left: 0;
+}
+
+.square-4--expand {
+  transform: rotate(0deg);
+  bottom: 0;
+  right: 0;
+}
+
+.square-1--reduce {
+  transform: rotate(180deg);
+  top: -10%;
+  left: -10%;
+}
+
+.square-2--reduce {
+  transform: rotate(180deg);
+  top: -10%;
+  right: -10%;
+}
+
+.square-3--reduce {
+  transform: rotate(180deg);
+  bottom: -10%;
+  left: -10%;
+}
+
+.square-4--reduce {
+  transform: rotate(180deg);
+  bottom: -10%;
+  right: -10%;
+}
+
+.triangle {
+  position: absolute;
+  width: 141%;
+  height: 141%;
+  background-color: #241E32;
+  transform: rotate(45deg);
+}
+
+.triangle-1 {
+  top: -80%;
+  left: -80%;
+}
+
+.triangle-2 {
+  top: -80%;
+  right: -80%;
+}
+
+.triangle-3 {
+  bottom: -80%;
+  left: -80%;
+}
+
+.triangle-4 {
+  bottom: -80%;
+  right: -80%;
+}
