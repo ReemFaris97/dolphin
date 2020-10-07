@@ -17,7 +17,24 @@
 @section('content')
 <div class="panel panel-flat">
 	<div class="panel-heading">
-		<h5 class="panel-title">نقطة البيع
+		<h5 class="panel-title">
+		<a href="#" class="btn btn-success bill-cogs go-to-full" id="enlarge-scr">
+				<div class="fullscreen-icon" onclick="toggleFullscreen()">
+				<div class="square  square-1--expand" id="square-1">
+				  <div class="triangle triangle-1"></div>
+				</div>
+				<div class="square  square-2--expand" id="square-2">
+				  <div class="triangle triangle-2"></div>
+				</div>
+				<div class="square  square-3--expand" id="square-3">
+				  <div class="triangle triangle-3"></div>
+				</div>
+				<div class="square  square-4--expand" id="square-4">
+				  <div class="triangle triangle-4"></div>
+				</div>
+			  </div>
+			</a>
+		نقطة البيع
 			<b class="time-r" id="theTime"></b>
 		</h5>
 		<div class="heading-elements">
@@ -301,11 +318,11 @@
 
 <!--- scroll to the last table row -->
 <script>
-	$('table').on('DOMSubtreeModified', 'tbody', function() {
-		$("tbody").animate({
-			scrollTop: $('tbody').prop("scrollHeight")
-		}, 1000);
-	});
+$('table').on('DOMSubtreeModified', 'tbody', function(){
+	var height = $("tbody").height();
+    $("tbody").animate({ scrollTop: $('tbody').prop("scrollHeight")}, height);
+	
+});
 </script>
 <!--- end datatable -->
 <script src="{{asset('admin/assets/js/jquery.datetimepicker.full.min.js')}}"></script>
@@ -933,4 +950,53 @@
 	}
 	setInterval(refreshTime, 1000)
 </script>
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		$("#enlarge-scr").click(function(){
+			$("body").toggleClass("full-scr");
+			$(this).toggleClass("go-to-full go-to-min")
+		})
+		
+		$(".go-to-full").click(function(){
+			var elem = document.body; // Make the body go full screen.
+			requestFullScreen(elem);
+		})
+		$(".go-to-min").click(function(){
+			var ele = document.body; // Make the body go full screen.
+			extFullScreen(ele);
+		})
+		
+	})
+
+var isFullscreen = false;
+function toggleFullscreen(){
+  var container = document.getElementById("container");
+  
+  if (isFullscreen) {
+    document.webkitCancelFullScreen();
+  } else {
+    container.webkitRequestFullScreen();
+  }
+  
+  isFullscreen = !isFullscreen;
+  
+  var square1 = document.getElementById("square-1");
+  var square2 = document.getElementById("square-2");
+  var square3 = document.getElementById("square-3");
+  var square4 = document.getElementById("square-4");
+  
+  if (isFullscreen){
+    square1.className = "square  square-1--reduce";
+    square2.className = "square  square-2--reduce";
+    square3.className = "square  square-3--reduce";
+    square4.className = "square  square-4--reduce";
+  } else {
+    square1.className = "square  square-1--expand";
+    square2.className = "square  square-2--expand";
+    square3.className = "square  square-3--expand";
+    square4.className = "square  square-4--expand";
+  }
+}
+</script> 
 @endsection

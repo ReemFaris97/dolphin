@@ -14,6 +14,11 @@
 <link href="{{asset('admin/assets/css/all.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/bill.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('admin/assets/css/customized.css')}}" rel="stylesheet" type="text/css">
+<style>
+	html{
+		zoom:80%
+	}
+</style>
 @endsection
 @section('content')
 
@@ -72,6 +77,7 @@
                     @endif
 
 					<div class="col-xs-12">
+						<input type="hidden" value="{{getsetting('rounding_number')}}" id="ronding-number">
 						<div class="form-group  {{(getsetting('show_supplier_balance')==1) ? 'show_supplier_balance_enable col-sm-2':'col-sm-4' }}">
 							<label> إسم المورد </label>
 							{!! Form::select("supplier_id",$suppliers,null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر اسم المورد','data-live-search'=>'true','data-parsley-required-message'=>'من فضلك اختر المورد','id'=>'supplier_id','required'=>''])!!}
@@ -131,9 +137,7 @@
 				</div>
 			</div>
 			<div class="result">
-
 					<input type="hidden" name="bill_date" id="bill_date_val">
-{{--{{getsetting('rounding_number')}}--}}
 {{--{{getsetting('free_taxs')}}--}}
 <table border="1" class="table finalTb moshtraiat-bill mabi3at-bill bill-table
 {{(getsetting('name_enable')==1) ? 'name_enable':'' }}
@@ -186,6 +190,12 @@
 									<input type="hidden" class="dynamic-input" name="totalTaxs" id="amountOfDariba2">
 									<span class="dynamic-span">0</span>
 									<span class="rs"> ر.س </span>
+<!--
+									<span id="removeTaxWrap">
+										<label for="removeTax">معفي من الضريبة</label>
+										<input type="checkbox" id="removeTax">
+									</span>
+-->
 								</th>
 								<th id="amountAfterDariba" class="rel-cols" colspan="3">
 									<span class="colorfulSpan">المجموع بعد الضريبة</span>
@@ -268,8 +278,10 @@
 <!-- End Form Validation-->
 <!--- scroll to the last table row -->
 <script>
-$('table').on('DOMSubtreeModified', 'tbody', function(){ 
-    $("tbody").animate({ scrollTop: $('tbody').prop("scrollHeight")}, 1000);
+$('table').on('DOMSubtreeModified', 'tbody', function(){
+	var height = $("tbody").height();
+    $("tbody").animate({ scrollTop: $('tbody').prop("scrollHeight")}, height);
+	
 });
 </script>
 <!--- end datatable -->
@@ -277,9 +289,6 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 <script src="{{asset('admin/assets/js/scanner.js')}}"></script>
 <script>
 	$(document).ready(function() {
-		// scroll to the last table row
-//		$('table').on('DOMSubtreeModified', 'tbody', function() {$("tbody").animate({scrollTop: $('tbody').prop("scrollHeight")}, 1000)});
-
 		// For initializing now date
 		$('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
 		$('.inlinedatepicker').text(new Date().toLocaleString());
@@ -294,6 +303,8 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 		});
 
 	});
+
+	var rondingNumber = $("#ronding-number").val();
 
 	//	variable for enumeration of bill products id
 	var rowNum = 0;
@@ -361,7 +372,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
                         var singlePriceBefore = Number(productPrice);
                         var singlePriceAfter = Number(productPrice);
                     }
-                    var netTax = (Number(singlePriceAfter) - Number(singlePriceBefore)).toFixed(2);
+                    var netTax = (Number(singlePriceAfter) - Number(singlePriceBefore)).toFixed(rondingNumber);
 
                     var discountNum = 1;
                     var optss = ``;
@@ -407,7 +418,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 							<td class="bill-operations-td maybe-hidden operations_enable" width="160">
 								
 								<button type="button"
-										class="btn btn-primary popover-dismiss"
+										class="btn btn-primary popover-op"
 										role="button" 
 										data-toggle="popover" 
 										title="عمليات أخرى"
@@ -415,19 +426,17 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 										data-container="body"
 										data-toggle="popover"
 										data-placement="right"
-										data-content='<div class="lasto-prico">أخر سعر : ${lastPrice}</div><div class="averageo-priceo"> متوسط السعر : ${avgPrice} </div> <div class="showo-producto"><a href="${productLink}" target="_blank" title="عرض المنتح" rel="noopener noreferrer">عرض المنتج</a></div><div class="addo-saleo"><a href="#" data-toggle="modal" title="إضافة خصم" data-target="#discMod${rowNum}">إضافة خصم</a></div>'>
+										data-id="${rowNum}"
+										data-content='<div class="lasto-prico">أخر سعر : ${lastPrice}</div><div class="averageo-priceo"> متوسط السعر : ${avgPrice} </div> <div class="showo-producto"><a href="${productLink}" target="_blank" title="عرض المنتح" rel="noopener noreferrer">عرض المنتج</a></div><div class="addo-saleo"><a data-toggle="modal" title="إضافة خصم" data-target="#discMod${rowNum}">إضافة خصم</a></div>'>
 										<span class="icon-coin-dollar"></span>
 								</button>
 								<a href="#" title="مسح" class="remove-prod-from-list"><span class="icon-cross"></span></a>
 							</td>
 						</tr>
 					`);
-//					$("#row" + rowNum).find('.product-quantity').find('input').trigger('change');
                     $(".tempDisabled").removeClass("tempDisabled");
                     calcInfo();
-                    $('.popover-dismiss').popover({
-                        trigger: 'focus'
-                    });
+                    $('.popover-op').popover({trigger: "click"});
                     $("#modals-area").append(`<div id="discMod${rowNum}" class="modal fade special-discount-modal" role="dialog">
 					  <div class="modal-dialog">
 						<div class="modal-content">
@@ -530,6 +539,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
                             }
                         })
                     });
+						$('.special-discount-modal').trigger('hidden.bs.modal');
                     var wholePriceBefore, wholePriceAfter = 0;
                     //**************    Calc while changing unit input ***********************
                     $(".product-unit select").change(function () {
@@ -555,16 +565,16 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
                         var theUnitTax = $(this).parents("tr.single-row-wrapper").data("tot-taxes");
                         var quantityXprice = Number(productPrice) * Number(theQuantity);
                         $(this).parents('.single-row-wrapper').find(".unit-price input").val(productPrice);
-                        $(this).parents('.single-row-wrapper').find(".quantityXprice").text(quantityXprice.toFixed(2));
+                        $(this).parents('.single-row-wrapper').find(".quantityXprice").text(quantityXprice.toFixed(rondingNumber));
                         var netTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
-                        $(this).parents('.single-row-wrapper').find(".single-price-before input").val(singlePriceBefore.toFixed(2));
-                        $(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft', singlePriceAfter.toFixed(2));
-                        $(this).parents('.single-row-wrapper').find(".single-price-after").text(netTax.toFixed(2));
+                        $(this).parents('.single-row-wrapper').find(".single-price-before input").val(singlePriceBefore.toFixed(rondingNumber));
+                        $(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft', singlePriceAfter.toFixed(rondingNumber));
+                        $(this).parents('.single-row-wrapper').find(".single-price-after").text(netTax.toFixed(rondingNumber));
                         var wholePriceBefore = Number($(this).parents('.single-row-wrapper').find(".single-price-before input").val()) * Number($(this).parents('.single-row-wrapper').find(".product-quantity input").val());
-                        $(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(2));
-                        $(this).parents('.single-row-wrapper').find(".whole-price-before").attr('tempPriBef', wholePriceBefore.toFixed(2));
+                        $(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(rondingNumber));
+                        $(this).parents('.single-row-wrapper').find(".whole-price-before").attr('tempPriBef', wholePriceBefore.toFixed(rondingNumber));
                         var wholePriceAfter = Number($(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft')) * Number($(this).parents('.single-row-wrapper').find(".product-quantity input").val());
-                        $(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(2));
+                        $(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(rondingNumber));
                         $(this).parents("tr.single-row-wrapper").find(".product-quantity input").trigger('change');
                         $('.special-discount-modal').trigger('hidden.bs.modal');
                     });
@@ -582,14 +592,14 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
                         var netTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
 
                         var quantityXprice = Number(productPrice) * Number(theQuantity);
-                        $(this).parents('.single-row-wrapper').find(".quantityXprice").text(quantityXprice.toFixed(2));
+                        $(this).parents('.single-row-wrapper').find(".quantityXprice").text(quantityXprice.toFixed(rondingNumber));
 
-                        $(this).parents('.single-row-wrapper').find(".single-price-after").text(netTax.toFixed(2));
+                        $(this).parents('.single-row-wrapper').find(".single-price-after").text(netTax.toFixed(rondingNumber));
                         var wholePriceBefore = Number($(this).parents('.single-row-wrapper').find(".single-price-before input").val()) * Number($(this).val());
-                        $(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(2));
+                        $(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(rondingNumber));
                         var wholePriceAfter = Number($(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft')) * Number($(this).val());
-                        $(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(2));
-                        $(this).parents('.single-row-wrapper').find(".whole-price-before").attr('tempPriBef', wholePriceBefore.toFixed(2));
+                        $(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(rondingNumber));
+                        $(this).parents('.single-row-wrapper').find(".whole-price-before").attr('tempPriBef', wholePriceBefore.toFixed(rondingNumber));
                         $('.special-discount-modal').trigger('hidden.bs.modal');
                     });
                     //**************    Calc while changing single price input ***************
@@ -614,15 +624,15 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
                         var netTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
                         var quantityXprice = Number(productPrice) * Number(theQuantity);
                         $(".tempDisabled").removeClass("tempDisabled");
-                        $(this).parents('.single-row-wrapper').find(".quantityXprice").text(quantityXprice.toFixed(2));
-                        $(this).parents('.single-row-wrapper').find(".single-price-before input").val(singlePriceBefore.toFixed(2));
-                        $(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft', singlePriceAfter.toFixed(2));
-                        $(this).parents('.single-row-wrapper').find(".single-price-after").text(netTax.toFixed(2));
+                        $(this).parents('.single-row-wrapper').find(".quantityXprice").text(quantityXprice.toFixed(rondingNumber));
+                        $(this).parents('.single-row-wrapper').find(".single-price-before input").val(singlePriceBefore.toFixed(rondingNumber));
+                        $(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft', singlePriceAfter.toFixed(rondingNumber));
+                        $(this).parents('.single-row-wrapper').find(".single-price-after").text(netTax.toFixed(rondingNumber));
                         var wholePriceBefore = Number($(this).parents('.single-row-wrapper').find(".product-quantity input").val()) * Number($(this).val());
-                        $(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(2));
+                        $(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(rondingNumber));
                         var wholePriceAfter = Number($(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft')) * Number($(this).parents('.single-row-wrapper').find(".product-quantity input").val());
-                        $(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(2));
-                        $(this).parents('.single-row-wrapper').find(".whole-price-before").attr('tempPriBef', wholePriceBefore.toFixed(2));
+                        $(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(rondingNumber));
+                        $(this).parents('.single-row-wrapper').find(".whole-price-before").attr('tempPriBef', wholePriceBefore.toFixed(rondingNumber));
                         $(this).parents("tr.single-row-wrapper").find(".product-quantity input").trigger('change');
                         $('.special-discount-modal').trigger('hidden.bs.modal');
                     });
@@ -642,9 +652,9 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
                             var theSingleTax = $(this).find(".single-price-after").text();
                             amountOfDariba += Number(theSingleTax);
                         });
-                        $("#amountBeforeDariba span.dynamic-span").html(amountBeforeDariba.toFixed(2));
-                        $("#amountAfterDariba span.dynamic-span").html(amountAfterDariba.toFixed(2));
-                        $("#amountOfDariba span.dynamic-span").html(amountOfDariba.toFixed(2));
+                        $("#amountBeforeDariba span.dynamic-span").html(amountBeforeDariba.toFixed(rondingNumber));
+                        $("#amountAfterDariba span.dynamic-span").html(amountAfterDariba.toFixed(rondingNumber));
+                        $("#amountOfDariba span.dynamic-span").html(amountOfDariba.toFixed(rondingNumber));
 
                         $("#amountOfDariba2").val(amountOfDariba);
                         var byAmount = $("input#byAmount").val();
@@ -652,8 +662,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
                         $("input#byAmount").attr('max', amountAfterDariba);
                         var total = 0;
                         if (byAmount == 0 && byPercentage == 0) {
-                            $("#demandedAmount span.dynamic-span").html(amountAfterDariba.toFixed(2));
-                            total = $("#demandedAmount").val();
+                            $("#demandedAmount span.dynamic-span").html(amountAfterDariba.toFixed(rondingNumber));
                             $("#demandedAmount1").val(amountAfterDariba);
                         } else {
                             $("input#byPercentage").change(function () {
@@ -662,7 +671,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
                                     $(this).val(0);
                                 }
                                 total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100));
-                                $("#demandedAmount span.dynamic-span").html(total.toFixed(2));
+                                $("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
                                 $("#demandedAmount1").val(total);
                             });
                             $("input#byAmount").change(function () {
@@ -671,7 +680,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
                                     $(this).val(0);
                                 }
                                 total = Number(amountAfterDariba) - (Number($(this).val()));
-                                $("#demandedAmount span.dynamic-span").html(total.toFixed(2));
+                                $("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
                                 $("#demandedAmount1").val(total);
                             });
                         }
@@ -681,7 +690,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
                                 $(this).val(0);
                             }
                             total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100));
-                            $("#demandedAmount span.dynamic-span").html(total.toFixed(2));
+                            $("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
                             $("#demandedAmount1").val(total);
                         });
                         $("input#byAmount").change(function () {
@@ -690,7 +699,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
                                 $(this).val(0);
                             }
                             total = Number(amountAfterDariba) - (Number($(this).val()));
-                            $("#demandedAmount span.dynamic-span").html(total.toFixed(2));
+                            $("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
                             $("#demandedAmount1").val(total);
                         });
                     }
@@ -703,7 +712,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
                         var theQuantity = $('#row' + onlyModNum).find(".product-quantity input").val();
                         var theUnitTax = $('#row' + onlyModNum).data("tot-taxes");
                         var theSingleTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
-                        $('#row' + onlyModNum).find(".single-price-after").text(theSingleTax.toFixed(2));
+                        $('#row' + onlyModNum).find(".single-price-after").text(theSingleTax.toFixed(rondingNumber));
                         $('#row' + onlyModNum).find(".product-quantity input").trigger('change');
                     });
                     $('#discMod' + rowNum).on('hidden.bs.modal', function (e) {
@@ -721,16 +730,16 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 								discountsText = discountsText + ((Number($(rows[i]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc) + 'ريال *** '
 							}
                             finalAftDisc -= (Number($(rows[i]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc;
-                            $('#row' + onlyModNum).find('.whole-price-before').text(finalAftDisc.toFixed(2));
+                            $('#row' + onlyModNum).find('.whole-price-before').text(finalAftDisc.toFixed(rondingNumber));
                             if ($(rows[i]).find(".effectTax").is(":checked")) {
                                 var currentDisc = Number($('#row' + onlyModNum).data('tot-taxes')) / 100;
                                 var newNetTax = Number(currentDisc) * Number(finalAftDisc);
-                                $('#row' + onlyModNum).find('.single-price-after').text(newNetTax.toFixed(2));
+                                $('#row' + onlyModNum).find('.single-price-after').text(newNetTax.toFixed(rondingNumber));
                             } else if (!($(rows[i]).find(".effectTax").is(":checked"))) {
                                 var newNetTax = $('#row' + onlyModNum).find('.single-price-after').text()
                             }
                             var newWholePriceAfter = Number(finalAftDisc) + Number(newNetTax);
-                            $('#row' + onlyModNum).find('.whole-price-after').text(newWholePriceAfter.toFixed(2));
+                            $('#row' + onlyModNum).find('.whole-price-after').text(newWholePriceAfter.toFixed(rondingNumber));
                             calcInfo();
                         }
                         $('#row' + onlyModNum).find(".whole-product-discounts").text(discountsText);						
@@ -746,28 +755,32 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
                         if (trLen === 0) {
                             $('table tfoot').addClass('tempDisabled');
                         }
-                    })
+                    });
+//					$("#removeTax").change(function(){
+//						if($(this).is(":checked")){
+//						$("tr.single-row-wrapper").each(function() {
+//							$(this).find(".single-price-after").each(function(){
+//								$(this).attr('data-tempTax', Number($(this).text()));
+//								$(this).text("0");
+//							});
+//						});
+//						$(this).parents("th").find(".dynamic-span").addClass("taxes-removed");
+//						}else{
+//							$("tr.single-row-wrapper").each(function() {
+//								$(this).find(".single-price-after").each(function(){
+//									$(this).text($(this).attr('data-tempTax'))
+//								});
+//							});
+//							$(this).parents("th").find(".dynamic-span").removeClass("taxes-removed")
+//							calcInfo()
+//						}
+//					})
                 });
             }
         });
             });
 
-	//	For Ajax Search By Product Name
-	$('#pro_search').keyup(function(e) {
-		var pro_search = $(this).val();
-		$.ajax({
-			url: "/accounting/pro_search/" + pro_search,
-			type: "GET",
-			success: function(data) {
-				$('.yurProdc').html(data.data);
-				$('#selectID').attr('data-live-search', 'true');
-				$('#selectID').selectpicker('refresh');
-			}
-		});
-	});
-
-	//	For Ajax Search By Product Bar Code
-
+//	For Ajax Search By Product Bar Code
 $("#barcode_search").scannerDetection({
 	timeBeforeScanTest: 200, // wait for the next character for upto 200ms
 	avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms
@@ -839,7 +852,6 @@ $("#barcode_search").scannerDetection({
 
 	}
 });
-
 	function byBarcode() {
 		$(".tempDisabled").removeClass("tempDisabled");
 		var selectedProduct = $(".tempobar").find('option').prop('selected', true);
@@ -878,7 +890,7 @@ $("#barcode_search").scannerDetection({
 						var singlePriceBefore = Number(productPrice);
 						var singlePriceAfter = Number(productPrice);
 					}
-					var netTax = (Number(singlePriceAfter) - Number(singlePriceBefore)).toFixed(2);
+					var netTax = (Number(singlePriceAfter) - Number(singlePriceBefore)).toFixed(rondingNumber);
 
 					var discountNum = 1;
 					var optss = ``;
@@ -886,7 +898,7 @@ $("#barcode_search").scannerDetection({
 						optss += '<option data-uni-price="' + unitPrice[i] + '" value="' + unitId[i] + '" > ' + unitName[i] + '</option> ';
 					}
 
-					$(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}" data-ifhastax="${priceHasTax}" data-tot-taxes="${totalTaxes}">
+                    $(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}" data-ifhastax="${priceHasTax}" data-tot-taxes="${totalTaxes}">
 							<td class="row-num" width="40">${rowNum}</td>
                             <input type="hidden" name="product_id[]" value="${ProductId}">
 							<td class="product-name maybe-hidden name_enable" width="270"><a href="${productLink}" target="_blank" rel="noopener noreferrer">${productName}</a></td>
@@ -922,26 +934,27 @@ $("#barcode_search").scannerDetection({
 							<td class="whole-price-after maybe-hidden total_pure_enable" width="70">${singlePriceAfter}</td>
 
 							<td class="bill-operations-td maybe-hidden operations_enable" width="160">
-								<a href="${productLink}" target="_blank" title="عرض المنتح" rel="noopener noreferrer">
-									<span class="icon-file-text"></span>
-								</a>
-								<button type="button" title="متوسط السعر" class="btn btn-primary popover-dismiss"
-										data-toggle="popover" title="أخر سعر : ${lastPrice}"
-										data-container="body" data-toggle="popover"
-										data-placement="right" data-content="متوسط السعر : ${avgPrice}">
+								
+								<button type="button"
+										class="btn btn-primary popover-op"
+										role="button" 
+										data-toggle="popover" 
+										title="عمليات أخرى"
+										data-html="true"
+										data-container="body"
+										data-toggle="popover"
+										data-placement="right"
+										data-id="${rowNum}"
+										data-content='<div class="lasto-prico">أخر سعر : ${lastPrice}</div><div class="averageo-priceo"> متوسط السعر : ${avgPrice} </div> <div class="showo-producto"><a href="${productLink}" target="_blank" title="عرض المنتح" rel="noopener noreferrer">عرض المنتج</a></div><div class="addo-saleo"><a data-toggle="modal" title="إضافة خصم" data-target="#discMod${rowNum}">إضافة خصم</a></div>'>
 										<span class="icon-coin-dollar"></span>
 								</button>
-								<a href="#" data-toggle="modal" title="إضافة خصم" data-target="#discMod${rowNum}"><span class="icon-magic-wand"></span></a>
 								<a href="#" title="مسح" class="remove-prod-from-list"><span class="icon-cross"></span></a>
 							</td>
 						</tr>
 					`);
-//					$("#row" + rowNum).find('.product-quantity').find('input').trigger('change');
-					$(".tempDisabled").removeClass("tempDisabled");
-					calcInfo();
-					$('.popover-dismiss').popover({
-						trigger: 'focus'
-					});
+                    $(".tempDisabled").removeClass("tempDisabled");
+                    calcInfo();
+                    $('.popover-op').popover({trigger: "click"});
 					$("#modals-area").append(`<div id="discMod${rowNum}" class="modal fade special-discount-modal" role="dialog">
 					  <div class="modal-dialog">
 						<div class="modal-content">
@@ -1044,6 +1057,7 @@ $("#barcode_search").scannerDetection({
 							}
 						})
 					});
+					$('.special-discount-modal').trigger('hidden.bs.modal');
 					var wholePriceBefore, wholePriceAfter = 0;
 					//**************    Calc while changing unit input ***********************
 					$(".product-unit select").change(function() {
@@ -1069,16 +1083,16 @@ $("#barcode_search").scannerDetection({
 						var theUnitTax = $(this).parents("tr.single-row-wrapper").data("tot-taxes");
 						var quantityXprice = Number(productPrice) * Number(theQuantity);
 						$(this).parents('.single-row-wrapper').find(".unit-price input").val(productPrice);
-						$(this).parents('.single-row-wrapper').find(".quantityXprice").text(quantityXprice.toFixed(2));
+						$(this).parents('.single-row-wrapper').find(".quantityXprice").text(quantityXprice.toFixed(rondingNumber));
 						var netTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
-						$(this).parents('.single-row-wrapper').find(".single-price-before input").val(singlePriceBefore.toFixed(2));
-						$(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft', singlePriceAfter.toFixed(2));
-						$(this).parents('.single-row-wrapper').find(".single-price-after").text(netTax.toFixed(2));
+						$(this).parents('.single-row-wrapper').find(".single-price-before input").val(singlePriceBefore.toFixed(rondingNumber));
+						$(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft', singlePriceAfter.toFixed(rondingNumber));
+						$(this).parents('.single-row-wrapper').find(".single-price-after").text(netTax.toFixed(rondingNumber));
 						var wholePriceBefore = Number($(this).parents('.single-row-wrapper').find(".single-price-before input").val()) * Number($(this).parents('.single-row-wrapper').find(".product-quantity input").val());
-						$(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(2));
-						$(this).parents('.single-row-wrapper').find(".whole-price-before").attr('tempPriBef', wholePriceBefore.toFixed(2));
+						$(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(rondingNumber));
+						$(this).parents('.single-row-wrapper').find(".whole-price-before").attr('tempPriBef', wholePriceBefore.toFixed(rondingNumber));
 						var wholePriceAfter = Number($(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft')) * Number($(this).parents('.single-row-wrapper').find(".product-quantity input").val());
-						$(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(2));
+						$(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(rondingNumber));
 						$(this).parents("tr.single-row-wrapper").find(".product-quantity input").trigger('change');
 						$('.special-discount-modal').trigger('hidden.bs.modal');
 					});
@@ -1096,14 +1110,14 @@ $("#barcode_search").scannerDetection({
 						var netTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
 
 						var quantityXprice = Number(productPrice) * Number(theQuantity);
-						$(this).parents('.single-row-wrapper').find(".quantityXprice").text(quantityXprice.toFixed(2));
+						$(this).parents('.single-row-wrapper').find(".quantityXprice").text(quantityXprice.toFixed(rondingNumber));
 
-						$(this).parents('.single-row-wrapper').find(".single-price-after").text(netTax.toFixed(2));
+						$(this).parents('.single-row-wrapper').find(".single-price-after").text(netTax.toFixed(rondingNumber));
 						var wholePriceBefore = Number($(this).parents('.single-row-wrapper').find(".single-price-before input").val()) * Number($(this).val());
-						$(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(2));
+						$(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(rondingNumber));
 						var wholePriceAfter = Number($(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft')) * Number($(this).val());
-						$(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(2));
-						$(this).parents('.single-row-wrapper').find(".whole-price-before").attr('tempPriBef', wholePriceBefore.toFixed(2));
+						$(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(rondingNumber));
+						$(this).parents('.single-row-wrapper').find(".whole-price-before").attr('tempPriBef', wholePriceBefore.toFixed(rondingNumber));
 						$('.special-discount-modal').trigger('hidden.bs.modal');
 					});
 					//**************    Calc while changing single price input ***************
@@ -1129,15 +1143,15 @@ $("#barcode_search").scannerDetection({
 						var netTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
 						var quantityXprice = Number(productPrice) * Number(theQuantity);
 						$(".tempDisabled").removeClass("tempDisabled");
-						$(this).parents('.single-row-wrapper').find(".quantityXprice").text(quantityXprice.toFixed(2));
-						$(this).parents('.single-row-wrapper').find(".single-price-before input").val(singlePriceBefore.toFixed(2));
-						$(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft', singlePriceAfter.toFixed(2));
-						$(this).parents('.single-row-wrapper').find(".single-price-after").text(netTax.toFixed(2));
+						$(this).parents('.single-row-wrapper').find(".quantityXprice").text(quantityXprice.toFixed(rondingNumber));
+						$(this).parents('.single-row-wrapper').find(".single-price-before input").val(singlePriceBefore.toFixed(rondingNumber));
+						$(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft', singlePriceAfter.toFixed(rondingNumber));
+						$(this).parents('.single-row-wrapper').find(".single-price-after").text(netTax.toFixed(rondingNumber));
 						var wholePriceBefore = Number($(this).parents('.single-row-wrapper').find(".product-quantity input").val()) * Number($(this).val());
-						$(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(2));
+						$(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(rondingNumber));
 						var wholePriceAfter = Number($(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft')) * Number($(this).parents('.single-row-wrapper').find(".product-quantity input").val());
-						$(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(2));
-						$(this).parents('.single-row-wrapper').find(".whole-price-before").attr('tempPriBef', wholePriceBefore.toFixed(2));
+						$(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(rondingNumber));
+						$(this).parents('.single-row-wrapper').find(".whole-price-before").attr('tempPriBef', wholePriceBefore.toFixed(rondingNumber));
 						$(this).parents("tr.single-row-wrapper").find(".product-quantity input").trigger('change');
 						$('.special-discount-modal').trigger('hidden.bs.modal');
 					});
@@ -1157,9 +1171,9 @@ $("#barcode_search").scannerDetection({
 							var theSingleTax = $(this).find(".single-price-after").text();
 							amountOfDariba += Number(theSingleTax);
 						});
-						$("#amountBeforeDariba span.dynamic-span").html(amountBeforeDariba.toFixed(2));
-						$("#amountAfterDariba span.dynamic-span").html(amountAfterDariba.toFixed(2));
-						$("#amountOfDariba span.dynamic-span").html(amountOfDariba.toFixed(2));
+						$("#amountBeforeDariba span.dynamic-span").html(amountBeforeDariba.toFixed(rondingNumber));
+						$("#amountAfterDariba span.dynamic-span").html(amountAfterDariba.toFixed(rondingNumber));
+						$("#amountOfDariba span.dynamic-span").html(amountOfDariba.toFixed(rondingNumber));
 
 						$("#amountOfDariba2").val(amountOfDariba);
 						var byAmount = $("input#byAmount").val();
@@ -1167,7 +1181,7 @@ $("#barcode_search").scannerDetection({
 						$("input#byAmount").attr('max', amountAfterDariba);
 						var total = 0;
 						if (byAmount == 0 && byPercentage == 0) {
-							$("#demandedAmount span.dynamic-span").html(amountAfterDariba.toFixed(2));
+							$("#demandedAmount span.dynamic-span").html(amountAfterDariba.toFixed(rondingNumber));
 							total = $("#demandedAmount").val();
 							$("#demandedAmount1").val(amountAfterDariba);
 						} else {
@@ -1177,7 +1191,7 @@ $("#barcode_search").scannerDetection({
 									$(this).val(0);
 								}
 								total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100));
-								$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
+								$("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
 								$("#demandedAmount1").val(total);
 							});
 							$("input#byAmount").change(function() {
@@ -1186,7 +1200,7 @@ $("#barcode_search").scannerDetection({
 									$(this).val(0);
 								}
 								total = Number(amountAfterDariba) - (Number($(this).val()));
-								$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
+								$("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
 								$("#demandedAmount1").val(total);
 							});
 						}
@@ -1196,7 +1210,7 @@ $("#barcode_search").scannerDetection({
 								$(this).val(0);
 							}
 							total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100));
-							$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
+							$("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
 							$("#demandedAmount1").val(total);
 						});
 						$("input#byAmount").change(function() {
@@ -1205,7 +1219,7 @@ $("#barcode_search").scannerDetection({
 								$(this).val(0);
 							}
 							total = Number(amountAfterDariba) - (Number($(this).val()));
-							$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
+							$("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
 							$("#demandedAmount1").val(total);
 						});
 					}
@@ -1217,47 +1231,39 @@ $("#barcode_search").scannerDetection({
 						var theQuantity = $('#row' + onlyModNum).find(".product-quantity input").val();
 						var theUnitTax = $('#row' + onlyModNum).data("tot-taxes");
 						var theSingleTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
-						$('#row' + onlyModNum).find(".single-price-after").text(theSingleTax.toFixed(2));
+						$('#row' + onlyModNum).find(".single-price-after").text(theSingleTax.toFixed(rondingNumber));
 						$('#row' + onlyModNum).find(".product-quantity input").trigger('change');
 					});
 
-					$('#discMod' + rowNum).on('hidden.bs.modal', function(e) {
-						var modId = $(this).attr('id');
-						var onlyModNum = modId.substr(7, modId.length);
-						var finalAftDisc = Number($('#row' + onlyModNum).find('.whole-price-before').attr('tempPriBef'));
-						var discountsText = ' **** ';
-						var rows = $(this).find('.single-special-dis-wrap');
-						for (var i = 0; i < rows.length; i++) {
-							finalAftDisc -= Number($(rows[i]).find('.singleSpecialDiscByVal').val());
-							finalAftDisc -= (Number($(rows[i]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc;
-							$('#row' + onlyModNum).find('.whole-price-before').text(finalAftDisc.toFixed(2));
-							if ($(rows[i]).find(".effectTax").is(":checked")) {
-								var currentDisc = Number($('#row' + onlyModNum).data('tot-taxes')) / 100;
-								var newNetTax = Number(currentDisc) * Number(finalAftDisc);
-								$('#row' + onlyModNum).find('.single-price-after').text(newNetTax.toFixed(2));
-							} else if (!($(rows[i]).find(".effectTax").is(":checked"))) {
-								var newNetTax = $('#row' + onlyModNum).find('.single-price-after').text()
+					$('#discMod' + rowNum).on('hidden.bs.modal', function (e) {
+                        var modId = $(this).attr('id');
+                        var onlyModNum = modId.substr(7, modId.length);
+                        var finalAftDisc = Number($('#row' + onlyModNum).find('.whole-price-before').attr('tempPriBef'));
+                        var discountsText = ' *** ';
+                        var rows = $(this).find('.single-special-dis-wrap');
+                        for (var i = 0; i < rows.length; i++) {
+							if(($(rows[i]).find('.singleSpecialDiscByVal').val()) != 0){
+								discountsText = discountsText + ($(rows[i]).find('.singleSpecialDiscByVal').val()) + 'ريال *** ';
 							}
-							var newWholePriceAfter = Number(finalAftDisc) + Number(newNetTax);
-							$('#row' + onlyModNum).find('.whole-price-after').text(newWholePriceAfter.toFixed(2));
-							calcInfo();
-						}
-
-						for (var i = 0; i < rows.length; i++) {
-							if(($(rows[i]).find('.singleSpecialDiscByVal').val()) > 0){
-								discountsText = discountsText + ($(rows[i]).find('.singleSpecialDiscByVal').val()) + 'ريال'
-							}else{
-								discountsText = discountsText + ($(rows[i]).find('.singleSpecialDiscByPer').val()) + '%'
+                            finalAftDisc -= Number($(rows[i]).find('.singleSpecialDiscByVal').val());
+							if(((Number($(rows[i]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc) != 0){
+								discountsText = discountsText + ((Number($(rows[i]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc) + 'ريال *** '
 							}
-
-							if ($(rows[i]).find(".effectTax").is(":checked")) {
-								discountsText = discountsText + '(مؤثر على الضرية) **** '
-							}else{
-								discountsText = discountsText + ' **** '
-							}
-						}
-						$('#row' + onlyModNum).find(".whole-product-discounts").text(discountsText);
-					});
+                            finalAftDisc -= (Number($(rows[i]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc;
+                            $('#row' + onlyModNum).find('.whole-price-before').text(finalAftDisc.toFixed(rondingNumber));
+                            if ($(rows[i]).find(".effectTax").is(":checked")) {
+                                var currentDisc = Number($('#row' + onlyModNum).data('tot-taxes')) / 100;
+                                var newNetTax = Number(currentDisc) * Number(finalAftDisc);
+                                $('#row' + onlyModNum).find('.single-price-after').text(newNetTax.toFixed(rondingNumber));
+                            } else if (!($(rows[i]).find(".effectTax").is(":checked"))) {
+                                var newNetTax = $('#row' + onlyModNum).find('.single-price-after').text()
+                            }
+                            var newWholePriceAfter = Number(finalAftDisc) + Number(newNetTax);
+                            $('#row' + onlyModNum).find('.whole-price-after').text(newWholePriceAfter.toFixed(rondingNumber));
+                            calcInfo();
+                        }
+                        $('#row' + onlyModNum).find(".whole-product-discounts").text(discountsText);						
+                    });
 					//**************    Calc while changing table body ***********************
 					$(".bill-table tbody").change(calcInfo);
 					//**************    Calc while removing a product ************************
@@ -1306,7 +1312,6 @@ $("#barcode_search").scannerDetection({
 			confirmSubmit(event)
 	})
 </script>
-
 <script>
 	$("#supplier_id").on('change', function() {
 		var id= $(this).val();
@@ -1325,25 +1330,6 @@ $("#barcode_search").scannerDetection({
 <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
 <!---- new desfign --->
 <script>
-
-
-	$(document).ready(function(){
-		$("#enlarge-scr").click(function(){
-			$("body").toggleClass("full-scr");
-			$(this).toggleClass("go-to-full go-to-min")
-		})
-		
-		$(".go-to-full").click(function(){
-			var elem = document.body; // Make the body go full screen.
-			requestFullScreen(elem);
-		})
-		$(".go-to-min").click(function(){
-			var ele = document.body; // Make the body go full screen.
-			extFullScreen(ele);
-		})
-		
-	})
-
 	//   For Alerting Before closing the window
 	window.onbeforeunload = function(e) {
 			e = e || window.event;
@@ -1362,10 +1348,27 @@ $("#barcode_search").scannerDetection({
 	}
 	setInterval(refreshTime, 1000)
 </script>
-
+<!-- For handling Fullscreen -->
 <script type="text/javascript">
-	var isFullscreen = false;
 
+	$(document).ready(function(){
+		$("#enlarge-scr").click(function(){
+			$("body").toggleClass("full-scr");
+			$(this).toggleClass("go-to-full go-to-min")
+		})
+		
+		$(".go-to-full").click(function(){
+			var elem = document.body; // Make the body go full screen.
+			requestFullScreen(elem);
+		})
+		$(".go-to-min").click(function(){
+			var ele = document.body; // Make the body go full screen.
+			extFullScreen(ele);
+		})
+		
+	})
+
+var isFullscreen = false;
 function toggleFullscreen(){
   var container = document.getElementById("container");
   
