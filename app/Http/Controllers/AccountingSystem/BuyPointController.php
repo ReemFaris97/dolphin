@@ -80,10 +80,9 @@ class BuyPointController extends Controller
 
     public  function barcode_search(Request $request,$q){
 
-        $store_product=AccountingProductStore::where('store_id',$request['id'])->pluck('product_id','id')->toArray();
+        $store_product=AccountingProductStore::where('store_id',$request['store_id'])->pluck('product_id','id')->toArray();
 
-
-        $products=AccountingProduct::where('bar_code',$q)->whereIn('id',$store_product)->get();
+        $products=AccountingProduct::where('bar_code',$q)->get();
 
 		if(!$products->isEmpty())
 		{
