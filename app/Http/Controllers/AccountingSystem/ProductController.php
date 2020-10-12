@@ -11,6 +11,7 @@ use App\Models\AccountingSystem\AccountingCompany;
 use App\Models\AccountingSystem\AccountingFaceColumn;
 use App\Models\AccountingSystem\AccountingIndustrial;
 use App\Models\AccountingSystem\AccountingProduct;
+use App\Models\AccountingSystem\AccountingProductBarcode;
 use App\Models\AccountingSystem\AccountingProductCategory;
 use App\Models\AccountingSystem\AccountingProductComponent;
 use App\Models\AccountingSystem\AccountingProductDiscount;
@@ -62,7 +63,6 @@ class ProductController extends Controller
         //dd($units);
         return $this->toCreate(compact('branches','categories','products','industrials','units','taxs','suppliers'));
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -73,11 +73,12 @@ class ProductController extends Controller
     {
 //dd($request->all());
         $rules = [
-           'product_name'=>'required|string|max:191|product_name:accounting_products,name,category_id,'.$request['product_name'].','.$request['category_id'],
-
+         'product_name'=>'required|string|max:191|product_name:accounting_products,name,category_id,'.$request['product_name'].','.$request['category_id'],
             'description'=>'nullable|string',
             'category_id'=>'nullable|numeric|exists:accounting_product_categories,id',
-            'bar_code'=>'nullable|string|product_name:accounting_products,bar_code,category_id,'.$request['bar_code'].','.$request['category_id'],
+            'bar_code'=>'nullable|string|barcode_name:accounting_products,bar_code,bar_code,barcode,'.$request['bar_code'],
+            'barcodes'=>'nullable|array|barcode_anther:accounting_products,bar_code,bar_code,barcode,',
+            'par_codes'=>'nullable|array|barcode_unit:accounting_products,bar_code,bar_code,barcode,',
             'product_selling_price'=>'required',
             'product_purchasing_price'=>'required',
             'min_quantity'=>'required|string|numeric',
@@ -94,11 +95,12 @@ class ProductController extends Controller
         ];
         $messsage = [
             'product_name.product_name'=>"اسم المنتج موجود بالفعل بالتصنيف",
-            'code.barcode_name'=>"باركود المنتج موجود بالفعل بالتصنيف",
+            'bar_code.barcode_name'=>"باركود المنتج موجود مسبقا ",
+            'barcodes.barcode_anther'=>"باركود المنتج موجود مسبقا ",
+            'par_codes.barcode_unit'=>"باركود  الوحدة موجود مسبقا ",
             'type.required'=>'نوع المنتج مطلوب ادخاله',
         ];
         $this->validate($request,$rules,$messsage);
-
         $inputs = $request->except('image','main_unit_present','purchasing_price','selling_price','component_names','qtys','main_units');
        $inputs['name']=$inputs['product_name'];
         $inputs['selling_price']=$inputs['product_selling_price'];
@@ -183,6 +185,17 @@ class ProductController extends Controller
                 'product_id'=>$product->id
             ]);
 
+        }
+        /////////////////////////////barcodes_products///////////////////////////////////
+        if (isset($inputs['barcodes']))
+        {
+            $barcodes=$inputs['barcodes'];
+            foreach ($barcodes as $barcode)
+                // dd($offer);
+                AccountingProductBarcode::create([
+                    'barcode'=>$barcode ,
+                    'product_id'=>$product->id,
+                ]);
         }
 /////////////////////////////offers _products///////////////////////////////////
         if (isset($inputs['offers']))

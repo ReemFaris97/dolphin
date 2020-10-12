@@ -76,7 +76,7 @@ class DistributorRoutesController extends Controller
     public function edit($id)
     {
         $route = DistributorRoute::findOrFail($id);
-        $users = User::whereIsDistributor(1)->get();
+        $users = User::whereIsDistributor(1)->pluck('name','id');
         return $this->toEdit(compact('route','users'));
     }
 

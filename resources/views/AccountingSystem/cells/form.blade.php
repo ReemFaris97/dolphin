@@ -10,7 +10,7 @@
 <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
     <label> اسم الشركة </label>
     <div class="btn-group adding-new-comp">
-        <a href="{{route('accounting.companies.create')}}" class="btn btn-success">
+        <a href="{{route('accounting.companies.create')}}" class="btn btn-success" target="_blank">
             <span class="m-l-5">
 				إضافة شركة
 				<i class="fa fa-plus"></i>
@@ -22,7 +22,7 @@
 <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
     <label> اسم الفرع التابع </label>
     <div class="btn-group adding-new-comp">
-        <a href="{{route('accounting.branches.create')}}" class="btn btn-success">
+        <a href="{{route('accounting.branches.create')}}" class="btn btn-success" target="_blank">
             <span class="m-l-5">
 				إضافة فرع
 				<i class="fa fa-plus"></i>
@@ -34,7 +34,7 @@
 <div class="form-group col-md-4 col-sm-6 col-xs-12 pull-left">
     <label> اسم الوجه </label>
     <div class="btn-group adding-new-comp">
-        <a href="{{route('accounting.faces.create')}}" class="btn btn-success">
+        <a href="{{route('accounting.faces.create')}}" class="btn btn-success" target="_blank">
             <span class="m-l-5">
 				إضافة وجه
 				<i class="fa fa-plus"></i>
@@ -47,7 +47,7 @@
 <div class="form-group col-md-6 pull-left">
     <label> اسم العمود التابع له الخلية </label>
     <div class="btn-group adding-new-comp">
-        <a href="{{route('accounting.columns.create')}}" class="btn btn-success">
+        <a href="{{route('accounting.columns.create')}}" class="btn btn-success" target="_blank">
             <span class="m-l-5">
 				إضافة عمود
 				<i class="fa fa-plus"></i>

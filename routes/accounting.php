@@ -24,7 +24,7 @@ Route::middleware('admin')->group(function () {
     Route::get('getBranchesPermission/{id}', 'UserController@getBranchesPermission')->name('getBranchesPermission');
     Route::get('getStoresPermission/{id}', 'UserController@getStoresPermission')->name('getStoresPermission');
     Route::get('getStoresCampanyPermission/{id}', 'UserController@getStoresCampanyPermission')->name('getStoresCampanyPermission');
-
+    Route::get('/get-permissions/{id}', 'UserController@permissions');
 
     /////////////////سندات  ادخال المنتجات فى المخازن
     Route::get('/company_stores/{id}', 'StoreController@user_permissions');

@@ -11,7 +11,7 @@
 <div class="form-group col-md-4 pull-left">
     <label> اسم الشركة </label>
     <div class="btn-group adding-new-comp">
-        <a href="{{route('accounting.companies.create')}}" class="btn btn-success">
+        <a href="{{route('accounting.companies.create')}}" class="btn btn-success" target="_blank">
             <span class="m-l-5">
 				إضافة شركة
 				<i class="fa fa-plus"></i>

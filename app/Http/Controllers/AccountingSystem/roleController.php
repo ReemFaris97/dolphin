@@ -36,6 +36,7 @@ class roleController extends Controller
     {
 
         $permission = Permission::where('ar_name','-')->get();
+       
         return view('AccountingSystem.roles.create',compact('permission'));
 
     }
