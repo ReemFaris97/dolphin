@@ -104,7 +104,7 @@ class ProductsController extends Controller
     {
         $product = Product::findOrFail($id);
         $categories = StoreCategory::all();
-        $stores = Store::where('store_category_id',$product->store->category->id)->get();
+        $stores = Store::where('store_category_id',$product->store->category_id)->get();
         return $this->toEdit(compact('product','categories','stores'));
 
     }

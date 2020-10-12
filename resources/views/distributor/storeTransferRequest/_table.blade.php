@@ -17,7 +17,7 @@
     @foreach($storeTransfers as $row)
         <tr>
             <td>{!!$loop->iteration!!}</td>
-            <td>{!! $row->sender->name !!}</td>
+            <td>{!! optional($row->sender)->name !!}</td>
             <td>{!! optional($row->distributor)->name !!}</td>
             <td>
                 @if($row->is_confirmed)

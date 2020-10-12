@@ -46,6 +46,11 @@ function stores_to($id=Null)
     return $stores_to;
 }
 
+function toast($msg,$type,$po)
+{
+    
+}
+
 function products($store=null){
     if ($store != null) {
 

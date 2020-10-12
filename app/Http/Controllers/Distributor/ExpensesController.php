@@ -103,8 +103,10 @@ class ExpensesController extends Controller
         $expense =Expense::findOrFail($id);
         $expenditure_clauses=ExpenditureClause::pluck('name','id');
         $expenditure_types=ExpenditureType::pluck('name','id');
+                $readers=Reader::pluck('name','id');
+
         $users=User::pluck('name','id');
-        return $this->toEdit(compact('expense','users','expenditure_types','expenditure_clauses'));
+        return $this->toEdit(compact('expense','users','expenditure_types','expenditure_clauses','readers'));
 
 
     }

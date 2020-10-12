@@ -26,10 +26,10 @@
             <td>{!!$row->type->name!!}</td>
             <td>{!!$row->date!!}</td>
 
-            <td>{!! $row->reader->name!!}</td>
+            <td>{!! optional($row->reader)->name??""!!}</td>
 
             <td>{!!$row->reader_number!!}</td>
-            <td><img src="{!!asset($row->reader->image)!!}" height="100" width="100"/></td>
+            <td><img src="{!!asset(optional($row->reader)->image)!!}" height="100" width="100"/></td>
 
             <td>
                 <a href="{!!route('distributor.expenses.edit',$row->id)!!}" class="btn btn-primary"> <i class="fas fa-pen"></i> تعديل</a>
