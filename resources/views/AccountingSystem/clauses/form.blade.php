@@ -13,7 +13,7 @@
 
         <div class="form-group col-md-4 col-sm-4 col-xs-4 pull-left  form-line sanad ">
 					<span class="new-radio-wrap-sanad">
-                        <label>عميل</label>
+                        <label for="client">عميل</label>
                 <input type="radio" name="concerned" class="styled type"  value="client" onclick="myFunction()"  checked="checked" disabled >
                     </span>
 
@@ -33,7 +33,7 @@
 
         <div class="form-group col-md-4 col-sm-4 col-xs-4 pull-left  form-line sanads ">
 					<span class="new-radio-wrap-sanad">
-                        <label>عميل</label>
+                        <label for="client">عميل</label>
                 <input type="radio" name="concerned" class="styled type"  value="client" onclick="myFunction()" disabled>
 
                     </span>
@@ -52,17 +52,17 @@
         @else
         <div class="form-group col-md-4 col-sm-4 col-xs-4 pull-left  form-line sanads ">
 					<span class="new-radio-wrap-sanad">
-                        <label>عميل</label>
+                        <label for="client">عميل</label>
                 <input type="radio" name="concerned" class="styled type"  value="client" onclick="myFunction()" >
 
                     </span>
 
             <span class="new-radio-wrap-sanad">
-                        <label>مورد</label>
+                        <label for="supplier">مورد</label>
                 <input type="radio" name="concerned"  class="styled type" value="supplier" onclick="myFunction2()"  >
                 </span>
             <span class="new-radio-wrap-sanad">
-                            <label>عام</label>
+                            <label >عام</label>
                 <input type="radio" name="concerned" class="styled type" value="general" onclick="myFunction3()" checked="checked">
 
             </span>
@@ -72,7 +72,7 @@
     @else
     <div class="form-group col-md-4 col-sm-4 col-xs-4 pull-left  form-line sanads ">
 					<span class="new-radio-wrap-sanad">
-                        <label>عميل</label>
+                        <label for="client">عميل</label>
             <input type="radio" name="concerned" class="styled type"  onclick="myFunction()" id="client"  value="client">
 
                     </span>
@@ -90,44 +90,10 @@
 @endif
 <div class="clearfix"></div>
 
-<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left">
-    <label> اسم الشركة </label>
-    {!! Form::select("company_id",companies(),null,['class'=>'form-control js-example-basic-single company_id','id'=>'company_id','placeholder'=>' اختر اسم الشركة  '])!!}
-</div>
-
-<div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left clients">
-<label>   اختر  العميل</label>
-{!! Form::select("client_id",$clients,null,['class'=>'form-control','placeholder'=>' اختر  العميل','id'=>'client_id'])!!}
-</div>
-<div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left clients">
-    <label>  رصيد العميل</label>
-    <input type="text" id="client_balance" class="form-control" readonly>
-</div>
-
-<div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left suppliers">
-<label>   اختر المورد </label>
-{!! Form::select("supplier_id",$suppliers,null,['class'=>'form-control','placeholder'=>'  اختر المورد ','id'=>'supplier_id'])!!}
-</div>
-
-<div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left suppliers">
-    <label>   رصيد المورد </label>
-    <input type="text" id="balance" class="form-control" readonly>
-</div>
-
-
 
 <div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left">
     <label>نوع السند [قبض-صرف]</label>
-    {!! Form::select("type",['revenue'=>'قبض','expenses'=>'مصروف'],null,['class'=>'form-control','placeholder'=>' نوع السند  ','id'=>'type'])!!}
-</div>
-
-<div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left benods">
-    <label>   اسم  البند </label>
-    {!! Form::select("benod_id",$benods,null,['class'=>'form-control','placeholder'=>' اختر  اسم البند '])!!}
-</div>
-<div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left name">
-    <label>المكرم /السيد </label>
-    {!! Form::text("name",null,['class'=>'form-control','placeholder'=>' الاسم  '])!!}
+    {!! Form::select("type",['revenue'=>'قبض','expenses'=>'صرف','check_revenue'=>'شيك قبض ','check_expenses'=>' شيك صرف '],null,['class'=>'form-control','placeholder'=>' نوع السند  ','id'=>'type'])!!}
 </div>
 
 <div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left">
@@ -135,79 +101,73 @@
     {!! Form::date("date",null,['class'=>'form-control'])!!}
 </div>
 
-<div class="form-group col-md-9 col-sm-9 col-xs-9  pull-left ">
-    <label>البيان </label>
-    {!! Form::text("description",null,['class'=>'form-control','placeholder'=>' البيان  '])!!}
-</div>
-{{--<div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left">--}}
-    {{--<label> العمله الافتراضية  </label>--}}
-    {{--{!! Form::select("currency",currency(),null,['class'=>'form-control','placeholder'=>' العمله الافتراضية'])!!}--}}
-{{--</div>--}}
-
 <div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left">
     <label>المبلغ </label>
-    {!! Form::text("amount",null,['class'=>'form-control','placeholder'=>' المبلغ    ','id'=>'amount'])!!}
-</div>
-<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left clients">
-    <label> الرصيد الجديد للعميل</label>
-    <input type="text" id="new_client_balance" class="form-control" readonly>
-</div>
-<div class="form-group col-md-3 col-sm-3 col-xs-3 pull-left suppliers">
-    <label> الرصيد الجديد </label>
-    <input type="text" id="new_balance" class="form-control" readonly>
+    {{-- {!! Form::number("amount",null,['class'=>'form-control','placeholder'=>' المبلغ','id'=>'amount','pattern'=>'^\d+(\.|\,)\d{2}$'])!!} --}}
+    <input type="number"  name="amount"min="0" step="0.01"  class="form-control" />
 </div>
 <div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left">
-    <label>  خزينة الدفع</label>
-    {!! Form::select("safe_id",$safes,null,['class'=>'form-control','placeholder'=>' خزينة الدفع '])!!}
+    <label> العمله   </label>
+    {!! Form::select("currency",currency(),null,['class'=>'form-control','placeholder'=>' العمله '])!!}
+</div>
+
+{{-- <div class="form-group col-md-9 col-sm-9 col-xs-9  pull-left ">
+    <label>البيان </label>
+    {!! Form::text("description",null,['class'=>'form-control','placeholder'=>' البيان  '])!!}
+</div> --}}
+
+<div class="form-group col-md-3 col-sm-3 col-xs-3  pull-left check">
+    <label> رقم الشيك</label>
+    {!! Form::text("num",null,['class'=>'form-control'])!!}
+</div>
+<div class="form-group col-xs-6 pull-left payments ">
+    <label>  اختر طريقةالدفع</label>
+    {!! Form::select("payment_id",$payments,null,['class'=>'form-control js-example-basic-single','id'=>'payment_id','placeholder'=>' اختر طريقةالدفع   '])!!}
 </div>
 
 
 
-<div class="form-group col-xs-12 pull-left taxs  form-line sanads">
-    <label>طريقه الدفع</label>
-
-    <span class="new-radio-wrap-sanad">
-        <label for="cash">نقدى</label>
-        <input type="radio" name="payment" class="styled type" value="cash" id="cash">
-     </span>
-
-    <span class="new-radio-wrap-sanad">
-     <label for="network">شبكة</label>
-        <input type="radio" name="payment" class="styled type" value="network" id="network">
-    </span>
-
-
-    <span class="new-radio-wrap-sanad">
-     <label for="bank_translation">تحويل بنكى</label>
-        <input type="radio" name="payment" class="styled type" value="bank_translation" id="bank_translation">
-    </span>
-
-    <span class="new-radio-wrap-sanad">
-     <label for="check">شيك</label>
-        <input type="radio" name="payment" class="styled type" value="check" id="check">
-    </span>
-
+<div class="form-group col-xs-6 pull-left revenue_accounts">
+    <label>  اختر طريقة القبض</label>
+    {!! Form::select("revenue_account_id",$accounts,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر طريقة القبض   '])!!}
 </div>
+
+<div class="form-group col-xs-6 pull-left accounts">
+    <label>  اختر الحساب الفرعى</label>
+    {!! Form::select("account_id",$accounts,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الحساب ','disablePlaceholder' => true])!!}
+</div>
+<div class="form-group col-xs-6 pull-left client_accounts">
+    <label>  اختر حساب العميل</label>
+    {!! Form::select("account_id",$client_accounts,null,['class'=>'form-control js-example-basic-single','placeholder'=>'  اختر  حساب العميل ','disablePlaceholder' => true])!!}
+</div>
+<div class="form-group col-xs-6 pull-left supplier_accounts">
+    <label>  اختر الحساب المورد</label>
+    {!! Form::select("account_id",$supplier_accounts,null,['class'=>'form-control js-example-basic-single','placeholder'=>'  اختر  حساب المورد','disablePlaceholder' => true])!!}
+</div>
+<div class="form-group col-xs-6 pull-left">
+    <label>   ارفاق صورة</label>
+    {!! Form::file("image",null,['class'=>'file-styled'])!!}
+</div>
+@if( isset($clause))
+    <div class="form-group col-md-6 pull-left">
+        <label>الصوره  الحالية : </label>
+        <img src="{{getimg($clause->image)}}" style="width:100px; height:100px" class="file-styled">
+    </div>
+@endif
+
 <div class="clearfix"></div>
-        <div class="banks">
+    <div class="form-group checkbox checkbox-left  col-xs-3 " >
+     <label for=""></label>
+        <input type="checkbox" name="cost_center" value="1"  style="margin-right: 20px;" onclick="cost_center()" id="cost_center" >
+        <label  for="cost_center">
+            تعين مركز تكلفه
+        </label>
+    </div>
+<div class="form-group col-xs-6 pull-left centers">
+    <label>  اختر مركز التكلفة</label>
+    {!! Form::select("center_id",$centers,null,['class'=>'form-control js-example-basic-single','id'=>'center_id','placeholder'=>' اختر مركز التكلفة   '])!!}
+</div>
 
-            <div class="form-group col-md-4  pull-left">
-                <label> اسم البنك </label>
-                {!! Form::select("bank_id",$banks,null,['class'=>'form-control js-example-basic-single bank_id','id'=>'bank_id','placeholder'=>' اختر البنك '])!!}
-            </div>
-
-
-            <div class="form-group col-md-4 pull-left">
-                <label>رقم  التحويل او الشيك </label>
-                {!! Form::text("num_transaction",null,['class'=>'form-control','placeholder'=>' رقم  التحويل او الشيك    '])!!}
-            </div>
-
-            <div class="form-group col-md-4 pull-left">
-                <label>صورة التحويل</label>
-                {!! Form::file("image",null,['class'=>'form-control'])!!}
-            </div>
-
-        </div>
 
 <div class="form-group col-xs-12  pull-left">
     <label> ملاحظات</label>
@@ -221,137 +181,84 @@
     </div>
 </div>
 @section('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
 
 <script>
-
     $(document).ready(function() {
-
-        $('.clients').hide();
-        $('.banks').hide();
-        $(".suppliers").hide();
-
-        $('.name').hide();
-        $('.js-example-basic-single').select2();
-
+          $('.js-example-basic-single').select2();
+          $('.centers').hide();
+          $('.revenue_accounts').hide();
+          $('.payments').hide();
+          $('.check').hide();
+          $(".client_accounts").hide();
+        $(".supplier_accounts").hide();
+        $(".accounts").hide();
     });
-
 </script>
 
 <script>
+  function cost_center(){
+    $('.centers').show();
+
+  }
+
+  $("#type").on('change', function() {
+
+            var type=$('#type').val();
+
+            if (type=='revenue'||type=='check_revenue') {
+
+                $('.revenue_accounts').show();
+                $('.payments').hide();
 
 
+              }else{
+               $('.revenue_accounts').hide();
+               $('.payments').show();
+            }
 
-    $('#bank_translation').click(function () {
-        $('.banks').show();
 
-    });
+            if (type=='check_revenue'||type=='check_expenses') {
+                $('.check').show();
 
-    $('#check').click(function () {
-        $('.banks').show();
+            }else{
+                $('.check').hide();
 
-    });
+            }
 
-    $('#cash').click(function () {
-        $('.banks').hide();
+  });
 
-    });
-    $('#network').click(function () {
-        $('.banks').hide();
+  $('input[type=checkbox][name=cost_center]').change(function() {
+    if (this.checked ==true) {
+        $('.centers').show();
+    }
+    else if (this.checked == false) {
+        $('.centers').hide();
+    }
+});
 
-    });
-    function myFunction() {
-        $(".clients").show();
-        $(".suppliers").hide();
-        $('.name').hide();
 
+function myFunction() {
+        $(".client_accounts").show();
+        $(".supplier_accounts").hide();
+        $(".accounts").hide();
         $('.benods').hide();
     }
     function myFunction2() {
-        $(".clients").hide();
-        $(".suppliers").show();
-        $('.name').hide();
+        $(".client_accounts").hide();
+        $(".supplier_accounts").show();
+        $(".accounts").hide();
         $(".benods").hide();
 
     }
     function myFunction3() {
-        $(".clients").hide();
-        $(".suppliers").hide();
-        $('.name').show();
+        $(".client_accounts").hide();
+        $(".supplier_accounts").hide();
+        $(".accounts").show();
         $(".benods").show();
-
-
     }
-
-    </script>
-<script>
-    $("#type").on('change', function() {
-        $('#new_balance').val("");
-        $('#new_client_balance').val("");
-        $('#amount').val("");
-
-    });
-
-
-    $("#supplier_id").on('change', function() {
-        var id= $(this).val();
-        $.ajax({
-            url: "/accounting/getBalance/" + id,
-            type: "GET",
-        }).done(function (data) {
-
-            $('#balance').val(data.data);
-        }).fail(function (error) {
-            console.log(error);
-        });
-        $("#amount").on('change', function() {
-            var amount= $(this).val();
-            var balance=  $('#balance').val();
-            var new_balance=0;
-            var type=$('#type').val();
-            if (type=='revenue') {
-             new_balance=Number(balance)+Number(amount);
-
-              }else{
-                new_balance=Number(balance)-Number(amount);
-
-            }
-            $('#new_balance').val(new_balance);
-
-        });
-    });
-
-
-
-    $("#client_id").on('change', function() {
-        var id= $(this).val();
-        $.ajax({
-            url: "/accounting/getClient/" + id,
-            type: "GET",
-        }).done(function (data) {
-
-            $('#client_balance').val(data.data);
-        }).fail(function (error) {
-            console.log(error);
-        });
-
-        $("#amount").on('change', function() {
-            var amount= $(this).val();
-            var balance_client=  $('#client_balance').val();
-            var new_balance=0;
-            var type=$('#type').val();
-
-            if (type=='revenue') {
-                new_balance=Number(balance_client)-Number(amount);
-            }else if(type=='expenses'){
-
-                new_balance=Number(balance_client) + Number(amount);
-
-            }
-            $('#new_client_balance').val(new_balance);
-
-        });
-    });
 
 
 </script>
+
 @endsection

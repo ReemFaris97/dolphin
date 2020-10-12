@@ -11,7 +11,7 @@
 <div class="form-group col-md-6 pull-left">
     <label> اسم الشركة التابع لها الفرع: </label>
     <div class="btn-group adding-new-comp">
-        <a href="{{route('accounting.companies.create')}}" class="btn btn-success">
+        <a href="{{route('accounting.companies.create')}}" class="btn btn-success" target="_blank"
             <span class="m-l-5">
 				إضافة شركة
 				<i class="fa fa-plus"></i>
@@ -53,15 +53,11 @@
         <label>صوره الفرع الحالية : </label>
         <img src="{{getimg($branch->image)}}" style="width:100px; height:100px" class="file-styled">
     </div>
-
-/
 @endif
-
-
 <div class=" media-body">
     <label>صوره الفرع  </label><span style="color: #ff0000; margin-right: 15px;" class="sm-span">اختيارى</span>
     {!! Form::file("image",null,['class'=>'file-styled'])!!}
-    
+
 </div>
 
 <div class="text-center col-md-12">

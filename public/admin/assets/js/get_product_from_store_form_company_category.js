@@ -29,7 +29,7 @@ $(function () {
             url:"/accounting/ajax/stores-form-company/" + company_id,
             type: "get",
             success(data) {
-                console.log(data)
+                console.log(data);
 
                 storeSelect.empty();
                 storeSelect.append('<option value="">اختر المخزن</option>');
@@ -53,11 +53,14 @@ $(function () {
         let storeSelect = $('#store_id');
         let productSelect = $('#product_id');
         var branch_id= $(this).val();
+        var company_id= $('#company_id').val();
+
         $.ajax({
             url:"/accounting/ajax/stores/" + branch_id,
             type: "get",
+            data: {company_id: company_id},
             success(data) {
-                console.log(data)
+                console.log(data);
 
                 storeSelect.empty();
                 storeSelect.append('<option value="">اختر المخزن</option>');
@@ -76,8 +79,9 @@ $(function () {
         $.ajax({
             url: "/accounting/ajax/products-store-branch/" + branch_id,
             type: "get",
+
             success(data) {
-                console.log(data)
+                console.log(data);
 
                 productSelect.empty();
                 productSelect.append('<option value="">اختر الصنف</option>');

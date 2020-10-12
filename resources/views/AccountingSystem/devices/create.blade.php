@@ -1,7 +1,7 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','إنشاء جهاز   جديد')
-@section('parent_title','إدارة  المبيعات')
-@section('action', URL::route('accounting.products.index'))
+@section('parent_title','إدارة  الاجهزه')
+@section('action', URL::route('accounting.devices.index'))
 
 @section('styles')
 

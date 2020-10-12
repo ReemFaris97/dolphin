@@ -11,7 +11,10 @@ use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingProductSubUnit;
 use App\Models\AccountingSystem\AccountingPurchaseItem;
 use App\Models\AccountingSystem\AccountingSafe;
+use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingSupplier;
+use App\Models\AccountingSystem\AccountingUserPermission;
+use App\Models\UserPermission;
 use App\Traits\Viewable;
 use App\User;
 use Illuminate\Validation\Rules\Exists;
@@ -32,12 +35,19 @@ class BuyPointController extends Controller
 
         $suppliers=AccountingSupplier::pluck('name','id')->toArray();
         $safes=AccountingSafe::pluck('name','id')->toArray();
+        // $products=AccountingProduct::all();
+        $userstores=AccountingUserPermission::where('user_id',auth()->user()->id)->where('model_type','App\Models\AccountingSystem\AccountingStore')->pluck('model_id','id')->toArray();
+        $stores=AccountingStore::whereIn('id',$userstores)->pluck('ar_name','id')->toArray();
+        if($userstores){
+        $store_product=AccountingProductStore::whereIn('store_id',$userstores)->pluck('product_id','id')->toArray();
+            $products=AccountingProduct::whereIn('id',$store_product)->get();
 
-        $store_product=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->pluck('product_id','id')->toArray();
-        $products=AccountingProduct::whereIn('id',$store_product)->get();
 
+             }else{
+        $products=[];
+      }
 
-        return  view('AccountingSystem.buy_points.buy_point',compact('categories','suppliers','safes','products'));
+       return  view('AccountingSystem.buy_points.buy_point',compact('categories','suppliers','safes','products','stores'));
     }
 
 
@@ -47,8 +57,9 @@ class BuyPointController extends Controller
      * @return \Illuminate\Http\Response
      */
     public  function getProductAjex(Request $request){
-        $store_product=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->pluck('product_id','id')->toArray();
-        $products=AccountingProduct::where('category_id',$request['id'])->whereIn('id',$store_product)->get();
+        $store_product=AccountingProductStore::where('store_id',$request['id'])->pluck('product_id','id')->toArray();
+        $products=AccountingProduct::whereIn('id',$store_product)->get();
+//dd($products);
 
         return response()->json([
             'status'=>true,
@@ -67,8 +78,9 @@ class BuyPointController extends Controller
 
     }
 
-    public  function barcode_search($q){
+    public  function barcode_search(Request $request,$q){
 
+        $store_product=AccountingProductStore::where('store_id',$request['store_id'])->pluck('product_id','id')->toArray();
 
         $products=AccountingProduct::where('bar_code',$q)->get();
 
@@ -79,7 +91,7 @@ class BuyPointController extends Controller
         else
         {
             $product_unit=AccountingProductSubUnit::where('bar_code',$q)->pluck('product_id');
-            $products=AccountingProduct::whereIn('id',$product_unit)->get();
+            $products=AccountingProduct::whereIn('id',$product_unit)->whereIn('id',$store_product)->get();
             $unit=	AccountingProductSubUnit::where('bar_code',$q)->first();
 			if($unit)
 			$selectd_unit_id = $unit->id;

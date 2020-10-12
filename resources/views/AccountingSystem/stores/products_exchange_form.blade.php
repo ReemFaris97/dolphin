@@ -93,16 +93,11 @@
                 @endif
             </div>
 
-
-
-
             <div class="col-md-2">
                 <button id="addProduct" class="btn btn-primary waves-effect waves-light m-t-20"  type="button">
                     اضافة
                 </button>
             </div>
-
-
 
             <div class="table-responsive">
                 <table id="productsTable" class="table m-0">
@@ -239,5 +234,6 @@
 
 
     </script>
+    <script src="{{asset('admin/assets/js/get_keepers_by_store.js')}}"></script>
 
 @endsection

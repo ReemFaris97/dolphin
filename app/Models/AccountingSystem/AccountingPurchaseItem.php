@@ -10,7 +10,7 @@ class AccountingPurchaseItem extends Model
 {
 
 
-    protected $fillable = ['product_id','quantity','price','purchase_id','purchase_return_id','tax','unit_id','price_after_tax','unit_type','expire_date'];
+    protected $fillable = ['product_id','quantity','price','purchase_id','purchase_return_id','tax','unit_id','price_after_tax','unit_type','expire_date','gifts'];
     protected $table='accounting_purchases_items';
 
 
@@ -48,13 +48,14 @@ class AccountingPurchaseItem extends Model
 
 
     public  function  allDiscounts(){
-        return $this->hasMany(AccountingItemDiscount::class,'item_id');
-
+        // return $this->hasMany(AccountingItemDiscount::class,'item_id');
+        $discounts=AccountingItemDiscount::where('item_id',$this->id)->where('type','purchase')->get();
+          return $discounts;
     }
 
 
     public function discount(){
-        $discounts=AccountingItemDiscount::where('item_id',$this->id)->get();
+        $discounts=AccountingItemDiscount::where('item_id',$this->id)->where('type','purchase')->get();
         $total=[];
         $total['percentage']=0;
         $total['amount']=0;

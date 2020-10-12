@@ -7,6 +7,7 @@ namespace App\Http\Controllers\AccountingSystem;
 
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingAccount;
+use App\Models\AccountingSystem\AccountingPayment;
 use App\Models\AccountingSystem\AccountingSetting;
 use App\Traits\SettingOperation;
 use App\Setting;
@@ -83,6 +84,8 @@ class SettingController extends Controller
                 ->with('purchases_settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_purchases')->get())
                 ->with('supplier_settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_supplier')->get())
                 ->with('returns_settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_purchases_returns')->get())
+                ->with('discounts_settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_purchases_returns')->get())
+
                 ->with('chart_accounts', $chart_accounts);
 
         }elseif ($settings_page == 'اعاده تعين حسابات المبيعات')
@@ -93,6 +96,8 @@ class SettingController extends Controller
                 ->with('sales_settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_sales')->get())
                 ->with('clients_settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_clients')->get())
                 ->with('returns_settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_sales_returns')->get())
+                ->with('sales_cost_settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_sales_cost')->get())
+
                 ->with('chart_accounts', $chart_accounts);
 
         }elseif ($settings_page == 'اعاده تعين حسابات المخزون')
@@ -117,7 +122,40 @@ class SettingController extends Controller
                 ->with('settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_cash')->get())
                 ->with('chart_accounts', $chart_accounts);
 
+        }elseif ($settings_page == 'تعين خيارات الدفع') {
+            $payments = AccountingPayment::all();
+            return view('AccountingSystem.settings.payment_setting')
+                ->with('settings_page', $settings_page)
+                ->with('setting', AccountingSetting::where('slug', $slug)->where('accounting_type', 'Acc_payment')->first())
+                ->with('payments', $payments);
+        }elseif ($settings_page == 'تعين حسابات البنوك والصناديق')
+        {
+            $chart_accounts = AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->pluck('code_name','id')->toArray();
+            return view('AccountingSystem.settings.banks_safes_setting')
+                ->with('settings_page', $settings_page)
+                ->with('settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_banks_safes')->get())
+                ->with('chart_accounts', $chart_accounts);
+
+        }elseif ($settings_page == 'تعين حسابات الاجور')
+        {
+            $chart_accounts = AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->pluck('code_name','id')->toArray();
+            return view('AccountingSystem.settings.salary_setting')
+                ->with('settings_page', $settings_page)
+                ->with('settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_salaries')->get())
+                ->with('chart_accounts', $chart_accounts);
+
         }
+        elseif ($settings_page == 'تعين حسابات الاهلاك')
+        {
+            $chart_accounts = AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->pluck('code_name','id')->toArray();
+            return view('AccountingSystem.settings.damage_setting')
+                ->with('settings_page', $settings_page)
+                ->with('settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_damages')->get())
+                ->with('chart_accounts', $chart_accounts);
+
+        }
+
+
 
 
         else{
@@ -172,13 +210,14 @@ class SettingController extends Controller
     {
         $requests=$request->except('accounts');
         $this->RegisterSetting($requests);
-            foreach ($request['accounts'] as $key=>$value){
-                    $account=AccountingAccount::find($key);
-                    $account->update([
-                        'code'=>$value
-                    ]);
+        if (isset($request['accounts'])) {
+            foreach ($request['accounts'] as $key => $value) {
+                $account = AccountingAccount::find($key);
+                $account->update([
+                    'code' => $value
+                ]);
             }
-
+        }
         alert()->success('تم حفظ الاعدادات بنجاح !')->autoclose(5000);
 
         return redirect()->back();
@@ -203,7 +242,18 @@ class SettingController extends Controller
 
             alert()->success('تم نسخ بيانات البرنامج  بنجاح !')->autoclose(5000);
 
-          return redirect()->back();
+//          return  response()->download('')->deleteFileAfterSend(true);
+
+
+
+
+
+
+
+
+
+
+
         } catch (\Exception $e) {
             dd($e->getMessage());
             alert()->error('لم يتم نسخ بيانات البرنامج  حاول  مره اخرى !')->autoclose(5000);

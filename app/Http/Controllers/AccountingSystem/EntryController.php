@@ -9,12 +9,15 @@ use App\Models\AccountingSystem\AccountingEntryAccount;
 use App\Models\AccountingSystem\AccountingEntryLog;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingAccountLog;
+use App\Traits\Entries\ManualCreateEntry;
+use App\Traits\ManualCreateEntry as TraitsManualCreateEntry;
 use App\Traits\Viewable;
 use Illuminate\Support\Facades\DB;
 
 class EntryController extends Controller
 {
-    use Viewable;
+    use  ManualCreateEntry, Viewable;
     private $viewable = 'AccountingSystem.entries.';
     /**
      * Display a listing of the resource.
@@ -34,7 +37,7 @@ class EntryController extends Controller
      */
     public function create()
     {
-        $accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->pluck('code_name','id')->toArray();
+        $accounts=AccountingAccount::where('kind','sub')->get();
         return $this->toCreate(compact('accounts'));
     }
 
@@ -46,29 +49,26 @@ class EntryController extends Controller
      */
     public function store(Request $request)
     {
-
-        $rules = [
+        // dd($request->all());
+       $rules = [
             'source'=>'required|string|max:191',
             'date'=>'required',
             'amount'=>'required',
             'type'=>'required',
-//            'from_account_id'=>'required|array|exists:accounting_accounts,id',
-//            'to_account_id'=>'required|array|exists:accounting_accounts,id',
+        //    'from_account_id'=>'required|exists:accounting_accounts,id',
+        //    'to_account_id'=>'required|exists:accounting_accounts,id',
         ];
-        $this->validate($request,$rules);
+        // $message=[
+        //     'from_account_id.required'=>'اسم الحساب الاول(المدين) مطلوب ',
+        //     'to_account_id.required'=>'اسم الحساب الثانى(الدائن) مطلوب ',
+        // ];
+        // $this->validate($request,$rules,$message);
 
-        $requests = $request->except('from_account_id','to_account_id');
-        $requests['type']='manual';
 
-        $entry=AccountingEntry::create($requests);
-           AccountingEntryAccount::create([
-               'entry_id'=>$entry->id,
-               'from_account_id'=>$request['from_account_id'],
-               'to_account_id'=>$request['to_account_id'],
-               'amount'=>$request['amount'],
-           ]);
+        $this->ManualCreateEntry($request);
 
-        alert()->success('تم اضافةالقيد اليومى بنجاح !')->autoclose(5000);
+
+            alert()->success('تم اضافةالقيد اليومى بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.entries.index');
     }
 
@@ -82,6 +82,7 @@ class EntryController extends Controller
     {
         $entry=AccountingEntry::find($id);
         $logs=AccountingEntryLog::where('entry_id',$id)->get();
+
         return view("AccountingSystem.entries.show",compact('entry','logs'));
 
     }
@@ -95,9 +96,9 @@ class EntryController extends Controller
     public function edit($id)
     {
         $entry =AccountingEntry::findOrFail($id);
-        $accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->pluck('code_name','id')->toArray();
-
-        return $this->toEdit(compact('entry','accounts'));
+        $accounts=AccountingAccount::where('kind','sub')->get();
+        $entryAccount=AccountingEntryAccount::where('entry_id',$id)->first();
+        return $this->toEdit(compact('entry','accounts','entryAccount'));
 
 
     }
@@ -118,13 +119,19 @@ class EntryController extends Controller
             'date'=>'required',
             'amount'=>'required',
             'type'=>'required',
-            'from_account_id'=>'required|numeric|exists:accounting_accounts,id',
-            'to_account_id'=>'required|numeric|exists:accounting_accounts,id',
+//            'from_account_id'=>'required|numeric|exists:accounting_accounts,id',
+//            'to_account_id'=>'required|numeric|exists:accounting_accounts,id',
         ];
         $this->validate($request,$rules);
 
         $requests = $request->all();
         $entry->update($requests);
+        $entryAccounts=AccountingEntryAccount::where('entry_id',$id)->get();
+        foreach($entryAccounts as $entryAccount){
+                $entryAccount->delete();
+
+        }
+        $this->ManualCreateEntry($request);
         alert()->success('تم تعديل  القيد بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.entries.index');
 
@@ -145,28 +152,40 @@ class EntryController extends Controller
         alert()->success('تم حذف القيد بنجاح !')->autoclose(5000);
             return back();
     }
+    public function destroy_account($id)
+    {
+
+        $account =AccountingEntryAccount::findOrFail($id);
+        $account->delete();
+        alert()->success('تم حذف الحساب من القيد بنجاح !')->autoclose(5000);
+            return back();
+    }
 
     public  function filter(Request $request){
         $requests=request()->all();
 
         if ($request->has('code')&$request->code!=NULL) {
 
-            $entries = AccountingEntry::where('code', $requests['code']);
+            $entries = AccountingEntry::where('code', $requests['code'])->get();
         }elseif ($request->has('date')&$request->date!=NULL) {
 
-            $entries = AccountingEntry::where('date', $requests['date']);
+            $entries = AccountingEntry::where('date', $requests['date'])->get();
 
-            dd($requests['date']);
+
         }elseif ($request->has('type')&$request->type!=NULL) {
-            dd("type");
-            $entries = AccountingEntry::where('type', $requests['type']);
+                    if($requests['type']=='manual'){
+            $entries = AccountingEntry::where('type','manual')->get();
+                    }elseif($requests['type']=='automatic'){
+             $entries = AccountingEntry::where('type','automatic')->get();
+                    }
         }elseif ($request->has('source')&$request->source!=NULL) {
-            $entries = AccountingEntry::where('source', $requests['source']);
+            $entries = AccountingEntry::where('source','Like', '%'.$requests['source'].'%')->get();
+        }else{
+            $entries = AccountingEntry::all()->reverse();
+
         }
+        return $this->toIndex(compact('entries'));
 
-        $entries = $entries->get();
-
-dd($entries);
 
     }
 
@@ -175,19 +194,61 @@ dd($entries);
         $entry->update([
             'status'=>'posted'
         ]);
-        foreach ($entry->accounts as $account){
-           $fromAccount=AccountingAccount::find($account->from_account_id);
-            $toAccount=AccountingAccount::find($account->to_account_id);
-            $fromAccount->update([
-                'amount'=>$fromAccount->amount+$account->amount
-            ]);
-            $toAccount->update([
-                'amount'=>$toAccount->amount-$account->amount
+
+        foreach ($entry->accounts_debtor() as $account){
+          $DebatorAccount=AccountingAccount::find($account->account_id);
+           $DebatorAccount->update([
+                'amount'=>$DebatorAccount->amount+$account->amount
             ]);
         }
 
+        foreach ($entry->accounts_creditor() as $account){
+            $CreditorAccount=AccountingAccount::find($account->account_id);
+             $CreditorAccount->update([
+                  'amount'=>$CreditorAccount->amount+$account->amount
+              ]);
+          }
+
+
+        // foreach ($entry->accounts as $account){
+        //    $fromAccount=AccountingAccount::find($account->from_account_id);
+        //     $toAccount=AccountingAccount::find($account->to_account_id);
+        //     $fromAccount->update([
+        //         'amount'=>$fromAccount->amount+$account->amount
+        //     ]);
+        //     $toAccount->update([
+        //         'amount'=>$toAccount->amount-$account->amount
+        //     ]);
+
+        //     $fromAccountParent=AccountingAccount::find($account->from_account_id);
+        //     $toAccount=AccountingAccount::find($account->to_account_id);
+        //     $fromAccount->update([
+        //         'amount'=>$fromAccount->amount+$account->amount
+        //     ]);
+
+        //     $toAccount->update([
+        //         'amount'=>$toAccount->amount-$account->amount
+        //     ]);
+
+
+        // }
+
             alert()->success('تم ترحيل القيد بنجاح !')->autoclose(5000);
             return back();
+
+    }
+
+    public function  toaccounts($id){
+        $acount=AccountingAccount::find($id);
+        $accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->where('kind','sub')->where('id','!=',$id)->pluck('code_name','id')->toArray();
+        $perent=AccountingAccount::where('id', $acount->account_id)->first();
+
+        return response()->json([
+            'status'=>true,
+            'perent'=>$perent->ar_name,
+            'data'=>view('AccountingSystem.entries.account')->with('accounts',$accounts)->render()
+
+            ]);
 
     }
 }

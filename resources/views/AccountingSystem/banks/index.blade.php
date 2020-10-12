@@ -28,7 +28,16 @@
         </div>
 
         <div class="panel-body">
-            <table class="table datatable-button-init-basic">
+            <div class="custom-tabs">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#home"> البنوك</a></li>
+                    <li><a data-toggle="tab" href="#menu1">  الصناديق</a></li>
+
+                </ul>
+                <div class="tab-content">
+                    <div id="home" class="tab-pane fade in active">
+                        <div class="row">
+                          <table class="table datatable-button-init-basic">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -67,6 +76,60 @@
 
                 </tbody>
             </table>
+                        </div>
+                    </div>
+                    <div id="menu1" class="tab-pane fade in ">
+                        <div class="row">
+                            <table class="table datatable-button-init-basic">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+
+
+                                    <th> اسم  الصندوق </th>
+                                    <th> كود الحساب</th>
+                                    <th>  الرصيد</th>
+                                    <th>  العمله</th>
+                                    <th>  الحاله</th>
+                                    <th class="text-center">العمليات</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                            @php($i=1)  @foreach($safes as $row)
+                                <tr>
+                                    <td>{!!$i++!!}</td>
+
+
+
+                                    <td>{!! $row->name!!}</td>
+                                    <td>{!! optional($row->account)->code!!}</td>
+                                    <td></td>
+                                    <td>{!!optional($row->currency)->ar_name!!}</td>
+
+                                    <td>
+                                        @if($row->active==1)
+                                            مفعل
+                                        @else
+                                            غير مفعل
+                                        @endif
+                                    </td>
+
+                                    <td class="text-center">
+                                        <a href="{{route('accounting.safes.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
+                                        <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
+
+                                        {!!Form::open( ['route' => ['accounting.safes.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
+                                        {!!Form::close() !!}
+
+                                    </td>
+                                </tr>
+
+                            @endforeach
+
+                                </tbody>
+                            </table>
+
+                        </div>
         </div>
 
     </div>

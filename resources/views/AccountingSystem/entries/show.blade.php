@@ -103,6 +103,7 @@
                                         <th style="color:#333">  دائن </th>
                                         </thead>
                                            <tbody>
+
                                                         @foreach($logs as $row)
                                                             <tr>
                                                                 @if(isset($row->debtor))
@@ -112,7 +113,7 @@
                                                                     <td>{!! $row->creditor??'---'!!}</td>
                                                                 @else
                                                                     <td></td>
-                                                                    <td>{!! $row->account->ar_name!!}</td>
+                                                                    <td>{!! $row->account->ar_name !!}</td>
                                                                     <td>{!! $row->debtor??'---'!!}</td>
                                                                     <td>{!! $row->creditor??'---'!!}</td>
                                                                 @endif
@@ -133,12 +134,14 @@
                             <span class="m-l-5"><i class="fa fa-plus"></i></span>
                         </a>
                     </div>
+                    @if ($entry->status=='new'&&$entry->type=='manual')
                     <div class="btn-group beside-btn-title">
                         <a href="{{route('accounting.entries.edit',['id'=>$entry->id])}}" class="btn btn-success">
                            تعديل القيد
                             <span class="m-l-5"><i class="icon-pencil7 text-inverse"></i></span>
                         </a>
                     </div>
+                    @endif
                     @if($entry->status=='new')
                     <div class="btn-group beside-btn-title">
                         <a class="btn btn-warning" href="{{route('accounting.entries.posting',['id'=>$entry->id])}}">

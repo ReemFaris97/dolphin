@@ -25,6 +25,7 @@ use App\Models\AccountingSystem\AccountingReturn;
 use App\Models\AccountingSystem\AccountingSafe;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Models\AccountingSystem\AccountingStore;
+use App\Traits\PurchaseOperation;
 use App\Traits\Viewable;
 use App\User;
 use Auth;
@@ -34,6 +35,7 @@ use Request as GlobalRequest;
 class PurchaseController extends Controller
 {
     use Viewable;
+    use PurchaseOperation;
     private $viewable = 'AccountingSystem.purchases.';
     /**
      * Display a listing of the resource.
@@ -66,7 +68,7 @@ class PurchaseController extends Controller
     public function store(Request $request)
     {
         $requests = $request->except('user_id');
-
+        // dd($requests);
         $rules = [
            'supplier_id'=>'required|numeric|exists:accounting_suppliers,id',
                 // 'reminder'=>'required|numeric|gt:0',
@@ -98,8 +100,9 @@ class PurchaseController extends Controller
         $unit_id = collect($requests['unit_id']);
         $prices = collect($requests['prices']);
         $itemTax = collect($request['itemTax']);
+        $gifts = collect($requests['gifts']);
 
-        $merges = $products->zip($qtys,$unit_id,$prices,$itemTax);
+        $merges = $products->zip($qtys,$unit_id,$prices,$itemTax,$gifts);
         $i=1;
 
         foreach ($merges as $merge)
@@ -111,11 +114,15 @@ class PurchaseController extends Controller
 
                 if($unit){
                     $unit->update([
-                        'quantity'=>$unit->quantity + $merge['1'],
+                        'quantity'=>$unit->quantity + $merge['1']+$merge['5'],
                     ]);
 
                 }
 
+            }else{
+                $product->update([
+                    'quantity'=>$product->quantity + $merge['1']+$merge['5'],
+                ]);
             }
 //            if($product->quantity>0){
             $item= AccountingPurchaseItem::create([
@@ -127,6 +134,7 @@ class PurchaseController extends Controller
                 'tax'=>$merge['4'],
                 'price_after_tax'=>$merge['3']+$merge['4'],
                 'expire_date'=>isset($requests['expire_date'])?$requests['expire_date']:null,
+                'gifts'=>$merge['5'],
                 'purchase_id'=>$purchase->id
             ]);
             $items=$request->items;
@@ -193,7 +201,7 @@ class PurchaseController extends Controller
 //              dd(auth()->user()->accounting_store_id);
                  if($productstore) {
                      $productstore->update([
-                         'quantity' => $productstore->quantity + $merge['1'],
+                         'quantity' => $productstore->quantity + $merge['1']+$merge['5'],
                      ]);
                  }
 
@@ -248,12 +256,8 @@ class PurchaseController extends Controller
      */
     public function show($id)
     {
-
         $purchase =AccountingPurchase::findOrFail($id);
         $product_items=AccountingPurchaseItem::where('purchase_id',$id)->get();
-
-
-
         return $this->toShow(compact('purchase','product_items'));
     }
 
@@ -285,6 +289,34 @@ class PurchaseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function update(Request $request,$id){
+
+        $purchase =AccountingPurchase::findOrFail($id);
+        $requests = $request->except('user_id');
+        // dd($requests);
+        $purchase->update([
+            'amount'=>$requests['amount'],
+            'totalTaxs'=>$requests['totalTaxs'],
+            'total'=>$requests['total'],
+            'payment'=>$requests['payment'],
+            'supplier_id'=>$requests['supplier_id'],
+            'bill_num'=>$requests['bill_num'],
+            '__bill_date'=>$requests['__bill_date'],
+        ]);
+            //create new item and new discount
+        $this->createItem($request,$purchase);
+        $this->editItem($request,$purchase);
+
+
+             $purchases =AccountingPurchase::all()->reverse();
+        // dd($purchases);
+                alert()->success('تمت عمليةتعديل الشراء بنجاح !')->autoclose(5000);
+
+                return $this->toIndex(compact('purchases'));
+
+
+
+    }
 
     /**
      * Remove the specified resource from storage.

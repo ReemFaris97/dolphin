@@ -45,11 +45,17 @@
                             </div>
                             <div class="form-group col-sm-3">
                                 <label>مصدر  العمليه  </label>
-                                {!! Form::text("source",null,['class'=>'form-control'])!!}
+                                {{-- {!! Form::select("source",['قيد يدوى'=>'قيد يدوى','مشتريات'=>'مشتريات','مبيعات'=>'مبيعات ','مرتجعات'=>'مرتجعات'],null,['class'=>'form-control','placeholder'=>'اختر مصدر العمل'])!!} --}}
+                          <select class="form-control" name="source">
+                              <option></option>
+                              <option value="قيد يدوى">قيد يدوى</option>
+                              <option value="مبيعات">مبيعات</option>
+                              <option value="مشتريات">مشتريات</option>
+                          </select>
                             </div>
                             <div class="form-group col-sm-3 col-xs-12 ">
                                 <label> نوع  العمليه  </label>
-                                {!! Form::text("type",null,['class'=>'form-control'])!!}
+                                {!! Form::select("type",['manual'=>'يدوى','automatic'=>'الى'],null,['class'=>'form-control'])!!}
                             </div>
 
                             <div class="form-group col-sm-3">
@@ -115,8 +121,9 @@
                             @endif
                         </td>
                         <td class="text-center">
+                            @if ($row->status=='new' && $row->type=='manual')
                             <a href="{{route('accounting.entries.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
-
+                            @endif
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
 
                             {!!Form::open( ['route' => ['accounting.entries.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
@@ -146,7 +153,7 @@
             console.log(item_id);
             swal({
                 title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذا الجهاز ؟",
+                text: "هل تريد حذف هذا القيد ؟",
                 icon: "warning",
                 buttons: ["الغاء", "موافق"],
                 dangerMode: true,
@@ -156,7 +163,7 @@
                     document.getElementById('delete-form'+item_id).submit();
                 }
                 else{
-                    swal("تم االإلفاء", "حذف  الجهاز  تم الغاؤه",'info',{buttons:'موافق'});
+                    swal("تم االإلفاء", "حذف  القيد  تم الغاؤه",'info',{buttons:'موافق'});
                 }
             });
         }

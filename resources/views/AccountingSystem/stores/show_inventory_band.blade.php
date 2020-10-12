@@ -8,6 +8,7 @@
 
 @endsection
 
+
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
@@ -125,7 +126,6 @@
                         <td>{!! $row->product-> main_unit!!}</td>
 
                         <td>{!! $row->quantity!!}</td>
-                        <td>{!! $row->Real_quantity!!}</td>
                         <td>{!! $row->Real_quantity!!}</td>
                         <td>
                             @if ($row->quantity > $row->Real_quantity)

@@ -62,7 +62,7 @@
     <div class="form-group col-xs-6 pull-left branches">
         <label> اسم الفرع التابع لها المخزن: </label>
         <div class="btn-group adding-new-comp">
-            <a href="{{route('accounting.branches.create')}}" class="btn btn-success">
+            <a href="{{route('accounting.branches.create')}}" class="btn btn-success" target="_blank">
             <span class="m-l-5">
 				إضافة فرع
 				<i class="fa fa-plus"></i>
@@ -75,7 +75,7 @@
     <div class="form-group col-xs-6 pull-left companies">
         <label> اسم الشركة التابع لها المخزن: </label>
         <div class="btn-group adding-new-comp">
-            <a href="{{route('accounting.companies.create')}}" class="btn btn-success">
+            <a href="{{route('accounting.companies.create')}}" class="btn btn-success" target="_blank">
             <span class="m-l-5">
 				إضافة شركة
 				<i class="fa fa-plus"></i>
@@ -89,7 +89,7 @@
     <div class="form-group col-xs-6 pull-left companies">
         <label> اسم الشركة التابع لها المخزن: </label>
         <div class="btn-group adding-new-comp">
-            <a href="{{route('accounting.companies.create')}}" class="btn btn-success">
+            <a href="{{route('accounting.companies.create')}}" class="btn btn-success" target="_blank">
             <span class="m-l-5">
 				إضافة شركة
 				<i class="fa fa-plus"></i>

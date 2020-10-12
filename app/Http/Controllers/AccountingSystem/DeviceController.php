@@ -60,8 +60,8 @@ class DeviceController extends Controller
 
         ];
         $messsage = [
-            'name.store_name'=>"اسم الجهاز موجود بالفعل بالشركة",
-            'code.store_code'=>"كود الجهاز موجود بالفعل بالشركة",
+            'name.device_name'=>"اسم الجهاز موجود بالفعل بالشركة",
+            'code.device_code'=>"كود الجهاز موجود بالفعل بالشركة",
 
         ];
         $this->validate($request,$rules,$messsage);
@@ -87,6 +87,7 @@ class DeviceController extends Controller
             'model_id'=>$device->model_id,
 
         ]);
+
         alert()->success('تم اضافة  الجهاز بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.devices.index');
     }
@@ -166,9 +167,9 @@ class DeviceController extends Controller
      */
     public function destroy($id)
     {
-        $shift =AccountingBranchShift::findOrFail($id);
-        $shift->delete();
-        alert()->success('تم حذف  الوردية بنجاح !')->autoclose(5000);
+        $device =AccountingDevice::findOrFail($id);
+        $device->delete();
+        alert()->success('تم حذف  الجهاز بنجاح !')->autoclose(5000);
             return back();
 
 

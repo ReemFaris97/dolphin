@@ -10,6 +10,7 @@ use App\Models\AccountingSystem\AccountingUserPermission;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingJobTitle;
 use App\Traits\Viewable;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
@@ -37,7 +38,8 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all();
-        return $this->toCreate(compact('roles'));
+        $titles = AccountingJobTitle::where('active','1')->pluck('name','id')->toArray();
+        return $this->toCreate(compact('roles','titles'));
     }
 
     /**
@@ -50,13 +52,19 @@ class UserController extends Controller
     {
 
         $rules = [
+
             'name'=>'required|string|max:191',
             'phone'=>'required|numeric|unique:users,phone',
             'email'=>'required|string|unique:users,email',
             'password'=>'required|string|max:191',
             'image'=>'nullable|sometimes|image',
+            'role_id'=>'required|numeric|exists:roles,id',
+
         ];
-        $this->validate($request,$rules);
+        $messsage = [
+            'role_id.required'=>"تحديد الدور او المهام مطلول",
+        ];
+        $this->validate($request,$rules,$messsage);
         $requests = $request->except('image');
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'photos');
@@ -104,7 +112,9 @@ class UserController extends Controller
         $user =User::findOrFail($id);
         $userRole = $user->roles->pluck('name','id')->all();
         $roles = Role::all();
-        return $this->toEdit(compact('user','userRole','roles'));
+        $titles = AccountingJobTitle::where('active','1')->pluck('name','id')->toArray();
+
+        return $this->toEdit(compact('user','userRole','roles','titles'));
 
 
     }
@@ -242,5 +252,13 @@ class UserController extends Controller
         }
         alert()->success('تم تحديث صلاحيات  العضو بنجاح !')->autoclose(5000);
         return back();
+    }
+    public  function  permissions($id){
+        $role =Role::findOrFail($id);
+       $permissions= $role->permissions()->get();
+        return response()->json([
+            'status'=>true,
+            'permission'=>view('AccountingSystem.users.permission')->with('permissions',$permissions)->render()
+        ]);
     }
 }

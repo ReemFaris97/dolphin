@@ -108,7 +108,7 @@ class ClientController extends Controller
         $rules = [
 
             'name'=>'required|string|max:191',
-            'phone'=>'required|numeric|exists:accounting_clients,id',
+            'phone'=>'required|numeric|unique:accounting_clients,phone,'.$client->id,
         ];
         $this->validate($request,$rules);
         $requests = $request->all();

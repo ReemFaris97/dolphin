@@ -1385,16 +1385,17 @@ td.last-prices-info > div p span:first-child{
     margin-left: 120px;
 	color: #fff !important
 }
-td button.btn.btn-primary.popover-dismiss {
+td button.btn.btn-primary.popover-op {
     border-radius: 50%;
     width: 35px;
     height: 35px;
-    margin-top: -20px;
+    margin-top: -10px;
     display: inline-flex;
     justify-content: center;
     align-items: center;
+	margin-left: 0
 }
-td button.btn.btn-primary.popover-dismiss span.icon-coin-dollar {
+td button.btn.btn-primary.popover-op span.icon-coin-dollar {
     font-size: 24px;
     margin-top: -2px;
 }
@@ -1471,5 +1472,306 @@ table.dataTable#DataTables_Table_0 tfoot {
     }
      th .header_table{
         color: #333333;
-    }
+    }    
+}
+
+
+
+
+
+#qyoud-table {
+    width: 100%;
+    margin: 20px auto;
+    text-align: center;
+    color: #fff;
+}
+#qyoud-table tbody tr td input , 
+#qyoud-table tbody tr td select{
+    width: 100%;
+    display: inline-block;
+	transition: 0.2s all ease-in;
+	background-color: #F5F5F5;
+	text-align: center
+}
+#qyoud-table tbody tr td select option{
+	text-align: center
+}
+#qyoud-table tbody tr td input:hover , 
+#qyoud-table tbody tr td select:hover{
+	background-color: #fff
+}
+#qyoud-table tbody tr td {
+    padding: 0 !important;
+    height: auto;
+}
+table#qyoud-table thead tr th {
+    text-align: center;
+    padding: 5px;
+    color: #455A64;
+    font-size: 16px;
+}
+#qyoud-table tbody tr td a.delete-it {
+    margin-top: 0;
+}
+.custom-tabs.tabs-2020 .col-md-12.inside-form-tbl {
+    /* display: inline-block; */
+    width: 96%;
+    background: #eee;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    margin-right: 2%;
+    border: 1px solid #2ECC71;
+}
+.custom-tabs.tabs-2020 .col-md-12.inside-form-tbl > span {
+    font-size: 17px;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    padding: 2px 5px;
+    color: #fff;
+    background: #000;
+    margin-bottom: 3px;
+    border-radius: 40px;
+    margin-top: 3px;
+}
+.custom-tabs.tabs-2020 .col-md-12.inside-form-tbl > table {
+    width: 100%;
+    margin-bottom: 3px;
+}
+.custom-tabs.tabs-2020 .col-md-12.inside-form-tbl .dt-buttons , 
+.custom-tabs.tabs-2020 .col-md-12.inside-form-tbl .dataTables_filter{
+    margin: 0 0 0 0;
+}
+.custom-tabs.tabs-2020 .dataTables_info, .dataTables_paginate.paging_simple_numbers {
+    margin-bottom: 0 !important;
+}
+.custom-tabs.tabs-2020 .asidee-in-input-btn{
+	position: absolute;
+    left: 10px;
+    top: 27px
+}
+
+.custom-tabs.tabs-2020  .form-group label + span.asided-hint {
+    position: absolute;
+    left: 10px;
+    top: 0;
+	color: #f00 
+}
+.custom-tabs.tabs-2020 .form-group label {
+    font-size: 12px;
+    margin-bottom: 2px;
+}
+.custom-tabs.tabs-2020 .row .form-group.col-md-4.col-sm-6.col-xs-12.pull-left {
+    margin-bottom: 4px;
+}
+.custom-tabs.tabs-2020 .adding-new-comp a {
+    padding: 8px 3px;
+    font-size: 12px;
+}
+.custom-tabs.tabs-2020 .adding-new-comp {
+    left: 35px;
+}
+
+.custom-tabs.tabs-2020  .btn.btn-primary {
+    position: absolute;
+    left: 10px;
+    top: 22px;
+	z-index: 99
+}
+.custom-tabs.tabs-2020 textarea.form-control {
+    height: 60px;
+    resize: none;
+}
+.custom-tabs.tabs-2020 > div {
+    background: #eee;
+    padding: 5px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+.custom-tabs.tabs-2020 .form-line.new-radio-big-wrapper > label {
+    position: absolute;
+    top: 0;
+    right: 10px;
+}
+.custom-tabs.tabs-2020 .form-group.col-lg-3.col-md-4.col-sm-6.col-xs-12.pull-left.form-line.new-radio-big-wrapper {
+    padding-top: 30px;
+}
+.custom-tabs.tabs-2020 .text-center.col-md-12.m--margin-bottom-5 {
+    margin: 0;
+    background: transparent;
+    margin-top: -20px;
+    margin-bottom: -10px;
+}
+.custom-tabs.tabs-2020 table tbody {
+    background-color: rgb(69, 90, 100);
+    color: #fff;
+}
+.custom-tabs.tabs-2020  .parsley-errors-list {
+    opacity: 1;
+    position: absolute;
+    left: 10px;
+    color: red;
+    bottom: 0;
+    z-index: 9;
+}
+.addo-saleo a, .showo-producto a{
+	background: #8e44ad;
+	padding:5px 10px;
+	color: #fff;
+	border-radius: 5px;
+	margin-top: 5px;
+}
+.addo-saleo, .showo-producto{
+	width:100%;
+	display: inline-block;
+	margin-top: 10px;
+}
+.showo-producto a{
+	background: #d35400;
+	
+}
+body.full-scr .navbar.navbar-inverse, body.full-scr .page-header.page-header-default, body.full-scr .footer.text-muted {
+    display: none !important;
+}
+
+body.full-scr .content {
+    padding: 0;
+}
+body.full-scr .content .panel.panel-flat{
+	margin-bottom: 0
+}
+
+
+
+#container {
+
+  position: relative;
+}
+
+#enlarge-scr {
+    position: relative;
+    width: 35px;
+    height: 35px;
+    float: right;
+    margin: 0;
+    margin-left: 10px;
+}
+.fullscreen-icon {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    margin: 0;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+
+.square {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  overflow: hidden;
+  transition: all 1s ease-in-out;
+}
+
+.square-1--expand {
+  transform: rotate(0deg);
+  top: 0;
+  left: 0;
+}
+
+.square-2--expand {
+  transform: rotate(0deg);
+  top: 0;
+  right: 0;
+}
+
+.square-3--expand {
+  transform: rotate(0deg);
+  bottom: 0;
+  left: 0;
+}
+
+.square-4--expand {
+  transform: rotate(0deg);
+  bottom: 0;
+  right: 0;
+}
+
+.square-1--reduce {
+  transform: rotate(180deg);
+  top: -10%;
+  left: -10%;
+}
+
+.square-2--reduce {
+  transform: rotate(180deg);
+  top: -10%;
+  right: -10%;
+}
+
+.square-3--reduce {
+  transform: rotate(180deg);
+  bottom: -10%;
+  left: -10%;
+}
+
+.square-4--reduce {
+  transform: rotate(180deg);
+  bottom: -10%;
+  right: -10%;
+}
+
+.triangle {
+  position: absolute;
+  width: 141%;
+  height: 141%;
+  background-color: #241E32;
+  transform: rotate(45deg);
+}
+
+.triangle-1 {
+  top: -80%;
+  left: -80%;
+}
+
+.triangle-2 {
+  top: -80%;
+  right: -80%;
+}
+
+.triangle-3 {
+  bottom: -80%;
+  left: -80%;
+}
+
+.triangle-4 {
+  bottom: -80%;
+  right: -80%;
+}
+
+span#removeTaxWrap {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 1px;
+}
+span#removeTaxWrap label {
+    font-size: 12px;
+    width: 120px;
+    background: #241E32;
+    cursor: pointer;
+    float: left;
+    display: inline-block;
+    border-radius: 4px;
+}
+
+span#removeTaxWrap input {
+    width: 30px;
+    float: right;
+    min-width: unset;
+}
+
+.dynamic-span.taxes-removed{
+	text-decoration: line-through;
 }

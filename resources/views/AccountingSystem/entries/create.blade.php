@@ -21,7 +21,7 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::open( ['route' => 'accounting.entries.store' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
+            {!!Form::open( ['route' => 'accounting.entries.store' ,'class'=>'form phone_validate','id'=>'entries-forma', 'method' => 'Post','files' => true]) !!}
             @include('AccountingSystem.entries.form')
             {!!Form::close() !!}
         </div>

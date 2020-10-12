@@ -2,15 +2,8 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
-use App\Models\AccountingSystem\AccountingBranch;
-use App\Models\AccountingSystem\AccountingBranchShift;
-use App\Models\AccountingSystem\AccountingCompany;
 
-use App\Models\AccountingSystem\AccountingOffer;
-use App\Models\AccountingSystem\AccountingPackage;
 use App\Models\AccountingSystem\AccountingProduct;
-use App\Models\AccountingSystem\AccountingSale;
-use App\Models\AccountingSystem\AccountingSaleItem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingItemDiscount;
@@ -18,12 +11,10 @@ use App\Models\AccountingSystem\AccountingProductCategory;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingProductSubUnit;
 use App\Models\AccountingSystem\AccountingPurchase;
-use App\Models\AccountingSystem\AccountingPurchaseItem;
 use App\Models\AccountingSystem\AccountingPurchaseReturn;
 use App\Models\AccountingSystem\AccountingPurchaseReturnItem;
 use App\Models\AccountingSystem\AccountingReturn;
 use App\Models\AccountingSystem\AccountingSafe;
-use App\Models\AccountingSystem\AccountingSession;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingSupplier;
 use App\Traits\Viewable;
@@ -61,7 +52,8 @@ class PurchaseReturnController extends Controller
         $categories = AccountingProductCategory::pluck('ar_name', 'id')->toArray();
         $suppliers = AccountingSupplier::pluck('name', 'id')->toArray();
         $safes = AccountingSafe::pluck('name', 'id')->toArray();
-        return $this->toCreate(compact('purchases', 'categories', 'suppliers', 'safes'));
+        $products=AccountingProduct::all();
+                return $this->toCreate(compact('purchases', 'categories', 'suppliers', 'safes','products'));
     }
 
 
@@ -84,7 +76,7 @@ class PurchaseReturnController extends Controller
     public function store(Request $request)
     {
         $requests = $request->all();
-
+// dd($requests);
 
         $rules = [
 
@@ -115,7 +107,9 @@ class PurchaseReturnController extends Controller
         $unit_id = collect($requests['unit_id']);
         $prices = collect($requests['prices']);
         $itemTax = collect($requests['itemTax']);
-        $merges = $products->zip($qtys, $unit_id, $prices, $itemTax);
+        $gifts = collect($requests['gifts']);
+
+        $merges = $products->zip($qtys, $unit_id, $prices, $itemTax,$gifts);
         $i = 1;
         foreach ($merges as $merge) {
             $product = AccountingProduct::find($merge['0']);
@@ -124,7 +118,7 @@ class PurchaseReturnController extends Controller
 
                 if($unit){
                     $unit->update([
-                        'quantity'=>$unit->quantity - $merge['1'],
+                        'quantity'=>$unit->quantity - $merge['1']-$merge['5'],
                     ]);
 
                 }
@@ -138,6 +132,7 @@ class PurchaseReturnController extends Controller
                     'unit_type' => ($merge['2'] != 'main-' . $product->id) ? 'sub' : 'main',
                     'tax' => $merge['4'],
                     'price_after_tax' => $merge['3'] + $merge['4'],
+                    'gifts'=>$merge['5'],
                     'purchase_return_id' => $return->id
                 ]);
                 // $perc = $request->discount_item_percentage;
@@ -189,14 +184,14 @@ class PurchaseReturnController extends Controller
                     $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',$merge['2'])->first();
                     if($productstore) {
                         $productstore->update([
-                            'quantity' => $productstore->quantity - $merge['1'],
+                            'quantity' => $productstore->quantity - $merge['1']-$merge['5'],
                         ]);
                     }
                 }else{
                     $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',Null)->first();
                     if($productstore) {
                         $productstore->update([
-                            'quantity' => $productstore->quantity - $merge['1'],
+                            'quantity' => $productstore->quantity - $merge['1']-$merge['5'],
                         ]);
                     }
                 }

@@ -47,7 +47,7 @@
 
 <div class="form-group col-md-6 pull-left">
     <label> طريقة اصدار الفاتورة  </label>
-    {!! Form::select("type_bills",['via_email'=>'ارسال  عبر  الايميل','via_message'=>'ارسال  عبر  الرسائل النصية','via_whats_up'=>'ارسال  عبر  الايميل',],null,['class'=>'form-control','placeholder'=>' انواع السعر '])!!}
+    {!! Form::select("type_bills",['via_email'=>'ارسال  عبر  الايميل','via_message'=>'ارسال  عبر  الرسائل النصية','via_whats_up'=>'ارسال  عبر  الواتس اب',],null,['class'=>'form-control','placeholder'=>'طريقة اصدار الفاتورة'])!!}
 </div>
 <div class="form-group col-md-6 pull-left">
     <label> انواع السعر  </label>

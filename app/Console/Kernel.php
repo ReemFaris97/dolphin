@@ -13,7 +13,9 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\AssetDay::class,
+        Commands\AssetWeek::class,
+        Commands\AssetMonthly::class,
     ];
 
     /**
@@ -26,6 +28,18 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+
+
+
+        $schedule->command('assetDay:cron')
+        ->daily();
+
+
+        $schedule->command('assetWeek:cron')
+        ->weeklyOn(5, '8:00');
+
+        $schedule->command('assetMonthly:cron')
+        ->monthlyOn(1, '8:00');
     }
 
     /**

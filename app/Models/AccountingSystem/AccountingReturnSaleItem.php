@@ -19,6 +19,11 @@ class AccountingReturnSaleItem extends Model
         return $this->belongsTo(AccountingReturnSaleItem::class,'sale_return_id');
     }
 
+    public function product()
+    {
+        return $this->belongsTo(AccountingProduct::class,'product_id');
+    }
+
 
 }
 

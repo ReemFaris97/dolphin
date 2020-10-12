@@ -24,6 +24,7 @@
 			<li class="active"><a data-toggle="tab" role="tab" aria-controls="menu1" href="#menu1"> المبيعات</a></li>
 			<li><a data-toggle="tab" role="tab" aria-controls="menu2" href="#menu2"> العملاء</a></li>
 			<li><a data-toggle="tab" role="tab" aria-controls="menu3" href="#menu3"> مرتجعات المبيعات</a></li>
+            <li><a data-toggle="tab" role="tab" aria-controls="menu4" href="#menu4"> حساب تكلفة المبيعات</a></li>
 
 		</ul>
 
@@ -206,6 +207,32 @@
 
 
 			</div>
+            <div role="tabpanel" id="menu4" class="tab-pane">
+                <div class="panel-body">
+                    {!!Form::open( ['route' => 'accounting.settings.store' , 'method' => 'Post','files'=>true]) !!}
+
+                    @foreach($sales_cost_settings as $setting)
+                        @if($setting->type == 'select')
+
+                            <div class="form-group col-xs-6  {{$setting->name}} ">
+                                <label> {{$setting->title}} </label>
+                                <div class="form-group col-md-6 pull-left">
+                                    {!! Form::select($setting->name.'[]',$chart_accounts,$setting->value,['class'=>'form-control'])!!}
+                                </div>
+                            </div>
+                        @endif
+                    @endforeach
+                    <div class="clearfix"></div>
+
+
+                    <div class="text-right ">
+                        <button type="submit" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i></button>
+                    </div>
+                    {!!Form::close() !!}
+                </div>
+
+
+            </div>
 
 		</div>
 

@@ -73,31 +73,36 @@ private $viewable = 'AccountingSystem.sessions.';
         $this->validate($request,$rules,$messsage);
 
 
-        $session= AccountingSession::create($inputs);
       $user=User::where('email',$inputs['email'])->first();
-        $session->update([
-            'user_id'=>$user->id,
-            'start_session'=>Carbon::now(),
-            'code'=>Carbon::now()."-".optional($session->shift)->name ."-".optional($session->device)->code
+      if (isset($user)) {
+          $session = AccountingSession::create($inputs);
+          $session->update([
+              'user_id' => $user->id,
+              'start_session' => Carbon::now(),
+              'code' => Carbon::now() . "-" . optional($session->shift)->name . "-" . optional($session->device)->code
 
-        ]);
+          ]);
+          if ($request->password != null && !\Hash::check($request->password, $user->password)) {
+              return back()->withInput()->withErrors(['password' => 'كلمه المرور  غير صحيحه']);
+          }
+          $device=AccountingDevice::find($inputs['device_id']);
+          $device->update([
+              'available'=>'0'
+          ]);
 
-        if ($request->password != null && !\Hash::check($request->password, $user->password)) {
-            return back()->withInput()->withErrors(['password' => 'كلمه المرور  غير صحيحه']);
-        }
-        $device=AccountingDevice::find($inputs['device_id']);
-        $device->update([
-            'available'=>'0'
-        ]);
+          alert()->success('تم فتح الجلسة بنجاح !')->autoclose(5000);
 
-        alert()->success('تم فتح الجلسة بنجاح !')->autoclose(5000);
-
-        $session_id= $session->id;
-        Cookie::queue('session',$session->id);
+          $session_id= $session->id;
+          Cookie::queue('session',$session->id);
+          return \Redirect::route('accounting.sells_points.sells_point',['id' => $session->id])->with('session');
 
 
+      }else{
+          alert()->error('بيانات تسجيل دخول نقطه البيع خاطئة !')->autoclose(5000);
+             return back();
+      }
 
-         return \Redirect::route('accounting.sells_points.sells_point',['id' => $session->id])->with('session');
+
 
     }
 
@@ -142,6 +147,15 @@ private $viewable = 'AccountingSystem.sessions.';
     }
 
 
+    public function destroy($id)
+    {
+        $ssession = AccountingSession::findOrFail($id);
+        $ssession->delete();
+        alert()->success('تم حذف  الجلسة بنجاح !')->autoclose(5000);
+        return back();
+    }
+
+
     public function getbenods($type)
     {
 
@@ -178,6 +192,11 @@ private $viewable = 'AccountingSystem.sessions.';
             'status'=>'closed',
         ]);
 
+        Cookie::queue(Cookie::forget('session'));
+           $device=AccountingDevice::find($session->device_id);
+           $device->update([
+               'available'=>'1'
+           ]);
 
         alert()->success('تم اغلاق الجلسه  من  قبل  الكاشير بنجاح !')->autoclose(5000);
         return back();

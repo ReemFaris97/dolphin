@@ -86,7 +86,7 @@ class StoreInventroyController extends Controller
             }
         }
 
-        
+
         alert()->success('تم  حفظ جرد المخزن بنجاح !')->autoclose(5000);
 
         return view('AccountingSystem.stores.inventory',compact('stores','products','inventory'));
@@ -96,8 +96,14 @@ class StoreInventroyController extends Controller
 
 
         $inputs=$request->all();
-        //dd($inputs);
+        $rules = [
+
+            'Real_quantity'=>'required',
+
+        ];
+
         $inventory_product=AccountingInventoryProduct::where('inventory_id',$inputs['inventory_id'])->where('product_id',$inputs['product_id'])->first();
+
         $inventory_product->update([
             'Real_quantity'=>$inputs['Real_quantity'],
             'status'=>1,
@@ -153,9 +159,10 @@ class StoreInventroyController extends Controller
             'bond_num'=>$inputs['bond_num'],
             'description'=>$inputs['description'],
         ]);
+        $inventory_products=AccountingInventoryProduct::where('inventory_id',$inventory->id)->where('status',1)->get();
 
         alert()->success('تم  حفظ سند جرد المخزن بنجاح !')->autoclose(5000);
-        return back();
+        return view('AccountingSystem.stores.show_inventory_band',compact('inventory','inventory_products'));
     }
 
 
@@ -175,6 +182,15 @@ class StoreInventroyController extends Controller
 
 
      $inputs=$request->all();
+        $rules = [
+            'date'=>'required',
+
+        ];
+        $message=[
+            'date.required'=>'التاريخ مطلوب ',
+        ];
+        $this->validate($request,$rules,$message);
+
         $products=AccountingProduct::pluck('name','id')->toArray();
 
         $product = AccountingProduct::find($inputs['product_id']);
@@ -194,10 +210,9 @@ class StoreInventroyController extends Controller
                 ]);
 
         }
-
         alert()->success('تم  حفظ جرد الصنف بنجاح !')->autoclose(5000);
 
-        return view('AccountingSystem.stores.inventory_product',compact('stores','products','inventory','product','stores_quantity'));
+        return view('AccountingSystem.stores.inventory_product',compact('products','inventory','product','stores_quantity'));
 
     }
     public  function inventory_settlement_product(Request $request){

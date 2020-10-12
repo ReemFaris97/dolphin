@@ -17,7 +17,24 @@
 @section('content')
 <div class="panel panel-flat">
 	<div class="panel-heading">
-		<h5 class="panel-title">نقطة البيع
+		<h5 class="panel-title">
+		<a href="#" class="btn btn-success bill-cogs go-to-full" id="enlarge-scr">
+				<div class="fullscreen-icon" onclick="toggleFullscreen()">
+				<div class="square  square-1--expand" id="square-1">
+				  <div class="triangle triangle-1"></div>
+				</div>
+				<div class="square  square-2--expand" id="square-2">
+				  <div class="triangle triangle-2"></div>
+				</div>
+				<div class="square  square-3--expand" id="square-3">
+				  <div class="triangle triangle-3"></div>
+				</div>
+				<div class="square  square-4--expand" id="square-4">
+				  <div class="triangle triangle-4"></div>
+				</div>
+			  </div>
+			</a>
+		نقطة البيع
 			<b class="time-r" id="theTime"></b>
 		</h5>
 		<div class="heading-elements">
@@ -77,12 +94,28 @@
                         </div>
 
                     @endif
+{{--					<div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">--}}
+{{--						<label>اسم القسم </label>--}}
+{{--						{!! Form::select("category_id",$categories,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}--}}
+{{--					</div>--}}
+
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="form-group block-gp">
+                            <label> اختر المخزن </label>
+                            {!! Form::select("store_id",$stores,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'store_id','placeholder'=>' اختر المخزن ','data-live-search'=>'true'])!!}
+                        </div>
+                    </div>
 					<div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
-						<label>اسم القسم </label>
-						{!! Form::select("category_id",$categories,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}
-					</div>
-					<div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
-						<div class="yurProdc"></div>
+						<div class="yurProdc">
+                           <div class="form-group block-gp">
+                            <label>بحث بإسم الصنف أو الباركود</label>
+                            <select class=" form-control js-example-basic-single"  name="product_id" placeholder="اختر المنتج" id="selectID">
+                                <option value="">  حدد  المخزن اولا</option>
+
+                            </select>
+                        </div>
+
+                    </div>
 						<div class="tempobar"></div>
 					</div>
 				</div>
@@ -96,28 +129,22 @@
 					<input type="hidden" name="bill_date" id="bill_date_val">
 					<input type="hidden" name="client_id" id="client_id_val">
 					<table border="1" class="table datatable-button-init-basic finalTb mabi3at-bill bill-table
-					{{(getsetting('name_enable_sales')==1) ? 'name_enable':'' }} {{(getsetting('barcode_enable_sales')==1) ? 'barcode_enable':'' }}
-					{{(getsetting('unit_enable_sales')==1) ? 'unit_enable':'' }} {{(getsetting('quantity_enable_sales')==1) ? 'quantity_enable':'' }} {{(getsetting('unit_price_before_enable_sales') == 1) ? 'unit_price_before_enable':''}} {{(getsetting('unit_price_after_enable_sales')==1) ? 'unit_price_after_enable':'' }} {{(getsetting('total_price_before_enable_sales')==1) ? 'total_price_before_enable':'' }} {{(getsetting('total_price_after_enable_sales')==1) ? 'total_price_after_enable':'' }}">
+                    {{(getsetting('name_enable_sales')==1) ? 'name_enable':'' }}
+                    {{(getsetting('barcode_enable_sales')==1) ? 'barcode_enable':'' }}
+                    {{(getsetting('unit_enable_sales')==1) ? 'unit_enable':'' }}
+                     {{(getsetting('quantity_enable_sales')==1) ? 'quantity_enable':'' }}
+                     {{(getsetting('unit_price_enable_sales')==1) ? 'unit_price_after_enable':'' }}
+                      {{(getsetting('total_price_enable_sales')==1) ? 'total_price_after_enable':'' }}">
 						<thead>
 							<tr>
-								<th rowspan="2">م</th>
-								<th rowspan="2" class="maybe-hidden name_enable" width="230">اسم الصنف</th>
-								<th rowspan="2" class="maybe-hidden barcode_enable">باركود</th>
-								<th rowspan="2" class="maybe-hidden unit_enable">الوحدة</th>
-								<th rowspan="2" class="maybe-hidden quantity_enable">الكمية</th>
-								<th colspan="2" rowspan="1" class="th_lg">
-									سعر الوحدة
-								</th>
-								<th colspan="2" rowspan="1" class="th_lg">
-									الإجمالى
-								</th>
-								<th rowspan="2"> حذف </th>
-							</tr>
-							<tr>
-								<th rowspan="1" class="maybe-hidden unit_price_before_enable">قبل الضريبة</th>
-								<th rowspan="1" class="maybe-hidden unit_price_after_enable">بعد الضريبة</th>
-								<th rowspan="1" class="maybe-hidden total_price_before_enable">قبل الضريبة</th>
-								<th rowspan="1" class="maybe-hidden total_price_after_enable">بعد الضريبة</th>
+								<th rowspan="2" width="40">م</th>
+								<th rowspan="2" class="maybe-hidden name_enable">اسم الصنف</th>
+								<th rowspan="2" class="maybe-hidden barcode_enable" width="140">باركود</th>
+								<th rowspan="2" class="maybe-hidden unit_enable" width="110">الوحدة</th>
+								<th rowspan="2" class="maybe-hidden quantity_enable" width="100">الكمية</th>
+								<th colspan="2" class="maybe-hidden unit_price_after_enable" width="100">سعر الوحدة</th>
+								<th colspan="2" class="maybe-hidden total_price_after_enable" width="100">صافي الإجمالى</th>
+								<th rowspan="2" width="70"> حذف </th>
 							</tr>
 						</thead>
 						<tbody>
@@ -251,8 +278,6 @@
 					</div>
 				</div>
 				@endif
-
-
 				<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
@@ -281,8 +306,6 @@
 						</div>
 					</div>
 				</div>
-
-
 			</div>
 		</section>
 		<!----------------  End Bill Content ----------------->
@@ -291,13 +314,15 @@
 @endsection
 @section('scripts')
 
+
+
 <!--- scroll to the last table row -->
 <script>
-	$('table').on('DOMSubtreeModified', 'tbody', function() {
-		$("tbody").animate({
-			scrollTop: $('tbody').prop("scrollHeight")
-		}, 1000);
-	});
+$('table').on('DOMSubtreeModified', 'tbody', function(){
+	var height = $("tbody").height();
+    $("tbody").animate({ scrollTop: $('tbody').prop("scrollHeight")}, height);
+	
+});
 </script>
 <!--- end datatable -->
 <script src="{{asset('admin/assets/js/jquery.datetimepicker.full.min.js')}}"></script>
@@ -308,8 +333,6 @@
 		$('.inlinedatepicker').text(new Date().toLocaleString());
 		$('.inlinedatepicker').val(new Date().toLocaleString());
 	});
-
-
 	// For preventing user from inserting two methods of discount
 	function preventDiscount() {
 		$("input#byPercentage").change(function() {
@@ -326,159 +349,167 @@
 		var client = $(this).val();
 		$('#client_id_val').val(client);
 	});
-
 	$("#bill_date_val").val(new Date().toLocaleString())
 
 	$("#bill_date").on('change', function() {
 		$("#bill_date_val").val($(this).val());
 	});
 	var rowNum = 0;
-	$(".category_id").on('change', function() {
-		var id = $(this).val();
-		var store_id = $('#store_id').val();
-		$('#store_val').val(store_id);
-		var branch_id = $('#branch_id').val();
-		$('#branch_val').val(branch_id);
-		var company_id = $('#company_id').val();
-		$('#company_val').val(company_id);
-		$.ajax({
-			type: 'get',
-			url: "/accounting/productsAjex/" + id,
-			data: {
-				id: id,
-				store_id: store_id
-			},
-			dataType: 'json',
-			success: function(data) {
-				$('.yurProdc').html(data.data);
-				$('#selectID').attr('data-live-search', 'true');
-				$('#selectID').selectpicker('refresh');
-				$('#selectID').change(function() {
-					rowNum++;
-					var selectedProduct = $(this).find(":selected");
-					//  alert($('#selectID').val());
-					var productId = $('#selectID').val();
-					var productName = selectedProduct.text();
-					var productBarCode = selectedProduct.data('bar-code');
-					var productPrice = selectedProduct.data('price');
-					var priceHasTax = selectedProduct.data('price-has-tax');
-					var totalTaxes = selectedProduct.data('total-taxes');
-					var mainUnit = selectedProduct.data('main-unit');
-					var productUnits = selectedProduct.data('subunits');
-					let unitName = productUnits.map(a => a.name);
-					let unitPrice = productUnits.map(b => b.selling_price);
-					var unitId = productUnits.map(c => c.id);
-					var singlePriceBefore, singlePriceAfter = 0;
-					if (Number(priceHasTax) === 0) {
-						var singlePriceBefore = Number(productPrice);
-						var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
-					} else if (Number(priceHasTax) === 1) {
-						var onllyDariba = Number(productPrice) - (Number(productPrice) * (100/(100 + Number(totalTaxes))));
-						var singlePriceBefore = Number(productPrice) - Number(onllyDariba);
-						var singlePriceAfter = Number(productPrice);
-					} else {
-						var singlePriceBefore = Number(productPrice);
-						var singlePriceAfter = Number(productPrice);
-					}
-					var optss = ``;
-					for (var i = 0; i < productUnits.length; i++) {
-						optss += '<option data-uni-price="' + unitPrice[i] + '" value="' + unitId[i] + '"> ' + unitName[i] + '</option> ';
-					}
-					$(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}">
-						<td class="row-num">${rowNum}</td>
-						<input type="hidden" name="product_id[]" value=${productId}>
-						<td class="product-name maybe-hidden name_enable" width="230">${productName}</td>
-						<td class="product-name maybe-hidden barcode_enable">${productBarCode}</td>
-						<td class="product-unit maybe-hidden unit_enable">
-							<select class="form-control js-example-basic-single" name="unit_id[${productId}]">
-								${optss}
-							</select>
-						</td>
-						<td class="product-quantity maybe-hidden quantity_enable">
-							<input type="number" placeholder="الكمية" max="" min="1" value="1" id="sale" name="quantity[]" class="form-control">
-						</td>
-						<td class="single-price-before maybe-hidden unit_price_before_enable">${singlePriceBefore.toFixed(2)}</td>
-						<td class="single-price-after maybe-hidden unit_price_after_enable">${singlePriceAfter.toFixed(2)}</td>
-						<td class="whole-price-before maybe-hidden total_price_before_enable">${singlePriceBefore.toFixed(2)}</td>
-						<td class="whole-price-after maybe-hidden total_price_after_enable">${singlePriceAfter.toFixed(2)}</td>
-						<td class="delete-single-row">
-							@if($session->user->is_admin==1)
-							<a href="#"><span class="icon-cross"></span></a>
-							@else
-							<button type="button" class="btn btn-primary in-row-del" data-toggle="modal" data-target="#deleteModal">
-                                <span class="icon-cross"></span>
-                            </button>
-							@endif
-							</td>
-                        </tr>`);
+	$('#selectID').attr('data-live-search', 'true');
+	$('#selectID').selectpicker('refresh');
+    $("#store_id").on('change', function() {
+        var id = $(this).val();
 
-					// assign id for the clicked button on the deleting modal
-					$(".in-row-del").on('click', function() {
-						var tempRowNum = $(this).parents('tr').attr('id');
-						$("#deleteModal").attr('data-tempdelrow', tempRowNum);
-						$("#confirm_delete").click(function() {
-							var email = $("#email").val();
-							var password = $("#password").val();
-							$.ajax({
-								url: "/accounting/confirm_user/",
-								type: "GET",
-								data: {
-									'email': email,
-									'password': password
-								},
-								success: function(data) {
-									if (data.data == 'success') {
-										$("#" + tempRowNum).remove();
-										$(".bill-table tbody").trigger('change');
-										$('#deleteModal').modal('hide');
-									} else {
-										alert('البيانات التي ادخلتها غير صحيحة .');
-									}
-								},
-								error: function(error) {
-									alert('البيانات التي ادخلتها غير صحيحة .');
-								}
-							});
-						});
-					})
-					var wholePriceBefore, wholePriceAfter = 0;
-					$(".product-unit select").change(function() {
-						var selectedUnit = $(this).find(":selected");
-						var productPrice = selectedUnit.data('uni-price');
-						if (Number(priceHasTax) === 0) {
-							var singlePriceBefore = Number(productPrice);
-							var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
-						} else if (Number(priceHasTax) === 1) {
-							var onllyDariba = Number(productPrice) - (Number(productPrice) * (100/(100 + Number(totalTaxes))));
-							var singlePriceBefore = Number(productPrice) - Number(onllyDariba);
-							var singlePriceAfter = Number(productPrice);
-						} else {
-							var singlePriceBefore = Number(productPrice);
-							var singlePriceAfter = Number(productPrice);
-						}
-						$(this).parents('.single-row-wrapper').find(".single-price-before").text(singlePriceBefore.toFixed(2));
-						$(this).parents('.single-row-wrapper').find(".single-price-after").text(singlePriceAfter.toFixed(2));
-						$(this).parents('.single-row-wrapper').find(".product-quantity input").trigger('change');
-					});
-					$(".product-quantity input").change(function() {
-						if (($(this).val()) < 0) {
-							$(this).val(0);
-							$(this).text('0');
-						}
-						$(".tempDisabled").removeClass("tempDisabled");
-						var wholePriceBefore = Number($(this).parents('.single-row-wrapper').find(".single-price-before").text()) * Number($(this).val());
-						$(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(2));
-						var wholePriceAfter = Number($(this).parents('.single-row-wrapper').find(".single-price-after").text()) * Number($(this).val());
-						$(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(2));
-					});
-					$(".bill-table tbody").trigger('change');
-					$(".tempDisabled").removeClass("tempDisabled");
-					$(".delete-single-row a").on('click', function() {
-						$(this).parents('tr').remove();
-						$(".bill-table tbody").trigger('change');
-					})
-				});
-				$(".bill-table tbody").change(function() {
+        var store_id = $('#store_id').val();
+        $('#store_val').val(store_id);
+        var branch_id = $('#branch_id').val();
+        $('#branch_val').val(branch_id);
+        var company_id = $('#company_id').val();
+        $('#company_val').val(company_id);
+        $.ajax({
+            type: 'get',
+            url: "/accounting/productsAjexPurchase/" + id,
+            data: {
+                id: id,
+
+            },
+            dataType: 'json',
+            success: function (data) {
+                $('.yurProdc').html(data.data);
+                $('#selectID').change(function () {
+                    rowNum++;
+                    var selectedProduct = $(this).find(":selected");
+                    //  alert($('#selectID').val());
+                    var productId = $('#selectID').val();
+                    var productName = selectedProduct.text();
+                    var productBarCode = selectedProduct.data('bar-code');
+                    var productPrice = selectedProduct.data('price');
+                    var priceHasTax = selectedProduct.data('price-has-tax');
+                    var totalTaxes = selectedProduct.data('total-taxes');
+                    var mainUnit = selectedProduct.data('main-unit');
+                    var productUnits = selectedProduct.data('subunits');
+                    console.table(productUnits);
+                    let unitName = productUnits.map(a => a.name);
+                    let unitPrice = productUnits.map(b => b.selling_price);
+                    var unitId = productUnits.map(c => c.id);
+
+                    var singlePriceBefore, singlePriceAfter = 0;
+                    if (Number(priceHasTax) === 0) {
+                        var singlePriceBefore = Number(productPrice);
+                        var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
+                    } else if (Number(priceHasTax) === 1) {
+                        var onllyDariba = Number(productPrice) - (Number(productPrice) * (100 / (100 + Number(totalTaxes))));
+                        var singlePriceBefore = Number(productPrice) - Number(onllyDariba);
+                        var singlePriceAfter = Number(productPrice);
+                    } else {
+                        var singlePriceBefore = Number(productPrice);
+                        var singlePriceAfter = Number(productPrice);
+                    }
+                    var optss = ``;
+                    for (var i = 0; i < productUnits.length; i++) {
+                        optss += '<option data-uni-price="' + unitPrice[i] + '" value="' + unitId[i] + '"> ' + unitName[i] + '</option> ';
+                    }
+
+                    $(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}">
+			<td class="row-num" width="40">${rowNum}</td>
+			<input type="hidden" name="product_id[]" value="${productId}">
+			<td class="product-name maybe-hidden name_enable">${productName}</td>
+			<td class="product-name maybe-hidden barcode_enable" width="140">${productBarCode}</td>
+			<td class="product-unit maybe-hidden unit_enable" width="110">
+				<select class="form-control js-example-basic-single" name="unit_id[${productId}]">
+					${optss}
+				</select>
+			</td>
+			<td class="product-quantity maybe-hidden quantity_enable" width="100">
+				<input type="number" placeholder="الكمية" max="" min="1" value="1" id="sale" name="quantity[]" class="form-control">
+			</td>
+			<td class="single-unit-price maybe-hidden unit_price_after_enable" width="100">${productPrice.toFixed(2)}</td>
+			<td class="single-price-before maybe-hidden">${singlePriceBefore.toFixed(2)}</td>
+			<td class="single-price-after maybe-hidden">${singlePriceAfter.toFixed(2)}</td>
+			<td class="whole-price-before maybe-hidden">${singlePriceBefore.toFixed(2)}</td>
+			<td class="whole-price-after maybe-hidden total_price_after_enable" width="100">${singlePriceAfter.toFixed(2)}</td>
+			<td class="delete-single-row" width="70">
+				@if($session->user->is_admin==1)
+                    <a href="#"><span class="icon-cross"></span></a>
+@else
+                    <button type="button" class="btn btn-primary in-row-del" data-toggle="modal" data-target="#deleteModal">
+                        <span class="icon-cross"></span>
+                    </button>
+@endif
+                    </td>
+                </tr>`);
+
+                    // assign id for the clicked button on the deleting modal
+                    $(".in-row-del").on('click', function () {
+                        var tempRowNum = $(this).parents('tr').attr('id');
+                        $("#deleteModal").attr('data-tempdelrow', tempRowNum);
+                        $("#confirm_delete").click(function () {
+                            var email = $("#email").val();
+                            var password = $("#password").val();
+                            $.ajax({
+                                url: "/accounting/confirm_user/",
+                                type: "GET",
+                                data: {
+                                    'email': email,
+                                    'password': password
+                                },
+                                success: function (data) {
+                                    if (data.data == 'success') {
+                                        $("#" + tempRowNum).remove();
+                                        $(".bill-table tbody").trigger('change');
+                                        $('#deleteModal').modal('hide');
+                                    } else {
+                                        alert('البيانات التي ادخلتها غير صحيحة .');
+                                    }
+                                },
+                                error: function (error) {
+                                    alert('البيانات التي ادخلتها غير صحيحة .');
+                                }
+                            });
+                        });
+                    })
+                    var wholePriceBefore, wholePriceAfter = 0;
+                    $(".product-unit select").change(function () {
+                        var selectedUnit = $(this).find(":selected");
+                        var productPrice = selectedUnit.data('uni-price');
+                        if (Number(priceHasTax) === 0) {
+                            var singlePriceBefore = Number(productPrice);
+                            var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
+                        } else if (Number(priceHasTax) === 1) {
+                            var onllyDariba = Number(productPrice) - (Number(productPrice) * (100 / (100 + Number(totalTaxes))));
+                            var singlePriceBefore = Number(productPrice) - Number(onllyDariba);
+                            var singlePriceAfter = Number(productPrice);
+                        } else {
+                            var singlePriceBefore = Number(productPrice);
+                            var singlePriceAfter = Number(productPrice);
+                        }
+                        $(this).parents('.single-row-wrapper').find(".single-unit-price").text(productPrice);
+                        $(this).parents('.single-row-wrapper').find(".single-price-before").text(singlePriceBefore.toFixed(2));
+                        $(this).parents('.single-row-wrapper').find(".single-price-after").text(singlePriceAfter.toFixed(2));
+                        $(this).parents('.single-row-wrapper').find(".product-quantity input").trigger('change');
+                    });
+                    $(".product-quantity input").change(function () {
+                        if (($(this).val()) < 0) {
+                            $(this).val(0);
+                            $(this).text('0');
+                        }
+                        $(".tempDisabled").removeClass("tempDisabled");
+                        var wholePriceBefore = Number($(this).parents('.single-row-wrapper').find(".single-price-before").text()) * Number($(this).val());
+                        $(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(2));
+                        var wholePriceAfter = Number($(this).parents('.single-row-wrapper').find(".single-price-after").text()) * Number($(this).val());
+                        $(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(2));
+                    });
+                    $(".bill-table tbody").trigger('change');
+                    $(".tempDisabled").removeClass("tempDisabled");
+                    $(".delete-single-row a").on('click', function () {
+                        $(this).parents('tr').remove();
+                        $(".bill-table tbody").trigger('change');
+                    })
+                });
+            },
+        })
+   });
+	$(".bill-table tbody").change(function() {
 					preventDiscount();
 					var amountBeforeDariba = 0;
 					$(".whole-price-before").each(function() {
@@ -554,9 +585,7 @@
 						}
 					})
 				});
-			}
-		});
-	});
+
 	//	For Ajax Search By Product Bar Code
 	$("#barcode_search").scannerDetection({
 		timeBeforeScanTest: 200, // wait for the next character for upto 200ms
@@ -619,7 +648,6 @@
 
 		}
 	});
-
 	function byBarcode() {
 		$(".tempDisabled").removeClass("tempDisabled");
 		$(".tempobar").find('option').prop('selected', true);
@@ -653,32 +681,33 @@
 			optss += '<option data-uni-price="' + unitPrice[i] + '" value="' + unitId[i] + '" > ' + unitName[i] + '</option> ';
 		}
 		$(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}">
-		<td class="row-num">${rowNum}</td>
-		<input type="hidden" name="product_id[]" value=${productId}>
-		<td class="product-name maybe-hidden name_enable " width="230">${productName}</td>
-		<td class="product-name maybe-hidden barcode_enable">${productBarCode}</td>
-		<td class="product-unit maybe-hidden unit_enable">
-			<select class="form-control js-example-basic-single" name="unit_id[${productId}]">
-				${optss}
-			</select>
-		</td>
-		<td class="product-quantity maybe-hidden quantity_enable">
-			<input type="number" placeholder="الكمية" min="1" value="1" id="sale" name="quantity[]" class="form-control">
-		</td>
-		<td class="single-price-before maybe-hidden unit_price_before_enable">${singlePriceBefore.toFixed(2)}</td>
-		<td class="single-price-after maybe-hidden unit_price_after_enable">${singlePriceAfter.toFixed(2)}</td>
-		<td class="whole-price-before maybe-hidden total_price_before_enable">${singlePriceBefore.toFixed(2)}</td>
-		<td class="whole-price-after maybe-hidden total_price_after_enable">${singlePriceAfter.toFixed(2)}</td>
-		<td class="delete-single-row">
-			@if($session->user->is_admin==1)
-			<a href="#"><span class="icon-cross"></span></a>
-			@else
-			<button type="button" class="btn btn-primary in-row-del" data-toggle="modal" data-target="#deleteModal">
-				<span class="icon-cross"></span>
-			</button>
-			@endif
+			<td class="row-num" width="40">${rowNum}</td>
+			<input type="hidden" name="product_id[]" value="${productId}">
+			<td class="product-name maybe-hidden name_enable">${productName}</td>
+			<td class="product-name maybe-hidden barcode_enable" width="140">${productBarCode}</td>
+			<td class="product-unit maybe-hidden unit_enable" width="110">
+				<select class="form-control js-example-basic-single" name="unit_id[${productId}]">
+					${optss}
+				</select>
 			</td>
-		</tr>`);
+			<td class="product-quantity maybe-hidden quantity_enable" width="100">
+				<input type="number" placeholder="الكمية" max="" min="1" value="1" id="sale" name="quantity[]" class="form-control">
+			</td>
+			<td class="single-unit-price maybe-hidden unit_price_after_enable" width="100">${productPrice.toFixed(2)}</td>
+			<td class="single-price-before maybe-hidden">${singlePriceBefore.toFixed(2)}</td>
+			<td class="single-price-after maybe-hidden">${singlePriceAfter.toFixed(2)}</td>
+			<td class="whole-price-before maybe-hidden">${singlePriceBefore.toFixed(2)}</td>
+			<td class="whole-price-after maybe-hidden total_price_after_enable" width="100">${singlePriceAfter.toFixed(2)}</td>
+			<td class="delete-single-row" width="70">
+				@if($session->user->is_admin==1)
+				<a href="#"><span class="icon-cross"></span></a>
+				@else
+				<button type="button" class="btn btn-primary in-row-del" data-toggle="modal" data-target="#deleteModal">
+					<span class="icon-cross"></span>
+				</button>
+				@endif
+				</td>
+			</tr>`);
 
 		// assign id for the clicked button on the deleting modal
 		$(".in-row-del").on('click', function() {
@@ -724,6 +753,7 @@
 				var singlePriceBefore = Number(productPrice);
 				var singlePriceAfter = Number(productPrice);
 			}
+			$(this).parents('.single-row-wrapper').find(".single-unit-price").text(productPrice);
 			$(this).parents('.single-row-wrapper').find(".single-price-before").text(singlePriceBefore.toFixed(2));
 			$(this).parents('.single-row-wrapper').find(".single-price-after").text(singlePriceAfter.toFixed(2));
 			$(this).parents('.single-row-wrapper').find(".product-quantity input").trigger('change');
@@ -822,7 +852,6 @@
 			})
 		});
 	}
-
 	$(document).keydown(function(event) {
 		if (event.which == 118 || event.which == 13) { //F7 حفظ
 			confirmSubmit(event);
@@ -921,4 +950,53 @@
 	}
 	setInterval(refreshTime, 1000)
 </script>
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		$("#enlarge-scr").click(function(){
+			$("body").toggleClass("full-scr");
+			$(this).toggleClass("go-to-full go-to-min")
+		})
+		
+		$(".go-to-full").click(function(){
+			var elem = document.body; // Make the body go full screen.
+			requestFullScreen(elem);
+		})
+		$(".go-to-min").click(function(){
+			var ele = document.body; // Make the body go full screen.
+			extFullScreen(ele);
+		})
+		
+	})
+
+var isFullscreen = false;
+function toggleFullscreen(){
+  var container = document.getElementById("container");
+  
+  if (isFullscreen) {
+    document.webkitCancelFullScreen();
+  } else {
+    container.webkitRequestFullScreen();
+  }
+  
+  isFullscreen = !isFullscreen;
+  
+  var square1 = document.getElementById("square-1");
+  var square2 = document.getElementById("square-2");
+  var square3 = document.getElementById("square-3");
+  var square4 = document.getElementById("square-4");
+  
+  if (isFullscreen){
+    square1.className = "square  square-1--reduce";
+    square2.className = "square  square-2--reduce";
+    square3.className = "square  square-3--reduce";
+    square4.className = "square  square-4--reduce";
+  } else {
+    square1.className = "square  square-1--expand";
+    square2.className = "square  square-2--expand";
+    square3.className = "square  square-3--expand";
+    square4.className = "square  square-4--expand";
+  }
+}
+</script> 
 @endsection

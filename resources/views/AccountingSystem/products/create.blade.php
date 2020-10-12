@@ -31,7 +31,7 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::open( ['route' => 'accounting.products.store' ,'class'=>'form novalidate','novalidate', 'method' => 'Post','files' => true]) !!}
+            {!!Form::open( ['route' => 'accounting.products.store' ,'id'=>'montag-form','class'=>'form novalidate','novalidate', 'method' => 'Post','files' => true]) !!}
             @include('AccountingSystem.products.form')
             {!!Form::close() !!}
         </div>
@@ -40,3 +40,7 @@
     </div>
 
  @endsection
+
+@section('scripts')
+
+	 @endsection

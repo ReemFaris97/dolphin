@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAccountingEntriesLogTable extends Migration
+class CreateAccountingUsersSalaryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,21 +13,21 @@ class CreateAccountingEntriesLogTable extends Migration
      */
     public function up()
     {
-        Schema::create('accounting_entries_log', function (Blueprint $table) {
+        Schema::create('accounting_users_salary', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('entry_id')->nullable();
-            $table->foreign('entry_id')->references('id')
-                ->on('accounting_entries')->onDelete('cascade')
-                ->onUpdate('cascade');
-            $table->string('operation')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')
                 ->on('users')->onDelete('cascade')
                 ->onUpdate('cascade');
 
 
-
-
+            $table->unsignedBigInteger('title_id')->nullable();
+            $table->foreign('title_id')->references('id')
+                ->on('users')->onDelete('cascade')
+                ->onUpdate('cascade');
+                $table->decimal('salary')->nullable();
+                $table->decimal('bouns')->nullable();
+                $table->decimal('total_salary')->nullable();
             $table->timestamps();
         });
     }
@@ -39,6 +39,6 @@ class CreateAccountingEntriesLogTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accounting_entries_log');
+        Schema::dropIfExists('accounting_users_salary');
     }
 }

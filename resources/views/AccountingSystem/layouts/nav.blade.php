@@ -27,8 +27,18 @@
 						<ul class="dropdown-menu dropdown-menu-right">
 							<li><a href="{{route('accounting.users.index')}}"><i class="icon-eye"></i> عرض العضويات</a></li>
 							<li><a href="{{route('accounting.users.create')}}"><i class="icon-add-to-list"></i> اضافة عضو جديد</a></li>
-						</ul>
-					</li>
+                            <li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i>  إدارة المسميات الوظفية </a>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li><a href="{{route('accounting.jobTitles.create')}}"><i class="icon-add-to-list"></i>  اضافه مسمى  وظيفى</a></li>
+                                    <li><a href="{{route('accounting.jobTitles.index')}}"><i class="icon-eye"></i> عرض  المسميات الوظيفية</a></li>
+                              </ul>
+                            </li>
+                            <li><a href="{{route('accounting.users.pay_salaries')}}"><i class="icon-add-to-list"></i> دفع رواتب الموظفين </a></li>
+                            <li><a href="{{route('accounting.users.salaries_paid')}}"><i class="icon-eye"></i>  رواتب الموظفين </a></li>
+
+                        </ul>
+                    </li>
+
                     @can('إدارة الشركات')
 					<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i> إدارة الشركات </a>
 						<ul class="dropdown-menu dropdown-menu-right">
@@ -190,28 +200,28 @@
 						<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.products.create')}}"><i class="icon-add-to-list"></i> اضافة منتج جديد</a> </li>
 					</ul>
 				</li>
-{{--				<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-center"></i> الارفف </a>--}}
-{{--					<ul class="dropdown-menu">--}}
-{{--						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-justify"></i> الاوجه </a>--}}
-{{--							<ul class="dropdown-menu">--}}
-{{--								<li><a href="{{route('accounting.faces.index')}}"><i class="icon-eye"></i> عرض الاوجة</a></li>--}}
-{{--								<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.faces.create')}}"><i class="icon-add-to-list"></i> اضافة وجة جديد</a> </li>--}}
-{{--							</ul>--}}
-{{--						</li>--}}
-{{--						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-left"></i> الاعمده </a>--}}
-{{--							<ul class="dropdown-menu">--}}
-{{--								<li><a href="{{route('accounting.columns.index')}}"><i class="icon-eye"></i> عرض الاعمده </a></li>--}}
-{{--								<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.columns.create')}}"><i class="icon-add-to-list"></i> اضافة عمود جديده</a> </li>--}}
-{{--							</ul>--}}
-{{--						</li>--}}
-{{--						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-right"></i> الخلايا </a>--}}
-{{--							<ul class="dropdown-menu">--}}
-{{--								<li><a href="{{route('accounting.cells.index')}}"><i class="icon-eye"></i> عرض الخلايا </a></li>--}}
-{{--								<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.cells.create')}}"><i class="icon-add-to-list"></i> اضافة خلية جديد</a> </li>--}}
-{{--							</ul>--}}
-{{--						</li>--}}
-{{--					</ul>--}}
-{{--				</li>--}}
+				<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-center"></i> الارفف </a>
+					<ul class="dropdown-menu">
+						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-justify"></i> الاوجه </a>
+							<ul class="dropdown-menu">
+								<li><a href="{{route('accounting.faces.index')}}"><i class="icon-eye"></i> عرض الاوجة</a></li>
+								<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.faces.create')}}"><i class="icon-add-to-list"></i> اضافة وجة جديد</a> </li>
+							</ul>
+						</li>
+						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-left"></i> الاعمده </a>
+							<ul class="dropdown-menu">
+								<li><a href="{{route('accounting.columns.index')}}"><i class="icon-eye"></i> عرض الاعمده </a></li>
+								<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.columns.create')}}"><i class="icon-add-to-list"></i> اضافة عمود جديده</a> </li>
+							</ul>
+						</li>
+						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-right"></i> الخلايا </a>
+							<ul class="dropdown-menu">
+								<li><a href="{{route('accounting.cells.index')}}"><i class="icon-eye"></i> عرض الخلايا </a></li>
+								<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.cells.create')}}"><i class="icon-add-to-list"></i> اضافة خلية جديد</a> </li>
+							</ul>
+						</li>
+					</ul>
+				</li>
 			</ul>
 		</li>
                @endcan
@@ -229,7 +239,9 @@
 					<ul class="dropdown-menu">
 
 						<li><a href="{{route('accounting.sales.index')}}"><i class="icon-eye"></i> عرض الفواتير </a></li>
-					</ul>
+                        <li><a href="{{route('accounting.sales.create')}}"><i class="icon-eye"></i>  فاتوره بيع </a></li>
+
+                    </ul>
 				</li>
 				@endcan
 
@@ -265,7 +277,7 @@
 					@can('عرض فواتير مرتجعات المبيعات')
 				<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-cabinet position-left"></i> مرتجعات  المبيعات  </a>
 					<ul class="dropdown-menu">
-						<li><a href="{{route('accounting.sales.index')}}"><i class="icon-eye"></i> عرض فواتير المرتجعات </a></li>
+						<li><a href="{{route('accounting.sales.index_returns')}}"><i class="icon-eye"></i> عرض فواتير المرتجعات </a></li>
 					</ul>
 				</li>
                 @endcan
@@ -335,7 +347,9 @@
 							<ul class="dropdown-menu">
 								<li><a href="{{route('accounting.clauses.index')}}"><i class="icon-eye"></i> عرض السندات</a></li>
 								<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.clauses.create')}}"><i class="icon-add-to-list"></i> اضافة سند جديد</a> </li>
-							</ul>
+                                <li><a href="{{route('accounting.clauses.checks')}}"><i class="icon-eye"></i> عرض الشيكات</a></li>
+
+                            </ul>
 						</li>
 						@endcan
 						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-justify"></i> بنود القبض والصرف </a>
@@ -353,19 +367,64 @@
 							</ul>
 						</li>
 
-					</ul>
+                            <li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-justify"></i> خيارات الدفع</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{route('accounting.payments.index')}}"><i class="icon-eye"></i> عرض خيارات الدفع</a></li>
+                                    <li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.payments.create')}}"><i class="icon-add-to-list"></i> اضافة خيار جديد</a> </li>
+                                </ul>
+                            </li>
+                    </ul>
+
+
+                    <li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-cabinet position-left"></i> إدارة العملات </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="{{route('accounting.currencies.index')}}"><i class="icon-eye"></i> عرض  العملات</a></li>
+                            <li><a href="{{route('accounting.currencies.create')}}"><i class="icon-add-to-list"></i> اضافة عملة جديدة</a></li>
+                        </ul>
+                    </li>
 				</li>
 
 			</ul>
 		</li>
 
-
-
 			<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i> الحسابات </a>
 				<ul class="dropdown-menu dropdown-menu-right">
 					<li><a href="{{route('accounting.ChartsAccounts.index')}}"><i class="icon-eye"></i> الدليل المحاسبى</a></li>
+					<li><a href="{{route('accounting.ChartsAccounts.trial_balance')}}"><i class="icon-eye"></i>  ميزان المراجعة</a></li>
+                    <li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i> السنوات المالية </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="{{route('accounting.fiscalYears.create')}}"><i class="icon-eye"></i>  اضافه سنة ماليه</a></li>
+                            <li><a href="{{route('accounting.fiscalYears.index')}}"><i class="icon-eye"></i>   عرض السنوات المالية</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i> الفترات المالية </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="{{route('accounting.fiscalPeriods.create')}}"><i class="icon-eye"></i>  اضافه فترة ماليه</a></li>
+                            <li><a href="{{route('accounting.fiscalPeriods.index')}}"><i class="icon-eye"></i>   عرض الفترات المالية</a></li>
+                      </ul>
+                    </li>
+                    <li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i>  مراكز التكلفة </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="{{route('accounting.costCenters.create')}}"><i class="icon-eye"></i>  اضافه مركز تكلفة</a></li>
+                            <li><a href="{{route('accounting.costCenters.index')}}"><i class="icon-eye"></i>   عرض  مراكز التكلفة</a></li>
+                      </ul>
+                    </li>
 
-				</ul>
+
+                    <li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i> اداره الاصول </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="{{route('accounting.assets.create')}}"><i class="icon-eye"></i>  اضافه اصل جديد</a></li>
+                            <li><a href="{{route('accounting.assets.index')}}"><i class="icon-eye"></i>   عرض الاصول </a></li>
+                      </ul>
+                    </li>
+
+                    <li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i>  ادارة العهدة </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="{{route('accounting.custodies.create')}}"><i class="icon-eye"></i>  اضافه عهده جديد</a></li>
+                            <li><a href="{{route('accounting.custodies.index')}}"><i class="icon-eye"></i>   عرض العهد </a></li>
+                      </ul>
+                    </li>
+                </ul>
 			</li>
 
 			<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i> القيود المحاسبيه </a>
@@ -374,7 +433,9 @@
 					<li><a href="{{route('accounting.entries.index')}}"><i class="icon-eye"></i> عرض  القيود</a></li>
 
 				</ul>
-			</li>
+            </li>
+
+
 
             @can('إدارة التقارير')
             <!-- ================== Reports ============================= -->
@@ -431,7 +492,7 @@
 		</li>
             @endcan
             @can(' الاعدادات العامة')
-		<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="glyphicon glyphicon-cog	 position-left"></i> إدارة الاعدادات العامه <span class="caret"></span> </a>
+		<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="glyphicon glyphicon-cog	 position-left"></i> إدارة الاعدادات  <span class="caret"></span> </a>
 			<ul class="dropdown-menu dropdown-menu-right">
 				<li><a href="{{route('accounting.settings.index')}}"><i class="glyphicon glyphicon-cog"></i> الأعدادت </a></li>
 				<li><a href="{{route('accounting.roles.index')}}"><i class="glyphicon glyphicon-cog"></i> الصلاحيات  </a></li>
@@ -444,6 +505,10 @@
 								<li><a href="{{route('accounting.settings.show',['accounting_stores'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين حسابات المخزون  </a></li>
                                 <li><a href="{{route('accounting.settings.show',['accounting_cash'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين  حسابات النقدية  </a></li>
                                  <li><a href="{{route('accounting.settings.show',['accounting_entries'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين  القيود المحاسبيه  </a></li>
+                                <li><a href="{{route('accounting.settings.show',['accounting_banks_safes'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين  حسابات البنوك والصناديق </a></li>
+                                <li><a href="{{route('accounting.settings.show',['accounting_payment'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين  خيارات الدفع  </a></li>
+                                <li><a href="{{route('accounting.settings.show',['accounting_salaries'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين  حسابات الاجور والمرتبات </a></li>
+                                <li><a href="{{route('accounting.settings.show',['accounting_damages'])}}"><i class="glyphicon glyphicon-cog"></i>   تعين  حسابات  الاهلاك </a></li>
 
 
 					</ul>
