@@ -63,7 +63,6 @@ class ProductController extends Controller
         //dd($units);
         return $this->toCreate(compact('branches','categories','products','industrials','units','taxs','suppliers'));
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -99,11 +98,9 @@ class ProductController extends Controller
             'bar_code.barcode_name'=>"باركود المنتج موجود مسبقا ",
             'barcodes.barcode_anther'=>"باركود المنتج موجود مسبقا ",
             'par_codes.barcode_unit'=>"باركود  الوحدة موجود مسبقا ",
-
             'type.required'=>'نوع المنتج مطلوب ادخاله',
         ];
         $this->validate($request,$rules,$messsage);
-
         $inputs = $request->except('image','main_unit_present','purchasing_price','selling_price','component_names','qtys','main_units');
        $inputs['name']=$inputs['product_name'];
         $inputs['selling_price']=$inputs['product_selling_price'];

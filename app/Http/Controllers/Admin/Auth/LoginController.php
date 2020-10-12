@@ -61,9 +61,9 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        auth()->user()->update([
-            'enable'=>1
-        ]);
+//        auth()->user()->update([
+//            'enable'=>1
+//        ]);
         $this->guard()->logout();
         $request->session()->invalidate();
         return $this->loggedOut($request) ?: redirect()->route('admin.login');
