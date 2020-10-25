@@ -409,7 +409,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 				@endif
                     </td>
                 </tr>`);
-				//	Remove overlay	
+				//	Remove overlay
 				$(".tempDisabled").removeClass("tempDisabled");
 
                // assign id for the clicked button on the deleting modal
@@ -441,12 +441,12 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
                             });
                         });
                     })
-					
+
                     var wholePriceBefore, wholePriceAfter = 0;
                     $(".product-unit select").change(function () {
                         var selectedUnit = $(this).find(":selected");
                         var productPrice = Number(selectedUnit.data('uni-price'));
-						
+
                         if (Number(priceHasTax) === 0) {
 							var singlePriceBefore = Number(productPrice);
 							var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
@@ -481,7 +481,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
                     })
                 };
 
-
+console.table();
 //While Ajax search request by store
     $("#store_id").on('change', function() {
         var store_id = $(this).val();
@@ -533,12 +533,12 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 					$("#amountOfDariba span.dynamic-span").html(amountOfDariba.toFixed(2));
 					$("#amountOfDariba1").val(amountOfDariba);
 					$('#amountAfterDarib1').val(amountAfterDariba);
-		
+
 					var byAmount = $("input#byAmount").val();
 					var byPercentage = $("input#byPercentage").val();
 					$("input#byAmount").attr('max', amountAfterDariba);
 					var total = 0;
-					
+
 					if (byAmount == 0 && byPercentage == 0) {
 						$("#demandedAmount span.dynamic-span").html(amountAfterDariba.toFixed(2));
 					} else {
@@ -778,7 +778,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 			$("body").toggleClass("full-scr");
 			$(this).toggleClass("go-to-full go-to-min")
 		})
-		
+
 		$(".go-to-full").click(function(){
 			var elem = document.body; // Make the body go full screen.
 			requestFullScreen(elem);
@@ -787,26 +787,26 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 			var ele = document.body; // Make the body go full screen.
 			extFullScreen(ele);
 		})
-		
+
 	})
 
 var isFullscreen = false;
 function toggleFullscreen(){
   var container = document.getElementById("container");
-  
+
   if (isFullscreen) {
     document.webkitCancelFullScreen();
   } else {
     container.webkitRequestFullScreen();
   }
-  
+
   isFullscreen = !isFullscreen;
-  
+
   var square1 = document.getElementById("square-1");
   var square2 = document.getElementById("square-2");
   var square3 = document.getElementById("square-3");
   var square4 = document.getElementById("square-4");
-  
+
   if (isFullscreen){
     square1.className = "square  square-1--reduce";
     square2.className = "square  square-2--reduce";
@@ -819,5 +819,5 @@ function toggleFullscreen(){
     square4.className = "square  square-4--expand";
   }
 }
-</script> 
+</script>
 @endsection

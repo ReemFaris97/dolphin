@@ -31,8 +31,8 @@
 <input type="hidden" name="type" value="يدوى">
 <input type="hidden" name="source" value=" قيديدوى">
 <div class="form-group col-sm-6 col-xs-12 pull-left">
-	<label> نوع العملة </label>
-	{!! Form::select("currency",currency(),null,['class'=>'form-control','placeholder'=>'اختر العملة',])!!}
+	<label>  اختر الفرع </label>
+	{!! Form::select("branch_id",$branches,null,['class'=>'form-control','placeholder'=>'اختر الفرع',])!!}
 </div>
 
 <div class="form-group col-sm-6 col-xs-12 pull-left">
