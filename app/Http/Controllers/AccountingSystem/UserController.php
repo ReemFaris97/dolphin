@@ -131,7 +131,6 @@ class UserController extends Controller
         $user =User::findOrFail($id);
 
         $rules = [
-
             'name'=>'required|string|max:191',
             'phone'=>'required|numeric|unique:users,phone,'.$user->id,
             'email'=>'required|string|unique:users,email,'.$user->id,
