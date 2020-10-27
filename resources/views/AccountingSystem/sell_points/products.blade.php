@@ -35,7 +35,7 @@
             <option value="{{$product->id}}"
                    data-main-unit="{{$product->	main_unit}}"
                     data-name="{{$product->name}}"
-                    data-price="{{$product->selling_price -(($product->selling_price*$product->total_discounts)/100)}}"
+                    data-price="{{$product->selling_price}}"
                     data-bar-code="{{$product->bar_code}}"
                     data-link= "{{route('accounting.products.show',['id'=>$product->id])}}"
                     data-price-has-tax="{{isset($producttax)? $producttax->price_has_tax : '0' }}"
