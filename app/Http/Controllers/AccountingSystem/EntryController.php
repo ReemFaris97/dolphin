@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AccountingSystem;
 
 
 use App\Models\AccountingSystem\AccountingAccount;
+use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingEntry;
 use App\Models\AccountingSystem\AccountingEntryAccount;
 use App\Models\AccountingSystem\AccountingEntryLog;
@@ -38,7 +39,8 @@ class EntryController extends Controller
     public function create()
     {
         $accounts=AccountingAccount::where('kind','sub')->get();
-        return $this->toCreate(compact('accounts'));
+        $branches=AccountingBranch::pluck('name','id')->toArray();
+        return $this->toCreate(compact('accounts','branches'));
     }
 
     /**
@@ -97,8 +99,9 @@ class EntryController extends Controller
     {
         $entry =AccountingEntry::findOrFail($id);
         $accounts=AccountingAccount::where('kind','sub')->get();
+        $branches=AccountingBranch::pluck('name','id')->toArray();
         $entryAccount=AccountingEntryAccount::where('entry_id',$id)->first();
-        return $this->toEdit(compact('entry','accounts','entryAccount'));
+        return $this->toEdit(compact('entry','accounts','entryAccount','branches'));
 
 
     }

@@ -58,6 +58,7 @@ class SellPointController extends Controller
     public  function getProductAjex(Request $request,$id){
         $store_product=AccountingProductStore::where('store_id',$request['id'])->pluck('product_id','id')->toArray();
         $products=AccountingProduct::whereIn('id',$store_product)->get();
+        dd("saddddddd");
         return response()->json([
             'status'=>true,
             'data'=>view('AccountingSystem.sell_points.products')->with('products',$products)->render()
@@ -145,9 +146,7 @@ class SellPointController extends Controller
     public  function barcode_search(Request $request,$q){
 
         $store_product=AccountingProductStore::where('store_id',$request['id'])->pluck('product_id','id')->toArray();
-
-        $products=AccountingProduct::where('bar_code',$q)->whereIn('id',$store_product)->get();
-
+        $products=AccountingProduct::where('bar_code',$q)->get();
         if(!$products->isEmpty())
         {
             $selectd_unit_id = 'main-'.$products[0]->id;
@@ -160,7 +159,7 @@ class SellPointController extends Controller
             if($unit)
                 $selectd_unit_id = $unit->id;
             else
-                $select_unit_id = 0;
+                $selectd_unit_id = 0;
         }
 
 
