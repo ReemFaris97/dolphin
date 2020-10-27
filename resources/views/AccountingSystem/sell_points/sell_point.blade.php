@@ -88,6 +88,7 @@
 						<label>بحث بالباركود </label>
 						<input class="form-control" type="text" id="barcode_search">
 					</div>
+                   <input type="hidden" value="{{getsetting('rounding_number')}}" id="ronding-number">
                     @if (getsetting('automatic_sales')==0)
                         <div class="form-group col-sm-3">
                             <label> اختر الحساب </label>
@@ -134,7 +135,9 @@
                     {{(getsetting('unit_enable_sales')==1) ? 'unit_enable':'' }}
                      {{(getsetting('quantity_enable_sales')==1) ? 'quantity_enable':'' }}
                      {{(getsetting('unit_price_enable_sales')==1) ? 'unit_price_after_enable':'' }}
-                      {{(getsetting('total_price_enable_sales')==1) ? 'total_price_after_enable':'' }}">
+                      {{(getsetting('total_price_enable_sales')==1) ? 'total_price_after_enable':'' }}
+                      unit_total_tax_enable"
+                      >
 						<thead>
 							<tr>
 								<th rowspan="2" width="40">م</th>
@@ -142,6 +145,7 @@
 								<th rowspan="2" class="maybe-hidden barcode_enable" width="140">باركود</th>
 								<th rowspan="2" class="maybe-hidden unit_enable" width="110">الوحدة</th>
 								<th rowspan="2" class="maybe-hidden quantity_enable" width="100">الكمية</th>
+								<th rowspan="2" class="maybe-hidden unit_total_tax_enable" width="100">الضريبة %</th>
 								<th colspan="2" class="maybe-hidden unit_price_after_enable" width="100">سعر الوحدة</th>
 								<th colspan="2" class="maybe-hidden total_price_after_enable" width="100">صافي الإجمالى</th>
 								<th rowspan="2" width="70"> حذف </th>
@@ -159,6 +163,10 @@
 									<span class="rs"> ر.س </span>
 								</th>
 								<th id="amountOfDariba" class="rel-cols" colspan="3">
+									<span id="removeTaxWrap">
+										<input type="checkbox" id="remove-tax">
+										<label for="remove-tax">معفي ضريبيا</label>
+									</span>
 									<span class="colorfulSpan"> قيمة الضريبة</span>
 									<input type="hidden" class="dynamic-input" name="totalTaxs" id="amountOfDariba1">
 									<span class="dynamic-span">0</span>
@@ -354,13 +362,14 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 		$("#bill_date_val").val($(this).val());
 	});
 
+	var rondingNumber = $("#ronding-number").val();
+
 	var rowNum = 0;
 	$('#selectID').selectpicker('refresh');
 
 //	Calculation Function
-	function calcBill(selectedProduct, productId, productName, productBarCode, productPrice, priceHasTax, totalTaxes, mainUnit, productUnits ) {
+	function calcBill(selectedProduct, productId, productName, productBarCode, productPrice, priceHasTax, totalTaxes, mainUnit, productUnits ) {	
                     rowNum++;
-                    console.table(productUnits)
                     let unitName = productUnits.map(a => a.name);
                     let unitPrice = productUnits.map(b => b.selling_price);
                     var unitId = productUnits.map(c => c.id);
@@ -378,7 +387,7 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 					}
                     var optss = ``;
                   	for (var i = 0; i < productUnits.length; i++) {
-                       optss += '<option data-uni-price="' + Number(unitPrice[i]).toFixed(2) + '" value="' + unitId[i] + '"> ' + unitName[i] + '</option> ';
+                       optss += '<option data-uni-price="' + Number(unitPrice[i]).toFixed(rondingNumber) + '" value="' + unitId[i] + '"> ' + unitName[i] + '</option> ';
                     }
 
                     $(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}">
@@ -394,11 +403,14 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 			<td class="product-quantity maybe-hidden quantity_enable" width="100">
 				<input type="number" placeholder="الكمية" max="" min="1" value="1" id="sale" name="quantity[]" class="form-control">
 			</td>
-			<td class="single-unit-price maybe-hidden unit_price_after_enable" width="100">${productPrice.toFixed(2)}</td>
-			<td class="single-price-before maybe-hidden">${singlePriceBefore.toFixed(2)}</td>
-			<td class="single-price-after maybe-hidden">${singlePriceAfter.toFixed(2)}</td>
-			<td class="whole-price-before maybe-hidden">${singlePriceBefore.toFixed(2)}</td>
-			<td class="whole-price-after maybe-hidden total_price_after_enable" width="100">${singlePriceAfter.toFixed(2)}</td>
+			<td class="unit-total-tax maybe-hidden unit_total_tax_enable" width="100">
+				<input type="number" placeholder="الضريبة" max="" min="0" data-original-tax="${totalTaxes}" value="${totalTaxes}" name="tax[]" class="form-control"> 
+			</td>
+			<td class="single-unit-price maybe-hidden unit_price_after_enable" width="100">${productPrice.toFixed(rondingNumber)}</td>
+			<td class="single-price-before maybe-hidden">${singlePriceBefore.toFixed(rondingNumber)}</td>
+			<td class="single-price-after maybe-hidden">${singlePriceAfter.toFixed(rondingNumber)}</td>
+			<td class="whole-price-before maybe-hidden">${singlePriceBefore.toFixed(rondingNumber)}</td>
+			<td class="whole-price-after maybe-hidden total_price_after_enable" width="100">${singlePriceAfter.toFixed(rondingNumber)}</td>
 			<td class="delete-single-row" width="70">
 				@if($session->user->is_admin==1)
                     <a href="#"><span class="icon-cross"></span></a>
@@ -441,12 +453,18 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
                             });
                         });
                     })
+		
+						$(".unit-total-tax input").each(function(){
+								$(this).on('change',function(){
+									totalTaxes = $(this).val();
+									$(this).parents('.single-row-wrapper').find(".product-unit select").trigger('change');
+								})
+							})
 
                     var wholePriceBefore, wholePriceAfter = 0;
                     $(".product-unit select").change(function () {
                         var selectedUnit = $(this).find(":selected");
                         var productPrice = Number(selectedUnit.data('uni-price'));
-
                         if (Number(priceHasTax) === 0) {
 							var singlePriceBefore = Number(productPrice);
 							var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
@@ -458,30 +476,46 @@ $('table').on('DOMSubtreeModified', 'tbody', function(){
 							var singlePriceBefore = Number(productPrice);
 							var singlePriceAfter = Number(productPrice);
 						}
-                        $(this).parents('.single-row-wrapper').find(".single-unit-price").text(productPrice.toFixed(2));
-                        $(this).parents('.single-row-wrapper').find(".single-price-before").text(singlePriceBefore.toFixed(2));
-                        $(this).parents('.single-row-wrapper').find(".single-price-after").text(singlePriceAfter.toFixed(2));
+                        $(this).parents('.single-row-wrapper').find(".single-unit-price").text(productPrice.toFixed(rondingNumber));
+                        $(this).parents('.single-row-wrapper').find(".single-price-before").text(singlePriceBefore.toFixed(rondingNumber));
+                        $(this).parents('.single-row-wrapper').find(".single-price-after").text(singlePriceAfter.toFixed(rondingNumber));
                         $(this).parents('.single-row-wrapper').find(".product-quantity input").trigger('change');
                     });
                     $(".product-quantity input").change(function () {
+						
                         if (($(this).val()) < 0) {
                             $(this).val(0);
                             $(this).text('0');
                         }
                         $(".tempDisabled").removeClass("tempDisabled");
                         var wholePriceBefore = Number($(this).parents('.single-row-wrapper').find(".single-price-before").text()) * Number($(this).val());
-                        $(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(2));
+                        $(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(rondingNumber));
                         var wholePriceAfter = Number($(this).parents('.single-row-wrapper').find(".single-price-after").text()) * Number($(this).val());
-                        $(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(2));
+                        $(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(rondingNumber));
+						$(" input#byAmount , input#byPercentage , input#byCache , input#byNet").val(0)
+//						$("input#byNet").trigger('change')
                     });
                     $(".bill-table tbody").trigger('change');
                     $(".delete-single-row a").on('click', function () {
                         $(this).parents('tr').remove();
                         $(".bill-table tbody").trigger('change');
                     })
+					
+					$("#remove-tax").change(function(){
+						if($(this).is(':checked')){
+							$(".unit-total-tax input").each(function(){
+								$(this).val(0);
+								$(this).trigger('change')
+							})
+						}else{
+							$(".unit-total-tax input").each(function(){
+								$(this).val(Number($(this).attr('data-original-tax')));
+								$(this).trigger('change')
+							})
+						}
+					})
                 };
 
-console.table();
 //While Ajax search request by store
     $("#store_id").on('change', function() {
         var store_id = $(this).val();
@@ -492,7 +526,7 @@ console.table();
         $('#company_val').val(company_id);
         $.ajax({
             type: 'get',
-            url: "/accounting/productsAjexPurchase/" + store_id,
+            url: "/accounting/productsAjex/" + store_id,
             data: {
                 id: store_id,
             },
@@ -528,9 +562,9 @@ console.table();
 						amountAfterDariba += Number($(this).text());
 					});
 					var amountOfDariba = Number(amountAfterDariba) - Number(amountBeforeDariba);
-					$("#amountBeforeDariba span.dynamic-span").html(amountBeforeDariba.toFixed(2));
-					$("#amountAfterDariba span.dynamic-span").html(amountAfterDariba.toFixed(2));
-					$("#amountOfDariba span.dynamic-span").html(amountOfDariba.toFixed(2));
+					$("#amountBeforeDariba span.dynamic-span").html(amountBeforeDariba.toFixed(rondingNumber));
+					$("#amountAfterDariba span.dynamic-span").html(amountAfterDariba.toFixed(rondingNumber));
+					$("#amountOfDariba span.dynamic-span").html(amountOfDariba.toFixed(rondingNumber));
 					$("#amountOfDariba1").val(amountOfDariba);
 					$('#amountAfterDarib1').val(amountAfterDariba);
 
@@ -540,7 +574,7 @@ console.table();
 					var total = 0;
 
 					if (byAmount == 0 && byPercentage == 0) {
-						$("#demandedAmount span.dynamic-span").html(amountAfterDariba.toFixed(2));
+						$("#demandedAmount span.dynamic-span").html(amountAfterDariba.toFixed(rondingNumber));
 					} else {
 						$("input#byPercentage").change(function() {
 							if ((Number($(this).val())) > 100) {
@@ -548,7 +582,7 @@ console.table();
 								$(this).val(100);
 							}
 							total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100));
-							$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
+							$("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
 							$("#total").val(total);
 						});
 						$("input#byAmount").change(function() {
@@ -557,7 +591,7 @@ console.table();
 								$(this).val(0);
 							}
 							total = Number(amountAfterDariba) - (Number($(this).val()));
-							$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
+							$("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
 							$("#total").val(total);
 						});
 					}
@@ -567,7 +601,7 @@ console.table();
 							$(this).val(100);
 						}
 						total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100));
-						$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
+						$("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
 						$("#total").val(total);
 					});
 					$("input#byAmount").change(function() {
@@ -576,15 +610,15 @@ console.table();
 							$(this).val(0);
 						}
 						total = Number(amountAfterDariba) - (Number($(this).val()));
-						$("#demandedAmount span.dynamic-span").html(total.toFixed(2));
+						$("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
 						$("#total").val(total);
 					});
 					$("#byCache , #byNet").change(function() {
 						var allPaid = Number($("#byCache").val()) + Number($("#byNet").val());
-						$("#allPaid").html(allPaid.toFixed(2));
+						$("#allPaid").html(allPaid.toFixed(rondingNumber));
 						$("#allPaid1").val(allPaid);
 						var remaindedAmount = Number(allPaid) - Number($("#demandedAmount span.dynamic-span").html());
-						$("#remaindedAmount span.dynamic-span").html(remaindedAmount.toFixed(2));
+						$("#remaindedAmount span.dynamic-span").html(remaindedAmount.toFixed(rondingNumber));
 						$('#remainder-inputt').val(Math.abs(remaindedAmount));
 						if (remaindedAmount > 0) {
 							$("#remaindedAmount .rel-cols").removeClass("aagel-case").removeClass("tmam-case").addClass("motabaqy-case");
