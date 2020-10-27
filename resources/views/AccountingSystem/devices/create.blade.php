@@ -1,7 +1,7 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','إنشاء جهاز   جديد')
-@section('parent_title','إدارة  المبيعات')
-@section('action', URL::route('accounting.products.index'))
+@section('parent_title','إدارة  الاجهزه')
+@section('action', URL::route('accounting.devices.index'))
 
 @section('styles')
 
@@ -10,7 +10,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">إضافة جهاز جديدة</h5>
+            <h5 class="panel-title">إضافة جهاز جديد</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>

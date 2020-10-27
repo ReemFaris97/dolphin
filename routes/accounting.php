@@ -15,23 +15,38 @@ Route::middleware('admin')->group(function () {
     Route::resource('stores', 'StoreController');
     Route::resource('storeKeepers', 'StoreKeeperController');
     Route::resource('taxs', 'TaxsController');
+    Route::resource('banks', 'BankController');
+    Route::resource('roles', 'roleController');
+    Route::resource('backups', 'BackupController');
+
+    Route::get('/user_permissions/{id}', 'UserController@user_permissions')->name('user_permissions.edit');
+    Route::patch('/user_permissions/{id}', 'UserController@user_permissions_update')->name('user_permissions.update');
+    Route::get('getBranchesPermission/{id}', 'UserController@getBranchesPermission')->name('getBranchesPermission');
+    Route::get('getStoresPermission/{id}', 'UserController@getStoresPermission')->name('getStoresPermission');
+    Route::get('getStoresCampanyPermission/{id}', 'UserController@getStoresCampanyPermission')->name('getStoresCampanyPermission');
+    Route::get('/get-permissions/{id}', 'UserController@permissions');
+
     /////////////////سندات  ادخال المنتجات فى المخازن
-    Route::get('/company_stores/{id}', 'StoreController@company_stores');
+    Route::get('/company_stores/{id}', 'StoreController@user_permissions');
     Route::get('/branch_stores/{id}', 'StoreController@branch_stores');
     Route::get('/store-active/{id}', 'StoreController@active')->name('stores.is_active');
+    Route::get('/store-dis_active/{id}', 'StoreController@dis_active')->name('stores.dis_active');
 
     Route::post('/store-cost/{id}', 'StoreController@cost')->name('stores.update_cost_type');
 
-    Route::get('/store-dis_active/{id}', 'StoreController@dis_active')->name('stores.dis_active');
     Route::get('/store-active-product/{id}', 'StoreController@active_product')->name('stores.is_active_product');
     Route::get('/store-dis_active-product/{id}', 'StoreController@dis_active_product')->name('stores.dis_active_product');
     Route::get('/product-details/{id}', 'StoreController@show_product_details')->name('stores.show_product_details');
     Route::post('/destroy_product/{id}', 'StoreController@destroy_product')->name('stores.destroy_product');
+    Route::get('/destroy_subunit/{id}', 'ProductController@destroy_subunit')->name('products.destroy_subunit');
 
     Route::get('/products_entry_form', 'StoreController@products_entry_form')->name('stores.products_entry_form');
     Route::post('/bond_store', 'StoreController@bond_store')->name('stores.bond_store');
     Route::get('/keepers_store/{id}', 'StoreController@getkeepers')->name('keepers_store');
     Route::get('/stores_to/{id}', 'StoreController@stores_to')->name('stores_to');
+
+
+
 
 
     Route::get('/bonds', 'StoreController@bonds_index')->name('stores.bonds_index');
@@ -113,6 +128,8 @@ Route::middleware('admin')->group(function () {
     Route::post('/permium_store', 'ClientController@permium_store')->name('clients.permiums_store');
     Route::get('/offer_copy', 'ClientController@offer_copy')->name('clients.offers_copy');
     Route::post('/offers_copy', 'ClientController@copy')->name('clients.copy');
+    Route::get('sessions_close', 'SessionController@sessions_close')->name('sessions.sessions_close');
+
     Route::resource('sessions', 'SessionController');
     Route::resource('sales', 'SaleController');
     Route::resource('clients', 'ClientController');
@@ -121,6 +138,27 @@ Route::middleware('admin')->group(function () {
     Route::resource('safes', 'SafeController');
     Route::resource('devices', 'DeviceController');
     Route::resource('settings', 'SettingController');
+    Route::resource('fiscalYears', 'FiscalYearController');
+    Route::resource('fiscalPeriods', 'FiscalPeriodController');
+    Route::resource('costCenters', 'CostCenterController');
+    Route::resource('jobTitles', 'JobTitleController');
+    Route::resource('assets', 'AssetController');
+    Route::resource('custodies', 'CustodyController');
+    Route::post('add_amount/{id}', 'CustodyController@add_amount')->name('custodies.add_amount');
+    Route::post('decreased_amount/{id}', 'CustodyController@decreased_amount')->name('custodies.decreased_amount');
+
+    Route::get('active/{id}', 'CostCenterController@active')->name('costCenters.active');
+    Route::get('dis-active/{id}', 'CostCenterController@dis_active')->name('costCenters.dis_active');
+    Route::get('active-title/{id}', 'JobTitleController@active')->name('jobTitles.active');
+    Route::get('dis-active-title/{id}', 'JobTitleController@dis_active')->name('jobTitles.dis_active');
+    Route::get('pay-salaries', 'SalaryController@index')->name('users.pay_salaries');
+    Route::get('salaries', 'SalaryController@salaries')->name('users.salaries_paid');
+    Route::get('/userSalary', 'SalaryController@userSalary');
+    Route::get('/titleSalary', 'SalaryController@titleSalary');
+    Route::get('/checks', 'ClauseController@checks')->name('clauses.checks');
+
+    Route::post('pay', 'SalaryController@pay')->name('users.pay');
+
 
     Route::post('/store_returns', 'SaleController@store_returns')->name('sales.store_returns');
 
@@ -130,13 +168,19 @@ Route::middleware('admin')->group(function () {
     Route::get('/returns_Sale/{id}', 'SaleController@returns_Sale');
     Route::get('/sale_details/{id}', 'SaleController@sale_details');
 
+    Route::get('/index_returns', 'SaleController@index_returns')->name('sales.index_returns');
+    Route::Delete('/destroy_return/{id}', 'SaleController@destroy_return')->name('sales.destroy_return');
+    Route::get('/show_return/{id}', 'SaleController@show_return')->name('sales.show_return');
 
     Route::get('/returns_purchases', 'PurchaseController@returns')->name('purchases.returns');
     Route::post('/store_returns_purchases', 'PurchaseController@store_returns')->name('purchases.store_returns');
 
 
     Route::post('/sale_end/{id}', 'SaleController@sale_end')->name('sales.end');
+    Route::get('/close/{id}', 'SessionController@close')->name('sessions.close');
 
+
+    Route::get('/end_session/{id}', 'SaleController@end_session')->name('sales.end_session');
 
     Route::get('/company_devices/{id}', 'SafeController@company_devices');
     Route::get('/branch_devices/{id}', 'SafeController@branch_devices');
@@ -148,9 +192,17 @@ Route::middleware('admin')->group(function () {
     Route::resource('cells', 'CellController');
 
     Route::resource('clauses', 'ClauseController');
+    Route::resource('suppliers_sadad', 'SupplierSadadController');
+    Route::get('/getBalance/{id}','SupplierSadadController@getBalance');
+    Route::get('/getClient/{id}','ClientController@getClient');
+
+    Route::get('/getNewBalance/{amount}','SupplierSadadController@getNewBalance');
+
     Route::resource('delegates', 'DelegateController');
     Route::resource('suppliers', 'SupplierController');
-
+    Route::get('/supplier-active/{id}', 'SupplierController@active')->name('suppliers.is_active');
+    Route::get('/supplier-dis_active/{id}', 'SupplierController@dis_active')->name('suppliers.dis_active');
+    Route::get('/purchase_order', 'SupplierController@purchase_order')->name('suppliers.purchase_order');
 
     Route::resource('benods', 'BenodController');
     Route::resource('offers', 'OfferController');
@@ -162,7 +214,7 @@ Route::middleware('admin')->group(function () {
 
     Route::resource('products', 'ProductController');
     Route::get('/company_branch/{id}', 'ProductController@getBranch')->name('company.branch');
-
+    Route::get('/company_branch_without_all/{id}', 'ProductController@branches_only')->name('company.branches_only');
     Route::get('/branches_store/{id}', 'ProductController@getStores');
     Route::get('/columns_face/{id}', 'ProductController@getcolums')->name('columns_face');
     Route::get('/cells_column/{id}', 'ProductController@getcells')->name('cells_column');
@@ -177,7 +229,12 @@ Route::middleware('admin')->group(function () {
     Route::get('/productsAjex/{id}', 'SellPointController@getProductAjex');
 
     Route::get('/pro_search/{name}', 'SellPointController@pro_search');
-    Route::get('/barcode_search/{name}', 'SellPointController@barcode_search');
+    Route::get('/barcode_search/{name}', 'BuyPointController@barcode_search');
+    Route::get('/barcode_search_sale/{name}', 'SellPointController@barcode_search');
+    Route::get('/confirm_user', 'SaleController@confirm_user');
+
+
+    Route::post('/confirm', 'SessionController@confirm')->name('sessions.confirm');
 
 
     ////purchases
@@ -185,7 +242,89 @@ Route::middleware('admin')->group(function () {
     Route::get('/productsAjexPurchase/{id}', 'BuyPointController@getProductAjex');
     Route::resource('purchases', 'PurchaseController');
     Route::get('/productReturnPurchase', 'PurchaseReturnController@product');
+    Route::get('/backup', 'SettingController@backup')->name('backup');
 
+
+    Route::group(['prefix' => 'reports', 'namespace' => 'Reports', 'as' => 'reports.'], function () {
+        Route::any('damaged-products', ['as' => 'damaged-products', 'uses' => 'StoresController@damages']);
+        Route::any('inventory-products', ['as' => 'inventory-products', 'uses' => 'StoresController@inventory']);
+        Route::any('deficiency-products', ['as' => 'deficiency-products', 'uses' => 'StoresController@deficiency']);
+        Route::any('transaction-products', ['as' => 'transaction-products', 'uses' => 'StoresController@transactions']);
+        Route::any('expiration-products', ['as' => 'expiration-products', 'uses' => 'StoresController@expirations']);
+        Route::any('stagnant-products', ['as' => 'stagnant-products', 'uses' => 'StoresController@stagnants']);
+        Route::any('movements-products', ['as' => 'movements-products', 'uses' => 'StoresController@movements']);
+
+
+        Route::group(['prefix' => 'suppliers', 'as' => 'suppliers.'], function () {
+            Route::any('purchases', ['as' => 'purchases', 'uses' => 'SuppliersController@purchases']);
+            Route::any('purchases-all', ['as' => 'purchases-all', 'uses' => 'SuppliersController@purchasesAll']);
+
+            Route::any('purchases-returns', ['as' => 'purchases-returns', 'uses' => 'SuppliersController@purchasesReturns']);
+            Route::any('purchases-returns-all', ['as' => 'purchases-returns-all', 'uses' => 'SuppliersController@purchasesReturnsAll']);
+
+            Route::any('account-statement', ['as' => 'account-statement', 'uses' => 'SuppliersController@accountStatement']);
+
+
+        });
+
+        Route::group(['prefix' => 'purchases'], function () {
+            Route::any('/', ['as' => 'purchases', 'uses' => 'PurchasesController@index']);
+            Route::any('details', ['as' => 'purchase_details', 'uses' => 'PurchasesController@details']);
+            Route::any('days', ['as' => 'purchases_day', 'uses' => 'PurchasesController@byDay']);
+            Route::any('returns', ['as' => 'purchases_returns', 'uses' => 'PurchasesController@returnsPeriod']);
+            Route::any('returns-details', ['as' => 'purchase_returns_details', 'uses' => 'PurchasesController@returnDetails']);
+            Route::any('returns-days', ['as' => 'purchases_returns_day', 'uses' => 'PurchasesController@returnsDay']);
+        });
+        Route::group(['prefix' => 'sales'], function () {
+            Route::any('period', ['as' => 'sales_period', 'uses' => 'SalesController@index']);
+            Route::any('details', ['as' => 'sale_details', 'uses' => 'SalesController@details']);
+            Route::any('days', ['as' => 'sales_day', 'uses' => 'SalesController@byDay']);
+            Route::any('returns', ['as' => 'sales_returns', 'uses' => 'SalesController@returnsPeriod']);
+            Route::any('returns-details', ['as' => 'sales_returns_details', 'uses' => 'SalesController@returnDetails']);
+            Route::any('returns-days', ['as' => 'sales_returns_day', 'uses' => 'SalesController@returnsDay']);
+
+            Route::any('daily-earnings', ['as' => 'daily_earnings', 'uses' => 'SalesController@daily_earnings']);
+            Route::any('period-earnings', ['as' => 'period_earnings', 'uses' => 'SalesController@period_earnings']);
+
+        });
+    });
+
+
+    Route::group(['prefix' => 'ajax'], function () {
+        Route::get('branches/{id}', 'HomeController@getBranches');
+        Route::get('stores/{id}', 'HomeController@getStores');
+        Route::get('categories/{id}', 'HomeController@getCategories');
+
+        Route::get('stores-form-company/{id}', 'HomeController@getStoresCompany');
+        Route::get('products-store/{id}', 'HomeController@getProductStore');
+        Route::get('products-store-branch/{id}', 'HomeController@getProductStoreBranch');
+
+        Route::get('users-by-branches/{branch_id}', 'HomeController@getUsersByBranch');
+        Route::get('products/{id}', 'HomeController@getProducts');
+        Route::get('sessions/{id}', 'HomeController@getSessions');
+        Route::get('suppliers/{id}', 'HomeController@getSuppliers');
+    });
+
+
+    Route::group(['prefix' => 'ChartsAccounts'], function () {
+        Route::resource('ChartsAccounts', 'AccountController');
+        Route::any('trial-balance', 'AccountController@trial_balance')->name('ChartsAccounts.trial_balance');
+
+        Route::resource('AccountSettings', 'AccountSettingController');
+        Route::get('active/{id}', 'AccountController@active')->name('ChartsAccounts.active');
+        Route::get('dis-active/{id}', 'AccountController@dis_active')->name('ChartsAccounts.dis_active');
+    });
+    Route::resource('currencies', 'CurrencyController');
+    Route::resource('payments', 'PaymentController');
+
+    Route::group(['prefix' => 'entries'], function () {
+        Route::resource('entries', 'EntryController');
+        Route::get('filter', ['as' => 'entries.filter', 'uses' => 'EntryController@filter']);
+        Route::get('posting/{id}', ['as' => 'entries.posting', 'uses' => 'EntryController@posting']);
+        Route::get('toAccounts/{id}', ['as' => 'entries.toAccounts', 'uses' => 'EntryController@toaccounts']);
+
+    });
+    Route::get('/destroy_account/{id}',['as'=>'entries.destroy_account', 'uses' => 'EntryController@destroy_account']);
 
 });
 

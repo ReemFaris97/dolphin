@@ -62,40 +62,36 @@ class StoreController extends Controller
      */
     public function store(Request $request)
     {
+//        dd($request->all());
         $rules = [
 
-            'ar_name'=>'required|string|max:191',
+            'ar_name'=>'required|string|max:191|store_name:accounting_stores,ar_name,company_id,branch_id,'.$request['ar_name'].','.$request['company_id'].','.$request['branch_id'],
             'en_name'=>'nullable|string|max:191',
             'image'=>'nullable|sometimes|image',
             'company_id'=>'nullable|numeric|exists:accounting_companies,id',
 
         ];
-        $this->validate($request,$rules);
+        $messsage = [
+            'name.store_name'=>"اسم المخزن موجود بالفعل بالشركة",
+        ];
+        $this->validate($request,$rules,$messsage);
         $requests = $request->except('image');
-       // dd($requests);
 
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'photos');
         }
 
-
         if ($requests['company_id']==NULL & $requests['branch_id']!=NULL)
         {
-
             $requests['model_id']= $requests['branch_id'];
-               $requests[ 'model_type']='App\Models\AccountingSystem\AccountingBranch';
-
-
-
+            $requests[ 'model_type']='App\Models\AccountingSystem\AccountingBranch';
         }
         if ($requests['branch_id']==NULL & $requests['company_id']!=NULL)
         {
-
             $requests[ 'model_id']= $requests['company_id'];
-             $requests[ 'model_type']='App\Models\AccountingSystem\AccountingCompany';
-
+            $requests[ 'model_type']='App\Models\AccountingSystem\AccountingCompany';
         }
-//dd($requests);
+
        AccountingStore::create($requests);
 
         alert()->success('تم اضافة  الفرع بنجاح !')->autoclose(5000);
@@ -241,6 +237,7 @@ class StoreController extends Controller
 
         $all_stores=AccountingStore::all();
         $storess=$all_stores->except($id);
+
         return view('AccountingSystem.stores.products',compact('products_store','store','stores','storess'));
     }
 
@@ -377,19 +374,29 @@ class StoreController extends Controller
 
     public  function  bond_store(Request $request)
     {
-
         $inputs = $request->all();
-
         $bond = AccountingBond::create($inputs);
+        $rules = [
+        'user_id'=>'required|numeric|exists:users,id',
+            'qtys'=>'required|array',
+            'products'=>'required|array',
+            'prices'=>'required|array',
 
+        ];
+        $massage=[
+            'qtys.required'=>'كميات الاصناف مطلويه',
+            'products.required'=>'الاصناف مطلوبة',
+            'prices.required'=>'اسعار الاصناف مطلوبة',
 
-        if ($bond->type == 'entry') {
+        ];
+
+        $this->validate($request,$rules,$massage);
+
+        if ($bond->type == 'entry'||$bond->type == 'exchange') {
             $products_store = AccountingProductStore::where('store_id', $bond->store_id)->get();
-
             $quantity = collect($inputs['qtys']);
             $products = collect($inputs['products']);
             $prices = collect($inputs['prices']);
-
             $merges = $products->zip($quantity, $prices);
             foreach ($merges as $merge) {
                 AccountingBondProduct::create([
@@ -397,26 +404,29 @@ class StoreController extends Controller
                     'product_id' => $merge[0],
                     'quantity' => $merge[1],
                     'price' => $merge[2],
-
                 ]);
-
-
             }
-
-
             foreach ($products_store as $productstore) {
                 foreach ($merges as $merge) {
                     if ($productstore->product_id == $merge[0]) {
-                        $productstore->update([
-                            'product_id' => $merge[0],
-                            'quantity' => $productstore->quantity + $merge[1],
-                            'band_id' => $bond->id
-                        ]);
+                        if ($bond->type == 'entry') {
+                            $productstore->update([
+                                'product_id' => $merge[0],
+                                'quantity' => $productstore->quantity + $merge[1],
+                                'band_id' => $bond->id
+                            ]);
+                        }elseif($bond->type == 'exchange') {
+                            $productstore->update([
+                                'product_id' => $merge[0],
+                                'quantity' => $productstore->quantity - $merge[1],
+                                'band_id' => $bond->id
+                            ]);
+                        }
                     }
                 }
             }
 
-        }else{
+        }elseif($bond->type == 'transactions'){
             $transaction=session('transaction');
             $bond->update([
                 'store_to'=>$transaction['to_store_id'],
@@ -468,7 +478,7 @@ class StoreController extends Controller
 
         $bondproducts=AccountingBondProduct::where('bond_id',$bond->id)->get();
 
-        alert()->success('تم اضافة  سند الادخال  المخزن بنجاح !')->autoclose(5000);
+        alert()->success('تم اضافة  السند  بنجاح !')->autoclose(5000);
         return view('AccountingSystem.stores.show_bond',compact('bond','bondproducts'));
     }
 

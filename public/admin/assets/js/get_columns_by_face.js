@@ -22,7 +22,7 @@ $(function(){
             if(data.length ==0)
                 data.push('لا توجد  اوجه لفرع');
             var val;
-            columns.push('<option disabled selected> اختر العمود</option>');
+            columns.push('<option selected> اختر العمود</option>');
             $.each(data, function(i,n){
                 val = i;
 
@@ -36,6 +36,8 @@ $(function(){
             $('.column_id').attr('data-live-search',true);
             $('.column_id').attr('placeholder',"اختر العمود");
             $('#column_id').find('option').remove().end().append(columns);
+            $('.column_id option').prop('selected', false);
+
             $("#column_id").selectpicker('refresh');
 
         }).fail(function (error) {
@@ -44,5 +46,5 @@ $(function(){
     });
 
 
-    
+
 });

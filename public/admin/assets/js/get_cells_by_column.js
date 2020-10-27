@@ -22,7 +22,7 @@ $(function(){
             if(data.length ==0)
                 data.push('لا توجد   خلايا تابعه للعمود');
             var val;
-            cells.push('<option disabled selected> اختر الخلية</option>');
+            cells.push('<option  selected> اختر الخلية</option>');
             $.each(data, function(i,n){
                 val = i;
 
@@ -34,8 +34,10 @@ $(function(){
 
                 $('#cell_id').attr('disabled',false);
             $('.cell_id').attr('data-live-search',true);
-            $('.cell_id').attr('placeholder',"اختر الوجه");
+            $('.cell_id').attr('placeholder',"اختر الخلية");
             $('#cell_id').find('option').remove().end().append(cells);
+            $('.cell_id option').prop('selected', false);
+
             $("#cell_id").selectpicker('refresh');
 
         }).fail(function (error) {
@@ -44,5 +46,5 @@ $(function(){
     });
 
 
-    
+
 });

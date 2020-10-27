@@ -18,22 +18,23 @@ $(function() {
 
 
 
-    var stores;
-    $("#branch_id").on('change', function() {
-        var id = $(this).val();
-        console.log(id);
-        $.ajax({
-            url:"/accounting/branches_store/"+id,
-            type:"GET",
-
-        }).done(function (data) {
-            // var newOption = new Option(data.text, data.id, false, false);
-            // $('#city_id').append(newOption).trigger('change');
-            $('#store_id').html(data.data);
-        }).fail(function (error) {
-            console.log(error);
+        var stores;
+        $("#branch_id").on('change', function() {
+            var id = $(this).val();
+            var company_id = $('#company_id').val();
+            console.log(id);
+            $.ajax({
+                url:"/accounting/branches_store/"+id,
+                type:"GET",
+                data: {company_id: company_id },
+            }).done(function (data) {
+                // var newOption = new Option(data.text, data.id, false, false);
+                // $('#city_id').append(newOption).trigger('change');
+                $('#store_id').html(data.data);
+            }).fail(function (error) {
+                console.log(error);
+            });
         });
-    });
 
     });
 

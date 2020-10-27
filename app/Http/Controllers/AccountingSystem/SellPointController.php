@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
-use App\Models\AccountingSystem\AccountingBranch;
-use App\Models\AccountingSystem\AccountingBranchShift;
 use App\Models\AccountingSystem\AccountingClient;
-use App\Models\AccountingSystem\AccountingColumnCell;
-use App\Models\AccountingSystem\AccountingCompany;
 
-use App\Models\AccountingSystem\AccountingFaceColumn;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
+use App\Models\AccountingSystem\AccountingProductSubUnit;
+use App\Models\AccountingSystem\AccountingStore;
+use App\Models\AccountingSystem\AccountingUserPermission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\AccountingSystem\AccountingProductTax;
+use App\Models\AccountingSystem\AccountingDevice;
+use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Traits\Viewable;
 use App\User;
+use Cookie;
 use Request as GlobalRequest;
+use Session;
 
 class SellPointController extends Controller
 {
@@ -28,16 +29,25 @@ class SellPointController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function sell_point($id)
+    public function sell_point(Request $request,$id)
     {
         $categories=AccountingProductCategory::all();
-        $session=AccountingSession::find($id);
+//        dd(Cookie::get('session'));
+        $session=AccountingSession::find(Cookie::get('session'));
         $clients=AccountingClient::pluck('name','id')->toArray();
-//foreach ($categories as $category){
-//  dd($category->products()->get());
-//}
+        $userstores = AccountingUserPermission::where('user_id',auth()->user()->id)
+            ->where('model_type','App\Models\AccountingSystem\AccountingStore')->pluck('model_id','id')->toArray();
+        $stores=AccountingStore::whereIn('id',$userstores)->pluck('ar_name','id')->toArray();
+        if($userstores){
+            $store_product=AccountingProductStore::whereIn('store_id',$userstores)->pluck('product_id','id')->toArray();
+            $products=AccountingProduct::whereIn('id',$store_product)->get();
 
-        return  view('AccountingSystem.sell_points.sell_point',compact('categories','clients','session'));
+
+        }else{
+            $products=[];
+        }
+
+        return  view('AccountingSystem.sell_points.sell_point',compact('categories','clients','session','products','stores'));
     }
 
     /**
@@ -46,13 +56,11 @@ class SellPointController extends Controller
      * @return \Illuminate\Http\Response
      */
     public  function getProductAjex(Request $request,$id){
-
-        $products_all=AccountingProduct::where('category_id',$id)->get();
-        $products=AccountingProduct::where('category_id',$id)->get();
-
+        $store_product=AccountingProductStore::where('store_id',$request['id'])->pluck('product_id','id')->toArray();
+        $products=AccountingProduct::whereIn('id',$store_product)->get();
         return response()->json([
             'status'=>true,
-            'data'=>view('AccountingSystem.sell_points.sell')->with('products',$products)->render()
+            'data'=>view('AccountingSystem.sell_points.products')->with('products',$products)->render()
         ]);
     }
 
@@ -68,17 +76,7 @@ class SellPointController extends Controller
 
     }
 
-    public  function barcode_search($q){
 
-        $products=AccountingProduct::where('bar_code',$q)->get();
-        // $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
-
-        return response()->json([
-            'status'=>true,
-            'data'=>view('AccountingSystem.sell_points.sell')->with('products',$products)->render()
-        ]);
-
-    }
     /**
      * Store a newly created resource in storage.
      *
@@ -89,7 +87,8 @@ class SellPointController extends Controller
     {
 
         $users=User::where('is_saler',1)->pluck('name','id')->toArray();
-        return view('AccountingSystem.sell_points.login',compact('users'));
+        $devices=AccountingDevice::where('available',1)->pluck('name','id')->toArray();
+        return view('AccountingSystem.sell_points.login',compact('users','devices'));
     }
 
     /**
@@ -112,10 +111,7 @@ class SellPointController extends Controller
      */
     public function edit($id)
     {
-        $cell =AccountingColumnCell::findOrFail($id);
-        $columns=AccountingFaceColumn::pluck('name','id')->toArray();
 
-        return $this->toEdit(compact('cell','columns'));
 
 
     }
@@ -129,19 +125,6 @@ class SellPointController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $cell =AccountingColumnCell::findOrFail($id);
-        $rules = [
-
-            'name'=>'required|string|max:191',
-
-            'column_id'=>'required|numeric|exists:accounting_face_columns,id',
-        ];
-        $this->validate($request,$rules);
-        $requests = $request->all();
-        $cell->update($requests);
-        alert()->success('تم تعديل  الصف بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.cells.index');
-
 
 
     }
@@ -154,11 +137,37 @@ class SellPointController extends Controller
      */
     public function destroy($id)
     {
-        $shift =AccountingBranchShift::findOrFail($id);
-        $shift->delete();
 
-        alert()->success('تم حذف  الوردية بنجاح !')->autoclose(5000);
-            return back();
+
+    }
+
+
+    public  function barcode_search(Request $request,$q){
+
+        $store_product=AccountingProductStore::where('store_id',$request['id'])->pluck('product_id','id')->toArray();
+
+        $products=AccountingProduct::where('bar_code',$q)->whereIn('id',$store_product)->get();
+
+        if(!$products->isEmpty())
+        {
+            $selectd_unit_id = 'main-'.$products[0]->id;
+        }
+        else
+        {
+            $product_unit=AccountingProductSubUnit::where('bar_code',$q)->pluck('product_id');
+            $products=AccountingProduct::whereIn('id',$product_unit)->whereIn('id',$store_product)->get();
+            $unit=	AccountingProductSubUnit::where('bar_code',$q)->first();
+            if($unit)
+                $selectd_unit_id = $unit->id;
+            else
+                $select_unit_id = 0;
+        }
+
+
+        return response()->json([
+            'status'=>true,
+            'data'=>view('AccountingSystem.sell_points.barcodeProducts',compact('products','selectd_unit_id'))->render()
+        ]);
 
 
     }

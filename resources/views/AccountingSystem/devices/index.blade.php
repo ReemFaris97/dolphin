@@ -1,7 +1,7 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','عرض الاجهزة')
-@section('parent_title','إدارة  المنتجات')
-@section('action', URL::route('accounting.products.index'))
+@section('parent_title','إدارة  الاجهزة')
+@section('action', URL::route('accounting.devices.index'))
 
 @section('styles')
 
@@ -10,7 +10,15 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">عرض كل الاجهزة</h5>
+            <h5 class="panel-title">عرض كل الاجهزة
+
+            <div class="btn-group beside-btn-title">
+                <a href="{{route('accounting.devices.create')}}" class="btn btn-success">
+                    إضافه جهاز  جديد
+                    <span class="m-l-5"><i class="fa fa-plus"></i></span>
+                </a>
+            </div>
+            </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -49,12 +57,15 @@
                         @endif
 
                         <td class="text-center">
+                            @can('تعديل الجهاز')
                             <a href="{{route('accounting.devices.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
+                           @endcan
+                                @can('حذف الجهاز')
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
 
                             {!!Form::open( ['route' => ['accounting.devices.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
                             {!!Form::close() !!}
-
+                            @endcan
                         </td>
                     </tr>
 

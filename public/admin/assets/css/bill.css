@@ -1,13 +1,14 @@
 .yourBill{
-    
 }
 .yurSections{
-    
 }
 .yurSections ul {
     text-align: center;
     padding: 5px 0;
     border-bottom: 1px solid #2ECC71;
+}
+.yurSections .alert ul{
+	border-bottom: 0
 }
 .yurSections li{
     display: inline-block;
@@ -24,7 +25,6 @@
     color: #fff;
 }
 .yurProdc{
-    
 }
 /**** Start Checkbox ***/
 .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col, .col-auto, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm, .col-sm-auto, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-md, .col-md-auto, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg, .col-lg-auto, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl, .col-xl-auto {
@@ -65,7 +65,6 @@
     cursor: pointer;
     height: 0;
     width: 0;}
-
 .prod1 label {
   border: 2px solid #fff;
   padding: 10px;
@@ -77,7 +76,6 @@
     -moz-box-shadow: 0px 10px 18px 0px rgba(221,221,221,1);
     box-shadow: 0px 10px 18px 0px rgba(221,221,221,1);
 }
-
 .prod1 label:before {
 background-color: white;
     color: white;
@@ -96,25 +94,20 @@ background-color: white;
     transform: scale(0);
     font-size: 20px;
 }
-
-
 .prod1 input:checked + label {
   border-color: #2ECC71;
 }
-
 .prod1 input:checked + label:before {
   content: "✓";
   background-color: #2ECC71;
   transform: scale(1);
 }
-
 .prod1 input:checked + label img {
   transform: scale(0.9);
   /* box-shadow: 0 0 5px #333; */
   z-index: -1;
 }
 /**** End Checkbox ***/
-
 input#fxd-btn {
     text-align: center;
     background-color: #241e32;
@@ -145,14 +138,12 @@ input#fxd-btn:hover , input#fxd-btn:focus{
     -o-transition: all .5s ease-in-out;
     transition: all .5s ease-in-out;
 }
-
 .quant .value-button:hover,
 .quant .value-button:focus ,
 .quant input#number:hover ,
 .quant input#number:focus {
     color: #c2c2c2;
 }
-
 .quant input#number{
     text-align: center;
     border: none;
@@ -165,7 +156,6 @@ input#fxd-btn:hover , input#fxd-btn:focus{
     background-color: transparent;
     font-weight: bold;
 }
-
 .count {
     margin: 0px;
     width: 150px;
@@ -176,13 +166,11 @@ input#fxd-btn:hover , input#fxd-btn:focus{
     display: inline-block;
     background-color: #2ECC71;
 }
-
 .quant input[type=number]::-webkit-inner-spin-button,
 .quant input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
-
 .finalTb{
     width: 100%;
 }
@@ -232,12 +220,10 @@ td .close [class*=" fa-"], td .close svg{
   color: #212121;
     font-size:14px;
 }
-
 .finalTb th input:-ms-input-placeholder { /* Internet Explorer 10-11 */
   color: #212121;
     font-size:14px;
 }
-
 .finalTb th input::placeholder {
   color: #212121;
     font-size:14px;
@@ -245,7 +231,6 @@ td .close [class*=" fa-"], td .close svg{
 .finalTb th input{
     width: 100%;
       color: #212121;
-
 }
 /**** End Append ***/
 .price {
@@ -270,16 +255,25 @@ span.price input:focus{
 	color: #fff
 }
 table.finalTb button[type = "submit"] {
-    background: #2ECC71;
-    width: 100%;
+    background: #0b843f;
+    width: max-content;
     border: 0;
     padding: 5px;
     font-size: 16px;
+    color: #fff;
+	width: 100%
 }
 .discount-options span {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+}
+.yourBill a#add-mortaga3 {
+    background-color: #2ecc71;
+    border-color: #2ecc71;
+}
+table.finalTb.mabi3at-bill.bill-table {
+    margin-top: 30px;
 }
 .discount-options span label {
     color: #2ECC71;
@@ -296,14 +290,128 @@ table.finalTb button[type = "submit"] {
 .discount-options {
     padding-right: 15px;
 }
-
 tr.newProd input[type="number"] {
     text-align: center;
     color: #455A64;
     font-weight: 700;
     width: 75px;
 }
+table.mabi3at-bill thead, table.mabi3at-bill thead th ,  table.mabi3at-bill tfoot tr th:first-child {
+	background: #2ecc71 !important;
+    border-color: rgba(86, 86, 86, 0.5);
+    color: #fff;
+    text-align: center;
+    font-size: 16px !important;
+    font-weight: 700;
+}
+tr#remaindedAmount th {
+    font-size: 24px !important;
+}
+.yourBill td.product-name a , .yourBill td.product-name{
+    color: #333;
+    font-size: 15px;
+    font-weight: 800;
+}
 
+.yourBill input[type="date"].form-control{
+	padding: 0
+}
+.yourBill td.delete-single-row {
+    white-space: nowrap;
+}
+.finalTb  tr.single-row-wrapper {
+    background-color: #fff;
+}
+table.mabi3at-bill  th{
+	padding: 10px 15px !important
+}
+tfoot.tempDisabled {
+    position: relative;
+    pointer-events: none;
+}
+table.finalTb tfoot.tempDisabled > tr , table.finalTb tfoot.tempDisabled > tr th {
+	background-color: rgba(0,0,0,0.5) !important;
+	cursor: not-allowed;
+}
+#remaindedAmount th.rel-cols.motabaqy-case{
+	background-color: orange !important
+}
+#remaindedAmount th.rel-cols.aagel-case{
+	background-color: red !important
+}
+#remaindedAmount th.rel-cols.tmam-case{
+	background-color: green!important
+}
+#remaindedAmount th.rel-cols.motabaqy-case:after {
+    content: "حالة الدفع : متبقي للعميل نقود";
+    text-align: right;
+    padding-right: 50px;
+}
+#remaindedAmount th.rel-cols.aagel-case:after {
+    content: "حالة الدفع : اجل";
+    text-align: right;
+    padding-right: 50px;
+}
+#remaindedAmount th.rel-cols.tmam-case:after {
+    content: "حالة الدفع : المبلغ المدفوع مساو للمبلغ المطلوب";
+    text-align: right;
+    padding-right: 50px;
+}
+table.mabi3at-bill.finalTb tfoot th {
+    font-size: 28px !important;
+    padding: 0 5px !important;
+}
+table.mabi3at-bill .rs {
+    left: 7px;
+    font-size: 15px;
+}
+.finalTb td.delete-single-row button {
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: unset;
+}
+.finalTb td.delete-single-row button span{
+    font-size: 25px !important;
+    line-height: unset;
+}
+.table-upper-options input {
+    width: 100% !important;
+}
+.table-upper-options {
+    display: inline-flex;
+    justify-content: space-between;
+    width: 100%;
+}
+table.mabi3at-bill.finalTb tfoot th .colorfulSpan {
+    font-size: 16px;
+    margin-left: 20px;
+}
+table.mabi3at-bill tfoot tr th#amountBeforeDariba, table.mabi3at-bill tfoot tr th#amountOfDariba, table.mabi3at-bill tfoot tr th#amountAfterDariba {
+    background: #2ecc71 !important;
+    text-align: center !important;
+}
+table.mabi3at-bill tfoot tr th#amountBeforeDariba span.colorfulSpan,
+table.mabi3at-bill tfoot tr th#amountOfDariba span.colorfulSpan ,
+table.mabi3at-bill tfoot tr th#amountAfterDariba span.colorfulSpan{
+	color: #fff !important
+}
+
+	table.mabi3at-bill tfoot tr th#amountBeforeDariba span.dynamic-span,
+table.mabi3at-bill tfoot tr th#amountOfDariba span.dynamic-span ,
+table.mabi3at-bill tfoot tr th#amountAfterDariba span.dynamic-span{
+    font-size: 28px !important;
+    padding: 0 5px !important;
+    color: #241E32;
+    font-weight: 900;
+    position: relative;
+    margin: 0;
+    right: 0;
+}
 
 
 /******* Responsive ****************/
@@ -312,7 +420,6 @@ tr.newProd input[type="number"] {
         width: 90%;
     }
 }
-
 @media (max-width: 575px){
     div#the-choseen-parts {
         margin: 20px auto 0 auto;
@@ -323,3 +430,65 @@ tr.newProd input[type="number"] {
 }
 
 
+.maybe-hidden{
+	display: none !important
+}
+
+
+.name_enable .maybe-hidden.name_enable ,
+.barcode_enable .maybe-hidden.barcode_enable ,
+.unit_enable .maybe-hidden.unit_enable ,
+.quantity_enable .maybe-hidden.quantity_enable ,
+.unit_price_before_enable .maybe-hidden.unit_price_before_enable ,
+.unit_price_after_enable .maybe-hidden.unit_price_after_enable ,
+.total_price_before_enable .maybe-hidden.total_price_before_enable ,
+.unit_enable .maybe-hidden.unit_enable ,
+.quantity_enable .maybe-hidden.quantity_enable ,
+.expiration_enable .maybe-hidden.expiration_enable ,
+.unit_price_enable .maybe-hidden.unit_price_enable ,
+.total_enable .maybe-hidden.total_enable ,
+.gifts_enable .maybe-hidden.gifts_enable ,
+.discounts_enable .maybe-hidden.discounts_enable ,
+.total_taxes_enable .maybe-hidden.total_taxes_enable ,
+.total_pure_enable .maybe-hidden.total_pure_enable ,
+.operations_enable .maybe-hidden.operations_enable ,
+.total_price_after_enable .maybe-hidden.total_price_after_enable{
+	display: table-cell !important
+}
+.swal-button:not([disabled]):hover {
+    background-color: #2CC26B !important;
+}
+.swal-button {
+    background-color: #2ECC71 !important;
+	color: #fff !important
+}
+.swal-button--danger:not([disabled]) {
+    background-color: #F44336 !important;
+}
+.swal-button--danger:not([disabled]):hover {
+    background-color: #df4740 !important;
+}
+
+.finalTb.moshtraiat-bill.table > tbody > tr > td {
+    padding: 0px 3px;
+}
+
+.finalTb.moshtraiat-bill.table > tbody > tr > td input[type="number"],
+.finalTb.moshtraiat-bill.table > tbody > tr > td input,
+.finalTb.moshtraiat-bill.table > tbody > tr > td select {
+    padding: 0 3px !important;
+}
+
+.finalTb.moshtraiat-bill.table tbody tr td a.remove-prod-from-list {
+    background: red !important;
+}
+.yurSections ul.parsley-errors-list {
+    border-bottom: 0 !important;
+}
+.parsley-errors-list.filled li {
+    position: absolute;
+    left: 5px;
+    top: 0;
+    border: 0;
+    font-size: 14px;
+}

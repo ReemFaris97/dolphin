@@ -109,7 +109,7 @@ var BootstrapDatepicker = function () {
             todayHighlight: true,
             templates: arrows
         });
-    }
+    };
 
     return {
         // public functions

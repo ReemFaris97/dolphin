@@ -60,21 +60,19 @@
                             @elseif($row->product->type=="product_expiration")
                                 منتج بتاريخ صلاحيه
                             @endif
-
                         </td>
                         <td>{!! $row->product-> bar_code!!}</td>
                         <td>{!! $row->product->  main_unit!!}</td>
                         <td>{!! $row->product->  selling_price!!}</td>
                         <td>{!! $row->product->  purchasing_price!!}</td>
                         <td>
-                            {{ $row->quantity}}
+                            @php( $storeproduct_quantity=\App\Models\AccountingSystem\AccountingProductStore::where('product_id',$row->product->id)->where('store_id',$store->id)->sum('quantity'))
+                            {{ $storeproduct_quantity}}
                         </td>
-
                         <td>@if (  $row->is_active==1)
                                 مفعل
                             @else
                                 غير  مفعل
-
                             @endif
                         </td>
                         <td><img src="{!! getimg($row->product->image)!!}" style="width:100px; height:100px"> </td>
@@ -131,7 +129,7 @@
                     document.getElementById('delete-form'+item_id).submit();
                 }
                 else{
-                    swal("تم االإلفاء", "حذف  الشركة  تم الغاؤه",'info',{buttons:'موافق'});
+                    swal("تم االإلفاء", "حذف  المنتج  تم الغاؤه",'info',{buttons:'موافق'});
                 }
             });
         }

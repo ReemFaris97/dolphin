@@ -5,15 +5,11 @@ $(function(){
         }
     });
     var  products;
-
     $(".purchase_id").on('change', function() {
         var idddd = $(this).val();
-
-
         $.ajax({
             url: "/accounting/products_purchase/" + idddd,
             type: "GET",
-
         }).done(function (data) {
 
             products = [];
@@ -34,6 +30,8 @@ $(function(){
             $('.product_id').attr('data-live-search', true);
             $('.product_id').attr('placeholder', "اختر الصنف");
             $('#product_id').find('option').remove().end().append(products);
+            $('.product_id option').prop('selected', false);
+
             $("#product_id").selectpicker('refresh');
 
         }).fail(function (error) {

@@ -132,7 +132,7 @@
 		console.log(item_id);
 		swal({
 			title: "هل أنت متأكد ",
-			text: "هل تريد حذف هذة الشركة ؟",
+			text: "هل تريد حذف هذة الفاتورة ؟",
 			icon: "warning",
 			buttons: ["الغاء", "موافق"],
 			dangerMode: true,
@@ -141,7 +141,7 @@
 			if (isConfirm) {
 				document.getElementById('delete-form' + item_id).submit();
 			} else {
-				swal("تم االإلفاء", "حذف  الشركة  تم الغاؤه", 'info', {
+				swal("تم االإلفاء", "حذف  الفاتورة  تم الغاؤه", 'info', {
 					buttons: 'موافق'
 				});
 			}

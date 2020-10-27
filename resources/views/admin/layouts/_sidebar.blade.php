@@ -22,7 +22,7 @@
             {{--************************************************************************--}}
             @if(auth()->user()->hasPermissionTo('view_workers')||auth()->user()->hasPermissionTo('add_workers'))
                 <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
-                    aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                    aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                           class="m-menu__link m-menu__toggle"><span
                             class="m-menu__item-here"></span><i
                             class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text">الاعضاء</span><i
@@ -55,7 +55,7 @@
 
 
             <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
-                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                         class="m-menu__item-here"></span><i
                         class="m-menu__link-icon flaticon-layers"></i><span class="m-menu__link-text">العهد</span><i
@@ -104,7 +104,7 @@
             {{----------------------------------------------------------------------------}}
 
             <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
-                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                         class="m-menu__item-here"></span><i
                         class="m-menu__link-icon flaticon-list"></i><span class="m-menu__link-text">المهمات</span><i
@@ -181,7 +181,7 @@
             {{----------------------------------------------------------------------------}}
 
             <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
-                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                         class="m-menu__item-here"></span><i
                         class="m-menu__link-icon flaticon-list-1"></i><span class="m-menu__link-text">البنود</span><i
@@ -220,7 +220,7 @@
 
 
             <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
-                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                         class="m-menu__item-here"></span><i
                         class="m-menu__link-icon flaticon-list-1"></i><span
@@ -259,7 +259,7 @@
             {{----------------------------------------------------------------------------}}
 
             <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
-                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;"
+                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                         class="m-menu__item-here"></span><i
                         class="m-menu__link-icon flaticon-file-2"></i><span class="m-menu__link-text">التقارير</span><i

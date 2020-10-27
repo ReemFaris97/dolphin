@@ -61,6 +61,13 @@
 </div>
 <!-- /page container -->
 @yield('scripts')
+<!---  current year --> 
+<script>
+        document.getElementById("currentYear").innerHTML = new Date().getFullYear();
+
+</script>
+
+    
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 @include('sweet::alert')
 </body>

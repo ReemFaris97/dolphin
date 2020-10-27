@@ -2,8 +2,123 @@
 
 
 //Json array response
+
+use App\Models\AccountingSystem\AccountingAccount;
 use Carbon\Carbon;
 
+
+class MyHelperAccountingAmount{
+
+    public static function amount($account, $step = 0)
+   {
+       $totalAmount = 0;
+               if($account->kind == 'sub'){
+                $totalAmount=$account->amount;
+           }else{
+            if($account->children){
+
+                $totalAmount=AccountingAccount::where('account_id',$account->id)->sum('amount')+self::amount($account->children, $step+1);
+                }
+           }
+       return $totalAmount;
+     }
+   }
+
+
+
+class MyHelper{
+
+ public static function tree($accounts, $step = 0)
+{
+    $output = '';
+    $base_url = url('/ChartsAccounts/ChartsAccounts/');
+        foreach($accounts as $account)
+        {
+            $output .=
+
+            '<li name="'.$account->id.'"> '. $account->code . " -".$account->ar_name;
+
+            // '<option  value="'.$account->id.'">'.str_repeat('&nbsp;&nbsp;&nbsp;',$step). $account->ar_name.'</option>';
+            if($account->kind!='sub'){
+            if($account->children)
+            {
+                $output .= '<ul>'. self::tree($account->children, $step+1).'</ul>'.'</li>';
+            }
+        }else{
+
+                $output .= '</li>';
+
+            }
+        }
+    return $output;
+}
+
+}
+
+
+
+class MyHelperCostCenter_view{
+
+    public static function center($centers, $step = 0)
+   {
+       $output = '';
+
+      $base_url = url('/ChartsAccounts/ChartsAccounts/');
+           foreach($centers as $center)
+           {
+               $output .=
+
+               '<li name="'.$center->id.'"> '. $center->code . " -".$center->name;
+
+               // '<option  value="'.$account->id.'">'.str_repeat('&nbsp;&nbsp;&nbsp;',$step). $account->ar_name.'</option>';
+               if($center->kind!='sub'){
+               if($center->children)
+               {
+                   $output .= '<ul>'. self::center($center->children, $step+1).'</ul>'.'</li>';
+               }
+           }else{
+
+                   $output .= '</li>';
+
+                }
+           }
+       return $output;
+   }
+
+   }
+
+
+
+
+class MyHelperCostCenter{
+
+    public static function treecost($accounts, $step = 0)
+   {
+       $output = '';
+       $base_url = url('/ChartsAccounts/ChartsAccounts/');
+           foreach($accounts as $account)
+           {
+               // '<option  value="'.$account->id.'">'.str_repeat('&nbsp;&nbsp;&nbsp;',$step). $account->ar_name.'</option>';
+               if($account->kind!='sub'){
+
+                        if($account->children)
+                        {
+                            $output .=
+                            '<li name="'.$account->id.'"> '. $account->code . " -".$account->ar_name;
+                            $output .= '<ul>'. self::treecost($account->children, $step+1).'</ul>'.'</li>';
+                        }
+            }elseif($account->kind=='sub'&&$account->cost_center==1){
+                $output .=  '<li name="'.$account->id.'"> '. $account->code . " -".$account->ar_name;
+
+                    $output .='</li>';
+
+
+                }
+            }
+        return $output;
+   }
+
+   }
 function responseJson($status, $msg, $data = null, $state = 200)
 {
     $response = [
@@ -13,6 +128,16 @@ function responseJson($status, $msg, $data = null, $state = 200)
     ];
     return response()->json($response, $state);
 }
+
+function rearrange_array($array, $key) {
+    while ($key > 0) {
+        $temp = array_shift($array);
+        $array[] = $temp;
+        $key--;
+    }
+    return $array;
+}
+
 
 function storekeepers()
 {
@@ -46,24 +171,14 @@ function stores_to($id=Null)
     return $stores_to;
 }
 
-function toast($msg,$type,$po)
-{
-    
-}
 
 function products($store=null){
-    if ($store != null) {
 
-        $products_id=App\Models\AccountingSystem\AccountingProductStore::where('store_id',$store)->where('quantity','!=',Null)->where('quantity','>',0)->pluck('product_id')->toArray();
-
-          $products=App\Models\AccountingSystem\AccountingProduct::whereIn('id',$products_id)->get()->mapWithKeys(function ($q) {
+          $products=App\Models\AccountingSystem\AccountingProduct::all()->mapWithKeys(function ($q) {
             return [$q['id'] => $q['name']];
         });
 
 
-    }else{
-        $products=[];
-    }
 
     return $products;
 }
@@ -86,14 +201,23 @@ function products_purchase($purchase=null){
 }
 
 
+
+
+
+
+function getsetting($name)
+{
+    $settings=App\Models\AccountingSystem\AccountingSetting::where('name',$name)->first();
+//    dd($settings);
+    return $settings->value ??'';
+}
+
 function products_not_settement($store=null){
     if ($store != null) {
 
         $products_id=App\Models\AccountingSystem\AccountingProductStore::where('store_id',$store)->where('quantity','!=',Null)->where('quantity','>',0)->pluck('product_id')->toArray();
 
-        $products=App\Models\AccountingSystem\AccountingProduct::whereIn('id',$products_id)->where('is_settlement',0)->get()->mapWithKeys(function ($q) {
-            return [$q['id'] => $q['name']];
-        });
+        $products=App\Models\AccountingSystem\AccountingProduct::select(['id', 'name'])->whereIn('id',$products_id)->where('is_settlement',0)->get();
 
 
     }else{
@@ -133,6 +257,8 @@ function devices()
 
 
 
+
+
 function keepers($store= null)
 {
     if ($store != null) {
@@ -144,6 +270,15 @@ function keepers($store= null)
     }
 
     return $keepers;
+}
+
+function AllStore()
+{
+    $stores =App\Models\AccountingSystem\AccountingStore::all()->mapWithKeys(function ($q) {
+        return [$q['id'] => $q['ar_name']];
+    });
+// dd($devices);
+    return $stores;
 }
 
 function branches($company = null)
@@ -184,7 +319,7 @@ function stores($branch=null){
 
     if ($branch != null) {
 
-        dd('wewer');
+      
         // $stores=App\Models\AccountingSystem\AccountingStore::find($branch)->faces->mapWithKeys(function ($item) {
         //     return [$item['id'] => $item['ar_name']];
         // });
@@ -195,13 +330,21 @@ function stores($branch=null){
 }
 
 
-function faces($branch=null){
+function faces($branch=null,$company_id=null){
     if ($branch != null) {
-
-
+        if ($branch != 'all') {
         $faces=App\Models\AccountingSystem\AccountingBranch::find($branch)->faces->mapWithKeys(function ($item) {
             return [$item['id'] => $item['name']];
         });
+        }else{
+            $branches=App\Models\AccountingSystem\AccountingBranch::where('company_id',$company_id)->pluck('id','id')->toArray();
+            $faces=[];
+
+               $faces=\App\Models\AccountingSystem\AccountingBranchFace::whereIn('branch_id',$branches)->pluck('name','id')->toArray();
+
+
+        }
+
     }else{
         $faces=[];
     }
@@ -211,7 +354,7 @@ function faces($branch=null){
 
 
 
-function colums($face=null){
+function colums($face=null,$cell=null){
     if ($face != null) {
 
 
@@ -220,6 +363,10 @@ function colums($face=null){
         });
     }else{
         $colums=[];
+    }
+    if($cell!= null){
+        dd($cell->column_id);
+       return $cell->column_id;
     }
 
     return $colums;
@@ -703,12 +850,16 @@ function chooseNationality($nationality){
 }
 
 function currency(){
+$currencies=\App\Models\AccountingSystem\AccountingCurrency::pluck('ar_name','id')->toArray();
+    return $currencies;
+}
 
-    return [
-        "rial"=> "ريال",
-        "pound"=> "جنيه",
 
-];
+function accounts(){
+
+
+    $accounts=\App\Models\AccountingSystem\AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->where('kind','sub')->pluck('code_name','id')->toArray();
+return $accounts;
 }
 
 function pay_type(){
@@ -718,4 +869,79 @@ function pay_type(){
         "agel"=> "أجل",
 
     ];
+}
+
+function productCategories()
+{
+    $categories = \App\Models\AccountingSystem\AccountingProductCategory::all()->mapWithKeys(function ($q) {
+        return [$q['id'] => $q['ar_name']];
+    });
+    return $categories;
+}
+
+function months(){
+
+    return [
+        'Jan'=>'يناير',
+        'Feb'=>'فبراير',
+        'Mar'=>'مارس',
+        'Apr'=>'ابريل',
+        'May'=>'مايو',
+        'Jun'=>'يونيه',
+        'Jul'=>'يوليو',
+        'Aug'=>'أغسطس',
+        'Sep'=>'سبتمبر',
+        'Oct'=>'أكتوبر',
+        'Nov'=>'نوفمبر',
+        'Dec'=>'ديسمبر'
+
+    ];
+}
+function chooseMonthly($month){
+    if(array_key_exists($month,months())){
+        return months()[$month];
+    }
+    return $month;
+
+}
+
+
+  function quarterly(){
+   return [
+    '1'=>'الربع السنوى الاول',
+    '2'=>'الربع السنوى الثاتى',
+    '3'=>'الربع السنوى الثالث',
+    '4'=>'الربع السنوى الرابع',
+   ];
+}
+
+
+
+function levels(){
+    return [
+     '1'=>' المستوى الاول  ',
+     '2'=>' المستوى الثاتى',
+     '3'=>' المستوى الثالث',
+     '4'=>' المستوى الرابع',
+     '5'=>' المستوى الخامس',
+     '6'=>' المستوى السادس',
+     '7'=>' المستوى السابع',
+     '8'=>' المستوى التامن',
+     '9'=>' المستوى التاسع',
+     '10'=>' المستوى العاشر',
+     '11'=>' المستوى الاحد عشر',
+     '12'=>' المستوى الاثنى عشر',
+     '13'=>' المستوى الثالث عشر',
+     '14'=>' المستوى الرابع عشر',
+     '15'=>' المستوى الخامس عشر',
+     '16'=>' المستوى السادس عشر',
+     '17'=>' المستوى السابع عشر',
+    ];
+ }
+function choosequarterly($quarter){
+    if(array_key_exists($quarter,quarterly())){
+        return quarterly()[$quarter];
+    }
+    return $quarter;
+
 }

@@ -10,7 +10,15 @@
 
 <div class="form-group col-md-4 pull-left">
     <label> اسم الشركة </label>
-    {!! Form::select("company_id",companies(),null,['class'=>'form-control js-example-basic-single company_id','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع له المنتج '])!!}
+    <div class="btn-group adding-new-comp">
+        <a href="{{route('accounting.companies.create')}}" class="btn btn-success" target="_blank">
+            <span class="m-l-5">
+				إضافة شركة
+				<i class="fa fa-plus"></i>
+			</span>
+        </a>
+    </div>
+    {!! Form::select("company_id",companies(),null,['class'=>'form-control js-example-basic-single company_id','id'=>'company_id','placeholder'=>' اختر اسم الشركة '])!!}
 </div>
 <div class="clearfix"></div>
 
@@ -38,7 +46,7 @@
 @if( isset($category))
 
     <div class="form-group col-md-6 pull-left">
-        <label>صوره القسم الحالية : </label>
+        <label>صوره التصنيف الحالية : </label>
         <img src="{{getimg($category->image)}}" style="width:100px; height:100px" class="file-styled">
     </div>
 
@@ -46,7 +54,7 @@
 
 
 <div class=" media-body">
-    <label>صوره القسم  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+    <label>صوره التصنيف  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
     {!! Form::file("image",null,['class'=>'file-styled'])!!}
 
 </div>

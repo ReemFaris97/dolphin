@@ -10,7 +10,14 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">عرض كل المخازن</h5>
+            <h5 class="panel-title">عرض كل المخازن
+            <div class="btn-group beside-btn-title">
+                <a href="{{route('accounting.stores.create')}}" class="btn btn-success">
+                    إضافه  مخزن  جديد
+                    <span class="m-l-5"><i class="fa fa-plus"></i></span>
+                </a>
+            </div>
+            </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -29,7 +36,7 @@
                     <th>  نوع المخزن </th>
                     <th>  حالة المخزن </th>
                     <th> كود المخزن </th>
-                    <th>  المخزن تابع الى </th>
+                    {{--<th>  المخزن تابع الى </th>--}}
                     <th> صورة المخزن </th>
 
                     <th class="text-center">العمليات</th>
@@ -58,7 +65,7 @@
                         </td>
 
                         <td>{!! $row->code!!}</td>
-                        <td>{!! $row->model->name!!}</td>
+                        {{--<td>{!! $row->model->name ??''!!}</td>--}}
                         <td><img src="{!! getimg($row->image)!!}" style="width:100px; height:100px"> </td>
 
 
@@ -72,12 +79,15 @@
                             @endif
 
                             <a href="{{route('accounting.stores.show',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>
-
+                            @can('تعديل المخزن')
                             <a href="{{route('accounting.stores.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
+                            @endcan
+                            @can('حذف المخزن')
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
 
                             {!!Form::open( ['route' => ['accounting.stores.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
                             {!!Form::close() !!}
+                                @endcan
 
                         </td>
                     </tr>

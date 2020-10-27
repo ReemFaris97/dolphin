@@ -47,7 +47,7 @@
                 @if($charge->destroyed_at == null)
 
                     @if(auth()->user()->hasPermissionTo('destroy_charges'))
-                    <a href="javascript:;" id="destruct{{$charge->id}}" data-id="{{$charge->id}}" data-url="{!!route('admin.charges.destruct',$charge->id)!!}" class="destruct btn btn-danger"> <i class="fas fa-allergies"></i>
+                    <a href="javascript:" id="destruct{{$charge->id}}" data-id="{{$charge->id}}" data-url="{!!route('admin.charges.destruct',$charge->id)!!}" class="destruct btn btn-danger"> <i class="fas fa-allergies"></i>
                         إتلاف</a>
                         
                         
@@ -58,7 +58,7 @@
 
 
                 @if($charge->confirmed_at == null && $charge->supervisor_id == auth()->id())
-  <a id="elementRow{{$charge->id}}" href="javascript:;" data-id="{{$charge->id}}"  data-url="{{route('admin.charges.confirm')}}" class="statusWithReason btn btn-success">
+  <a id="elementRow{{$charge->id}}" href="javascript:" data-id="{{$charge->id}}" data-url="{{route('admin.charges.confirm')}}" class="statusWithReason btn btn-success">
                         <i class="far fa-thumbs-up"></i>
                         تفعيل</a>
                   

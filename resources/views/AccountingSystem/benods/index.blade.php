@@ -8,7 +8,16 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">عرض كل  تسجيلات البنود </h5>
+            <h5 class="panel-title">عرض كل  تسجيلات البنود
+
+            <div class="btn-group beside-btn-title">
+                <a href="{{route('accounting.benods.create')}}" class="btn btn-success">
+                    إضافه  بند  جديد
+                    <span class="m-l-5"><i class="fa fa-plus"></i></span>
+                </a>
+            </div>
+            </h5>
+
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -23,13 +32,10 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th> نوع البند</th>
                     <th> اسم  البند </th>
-                    <th>   رقم السند </th>
+                    <th>    وصف  البند </th>
 
-                    <th> التاريخ </th>
-                    <th> البيان</th>
-                    <th> الصوره  </th>
+
 
                     <th class="text-center">العمليات</th>
                 </tr>
@@ -41,20 +47,8 @@
                         <td>{!!$loop->iteration!!}</td>
 
 
-                        <td>@if ($row->type=="expenses")
-
-                                <label class="label label-info"> مصروف</label>
-                                @else
-                                <label class="label label-success"> ايراد</label>
-                        @endif
-
-                        </td>
-
-                        <td>{!! $row->clause->ar_name !!}</td>
-                        <td>{!! $row->sanad_num!!}</td>
-                        <td>{!! $row->date!!}</td>
-                        <td>{!! $row->desc!!}</td>
-                        <td><img src="{!! getimg($row->image)!!}" style="width:100px; height:100px"> </td>
+                        <td>{!! $row->ar_name!!}</td>
+                        <td>{!! $row->ar_description!!}</td>
 
 
                         <td class="text-center">

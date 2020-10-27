@@ -6,11 +6,11 @@
 <!-- begin::Head -->
 <head>
     <meta charset="utf-8" />
-    <title>دولفن | تسجيل الدخول</title>
+    <title> تسجيل الدخول</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
     <!--begin::Web font -->
     <script>
-       
+
     </script>
 	<style>
 		body{
@@ -19,15 +19,15 @@
 		}
 	</style>
 
-    <!--end::Web font --> 
+    <!--end::Web font -->
 
- 
+
     <link href=" {!! asset('dashboard/assets/vendors/base/vendors.bundle.rtl.css')!!}" rel="stylesheet" type="text/css" />
     <link href="{!! asset('dashboard/assets/demo/default/base/style.bundle.rtl.css')!!}" rel="stylesheet" type="text/css" />
 	<link href="{!! asset('dashboard/assets/main.css')!!}" rel="stylesheet"
           type="text/css"/>
-    <!--end::Global Theme Styles -->	
-    <link rel="shortcut icon" href="{!! asset('dashboard/assets/demo/default/media/img/logo/favicon/favicon.png')!!}" />
+    <!--end::Global Theme Styles -->
+    {{--<link rel="shortcut icon" href="{!! asset('dashboard/assets/demo/default/media/img/logo/favicon/favicon.png')!!}" />--}}
 </head>
 
 <!-- end::Head -->
@@ -37,14 +37,16 @@
 
 <!-- begin:: Page -->
 <div class="m-grid m-grid--hor m-grid--root m-page logiin-bg">
-    <div class="m-grid__item m-grid__item--fluid m-grid m-grid--hor m-login m-login--signin m-login--2 m-login-2--skin-1" id="m_login" style="background-image: url({!! asset('dashboard/assets/app/media/img//bg/bg-1.jpg');!!}">
+    <div class="m-grid__item m-grid__item--fluid m-grid m-grid--hor m-login m-login--signin m-login--2 m-login-2--skin-1" id="m_login" style="background-image: ">
         <div class="m-grid__item m-grid__item--fluid m-login__wrapper">
             <div class="m-login__container">
+<!--
                 <div class="m-login__logo wow animated">
                     <a href="#">
-                        <img src="{!! asset('dashboard/assets/app/media/img/logos/logo-1.png')!!}">
+                        {{--<img src="{!! asset('dashboard/assets/app/media/img/logos/logo-1.png')!!}">--}}
                     </a>
                 </div>
+-->
                 <div class="m-login__signin">
                     <div class="m-login__head">
                         <h3 class="m-login__title">تسجيل الدخول</h3>
@@ -54,7 +56,7 @@
                         @csrf
                         <div class="form-group m-form__group">
 
-                            <input class="form-control m-input {{ $errors->has('email') ? ' is-invalid' : '' }}" type="text" placeholder="البريد الإلكتروني" name="email" autocomplete="off">
+                            <input class="form-control m-input" type="text" placeholder="البريد الإلكتروني او إسم المستخدم" name="email" autocomplete="off">
 
 
                             @if ($errors->has('email'))
@@ -103,7 +105,8 @@
 
 <!--begin::Page Scripts -->
 <script src="{!! asset('dashboard/assets/snippets/custom/pages/user/login.js')!!}" type="text/javascript"></script>
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+@include('sweet::alert')
 <!--end::Page Scripts -->
 </body>
 

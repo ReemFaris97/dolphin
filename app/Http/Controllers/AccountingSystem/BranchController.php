@@ -46,8 +46,7 @@ class BranchController extends Controller
     public function store(Request $request)
     {
         $rules = [
-
-            'name'=>'required|string|max:191',
+            'name'=>'required|string|max:191|branch_name:accounting_branches,name,company_id,'.$request['name'].','.$request['company_id'],
             'phone'=>'required|numeric|unique:accounting_branches,phone',
             'email'=>'required|string|unique:accounting_branches,email',
             'password'=>'required|string|max:191',
@@ -55,8 +54,13 @@ class BranchController extends Controller
             'company_id'=>'required|numeric|exists:accounting_companies,id',
 
         ];
-        $this->validate($request,$rules);
+        $messsage = [
+            'name.branch_name'=>"اسم الفرع موجود بالفعل بالشركة",
+                  ];
+        $this->validate($request,$rules,$messsage);
         $requests = $request->except('image');
+
+
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'photos');
         }

@@ -49,16 +49,20 @@ class CategoryController extends Controller
     {
         $rules = [
 
-            'ar_name'=>'required|string|max:191',
+            'ar_name'=>'required|string|max:191|category_name:accounting_product_categories,ar_name,company_id,'.$request['ar_name'].','.$request['company_id'],
             'en_name'=>'nullable|string|max:191',
             'ar_description'=>'nullable|string',
             'en_description'=>'nullable|string',
             'image'=>'nullable|sometimes|image',
+            'company_id'=>'required|numeric|exists:accounting_companies,id',
 
 
 
         ];
-        $this->validate($request,$rules);
+        $messsage = [
+            'ar_name.category_name'=>"اسم التصنيف  موجود بالفعل بالشركة",
+        ];
+        $this->validate($request,$rules,$messsage);
         $requests = $request->except('image');
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'photos');
@@ -111,6 +115,8 @@ class CategoryController extends Controller
             'ar_description'=>'nullable|string',
             'en_description'=>'nullable|string',
             'image'=>'nullable|sometimes|image',
+            'company_id'=>'required|numeric|exists:accounting_companies,id',
+
         ];
         $this->validate($request,$rules);
         $requests = $request->except('image');

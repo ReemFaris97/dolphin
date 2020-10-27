@@ -11,6 +11,7 @@ use App\Models\AccountingSystem\AccountingFaceColumn;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
+use phpDocumentor\Reflection\Types\Null_;
 
 class CellController extends Controller
 {
@@ -95,15 +96,19 @@ class CellController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $cell =AccountingColumnCell::findOrFail($id);
         $rules = [
 
             'name'=>'required|string|max:191',
 
-            'column_id'=>'required|numeric|exists:accounting_face_columns,id',
+//        'column_id'=>'required|numeric|exists:accounting_face_columns,id',
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
+        if ($requests['column_id']==Null){
+            $requests['column_id']=$cell-> column_id;
+        }
         $cell->update($requests);
         alert()->success('تم تعديل  الصف بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.cells.index');
@@ -120,9 +125,9 @@ class CellController extends Controller
      */
     public function destroy($id)
     {
-        $shift =AccountingBranchShift::findOrFail($id);
+        $shift =AccountingColumnCell::findOrFail($id);
         $shift->delete();
-        alert()->success('تم حذف  الوردية بنجاح !')->autoclose(5000);
+        alert()->success('تم حذف  الخليه بنجاح !')->autoclose(5000);
             return back();
 
 

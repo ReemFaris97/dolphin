@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Distributor;
 
 use App\Models\Store;
+use App\User;
 use App\Models\StoreCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -31,7 +32,8 @@ class StoresController extends Controller
     public function create()
     {
         $store_categories = StoreCategory::pluck('name','id');
-        return $this->toCreate(compact('store_categories'));
+        $distrbiutors = User::where('is_distributor',1)->pluck('name','id');
+        return $this->toCreate(compact('store_categories','distrbiutors'));
     }
 
     /**
@@ -44,7 +46,8 @@ class StoresController extends Controller
     {
         $rules = [
             'name'=>'required|string|max:191',
-            'store_category_id'=>"required|numeric|exists:store_categories,id"
+            'store_category_id'=>"required|numeric|exists:store_categories,id",
+                        'distributor_id'=>"nullable|numeric|exists:users,id"
         ];
         $this->validate($request,$rules);
         Store::create($request->all());
@@ -73,7 +76,8 @@ class StoresController extends Controller
     {
         $store =Store::findOrFail($id);
         $store_categories = StoreCategory::pluck('name','id');
-        return $this->toEdit(compact('store','store_categories'));
+                $distrbiutors = User::where('is_distributor',1)->pluck('name','id');
+        return $this->toEdit(compact('store','store_categories','distrbiutors'));
 
 
     }
@@ -91,7 +95,8 @@ class StoresController extends Controller
 
         $rules = [
             'name'=>'required|string|max:191',
-            'store_category_id'=>"required|numeric|exists:store_categories,id"
+            'store_category_id'=>"required|numeric|exists:store_categories,id",
+            'distributor_id'=>"nullable|numeric|exists:users,id"
         ];
         $this->validate($request,$rules);
         $store->update($request->all());

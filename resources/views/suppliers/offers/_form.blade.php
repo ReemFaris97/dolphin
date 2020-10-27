@@ -72,7 +72,7 @@
                             <td>{{$sup->quantity}} </td>
                             <td>{{$sup->price}} </td>
                         <td>
-                            <a href="javascript:;" id="{{$sup->id}}" class="removeProduct btn btn-danger waves-effect waves-light btn-xs m-b-5">حذف</a>
+                            <a href="javascript:" id="{{$sup->id}}" class="removeProduct btn btn-danger waves-effect waves-light btn-xs m-b-5">حذف</a>
 
                         </td>
 

@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تعديل بند')
-@section('parent_title','إدارة  البنود')
+@section('title','تعديل  سند')
+@section('parent_title','إدارة   سندات  القبض  والصرف')
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">

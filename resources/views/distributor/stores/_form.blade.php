@@ -1,4 +1,15 @@
+    
+    <div class="m-portlet__body a-smaller-input-wrapper">
+
+    <div class="form-group m-form__group">
+        <label> المندوب المسئول </label>
+        {!! Form::select('distributor_id',$distrbiutors,null,['class'=>'form-control   m-input select2','placeholder'=>'إختار المندوب المسئول '])!!}
+    </div>
+    
+    </div>
+
 <div class="m-portlet__body a-smaller-input-wrapper">
+
     <div class="form-group m-form__group">
         <label>الاسم</label>
         {!! Form::text('name',null,['class'=>'form-control m-input','placeholder'=>'ادخل الاسم'])!!}

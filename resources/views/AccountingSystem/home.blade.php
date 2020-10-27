@@ -87,7 +87,7 @@
         	</a>
         </div>
     </div>
-
+    
          <div class="metro-small shiftsm">
         <a href="{{route('accounting.shifts.create')}}" class="bigger-link">
         	<img src="{{asset('admin/assets/images/metro/shift.png')}}" alt="">
@@ -104,7 +104,7 @@
                <div class="metro-small termssm">
         <a href="{{route('accounting.clauses.create')}}" class="bigger-link">
         	<img src="{{asset('admin/assets/images/metro/list.png')}}" alt="">
-        	<span class="label bottom">إضافة بند </span>
+        	<span class="label bottom">إضافة سند قبض  وصرف  </span>
         </a>
         <div class="hoverable-icons">
         	<a href="{{route('accounting.clauses.create')}}">

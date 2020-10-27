@@ -75,8 +75,6 @@
 
  @endsection
 @section('scripts')
-
-
     <script>
         $(".product_id").on('change', function() {
             var store_id = $('#form_store_id').val();

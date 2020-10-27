@@ -7,7 +7,7 @@
             v-for="friend in friends"
             :class="(friend.id==activeFriend)?'green':'سسسس'" :color="(friend.id==activeFriend)?'green':'سسسس'"
             :key="friend.id"
-            @click="activeFriend=friend.id;activeUserName=friend.name"
+            @click="activeFriend=friend.idactiveUserName=friend.name"
           >
             <v-list-tile-action>
               <v-icon :color="(onlineFriends.find(user=>user.id===friend.id))?'green':'red'"></v-icon> <i class="flaticon-avatar"></i>
@@ -165,7 +165,7 @@
 
           axios.post('/admin/private-messages/'+this.activeFriend, {message: this.message}).then(response => {
                     this.message=null;
-                    this.allMessages.push(response.data.message)
+                    this.allMessages.push(response.data.message);
                     setTimeout(this.scrollToEnd,100);
           });
       },
@@ -243,7 +243,7 @@
                     audio.play();
                     console.log('aduio');
                   this.activeFriend=e.message.user_id;
-                  this.allMessages.push(e.message)
+                  this.allMessages.push(e.message);
                   setTimeout(this.scrollToEnd,100);
 
               })

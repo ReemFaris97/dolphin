@@ -1,7 +1,7 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض  الشرائح')
+@section('title','عرض  شرائح الضرائب')
 @section('parent_title','إدارة  الضرائب ')
-@section('action', URL::route('accounting.products.index'))
+@section('action', URL::route('accounting.taxs.index'))
 
 @section('styles')
 
@@ -10,7 +10,14 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">عرض كل الشرائح</h5>
+            <h5 class="panel-title">عرض كل الشرائح
+            <div class="btn-group beside-btn-title">
+                <a href="{{route('accounting.taxs.create')}}" class="btn btn-success">
+                    إضافه شريحة  جديدة
+                    <span class="m-l-5"><i class="fa fa-plus"></i></span>
+                </a>
+            </div>
+            </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>

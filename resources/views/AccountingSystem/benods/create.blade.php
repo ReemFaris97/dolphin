@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
 
-@section('title','تسجيل بيان   جديد')
+@section('title','إضافة بند  جديد')
 @section('parent_title','إدارة  البنود')
 @section('styles')
 
@@ -9,7 +9,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">إضافة بيان  جديدة</h5>
+            <h5 class="panel-title">إضافة بند  جديد</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>

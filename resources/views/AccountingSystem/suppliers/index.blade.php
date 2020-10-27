@@ -10,7 +10,15 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">عرض كل الموردين</h5>
+            <h5 class="panel-title">عرض كل الموردين
+
+            <div class="btn-group beside-btn-title">
+                <a href="{{route('accounting.suppliers.create')}}" class="btn btn-success">
+                    إضافه  مورد  جديد
+                    <span class="m-l-5"><i class="fa fa-plus"></i></span>
+                </a>
+            </div>
+            </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -25,9 +33,10 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th> اسم المورد </th>
-                    <th>الجوال</th>
-                    <th>الايميل</th>
+                    <th> اسم المورد</th>
+                    <th>الشركات المورده</th>
+
+                    <th>رصيد المورد</th>
 
                     <th class="text-center">العمليات</th>
                 </tr>
@@ -38,21 +47,42 @@
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->name!!}</td>
-                        <td>{!! $row->phone!!}</td>
+                        <td>
 
-                        <td>{!! $row->email!!}</td>
-                        <td class="text-center">
-                            <a href="{{route('accounting.suppliers.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
-                            <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
+                            @foreach ($row->companies as $company)
+                                <li>{{$company->company->name}}</li>
+
+                            @endforeach
+                        </td>
+
+                        <td>{!! $row->balance!!}</td>
+
+                        <td>
+                            <a href="{{route('accounting.suppliers.show',['id'=>$row->id])}}" data-toggle="tooltip"
+                               data-original-title="كشف سداد  ">كشف حساب  </a>
+                            @can('تعديل مورد')
+                            <a href="{{route('accounting.suppliers.edit',['id'=>$row->id])}}" data-toggle="tooltip"
+                               data-original-title="تعديل">تعديل </a>
+                            @endcan
+                            @if ($row->is_active==0)
+                                <a href="{{route('accounting.suppliers.is_active',['id'=>$row->id])}}"
+                                   data-toggle="tooltip" data-original-title=" تفعيل "> تفعيل</a>
+                            @else
+                                <a href="{{route('accounting.suppliers.dis_active',['id'=>$row->id])}}"
+                                   data-toggle="tooltip" data-original-title=" الغاء التفيل">الغاء التفعيل </a>
+                            @endif
+                            @can('حذف المورد')
+                            <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف">
+                                حذف</a>
 
                             {!!Form::open( ['route' => ['accounting.suppliers.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
                             {!!Form::close() !!}
+                                @endcan
 
                         </td>
                     </tr>
 
                 @endforeach
-
 
 
                 </tbody>
@@ -64,25 +94,25 @@
 
 @endsection
 
+
 @section('scripts')
 
     <script>
         function Delete(id) {
-            var item_id=id;
+            var item_id = id;
             console.log(item_id);
             swal({
                 title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذة الوجة ؟",
+                text: "هل تريد حذف هذا  المورد ؟",
                 icon: "warning",
                 buttons: ["الغاء", "موافق"],
                 dangerMode: true,
 
-            }).then(function(isConfirm){
-                if(isConfirm){
-                    document.getElementById('delete-form'+item_id).submit();
-                }
-                else{
-                    swal("تم االإلفاء", "حذف  الوجة  تم الغاؤه",'info',{buttons:'موافق'});
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    document.getElementById('delete-form' + item_id).submit();
+                } else {
+                    swal("تم االإلفاء", "حذف  الوجة  تم الغاؤه", 'info', {buttons: 'موافق'});
                 }
             });
         }

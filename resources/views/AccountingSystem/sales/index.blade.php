@@ -1,7 +1,7 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','عرض  الفواتير')
 @section('parent_title','إدارة  المبيعات ')
-@section('action', URL::route('accounting.products.index'))
+@section('action', URL::route('accounting.sales.index'))
 
 @section('styles')
 
@@ -43,6 +43,8 @@
 
                         <td class="text-center">
                             <a href="{{route('accounting.sales.show',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.sales.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
+
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
 
                             {!!Form::open( ['route' => ['accounting.sales.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}

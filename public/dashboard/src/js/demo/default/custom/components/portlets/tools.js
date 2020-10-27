@@ -2,7 +2,7 @@ var PortletTools = function () {
     //== Toastr
     var initToastr = function() {
         toastr.options.showDuration = 1000;
-    }
+    };
 
     //== Demo 1
     var demo1 = function() {
@@ -90,7 +90,7 @@ var PortletTools = function () {
                 mUtil.scrollerUpdate(scrollable[0]);
             }
         });
-    }
+    };
 
     //== Demo 2
     var demo2 = function() {
@@ -153,7 +153,7 @@ var PortletTools = function () {
                 mApp.unblock(portlet.getSelf());
             }, 2000);
         });
-    }
+    };
 
     //== Demo 3
     var demo3 = function() {
@@ -239,7 +239,7 @@ var PortletTools = function () {
                 mUtil.scrollerUpdate(scrollable[0]);
             }
         });
-    }
+    };
  
     //== Demo 4
     var demo4 = function() {
@@ -325,7 +325,7 @@ var PortletTools = function () {
                 mUtil.scrollerUpdate(scrollable[0]);
             }
         });
-    }
+    };
 
     //== Demo 5
     var demo5 = function() {
@@ -395,7 +395,7 @@ var PortletTools = function () {
         portlet.on('afterFullscreenOff', function(portlet) {
             toastr.warning('After fullscreen off event fired!');
         });
-    }
+    };
 
     //== Demo 5
     var demo6 = function() {
@@ -465,7 +465,7 @@ var PortletTools = function () {
         portlet.on('afterFullscreenOff', function(portlet) {
             toastr.warning('After fullscreen off event fired!');
         });
-    }
+    };
 
     return {
         //main function to initiate the module

@@ -111,7 +111,7 @@ var mQuicksearch = function(elementId, options) {
                 if (key == 13) {
                     e.preventDefault();
                 }
-            }
+            };
 
             if (the.options.mode == 'default') {
                 mUtil.addEvent(the.input, 'focus', Plugin.showDropdown);

@@ -68,6 +68,8 @@ class Kernel extends HttpKernel
         'distributor'=>DistributorMiddleware::class,
         'supplier'=>SupplierMiddleware::class,
         'admin'=>AdminMiddleware::class,
+        'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class,
+        'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class,
     ];
 
     /**

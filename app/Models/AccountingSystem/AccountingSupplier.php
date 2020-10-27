@@ -10,11 +10,25 @@ class AccountingSupplier extends Model
 {
 
 
-    protected $fillable = ['name','email','phone','credit','branch_id'
+    protected $fillable = ['name','email','phone','credit','branch_id','amount','password','image','bank_id',
+        'bank_account_number','tax_number','is_active','balance','account_id'
     ];
     protected $table='accounting_suppliers';
 
+    public  function  companies(){
+        return $this->hasMany(AccountingSupplierCompany::class, 'supplier_id');
+
+    }
 
 
+    public   function  balances(){
 
+        $balance=AccountingPurchase::where('supplier_id',$this->id)->where('payment','agel')->sum('total');
+
+        return $balance;
+    }
+    public function account()
+    {
+        return $this->belongsTo(AccountingAccount::class,'account_id');
+    }
 }

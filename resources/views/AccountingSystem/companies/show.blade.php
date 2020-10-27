@@ -20,38 +20,36 @@
         </div>
 
         <div class="panel-body">
-            <div class="form-group col-md-6 pull-left">
-                <label class="label">  اسم الشركة  : </label>
-                <span>{!! $company->name !!}</span>
-            </div>
+           
+           <div class="awesome-card-design">
+           		<img src="{!! getimg($company->image)!!}">
+           		<h3>{!! $company->name !!}</h3>
+           		<div class="card-design-contact">
+           			<a href="tel:{!! $company->phone !!}"><i class="icon-mobile"></i><span>{!! $company->phone !!}</span></a>
+           			<a href="mailto:{!! $company->email !!}"><i class="icon-envelop"></i><span>{!! $company->email !!}</span></a>
+           		</div>
+           		<div class="card-design-info">
+           			 <p>
+           			 	<label>الرصيد العام لخزائن الشركه : </label>
+                		<span>{!! $company->getGeneralBalances() !!}</span>
+           			 </p>
+           			 <p>
+           			 	<label>الرصيد الفعلى لخزائن الشركه  : </label>
+               			<span>{!! $company->getRealBalances() !!}</span>
+           			 </p>
+           		</div>
+           </div>
 
-            <div class="form-group col-md-6 pull-left">
-                <label class="label">  جوال الشركة  : </label>
-                <span>{!! $company->phone !!}</span>
-            </div>
-            <div class="form-group col-md-6 pull-left">
-                <label class="label">  ايميل الشركة  : </label>
-                <span>{!! $company->email !!}</span>
-            </div>
-            <div class="form-group col-md-6 pull-left">
-                <label class="label">  صورة الشركة  : </label>
-                <span><img src="{!! getimg($company->image)!!}" style="width:100px; height:100px"> </span>
-            </div>
             <h4>عرض الفروع</h4>
             <div class="form-group col-md-12 pull-left">
-                    {{--<a href="{{route('accounting.branches.show',$branch->id)}}"> <span>-{!! $branch->name !!}</span></a><br>--}}
-                    <ol>
-                        @foreach($branches  as $branch)
-							<li><a class="dash-link" href="{{route('accounting.branches.show',$branch->id)}}">{!! $branch->name !!}</a></li>
-                        @endforeach
-                    </ol>
+				<ol>
+					@foreach($branches  as $branch)
+						<li><a class="dash-link" href="{{route('accounting.branches.show',$branch->id)}}">{!! $branch->name !!}</a></li>
+					@endforeach
+				</ol>
             </div>
-
         </div>
-
     </div>
-
-
 @endsection
 
 @section('scripts')

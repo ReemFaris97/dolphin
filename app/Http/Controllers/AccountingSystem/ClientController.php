@@ -38,7 +38,6 @@ class ClientController extends Controller
     public function create()
     {
 
-
         return $this->toCreate();
     }
 
@@ -61,6 +60,9 @@ class ClientController extends Controller
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
+            if (getsetting('automatic_clients')==1){
+                $requests['account_id']=getsetting('accounting_id_clients');
+            }
 
         AccountingClient::create($requests);
         alert()->success('تم اضافة  العميل بنجاح !')->autoclose(5000);
@@ -106,17 +108,13 @@ class ClientController extends Controller
         $rules = [
 
             'name'=>'required|string|max:191',
-
-            'phone'=>'required|numeric|exists:accounting_clients,id',
+            'phone'=>'required|numeric|unique:accounting_clients,phone,'.$client->id,
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
         $client->update($requests);
         alert()->success('تم تعديل  العميل بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.clients.index');
-
-
-
     }
 
     /**
@@ -131,16 +129,12 @@ class ClientController extends Controller
         $client->delete();
         alert()->success('تم حذف  العميل بنجاح !')->autoclose(5000);
             return back();
-
-
     }
 
     public function  permiums()
     {
         $clients=AccountingClient::pluck('name','id')->toArray();
-
         return view("AccountingSystem.clients.permiums",compact('clients'));
-
 
     }
 
@@ -185,5 +179,13 @@ class ClientController extends Controller
 
     }
 
+
+    public function getClient($id){
+        $client=AccountingClient::find($id);
+        return response()->json([
+            'status'=>true,
+            'data'=>($client->balance)
+        ]);
+    }
 
 }

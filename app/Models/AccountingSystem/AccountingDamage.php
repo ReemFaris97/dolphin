@@ -23,6 +23,11 @@ class AccountingDamage extends Model
     {
         return $this->hasMany(AccountingDamageProduct::class,'damage_id')->sum('quantity');
     }
+    public function products()
+    {
+        return $this->hasMany(AccountingDamageProduct::class,'damage_id');
+    }
+
 
 }
 

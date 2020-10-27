@@ -3,7 +3,10 @@
 namespace App;
 
 use App\Http\Traits\FirebasOperation;
+use App\Models\AccountingSystem\AccountingJobTitle;
+use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingStore;
+use App\Models\AccountingSystem\AccountingUserPermission;
 use App\Models\Bank;
 use App\Models\Charge;
 use App\Models\FcmToken;
@@ -23,6 +26,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use phpDocumentor\Reflection\Types\Self_;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -38,9 +42,9 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $fillable = [
         'name', 'phone', 'email', 'password', 'image', 'job', 'nationality', 'company_name', 'blocked_at', 'is_admin', 'remember_token'
-,'is_distributor','is_supplier','supplier_type','tex_number','lat','lng','bank_id','verification_code','parent_user_id','bank_account_number',
-'distributor_status','settle_commission','sell_commission','reword_value','store_id','route_id','is_storekeeper'
-        ,'accounting_store_id','is_saler'
+        ,'is_distributor','is_supplier','supplier_type','tex_number','lat','lng','bank_id','verification_code','parent_user_id','bank_account_number',
+         'distributor_status','settle_commission','sell_commission','reword_value','store_id','route_id','is_storekeeper','enable'
+        ,'accounting_store_id','is_saler','is_accountant','delete_product','role_id','hiring_date','salary','title_id'
     ];
 
     /**
@@ -83,8 +87,15 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+    public function role()
+    {
+        return $this->belongsTo(Role::class,'role_id');
+    }
 
-
+    public function title()
+    {
+        return $this->belongsTo(AccountingJobTitle::class,'title_id');
+    }
     public function messages()
     {
         return $this->hasMany(Message::class);
@@ -159,6 +170,9 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
+    public function store(){
+        return $this->belongsTo(AccountingStore::class,'accounting_store_id');
+    }
 
 
     public function updateFcmToken($token,$device)
@@ -290,7 +304,6 @@ class User extends Authenticatable implements JWTSubject
         return $this->supplierBills()->sum('amount_rest');
     }
 
-
     public function TotalOfSupplierReceivables() : float {
         $amount_rest = $this->totalRestMoneyInBill();
         $paid = $this->supplierPaidMoneyInTransactions() + $this->totalPaidMoneyInBill();
@@ -299,6 +312,8 @@ class User extends Authenticatable implements JWTSubject
 
 //    ******************************************************
 
-
+//public  function permissions(){
+//        Return $this->hasMany(AccountingUserPermission::class,'user_id');
+//}
 
 }

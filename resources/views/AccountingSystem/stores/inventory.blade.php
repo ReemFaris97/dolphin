@@ -27,26 +27,6 @@
                 {!!Form::open( ['route' => 'accounting.stores.filter_inventory' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
 
 
-                {{--<div class="col-sm-6 col-xs-6 pull-left" >--}}
-                    {{--<div class="form-group form-float">--}}
-                        {{--<label class="form-label"> رقم السند</label>--}}
-                        {{--<div class="form-line">--}}
-                            {{--{!! Form::text("bond_num",null,['class'=>'form-control','placeholder'=>'رقم السند'])!!}--}}
-
-                        {{--</div>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-
-                {{--<div class="col-sm-6 col-xs-6 pull-left" >--}}
-                    {{--<div class="form-group form-float">--}}
-                        {{--<label class="form-label"> بيان السند</label>--}}
-                        {{--<div class="form-line">--}}
-                            {{--{!! Form::text("description",null,['class'=>'form-control','placeholder'=>'بيان السند'])!!}--}}
-
-                        {{--</div>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-
                 <div class="col-sm-6 col-xs-6 pull-left">
                     <label>اختر المخزن </label>
                     {!! Form::select("store_id",allstores(),null,['class'=>'form-control js-example-basic-single store_id','placeholder'=>' اختر  المخزن'])!!}
@@ -129,15 +109,12 @@
 
                         <td>
                             @if ($row->status==0)
-
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-id="{{$row->id}}" onclick="openModal({{$row->id}})" data-target="#exampleModal{{$row->id}}" id="button{{$row->id}}">
                                    ادخل  الكميه الفعليه
                                 </button>
-
                                 @else
                                 <label class="btn-success" id="done">تم التسوية</label>
                             @endif
-
                         </td>
                     </tr>
 
@@ -167,7 +144,7 @@
                                 <input type="hidden" name="inventory_id" value="{{$inventory->id}}">
                                 @endisset
                                 <label> الكميه الفعليه</label>
-                                <input type="text" class="form-control" name="Real_quantity"  >
+                                <input type="text" class="form-control" name="Real_quantity" id="Real_quantity{{$row->id}}" required>
 
                             </div>
                             <div class="modal-footer">
@@ -183,7 +160,7 @@
 
 
 
-                                    <!-- Modal4 -->
+              <!-- Modal4 -->
             <div class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" id="alert">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -212,7 +189,10 @@
                                     <span>{!! $row->quantity !!}</span>
                                 </div>
 
-
+                                <div class="form-group col-md-6 pull-left">
+                                    <label class="label label-info">   الكمية الفعلية  : </label>
+                                    <span id="Real_quantity_val{{$row->id}}"></span>
+                                </div>
 
                             </div>
                             </form>
@@ -293,38 +273,39 @@
 
             function openModal(id) {
 
-         $('.product_id').val(id);
-         var  token=$('#csrf_token').val();
+                $('.product_id').val(id);
+                var token = $('#csrf_token').val();
 
-            $(`#real${id}`).click(function (e) {
-                e.preventDefault();
-
-
-                // var form = $(`form${id}`);
-                // console.log(form);
+                $(`#real${id}`).click(function (e) {
+                    e.preventDefault();
 
 
-                $.ajax({
-                    type: "post",
+                    // var form = $(`form${id}`);
+                    // console.log(form);
+                    var Real_quantity = $("#Real_quantity" + id).val();
+                    if (Real_quantity == '') {
+                        alert("الكمية الفعلية مطلوبة");
+                    } else {
+                        $.ajax({
+                            type: "post",
 
-                    url: '{{route('accounting.inventory_settlement.store')}}',
-                    data:   $('#form'+id).serialize()+"&_token="+token,
-                    success: function (data) {
+                            url: '{{route('accounting.inventory_settlement.store')}}',
+                            data: $('#form' + id).serialize() + "&_token=" + token,
+                            success: function (data) {
 
-                        $('#button'+id).remove();
+                                $('#button' + id).remove();
+                                $("#Real_quantity_val"+id).html(Real_quantity);
 
+                            }, error: function (data) {
+                                console.log(data);
+                            }
 
+                        });
+                        $("#alert").modal('show');
 
-                    },error:function (data) {
-                        console.log(data);
                     }
-
-                });
-                 $("#alert").modal('show');
-            })
-
+                })
             }
-
    </script>
     <script src="{{asset('admin/assets/js/get_keepers_by_store.js')}}"></script>
 

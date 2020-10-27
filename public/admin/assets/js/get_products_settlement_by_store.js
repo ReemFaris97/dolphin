@@ -4,10 +4,11 @@ $(function(){
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    var  products;
 
-    $(".form_store_id").on('change', function() {
+
+    $("#form_store_id").on('change', function() {
         var idddd = $(this).val();
+        let productSelect = $('#product_id');
 
         console.log(idddd);
 
@@ -18,29 +19,25 @@ $(function(){
 
         }).done(function (data) {
 
-            products = [];
-            if (data.length == 0)
-                data.push('لا توجد  اصناف بهذا المخزن');
-            var val;
-            products.push('<option disabled selected> اختر الصنف</option>');
-            $.each(data, function (i, n) {
-                val = i;
 
-                products.push('<option value=' + i + '>' + n + '</option>');
+            console.log(data);
+            productSelect.empty();
+            productSelect.append('<option disabled selected>اختر الصنف</option>');
+            data.forEach(product => {
+                productSelect.append(`
+         <option value="${product.id}">${product.name}</option>
+    `);
             });
-            if (val == 0)
-                console.log("dsaasd");
-            else
+        $('.product_id option').prop('selected', false);
 
-                $('.form_store_id').attr('disabled', false);
             $('.product_id').attr('data-live-search', true);
-            $('.product_id').attr('placeholder', "اختر الصنف");
-            $('#product_id').find('option').remove().end().append(products);
-            $("#product_id").selectpicker('refresh');
+
+            productSelect.selectpicker('refresh');
 
         }).fail(function (error) {
             console.log(error);
         });
+
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,6 +66,8 @@ $(function(){
             $('.storekeeper_id').attr('data-live-search', true);
             $('.storekeeper_id').attr('placeholder', "اختر الصنف");
             $('#storekeeper_id').find('option').remove().end().append(keepers);
+			$('.storekeeper_id option').prop('selected', false);
+
             $("#storekeeper_id").selectpicker('refresh');
 
         }).fail(function (error) {

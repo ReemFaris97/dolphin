@@ -45,10 +45,26 @@ class AccountingCompany extends Authenticatable
 
     public function stores()
     {
-
-
         return $this->hasMany();
     }
 
+
+
+    function products(){
+
+            $stores= AccountingStore::where('model_id', $this->id)->where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->pluck('id');
+            $products= AccountingProductStore::whereIn('store_id',$stores)->pluck('quantity', 'product_id');
+            return $products;
+
+    }
+
+    public  function  getGeneralBalances(){
+        $generalbalances=AccountingSafe::where('model_type','App\Models\AccountingSystem\AccountingBranch')->where('model_id',$this->id)->sum('amount');
+        return $generalbalances;
+    }
+    public  function  getRealBalances(){
+        $realbalances=AccountingSafe::where('model_type','App\Models\AccountingSystem\AccountingBranch')->where('model_id',$this->id)->where('status','branch')->sum('amount');
+        return $realbalances;
+    }
 
 }

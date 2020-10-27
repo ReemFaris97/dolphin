@@ -188,7 +188,7 @@
                         <td>{{$sup->quantity}} </td>
                         <td>{{$sup->price}} </td>
                         <td>
-                            <a href="javascript:;" data-id="{{$sup->id}}" id="removeProduct{{$sup->id}}" class="removeProduct btn btn-danger waves-effect waves-light btn-xs m-b-5">حذف</a>
+                            <a href="javascript:" data-id="{{$sup->id}}" id="removeProduct{{$sup->id}}" class="removeProduct btn btn-danger waves-effect waves-light btn-xs m-b-5">حذف</a>
 
                         </td>
 
@@ -213,7 +213,7 @@
     <script>
         $('#check-all').change(function () {
             $("input:checkbox").prop("checked", $(this).prop("checked"))
-        })
+        });
         $('#amount_input').on('keyup',function () {
             var amount =$(this).val();
             var rest = $('#rest_input').val();

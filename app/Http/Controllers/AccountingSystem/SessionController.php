@@ -10,16 +10,19 @@ use App\Models\AccountingSystem\AccountingCompany;
 
 use App\Models\AccountingSystem\AccountingMoneyClause;
 use App\Models\AccountingSystem\AccountingProductCategory;
+use App\Models\AccountingSystem\AccountingSafe;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingDevice;
 use App\Models\AccountingSystem\AccountingSale;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Traits\Viewable;
 use App\User;
 use Carbon\Carbon;
+use Cookie;
 use Request as GlobalRequest;
-
-
+use Response;
+use Session;
 
 class SessionController extends Controller
 {
@@ -56,24 +59,50 @@ private $viewable = 'AccountingSystem.sessions.';
 
        $inputs= $request->all();
         $rules = [
-
-
+            'shift_id'=>'required|numeric|exists:accounting_branch_shifts,id',
+            'device_id'=>'required|numeric|exists:accounting_devices,id',
+            'email'=>'required',
+            'password'=>'required|string|max:191',
         ];
-        $this->validate($request,$rules);
-       $session= AccountingSession::create($inputs);
+        $messsage = [
+            'shift_id.required'=>" اسم الوردية مطلوبة",
+            'device_id.required'=>"اسم الجهاز مطلوب",
+            'email.required'=>"ايميل  الكاشير مطلوب",
+            'password.required'=>"كلمة المرور مطلوبة",
+        ];
+        $this->validate($request,$rules,$messsage);
+
+
       $user=User::where('email',$inputs['email'])->first();
-        $session->update([
-            'user_id'=>$user->id,
-            'start_session'=>Carbon::now(),
-            'code'=>Carbon::now()."-".optional($session->shift)->name ."-".optional($session->device)->code
+      if (isset($user)) {
+          $session = AccountingSession::create($inputs);
+          $session->update([
+              'user_id' => $user->id,
+              'start_session' => Carbon::now(),
+              'code' => Carbon::now() . "-" . optional($session->shift)->name . "-" . optional($session->device)->code
 
-        ]);
+          ]);
+          if ($request->password != null && !\Hash::check($request->password, $user->password)) {
+              return back()->withInput()->withErrors(['password' => 'كلمه المرور  غير صحيحه']);
+          }
+          $device=AccountingDevice::find($inputs['device_id']);
+          $device->update([
+              'available'=>'0'
+          ]);
 
-        if ($request->password != null && !\Hash::check($request->password, $user->password)) {
-            return back()->withInput()->withErrors(['password' => 'كلمه المرور  غير صحيحه']);
-        }
-        alert()->success('تم فتح الجلسة بنجاح !')->autoclose(5000);
-        return \Redirect::route('accounting.sells_points.sells_point',['id' => $session->id])->with('session');
+          alert()->success('تم فتح الجلسة بنجاح !')->autoclose(5000);
+
+          $session_id= $session->id;
+          Cookie::queue('session',$session->id);
+          return \Redirect::route('accounting.sells_points.sells_point',['id' => $session->id])->with('session');
+
+
+      }else{
+          alert()->error('بيانات تسجيل دخول نقطه البيع خاطئة !')->autoclose(5000);
+             return back();
+      }
+
+
 
     }
 
@@ -114,6 +143,16 @@ private $viewable = 'AccountingSystem.sessions.';
     public function update(Request $request, $id)
     {
 
+
+    }
+
+
+    public function destroy($id)
+    {
+        $ssession = AccountingSession::findOrFail($id);
+        $ssession->delete();
+        alert()->success('تم حذف  الجلسة بنجاح !')->autoclose(5000);
+        return back();
     }
 
 
@@ -122,4 +161,47 @@ private $viewable = 'AccountingSystem.sessions.';
 
 
     }
+
+    public function sessions_close(){
+
+        $sessions=AccountingSession::where('status','closed')->get();
+
+        return view("AccountingSystem.sessions.index_closed_session",compact('sessions'));
+
+    }
+
+    public function confirm(Request $request){
+
+       $session=AccountingSession::find($request['session_id']);
+       $session->update([
+           'status'=>'confirmed',
+           'custody'=>$request['custody']
+       ]);
+        $safe=AccountingSafe::find($request['safe_id']);
+        $safe->update([
+            'amount'=>$safe->amount+$request['custody']
+        ]);
+        alert()->success('تم تاكيداغلاق الجلسه  من  قبل  المحاسب بنجاح !')->autoclose(5000);
+
+    }
+
+    public function close($id){
+
+        $session=AccountingSession::find($id);
+        $session->update([
+            'status'=>'closed',
+        ]);
+
+        Cookie::queue(Cookie::forget('session'));
+           $device=AccountingDevice::find($session->device_id);
+           $device->update([
+               'available'=>'1'
+           ]);
+
+        alert()->success('تم اغلاق الجلسه  من  قبل  الكاشير بنجاح !')->autoclose(5000);
+        return back();
+    }
+
+
+
 }

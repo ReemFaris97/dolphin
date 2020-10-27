@@ -33,7 +33,7 @@
             @endif
 
             <div class="form-group col-md-4 pull-left">
-                <label>اختر المخزن منه </label>
+                <label>اختر المخزن المحول منه </label>
                 {!! Form::select("form_store_id",allstores(),null,['class'=>'form-control js-example-basic-single form_store_id','id'=>'form_store_id','placeholder'=>' اختر  المخزن'])!!}
             </div>
             <div class="form-group col-md-4 pull-left">
@@ -42,7 +42,7 @@
             </div>
 
             <div class="form-group col-md-6 pull-left">
-                <label>اختر المخزن الية </label>
+                <label>اختر المخزن  المحول اليه </label>
                 {!! Form::select("to_store_id",stores_to(),null,['class'=>'form-control js-example-basic-single to_store_id ','id'=>'to_store_id','placeholder'=>'  اختر  المخزن'])!!}
             </div>
 
@@ -55,7 +55,6 @@
             </div>
 
             <div class="cost">
-
             </div>
             <div class="price">
 
@@ -109,10 +108,10 @@
             var purchasing_price = $(".purchasing_price").val();
           var cost=quantity*selling_price;
           var  price=quantity*purchasing_price;
-            $(".cost").empty()
+            $(".cost").empty();
 
             $(".cost").append('<div class="form-group col-md-4 pull-left"> <label> التكلفة</lable> <input type="text" name="cost" value="' + cost + '"  class="form-control" readonly> </div>');
-            $(".price").empty()
+            $(".price").empty();
             $(".price").append('<div class="form-group col-md-4 pull-left"> <label> القيمة</lable> <input type="text" name="price" value="' + price + '"  class="form-control" readonly> </div>');
 
         });

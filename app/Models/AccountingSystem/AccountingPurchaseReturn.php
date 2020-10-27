@@ -5,12 +5,15 @@ namespace App\Models\AccountingSystem;
 use App\Traits\HashPassword;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\User;
 
 class AccountingPurchaseReturn extends Model
 {
 
 
-    protected $fillable = ['product_id','quantity','purchase_id'];
+    protected $fillable = ['total','purchase_id','amount','discount','supplier_id','store_id',
+    'payment','payed','totalTaxs','bill_num','discount_type','bill_date','branch_id','safe_id','user_id'];
+
     protected $table='accounting_purchases_returns';
 
 
@@ -19,19 +22,19 @@ class AccountingPurchaseReturn extends Model
         return $this->belongsTo(AccountingSupplier::class,'supplier_id');
     }
 
-    public function session()
+    public function user()
     {
-        return $this->belongsTo(AccountingSession::class,'session_id');
+        return $this->belongsTo(User::class,'user_id');
     }
 
-    public function safe()
+
+    public function purchase()
     {
-        return $this->belongsTo(AccountingSafe::class,'safe_id');
+        return $this->belongsTo(AccountingPurchase::class,'purchase_id');
     }
 
-    public function company()
+    public function items()
     {
-        return $this->belongsTo(AccountingCompany::class,'company_id');
+        return $this->hasMany(AccountingPurchaseReturnItem::class, 'purchase_return_id');
     }
-  
 }

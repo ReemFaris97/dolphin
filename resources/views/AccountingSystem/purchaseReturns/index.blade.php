@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض  الشرائح')
-@section('parent_title','إدارة  الضرائب ')
+@section('title','عرض  فواتير  مرتجعات المشتريات')
+@section('parent_title','إدارة  المشتريات ')
 @section('action', URL::route('accounting.products.index'))
 
 @section('styles')
@@ -10,7 +10,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">عرض كل الشرائح</h5>
+            <h5 class="panel-title">عرض فواتير مرتجعات المشتريات</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -25,34 +25,42 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th> اسم الشريحة </th>
-                    <th> النسبة </th>
+                    <th> تاريخ الفاتورة </th>
+                    <th>    رقم الفاتورة  الاساسيى</th>
+                    <th>اسم المورد</th>
+                    <th>  الإجمالي </th>
+
+
+
 
                     <th class="text-center">العمليات</th>
                 </tr>
                 </thead>
                 <tbody>
 
-                @foreach($taxs as $row)
+                @foreach($puchaseReturns as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
-                        <td>{!! $row->name!!}</td>
-                        <td>{!! $row->percent!!}</td>
 
+                        <td>{!! $row->bill_date!!}</td>
+                        <td>{!! $row->bill_num!!}</td>
+                        <td>{!! optional($row->supplier)->name!!}</td>
 
+                        <td>{!! $row->total !!}</td>
 
                         <td class="text-center">
-                            <a href="{{route('accounting.taxs.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.puchaseReturns.show',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
+
+                            {{-- <a href="{{route('accounting.puchaseReturns.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a> --}}
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
 
-                            {!!Form::open( ['route' => ['accounting.taxs.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
+                            {!!Form::open( ['route' => ['accounting.puchaseReturns.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
                             {!!Form::close() !!}
 
                         </td>
                     </tr>
 
                 @endforeach
-
 
 
                 </tbody>
@@ -72,7 +80,7 @@
             console.log(item_id);
             swal({
                 title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذة  الضريبة ؟",
+                text: "هل تريد حذف هذة  الفاتورة ؟",
                 icon: "warning",
                 buttons: ["الغاء", "موافق"],
                 dangerMode: true,
@@ -82,7 +90,7 @@
                     document.getElementById('delete-form'+item_id).submit();
                 }
                 else{
-                    swal("تم االإلفاء", "حذف  الضريبة  تم الغاؤه",'info',{buttons:'موافق'});
+                    swal("تم االإلفاء", "حذف  الفاتورة  تم الغاؤه",'info',{buttons:'موافق'});
                 }
             });
         }

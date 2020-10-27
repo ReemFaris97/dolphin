@@ -37,10 +37,10 @@ class BenodController extends Controller
      */
     public function create()
     {
-        $clauses=AccountingMoneyClause::pluck('ar_name','id')->toArray();
+        // $clauses=AccountingMoneyClause::pluck('ar_name','id')->toArray();
 
 
-        return $this->toCreate(compact('clauses'));
+        return $this->toCreate();
     }
 
     /**
@@ -52,13 +52,12 @@ class BenodController extends Controller
     public function store(Request $request)
     {
         $rules = [
-
-
+            'ar_name'=>'required|string',
             'desc'=>'nullable|string',
             'image'=>'nullable|sometimes|image',
-
-
-
+        ];
+        $message=[
+            'ar_name.required'=>'اسم البند مطلوب'
         ];
         $this->validate($request,$rules);
         $requests = $request->except('image');
@@ -92,10 +91,9 @@ class BenodController extends Controller
     {
 
         $benod=AccountingBenod::find($id);
-        $clauses=AccountingMoneyClause::all();
 
 
-        return $this->toEdit(compact('benod','clauses'));
+        return $this->toEdit(compact('benod'));
     }
 
     /**

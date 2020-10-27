@@ -9,3 +9,187 @@
     max-width: 100%;
 
 }
+/*************** 6/2/2020 ***********/
+div.metro-big > a img, div.metro-small > a img {
+    width: 42px;
+}
+div.metro-huge > a img {
+    width: 52px;
+}
+.metro-small.termssm span.label.bottom, .metro-small span.label.bottom, .metro-big span.label.bottom, .metro-huge span.label.bottom {
+    font-size: 15px;
+    overflow-wrap: break-word;
+    white-space: pre-line;
+}
+.panel-flat > .panel-heading > .panel-title {
+    font-size: 21px;
+}
+.single-shortcut a img {
+    max-width: 80px;
+}
+.single-shortcut a span {
+    font-size: 16px;
+}
+.custom-tabs .text-center.col-md-12.m--margin-bottom-5 {
+    margin: 30px auto 0 auto;
+}
+.r-group .radio-inline{
+    width: auto !important;
+}
+.sm-span{
+    position: absolute;
+    left: 12px;
+}
+tbody a {
+    color: #fff;
+}
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    padding: 9px 20px;
+}
+.panel-body h4.header-title.m-t-0.m-b-30 {
+    font-size: 16px;
+    margin-bottom: 16px;
+}
+.panel-flat > .panel-heading {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.table{
+    width: 100% !important;
+}
+.dataTable tr td.child > ul > li {
+    display: block;
+}
+
+table.finalTb.mabi3at-bill.bill-table tfoot th, table.finalTb.mabi3at-bill.bill-table tfoot td {
+    border-top: 0;
+}
+form#sllForm {
+    max-width: 100%;
+    overflow-x: scroll;
+}
+
+/**** parsley js ****/
+
+/* Parsley CSS */
+
+.parsley-success {
+  color: #468847;
+  background-color: #DFF0D8;
+  border: 1px solid #D6E9C6;
+}
+
+
+.parsley-error {
+  color: #B94A48;
+  background-color: #F2DEDE;
+  border: 1px solid #EED3D7;
+}
+
+.parsley-errors-list {
+  margin: 2px 0 3px;
+  padding: 0;
+  list-style-type: none;
+  font-size: 0.9em;
+  line-height: 0.9em;
+  opacity: 0;
+
+  transition: all .3s ease-in;
+  -o-transition: all .3s ease-in;
+  -moz-transition: all .3s ease-in;
+  -webkit-transition: all .3s ease-in;
+}
+
+.parsley-errors-list.filled {
+  opacity: 1;
+}
+.adding-new-comp {
+    position: absolute;
+    left: 45px;
+    z-index: 9;
+}
+.beside-btn-title{
+	margin-right: 20px
+}
+.link{
+    color: #333333;
+    opacity: 1;
+}
+
+/*wa2fa*/
+.awesome-card-design {
+    width: 50%;
+    min-width: 280px;
+    text-align: center;
+    margin: auto;
+    padding: 20px;
+    box-shadow: 0px 5px 15px rgba(40,40,40,0.2);
+    border-radius: 5px;
+}
+
+.awesome-card-design img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+.awesome-card-design h3 {
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+.awesome-card-design .card-design-contact a:hover {
+	color: #2ECC71;
+}
+.card-design-contact a i {
+    color: #2ECC71;
+    font-size: 18px;
+    margin-left: 5px;
+}
+.awesome-card-design .card-design-contact a {
+    color: #333;
+    font-size: 16px;
+}
+.card-design-contact {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.card-design-info {
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+.card-design-info label{
+    color: #2ECC71;
+}
+.datatable-button-init-basic.dataTable tbody a {
+    color: #333;
+}
+.datatable-button-init-basic.dataTable tbody a:hover {
+    color: #2ECC71;
+}
+
+.easy-tree ul {
+list-style-type: none;
+}
+
+.easy-tree ul .glyphicon {
+    color: #2ECC71;
+    margin-left: 5px;
+}
+.easy-tree ul li {
+    margin-bottom: 5px;
+}
+.easy-tree ul span a {
+    color: #333;
+}
+
+
+
+
+
+
+/*wa2fa*/

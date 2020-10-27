@@ -2,30 +2,46 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
+use App\Models\AccountingSystem\AccountingAccount;
 use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingBranchShift;
+use App\Models\AccountingSystem\AccountingClient;
 use App\Models\AccountingSystem\AccountingCompany;
 
+use App\Models\AccountingSystem\AccountingEntry;
+use App\Models\AccountingSystem\AccountingEntryAccount;
 use App\Models\AccountingSystem\AccountingOffer;
 use App\Models\AccountingSystem\AccountingPackage;
 use App\Models\AccountingSystem\AccountingProduct;
+use App\Models\AccountingSystem\AccountingProductCategory;
+use App\Models\AccountingSystem\AccountingProductSubUnit;
+use App\Models\AccountingSystem\AccountingPurchaseReturn;
+use App\Models\AccountingSystem\AccountingReturnSaleItem;
+use App\Models\AccountingSystem\AccountingSafe;
 use App\Models\AccountingSystem\AccountingSale;
 use App\Models\AccountingSystem\AccountingSaleItem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingDevice;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingReturn;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Models\AccountingSystem\AccountingStore;
+use App\Traits\SaleOperation;
 use App\Traits\Viewable;
 use App\User;
 use Auth;
 use Carbon\Carbon;
+use Cookie;
+use Hash;
+use phpDocumentor\Reflection\Types\Null_;
 use Request as GlobalRequest;
+use Session;
 
 class SaleController extends Controller
 {
     use Viewable;
+    use SaleOperation;
     private $viewable = 'AccountingSystem.sales.';
     /**
      * Display a listing of the resource.
@@ -46,8 +62,12 @@ class SaleController extends Controller
     public function create()
     {
 
+        $clients=AccountingClient::pluck('name','id')->toArray();
+        $store_product=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->pluck('product_id','id')->toArray();
+        $products=AccountingProduct::whereIn('id',$store_product)->get();
 
-        return $this->toCreate(compact('branches'));
+
+        return $this->toCreate(compact('clients','products'));
     }
 
     /**
@@ -59,80 +79,302 @@ class SaleController extends Controller
     public function store(Request $request)
     {
         $requests = $request->all();
-    // dd($requests);
+        if(!$request->client_id){
+            $requests['client_id']=5;
+        }
 
-        $rules = [
+        $user=User::find($requests['user_id']);
+            if (isset($user->store->model_type)){
+        $requests['branch_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:Null;
+            }
+        if (getsetting('automatic_sales')==1){
+            $requests['account_id']=getsetting('accounting_id_sales');
+        }
 
-            'client_id'=>'required|numeric|exists:accounting_clients,id',
+            $requests['payment']='cash';
 
-        ];
-        $this->validate($request,$rules);
+        if ($requests['total']==Null){
+            $requests['total']= $requests['amount'];
+        }
+        $requests['store_id']=$user->accounting_store_id;
+
 
         $sale=AccountingSale::create($requests);
-    //    dd($sale);
+
         $sale->update([
             'bill_num'=>$sale->id."-".$sale->created_at,
             'user_id'=>$requests['user_id'] ,
+            'date'=>$requests['bill_date'] ,
+            'store_id'=>$user->accounting_store_id,
+            'debts'=>$requests['reminder'] ,
+//            'payment'=>'agel',
+            'total'=>$requests['total'],
+            'branch_id'=>($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:Null,
         ]);
+        if($requests['discount_byPercentage']!=0&&$requests['discount_byAmount']==0){
+            $sale->update([
+                'discount_type'=>'percentage',
+                'discount'=>$requests['discount_byPercentage'],
+
+            ]);
+
+        }elseif($requests['discount_byAmount']!=0&&$requests['discount_byPercentage']==0){
+
+            $sale->update([
+                'discount_type'=>'amount',
+                'discount'=>$requests['discount_byAmount'],
+            ]);
+        }
+
         $products=$requests['product_id'];
         $quantities=$requests['quantity'];
         $products = collect($requests['product_id']);
         $qtys = collect($requests['quantity']);
-
-        $merges = $products->zip($qtys);
+        $unit_id = collect($requests['unit_id']);
+        $merges = $products->zip($qtys,$unit_id);
 
         foreach ($merges as $merge)
         {
             $product=AccountingProduct::find($merge['0']);
+            if($merge['2']!='main-'.$product->id){
+                $unit=AccountingProductSubUnit::where('product_id',$merge['0'])->where('id',$merge['2'])->first();
+                if($unit){
+                    $unit->update([
+                        'quantity'=>$unit->quantity - $merge['1'],
+                    ]);
 
-            if($product->quantity>0){
+                }
+            }
+                $item= AccountingSaleItem::create([
+                    'product_id'=>$merge['0'],
+                    'quantity'=> $merge['1'],
+                    'price'=>$product->selling_price,
+                    'sale_id'=>$sale->id
+                ]);
+                ///if-main-unit
 
-            $item= AccountingSaleItem::create([
-                'product_id'=>$merge['0'],
-                'quantity'=> $merge['1'],
-                'price'=>$product->selling_price,
-                'sale_id'=>$sale->id
+                if($merge['2']!='main-'.$product->id){
+
+                    $unit=AccountingProductSubUnit::where('product_id',$merge['0'])->where('id',$merge['2'])->first();
+                    if($unit){
+                        $unit->update([
+                            'quantity'=>$unit->quantity - $merge['1'],
+                        ]);
+
+                    }
+                    $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',$merge['2'])->first();
+                   if ($productstore) {
+                       if ($productstore->quantity >= 0) {
+                           $productstore->update([
+                               'quantity' => $productstore->quantity - $merge['1'],
+                           ]);
+                       }
+                   }
+                }else{
+                    $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',Null)->first();
+                    if ($productstore) {
+                        if($productstore->quantity >= 0) {
+                            if ($productstore) {
+                                $productstore->update([
+                                    'quantity' => $productstore->quantity - $merge['1'],
+                                ]);
+                            }
+                        }
+                    }
+
+                    $product=AccountingProduct::findOrFail($merge['0']);
+                    if ($product) {
+                        if($product->quantity >= 0) {
+                            if ($product) {
+                                $product->update([
+                                    'quantity' => $product->quantity - $merge['1'],
+                                ]);
+                            }
+                        }
+                    }
+                }
+
+    }
+
+        if($sale->payment=='cash'){
+
+            $store_id=auth()->user()->accounting_store_id;
+            $store=AccountingStore::find($store_id);
+        //     $safe=AccountingSafe::where('device_id', $sale->session->device_id)->first();
+        //    if ($safe) {
+        //        $safe->update([
+        //            'amount' => $safe->amount - $sale->total
+        //        ]);
+        //    }
+        }elseif ($sale->payment=='agel'){
+
+            $client=AccountingClient::find( $sale-> client_id);
+            $client->update([
+                'amount'=>$client->amount +$sale->total
             ]);
-            //update_product_quantity
-            $product->update([
-                'quantity'=>$product->quantity- $merge['1'],
-            ]);
-             //update_product_quantity_store
-            $productstore=AccountingProductStore::where('store_id',$requests['store_id'])->where('product_id',$merge['0'])->first();
-            $productstore->update([
-                'quantity'=>$productstore->quantity - $merge['1'],
-            ]);
+
         }
-    }
+        /////////////////////////////////////////Accounts//////////////////////
 
+        $entry=AccountingEntry::create([
+            'date'=>$sale->created_at,
+            'source'=>'مبيعات',
+            'type'=>'automatic',
+            'details'=>'فاتوره مبيعات'.$sale->bill_num,
+            'status'=>'new'
+        ]);
+
+        if ($sale->payment=='cash'){
+            $saleAccount=AccountingAccount::find(getsetting('accounting_id_sales'));
+            if (isset($saleAccount)) {
+
+                //حساب  المبيعات والنقدية
+                AccountingEntryAccount::create([
+                    'entry_id' => $entry->id,
+                    'from_account_id' => getsetting('accounting_id_clients'),
+                    'to_account_id' => getsetting('accounting_id_sales'),
+                    'amount' => $sale->total,
+                ]);
+//                dd($sale->getItemCostAttribute());
+                //حساب  المبيعات والمخزون
+                $storeAccount = AccountingAccount::where('store_id', $sale->store_id)->first();
+                AccountingEntryAccount::create([
+                    'entry_id' => $entry->id,
+                    'from_account_id' =>getsetting('accounting_sales_cost_id'),
+                    'to_account_id' => $storeAccount->id,
+                    'amount' => $sale->getItemCostAttribute(),
+                ]);
+            }
+        }
+
+
+//        dd($sale);
         alert()->success('تمت عملية البيع بنجاح !')->autoclose(5000);
-        return back();
+        return back()->with('sale_id',$sale->id);
+
     }
 
+    public function index_returns()
+    {
+        $sales_returns =AccountingReturn::all()->reverse();
+        $store_product=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->pluck('product_id','id')->toArray();
+        $products=AccountingProduct::whereIn('id',$store_product)->get();
+
+        return view('AccountingSystem.sales.index_returns',compact('sales_returns','products'));
+    }
 
     public function store_returns(Request $request){
 
+        $requests = $request->all();
 
-       $requests=$request->all();
+        if(!$request->client_id){
 
-    //    dd($requests);
-       $items=collect($requests['item_id']);
-       $quantities=collect($requests['quantity']);
-       $merges=$items->zip($quantities);
+            $requests['client_id']=5;
+        }
+
+        $user=User::find($requests['user_id']);
+        $requests['branch_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:Null;
 
 
-       foreach($merges as $merge){
-        AccountingReturn::create([
-        'sale_id'=>$requests['sale_id'],
-        'session_id'=>$requests['session_id'],
-        'user_id'=>$requests['user_id'],
-        'item_id'=>$merge[0],
-        'quantity'=>$merge[1],
-      ]);
-      }
+        $returnSale=AccountingReturn::create($requests);
 
-      //update_sale_item
-      dd($merges);
+        if ($requests['total']==Null){
+            $requests['total']=$returnSale->amount;
+        }
+
+        $returnSale->update([
+            'bill_num'=>$returnSale->id."-".$returnSale->created_at,
+            'user_id'=>$requests['user_id'] ,
+            'store_id'=>$user->accounting_store_id,
+            'debts'=>$requests['reminder'] ,
+            'payment'=>'agel',
+            'total'=>$requests['total'],
+            'branch_id'=>($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:Null,
+        ]);
+        if($requests['discount_byPercentage']!=0&&$requests['discount_byAmount']==0){
+            $returnSale->update([
+                'discount_type'=>'percentage',
+                'discount'=>$requests['discount_byPercentage'],
+
+            ]);
+
+        }elseif($requests['discount_byAmount']!=0&&$requests['discount_byPercentage']==0){
+
+            $returnSale->update([
+                'discount_type'=>'amount',
+                'discount'=>$requests['discount_byAmount'],
+            ]);
+        }
+        if($requests['reminder']==0){
+            $returnSale->update([
+                'payment'=>'cash'
+            ]);
+        }
+        $products=$requests['product_id'];
+        $quantities=$requests['quantity'];
+        $products = collect($requests['product_id']);
+        $qtys = collect($requests['quantity']);
+        $unit_id = collect($requests['unit_id']);
+        $merges = $products->zip($qtys,$unit_id);
+
+        foreach ($merges as $merge)
+        {
+            $product=AccountingProduct::find($merge['0']);
+            if($merge['2']!='main-'.$product->id){
+                $unit=AccountingProductSubUnit::where('product_id',$merge['0'])->where('id',$merge['2'])->first();
+                if($unit){
+                    $unit->update([
+                        'quantity'=>$unit->quantity + $merge['1'],
+                    ]);
+
+                }
+            }
+            $item= AccountingReturnSaleItem::create([
+                'product_id'=>$merge['0'],
+                'quantity'=> $merge['1'],
+                'price'=>$product->selling_price,
+                'sale_return_id'=>$returnSale->id
+            ]);
+            ///if-main-unit
+
+            if($merge['2']!='main-'.$product->id){
+
+                $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',$merge['2'])->first();
+                if ($productstore) {
+
+                        $productstore->update([
+                            'quantity' => $productstore->quantity + $merge['1'],
+                        ]);
+                    }
+
+            }else{
+                $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',Null)->first();
+                if ($productstore) {
+
+                        if ($productstore) {
+                            $productstore->update([
+                                'quantity' => $productstore->quantity + $merge['1'],
+                            ]);
+                        }
+
+                }
+            }
+
+        }
+
+        if($returnSale->payment=='cash'){
+
+            $store_id=auth()->user()->accounting_store_id;
+            $store=AccountingStore::find($store_id);
+
+        }elseif ($returnSale->payment=='agel'){
+
+            $client=AccountingClient::find( $returnSale-> client_id);
+            $client->update([
+                'amount'=>$client->amount -$returnSale->total
+            ]);
+
+        }
 
 
       alert()->success('تم اضافة  فاتورة  الاسترجاع  بنجاح !')->autoclose(5000);
@@ -158,18 +400,53 @@ class SaleController extends Controller
     public function sale_end(Request $request,$id)
     {
 
-        // dd($request->all());
+
+           $user=User::findOrFail($id);
+           $session=AccountingSession::findOrFail($request['session_id']);
+           $sales_payed_cash=AccountingSale::where('session_id',$request['session_id'])->sum('cash');
+           $sales_payed_network=AccountingSale::where('session_id',$request['session_id'])->sum('network');
+           $sales_payed=AccountingSale::where('session_id',$request['session_id'])->sum('payed');
+           $returns_total=AccountingReturn::where('session_id',$request['session_id'])->sum('total');
+
+
+
+           $session->update([
+            'end_session'=>Carbon::now(),
+           ]);
+
+        //    dd($session);
+           if(!Hash::check($request['password'],$user->password)){
+               alert()->error('الرقم السرى  خاطئ ,حاول مرة اخرى !')->autoclose(5000);
+                    return back();
+//            return response('false', 200);
+        }else{
+            // dd('Write here your update password code');
+            return view('AccountingSystem.sell_points.session_summary',compact('session','sales_payed_cash','sales_payed_network','sales_payed','returns_total'));
+        }
+
+
+    }
+
+    public function end_session($id){
         $session=AccountingSession::findOrFail($id);
-        $session->update([
-         'end_session'=>Carbon::now(),
-         'custody'=>$request['custody'],
-        ]);
-
-
         $users=User::where('is_saler',1)->pluck('name','id')->toArray();
-        alert()->success(' تم اغلاق  الجلسة بنجاح!')->autoclose(5000);
 
-        return view('AccountingSystem.sell_points.login',compact('users'));
+           $session->update([
+            'status'=>'closed',
+
+           ]);
+
+
+        //    Session::forget('session_id');
+
+           Cookie::queue(Cookie::forget('session'));
+           $device=AccountingDevice::find($session->device_id);
+           $device->update([
+               'available'=>'1'
+           ]);
+        $devices=AccountingDevice::where('available',1)->pluck('name','id')->toArray();
+
+           return view('AccountingSystem.sell_points.login',compact('users','devices'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -179,10 +456,16 @@ class SaleController extends Controller
      */
     public function edit($id)
     {
-        $shift =AccountingBranchShift::findOrFail($id);
-        $branches=AccountingBranch::pluck('name','id')->toArray();
+        $sale =AccountingSale::findOrFail($id);
+        $clients=AccountingClient::pluck('name','id')->toArray();
+        $store_product=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->pluck('product_id','id')->toArray();
+        $products=AccountingProduct::whereIn('id',$store_product)->get();
+        $product_items=AccountingSaleItem::where('sale_id',$id)->get();
+        $session=AccountingSession::findOrFail($sale->session_id);
 
-        return $this->toEdit(compact('shift','branches'));
+
+
+        return view('AccountingSystem.sales.edit',compact('sale','clients','products','product_items','session'));
     }
 
     /**
@@ -194,23 +477,28 @@ class SaleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $shift =AccountingBranchShift::findOrFail($id);
+        $requests=$request->all();
 
-        $rules = [
-            'name'=>'required|string|max:191',
-            'from'=>'required|string',
-            'to'=>'required|string',
-            'branch_id'=>'required|numeric|exists:accounting_branches,id',
-        ];
-        $this->validate($request,$rules);
-        $requests = $request->all();
-        $shift->update($requests);
-        alert()->success('تم تعديل  الوردية بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.shifts.index');
+        $sale =AccountingSale::findOrFail($id);
+        $sale -> update([
+            'bill_num'=>$sale->id."-".$sale->created_at,
+            'user_id'=>$requests['user_id'] ,
+            'date'=>$requests['bill_date'] ,
+            'debts'=>$requests['reminder'] ,
+            "totalTaxs" => $requests['totalTaxs'],
+            "amount" => $requests['amount'],
+            "total" => $requests['total'],
+            "cash" => $requests['cash'],
+            "network" =>$requests['network'],
+            "payed" => $requests['payed'],
+        ]);
 
 
+        $this->createItem($request,$sale);
+        $this->editItem($request,$sale);
 
-
+        alert()->success('تمت تعديل  الفاتوره بنجاح !')->autoclose(5000);
+        return back()->with('sale_id',$sale->id);
     }
 
     /**
@@ -261,25 +549,31 @@ class SaleController extends Controller
 
     public function returns($id){
 
-        $sales=AccountingSale::pluck('id','id')->toArray();
+        $sales=AccountingSale::whereDate('created_at','>=',Carbon::now()->subDays(getsetting('return_period')))
+       ->pluck('id','id')->toArray();
         $session=AccountingSession::findOrFail($id);
+//        $session=AccountingSession::find(Cookie::get('session'));
+        $clients=AccountingClient::pluck('name','id')->toArray();
+        $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
+        $sales_items=AccountingSaleItem::where('sale_id',$id)->pluck('product_id','id')->toArray();
+        $store_product=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->pluck('product_id','id')->toArray();
+        $products=AccountingProduct::whereIn('id',$store_product)->get();
 
 
-    return view('AccountingSystem.sales.returns',compact('sales','session'));
+    return view('AccountingSystem.sales.returns',compact('sales','session','clients','categories','products'));
     }
     public function returns_Sale($id){
 
         $sale=AccountingSale::find($id);
-        // $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
+        $sales_items=AccountingSaleItem::where('sale_id',$id)->pluck('product_id','id')->toArray();
+        $products=AccountingProduct::whereIn('id',$sales_items)->get();
 
         return response()->json([
             'status'=>true,
-            'data'=>view('AccountingSystem.sales.sale')->with('sale',$sale)->render()
+            'data'=>view('AccountingSystem.sales.sale')->with('products',$products)->render()
         ]);
     }
-
     public function sale_details($id){
-
         $items=AccountingSaleItem::where('sale_id',$id)->get();
         // $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
         return response()->json([
@@ -288,12 +582,53 @@ class SaleController extends Controller
         ]);
     }
 
-
     public function remove_Sale($id){
 
         $item=AccountingSaleItem::find($id);
 
         $item->delete();
+
+
+    }
+
+    public  function confirm_user(Request $request)
+    {
+
+
+        $saler = User::where('email', $request['email'])->where('delete_product',1)->first();
+        if ($saler) {
+            if ($saler->is_saler == 1) {
+                if (Hash::check($request['password'], $saler->password)) {
+                    return response()->json([
+                        'status' => true,
+                        'data' => ('success')
+                    ]);
+                }
+            }
+
+        }
+        return response()->json([
+            'status' => true,
+            'data' => ('failed')
+        ]);
+
+
+    }
+    public function show_return($id)
+    {
+
+        $sale_return =AccountingReturn::findOrFail($id);
+        $product_items=AccountingReturnSaleItem::where('sale_return_id',$id)->get();
+        return view('AccountingSystem.sales.show_return',compact('sale_return','product_items'));
+    }
+
+    public function destroy_return($id)
+    {
+        $returns =AccountingReturn::findOrFail($id);
+        $returns->delete();
+        alert()->success('تم حذف  الفاتوره بنجاح !')->autoclose(5000);
+        return back();
+
 
 
     }
