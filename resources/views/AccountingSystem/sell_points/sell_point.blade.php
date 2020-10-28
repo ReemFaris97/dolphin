@@ -714,7 +714,7 @@
             var productId = $('option.ssID').val();
             var productName = selectedProduct.text();
             var productBarCode = selectedProduct.data('bar-code');
-            var productPrice = selectedProduct.data('price');
+            var productPrice = Number(selectedProduct.data('price'));
             var priceHasTax = selectedProduct.data('price-has-tax');
             var totalTaxes = selectedProduct.data('total-taxes');
             var mainUnit = selectedProduct.data('main-unit');
