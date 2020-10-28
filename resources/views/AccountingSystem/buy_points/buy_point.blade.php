@@ -500,7 +500,8 @@ function calculateBill(ProductId, productName, productLink, lastPrice, avgPrice,
                             }
                         })
                     });
-						$('.special-discount-modal').trigger('hidden.bs.modal');
+						
+					$('.special-discount-modal').trigger('hidden.bs.modal');
                     var wholePriceBefore, wholePriceAfter = 0;
                     //**************    Calc while changing unit input ***********************
                     $(".product-unit select").change(function () {
@@ -719,8 +720,6 @@ function calculateBill(ProductId, productName, productLink, lastPrice, avgPrice,
                     });
 }
 
-
-
 	$('#selectID').selectpicker();
     $("#store_id").on('change', function() {
         var store_id = $(this).val();
@@ -748,8 +747,8 @@ function calculateBill(ProductId, productName, productLink, lastPrice, avgPrice,
                     var ProductId = $('#selectID').val();
                     var productName = selectedProduct.data('name');
                     var productLink = selectedProduct.data('link');
-                    var lastPrice = selectedProduct.data('last-price');
-                    var avgPrice = selectedProduct.data('average');
+                    var lastPrice = Number(selectedProduct.data('last-price')).toFixed(rondingNumber);
+                    var avgPrice = Number(selectedProduct.data('average')).toFixed(rondingNumber);
                     var barCode = selectedProduct.data('bar-code');
                     var productPrice = selectedProduct.data('price');
                     var priceHasTax = selectedProduct.data('price-has-tax');
@@ -841,8 +840,8 @@ $("#barcode_search").scannerDetection({
 					var ProductId = $('#selectID2').val();
 					var productName = selectedProduct.data('name');
 					var productLink = selectedProduct.data('link');
-					var lastPrice = selectedProduct.data('last-price');
-					var avgPrice = selectedProduct.data('average');
+					var lastPrice = Number(selectedProduct.data('last-price')).toFixed(rondingNumber);
+					var avgPrice = Number(selectedProduct.data('average')).toFixed(rondingNumber);
 					var barCode = selectedProduct.data('bar-code');
 					var productPrice = selectedProduct.data('price');
 					var priceHasTax = selectedProduct.data('price-has-tax');
