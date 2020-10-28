@@ -644,7 +644,9 @@
                     $.ajax({
                         url: "/accounting/barcode_search_sale/" + barcode,
                         type: "GET",
-
+                        data: {
+                            store_id: store_id,
+                        },
                         success: function (data) {
                             if (data.data.length !== 0) {
                                 $('#barcode_search').val('');
