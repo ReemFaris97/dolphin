@@ -512,7 +512,7 @@
                     $(".unit-total-tax input").each(function(){
                         $(this).val(Number($(this).attr('data-original-tax')));
                         $(this).trigger('change');
-                        $(this).attr('readonly' , false)
+						$(this).attr('readonly' , false)
                     })
                 }
             })
