@@ -84,10 +84,6 @@
                                 <label for="bill_date"> تاريخ الفاتورة </label>
                                 {!! Form::text("__bill_date",null,['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' تاريخ الفاتورة',"id"=>'bill_date'])!!}
                             </div>
-                            <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
-                                <label>بحث بالباركود </label>
-                                <input class="form-control" type="text" id="barcode_search">
-                            </div>
                             <input type="hidden" value="{{getsetting('rounding_number')}}" id="ronding-number">
                             @if (getsetting('automatic_sales')==0)
                                 <div class="form-group col-sm-3">
@@ -118,6 +114,10 @@
                                     </div>
                                 </div>
                                 <div class="tempobar"></div>
+                            </div>
+                            <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
+                                <label>بحث بالباركود </label>
+                                <input class="form-control" type="text" id="barcode_search">
                             </div>
                         </div>
                     </div>
@@ -505,12 +505,14 @@
                 if($(this).is(':checked')){
                     $(".unit-total-tax input").each(function(){
                         $(this).val(0);
-                        $(this).trigger('change')
+                        $(this).trigger('change');
+						$(this).attr('readonly' , 'readonly')
                     })
                 }else{
                     $(".unit-total-tax input").each(function(){
                         $(this).val(Number($(this).attr('data-original-tax')));
-                        $(this).trigger('change')
+                        $(this).trigger('change');
+						$(this).attr('readonly' , false)
                     })
                 }
             })
