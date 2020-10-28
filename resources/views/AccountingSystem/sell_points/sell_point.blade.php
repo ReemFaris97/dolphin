@@ -389,6 +389,8 @@
             for (var i = 0; i < productUnits.length; i++) {
                 optss += '<option data-uni-price="' + Number(unitPrice[i]).toFixed(rondingNumber) + '" value="' + unitId[i] + '"> ' + unitName[i] + '</option> ';
             }
+			
+			
 
             $(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}">
 			<td class="row-num" width="40">${rowNum}</td>
@@ -547,6 +549,8 @@
                         var totalTaxes = selectedProduct.data('total-taxes');
                         var mainUnit = selectedProduct.data('main-unit');
                         var productUnits = selectedProduct.data('subunits');
+						console.log('in select')
+						console.table(productUnits)
                         calcBill(selectedProduct, productId, productName, productBarCode, productPrice, priceHasTax, totalTaxes, mainUnit, productUnits )
                     });
                 },
@@ -715,6 +719,8 @@
             var totalTaxes = selectedProduct.data('total-taxes');
             var mainUnit = selectedProduct.data('main-unit');
             var productUnits = selectedProduct.data('subunits');
+			console.log('in barcode')
+			console.table(productUnits)
             calcBill(selectedProduct, productId, productName, productBarCode, productPrice, priceHasTax, totalTaxes, mainUnit, productUnits )
         }
         $(document).keydown(function(event) {

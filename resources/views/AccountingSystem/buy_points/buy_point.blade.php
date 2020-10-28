@@ -756,11 +756,10 @@ function calculateBill(ProductId, productName, productLink, lastPrice, avgPrice,
                     var productUnits = selectedProduct.data('subunits');
                     var expirationDate = selectedProduct.data('product_expiration');
 					calculateBill(ProductId, productName, productLink, lastPrice, avgPrice, barCode, productPrice, priceHasTax, totalTaxes, productUnits , expirationDate)
-
                 });
             }
         });
-            });
+    });
 
 //	For Ajax Search By Product Bar Code
 $("#barcode_search").scannerDetection({
@@ -901,7 +900,7 @@ $("#barcode_search").scannerDetection({
 	</script>
 <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
 <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
-<!---- new desfign --->
+<!--For Preventing closing screen-->
 <script>
 	//   For Alerting Before closing the window
 	window.onbeforeunload = function(e) {
@@ -923,7 +922,6 @@ $("#barcode_search").scannerDetection({
 </script>
 <!-- For handling Fullscreen -->
 <script type="text/javascript">
-
 	$(document).ready(function(){
 		$("#enlarge-scr").click(function(){
 			$("body").toggleClass("full-scr");
