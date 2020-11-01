@@ -35,7 +35,7 @@
                 <li><a data-toggle="tab" role="tab" aria-controls="menu1" href="#menu1"> شجرة الحسابات</a></li>
                 <li><a data-toggle="tab" role="tab" aria-controls="menu2" href="#menu2">مراكز التكلفه </a></li>
             </ul>
-            <div class="tab-content">
+            <div class="tab-content col-md-4">
                 <div role="tabpanel" id="menu1" class="tab-pane active">
                         <div class="easy-tree">
                             <ul>
@@ -55,7 +55,13 @@
                 </div>
 
             </div>
-
+            
+            
+			<div class="col-md-8 the-orders-iframe">
+		  		<div class="the-new-orders-style embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" name="treeframe" src="https://www.google.com/"></iframe>
+                </div>
+		  	</div>
 
 
 <!--
