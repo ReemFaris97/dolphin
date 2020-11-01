@@ -84,10 +84,6 @@
                                 <label for="bill_date"> تاريخ الفاتورة </label>
                                 {!! Form::text("__bill_date",null,['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' تاريخ الفاتورة',"id"=>'bill_date'])!!}
                             </div>
-                            <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
-                                <label>بحث بالباركود </label>
-                                <input class="form-control" type="text" id="barcode_search">
-                            </div>
                             <input type="hidden" value="{{getsetting('rounding_number')}}" id="ronding-number">
                             @if (getsetting('automatic_sales')==0)
                                 <div class="form-group col-sm-3">
@@ -118,6 +114,10 @@
                                     </div>
                                 </div>
                                 <div class="tempobar"></div>
+                            </div>
+                            <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
+                                <label>بحث بالباركود </label>
+                                <input class="form-control" type="text" id="barcode_search">
                             </div>
                         </div>
                     </div>
@@ -389,6 +389,8 @@
             for (var i = 0; i < productUnits.length; i++) {
                 optss += '<option data-uni-price="' + Number(unitPrice[i]).toFixed(rondingNumber) + '" value="' + unitId[i] + '"> ' + unitName[i] + '</option> ';
             }
+			
+			
 
             $(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}">
 			<td class="row-num" width="40">${rowNum}</td>
@@ -505,12 +507,14 @@
                 if($(this).is(':checked')){
                     $(".unit-total-tax input").each(function(){
                         $(this).val(0);
-                        $(this).trigger('change')
+                        $(this).trigger('change');
+                        $(this).attr('readonly' , 'readonly')
                     })
                 }else{
                     $(".unit-total-tax input").each(function(){
                         $(this).val(Number($(this).attr('data-original-tax')));
-                        $(this).trigger('change')
+                        $(this).trigger('change');
+						$(this).attr('readonly' , false)
                     })
                 }
             })
@@ -545,6 +549,8 @@
                         var totalTaxes = selectedProduct.data('total-taxes');
                         var mainUnit = selectedProduct.data('main-unit');
                         var productUnits = selectedProduct.data('subunits');
+						console.log('in select')
+						console.table(productUnits)
                         calcBill(selectedProduct, productId, productName, productBarCode, productPrice, priceHasTax, totalTaxes, mainUnit, productUnits )
                     });
                 },
@@ -629,68 +635,76 @@
                 }
             })
         });
-
-        //	For Ajax Search By Product Bar Code
-        $("#barcode_search").scannerDetection({
-            timeBeforeScanTest: 200, // wait for the next character for upto 200ms
-            avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms
-            preventDefault: true,
-            endChar: [13],
-            onComplete: function(barcode, qty) {
-                validScan = true;
-                $.ajax({
-                    url: "/accounting/barcode_search_sale/" + barcode,
-                    type: "GET",
-                    success: function(data) {
-                        if (data.data.length !== 0) {
-                            $('#barcode_search').val('');
-                            $(".tempobar").html(data.data);
-                            var selectedID = $(".tempobar").find('option').data('unit-id');
-                            var alreadyChosen = $(".bill-table tbody td select option[value=" + selectedID + "]");
-                            var repeatedInputVal = $(".bill-table tbody td select option[value=" + selectedID + "]:selected").parents('tr').find('.product-quantity').find('input');
-                            if (alreadyChosen.length > 0 && alreadyChosen.is(':selected')) {
-                                repeatedInputVal.val(Number(repeatedInputVal.val()) + 1);
-                                repeatedInputVal.text(repeatedInputVal.val());
-                                $('.product-quantity').find('input').trigger('change');
-                            } else {
+        $("#store_id").on('change', function() {
+            var store_id = $(this).val();
+            //	For Ajax Search By Product Bar Code
+            $("#barcode_search").scannerDetection({
+                timeBeforeScanTest: 200, // wait for the next character for upto 200ms
+                avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms
+                preventDefault: true,
+                endChar: [13],
+                onComplete: function (barcode, qty) {
+                    validScan = true;
+                    $.ajax({
+                        url: "/accounting/barcode_search_sale/" + barcode,
+                        type: "GET",
+                        data: {
+                            store_id: store_id,
+                        },
+                        success: function (data) {
+                            if (data.data.length !== 0) {
                                 $('#barcode_search').val('');
-                                rowNum++;
-                                byBarcode();
-                                $('.product-quantity').find('input').trigger('change');
+                                $(".tempobar").html(data.data);
+                                var selectedID = $(".tempobar").find('option').data('unit-id');
+                                var alreadyChosen = $(".bill-table tbody td select option[value=" + selectedID + "]");
+                                var repeatedInputVal = $(".bill-table tbody td select option[value=" + selectedID + "]:selected").parents('tr').find('.product-quantity').find('input');
+                                if (alreadyChosen.length > 0 && alreadyChosen.is(':selected')) {
+                                    repeatedInputVal.val(Number(repeatedInputVal.val()) + 1);
+                                    repeatedInputVal.text(repeatedInputVal.val());
+                                    $('.product-quantity').find('input').trigger('change');
+                                } else {
+                                    $('#barcode_search').val('');
+                                    rowNum++;
+                                    byBarcode();
+                                    $('.product-quantity').find('input').trigger('change');
+                                }
                             }
                         }
-                    }
-                });
-            },
-            onError: function(string, qty) {
-                $('#barcode_search').val($('#barcode_search').val() + string);
-                var barcode = $('#barcode_search').val();
-                validScan = true;
-                $.ajax({
-                    url: "/accounting/barcode_search_sale/" + barcode,
-                    type: "GET",
-                    success: function(data) {
-                        if (data.data.length !== 0) {
-                            $('#barcode_search').val('');
-                            $(".tempobar").html(data.data);
-                            var selectedID = $(".tempobar").find('option').data('unit-id');
-                            var alreadyChosen = $(".bill-table tbody td select option[value=" + selectedID + "]");
-                            var repeatedInputVal = $(".bill-table tbody td select option[value=" + selectedID + "]:selected").parents('tr').find('.product-quantity').find('input');
-                            if (alreadyChosen.length > 0 && alreadyChosen.is(':selected')) {
-                                repeatedInputVal.val(Number(repeatedInputVal.val()) + 1);
-                                repeatedInputVal.text(repeatedInputVal.val());
-                                $('.product-quantity').find('input').trigger('change');
-                            } else {
+                    });
+                },
+                onError: function (string, qty) {
+                    $('#barcode_search').val($('#barcode_search').val() + string);
+                    var barcode = $('#barcode_search').val();
+                    validScan = true;
+                    $.ajax({
+                        url: "/accounting/barcode_search_sale/" + barcode,
+                        type: "GET",
+                        data: {
+                            store_id: store_id,
+                        },
+                        success: function (data) {
+                            if (data.data.length !== 0) {
                                 $('#barcode_search').val('');
-                                rowNum++;
-                                byBarcode();
-                                $('.product-quantity').find('input').trigger('change');
+                                $(".tempobar").html(data.data);
+                                var selectedID = $(".tempobar").find('option').data('unit-id');
+                                var alreadyChosen = $(".bill-table tbody td select option[value=" + selectedID + "]");
+                                var repeatedInputVal = $(".bill-table tbody td select option[value=" + selectedID + "]:selected").parents('tr').find('.product-quantity').find('input');
+                                if (alreadyChosen.length > 0 && alreadyChosen.is(':selected')) {
+                                    repeatedInputVal.val(Number(repeatedInputVal.val()) + 1);
+                                    repeatedInputVal.text(repeatedInputVal.val());
+                                    $('.product-quantity').find('input').trigger('change');
+                                } else {
+                                    $('#barcode_search').val('');
+                                    rowNum++;
+                                    byBarcode();
+                                    $('.product-quantity').find('input').trigger('change');
+                                }
                             }
                         }
-                    }
-                });
+                    });
 
-            }
+                }
+            });
         });
 
         function byBarcode() {
@@ -700,11 +714,13 @@
             var productId = $('option.ssID').val();
             var productName = selectedProduct.text();
             var productBarCode = selectedProduct.data('bar-code');
-            var productPrice = selectedProduct.data('price');
+            var productPrice = Number(selectedProduct.data('price'));
             var priceHasTax = selectedProduct.data('price-has-tax');
             var totalTaxes = selectedProduct.data('total-taxes');
             var mainUnit = selectedProduct.data('main-unit');
             var productUnits = selectedProduct.data('subunits');
+			console.log('in barcode')
+			console.table(productUnits)
             calcBill(selectedProduct, productId, productName, productBarCode, productPrice, priceHasTax, totalTaxes, mainUnit, productUnits )
         }
         $(document).keydown(function(event) {

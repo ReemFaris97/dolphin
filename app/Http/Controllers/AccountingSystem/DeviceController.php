@@ -56,13 +56,13 @@ class DeviceController extends Controller
             'name'=>'required|string|max:191|device_name:accounting_devices,name,company_id,branch_id,'.$request['name'].','.$request['company_id'].','.$request['branch_id'],
             'code'=>'required|string|max:191|device_code:accounting_devices,code,company_id,branch_id,'.$request['code'].','.$request['company_id'].','.$request['branch_id'],
 
-            // 'column_id'=>'required|numeric|exists:accounting_face_columns,id',
+           'model_id'=>'required|',
 
         ];
         $messsage = [
             'name.device_name'=>"اسم الجهاز موجود بالفعل بالشركة",
             'code.device_code'=>"كود الجهاز موجود بالفعل بالشركة",
-
+            'model_id.required'=>"الجهة التابع  ليها الجهاز",
         ];
         $this->validate($request,$rules,$messsage);
         $requests = $request->all();

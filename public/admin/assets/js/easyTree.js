@@ -48,7 +48,7 @@
                     text = $(this).text();
                    value1=$(this).attr('name');
 
-                    $(this).html('<span><span class="glyphicon"></span><a href="/accounting/ChartsAccounts/ChartsAccounts/'+value1+'"></a> </span>');
+                    $(this).html('<span><span class="glyphicon"></span><a href="/accounting/ChartsAccounts/ChartsAccounts/'+value1+'" target="treeframe"></a> </span>');
                     $(this).find(' > span > span').addClass('glyphicon-folder-open');
                     $(this).find(' > span > a').text(text);
                     $(this).append(children);
@@ -56,7 +56,7 @@
                 else {
                     text = $(this).text();
                     value1=$(this).attr('name');
-                    $(this).html('<span><span class="glyphicon"></span><a href="/accounting/ChartsAccounts/ChartsAccounts/'+value1+'"></a>  </span>');
+                    $(this).html('<span><span class="glyphicon"></span><a href="/accounting/ChartsAccounts/ChartsAccounts/'+value1+'" target="treeframe"></a>  </span>');
                     $(this).find(' > span > span').addClass('glyphicon-file');
                     $(this).find(' > span > a').text(text);
                 }
