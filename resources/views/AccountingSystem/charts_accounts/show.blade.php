@@ -221,10 +221,6 @@
                         <td>{!! $row->amount !!}</td>
                         <td>{!! $row->entry->date !!}</td>
                         <td>{!! $row->entry->code !!}</td>
-
-
-
-
                     </tr>
                 @endforeach
                 </tbody>
