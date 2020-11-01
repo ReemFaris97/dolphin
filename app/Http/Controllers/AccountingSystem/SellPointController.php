@@ -145,8 +145,8 @@ class SellPointController extends Controller
 
     public  function barcode_search(Request $request,$q){
 
-        $store_product=AccountingProductStore::where('store_id',$request['id'])->pluck('product_id','id')->toArray();
-        $products=AccountingProduct::where('bar_code',$q)->get();
+        $store_product=AccountingProductStore::where('store_id',$request['store_id'])->pluck('product_id','id')->toArray();
+        $products=AccountingProduct::whereIn('id',$store_product)->where('bar_code',$q)->get();
         if(!$products->isEmpty())
         {
             $selectd_unit_id = 'main-'.$products[0]->id;

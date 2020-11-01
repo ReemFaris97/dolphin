@@ -1758,7 +1758,7 @@ span#removeTaxWrap {
 }
 span#removeTaxWrap label {
     font-size: 12px;
-    width: 120px;
+    width: 80px;
     background: #241E32;
     cursor: pointer;
     float: left;

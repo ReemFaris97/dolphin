@@ -141,7 +141,7 @@ function rearrange_array($array, $key) {
 
 function storekeepers()
 {
-    $storekeepers = \App\User::where('is_storekeeper',1)->get()->mapWithKeys(function ($q) {
+        $storekeepers = App\User::where('is_storekeeper',1)->get()->mapWithKeys(function ($q) {
         return [$q['id'] => $q['name']];
     });
     return $storekeepers;
@@ -261,7 +261,7 @@ function devices()
 function keepers($store= null)
 {
     if ($store != null) {
-        $keepers = \App\User::where('is_storekeeper', 1)->where('accounting_store_id',$store)->get()->mapWithKeys(function ($q) {
+        $keepers = App\User::where('is_storekeeper', 1)->where('accounting_store_id',$store)->get()->mapWithKeys(function ($q) {
             return [$q['id'] => $q['name']];
         });
     }else{
@@ -318,7 +318,7 @@ function stores($branch=null){
 
     if ($branch != null) {
 
-      
+
         // $stores=App\Models\AccountingSystem\AccountingStore::find($branch)->faces->mapWithKeys(function ($item) {
         //     return [$item['id'] => $item['ar_name']];
         // });
@@ -556,7 +556,7 @@ function rates()
 
 function idol_user()
 {
-    $idol_user = \App\User::WhereHas('tasks',function ($q){
+    $idol_user = App\User::WhereHas('tasks',function ($q){
         $q->where('rate','!=',null);
         $q->whereMonth('finished_at',date("m"));
     })->get()->sortByDesc(function($user) {
