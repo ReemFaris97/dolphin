@@ -4,7 +4,14 @@
 @section('action', URL::route('accounting.ChartsAccounts.index'))
 
 @section('styles')
-
+<style>
+	.navbar.navbar-inverse , .footer.text-muted , .page-header-default{
+		display: none !important
+	}
+	.content {
+    padding: 20px;
+}
+</style>
 @endsection
 
 @section('content')
