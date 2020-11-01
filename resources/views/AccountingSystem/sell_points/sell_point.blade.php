@@ -389,8 +389,8 @@
             for (var i = 0; i < productUnits.length; i++) {
                 optss += '<option data-uni-price="' + Number(unitPrice[i]).toFixed(rondingNumber) + '" value="' + unitId[i] + '"> ' + unitName[i] + '</option> ';
             }
-			
-			
+
+
 
             $(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}">
 			<td class="row-num" width="40">${rowNum}</td>

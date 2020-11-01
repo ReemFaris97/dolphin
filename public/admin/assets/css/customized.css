@@ -1775,3 +1775,24 @@ span#removeTaxWrap input {
 .dynamic-span.taxes-removed{
 	text-decoration: line-through;
 }
+.all-customed-singl-sections .customed-singl-section .form-group {
+    margin-bottom: 5px;
+}
+.all-customed-singl-sections .customed-singl-section .form-group label {
+    margin-bottom: 0;
+}
+
+.customed-singl-section > h3 {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    background: #000;
+    color: #fff;
+    width: calc(100% - 70px);
+    margin-right: 35px;
+    border-radius: 35px;
+}
+.row.customed-singl-section {
+    padding: 5px 30px;
+}
