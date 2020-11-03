@@ -8,14 +8,6 @@
     </div>
 @endif
 <div class="custom-tabs">
-    <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#home">بيانات المنظمه</a></li>
-        <li><a data-toggle="tab" href="#menu1"> فروع المنظمة</a></li>
-        <li><a data-toggle="tab" href="#menu2"> حسابات المنظمة</a></li>
-
-    </ul>
-    <div class="tab-content">
-        <div id="home" class="tab-pane fade in active">
             <div class="row">
             <div class="form-group col-md-6 pull-left">
         <label>اسم الشركة:  </label>
@@ -62,11 +54,10 @@
                 </span>
                 </div>
             </div>
-         </div>
+         
             <div class="text-center col-md-12">
                 <div class="text-right">
                     <button type="submit" id="register" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i></button>
                 </div>
             </div>
-    </div>
 </div>
