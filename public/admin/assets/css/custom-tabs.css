@@ -18,6 +18,8 @@
     height: auto;
     margin: 0 auto;
     border-radius: 7px;
+    display: inline-block;
+    width: 100%;
 }
 
 .custom-tabs .text-center.col-md-12.m--margin-bottom-5 button#register {
