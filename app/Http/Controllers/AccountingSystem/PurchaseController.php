@@ -245,8 +245,10 @@ class PurchaseController extends Controller
             // $return=AccountingPurchaseReturn::
             $this->returns($request);
 
-        }elseif($requests['type']=='return'){
+        }elseif($requests['type']=='edit'){
+
             
+
         }
 
 
