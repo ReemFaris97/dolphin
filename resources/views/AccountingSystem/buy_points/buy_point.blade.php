@@ -25,7 +25,7 @@
 
 <div class="panel panel-flat" id="container">
 	<div class="panel-heading">
-	
+
 		<h5 class="panel-title">
 					<a href="#" class="btn btn-success bill-cogs go-to-full" id="enlarge-scr">
 				<div class="fullscreen-icon" onclick="toggleFullscreen()">
@@ -62,8 +62,15 @@
 	<div class="panel-body">
 		<!----------------  Start Bill Content ----------------->
 		<section class="yourBill">
+
 		<form method="post" id="buyForm" action="{{route('accounting.purchases.store')}}" data-parsley-validate="">
-					@csrf
+			@csrf
+            @if(Request::is('*/puchaseReturns/create'))
+            <input  type="hidden" name="type"  value="return">
+            @else
+            <input  type="hidden" name="type"  value="purchase">
+            @endif
+
 			<div class="yurSections">
 				<div class="row">
 					@if (count($errors) > 0)
@@ -369,7 +376,7 @@ function calculateBill(ProductId, productName, productLink, lastPrice, avgPrice,
 								<input type="number" class="form-control" step="any" value="${productPrice}" name="">
 							</td>
 							<td class="unit-total-tax maybe-hidden unit_total_tax_enable" width="100">
-								<input type="number" placeholder="الضريبة" max="" min="0" data-original-tax="${totalTaxes}" value="${totalTaxes}" name="tax[]" class="form-control">
+								<input type="number" placeholder="الضريبة"  data-original-tax="${totalTaxes}" value="${totalTaxes}" name="tax[]" class="form-control">
 							</td>
 							<td class="quantityXprice maybe-hidden total_enable" width="70">${productPrice}</td>
 							<td class="whole-product-gifts maybe-hidden gifts_enable" width="70">
@@ -392,11 +399,11 @@ function calculateBill(ProductId, productName, productLink, lastPrice, avgPrice,
 							<td class="whole-price-after maybe-hidden total_pure_enable" width="70">${singlePriceAfter}</td>
 
 							<td class="bill-operations-td maybe-hidden operations_enable" width="160">
-								
+
 								<button type="button"
 										class="btn btn-primary popover-op"
-										role="button" 
-										data-toggle="popover" 
+										role="button"
+										data-toggle="popover"
 										title="عمليات أخرى"
 										data-html="true"
 										data-container="body"
@@ -515,14 +522,14 @@ function calculateBill(ProductId, productName, productLink, lastPrice, avgPrice,
                             }
                         })
                     });
-						
+
 					$(".unit-total-tax input").each(function(){
 						$(this).on('change',function(){
 							totalTaxes = $(this).val();
 							$(this).parents('.single-row-wrapper').find(".unit-price input").trigger('change');
 						})
 					})
-	
+
 //					$('.special-discount-modal').trigger('hidden.bs.modal');
                     var wholePriceBefore, wholePriceAfter = 0;
                     //**************    Calc while changing unit input ***********************
@@ -700,7 +707,7 @@ function calculateBill(ProductId, productName, productLink, lastPrice, avgPrice,
                         var finalAftDisc = Number($('#row' + onlyModNum).find('.whole-price-before').attr('tempPriBef'));
                         var rows = $(this).find('.single-special-dis-wrap');
                         for (var i = 0; i < rows.length; i++) {
-							
+
 							if(i === 0){
 								if(($(rows[0]).find('.singleSpecialDiscByVal').val()) != 0){
 		$("tr#row" + onlyModNum).find(".bud1").html(Number($(rows[0]).find('.singleSpecialDiscByVal').val()).toFixed(rondingNumber) + 'ريال')
@@ -713,9 +720,9 @@ function calculateBill(ProductId, productName, productLink, lastPrice, avgPrice,
 									$("tr#row" + onlyModNum).find(".per2").html('---')
 								}
 							}
-							
+
                             finalAftDisc -= Number($(rows[i]).find('.singleSpecialDiscByVal').val());
-							
+
 							if(i === 0){
 								if(((Number($(rows[0]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc) != 0){
 									$("tr#row" + onlyModNum).find(".per1").html(((Number($(rows[0]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc).toFixed(rondingNumber) + 'ريال')
@@ -728,8 +735,8 @@ function calculateBill(ProductId, productName, productLink, lastPrice, avgPrice,
 									$("tr#row" + onlyModNum).find(".bud2").html('---')
 								}
 							}
-							
-							
+
+
                             finalAftDisc -= (Number($(rows[i]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc;
                             $('#row' + onlyModNum).find('.whole-price-before').text(finalAftDisc.toFixed(rondingNumber));
                             if ($(rows[i]).find(".effectTax").is(":checked")) {
@@ -980,7 +987,7 @@ $("#barcode_search").scannerDetection({
 			$("body").toggleClass("full-scr");
 			$(this).toggleClass("go-to-full go-to-min")
 		})
-		
+
 		$(".go-to-full").click(function(){
 			var elem = document.body; // Make the body go full screen.
 			requestFullScreen(elem);
@@ -989,26 +996,26 @@ $("#barcode_search").scannerDetection({
 			var ele = document.body; // Make the body go full screen.
 			extFullScreen(ele);
 		})
-		
+
 	})
 
 var isFullscreen = false;
 function toggleFullscreen(){
   var container = document.getElementById("container");
-  
+
   if (isFullscreen) {
     document.webkitCancelFullScreen();
   } else {
     container.webkitRequestFullScreen();
   }
-  
+
   isFullscreen = !isFullscreen;
-  
+
   var square1 = document.getElementById("square-1");
   var square2 = document.getElementById("square-2");
   var square3 = document.getElementById("square-3");
   var square4 = document.getElementById("square-4");
-  
+
   if (isFullscreen){
     square1.className = "square  square-1--reduce";
     square2.className = "square  square-2--reduce";
@@ -1021,5 +1028,5 @@ function toggleFullscreen(){
     square4.className = "square  square-4--expand";
   }
 }
-</script> 
+</script>
 @endsection

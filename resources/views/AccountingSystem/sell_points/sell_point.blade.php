@@ -63,13 +63,13 @@
                     </div>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="form-group"><label> اسم الوردية: </label>
-{{optional($session->shift)->name}}
+                      {{optional($session->shift)->name}}
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="form-group">
                             <label> تاريخ بداية الجلسة :</label>
-{{$session->start_session}}
+                     {{$session->start_session}}
                         </div>
                     </div>
                 </div>
@@ -92,10 +92,7 @@
                                 </div>
 
                             @endif
-                            {{--					<div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">--}}
-                            {{--						<label>اسم القسم </label>--}}
-                            {{--						{!! Form::select("category_id",$categories,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}--}}
-                            {{--					</div>--}}
+
 
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <div class="form-group block-gp">
@@ -130,7 +127,7 @@
                             <input type="hidden" name="bill_date" id="bill_date_val">
                             <input type="hidden" name="client_id" id="client_id_val">
                             <table border="1" class="table datatable-button-init-basic finalTb mabi3at-bill bill-table
-                    {{(getsetting('name_enable_sales')==1) ? 'name_enable':'' }}
+                         ace_dark   {{(getsetting('name_enable_sales')==1) ? 'name_enable':'' }}
                             {{(getsetting('barcode_enable_sales')==1) ? 'barcode_enable':'' }}
                             {{(getsetting('unit_enable_sales')==1) ? 'unit_enable':'' }}
                             {{(getsetting('quantity_enable_sales')==1) ? 'quantity_enable':'' }}
@@ -412,15 +409,18 @@
 			<td class="single-price-before maybe-hidden">${singlePriceBefore.toFixed(rondingNumber)}</td>
 			<td class="single-price-after maybe-hidden">${singlePriceAfter.toFixed(rondingNumber)}</td>
 			<td class="whole-price-before maybe-hidden">${singlePriceBefore.toFixed(rondingNumber)}</td>
-			<td class="whole-price-after maybe-hidden total_price_after_enable" width="100">${singlePriceAfter.toFixed(rondingNumber)}</td>
+			<td class="whole-price-after maybe-hidden total_price_after_enable" width="100">
+                ${singlePriceAfter.toFixed(rondingNumber)}
+                <input  type="hidden" name="price_after_tax[]" value="${singlePriceAfter}"  class="form-control">
+            </td>
 			<td class="delete-single-row" width="70">
 				@if($session->user->is_admin==1)
             <a href="#"><span class="icon-cross"></span></a>
-@else
+          @else
             <button type="button" class="btn btn-primary in-row-del" data-toggle="modal" data-target="#deleteModal">
                 <span class="icon-cross"></span>
             </button>
-@endif
+          @endif
             </td>
         </tr>`);
             //	Remove overlay

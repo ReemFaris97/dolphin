@@ -27,6 +27,7 @@ use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingReturn;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Models\AccountingSystem\AccountingStore;
+use App\Models\AccountingSystem\AccountingUserPermission;
 use App\Traits\SaleOperation;
 use App\Traits\Viewable;
 use App\User;
@@ -79,6 +80,7 @@ class SaleController extends Controller
     public function store(Request $request)
     {
         $requests = $request->all();
+     
         if(!$request->client_id){
             $requests['client_id']=5;
         }
@@ -131,7 +133,9 @@ class SaleController extends Controller
         $products = collect($requests['product_id']);
         $qtys = collect($requests['quantity']);
         $unit_id = collect($requests['unit_id']);
-        $merges = $products->zip($qtys,$unit_id);
+        $taxs = collect($requests['tax']);
+        $price_after_tax = collect($requests['price_after_tax']);
+        $merges = $products->zip($qtys,$unit_id,$taxs,$price_after_tax);
 
         foreach ($merges as $merge)
         {
@@ -149,6 +153,9 @@ class SaleController extends Controller
                     'product_id'=>$merge['0'],
                     'quantity'=> $merge['1'],
                     'price'=>$product->selling_price,
+                    'unit_id'=> $merge['2'],
+                    'tax'=> $merge['3'],
+                    'price_after_tax'=> $merge['4'],
                     'sale_id'=>$sale->id
                 ]);
                 ///if-main-unit
@@ -399,17 +406,12 @@ class SaleController extends Controller
 
     public function sale_end(Request $request,$id)
     {
-
-
            $user=User::findOrFail($id);
            $session=AccountingSession::findOrFail($request['session_id']);
            $sales_payed_cash=AccountingSale::where('session_id',$request['session_id'])->sum('cash');
            $sales_payed_network=AccountingSale::where('session_id',$request['session_id'])->sum('network');
            $sales_payed=AccountingSale::where('session_id',$request['session_id'])->sum('payed');
            $returns_total=AccountingReturn::where('session_id',$request['session_id'])->sum('total');
-
-
-
            $session->update([
             'end_session'=>Carbon::now(),
            ]);
@@ -458,14 +460,25 @@ class SaleController extends Controller
     {
         $sale =AccountingSale::findOrFail($id);
         $clients=AccountingClient::pluck('name','id')->toArray();
-        $store_product=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->pluck('product_id','id')->toArray();
-        $products=AccountingProduct::whereIn('id',$store_product)->get();
+
+        $userstores = AccountingUserPermission::where('user_id',auth()->user()->id)
+        ->where('model_type','App\Models\AccountingSystem\AccountingStore')->pluck('model_id','id')->toArray();
+        $stores=AccountingStore::whereIn('id',$userstores)->pluck('ar_name','id')->toArray();
+        if($userstores){
+            $store_product=AccountingProductStore::whereIn('store_id',$userstores)->pluck('product_id','id')->toArray();
+            $products=AccountingProduct::whereIn('id',$store_product)->get();
+
+
+        }else{
+            $products=[];
+        }
+
         $product_items=AccountingSaleItem::where('sale_id',$id)->get();
         $session=AccountingSession::findOrFail($sale->session_id);
 
 
 
-        return view('AccountingSystem.sales.edit',compact('sale','clients','products','product_items','session'));
+        return view('AccountingSystem.sales.edit',compact('sale','clients','products','product_items','session','stores'));
     }
 
     /**
@@ -478,6 +491,7 @@ class SaleController extends Controller
     public function update(Request $request, $id)
     {
         $requests=$request->all();
+        // dd($requests);
 
         $sale =AccountingSale::findOrFail($id);
         $sale -> update([
@@ -556,23 +570,20 @@ class SaleController extends Controller
         $clients=AccountingClient::pluck('name','id')->toArray();
         $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
         $sales_items=AccountingSaleItem::where('sale_id',$id)->pluck('product_id','id')->toArray();
-        $store_product=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->pluck('product_id','id')->toArray();
-        $products=AccountingProduct::whereIn('id',$store_product)->get();
+        $userstores = AccountingUserPermission::where('user_id',auth()->user()->id)
+        ->where('model_type','App\Models\AccountingSystem\AccountingStore')->pluck('model_id','id')->toArray();
+        $stores=AccountingStore::whereIn('id',$userstores)->pluck('ar_name','id')->toArray();
+        if($userstores){
+            $store_product=AccountingProductStore::whereIn('store_id',$userstores)->pluck('product_id','id')->toArray();
+            $products=AccountingProduct::whereIn('id',$store_product)->get();
+        }else{
+            $products=[];
+        }
 
 
-    return view('AccountingSystem.sales.returns',compact('sales','session','clients','categories','products'));
+    return view('AccountingSystem.sales.returns',compact('sales','session','clients','categories','products','stores'));
     }
-    public function returns_Sale($id){
 
-        $sale=AccountingSale::find($id);
-        $sales_items=AccountingSaleItem::where('sale_id',$id)->pluck('product_id','id')->toArray();
-        $products=AccountingProduct::whereIn('id',$sales_items)->get();
-
-        return response()->json([
-            'status'=>true,
-            'data'=>view('AccountingSystem.sales.sale')->with('products',$products)->render()
-        ]);
-    }
     public function sale_details($id){
         $items=AccountingSaleItem::where('sale_id',$id)->get();
         // $products_a=AccountingProduct::where('category_id',$id)->pluck('id','id')->toArray();
