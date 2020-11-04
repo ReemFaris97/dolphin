@@ -320,12 +320,7 @@
 @endsection
 @section('scripts')
     <!--- scroll to the last table row -->
-    <script>
-        $('table').on('DOMSubtreeModified', 'tbody', function(){
-            var height = $("tbody").height();
-            $("tbody").animate({ scrollTop: $('tbody').prop("scrollHeight")}, height);
-        });
-    </script>
+    
     <!--- end datatable -->
     <script src="{{asset('admin/assets/js/jquery.datetimepicker.full.min.js')}}"></script>
     <script src="{{asset('admin/assets/js/scanner.js')}}"></script>
@@ -423,6 +418,10 @@
           @endif
             </td>
         </tr>`);
+			
+			var height = $("tbody").height();
+            $("tbody").animate({ scrollTop: $('tbody').prop("scrollHeight")}, height);
+			
             //	Remove overlay
             $(".tempDisabled").removeClass("tempDisabled");
 
