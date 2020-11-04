@@ -79,8 +79,6 @@ form#sllForm {
   background-color: #DFF0D8;
   border: 1px solid #D6E9C6;
 }
-
-
 .parsley-error {
   color: #B94A48;
   background-color: #F2DEDE;
@@ -103,6 +101,11 @@ form#sllForm {
 
 .parsley-errors-list.filled {
   opacity: 1;
+}
+.parsley-errors-list.filled {
+    position: absolute;
+    left: 0;
+    top: 5px;
 }
 .adding-new-comp {
     position: absolute;

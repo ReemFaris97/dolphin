@@ -33,7 +33,7 @@
 
                     <!--begin::Form-->
 
-                    {!! Form::open(['method'=>'post','route'=>'admin.users.store','files'=>'true','class'=>'clearfix m-form m-form--fit m-form--label-align-right'])!!}
+                    {!! Form::open(['method'=>'post','route'=>'admin.users.store','files'=>'true','class'=>'parsley-validate-form clearfix m-form m-form--fit m-form--label-align-right'])!!}
                     @include('admin.users._form')
 
                     <div class="m-portlet__foot m-portlet__foot--fit full--width">

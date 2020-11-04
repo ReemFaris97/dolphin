@@ -1,5 +1,4 @@
 @section('styles')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/guillaumepotier/Parsley.js@2.9.2/src/parsley.css">
 @endsection
 @if (count($errors) > 0)
 <div class="alert alert-danger">
@@ -597,12 +596,6 @@
 				source: availableTags
 			});
 		});
-	</script>
-		<script src="https://cdn.jsdelivr.net/gh/guillaumepotier/Parsley.js@2.9.2/dist/parsley.js"></script>
-		<script src="{{asset('admin/assets/js/i18n/ar.js')}}"></script>
-	<script>
-	// 	$(function () {
-  // $('#montag-form').parsley()
 	</script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
 	<script src="{{asset('admin/assets/js/get_faces_by_branch.js')}}"></script>
