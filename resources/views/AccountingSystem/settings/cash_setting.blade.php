@@ -30,14 +30,14 @@
 		{{--<div class="tab-content">--}}
 			{{--<div role="tabpanel" id="menu1" class="tab-pane active ">--}}
 		       <div class="panel-body">
-
                    {!!Form::open( ['route' => 'accounting.settings.store' , 'method' => 'Post','files'=>true]) !!}
+                {{-- @dd($settings) --}}
                    @foreach($settings as $setting)
                        @if($setting->type=='check')
                            <div class="form-group col-xs-4 backed-eee {{ $errors->has('name') ? ' has-error' : '' }}">
                                <div>
                                    <label> {{$setting->title}}</label>
-
+                                        {{-- @dd($setting->title) --}}
                                    <div class="form-line new-radio-big-wrapper clearfix  {{$setting->name}}">
                                        @if($setting->value=='1')
                                            <span class="new-radio-wrap">
@@ -63,11 +63,11 @@
                                </div>
                            </div>
                        @endif
-
                    @endforeach
+
+
 				   @foreach($settings as $setting)
 					   @if($setting->type == 'select')
-
 						   <div class="form-group col-xs-6  {{$setting->name}} ">
 							   <label> {{$setting->title}} </label>
 							   <div class="form-group col-md-6 pull-left">
