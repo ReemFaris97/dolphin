@@ -193,7 +193,7 @@ class PurchaseController extends Controller
 
                   if($merge['2']!='main-'.$product->id){
 
-                      $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',$merge['2'])->first();
+                      $productstore=AccountingProductStore::where('store_id',$request['store_id'])->where('product_id',$merge['0'])->where('unit_id',$merge['2'])->first();
                       if($productstore) {
                           $productstore->update([
                               'quantity' => $productstore->quantity + $merge['1'],
@@ -201,7 +201,7 @@ class PurchaseController extends Controller
                           ]);
                       }
              }else{
-                 $productstore=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->where('product_id',$merge['0'])->where('unit_id',Null)->first();
+                 $productstore=AccountingProductStore::where('store_id',$request['store_id'])->where('product_id',$merge['0'])->where('unit_id',Null)->first();
      //              dd(auth()->user()->accounting_store_id);
                       if($productstore) {
                           $productstore->update([
@@ -228,7 +228,7 @@ class PurchaseController extends Controller
      //        dd($purchase);
              if($purchase->payment=='cash'){
 
-                    $store_id=auth()->user()->accounting_store_id;
+                    $store_id=$request['store_id'];
                      $store=AccountingStore::find($store_id);
                       $safe=AccountingSafe::where('model_type', $store->model_type)->where('model_id', $store->model_id)->first();
                      $safe->update([
@@ -241,6 +241,11 @@ class PurchaseController extends Controller
                      'balance'=>$supplier->balance +$purchase->total
                  ]);
              }
+
+             alert()->success('تمت عملية الشراء بنجاح !')->autoclose(5000);
+        
+             return back();
+
         }elseif($requests['type']=='return'){
 
             // $return=AccountingPurchaseReturn::
@@ -248,13 +253,11 @@ class PurchaseController extends Controller
 
         }elseif($requests['type']=='edit'){
 
-
-
         }
 
 
-        alert()->success('تمت عملية الشراء بنجاح !')->autoclose(5000);
-        return back();
+        // alert()->success('تمت عملية الشراء بنجاح !')->autoclose(5000);
+        // return back();
     }
 
 
