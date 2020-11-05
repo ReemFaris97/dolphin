@@ -190,11 +190,12 @@ unit_total_tax_enable
 
 						<tbody>
                             <!--Space For Appended Products-->
+                            @if(Request::is('*/edit'))
                             @foreach($product_items as $key=>$row)
                             <tr class="single-row-wrapper" id="row{{++$key}}" data-ifhastax="{{($row->tax==0)?0:1}}" data-tot-taxes="{{$row->tax}}">
                                 <td class="row-num" width="40">{{++$key}}</td>
                                 <input type="hidden" name="product_id_old[]" value="{{$row->product_id}}">
-                                <td class="product-name maybe-hidden name_enable"><a href="{{route('accounting.products.show',['id'=>$row->product_id])}}" target="_blank" rel="noopener noreferrer">${productName}</a></td>
+                                <td class="product-name maybe-hidden name_enable"><a href="{{route('accounting.products.show',['id'=>$row->product_id])}}" target="_blank" rel="noopener noreferrer">{{$row->product->name}}</a></td>
                                 <td class="product-unit maybe-hidden unit_enable" width="70">
                                     <select class="form-control js-example-basic-single" name="unit_id_old[{{$row->product_id}}]" >
                                         @foreach($row->units() as $unit)
@@ -216,9 +217,9 @@ unit_total_tax_enable
                                     <input type="number" class="form-control" step="any" value="{{round($row->price,3)}}" name="">
                                 </td>
                                 <td class="unit-total-tax maybe-hidden unit_total_tax_enable" width="100">
-                                    <input type="number" placeholder="الضريبة"  data-original-tax="${totalTaxes}" value="${totalTaxes}" name="tax[]" class="form-control">
+                                    <input type="number" placeholder="الضريبة"  data-original-tax="{{$row->product->total_taxes}}" value="{{$row->product->total_taxes}}" name="tax[]" class="form-control">
                                 </td>
-                                <td class="quantityXprice maybe-hidden total_enable" width="70">${productPrice}</td>
+                                <td class="quantityXprice maybe-hidden total_enable" width="70">{{$row->price}}</td>
                                 <td class="whole-product-gifts maybe-hidden gifts_enable" width="70">
                                     <input type="number" placeholder="الهدايا" step="1" min="0" value="0" class="form-control" name="gifts_old[{{$row->gifts}}]">
                                 </td>
@@ -228,19 +229,19 @@ unit_total_tax_enable
                                 <td class="whole-product-discounts maybe-hidden discounts_enable bud2" width="95"></td>
 
                                 <td class="single-price-before maybe-hidden">
-                                    <input type="number" class="form-control" step="any" value="${singlePriceBefore}" name="prices[${ProductId}]">
+                                    <input type="number" class="form-control" step="any" value="{{$row->price}}" name="prices_old[{{$row->price}}]">
                                 </td>
 
-                                <input type="hidden" name="itemTax[${ProductId}]" value="${netTax}">
-                                <td class="single-price-after maybe-hidden total_taxes_enable" data-sinAft="${singlePriceAfter}" width="70">
-                                    ${netTax}
+                                <input type="hidden" name="itemTax[{{$row->product_id}}]" value="{{$row->tax}}">
+                                <td class="single-price-after maybe-hidden total_taxes_enable" data-sinAft="{{$row->price_after_tax}}" width="70">
+                                    {{$row->tax}}
                                 </td>
-                                <td class="whole-price-before maybe-hidden ">${singlePriceBefore}</td>
-                                <td class="whole-price-after maybe-hidden total_pure_enable" width="70">${singlePriceAfter}</td>
+                                <td class="whole-price-before maybe-hidden ">{{$row->price}}</td>
+                                <td class="whole-price-after maybe-hidden total_pure_enable" width="70">{{$row->price_after_tax}}</td>
 
                                 <td class="bill-operations-td maybe-hidden operations_enable" width="160">
 
-                                    <button type="button"
+                                    {{-- <button type="button"
                                             class="btn btn-primary popover-op"
                                             role="button"
                                             data-toggle="popover"
@@ -252,18 +253,25 @@ unit_total_tax_enable
                                             data-id="${rowNum}"
                                             data-content='<div class="lasto-prico">أخر سعر : ${lastPrice}</div><div class="averageo-priceo"> متوسط السعر : ${avgPrice} </div> <div class="showo-producto"><a href="${productLink}" target="_blank" title="عرض المنتح" rel="noopener noreferrer">عرض المنتج</a></div><div class="addo-saleo"><a data-toggle="modal" title="إضافة خصم" data-target="#discMod${rowNum}">إضافة خصم</a></div>'>
                                             <span class="icon-coin-dollar"></span>
-                                    </button>
+                                    </button> --}}
                                     <a href="#" title="مسح" class="remove-prod-from-list"><span class="icon-cross"></span></a>
                                 </td>
                             </tr>
                             @endforeach
+                            @endif
 						</tbody>
 						<tfoot class="tempDisabled">
 							<tr>
 								<th id="amountBeforeDariba" class="rel-cols" colspan="3">
 									<span class="colorfulSpan"> المجموع</span>
 									<input type="hidden" class="dynamic-input" id="amountBeforeDariba1" name="amount">
-									<span class="dynamic-span">0</span>
+									<span class="dynamic-span">
+                                        @if(Request::is('*/edit'))
+                                        {{$purchase->amount}}
+                                        @else
+                                        0
+                                        @endif
+                                    </span>
 									<span class="rs"> ر.س </span>
 								</th>
 								<th id="amountOfDariba" class="rel-cols" colspan="3">
@@ -273,7 +281,13 @@ unit_total_tax_enable
 									</span>
 									<span class="colorfulSpan"> قيمة الضريبة</span>
 									<input type="hidden" class="dynamic-input" name="totalTaxs" id="amountOfDariba2">
-									<span class="dynamic-span">0</span>
+									<span class="dynamic-span">
+                                        @if(Request::is('*/edit'))
+                                        {{$purchase->tax}}
+                                        @else
+                                        0
+                                        @endif
+                                    </span>
 									<span class="rs"> ر.س </span>
 <!--
 									<span id="removeTaxWrap">
@@ -285,7 +299,13 @@ unit_total_tax_enable
 								<th id="amountAfterDariba" class="rel-cols" colspan="3">
 									<span class="colorfulSpan">المجموع بعد الضريبة</span>
 									<input type="hidden" class="dynamic-input">
-									<span class="dynamic-span">0</span>
+									<span class="dynamic-span">
+                                        @if(Request::is('*/edit'))
+                                        {{$purchase->total}}
+                                        @else
+                                        0
+                                        @endif
+                                    </span>
 									<span class="rs"> ر.س </span>
 								</th>
 							</tr>
@@ -831,6 +851,7 @@ function calculateBill(ProductId, productName, productLink, lastPrice, avgPrice,
                         if (trLen === 0) {
                             $('table tfoot').addClass('tempDisabled');
                         }
+
                     });
 			$("#remove-tax").change(function(){
                 if($(this).is(':checked')){
