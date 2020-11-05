@@ -117,7 +117,6 @@ class SettingController extends Controller
         }elseif ($settings_page == 'اعاده تعين حسابات النقدية')
         {
             $chart_accounts = AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->pluck('code_name','id')->toArray();
-            // dd($settings_page);
             return view('AccountingSystem.settings.cash_setting')
                 ->with('settings_page', $settings_page)
                 ->with('settings', AccountingSetting::where('slug', $slug)->where('accounting_type','Acc_cash')->get())

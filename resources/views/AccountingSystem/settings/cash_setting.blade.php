@@ -77,14 +77,11 @@
 					   @endif
 				   @endforeach
 				   <div class="clearfix"></div>
-
-
                    <div class="text-right ">
                        <button type="submit" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i></button>
                    </div>
                    {!!Form::close() !!}
 	     	</div>
-
 		</div>
 
 		@endsection
