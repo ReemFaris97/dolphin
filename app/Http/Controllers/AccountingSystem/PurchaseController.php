@@ -26,6 +26,7 @@ use App\Models\AccountingSystem\AccountingReturn;
 use App\Models\AccountingSystem\AccountingSafe;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Models\AccountingSystem\AccountingStore;
+use App\Models\AccountingSystem\AccountingUserPermission;
 use App\Traits\PurchaseOperation;
 use App\Traits\Viewable;
 use App\User;
@@ -247,7 +248,7 @@ class PurchaseController extends Controller
 
         }elseif($requests['type']=='edit'){
 
-            
+
 
         }
 
@@ -286,11 +287,20 @@ class PurchaseController extends Controller
         $suppliers=AccountingSupplier::pluck('name','id')->toArray();
         $safes=AccountingSafe::pluck('name','id')->toArray();
 
-        $store_product=AccountingProductStore::where('store_id',auth()->user()->accounting_store_id)->pluck('product_id','id')->toArray();
-        $products=AccountingProduct::whereIn('id',$store_product)->get();
+        $userstores=AccountingUserPermission::where('user_id',auth()->user()->id)->where('model_type','App\Models\AccountingSystem\AccountingStore')->pluck('model_id','id')->toArray();
+        $stores=AccountingStore::whereIn('id',$userstores)->pluck('ar_name','id')->toArray();
+        if($userstores){
+        $store_product=AccountingProductStore::whereIn('store_id',$userstores)->pluck('product_id','id')->toArray();
+            $products=AccountingProduct::whereIn('id',$store_product)->get();
+
+
+             }else{
+        $products=[];
+      }
+
         $purchase =AccountingPurchase::findOrFail($id);
         $product_items=AccountingPurchaseItem::where('purchase_id',$id)->get();
-        return $this->toEdit(compact('categories','suppliers','safes','products','product_items','purchase'));
+        return view('AccountingSystem.buy_points.buy_point',compact('categories','suppliers','safes','products','product_items','purchase','stores'));
     }
 
     /**
