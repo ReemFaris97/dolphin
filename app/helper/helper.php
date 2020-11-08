@@ -264,6 +264,7 @@ function keepers($store= null)
         $keepers = App\User::where('is_storekeeper', 1)->where('accounting_store_id',$store)->get()->mapWithKeys(function ($q) {
             return [$q['id'] => $q['name']];
         });
+        // dd($keepers);
     }else{
         $keepers=[];
     }
