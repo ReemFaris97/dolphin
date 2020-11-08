@@ -63,9 +63,9 @@
 
                         <td>
                         @if($row->model_type=='App\Models\AccountingSystem\AccountingBranch')
-                       {!! $row->branch->name!!}
+                       {!! optional($row->branch)->name!!}
                         @elseif($row->model_type=='App\Models\AccountingSystem\AccountingCompany')
-                        {!! $row->company->name !!}
+                        {!! optional($row->company)->name !!}
                         @endif
                         </td>
                         <td>
