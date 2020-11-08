@@ -36,11 +36,15 @@
                 <label>اختر المخزن المحول منه </label>
                 {!! Form::select("form_store_id",allstores(),null,['class'=>'form-control js-example-basic-single form_store_id','id'=>'form_store_id','placeholder'=>' اختر  المخزن'])!!}
             </div>
-            <div class="form-group col-md-4 pull-left">
-                <label>اختر الصنف </label>
-                {!! Form::select("product_id[]",products(),null,['class'=>'form-control js-example-basic-single product_id','multiple','id'=>'product_id','placeholder'=>' اختر  الصنف'])!!}
-            </div>
 
+
+            <div class="store_products">
+                <div class="form-group col-md-4 pull-left">
+                    <label>اختر الصنف </label>
+                    {!! Form::select("product_id[]",[],null,['class'=>'form-control js-example-basic-single ','placeholder'=>' اخترالمخزن اولا'])!!}
+                </div>
+
+            </div>
             <div class="form-group col-md-6 pull-left">
                 <label>اختر المخزن  المحول اليه </label>
                 {!! Form::select("to_store_id",stores_to(),null,['class'=>'form-control js-example-basic-single to_store_id ','id'=>'to_store_id','placeholder'=>'  اختر  المخزن'])!!}
@@ -76,6 +80,27 @@
 
 
     <script>
+
+
+        $("#form_store_id").on('change', function() {
+
+            var id = $(this).val();
+            console.log(id);
+
+            $.ajax({
+                url:"/accounting/store_products/"+id,
+                type:"get",
+
+
+            }).done(function (data) {
+
+                $('.store_products').html(data.data);
+            }).fail(function (error) {
+                console.log(error);
+            });
+
+        });
+
         $(".product_id").on('change', function() {
 
             var store_id = $('#form_store_id').val();

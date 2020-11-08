@@ -206,6 +206,7 @@ class StoresController extends Controller
     {
         $requests=request()->all();
         $expire_products=[];
+        $quantites=[];
         //company_only
         if (\request('company_id') != Null && \request('branch_id') == Null && \request('store_id') == Null && \request('product_id') == Null) {
             $stores_company = AccountingStore::where('model_id', \request('company_id'))->where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->pluck('id');
@@ -267,6 +268,7 @@ class StoresController extends Controller
 
         else{
             $expire_products=[];
+
         }
         return view('AccountingSystem.reports.stores.expiredProducts', compact('expire_products','quantites','requests'));
     }
