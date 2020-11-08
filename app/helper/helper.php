@@ -261,7 +261,7 @@ function devices()
 function keepers($store= null)
 {
     if ($store != null) {
-        $keepers = App\User::where('is_storekeeper', 1)->where('accounting_store_id',$store)->get()->mapWithKeys(function ($q) {
+        $keepers = App\User::where('id', $store->user_id)->get()->mapWithKeys(function ($q) {
             return [$q['id'] => $q['name']];
         });
         // dd($keepers);
