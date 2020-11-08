@@ -4,6 +4,7 @@
 //Json array response
 
 use App\Models\AccountingSystem\AccountingAccount;
+use App\Models\AccountingSystem\AccountingStore;
 use Carbon\Carbon;
 
 
@@ -258,9 +259,11 @@ function devices()
 
 
 
-function keepers($store= null)
+function keepers($store_id= null)
 {
-    if ($store != null) {
+    if ($store_id != null) {
+
+        $store=AccountingStore::findOrfail($store_id);
         $keepers = App\User::where('id', $store->user_id)->get()->mapWithKeys(function ($q) {
             return [$q['id'] => $q['name']];
         });
