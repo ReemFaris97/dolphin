@@ -27,9 +27,5 @@ class StoreObserver
 
     }
 
-    public  function  updated(AccountingSupplier $supplier){
-
-
-    }
 
 }
