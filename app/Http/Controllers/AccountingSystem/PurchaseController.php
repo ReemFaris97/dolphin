@@ -231,9 +231,11 @@ class PurchaseController extends Controller
                     $store_id=$request['store_id'];
                      $store=AccountingStore::find($store_id);
                       $safe=AccountingSafe::where('model_type', $store->model_type)->where('model_id', $store->model_id)->first();
-                     $safe->update([
+                    if(isset($safe)){
+                      $safe->update([
                          'amount'=>$safe->amount-$purchase->total
                      ]);
+                    }
                      }elseif ($purchase->payment=='agel'){
 
                  $supplier=AccountingSupplier::find($purchase->supplier_id);
@@ -243,7 +245,7 @@ class PurchaseController extends Controller
              }
 
              alert()->success('تمت عملية الشراء بنجاح !')->autoclose(5000);
-        
+
              return back();
 
         }elseif($requests['type']=='return'){

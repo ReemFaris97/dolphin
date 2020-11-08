@@ -2,15 +2,9 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
-use App\Models\AccountingSystem\AccountingBond;
-use App\Models\AccountingSystem\AccountingBranch;
-use App\Models\AccountingSystem\AccountingBranchShift;
-use App\Models\AccountingSystem\AccountingCompany;
-
 use App\Models\AccountingSystem\AccountingDamage;
 use App\Models\AccountingSystem\AccountingDamageProduct;
-use App\Models\AccountingSystem\AccountingInventory;
-use App\Models\AccountingSystem\AccountingInventoryProduct;
+
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingSroreRequest;
@@ -48,7 +42,21 @@ class StoreTransactionController extends Controller
 
     }
 
+    public function store_products($id)
+    {
 
+
+        $store_product=AccountingProductStore::where('store_id',$id)->pluck('product_id','id')->toArray();
+   
+        $products=AccountingProduct::whereIn('id',$store_product)->get();
+
+
+        return response()->json([
+            'status'=>true,
+            'data'=>view('AccountingSystem.stores.store_products',compact('products'))->render()
+        ]);
+
+    }
 
 
     public function productsettlement(Request $request)
