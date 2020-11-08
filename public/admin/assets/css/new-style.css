@@ -189,7 +189,11 @@ list-style-type: none;
 .easy-tree ul span a {
     color: #333;
 }
-
+.asided-hint {
+    position: absolute;
+    left: 15px;
+    color: red;
+}
 
 
 

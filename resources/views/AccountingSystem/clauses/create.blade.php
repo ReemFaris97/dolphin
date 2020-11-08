@@ -1,11 +1,8 @@
 @extends('AccountingSystem.layouts.master')
-
-@section('title','إنشاء سند    جديد')
+@section('title','إنشاء سند جديد')
 @section('parent_title','إدارة  سندات  القبض  والصرف')
 @section('styles')
-
 @endsection
-
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
@@ -18,15 +15,10 @@
                 </ul>
             </div>
         </div>
-
         <div class="panel-body">
-            {!!Form::open( ['route' => 'accounting.clauses.store' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
-
+            {!!Form::open( ['route' => 'accounting.clauses.store' ,'class'=>'form phone_validate parsley-validate-form', 'method' => 'Post','files' => true]) !!}
             @include('AccountingSystem.clauses.form')
             {!!Form::close() !!}
         </div>
-
-        </div>
     </div>
-
  @endsection
