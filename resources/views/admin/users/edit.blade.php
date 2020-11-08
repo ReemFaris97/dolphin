@@ -35,7 +35,7 @@
 
                 <!--begin::Form-->
 
-                {!! Form::model($user,['method'=>'put','route'=>['admin.users.update',$user->id],'files'=>'true','class'=>'m-form m-form--fit m-form--label-align-right'])!!}
+                {!! Form::model($user,['method'=>'put','route'=>['admin.users.update',$user->id],'files'=>'true','class'=>'parsley-validate-form m-form m-form--fit m-form--label-align-right'])!!}
     @include('admin.users._form')
 
                 <div class="m-portlet__foot m-portlet__foot--fit">
