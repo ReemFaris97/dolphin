@@ -424,7 +424,7 @@
 						{{--@dd($product->discount_type)--}}
 					<label>الضريبة</label>
 					<span class="new-radio-wrap">
-						<label for="yes1">يوجد ضريبة </label>
+						<label for="yes1">يوجد ضريبة</label>
 						<input type="radio" name="tax" class="form-control" id="yes1" value={{($has_tax==1)?1:0}} {{($has_tax==1)?'checked':null }}>
 					</span>
 					<span class="new-radio-wrap">
@@ -569,13 +569,10 @@
 			$('input[name="tax"]').click(function () {
 				if ($(this).is(':checked')) {
 					var id = $(this).val();
-					// alert(id);
 					if (id == 1) {
 						$("#shamel-mesh").show();
-						$(".prices_taxs").show();
 					} else if (id == 0) {
 						$("#shamel-mesh").hide();
-						$(".prices_taxs").hide();
 					}
 				}
 			});
