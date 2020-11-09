@@ -4,7 +4,6 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -13,15 +12,10 @@
                 </ul>
             </div>
         </div>
-
         <div class="panel-body">
-            {!!Form::model($clause, ['route' => ['accounting.clauses.update' ,$clause->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
-
+            {!!Form::model($clause, ['route' => ['accounting.clauses.update' ,$clause->id] ,'class'=>'phone_validate parsley-validate-form ','method' => 'PATCH','files'=>true]) !!}
             @include('AccountingSystem.clauses.form')
-
             {!!Form::close() !!}
         </div>
-
-
     </div>
 @endsection

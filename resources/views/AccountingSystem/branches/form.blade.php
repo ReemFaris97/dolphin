@@ -11,16 +11,15 @@
 <div class="form-group col-md-6 pull-left">
     <label> اسم الشركة التابع لها الفرع: </label>
     <div class="btn-group adding-new-comp">
-        <a href="{{route('accounting.companies.create')}}" class="btn btn-success" target="_blank"
+        <a href="{{route('accounting.companies.create')}}" class="btn btn-success" target="_blank">
             <span class="m-l-5">
 				إضافة شركة
 				<i class="fa fa-plus"></i>
 			</span>
         </a>
     </div>
-    {!! Form::select("company_id",$companies,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الشركة التابع لها الفرع '])!!}
+    {!! Form::select("company_id",$companies,null,['class'=>'form-control js-example-basic-single','required',placeholder'=>' اختر اسم الشركة التابع لها الفرع '])!!}
 </div>
-
 
 <div class="form-group col-md-6 pull-left">
     <label>اسم الفرع:  </label>

@@ -13,15 +13,10 @@
                 </ul>
             </div>
         </div>
-
         <div class="panel-body">
-            {!!Form::model($category, ['route' => ['company.categories.update' ,$category->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
-
+            {!!Form::model($category, ['route' => ['company.categories.update' ,$category->id] ,'class'=>'parsley-validate-form  phone_validate','method' => 'PATCH','files'=>true]) !!}
             @include('AccountingSystem.AccountingCompanies.categories.form')
-
             {!!Form::close() !!}
         </div>
-
-
     </div>
 @endsection

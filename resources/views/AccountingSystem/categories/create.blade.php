@@ -4,9 +4,7 @@
 @section('parent_title','إدارة تصنيفات الاقسام')
 @section('action', URL::route('accounting.categories.index'))
 @section('styles')
-
 @endsection
-
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
@@ -19,14 +17,10 @@
                 </ul>
             </div>
         </div>
-
         <div class="panel-body">
-            {!!Form::open( ['route' => 'accounting.categories.store' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
+            {!!Form::open( ['route' => 'accounting.categories.store' ,'class'=>'parsley-validate-form form phone_validate', 'method' => 'Post','files' => true]) !!}
             @include('AccountingSystem.categories.form')
             {!!Form::close() !!}
         </div>
-
         </div>
-    </div>
-
  @endsection

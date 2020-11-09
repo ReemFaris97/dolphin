@@ -16,7 +16,7 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::model($branch, ['route' => ['accounting.branches.update' ,$branch->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
+            {!!Form::model($branch, ['route' => ['accounting.branches.update' ,$branch->id] ,'class'=>'phone_validate parsley-validate-form','method' => 'PATCH','files'=>true]) !!}
 
             @include('AccountingSystem.branches.form')
 
