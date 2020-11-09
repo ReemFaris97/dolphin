@@ -48,9 +48,9 @@ class StoreTransactionController extends Controller
 
         $store_product=AccountingProductStore::where('store_id',$id)->pluck('product_id','id')->toArray();
    
-        $products=AccountingProduct::whereIn('id',$store_product)->get();
+        $products=AccountingProduct::whereIn('id',$store_product)->pluck('name','id')->toArray();
 
-
+        // dd($products->count());
         return response()->json([
             'status'=>true,
             'data'=>view('AccountingSystem.stores.store_products',compact('products'))->render()

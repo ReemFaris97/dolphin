@@ -86,14 +86,12 @@
 
             var id = $(this).val();
             console.log(id);
-
             $.ajax({
                 url:"/accounting/store_products/"+id,
                 type:"get",
 
 
             }).done(function (data) {
-
                 $('.store_products').html(data.data);
             }).fail(function (error) {
                 console.log(error);
@@ -106,7 +104,7 @@
             var store_id = $('#form_store_id').val();
 
             var id = $(this).val();
-            console.log(id);
+            {{-- console.log(id); --}}
 
             $.ajax({
                 url:"/accounting/productsingle",
@@ -142,7 +140,7 @@
         });
 
     </script>
-    <script src="{{asset('admin/assets/js/get_products_by_store.js')}}"></script>
+    {{-- <script src="{{asset('admin/assets/js/get_products_by_store.js')}}"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
 
 

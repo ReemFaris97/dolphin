@@ -507,8 +507,9 @@
 							</tr>
 						</thead>
 						<tbody>
+						{{-- @dd($taxsproduct) --}}
 						@foreach($taxsproduct as $tax)
-							<tr>
+							<tr style="color:black;">
 								<td>{{$tax->Taxband->name}}</td>
 								<td>{{$tax->Taxband->percent}}</td>
 							</tr>
