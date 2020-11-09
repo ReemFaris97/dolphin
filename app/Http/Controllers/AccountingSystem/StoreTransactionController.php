@@ -50,7 +50,7 @@ class StoreTransactionController extends Controller
    
         $products=AccountingProduct::whereIn('id',$store_product)->get();
 
-
+dd($products->count());
         return response()->json([
             'status'=>true,
             'data'=>view('AccountingSystem.stores.store_products',compact('products'))->render()
