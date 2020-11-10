@@ -41,7 +41,7 @@
             <div class="store_products">
                 <div class="form-group col-md-4 pull-left">
                     <label>اختر الصنف </label>
-                    {!! Form::select("product_id[]",[],null,['class'=>'form-control js-example-basic-single ','placeholder'=>' اخترالمخزن اولا'])!!}
+                    {!! Form::select("product_id_[]",[],null,['class'=>'form-control js-example-basic-single ','placeholder'=>' اخترالمخزن اولا'])!!}
                 </div>
 
             </div>
