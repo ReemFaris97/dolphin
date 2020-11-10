@@ -307,8 +307,6 @@ class StoreController extends Controller
 
     public function getproducts($id)
     {
-
-
         return products($id);
     }
 
