@@ -15,7 +15,8 @@ $(function(){
             type: "GET",
 
         }).done(function (data) {
-          
+            $('.store_products').empty();
+
             $('.store_products').html(data.data);
          
         }).fail(function (error) {
