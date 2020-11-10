@@ -82,22 +82,7 @@
     <script>
 
 
-        $("#form_store_id").on('change', function() {
-
-            var id = $(this).val();
-            console.log(id);
-            $.ajax({
-                url:"/accounting/store_products/"+id,
-                type:"get",
-
-
-            }).done(function (data) {
-                $('.store_products').html(data.data);
-            }).fail(function (error) {
-                console.log(error);
-            });
-
-        });
+       
 
         $(".product_id").on('change', function() {
 
@@ -140,7 +125,7 @@
         });
 
     </script>
-    {{-- <script src="{{asset('admin/assets/js/get_products_by_store.js')}}"></script> --}}
+    <script src="{{asset('admin/assets/js/get_products_by_store.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
 
 
