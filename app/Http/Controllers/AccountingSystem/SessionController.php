@@ -2,14 +2,7 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
-use App\Models\AccountingSystem\AccountingBenod;
-use App\Models\AccountingSystem\AccountingBranch;
-use App\Models\AccountingSystem\AccountingBranchCategory;
-use App\Models\AccountingSystem\AccountingBranchShift;
-use App\Models\AccountingSystem\AccountingCompany;
 
-use App\Models\AccountingSystem\AccountingMoneyClause;
-use App\Models\AccountingSystem\AccountingProductCategory;
 use App\Models\AccountingSystem\AccountingSafe;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -173,16 +166,21 @@ private $viewable = 'AccountingSystem.sessions.';
     public function confirm(Request $request){
 
        $session=AccountingSession::find($request['session_id']);
-       $session->update([
-           'status'=>'confirmed',
-           'custody'=>$request['custody']
-       ]);
+       if(isset($session)){
+        $session->update([
+            'status'=>'confirmed',
+            'custody'=>$request['custody']
+        ]);
+       }
         $safe=AccountingSafe::find($request['safe_id']);
         $safe->update([
             'amount'=>$safe->amount+$request['custody']
         ]);
-        alert()->success('تم تاكيداغلاق الجلسه  من  قبل  المحاسب بنجاح !')->autoclose(5000);
-
+        // alert()->success('تم تاكيداغلاق الجلسه  من  قبل  المحاسب بنجاح !')->autoclose(5000);
+        return response()->json([
+            'status'=>false,
+        ]);
+    }
     }
 
     public function close($id){

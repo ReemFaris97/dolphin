@@ -451,11 +451,11 @@
 						<label>شمول الضريبة</label>
 						<span class="new-radio-wrap">
 							<label > السعر شامل الضريبة </label>
-							<input type="radio" name="price_has_tax" required class="form-control" value="{{($price_has_tax==1)?1:0}}" checked="{{($price_has_tax==1)?'checked':null" }}>
+							<input type="radio" name="price_has_tax" required class="form-control" value="{{($price_has_tax==1)?1:0}}" checked="{{($price_has_tax==1) ? 'checked':null }}">
 						</span>
 						<span class="new-radio-wrap">
 							<label >السعر غير شامل الضريبة </label>
-							<input type="radio" name="price_has_tax" required class="form-control"  value="{{($price_has_tax==1)?0:1}}" checked="{{($price_has_tax==1)?null:'checked'"}}>
+							<input type="radio" name="price_has_tax" required class="form-control"  value="{{($price_has_tax==1)?0:1}}" checked="{{($price_has_tax==1)? null:'checked' }}">
 						</span>
 						</div>
 						<div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left prices_taxs">
