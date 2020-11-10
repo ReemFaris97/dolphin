@@ -91,6 +91,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Validator::extend('store_name', function ($attribute, $value, $parameters) {
+         
            if ($parameters[5]=="") {
                $count = AccountingStore::where($parameters[1], $parameters[4])->where('model_type','App\Models\AccountingSystem\AccountingBranch')->
                    where('model_id', $parameters[6])->count() === 0;

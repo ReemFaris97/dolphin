@@ -63,11 +63,11 @@
 @else
 <div class="form-group  col-md-3 pull-left companies">
 	<label> اسم الشركة التابع لها المخزن: </label>
-	{!! Form::select("company_id",$companies,null,['class'=>'form-control js-example-basic-single','id'=>'company_id'])!!}
+	{!! Form::select("company_id",$companies,null,['class'=>'form-control js-example-basic-single','placeholder'=>'اختر الشركة','id'=>'company_id'])!!}
 </div>
 <div class="form-group  col-md-3 pull-left branches">
 	<label> اسم الفرع التابع لها المخزن: </label>
-	{!! Form::select("branch_id",$branches,null,['class'=>'form-control js-example-basic-single','id'=>'branch_id'])!!}
+	{!! Form::select("branch_id",$branches,null,['class'=>'form-control js-example-basic-single','placeholder'=>'اختر الفرع','id'=>'branch_id'])!!}
 </div>
 @endif
 

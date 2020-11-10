@@ -72,7 +72,7 @@ class StoreController extends Controller
 
         ];
         $messsage = [
-            'name.store_name'=>"اسم المخزن موجود بالفعل بالشركة",
+            'ar_name.store_name'=>"اسم المخزن موجود بالفعل بالشركة",
         ];
         $this->validate($request,$rules,$messsage);
         $requests = $request->except('image');
