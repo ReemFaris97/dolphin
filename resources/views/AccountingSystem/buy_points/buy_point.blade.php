@@ -381,13 +381,8 @@ unit_total_tax_enable
     });
 </script>
 <!-- End Form Validation-->
-<!--- scroll to the last table row -->
-<script>
-$('table').on('DOMSubtreeModified', 'tbody', function(){
-	var height = $("tbody").height();
-    $("tbody").animate({ scrollTop: $('tbody').prop("scrollHeight")}, height);
-});
-</script>
+
+
 <!--- end datatable -->
 <script src="{{asset('admin/assets/js/jquery.datetimepicker.full.min.js')}}"></script>
 <script src="{{asset('admin/assets/js/scanner.js')}}"></script>
@@ -507,6 +502,10 @@ function calculateBill(ProductId, productName, productLink, lastPrice, avgPrice,
 						</tr>
 					`);
                     $(".tempDisabled").removeClass("tempDisabled");
+	
+					var height = $("tbody").height();
+					$("tbody").animate({ scrollTop: $('tbody').prop("scrollHeight")}, height);
+			
                     calcInfo();
                     $('.popover-op').popover({trigger: "click"});
                     $("#modals-area").append(`<div id="discMod${rowNum}" class="modal fade special-discount-modal" role="dialog">
