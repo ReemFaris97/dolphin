@@ -425,13 +425,14 @@
 					<label>الضريبة</label>
 					<span class="new-radio-wrap">
 						<label for="yes1">يوجد ضريبة</label>
+					
 						<input type="radio" name="tax" class="form-control" required id="yes1" value="{{($has_tax==1)?1:0}}" 
-						checked="{{($has_tax==1)?'checked':null}}">
+						{{($has_tax==1)?'checked':null}}>
 					</span>
 					<span class="new-radio-wrap">
 						<label for="no1">لايوجد ضريبة</label>
 						<input type="radio" name="tax" class="form-control" id="no1" value="{{($has_tax==1)?0:1}}"  
-						checked="{{($has_tax==1)?null:'checked'}}">
+						{{($has_tax==1)?null:'checked'}}>
 					</span>
 					@else
 					<label>الضريبة</label>
@@ -445,7 +446,9 @@
 					</span>
 					@endif
 				</div>
+			
 				@if (isset($price_has_tax))
+					@if(isset($has_tax)&$has_tax==1)
 					<div id="shamel-mesh">
 						<div class="form-group form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left form-line new-radio-big-wrapper shamel-mesh">
 						<label>شمول الضريبة</label>
@@ -471,6 +474,7 @@
 							{!! Form::select("tax_band_id[]",$taxs,null,['class'=>'form-control selectpicker','multiple','placeholder'=>' اختر الشريحة '])!!}
 						</div>
 					</div>
+					@endif
                 @else
 				<div id="shamel-mesh">
 					<div class="form-group form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left form-line new-radio-big-wrapper shamel-mesh">
@@ -498,6 +502,7 @@
 					</div>
 				</div>
 				@endif
+				
 				@if (isset($is_edit))
 					<table  class="table">
 						<thead>
