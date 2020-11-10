@@ -173,14 +173,16 @@ private $viewable = 'AccountingSystem.sessions.';
         ]);
        }
         $safe=AccountingSafe::find($request['safe_id']);
+        if($safe){
         $safe->update([
             'amount'=>$safe->amount+$request['custody']
         ]);
+        }
         // alert()->success('تم تاكيداغلاق الجلسه  من  قبل  المحاسب بنجاح !')->autoclose(5000);
         return response()->json([
             'status'=>false,
         ]);
-    }
+    
     }
 
     public function close($id){
