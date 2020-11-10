@@ -80,16 +80,10 @@
 
 
     <script>
-	$(document).ready(function(){
-		$("select[multiple]").each(function(){
-				$(this).parent().find("ul.dropdown-menu.inner").children('li:first-child').removeClass('selected')
-				$(this).children('option:first-child').attr('selected' , false);
-				$(this).children('option:first-child').attr('disabled' , 'disabled');
-			})
-	})
+
+
 
         $("#form_store_id").on('change', function() {
-
             var id = $(this).val();
             console.log(id);
             $.ajax({
@@ -103,6 +97,7 @@
                 console.log(error);
             });
         });
+
 
         $(".product_id").on('change', function() {
 
@@ -145,7 +140,7 @@
         });
 
     </script>
-    {{-- <script src="{{asset('admin/assets/js/get_products_by_store.js')}}"></script> --}}
+    <script src="{{asset('admin/assets/js/get_products_by_store.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
 
 
