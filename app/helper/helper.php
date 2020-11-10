@@ -174,7 +174,9 @@ function stores_to($id=Null)
 
 function products($store=null){
 
-          $products=App\Models\AccountingSystem\AccountingProduct::all()->mapWithKeys(function ($q) {
+    $store_product=App\Models\AccountingSystem\AccountingProductStore::where('store_id',$store)->pluck('product_id','id')->toArray();
+
+          $products=App\Models\AccountingSystem\AccountingProduct::whereIn('id',$store_product)->get()->mapWithKeys(function ($q) {
             return [$q['id'] => $q['name']];
         });
 
