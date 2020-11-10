@@ -80,7 +80,13 @@
 
 
     <script>
-
+	$(document).ready(function(){
+		$("select[multiple]").each(function(){
+				$(this).parent().find("ul.dropdown-menu.inner").children('li:first-child').removeClass('selected')
+				$(this).children('option:first-child').attr('selected' , false);
+				$(this).children('option:first-child').attr('disabled' , 'disabled');
+			})
+	})
 
         $("#form_store_id").on('change', function() {
 
@@ -89,14 +95,13 @@
             $.ajax({
                 url:"/accounting/store_products/"+id,
                 type:"get",
-
-
             }).done(function (data) {
                 $('.store_products').html(data.data);
+				$(".store_products select").children('option:first-child').attr('selected' , false);
+				$(".store_products select").children('option:first-child').attr('disabled' , 'disabled');
             }).fail(function (error) {
                 console.log(error);
             });
-
         });
 
         $(".product_id").on('change', function() {
