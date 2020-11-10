@@ -82,7 +82,22 @@
     <script>
 
 
-       
+
+        $("#form_store_id").on('change', function() {
+            var id = $(this).val();
+            console.log(id);
+            $.ajax({
+                url:"/accounting/store_products/"+id,
+                type:"get",
+            }).done(function (data) {
+                $('.store_products').html(data.data);
+				$(".store_products select").children('option:first-child').attr('selected' , false);
+				$(".store_products select").children('option:first-child').attr('disabled' , 'disabled');
+            }).fail(function (error) {
+                console.log(error);
+            });
+        });
+
 
         $(".product_id").on('change', function() {
 
