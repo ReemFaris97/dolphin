@@ -32,7 +32,7 @@
 
 <div class="form-group col-md-6 pull-left">
     <label> اختر الحساب </label>
-    {!! Form::select("account_id",$accounts,null,['class'=>'form-control','placeholder'=>' اختر الحساب'])!!}
+    {!! Form::select("account_id",$accounts,null,['class'=>'form-control','required','placeholder'=>' اختر الحساب'])!!}
 </div>
 
 <div class="form-group col-md-6 pull-left ">
@@ -42,7 +42,7 @@
 
 <div class="form-group col-md-6 pull-left ">
     <label>  اختر طريقةالدفع</label>
-    {!! Form::select("payment_id",$payments,null,['class'=>'form-control js-example-basic-single','id'=>'payment_id','placeholder'=>' اختر طريقةالدفع   '])!!}
+    {!! Form::select("payment_id",$payments,null,['class'=>'form-control js-example-basic-single','id'=>'payment_id','required','placeholder'=>' اختر طريقةالدفع   '])!!}
 </div>
     <hr>
     <p class="panel-title">  <h5><u>اضافة اهلاك</u></h5></p>

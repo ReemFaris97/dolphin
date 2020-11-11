@@ -317,7 +317,7 @@
 							   </span>
 							</a>
 						</div>
-						{!! Form::select("industrial_id",$industrials,null,['class'=>'form-control js-example-basic-single','id'=>'industrial_id','required','placeholder'=>' اختر اسم الشركة المصنعة المنتج '])!!}
+						{!! Form::select("industrial_id",$industrials,null,['class'=>'form-control js-example-basic-single','id'=>'industrial_id','placeholder'=>' اختر اسم الشركة المصنعة المنتج '])!!}
 					</div>
 				</div>
 			</div>
