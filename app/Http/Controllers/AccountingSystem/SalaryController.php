@@ -25,6 +25,21 @@ class SalaryController extends Controller
 
     public function pay(Request $request){
         $bouns=$request['bouns'];
+
+        $rules = [
+
+            'user_id' => 'required_if:type,=,one_employee',
+            'title_id' => 'required_if:type,=,job_title',
+
+
+        ];
+        $messsage = [
+            'user_id.required_if'=>"اسم الموظف مطلوب",
+            'title_id.required_if'=>"المسمى الوظيفى مطلوب",
+        ];
+
+        $this->validate($request,$rules,$messsage);
+
      if($request['type']=='one_employee'){
          $user=User::find($request['user_id']);
          AccountingUserSalary::create([

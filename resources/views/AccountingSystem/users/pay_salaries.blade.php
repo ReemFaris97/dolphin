@@ -15,6 +15,16 @@
 			</ul>
 		</div>
 	</div>
+	@if (count($errors) > 0)
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
 	<div class="panel-body">
 		{!!Form::open( ['route' => 'accounting.users.pay' ,'class'=>'form phone_validate parsley-validate-form', 'method' => 'Post','files' => true]) !!}
 		<div class="form-group col-md-4 col-xs-12 pull-left">
