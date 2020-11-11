@@ -22,7 +22,7 @@
         <td ><input type="text" value="{{$product->purchasing_price}}"  class="form-control buy-price" readonly></td>
         <td ><input type="text" value="{{$product->selling_price}}"  class="form-control sell-price" readonly></td>
         <td>{{$product->store_quantity($store->id)}}</td>
-        <td><input type="number"  name="quantity[{{$product->id}}]" id="{{$product->id}}"   data-id="{{$product->id}}" class="form-control quantity" min="1" max="{{$product->store_quantity($store->id)}}" placeholder=" ادخل كميه اقل  من {{$product->store_quantity($store->id)}}   "></td>
+        <td><input type="number"  name="quantity[{{$product->id}}]" id="{{$product->id}}"   data-id="{{$product->id}}" class="form-control quantity" min="1" max="{{$product->store_quantity($store->id)}}" placeholder=" ادخل كميه اقل  من {{$product->store_quantity($store->id)}}   " required></td>
         <td><input type="text"  name="cost[{{$product->id}}]"  class="form-control cost" readonly></td>
         <td><input type="text"  name="price[{{$product->id}}]"  class="form-control vaaal" readonly></td>
     </tr>

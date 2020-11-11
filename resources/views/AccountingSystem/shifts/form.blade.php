@@ -51,5 +51,5 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
 
-    <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
+    <script src="{{asset('admin/assets/js/get_branch_by_company_without_all.js')}}"></script>
 @endsection

@@ -91,6 +91,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Validator::extend('store_name', function ($attribute, $value, $parameters) {
+         
            if ($parameters[5]=="") {
                $count = AccountingStore::where($parameters[1], $parameters[4])->where('model_type','App\Models\AccountingSystem\AccountingBranch')->
                    where('model_id', $parameters[6])->count() === 0;
@@ -105,6 +106,13 @@ class AppServiceProvider extends ServiceProvider
 
 
         });
+        Validator::extend('device_type', function ($attribute, $value, $parameters) {
+dd($parameters);
+                $count = AccountingDevice::where($parameters[1], $parameters[4])->where('model_type','App\Models\AccountingSystem\AccountingBranch')->
+                    where('model_id', $parameters[6])->count() === 0;
+                return $count;
+
+        });
 
         Validator::extend('device_name', function ($attribute, $value, $parameters) {
             if ($parameters[5]=="") {
@@ -116,8 +124,6 @@ class AppServiceProvider extends ServiceProvider
                     where('model_id', $parameters[5])->count() === 0;
                 return $count;
             }
-
-
 
 
         });

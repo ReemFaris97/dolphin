@@ -93,10 +93,16 @@ class SafeController extends Controller
         //branch_all_safes
         $safes_cashier= AccountingSafe::where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->where('model_id',$safe->model_id)->where('id','!=',$id)->get();
         $safes_branch= AccountingSafe::where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->where('model_id',$safe->model_id)->where('status','branch')->where('id','!=',$id)->get();
-        $safe_company=AccountingSafe::where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->where('model_id',$safe->branch->company_id)->first();
+        if(isset($safe->branch->company_id)){
+        $safe_company=AccountingSafe::where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->where('model_id',
+        $safe->branch->company_id)->first();
         $safes_branch->push($safe_company);
-
         $safes_company=AccountingSafe::where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->where('model_id',$safe->branch->company_id)->get();
+
+        }else{
+            $safes_branch=[];
+            $safes_company=[];
+        }
 
         return $this->toShow(compact('transactions','safe','safes_branch','safes_cashier','safes_company'));
     }

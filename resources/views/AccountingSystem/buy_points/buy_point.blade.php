@@ -25,7 +25,7 @@
 
 <div class="panel panel-flat" id="container">
 	<div class="panel-heading">
-	
+
 		<h5 class="panel-title">
 					<a href="#" class="btn btn-success bill-cogs go-to-full" id="enlarge-scr">
 				<div class="fullscreen-icon" onclick="toggleFullscreen()">
@@ -62,8 +62,17 @@
 	<div class="panel-body">
 		<!----------------  Start Bill Content ----------------->
 		<section class="yourBill">
+
 		<form method="post" id="buyForm" action="{{route('accounting.purchases.store')}}" data-parsley-validate="">
-					@csrf
+			@csrf
+            @if(Request::is('*/puchaseReturns/create'))
+            <input  type="hidden" name="type"  value="return">
+            @elseif(Request::is('*/buy_point'))
+            <input  type="hidden" name="type"  value="purchase">
+            @else
+            <input  type="hidden" name="type"  value="edit">
+            @endif
+
 			<div class="yurSections">
 				<div class="row">
 					@if (count($errors) > 0)
@@ -180,14 +189,89 @@ unit_total_tax_enable
     </thead>
 
 						<tbody>
-							<!--Space For Appended Products-->
+                            <!--Space For Appended Products-->
+                            @if(Request::is('*/edit'))
+                            @foreach($product_items as $key=>$row)
+                            <tr class="single-row-wrapper" id="row{{++$key}}" data-ifhastax="{{($row->tax==0)?0:1}}" data-tot-taxes="{{$row->tax}}">
+                                <td class="row-num" width="40">{{++$key}}</td>
+                                <input type="hidden" name="product_id_old[]" value="{{$row->product_id}}">
+                                <td class="product-name maybe-hidden name_enable"><a href="{{route('accounting.products.show',['id'=>$row->product_id])}}" target="_blank" rel="noopener noreferrer">{{$row->product->name}}</a></td>
+                                <td class="product-unit maybe-hidden unit_enable" width="70">
+                                    <select class="form-control js-example-basic-single" name="unit_id_old[{{$row->product_id}}]" >
+                                        @foreach($row->units() as $unit)
+                                        <option value="{{$unit->product_id??$unit->id}}"
+                                        @if($row->unit_type=='sub' && $row->unit_id=$unit->id)
+                                           selected
+                                            @endif
+                                        >{{$unit->name}}</option>
+                                      @endforeach
+                                    </select>
+                                </td>
+                                <td class="product-quantity maybe-hidden quantity_enable" width="70">
+                                    <input type="number" placeholder="الكمية" step="1" min="1" value="1" id="sale" class="form-control" name="quantity_old[{{$row->product_id}}]">
+                                </td>
+                                <td class="expiration-date maybe-hidden expiration_enable" width="120">
+                                    {{$row->expire_date}}
+                                </td>
+                                <td class="unit-price maybe-hidden unit_price_enable" width="70">
+                                    <input type="number" class="form-control" step="any" value="{{round($row->price,3)}}" name="">
+                                </td>
+                                <td class="unit-total-tax maybe-hidden unit_total_tax_enable" width="100">
+                                    <input type="number" placeholder="الضريبة"  data-original-tax="{{$row->product->total_taxes}}" value="{{$row->product->total_taxes}}" name="tax[]" class="form-control">
+                                </td>
+                                <td class="quantityXprice maybe-hidden total_enable" width="70">{{$row->price}}</td>
+                                <td class="whole-product-gifts maybe-hidden gifts_enable" width="70">
+                                    <input type="number" placeholder="الهدايا" step="1" min="0" value="0" class="form-control" name="gifts_old[{{$row->gifts}}]">
+                                </td>
+                                <td class="whole-product-discounts maybe-hidden discounts_enable per1" width="95"></td>
+                                <td class="whole-product-discounts maybe-hidden discounts_enable bud1" width="95"></td>
+                                <td class="whole-product-discounts maybe-hidden discounts_enable per2" width="95"></td>
+                                <td class="whole-product-discounts maybe-hidden discounts_enable bud2" width="95"></td>
+
+                                <td class="single-price-before maybe-hidden">
+                                    <input type="number" class="form-control" step="any" value="{{$row->price}}" name="prices_old[{{$row->price}}]">
+                                </td>
+
+                                <input type="hidden" name="itemTax[{{$row->product_id}}]" value="{{$row->tax}}">
+                                <td class="single-price-after maybe-hidden total_taxes_enable" data-sinAft="{{$row->price_after_tax}}" width="70">
+                                    {{$row->tax}}
+                                </td>
+                                <td class="whole-price-before maybe-hidden ">{{$row->price}}</td>
+                                <td class="whole-price-after maybe-hidden total_pure_enable" width="70">{{$row->price_after_tax}}</td>
+
+                                <td class="bill-operations-td maybe-hidden operations_enable" width="160">
+
+                                    {{-- <button type="button"
+                                            class="btn btn-primary popover-op"
+                                            role="button"
+                                            data-toggle="popover"
+                                            title="عمليات أخرى"
+                                            data-html="true"
+                                            data-container="body"
+                                            data-toggle="popover"
+                                            data-placement="right"
+                                            data-id="${rowNum}"
+                                            data-content='<div class="lasto-prico">أخر سعر : ${lastPrice}</div><div class="averageo-priceo"> متوسط السعر : ${avgPrice} </div> <div class="showo-producto"><a href="${productLink}" target="_blank" title="عرض المنتح" rel="noopener noreferrer">عرض المنتج</a></div><div class="addo-saleo"><a data-toggle="modal" title="إضافة خصم" data-target="#discMod${rowNum}">إضافة خصم</a></div>'>
+                                            <span class="icon-coin-dollar"></span>
+                                    </button> --}}
+                                    <a href="#" title="مسح" class="remove-prod-from-list"><span class="icon-cross"></span></a>
+                                </td>
+                            </tr>
+                            @endforeach
+                            @endif
 						</tbody>
 						<tfoot class="tempDisabled">
 							<tr>
 								<th id="amountBeforeDariba" class="rel-cols" colspan="3">
 									<span class="colorfulSpan"> المجموع</span>
 									<input type="hidden" class="dynamic-input" id="amountBeforeDariba1" name="amount">
-									<span class="dynamic-span">0</span>
+									<span class="dynamic-span">
+                                        @if(Request::is('*/edit'))
+                                        {{$purchase->amount}}
+                                        @else
+                                        0
+                                        @endif
+                                    </span>
 									<span class="rs"> ر.س </span>
 								</th>
 								<th id="amountOfDariba" class="rel-cols" colspan="3">
@@ -197,7 +281,13 @@ unit_total_tax_enable
 									</span>
 									<span class="colorfulSpan"> قيمة الضريبة</span>
 									<input type="hidden" class="dynamic-input" name="totalTaxs" id="amountOfDariba2">
-									<span class="dynamic-span">0</span>
+									<span class="dynamic-span">
+                                        @if(Request::is('*/edit'))
+                                        {{$purchase->tax}}
+                                        @else
+                                        0
+                                        @endif
+                                    </span>
 									<span class="rs"> ر.س </span>
 <!--
 									<span id="removeTaxWrap">
@@ -209,7 +299,13 @@ unit_total_tax_enable
 								<th id="amountAfterDariba" class="rel-cols" colspan="3">
 									<span class="colorfulSpan">المجموع بعد الضريبة</span>
 									<input type="hidden" class="dynamic-input">
-									<span class="dynamic-span">0</span>
+									<span class="dynamic-span">
+                                        @if(Request::is('*/edit'))
+                                        {{$purchase->total}}
+                                        @else
+                                        0
+                                        @endif
+                                    </span>
 									<span class="rs"> ر.س </span>
 								</th>
 							</tr>
@@ -285,13 +381,8 @@ unit_total_tax_enable
     });
 </script>
 <!-- End Form Validation-->
-<!--- scroll to the last table row -->
-<script>
-$('table').on('DOMSubtreeModified', 'tbody', function(){
-	var height = $("tbody").height();
-    $("tbody").animate({ scrollTop: $('tbody').prop("scrollHeight")}, height);
-});
-</script>
+
+
 <!--- end datatable -->
 <script src="{{asset('admin/assets/js/jquery.datetimepicker.full.min.js')}}"></script>
 <script src="{{asset('admin/assets/js/scanner.js')}}"></script>
@@ -369,7 +460,7 @@ function calculateBill(ProductId, productName, productLink, lastPrice, avgPrice,
 								<input type="number" class="form-control" step="any" value="${productPrice}" name="">
 							</td>
 							<td class="unit-total-tax maybe-hidden unit_total_tax_enable" width="100">
-								<input type="number" placeholder="الضريبة" max="" min="0" data-original-tax="${totalTaxes}" value="${totalTaxes}" name="tax[]" class="form-control">
+								<input type="number" placeholder="الضريبة"  data-original-tax="${totalTaxes}" value="${totalTaxes}" name="tax[]" class="form-control">
 							</td>
 							<td class="quantityXprice maybe-hidden total_enable" width="70">${productPrice}</td>
 							<td class="whole-product-gifts maybe-hidden gifts_enable" width="70">
@@ -392,11 +483,11 @@ function calculateBill(ProductId, productName, productLink, lastPrice, avgPrice,
 							<td class="whole-price-after maybe-hidden total_pure_enable" width="70">${singlePriceAfter}</td>
 
 							<td class="bill-operations-td maybe-hidden operations_enable" width="160">
-								
+
 								<button type="button"
 										class="btn btn-primary popover-op"
-										role="button" 
-										data-toggle="popover" 
+										role="button"
+										data-toggle="popover"
 										title="عمليات أخرى"
 										data-html="true"
 										data-container="body"
@@ -411,6 +502,10 @@ function calculateBill(ProductId, productName, productLink, lastPrice, avgPrice,
 						</tr>
 					`);
                     $(".tempDisabled").removeClass("tempDisabled");
+	
+					var height = $("tbody").height();
+					$("tbody").animate({ scrollTop: $('tbody').prop("scrollHeight")}, height);
+			
                     calcInfo();
                     $('.popover-op').popover({trigger: "click"});
                     $("#modals-area").append(`<div id="discMod${rowNum}" class="modal fade special-discount-modal" role="dialog">
@@ -515,14 +610,14 @@ function calculateBill(ProductId, productName, productLink, lastPrice, avgPrice,
                             }
                         })
                     });
-						
+
 					$(".unit-total-tax input").each(function(){
 						$(this).on('change',function(){
 							totalTaxes = $(this).val();
 							$(this).parents('.single-row-wrapper').find(".unit-price input").trigger('change');
 						})
 					})
-	
+
 //					$('.special-discount-modal').trigger('hidden.bs.modal');
                     var wholePriceBefore, wholePriceAfter = 0;
                     //**************    Calc while changing unit input ***********************
@@ -700,7 +795,7 @@ function calculateBill(ProductId, productName, productLink, lastPrice, avgPrice,
                         var finalAftDisc = Number($('#row' + onlyModNum).find('.whole-price-before').attr('tempPriBef'));
                         var rows = $(this).find('.single-special-dis-wrap');
                         for (var i = 0; i < rows.length; i++) {
-							
+
 							if(i === 0){
 								if(($(rows[0]).find('.singleSpecialDiscByVal').val()) != 0){
 		$("tr#row" + onlyModNum).find(".bud1").html(Number($(rows[0]).find('.singleSpecialDiscByVal').val()).toFixed(rondingNumber) + 'ريال')
@@ -713,9 +808,9 @@ function calculateBill(ProductId, productName, productLink, lastPrice, avgPrice,
 									$("tr#row" + onlyModNum).find(".per2").html('---')
 								}
 							}
-							
+
                             finalAftDisc -= Number($(rows[i]).find('.singleSpecialDiscByVal').val());
-							
+
 							if(i === 0){
 								if(((Number($(rows[0]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc) != 0){
 									$("tr#row" + onlyModNum).find(".per1").html(((Number($(rows[0]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc).toFixed(rondingNumber) + 'ريال')
@@ -728,8 +823,8 @@ function calculateBill(ProductId, productName, productLink, lastPrice, avgPrice,
 									$("tr#row" + onlyModNum).find(".bud2").html('---')
 								}
 							}
-							
-							
+
+
                             finalAftDisc -= (Number($(rows[i]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc;
                             $('#row' + onlyModNum).find('.whole-price-before').text(finalAftDisc.toFixed(rondingNumber));
                             if ($(rows[i]).find(".effectTax").is(":checked")) {
@@ -755,6 +850,7 @@ function calculateBill(ProductId, productName, productLink, lastPrice, avgPrice,
                         if (trLen === 0) {
                             $('table tfoot').addClass('tempDisabled');
                         }
+
                     });
 			$("#remove-tax").change(function(){
                 if($(this).is(':checked')){
@@ -980,7 +1076,7 @@ $("#barcode_search").scannerDetection({
 			$("body").toggleClass("full-scr");
 			$(this).toggleClass("go-to-full go-to-min")
 		})
-		
+
 		$(".go-to-full").click(function(){
 			var elem = document.body; // Make the body go full screen.
 			requestFullScreen(elem);
@@ -989,26 +1085,26 @@ $("#barcode_search").scannerDetection({
 			var ele = document.body; // Make the body go full screen.
 			extFullScreen(ele);
 		})
-		
+
 	})
 
 var isFullscreen = false;
 function toggleFullscreen(){
   var container = document.getElementById("container");
-  
+
   if (isFullscreen) {
     document.webkitCancelFullScreen();
   } else {
     container.webkitRequestFullScreen();
   }
-  
+
   isFullscreen = !isFullscreen;
-  
+
   var square1 = document.getElementById("square-1");
   var square2 = document.getElementById("square-2");
   var square3 = document.getElementById("square-3");
   var square4 = document.getElementById("square-4");
-  
+
   if (isFullscreen){
     square1.className = "square  square-1--reduce";
     square2.className = "square  square-2--reduce";
@@ -1021,5 +1117,5 @@ function toggleFullscreen(){
     square4.className = "square  square-4--expand";
   }
 }
-</script> 
+</script>
 @endsection

@@ -42,7 +42,7 @@
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
 
-                        <td>{!! $row->code!!}</td>
+                        <td>{!! $row->id!!}</td>
                         <td>{!! optional($row->device)->code!!}</td>
                         <td>{!! optional($row->shift)->name!!}</td>
                         <td>{!! optional($row->user)->name!!}</td>
@@ -109,7 +109,7 @@
                     <button class="btn btn-primary" id="real{{$row->id}}" type="button" data-dismiss="modal">    اضافة    عهدة الجلسة   </button>
                 </div>
                 </form>
-                {{--{!!Form::close() !!}--}}
+                {{-- {!!Form::close() !!} --}}
             </div>
         </div>
     </div>

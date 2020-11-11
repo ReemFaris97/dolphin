@@ -1,5 +1,4 @@
 @section('styles')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/guillaumepotier/Parsley.js@2.9.2/src/parsley.css">
 @endsection
 @if (count($errors) > 0)
 <div class="alert alert-danger">
@@ -119,7 +118,7 @@
 					{!! Form::text("product_name",isset($is_edit)?$product->name:null,['class'=>'form-control','required','placeholder'=>' اسم المنتج باللغة العربية '])!!}
                 </div>
                 <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left">
-					<label>   اسم المنتج باللغة الانجليزية</label>
+					<label>   اسم المنتج باللغة الانجليزية</label><span class="asided-hint">اختيارى</span>
 					{!! Form::text("en_name",isset($is_edit)?$product->en_name:null,['class'=>'form-control','placeholder'=>'  اسم المنتج  باللغة الانجليزية'])!!}
                 </div>
 				<div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left">
@@ -260,7 +259,7 @@
 					<label>الحالة</label>
 					<span class="new-radio-wrap">
 						<label for="active">مفعل </label>
-						{!! Form::radio("is_active",1,['class'=>'form-control','required','id'=>'active'])!!}
+						{!! Form::radio("is_active",1,['class'=>'form-control','required','checked','id'=>'active'])!!}
 					</span>
 					<span class="new-radio-wrap">
 						<label for="dis_active">غير مفعل </label>
@@ -318,7 +317,7 @@
 							   </span>
 							</a>
 						</div>
-						{!! Form::select("industrial_id",$industrials,null,['class'=>'form-control js-example-basic-single','id'=>'industrial_id','required','placeholder'=>' اختر اسم الشركة المصنعة المنتج '])!!}
+						{!! Form::select("industrial_id",$industrials,null,['class'=>'form-control js-example-basic-single','id'=>'industrial_id','placeholder'=>' اختر اسم الشركة المصنعة المنتج '])!!}
 					</div>
 				</div>
 			</div>
@@ -379,7 +378,7 @@
 			<div class="row">
 				<div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left">
 					<label> نوع الخصم </label>
-					{!! Form::select("discount_type",['percent'=>'نسبة','quantity'=>'كمية'],isset($discount)?$discount->discount_type:null,['class'=>'form-control js-example-basic-single','id'=>'discount_id','required','placeholder'=>' اختر الخصم '])!!}
+					{!! Form::select("discount_type",['percent'=>'نسبة','quantity'=>'كمية'],isset($discount)?$discount->discount_type:null,['class'=>'form-control js-example-basic-single','id'=>'discount_id','placeholder'=>' اختر الخصم '])!!}
 				</div>
 				<div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left" id="nesba-wrp">
 					<label> النسبة </label>
@@ -425,18 +424,21 @@
 						{{--@dd($product->discount_type)--}}
 					<label>الضريبة</label>
 					<span class="new-radio-wrap">
-						<label for="yes1">يوجد ضريبة </label>
-						<input type="radio" name="tax" class="form-control" id="yes1" value={{($has_tax==1)?1:0}} {{($has_tax==1)?'checked':null }}>
+						<label for="yes1">يوجد ضريبة</label>
+					
+						<input type="radio" name="tax" class="form-control" required id="yes1" value="{{($has_tax==1)?1:0}}" 
+						{{($has_tax==1)?'checked':null}}>
 					</span>
 					<span class="new-radio-wrap">
 						<label for="no1">لايوجد ضريبة</label>
-						<input type="radio" name="tax" class="form-control" id="no1" value={{($has_tax==1)?0:1}} {{($has_tax==1)?null:'checked'}}>
+						<input type="radio" name="tax" class="form-control" id="no1" value="{{($has_tax==1)?0:1}}"  
+						{{($has_tax==1)?null:'checked'}}>
 					</span>
 					@else
 					<label>الضريبة</label>
 					<span class="new-radio-wrap">
 						<label for="yes1">يوجد ضريبة </label>
-						<input type="radio" name="tax" class="form-control" checked id="yes1" value="1">
+						<input type="radio" name="tax" class="form-control" required checked id="yes1" value="1">
 					</span>
 					<span class="new-radio-wrap">
 						<label for="no1">لايوجد ضريبة</label>
@@ -444,17 +446,19 @@
 					</span>
 					@endif
 				</div>
+			
 				@if (isset($price_has_tax))
+					@if(isset($has_tax)&$has_tax==1)
 					<div id="shamel-mesh">
 						<div class="form-group form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left form-line new-radio-big-wrapper shamel-mesh">
 						<label>شمول الضريبة</label>
 						<span class="new-radio-wrap">
 							<label > السعر شامل الضريبة </label>
-							<input type="radio" name="price_has_tax" required="" class="form-control" checked value={{($price_has_tax==1)?1:0}} {{($price_has_tax==1)?'checked':null }}>
+							<input type="radio" name="price_has_tax" required class="form-control" value="{{($price_has_tax==1)?1:0}}" checked="{{($price_has_tax==1) ? 'checked':null }}">
 						</span>
-							<span class="new-radio-wrap">
+						<span class="new-radio-wrap">
 							<label >السعر غير شامل الضريبة </label>
-							<input type="radio" name="price_has_tax" required="" class="form-control"  value={{($price_has_tax==1)?0:1}} {{($price_has_tax==1)?null:'checked'}}>
+							<input type="radio" name="price_has_tax" required class="form-control"  value="{{($price_has_tax==1)?0:1}}" checked="{{($price_has_tax==1)? null:'checked' }}">
 						</span>
 						</div>
 						<div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left prices_taxs">
@@ -470,17 +474,18 @@
 							{!! Form::select("tax_band_id[]",$taxs,null,['class'=>'form-control selectpicker','multiple','placeholder'=>' اختر الشريحة '])!!}
 						</div>
 					</div>
+					@endif
                 @else
 				<div id="shamel-mesh">
 					<div class="form-group form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left form-line new-radio-big-wrapper shamel-mesh">
 						<label>شمول الضريبة</label>
 						<span class="new-radio-wrap">
 							<label > السعر شامل الضريبة </label>
-							<input type="radio" name="price_has_tax"  required="" checked class="form-control"  value="1">
+							<input type="radio" name="price_has_tax"  required="required" checked class="form-control"  value="1">
 						</span>
 						<span class="new-radio-wrap">
 							<label >السعر غير شامل الضريبة </label>
-							<input type="radio" name="price_has_tax" required=""  class="form-control"  value="0">
+							<input type="radio" name="price_has_tax" required="required"  class="form-control"  value="0">
 						</span>
 					</div>
 					<div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left prices_taxs">
@@ -497,6 +502,7 @@
 					</div>
 				</div>
 				@endif
+				
 				@if (isset($is_edit))
 					<table  class="table">
 						<thead>
@@ -506,11 +512,11 @@
 							</tr>
 						</thead>
 						<tbody>
+						{{-- @dd($taxsproduct) --}}
 						@foreach($taxsproduct as $tax)
-							<tr>
+							<tr style="color:black;">
 								<td>{{$tax->Taxband->name}}</td>
 								<td>{{$tax->Taxband->percent}}</td>
-
 							</tr>
 							@endforeach
 						</tbody>
@@ -570,13 +576,10 @@
 			$('input[name="tax"]').click(function () {
 				if ($(this).is(':checked')) {
 					var id = $(this).val();
-					// alert(id);
 					if (id == 1) {
 						$("#shamel-mesh").show();
-						$(".prices_taxs").show();
 					} else if (id == 0) {
 						$("#shamel-mesh").hide();
-						$(".prices_taxs").hide();
 					}
 				}
 			});
@@ -597,12 +600,6 @@
 				source: availableTags
 			});
 		});
-	</script>
-		<script src="https://cdn.jsdelivr.net/gh/guillaumepotier/Parsley.js@2.9.2/dist/parsley.js"></script>
-		<script src="{{asset('admin/assets/js/i18n/ar.js')}}"></script>
-	<script>
-	// 	$(function () {
-  // $('#montag-form').parsley()
 	</script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
 	<script src="{{asset('admin/assets/js/get_faces_by_branch.js')}}"></script>

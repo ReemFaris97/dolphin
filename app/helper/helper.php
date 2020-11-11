@@ -4,6 +4,7 @@
 //Json array response
 
 use App\Models\AccountingSystem\AccountingAccount;
+use App\Models\AccountingSystem\AccountingStore;
 use Carbon\Carbon;
 
 
@@ -174,7 +175,9 @@ function stores_to($id=Null)
 
 function products($store=null){
 
-          $products=App\Models\AccountingSystem\AccountingProduct::all()->mapWithKeys(function ($q) {
+    $store_product=App\Models\AccountingSystem\AccountingProductStore::where('store_id',$store)->pluck('product_id','id')->toArray();
+
+          $products=App\Models\AccountingSystem\AccountingProduct::whereIn('id',$store_product)->get()->mapWithKeys(function ($q) {
             return [$q['id'] => $q['name']];
         });
 
@@ -259,12 +262,15 @@ function devices()
 
 
 
-function keepers($store= null)
+function keepers($store_id= null)
 {
-    if ($store != null) {
-        $keepers = App\User::where('is_storekeeper', 1)->where('accounting_store_id',$store)->get()->mapWithKeys(function ($q) {
+    if ($store_id != null) {
+
+        $store=AccountingStore::findOrfail($store_id);
+        $keepers = App\User::where('id', $store->user_id)->get()->mapWithKeys(function ($q) {
             return [$q['id'] => $q['name']];
         });
+        // dd($keepers);
     }else{
         $keepers=[];
     }

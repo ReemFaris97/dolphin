@@ -10,10 +10,8 @@ class AccountingSaleItem extends Model
 {
 
 
-    protected $fillable = ['product_id','quantity','price','sale_id'];
+    protected $fillable = ['product_id','quantity','price','sale_id','price_after_tax','tax'];
     protected $table='accounting_sales_items';
-
-
 
     public function product()
     {

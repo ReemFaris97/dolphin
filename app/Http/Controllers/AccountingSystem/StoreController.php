@@ -72,7 +72,7 @@ class StoreController extends Controller
 
         ];
         $messsage = [
-            'name.store_name'=>"اسم المخزن موجود بالفعل بالشركة",
+            'ar_name.store_name'=>"اسم المخزن موجود بالفعل بالشركة",
         ];
         $this->validate($request,$rules,$messsage);
         $requests = $request->except('image');
@@ -307,8 +307,6 @@ class StoreController extends Controller
 
     public function getproducts($id)
     {
-
-
         return products($id);
     }
 
@@ -374,24 +372,25 @@ class StoreController extends Controller
 
     public  function  bond_store(Request $request)
     {
+        // dd($request->all());
         $inputs = $request->all();
         $bond = AccountingBond::create($inputs);
-        $rules = [
-        'user_id'=>'required|numeric|exists:users,id',
-            'qtys'=>'required|array',
-            'products'=>'required|array',
-            'prices'=>'required|array',
+        // $rules = [
+        // 'user_id'=>'required|numeric|exists:users,id',
+        //     'qtys'=>'required|array',
+        //     'products'=>'required|array',
+        //     'prices'=>'required|array',
 
-        ];
-        $massage=[
-            'qtys.required'=>'كميات الاصناف مطلويه',
-            'products.required'=>'الاصناف مطلوبة',
-            'prices.required'=>'اسعار الاصناف مطلوبة',
+        // ];
+        // $massage=[
+        //     'qtys.required'=>'كميات الاصناف مطلويه',
+        //     'products.required'=>'الاصناف مطلوبة',
+        //     'prices.required'=>'اسعار الاصناف مطلوبة',
 
-        ];
+        // ];
 
-        $this->validate($request,$rules,$massage);
-
+        // $this->validate($request,$rules,$massage);
+// dd($request->all());
         if ($bond->type == 'entry'||$bond->type == 'exchange') {
             $products_store = AccountingProductStore::where('store_id', $bond->store_id)->get();
             $quantity = collect($inputs['qtys']);
@@ -427,6 +426,7 @@ class StoreController extends Controller
             }
 
         }elseif($bond->type == 'transactions'){
+           
             $transaction=session('transaction');
             $bond->update([
                 'store_to'=>$transaction['to_store_id'],
@@ -478,8 +478,9 @@ class StoreController extends Controller
 
         $bondproducts=AccountingBondProduct::where('bond_id',$bond->id)->get();
 
-        alert()->success('تم اضافة  السند  بنجاح !')->autoclose(5000);
-        return view('AccountingSystem.stores.show_bond',compact('bond','bondproducts'));
+        // alert()->success('تم اضافة  السند  بنجاح !')->autoclose(5000);
+       
+    return redirect()->route('accounting.stores.show_bond',$bond->id)->with('bond',$bond->id)->with('bondproducts',$bondproducts);
     }
 
 

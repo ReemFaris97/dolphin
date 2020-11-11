@@ -80,7 +80,9 @@ class BuyPointController extends Controller
 
     public  function barcode_search(Request $request,$q){
 
+        if($request['store_id']!=null){
         $store_product=AccountingProductStore::where('store_id',$request['store_id'])->pluck('product_id','id')->toArray();
+
 
         $products=AccountingProduct::where('bar_code',$q)->get();
 
@@ -98,11 +100,17 @@ class BuyPointController extends Controller
 			else
 				$select_unit_id = 0;
         }
-
         return response()->json([
             'status'=>true,
             'data'=>view('AccountingSystem.buy_points.barcodeProducts',compact('products','selectd_unit_id'))->render()
         ]);
+    }else{
+      
+        return response()->json([
+            'status'=>false,
+        ]);
+    }
+     
     }
     /**
      * Store a newly created resource in storage.

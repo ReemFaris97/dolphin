@@ -101,6 +101,7 @@ class ProductController extends Controller
             'type.required'=>'نوع المنتج مطلوب ادخاله',
         ];
         $this->validate($request,$rules,$messsage);
+
         $inputs = $request->except('image','main_unit_present','purchasing_price','selling_price','component_names','qtys','main_units');
        $inputs['name']=$inputs['product_name'];
         $inputs['selling_price']=$inputs['product_selling_price'];
@@ -238,14 +239,16 @@ class ProductController extends Controller
         }
 /////////////////////product_taxs//////////////////////////////////////
         if (isset($request['tax'])&$request['tax']==1){
-            // dd($request->all());
+
             if (isset($request['tax_band_id'] )) {
-                foreach ($request['tax_band_id'] as $tax_band_id) {
+               $taxs=$request['tax_band_id'];
+                foreach ($taxs as  $tax) {
+
                     AccountingProductTax::create([
                         'product_id' => $product->id,
                         'tax' => $request['tax'],
                         'price_has_tax' => isset($request['price_has_tax']) ? $request['price_has_tax'] : Null,
-                        'tax_band_id' => $tax_band_id,
+                        'tax_band_id' => $tax,
                     ]);
                 }
             }

@@ -100,6 +100,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/productsettlement', 'StoreTransactionController@productsettlement');
     Route::get('/productdamage', 'StoreTransactionController@productdamage');
     Route::get('/productpurchase', 'PurchaseReturnController@productpurchase');
+    Route::get('/store_products/{id}', 'StoreTransactionController@store_products');
 
 
     Route::get('/requests', 'StoreTransactionController@requests')->name('stores.requests');
