@@ -26,7 +26,7 @@ Route::middleware('admin')->group(function () {
     Route::get('getStoresCampanyPermission/{id}', 'UserController@getStoresCampanyPermission')->name('getStoresCampanyPermission');
     Route::get('/get-permissions/{id}', 'UserController@permissions');
 
-    /////////////////سندات  ادخال المنتجات فى المخازن
+    /////////////////سندات  ادخال الاصناف فى المستودعات
     Route::get('/company_stores/{id}', 'StoreController@user_permissions');
     Route::get('/branch_stores/{id}', 'StoreController@branch_stores');
     Route::get('/store-active/{id}', 'StoreController@active')->name('stores.is_active');
@@ -63,7 +63,7 @@ Route::middleware('admin')->group(function () {
 
     Route::get('/product-settlement/{id}', 'products_storeProductController@settlement')->name('products.settlements');
     Route::any('/settlements_store', 'ProductController@settlements_store')->name('products_settlement.store');
-///////////////////////////inventory  للمخازن  الجرد وتسوية الجرد
+///////////////////////////inventory  للمستوعات  الجرد وتسوية الجرد
     Route::get('/inventory', 'StoreInventroyController@inventory')->name('stores.inventory');
     Route::post('/inventory', 'StoreInventroyController@inventory_store')->name('stores.filter_inventory');
     Route::post('/inventory-bond', 'StoreInventroyController@inventory_bond')->name('inventory_bond.store');
@@ -115,7 +115,7 @@ Route::middleware('admin')->group(function () {
     Route::post('/damages-store', 'StoreTransactionController@damaged_store')->name('stores.damaged_store');
     Route::get('/damages-show/{id}', 'StoreTransactionController@damaged_show')->name('stores.show_damaged_products');
 
-    ///////////////تقاير المخازن
+    ///////////////تقاير المستودعات
 
     Route::get('/balances-report', 'StoreController@first_balances')->name('stores.first_balances_report');
 

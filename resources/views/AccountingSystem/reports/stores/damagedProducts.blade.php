@@ -62,7 +62,7 @@
 					
 					@if(isset($requests['store_id']))
 						@php($store=\App\Models\AccountingSystem\AccountingStore::find($requests['store_id']))
-						<td class="footTdLbl" colspan="2">المخزن : <span>{{$store->ar_name}}</span></td>
+						<td class="footTdLbl" colspan="2">المستودع : <span>{{$store->ar_name}}</span></td>
 					@endif
 					
 					@if(isset($requests['product_id']))

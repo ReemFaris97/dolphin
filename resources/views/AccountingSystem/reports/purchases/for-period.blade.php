@@ -56,8 +56,8 @@
 
 
                                 <div class="form-group col-sm-3">
-                                    <label> المخزن </label>
-                                    {!! Form::select("store_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر المخزن','data-live-search'=>'true','id'=>'store_id'])!!}
+                                    <label> المستودع </label>
+                                    {!! Form::select("store_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر المستودع','data-live-search'=>'true','id'=>'store_id'])!!}
                                 </div>
 
 
@@ -149,7 +149,7 @@
 
                     @if(isset($requests['store_id']))
                         @php  $store=\App\Models\AccountingSystem\AccountingStore::find($requests['store_id'])@endphp
-                        <th class="footTdLbl" colspan="2">المخزن : <span>{{$store->ar_name}}</span></th>
+                        <th class="footTdLbl" colspan="2">المستودع : <span>{{$store->ar_name}}</span></th>
                     @endif
 
                     @if(isset($requests['product_id']))

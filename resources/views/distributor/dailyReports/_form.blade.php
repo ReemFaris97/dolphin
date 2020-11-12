@@ -44,7 +44,7 @@
     <div class="form-group m-form__group">
         <label>اسم المجزن</label>
         <select id="store_id" class="form-control  m-input select2">
-            <option disabled selected>اسم المخزن</option>
+            <option disabled selected>اسم المستودع</option>
             @foreach($stores as $store)
                 <option value="{{$store->id}}" >{{$store->name}}</option>
             @endforeach

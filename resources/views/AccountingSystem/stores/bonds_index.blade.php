@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','  عرض السندات ')
-@section('parent_title','إدارة  المخازن')
+@section('parent_title','إدارة  المستودعات')
 
 @section('action', URL::route('accounting.stores.index'))
 @section('styles')
@@ -44,9 +44,9 @@
                         <td>{!! $row->bond_num !!}</td>
                         <td>
                             @if ($row->type=='entry')
-                             فاتوره شراء- ادخال منتجات
+                             فاتوره شراء- ادخال اصناف
                                 @else
-                                اخراج  منتجات
+                                اخراج  اصناف
                             @endif
 
                         </td>

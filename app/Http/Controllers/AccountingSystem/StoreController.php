@@ -72,7 +72,7 @@ class StoreController extends Controller
 
         ];
         $messsage = [
-            'ar_name.store_name'=>"اسم المخزن موجود بالفعل بالشركة",
+            'ar_name.store_name' => "اسم المستودع موجود بالفعل بالشركة",
         ];
         $this->validate($request,$rules,$messsage);
         $requests = $request->except('image');
@@ -165,7 +165,7 @@ class StoreController extends Controller
                 'model_id' => $requests['branch_id']
             ]);
         }
-        alert()->success('تم تعديل  المخزن بنجاح !')->autoclose(5000);
+        alert()->success('تم تعديل  المستودع بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.stores.index');
 
 
@@ -182,7 +182,7 @@ class StoreController extends Controller
     {
         $store =AccountingStore::findOrFail($id);
         $store->delete();
-        alert()->success('تم حذف  المخزن بنجاح !')->autoclose(5000);
+        alert()->success('تم حذف  المستودع بنجاح !')->autoclose(5000);
             return back();
 
     }
@@ -194,7 +194,7 @@ class StoreController extends Controller
             $product->delete();
         }
 
-        alert()->success('تم حذف المنتج من  المخزن بنجاح !')->autoclose(5000);
+        alert()->success('تم حذف المنتج من  المستودع بنجاح !')->autoclose(5000);
         return back();
     }
 
@@ -272,7 +272,7 @@ class StoreController extends Controller
           ]);
 
           }
-        alert()->success('تم نسخ الاصناف  المخزن بنجاح !')->autoclose(5000);
+        alert()->success('تم نسخ الاصناف  المستودع بنجاح !')->autoclose(5000);
         return back();
     }
 
@@ -539,7 +539,7 @@ class StoreController extends Controller
        $store->update([
            'is_active'=>'1'
        ]);
-        alert()->success('تم تفعيل  المخزن بنجاح !')->autoclose(5000);
+        alert()->success('تم تفعيل  المستودع بنجاح !')->autoclose(5000);
         return back();
     }
 
@@ -549,7 +549,7 @@ class StoreController extends Controller
         $store->update([
             'is_active'=>'0'
         ]);
-        alert()->success('تم الغاءتفعيل  المنتج بالمخزن بنجاح !')->autoclose(5000);
+        alert()->success('تم الغاءتفعيل  المنتج بالمستودع بنجاح !')->autoclose(5000);
         return back();
     }
 
@@ -559,7 +559,7 @@ class StoreController extends Controller
         $store->update([
             'is_active'=>'1'
         ]);
-        alert()->success('تم تفعيل  المنتج بالمخزن بنجاح !')->autoclose(5000);
+        alert()->success('تم تفعيل  المنتج بالمستودع بنجاح !')->autoclose(5000);
         return back();
     }
 
@@ -569,7 +569,7 @@ class StoreController extends Controller
         $store->update([
             'is_active'=>'0'
         ]);
-        alert()->success('تم الغاءتفعيل المخزن بنجاح !')->autoclose(5000);
+        alert()->success('تم الغاءتفعيل المستودع بنجاح !')->autoclose(5000);
         return back();
     }
 
@@ -579,7 +579,7 @@ class StoreController extends Controller
         $inventory->update([
             'cost_type'=>$request['cost_type'],
         ]);
-        // alert()->success('تم الغاءتفعيل المخزن بنجاح !')->autoclose(5000);
+        // alert()->success('تم الغاءتفعيل المستودع بنجاح !')->autoclose(5000);
         $inventory_products=AccountingInventoryProduct::where('inventory_id',$id)->get();
 
         return view('AccountingSystem.stores.invertory_details',compact('inventory_products','inventory'));

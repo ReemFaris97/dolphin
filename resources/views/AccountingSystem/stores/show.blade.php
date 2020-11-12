@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض بيانات مخزن'.' '. $store->name )
-@section('parent_title','إدارة  المخازن')
+@section('title','عرض بيانات مستودع'.' '. $store->name )
+@section('parent_title','إدارة  المستودعات')
 
 @section('action', URL::route('accounting.stores.index'))
 
@@ -11,7 +11,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">  عرض بيانات المخزن  {!! $store->name !!}</h5>
+            <h5 class="panel-title">  عرض بيانات المستودع  {!! $store->name !!}</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -26,7 +26,7 @@
             @if ($store->model_type=="App\Models\AccountingSystem\AccountingCompany")
 
                 <div class="form-group col-md-6 pull-left">
-                    <label class="label label-info">  المخزن تابع الى شركة: </label>
+                    <label class="label label-info">  المستودع تابع الى شركة: </label>
                     <span>
                         <?php
                         $company=App\Models\AccountingSystem\AccountingCompany::find($store->model_id)
@@ -37,7 +37,7 @@
 
                 @elseif ($store->model_type=="App\Models\AccountingSystem\AccountingBranch")
                 <div class="form-group col-md-6 pull-left">
-                    <label class="label label-info">  المخزن تابع الى فرع: </label>
+                    <label class="label label-info">  المستودع تابع الى فرع: </label>
                     <span>
                         <?php
                         $branch=App\Models\AccountingSystem\AccountingBranch::find($store->model_id)
@@ -52,25 +52,25 @@
 
 
                     <div class="form-group col-md-6 pull-left">
-                        <label class="label label-info">  اسم المخزن الرئيسى  : </label>
+                        <label class="label label-info">  اسم المستودع الرئيسى  : </label>
                         <span>{!! $store->basic->ar_name !!}</span>
                     </div>
 
                 @endif --}}
             <div class="form-group col-md-6 pull-left">
-                <label class="label label-info">  اسم المخزن باللغة العربيه  : </label>
+                <label class="label label-info">  اسم المستودع باللغة العربيه  : </label>
                 <span>{!! $store->ar_name !!}</span>
             </div>
 
             <div class="form-group col-md-6 pull-left">
-                <label class="label label-info"> اسم المخزن باللغة الانجليزية   : </label>
+                <label class="label label-info"> اسم المستودع باللغة الانجليزية   : </label>
                 <span>{!! $store->en_name !!}</span>
             </div>
 
 
 
             <div class="form-group col-md-6 pull-left">
-                <label class="label label-info">  تفعيل  المخزن : </label>
+                <label class="label label-info">  تفعيل  المستودع : </label>
                 @if($store->is_active=='1')
                 <span>مفعل</span>
                 @else
@@ -78,7 +78,7 @@
                 @endif
             </div>
             <div class="form-group col-md-6 pull-left">
-                <label class="label label-info">  نوع  المخزن : </label>
+                <label class="label label-info">  نوع  المستودع : </label>
                 @if($store->type=='1')
                 <span>رئيسى</span>
                 @else
@@ -90,28 +90,28 @@
 
             @if($store->type=='0')
             <div class="form-group col-md-6 pull-left">
-                <label class="label label-info">   المخزن الرئيسى : </label>
+                <label class="label label-info">   المستودع الرئيسى : </label>
                 <span>{!! $store->basic->ar_name !!}</span>
             </div>
             @endif
 
             <div class="form-group col-md-6 pull-left">
-                <label class="label label-info">  جوال المخزن : </label>
+                <label class="label label-info">  جوال المستودع : </label>
                 <span>{!! $store->address !!}</span>
             </div>
             <div class="form-group col-md-6 pull-left">
-                <label class="label label-info">  كود المخزن : </label>
+                <label class="label label-info">  كود المستودع : </label>
                 <span>{!! $store->code !!}</span>
             </div>
 
             <div class="form-group col-md-6 pull-left">
-                <label class="label label-info">  مساحة المخزن : </label>
+                <label class="label label-info">  مساحة المستودع : </label>
                 <span>{!! $store->width !!}</span>
             </div>
 
 
             <div class="form-group col-md-6 pull-left">
-                <label class="label label-info">  حالة المخزن : </label>
+                <label class="label label-info">  حالة المستودع : </label>
                 @if($store->status=='1')
                 <span>ايجار</span>
                 @else
@@ -131,7 +131,7 @@
             </div>
                 @endif
             <div class="form-group col-md-6 pull-left">
-                <label class="label label-info">  صورة المخزن  : </label>
+                <label class="label label-info">  صورة المستودع  : </label>
                 <span><img src="{!! getimg($store->image)!!}" style="width:100px; height:100px"> </span>
             </div>
             <div class="clearfix">
@@ -139,7 +139,7 @@
             </div>
 
 
-            <div class="form-group col-xs-12 pull-left"><label>  تحديد موقع المخزن  على الخريطة  </label>     <div class="form-group">
+            <div class="form-group col-xs-12 pull-left"><label>  تحديد موقع المستودع  على الخريطة  </label>     <div class="form-group">
                 <div id="map" style="width: 100%; height: 300px;"></div><div class="clearfix">&nbsp;</div>
                 <div class="m-t-small map-inputs">
                     <div class="col-sm-2 col-xs-12">

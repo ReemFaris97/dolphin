@@ -12,7 +12,7 @@
 					<div class="dropdown-content-body">
 						<div class="row all-shortcuts-wrapper">
 							<div class="single-shortcut"> <a href="{{route('accounting.products.create')}}"> <img src="{{asset('admin/assets/images/shopping-bag.png')}}" alt=""> <span>إضافة منتج</span> </a> </div>
-							<div class="single-shortcut"> <a href="{{route('accounting.stores.create')}}"> <img src="{{asset('admin/assets/images/shop.png')}}" alt=""> <span>إضافة مخزن</span> </a> </div>
+							<div class="single-shortcut"> <a href="{{route('accounting.stores.create')}}"> <img src="{{asset('admin/assets/images/shop.png')}}" alt=""> <span>إضافة مستودع</span> </a> </div>
 							<div class="single-shortcut"> <a href="{{route('accounting.categories.create')}}"> <img src="{{asset('admin/assets/images/interface.png')}}" alt=""> <span>إضافة تصنيف</span> </a> </div>
 							<div class="single-shortcut"> <a href="{{route('accounting.clauses.create')}}"> <img src="{{asset('admin/assets/images/terms.png')}}" alt=""> <span>إضافة سند قبض وصرف</span> </a> </div>
 {{--							<div class="single-shortcut"> <a href="{{route('accounting.shifts.create')}}"> <img src="{{asset('admin/assets/images/shift.png')}}" alt=""> <span>إضافة وردية</span> </a> </div>--}}
@@ -95,42 +95,42 @@
                     @endcan
 					<!--Here we will put the links from the sent file from point 1 to point 8 -->
 				</ul>
-			</li> <!-- المخازن-->
-            @can('إدارة  المخازن')
-			<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-cabinet position-left"></i> المخازن <span class="caret"></span> </a>
+			</li> <!-- المستودعات-->
+            @can('إدارة  المستودعات')
+			<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-cabinet position-left"></i> المستودعات <span class="caret"></span> </a>
 				<ul class="dropdown-menu dropdown-menu-right">
-					<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-cabinet position-left"></i> إدارة المخازن </a>
+					<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-cabinet position-left"></i> إدارة المستودعات </a>
 						<ul class="dropdown-menu dropdown-menu-right">
-							@can('عرض المخازن')
-							<li><a href="{{route('accounting.stores.index')}}"><i class="icon-eye"></i> عرض المخازن</a></li>
+							@can('عرض المستودعات')
+							<li><a href="{{route('accounting.stores.index')}}"><i class="icon-eye"></i> عرض المستودعات</a></li>
 							@endcan
-							@can('اضافة مخزن')
-							<li><a href="{{route('accounting.stores.create')}}"><i class="icon-add-to-list"></i> اضافة مخزن جديدة</a></li>
+							@can('اضافة مستودع')
+							<li><a href="{{route('accounting.stores.create')}}"><i class="icon-add-to-list"></i> اضافة مستودع جديدة</a></li>
 							@endcan
 
 							<li><a href="{{route('accounting.stores.settlements')}}"><i class="icon-add-to-list"></i> تسوية ارصدة بداية الاصناف</a></li>
 
-									{{--<li><a href="{{route('accounting.stores.inventory')}}"><i class="icon-add-to-list"></i> جرد المخازن</a>
+									{{--<li><a href="{{route('accounting.stores.inventory')}}"><i class="icon-add-to-list"></i> جرد المستودعات</a>
 
 			 </li>--}} {{--<li><a href="{{route('accounting.stores.invertory_filter')}}"><i class="icon-add-to-list"></i> تسوية جرد </a>
-			</li>--}} {{--<li><a href="{{route('accounting.stores.transaction')}}"><i class="icon-add-to-list"></i> تحويلات بين المخازن </a></li>--}} {{--<li><a href="{{route('accounting.stores.requests')}}"><i class="icon-add-to-list"></i> سندات تحويلات المخازن </a></li>--}}
-			@can('تحويلات الاصناف فى المخزن')
+			</li>--}} {{--<li><a href="{{route('accounting.stores.transaction')}}"><i class="icon-add-to-list"></i> تحويلات بين المستودعات </a></li>--}} {{--<li><a href="{{route('accounting.stores.requests')}}"><i class="icon-add-to-list"></i> سندات تحويلات المستودعات </a></li>--}}
+			@can('تحويلات الاصناف فى المستودع')
 			<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-right"></i> تحويلات الاصناف </a>
 				<ul class="dropdown-menu">
 					<li><a href="{{route('accounting.stores.transaction')}}"><i class="icon-add-to-list"></i> طلب تحويل </a></li>
 
-					<li><a href="{{route('accounting.stores.requests')}}"><i class="icon-eye"></i> سندات تحويلات المخازن </a></li>
+					<li><a href="{{route('accounting.stores.requests')}}"><i class="icon-eye"></i> سندات تحويلات المستودعات </a></li>
 
-					<li><a href="{{route('accounting.stores.requests_all')}}"><i class="icon-eye"></i> سجل تحويلات المخازن </a></li>
+					<li><a href="{{route('accounting.stores.requests_all')}}"><i class="icon-eye"></i> سجل تحويلات المستودعات </a></li>
 				</ul>
 			</li>
 			@endcan
-				@can('جرد المخزن')
+				@can('جرد المستودع')
 			<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-right"></i> الجرد </a>
 				<ul class="dropdown-menu">
-					<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-right"></i> جرد المخازن </a>
+					<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-right"></i> جرد المستودعات </a>
 						<ul class="dropdown-menu">
-							<li><a href="{{route('accounting.stores.inventory')}}"><i class="icon-add-to-list"></i> جرد المخازن </a></li>
+							<li><a href="{{route('accounting.stores.inventory')}}"><i class="icon-add-to-list"></i> جرد المستودعات </a></li>
 							<li><a href="{{route('accounting.stores.inventories')}}"><i class="icon-add-to-list"></i> سجل عمليات الجرد </a></li>
 							<li><a href="{{route('accounting.stores.inventories_band')}}"><i class="icon-add-to-list"></i> سجل سندات الجرد </a></li> {{--<li><a href="{{route('accounting.stores.invertory_filter')}}"><i class="icon-eye"></i> تسوية الجرد</a>
 					</li>--}}
@@ -150,21 +150,21 @@
 		<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-right"></i> الاصناف التالفه </a>
 			<ul class="dropdown-menu">
 				<li><a href="{{route('accounting.stores.damaged_index')}}"><i class="icon-add-to-list"></i> عرض سجل التالف </a></li>
-				<li><a href="{{route('accounting.stores.damaged_create')}}"><i class="icon-eye"></i> اضافه تالف مخزن</a></li>
+				<li><a href="{{route('accounting.stores.damaged_create')}}"><i class="icon-eye"></i> اضافه تالف مستودع</a></li>
 			</ul>
 		</li>
 					@endcan
-		<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-right"></i> أمناء المخازن </a>
+		<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-right"></i> أمناء المستودعات </a>
 			<ul class="dropdown-menu">
 				<li><a href="{{route('accounting.storeKeepers.index')}}"><i class="icon-add-to-list"></i> عرض الامناء </a></li>
-				<li><a href="{{route('accounting.storeKeepers.create')}}"><i class="icon-eye"></i> اضافه امين مخزن</a></li>
+				<li><a href="{{route('accounting.storeKeepers.create')}}"><i class="icon-eye"></i> اضافه امين مستودع</a></li>
 			</ul>
 		</li>
-		@can('سندات المخازن')
+		@can('سندات المستودعات')
 		<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-paragraph-right"></i> السندات </a>
 			<ul class="dropdown-menu">
-				<li><a href="{{route('accounting.stores.products_entry_form')}}"><i class="icon-eye"></i> سند ادخال منتجات </a></li>
-				<li><a href="{{route('accounting.stores.products_exchange_form')}}"><i class="icon-eye"></i> سند صرف منتجات</a></li>
+				<li><a href="{{route('accounting.stores.products_entry_form')}}"><i class="icon-eye"></i> سند ادخال اصناف </a></li>
+				<li><a href="{{route('accounting.stores.products_exchange_form')}}"><i class="icon-eye"></i> سند صرف اصناف</a></li>
 				<li><a href="{{route('accounting.stores.bonds_index')}}"><i class="icon-eye"></i> عرض جميع السندات</a></li>
 			</ul>
 		</li>
@@ -191,12 +191,12 @@
 			</ul>
 		</li>
            @endcan
-           @can('إدارة المنتجات')
-		<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-cart position-left"></i> إدارة المنتجات </a>
+           @can('إدارة الاصناف')
+		<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-cart position-left"></i> إدارة الاصناف </a>
 			<ul class="dropdown-menu dropdown-menu-right">
-				<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-basket"></i> المنتجات </a>
+				<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-basket"></i> الاصناف </a>
 					<ul class="dropdown-menu">
-						<li><a href="{{route('accounting.products.index')}}"><i class="icon-eye"></i> عرض المنتجات</a></li>
+						<li><a href="{{route('accounting.products.index')}}"><i class="icon-eye"></i> عرض الاصناف</a></li>
 						<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.products.create')}}"><i class="icon-add-to-list"></i> اضافة منتج جديد</a> </li>
 					</ul>
 				</li>
@@ -465,13 +465,13 @@
 					</ul>
 				</li>
                     @endcan
-                    @can('تقارير المخازن ')
-				<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-basket"></i> تقارير المخازن </a>
+                    @can('تقارير المستودعات ')
+				<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-basket"></i> تقارير المستودعات </a>
 					<ul class="dropdown-menu">
 						<li><a href="{{route('accounting.reports.damaged-products')}}"><i class="icon-eye"></i> تقرير التالف </a></li>
 						<li><a href="{{route('accounting.reports.inventory-products')}}"><i class="icon-eye"></i> تقرير الجرد </a></li>
 						<li><a href="{{route('accounting.reports.deficiency-products')}}"><i class="icon-eye"></i> تقرير النواقص </a></li>
-						<li><a href="{{route('accounting.reports.transaction-products')}}"><i class="icon-eye"></i> تقرير التحويلات بين المخازن </a></li>
+						<li><a href="{{route('accounting.reports.transaction-products')}}"><i class="icon-eye"></i> تقرير التحويلات بين المستودعات </a></li>
 						<li><a href="{{route('accounting.reports.expiration-products')}}"><i class="icon-eye"></i> تقرير الاصناف قاربت على الانتهاء </a></li>
 						<li><a href="{{route('accounting.reports.stagnant-products')}}"><i class="icon-eye"></i> تقرير الاصناف الراكدة </a></li>
 						<li><a href="{{route('accounting.reports.movements-products')}}"><i class="icon-eye"></i> تقرير حركة صنف </a></li>

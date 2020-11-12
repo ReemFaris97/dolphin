@@ -23,9 +23,9 @@
     </div>
 
     <div class="form-group m-form__group">
-        <label>المخزن الذي سيتم النقل له</label>
+        <label>المستودع الذي سيتم النقل له</label>
         <select id="store_id" class="form-control  m-input select2">
-            <option disabled selected>المخزن الذي سيتم النقل له</option>
+            <option disabled selected>المستودع الذي سيتم النقل له</option>
             @foreach($stores as $store)
                 <option value="{{$store->id}}" >{{$store->name}}</option>
             @endforeach

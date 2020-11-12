@@ -36,14 +36,14 @@ class AddPermesionsToPermissionsTable extends Migration
                     [ 'id' => '55', 'name' => 'تعديل الجهاز', 'ar_name' => '-', 'guard_name'=>'web'],
                     [ 'id' => '56', 'name' => 'حذف الجهاز', 'ar_name' => '-', 'guard_name'=>'web'],
 
-                    [ 'id' => '57', 'name' => 'عرض  المخازن', 'ar_name' => '-', 'guard_name'=>'web'],
-                    [ 'id' => '58', 'name' => 'اضافة مخزن', 'ar_name' => '-', 'guard_name'=>'web'],
-                    [ 'id' => '59', 'name' => 'تعديل المخزن', 'ar_name' => '-', 'guard_name'=>'web'],
-                    [ 'id' => '60', 'name' => 'حذف المخزن', 'ar_name' => '-', 'guard_name'=>'web'],
-                    [ 'id' => '61', 'name' => 'تحويلات الاصناف فى المخزن', 'ar_name' => '-', 'guard_name'=>'web'],
-                    [ 'id' => '62', 'name' => 'جرد المخزن', 'ar_name' => '-', 'guard_name'=>'web'],
+                    ['id' => '57', 'name' => 'عرض  المستودعات', 'ar_name' => '-', 'guard_name' => 'web'],
+                    ['id' => '58', 'name' => 'اضافة مستودع', 'ar_name' => '-', 'guard_name' => 'web'],
+                    ['id' => '59', 'name' => 'تعديل المستودع', 'ar_name' => '-', 'guard_name' => 'web'],
+                    ['id' => '60', 'name' => 'حذف المستودع', 'ar_name' => '-', 'guard_name' => 'web'],
+                    ['id' => '61', 'name' => 'تحويلات الاصناف فى المستودع', 'ar_name' => '-', 'guard_name' => 'web'],
+                    ['id' => '62', 'name' => 'جرد المستودع', 'ar_name' => '-', 'guard_name' => 'web'],
                     [ 'id' => '63', 'name' => 'اصناف تالفة', 'ar_name' => '-', 'guard_name'=>'web'],
-                    [ 'id' => '64', 'name' => 'سندات المخازن', 'ar_name' => '-', 'guard_name'=>'web'],
+                    ['id' => '64', 'name' => 'سندات المستودعات', 'ar_name' => '-', 'guard_name' => 'web'],
 
 
                     [ 'id' => '65', 'name' => 'عرض  العملاء', 'ar_name' => '-', 'guard_name'=>'web'],

@@ -185,7 +185,7 @@ class ProductsController extends Controller
         $quantityAfterAdding = $product->quantity() + $request->quantity;
 
         if($quantityAfterAdding > $product->max_quantity){
-            toast('الكمية اكبر من المسموح بها في المخزن','error','top-right');
+            toast('الكمية اكبر من المسموح بها في المستودع', 'error', 'top-right');
             return back();
         }
 

@@ -170,7 +170,7 @@ trait PurchaseOperation
 
             $item_old=AccountingPurchaseItem::where('purchase_id',$purchase->id)->where('product_id',$merge[0])->first();
 
-            //////////////////////////////تعديل  كميات المخزن
+            //////////////////////////////تعديل  كميات المستودع
 ///////////////////الفرق  بيين  الكميات +الهدايا  القديمه والجدييده
 // dd($item_old->quantity + $item_old->gifts-($merge['1']+$merge['5']));
                 if($item_old){

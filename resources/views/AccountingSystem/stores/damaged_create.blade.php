@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','اضافة التالف')
-@section('parent_title','إدارة  المخازن')
+@section('parent_title','إدارة  المستودعات')
 @section('action', URL::route('accounting.products.index'))
 
 @section('styles')
@@ -32,12 +32,12 @@
                 </div>
             @endif
             {{--<div class="form-group col-md-4 pull-left">--}}
-                {{--<label>اختر المخزن الية </label>--}}
-                {{--{!! Form::select("to_store_id",allstores(),null,['class'=>'form-control js-example-basic-single ','placeholder'=>'  اختر  المخزن'])!!}--}}
+                {{--<label>اختر المستودع الية </label>--}}
+                {{--{!! Form::select("to_store_id",allstores(),null,['class'=>'form-control js-example-basic-single ','placeholder'=>'  اختر  المستودع'])!!}--}}
             {{--</div>--}}
             <div class="form-group col-md-4 pull-left">
-                <label>اختر المخزن  </label>
-                {!! Form::select("store_id",allstores(),null,['class'=>'form-control js-example-basic-single form_store_id','id'=>'form_store_id','placeholder'=>' اختر  المخزن' , 'required'])!!}
+                <label>اختر المستودع  </label>
+                {!! Form::select("store_id",allstores(),null,['class'=>'form-control js-example-basic-single form_store_id','id'=>'form_store_id','placeholder'=>' اختر  المستودع' , 'required'])!!}
             </div>
             <div class="form-group col-md-4 pull-left">
                 <label>اختر الصنف </label>
@@ -45,8 +45,8 @@
             </div>
 
             <div class="col-sm-6 col-md-4 pull-left">
-                <label>اختر امين المخزن </label>
-                {!! Form::select("user_id",keepers(),null,['class'=>'form-control js-example-basic-single storekeeper_id','id'=>'storekeeper_id','placeholder'=>' اختر امين المخزن'])!!}
+                <label>اختر امين المستودع </label>
+                {!! Form::select("user_id",keepers(),null,['class'=>'form-control js-example-basic-single storekeeper_id','id'=>'storekeeper_id','placeholder'=>' اختر امين المستودع'])!!}
             </div>
             <div class="products">
             </div>

@@ -128,7 +128,7 @@
     </div>
     {{--*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*--}}
     <div class="m-portlet__head-tools">
-        <h3>منتجات الفاتورة</h3>
+        <h3>اصناف الفاتورة</h3>
     </div>
 
     <table class="table table-striped- table-bordered table-hover table-checkable" >

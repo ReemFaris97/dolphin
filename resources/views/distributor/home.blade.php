@@ -101,7 +101,7 @@
                             <div class="m-widget24">
                                 <div class="m-widget24__item">
                                     <h4 class="m-widget24__title">
-                                        عدد المخازن
+                                        عدد المستودعات
                                     </h4><br>
                                     <span class="m-widget24__desc">
 
@@ -136,7 +136,7 @@
                             <div class="m-widget24">
                                 <div class="m-widget24__item">
                                     <h4 class="m-widget24__title">
-                                        عدد المنتجات
+                                        عدد الاصناف
                                     </h4><br>
                                     <span class="m-widget24__desc">
 

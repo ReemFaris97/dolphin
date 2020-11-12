@@ -22,7 +22,7 @@ class StoreInventroyController extends Controller
 {
 
 
-    //////////////////////////جرد المخازن /////////////////////
+    //////////////////////////جرد المستودعات /////////////////////
     public function inventory(){
         $stores=AccountingStore::pluck('ar_name','id')->toArray();
         $products=[];
@@ -87,7 +87,7 @@ class StoreInventroyController extends Controller
         }
 
 
-        alert()->success('تم  حفظ جرد المخزن بنجاح !')->autoclose(5000);
+        alert()->success('تم  حفظ جرد المستودع بنجاح !')->autoclose(5000);
 
         return view('AccountingSystem.stores.inventory',compact('stores','products','inventory'));
 
@@ -161,7 +161,7 @@ class StoreInventroyController extends Controller
         ]);
         $inventory_products=AccountingInventoryProduct::where('inventory_id',$inventory->id)->where('status',1)->get();
 
-        alert()->success('تم  حفظ سند جرد المخزن بنجاح !')->autoclose(5000);
+        alert()->success('تم  حفظ سند جرد المستودع بنجاح !')->autoclose(5000);
         return view('AccountingSystem.stores.show_inventory_band',compact('inventory','inventory_products'));
     }
 

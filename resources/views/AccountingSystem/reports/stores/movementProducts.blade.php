@@ -37,8 +37,8 @@
                                 {!! Form::select("branch_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الفرع','data-live-search'=>'true','id'=>'branch_id'])!!}
                             </div>
                             <div class="form-group col-sm-3">
-                                <label> المخزن </label>
-                                {!! Form::select("store_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر المخزن','data-live-search'=>'true','id'=>'store_id'])!!}
+                                <label> المستودع </label>
+                                {!! Form::select("store_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر المستودع','data-live-search'=>'true','id'=>'store_id'])!!}
                             </div>
                             <div class="form-group col-sm-3">
                                 <label> الصنف </label>
@@ -65,7 +65,7 @@
                     </div>
                 </div>
             </section>
-            {{--التفاصيل (تاريخ اليوم – الكمية – السعر - نوع الحركة – بيان الحركة – الرصيد بعد العملية – الشركة – الفرع – المخزن - المستخدم – وقت العملية).--}}
+            {{--التفاصيل (تاريخ اليوم – الكمية – السعر - نوع الحركة – بيان الحركة – الرصيد بعد العملية – الشركة – الفرع – المستودع - المستخدم – وقت العملية).--}}
 
 <div id="print-window">
 
@@ -89,7 +89,7 @@
 
                     @if(isset($requests['store_id']))
                         @php($store=\App\Models\AccountingSystem\AccountingStore::find($requests['store_id']))
-                        <td class="footTdLbl" colspan="2">المخزن : <span>{{$store->ar_name}}</span></td>
+                        <td class="footTdLbl" colspan="2">المستودع : <span>{{$store->ar_name}}</span></td>
                     @endif
 
                     @if(isset($requests['product_id']))
@@ -116,7 +116,7 @@
                     <th> الرصيد بعد العمليه</th>
                     {{--<th>الشركة  </th>--}}
                     <th> الفرع</th>
-                    <th> المخزن</th>
+                    <th> المستودع</th>
                     <th> المستخدم</th>
                     <th>تاريخ العمليه</th>
                 </tr>

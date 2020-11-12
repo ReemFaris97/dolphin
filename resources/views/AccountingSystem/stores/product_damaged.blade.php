@@ -2,9 +2,9 @@
     <th> اسم الصنف</th>
 
 
-    <th>  الكمية الحالية بالمخزن</th>
+    <th>  الكمية الحالية بالمستودع</th>
     <th>  الكمية التالفه</th>
-    <th>  الكمية بالمخزن بعد التلف</th>
+    <th>  الكمية بالمستودع بعد التلف</th>
 
 
     <tbody>
@@ -39,7 +39,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <p>الكمية التالفه اكبر من الكميه بالمخزن
+                <p>الكمية التالفه اكبر من الكميه بالمستودع
                 </p>
             </div>
             <div class="modal-footer">

@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','سجل  التالف ')
-@section('parent_title','إدارة  المخازن')
+@section('parent_title','إدارة  المستودعات')
 
 @section('action', URL::route('accounting.stores.index'))
 @section('styles')
@@ -26,10 +26,10 @@
                 <tr>
                     <th>#</th>
 
-                    <th>  المخزن  </th>
+                    <th>  المستودع  </th>
                     <th>  اسم القائم بالجرد </th>
                     <th> التاريخ   </th>
-                    <th> عدد المنتجات التام اتلافها   </th>
+                    <th> عدد الاصناف التام اتلافها   </th>
 
                     <th class="text-center">تفاصيل </th>
                 </tr>

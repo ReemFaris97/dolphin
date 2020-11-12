@@ -1,11 +1,11 @@
 @extends('distributor.layouts.app')
-@section('title') الاعضاء
+@section('title') المندوبين
 @endsection
 
 @section('header')
 @endsection
 
-@section('breadcrumb') @php($breadcrumbs=['الاعضاء'=>route('distributor.distributors.index'),])
+@section('breadcrumb') @php($breadcrumbs=['المندوبين'=>route('distributor.distributors.index'),])
 @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
 

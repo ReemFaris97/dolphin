@@ -199,10 +199,10 @@ class StoreTransactionController extends Controller
                             'store_id' => $request['to_store_id'],
                         ]);
                     }
-                alert()->success('تم التحويل من المخزن بنجاح !')->autoclose(5000);
+                alert()->success('تم التحويل من المستودع بنجاح !')->autoclose(5000);
 
             } else {
-                alert()->warning('الكميه بالمخزن المنقول منه غير كافية')->autoclose(5000);
+                alert()->warning('الكميه بالمستودع المنقول منه غير كافية')->autoclose(5000);
 
 
             }//endcheckif
@@ -295,7 +295,7 @@ class StoreTransactionController extends Controller
                     'store_id' => $req->store_to,
                 ]);
             }
-            alert()->success('تم  قبول الاستلام التحويل من المخزن بنجاح !')->autoclose(5000);
+            alert()->success('تم  قبول الاستلام التحويل من المستودع بنجاح !')->autoclose(5000);
             return redirect()->route('accounting.stores.requests');
         }
     }
@@ -328,7 +328,7 @@ class StoreTransactionController extends Controller
                     'store_id' => $req->store_form,
                 ]);
             }
-            alert()->success('تم  رفض الاستلام التحويل من المخزن بنجاح !')->autoclose(5000);
+            alert()->success('تم  رفض الاستلام التحويل من المستودع بنجاح !')->autoclose(5000);
             return redirect()->route('accounting.stores.requests');
         }
 
@@ -392,7 +392,7 @@ class StoreTransactionController extends Controller
         }
 
 
-        alert()->success('تم   تسجيل التالف من المخزن بنجاح !')->autoclose(5000);
+        alert()->success('تم   تسجيل التالف من المستودع بنجاح !')->autoclose(5000);
 
         return redirect()->route('accounting.stores.damaged_index');
     }

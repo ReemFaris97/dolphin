@@ -6,7 +6,7 @@
 <!-- begin::Head -->
 <head>
     <meta charset="utf-8"/>
-    <title>  الشركة القابضة للمهام</title>
+    <title>   الشركة القابضة للمندوبين |@yield('title') </title>
     <meta name="description" content="Blank inner page examples">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -36,9 +36,9 @@
     <!--begin::Page Vendors Styles -->
     <link href="{!! asset('dashboard/assets/vendors/custom/datatables/datatables.bundle.css')!!}" rel="stylesheet"
           type="text/css"/>
-	
+
 	<!--begin::The Animate Style -->
-    <link href="{!! asset('dashboard/assets/animate.min.css')!!}" rel="stylesheet" type="text/css"/>	
+    <link href="{!! asset('dashboard/assets/animate.min.css')!!}" rel="stylesheet" type="text/css"/>
 	<!--begin::The MAin Style -->
     <link href="{!! asset('dashboard/assets/main.css')!!}" rel="stylesheet" type="text/css"/>
     <!--end::Global Theme Styles -->
@@ -146,7 +146,8 @@
 <!--begin::Page Vendors -->
 <script src="{!! asset('dashboard/assets/vendors/custom/datatables/datatables.bundle.js')!!}"
         type="text/javascript"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js
+"></script>
 <!--end::Page Vendors -->
 
 <!--begin::Page Scripts -->

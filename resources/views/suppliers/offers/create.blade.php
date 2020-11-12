@@ -5,7 +5,7 @@
 @section('header')
 @endsection
 
-@section('breadcrumb') @php($breadcrumbs=['عروض المنتجات'=>route('supplier.offers.index'),'اضافه'=>route('supplier.offers.create')])
+@section('breadcrumb') @php($breadcrumbs=['عروض الاصناف'=>route('supplier.offers.index'),'اضافه'=>route('supplier.offers.create')])
 @includeWhen(isset($breadcrumbs),'suppliers.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
 

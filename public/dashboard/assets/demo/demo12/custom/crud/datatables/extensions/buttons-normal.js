@@ -1,3 +1,4 @@
+
 var DatatablesExtensionButtons = function() {
 
     var language={    "sEmptyTable":     "ليست هناك بيانات متاحة في الجدول",
@@ -36,8 +37,8 @@ var DatatablesExtensionButtons = function() {
 			buttons: [
 				'copyHtml5',
 				'excelHtml5',
-				'csvHtml5',
-				'pdfHtml5',
+                'csvHtml5',
+               'print'
 			],
 
 		});

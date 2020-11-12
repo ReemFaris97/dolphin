@@ -72,7 +72,7 @@
 
     {{--*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*--}}
     <div class="m-portlet__head-tools">
-        <h3>المنتجات المرتجعه</h3>
+        <h3>الاصناف المرتجعه</h3>
     </div>
 
     <table class="table table-striped- table-bordered table-hover table-checkable" >
@@ -102,7 +102,7 @@
 {{--    /*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/--}}
 @if($discard->retur_type == 'switch')
     <div class="m-portlet__head-tools">
-        <h3>المنتجات المستبدله</h3>
+        <h3>الاصناف المستبدله</h3>
     </div>
 
     <table class="table table-striped- table-bordered table-hover table-checkable" >

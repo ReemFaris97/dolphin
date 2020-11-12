@@ -859,7 +859,7 @@
 		</div>
 
 		<div class="form-group col-md-6 pull-left">
-			<label class="label label-info"> اسم المخزن : </label>
+			<label class="label label-info"> اسم المستودع : </label>
 			<span>{!! optional($sale->store)->ar_name !!}</span>
 		</div>
 
@@ -984,7 +984,7 @@
 										<td> {!! optional($sale->branch)->name !!}</td>
 									</tr>
 									<tr>
-										<th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-user"></i>اسم المخزن</th>
+										<th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-user"></i>اسم المستودع</th>
 										<td>  {!! optional($sale->store)->ar_name !!}</td>
 									</tr> --}}
 
