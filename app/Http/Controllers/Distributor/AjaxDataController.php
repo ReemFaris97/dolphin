@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Store;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\User;
 
 class AjaxDataController extends Controller
 {
@@ -28,7 +29,7 @@ class AjaxDataController extends Controller
 
     public function getsender(Request $request){
         //dd($request->all());
-        $users =\App\User::where('id','!=',$request->id)->get();
+        $users =User::where('id','!=',$request->id)->get();
         return response()->json([
             'status'=>true,
             'data'=>view('distributor.transactions.getAjaxSenders')->with('users',$users)->render()

@@ -42,7 +42,7 @@
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
 
-                        <td>{!! $row->code!!}</td>
+                        <td>{!! $row->id!!}</td>
                         <td>{!! optional($row->device)->code!!}</td>
                         <td>{!! optional($row->shift)->name!!}</td>
                         <td>{!! optional($row->user)->name!!}</td>
@@ -99,16 +99,17 @@
 
                     <label style="color:black">الخزينة المحول  اليها </label>
                     <select name="safe_id" class="form-control">
-                        @foreach(\App\Models\AccountingSystem\AccountingSafe::where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->where('model_id',$row->device->branch->id)->where('status','branch')->get()  as  $safe)
+                        @foreach(\App\Models\AccountingSystem\AccountingSafe::where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->where('model_id',optional(optional($row->device)->branch)->id)->where('status','branch')->get()  as  $safe)
                             <option value="{{$safe->id}}">{{$safe->name}}</option>
                         @endforeach
                     </select>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
                     <button class="btn btn-primary" id="real{{$row->id}}" type="button" data-dismiss="modal">    اضافة    عهدة الجلسة   </button>
                 </div>
                 </form>
-                {{--{!!Form::close() !!}--}}
+                {{-- {!!Form::close() !!} --}}
             </div>
         </div>
     </div>

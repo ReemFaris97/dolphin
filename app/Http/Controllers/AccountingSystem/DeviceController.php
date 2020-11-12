@@ -51,20 +51,21 @@ class DeviceController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [
+
+		$rules = [
 
             'name'=>'required|string|max:191|device_name:accounting_devices,name,company_id,branch_id,'.$request['name'].','.$request['company_id'].','.$request['branch_id'],
             'code'=>'required|string|max:191|device_code:accounting_devices,code,company_id,branch_id,'.$request['code'].','.$request['company_id'].','.$request['branch_id'],
 
-            // 'column_id'=>'required|numeric|exists:accounting_face_columns,id',
+            'model_id' => 'required_if:company_id,=,null|required_if:branch_id,=,null',
 
         ];
         $messsage = [
-            'name.store_name'=>"اسم الجهاز موجود بالفعل بالشركة",
-            'code.store_code'=>"كود الجهاز موجود بالفعل بالشركة",
-
+            'name.device_name'=>"اسم الجهاز موجود بالفعل بالشركة",
+            'code.device_code'=>"كود الجهاز موجود بالفعل بالشركة",
         ];
         $this->validate($request,$rules,$messsage);
+
         $requests = $request->all();
 
 
@@ -87,6 +88,7 @@ class DeviceController extends Controller
             'model_id'=>$device->model_id,
 
         ]);
+
         alert()->success('تم اضافة  الجهاز بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.devices.index');
     }
@@ -166,9 +168,9 @@ class DeviceController extends Controller
      */
     public function destroy($id)
     {
-        $shift =AccountingBranchShift::findOrFail($id);
-        $shift->delete();
-        alert()->success('تم حذف  الوردية بنجاح !')->autoclose(5000);
+        $device =AccountingDevice::findOrFail($id);
+        $device->delete();
+        alert()->success('تم حذف  الجهاز بنجاح !')->autoclose(5000);
             return back();
 
 

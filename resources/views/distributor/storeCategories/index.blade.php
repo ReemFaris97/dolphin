@@ -1,11 +1,11 @@
 @extends('distributor.layouts.app')
-@section('title') أنواع المخازن
+@section('title') أنواع المستودعات
 @endsection
 
 @section('header')
 @endsection
 
-@section('breadcrumb') @php($breadcrumbs=['أنواع المخازن'=>route('distributor.store_categories.index'),])
+@section('breadcrumb') @php($breadcrumbs=['أنواع المستودعات'=>route('distributor.store_categories.index'),])
 @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
 

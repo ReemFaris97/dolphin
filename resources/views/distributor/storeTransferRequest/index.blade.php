@@ -1,11 +1,11 @@
 @extends('distributor.layouts.app')
-@section('title') عمليات نقل المخزن بين المندوبين
+@section('title') عمليات نقل المستودع بين المندوبين
 @endsection
 
 @section('header')
 @endsection
 
-@section('breadcrumb') @php($breadcrumbs=['نقل المخزن بين المندوبين'=>route('distributor.transactions.index'),])
+@section('breadcrumb') @php($breadcrumbs=['نقل المستودع بين المندوبين'=>route('distributor.transactions.index'),])
 @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
 
@@ -16,7 +16,7 @@
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-title">
                     <h3 class="m-portlet__head-text">
-                        كل عمليات نقل المخزن
+                        كل عمليات نقل المستودع
                     </h3>
                 </div>
             </div>

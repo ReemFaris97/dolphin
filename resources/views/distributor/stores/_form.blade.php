@@ -5,8 +5,8 @@
     </div>
 
     <div class="form-group m-form__group">
-        <label> نوع المخزن</label>
-        {!! Form::select('store_category_id',$store_categories,null,['class'=>'form-control   m-input select2','placeholder'=>'إختار نوع المخزن'])!!}
+        <label> نوع المستودع</label>
+        {!! Form::select('store_category_id',$store_categories,null,['class'=>'form-control   m-input select2','placeholder'=>'إختار نوع المستودع'])!!}
     </div>
 </div>
 

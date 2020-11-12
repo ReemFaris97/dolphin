@@ -5,7 +5,7 @@
 @section('header')
 @endsection
 
-@section('breadcrumb') @php($breadcrumbs=['المنتجات'=>'/products','اضافه'=>'/products/create'])
+@section('breadcrumb') @php($breadcrumbs=['الاصناف'=>'/products','اضافه'=>'/products/create'])
 @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
 
@@ -30,7 +30,7 @@
                 </div>
 
                 <div class="col-xs-4">
-                    <h5>المخزن</h5>
+                    <h5>المستودع</h5>
                     <h3>{{$product->store->name}}</h3>
                 </div>
 

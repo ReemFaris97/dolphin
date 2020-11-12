@@ -72,11 +72,10 @@ class StoreController extends Controller
 
         ];
         $messsage = [
-            'name.store_name'=>"اسم المخزن موجود بالفعل بالشركة",
+            'ar_name.store_name' => "اسم المستودع موجود بالفعل بالشركة",
         ];
         $this->validate($request,$rules,$messsage);
         $requests = $request->except('image');
-       // dd($requests);
 
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'photos');
@@ -166,7 +165,7 @@ class StoreController extends Controller
                 'model_id' => $requests['branch_id']
             ]);
         }
-        alert()->success('تم تعديل  المخزن بنجاح !')->autoclose(5000);
+        alert()->success('تم تعديل  المستودع بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.stores.index');
 
 
@@ -183,7 +182,7 @@ class StoreController extends Controller
     {
         $store =AccountingStore::findOrFail($id);
         $store->delete();
-        alert()->success('تم حذف  المخزن بنجاح !')->autoclose(5000);
+        alert()->success('تم حذف  المستودع بنجاح !')->autoclose(5000);
             return back();
 
     }
@@ -195,7 +194,7 @@ class StoreController extends Controller
             $product->delete();
         }
 
-        alert()->success('تم حذف المنتج من  المخزن بنجاح !')->autoclose(5000);
+        alert()->success('تم حذف المنتج من  المستودع بنجاح !')->autoclose(5000);
         return back();
     }
 
@@ -273,7 +272,7 @@ class StoreController extends Controller
           ]);
 
           }
-        alert()->success('تم نسخ الاصناف  المخزن بنجاح !')->autoclose(5000);
+        alert()->success('تم نسخ الاصناف  المستودع بنجاح !')->autoclose(5000);
         return back();
     }
 
@@ -308,8 +307,6 @@ class StoreController extends Controller
 
     public function getproducts($id)
     {
-
-
         return products($id);
     }
 
@@ -375,19 +372,30 @@ class StoreController extends Controller
 
     public  function  bond_store(Request $request)
     {
-
+        // dd($request->all());
         $inputs = $request->all();
-
         $bond = AccountingBond::create($inputs);
+        // $rules = [
+        // 'user_id'=>'required|numeric|exists:users,id',
+        //     'qtys'=>'required|array',
+        //     'products'=>'required|array',
+        //     'prices'=>'required|array',
 
+        // ];
+        // $massage=[
+        //     'qtys.required'=>'كميات الاصناف مطلويه',
+        //     'products.required'=>'الاصناف مطلوبة',
+        //     'prices.required'=>'اسعار الاصناف مطلوبة',
 
-        if ($bond->type == 'entry') {
+        // ];
+
+        // $this->validate($request,$rules,$massage);
+// dd($request->all());
+        if ($bond->type == 'entry'||$bond->type == 'exchange') {
             $products_store = AccountingProductStore::where('store_id', $bond->store_id)->get();
-
             $quantity = collect($inputs['qtys']);
             $products = collect($inputs['products']);
             $prices = collect($inputs['prices']);
-
             $merges = $products->zip($quantity, $prices);
             foreach ($merges as $merge) {
                 AccountingBondProduct::create([
@@ -395,26 +403,30 @@ class StoreController extends Controller
                     'product_id' => $merge[0],
                     'quantity' => $merge[1],
                     'price' => $merge[2],
-
                 ]);
-
-
             }
-
-
             foreach ($products_store as $productstore) {
                 foreach ($merges as $merge) {
                     if ($productstore->product_id == $merge[0]) {
-                        $productstore->update([
-                            'product_id' => $merge[0],
-                            'quantity' => $productstore->quantity + $merge[1],
-                            'band_id' => $bond->id
-                        ]);
+                        if ($bond->type == 'entry') {
+                            $productstore->update([
+                                'product_id' => $merge[0],
+                                'quantity' => $productstore->quantity + $merge[1],
+                                'band_id' => $bond->id
+                            ]);
+                        }elseif($bond->type == 'exchange') {
+                            $productstore->update([
+                                'product_id' => $merge[0],
+                                'quantity' => $productstore->quantity - $merge[1],
+                                'band_id' => $bond->id
+                            ]);
+                        }
                     }
                 }
             }
 
-        }else{
+        }elseif($bond->type == 'transactions'){
+           
             $transaction=session('transaction');
             $bond->update([
                 'store_to'=>$transaction['to_store_id'],
@@ -466,8 +478,9 @@ class StoreController extends Controller
 
         $bondproducts=AccountingBondProduct::where('bond_id',$bond->id)->get();
 
-        alert()->success('تم اضافة  سند الادخال  المخزن بنجاح !')->autoclose(5000);
-        return view('AccountingSystem.stores.show_bond',compact('bond','bondproducts'));
+        // alert()->success('تم اضافة  السند  بنجاح !')->autoclose(5000);
+       
+    return redirect()->route('accounting.stores.show_bond',$bond->id)->with('bond',$bond->id)->with('bondproducts',$bondproducts);
     }
 
 
@@ -526,7 +539,7 @@ class StoreController extends Controller
        $store->update([
            'is_active'=>'1'
        ]);
-        alert()->success('تم تفعيل  المخزن بنجاح !')->autoclose(5000);
+        alert()->success('تم تفعيل  المستودع بنجاح !')->autoclose(5000);
         return back();
     }
 
@@ -536,7 +549,7 @@ class StoreController extends Controller
         $store->update([
             'is_active'=>'0'
         ]);
-        alert()->success('تم الغاءتفعيل  المنتج بالمخزن بنجاح !')->autoclose(5000);
+        alert()->success('تم الغاءتفعيل  المنتج بالمستودع بنجاح !')->autoclose(5000);
         return back();
     }
 
@@ -546,7 +559,7 @@ class StoreController extends Controller
         $store->update([
             'is_active'=>'1'
         ]);
-        alert()->success('تم تفعيل  المنتج بالمخزن بنجاح !')->autoclose(5000);
+        alert()->success('تم تفعيل  المنتج بالمستودع بنجاح !')->autoclose(5000);
         return back();
     }
 
@@ -556,7 +569,7 @@ class StoreController extends Controller
         $store->update([
             'is_active'=>'0'
         ]);
-        alert()->success('تم الغاءتفعيل المخزن بنجاح !')->autoclose(5000);
+        alert()->success('تم الغاءتفعيل المستودع بنجاح !')->autoclose(5000);
         return back();
     }
 
@@ -566,7 +579,7 @@ class StoreController extends Controller
         $inventory->update([
             'cost_type'=>$request['cost_type'],
         ]);
-        // alert()->success('تم الغاءتفعيل المخزن بنجاح !')->autoclose(5000);
+        // alert()->success('تم الغاءتفعيل المستودع بنجاح !')->autoclose(5000);
         $inventory_products=AccountingInventoryProduct::where('inventory_id',$id)->get();
 
         return view('AccountingSystem.stores.invertory_details',compact('inventory_products','inventory'));

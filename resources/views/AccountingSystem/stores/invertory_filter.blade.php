@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
 @section('title',' تسوية الجرد')
-@section('parent_title','إدارة  المخازن')
+@section('parent_title','إدارة  المستودعات')
 
 @section('action', URL::route('accounting.stores.index'))
 @section('styles')
@@ -28,7 +28,7 @@
 
                 <div class="col-sm-6 col-xs-6 pull-left" >
                     <div class="form-group form-float">
-                        <label class="form-label">اختر المخزن</label>
+                        <label class="form-label">اختر المستودع</label>
                         <div class="form-line">
                             {!! Form::select("store_id",$stores,null,['class'=>'form-control','id'=>'example-date'])!!}
 
@@ -66,7 +66,7 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th> اسم المخزن </th>
+                    <th> اسم المستودع </th>
                     <th> تاريخ الجرد </th>
 
 

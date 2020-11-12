@@ -5,7 +5,7 @@
 @section('header')
 @endsection
 
-@section('breadcrumb') @php($breadcrumbs=['المنتجات'=>route('distributor.storeTransfer.index'),'اضافه'=>route('distributor.storeTransfer.create')])
+@section('breadcrumb') @php($breadcrumbs=['الاصناف'=>route('distributor.storeTransfer.index'),'اضافه'=>route('distributor.storeTransfer.create')])
 @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
 

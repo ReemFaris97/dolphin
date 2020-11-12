@@ -5,10 +5,10 @@
     </div>
     @if(isset($product))
         <div class="form-group m-form__group">
-            <label>نوع المخزن</label>
-            {{--            {!! Form::select('store_category_id',$categories,null,['class'=>'form-control   m-input select2','placeholder'=>'إختار نوع المخزن','id'=>'store_category'])!!}--}}
+            <label>نوع المستودع</label>
+            {{--            {!! Form::select('store_category_id',$categories,null,['class'=>'form-control   m-input select2','placeholder'=>'إختار نوع المستودع','id'=>'store_category'])!!}--}}
             <select name="store_category_id" class="form-control m-input select2">
-                <option disabled selected>إختار نوع المخزن</option>
+                <option disabled selected>إختار نوع المستودع</option>
                 @forelse($categories as $cat)
                     <option value="{{$cat->id}}" @if($product->store->category->id == $cat->id) selected @endif >{{$cat->name}}</option>
                 @empty
@@ -19,10 +19,10 @@
         </div>
 
         <div class="form-group m-form__group">
-            <label>المخزن</label>
-            {{--        {!! Form::select('store_id',null,['class'=>'form-control  m-input select2','placeholder'=>'إختار المخزن','id'=>'store_id'])!!}--}}
+            <label>المستودع</label>
+            {{--        {!! Form::select('store_id',null,['class'=>'form-control  m-input select2','placeholder'=>'إختار المستودع','id'=>'store_id'])!!}--}}
             <select name="store_id" class="form-control  m-input select2" id="store_id">
-                <option disabled selected>إختار المخزن</option>
+                <option disabled selected>إختار المستودع</option>
                 @forelse($stores as $store)
                     <option value="{{$store->id}}" @if($product->store->id == $store->id) selected @endif >{{$store->name}}</option>
                 @empty
@@ -33,14 +33,14 @@
 
     @else
         <div class="form-group m-form__group">
-            <label>نوع المخزن</label>
-            {!! Form::select('store_category_id',$categories,null,['class'=>'form-control   m-input select2','placeholder'=>'إختار نوع المخزن','id'=>'store_category'])!!}
+            <label>نوع المستودع</label>
+            {!! Form::select('store_category_id',$categories,null,['class'=>'form-control   m-input select2','placeholder'=>'إختار نوع المستودع','id'=>'store_category'])!!}
         </div>
 
 
         <div class="form-group m-form__group">
-            <label>المخزن</label>
-            {{--        {!! Form::select('store_id',null,['class'=>'form-control  m-input select2','placeholder'=>'إختار المخزن','id'=>'store_id'])!!}--}}
+            <label>المستودع</label>
+            {{--        {!! Form::select('store_id',null,['class'=>'form-control  m-input select2','placeholder'=>'إختار المستودع','id'=>'store_id'])!!}--}}
             <select name="store_id" class="form-control  m-input select2" id="store_id">
 
             </select>

@@ -33,7 +33,7 @@
                     {{--<th>  البند </th>--}}
 
                     <th> المبلغ  </th>
-                    <th>  اسم  الخزنيه  </th>
+                    {{-- <th>  اسم  الخزنيه  </th> --}}
                     <th> نوع السند  </th>
 
                     <th class="text-center">العمليات</th>
@@ -47,14 +47,17 @@
                         {{--<td>{!!optional($row->benod)->ar_name!!}</td>--}}
 
                         <td>{!! $row->amount!!}</td>
-                        <td>{!!optional($row->safe)->name!!}</td>
+                        {{-- <td>{!!optional($row->safe)->name!!}</td> --}}
                         <td>
                             @if ($row->type=="expenses")
-                                <label class="label label-info"> صرف </label>
+                                <label class="label label-danger"> صرف </label>
                                 @elseif($row->type=="revenue")
                                 <label class="label label-success"> قبض</label>
-                                @else
-                                <label class="label label-success"> عام</label>
+                                @elseif ($row->type=="check_expenses")
+                                <label class="label label-danger"> شيك صرف</label>
+                                @elseif ($row->type=="check_revenue")
+                                <label class="label label-success"> شيك قبض</label>
+
                         @endif
                         </td>
 

@@ -6,14 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class AccountingProduct extends Model
 {
-    protected $fillable = ['name','description','type','is_active','category_id',
+    protected $fillable = ['name','en_name','description','type','is_active','category_id',
     'column_id','bar_code','main_unit','selling_price','purchasing_price','min_quantity',
-    'max_quantity','expired_at','image'
+    'max_quantity','expired_at','image','store_id'
     ,'size','color','height','width','num_days_recession','industrial_id','quantity','unit_price',
-    'is_settlement','date_settlement','settlement_store_id','cell_id','alert_duration','supplier_id'
+    'is_settlement','date_settlement','settlement_store_id','cell_id','alert_duration','supplier_id','account_id'
 
 ];
     protected $appends = ['total_taxes','total_discounts'];
+    public function cell_product()
+    {
+        return $this->belongsTo(AccountingColumnCell::class,'cell_id');
+    }
+    public function cell()
+    {
+        return $this->belongsTo(AccountingColumnCell::class,'cell_id');
+    }
     public function store()
     {
         return $this->belongsTo(AccountingStore::class,'store_id');
@@ -27,17 +35,14 @@ class AccountingProduct extends Model
         return $this->belongsTo(AccountingProductCategory::class,'category_id');
     }
 
-    public function cell()
-    {
-        return $this->belongsTo(AccountingColumnCell::class,'cell_id');
-    }
+
 
     public function getTotalTaxesAttribute()
     {
         $taxs=AccountingProductTax::where('product_id',$this->id)->get();
         $total = 0;
         foreach($taxs as $tax){
-            $total+=$tax->Taxband->percent;
+            $total+=optional($tax->Taxband)->percent;
         }
         return $total;
     }
@@ -53,7 +58,10 @@ class AccountingProduct extends Model
     }
 
 
-
+    public function account()
+    {
+        return $this->belongsTo(AccountingAccount::class,'account_id');
+    }
 
 
     public function getTotalDiscountsAttribute()
@@ -104,7 +112,11 @@ class AccountingProduct extends Model
             $q->where('store_id',1);
         });
     }
-
+    public function store_quantity($store_id=null)
+    {
+      $quantity=AccountingProductStore::where('store_id',$store_id)->where('product_id',$this->id)->sum('quantity');
+        return $quantity;
+    }
 
 
 

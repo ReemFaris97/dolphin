@@ -18,7 +18,7 @@ return [
                  * The list of directories and files that will be included in the backup.
                  */
                 'include' => [
-                    base_path(),
+                    base_path(uploadpath()),
                 ],
 
                 /*
@@ -96,14 +96,14 @@ return [
              * The disk names on which the backups will be stored.
              */
             'disks' => [
-                'local',
+                'public',
             ],
         ],
 
         /*
          * The directory where the temporary files will be stored.
          */
-        'temporary_directory' => storage_path('app/backup-temp'),
+        'temporary_directory' => storage_path('app/public/Laravel'),
     ],
 
     /*
@@ -130,14 +130,14 @@ return [
          */
         'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
 
-        'mail' => [
-            'to' => 'your@example.com',
+        // 'mail' => [
+        //     'to' => 'your@example.com',
 
-            'from' => [
-                'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-                'name' => env('MAIL_FROM_NAME', 'Example'),
-            ],
-        ],
+        //     'from' => [
+        //         'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+        //         'name' => env('MAIL_FROM_NAME', 'Example'),
+        //     ],
+        // ],
 
         'slack' => [
             'webhook_url' => '',

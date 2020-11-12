@@ -10,7 +10,7 @@ class AccountingPurchaseItem extends Model
 {
 
 
-    protected $fillable = ['product_id','quantity','price','purchase_id','purchase_return_id','tax','unit_id','price_after_tax','unit_type','expire_date'];
+    protected $fillable = ['product_id','quantity','price','purchase_id','purchase_return_id','tax','unit_id','price_after_tax','unit_type','expire_date','gifts'];
     protected $table='accounting_purchases_items';
 
 
@@ -27,19 +27,35 @@ class AccountingPurchaseItem extends Model
 
     public function unit()
     {
-        return $this->belongsTo(AccountingProductSubUnit::class,'unit_id');
+       return $this->belongsTo(AccountingProductSubUnit::class,'unit_id');
+
+
+    }
+
+    public function units()
+    {
+//        return $this->belongsTo(AccountingProductSubUnit::class,'unit_id');
+
+        $units=AccountingProductSubUnit::where('product_id',$this->product->id)->get();
+        $subunits= collect($units);
+        $allunits=json_encode($subunits,JSON_UNESCAPED_UNICODE);
+        $mainunits=json_encode(collect([['id'=>'main-'.$this->product->id,'name'=>$this->product->main_unit , 'purchasing_price'=>$this->product->purchasing_price]]),JSON_UNESCAPED_UNICODE);
+        $merged = array_merge(json_decode($mainunits), json_decode($allunits));
+
+        return $merged;
+
     }
 
 
-
     public  function  allDiscounts(){
-        return $this->hasMany(AccountingItemDiscount::class,'item_id');
-
+        // return $this->hasMany(AccountingItemDiscount::class,'item_id');
+        $discounts=AccountingItemDiscount::where('item_id',$this->id)->where('type','purchase')->get();
+          return $discounts;
     }
 
 
     public function discount(){
-        $discounts=AccountingItemDiscount::where('item_id',$this->id)->get();
+        $discounts=AccountingItemDiscount::where('item_id',$this->id)->where('type','purchase')->get();
         $total=[];
         $total['percentage']=0;
         $total['amount']=0;
@@ -51,7 +67,7 @@ class AccountingPurchaseItem extends Model
             $total['amount']+=$discount->discount;
             }
         }
-     
+
         return $total;
     }
 

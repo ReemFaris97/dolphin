@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض المخازن')
-@section('parent_title','إدارة  المخازن')
+@section('title','عرض المستودعات')
+@section('parent_title','إدارة  المستودعات')
 
 @section('action', URL::route('accounting.stores.index'))
 @section('styles')
@@ -10,10 +10,10 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">عرض كل المخازن
+            <h5 class="panel-title">عرض كل المستودعات
             <div class="btn-group beside-btn-title">
                 <a href="{{route('accounting.stores.create')}}" class="btn btn-success">
-                    إضافه  مخزن  جديد
+                    إضافه  مستودع  جديد
                     <span class="m-l-5"><i class="fa fa-plus"></i></span>
                 </a>
             </div>
@@ -32,12 +32,12 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th> اسم المخزن باللغة العربية </th>
-                    <th>  نوع المخزن </th>
-                    <th>  حالة المخزن </th>
-                    <th> كود المخزن </th>
-                    {{--<th>  المخزن تابع الى </th>--}}
-                    <th> صورة المخزن </th>
+                    <th> اسم المستودع باللغة العربية </th>
+                    <th>  نوع المستودع </th>
+                    <th>  حالة المستودع </th>
+                    <th> كود المستودع </th>
+                    {{--<th>  المستودع تابع الى </th>--}}
+                    <th> صورة المستودع </th>
 
                     <th class="text-center">العمليات</th>
                 </tr>
@@ -70,19 +70,19 @@
 
 
                         <td class="text-center">
-                            <a href="{{route('accounting.stores.product',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="منتجات المخزن "> <i class="icon-cart" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.stores.product',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="اصناف المستودع "> <i class="icon-cart" style="margin-left: 10px"></i> </a>
                                 @if ($row->is_active==0)
-                                <a href="{{route('accounting.stores.is_active',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="منتجات المخزن "> <i class="fa fa-close"></i></a>
+                                <a href="{{route('accounting.stores.is_active',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="اصناف المستودع "> <i class="fa fa-close"></i></a>
                                 @else
-                                <a href="{{route('accounting.stores.dis_active',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="منتجات المخزن "> <i class="icon-checkmark-circle" style="margin-left: 10px"></i> </a>
+                                <a href="{{route('accounting.stores.dis_active',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="اصناف المستودع "> <i class="icon-checkmark-circle" style="margin-left: 10px"></i> </a>
 
                             @endif
 
                             <a href="{{route('accounting.stores.show',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>
-                            @can('تعديل المخزن')
+                            @can('تعديل المستودع')
                             <a href="{{route('accounting.stores.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
                             @endcan
-                            @can('حذف المخزن')
+                            @can('حذف المستودع')
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
 
                             {!!Form::open( ['route' => ['accounting.stores.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
@@ -113,7 +113,7 @@
             console.log(item_id);
             swal({
                 title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذا المخزن ؟",
+                text: "هل تريد حذف هذا المستودع ؟",
                 icon: "warning",
                 buttons: ["الغاء", "موافق"],
                 dangerMode: true,
@@ -123,7 +123,7 @@
                     document.getElementById('delete-form'+item_id).submit();
                 }
                 else{
-                    swal("تم االإلفاء", "حذف  المخزن  تم الغاؤه",'info',{buttons:'موافق'});
+                    swal("تم االإلفاء", "حذف  المستودع  تم الغاؤه",'info',{buttons:'موافق'});
                 }
             });
         }

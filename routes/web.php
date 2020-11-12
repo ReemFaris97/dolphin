@@ -11,6 +11,31 @@
 |
 */
 
+use App\Models\AccountingSystem\AccountingAccount;
+use App\Models\AccountingSystem\AccountingAsset;
+use App\Models\AccountingSystem\AccountingAssetDamageLog;
+use Carbon\Carbon;
+
+Route::get('test',function(){
+
+    // $user=AccountingAccount::find(31);
+    // dd($user->descendants);
+    $today=Carbon::now();
+    $Assets=AccountingAsset::all();
+    foreach($Assets as $asset)
+    {
+
+            if($today->between($asset->damage_start_date,$asset->damage_end_date)){
+                $lastDamage=AccountingAssetDamageLog::where('asset_id',$asset->id)->latest()->first();
+                AccountingAssetDamageLog::create([
+                    ''
+                ]);
+
+            }
+    }
+
+
+});
 Route::get('/', function () {
     return redirect()->route('admin.login');
 });

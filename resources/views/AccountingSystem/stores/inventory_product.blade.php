@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','  جرد الاصناف ')
-@section('parent_title','إدارة  المخازن')
+@section('parent_title','إدارة  المستودعات')
 
 @section('action', URL::route('accounting.stores.index'))
 @section('styles')
@@ -26,7 +26,15 @@
 
                 {!!Form::open( ['route' => 'accounting.stores.filter_inventory_product' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
 
-
+                @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 {{--<div class="col-sm-6 col-xs-6 pull-left" >--}}
                     {{--<div class="form-group form-float">--}}
                         {{--<label class="form-label"> رقم السند</label>--}}
@@ -111,7 +119,7 @@
                             @elseif($product->type=="service")
                                 خدمه
                             @elseif($product->type=="offer")
-                                مجموعة منتجات
+                                مجموعة اصناف
                             @elseif($product->type=="creation")
                                  تصنيع
                             @elseif($product->type=="product_expiration")
@@ -133,6 +141,7 @@
                                 <label class="btn-success" id="done">تم التسوية</label>
                             @endif
 
+                            <span id="qty{{$product->id}}"></span>
                         </td>
                     </tr>
 
@@ -162,7 +171,7 @@
                                 <input type="hidden" name="inventory_id" value="{{$inventory->id}}">
                                 @endisset
                                 <label> الكميه الفعليه</label>
-                                <input type="text" class="form-control" name="Real_quantity">
+                                <input type="text" class="form-control" name="Real_quantity" id="Real_quantity{{$product->id}}">
 
                             </div>
                             <div class="modal-footer">
@@ -210,7 +219,7 @@
                 // alert('dsa');
                 // var form = $(`form${id}`);
                 // console.log(form);
-
+                var real_quantity=$('#Real_quantity'+id).val()
 
                 $.ajax({
                     type: "post",
@@ -218,15 +227,12 @@
                     url: '{{route('accounting.inventory_settlement.store')}}',
                     data:   $('#form'+id).serialize()+"&_token="+token,
                     success: function (data) {
-
                         $('#button'+id).remove();
 
-
-
+                        $('#qty'+id).html(real_quantity);
                     },error:function (data) {
                         console.log(data);
                     }
-
                 });
             })
 

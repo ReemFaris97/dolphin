@@ -12,12 +12,9 @@ class AccountingSale extends Model
 
 
     protected $fillable = ['client_id','total','amount','discount','payment','payed','debts','package_id','session_id','branch_id','company_id','store_id','bill_num','totalTaxs'
-     ,'status','user_id','cash','network','discount_type','counter','daily_number','counter_sale','date' ];
+     ,'status','user_id','cash','network','discount_type','counter','daily_number','counter_sale','date','account_id' ];
     protected $table='accounting_sales';
     protected $appends = ['item_cost'];
-
-
-
     public function client()
     {
         return $this->belongsTo(AccountingClient::class,'client_id');
@@ -60,6 +57,7 @@ class AccountingSale extends Model
         foreach ($products_item as $key=>$product_id){
             $product=AccountingProduct::find($product_id);
             $cost+=$product->purchasing_price * $key;
+
         }
 
         return $cost;

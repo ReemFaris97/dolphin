@@ -23,7 +23,7 @@ use App\Http\Controllers\Controller;
 
 class StoresController extends Controller
 {
-    
+
 
 
     public function damages()
@@ -145,6 +145,7 @@ class StoresController extends Controller
     {
         $requests=request()->all();
         $deficiencies=[];
+
         //company_only
         if (\request('company_id') != Null && \request('branch_id') == Null && \request('store_id') == Null && \request('product_id') == Null) {
             $stores_company = AccountingStore::where('model_id', \request('company_id'))->where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->pluck('id');
@@ -164,7 +165,6 @@ class StoresController extends Controller
 //            dd($deficiencies);
         } //company_and_branch_only
         elseif (\request('company_id') != Null && \request('branch_id') != Null && \request('store_id') == Null && \request('product_id') == Null) {
-
             $stores = AccountingStore::where('model_id', \request('branch_id'))->where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->pluck('id');
             $product_quantity = AccountingProductStore::whereIn('store_id', $stores)->pluck('quantity', 'product_id');
             foreach ($product_quantity as $key => $item) {
@@ -180,18 +180,21 @@ class StoresController extends Controller
         elseif (\request('company_id') != Null && \request('branch_id') != Null && \request('store_id') != Null && \request('product_id') == Null) {
            $store=\request('store_id');
             $product_quantity = AccountingProductStore::where('store_id',$store)->pluck('quantity', 'product_id');
-
             foreach ($product_quantity as $key => $item) {
                 $product = AccountingProduct::find($key);
+                if (isset($product)){
                 $quantites[$product->id]=AccountingProductStore::where('product_id', '=', $product->id)->where('store_id',$store)->sum('quantity');
                 if ($product->min_quantity >= $quantites[$product->id]) {
                     array_push($deficiencies, $product);
+                }
                 }
             }
         }
 
         else{
             $deficiencies=[];
+            $stores=[];
+            $quantites=[];
         }
 
         return view('AccountingSystem.reports.stores.deficiencyProducts', compact('deficiencies','stores','quantites','requests'));
@@ -203,6 +206,7 @@ class StoresController extends Controller
     {
         $requests=request()->all();
         $expire_products=[];
+        $quantites=[];
         //company_only
         if (\request('company_id') != Null && \request('branch_id') == Null && \request('store_id') == Null && \request('product_id') == Null) {
             $stores_company = AccountingStore::where('model_id', \request('company_id'))->where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->pluck('id');
@@ -247,6 +251,7 @@ class StoresController extends Controller
             $product_quantity = AccountingProductStore::where('store_id',$store)->pluck('product_id', 'id');
             foreach ($product_quantity as $key => $item) {
                 $product = AccountingProduct::find($item);
+                if(isset($product)){
                 $quantites[$product->id]=AccountingProductStore::where('product_id', '=', $product->id)->where('store_id',$store)->sum('quantity');
 
                 $expire=new Carbon($product->expired_at);
@@ -254,13 +259,16 @@ class StoresController extends Controller
 //                    $product_store=AccountingProductStore::find($item);
                     if(!in_array($product,$expire_products)) {
                         array_push($expire_products, $product);
-                    }                }
+                    }
+                              }
+                            }
             }
 //      dd($expire_products);
         }
 
         else{
             $expire_products=[];
+
         }
         return view('AccountingSystem.reports.stores.expiredProducts', compact('expire_products','quantites','requests'));
     }
@@ -324,6 +332,7 @@ class StoresController extends Controller
             $store_id = \request('store_id');
             foreach ($product_quantity as $key => $item) {
                 $product = AccountingProduct::find($key);
+               if(isset($product)){
                 $quantites[$product->id]=AccountingProductStore::where('product_id', '=', $product->id)->where('store_id',$store)->sum('quantity');
                 $last_item = AccountingSaleItem::where('product_id', '=', $product->id)
                     ->whereHas('sale', function ($query) use ($store_id) {
@@ -336,6 +345,7 @@ class StoresController extends Controller
                         array_push($stagnant_sales, $last_item);
                     }
                 }
+              }
             }
 
         }

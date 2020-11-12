@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض   منتجات تالفه ل'.' '. $damage->store->ar_name )
-@section('parent_title','إدارة  المخازن')
+@section('title','عرض   اصناف تالفه ل'.' '. $damage->store->ar_name )
+@section('parent_title','إدارة  المستودعات')
 
 @section('action', URL::route('accounting.stores.index'))
 
@@ -11,7 +11,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title"> عرض   منتجات تالفه ل  {!! $damage->store->ar_name!!}</h5>
+            <h5 class="panel-title"> عرض   اصناف تالفه ل  {!! $damage->store->ar_name!!}</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -30,7 +30,7 @@
 
 
             <div class="form-group col-md-6 pull-left">
-                <label class="label label-info">  اسم المخزن   : </label>
+                <label class="label label-info">  اسم المستودع   : </label>
                 <span>{!! optional($damage->store)->ar_name !!}</span>
             </div>
 
@@ -47,7 +47,7 @@
                 <span>{!! $damage->created_at !!}</span>
             </div>
             <div class="form-group col-md-6 pull-left">
-                <label class="label label-info"> عدد المنتجات التالفه
+                <label class="label label-info"> عدد الاصناف التالفه
                     : </label>
                 <span>{!! $damage->productCount() !!} </span>
             </div>

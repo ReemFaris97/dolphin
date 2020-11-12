@@ -2,6 +2,9 @@
 
 namespace App\Observers;
 
+use App\Models\AccountingSystem\AccountingAccount;
+use App\Models\AccountingSystem\AccountingEntry;
+use App\Models\AccountingSystem\AccountingEntryAccount;
 use App\Models\AccountingSystem\AccountingPurchase;
 use App\Models\AccountingSystem\AccountingPurchaseReturn;
 use App\Models\AccountingSystem\AccountingSupplier;
@@ -36,5 +39,52 @@ class PurchaseReturnObserver
 //                dd($log);
             }
         }
+
+
+         $entry=AccountingEntry::create([
+            'date'=>$purchase->created_at,
+            'source'=>' مرتجع مشتريات',
+            'type'=>'automatic',
+            'details'=>'فاتوره مرتجع مشتريات'.$purchase->bill_num,
+            'status'=>'new'
+        ]);
+
+        if ($purchase->payment=='agel'){
+            //حساب  المشتريات و المورد
+            $toAccount=AccountingAccount::where('supplier_id',$supplier->id)->first();
+            AccountingEntryAccount::create([
+                'entry_id'=>$entry->id,
+                'from_account_id'=>$toAccount->id,
+                'to_account_id'=>getsetting('accounting_id_purchases_returns'),
+                'amount'=>$purchase->total,
+            ]);
+
+            //حساب  المشتريات والمخزون
+            $storeAccount=AccountingAccount::where('store_id',$purchase->store_id)->first();
+            AccountingEntryAccount::create([
+                'entry_id'=>$entry->id,
+                'from_account_id'=>getsetting('accounting_id_purchases_returns'),
+                'to_account_id'=>$storeAccount->id,
+                'amount'=>$purchase->total,
+            ]);
+
+        }elseif ($purchase->payment=='cash'){
+            //حساب  المرتجعات والنقدية
+            AccountingEntryAccount::create([
+                'entry_id'=>$entry->id,
+                'from_account_id'=>getsetting('accounting_id_cash'),
+                'to_account_id'=>getsetting('accounting_id_purchases_returns'),
+                'amount'=>$purchase->total,
+            ]);
+            //حساب  المرتجعات والمخزون
+            $storeAccount=AccountingAccount::where('store_id',$purchase->store_id)->first();
+            AccountingEntryAccount::create([
+                'entry_id'=>$entry->id,
+                'from_account_id'=>getsetting('accounting_id_purchases_returns'),
+                'to_account_id'=>$storeAccount->id,
+                'amount'=>$purchase->total,
+            ]);
+        }
+
     }
 }

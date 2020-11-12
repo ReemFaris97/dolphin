@@ -63,7 +63,7 @@
                     <div class="metro-big warhousesm">
                         <a href="{{route('company.stores.create')}}" class="bigger-link">
                             <img src="{{asset('admin/assets/images/metro/warehouse.png')}}" alt="">
-                            <span class="label bottom">إضافة مخزن </span>
+                            <span class="label bottom">إضافة مستودع </span>
                         </a>
                         <div class="hoverable-icons">
                             <a href="{{route('company.stores.index')}}">

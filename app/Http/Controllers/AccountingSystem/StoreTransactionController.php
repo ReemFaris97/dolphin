@@ -2,15 +2,9 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
-use App\Models\AccountingSystem\AccountingBond;
-use App\Models\AccountingSystem\AccountingBranch;
-use App\Models\AccountingSystem\AccountingBranchShift;
-use App\Models\AccountingSystem\AccountingCompany;
-
 use App\Models\AccountingSystem\AccountingDamage;
 use App\Models\AccountingSystem\AccountingDamageProduct;
-use App\Models\AccountingSystem\AccountingInventory;
-use App\Models\AccountingSystem\AccountingInventoryProduct;
+
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingSroreRequest;
@@ -48,7 +42,17 @@ class StoreTransactionController extends Controller
 
     }
 
+    public function store_products($id)
+    {
+        $store_product=AccountingProductStore::where('store_id',$id)->pluck('product_id','id')->toArray();
+        $products=AccountingProduct::whereIn('id',$store_product)->pluck('name','id')->toArray();
+        // dd(count($products));
+        return response()->json([
+            'status'=>true,
+            'data'=>view('AccountingSystem.stores.store_products',compact('products'))->render()
+        ]);
 
+    }
 
 
     public function productsettlement(Request $request)
@@ -84,7 +88,6 @@ class StoreTransactionController extends Controller
     }
 
     public function transaction(Request $request,$id){
-
         $inputs=$request->all();
         //  dd($inputs);
         $trans=  AccountingTransaction::create([
@@ -101,6 +104,7 @@ class StoreTransactionController extends Controller
         $product_store_form=AccountingProductStore::where('store_id',$id)->where('product_id',$request['product_id'])->first();
         if ($product_store_form->quantity-$request['quantity'] >= 0)
         {
+            dd("rrrrrrrrrrrrrr");
             $product_store_form->update([
                 'quantity' => $product_store_form->quantity - $request['quantity'],
             ]);
@@ -169,6 +173,7 @@ class StoreTransactionController extends Controller
             $product_store_form = AccountingProductStore::where('store_id', $store_form)->where('product_id',$merge[0])->first();
             //  dd($product_store_form->quantity-$request['quantity'] );
             if ($product_store_form->quantity - $merge[1] >= 0) {
+
                 $product_store_form->update([
                     'quantity' => $product_store_form->quantity - $merge[1],
                 ]);
@@ -187,10 +192,10 @@ class StoreTransactionController extends Controller
                             'store_id' => $request['to_store_id'],
                         ]);
                     }
-                alert()->success('تم التحويل من المخزن بنجاح !')->autoclose(5000);
+                alert()->success('تم التحويل من المستودع بنجاح !')->autoclose(5000);
 
             } else {
-                alert()->warning('الكميه بالمخزن المنقول منه غير كافية')->autoclose(5000);
+                alert()->warning('الكميه بالمستودع المنقول منه غير كافية')->autoclose(5000);
 
 
             }//endcheckif
@@ -283,7 +288,7 @@ class StoreTransactionController extends Controller
                     'store_id' => $req->store_to,
                 ]);
             }
-            alert()->success('تم  قبول الاستلام التحويل من المخزن بنجاح !')->autoclose(5000);
+            alert()->success('تم  قبول الاستلام التحويل من المستودع بنجاح !')->autoclose(5000);
             return redirect()->route('accounting.stores.requests');
         }
     }
@@ -316,7 +321,7 @@ class StoreTransactionController extends Controller
                     'store_id' => $req->store_form,
                 ]);
             }
-            alert()->success('تم  رفض الاستلام التحويل من المخزن بنجاح !')->autoclose(5000);
+            alert()->success('تم  رفض الاستلام التحويل من المستودع بنجاح !')->autoclose(5000);
             return redirect()->route('accounting.stores.requests');
         }
 
@@ -342,6 +347,10 @@ class StoreTransactionController extends Controller
     public function damaged_store(Request $request){
 
         $inputs=$request->all();
+        $rules = [
+            'user_id'=>'required|numeric|exists:users,id',
+        ];
+        $this->validate($request,$rules);
 
         $quantity=collect($inputs['quantity']);
         $products=collect($inputs['product_id']);
@@ -349,8 +358,6 @@ class StoreTransactionController extends Controller
       $damage= AccountingDamage::create([
             'store_id' => $request['store_id'],
             'user_id' => $request['user_id'],
-
-
         ]);
 
         foreach ($merges as $merge) {
@@ -373,7 +380,7 @@ class StoreTransactionController extends Controller
         }
 
 
-        alert()->success('تم   تسجيل التالف من المخزن بنجاح !')->autoclose(5000);
+        alert()->success('تم   تسجيل التالف من المستودع بنجاح !')->autoclose(5000);
 
         return redirect()->route('accounting.stores.damaged_index');
     }

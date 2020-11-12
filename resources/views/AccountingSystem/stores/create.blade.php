@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','إنشاء مخزن  جديد')
-@section('parent_title','إدارة  المخازن')
+@section('title','إنشاء مستودع  جديد')
+@section('parent_title','إدارة  المستودعات')
 
 @section('action', URL::route('accounting.stores.index'))
 @section('styles')
@@ -18,7 +18,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">إضافة مخزن جديد</h5>
+            <h5 class="panel-title">إضافة مستودع جديد</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -29,7 +29,7 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::open( ['route' => 'accounting.stores.store' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true]) !!}
+            {!!Form::open( ['route' => 'accounting.stores.store' ,'class'=>'form phone_validate parsley-validate-form', 'method' => 'Post','files' => true]) !!}
             @include('AccountingSystem.stores.form')
             {!!Form::close() !!}
         </div>

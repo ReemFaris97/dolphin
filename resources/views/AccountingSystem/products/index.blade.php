@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض المنتجات')
-@section('parent_title','إدارة  المنتجات')
+@section('title','عرض الاصناف')
+@section('parent_title','إدارة  الاصناف')
 @section('action', URL::route('accounting.products.index'))
 
 @section('styles')
@@ -10,7 +10,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">عرض كل المنتجات
+            <h5 class="panel-title">عرض كل الاصناف
 
             <div class="btn-group beside-btn-title">
                 <a href="{{route('accounting.products.create')}}" class="btn btn-success">
@@ -57,7 +57,7 @@
                                 @elseif($row->type=="service")
                                 خدمه
                             @elseif($row->type=="offer")
-                                مجموعة منتجات
+                                مجموعة اصناف
                             @elseif($row->type=="creation")
                                 تصنيع
                             @elseif($row->type=="product_expiration")

@@ -49,15 +49,15 @@
                             </div>
 
                                 <div class="form-group col-sm-3">
-                                    <label> المخزن </label>
-                                    {!! Form::select("store_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر المخزن','data-live-search'=>'true','id'=>'store_id'])!!}
+                                    <label> المستودع </label>
+                                    {!! Form::select("store_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر المستودع','data-live-search'=>'true','id'=>'store_id'])!!}
                                 </div>
 
                             <div class="form-group col-sm-3">
                                 <label> القائم بالعملية </label>
                                 <select name="user_id" data-live-search="true" class="selectpicker form-control inline-control" id="user_id">
                                     @if(request()->has('user_id') && request('user_id') != null)
-                                        @php $user = \App\User::find(request('user_id')); @endphp
+                                        @php $user = App\User::find(request('user_id')); @endphp
                                         <option value="{{ $user->id }}" selected="">{{ $user->name }}</option>
                                     @else
                                         <option value="" selected="" disabled="">القائم بالعملية</option>
@@ -151,7 +151,7 @@
                     @endif
 
                         @if(isset($requests['user_id']))
-                        @php $user=\App\User::find($requests['user_id']) @endphp
+                        @php $user=App\User::find($requests['user_id']) @endphp
                         <td class="footTdLbl" colspan="2">القائم بالعمليه : <span>{{$user->name}}</span></td>
                         @endif
 
@@ -172,7 +172,7 @@
                 </tr>
                 <tr>
                     <th> التاريخ </th>
-                    <th> إجمالي تكلفة المنتجات المباعة كمشتريات </th>
+                    <th> إجمالي تكلفة الاصناف المباعة كمشتريات </th>
                     <th> إجمالي المببيعات </th>
                     <th> إجمالي الخصومات </th>
                     <th> إجمالي  الربح</th>

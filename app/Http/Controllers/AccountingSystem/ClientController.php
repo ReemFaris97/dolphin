@@ -60,6 +60,9 @@ class ClientController extends Controller
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
+            if (getsetting('automatic_clients')==1){
+                $requests['account_id']=getsetting('accounting_id_clients');
+            }
 
         AccountingClient::create($requests);
         alert()->success('تم اضافة  العميل بنجاح !')->autoclose(5000);
@@ -105,7 +108,7 @@ class ClientController extends Controller
         $rules = [
 
             'name'=>'required|string|max:191',
-            'phone'=>'required|numeric|exists:accounting_clients,id',
+            'phone'=>'required|numeric|unique:accounting_clients,phone,'.$client->id,
         ];
         $this->validate($request,$rules);
         $requests = $request->all();

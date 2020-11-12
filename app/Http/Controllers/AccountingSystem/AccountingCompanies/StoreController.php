@@ -156,7 +156,7 @@ class StoreController extends Controller
                 'model_id' => $requests['branch_id']
             ]);
         }
-        alert()->success('تم تعديل  المخزن بنجاح !')->autoclose(5000);
+        alert()->success('تم تعديل  المستودع بنجاح !')->autoclose(5000);
         return redirect()->route('company.stores.index');
 
 
@@ -173,7 +173,7 @@ class StoreController extends Controller
     {
         $store =AccountingStore::findOrFail($id);
         $store->delete();
-        alert()->success('تم حذف  المخزن بنجاح !')->autoclose(5000);
+        alert()->success('تم حذف  المستودع بنجاح !')->autoclose(5000);
             return back();
 
 

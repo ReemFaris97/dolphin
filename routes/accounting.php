@@ -17,14 +17,16 @@ Route::middleware('admin')->group(function () {
     Route::resource('taxs', 'TaxsController');
     Route::resource('banks', 'BankController');
     Route::resource('roles', 'roleController');
+    Route::resource('backups', 'BackupController');
+
     Route::get('/user_permissions/{id}', 'UserController@user_permissions')->name('user_permissions.edit');
     Route::patch('/user_permissions/{id}', 'UserController@user_permissions_update')->name('user_permissions.update');
     Route::get('getBranchesPermission/{id}', 'UserController@getBranchesPermission')->name('getBranchesPermission');
     Route::get('getStoresPermission/{id}', 'UserController@getStoresPermission')->name('getStoresPermission');
     Route::get('getStoresCampanyPermission/{id}', 'UserController@getStoresCampanyPermission')->name('getStoresCampanyPermission');
+    Route::get('/get-permissions/{id}', 'UserController@permissions');
 
-
-    /////////////////سندات  ادخال المنتجات فى المخازن
+    /////////////////سندات  ادخال الاصناف فى المستودعات
     Route::get('/company_stores/{id}', 'StoreController@user_permissions');
     Route::get('/branch_stores/{id}', 'StoreController@branch_stores');
     Route::get('/store-active/{id}', 'StoreController@active')->name('stores.is_active');
@@ -45,6 +47,8 @@ Route::middleware('admin')->group(function () {
 
 
 
+
+
     Route::get('/bonds', 'StoreController@bonds_index')->name('stores.bonds_index');
     Route::get('/bond-show/{id}', 'StoreController@bond_show')->name('stores.show_bond');
     Route::get('/products_exchange_form', 'StoreController@products_exchange_form')->name('stores.products_exchange_form');
@@ -59,7 +63,7 @@ Route::middleware('admin')->group(function () {
 
     Route::get('/product-settlement/{id}', 'products_storeProductController@settlement')->name('products.settlements');
     Route::any('/settlements_store', 'ProductController@settlements_store')->name('products_settlement.store');
-///////////////////////////inventory  للمخازن  الجرد وتسوية الجرد
+///////////////////////////inventory  للمستوعات  الجرد وتسوية الجرد
     Route::get('/inventory', 'StoreInventroyController@inventory')->name('stores.inventory');
     Route::post('/inventory', 'StoreInventroyController@inventory_store')->name('stores.filter_inventory');
     Route::post('/inventory-bond', 'StoreInventroyController@inventory_bond')->name('inventory_bond.store');
@@ -96,6 +100,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/productsettlement', 'StoreTransactionController@productsettlement');
     Route::get('/productdamage', 'StoreTransactionController@productdamage');
     Route::get('/productpurchase', 'PurchaseReturnController@productpurchase');
+    Route::get('/store_products/{id}', 'StoreTransactionController@store_products');
 
 
     Route::get('/requests', 'StoreTransactionController@requests')->name('stores.requests');
@@ -110,7 +115,7 @@ Route::middleware('admin')->group(function () {
     Route::post('/damages-store', 'StoreTransactionController@damaged_store')->name('stores.damaged_store');
     Route::get('/damages-show/{id}', 'StoreTransactionController@damaged_show')->name('stores.show_damaged_products');
 
-    ///////////////تقاير المخازن
+    ///////////////تقاير المستودعات
 
     Route::get('/balances-report', 'StoreController@first_balances')->name('stores.first_balances_report');
 
@@ -134,6 +139,27 @@ Route::middleware('admin')->group(function () {
     Route::resource('safes', 'SafeController');
     Route::resource('devices', 'DeviceController');
     Route::resource('settings', 'SettingController');
+    Route::resource('fiscalYears', 'FiscalYearController');
+    Route::resource('fiscalPeriods', 'FiscalPeriodController');
+    Route::resource('costCenters', 'CostCenterController');
+    Route::resource('jobTitles', 'JobTitleController');
+    Route::resource('assets', 'AssetController');
+    Route::resource('custodies', 'CustodyController');
+    Route::post('add_amount/{id}', 'CustodyController@add_amount')->name('custodies.add_amount');
+    Route::post('decreased_amount/{id}', 'CustodyController@decreased_amount')->name('custodies.decreased_amount');
+
+    Route::get('active/{id}', 'CostCenterController@active')->name('costCenters.active');
+    Route::get('dis-active/{id}', 'CostCenterController@dis_active')->name('costCenters.dis_active');
+    Route::get('active-title/{id}', 'JobTitleController@active')->name('jobTitles.active');
+    Route::get('dis-active-title/{id}', 'JobTitleController@dis_active')->name('jobTitles.dis_active');
+    Route::get('pay-salaries', 'SalaryController@index')->name('users.pay_salaries');
+    Route::get('salaries', 'SalaryController@salaries')->name('users.salaries_paid');
+    Route::get('/userSalary', 'SalaryController@userSalary');
+    Route::get('/titleSalary', 'SalaryController@titleSalary');
+    Route::get('/checks', 'ClauseController@checks')->name('clauses.checks');
+
+    Route::post('pay', 'SalaryController@pay')->name('users.pay');
+
 
     Route::post('/store_returns', 'SaleController@store_returns')->name('sales.store_returns');
 
@@ -143,6 +169,9 @@ Route::middleware('admin')->group(function () {
     Route::get('/returns_Sale/{id}', 'SaleController@returns_Sale');
     Route::get('/sale_details/{id}', 'SaleController@sale_details');
 
+    Route::get('/index_returns', 'SaleController@index_returns')->name('sales.index_returns');
+    Route::Delete('/destroy_return/{id}', 'SaleController@destroy_return')->name('sales.destroy_return');
+    Route::get('/show_return/{id}', 'SaleController@show_return')->name('sales.show_return');
 
     Route::get('/returns_purchases', 'PurchaseController@returns')->name('purchases.returns');
     Route::post('/store_returns_purchases', 'PurchaseController@store_returns')->name('purchases.store_returns');
@@ -186,7 +215,7 @@ Route::middleware('admin')->group(function () {
 
     Route::resource('products', 'ProductController');
     Route::get('/company_branch/{id}', 'ProductController@getBranch')->name('company.branch');
-
+    Route::get('/company_branch_without_all/{id}', 'ProductController@branches_only')->name('company.branches_only');
     Route::get('/branches_store/{id}', 'ProductController@getStores');
     Route::get('/columns_face/{id}', 'ProductController@getcolums')->name('columns_face');
     Route::get('/cells_column/{id}', 'ProductController@getcells')->name('cells_column');
@@ -276,6 +305,27 @@ Route::middleware('admin')->group(function () {
         Route::get('sessions/{id}', 'HomeController@getSessions');
         Route::get('suppliers/{id}', 'HomeController@getSuppliers');
     });
+
+
+    Route::group(['prefix' => 'ChartsAccounts'], function () {
+        Route::resource('ChartsAccounts', 'AccountController');
+        Route::any('trial-balance', 'AccountController@trial_balance')->name('ChartsAccounts.trial_balance');
+
+        Route::resource('AccountSettings', 'AccountSettingController');
+        Route::get('active/{id}', 'AccountController@active')->name('ChartsAccounts.active');
+        Route::get('dis-active/{id}', 'AccountController@dis_active')->name('ChartsAccounts.dis_active');
+    });
+    Route::resource('currencies', 'CurrencyController');
+    Route::resource('payments', 'PaymentController');
+
+    Route::group(['prefix' => 'entries'], function () {
+        Route::resource('entries', 'EntryController');
+        Route::get('filter', ['as' => 'entries.filter', 'uses' => 'EntryController@filter']);
+        Route::get('posting/{id}', ['as' => 'entries.posting', 'uses' => 'EntryController@posting']);
+        Route::get('toAccounts/{id}', ['as' => 'entries.toAccounts', 'uses' => 'EntryController@toaccounts']);
+
+    });
+    Route::get('/destroy_account/{id}',['as'=>'entries.destroy_account', 'uses' => 'EntryController@destroy_account']);
 
 });
 

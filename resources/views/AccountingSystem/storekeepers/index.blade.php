@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض امناء المخازن')
-@section('parent_title','إدارة  المخازن')
+@section('title','عرض امناء المستودعات')
+@section('parent_title','إدارة  المستودعات')
 @section('action', URL::route('accounting.storeKeepers.index'))
 @section('styles')
 
@@ -25,7 +25,7 @@
                 <tr>
                     <th>#</th>
                     <th> اسم  الامين </th>
-                    {{--<th> اسم المخزن التابع  لها  </th>--}}
+                    {{--<th> اسم المستودع التابع  لها  </th>--}}
                     <th> جوال  </th>
                     <th> ايميل  </th>
                     <th class="text-center">العمليات</th>
@@ -74,7 +74,7 @@
             console.log(item_id);
             swal({
                 title: "هل أنت متأكد ",
-                text: "هل تريد حذف  امين المخزن ؟",
+                text: "هل تريد حذف  امين المستودع ؟",
                 icon: "warning",
                 buttons: ["الغاء", "موافق"],
                 dangerMode: true,
@@ -84,7 +84,7 @@
                     document.getElementById('delete-form'+item_id).submit();
                 }
                 else{
-                    swal("تم االإلفاء", "حذف  امين المخزن  تم الغاؤه",'info',{buttons:'موافق'});
+                    swal("تم االإلفاء", "حذف  امين المستودع  تم الغاؤه",'info',{buttons:'موافق'});
                 }
             });
         }

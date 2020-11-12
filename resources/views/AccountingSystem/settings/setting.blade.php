@@ -22,31 +22,88 @@
 		<div class="panel-body">
 			{!!Form::open( ['route' => 'accounting.settings.store' , 'method' => 'Post','files'=>true]) !!}
 			@foreach($settings as $setting)
+				@if($setting->type=='check')
+					<div class="form-group col-xs-4 backed-eee {{ $errors->has('name') ? ' has-error' : '' }}">
+						<div>
+							<label> {{$setting->title}}</label>
+
+								<div class="form-line new-radio-big-wrapper clearfix  {{$setting->name}}">
+									@if($setting->value=='1')
+										<span class="new-radio-wrap">
+											<label>نعم</label>
+											{!! Form::radio($setting->name.'[]',1,true,['class'=>'form-control'])!!}
+										</span>
+
+										<span class="new-radio-wrap">
+											<label> لا</label>
+											{!! Form::radio($setting->name.'[]',0,false,['class'=>'form-control'])!!}
+										</span>
+									@elseif($setting->value=='0')
+										<span class="new-radio-wrap">
+										<label>نعم</label>
+										{!! Form::radio($setting->name.'[]',1,false,['class'=>'form-control'])!!}
+									</span>
+										<span class="new-radio-wrap">
+											<label> لا</label>
+											{!! Form::radio($setting->name.'[]',0,true,['class'=>'form-control'])!!}
+										</span>
+						       	@endif
+								</div>
+						</div>
+					</div>
+				@endif
+
 			@if($setting->type=='radio')
 			<div class="form-group col-xs-4 backed-eee {{ $errors->has('name') ? ' has-error' : '' }}">
 				<div>
 					<label> {{$setting->title}}</label>
-				<div class="form-line new-radio-big-wrapper clearfix">
+                    @if($setting->name=='coding_status')
+				<div class="form-line new-radio-big-wrapper clearfix  {{$setting->name}}">
 					@if($setting->value=='1')
 					<span class="new-radio-wrap">
-						<label>نعم</label>
+						<label>تزايدى</label>
 						{!! Form::radio($setting->name.'[]',1,true,['class'=>'form-control'])!!}
 					</span>
 					<span class="new-radio-wrap">
-						<label> لا</label>
+						<label>تسلسلى</label>
 						{!! Form::radio($setting->name.'[]',0,false,['class'=>'form-control'])!!}
 					</span>
 					@elseif($setting->value=='0')
 					<span class="new-radio-wrap">
-						<label>نعم</label>
+						<label>تزايدى</label>
 						{!! Form::radio($setting->name.'[]',1,false,['class'=>'form-control'])!!}
 					</span>
 					<span class="new-radio-wrap">
+						<label>تسلسلى</label>
+						{!! Form::radio($setting->name.'[]',0,true,['class'=>'form-control'])!!}
+					</span>
+				</div>
+					@endif
+
+                        @else
+                        <div class="form-line new-radio-big-wrapper clearfix ">
+                            @if($setting->value=='1')
+                                <span class="new-radio-wrap">
+						<label>نعم</label>
+						{!! Form::radio($setting->name.'[]',1,true,['class'=>'form-control'])!!}
+					</span>
+                                <span class="new-radio-wrap">
+						<label> لا</label>
+						{!! Form::radio($setting->name.'[]',0,false,['class'=>'form-control'])!!}
+					</span>
+                            @elseif($setting->value=='0')
+                                <span class="new-radio-wrap">
+						<label>نعم</label>
+						{!! Form::radio($setting->name.'[]',1,false,['class'=>'form-control'])!!}
+					</span>
+                                <span class="new-radio-wrap">
 						<label> لا</label>
 						{!! Form::radio($setting->name.'[]',0,true,['class'=>'form-control'])!!}
 					</span>
-					@endif
-				</div>
+                            @endif
+                        </div>
+
+                    @endif
 				</div>
 			</div>
 			@endif
@@ -142,7 +199,7 @@
 		@foreach($settings as $setting)
 			@if($setting->type == 'value')
 
-			<div class="form-group col-xs-4 {{ $errors->has('name') ? ' has-error' : '' }}">
+			<div class="form-group col-xs-4 {{ $errors->has('name') ? ' has-error' : '' }} ">
 				<label> {{$setting->title}}</label>
 				<div class="form-group col-md-6 pull-left">
 					<label>الطول mm</label>
@@ -184,8 +241,8 @@
 			@foreach($settings as $setting)
 			@if($setting->type == 'text')
 
-			<div class="form-group col-xs-4 {{ $errors->has('name') ? ' has-error' : '' }}">
-			<label> {{$setting->title}}</label>
+			<div class="form-group col-xs-4 {{ $errors->has('name') ? ' has-error' : '' }} {{$setting->name}} ">
+			<label> {{$setting->title}} </label>
 				<div class="form-group col-md-6 pull-left">
 					{!! Form::text($setting->name.'[]',$setting->value,['class'=>'form-control'])!!}
 				</div>
@@ -216,6 +273,16 @@
 		<script>
 			$(document).ready(function() {
 				CKEDITOR.replaceClass = 'editor';
+				var checkBox = document.getElementById("automatic");
+				$(document).on('change', '.automatic', function() {
+					if(this.checked) {
+                        document.getElementsByClassName("main_coding").disabled = true;
+                        document.getElementsByClassName("increased_number").disabled = true;
+                        document.getElementsByClassName("coding_status").disabled = true;
+					}
+				});
+
+
 			});
 		</script>
 		@endsection

@@ -11,6 +11,7 @@ use App\Models\AccountingSystem\AccountingCompany;
 use App\Models\AccountingSystem\AccountingFaceColumn;
 use App\Models\AccountingSystem\AccountingIndustrial;
 use App\Models\AccountingSystem\AccountingProduct;
+use App\Models\AccountingSystem\AccountingProductBarcode;
 use App\Models\AccountingSystem\AccountingProductCategory;
 use App\Models\AccountingSystem\AccountingProductComponent;
 use App\Models\AccountingSystem\AccountingProductDiscount;
@@ -62,7 +63,6 @@ class ProductController extends Controller
         //dd($units);
         return $this->toCreate(compact('branches','categories','products','industrials','units','taxs','suppliers'));
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -71,13 +71,14 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
- //dd($request->all());
+//dd($request->all());
         $rules = [
-            'name'=>'required|string|max:191|product_name:accounting_products,name,category_id,'.$request['name'].','.$request['category_id'],
-
+         'product_name'=>'required|string|max:191|product_name:accounting_products,name,category_id,'.$request['product_name'].','.$request['category_id'],
             'description'=>'nullable|string',
             'category_id'=>'nullable|numeric|exists:accounting_product_categories,id',
-            'bar_code'=>'nullable|string|product_name:accounting_products,bar_code,category_id,'.$request['bar_code'].','.$request['category_id'],
+            'bar_code'=>'nullable|string|barcode_name:accounting_products,bar_code,bar_code,barcode,'.$request['bar_code'],
+            'barcodes'=>'nullable|array|barcode_anther:accounting_products,bar_code,bar_code,barcode,',
+            'par_codes'=>'nullable|array|barcode_unit:accounting_products,bar_code,bar_code,barcode,',
             'product_selling_price'=>'required',
             'product_purchasing_price'=>'required',
             'min_quantity'=>'required|string|numeric',
@@ -89,40 +90,42 @@ class ProductController extends Controller
             'image'=>'nullable|sometimes|image',
             'width'=>'nullable|string',
             'num_days_recession'=>'nullable|string',
-            // 'cell_id'=>'required',
-
+            'cell_id'=>'required',
+            'type'=>'required|string',
         ];
         $messsage = [
-            'name.store_name'=>"اسم المنتج موجود بالفعل بالتصنيف",
-            'code.store_code'=>"باركود المنتج موجود بالفعل بالتصنيف",
-
+            'product_name.product_name'=>"اسم المنتج موجود بالفعل بالتصنيف",
+            'bar_code.barcode_name'=>"باركود المنتج موجود مسبقا ",
+            'barcodes.barcode_anther'=>"باركود المنتج موجود مسبقا ",
+            'par_codes.barcode_unit'=>"باركود  الوحدة موجود مسبقا ",
+            'type.required'=>'نوع المنتج مطلوب ادخاله',
         ];
         $this->validate($request,$rules,$messsage);
-// dd($request['quantities']);
-        $inputs = $request->except('name','image','main_unit_present','purchasing_price','selling_price','component_names','qtys','main_units');
-        $inputs['name']=$inputs['name_product'];
+
+        $inputs = $request->except('image','main_unit_present','purchasing_price','selling_price','component_names','qtys','main_units');
+       $inputs['name']=$inputs['product_name'];
         $inputs['selling_price']=$inputs['product_selling_price'];
         $inputs['purchasing_price']=$inputs['product_purchasing_price'];
-
+//        dd($inputs);
         if ($request->hasFile('image')) {
             $inputs['image'] = saveImage($request->image, 'photos');
         }
-        // dd($inputs);
+        if (getsetting('automatic_products')==1){
+            $requests['account_id']=getsetting('accounting_id_products');
+        }
        $product= AccountingProduct::create($inputs);
 
        if (isset($inputs['store_id']))
        {
+           $product->update([
+               'store_id'=>$inputs['store_id'] ,
+           ]);
            AccountingProductStore::create([
                'store_id'=>$inputs['store_id'] ,
                'product_id'=>$product->id,
                'quantity'=>$inputs['quantity'] ,
-
            ]);
        }
-        $product->name=$inputs['name_product'];
-
-
-
         if (isset($request['main_unit'])){
             $main_unit=AccountingProductMainUnit::where('main_unit',$request['main_unit'])->first();
             if (!isset($main_unit))
@@ -131,9 +134,7 @@ class ProductController extends Controller
                  'main_unit'=>  $request['main_unit']
                 ]);
             }
-
         }
-
         ///////  /// / //////subunits Arrays//////////////////////////////
         $names = collect($request['name']);
         $par_codes = collect($request['par_codes']);
@@ -186,6 +187,17 @@ class ProductController extends Controller
             ]);
 
         }
+        /////////////////////////////barcodes_products///////////////////////////////////
+        if (isset($inputs['barcodes']))
+        {
+            $barcodes=$inputs['barcodes'];
+            foreach ($barcodes as $barcode)
+                // dd($offer);
+                AccountingProductBarcode::create([
+                    'barcode'=>$barcode ,
+                    'product_id'=>$product->id,
+                ]);
+        }
 /////////////////////////////offers _products///////////////////////////////////
         if (isset($inputs['offers']))
         {
@@ -227,14 +239,18 @@ class ProductController extends Controller
         }
 /////////////////////product_taxs//////////////////////////////////////
         if (isset($request['tax'])&$request['tax']==1){
-            // dd($request->all());
-            foreach($request['tax_band_id'] as $tax_band_id){
-            AccountingProductTax::create([
-                'product_id'=>$product->id,
-                'tax'=>$request['tax'],
-                'price_has_tax'=>isset($request['price_has_tax'])?$request['price_has_tax']:Null,
-                'tax_band_id'=>$tax_band_id,
-            ]);
+
+            if (isset($request['tax_band_id'] )) {
+               $taxs=$request['tax_band_id'];
+                foreach ($taxs as  $tax) {
+
+                    AccountingProductTax::create([
+                        'product_id' => $product->id,
+                        'tax' => $request['tax'],
+                        'price_has_tax' => isset($request['price_has_tax']) ? $request['price_has_tax'] : Null,
+                        'tax_band_id' => $tax,
+                    ]);
+                }
             }
         }
 //////////////////////product_services////////////////////////////
@@ -323,13 +339,15 @@ class ProductController extends Controller
         $has_tax=($tax)?'1':'0';
         if (isset($tax)) {
             $price_has_tax = ($tax->price_has_tax == 1) ? '1' : '0';
+        }else{
+            $price_has_tax =0;
         }
         $discounts=AccountingProductDiscount::where('product_id',$id)->get();
         $discount = AccountingProductDiscount::where('product_id', $id)->first();
         $suppliers=AccountingSupplier::pluck('name','id')->toArray();
 
         return $this->toEdit(compact('suppliers',
-            'industrials','taxs','face','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores','units','subunits'
+            'industrials','taxs','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores','units','subunits'
             ,'taxsproduct','has_tax','price_has_tax','discounts','discount'));
 
 
@@ -372,8 +390,8 @@ class ProductController extends Controller
         $this->validate($request,$rules);
         $requests = $request->all();
 
-        $inputs = $request->except('name','image','bar_code','main_unit_present','purchasing_price','selling_price','component_names','qtys','main_units');
-        $inputs['name']=$inputs['name_product'];
+        $inputs = $request->except('image','bar_code','main_unit_present','purchasing_price','selling_price','component_names','qtys','main_units');
+//        $inputs['name']=$inputs['name_product'];
         $inputs['selling_price']=$inputs['product_selling_price'];
         $inputs['purchasing_price']=$inputs['product_purchasing_price'];
 
@@ -381,7 +399,11 @@ class ProductController extends Controller
             $inputs['image'] = saveImage($request->image, 'photos');
         }
         $product->update($inputs);
+//
+        $product->update([
+            'store_id'=>$inputs['store_id'] ,
 
+        ]);
         if (isset($inputs['store_id']))
         {
             AccountingProductStore::create([
@@ -389,7 +411,7 @@ class ProductController extends Controller
                 'product_id'=>$product->id,
             ]);
         }
-        $product->name=$inputs['name_product'];
+//        $product->name=$inputs['name_product'];
         ///////  /// / //////subunits Arrays//////////////////////////////
         $names = collect($request['name']);
         $par_codes = collect($request['par_codes']);
@@ -476,12 +498,19 @@ class ProductController extends Controller
         //dd("sdfs");
         return branches($id);
     }
+    public function branches_only($id)
+    {
+
+        //dd("sdfs");
+        return branches_only($id);
+    }
+
 
     public function getfaces($id)
     {
-
-
-        return faces($id);
+     $requests=\Request::all();
+        $company_id=$requests['company_id'];
+        return faces($id,$company_id);
     }
 
 
@@ -506,27 +535,41 @@ class ProductController extends Controller
 
     {
         $stores=[];
-        $branches_ids=explode(',',$branches);
-        // dd($branches);
-        $branch=AccountingBranch::find($branches_ids[0]);
-        $company_id=$branch->company_id;
-        $stores_company=AccountingStore::where('model_type','App\Models\AccountingSystem\AccountingCompany')->where('model_id',$company_id)->get();
-        $collect1=collect($stores_company);
+        if ($branches != 'all') {
+            $branches_ids = explode(',', $branches);
+            $branch = AccountingBranch::find($branches_ids[0]);
+            $company_id = $branch->company_id;
+            $stores_company = AccountingStore::where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->where('model_id', $company_id)->get();
+            $collect1 = collect($stores_company);
 
-        $stores_branch =[];
-       foreach($branches_ids as  $branch_id)
-       {
-           $store_branch=AccountingStore::where('model_type','App\Models\AccountingSystem\AccountingBranch')->where('model_id',$branch_id)->first();
+            $stores_branch = [];
+            foreach ($branches_ids as $branch_id) {
+                $store_branch = AccountingStore::where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->where('model_id', $branch_id)->first();
+                array_push($stores_branch, $store_branch);
+            }
+            $collect2 = collect($stores_branch);
+            $merged = $collect2->merge($collect1);
+            $stores_ = $merged->all();
+            $stores = collect($stores_)->filter();
+        }else{
+            $requests=\Request::all();
 
-           array_push($stores_branch,$store_branch);
+            $company_id=$requests['company_id'];
+
+            $branches_1= AccountingBranch::where('company_id',$company_id[0])->get();
+            $stores_branch = [];
+            foreach ($branches_1 as $branch) {
+                $store_branch = AccountingStore::where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->where('model_id', $branch->id)->first();
+
+                array_push($stores_branch, $store_branch);
 
 
-       }
-        $collect2=collect($stores_branch);
-        $merged=$collect2->merge($collect1);
-        $stores_=$merged->all();
-     // dd(collect($merged));
-      $stores= collect($stores_)->filter();
+            }
+            $collect2 = collect($stores_branch);
+
+            $stores = collect($stores_branch)->filter();
+
+        }
         return response()->json([
             'status'=>true,
             'data'=>view('AccountingSystem.products.getAjaxStores',compact('stores'))->render()
@@ -553,10 +596,6 @@ class ProductController extends Controller
       $inputs=$request->all();
       //dd($inputs['product_id']);
 
-
-
-
-
         $product_id = collect($request['product_ids']);
         $purchasing_price= collect($request['purchasing_price']);
         $selling_price= collect($request['selling_price']);
@@ -564,10 +603,7 @@ class ProductController extends Controller
         $merges = $product_id->zip($purchasing_price,$selling_price,$quantity);
 
         foreach ($merges as $merge) {
-
-
             $product = AccountingProduct::find($merge[0]);
-
             $product->update([
                 'quantity' => $merge[3],
                 'selling_price' => $merge[2],

@@ -25,7 +25,13 @@
     <label>البريد الالكترونى   </label>
     {!! Form::email("email",null,['class'=>'form-control','placeholder'=>'  البريد الالكترونى  '])!!}
 </div>
+{{--@if (getsetting('automatic_supplier')==0)--}}
+{{--    <div class="form-group col-md-6 pull-left">--}}
+{{--        <label> اختر الحساب  التابع له حساب المورد</label>--}}
+{{--        {!! Form::select("account_id",accounts(),null,['class'=>'form-control','placeholder'=>' اختر الحساب'])!!}--}}
+{{--    </div>--}}
 
+{{--@endif--}}
 
 <div class="form-group col-md-6 pull-left">
     <label>كلمه المرور</label>
@@ -119,7 +125,7 @@
     });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
-    <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
+    <script src="{{asset('admin/assets/js/get_branch_by_company_without_all.js')}}"></script>
 
     <script>
 

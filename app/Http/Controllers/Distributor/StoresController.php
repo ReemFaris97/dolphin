@@ -111,7 +111,7 @@ class StoresController extends Controller
     {
         $store  = Store::find($id);
         if($store->products->count() > 0){
-            toast('لا يمكن حذف مخزن به منتجات', 'error','top-right');
+            toast('لا يمكن حذف مستودع به اصناف', 'error', 'top-right');
             return back();
         }else{
             $store->delete();

@@ -8,7 +8,7 @@
 
     <div class="form-group m-form_group ">
         <label>النوع:</label>
-        {!! Form::select('type',['in'=>'داخل المخزن','out'=>'خارج المخزن'],['class'=>'form-control m-input select2','placeholder'=>'إختار النوع']) !!}
+        {!! Form::select('type',['in'=>'داخل المستودع','out'=>'خارج المستودع'],['class'=>'form-control m-input select2','placeholder'=>'إختار النوع']) !!}
     </div>
 
     <div class="form-group m-form_group col-lg-3">

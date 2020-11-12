@@ -6,7 +6,7 @@
 @endsection
 
 @section('breadcrumb')
-@php($breadcrumbs=['المخازن'=>route('distributor.transactions.index'),'تعديل'=>route('distributor.transactions.edit',$transaction->id)])
+@php($breadcrumbs=['المستودعات'=>route('distributor.transactions.index'),'تعديل'=>route('distributor.transactions.edit',$transaction->id)])
     @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb',
 ['breadcrumbs' =>$breadcrumbs ])
 @endsection

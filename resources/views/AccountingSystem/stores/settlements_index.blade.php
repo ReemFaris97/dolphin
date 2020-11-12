@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','  سجل  ارصده  بدايه المده  للمنتجات')
-@section('parent_title','إدارة  المخازن')
+@section('title','  سجل  ارصده  بدايه المده  للاصناف')
+@section('parent_title','إدارة  المستودعات')
 
 @section('action', URL::route('accounting.stores.index'))
 @section('styles')
@@ -10,7 +10,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title"> سجل  ارصده  بدايه المده  للمنتجات </h5>
+            <h5 class="panel-title"> سجل  ارصده  بدايه المده  للاصناف </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -34,7 +34,7 @@
                     <th> سعر الشراء </th>
                     <th> الكميه </th>
                     <th> تاريخ التسويه </th>
-                    <th> المخزن القائم بالتسويه </th>
+                    <th> المستودع القائم بالتسويه </th>
 
                 </tr>
                 </thead>
@@ -52,7 +52,7 @@
                             @elseif($row->type=="service")
                                 خدمه
                             @elseif($row->type=="offer")
-                                مجموعة منتجات
+                                مجموعة اصناف
                             @elseif($row->type=="creation")
                                 تصنيع
                             @elseif($row->type=="product_expiration")

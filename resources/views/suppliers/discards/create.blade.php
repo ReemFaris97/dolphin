@@ -140,7 +140,7 @@
                 }
 
                 else if(price == null || price == ""){
-                    alert("أضف سعر المنتجات");
+                    alert("أضف سعر الاصناف");
                     return 0;
                 }else {
 
@@ -198,7 +198,7 @@
                 }
 
                 else if(price == null || price == ""){
-                    alert("أضف سعر المنتجات");
+                    alert("أضف سعر الاصناف");
                     return 0;
                 }else {
 

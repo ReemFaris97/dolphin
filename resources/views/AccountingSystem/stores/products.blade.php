@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض منتجات مخزن'.' '. $store->name )
-@section('parent_title','إدارة  المخازن')
+@section('title','عرض اصناف مستودع'.' '. $store->name )
+@section('parent_title','إدارة  المستودعات')
 
 @section('action', URL::route('accounting.stores.index'))
 
@@ -11,7 +11,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">  عرض منتجات المخزن  {!! $store->ar_name !!}</h5>
+            <h5 class="panel-title">  عرض اصناف المستودع  {!! $store->ar_name !!}</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -34,8 +34,8 @@
                     <th> الوحده الاساسية  </th>
                     <th> سعر البيع </th>
                     <th> سعر الشراء </th>
-                    <th> الكميه الحاليه بالمخزن </th>
-                    <th>  حاله المنتج بالمخزن </th>
+                    <th> الكميه الحاليه بالمستودع </th>
+                    <th>  حاله المنتج بالمستودع </th>
 
                     <th> صورة  المنتج </th>
                     <th>عرض  تفاصيل    المنتج </th>
@@ -54,7 +54,7 @@
                             @elseif($row->product->type=="service")
                                 خدمه
                             @elseif($row->product->type=="offer")
-                                مجموعة منتجات
+                                مجموعة اصناف
                             @elseif($row->product->type=="creation")
                                 تصنيع
                             @elseif($row->product->type=="product_expiration")
@@ -78,9 +78,9 @@
                         <td><img src="{!! getimg($row->product->image)!!}" style="width:100px; height:100px"> </td>
                         <td>
                             @if ($row->is_active==0)
-                                <a href="{{route('accounting.stores.is_active_product',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="منتجات المخزن "> <i class="fa fa-close"></i></a>
+                                <a href="{{route('accounting.stores.is_active_product',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="اصناف المستودع "> <i class="fa fa-close"></i></a>
                             @else
-                                <a href="{{route('accounting.stores.dis_active_product',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="منتجات المخزن "> <i class="icon-checkmark-circle" style="margin-left: 10px"></i> </a>
+                                <a href="{{route('accounting.stores.dis_active_product',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="اصناف المستودع "> <i class="icon-checkmark-circle" style="margin-left: 10px"></i> </a>
 
                                 @endif
 
@@ -119,7 +119,7 @@
             console.log(item_id);
             swal({
                 title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذا المنتج  من المخزن ؟",
+                text: "هل تريد حذف هذا المنتج  من المستودع ؟",
                 icon: "warning",
                 buttons: ["الغاء", "موافق"],
                 dangerMode: true,

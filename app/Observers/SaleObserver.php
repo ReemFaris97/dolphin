@@ -2,6 +2,9 @@
 
 namespace App\Observers;
 
+use App\Models\AccountingSystem\AccountingAccount;
+use App\Models\AccountingSystem\AccountingEntry;
+use App\Models\AccountingSystem\AccountingEntryAccount;
 use App\Models\AccountingSystem\AccountingSale;
 
 class SaleObserver
@@ -48,14 +51,24 @@ class SaleObserver
                $count1 = $exiss->daily_number ?? 1;
 
                $sale->daily_number = $count1 + 1;
-               $sale->counter_sale = $sale->daily_number . "-" . $sale->branch->code??'' . "-" . $sale->session->device->code;
+            //    $sale->counter_sale = $sale->daily_number . "-" . $sale->branch->code??'' . "-" . $sale->session->device->code;
            } else {
                $sale->daily_number =1;
-               $sale->counter_sale = $sale->daily_number . "-" . $sale->branch->code??'' . "-" . $sale->session->device->code;
+               $sale->counter_sale = $sale->daily_number . "-" . optional($sale->branch)->code??'' . "-" . $sale->session->device->code;
 
            }
         }
 
 
     }
+
+    public  function  created(AccountingSale $sale){
+
+
+
+
+
+    }
+
+
 }

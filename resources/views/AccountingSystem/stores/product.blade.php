@@ -5,7 +5,7 @@
 
     <th> سعر الشراء</th>
     <th> سعر البيع</th>
-    <th>   الكمية بالمخزن</th>
+    <th>   الكمية بالمستودع</th>
     <th> الكمية المحولة </th>
     <th>  التكلفة</th>
     <th>  القيمة</th>
@@ -17,13 +17,12 @@
         <td>{{$product->name}}</td>
 
         <?php
-        $store_quantity=\App\Models\AccountingSystem\AccountingProductStore::where('store_id',$store->id)->where('product_id',$product->id)->first();
+//        $store_quantity=\App\Models\AccountingSystem\AccountingProductStore::where('store_id',$store->id)->where('product_id',$product->id)->first();
         ?>
         <td ><input type="text" value="{{$product->purchasing_price}}"  class="form-control buy-price" readonly></td>
         <td ><input type="text" value="{{$product->selling_price}}"  class="form-control sell-price" readonly></td>
-    <td>{{$store_quantity->quantity}}</td>
-
-        <td><input type="number"  name="quantity[{{$product->id}}]"  class="form-control quantity" min="1" max="{{$store_quantity->quantity}}" placeholder=" ادخل كميه اقل  من {{$store_quantity->quantity}}    "></td>
+        <td>{{$product->store_quantity($store->id)}}</td>
+        <td><input type="number"  name="quantity[{{$product->id}}]" id="{{$product->id}}"   data-id="{{$product->id}}" class="form-control quantity" min="1" max="{{$product->store_quantity($store->id)}}" placeholder=" ادخل كميه اقل  من {{$product->store_quantity($store->id)}}   "></td>
         <td><input type="text"  name="cost[{{$product->id}}]"  class="form-control cost" readonly></td>
         <td><input type="text"  name="price[{{$product->id}}]"  class="form-control vaaal" readonly></td>
     </tr>
@@ -41,7 +40,7 @@
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
-          <p>الكمية المطلوبة اكبر من الكميه بالمخزن
+          <p>الكمية المطلوبة اكبر من الكميه بالمستودع
   </p>
         </div>
         <div class="modal-footer">
@@ -72,14 +71,16 @@
 
         });
 
-        $('input[type=number][max]:not([max=""])').on('input', function(ev) {
 
+        $('input[type=number][max]:not([max=""])').on('input', function(ev) {
     var $this = $(this);
     var maxlength = $this.attr('max');
     var value = $this.val();
-    var max = parseInt($('.quantity').attr('max'));
+            var id= $this.data('id');
+
+            var max = parseInt($('#'+id).attr('max'));
     if ($this.val() > max) {
-//      $this.val(value.substr(0, maxlength));
+//      $this.val(value.substr(0, maxle   `ngth));
 //      $this.html(value.substr(0, maxlength));
       $this.val(max);
       $this.html(max);

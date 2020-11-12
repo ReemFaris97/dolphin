@@ -1,11 +1,11 @@
 @extends('distributor.layouts.app')
-@section('title') اضافه مخزن جديد
+@section('title') اضافه مستودع جديد
 @endsection
 
 @section('header')
 @endsection
 
-@section('breadcrumb') @php($breadcrumbs=['المخازن'=>route('distributor.stores.index'),'اضافه'=>route('distributor.stores.create')])
+@section('breadcrumb') @php($breadcrumbs=['المستودعات'=>route('distributor.stores.index'),'اضافه'=>route('distributor.stores.create')])
 @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
 
@@ -25,7 +25,7 @@
                                 <i class="la la-gear"></i>
                             </span>
                                 <h3 class="m-portlet__head-text">
-                                    اضافه مخزن
+                                    اضافه مستودع
                                 </h3>
                             </div>
                         </div>

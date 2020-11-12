@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','عرض  السند رقم'.' '. $bond->bond_num )
-@section('parent_title','إدارة المخازن')
+@section('parent_title','إدارة المستودعات')
 @section('action', URL::route('accounting.stores.index'))
 @section('styles')
 
@@ -20,47 +20,46 @@
         </div>
 
         <div class="panel-body">
-            <div class="form-group col-md-6 pull-left">
-                <label class="label ">تاريخ السند  : </label>
-                <span>{!! $bond->date !!}</span>
-            </div>
-            <div class="form-group col-md-6 pull-left">
-                <label class="label "> بيان  السند  : </label>
-                <span>{!! $bond->description !!}</span>
-            </div>
-            @if ($bond->type=='entry')
-            <div class="form-group col-md-6 pull-left">
-                <label class="label ">  المخزن  : </label>
-                <span>{!!  $bond->store->ar_name !!}</span>
-            </div>
-            @else
-                <div class="form-group col-md-6 pull-left">
-                    <label class="label ">  المخزن المحول منه  : </label>
-                    <span>{!! optional($bond->getStoreFrom)->ar_name !!}</span>
-                </div>
-
-                <div class="form-group col-md-6 pull-left">
-                    <label class="label ">  المخزن  المحول ايه : </label>
-                    <span>{!!  optional($bond->getStoreTo)->ar_name !!}</span>
-                </div>
-                @endif
-            <div class="form-group col-md-6 pull-left">
-                <label class="label ">  نوع السند   : </label>
-                @if ($bond->type=='entry')
-                    <span>سند ادخال</span>
-                    @else
-                    <span>سند صرف</span>
-
-                @endif
-            </div>
-
-            {{--<div class="form-group col-md-6 pull-left">--}}
-                {{--<label class="label ">  صورة الفرع  : </label>--}}
-                {{--<span><img src="{!! getimg($branch->image)!!}" style="width:100px; height:100px"> </span>--}}
-            {{--</div>--}}
-            <div class="clearfix">
-
-            </div>
+           
+           <div class="awesome-card-design">
+           		
+           		<div class="card-design-info">
+           			<p>
+           					<label>  نوع السند   : </label>
+						@if ($bond->type=='entry')
+							<span>سند ادخال</span>
+							@else
+							<span>سند صرف</span>
+						@endif
+           			</p>
+					<p>
+						<label>تاريخ السند  : </label>
+						 <span>{!! $bond->date !!}</span>
+					</p>
+          			 @if ($bond->type=='entry'||$bond->type == 'exchange')
+           			 <p>
+           			 	<label>المستودع :  </label>
+                		<span>{!!  $bond->store->ar_name !!}</span>
+           			 </p>
+           			 @else
+           			 <p>
+           			 	<label>  المستودع المحول منه : </label>
+               			<span>{!! optional($bond->getStoreFrom)->ar_name !!}</span>
+           			 </p>
+           			 <p>
+           			 	<label>  المستودع المحول إليه :   </label>
+               			<span>{!!  optional($bond->getStoreTo)->ar_name !!}</span>
+           			 </p>
+           			 @endif
+           		</div>
+          		<div class="card-design-info">
+           			 <p>
+           			 	<label> بيان السند : </label>
+                		<span>{!! $bond->description !!}</span>
+           			 </p>
+           		</div>
+           </div>
+            <div class="clearfix"></div>
             <h4>عرض الاصناف بالسند</h4>
             <div class="form-group col-md-12 pull-left">
                    <table class="table init-basic">
@@ -86,16 +85,10 @@
                    </table>
 
             </div>
-
         </div>
-
     </div>
-
-
 @endsection
-
 @section('scripts')
-
     <script>
         function Delete(id) {
             var item_id=id;

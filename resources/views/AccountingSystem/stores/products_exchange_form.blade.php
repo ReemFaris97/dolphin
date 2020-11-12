@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','إنشاء سند صرف   منتجات')
-@section('parent_title','إدارة  المخازن')
+@section('title','إنشاء سند صرف   اصناف')
+@section('parent_title','إدارة  المستودعات')
 
 @section('action', URL::route('accounting.stores.index'))
 @section('styles')
@@ -10,7 +10,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title"> سند صرف منتجات</h5>
+            <h5 class="panel-title"> سند صرف اصناف</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -50,13 +50,13 @@
             </div>
 
             <div class="form-group col-md-4 pull-left">
-                <label>اختر المخزن </label>
-                {!! Form::select("store_id",allstores(),null,['class'=>'form-control js-example-basic-single store_id','placeholder'=>' اختر  المخزن'])!!}
+                <label>اختر المستودع </label>
+                {!! Form::select("store_id",allstores(),null,['class'=>'form-control js-example-basic-single store_id','placeholder'=>' اختر  المستودع'])!!}
             </div>
 
             <div class="form-group col-md-4 pull-left">
-                <label>اختر امين المخزن </label>
-                {!! Form::select("user_id",keepers(),null,['class'=>'form-control js-example-basic-single storekeeper_id','id'=>'storekeeper_id','placeholder'=>' اختر امين المخزن'])!!}
+                <label>اختر امين المستودع </label>
+                {!! Form::select("user_id",keepers(),null,['class'=>'form-control js-example-basic-single storekeeper_id','id'=>'storekeeper_id','placeholder'=>' اختر امين المستودع'])!!}
             </div>
 
             <div class="clearfix"></div>
@@ -93,16 +93,11 @@
                 @endif
             </div>
 
-
-
-
             <div class="col-md-2">
                 <button id="addProduct" class="btn btn-primary waves-effect waves-light m-t-20"  type="button">
                     اضافة
                 </button>
             </div>
-
-
 
             <div class="table-responsive">
                 <table id="productsTable" class="table m-0">
@@ -239,5 +234,6 @@
 
 
     </script>
+    <script src="{{asset('admin/assets/js/get_keepers_by_store.js')}}"></script>
 
 @endsection

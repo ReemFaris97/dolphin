@@ -13,11 +13,16 @@
 <script type="text/javascript" src="{{asset('admin/assets/js/plugins/ui/prism.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('admin/assets/js/plugins/ui/nicescroll.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('admin/assets/js/plugins/ui/drilldown.js')}}"></script>
-
 <script type="text/javascript" src="{{asset('admin/assets/js/core/app.js')}}"></script>
 <script type="text/javascript" src="{{asset('admin/assets/js/pages/navigation_horizontal_mega.js')}}"></script>
-<!-- /theme JS files -->
 
+<script src="https://cdn.jsdelivr.net/gh/guillaumepotier/Parsley.js@2.9.2/dist/parsley.js"></script>
+<script src="{{asset('admin/assets/js/i18n/ar.js')}}"></script>
+<script>
+	 	$(function () {
+   $('.parsley-validate-form').parsley()
+		})
+	</script>
 <!-- Bootstrap core CSS -->
 <!-- Material Design Bootstrap -->
 {{--<link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/css/bootstrap.css" rel="stylesheet"/>--}}

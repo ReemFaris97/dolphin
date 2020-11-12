@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','  جرد المخازن ')
-@section('parent_title','إدارة  المخازن')
+@section('title','  جرد المستودعات ')
+@section('parent_title','إدارة  المستودعات')
 
 @section('action', URL::route('accounting.stores.index'))
 @section('styles')
@@ -10,7 +10,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">  جرد المخازن</h5>
+            <h5 class="panel-title">  جرد المستودعات</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -28,13 +28,13 @@
 
 
                 <div class="col-sm-6 col-xs-6 pull-left">
-                    <label>اختر المخزن </label>
-                    {!! Form::select("store_id",allstores(),null,['class'=>'form-control js-example-basic-single store_id','placeholder'=>' اختر  المخزن'])!!}
+                    <label>اختر المستودع </label>
+                    {!! Form::select("store_id",allstores(),null,['class'=>'form-control js-example-basic-single store_id','placeholder'=>' اختر  المستودع'])!!}
                 </div>
 
                 <div class="col-sm-6 col-xs-6 pull-left">
-                    <label>اختر امين المخزن </label>
-                    {!! Form::select("user_id",keepers(),null,['class'=>'form-control js-example-basic-single storekeeper_id','id'=>'storekeeper_id','placeholder'=>' اختر امين المخزن'])!!}
+                    <label>اختر امين المستودع </label>
+                    {!! Form::select("user_id",keepers(),null,['class'=>'form-control js-example-basic-single storekeeper_id','id'=>'storekeeper_id','placeholder'=>' اختر امين المستودع'])!!}
                 </div>
 
 
@@ -96,7 +96,7 @@
                             @elseif($row->type=="service")
                                 خدمه
                             @elseif($row->type=="offer")
-                                مجموعة منتجات
+                                مجموعة اصناف
                             @elseif($row->type=="creation")
                                  تصنيع
                             @elseif($row->type=="product_expiration")
@@ -144,7 +144,7 @@
                                 <input type="hidden" name="inventory_id" value="{{$inventory->id}}">
                                 @endisset
                                 <label> الكميه الفعليه</label>
-                                <input type="text" class="form-control" name="Real_quantity"  >
+                                <input type="text" class="form-control" name="Real_quantity" id="Real_quantity{{$row->id}}" required>
 
                             </div>
                             <div class="modal-footer">
@@ -189,7 +189,10 @@
                                     <span>{!! $row->quantity !!}</span>
                                 </div>
 
-
+                                <div class="form-group col-md-6 pull-left">
+                                    <label class="label label-info">   الكمية الفعلية  : </label>
+                                    <span id="Real_quantity_val{{$row->id}}"></span>
+                                </div>
 
                             </div>
                             </form>
@@ -235,7 +238,7 @@
                     </label>
                     <label class="radio-inline">
                         <input type="radio" name="cost_type"  class="styled "    value="0">
-                        امين المخزن
+                        امين المستودع
                     </label>
                 </div>
                 </form>
@@ -270,38 +273,39 @@
 
             function openModal(id) {
 
-         $('.product_id').val(id);
-         var  token=$('#csrf_token').val();
+                $('.product_id').val(id);
+                var token = $('#csrf_token').val();
 
-            $(`#real${id}`).click(function (e) {
-                e.preventDefault();
-
-
-                // var form = $(`form${id}`);
-                // console.log(form);
+                $(`#real${id}`).click(function (e) {
+                    e.preventDefault();
 
 
-                $.ajax({
-                    type: "post",
+                    // var form = $(`form${id}`);
+                    // console.log(form);
+                    var Real_quantity = $("#Real_quantity" + id).val();
+                    if (Real_quantity == '') {
+                        alert("الكمية الفعلية مطلوبة");
+                    } else {
+                        $.ajax({
+                            type: "post",
 
-                    url: '{{route('accounting.inventory_settlement.store')}}',
-                    data:   $('#form'+id).serialize()+"&_token="+token,
-                    success: function (data) {
+                            url: '{{route('accounting.inventory_settlement.store')}}',
+                            data: $('#form' + id).serialize() + "&_token=" + token,
+                            success: function (data) {
 
-                        $('#button'+id).remove();
+                                $('#button' + id).remove();
+                                $("#Real_quantity_val"+id).html(Real_quantity);
 
+                            }, error: function (data) {
+                                console.log(data);
+                            }
 
+                        });
+                        $("#alert").modal('show');
 
-                    },error:function (data) {
-                        console.log(data);
                     }
-
-                });
-                 $("#alert").modal('show');
-            })
-
+                })
             }
-
    </script>
     <script src="{{asset('admin/assets/js/get_keepers_by_store.js')}}"></script>
 

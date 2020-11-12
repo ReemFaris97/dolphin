@@ -54,31 +54,29 @@ class SafeController extends Controller
     public function store(Request $request)
     {
         $rules = [
-
-            'name'=>'required|string|max:191|device_name:accounting_safes,name,company_id,branch_id,'.$request['name'].','.$request['company_id'].','.$request['branch_id'],
-
-
+            'name'=>'required|string|max:191|safe_name:accounting_safes,name,company_id,branch_id,'.$request['name'].','.$request['company_id'].','.$request['branch_id'],
         ];
-        $this->validate($request, $rules);
-        $requests = $request->all();
-
-        if ($requests['company_id'] == NULL & $requests['branch_id'] != NULL) {
-
-            $requests['model_id'] = $requests['branch_id'];
-            $requests['model_type'] = 'App\Models\AccountingSystem\AccountingBranch';
-            $requests['status'] = 'branch';
-        }
-        if ($requests['branch_id'] == NULL & $requests['company_id'] != NULL) {
-
-            $requests['model_id'] = $requests['company_id'];
-            $requests['model_type'] = 'App\Models\AccountingSystem\AccountingCompany';
-            $requests['status'] = 'company';
-
-        }
-
+        $messsage = [
+            'name.safe_name'=>"اسم الخزنه  موجود بالفعل بالشركة",
+        ];
+        $this->validate($request,$rules,$messsage);
+        $requests = $request->except('company_id','model_type','status','branch_id');
+//          dd($requests);
+            if (isset($requests['company_id'])) {
+                if ($requests['company_id'] == NULL & $requests['branch_id'] != NULL) {
+                    $requests['model_id'] = $requests['branch_id'];
+                    $requests['model_type'] = 'App\Models\AccountingSystem\AccountingBranch';
+                    $requests['status'] = 'branch';
+                }
+                if ($requests['branch_id'] == NULL & $requests['company_id'] != NULL) {
+                    $requests['model_id'] = $requests['company_id'];
+                    $requests['model_type'] = 'App\Models\AccountingSystem\AccountingCompany';
+                    $requests['status'] = 'company';
+                }
+            }
         AccountingSafe::create($requests);
         alert()->success('تم اضافة الخزينة بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.safes.index');
+        return back();
     }
 
     /**
@@ -95,10 +93,16 @@ class SafeController extends Controller
         //branch_all_safes
         $safes_cashier= AccountingSafe::where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->where('model_id',$safe->model_id)->where('id','!=',$id)->get();
         $safes_branch= AccountingSafe::where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->where('model_id',$safe->model_id)->where('status','branch')->where('id','!=',$id)->get();
-        $safe_company=AccountingSafe::where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->where('model_id',$safe->branch->company_id)->first();
+        if(isset($safe->branch->company_id)){
+        $safe_company=AccountingSafe::where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->where('model_id',
+        $safe->branch->company_id)->first();
         $safes_branch->push($safe_company);
-
         $safes_company=AccountingSafe::where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->where('model_id',$safe->branch->company_id)->get();
+
+        }else{
+            $safes_branch=[];
+            $safes_company=[];
+        }
 
         return $this->toShow(compact('transactions','safe','safes_branch','safes_cashier','safes_company'));
     }

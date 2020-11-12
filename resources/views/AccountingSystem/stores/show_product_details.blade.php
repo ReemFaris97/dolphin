@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض المنتجات')
-@section('parent_title','إدارة  المنتجات')
+@section('title','عرض الاصناف')
+@section('parent_title','إدارة  الاصناف')
 @section('action', URL::route('accounting.products.index'))
 
 
@@ -37,7 +37,7 @@
     <div id="home" class="tab-pane fade in active">
         <div class="row">
             <div class="form-group col-md-4 pull-left" id="store_id">
-                                <label> اسم المخزن </label>
+                                <label> اسم المستودع </label>
                                {!! optional($store)->ar_name??"" !!}
                             </div>
         </div>
@@ -58,7 +58,7 @@
                                 {{--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2" id="components_button">--}}
                                     {{--المكونات--}}
                                 {{--</button>--}}
-                                {{--{!! Form::select("type",['store'=>'مخزون','service'=>'خدمه','offer'=>'مجموعة منتجات ','creation'=>'تصنيع','product_expiration'=>'منتج بتاريخ صلاحيه'],null,['class'=>'form-control js-example-basic-single','placeholder'=>'  نوع المنتج   ','id'=>'type'])!!}--}}
+                                {{--{!! Form::select("type",['store'=>'مخزون','service'=>'خدمه','offer'=>'مجموعة اصناف ','creation'=>'تصنيع','product_expiration'=>'منتج بتاريخ صلاحيه'],null,['class'=>'form-control js-example-basic-single','placeholder'=>'  نوع المنتج   ','id'=>'type'])!!}--}}
                             {{--</div>--}}
                             {{--<div class="form-group col-md-6 pull-left">--}}
                                 {{--<label>الوحدة الاساسية </label><span style="color: #ff0000; margin-right: 15px;">[جرام -كيلو-لتر]</span>--}}
@@ -101,7 +101,7 @@
                                 {!! $product->purchasing_price !!}
                             </div>
                             <div class="form-group col-md-6 pull-left">
-                                <label> الكمية  الموجوده بالمخزن</label>
+                                <label> الكمية  الموجوده بالمستودع</label>
                                 {!! $storeproduct_quantity !!}
                             </div>
 
@@ -217,7 +217,7 @@
                         <div class="panel-body">
 
                             <div class="form-group col-md-4 pull-left" id="store_id">
-                                <label> اسم المخزن </label>
+                                <label> اسم المستودع </label>
                                {!! optional($store)->ar_name??"" !!}
                             </div>
 
@@ -248,7 +248,7 @@
                                 {{--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2" id="components_button">--}}
                                     {{--المكونات--}}
                                 {{--</button>--}}
-                                {{--{!! Form::select("type",['store'=>'مخزون','service'=>'خدمه','offer'=>'مجموعة منتجات ','creation'=>'تصنيع','product_expiration'=>'منتج بتاريخ صلاحيه'],null,['class'=>'form-control js-example-basic-single','placeholder'=>'  نوع المنتج   ','id'=>'type'])!!}--}}
+                                {{--{!! Form::select("type",['store'=>'مخزون','service'=>'خدمه','offer'=>'مجموعة اصناف ','creation'=>'تصنيع','product_expiration'=>'منتج بتاريخ صلاحيه'],null,['class'=>'form-control js-example-basic-single','placeholder'=>'  نوع المنتج   ','id'=>'type'])!!}--}}
                             {{--</div>--}}
                             {{--<div class="form-group col-md-6 pull-left">--}}
                                 {{--<label>الوحدة الاساسية </label><span style="color: #ff0000; margin-right: 15px;">[جرام -كيلو-لتر]</span>--}}

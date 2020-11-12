@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','عرض  تسوية الجرد' )
-@section('parent_title','إدارة  المخازن')
+@section('parent_title','إدارة  المستودعات')
 
 @section('action', URL::route('accounting.stores.index'))
 
@@ -59,9 +59,9 @@
                             <td class="text-center">
                                 @if ($row->quantity > $row->Real_quantity)
 
-                                    <label class="btn btn-danger">قيمه العجز بالمخزن ={!! $row->quantity - $row->Real_quantity!!}</label>
+                                    <label class="btn btn-danger">قيمه العجز بالمستودع ={!! $row->quantity - $row->Real_quantity!!}</label>
                                @elseif($row->quantity < $row->Real_quantity)
-                                    <label class="btn btn-success">قيمه الزياده بالمخزن ={!! $row->Real_quantity - $row->quantity!!}</label>
+                                    <label class="btn btn-success">قيمه الزياده بالمستودع ={!! $row->Real_quantity - $row->quantity!!}</label>
                                 @else
                                     <label class="btn btn-warning"> الكميات  متساويه</label>
 
@@ -94,6 +94,7 @@
                 <form id="form1"  action="{{route('accounting.inventory_bond.store')}}" method="post">
                     {{--<input type="hidden" name="csrf_token" id="csrf_token" value="{{ csrf_token() }}">--}}
 @csrf
+
                     <div class="modal-body">
                         <input type="hidden" name="inventory_id"  value="{{$inventory->id}}">
 

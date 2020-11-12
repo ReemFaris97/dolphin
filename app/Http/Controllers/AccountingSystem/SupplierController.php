@@ -62,7 +62,7 @@ class SupplierController extends Controller
     {
         $rules = [
 
-            'name'=>'required|string|max:191',
+            'name'=>'required|string|max:191|supplier_name:accounting_suppliers,name,branch_id,'.$request['name'].','.$request['branch_id'],
             'phone'=>'required|numeric|unique:users,phone',
             'email'=>'required|string|unique:users,email',
             'password'=>'required|string|max:191',
@@ -70,7 +70,10 @@ class SupplierController extends Controller
 
 
         ];
-        $this->validate($request,$rules);
+        $messsage = [
+            'name.supplier_name'=>"اسم المورد  موجود بالفعل بالفرع",
+        ];
+        $this->validate($request,$rules,$messsage);
         $requests = $request->all();
 
 
@@ -80,16 +83,19 @@ class SupplierController extends Controller
             $requests['image'] = saveImage($request->image, 'photos');
         }
 
-        $supplier=AccountingSupplier::create($requests);
-
-        foreach ($requests['company_id'] as $company){
-                AccountingSupplierCompany::create([
-                    'company_id'=>$company,
-                    'supplier_id'=>$supplier->id
-                ]);
-
+        if (getsetting('automatic_supplier')==1){
+            $requests['account_id']=getsetting('accounting_id_supplier');
         }
+        $supplier=AccountingSupplier::create($requests);
+            if (isset($requests['company_id'])) {
+                foreach ($requests['company_id'] as $company) {
+                    AccountingSupplierCompany::create([
+                        'company_id' => $company,
+                        'supplier_id' => $supplier->id
+                    ]);
 
+                }
+            }
 
         alert()->success('تم اضافة   المورد  بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.suppliers.index');

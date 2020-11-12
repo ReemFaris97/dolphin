@@ -1,12 +1,13 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','عرض  تفاصيل سند الجرد'.' '. $inventory->id )
-@section('parent_title','إدارة  المخازن')
+@section('parent_title','إدارة  المستودعات')
 
 @section('action', URL::route('accounting.stores.index'))
 
 @section('styles')
 
 @endsection
+
 
 @section('content')
     <div class="panel panel-flat">
@@ -30,14 +31,14 @@
 
 
             <div class="form-group col-md-6 pull-left">
-                <label class="label label-info">  اسم المخزن   : </label>
+                <label class="label label-info">  اسم المستودع   : </label>
                 <span>{!! optional($inventory->store)->ar_name !!}</span>
             </div>
 
             @if (optional($inventory->store)->model_type=="App\Models\AccountingSystem\AccountingCompany")
 
                 <div class="form-group col-md-6 pull-left">
-                    <label class="label label-info">  المخزن تابع الى شركة: </label>
+                    <label class="label label-info">  المستودع تابع الى شركة: </label>
                     <span>
                         <?php
                         $company=App\Models\AccountingSystem\AccountingCompany::find(optional($inventory->store)->model_id)
@@ -48,7 +49,7 @@
 
             @elseif (optional($inventory->store)->model_type=="App\Models\AccountingSystem\AccountingBranch")
                 <div class="form-group col-md-6 pull-left">
-                    <label class="label label-info">  المخزن تابع الى فرع: </label>
+                    <label class="label label-info">  المستودع تابع الى فرع: </label>
                     <span>
                         <?php
                         $branch=App\Models\AccountingSystem\AccountingBranch::find(optional($inventory->store)->model_id)
@@ -113,7 +114,7 @@
                             @elseif($row->product->type=="service")
                                 خدمه
                             @elseif($row->product->type=="offer")
-                                مجموعة منتجات
+                                مجموعة اصناف
                             @elseif($row->product->type=="creation")
                                 تصنيع
                             @elseif($row->product->type=="product_expiration")
@@ -126,12 +127,11 @@
 
                         <td>{!! $row->quantity!!}</td>
                         <td>{!! $row->Real_quantity!!}</td>
-                        <td>{!! $row->Real_quantity!!}</td>
                         <td>
                             @if ($row->quantity > $row->Real_quantity)
-                                <label class="btn btn-danger">قيمه العجز بالمخزن ={!! $row->quantity - $row->Real_quantity!!}</label>
+                                <label class="btn btn-danger">قيمه العجز بالمستودع ={!! $row->quantity - $row->Real_quantity!!}</label>
                             @elseif($row->quantity < $row->Real_quantity)
-                                <label class="btn btn-success">قيمه الزياده بالمخزن ={!! $row->Real_quantity - $row->quantity!!}</label>
+                                <label class="btn btn-success">قيمه الزياده بالمستودع ={!! $row->Real_quantity - $row->quantity!!}</label>
                             @else
                                 <label class="btn btn-warning"> الكميات  متساويه</label>
 

@@ -29,7 +29,7 @@ class OfferMail extends Mailable
      */
     public function build()
     {
-        $subject = "عرض  اسعار منتجات ";
+        $subject = "عرض  اسعار اصناف ";
         $data = $this->data;
         return $this->view('accounting.offers.offer', compact('data'))->subject($subject);
     }

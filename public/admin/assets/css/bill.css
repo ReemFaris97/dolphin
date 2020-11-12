@@ -400,7 +400,7 @@ table.mabi3at-bill tfoot tr th#amountOfDariba span.colorfulSpan ,
 table.mabi3at-bill tfoot tr th#amountAfterDariba span.colorfulSpan{
 	color: #fff !important
 }
-	
+
 	table.mabi3at-bill tfoot tr th#amountBeforeDariba span.dynamic-span,
 table.mabi3at-bill tfoot tr th#amountOfDariba span.dynamic-span ,
 table.mabi3at-bill tfoot tr th#amountAfterDariba span.dynamic-span{
@@ -442,7 +442,17 @@ table.mabi3at-bill tfoot tr th#amountAfterDariba span.dynamic-span{
 .unit_price_before_enable .maybe-hidden.unit_price_before_enable ,
 .unit_price_after_enable .maybe-hidden.unit_price_after_enable ,
 .total_price_before_enable .maybe-hidden.total_price_before_enable ,
-.total_expiration_enable .maybe-hidden.expiration_enable ,
+.unit_enable .maybe-hidden.unit_enable ,
+.quantity_enable .maybe-hidden.quantity_enable ,
+.expiration_enable .maybe-hidden.expiration_enable ,
+.unit_price_enable .maybe-hidden.unit_price_enable ,
+.total_enable .maybe-hidden.total_enable ,
+.gifts_enable .maybe-hidden.gifts_enable ,
+.discounts_enable .maybe-hidden.discounts_enable ,
+.total_taxes_enable .maybe-hidden.total_taxes_enable ,
+.total_pure_enable .maybe-hidden.total_pure_enable ,
+.operations_enable .maybe-hidden.operations_enable ,
+.unit_total_tax_enable .maybe-hidden.unit_total_tax_enable ,
 .total_price_after_enable .maybe-hidden.total_price_after_enable{
 	display: table-cell !important
 }
@@ -458,4 +468,28 @@ table.mabi3at-bill tfoot tr th#amountAfterDariba span.dynamic-span{
 }
 .swal-button--danger:not([disabled]):hover {
     background-color: #df4740 !important;
+}
+
+.finalTb.moshtraiat-bill.table > tbody > tr > td {
+    padding: 0px 3px;
+}
+
+.finalTb.moshtraiat-bill.table > tbody > tr > td input[type="number"],
+.finalTb.moshtraiat-bill.table > tbody > tr > td input,
+.finalTb.moshtraiat-bill.table > tbody > tr > td select {
+    padding: 0 3px !important;
+}
+
+.finalTb.moshtraiat-bill.table tbody tr td a.remove-prod-from-list {
+    background: red !important;
+}
+.yurSections ul.parsley-errors-list {
+    border-bottom: 0 !important;
+}
+.parsley-errors-list.filled li {
+    position: absolute;
+    left: 5px;
+    top: 0;
+    border: 0;
+    font-size: 14px;
 }

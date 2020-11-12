@@ -40,7 +40,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <p>الكمية المطلوبة اكبر من الكميه بالمخزن
+                <p>الكمية المطلوبة اكبر من الكميه بالمستودع
                 </p>
             </div>
             <div class="modal-footer">
