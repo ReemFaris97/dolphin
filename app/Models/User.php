@@ -9,10 +9,12 @@ use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingUserPermission;
 use App\Models\Bank;
 use App\Models\Charge;
+use App\Models\DistributorRoute;
 use App\Models\FcmToken;
 use App\Models\Message;
 use App\Models\Notification;
 use App\Models\Product;
+use App\Models\RouteTrips;
 use App\Models\SupplierBill;
 use App\Models\SupplierLog;
 use App\Models\SupplierPrice;
@@ -23,6 +25,8 @@ use App\Traits\HashPassword;
 use Illuminate\Contracts\Notifications\Dispatcher;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use phpDocumentor\Reflection\Types\Self_;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -231,6 +235,16 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Bank::class,'bank_id');
     }
 
+    public function routes(): HasMany
+    {
+        return $this->hasMany(DistributorRoute::class, 'user_id');
+    }
+
+    public function trips(): HasManyThrough
+    {
+        return $this->hasManyThrough(RouteTrips::class, DistributorRoute::class,  'user_id', 'route_id');
+    }
+
     public function accounting_store()
     {
         return $this->belongsTo(AccountingStore::class,'accounting_store_id');
@@ -309,11 +323,22 @@ class User extends Authenticatable implements JWTSubject
         $paid = $this->supplierPaidMoneyInTransactions() + $this->totalPaidMoneyInBill();
         return $amount_rest - $paid;
     }
+    public function getLastLocationAttribute()
+    {
+
+        return optional($this
+            ->trips()
+            ->where('status', 'accepted')
+            ->orderBy('arrange', 'asc')
+            ->orderBy('updated_at', 'desc')
+            ->first());
+    }
 
 //    ******************************************************
 
 //public  function permissions(){
 //        Return $this->hasMany(AccountingUserPermission::class,'user_id');
 //}
+
 
 }

@@ -70,7 +70,10 @@ class DistributorsController extends Controller
      */
     public function show($id)
     {
-        //
+
+        return $this->toShow([
+            'user' => User::findOrFail($id)
+        ]);
     }
 
     /**
