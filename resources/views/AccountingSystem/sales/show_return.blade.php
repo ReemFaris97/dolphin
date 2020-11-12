@@ -895,7 +895,7 @@
 										<td> {!! optional($sale->branch)->name !!}</td>
 									</tr>
 									<tr>
-										<th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-user"></i>اسم المخزن</th>
+										<th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-user"></i>اسم المستودع</th>
 										<td>  {!! optional($sale->store)->ar_name !!}</td>
 									</tr> --}}
 

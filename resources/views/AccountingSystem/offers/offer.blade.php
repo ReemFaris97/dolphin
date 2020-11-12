@@ -17,7 +17,7 @@
         margin: 0;
         padding: 0 5px;
         align-content: center;">
-        <h2>  عرض اسعار للمنتجات</h2>
+        <h2>  عرض اسعار للاصناف</h2>
         <h3>  الاجمالى:{{$package->total}}</h3>
     </div>
     <div style=" float: right;

@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','عرض  السند رقم'.' '. $bond->bond_num )
-@section('parent_title','إدارة المخازن')
+@section('parent_title','إدارة المستودعات')
 @section('action', URL::route('accounting.stores.index'))
 @section('styles')
 
@@ -38,16 +38,16 @@
 					</p>
           			 @if ($bond->type=='entry'||$bond->type == 'exchange')
            			 <p>
-           			 	<label>المخزن :  </label>
+           			 	<label>المستودع :  </label>
                 		<span>{!!  $bond->store->ar_name !!}</span>
            			 </p>
            			 @else
            			 <p>
-           			 	<label>  المخزن المحول منه : </label>
+           			 	<label>  المستودع المحول منه : </label>
                			<span>{!! optional($bond->getStoreFrom)->ar_name !!}</span>
            			 </p>
            			 <p>
-           			 	<label>  المخزن المحول إليه :   </label>
+           			 	<label>  المستودع المحول إليه :   </label>
                			<span>{!!  optional($bond->getStoreTo)->ar_name !!}</span>
            			 </p>
            			 @endif

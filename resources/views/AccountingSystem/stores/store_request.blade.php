@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','عرض سند التحويل')
-@section('parent_title','إدارة  المخازن')
+@section('parent_title','إدارة  المستودعات')
 
 @section('action', URL::route('accounting.stores.index'))
 @section('styles')

@@ -10,7 +10,7 @@
 @if( isset($store))
 @if($store->model_type=='App\Models\AccountingSystem\AccountingBranch')
 <div class="form-group r-group col-md-3">
-	<label class="display-block text-semibold">المخزن تابع الى</label>
+	<label class="display-block text-semibold">المستودع تابع الى</label>
 	<label class="radio-inline">
 		<input type="radio" name="radio-inline-left" class="styled" id="company" onclick="myFunction()" disabled>
 		شركة
@@ -22,7 +22,7 @@
 </div>
 @elseif($store->model_type=='App\Models\AccountingSystem\AccountingCompany')
 <div class="form-group r-group col-md-3">
-	<label class="display-block text-semibold">المخزن تابع الى</label>
+	<label class="display-block text-semibold">المستودع تابع الى</label>
 	<label class="radio-inline">
 		<input type="radio" name="radio-inline-left" class="styled" id="company" checked="checked" onclick="myFunction()">
 		شركة
@@ -35,7 +35,7 @@
 @endif
 @else
 <div class="form-group r-group col-md-3">
-	<label class="display-block text-semibold">المخزن تابع الى</label>
+	<label class="display-block text-semibold">المستودع تابع الى</label>
 	<label class="radio-inline">
 		<input type="radio" name="radio-inline-left" class="styled" id="company" checked="checked" onclick="myFunction()">
 		شركة
@@ -51,22 +51,22 @@
 @if( isset($store))
 @if($store->model_type=='App\Models\AccountingSystem\AccountingBranch')
 <div class="form-group  col-md-3 pull-left branches">
-	<label> اسم الفرع التابع لها المخزن: </label>
+	<label> اسم الفرع التابع لها المستودع: </label>
 	{!! Form::select("branch_id",$branches,$store->model_id,['class'=>'form-control js-example-basic-single','required'])!!}
 </div>
 @elseif($store->model_type=='App\Models\AccountingSystem\AccountingCompany')
 <div class="form-group  col-md-3 pull-left companies">
-	<label> اسم الشركة التابع لها المخزن: </label>
+	<label> اسم الشركة التابع لها المستودع: </label>
 	{!! Form::select("company_id",$companies,$store->model_id,['class'=>'form-control js-example-basic-single','required'])!!}
 </div>
 @endif
 @else
 <div class="form-group  col-md-3 pull-left companies">
-	<label> اسم الشركة التابع لها المخزن: </label>
+	<label> اسم الشركة التابع لها المستودع: </label>
 	{!! Form::select("company_id",$companies,null,['class'=>'form-control js-example-basic-single','placeholder'=>'اختر الشركة','id'=>'company_id'])!!}
 </div>
 <div class="form-group  col-md-3 pull-left branches">
-	<label> اسم الفرع التابع لها المخزن: </label>
+	<label> اسم الفرع التابع لها المستودع: </label>
 	{!! Form::select("branch_id",$branches,null,['class'=>'form-control js-example-basic-single','placeholder'=>'اختر الفرع','id'=>'branch_id'])!!}
 </div>
 @endif
@@ -75,7 +75,7 @@
 @if ($store->type==1)
 
 <div class="form-group r-group  col-md-3">
-	<label class="display-block text-semibold"> نوع المخزن</label>
+	<label class="display-block text-semibold"> نوع المستودع</label>
 	<label class="radio-inline">
 		<input type="radio" name="type" class="styled type" value="1" checked="checked" disabled>
 		رئيسى
@@ -88,7 +88,7 @@
 </div>
 @else
 <div class="form-group r-group  col-md-3">
-	<label class="display-block text-semibold"> نوع المخزن</label>
+	<label class="display-block text-semibold"> نوع المستودع</label>
 	<label class="radio-inline">
 		<input type="radio" name="type" class="styled type" value="1" disabled>
 		رئيسى
@@ -102,7 +102,7 @@
 @endif
 @else
 <div class="form-group r-group  col-md-3">
-	<label class="display-block text-semibold"> نوع المخزن</label>
+	<label class="display-block text-semibold"> نوع المستودع</label>
 	<label class="radio-inline">
 		<input type="radio" name="type" class="styled type" checked="checked" id="basic" value="1">
 		رئيسى
@@ -121,38 +121,38 @@
 
 
 <div class="form-group col-md-3 pull-left">
-	<label> كود المخزن: </label>
-	{!! Form::text("code",null,['class'=>'form-control','placeholder'=>' كود المخزن','required'])!!}
+	<label> كود المستودع: </label>
+	{!! Form::text("code",null,['class'=>'form-control','placeholder'=>' كود المستودع','required'])!!}
 </div>
 
 
 <div class="form-group col-md-3 pull-left">
-	<label>اسم المخزن باللغة العربية: </label>
-	{!! Form::text("ar_name",null,['class'=>'form-control','placeholder'=>' اسم المخزن باللغة العربية','required'])!!}
+	<label>اسم المستودع باللغة العربية: </label>
+	{!! Form::text("ar_name",null,['class'=>'form-control','placeholder'=>' اسم المستودع باللغة العربية','required'])!!}
 </div>
 
 <div class="form-group col-md-3 pull-left">
-	<label>اسم المخزن باللغة الانجليزية: </label><span style="color: #ff0000; margin-right: 15px;" class="sm-span">اختيارى</span>
-	{!! Form::text("en_name",null,['class'=>'form-control','placeholder'=>' اسم المخزن باللغة الانجليزية '])!!}
-</div>
-
-
-<div class="form-group col-md-3 pull-left">
-	<label>عنوان المخزن: </label><span style="color: #ff0000; margin-right: 15px;" class="sm-span">اختيارى</span>
-	{!! Form::text("address",null,['class'=>'form-control','placeholder'=>' عنوان المخزن '])!!}
+	<label>اسم المستودع باللغة الانجليزية: </label><span style="color: #ff0000; margin-right: 15px;" class="sm-span">اختيارى</span>
+	{!! Form::text("en_name",null,['class'=>'form-control','placeholder'=>' اسم المستودع باللغة الانجليزية '])!!}
 </div>
 
 
 <div class="form-group col-md-3 pull-left">
-	<label> مساحة المخزن: </label><span style="color: #ff0000; margin-right: 15px;" class="sm-span">بالمتر المربع</span>
-	{!! Form::text("width",null,['class'=>'form-control','placeholder'=>' مساحة المخزن'])!!}
+	<label>عنوان المستودع: </label><span style="color: #ff0000; margin-right: 15px;" class="sm-span">اختيارى</span>
+	{!! Form::text("address",null,['class'=>'form-control','placeholder'=>' عنوان المستودع '])!!}
+</div>
+
+
+<div class="form-group col-md-3 pull-left">
+	<label> مساحة المستودع: </label><span style="color: #ff0000; margin-right: 15px;" class="sm-span">بالمتر المربع</span>
+	{!! Form::text("width",null,['class'=>'form-control','placeholder'=>' مساحة المستودع'])!!}
 </div>
 
 
 @if( isset($store))
 @if ($store->status==1)
 <div class="form-group r-group  col-md-3 pull-left">
-	<label class="display-block text-semibold"> حالة المخزن</label>
+	<label class="display-block text-semibold"> حالة المستودع</label>
 	<label class="radio-inline">
 		<input type="radio" name="status" class="styled" value="1" id="rent" onclick="myFunction3()" checked="checked">
 		ايجار
@@ -165,7 +165,7 @@
 </div>
 @else
 <div class="form-group r-group  col-md-3 pull-left">
-	<label class="display-block text-semibold"> حالة المخزن</label>
+	<label class="display-block text-semibold"> حالة المستودع</label>
 	<label class="radio-inline">
 		<input type="radio" name="status" class="styled" value="1" id="rent" onclick="myFunction3()">
 		ايجار
@@ -178,7 +178,7 @@
 @endif
 @else
 <div class="form-group r-group  col-md-3 pull-left">
-	<label class="display-block text-semibold"> حالة المخزن</label>
+	<label class="display-block text-semibold"> حالة المستودع</label>
 	<label class="radio-inline">
 		<input type="radio" name="status" class="styled" id="rent" value="1" onclick="myFunction3()">
 		ايجار
@@ -204,13 +204,13 @@
 	</div>
 </div>
 <div class="form-group col-md-3 pull-left">
-	<label>اختر امين المخزن </label>
+	<label>اختر امين المستودع </label>
 	{!! Form::select("user_id",storekeepers(),null,['class'=>'form-control js-example-basic-single ','required'])!!}
 </div>
 @if( isset($store))
 @if ($store->is_active==1)
 <div class="form-group r-group col-md-3">
-	<label class="display-block text-semibold"> تفعيل المخزن</label>
+	<label class="display-block text-semibold"> تفعيل المستودع</label>
 	<label class="radio-inline right30">
 		<input type="radio" name="is_active" class="styled" value="1" checked>
 		مفعل
@@ -223,7 +223,7 @@
 </div>
 @else
 <div class="form-group r-group col-md-3">
-	<label class="display-block text-semibold"> تفعيل المخزن</label>
+	<label class="display-block text-semibold"> تفعيل المستودع</label>
 	<label class="radio-inline right30">
 		<input type="radio" name="is_active" class="styled" value="1">
 		مفعل
@@ -236,7 +236,7 @@
 @endif
 @else
 <div class="form-group r-group col-md-3">
-	<label class="display-block text-semibold"> تفعيل المخزن</label>
+	<label class="display-block text-semibold"> تفعيل المستودع</label>
 	<label class="radio-inline right30">
 		<input type="radio" name="is_active" value="1" checked>
 		مفعل
@@ -249,16 +249,16 @@
 @endif
 @if( isset($store))
 <div class="form-group pull-left col-md-3">
-	<label>صوره المخزن الحالية : </label>
+	<label>صوره المستودع الحالية : </label>
 	<img src="{{getimg($store->image)}}" style="width:100px; height:100px" class="file-styled">
 </div>
 @endif
 <div class="form-group pull-left col-md-3">
-	<label>صوره المخزن </label><span style="color: #ff0000; margin-right: 15px;" class="sm-span">اختيارى</span>
+	<label>صوره المستودع </label><span style="color: #ff0000; margin-right: 15px;" class="sm-span">اختيارى</span>
 	{!! Form::file("image",null,['class'=>'file-styled'])!!}
 </div>
 <div class="form-group col-md-12">
-<label> تحديد موقع المخزن على الخريطة </label>
+<label> تحديد موقع المستودع على الخريطة </label>
 	<div class="form-group">
 		<div id="map" style="width: 100%; height: 300px;"></div>
 		<div class="clearfix">&nbsp;</div>

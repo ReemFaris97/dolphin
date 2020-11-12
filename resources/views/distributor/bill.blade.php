@@ -6,7 +6,7 @@
 @section('header')
 @endsection
 
-@section('breadcrumb') @php($breadcrumbs=['المخازن'=>route('distributor.stores.index'),])
+@section('breadcrumb') @php($breadcrumbs=['المستودعات'=>route('distributor.stores.index'),])
 @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
 
@@ -35,7 +35,7 @@
 					<div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
 						<a class="nav-item nav-link active" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">الكل</a>
 						<a class="nav-item nav-link" data-toggle="tab" href="#nav-mobile" role="tab" aria-controls="nav-profile" aria-selected="false">هواتف محمولة</a>
-						<a class="nav-item nav-link" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">منتجات متنوعة</a>
+						<a class="nav-item nav-link" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">اصناف متنوعة</a>
 						<a class="nav-item nav-link" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="false">حاسب ومستلزماته</a>
 					</div>
 				</nav>
@@ -46,7 +46,7 @@
                         <ul>
                             <li class="active"><a href="#">الكل</a></li>
                             <li><a href="#">هواتف محمولة</a></li>
-                            <li><a href="#">منتجات متنوعة</a></li>
+                            <li><a href="#">اصناف متنوعة</a></li>
                             <li><a href="#">حاسب ومستلزماته</a></li>
                         </ul>
 -->

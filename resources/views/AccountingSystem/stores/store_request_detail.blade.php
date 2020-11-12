@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','عرض تفاصيل  التحويل')
-@section('parent_title','إدارة  المخازن')
+@section('parent_title','إدارة  المستودعات')
 
 @section('action', URL::route('accounting.stores.index'))
 @section('styles')
@@ -23,12 +23,12 @@
         <div class="panel-body">
 
             <div class="form-group col-md-6 pull-left">
-                <label class="label label-info">  اسم المخزن المحول منه  : </label>
+                <label class="label label-info">  اسم المستودع المحول منه  : </label>
                 <span>{!! optional($request->getStoreFrom)->ar_name!!}</span>
             </div>
 
             <div class="form-group col-md-6 pull-left">
-                <label class="label label-info"> اسم المخزن المحول اليه  : </label>
+                <label class="label label-info"> اسم المستودع المحول اليه  : </label>
                 <span>{!! optional($request->getStoreTo)->ar_name!!}</span>
             </div>
 
@@ -38,7 +38,7 @@
             </div>
 
             <div class="form-group col-md-6 pull-left">
-                <label class="label label-info"> اسم امين المخزن : </label>
+                <label class="label label-info"> اسم امين المستودع : </label>
                 <span>{!! optional($request->user)->name !!}</span>
             </div>
             <table class="table ">
@@ -49,8 +49,8 @@
                     <th> الوحدة الاساسية</th>
 
                     <th>   الكميه المحوله</th>
-                    <th>   الرصيد الحالى  بالمخزن المحول منه</th>
-                    <th>   الرصيد الحالى  بالمخزن المحول اليه</th>
+                    <th>   الرصيد الحالى  بالمستودع المحول منه</th>
+                    <th>   الرصيد الحالى  بالمستودع المحول اليه</th>
                     <th>التكلفه </th>
                     <th>القيمه </th>
 

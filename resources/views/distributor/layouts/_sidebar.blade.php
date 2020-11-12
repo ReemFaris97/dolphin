@@ -86,7 +86,7 @@
                 aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                         class="m-menu__item-here"></span><i
-                        class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text">أنواع المخازن</span><i
+                        class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text">أنواع المستودعات</span><i
                         class="m-menu__ver-arrow la la-angle-right"></i></a>
 
 
@@ -118,7 +118,7 @@
                 aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                         class="m-menu__item-here"></span><i
-                        class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text">المخازن</span><i
+                        class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text">المستودعات</span><i
                         class="m-menu__ver-arrow la la-angle-right"></i></a>
 
 
@@ -127,7 +127,7 @@
 
                         <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true"><span
                                 class="m-menu__link"><span class="m-menu__item-here"></span><span
-                                    class="m-menu__link-text">كل المخازن</span></span></li>
+                                    class="m-menu__link-text">كل المستودعات</span></span></li>
                         {{--                            @if(auth()->user()->hasPermissionTo('view_workers'))--}}
                         <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
                                 href="{!! route('distributor.stores.index') !!}" class="m-menu__link "><i
@@ -139,7 +139,7 @@
                         <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
                                 href="{!! route('distributor.stores.create') !!}" class="m-menu__link "><i
                                     class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
-                                    class="m-menu__link-text">إضافة مخزن جديد </span></a></li>
+                                    class="m-menu__link-text">إضافة مستودع جديد </span></a></li>
                         {{--                            @endif--}}
                     </ul>
                 </div>
@@ -150,7 +150,7 @@
                 aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                         class="m-menu__item-here"></span><i
-                        class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text">المنتجات</span><i
+                        class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text">الاصناف</span><i
                         class="m-menu__ver-arrow la la-angle-right"></i></a>
 
 
@@ -159,12 +159,12 @@
 
                         <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true"><span
                                 class="m-menu__link"><span class="m-menu__item-here"></span><span
-                                    class="m-menu__link-text">كل المنتجات</span></span></li>
+                                    class="m-menu__link-text">كل الاصناف</span></span></li>
                         {{--                            @if(auth()->user()->hasPermissionTo('view_workers'))--}}
                         <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
                                 href="{!! route('distributor.products.index') !!}" class="m-menu__link "><i
                                     class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
-                                    class="m-menu__link-text">كل المنتجات</span></a></li>
+                                    class="m-menu__link-text">كل الاصناف</span></a></li>
 
                         {{--                            @endif--}}
                         {{--                            @if(auth()->user()->hasPermissionTo('add_workers'))--}}
@@ -460,7 +460,7 @@
                 aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                         class="m-menu__item-here"></span><i
-                        class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text">نقل مخزن بين مندوبين</span><i
+                        class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text">نقل مستودع بين مندوبين</span><i
                         class="m-menu__ver-arrow la la-angle-right"></i></a>
 
 

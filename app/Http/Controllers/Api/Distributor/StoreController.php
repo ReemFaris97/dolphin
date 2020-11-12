@@ -72,8 +72,8 @@ class StoreController extends Controller
         $validation = $this->apiValidation($request,$rules);
         if ($validation instanceof Response){return $validation;}
         $distributor_store_exist = Store::Where('distributor_id',$request->distributor_id)->first();
-        if (!$distributor_store_exist) return $this->apiResponse(null,'المندوب المحدد ليس لديه مخزن',400);
-        if ($request->distributor_id == auth()->user()->id) return $this->apiResponse(null,'لا يمكنك ارسال واستقبال المنتجات الى و من نفسك',400);
+        if (!$distributor_store_exist) return $this->apiResponse(null, 'المندوب المحدد ليس لديه مستودع', 400);
+        if ($request->distributor_id == auth()->user()->id) return $this->apiResponse(null, 'لا يمكنك ارسال واستقبال الاصناف الى و من نفسك', 400);
             $request['sender_id'] = auth()->user()->id;
             $request['is_confirmed']=0;
         $this->AddStoreTransferRequest($request);

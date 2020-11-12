@@ -37,17 +37,17 @@
 					{!! Form::select("branch_id",branches(),null,['class'=>'form-control selectpicker branch_id','id'=>'branch_id','required','multiple','placeholder'=>' اختر اسم الفرع التابع له المنتج '])!!}
 				</div>
 				<div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left" id="store_id">
-					<label> اسم المخزن </label>
+					<label> اسم المستودع </label>
 					@if (!isset($product))
 						<div class="btn-group adding-new-comp">
 							<a href="{{route('accounting.stores.create')}}" class="btn btn-success" target="_blank">
 						  <span class="m-l-5">
-						    مخزن
+						    مستودع
 						   <i class="fa fa-plus"></i>
 						   </span>
 							</a>
 						</div>
-					{!! Form::select("store_id",stores(),null,['class'=>'form-control js-example-basic-single store_id','id'=>'store_id','required','placeholder'=>' اختر اسم المخزن التابع له المنتج '])!!}
+					{!! Form::select("store_id",stores(),null,['class'=>'form-control js-example-basic-single store_id','id'=>'store_id','required','placeholder'=>' اختر اسم المستودع التابع له المنتج '])!!}
 					@else
 					<select class="form-control js-example-basic-single pull-right" name="store_id">
 						@foreach ($stores as $store)
@@ -151,12 +151,12 @@
 						المكونات
 					</button>
 					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3" style="display: none;" id="offers_button">
-						المنتجات التابعة
+						الاصناف التابعة
 					</button>
 					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal5" style="display: none;" id="services_button">
 						الخدمات
 					</button>
-					{!! Form::select("type",['store'=>'مخزون','service'=>'خدمه','offer'=>'مجموعة منتجات ','creation'=>'تصنيع','product_expiration'=>'منتج بتاريخ صلاحيه'],null,['class'=>'form-control js-example-basic-single type','required','placeholder'=>' نوع المنتج ','id'=>'type'])!!}
+					{!! Form::select("type",['store'=>'مخزون','service'=>'خدمه','offer'=>'مجموعة اصناف ','creation'=>'تصنيع','product_expiration'=>'منتج بتاريخ صلاحيه'],null,['class'=>'form-control js-example-basic-single type','required','placeholder'=>' نوع المنتج ','id'=>'type'])!!}
 				</div>
 				<div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left">
 					<label>الوحدة الاساسية </label><span class="asided-hint">[جرام -كيلو-لتر]</span>
@@ -236,7 +236,7 @@
 
 				<!-- component table-->
 				<div class="col-md-12 inside-form-tbl" id="componentTable-wrap" style="display:none">
-					<span> مكونات المنتجات </span>
+					<span> مكونات الاصناف </span>
 					<table id="componentTable" >
 					<thead>
 						<tr>

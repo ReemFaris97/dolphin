@@ -98,7 +98,7 @@ class StoreCategoriesController extends Controller
     {
         $category = StoreCategory::find($id);
         if($category->stores->count() > 0){
-            toast('لا يمكن حذف نوع لديه مخازن', 'error', 'top-right');
+            toast('لا يمكن حذف نوع لديه مستوعات', 'error', 'top-right');
             return back();
         }else{
             $category->delete();

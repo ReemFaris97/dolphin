@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','سجل  سندات الجرد ')
-@section('parent_title','إدارة  المخازن')
+@section('parent_title','إدارة  المستودعات')
 
 @section('action', URL::route('accounting.stores.index'))
 @section('styles')
@@ -26,7 +26,7 @@
                 <tr>
                     <th>#</th>
                     <th>  رقم السند  </th>
-                    <th>  المخزن  </th>
+                    <th>  المستودع  </th>
                     <th>  اسم القائم بالجرد </th>
                     <th> التاريخ   </th>
 

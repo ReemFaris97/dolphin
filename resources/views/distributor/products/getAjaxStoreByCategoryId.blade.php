@@ -1,4 +1,4 @@
-<option disabled selected> إختار المخزن</option>
+<option disabled selected> إختار المستودع</option>
 @forelse($stores as $store)
 <option value="{{$store->id}}" >{{$store->name}}</option>
 @empty

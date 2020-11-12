@@ -21,7 +21,7 @@ $(function(){
 
             keepers =[];
             if(data.length ==0)
-                data.push('لا توجد  امناء بهذا المخزن');
+                data.push('لا توجد  امناء بهذا المستودع');
             var val;
             keepers.push('<option disabled selected> اختر الامين </option>');
             $.each(data, function(i,n){

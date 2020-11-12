@@ -1,11 +1,11 @@
 @extends('distributor.layouts.app')
-@section('title') المخازن
+@section('title') المستودعات
 @endsection
 
 @section('header')
 @endsection
 
-@section('breadcrumb') @php($breadcrumbs=['المخازن'=>route('distributor.stores.index'),])
+@section('breadcrumb') @php($breadcrumbs=['المستودعات'=>route('distributor.stores.index'),])
 @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
 
@@ -16,7 +16,7 @@
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-title">
                     <h3 class="m-portlet__head-text">
-                        كل المخازن المتاحة
+                        كل المستودعات المتاحة
                     </h3>
                 </div>
             </div>
@@ -27,7 +27,7 @@
                            class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">
                         <span>
                             <i class="fas fa-plus"></i>
-                            <span>اضافه مخزن جديد</span>
+                            <span>اضافه مستودع جديد</span>
                         </span>
                         </a>
                     </li>
@@ -50,7 +50,7 @@
             console.log(item_id);
             swal({
                 title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذا المخزن ؟",
+                text: "هل تريد حذف هذا المستودع ؟",
                 icon: "warning",
                 buttons: ["الغاء", "موافق"],
                 dangerMode: true,
@@ -60,7 +60,7 @@
                     document.getElementById('delete-form'+item_id).submit();
                 }
                 else{
-                    swal("تم االإلفاء", "حذف  المخزن تم  الغاؤه",'info',{buttons:'موافق'});
+                    swal("تم االإلفاء", "حذف  المستودع تم  الغاؤه",'info',{buttons:'موافق'});
                 }
             });
         }

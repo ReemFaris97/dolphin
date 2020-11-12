@@ -14,7 +14,7 @@ $(function(){
 
             products = [];
             if (data.length == 0)
-                data.push('لا توجد  اصناف بهذا المخزن');
+                data.push('لا توجد  اصناف بهذا المستودع');
             var val;
             products.push('<option disabled selected> اختر الصنف</option>');
             $.each(data, function (i, n) {
@@ -49,7 +49,7 @@ $(function(){
 
             keepers = [];
             if (data.length == 0)
-                data.push('لا توجد  امناء بهذا المخزن');
+                data.push('لا توجد  امناء بهذا المستودع');
             var val;
             keepers.push('<option disabled selected> اختر الامين </option>');
             $.each(data, function (i, n) {
@@ -86,9 +86,9 @@ $(function(){
         stores = [];
 
           if (data.length == 0)
-              data.push('لا توجد بهذا المخزن');
+              data.push('لا توجد بهذا المستودع');
           var val_1;
-          stores.push('<option disabled selected> اختر المخزن </option>');
+          stores.push('<option disabled selected> اختر المستودع </option>');
           $.each(data, function (i, n) {
               val_1 = i;
 
@@ -100,7 +100,7 @@ $(function(){
 
           $('.form_store_id').attr('disabled', false);
           $('.to_store_id').attr('data-live-search', true);
-          $('.to_store_id').attr('placeholder', "اختر المخزن");
+          $('.to_store_id').attr('placeholder', "اختر المستودع");
           $('#to_store_id').find('option').remove().end().append(stores);
           $("#to_store_id").selectpicker('refresh');
 

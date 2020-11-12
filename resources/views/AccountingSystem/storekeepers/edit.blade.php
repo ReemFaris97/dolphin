@@ -1,5 +1,5 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تعديل  بيانات امين المخزن')
+@section('title','تعديل  بيانات امين المستودع')
 @section('parent_title','إدارة فروع الشركات')
 @section('action', URL::route('accounting.storeKeepers.index'))
 @section('content')

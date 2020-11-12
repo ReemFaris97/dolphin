@@ -728,7 +728,7 @@
 			<span>{!! optional($sale->branch)->ar_name !!}</span>
 		</div>
 		<div class="form-group col-md-6 pull-left">
-			<label class="label label-info"> اسم المخزن : </label>
+			<label class="label label-info"> اسم المستودع : </label>
 			<span>{!! optional($sale->store)->ar_name !!}</span>
 		</div>
 		<div class="form-group col-md-6 pull-left">

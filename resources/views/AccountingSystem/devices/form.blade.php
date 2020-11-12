@@ -60,7 +60,7 @@
 @if(isset($device))
 @if($device->model_type=='App\Models\AccountingSystem\AccountingBranch')
     <div class="form-group col-xs-6 pull-left branches">
-        <label> اسم الفرع التابع لها المخزن: </label>
+        <label> اسم الفرع التابع لها المستودع: </label>
         <div class="btn-group adding-new-comp">
             <a href="{{route('accounting.branches.create')}}" class="btn btn-success" target="_blank">
             <span class="m-l-5">
@@ -69,11 +69,11 @@
 			</span>
             </a>
         </div>
-        {!! Form::select("branch_id",$branches,$device->model_id,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الفرع التابع لها المخزن '])!!}
+        {!! Form::select("branch_id",$branches,$device->model_id,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الفرع التابع لها المستودع '])!!}
     </div>
 @elseif($device->model_type=='App\Models\AccountingSystem\AccountingCompany')
     <div class="form-group col-xs-6 pull-left companies">
-        <label> اسم الشركة التابع لها المخزن: </label>
+        <label> اسم الشركة التابع لها المستودع: </label>
         <div class="btn-group adding-new-comp">
             <a href="{{route('accounting.companies.create')}}" class="btn btn-success" target="_blank">
             <span class="m-l-5">
@@ -82,12 +82,12 @@
 			</span>
             </a>
         </div>
-        {!! Form::select("company_id",$companies,$device->model_id,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الشركة التابع لها المخزن '])!!}
+        {!! Form::select("company_id",$companies,$device->model_id,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الشركة التابع لها المستودع '])!!}
     </div>
 @endif
     @else
     <div class="form-group col-xs-6 pull-left companies">
-        <label> اسم الشركة التابع لها المخزن: </label>
+        <label> اسم الشركة التابع لها المستودع: </label>
         <div class="btn-group adding-new-comp">
             <a href="{{route('accounting.companies.create')}}" class="btn btn-success" target="_blank">
             <span class="m-l-5">
@@ -96,11 +96,11 @@
 			</span>
             </a>
         </div>
-        {!! Form::select("company_id",$companies,null,['class'=>'form-control js-example-basic-single','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع لها المخزن '])!!}
+        {!! Form::select("company_id",$companies,null,['class'=>'form-control js-example-basic-single','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع لها المستودع '])!!}
     </div>
     <div class="form-group col-xs-6 pull-left branches">
-    <label> اسم الفرع التابع لها المخزن: </label>
-    {!! Form::select("branch_id",$branches,null,['class'=>'form-control js-example-basic-single','id'=>'branch_id','placeholder'=>' اختر اسم الفرع التابع لها المخزن '])!!}
+    <label> اسم الفرع التابع لها المستودع: </label>
+    {!! Form::select("branch_id",$branches,null,['class'=>'form-control js-example-basic-single','id'=>'branch_id','placeholder'=>' اختر اسم الفرع التابع لها المستودع '])!!}
     </div>
 
 @endif

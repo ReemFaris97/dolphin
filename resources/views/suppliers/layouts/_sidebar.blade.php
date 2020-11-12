@@ -55,7 +55,7 @@
                 aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                             class="m-menu__item-here"></span><i
-                            class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text">إدارة عروض المنتجات</span><i
+                            class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text">إدارة عروض الاصناف</span><i
                             class="m-menu__ver-arrow la la-angle-right"></i></a>
 
 
@@ -64,7 +64,7 @@
 
                         <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true"><span
                                     class="m-menu__link"><span class="m-menu__item-here"></span><span
-                                        class="m-menu__link-text">عروض المنتجات</span></span></li>
+                                        class="m-menu__link-text">عروض الاصناف</span></span></li>
                         {{--                            @if(auth()->user()->hasPermissionTo('view_workers'))--}}
                         <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
                                     href="{!! route('supplier.offers.index') !!}" class="m-menu__link "><i

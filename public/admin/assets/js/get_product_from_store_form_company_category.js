@@ -32,7 +32,7 @@ $(function () {
                 console.log(data);
 
                 storeSelect.empty();
-                storeSelect.append('<option value="">اختر المخزن</option>');
+                storeSelect.append('<option value="">اختر المستودع</option>');
                 data.forEach(store => {
                     storeSelect.append(`
     <option value="${store.id}">${store.ar_name}</option>
@@ -63,7 +63,7 @@ $(function () {
                 console.log(data);
 
                 storeSelect.empty();
-                storeSelect.append('<option value="">اختر المخزن</option>');
+                storeSelect.append('<option value="">اختر المستودع</option>');
                 data.forEach(store => {
                     storeSelect.append(`
     <option value="${store.id}">${store.ar_name}</option>
