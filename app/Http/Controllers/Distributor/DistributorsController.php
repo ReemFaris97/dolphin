@@ -49,6 +49,10 @@ class DistributorsController extends Controller
             'email' => 'required|string|unique:users,email',
             'password' => 'required|string|confirmed|max:191',
             'image' => 'nullable|sometimes|image',
+            'target'=>'nullable|integer',
+            'affiliate'=>'nullable|numeric',
+            'address'=>'nullable|string',
+            'notes'=>'nullable|string',
         ];
 
         $this->validate($request, $rules);
@@ -105,6 +109,12 @@ class DistributorsController extends Controller
             'name' => 'required|string|max:191',
             'phone' => 'required|numeric|unique:users,phone,' . $user->id,
             'email' => 'required|string|unique:users,email,' . $user->id,
+            'image' => 'nullable|sometimes|image',
+
+            'target'=>'nullable|integer',
+            'affiliate'=>'nullable|numeric',
+            'address'=>'nullable|string',
+            'notes'=>'nullable|string',
         ];
         $this->validate($request, $rules);
         $requests = $request->except('image', 'password');
@@ -115,6 +125,7 @@ class DistributorsController extends Controller
         if ($request->password != null && !\Hash::check($request->old_password, $user->password)) {
             return back()->withInput()->withErrors(['old_password' => 'كلمه المرور القديمه غير صحيحه']);
         }
+
         $user->fill($requests);
 //        $user->syncPermissions($request->permissions);
         $user->save();

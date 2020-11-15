@@ -28,7 +28,7 @@
                 <a href="{!!route('distributor.routes.edit',$row->id)!!}" class="btn btn-primary"> <i
                         class="fas fa-pen"></i> تعديل</a>
                 <a href="#" onclick="Delete({{$row->id}})" data-original-title="حذف"
-                   class="btn btn-danger btn-circle"><i class="fa fa-trash-o"></i> حذف</a>
+                   class="btn btn-danger btn-circle"><i class="fa fa-trash"></i> حذف</a>
                 {!!Form::open( ['route' => ['distributor.routes.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
                 {!!Form::close() !!}
 

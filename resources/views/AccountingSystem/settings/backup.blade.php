@@ -57,7 +57,7 @@
                                    href="{{ url('backup/download/'.$backup['file_name']) }}"><i
                                         class="fa fa-cloud-download"></i> Download</a>
                                 <a class="btn btn-xs btn-danger" data-button-type="delete"
-                                   href="{{ url('backup/delete/'.$backup['file_name']) }}"><i class="fa fa-trash-o"></i>
+                                   href="{{ url('backup/delete/'.$backup['file_name']) }}"><i class="fa fa-trash"></i>
                                     Delete</a>
                             </td>
                         </tr>

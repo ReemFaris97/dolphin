@@ -11,6 +11,8 @@ Route::middleware('distributor')->group(function () {
     Route::patch('distributors/block/{user}', 'DistributorsController@block')->name('distributors.block');
 
     Route::resource('/store_categories', 'StoreCategoriesController');
+    Route::patch('store_categories/block/{store_categories}', 'StoreCategoriesController@block')->name('store_categories.block');
+
     Route::resource('/stores', 'StoresController');
     Route::resource('/products', 'ProductsController');
     Route::get('/products/add/quantity/{id}','ProductsController@addQuantityForm')->name('products.quantity.form');
