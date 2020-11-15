@@ -11,16 +11,19 @@ use App\Traits\Viewable;
 class StoresController extends Controller
 {
     use Viewable;
+
     private $viewable = 'distributor.stores.';
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
     public function index()
     {
-        $stores = Store::all()->reverse();
+        $stores = Store::with('distributor', 'category')->get()->reverse();
         return $this->toIndex(compact('stores'));
+
     }
 
     /**
@@ -30,32 +33,33 @@ class StoresController extends Controller
      */
     public function create()
     {
-        $store_categories = StoreCategory::pluck('name','id');
+        $store_categories = StoreCategory::pluck('name', 'id');
+
         return $this->toCreate(compact('store_categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $rules = [
-            'name'=>'required|string|max:191',
-            'store_category_id'=>"required|numeric|exists:store_categories,id"
+            'name' => 'required|string|max:191',
+            'store_category_id' => "required|numeric|exists:store_categories,id"
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         Store::create($request->all());
-        toast('تم الإضافة بنجاح','success','top-right');
+        toast('تم الإضافة بنجاح', 'success', 'top-right');
         return redirect()->route('distributor.stores.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -66,14 +70,14 @@ class StoresController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $store =Store::findOrFail($id);
-        $store_categories = StoreCategory::pluck('name','id');
-        return $this->toEdit(compact('store','store_categories'));
+        $store = Store::findOrFail($id);
+        $store_categories = StoreCategory::pluck('name', 'id');
+        return $this->toEdit(compact('store', 'store_categories'));
 
 
     }
@@ -81,21 +85,21 @@ class StoresController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-       $store = Store::findOrFail($id);
+        $store = Store::findOrFail($id);
 
         $rules = [
-            'name'=>'required|string|max:191',
-            'store_category_id'=>"required|numeric|exists:store_categories,id"
+            'name' => 'required|string|max:191',
+            'store_category_id' => "required|numeric|exists:store_categories,id"
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $store->update($request->all());
-        toast('تم التعديل بنجاح','success','top-right');
+        toast('تم التعديل بنجاح', 'success', 'top-right');
         return redirect()->route('distributor.stores.index');
 
 
@@ -104,18 +108,18 @@ class StoresController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $store  = Store::find($id);
-        if($store->products->count() > 0){
+        $store = Store::find($id);
+        if ($store->products->count() > 0) {
             toast('لا يمكن حذف مستودع به اصناف', 'error', 'top-right');
             return back();
-        }else{
+        } else {
             $store->delete();
-            toast('تم الحذف بنجاح', 'success','top-right');
+            toast('تم الحذف بنجاح', 'success', 'top-right');
             return back();
 
         }
