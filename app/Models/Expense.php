@@ -23,7 +23,7 @@ class Expense extends Model
 
     public function reader()
     {
-        return $this->belongsTo(Reader::class,'reader_id');
+        return $this->belongsTo(Reader::class,'reader_id')->withDefault();
     }
     public function setDateAttribute($value)
     {
