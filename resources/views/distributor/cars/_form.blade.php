@@ -16,6 +16,11 @@
     </div>
 
     <div class="form-group m-form__group">
+        <label>رقم اللوحة</label>
+        {!! Form::text('plate_number',null,['class'=>'form-control m-input','placeholder'=>'رقم اللوحة'])!!}
+    </div>
+
+    <div class="form-group m-form__group">
         <label>موديل السيارة</label>
         {!! Form::text('car_model',null,['class'=>'form-control m-input','placeholder'=>'موديل السيارة'])!!}
     </div>

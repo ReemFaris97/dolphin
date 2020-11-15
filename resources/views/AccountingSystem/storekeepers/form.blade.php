@@ -18,7 +18,7 @@
 
 <div class="form-group col-md-6 pull-left">
     <label>جوال الامين : </label>
-    {!! Form::text("phone",null,['class'=>'form-control','placeholder'=>'  جوال الامين  '])!!}
+    {!! Form::text("phone",null,['class'=>'form-control','placeholder'=>'  جوال الامين  ','required'])!!}
 </div>
 
 <div class="form-group col-md-6 pull-left">

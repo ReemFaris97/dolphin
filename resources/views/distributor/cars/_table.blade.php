@@ -9,6 +9,7 @@
         <th>#</th>
         <th>إسم السيارة</th>
         <th>موديل السيارة</th>
+        <th> رقم اللوحة</th>
         <th>إسم المندوب</th>
         <th>الاعدادت</th>
     </tr>
@@ -19,6 +20,7 @@
             <td>{!!$loop->iteration!!}</td>
             <td>{!! $row->car_name!!}</td>
             <td>{!! $row->car_model !!}</td>
+             <td>{!! $row->plate_number !!}</td>
             <td>{!! $row->user->name !!}</td>
             <td>
 {{--                <a href="{!!route('distributor.transactions.show',$row->id)!!}" class="btn btn-warning"> <i class="fas fa-book"></i> تفاصيل</a>--}}
