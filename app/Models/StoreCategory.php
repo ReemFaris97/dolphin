@@ -9,7 +9,7 @@ class StoreCategory extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name','blocked_at'];
 
     public function stores(){
         return $this->hasMany(Store::class);
