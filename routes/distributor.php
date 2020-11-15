@@ -39,7 +39,10 @@ Route::middleware('distributor')->group(function () {
 
     Route::resource('/readers', 'ReaderController');
     Route::resource('/expenditureClauses', 'ExpenditureClausesController');
+
     Route::resource('/expenditureTypes', 'ExpenditureTypesController');
+    Route::patch('expenditureTypes/change-status/{item}', 'ExpenditureTypesController@changeStatus')->name('expenditureTypes.changeStatus');
+
     Route::resource('/expenses', 'ExpensesController');
     Route::resource('/routes', 'DistributorRoutesController');
     Route::post('/trips/update-arrange', 'TripsController@updateArrange')->name('trips.update-arrange');
