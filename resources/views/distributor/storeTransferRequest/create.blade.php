@@ -34,6 +34,7 @@
                     <!--begin::Form-->
 
                     {!! Form::open(['method'=>'post','route'=>'distributor.storeTransfer.store','files'=>'true','class'=>'clearfix m-form m-form--fit m-form--label-align-right'])!!}
+
                     @include('distributor.storeTransferRequest._form')
 
                     <div class="m-portlet__foot m-portlet__foot--fit full--width">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Distributor;
 
+use App\Models\Product;
 use App\Models\Store;
 use App\Models\StoreCategory;
 use App\User;
@@ -148,5 +149,16 @@ class StoresController extends Controller
             toast('تم  التفعيل بنجاح', 'success', 'top-right');
             return redirect()->route('distributor.stores.index');
         }
+    }
+
+    public function addProduct($store_id)
+    {
+        return view('distributor.stores.addProducts',
+            [
+                'users' => User::query()->distributor()->pluck('name', 'id'),
+                'store' => Store::query()->find($store_id),
+                'products' => Product::query()->pluck('name', 'id'),
+            ]);
+
     }
 }
