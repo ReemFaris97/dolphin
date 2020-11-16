@@ -28,6 +28,26 @@
                 <a href="#"  onclick="Delete({{$row->id}})"  data-original-title="حذف" class="btn btn-danger btn-circle"><i  class="fa fa-trash"></i> حذف</a>
                 {!!Form::open( ['route' => ['distributor.cars.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
                 {!!Form::close() !!}
+
+
+                <form method="POST" action="{{route('distributor.cars.changeStatus',$row->id)}}">
+                    @csrf() @method('patch')
+                    @if($row->is_active == 1)
+                        <button type="submit" class="btn btn-warning"
+                                onclick="if(!confirm('هل انت متاكد من الغاء تفعيل السيارة')) event.preventDefault() ">
+                            <i class="fas fa-skull"></i>
+                            الغاء تفعيل
+                        </button>
+                    @else
+                        <button type="submit" class="btn btn-success"
+                                onclick="if(!confirm('هل انت متاكد من تفعيل السيارة')) event.preventDefault() ">
+                            <i class="far fa-thumbs-up"></i>
+                            تفعيل
+                        </button>
+                    @endif
+                </form>
+
+
             </td>
         </tr>
     @endforeach

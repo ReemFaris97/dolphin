@@ -112,4 +112,18 @@ class CarsController extends Controller
         toast('تم حذف السيارة بنجاح','success','top-right');
         return redirect()->route('distributor.cars.index');
     }
+
+    public function changeStatus($id)
+    {
+        $item=DistributorCar::find($id);
+        if ($item->is_active == 1) {
+            $item->update(['is_active'=>0]);
+            toast('تم إلغاء التفعيل بنجاح','success','top-right');
+            return redirect()->route('distributor.cars.index');
+        } else {
+            $item->update(['is_active'=>1]);
+            toast('تم  التفعيل بنجاح','success','top-right');
+            return redirect()->route('distributor.cars.index');
+        }
+    }
 }
