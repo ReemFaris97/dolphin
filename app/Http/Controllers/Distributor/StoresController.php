@@ -124,4 +124,20 @@ class StoresController extends Controller
 
         }
     }
+
+
+    public function changeStatus($id)
+    {
+        $item=Store::find($id);
+//        dd($item);
+        if ($item->is_active == 1) {
+            $item->update(['is_active'=>0]);
+            toast('تم إلغاء التفعيل بنجاح','success','top-right');
+            return redirect()->route('distributor.stores.index');
+        } else {
+            $item->update(['is_active'=>1]);
+            toast('تم  التفعيل بنجاح','success','top-right');
+            return redirect()->route('distributor.stores.index');
+        }
+    }
 }
