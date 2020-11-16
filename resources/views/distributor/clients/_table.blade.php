@@ -52,7 +52,7 @@
             <td><img src="{!!asset($user->image)!!}" height="100" width="100"/></td>
             <td>
                 <a href="{!!route('distributor.clients.edit',$user->id)!!}" class="btn btn-primary"> <i class="fas fa-pen"></i> تعديل</a>
-                <a href="#"  onclick="Delete({{$user->id}})"  data-original-title="حذف" class="btn btn-danger btn-circle"><i  class="fa fa-trash-o"></i> حذف</a>
+                <a href="#"  onclick="Delete({{$user->id}})"  data-original-title="حذف" class="btn btn-danger btn-circle"><i  class="fa fa-trash"></i> حذف</a>
                 {!!Form::open( ['route' => ['distributor.clients.destroy',$user->id] ,'id'=>'delete-form'.$user->id, 'method' => 'Delete']) !!}
                 {!!Form::close() !!}
 

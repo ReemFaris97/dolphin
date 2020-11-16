@@ -11,6 +11,8 @@ Route::middleware('distributor')->group(function () {
     Route::patch('distributors/block/{user}', 'DistributorsController@block')->name('distributors.block');
 
     Route::resource('/store_categories', 'StoreCategoriesController');
+    Route::patch('store_categories/block/{store_categories}', 'StoreCategoriesController@block')->name('store_categories.block');
+
     Route::resource('/stores', 'StoresController');
     Route::resource('/products', 'ProductsController');
     Route::get('/products/add/quantity/{id}','ProductsController@addQuantityForm')->name('products.quantity.form');
@@ -37,6 +39,7 @@ Route::middleware('distributor')->group(function () {
     Route::resource('/expenditureTypes', 'ExpenditureTypesController');
     Route::resource('/expenses', 'ExpensesController');
     Route::resource('/routes', 'DistributorRoutesController');
+    Route::post('/trips/update-arrange', 'TripsController@updateArrange')->name('trips.update-arrange');
     Route::resource('/trips', 'TripsController');
     Route::get('/map', 'TripsController@trips')->name('trips.map');
     Route::post('/get/ajax/stores', 'AjaxDataController@getAllStoresById')->name('getAjaxStores');

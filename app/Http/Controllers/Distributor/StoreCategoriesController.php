@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Distributor;
 
 use App\Models\StoreCategory;
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
@@ -106,5 +108,22 @@ class StoreCategoriesController extends Controller
             return back();
         }
 
+    }
+
+
+
+    public function block($id)
+    {
+        $store_category = StoreCategory::find($id);
+
+        $blocked_at = $store_category->blocked_at;
+        if ($blocked_at == null) {
+            $store_category->fill(['blocked_at' => Carbon::now(env('TIME_ZONE', 'Africa/Cairo'))]);
+        } else {
+            $store_category->fill(['blocked_at' => null]);
+        }
+        $store_category->save();
+        toast('تم التعديل', 'success', 'top-right');
+        return back();
     }
 }
