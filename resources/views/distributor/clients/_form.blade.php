@@ -24,6 +24,19 @@
         {!! Form::text('address',null,['class'=>'form-control m-input','placeholder'=>'ادخل العنوان'])!!}
     </div>
 
+  <div class="form-group m-form__group">
+        <label>الكود</label>
+        {!! Form::text('code',null,['class'=>'form-control m-input','placeholder'=>' ادخل الكود  '])!!}
+  </div>
+ <div class="form-group m-form__group">
+        <label>المسارات</label>
+        {!! Form::select('route_id',$routes,null,['class'=>'form-control m-input','placeholder'=>' اختر المسار'])!!}
+  </div>
+ <div class="form-group m-form__group">
+        <label>المندوبين</label>
+        {!! Form::select('user_id', $distributors,null,['class'=>'form-control m-input','placeholder'=>' اختر المندوبين'])!!}
+  </div>
+
     <div class="form-group m-form__group">
         <label> صوره العميل  </label>
         @if(isset($client))

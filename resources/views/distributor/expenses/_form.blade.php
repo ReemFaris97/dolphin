@@ -1,4 +1,12 @@
 <div class="m-portlet__body a-smaller-input-wrapper">
+
+    @if(isset($expense))
+    <div class="form-group m-form__group">
+        <label>   رقم سند المصروف</label>
+        {!! Form::text('sanad_No',$expense->sanad_No,['class'=>'form-control m-input','placeholder'=>' رقم سند المصروف'])!!}
+
+    </div>
+    @endif
     <div class="form-group m-form__group">
         <label>بند الصرف</label>
         {!! Form::select('expenditure_clause_id',$expenditure_clauses,null,['class'=>'form-control  select2','placeholder'=>'ادخل بند الصرف'])!!}
@@ -8,20 +16,21 @@
         <label>نوع الصرف</label>
         {!! Form::select('expenditure_type_id',$expenditure_types,null,['class'=>'form-control m-input select2','placeholder'=>'ادخل نوع الصرف'])!!}
     </div>
-
+    @if(isset($expense))
     <div class="form-group m-form__group">
-        <label>اسم المستخدم</label>
-        {!! Form::select('user_id',$users,null,['class'=>'form-control m-input select2','placeholder'=>'ادخل اسم المستخدم'])!!}
+        <label>اسم المندوب</label>
+
+        {!! Form::select('user_id',$users,null,['class'=>'form-control m-input select2','placeholder'=>'ادخل اسم المندوب','disabled'])!!}
     </div>
+        @else
+        <div class="form-group m-form__group">
+            <label>اسم المندوب</label>
 
+            {!! Form::select('user_id',$users,null,['class'=>'form-control m-input select2','placeholder'=>'ادخل اسم المندوب',
+            ])!!}
+        </div>
 
-
-
-
-
-
-
-
+        @endif
 
 
     <div class="form-group m-form__group">
@@ -49,7 +58,7 @@
         <label> صوره الفاتورة  </label>
         @if(isset($expense))
 
-            <img src="{!! url($expense->image)!!}" width="250" height="250">
+            <img src="{!! asset($expense->image)!!}" width="250" height="250">
         @endif
         <input type="file" class="form-control m-input" name="image">
     </div>
