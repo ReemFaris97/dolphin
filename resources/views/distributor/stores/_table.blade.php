@@ -8,9 +8,7 @@
     <tr>
         <th>#</th>
         <th>الاسم</th>
-        {{--
-                <th>المندوب</th>
-        --}}
+        <th>المندوب</th>
         <th>نوع المستودع</th>
         <th>الاعدادت</th>
     </tr>
@@ -20,11 +18,11 @@
         <tr>
             <td>{!!$loop->iteration!!}</td>
             <td>{!!$row->name!!}</td>
-            {{--
-                        <td>{!!$row->distributor->name!!}</td>
-            --}}
+            <td>{!!$row->distributor->name!!}</td>
             <td>{!!$row->category->name!!}</td>
             <td>
+                <a href="{!!route('distributor.stores.show',$row->id)!!}" class="btn btn-success"> <i
+                        class="fas fa-eye"></i>مشاهده</a>
                 <a href="{!!route('distributor.stores.edit',$row->id)!!}" class="btn btn-primary"> <i
                         class="fas fa-pen"></i> تعديل</a>
                 <a href="#" onclick="Delete({{$row->id}})" data-original-title="حذف"
@@ -58,9 +56,7 @@
         <th>#</th>
         <th class="filter">الاسم</th>
         <th class="filter">نوع المستودع</th>
-        {{--
-             <th class="filter">المندوب</th>
-     --}}
+        <th class="filter">المندوب</th>
         <th>الاعدادت</th>
     </tr>
     </tfoot>

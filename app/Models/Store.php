@@ -10,7 +10,7 @@ class Store extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'store_category_id', 'distributor_id','is_active'];
+    protected $fillable = ['name', 'store_category_id', 'distributor_id', 'is_active', 'notes'];
 
     public function products()
     {
