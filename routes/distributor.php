@@ -36,6 +36,9 @@ Route::middleware('distributor')->group(function () {
 
 
     Route::resource('/readers', 'ReaderController');
+    Route::patch('readers/change-status/{reader}', 'ReaderController@changeStatus')->name('readers.changeStatus');
+
+
     Route::resource('/expenditureClauses', 'ExpenditureClausesController');
 
     Route::resource('/expenditureTypes', 'ExpenditureTypesController');
