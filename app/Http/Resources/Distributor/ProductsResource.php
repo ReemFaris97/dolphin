@@ -4,32 +4,37 @@ namespace App\Http\Resources\Distributor;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
+/**
+ * Class ProductsResource
+ * @package App\Http\Resources\Distributor
+ * @mixin  \App\Models\Product
+ */
 class ProductsResource extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
     {
         return [
-            'products'=>$this->collection->transform(function ($q){
+            'products' => $this->collection->transform(function ($q) {
                 return [
-                    'id'=>$q->id,
-                    'name'=>$q->name,
-                    'min_quantity'=>$q->min_quantity,
-                    'max_quantity'=>$q->max_quantity,
-                    'quantity'=>$q->quantity(),
+                    'id' => $q->id,
+                    'name' => $q->name,
+                    'min_quantity' => $q->min_quantity,
+                    'max_quantity' => $q->max_quantity,
+                    'quantity' => $q->quantity(),
                 ];
             }),
-            'paginate'=>[
+            'paginate' => [
                 'total' => $this->total(),
                 'count' => $this->count(),
                 'per_page' => $this->perPage(),
-                'next_page_url'=>$this->nextPageUrl(),
-                'prev_page_url'=>$this->previousPageUrl(),
+                'next_page_url' => $this->nextPageUrl(),
+                'prev_page_url' => $this->previousPageUrl(),
                 'current_page' => $this->currentPage(),
                 'total_pages' => $this->lastPage()
             ]
@@ -40,7 +45,7 @@ class ProductsResource extends ResourceCollection
     public function withResponse($request, $response)
     {
         $originalContent = $response->getOriginalContent();
-        unset($originalContent['links'],$originalContent['meta']);
+        unset($originalContent['links'], $originalContent['meta']);
         $response->setData($originalContent);
     }
 }

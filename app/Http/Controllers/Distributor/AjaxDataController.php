@@ -10,29 +10,66 @@ use App\User;
 
 class AjaxDataController extends Controller
 {
-    public function getAllStoresById(Request $request){
-        $stores = Store::where('store_category_id',$request->id)->get();
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Throwable
+     */
+    public function getAllStoresById(Request $request)
+    {
+        $stores = Store::where('store_category_id', $request->id)->get();
         return response()->json([
             'status' => true,
-            'data'   => view('distributor.products.getAjaxStoreByCategoryId')->with('stores',$stores)->render()
+            'data' => view('distributor.products.getAjaxStoreByCategoryId')->with('stores', $stores)->render()
         ]);
     }
 
-    public function getAllProducts(Request $request){
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Throwable
+     */
+    public function getAllProducts(Request $request)
+    {
         $products = Product::whereStoreId($request->id)->get();
         return response()->json([
-            'status'=>true,
-            'data'=>view('distributor.storeTransferRequest.getAjaxProducts')->with('products',$products)->render()
+            'status' => true,
+            'data' => view('distributor.storeTransferRequest.getAjaxProducts')->with('products', $products)->render()
         ]);
     }
 
 
-    public function getsender(Request $request){
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Throwable
+     */
+    public function getsender(Request $request)
+    {
         //dd($request->all());
-        $users =User::where('id','!=',$request->id)->get();
+        $users = User::where('id', '!=', $request->id)->get();
         return response()->json([
-            'status'=>true,
-            'data'=>view('distributor.transactions.getAjaxSenders')->with('users',$users)->render()
+            'status' => true,
+            'data' => view('distributor.transactions.getAjaxSenders')->with('users', $users)->render()
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Throwable
+     */
+    public function getDistributorStores(Request $request)
+    {
+        //dd($request->all());
+        $stores = Store::where('distributor_id', '!=', $request->user_id)->get();
+        return response()->json([
+            'status' => true,
+            'data' => view('distributor.storeTransferRequest.getAjaxProducts',
+                [
+                    'products' => $stores
+                ]
+            )->render()
         ]);
     }
 }
