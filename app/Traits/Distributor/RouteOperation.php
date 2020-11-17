@@ -68,7 +68,10 @@ trait RouteOperation
             foreach ($request->products as $item)
             {
                 $product = Product::find($item['product_id']);
-                $trip->products()->create(['quantity'=> $item['quantity'],'price'=>$product->price]);
+                
+                $trip->products()->create([
+                 'quantity'=> $item['quantity'],
+                 'price'=>$product->price]);
                 $trip->update(['cash'=>$request->cash]);
             }
 

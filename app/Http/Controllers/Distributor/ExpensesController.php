@@ -75,8 +75,8 @@ class ExpensesController extends Controller
         if ($request->hasFile('reader_image')&& $request->reader_image !=null) {
             $inputs['reader_image'] = saveImage($request->reader_image, 'photos');
         }
-
-        Expense::create($inputs);
+        $inputs['sanad_No']=mt_rand(1000000, 9999999);
+       Expense::create($inputs);
         toast('تم الإضافة بنجاح','success','top-right');
         return redirect()->route('distributor.expenses.index');
     }
@@ -104,7 +104,8 @@ class ExpensesController extends Controller
         $expenditure_clauses=ExpenditureClause::pluck('name','id');
         $expenditure_types=ExpenditureType::pluck('name','id');
         $users=User::pluck('name','id');
-        return $this->toEdit(compact('expense','users','expenditure_types','expenditure_clauses'));
+        $readers=Reader::pluck('name','id');
+        return $this->toEdit(compact('expense','users','expenditure_types','expenditure_clauses','readers'));
 
 
     }

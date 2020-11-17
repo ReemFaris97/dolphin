@@ -5,7 +5,11 @@ namespace App\Http\Controllers\Distributor;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\DistributorRoute;
 use App\Traits\Viewable;
+use App\Models\User;
+use App\User as AppUser;
+use Illuminate\Foundation\Auth\User as AuthUser;
 
 class ClientsController extends Controller
 {
@@ -29,7 +33,9 @@ class ClientsController extends Controller
      */
     public function create()
     {
-        return $this->toCreate();
+        $distributors=AppUser::whereIsDistributor(1)->pluck('name','id')->toArray();
+        $routes=DistributorRoute::pluck('name','id')->toArray();
+        return $this->toCreate(compact('distributors','routes'));
     }
 
     /**
@@ -86,7 +92,9 @@ class ClientsController extends Controller
     public function edit($id)
     {
         $user = Client::findOrFail($id);
-        return $this->toEdit(compact('user'));
+        $distributors=AppUser::whereIsDistributor(1)->pluck('name','id')->toArray();
+        $routes=DistributorRoute::pluck('name','id')->toArray();
+        return $this->toEdit(compact('user','distributors','routes'));
     }
 
     /**
