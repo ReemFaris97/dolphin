@@ -11,6 +11,8 @@
         <th> اسم العميل </th>
         <th>تاريخ الفاتوره </th>
         <th>إسم المندوب</th>
+        <th> قيمة الفاتورة</th>
+        <th> حالة  الفاتورة</th>
         <th>الاعدادت</th>
     </tr>
     </thead>
@@ -18,15 +20,26 @@
     @foreach($bills as $row)
         <tr>
             <td>{!!$loop->iteration!!}</td>
-            <td>{!! $row->id!!}</td>
-            <td>{!! $row->trip->client->name !!}</td>
+            <td>000{!! $row->id!!}</td>
+            <td>{!!$row->trip->client->name  !!}</td>
             <td>{!! $row->created_at !!}</td>
             <td>{!! $row->trip->route->user->name !!}</td>
+            <td>{!!$row->trip->cash  !!}</td>
             <td>
-{{--                <a href={!!route('distributor.transactions.show',$row->id)!!}" class="btn btn-warning"> <i class="fas fa-book"></i> تفاصيل</a>--}}
-                <a href="{!!route('distributor.cars.edit',$row->id)!!}" class="btn btn-primary"> <i class="fas fa-pen"></i> تعديل</a>
+                @if($row->type=='accept')
+              <label class="btn btn-success"> تم القبول</label>
+                    @else
+                    <label class="btn btn-danger"> تم الرفض</label>
+
+                @endif
+
+            </td>
+            <td>
+               <a href={!!route('distributor.bills.show',$row->id)!!}" class="btn btn-warning"> <i class="fas fa-book"></i> تفاصيل</a>
+                <a href="{!!route('distributor.bills.edit',$row->id)!!}" class="btn btn-primary"> <i class="fas fa-pen"></i> تعديل</a>
                 <a href="#"  onclick="Delete({{$row->id}})"  data-original-title="حذف" class="btn btn-danger btn-circle"><i  class="fa fa-trash"></i> حذف</a>
-                {!!Form::open( ['route' => ['distributor.cars.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
+                {!!Form::open( ['route' => ['distributor.bills.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
+
                 {!!Form::close() !!}
             </td>
         </tr>
