@@ -62,7 +62,7 @@
                         <tr>
                             <td>البريد الالكترونى</td>
                             <td>{{$user->email}}</td>
-                        </tr>
+                        </tr> 
                         <tr>
                             <td>الوظيفه</td>
                             <td>{{$user->job}}</td>

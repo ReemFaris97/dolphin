@@ -25,7 +25,7 @@
                                 <i class="la la-gear"></i>
                             </span>
                                 <h3 class="m-portlet__head-text">
-                                    اضافه كمية منتج {{$product->id}}
+                                    اضافه كمية منتج {{$product->name}}
                                 </h3>
                             </div>
                         </div>

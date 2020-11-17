@@ -115,7 +115,19 @@ class ExpenditureTypesController extends Controller
         $expenditureType->delete();
             toast('تم الحذف بنجاح', 'success','top-right');
             return back();
+    }
 
-
+    public function changeStatus($id)
+    {
+        $item=ExpenditureType::find($id);
+        if ($item->is_active == 1) {
+            $item->update(['is_active'=>0]);
+            toast('تم إلغاء التفعيل بنجاح','success','top-right');
+            return redirect()->route('distributor.expenditureTypes.index');
+        } else {
+            $item->update(['is_active'=>1]);
+            toast('تم  التفعيل بنجاح','success','top-right');
+            return redirect()->route('distributor.expenditureTypes.index');
+        }
     }
 }
