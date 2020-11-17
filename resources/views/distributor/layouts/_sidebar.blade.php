@@ -573,6 +573,37 @@ aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
 {{--                    </i><span class="m-menu__link-text">البحث عن مهمه</span></a></li>--}}
 
 
+
+    {{--            ***********************************************************************************************************--}}
+
+    <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
+    aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
+                                                          class="m-menu__link m-menu__toggle"><span
+            class="m-menu__item-here"></span><i
+            class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text">الفواتير </span><i
+            class="m-menu__ver-arrow la la-angle-right"></i></a>
+
+
+    <div class="m-menu__submenu "><span class="m-menu__arrow"></span>
+        <ul class="m-menu__subnav">
+
+            <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true"><span
+                    class="m-menu__link"><span class="m-menu__item-here"></span><span
+                        class="m-menu__link-text">كل الفواتير</span></span></li>
+            {{--                            @if(auth()->user()->hasPermissionTo('view_workers'))--}}
+            <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
+                    href="{!! route('distributor.bills.index') !!}" class="m-menu__link "><i
+                        class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
+                        class="m-menu__link-text">كل الفواتير</span></a></li>
+            {{--                            @endif--}}
+
+        </ul>
+    </div>
+</li>
+
+
+
+
         </ul>
     </div>
 
