@@ -30,7 +30,7 @@
             <td>{!! optional($row->reader)->name!!}</td>
 
             <td>{!!$row->reader_number!!}</td>
-            <td><img src="{!!asset(optional($row->reader)->image)!!}" height="100" width="100"/></td>
+            <td><img src="{!!asset($row->reader_image)!!}" height="100" width="100"/></td>
             <td><img src="{!!asset($row->image)!!}" height="100" width="100"/></td>
 
             <td>
