@@ -7,13 +7,15 @@
     <thead>
     <tr>
         <th>#</th>
+        <th>الكود</th>
         <th>الاسم</th>
         <th>الهاتف</th>
         <th>البريد الالكترونى</th>
         <th>إسم المتجر</th>
+        <th>إسم المندوب</th>
+        <th>إسم المسار</th>
         <th> الحالة</th>
         <th> صورة العميل</th>
-
         <th>الاعدادت</th>
     </tr>
     </thead>
@@ -21,10 +23,13 @@
     @foreach($clients as $user)
         <tr>
             <td>{!!$loop->iteration!!}</td>
+              <td>{!!$user->code!!}</td>
             <td>{!!$user->name!!}</td>
             <td>{!!$user->phone!!}</td>
             <td>{!!$user->email!!}</td>
             <td>{!!$user->store_name !!}</td>
+            <td>{!!$user->user->name!!}</td>
+            <td>{!!$user->route->name!!}</td>
 
 
             <td>

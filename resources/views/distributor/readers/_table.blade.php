@@ -9,7 +9,7 @@
         <th>#</th>
 
         <th>اسم  العداد</th>
-        <th>صورة  العداد</th>
+        {{--  <th>صورة  العداد</th>  --}}
         <th>الاعدادت</th>
     </tr>
     </thead>
@@ -19,7 +19,7 @@
             <td>{!!$loop->iteration!!}</td>
 
             <td>{!!$row->name!!}</td>
-            <td><img src="{!!asset($row->image)!!}" height="100" width="100"/></td>
+            {{--  <td><img src="{!!asset($row->image)!!}" height="100" width="100"/></td>  --}}
 
             <td>
                 <a href="{!!route('distributor.readers.edit',$row->id)!!}" class="btn btn-primary"> <i class="fas fa-pen"></i> تعديل</a>

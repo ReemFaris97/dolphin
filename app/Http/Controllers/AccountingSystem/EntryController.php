@@ -28,6 +28,7 @@ class EntryController extends Controller
     public function index()
     {
         $entries =AccountingEntry::all()->reverse();
+        
         return $this->toIndex(compact('entries'));
     }
 
