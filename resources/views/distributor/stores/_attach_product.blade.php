@@ -1,11 +1,25 @@
 <div class="form-group m-form__group">
     <label>إختار المنتج والكمية </label>
-    {!! Form::select('product_id',$products??[],null,['id'=>'product_id','class'=>'form-control m-input select2','placeholder'=>'اختر المنتج']) !!}
+
+    <select name="product_id" class="form-control m-input select2" id="product_id">
+        <option disabled selected value="">اختر المنتج</option>
+        @foreach($products as $product)
+            <option value="{{$product->id}}" data-unit="{{$product->quantity_per_unit}}"
+                    @if($product->id == (old("product_id")))
+                    selected
+                @endif
+            > {{$product->name}}</option>
+        @endforeach
+    </select>
 </div>
 
 <div class="form-group m-form__group">
-    <label>كمية المنتج</label>
-    {!! Form::number('quantity',null,['class'=>'form-control m-input','id'=>'product_quantity'])!!}
+    <label>كمية المنتج بالعلبة</label>
+    {!! Form::number('package',null,['class'=>'form-control m-input','id'=>'product_package'])!!}
+</div>
+<div class="form-group m-form__group">
+    <label>كمية المنتج بالحبة</label>
+    {!! Form::number('unit',null,['class'=>'form-control m-input','id'=>'product_unit'])!!}
 </div>
 
 <div class="form-group m-form__group">
@@ -17,11 +31,32 @@
         <thead>
         <tr>
             <th>المنتج</th>
-            <th>الكمية</th>
+            <th>عدد الحبات</th>
+            <th>عدد العلب</th>
+            <th>عدد الحبات لكل علبة</th>
+            <th>الاجمالى</th>
             <th>حذف</th>
         </tr>
         </thead>
         <tbody id="tableBody">
+        @foreach(old('products')??[] as $key=>$old_product)
+            <tr>
+                <td> {{$old_product['product_name'] }}</td>
+                <td> {{$old_product['units']}}</td>
+                <td> {{$old_product['packages']}}</td>
+                <td> {{$old_product['unit_per_package']}}</td>
+                <td> {{$old_product['quantity']}}</td>
+                <td>
+                    <button onClick="$(this).closest('tr').remove();" class="removeRow btn btn-danger">حذف</button>
+                </td>
+                <input type="hidden" name="products[{{$key}}][product_id]" value="{{$old_product['product_id']}}">
+                <input type="hidden" name="products[{{$key}}][quantity]" value="{{$old_product['quantity']}}">
+                <input type="hidden" name="products[{{$key}}][package]" value="{{$old_product['package']}}">
+                <input type="hidden" name="products[{{$key}}][units]" value="{{$old_product['units']}}">
+                <input type="hidden" name="products[{{$key}}][unit_per_package]"
+                       value="{{$old_product['unit_per_package']}}">
+            </tr>'
+        @endforeach
         </tbody>
 
     </table>
@@ -31,24 +66,35 @@
         $('#add-product').on('click', function () {
             debugger
             var product_id = $('#product_id').val();
-            var product_name = $('#product_id').selected().text();
-
-            var quantity = $('#product_quantity').val();
-            debugger;
+            var selected_product = $('#product_id').find('option:selected');
+            var product_name = selected_product.text();
+            var product_unit_per_package = parseFloat(selected_product.data('unit'));
+            var quantity = parseFloat($('#product_unit').val()) +
+                (parseFloat($('#product_package').val()) * product_unit_per_package);
             if (product_id == "") {
                 alert('برجاء إختيار منتج قبل إضافته');
-            } else if (quantity == '') {
+            } else if (quantity === 0) {
                 alert("برجاء اختيار الكمية قبل إضافة المنتج");
             } else {
+                var key = $('#tableBody').children().length
+
                 $('#tableBody').append('' +
                     '<tr>\n' +
                     '<td>' + product_name + '</td>\n' +
+                    '<td>' + $('#product_unit').val() + '</td>\n' +
+                    '<td>' + $('#product_package').val() + '</td>\n' +
+                    '<td>' + product_unit_per_package + '</td>\n' +
                     '<td>' + quantity + '</td>\n' +
                     '<td><button onClick="$(this).closest(\'tr\').remove();" class="removeRow btn btn-danger">حذف</button></td>\n' +
-                    '<input type="hidden" name="product_id[]" value="' + product_id + '">' +
-                    '<input type="hidden" name="quantity[]" value="' + quantity + '">' +
+                    '<input type="hidden" name="products[' + key + '][product_id]" value="' + product_id + '">' +
+                    '<input type="hidden" name="products[' + key + '][quantity]" value="' + quantity + '">' +
+                    '<input type="hidden" name="products[' + key + '][packages]" value="' + $('#product_package').val() + '">' +
+                    '<input type="hidden" name="products[' + key + '][units]" value="' + $('#product_unit').val() + '">' +
+                    '<input type="hidden" name="products[' + key + '][unit_per_package]" value="' + product_unit_per_package + '">' +
+                    '<input type="hidden" name="products[' + key + '][product_name]" value="' + product_name + '">' +
                     '</tr>');
                 $('#product_quantity').val("");
+
             }
         });
 

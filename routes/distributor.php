@@ -12,7 +12,15 @@ Route::middleware('distributor')->group(function () {
 
     Route::resource('/store_categories', 'StoreCategoriesController');
     Route::patch('store_categories/block/{store_categories}', 'StoreCategoriesController@block')->name('store_categories.block');
-    Route::get('stores/{store_id}/product/add', 'StoresController@addProduct')->name('stores.addProduct');
+    Route::get('stores/{store_id}/product/add', 'StoresController@addProductForm')->name('stores.addProduct');
+    Route::post('stores/{store_id}/product/add', 'StoresController@addProduct');
+
+    Route::get('stores/products/move', 'StoresController@moveProductForm')->name('stores.moveProduct');
+    Route::post('stores/products/move', 'StoresController@moveProduct');
+
+    Route::get('stores/products/damage', 'StoresController@damageProductForm')->name('stores.damageProduct');
+    Route::post('stores/products/damage', 'StoresController@damageProduct');
+
     Route::resource('/stores', 'StoresController');
     Route::patch('stores/change-status/{store}', 'StoresController@changeStatus')->name('stores.changeStatus');
 

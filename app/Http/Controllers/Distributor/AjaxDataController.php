@@ -71,5 +71,22 @@ class AjaxDataController extends Controller
                 ]
             )->render()
         ]);
+    } /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Throwable
+     */
+    public function getStoresProduct(Request $request)
+    {
+        //dd($request->all());
+        $stores = Store::where('distributor_id', '!=', $request->user_id)->get();
+        return response()->json([
+            'status' => true,
+            'data' => view('distributor.storeTransferRequest.getAjaxProducts',
+                [
+                    'products' => $stores
+                ]
+            )->render()
+        ]);
     }
 }

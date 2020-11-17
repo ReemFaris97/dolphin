@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Distributor;
 
 use App\Models\Product;
+use App\Models\ProductQuantity;
 use App\Models\Store;
 use App\Models\StoreCategory;
 use App\User;
@@ -151,14 +152,121 @@ class StoresController extends Controller
         }
     }
 
-    public function addProduct($store_id)
+    public function addProductForm($store_id)
     {
+        $store = Store::query()->find($store_id);
+
         return view('distributor.stores.addProducts',
             [
                 'users' => User::query()->distributor()->pluck('name', 'id'),
-                'store' => Store::query()->find($store_id),
-                'products' => Product::query()->pluck('name', 'id'),
+                'store' => $store,
+                'products' => Product::query()->get(['name', 'id', 'quantity_per_unit']),
+                'user_stores' => Store::where('distributor_id', $store->distributor_id)->pluck('name', 'id')
             ]);
+
+    }
+
+    public function addProduct(Request $request, $store_id)
+    {
+        $this->validate($request, [
+            "user_id" => 'required|integer|exists:users,id',
+            "store_id" => 'required|integer|exists:stores,id',
+            "products.*.product_id" => "required|integer|exists:products,id",
+            "products.*.quantity" => 'required|integer',
+        ]);
+        $data = [
+            'user_id' => $request->user_id,
+            'type' => 'in',
+            'store_id' => $request->store_id
+        ];
+        foreach ($request->products ?? [] as $product) {
+
+            ProductQuantity::create($data + [
+                    'product_id' => $product['product_id'],
+                    'quantity' => $product['quantity'],
+                ]);
+        }
+        toast('تم  الاضافه بنجاح', 'success', 'top-right');
+
+        return redirect()->route('distributor.stores.index');
+
+    }
+
+    public function moveProductForm()
+    {
+
+        return view('distributor.stores.MoveProducts',
+            [
+                'users' => User::query()->available()->distributor()->pluck('name', 'id')
+            ]);
+
+    }
+
+    public function moveProduct(Request $request, $store_id)
+    {
+        dd($request->all());
+        /*    $this->validate($request, [
+                "user_id" => 'required|integer|exists:users,id',
+                "store_id" => 'required|integer|exists:stores,id',
+                "products.*.product_id" => "required|integer|exists:products,id",
+                "products.*.quantity" => 'required|integer',
+            ]);
+            $data = [
+                'user_id' => $request->user_id,
+                'type' => 'in',
+                'store_id' => $request->store_id
+            ];
+            foreach ($request->products ?? [] as $product) {
+
+                ProductQuantity::create($data + [
+                        'product_id' => $product['product_id'],
+                        'quantity' => $product['quantity'],
+                    ]);
+            }
+            toast('تم  الاضافه بنجاح', 'success', 'top-right');
+
+            return redirect()->route('distributor.stores.index');*/
+
+    }
+
+    public function damageProductForm($store_id)
+    {
+        $store = Store::query()->find($store_id);
+
+        return view('distributor.stores.addProducts',
+            [
+                'users' => User::query()->distributor()->pluck('name', 'id'),
+                'store' => $store,
+                'products' => Product::query()->get(['name', 'id', 'quantity_per_unit']),
+                'user_stores' => Store::where('distributor_id', $store->distributor_id)->pluck('name', 'id')
+            ]);
+
+    }
+
+    public function damageProduct(Request $request, $store_id)
+    {
+        dd($request->all());
+        /*    $this->validate($request, [
+                "user_id" => 'required|integer|exists:users,id',
+                "store_id" => 'required|integer|exists:stores,id',
+                "products.*.product_id" => "required|integer|exists:products,id",
+                "products.*.quantity" => 'required|integer',
+            ]);
+            $data = [
+                'user_id' => $request->user_id,
+                'type' => 'in',
+                'store_id' => $request->store_id
+            ];
+            foreach ($request->products ?? [] as $product) {
+
+                ProductQuantity::create($data + [
+                        'product_id' => $product['product_id'],
+                        'quantity' => $product['quantity'],
+                    ]);
+            }
+            toast('تم  الاضافه بنجاح', 'success', 'top-right');
+
+            return redirect()->route('distributor.stores.index');*/
 
     }
 }

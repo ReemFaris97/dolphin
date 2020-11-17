@@ -18,6 +18,11 @@ class Store extends Model
         return $this->hasMany(Product::class);
     }
 
+    public function productsQuantity()
+    {
+        return $this->hasMany(Product::class);
+    }
+
     public function distributor()
     {
         return $this->belongsTo(User::class, 'distributor_id')
