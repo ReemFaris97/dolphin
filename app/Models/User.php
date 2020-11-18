@@ -23,6 +23,7 @@ use App\Models\TaskUser;
 use App\Traits\ApiResponses;
 use App\Traits\HashPassword;
 use Illuminate\Contracts\Notifications\Dispatcher;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -172,6 +173,16 @@ class User extends Authenticatable implements JWTSubject
     public function isBlocked()
     {
         return $this->blocked_at !== null;
+    }
+
+    public function ScopeAvailable(Builder $builder): void
+    {
+        $builder->whereNull('blocked_at');
+    }
+
+    public function ScopeDistributor(Builder $builder): void
+    {
+        $builder->where('is_distributor', 1);
     }
 
 
