@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddTypeToAccountingAnotherAccountsTable extends Migration
+class AddStoresToStoreTrannsferRequestTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class AddTypeToAccountingAnotherAccountsTable extends Migration
      */
     public function up()
     {
-        Schema::table('accounting_accounts', function (Blueprint $table) {
-            $table->enum('type',['new','exist'])->nullable();
-
+        Schema::table('store_trannsfer_request', function (Blueprint $table) {
+            //
         });
     }
 
@@ -26,7 +25,7 @@ class AddTypeToAccountingAnotherAccountsTable extends Migration
      */
     public function down()
     {
-        Schema::table('accounting_accounts', function (Blueprint $table) {
+        Schema::table('store_trannsfer_request', function (Blueprint $table) {
             //
         });
     }
