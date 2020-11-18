@@ -123,4 +123,18 @@ class ReaderController extends Controller
         toast('تم حذف العداد بنجاح','success','top-right');
         return redirect()->route('distributor.readers.index');
     }
+
+    public function changeStatus($id)
+    {
+        $item=Reader::find($id);
+        if ($item->is_active == 1) {
+            $item->update(['is_active'=>0]);
+            toast('تم إلغاء التفعيل بنجاح','success','top-right');
+            return redirect()->route('distributor.readers.index');
+        } else {
+            $item->update(['is_active'=>1]);
+            toast('تم  التفعيل بنجاح','success','top-right');
+            return redirect()->route('distributor.readers.index');
+        }
+    }
 }
