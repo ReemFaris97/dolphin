@@ -39,7 +39,7 @@ class StoreController extends Controller
     }
 
     public function AcceptTransferRequest($id){
-        $store = StoreTransferRequest::find($id);
+        $store = StoreTransferRequest::query()->find($id);
         if (!$store) return $this->notFoundResponse();
         $store->confirmRequest();
         return $this->apiResponse('تم تأكيد الطلب بنجاح');
