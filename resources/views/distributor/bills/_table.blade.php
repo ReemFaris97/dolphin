@@ -26,11 +26,11 @@
             <td>{!! $row->trip->route->user->name !!}</td>
             <td>{!!$row->trip->cash  !!}</td>
             <td>
+                
                 @if($row->type=='accept')
               <label class="btn btn-success"> تم القبول</label>
                     @else
                     <label class="btn btn-danger"> تم الرفض</label>
-
                 @endif
 
             </td>

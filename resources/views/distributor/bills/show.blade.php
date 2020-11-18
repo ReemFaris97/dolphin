@@ -5,7 +5,7 @@
 @section('header')
 @endsection
 
-@section('breadcrumb') @php($breadcrumbs=['عرض الفاتورة'=>'/distributor',$bill->id =>'#'])
+@section('breadcrumb') @php($breadcrumbs=['عرض الفاتورة'=>'/distributor',$bill->id])
 @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
 
@@ -69,6 +69,16 @@
                                   @endif
                             </td>
                         </tr>
+                        @if($bill->type=='accept')
+                        <tr>
+                            <td> سبب الرفض</td>
+                            <td>
+
+
+                            </td>
+                        </tr>
+                        @endif
+
                         <tr>
                         <td>صور الزيارة</td>
                         <td>
@@ -77,23 +87,49 @@
                             @endforeach()
                         </td>
                         </tr>
-                        {{-- <tr>
-                            <td> الاصناف</td>
 
-
-                                @foreach($bill->products as $key => $product)
-                                <td> {{ $product->product->name  }}</td>
-                                @endforeach()
-
-                            </tr> --}}
 
                         </tbody>
                     </table>
 
 
+                    <table class="table  dataTable table-responsive-sm table-bordered  table-hover ">
+                        <thead>
+                            <tr>
+                            <th>اسم الصنف </th>
+                            <th>   الكمية بالحبة</th>
+                            <th>   الكمية بالعلبة</th>
 
+                            <th> السعر</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                @foreach($bill->products as $value)
 
+                                <td>{{ $value->product->name }}</td>
+                                <td>{{ $value->quantity }}</td>
+                                <td>{{ $value->quantity /$value->product->quantity_per_unit }}</td>
+                                <td>{{ $value->price }}</td>
+                                @endforeach
+                            </tr>
+                        <tbody>
+                            <tfoot>
+                                <tr>
+                                <td>اجمالى عدد  الاصناف: </td>
+                                <td>{{ $bill->products->count() }}</td>
+                                </tr>
+                                <tr>
+                                    <td>اجمالى الفاتوره  : </td>
+                                    <td>{{ $bill->cash}}</td>
+                                </tr>
+                                <tr>
+                                    <td>اجمالى الموجود  : </td>
+                                    <td>{{ $bill->products->sum('price')}}</td>
+                                 </tr>
 
+                            </tfoot>
+                    </table>
 
         </div>
     </div>

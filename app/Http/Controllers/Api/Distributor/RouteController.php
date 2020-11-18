@@ -53,7 +53,6 @@ class RouteController extends Controller
     {
         $request['type'] = $type;
         $request['products'] = json_decode($request->products,TRUE);
-
         $rules = [
             "trip_id" => "required|required|integer|exists:route_trips,id",
             "type" => "required|in:refuse,accept",
