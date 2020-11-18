@@ -18,11 +18,16 @@ class Store extends Model
         return $this->hasMany(Product::class);
     }
 
-    public function productsQuantity()
+    public function ProductQuantity()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(ProductQuantity::class);
     }
 
+    public  function totalQuantities()
+    {
+     return  $this->ProductQuantity()->totalQuantity();
+    }
+    
     public function distributor()
     {
         return $this->belongsTo(User::class, 'distributor_id')
@@ -39,5 +44,6 @@ class Store extends Model
     {
         $builder->where('is_active', 1);
     }
-}
 
+
+}

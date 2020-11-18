@@ -14,8 +14,9 @@ class AddStoreTransferRequestIdToProductQuantitiesTable extends Migration
     public function up()
     {
         Schema::table('product_quantities', function (Blueprint $table) {
-            //
+            $table->unsignedBigInteger('store_transfer_request_id')->nullable()->index();
         });
+        DB::statement("ALTER TABLE `product_quantities` CHANGE `type` `type` ENUM('in','out','damaged') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'in';");
     }
 
     /**
@@ -26,7 +27,10 @@ class AddStoreTransferRequestIdToProductQuantitiesTable extends Migration
     public function down()
     {
         Schema::table('product_quantities', function (Blueprint $table) {
-            //
+            $table->dropIndex(['store_transfer_request_id']);
+            $table->dropColumn('store_transfer_request_id');
         });
+        DB::statement("ALTER TABLE `product_quantities` CHANGE `type` `type` ENUM('in','out') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'in';");
+
     }
 }

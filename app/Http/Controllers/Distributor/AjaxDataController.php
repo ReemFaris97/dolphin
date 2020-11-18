@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Store;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\ProductQuantity;
 use App\User;
 
 class AjaxDataController extends Controller
@@ -76,15 +77,15 @@ class AjaxDataController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @throws \Throwable
      */
-    public function getStoresProduct(Request $request)
+    public function getStoreProducts(Request $request)
     {
-        //dd($request->all());
-        $stores = Store::where('distributor_id', '!=', $request->user_id)->get();
+
         return response()->json([
             'status' => true,
-            'data' => view('distributor.storeTransferRequest.getAjaxProducts',
+            'data' => view(
+                'distributor.stores.getAjaxStoreProducts',
                 [
-                    'products' => $stores
+                    'quantities' => ProductQuantity::with('product')->where('store_id', $request->store_id)->TotalQuantity()->get()
                 ]
             )->render()
         ]);

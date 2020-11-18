@@ -24,6 +24,14 @@
                         <a class="btn btn-warning"
                            href="{{route('distributor.stores.addProduct',$store->id)}}">انتاج</a>
                     </li>
+                    <li class="m-portlet__nav-item">
+                        <a class="btn btn-warning"
+                           href="{{route('distributor.stores.moveProduct')}}">نقل</a>
+                    </li>
+                    <li class="m-portlet__nav-item">
+                        <a class="btn btn-warning"
+                           href="{{route('distributor.stores.damageProduct',$store->id)}}">اتلاف</a>
+                    </li>
 
                 </ul>
             </div>
