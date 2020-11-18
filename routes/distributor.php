@@ -12,7 +12,15 @@ Route::middleware('distributor')->group(function () {
 
     Route::resource('/store_categories', 'StoreCategoriesController');
     Route::patch('store_categories/block/{store_categories}', 'StoreCategoriesController@block')->name('store_categories.block');
-    Route::get('stores/{store_id}/product/add', 'StoresController@addProduct')->name('stores.addProduct');
+    Route::get('stores/product/add/{store_id?}', 'StoresController@addProductForm')->name('stores.addProduct');
+    Route::post('stores/product/add/{store_id?}', 'StoresController@addProduct');
+
+    Route::get('stores/products/move', 'StoresController@moveProductForm')->name('stores.moveProduct');
+    Route::post('stores/products/move', 'StoresController@moveProduct');
+
+    Route::get('stores/products/damage/{store_id?}', 'StoresController@damageProductForm')->name('stores.damageProduct');
+    Route::post('stores/products/damage/{store_id?}', 'StoresController@damageProduct');
+
     Route::resource('/stores', 'StoresController');
     Route::patch('stores/change-status/{store}', 'StoresController@changeStatus')->name('stores.changeStatus');
 
@@ -36,6 +44,9 @@ Route::middleware('distributor')->group(function () {
 
 
     Route::resource('/readers', 'ReaderController');
+    Route::patch('readers/change-status/{reader}', 'ReaderController@changeStatus')->name('readers.changeStatus');
+
+
     Route::resource('/expenditureClauses', 'ExpenditureClausesController');
 
     Route::resource('/expenditureTypes', 'ExpenditureTypesController');
@@ -49,6 +60,7 @@ Route::middleware('distributor')->group(function () {
     Route::get('/map', 'TripsController@trips')->name('trips.map');
     Route::post('/get/ajax/stores', 'AjaxDataController@getAllStoresById')->name('getAjaxStores');
     Route::post('/get/ajax/products', 'AjaxDataController@getAllProducts')->name('getAjaxProducts');
+    Route::get('/get/ajax/store/products', 'AjaxDataController@getStoreProducts')->name('getAjaxstoreProducts');
 
     Route::post('/get/ajax/sender', 'AjaxDataController@getsender')->name('getAjaxSender');
     Route::get('/get/ajax/distributor/stores', 'AjaxDataController@getDistributorStores')->name('getDistributorStores');

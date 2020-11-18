@@ -25,30 +25,30 @@
                                 <i class="la la-gear"></i>
                             </span>
                                 <h3 class="m-portlet__head-text">
-                                    نقل مخزون من مندوب لآخر
-                                </h3>
+                                    اضافه انتاج </h3>
                             </div>
                         </div>
                     </div>
 
                     <!--begin::Form-->
 
-                    {!! Form::open(['method'=>'post','route'=>'distributor.storeTransfer.store','files'=>'true','class'=>'clearfix m-form m-form--fit m-form--label-align-right'])!!}
+                    {!! Form::open(['method'=>'post','class'=>'clearfix m-form m-form--fit m-form--label-align-right'])!!}
 
                     <div class="m-portlet__body a-smaller-input-wrapper">
                         <div id="userPanel" {{--style="display: none;"--}} class="form-group m-form_group ">
                             <label>المندوب</label>
-
-                            {!! Form::select('user_id',$users,null,['id'=>'userSelect','class'=>'form-control m-input select2','placeholder'=>'اختر المندوب']) !!}
+                            {!! Form::select('user_id',$users,old('user_id')??$store->distributor_id??null,['id'=>'userSelect','class'=>'form-control m-input select2','placeholder'=>'اختر المندوب']) !!}
 
                         </div>
 
-                        <div id="userPanel" {{--style="display: none;"--}} class="form-group m-form_group ">
+                        <div  {{--style="display: none;"--}} class="form-group m-form_group ">
                             <label>المخزن</label>
 
-                            {!! Form::select('store_id',$stores??[],null,['id'=>'userStores','class'=>'form-control m-input select2','placeholder'=>'اختر المخزن']) !!}
+                            {!! Form::select('store_id',$stores??$user_stores??[],old('store_id')??$store->id??null,['id'=>'userStores','class'=>'form-control m-input select2','placeholder'=>'اختر المخزن']) !!}
 
                         </div>
+
+
                         @include('distributor.stores._attach_product')
                         {{--
                                                 <div class="form-group m-form__group">
