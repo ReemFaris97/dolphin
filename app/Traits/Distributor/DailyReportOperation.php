@@ -40,7 +40,8 @@ trait DailyReportOperation
             foreach ($request->products as $item)
             {
                 $product = Product::find($item['product_id']);
-                $report->products()->create(['quantity'=> $item['quantity'],'price'=>$product->price]);
+                $report->products()->create(['quantity'=> $item['quantity'],
+                'price'=>$product->price]);
             }
             DB::commit();
 

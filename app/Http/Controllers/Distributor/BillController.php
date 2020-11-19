@@ -51,7 +51,9 @@ class BillController extends Controller
      */
     public function show($id)
     {
-        //
+        return $this->toShow([
+            'bill' => TripInventory::findOrFail($id)
+        ]);
     }
 
     /**
@@ -62,7 +64,8 @@ class BillController extends Controller
      */
     public function edit($id)
     {
-        //
+
+
     }
 
     /**

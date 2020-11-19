@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingAccount;
 use App\Models\AccountingSystem\AccountingAsset;
-use App\Models\AccountingSystem\AccountingCostCenter;
 use App\Models\AccountingSystem\AccountingCurrency;
 use App\Models\AccountingSystem\AccountingCustodyLog;
 use App\Models\AccountingSystem\AccountingEntry;
@@ -62,7 +61,7 @@ class CustodyController extends Controller
 
         ];
         $this->validate($request,$rules);
-        $requests = $request->all();
+        $requests=$request->all();
 
         AccountingAsset::create($requests);
         alert()->success('تم اضافة  الاصل بنجاح !')->autoclose(5000);

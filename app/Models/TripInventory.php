@@ -10,7 +10,7 @@ class TripInventory extends Model
 
     public function trip()
     {
-        return $this->belongsTo(RouteTrips::class,'trip_id');
+        return $this->belongsTo(RouteTrips::class,'trip_id')->withDefault();;
     }
 
     public function products()
