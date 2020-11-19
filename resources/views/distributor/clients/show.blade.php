@@ -15,7 +15,7 @@
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-title">
                     <h3 class="m-portlet__head-text">
-                  عرض بيانات العميل {!!$client->name!!}
+                  عرض بيانات العميل {!!$client->name!!}<
                     </h3>
                 </div>
             </div>

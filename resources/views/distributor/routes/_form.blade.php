@@ -6,8 +6,8 @@
 
 
     <div class="form-group m-form__group">
-        <label>اسم المستخدم</label>
-        {!! Form::select('user_id',$users,null,['class'=>'form-control m-input select2','placeholder'=>'ادخل اسم المستخدم'])!!}
+        <label>اسم المندوب</label>
+        {!! Form::select('user_id',$users,null,['class'=>'form-control m-input select2','placeholder'=>'ادخل اسم المندوب'])!!}
     </div>
 
     {{--<div class="form-group m-form__group">--}}

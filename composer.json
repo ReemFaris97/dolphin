@@ -25,6 +25,7 @@
         "spatie/laravel-activitylog": "^3.2",
         "spatie/laravel-backup": "^6.10",
         "spatie/laravel-permission": "^2.37",
+        "spatie/laravel-translatable": "^4.5",
         "staudenmeir/eloquent-has-many-deep": "^1.7",
         "staudenmeir/laravel-adjacency-list": "^1.0",
         "uxweb/sweet-alert": "^2.0"

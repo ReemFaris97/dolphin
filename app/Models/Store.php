@@ -6,12 +6,15 @@ use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Translatable\HasTranslations;
 
 class Store extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasTranslations;
 
-    protected $fillable = ['name', 'store_category_id', 'distributor_id', 'is_active', 'notes'];
+    public $translatable = ['name'];
+
+    protected $fillable = ['name', 'store_category_id', 'distributor_id', 'is_active', 'notes', 'for_distributor'];
 
     public function products()
     {
@@ -23,11 +26,11 @@ class Store extends Model
         return $this->hasMany(ProductQuantity::class);
     }
 
-    public  function totalQuantities()
+    public function totalQuantities()
     {
-     return  $this->ProductQuantity()->totalQuantity();
+        return $this->ProductQuantity()->totalQuantity();
     }
-    
+
     public function distributor()
     {
         return $this->belongsTo(User::class, 'distributor_id')

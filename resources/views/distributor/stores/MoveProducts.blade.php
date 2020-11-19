@@ -1,5 +1,5 @@
 @extends('distributor.layouts.app')
-@section('title') اضافه منتج جديد
+@section('title')نقل منتج من مستودع لاخر
 @endsection
 
 @section('header')

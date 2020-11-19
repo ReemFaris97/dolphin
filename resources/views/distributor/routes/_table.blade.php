@@ -21,7 +21,7 @@
 
             <td>{!!$row->name!!}</td>
             <td>{!!optional($row->user)->name!!}</td>
-            <td>{!!$row->is_active!!}</td>
+            <td>{!!$row->is_active?"مفعل":"غير مفعل"!!}</td>
             <td>
                 <a href="{!!route('distributor.routes.show',$row->id)!!}" class="btn btn-success"> <i
                         class="fas fa-eye"></i>مشاهدة</a>

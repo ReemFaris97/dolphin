@@ -123,4 +123,19 @@ class DistributorRoutesController extends Controller
         toast('تم حذف التحويل بنجاح', 'success', 'top-right');
         return redirect()->route('distributor.routes.index');
     }
+
+    public function updateArrange(Request $request)
+    {
+        $request->validate([
+            'routes.*.id' => 'required|integer|exists:distributor_routes,id',
+            'user_id' => 'required|integer|exists:users,id'
+        ]);
+        \DB::beginTransaction();
+        foreach ($request->routes as $index => $route) {
+            DistributorRoute::find($route['id'])->update(['arrange' => $index]);
+        }
+        \DB::commit();
+
+        return response()->noContent();
+    }
 }

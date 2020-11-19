@@ -34,23 +34,28 @@
     <div class="form-group m-form__group">
         <label> الهدف (التارجت) </label>
 
-        {!! Form::number('target',['class'=>'form-control   m-input','placeholder'=>'ادخل الهدف (التارجت) '])!!}
+        {!! Form::number('target',null,['class'=>'form-control   m-input','placeholder'=>'ادخل الهدف (التارجت) '])!!}
     </div>
 
     <div class="form-group m-form__group">
         <label> نسبه العموله </label>
 
-        {!! Form::number('affiliate',['class'=>'form-control   m-input','placeholder'=>'ادخل العموله '])!!}
+        {!! Form::number('affiliate',null,['class'=>'form-control   m-input','placeholder'=>'ادخل العموله '])!!}
+    </div>
+    <div class="form-group m-form__group">
+        <label> عملة تصفيف الرفوف </label>
+
+        {!! Form::number('ordering_coin',null,['class'=>'form-control   m-input','placeholder'=>'ادخل عملة تصفيف الرفوف '])!!}
     </div>
     <div class="form-group m-form__group">
         <label> العنوان </label>
 
-        {!! Form::number('address',['class'=>'form-control   m-input','placeholder'=>'ادخل العنوان '])!!}
+        {!! Form::text('address',null,['class'=>'form-control   m-input','placeholder'=>'ادخل العنوان '])!!}
     </div>
     <div class="form-group m-form__group">
         <label> الملاحظات </label>
 
-        {!! Form::number('notes',['class'=>'form-control   m-input','placeholder'=>'ادخل الملاحظات '])!!}
+        {!! Form::textarea('notes',null,['class'=>'form-control   m-input','placeholder'=>'ادخل الملاحظات '])!!}
     </div>
 
     <div class="form-group m-form__group">

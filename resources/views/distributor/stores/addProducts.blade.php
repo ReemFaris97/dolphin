@@ -5,10 +5,6 @@
 @section('header')
 @endsection
 
-@section('breadcrumb') @php($breadcrumbs=['الاصناف'=>route('distributor.storeTransfer.index'),'اضافه'=>route('distributor.storeTransfer.create')])
-@includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
-@endsection
-
 @section('content')
 
 
@@ -25,7 +21,8 @@
                                 <i class="la la-gear"></i>
                             </span>
                                 <h3 class="m-portlet__head-text">
-                                    اضافه انتاج </h3>
+                                    نقل مخزون من مندوب لآخر
+                                </h3>
                             </div>
                         </div>
                     </div>
@@ -35,51 +32,41 @@
                     {!! Form::open(['method'=>'post','class'=>'clearfix m-form m-form--fit m-form--label-align-right'])!!}
 
                     <div class="m-portlet__body a-smaller-input-wrapper">
-                        <div id="userPanel" {{--style="display: none;"--}} class="form-group m-form_group ">
-                            <label>المندوب</label>
-                            {!! Form::select('user_id',$users,old('user_id')??$store->distributor_id??null,['id'=>'userSelect','class'=>'form-control m-input select2','placeholder'=>'اختر المندوب']) !!}
+
+
+
+                        <div class="form-group m-form_group ">
+                            <label>من المخزن </label>
+
+                            {!!
+                            Form::select('from[store_id]',$from_stores,old('from[store_id]')??$store->id??null,['class'=>'form-control
+                            m-input select2','placeholder'=>'اختر المخزن المنقوله منه',
+                            'onChange'=>'getStoreProducts(this.value)'
+                            ]) !!}
 
                         </div>
 
-                        <div  {{--style="display: none;"--}} class="form-group m-form_group ">
-                            <label>المخزن</label>
 
-                            {!! Form::select('store_id',$stores??$user_stores??[],old('store_id')??$store->id??null,['id'=>'userStores','class'=>'form-control m-input select2','placeholder'=>'اختر المخزن']) !!}
+                        <div class="form-group m-form_group ">
+                            <label> الى المندوب</label>
+                            {!!
+                            Form::select('to[user_id]',$users,old('to[user_id]')??$store->distributor_id??null,['class'=>'form-control
+                            m-input select2','placeholder'=>'اختر
+                            المندوب','onChange'=>"getUserStore('select[name=\"to[store_id]\"]', this.value)"]) !!}
 
                         </div>
 
+                        <div class="form-group m-form_group ">
+                            <label>الى المخزن </label>
 
-                        @include('distributor.stores._attach_product')
-                        {{--
-                                                <div class="form-group m-form__group">
-                                                    <label>إختار المنتج والكمية </label>
-                                                    {!! Form::select('product_id',$products??[],null,['id'=>'product_id','class'=>'form-control m-input select2','placeholder'=>'اختر المنتج']) !!}
-                                                </div>
+                            {!!
+                            Form::select('to[store_id]',[],old('to[store_id]')??$store->id??null,['class'=>'form-control
+                            m-input select2','placeholder'=>'اختر المخزن']) !!}
 
-                                                <div class="form-group m-form__group">
-                                                    <label>كمية المنتج</label>
-                                                    {!! Form::number('quantity',null,['class'=>'form-control m-input','id'=>'product_quantity'])!!}
-                                                </div>
+                        </div>
 
-                                                <div class="form-group m-form__group">
-                                                    <button id="addProduct" type="button" class="btn btn-primary">إضافة المنتج</button>
-                                                </div>
-
-                                                <div class="form-group m-form__group">
-                                                    <table class="table table-striped- table-bordered table-hover table-checkable">
-                                                        <thead>
-                                                        <tr>
-                                                            <th>المنتج</th>
-                                                            <th>الكمية</th>
-                                                            <th>حذف</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody id="tableBody">
-                                                        </tbody>
-
-                                                    </table>
-                                                </div>
-                                           --}} </div>
+                        @include('distributor.stores._attach_product',['products'=>[]])
+                    </div>
 
 
                     <div class="m-portlet__foot m-portlet__foot--fit full--width">
@@ -99,30 +86,44 @@
             $('#check-all').change(function () {
                 $("input:checkbox").prop("checked", $(this).prop("checked"))
             })
+
         </script>
 
 
         <script>
-
-
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
 
-            $('#userSelect').on('change', function () {
-                var id = $(this).val();
+
+            function getUserStore(store_name, user_id) {
                 $.ajax({
                     type: 'get',
                     url: '{{ route('distributor.getDistributorStores') }}',
-                    data: {user_id: id},
+                    data: {
+                        user_id: user_id
+                    },
 
                     success: function (data) {
-                        $('#userStores').html(data.data);
+                        $(store_name).html(data.data);
                     }
                 });
-            });
+            }
+
+            function getStoreProducts(store_id) {
+                $.ajax({
+                    type: 'get',
+                    url: '{{ route('distributor.getAjaxstoreProducts') }}',
+                    data: {
+                        store_id: store_id
+                    },
+                    success: function (data) {
+                        $('select[name="product_id"]').html(data.data);
+                    }
+                });
+            }
 
         </script>
 
