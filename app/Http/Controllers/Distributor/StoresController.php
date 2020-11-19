@@ -52,11 +52,14 @@ class StoresController extends Controller
      */
     public function store(Request $request)
     {
+
         $rules = [
-            'name' => 'required|string|max:191',
+            'name.*' => 'required|string|max:191',
             'store_category_id' => "required|numeric|exists:store_categories,id",
-            'distributor_id' => 'required|integer|exists:users,id',
-            'note' => 'nullable|string'
+            'for_distributor'=>'required|boolean',
+            'distributor_id' => 'required_if:for_distributor,==,1|integer|exists:users,id',
+            'note' => 'nullable|string',
+
         ];
         $this->validate($request, $rules);
         Store::create($request->all());
@@ -104,10 +107,11 @@ class StoresController extends Controller
         $store = Store::findOrFail($id);
 
         $rules = [
-            'name' => 'required|string|max:191',
+            'name.*' => 'required|string|max:191',
             'store_category_id' => "required|numeric|exists:store_categories,id",
-            'distributor_id' => 'required|integer|exists:users,id',
-            'note' => 'nullable|string'
+            'distributor_id' => 'required_if:for_distributor,==,1|integer|exists:users,id',
+            'note' => 'nullable|string',
+            'for_distributor'=>'required|boolean'
         ];
         $this->validate($request, $rules);
         $store->update($request->all());
@@ -160,6 +164,7 @@ class StoresController extends Controller
         return view('distributor.stores.addProducts',
             [
                 'users' => User::query()->distributor()->pluck('name', 'id'),
+                'from_stores'=>Store::query()->where('for_distributor',0)->pluck('name','id'),
                 'store' => $store,
                 'products' => Product::query()->get(['name', 'id', 'quantity_per_unit']),
                 'user_stores' => Store::where('distributor_id', $store->distributor_id)->pluck('name', 'id')
@@ -169,24 +174,24 @@ class StoresController extends Controller
 
     public function addProduct(Request $request, $store_id = null)
     {
+
         $this->validate($request, [
-            "user_id" => 'required|integer|exists:users,id',
-            "store_id" => 'required|integer|exists:stores,id',
+            "from.store_id" => 'required|integer|exists:stores,id',
+            "to.user_id" => 'required|integer|exists:users,id',
+            "to.store_id" => 'required|integer|exists:stores,id',
             "products.*.product_id" => "required|integer|exists:products,id",
             "products.*.quantity" => 'required|integer',
         ]);
-        $data = [
-            'user_id' => $request->user_id,
-            'type' => 'in',
-            'store_id' => $request->store_id
-        ];
-        foreach ($request->products ?? [] as $product) {
 
-            ProductQuantity::create($data + [
-                    'product_id' => $product['product_id'],
-                    'quantity' => $product['quantity'],
-                ]);
-        }
+        $request->merge([
+            'sender_store_id' => $request->from['store_id'],
+            'distributor_id' => $request->to['user_id'],
+            'distributor_store_id' => $request->to['store_id'],
+            'is_confirmed' => 0
+
+        ]);
+        $this->AddStoreTransferRequest($request);
+
         toast('تم  الاضافه بنجاح', 'success', 'top-right');
 
         return redirect()->route('distributor.stores.index');

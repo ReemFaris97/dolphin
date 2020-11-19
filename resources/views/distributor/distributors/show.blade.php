@@ -62,7 +62,7 @@
                         <tr>
                             <td>البريد الالكترونى</td>
                             <td>{{$user->email}}</td>
-                        </tr> 
+                        </tr>
                         <tr>
                             <td>الوظيفه</td>
                             <td>{{$user->job}}</td>
@@ -87,7 +87,61 @@
                     @endif
                 </div>
                 <div class="tab-pane fade " id="routes" role="tabpanel" aria-labelledby="routes-tab">
-                    @include('distributor.routes._table',['routes'=>$user->routes])
+                    <table class="table table-striped- table-bordered table-hover table-checkable ">
+                        <thead>
+                        <tr>
+                            <th>الترتيب</th>
+                            <th>اسم المسار</th>
+                            <th>اسم المستخدم</th>
+                            <th>الحاله</th>
+                            <th>الاعدادت</th>
+                        </tr>
+                        </thead>
+                        <tbody id="routes-list">
+                        @foreach($user->routes as $row)
+                            <tr data-id="{!! $row->id !!}" data-arrange="{!! $row->arrange !!}">
+
+                                @if($row->is_active===0)
+                                    <td>
+                                        <div class="handle-sort">
+                                            <button class="btn btn-primary ">
+                                                <i class="fas fa-arrows-alt-v"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                @else
+                                    <td>
+
+                                    </td>
+                                @endif
+                                <td>{!!$row->name!!}</td>
+                                <td>{!!optional($row->user)->name!!}</td>
+                                <td>{!!$row->is_active?"مفعل":"غير مفعل"!!}</td>
+                                <td>
+                                    <a href="{!!route('distributor.routes.show',$row->id)!!}" class="btn btn-success">
+                                        <i
+                                            class="fas fa-eye"></i>مشاهدة</a>
+                                    <a href="{!!route('distributor.routes.edit',$row->id)!!}" class="btn btn-primary">
+                                        <i
+                                            class="fas fa-pen"></i> تعديل</a>
+                                    <a href="#" onclick="Delete({{$row->id}})" data-original-title="حذف"
+                                       class="btn btn-danger btn-circle"><i class="fa fa-trash"></i> حذف</a>
+                                    {!!Form::open( ['route' => ['distributor.routes.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
+                                    {!!Form::close() !!}
+
+
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>الاسم</th>
+                            <th>الاعدادت</th>
+                        </tr>
+                        </tfoot>
+                    </table>
 
 
                 </div>
@@ -98,8 +152,38 @@
     </div>
 
 
-@endsection
 
 
-@section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script>
+        var el = document.getElementById("routes-list");
+        var sortable = Sortable.create(el, {
+            handle: '.handle-sort',
+            swap: true, // Enable swap plugin
+            animation: 150, // ms, animation speed moving items when sorting, `0` — without animation
+            // Element dragging ended
+            onEnd: function (/**Event*/ evt) {
+                var all_items = evt.item.parentNode.children
+
+                var new_item_order_list = []
+                for (item of all_items) {
+                    new_item_order_list.push({
+                        'id': item.dataset.id,
+                        'arrange': item.dataset.arrange
+                    })
+                }
+                $.ajax({
+                    method: "POST",
+                    url: "{{route('distributor.routes.update-arrange')}}",
+                    data: {
+                        "user_id":{{$user->id}},
+                        "routes": new_item_order_list
+                    }
+                })
+            },
+
+        });
+
+    </script>
+
 @endsection
