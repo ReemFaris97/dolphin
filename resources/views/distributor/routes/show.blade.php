@@ -69,7 +69,7 @@
                 </tbody>
             </table>
 
-            <h3> ترتيب المسارات</h3>
+            <h3> ترتيب الرحلات</h3>
 
             <div class="list-group" id="route-trips">
                 @foreach($route->trips->load('client') as $trip)
@@ -122,7 +122,6 @@
                         "trips": new_item_order_list
                     }
                 })
-                debugger
             },
 
         });

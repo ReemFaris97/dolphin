@@ -8,6 +8,7 @@
     <tr>
         <th>#</th>
         <th>الاسم</th>
+        <th>طبيعه المستودع</th>
         <th>المندوب</th>
         <th>نوع المستودع</th>
         <th>الاعدادت</th>
@@ -18,7 +19,8 @@
         <tr>
             <td>{!!$loop->iteration!!}</td>
             <td>{!!$row->name!!}</td>
-            <td>{!!$row->distributor->name!!}</td>
+            <td>{!!($row->for_distributor)? 'خارجى':"داخلى"!!}</td>
+            <td>{!!($row->for_distributor)? $row->distributor->name:null!!}</td>
             <td>{!!$row->category->name!!}</td>
             <td>
                 <a href="{!!route('distributor.stores.show',$row->id)!!}" class="btn btn-success"> <i
@@ -55,6 +57,8 @@
     <tr>
         <th>#</th>
         <th class="filter">الاسم</th>
+        <th class="filter">طبيعه المستودع</th>
+
         <th class="filter">نوع المستودع</th>
         <th class="filter">المندوب</th>
         <th>الاعدادت</th>

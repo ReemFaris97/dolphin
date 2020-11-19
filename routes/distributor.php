@@ -43,6 +43,7 @@ Route::middleware('distributor')->group(function () {
     Route::resource('/dailyReports', 'DailyReportsController');
 
 
+    Route::resource('/refuses', 'ReasonRefuseDistributorController');
     Route::resource('/readers', 'ReaderController');
     Route::patch('readers/change-status/{reader}', 'ReaderController@changeStatus')->name('readers.changeStatus');
 
@@ -55,6 +56,7 @@ Route::middleware('distributor')->group(function () {
     Route::resource('/expenses', 'ExpensesController');
     Route::resource('/routes', 'DistributorRoutesController');
     Route::post('/trips/update-arrange', 'TripsController@updateArrange')->name('trips.update-arrange');
+    Route::post('/routes/update-arrange', 'DistributorRoutesController@updateArrange')->name('routes.update-arrange');
     Route::resource('/trips', 'TripsController');
     Route::resource('/bills', 'BillController');
     Route::get('/map', 'TripsController@trips')->name('trips.map');

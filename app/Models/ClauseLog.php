@@ -13,11 +13,13 @@ class ClauseLog extends Model
 
     public function clause()
     {
-        return $this->belongsTo(Clause::class,'clause_id');
+        return $this->belongsTo(Clause::class, 'clause_id');
+
     }
 
-    public  function user()
+    public function user()
     {
-        return $this->belongsTo('App\User','user_id');
+        return $this->belongsTo('App\User', 'user_id');
+
     }
 }

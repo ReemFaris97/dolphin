@@ -47,6 +47,8 @@
 
     <link rel="shortcut icon" href="{!! asset('dashboard/assets/demo/demo12/media/img/logo/favicon.png')!!}"/>
     @stack('header')
+    @include('sweetalert::alert')
+
 </head>
 
 <!-- end::Head -->
@@ -158,7 +160,6 @@
 <script src="{!! asset('dashboard/assets/bootstrap-datepicker.ar.min.js') !!}"></script>
 <script src="{!! asset('dashboard/assets/vendors/custom/countdown/jquery.countdown.min.js') !!}"></script>
 <script src="{!! asset('dashboard/assets/scripts.js') !!}"></script>
-@include('sweetalert::alert')
 {{--<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>--}}
 
 <!--end::Page Scripts -->
