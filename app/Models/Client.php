@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Client extends Model
@@ -11,11 +12,11 @@ class Client extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo( User::class,'user_id')->withDefault('user_id');
     }
     public function route()
     {
-        return $this->belongsTo(DistributorRoute::class,'route_id');
+        return $this->belongsTo(DistributorRoute::class,'route_id')->withDefault('route_id');
     }
 
 }

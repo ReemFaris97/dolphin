@@ -18,21 +18,20 @@
     </thead>
     <tbody>
     @foreach($bills as $row)
+
         <tr>
             <td>{!!$loop->iteration!!}</td>
             <td>000{!! $row->id!!}</td>
-            <td>{!!$row->trip->client->name  !!}</td>
+            <td>{!!$row->routetrip->client->name  !!}</td>
             <td>{!! $row->created_at !!}</td>
-            <td>{!! $row->trip->route->user->name !!}</td>
-            <td>{!!$row->trip->cash  !!}</td>
+            <td>{!! $row->user->name !!}</td>
+            <td>{!!$row->cash  !!}</td>
             <td>
-                
-                @if($row->type=='accept')
+                @if($row->routetrip->status=='accepted')
               <label class="btn btn-success"> تم القبول</label>
                     @else
                     <label class="btn btn-danger"> تم الرفض</label>
                 @endif
-
             </td>
             <td>
                <a href={!!route('distributor.bills.show',$row->id)!!}" class="btn btn-warning"> <i class="fas fa-book"></i> تفاصيل</a>
