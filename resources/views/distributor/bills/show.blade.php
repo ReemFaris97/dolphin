@@ -44,7 +44,7 @@
                         </tr>
                         <tr>
                             <td>العميل</td>
-                            <td>{{$bill->trip->client->name}}</td>
+                            <td>{{$bill->routetrip->client->name}}</td>
                         </tr>
                         <tr>
                             <td>تاريخ الفاتوره</td>
@@ -52,16 +52,16 @@
                         </tr>
                         <tr>
                             <td> قيمةالفاتوره </td>
-                            <td>{{$bill->trip->cash }}</td>
+                            <td>{{$bill->cash }}</td>
                         </tr>
                         <tr>
                             <td>اسم المندوب </td>
-                            <td>{{$bill->trip->route->user->name}}</td>
+                            <td>{{$bill->user->name}}</td>
                         </tr>
                         <tr>
                             <td>حالة الزيارة</td>
                             <td>
-                                @if($bill->type=='accept')
+                                @if($bill->routetrip->status=='accepted')
                                 <label class="btn btn-success"> تم القبول</label>
                                       @else
                                       <label class="btn btn-danger"> تم الرفض</label>
@@ -69,7 +69,7 @@
                                   @endif
                             </td>
                         </tr>
-                        @if($bill->type=='accept')
+                        @if($bill->routetrip->status=='refused')
                         <tr>
                             <td> سبب الرفض</td>
                             <td>
@@ -80,12 +80,20 @@
                         @endif
 
                         <tr>
-                        <td>صور الزيارة</td>
+
+                        <td>صورقبل الزيارة</td>
                         <td>
-                            @foreach($bill->trip->images as $key => $image)
+                            @foreach($bill->routetrip->images as $key => $image)
                             <img src="{!!asset($image->image)!!}" height="100" width="100"/>
                             @endforeach()
                         </td>
+                        </tr>
+                        <tr>
+                        <td>صور بعد الزيارة</td>
+                        <td>
+                            <img src="{!!asset($bill->image)!!}" height="100" width="100"/>
+                        </td>
+                    </tr>
                         </tr>
 
 
@@ -104,15 +112,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
                                 @foreach($bill->products as $value)
-
+                                <tr>
                                 <td>{{ $value->product->name }}</td>
                                 <td>{{ $value->quantity }}</td>
                                 <td>{{ $value->quantity /$value->product->quantity_per_unit }}</td>
                                 <td>{{ $value->price }}</td>
+                                </tr>
                                 @endforeach
-                            </tr>
                         <tbody>
                             <tfoot>
                                 <tr>

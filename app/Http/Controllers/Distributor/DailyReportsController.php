@@ -85,7 +85,9 @@ class DailyReportsController extends Controller
      */
     public function show($id)
     {
-        //
+        return $this->toShow([
+            'report' => DailyReport::findOrFail($id)
+        ]);
     }
 
     /**

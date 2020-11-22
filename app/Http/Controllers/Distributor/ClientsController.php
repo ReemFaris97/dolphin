@@ -23,6 +23,7 @@ class ClientsController extends Controller
     public function index()
     {
         $clients = Client::all()->reverse();
+        
         return $this->toIndex(compact('clients'));
     }
 
@@ -163,5 +164,12 @@ class ClientsController extends Controller
         toast('تم الغاء تفعيل العميل', 'success', 'top-right');
 
         return back();
+    }
+
+    public function show($id)
+    {
+        return $this->toShow([
+            'client' =>Client::findOrFail($id)
+        ]);
     }
 }
