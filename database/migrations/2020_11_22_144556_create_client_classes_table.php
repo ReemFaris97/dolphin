@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddUserIdToRouteReportsTable extends Migration
+class CreateClientClassesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class AddUserIdToRouteReportsTable extends Migration
      */
     public function up()
     {
-        Schema::table('route_reports', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')->index()->nullable();
-
+        Schema::create('client_classes', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name');
+            $table->boolean('is_active')->default(1);
+            $table->timestamps();
         });
     }
 
@@ -26,10 +28,6 @@ class AddUserIdToRouteReportsTable extends Migration
      */
     public function down()
     {
-        Schema::table('route_reports', function (Blueprint $table) {
-            $table->dropIndex(['user_id']);
-            $table->dropColumn('user_id');
-
-        });
+        Schema::dropIfExists('client_classes');
     }
 }

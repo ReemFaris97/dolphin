@@ -27,7 +27,9 @@ class AddProductIdToAttachedProductsTable extends Migration
     public function down()
     {
         Schema::table('attached_products', function (Blueprint $table) {
-            //
+            $table->dropIndex(['product_id']);
+            $table->dropColumn('product_id');
+
         });
     }
 }

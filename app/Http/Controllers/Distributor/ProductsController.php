@@ -11,7 +11,10 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\ClientClass;
+use App\Models\ClientClassProduct;
 use App\Traits\Viewable;
+use Symfony\Component\HttpKernel\Client;
 
 class ProductsController extends Controller
 {
@@ -38,8 +41,9 @@ class ProductsController extends Controller
      */
     public function create()
     {
-//        $categories = StoreCategory::pluck('name','id');
-        return $this->toCreate();
+        //        $categories = StoreCategory::pluck('name','id');
+        $client_classes = ClientClass::active()->get(['id', 'name']);
+        return $this->toCreate(compact('client_classes'));
     }
 
     /**
@@ -57,7 +61,7 @@ class ProductsController extends Controller
             'min_quantity' => 'required|numeric|lt:max_quantity',
             'max_quantity' => 'required|numeric|gt:min_quantity',
             'price' => 'required|numeric',
-            'code' => 'required|string|unique:products,code',
+            // 'code' => 'required|string|unique:products,code',
             'bar_code' => 'required|string|unique:products,bar_code',
             'expired_at' => 'required|date|after_or_equal:today',
             'image' => 'required|image',
@@ -70,12 +74,19 @@ class ProductsController extends Controller
         $inputs['expired_at'] = Carbon::parse($request->expired_at);
         $inputs['image'] = saveImage($request->image, 'products');
 
-
         $product = Product::create($inputs);
 
         foreach ($request->images as $image) {
             $product->images()->create(['image' => saveImage($image, 'users')]);
         }
+
+        foreach ($request->client_classes as $client_class) {
+            ClientClassProduct::query()->updateOrCreate([
+                'product_id' => $product->id,
+                'client_class_id' => $client_class['id']
+            ], ['price' => $client_class['price']]);
+        }
+        \DB::commit();
 
         //  multipleUploader($request,$product);
 
@@ -103,10 +114,12 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
-        $product = Product::query()->findOrFail($id);
-//        $categories = StoreCategory::all();
-//        $stores = Store::where('store_category_id', $product->store->category->id)->get();
-        return $this->toEdit(compact('product'/*, 'categories', 'stores'*/));
+        $product = Product::query()->with('client_classes')->findOrFail($id);
+        $client_classes = ClientClass::active()->get(['id', 'name']);
+
+        //        $categories = StoreCategory::all();
+        //        $stores = Store::where('store_category_id', $product->store->category->id)->get();
+        return $this->toEdit(compact('product', 'client_classes'/*, 'categories', 'stores'*/));
 
     }
 
@@ -119,11 +132,12 @@ class ProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $product = Product::find($id);
 
         $rules = [
             'name' => "required|string|max:191",
-            'store_id' => 'required|numeric|exists:stores,id',
+          //  'store_id' => 'required|numeric|exists:stores,id',
             'quantity_per_unit' => 'required|numeric',
             'min_quantity' => 'required|numeric|lt:max_quantity',
             'max_quantity' => 'required|numeric|gt:min_quantity',
@@ -138,7 +152,7 @@ class ProductsController extends Controller
         if ($request->has('image') && $request->image != null) {
             $inputs['image'] = saveImage($request->image, 'products');
         }
-
+        \DB::beginTransaction();
         $product->update($inputs);
 
         if ($request->has('images') && $request->images != null) {
@@ -147,6 +161,14 @@ class ProductsController extends Controller
                 $product->images()->create(['image' => saveImage($image, 'users')]);
             }
         }
+
+        foreach ($request->client_classes as $client_class) {
+            ClientClassProduct::query()->updateOrCreate([
+                'product_id' => $id,
+                'client_class_id' => $client_class['id']
+            ], ['price' => $client_class['price']]);
+        }
+        \DB::commit();
 
         toast('تم التعديل بنجاح', 'success', 'top-right');
         return redirect()->route('distributor.products.index');
@@ -182,7 +204,7 @@ class ProductsController extends Controller
             'quantity' => "required|numeric",
 //            'type' => 'required|in:in,out',
             'user_id' => 'required|exists:users,id',
-            'store_id' => 'required|exists:stores,id',
+           'store_id' => 'required|exists:stores,id',
         ];
         $this->validate($request, $rules);
         $store_quantity = $product->quantities()->where(['is_confirmed' => 1, 'type' => 'in', 'store_id' => $request->store_id])->sum('quantity');

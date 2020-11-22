@@ -33,6 +33,11 @@
         {!! Form::select('route_id',$routes,null,['class'=>'form-control m-input','placeholder'=>' اختر المسار'])!!}
   </div>
  <div class="form-group m-form__group">
+
+        <label>الشريحة</label>
+        {!! Form::select('client_class_id',$client_classes,null,['class'=>'form-control m-input','placeholder'=>' اختر الشريحة'])!!}
+  </div>
+ <div class="form-group m-form__group">
         <label>المندوبين</label>
         {!! Form::select('user_id', $distributors,null,['class'=>'form-control m-input','placeholder'=>' اختر المندوبين'])!!}
   </div>

@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Client extends Model
 {
     protected $fillable = [ 'name', 'phone', 'email', 'store_name', 'address', 'lat', 'lng','image',
-    'is_active','code','route_id','user_id'];
+        'is_active', 'code', 'route_id', 'user_id', 'client_class_id'
+    ];
 
     public function user()
     {
@@ -17,6 +18,10 @@ class Client extends Model
     public function route()
     {
         return $this->belongsTo(DistributorRoute::class,'route_id')->withDefault('route_id');
+    }
+    public function client_class()
+    {
+        return $this->belongsTo(ClientClass::class, 'client_class_id')->withDefault(new ClientClass);
     }
 
 }
