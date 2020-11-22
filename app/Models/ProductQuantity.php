@@ -39,5 +39,14 @@ class ProductQuantity extends Model
             ->select('*')
             ->addSelect(DB::raw("sum( CASE WHEN type != 'in' THEN (-1 * quantity) ELSE quantity END ) total_quantity"));
     }
+    public function scopeFilterWithDates(Builder $builder, $from_date = null, $to_date = null)
+    {
+    }
+    public function scopeFilterWithProduct(Builder $builder, $store_id = null)
+    {
+    }
+    public function scopeFilterWithStore(Builder $builder, $store_id = null)
+    {
+    }
 
 }
