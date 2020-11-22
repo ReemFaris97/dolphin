@@ -57,7 +57,7 @@ class ProductsController extends Controller
             'min_quantity' => 'required|numeric|lt:max_quantity',
             'max_quantity' => 'required|numeric|gt:min_quantity',
             'price' => 'required|numeric',
-            'code' => 'required|string|unique:products,code',
+            // 'code' => 'required|string|unique:products,code',
             'bar_code' => 'required|string|unique:products,bar_code',
             'expired_at' => 'required|date|after_or_equal:today',
             'image' => 'required|image',

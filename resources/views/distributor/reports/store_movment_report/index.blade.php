@@ -27,8 +27,7 @@
 
                 <!--begin::Form-->
 
-             }
-                @include('distributor.reports.store_movment_report.store_movment_form')
+                @include('distributor.reports.store_movment_report._form')
 
             </div>
         </div>

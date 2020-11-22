@@ -47,12 +47,12 @@
            </div>
        @endif
    --}}
-
+{{--
     <div class="form-group m-form__group">
         <label>الكود</label>
         {!! Form::text('code',null,['class'=>'form-control m-input '])!!}
     </div>
-
+ --}}
     <div class="form-group m-form__group">
         <label>الكمية بالحبة</label>
         {!! Form::number('quantity_per_unit',null,['class'=>'form-control m-input '])!!}
