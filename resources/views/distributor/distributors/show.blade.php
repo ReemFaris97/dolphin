@@ -134,13 +134,7 @@
                             </tr>
                         @endforeach
                         </tbody>
-                        <tfoot>
-                        <tr>
-                            <th>#</th>
-                            <th>الاسم</th>
-                            <th>الاعدادت</th>
-                        </tr>
-                        </tfoot>
+                   
                     </table>
 
 
