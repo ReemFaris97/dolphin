@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','سندات التحويل بين المخازن')
-@section('parent_title','إدارة  المخازن')
+@section('title','سندات التحويل بين المستودعات')
+@section('parent_title','إدارة  المستودعات')
 
 @section('action', URL::route('accounting.stores.index'))
 @section('styles')
@@ -10,7 +10,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">سندات التحويل بين المخازن لمخزن  معين </h5>
+            <h5 class="panel-title">سندات التحويل بين المستودعات لمستودع  معين </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -26,7 +26,7 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th> المخزن المحول  منه  </th>
+                    <th> المستودع المحول  منه  </th>
                     <th> حاله التحويل  </th>
                     <th>تاريخ التحويل</th>
                     <th> السبب [فى حاله الرفض ] </th>

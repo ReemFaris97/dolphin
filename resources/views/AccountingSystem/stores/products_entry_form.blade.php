@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','إنشاء سند ادخال   منتجات')
-@section('parent_title','إدارة  المخازن')
+@section('title','إنشاء سند ادخال   اصناف')
+@section('parent_title','إدارة  المستودعات')
 
 @section('action', URL::route('accounting.stores.index'))
 @section('styles')
@@ -10,7 +10,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title"> سند ادخال منتجات</h5>
+            <h5 class="panel-title"> سند ادخال اصناف</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -49,13 +49,13 @@
             </div>
 
             <div class="form-group col-sm-6 col-xs-12 pull-left">
-                <label>اختر المخزن </label>
-                {!! Form::select("store_id",allstores(),null,['class'=>'form-control js-example-basic-single store_id','placeholder'=>' اختر  المخزن'])!!}
+                <label>اختر المستودع </label>
+                {!! Form::select("store_id",allstores(),null,['class'=>'form-control js-example-basic-single store_id','placeholder'=>' اختر  المستودع'])!!}
             </div>
 
             <div class="form-group col-xs-12 pull-left">
-                <label>اختر امين المخزن </label>
-                {!! Form::select("user_id",keepers(),null,['class'=>'form-control js-example-basic-single storekeeper_id','id'=>'storekeeper_id','placeholder'=>' اختر امين المخزن'])!!}
+                <label>اختر امين المستودع </label>
+                {!! Form::select("user_id",keepers(),null,['class'=>'form-control js-example-basic-single storekeeper_id','id'=>'storekeeper_id','placeholder'=>' اختر امين المستودع'])!!}
             </div>
 
             <div class="clearfix"></div>

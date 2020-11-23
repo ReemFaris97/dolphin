@@ -10,7 +10,7 @@
     "require": {
         "php": "^7.3",
         "arcanedev/log-viewer": "~4.3.9",
-        "doctrine/dbal": "^2.9",
+        "doctrine/dbal": "^3.0",
         "fideloper/proxy": "^4.0",
         "genealabs/laravel-caffeine": "^0.8.1",
         "hesto/multi-auth": "^2.0",
@@ -18,16 +18,16 @@
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^5.8",
         "maatwebsite/excel": "^3.1",
-        "milon/barcode": "^8.0",
+        "milon/barcode": "^5.3",
         "orangehill/iseed": "^2.6",
         "pusher/pusher-php-server": "^3.4",
         "realrashid/sweet-alert": "^1.1",
         "spatie/laravel-activitylog": "^3.2",
         "spatie/laravel-backup": "^6.10",
         "spatie/laravel-permission": "^2.37",
+        "spatie/laravel-translatable": "^4.5",
         "staudenmeir/eloquent-has-many-deep": "^1.7",
         "staudenmeir/laravel-adjacency-list": "^1.0",
-        "tymon/jwt-auth": "1.*",
         "uxweb/sweet-alert": "^2.0"
     },
     "require-dev": {
@@ -37,8 +37,10 @@
         "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^3.0",
-        "phpunit/phpunit": "^7.5"
-        },
+        "phpunit/phpunit": "^7.5",
+        "tymon/jwt-auth": "^1.0.0-beta.3@dev"
+
+    },
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",

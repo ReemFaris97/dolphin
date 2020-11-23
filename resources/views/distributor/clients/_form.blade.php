@@ -10,8 +10,8 @@
     </div>
 
     <div class="form-group m-form__group">
-        <label>البريد الالكترونى</label>
-        {!! Form::email('email',null,['class'=>'form-control m-input','placeholder'=>'ادخل البريد الالكترونى'])!!}
+        <label>السجل الضريبى</label>
+        {!! Form::text('tax_number',null,['class'=>'form-control m-input','placeholder'=>'ادخل السجل الضريبى'])!!}
     </div>
 
     <div class="form-group m-form__group">
@@ -23,6 +23,24 @@
         <label>العنوان</label>
         {!! Form::text('address',null,['class'=>'form-control m-input','placeholder'=>'ادخل العنوان'])!!}
     </div>
+
+  <div class="form-group m-form__group">
+        <label>الكود</label>
+        {!! Form::text('code',null,['class'=>'form-control m-input','placeholder'=>' ادخل الكود  '])!!}
+  </div>
+ <div class="form-group m-form__group">
+        <label>المسارات</label>
+        {!! Form::select('route_id',$routes,null,['class'=>'form-control m-input','placeholder'=>' اختر المسار'])!!}
+  </div>
+ <div class="form-group m-form__group">
+
+        <label>الشريحة</label>
+        {!! Form::select('client_class_id',$client_classes,null,['class'=>'form-control m-input','placeholder'=>' اختر الشريحة'])!!}
+  </div>
+ <div class="form-group m-form__group">
+        <label>المندوبين</label>
+        {!! Form::select('user_id', $distributors,null,['class'=>'form-control m-input','placeholder'=>' اختر المندوبين'])!!}
+  </div>
 
     <div class="form-group m-form__group">
         <label> صوره العميل  </label>

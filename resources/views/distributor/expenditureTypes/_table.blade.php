@@ -20,9 +20,27 @@
             <td>{!!$row->name!!}</td>
             <td>
                 <a href="{!!route('distributor.expenditureTypes.edit',$row->id)!!}" class="btn btn-primary"> <i class="fas fa-pen"></i> تعديل</a>
-                <a href="#"  onclick="Delete({{$row->id}})"  data-original-title="حذف" class="btn btn-danger btn-circle"><i  class="fa fa-trash-o"></i> حذف</a>
+                <a href="#"  onclick="Delete({{$row->id}})"  data-original-title="حذف" class="btn btn-danger btn-circle"><i  class="fa fa-trash"></i> حذف</a>
                 {!!Form::open( ['route' => ['distributor.expenditureTypes.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
                 {!!Form::close() !!}
+
+
+                <form method="POST" action="{{route('distributor.expenditureTypes.changeStatus',$row->id)}}">
+                    @csrf() @method('patch')
+                    @if($row->is_active == 1)
+                        <button type="submit" class="btn btn-warning"
+                                onclick="if(!confirm('هل انت متاكد من الغاء تفعيل نوع الصرف')) event.preventDefault() ">
+                            <i class="fas fa-skull"></i>
+                            الغاء تفعيل
+                        </button>
+                    @else
+                        <button type="submit" class="btn btn-success"
+                                onclick="if(!confirm('هل انت متاكد من تفعيل نوع الصرف')) event.preventDefault() ">
+                            <i class="far fa-thumbs-up"></i>
+                            تفعيل
+                        </button>
+                    @endif
+                </form>
 
             </td>
         </tr>

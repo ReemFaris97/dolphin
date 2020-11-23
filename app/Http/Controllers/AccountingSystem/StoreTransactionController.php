@@ -104,7 +104,7 @@ class StoreTransactionController extends Controller
         $product_store_form=AccountingProductStore::where('store_id',$id)->where('product_id',$request['product_id'])->first();
         if ($product_store_form->quantity-$request['quantity'] >= 0)
         {
-            dd("rrrrrrrrrrrrrr");
+         
             $product_store_form->update([
                 'quantity' => $product_store_form->quantity - $request['quantity'],
             ]);
@@ -141,7 +141,14 @@ class StoreTransactionController extends Controller
     public function transactions(Request $request){
 
         $inputs=$request->all();
+        $rules = [
 
+            'quantity'=>'required',
+        ];
+        $massage=[
+            'quantity.required'=>'اختر المخزن المحول منه ثم الاصناف المحولة',
+        ];
+        $this->validate($request,$rules,$massage);
         $quantity=collect($inputs['quantity']);
         $cost=collect($inputs['cost']);
         $price=collect($inputs['price']);
@@ -192,10 +199,10 @@ class StoreTransactionController extends Controller
                             'store_id' => $request['to_store_id'],
                         ]);
                     }
-                alert()->success('تم التحويل من المخزن بنجاح !')->autoclose(5000);
+                alert()->success('تم التحويل من المستودع بنجاح !')->autoclose(5000);
 
             } else {
-                alert()->warning('الكميه بالمخزن المنقول منه غير كافية')->autoclose(5000);
+                alert()->warning('الكميه بالمستودع المنقول منه غير كافية')->autoclose(5000);
 
 
             }//endcheckif
@@ -288,7 +295,7 @@ class StoreTransactionController extends Controller
                     'store_id' => $req->store_to,
                 ]);
             }
-            alert()->success('تم  قبول الاستلام التحويل من المخزن بنجاح !')->autoclose(5000);
+            alert()->success('تم  قبول الاستلام التحويل من المستودع بنجاح !')->autoclose(5000);
             return redirect()->route('accounting.stores.requests');
         }
     }
@@ -321,7 +328,7 @@ class StoreTransactionController extends Controller
                     'store_id' => $req->store_form,
                 ]);
             }
-            alert()->success('تم  رفض الاستلام التحويل من المخزن بنجاح !')->autoclose(5000);
+            alert()->success('تم  رفض الاستلام التحويل من المستودع بنجاح !')->autoclose(5000);
             return redirect()->route('accounting.stores.requests');
         }
 
@@ -349,8 +356,13 @@ class StoreTransactionController extends Controller
         $inputs=$request->all();
         $rules = [
             'user_id'=>'required|numeric|exists:users,id',
+            'quantity'=>'required',
         ];
-        $this->validate($request,$rules);
+    
+        $massage=[
+            'quantity.required'=>'اختر المخزن  ثم حددالاصناف التالفة',
+        ];
+        $this->validate($request,$rules,$massage);
 
         $quantity=collect($inputs['quantity']);
         $products=collect($inputs['product_id']);
@@ -380,7 +392,7 @@ class StoreTransactionController extends Controller
         }
 
 
-        alert()->success('تم   تسجيل التالف من المخزن بنجاح !')->autoclose(5000);
+        alert()->success('تم   تسجيل التالف من المستودع بنجاح !')->autoclose(5000);
 
         return redirect()->route('accounting.stores.damaged_index');
     }

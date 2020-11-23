@@ -1,5 +1,5 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تقرير التحويلات  بين  المخازن')
+@section('title','تقرير التحويلات  بين  المستودعات')
 @section('parent_title','التقارير ')
 {{-- @section('action', URL::route('accounting.purchases.index')) --}}
 
@@ -13,7 +13,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">تقرير التحويلات  بين  المخازن</h5>
+            <h5 class="panel-title">تقرير التحويلات  بين  المستودعات</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -60,7 +60,7 @@
             @endif
             @if(isset($requests['store_id']))
             <div class="form-group col-md-2 pull-left">
-                <label class="label label-info"> المخزن: </label>
+                <label class="label label-info"> المستودع: </label>
                     @php($store=\App\Models\AccountingSystem\AccountingStore::find($requests['store_id']))
                     <span>{{$store->ar_name}}</span>
             </div>
@@ -84,7 +84,7 @@
                     <span>{{$requests['to']}}</span>
                 @endif
             </div>
-            {{---         التفاصيل (التاريخ - اسم الصنف – الوحدة - الكمية الحالية بالمخزن المحول منه الكمية الحالية بالمخزن المحول إليه – السعر - إجمالي سعر).--}}
+            {{---         التفاصيل (التاريخ - اسم الصنف – الوحدة - الكمية الحالية بالمستودع المحول منه الكمية الحالية بالمستودع المحول إليه – السعر - إجمالي سعر).--}}
 <div id="print-window">
             <table class="table datatable-button-init-basic">
                 <thead>
@@ -93,8 +93,8 @@
                     <th> تاريخ اليوم </th>
                     <th> اسم الصنف </th>
                     <th> الوحدة  </th>
-                    <th> المخزن  المحول  منه  </th>
-                    <th> المخزن المحول  اليه  </th>
+                    <th> المستودع  المحول  منه  </th>
+                    <th> المستودع المحول  اليه  </th>
                     <th>  الكميه المحوله </th>
                     <th>  إلسعر  </th>
                     <th>  اجمالى السعر </th>

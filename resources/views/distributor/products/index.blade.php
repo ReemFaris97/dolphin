@@ -1,11 +1,11 @@
 @extends('distributor.layouts.app')
-@section('title') المنتجات
+@section('title') الاصناف
 @endsection
 
 @section('header')
 @endsection
 
-@section('breadcrumb') @php($breadcrumbs=['المنتجات'=>route('distributor.products.index'),])
+@section('breadcrumb') @php($breadcrumbs=['الاصناف'=>route('distributor.products.index'),])
 @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
 
@@ -16,7 +16,7 @@
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-title">
                     <h3 class="m-portlet__head-text">
-                        كل المنتجات المتاحة
+                        كل الاصناف المتاحة
                     </h3>
                 </div>
             </div>

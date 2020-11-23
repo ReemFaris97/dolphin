@@ -102,8 +102,8 @@
 
                     <div class="col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group block-gp">
-                            <label> اختر المخزن </label>
-                            {!! Form::select("store_id",$stores,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'store_id','placeholder'=>' اختر المخزن ','data-live-search'=>'true'])!!}
+                            <label> اختر المستودع </label>
+                            {!! Form::select("store_id",$stores,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'store_id','placeholder'=>' اختر المستودع ','data-live-search'=>'true'])!!}
                         </div>
                     </div>
 					<div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
@@ -111,7 +111,7 @@
                            <div class="form-group block-gp">
                             <label>بحث بإسم الصنف أو الباركود</label>
                             <select class=" form-control js-example-basic-single"  name="product_id" data-live-search="true" placeholder="اختر المنتج" id="selectID">
-                                <option value="">  حدد  المخزن اولا</option>
+                                <option value="">  حدد  المستودع اولا</option>
 
                             </select>
                         </div>

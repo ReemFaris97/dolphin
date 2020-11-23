@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تعديل  المخزن')
-@section('parent_title','إدارة  المخازن')
+@section('title','تعديل  المستودع')
+@section('parent_title','إدارة  المستودعات')
 @section('action', URL::route('accounting.stores.index'))
 @section('content')
     <div class="panel panel-flat">

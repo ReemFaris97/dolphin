@@ -29,7 +29,34 @@
 
         {!! Form::password('password_confirmation',['class'=>'form-control   m-input','placeholder'=>'ادخل تأكيد كلمه المرور'])!!}
     </div>
+    {{--'target', 'affiliate', 'address', 'notes'--}}
 
+    <div class="form-group m-form__group">
+        <label> الهدف (التارجت) </label>
+
+        {!! Form::number('target',null,['class'=>'form-control   m-input','placeholder'=>'ادخل الهدف (التارجت) '])!!}
+    </div>
+
+    <div class="form-group m-form__group">
+        <label> نسبه العموله </label>
+
+        {!! Form::number('affiliate',null,['class'=>'form-control   m-input','placeholder'=>'ادخل العموله '])!!}
+    </div>
+    <div class="form-group m-form__group">
+        <label> عملة تصفيف الرفوف </label>
+
+        {!! Form::number('ordering_coin',null,['class'=>'form-control   m-input','placeholder'=>'ادخل عملة تصفيف الرفوف '])!!}
+    </div>
+    <div class="form-group m-form__group">
+        <label> العنوان </label>
+
+        {!! Form::text('address',null,['class'=>'form-control   m-input','placeholder'=>'ادخل العنوان '])!!}
+    </div>
+    <div class="form-group m-form__group">
+        <label> الملاحظات </label>
+
+        {!! Form::textarea('notes',null,['class'=>'form-control   m-input','placeholder'=>'ادخل الملاحظات '])!!}
+    </div>
 
     <div class="form-group m-form__group">
         <label> الصوره </label>
@@ -40,33 +67,33 @@
         <input type="file" class="form-control m-input" name="image">
     </div>
 
-{{--    @can('edit_workers')--}}
-{{--        <div class="form-group m-form__group">--}}
-{{--            <label> الجنسيه</label>--}}
+    {{--    @can('edit_workers')--}}
+    {{--        <div class="form-group m-form__group">--}}
+    {{--            <label> الجنسيه</label>--}}
 
-{{--            {!! Form::select('nationality',getNationalities(),null,['class'=>'form-control   m-input select2','placeholder'=>'ادخل الجنسية'])!!}--}}
-{{--        </div>--}}
-{{--        <div class="form-group m-form__group">--}}
-{{--            <label> الوظيفه</label>--}}
+    {{--            {!! Form::select('nationality',getNationalities(),null,['class'=>'form-control   m-input select2','placeholder'=>'ادخل الجنسية'])!!}--}}
+    {{--        </div>--}}
+    {{--        <div class="form-group m-form__group">--}}
+    {{--            <label> الوظيفه</label>--}}
 
-{{--            {!! Form::text('job',null,['class'=>'form-control   m-input','placeholder'=>'ادخل الوظيفة'])!!}--}}
-{{--        </div>--}}
-{{--        <div class="form-group m-form__group">--}}
-{{--            <label> إسم الشركة</label>--}}
+    {{--            {!! Form::text('job',null,['class'=>'form-control   m-input','placeholder'=>'ادخل الوظيفة'])!!}--}}
+    {{--        </div>--}}
+    {{--        <div class="form-group m-form__group">--}}
+    {{--            <label> إسم الشركة</label>--}}
 
-{{--            {!! Form::text('company_name',null,['class'=>'form-control   m-input','placeholder'=>'ادخل اسم الشركه'])!!}--}}
-{{--        </div>--}}
-{{--        <div class="form-group m-form__group">--}}
-{{--            <label> نوع العضويه</label>--}}
+    {{--            {!! Form::text('company_name',null,['class'=>'form-control   m-input','placeholder'=>'ادخل اسم الشركه'])!!}--}}
+    {{--        </div>--}}
+    {{--        <div class="form-group m-form__group">--}}
+    {{--            <label> نوع العضويه</label>--}}
 
-{{--            {!! Form::select('is_admin',['عضو','مدير'],null,['class'=>'form-control   m-input select2','placeholder'=>'اختر نوع العضويه'])!!}--}}
-{{--        </div>--}}
-{{--    @endcan--}}
+    {{--            {!! Form::select('is_admin',['عضو','مدير'],null,['class'=>'form-control   m-input select2','placeholder'=>'اختر نوع العضويه'])!!}--}}
+    {{--        </div>--}}
+    {{--    @endcan--}}
 </div>
 
 <!--<<<<<<< HEAD-->
 <!--<div class="form-group m-form__group clearfix ">-->
-    <!-- select all boxes -->
+<!-- select all boxes -->
 <!--    <div class="m-form__group form-group ">-->
 <!--=======-->
 {{--@can('edit_workers')--}}

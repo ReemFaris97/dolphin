@@ -1,7 +1,7 @@
 @extends('AccountingSystem.AccountingCompanies.layouts.master')
 
 @section('title','إنشاء تصنيف  جديد')
-@section('parent_title','إدارة تصنيفات  المنتجات')
+@section('parent_title','إدارة تصنيفات  الاصناف')
 @section('styles')
 
 @endsection

@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','تسوية أرصدة بداية كمية الاصناف ')
-@section('parent_title','إدارة  المخازن')
+@section('parent_title','إدارة  المستودعات')
 
 @section('action', URL::route('accounting.stores.index'))
 @section('styles')
@@ -27,8 +27,8 @@
 
 
                 <div class="form-group col-md-4 pull-left">
-                    <label>اختر المخزن منه </label>
-                    {!! Form::select("store_id",allstores(),null,['class'=>'form-control js-example-basic-single form_store_id','id'=>'form_store_id','placeholder'=>' اختر  المخزن'])!!}
+                    <label>اختر المستودع منه </label>
+                    {!! Form::select("store_id",allstores(),null,['class'=>'form-control js-example-basic-single form_store_id','id'=>'form_store_id','placeholder'=>' اختر  المستودع'])!!}
                 </div>
                 <div class="form-group col-md-4 pull-left">
                     <label>اختر الصنف </label>

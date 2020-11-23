@@ -9,7 +9,7 @@
         <th>#</th>
         <th>الصورة</th>
         <th>الإسم</th>
-        <th>المخزن</th>
+        <th>المستودع</th>
 {{--        <th>الكمية بالوحدة</th>--}}
         <th>الحد الأدنى</th>
         <th>الحد الأقصى</th>
@@ -30,16 +30,15 @@
             <td>{!! $row->min_quantity !!}</td>
             <td>{!! $row->max_quantity !!}</td>
             <td>{!! $row->price !!}</td>
-            <td>
-{{--                {{ \Milon\Barcode\DNS1D::getBarcodeHTML($row->bar_code, "PHARMA2T",3,33)}}--}}
-                <?php echo \Milon\Barcode\DNS1D::getBarcodeHTML($row->bar_code, "C39",1) ?>
+            <td>{{ $row->bar_code }}
+
             </td>
 {{--            <td>{!! $row->expired_at !!}</td>--}}
             <td>
                 <a href="{!!route('distributor.products.show',$row->id)!!}" class="btn btn-warning"> <i class="fas fa-book"></i> تفاصيل</a>
                 <a href="{!!route('distributor.products.edit',$row->id)!!}" class="btn btn-primary"> <i class="fas fa-pen"></i> تعديل</a>
 
-                <a href="#"  onclick="Delete({{$row->id}})"  data-original-title="حذف" class="btn btn-danger btn-circle"><i  class="fa fa-trash-o"></i> حذف</a>
+                <a href="#"  onclick="Delete({{$row->id}})"  data-original-title="حذف" class="btn btn-danger btn-circle"><i  class="fa fa-trash"></i> حذف</a>
                 {!!Form::open( ['route' => ['distributor.products.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
                 {!!Form::close() !!}
 

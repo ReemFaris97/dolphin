@@ -61,8 +61,8 @@
                                 </select>
                             </div>
                                 <div class="form-group col-sm-3">
-                                    <label> المخزن </label>
-                                    {!! Form::select("store_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر المخزن','data-live-search'=>'true','id'=>'store_id'])!!}
+                                    <label> المستودع </label>
+                                    {!! Form::select("store_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر المستودع','data-live-search'=>'true','id'=>'store_id'])!!}
                                 </div>
 
                                 <div class="form-group col-sm-3">

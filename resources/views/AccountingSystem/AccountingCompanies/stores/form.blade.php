@@ -10,7 +10,7 @@
 @if( isset($store))
     @if($store->model_type=='App\Models\AccountingSystem\AccountingBranch')
         <div class="form-group">
-            <label class="display-block text-semibold">المخزن تابع الى</label>
+            <label class="display-block text-semibold">المستودع تابع الى</label>
             <label class="radio-inline">
                 <input type="radio" name="radio-inline-left" class="styled" id="company"  onclick="myFunction()" disabled>
                 شركة
@@ -23,7 +23,7 @@
         </div>
         @elseif($store->model_type=='App\Models\AccountingSystem\AccountingCompany')
         <div class="form-group">
-            <label class="display-block text-semibold">المخزن تابع الى</label>
+            <label class="display-block text-semibold">المستودع تابع الى</label>
             <label class="radio-inline">
                 <input type="radio" name="radio-inline-left" class="styled" id="company" checked="checked" onclick="myFunction()" disabled>
                 {!! auth('accounting_companies')->user()->name !!}
@@ -38,7 +38,7 @@
         @endif
     @else
     <div class="form-group">
-        <label class="display-block text-semibold">المخزن تابع الى</label>
+        <label class="display-block text-semibold">المستودع تابع الى</label>
         <label class="radio-inline">
             <input type="radio" name="radio-inline-left" class="styled" id="company" checked="checked" onclick="myFunction()">
             {!! auth('accounting_companies')->user()->name !!}
@@ -58,50 +58,50 @@
 @if($store->model_type=='App\Models\AccountingSystem\AccountingBranch')
 
     <div class="form-group col-md-6 pull-left branches">
-        <label> اسم الفرع التابع لها المخزن: </label>
-        {!! Form::select("branch_id",$branches,$store->model_id,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الفرع التابع لها المخزن '])!!}
+        <label> اسم الفرع التابع لها المستودع: </label>
+        {!! Form::select("branch_id",$branches,$store->model_id,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الفرع التابع لها المستودع '])!!}
     </div>
 @elseif($store->model_type=='App\Models\AccountingSystem\AccountingCompany')
     <div class="form-group col-md-6 pull-left companies">
-        <label> المخزن تابع الى الشركة مباشرا</label>
+        <label> المستودع تابع الى الشركة مباشرا</label>
         <input name="company_id" type="hidden" value="{{auth('accounting_companies')->user()->id}}">
           </div>
 @endif
 
     @else
     <div class="form-group col-md-6 pull-left companies">
-        <label> المخزن تابع الى الشركة مباشرا </label>
+        <label> المستودع تابع الى الشركة مباشرا </label>
         <input name="company_id" type="hidden" value="{{auth('accounting_companies')->user()->id}}">
     </div>
     <div class="form-group col-md-6 pull-left branches">
-    <label> اسم الفرع التابع لها المخزن: </label>
-    {!! Form::select("branch_id",$branches,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الفرع التابع لها المخزن '])!!}
+    <label> اسم الفرع التابع لها المستودع: </label>
+    {!! Form::select("branch_id",$branches,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الفرع التابع لها المستودع '])!!}
     </div>
 
 
 @endif
 
 <div class="form-group col-md-6 pull-left">
-    <label>اسم المخزن باللغة العربية:  </label>
-    {!! Form::text("ar_name",null,['class'=>'form-control','placeholder'=>'  اسم المخزن باللغة العربية '])!!}
+    <label>اسم المستودع باللغة العربية:  </label>
+    {!! Form::text("ar_name",null,['class'=>'form-control','placeholder'=>'  اسم المستودع باللغة العربية '])!!}
 </div>
 
 <div class="form-group col-md-6 pull-left">
-    <label>اسم المخزن باللغة الانجليزية:  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
-    {!! Form::text("en_name",null,['class'=>'form-control','placeholder'=>' اسم المخزن باللغة الانجليزية  '])!!}
+    <label>اسم المستودع باللغة الانجليزية:  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+    {!! Form::text("en_name",null,['class'=>'form-control','placeholder'=>' اسم المستودع باللغة الانجليزية  '])!!}
 </div>
 
 
 <div class="form-group col-md-6 pull-left">
-    <label>عنوان المخزن:  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
-    {!! Form::text("address",null,['class'=>'form-control','placeholder'=>' عنوان المخزن   '])!!}
+    <label>عنوان المستودع:  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+    {!! Form::text("address",null,['class'=>'form-control','placeholder'=>' عنوان المستودع   '])!!}
 </div>
 
 
 @if( isset($store))
 
     <div class="form-group col-md-6 pull-left">
-        <label>صوره المخزن الحالية : </label>
+        <label>صوره المستودع الحالية : </label>
         <img src="{{getimg($store->image)}}" style="width:100px; height:100px" class="file-styled">
     </div>
 
@@ -110,7 +110,7 @@
 
 
 <div class="form-groرئسىup col-md-6 pull-left ">
-    <label>صوره المخزن  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+    <label>صوره المستودع  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
     {!! Form::file("image",null,['class'=>'file-styled'])!!}
 </div>
 

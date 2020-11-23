@@ -26,7 +26,7 @@
                             <div class="single-shortcut">
                                 <a href="{{route('company.stores.create')}}">
                                     <img src="{{asset('admin/assets/images/shop.png')}}" alt="">
-                                    <span>إضافة مخزن</span>
+                                    <span>إضافة مستودع</span>
                                 </a>
                             </div>
                             <div class="single-shortcut">
@@ -77,13 +77,13 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-cabinet position-left"></i>
-                     إدارة  مخازن الشركة
+                     إدارة  مستوعات الشركة
                     <span class="caret"></span>
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li><a href="{{route('company.stores.index')}}"><i class="icon-eye"></i> عرض مخازن الشركة</a></li>
-                    <li><a href="{{route('company.stores.create')}}"><i class="icon-add"></i> اضافة مخزن جديدللشركة</a></li>
+                    <li><a href="{{route('company.stores.index')}}"><i class="icon-eye"></i> عرض مستوعات الشركة</a></li>
+                    <li><a href="{{route('company.stores.create')}}"><i class="icon-add"></i> اضافة مستودع جديدللشركة</a></li>
                 </ul>
             </li>
 
@@ -91,7 +91,7 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-grid2 position-left"></i>
-                    إدارة  تصنيفات  المنتجات
+                    إدارة  تصنيفات  الاصناف
                     <span class="caret"></span>
                 </a>
 
@@ -138,16 +138,16 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="icon-cart-add position-left"></i>
-                    إدارة منتجات الشركة
+                    إدارة اصناف الشركة
                     <span class="caret"></span>
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-right">
 
                     <li class="dropdown-submenu dropdown-submenu-left">
-                        <a href="#"><i class="icon-basket"></i> المنتجات </a>
+                        <a href="#"><i class="icon-basket"></i> الاصناف </a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{route('company.products.index')}}"><i class="icon-eye"></i> عرض  المنتجات</a></li>
+                            <li><a href="{{route('company.products.index')}}"><i class="icon-eye"></i> عرض  الاصناف</a></li>
                             <li class="dropdown-submenu dropdown-submenu-left">
                                 <a href="{{route('company.products.create')}}"><i class="icon-add"></i> اضافة منتج جديد</a>
                             </li>

@@ -6,25 +6,23 @@
     </div>
 
 
-    <div class="form-group m-form_group ">
+    <div class="form-group m-form__group ">
         <label>النوع:</label>
-        {!! Form::select('type',['in'=>'داخل المخزن','out'=>'خارج المخزن'],['class'=>'form-control m-input select2','placeholder'=>'إختار النوع']) !!}
+        {!! Form::select('type',['in'=>'داخل المستودع','out'=>'خارج المستودع'],null,['class'=>'form-control m-input select2 ','placeholder'=>'إختار النوع']) !!}
     </div>
 
-    <div class="form-group m-form_group col-lg-3">
-        <label>إضافة موزع</label>
-        <input type="checkbox" id="checkUser" name="check_user" class="form-control m-input">
+    <div id="userPanel" {{--style="display: none;"--}} class="form-group m-form_group ">
+        <label>المندوب</label>
+
+        {!! Form::select('user_id',$users,null,['id'=>'userSelect','class'=>'form-control m-input select2','placeholder'=>'اختر المندوب']) !!}
+
     </div>
 
-    <div id="userPanel" style="display: none;" class="form-group m-form_group ">
-                <select id="userSelect"  class="form-control m-input select2">
-                    <option disabled selected>إختار المندوب</option>
-                    @forelse($users as $user)
-                        <option value="{{$user->id}}" >{{$user->name}}</option>
-                    @empty
+    <div id="userPanel" {{--style="display: none;"--}} class="form-group m-form_group ">
+        <label>المخزن</label>
 
-                    @endforelse
-                </select>
+        {!! Form::select('store_id',$stores??[],null,['id'=>'userStores','class'=>'form-control m-input select2','placeholder'=>'اختر المخزن']) !!}
+
     </div>
 
 </div>
@@ -37,29 +35,29 @@
             }
         });
 
-        $('#store_category').change(function () {
+        $('#userSelect').on('change', function () {
             var id = $(this).val();
             $.ajax({
-                type: 'POST',
-                url: '{{ route('distributor.getAjaxStores') }}',
-                data: {id: id},
-                dataType: 'json',
+                type: 'get',
+                url: '{{ route('distributor.getDistributorStores') }}',
+                data: {user_id: id},
+
                 success: function (data) {
-                    $('#store_id').html(data.data);
+                    $('#userStores').html(data.data);
                 }
             });
         });
+        /*
+                $('#checkUser').change(function () {
+                    if (this.checked) {
+                        $('#userPanel').show();
+                        $('#userSelect').attr('name', 'user_id');
+                    } else {
+                        $('#userPanel').hide();
+                        $('#userSelect').removeAttr('name');
+                    }
 
-        $('#checkUser').change(function(){
-            if(this.checked){
-                $('#userPanel').show();
-                $('#userSelect').attr('name','user_id');
-            }else{
-                $('#userPanel').hide();
-                $('#userSelect').removeAttr('name');
-            }
-
-        });
+                });*/
     </script>
 
 @endpush

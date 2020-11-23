@@ -5,7 +5,7 @@
 @section('header')
 @endsection
 
-@section('breadcrumb') @php($breadcrumbs=['المنتجات'=>route('distributor.products.index'),'اضافه كمية'=>route('distributor.products.quantity.form',$product->id)])
+@section('breadcrumb') @php($breadcrumbs=['الاصناف'=>route('distributor.products.index'),'اضافه كمية'=>route('distributor.products.quantity.form',$product->id)])
 @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
 
@@ -25,7 +25,7 @@
                                 <i class="la la-gear"></i>
                             </span>
                                 <h3 class="m-portlet__head-text">
-                                    اضافه كمية منتج {{$product->id}}
+                                    اضافه كمية منتج {{$product->name}}
                                 </h3>
                             </div>
                         </div>

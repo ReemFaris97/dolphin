@@ -5,7 +5,7 @@
 
     <th> سعر الشراء</th>
     <th> سعر البيع</th>
-    <th>   الكمية بالمخزن</th>
+    <th>   الكمية بالمستودع</th>
     <th> الكمية المحولة </th>
     <th>  التكلفة</th>
     <th>  القيمة</th>
@@ -40,7 +40,7 @@
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
-          <p>الكمية المطلوبة اكبر من الكميه بالمخزن
+          <p>الكمية المطلوبة اكبر من الكميه بالمستودع
   </p>
         </div>
         <div class="modal-footer">

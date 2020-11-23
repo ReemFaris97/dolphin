@@ -1,6 +1,6 @@
 @extends('AccountingSystem.AccountingCompanies.layouts.master')
 @section('title','تعديل التصنيف')
-@section('parent_title','إدارة تصنيفات المنتجات')
+@section('parent_title','إدارة تصنيفات الاصناف')
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">

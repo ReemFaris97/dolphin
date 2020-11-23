@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
 @section('title',' تقرير  ارصده اول مده ')
-@section('parent_title','إدارة  المخازن')
+@section('parent_title','إدارة  المستودعات')
 
 @section('action', URL::route('accounting.stores.index'))
 @section('styles')
@@ -37,7 +37,7 @@
 
                     <label class="radio-inline">
                         <input type="radio" name="status"  class="styled" value="1" onclick="myFunction1()"  >
-                        مخزن
+                        مستودع
                     </label>
 
                     <label class="radio-inline">
@@ -61,9 +61,9 @@
 
                 <div class="col-sm-6 col-xs-6 pull-left store" >
                     <div class="form-group form-float">
-                        <label class="form-label">اختر المخزن</label>
+                        <label class="form-label">اختر المستودع</label>
                         <div class="form-line">
-                            {!! Form::select("store_id[]",$stores,null,['class'=>'form-control selectpicker js-example-basic-single store_id','multiple','id'=>'store_id','placeholder'=>' اختر  المخازن'])!!}
+                            {!! Form::select("store_id[]",$stores,null,['class'=>'form-control selectpicker js-example-basic-single store_id','multiple','id'=>'store_id','placeholder'=>' اختر  المستودعات'])!!}
 
                         </div>
                     </div>

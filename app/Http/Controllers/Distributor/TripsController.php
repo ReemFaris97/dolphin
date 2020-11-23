@@ -14,6 +14,7 @@ use App\Traits\Viewable;
 class TripsController extends Controller
 {
     use Viewable;
+
     private $viewable = 'distributor.trips.';
 
     /**
@@ -42,14 +43,16 @@ class TripsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $rules = [
             'client_id' => 'required|exists:clients,id',
-
+            'lat' => 'required|string',
+            'lng' => 'required|string',
+            'address' => 'required|string'
         ];
 
 
@@ -62,7 +65,7 @@ class TripsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -73,7 +76,7 @@ class TripsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -82,14 +85,14 @@ class TripsController extends Controller
         $users = User::whereIsDistributor(1)->get();
         $clients = Client::pluck('name', 'id');
         $routes = DistributorRoute::pluck('name', 'id');
-        return $this->toEdit(compact('trip', 'users','routes','clients'));
+        return $this->toEdit(compact('trip', 'users', 'routes', 'clients'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -107,7 +110,7 @@ class TripsController extends Controller
         ];
 
         $this->validate($request, $rules);
-        $ee=$trip->update($request->all());
+        $ee = $trip->update($request->all());
 
         toast('تم تعديل الرحلة بنجاح', 'success', 'top-right');
 
@@ -118,7 +121,7 @@ class TripsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -145,29 +148,26 @@ class TripsController extends Controller
         $trips = DistributorRoute::with('points')->get();
 
 //        $Positions=[];
-        $listPos=[];
-        $routes=[] ;
+        $listPos = [];
+        $routes = [];
 
 
-        foreach ($trips as $key=>$trip) {
+        foreach ($trips as $key => $trip) {
 
-            foreach ($trip->trips as $_key=>$point)
-            {
-                $all= $trip->trips;
+            foreach ($trip->trips as $_key => $point) {
+                $all = $trip->trips;
                 $count = $all->count();
-               // dd($count);
+                // dd($count);
 
-                if ($point->arrange==1)
-                {
-                    $text="arrivee";
-                }elseif ($point->arrange==$count)
-                {
-                    $text= "depart";
-                }else{
+                if ($point->arrange == 1) {
+                    $text = "arrivee";
+                } elseif ($point->arrange == $count) {
+                    $text = "depart";
+                } else {
 
-                    $text="center".$point->arrange;
+                    $text = "center" . $point->arrange;
                 }
-                $listPos [$key][$_key] = [$text.'Lat' => $point->lat, $text.'Lng' => $point->lng];
+                $listPos [$key][$_key] = [$text . 'Lat' => $point->lat, $text . 'Lng' => $point->lng];
 
 //                    $routes[] = $listPos;
             }
@@ -176,15 +176,29 @@ class TripsController extends Controller
         }
         $newRoutes = collect($listPos);
         $routes = [];
-        foreach ($newRoutes as $r){
+        foreach ($newRoutes as $r) {
             $routes[] = collect($r)->collapse();
         }
 
 //        return $routes ;
 
 
-
         return view('distributor.trips.map', compact('routes'));
     }
 
+
+    public function updateArrange(Request $request)
+    {
+        $request->validate([
+            'trips.*.id' => 'required|integer|exists:route_trips,id',
+            'route_id' => 'required|integer|exists:distributor_routes,id'
+        ]);
+        \DB::beginTransaction();
+        foreach ($request->trips as $index => $trip) {
+            RouteTrips::find($trip['id'])->update(['arrange' => $index]);
+        }
+        \DB::commit();
+
+        return response()->noContent();
+    }
 }

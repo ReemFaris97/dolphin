@@ -66,7 +66,7 @@
             </div>
             <div class="col-sm-12 col-xs-12">
                 <div class="form-group form-float">
-                    <strong>المخازن:</strong>
+                    <strong>المستودعات:</strong>
                     <br/>
                     <div class="row flex2 stores">
                         @foreach($userpermisionsstore as $value)

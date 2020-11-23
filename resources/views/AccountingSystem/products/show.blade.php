@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض المنتجات')
-@section('parent_title','إدارة المنتجات')
+@section('title','عرض الاصناف')
+@section('parent_title','إدارة الاصناف')
 @section('action', URL::route('accounting.products.index'))
 @section('styles')
 @endsection
@@ -22,12 +22,12 @@
 				<div class="row customed-singl-section">
 					<h3>بيانات المكان</h3>
 					<div class="form-group col-md-3 pull-left" id="store_id">
-						<label> اسم المخزن </label>
+						<label> اسم المستودع </label>
 						{!!optional($product->store)->ar_name !!}
 
 					</div>
 					<div class="form-group col-md-3 pull-left" id="store_id">
-						<label> اسم الشركة التابع لها المخزن </label>
+						<label> اسم الشركة التابع لها المستودع </label>
 						{!! $product->store->model->name ??'' !!}
 
 					</div>

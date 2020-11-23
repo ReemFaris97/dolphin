@@ -61,7 +61,7 @@
             </div>
             @if(isset($requests['store_id']))
             <div class="form-group col-md-2 pull-left">
-                <label class="label label-info"> المخزن: </label>
+                <label class="label label-info"> المستودع: </label>
                     @php($store=\App\Models\AccountingSystem\AccountingStore::find($requests['store_id']))
                     <span>{{$store->ar_name}}</span>
             </div>

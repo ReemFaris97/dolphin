@@ -5,7 +5,12 @@ namespace App\Http\Controllers\Distributor;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\ClientClass;
+use App\Models\DistributorRoute;
 use App\Traits\Viewable;
+use App\Models\User;
+use App\User as AppUser;
+use Illuminate\Foundation\Auth\User as AuthUser;
 
 class ClientsController extends Controller
 {
@@ -19,6 +24,7 @@ class ClientsController extends Controller
     public function index()
     {
         $clients = Client::all()->reverse();
+
         return $this->toIndex(compact('clients'));
     }
 
@@ -29,7 +35,11 @@ class ClientsController extends Controller
      */
     public function create()
     {
-        return $this->toCreate();
+        $distributors=AppUser::whereIsDistributor(1)->pluck('name','id')->toArray();
+        $routes=DistributorRoute::pluck('name','id')->toArray();
+        $client_classes = ClientClass::active()->pluck('name', 'id');
+
+        return $this->toCreate(compact('distributors', 'routes', 'client_classes'));
     }
 
     /**
@@ -43,9 +53,12 @@ class ClientsController extends Controller
          $rules = [
                     'name'=>'required|string|max:191',
                     'phone'=>'required|numeric|unique:clients,phone',
-                    'email'=>'required|string|unique:clients,email',
+            // 'email'=>'required|string|unique:clients,email',
+            'tax_number' => 'required|string|unique:clients,tax_number',
+
                     'store_name'=>'required|string|max:191',
                     'address'=>'required|string|max:191',
+            'client_class_id' => 'required|integer|exists:client_classes,id',
                     'lat'=>'required',
                     'lng'=>'required'
                 ];
@@ -86,7 +99,11 @@ class ClientsController extends Controller
     public function edit($id)
     {
         $user = Client::findOrFail($id);
-        return $this->toEdit(compact('user'));
+        $distributors=AppUser::whereIsDistributor(1)->pluck('name','id')->toArray();
+        $routes=DistributorRoute::pluck('name','id')->toArray();
+        $client_classes = ClientClass::active()->pluck('name', 'id');
+
+        return $this->toEdit(compact('user', 'distributors', 'routes', 'client_classes'));
     }
 
     /**
@@ -103,9 +120,11 @@ class ClientsController extends Controller
         $rules = [
             'name'=>'required|string|max:191',
             'phone'=>'required|numeric|unique:clients,phone',
-            'email'=>'required|string|unique:clients,email',
+            // 'email'=>'required|string|unique:clients,email',
+            'tax_number' => 'required|string|unique:clients,tax_number',
             'store_name'=>'required|string|max:191',
             'address'=>'required|string|max:191',
+            'client_class_id' => 'required|integer|exists:client_classes,id',
             'lat'=>'required',
             'lng'=>'required'
         ];
@@ -155,5 +174,12 @@ class ClientsController extends Controller
         toast('تم الغاء تفعيل العميل', 'success', 'top-right');
 
         return back();
+    }
+
+    public function show($id)
+    {
+        return $this->toShow([
+            'client' =>Client::findOrFail($id)
+        ]);
     }
 }

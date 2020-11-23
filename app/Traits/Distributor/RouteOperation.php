@@ -34,20 +34,17 @@ trait RouteOperation
         try {
             $inputs = $request->all();
             $route_trip = RouteTrips::find($request->trip_id);
-            if ($request->status == "refused")
-            {
-                $route_trip->update(['status'=>$request->status]);
+            if ($request->status == "refused") {
+                $route_trip->update(['status' => $request->status]);
             }
             $trip = TripInventory::create($inputs);
-            foreach ($request->products as $item)
-            {
+            foreach ($request->products as $item) {
                 $product = Product::find($item['product_id']);
-                $trip->products()->create(['quantity'=> $item['quantity'],'price'=>$product->price]);
+                $trip->products()->create(['quantity' => $item['quantity'], 'price' => $product->price]);
             }
 
-            foreach ($request->images as $image)
-            {
-                $trip->images()->create(['image'=>saveImage($image,'users')]);
+            foreach ($request->images as $image) {
+                $trip->images()->create(['image' => saveImage($image, 'users')]);
             }
 
             DB::commit();
@@ -61,15 +58,18 @@ trait RouteOperation
     }
 
 
-    public function RegisterBill($request,$trip)
+    public function RegisterBill($request, $trip)
     {
         DB::beginTransaction();
         try {
-            foreach ($request->products as $item)
-            {
+            foreach ($request->products as $item) {
                 $product = Product::find($item['product_id']);
-                $trip->products()->create(['quantity'=> $item['quantity'],'price'=>$product->price]);
-                $trip->update(['cash'=>$request->cash]);
+
+                $trip->products()->create([
+                    'quantity' => $item['quantity'],
+                    'price' => $product->price
+                ]);
+                $trip->update(['cash' => $request->cash]);
             }
 
             DB::commit();
@@ -87,20 +87,18 @@ trait RouteOperation
         DB::beginTransaction();
         try {
             $inputs = $request->all();
-            if ($request->image != null)
-            {
+            if ($request->image != null) {
                 if ($request->hasFile('image')) {
-                    $inputs['image'] = saveImage($request->image,'users');
+                    $inputs['image'] = saveImage($request->image, 'users');
                 }
             }
-
-            DistributorRoute::find($request->route_id)->update(['is_finished'=>1]);
-
+            $current_route = DistributorRoute::find($request->route_id);
+            $user_routes = DistributorRoute::where('user_id', $current_route->user_id)->orderBy('arrange', 'desc')->first('arrange');
+            $current_route->update(['is_finished' => 1, 'arrange' => $user_routes->arrange + 1, 'is_active' => 0]);
             $report = RouteReport::create($inputs);
-            foreach ($request->products as $item)
-            {
+            foreach ($request->products as $item) {
                 $product = Product::find($item['product_id']);
-                $report->products()->create(['quantity'=> $item['quantity'],'price'=>$product->price]);
+                $report->products()->create(['quantity' => $item['quantity'], 'price' => $product->price]);
             }
             DB::commit();
 

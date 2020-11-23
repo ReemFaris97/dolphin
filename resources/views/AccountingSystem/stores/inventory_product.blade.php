@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','  جرد الاصناف ')
-@section('parent_title','إدارة  المخازن')
+@section('parent_title','إدارة  المستودعات')
 
 @section('action', URL::route('accounting.stores.index'))
 @section('styles')
@@ -119,7 +119,7 @@
                             @elseif($product->type=="service")
                                 خدمه
                             @elseif($product->type=="offer")
-                                مجموعة منتجات
+                                مجموعة اصناف
                             @elseif($product->type=="creation")
                                  تصنيع
                             @elseif($product->type=="product_expiration")

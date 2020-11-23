@@ -28,7 +28,7 @@
                 </div>
 
                 <div class="form-group col-md-4 pull-left" id="store_id">
-                    <label> اسم المخزن </label>
+                    <label> اسم المستودع </label>
                     {!! Form::select("store_id",stores(),null,['class'=>'form-control js-example-basic-single','id'=>'store_id','placeholder'=>' اختر اسم الشركة التابع له الوجه '])!!}
                 </div>
 
@@ -57,7 +57,7 @@
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2" id="components_button">
                         المكونات
                     </button>
-                    {!! Form::select("type",['store'=>'مخزون','service'=>'خدمه','offer'=>'مجموعة منتجات ','creation'=>'تصنيع','product_expiration'=>'منتج بتاريخ صلاحيه'],null,['class'=>'form-control js-example-basic-single','placeholder'=>'  نوع المنتج   ','id'=>'type'])!!}
+                    {!! Form::select("type",['store'=>'مخزون','service'=>'خدمه','offer'=>'مجموعة اصناف ','creation'=>'تصنيع','product_expiration'=>'منتج بتاريخ صلاحيه'],null,['class'=>'form-control js-example-basic-single','placeholder'=>'  نوع المنتج   ','id'=>'type'])!!}
                 </div>
                 <div class="form-group col-md-6 pull-left">
                     <label>الوحدة الاساسية </label><span style="color: #ff0000; margin-right: 15px;">[جرام -كيلو-لتر]</span>

@@ -3,7 +3,7 @@
 @endsection
 @section('header')
 @endsection
-@section('breadcrumb') @php($breadcrumbs=['المنتجات'=>route('distributor.products.index'),'اضافه'=>route('distributor.products.create')])
+@section('breadcrumb') @php($breadcrumbs=['الاصناف'=>route('distributor.products.index'),'اضافه'=>route('distributor.products.create')])
 @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
 @section('content')

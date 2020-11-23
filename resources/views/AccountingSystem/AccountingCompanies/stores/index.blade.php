@@ -1,6 +1,6 @@
 @extends('AccountingSystem.AccountingCompanies.layouts.master')
-@section('title','عرض المخازن التابعة للشركة')
-@section('parent_title','  إدارة  المخازن ')
+@section('title','عرض المستودعات التابعة للشركة')
+@section('parent_title','  إدارة  المستودعات ')
 @section('styles')
 
 @endsection
@@ -8,7 +8,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">عرض كل المخازن التابعة للشركة</h5>
+            <h5 class="panel-title">عرض كل المستودعات التابعة للشركة</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -23,11 +23,11 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th> اسم المخزن باللغة العربية </th>
-                    <th>  اسم المخزن باللغة الانجليزية </th>
-                    <th> عنوان المخزن </th>
-                    <th>  المخزن تابع الى </th>
-                    <th> صورة المخزن </th>
+                    <th> اسم المستودع باللغة العربية </th>
+                    <th>  اسم المستودع باللغة الانجليزية </th>
+                    <th> عنوان المستودع </th>
+                    <th>  المستودع تابع الى </th>
+                    <th> صورة المستودع </th>
 
                     <th class="text-center">العمليات</th>
                 </tr>

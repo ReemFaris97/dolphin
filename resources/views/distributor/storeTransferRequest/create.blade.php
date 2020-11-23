@@ -5,7 +5,7 @@
 @section('header')
 @endsection
 
-@section('breadcrumb') @php($breadcrumbs=['المنتجات'=>route('distributor.storeTransfer.index'),'اضافه'=>route('distributor.storeTransfer.create')])
+@section('breadcrumb') @php($breadcrumbs=['الاصناف'=>route('distributor.storeTransfer.index'),'اضافه'=>route('distributor.storeTransfer.create')])
 @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
 
@@ -34,6 +34,7 @@
                     <!--begin::Form-->
 
                     {!! Form::open(['method'=>'post','route'=>'distributor.storeTransfer.store','files'=>'true','class'=>'clearfix m-form m-form--fit m-form--label-align-right'])!!}
+
                     @include('distributor.storeTransferRequest._form')
 
                     <div class="m-portlet__foot m-portlet__foot--fit full--width">

@@ -60,7 +60,7 @@
     @if( $transaction->model_type=='App\Models\AccountingSystem\AccountingBranch')
         <div class="form-group col-md-6 pull-left branches">
             <label> اسم الفرع التابع لها التحويل: </label>
-            {!! Form::select("branch_id",$branches, $transaction->model_id,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الفرع التابع لها المخزن '])!!}
+            {!! Form::select("branch_id",$branches, $transaction->model_id,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الفرع التابع لها المستودع '])!!}
         </div>
     @elseif( $transaction->model_type=='App\Models\AccountingSystem\AccountingCompany')
         <div class="form-group col-md-6 pull-left companies">
@@ -76,7 +76,7 @@
     </div>
     <div class="form-group col-md-6 pull-left branches">
         <label> اسم الفرع التابع لها التحويل: </label>
-        {!! Form::select("branch_id",$branches,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الفرع التابع لها المخزن '])!!}
+        {!! Form::select("branch_id",$branches,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الفرع التابع لها المستودع '])!!}
     </div>
 @endif
 

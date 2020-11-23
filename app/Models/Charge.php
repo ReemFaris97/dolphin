@@ -12,7 +12,6 @@ class Charge extends Model
 
     public static function boot()
     {
-
         parent::boot();
         static::creating(function ($charge) {
             $charge['code'] = 1234;
@@ -68,7 +67,6 @@ class Charge extends Model
             $this->forceFill(['confirmed_at' => $this->freshTimestamp()])->save();
 
             event(new ChargeReceived($this->worker, $this));
-
         }
     }
 
@@ -83,6 +81,4 @@ class Charge extends Model
             $this->forceFill(['destroyed_at' => null])->save();
         }
     }
-
-
 }

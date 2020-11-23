@@ -12,14 +12,13 @@ class RouteTrips extends Model
     protected $appends = ['total'];
     public function route()
     {
-        return $this->belongsTo(DistributorRoute::class,'route_id');
+        return $this->belongsTo(DistributorRoute::class,'route_id')->withDefault();
     }
-
     public function client()
     {
-        return $this->belongsTo(Client::class,'client_id');
+     
+        return $this->belongsTo(Client::class,'client_id')->withDefault();
     }
-
     public function images()
     {
         return $this->morphMany(Image::class,'model');

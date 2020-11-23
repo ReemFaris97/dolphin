@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','تعديل المنتج')
-@section('parent_title','إدارة  المنتجات')
+@section('parent_title','إدارة  الاصناف')
 @section('action', URL::route('accounting.products.index'))
 
 @section('content')

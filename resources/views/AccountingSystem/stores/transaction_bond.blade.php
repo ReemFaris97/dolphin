@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','إنشاء سند صرف   منتجات')
-@section('parent_title','إدارة  المخازن')
+@section('title','إنشاء سند صرف   اصناف')
+@section('parent_title','إدارة  المستودعات')
 
 @section('action', URL::route('accounting.stores.index'))
 @section('styles')
@@ -10,7 +10,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title"> سند اخراج منتجات</h5>
+            <h5 class="panel-title"> سند اخراج اصناف</h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>

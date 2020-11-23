@@ -25,7 +25,7 @@
 
 
                         <div class="col-md-12 col-lg-6 col-xl-3">
-                            <a href="#">
+                            <a href="{!! route('distributor.distributors.index') !!}">
                             <!--begin::Total Profit-->
                             <div class="m-widget24">
                                 <div class="m-widget24__item">
@@ -60,7 +60,7 @@
 
 
                         <div class="col-md-12 col-lg-6 col-xl-3">
-                            <a href="#">
+                            <a href="{!! route('distributor.clients.index') !!}">
                             <!--begin::New Feedbacks-->
                             <div class="m-widget24">
                                 <div class="m-widget24__item">
@@ -95,13 +95,13 @@
 
 
                         <div class="col-md-12 col-lg-6 col-xl-3">
-                            <a href="">
+                            <a href="{!! route('distributor.stores.index') !!}">
 
                             <!--begin::New Orders-->
                             <div class="m-widget24">
                                 <div class="m-widget24__item">
                                     <h4 class="m-widget24__title">
-                                        عدد المخازن
+                                        عدد المستودعات
                                     </h4><br>
                                     <span class="m-widget24__desc">
 
@@ -131,12 +131,12 @@
 
 
                         <div class="col-md-12 col-lg-6 col-xl-3">
-                            <a href="">
+                            <a href="{!! route('distributor.products.index') !!}">
                             <!--begin::New Users-->
                             <div class="m-widget24">
                                 <div class="m-widget24__item">
                                     <h4 class="m-widget24__title">
-                                        عدد المنتجات
+                                        عدد الاصناف
                                     </h4><br>
                                     <span class="m-widget24__desc">
 
@@ -169,7 +169,7 @@
 
 
                         <div class="col-md-12 col-lg-6 col-xl-3">
-                            <a href="#">
+                            <a href="{!! route('distributor.cars.index') !!}">
                                 <!--begin::Total Profit-->
                                 <div class="m-widget24">
                                     <div class="m-widget24__item">
