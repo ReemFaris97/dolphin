@@ -10,8 +10,8 @@
     </div>
 
     <div class="form-group m-form__group">
-        <label>البريد الالكترونى</label>
-        {!! Form::email('email',null,['class'=>'form-control m-input','placeholder'=>'ادخل البريد الالكترونى'])!!}
+        <label>السجل الضريبى</label>
+        {!! Form::text('tax_number',null,['class'=>'form-control m-input','placeholder'=>'ادخل السجل الضريبى'])!!}
     </div>
 
     <div class="form-group m-form__group">

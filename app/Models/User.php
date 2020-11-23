@@ -10,6 +10,7 @@ use App\Models\AccountingSystem\AccountingUserPermission;
 use App\Models\Bank;
 use App\Models\Charge;
 use App\Models\DistributorRoute;
+use App\Models\DistributorTransaction;
 use App\Models\FcmToken;
 use App\Models\Message;
 use App\Models\Notification;
@@ -31,6 +32,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use phpDocumentor\Reflection\Types\Self_;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -362,11 +364,20 @@ class User extends Authenticatable implements JWTSubject
             ->first());
     }
 
-//    ******************************************************
+    //    ******************************************************
 
-//public  function permissions(){
-//        Return $this->hasMany(AccountingUserPermission::class,'user_id');
-//}
+    public  function distributor_wallet()
+    {
+        return DistributorTransaction::where(function (Builder $q) {
+            $q->where('sender_id', $this->id);
+            $q->orWhere('receiver_id', $this->id);
+        })->select(DB::raw("SUM(CASE
+        WHEN sender_id = " . $this->id . " THEN (`amount` * -1)
+        WHEN receiver_id = " . $this->id . " AND  is_received =1 THEN  `amount`
+        ELSE 0
+    END
+    ) as wallet"))->first()->wallet;
+    }
 
 
 }
