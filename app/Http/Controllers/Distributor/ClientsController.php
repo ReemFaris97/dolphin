@@ -53,7 +53,9 @@ class ClientsController extends Controller
          $rules = [
                     'name'=>'required|string|max:191',
                     'phone'=>'required|numeric|unique:clients,phone',
-                    'email'=>'required|string|unique:clients,email',
+            // 'email'=>'required|string|unique:clients,email',
+            'tax_number' => 'required|string|unique:clients,tax_number',
+
                     'store_name'=>'required|string|max:191',
                     'address'=>'required|string|max:191',
             'client_class_id' => 'required|integer|exists:client_classes,id',
@@ -118,7 +120,8 @@ class ClientsController extends Controller
         $rules = [
             'name'=>'required|string|max:191',
             'phone'=>'required|numeric|unique:clients,phone',
-            'email'=>'required|string|unique:clients,email',
+            // 'email'=>'required|string|unique:clients,email',
+            'tax_number' => 'required|string|unique:clients,tax_number',
             'store_name'=>'required|string|max:191',
             'address'=>'required|string|max:191',
             'client_class_id' => 'required|integer|exists:client_classes,id',
