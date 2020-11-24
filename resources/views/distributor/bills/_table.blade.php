@@ -22,7 +22,7 @@
         <tr>
             <td>{!!$loop->iteration!!}</td>
             <td>000{!! $row->id!!}</td>
-            <td>{!!$row->routetrip->client->name  !!}</td>
+            <td>{!!$row->routetrip->client->name ??''  !!}</td>
             <td>{!! $row->created_at !!}</td>
             <td>{!! $row->user->name !!}</td>
             <td>{!!$row->cash  !!}</td>
