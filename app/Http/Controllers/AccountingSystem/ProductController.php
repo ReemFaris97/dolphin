@@ -23,11 +23,14 @@ use App\Models\AccountingSystem\AccountingProductTax;
 use App\Models\AccountingSystem\AccountingService;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingSupplier;
-use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Imports\AccountingImport;
 use App\Models\AccountingSystem\AccountingTaxBand;
+use Maatwebsite\Excel\Facades\Excel;
+
+
 use App\Traits\Viewable;
 
 class ProductController extends Controller
@@ -60,7 +63,6 @@ class ProductController extends Controller
         $taxs=AccountingTaxBand::pluck('name','id')->toArray();
         $suppliers=AccountingSupplier::pluck('name','id')->toArray();
         $units=collect($unit)->toJson();
-        //dd($units);
         return $this->toCreate(compact('branches','categories','products','industrials','units','taxs','suppliers'));
     }
     /**
@@ -176,7 +178,6 @@ class ProductController extends Controller
         $main_units= collect($request['main_units']);
         $components= $component_names->zip($qtys,$main_units);
         foreach ($components as $component)
-
         {
             AccountingProductComponent::create([
                 'name'=>$component['0'],
@@ -348,7 +349,6 @@ class ProductController extends Controller
         return $this->toEdit(compact('suppliers',
             'industrials','taxs','branches','categories','id','product','products','is_edit','cells','columns','faces','store','stores','units','subunits'
             ,'taxsproduct','has_tax','price_has_tax','discounts','discount'));
-
 
     }
 
@@ -624,6 +624,21 @@ class ProductController extends Controller
         $product=AccountingProduct::find($id);
         return view('AccountingSystem.products.barcode',compact('product'));
     }
+
+    public function importView(){
+
+        return view('AccountingSystem.products.importView');
+
+    }
+
+    public function import()
+    {
+
+        Excel::import(new AccountingImport,request()->file('file'));
+
+        return response('eeeeeeeeeee');
+    }
+
 
 
 

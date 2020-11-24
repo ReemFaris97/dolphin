@@ -1,16 +1,14 @@
 <?php
 
 namespace App\Http\Controllers\AccountingSystem;
-
-use App\Models\AccountingSystem\AccountingBranch;
-use App\Models\AccountingSystem\AccountingBranchCategory;
-use App\Models\AccountingSystem\AccountingBranchShift;
-use App\Models\AccountingSystem\AccountingCompany;
-
 use App\Models\AccountingSystem\AccountingProductCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Imports\AccountingImport;
 use App\Traits\Viewable;
+use Maatwebsite\Excel\Excel;
+use Maatwebsite\Excel\Facades\Excel as FacadesExcel;
+use Mockery\CountValidator\Exact;
 
 class CategoryController extends Controller
 {
@@ -145,5 +143,17 @@ class CategoryController extends Controller
             return back();
 
 
+    }
+
+    public function importViewCategory(){
+
+        return view('AccountingSystem.products.importViewCategory');
+
+    }
+
+    public function importCategory()
+    {
+       FacadesExcel:: import(new AccountingImport,request()->file('file'));
+        return back();
     }
 }

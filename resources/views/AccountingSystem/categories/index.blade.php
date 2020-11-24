@@ -16,6 +16,14 @@
                     <span class="m-l-5"><i class="fa fa-plus"></i></span>
                 </a>
             </div>
+
+            <div class="btn-group beside-btn-title">
+                <a href="{{route('accounting.categories.importViewCategory')}}" class="btn btn-success">
+                 رفع تصنيفات من ملف 
+                    <span class="m-l-5"><i class="fa fa-plus"></i></span>
+                </a>
+            </div>
+
             </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
