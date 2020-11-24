@@ -36,7 +36,7 @@
                     <div class="form-group m-form_group ">
                         <label> من المندوب</label>
                         {!!
-                        Form::select('from[user_id]',$users,old('from[user_id]')??$store->distributor_id??null,['id'=>'userSelect','class'=>'form-control
+                        Form::select('from[user_id]',$users,old('from[user_id]')??$store->distributor_id??null,['id'=>'userSelect','class'=>'form-control select2
                         m-input select2','placeholder'=>'اختر
                         المندوب','onChange'=>"getUserStore('select[name=\"from[store_id]\"]', this.value)"]) !!}
 

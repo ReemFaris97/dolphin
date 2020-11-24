@@ -39,7 +39,7 @@
                         class="fas fa-eye"></i>مشاهدة</a>
 
 
-                <a href="{!!route('distributor.distributors.show',$user->id)!!}" class="btn btn-primary"> <i
+                <a href="{!!route('distributor.distributors.edit',$user->id)!!}" class="btn btn-primary"> <i
                         class="fas fa-pen"></i> تعديل</a>
 
 

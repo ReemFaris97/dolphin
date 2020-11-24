@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\ApiLocalizationHandler;
 use App\Http\Middleware\DistributorMiddleware;
 use App\Http\Middleware\SupplierMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -43,6 +44,7 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
             'bindings',
+            ApiLocalizationHandler::class
         ],
     ];
 
