@@ -636,7 +636,7 @@ class ProductController extends Controller
 
         Excel::import(new AccountingImport,request()->file('file'));
 
-        return response('eeeeeeeeeee');
+        return back();
     }
 
 
