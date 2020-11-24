@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Distributor;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\ClientClass;
 use App\Models\DistributorRoute;
 use App\Traits\Viewable;
 use App\Models\User;
@@ -23,7 +24,7 @@ class ClientsController extends Controller
     public function index()
     {
         $clients = Client::all()->reverse();
-        
+
         return $this->toIndex(compact('clients'));
     }
 
@@ -36,7 +37,9 @@ class ClientsController extends Controller
     {
         $distributors=AppUser::whereIsDistributor(1)->pluck('name','id')->toArray();
         $routes=DistributorRoute::pluck('name','id')->toArray();
-        return $this->toCreate(compact('distributors','routes'));
+        $client_classes = ClientClass::active()->pluck('name', 'id');
+
+        return $this->toCreate(compact('distributors', 'routes', 'client_classes'));
     }
 
     /**
@@ -50,9 +53,12 @@ class ClientsController extends Controller
          $rules = [
                     'name'=>'required|string|max:191',
                     'phone'=>'required|numeric|unique:clients,phone',
-                    'email'=>'required|string|unique:clients,email',
+            // 'email'=>'required|string|unique:clients,email',
+            'tax_number' => 'required|string|unique:clients,tax_number',
+
                     'store_name'=>'required|string|max:191',
                     'address'=>'required|string|max:191',
+            'client_class_id' => 'required|integer|exists:client_classes,id',
                     'lat'=>'required',
                     'lng'=>'required'
                 ];
@@ -95,7 +101,9 @@ class ClientsController extends Controller
         $user = Client::findOrFail($id);
         $distributors=AppUser::whereIsDistributor(1)->pluck('name','id')->toArray();
         $routes=DistributorRoute::pluck('name','id')->toArray();
-        return $this->toEdit(compact('user','distributors','routes'));
+        $client_classes = ClientClass::active()->pluck('name', 'id');
+
+        return $this->toEdit(compact('user', 'distributors', 'routes', 'client_classes'));
     }
 
     /**
@@ -112,9 +120,11 @@ class ClientsController extends Controller
         $rules = [
             'name'=>'required|string|max:191',
             'phone'=>'required|numeric|unique:clients,phone',
-            'email'=>'required|string|unique:clients,email',
+            // 'email'=>'required|string|unique:clients,email',
+            'tax_number' => 'required|string|unique:clients,tax_number',
             'store_name'=>'required|string|max:191',
             'address'=>'required|string|max:191',
+            'client_class_id' => 'required|integer|exists:client_classes,id',
             'lat'=>'required',
             'lng'=>'required'
         ];

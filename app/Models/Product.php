@@ -19,9 +19,13 @@ class Product extends Model
 
     public function store()
     {
-        return $this->belongsTo(Store::class);
+        return $this->belongsTo(Store::class)->withDefault(Store::class);
     }
 
+    public function client_classes()
+    {
+        return $this->belongsToMany(ClientClass::class, 'client_class_products',  'product_id', 'client_class_id')->withPivot('price');
+    }
     public function quantity(): int
     {
         $count = $this->quantities()->where(['is_confirmed' => 1, 'type' => 'in'])->sum('quantity');
@@ -62,4 +66,5 @@ class Product extends Model
         $price = SupplierPrice::where('user_id', $user_id)->where('product_id', $this->id)->first()->price;
         return $price;
     }
+
 }

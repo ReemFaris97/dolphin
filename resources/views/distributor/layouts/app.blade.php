@@ -46,6 +46,13 @@
     <link rel="manifest" href="{!! asset('dashboard/assets/firebase/manifest.json') !!}">
 
     <link rel="shortcut icon" href="{!! asset('dashboard/assets/demo/demo12/media/img/logo/favicon.png')!!}"/>
+    <style>
+
+.m-menu__nav{
+background-color: #e7eaef !important
+}
+
+    </style>
     @stack('header')
     @include('sweetalert::alert')
 

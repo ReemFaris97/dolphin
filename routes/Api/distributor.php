@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 Route::group(['middleware' => ['jwt.auth']], function () {
 
     Route::resource('transactions','TransactionController');
+    Route::get('wallet', 'TransactionController@getWallet');
     Route::resource('stores','StoreController');
     Route::resource('expenses','ExpenseController');
     Route::resource('routes','RouteController');

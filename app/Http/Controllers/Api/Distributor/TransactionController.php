@@ -59,4 +59,10 @@ class TransactionController extends Controller
         return $this->apiResponse('العملية تمت بنجاح');
     }
 
+    public function getWallet()
+    {
+
+        return $this->apiResponse(['walllet' => auth()->user()->distributor_wallet()]);
+    }
+
 }

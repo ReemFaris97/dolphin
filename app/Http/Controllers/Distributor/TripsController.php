@@ -50,7 +50,9 @@ class TripsController extends Controller
     {
         $rules = [
             'client_id' => 'required|exists:clients,id',
-
+            'lat' => 'required|string',
+            'lng' => 'required|string',
+            'address' => 'required|string'
         ];
 
 

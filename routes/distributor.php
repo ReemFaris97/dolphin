@@ -46,6 +46,9 @@ Route::middleware('distributor')->group(function () {
     Route::resource('/refuses', 'ReasonRefuseDistributorController');
     Route::resource('/readers', 'ReaderController');
     Route::patch('readers/change-status/{reader}', 'ReaderController@changeStatus')->name('readers.changeStatus');
+    Route::resource('/client-classes', 'ClientClassController');
+    Route::patch('client-classes/change-status/{client_class}', 'ClientClassController@changeStatus')->name('client-classes.changeStatus');
+
 
 
     Route::resource('/expenditureClauses', 'ExpenditureClausesController');

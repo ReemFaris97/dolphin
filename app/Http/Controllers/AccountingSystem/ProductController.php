@@ -73,7 +73,6 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-//dd($request->all());
         $rules = [
          'product_name'=>'required|string|max:191|product_name:accounting_products,name,category_id,'.$request['product_name'].','.$request['category_id'],
             'description'=>'nullable|string',
