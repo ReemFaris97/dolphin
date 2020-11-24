@@ -118,6 +118,12 @@ Route::middleware('admin')->group(function () {
     ///////////////تقاير المستودعات
 
     Route::get('/balances-report', 'StoreController@first_balances')->name('stores.first_balances_report');
+    //Excel sheeeeeeeeeet
+    Route::get('importView', 'ProductController@importView')->name('products.importView');
+    Route::post('import', 'ProductController@import')->name('products.import');
+
+    Route::get('importViewCategory', 'ProductController@importViewCategory')->name('products.importViewCategory');
+    Route::post('importCategory', 'ProductController@importCategory')->name('products.importCategory');
 
     ////////////////////////////طباعة الباركود
     Route::get('/product-barcode/{id}', 'ProductController@barcode')->name('products.barcode');
@@ -159,7 +165,6 @@ Route::middleware('admin')->group(function () {
     Route::get('/checks', 'ClauseController@checks')->name('clauses.checks');
 
     Route::post('pay', 'SalaryController@pay')->name('users.pay');
-
 
     Route::post('/store_returns', 'SaleController@store_returns')->name('sales.store_returns');
 
