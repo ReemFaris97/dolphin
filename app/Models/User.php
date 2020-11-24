@@ -368,14 +368,13 @@ class User extends Authenticatable implements JWTSubject
 
     public  function distributor_wallet()
     {
-        return DistributorTransaction::where(function (Builder $q) {
-            $q->where('sender_id', $this->id);
-            $q->orWhere('receiver_id', $this->id);
-        })->select(DB::raw("SUM(CASE
-        WHEN sender_id = " . $this->id . " THEN (`amount` * -1)
-        WHEN receiver_id = " . $this->id . " AND  is_received =1 THEN  `amount`
-        ELSE 0
-    END
+        return DistributorTransaction::Where('user_id', $this->id)
+            ->select(DB::raw("SUM(
+        CASE
+            WHEN type = 'out' THEN (`amount` * -1)
+            WHEN type = 'id' AND  is_received =1 THEN  `amount`
+            ELSE 0
+        END
     ) as wallet"))->first()->wallet;
     }
 

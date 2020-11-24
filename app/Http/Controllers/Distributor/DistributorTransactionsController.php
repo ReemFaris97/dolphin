@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
+use Illuminate\Validation\ValidationException;
 
 class DistributorTransactionsController extends Controller
 {
@@ -51,6 +52,9 @@ class DistributorTransactionsController extends Controller
             'receiver_id.different'=>"يجب ان يكون المرسل والمستلم مندوبين مختلفين"
         ];
         $this->validate($request,$rules,$messages);
+        if (User::findOrFail($request->sender_id)->distributor_wallet() < $request->amount) {
+            throw ValidationException::withMessages(['amount' => 'الملبغ المطلوب اكبر من الموجود فى المحفظة']);
+        }
         DistributorTransaction::create($request->all());
         toast('تم التحويل بنجاح','success','top-right');
         return redirect()->route('distributor.transactions.index');
