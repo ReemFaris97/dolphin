@@ -14,7 +14,7 @@ use App\Traits\Viewable;
 
 class StoresController extends Controller
 {
-    use Viewable, StoreTransferRequestOperation;
+ use Viewable, StoreTransferRequestOperation;
 
     private $viewable = 'distributor.stores.';
 
