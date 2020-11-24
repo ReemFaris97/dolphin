@@ -233,7 +233,7 @@ class StoresController extends Controller
         return redirect()->route('distributor.stores.index');
     }
 
-    public function damageProductForm($store_id)
+    public function damageProductForm($store_id = null)
     {
 
         $store = Store::query()->find($store_id);
@@ -243,7 +243,7 @@ class StoresController extends Controller
                 'users' => User::query()->distributor()->pluck('name', 'id'),
                 'store' => $store,
                 'products' => Product::query()->get(['name', 'id', 'quantity_per_unit']),
-                'user_stores' => Store::where('distributor_id', $store->distributor_id)->pluck('name', 'id')
+                'user_stores' => Store::where('distributor_id', optional($store)->distributor_id)->pluck('name', 'id')
             ]);
 
     }
