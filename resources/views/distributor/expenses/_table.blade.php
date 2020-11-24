@@ -5,7 +5,7 @@
 
 <table class="table table-striped- table-bordered table-hover table-checkable" id="m_table_1">
     <thead>
-    <tr>
+<tr>
         <th> # </th>
         <th> رقم سند المصروف</th>
         <th>اسم البند</th>
