@@ -30,16 +30,16 @@
   </div>
  <div class="form-group m-form__group">
         <label>المسارات</label>
-        {!! Form::select('route_id',$routes,null,['class'=>'form-control m-input','placeholder'=>' اختر المسار'])!!}
+        {!! Form::select('route_id',$routes,null,['class'=>'form-control select2 m-input','placeholder'=>' اختر المسار'])!!}
   </div>
  <div class="form-group m-form__group">
 
         <label>الشريحة</label>
-        {!! Form::select('client_class_id',$client_classes,null,['class'=>'form-control m-input','placeholder'=>' اختر الشريحة'])!!}
+        {!! Form::select('client_class_id',$client_classes,null,['class'=>'form-control m-input select2','placeholder'=>' اختر الشريحة'])!!}
   </div>
  <div class="form-group m-form__group">
         <label>المندوبين</label>
-        {!! Form::select('user_id', $distributors,null,['class'=>'form-control m-input','placeholder'=>' اختر المندوبين'])!!}
+        {!! Form::select('user_id', $distributors,null,['class'=>'form-control m-input select2','placeholder'=>' اختر المندوبين'])!!}
   </div>
 
     <div class="form-group m-form__group">
