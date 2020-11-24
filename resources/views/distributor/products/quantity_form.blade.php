@@ -19,9 +19,9 @@
     </div>
 
     <div id="userPanel" {{--style="display: none;"--}} class="form-group m-form_group ">
-        <label>المخزن</label>
+        <label>المستودع</label>
 
-        {!! Form::select('store_id',$stores??[],null,['id'=>'userStores','class'=>'form-control m-input select2','placeholder'=>'اختر المخزن']) !!}
+        {!! Form::select('store_id',$stores??[],null,['id'=>'userStores','class'=>'form-control m-input select2','placeholder'=>'اختر المستودع']) !!}
 
     </div>
 
