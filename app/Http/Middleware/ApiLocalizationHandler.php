@@ -17,7 +17,8 @@ class ApiLocalizationHandler
     public function handle(Request $request, Closure $next)
     {
         app()->setLocale(
-            $request->header('Content-Language',
+            $request->header(
+                'X-localization',
                 app()->getLocale()
             )
         );
