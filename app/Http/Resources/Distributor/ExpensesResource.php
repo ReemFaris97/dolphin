@@ -27,7 +27,7 @@ class ExpensesResource extends ResourceCollection
                     'time' => $q->time,
                     'amount' => floatval($q->amount),
                     'notes' => $q->notes??"",
-                    'reader_name' => $q->reader_name??"",
+                    'reader_name' => $q->reader->name,
                     'reader_number' => $q->reader_number??"",
                     'image' => getimg($q->image),
                     'reader_image' => getimg($q->reader_image),
