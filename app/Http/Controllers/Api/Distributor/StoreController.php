@@ -61,7 +61,7 @@ class StoreController extends Controller
 
     public function store(Request $request)
     {
-        info($request->all());
+  
         $request['products'] = json_decode($request->products,TRUE);
 
         $rules = [
