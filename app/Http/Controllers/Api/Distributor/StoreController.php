@@ -61,9 +61,9 @@ class StoreController extends Controller
 
     public function store(Request $request)
     {
+        dd($request->all());
+        $request['products'] = json_decode($request->products,TRUE);
 
-        // $request['products'] = json_decode($request->products,TRUE);
-        // dd($request['products']);
         $rules = [
             'distributor_id' => 'required|integer|exists:users,id',
             'products'=>'required',
