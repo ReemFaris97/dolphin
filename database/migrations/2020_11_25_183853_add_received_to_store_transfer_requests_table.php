@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddStoresToStoreTrannsferRequestTable extends Migration
+class AddReceivedToStoreTransferRequestsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,7 @@ class AddStoresToStoreTrannsferRequestTable extends Migration
     public function up()
     {
         Schema::table('store_transfer_requests', function (Blueprint $table) {
-            $table->unsignedBigInteger('sender_store_id')->index()->nullable();
-            $table->unsignedBigInteger('receiver_store_id')->index()->nullable();
+            //
         });
     }
 
@@ -27,8 +26,7 @@ class AddStoresToStoreTrannsferRequestTable extends Migration
     public function down()
     {
         Schema::table('store_transfer_requests', function (Blueprint $table) {
-            $table->dropIndex(['sender_store_id', 'distributor_store_id']);
-            $table->dropColumn(['sender_store_id', 'distributor_store_id']);
+            //
         });
     }
 }
