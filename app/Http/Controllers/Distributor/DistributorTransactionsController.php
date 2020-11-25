@@ -31,7 +31,7 @@ class DistributorTransactionsController extends Controller
      */
     public function create()
     {
-        $users = User::whereIsDistributor(1)->get();
+        $users = User::whereIsDistributor(1)->pluck('name', 'id');
         return $this->toCreate(compact('users'));
     }
 
@@ -46,8 +46,9 @@ class DistributorTransactionsController extends Controller
         $rules = [
             'sender_id'=>'required|exists:users,id',
             'receiver_id'=>'required|different:sender_id|exists:users,id',
-            'amount'=>'required|numeric'
-        ];
+            'amount' => 'required|numeric',
+            'signature' => 'required|string',
+           ];
         $messages = [
             'receiver_id.different'=>"يجب ان يكون المرسل والمستلم مندوبين مختلفين"
         ];
@@ -84,7 +85,7 @@ class DistributorTransactionsController extends Controller
     public function edit($id)
     {
         $transaction = DistributorTransaction::findOrFail($id);
-        $users = User::whereIsDistributor(1)->get();
+        $users = User::whereIsDistributor(1)->pluck('name', 'id');
         return $this->toEdit(compact('transaction','users'));
     }
 
@@ -101,7 +102,9 @@ class DistributorTransactionsController extends Controller
         $rules = [
             'sender_id'=>'required|exists:users,id',
             'receiver_id'=>'required|different:sender_id|exists:users,id',
-            'amount'=>'required|numeric'
+            'amount' => 'required|numeric',
+            'signature' => 'required|string',
+
         ];
         $messages = [
             'receiver_id.different'=>"يجب ان يكون المرسل والمستلم مندوبين مختلفين"
