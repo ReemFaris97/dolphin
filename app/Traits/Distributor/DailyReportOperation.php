@@ -15,7 +15,7 @@ use App\Models\Note;
 use App\Models\Product;
 use App\Models\Task;
 use App\Models\TaskUser;
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

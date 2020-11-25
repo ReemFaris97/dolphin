@@ -7,6 +7,7 @@ use App\Http\Resources\Distributor\TransactionResource;
 use App\Models\DistributorTransaction;
 use App\Traits\ApiResponses;
 use App\Traits\Distributor\DistributorOperation;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use JWTFactory;
 use JWTAuth;
@@ -20,7 +21,7 @@ class TransactionController extends Controller
 
     public function index(){
 
-        $transactions = DistributorTransaction::Where('receiver_id',auth()->user()->id)
+        $transactions = DistributorTransaction::receiverUser(auth()->id())
             ->paginate($this->paginateNumber);
         return $this->apiResponse(new TransactionResource($transactions));
     }
@@ -31,7 +32,7 @@ class TransactionController extends Controller
            'distributor_id' => 'required|integer|exists:users,id',
             'amount'=>'required|integer',
             'type'=>'required|in:send,receive',
-            'signature'=>'nullable|string',
+            'signature' => 'required|string',
             'transaction_id'=>'nullable|exists:distributor_transactions,id'
         ];
         $validation = $this->apiValidation($request,$rules);
@@ -43,10 +44,19 @@ class TransactionController extends Controller
         {
             return $this->apiResponse(null,'لا يمكنك ارسال واستقبال الاموال من نفسك',400);
         }
+        if (auth()->user()->distributor_wallet() < $request->amount) {
+            return $this->apiResponse(
+                null,
+                'الملبغ المطلوب اكبر من الموجود فى المحفظة',
+                400
+            );
+        }
+
 
         if ($request->type == "send")
         {
 
+            $request['sender_type'] = $request['receiver_type'] = User::class;
             $request['sender_id'] = auth()->user()->id;
             $request['receiver_id'] = $request->distributor_id;
             $this->AddTransaction($request);
@@ -54,7 +64,7 @@ class TransactionController extends Controller
     else
         {
             $transaction = DistributorTransaction::find($request->transaction_id);
-            $transaction->update(['is_received'=>1]);
+            $transaction->update(['received_at' => Carbon::now()]);
         }
         return $this->apiResponse('العملية تمت بنجاح');
     }

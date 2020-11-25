@@ -5,7 +5,7 @@ namespace App\Traits;
 
 
 use App\Address;
-use App\User;
+use App\Models\User;
 use Illuminate\Support\Arr;
 
 trait UserOperation

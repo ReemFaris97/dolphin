@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Traits\ApiResponses;
 use App\Traits\UserOperation;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\DatabaseNotification;
 use JWTFactory;

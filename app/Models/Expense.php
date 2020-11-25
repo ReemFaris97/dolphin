@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Expense extends Model
 {
-    protected $fillable = ['user_id','expenditure_clause_id', 'expenditure_type_id', 'date', 'time', 'amount', 'image', 'notes', 
+    protected $fillable = ['user_id','expenditure_clause_id', 'expenditure_type_id', 'date', 'time', 'amount', 'image', 'notes',
     'sanad_No','reader_number', 'reader_id',];
 
 
@@ -26,8 +26,17 @@ class Expense extends Model
     {
         return $this->belongsTo(Reader::class,'reader_id')->withDefault();
     }
+
+
+    public function sender_transactions()
+    {
+        return $this->morphMany(DistributorTransaction::class, 'sender');
+    }
+
     public function setDateAttribute($value)
     {
         $this->attributes['date'] =  Carbon::parse($value);
     }
+
+
 }

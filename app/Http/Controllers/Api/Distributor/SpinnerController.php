@@ -15,7 +15,7 @@ use App\Models\Reader;
 use App\Models\ReasonRefuseDistributor;
 use App\Models\Store;
 use App\Traits\ApiResponses;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 

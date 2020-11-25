@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
-use App\User;
+use App\Models\User;
 use App\Models\Message;
 use App\Events\MessageSent;
 use Illuminate\Http\Request;

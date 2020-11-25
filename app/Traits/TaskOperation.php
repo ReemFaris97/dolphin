@@ -13,7 +13,7 @@ use App\Models\Image;
 use App\Models\Note;
 use App\Models\Task;
 use App\Models\TaskUser;
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -111,12 +111,12 @@ trait TaskOperation
             $requests = $request->only('name', 'description', 'user_id', 'type', 'date', 'time_from', 'users');
             $requests['date'] = Carbon::parse($requests['date']);
                 $requests['time_from'] = Carbon::parse($requests['time_from']);
-            
+
         } elseif ($request->type == 'period') {
             $requests = $request->only('name', 'description', 'user_id', 'type', 'date', 'time_from', 'users', 'period', 'date');
                 $requests['date'] = Carbon::parse($requests['date']);
                 $requests['time_from'] = Carbon::parse($requests['time_from']);
-            
+
         } elseif ($request->type == 'after_task') {
             $requests = $request->only('name', 'description', 'user_id', 'type', 'users', 'after_task_id');
 

@@ -6,7 +6,7 @@ use App\Models\Client;
 use App\Models\DistributorRoute;
 use App\Models\DistributorTransaction;
 use App\Models\RouteTrips;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;

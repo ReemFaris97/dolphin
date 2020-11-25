@@ -20,13 +20,9 @@ class ChangeColumnsToDistributorTransactionsTable extends Migration
 
             $table->bigIncrements('id');
             $table->morphs('sender');
-            $table->unsignedbigInteger('user_id');
-            $table->foreign('user_id')->references('id')
-                ->on('users')->onDelete('cascade')
-                ->onUpdate('cascade');
+            $table->morphs('receiver');
             $table->decimal('amount');
-            $table->enum('type', ['in', 'out'])->default('in');
-            $table->boolean('is_received')->default(0);
+            $table->timestamp('received_at')->nullable();
             $table->string('signature')->nullable();
             $table->softDeletes();
             $table->timestamps();

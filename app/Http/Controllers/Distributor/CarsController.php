@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Distributor;
 
 use App\Models\DistributorCar;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;

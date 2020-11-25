@@ -2,7 +2,7 @@
 namespace App\Traits;
 use App\Events\ChargeCreated;
 use App\Models\Charge;
-use App\User;
+use App\Models\User;
 
 trait ChargeOperation
 {

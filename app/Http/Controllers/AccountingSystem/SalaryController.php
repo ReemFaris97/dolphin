@@ -8,7 +8,7 @@ use App\Models\AccountingSystem\AccountingJobTitle;
 use App\Models\AccountingSystem\AccountingPayment;
 use App\Models\AccountingSystem\AccountingUserSalary;
 use App\Traits\Viewable;
-use App\User;
+use App\Models\User;
 use Doctrine\DBAL\Schema\Index;
 
 class SalaryController extends Controller
@@ -75,7 +75,7 @@ class SalaryController extends Controller
 
 
 
-     
+
      alert()->success('تم دفع الراتب بنجاح !')->autoclose(5000);
      return redirect()->route('accounting.users.salaries_paid');
     }

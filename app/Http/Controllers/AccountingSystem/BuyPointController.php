@@ -16,7 +16,7 @@ use App\Models\AccountingSystem\AccountingSupplier;
 use App\Models\AccountingSystem\AccountingUserPermission;
 use App\Models\UserPermission;
 use App\Traits\Viewable;
-use App\User;
+use App\Models\User;
 use Illuminate\Validation\Rules\Exists;
 use Request as GlobalRequest;
 
@@ -105,12 +105,12 @@ class BuyPointController extends Controller
             'data'=>view('AccountingSystem.buy_points.barcodeProducts',compact('products','selectd_unit_id'))->render()
         ]);
     }else{
-      
+
         return response()->json([
             'status'=>false,
         ]);
     }
-     
+
     }
     /**
      * Store a newly created resource in storage.

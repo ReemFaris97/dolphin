@@ -17,7 +17,7 @@ use App\Models\Task;
 use App\Traits\ApiResponses;
 use App\Traits\ChargeOperation;
 use App\Traits\UserOperation;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\DatabaseNotification;
 use JWTFactory;
