@@ -17,7 +17,7 @@
 		</div>
 	</div>
 	<div class="custom-tabs">
-		
+
 		<div class="all-customed-singl-sections">
 				<div class="row customed-singl-section">
 					<h3>بيانات المكان</h3>
@@ -52,7 +52,7 @@
 				<h3>بيانات المنتج</h3>
 					<div class="form-group col-md-3 pull-left">
 						<label>اسم المنتج </label>
-						{!! $product->name !!}
+						{!! $product->name ?? ''!!}
 					</div>
 					<div class="form-group col-md-3 pull-left">
 						<label> اسم التصنيف </label>
