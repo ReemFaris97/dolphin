@@ -12,7 +12,7 @@ m-form m-form--fit m-form--label-align-right'])!!}
             {!! Form::date('to_date',null,['class'=>'form-control m-input'])!!}
         </div>
         <div class="form-group m-form__group">
-            <label>اسم المخزن</label>
+            <label>اسم المستودع</label>
             {!! Form::select('store_id',$stores,null,['class'=>'form-control m-input'])!!}
         </div>
         <div class="form-group m-form__group">
