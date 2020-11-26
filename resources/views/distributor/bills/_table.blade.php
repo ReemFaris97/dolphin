@@ -21,10 +21,10 @@
 
         <tr>
             <td>{!!$loop->iteration!!}</td>
-            <td>000{!! $row->id!!}</td>
-            <td>{!!$row->routetrip->client->name  !!}</td>
+            <td>{!! $row->invoice_number!!}  </td>
+            <td>{!!optional(optional($row->routetrip)->client)->name  !!}</td>
             <td>{!! $row->created_at !!}</td>
-            <td>{!! $row->user->name !!}</td>
+            <td>{!! optional($row->user)->name !!}</td>
             <td>{!!$row->cash  !!}</td>
             <td>
                 @if($row->routetrip->status=='accepted')
