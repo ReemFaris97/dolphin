@@ -16,6 +16,11 @@ class Expense extends Model
         return $this->belongsTo(ExpenditureClause::class,'expenditure_clause_id');
     }
 
+    public function distributor()
+    {
+        return $this->belongsTo(User::class,'user_id');
+    }
+
     public function type()
     {
         return $this->belongsTo(ExpenditureType::class,'expenditure_type_id');

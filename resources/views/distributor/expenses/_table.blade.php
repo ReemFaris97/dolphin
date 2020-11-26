@@ -8,6 +8,7 @@
 <tr>
         <th> # </th>
         <th> رقم سند المصروف</th>
+        <th>اسم المندوب</th>
         <th>اسم البند</th>
         <th>نوع البند</th>
         <th>تاريخ الصرف</th>
@@ -23,6 +24,7 @@
         <tr>
             <td>{!!$loop->iteration!!}</td>
             <td>{!!$row->sanad_No!!}</td>
+            <td>{!!$row->distributor->name ??''!!}</td>
             <td>{!!$row->clause->name!!}</td>
             <td>{!!$row->type->name!!}</td>
             <td>{!!$row->date!!}</td>
