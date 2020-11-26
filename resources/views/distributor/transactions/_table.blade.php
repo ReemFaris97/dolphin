@@ -10,7 +10,7 @@
         <th>إسم المرسل</th>
         <th>إسم المرسل اليه</th>
         <th>المبلغ</th>
-        <th>الحالة</th>
+        <th>تاريخ الاستلام</th>
         <th>التاريخ</th>
         <th>الاعدادت</th>
     </tr>
@@ -22,7 +22,7 @@
             <td>{!! optional($row->sender)->name  !!}</td>
             <td>{!!optional( $row->receiver)->name !!}</td>
             <td>{!! $row->amount !!}</td>
-            <td>{!! $row->is_received?'فيد التنفيذ':'تم التأكيد' !!}</td>
+            <td>{!! $row->received_at!=null?'تم الاستلام':'لم يتم الاستلام'!!}</td>
             <td>{!! $row->created_at !!}</td>
 
             <td>

@@ -32,7 +32,7 @@ class TaskUser extends Model
     public function user()
     {
 
-        return $this->belongsTo('App\User', 'user_id');
+        return $this->belongsTo('App\Models\User', 'user_id');
     }
 
     public function alternative_user()
@@ -45,12 +45,12 @@ class TaskUser extends Model
     public function rater()
     {
 
-        return $this->belongsTo('App\User', 'rater_id')->withDefault(['name'=>'لا يوجد مقيم']);
+        return $this->belongsTo('App\Models\User', 'rater_id')->withDefault(['name' => 'لا يوجد مقيم']);
     }
 
     public function finisher()
     {
-        return $this->belongsTo('App\User', 'finisher_id')->withDefault(['name'=>'لا يوجد مسئول عن الانتهاء']);
+        return $this->belongsTo('App\Models\User', 'finisher_id')->withDefault(['name' => 'لا يوجد مسئول عن الانتهاء']);
     }
 
 

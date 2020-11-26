@@ -7,7 +7,7 @@ use App\Http\Traits\FirebasOperation;
 use App\Models\AdminNotification;
 use App\Models\Notification;
 use App\Traits\Viewable;
-use App\User;
+use App\Models\User;;
 use Illuminate\Http\Request;
 
 class AdminNotificationController extends Controller

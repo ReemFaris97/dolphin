@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Distributor;
 
 use App\Models\DistributorTransaction;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
+use Illuminate\Validation\ValidationException;
 
 class DistributorTransactionsController extends Controller
 {
@@ -30,7 +31,7 @@ class DistributorTransactionsController extends Controller
      */
     public function create()
     {
-        $users = User::whereIsDistributor(1)->get();
+        $users = User::whereIsDistributor(1)->pluck('name', 'id');
         return $this->toCreate(compact('users'));
     }
 
@@ -45,12 +46,20 @@ class DistributorTransactionsController extends Controller
         $rules = [
             'sender_id'=>'required|exists:users,id',
             'receiver_id'=>'required|different:sender_id|exists:users,id',
-            'amount'=>'required|numeric'
-        ];
+            'amount' => 'required|numeric',
+            'signature' => 'required|string',
+           ];
         $messages = [
             'receiver_id.different'=>"يجب ان يكون المرسل والمستلم مندوبين مختلفين"
         ];
         $this->validate($request,$rules,$messages);
+        if (User::findOrFail($request->sender_id)->distributor_wallet() < $request->amount) {
+            throw ValidationException::withMessages(['amount' => 'الملبغ المطلوب اكبر من الموجود فى المحفظة']);
+        }
+        $request->merge([
+            'receiver_type' => User::class,
+            'sender_type' => User::class,
+        ]);
         DistributorTransaction::create($request->all());
         toast('تم التحويل بنجاح','success','top-right');
         return redirect()->route('distributor.transactions.index');
@@ -76,7 +85,7 @@ class DistributorTransactionsController extends Controller
     public function edit($id)
     {
         $transaction = DistributorTransaction::findOrFail($id);
-        $users = User::whereIsDistributor(1)->get();
+        $users = User::whereIsDistributor(1)->pluck('name', 'id');
         return $this->toEdit(compact('transaction','users'));
     }
 
@@ -93,12 +102,18 @@ class DistributorTransactionsController extends Controller
         $rules = [
             'sender_id'=>'required|exists:users,id',
             'receiver_id'=>'required|different:sender_id|exists:users,id',
-            'amount'=>'required|numeric'
+            'amount' => 'required|numeric',
+            'signature' => 'required|string',
+
         ];
         $messages = [
             'receiver_id.different'=>"يجب ان يكون المرسل والمستلم مندوبين مختلفين"
         ];
         $this->validate($request,$rules,$messages);
+        $request->merge([
+            'receiver_type' => User::class,
+            'sender_type' => User::class,
+        ]);
         $transaction->update($request->all());
         toast('تم تعديل التحويل بنجاح','success','top-right');
         return redirect()->route('distributor.transactions.index');

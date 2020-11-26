@@ -3,7 +3,7 @@
 namespace App\Models\AccountingSystem;
 
 use App\Traits\HashPassword;
-use App\User;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

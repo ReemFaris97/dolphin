@@ -20,12 +20,12 @@ class Charge extends Model
 
     public function worker()
     {
-        return $this->belongsTo('App\User', 'worker_id');
+        return $this->belongsTo('App\Models\User', 'worker_id');
     }
 
     public function supervisor()
     {
-        return $this->belongsTo('App\User', 'supervisor_id');
+        return $this->belongsTo('App\Models\User', 'supervisor_id');
     }
 
     public function images()

@@ -9,7 +9,7 @@ use App\Models\Clause;
 use App\Models\Image;
 use App\Models\Note;
 use App\Models\Task;
-use App\User;
+use App\Models\User;;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 

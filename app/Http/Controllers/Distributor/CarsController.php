@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Distributor;
 
 use App\Models\DistributorCar;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
@@ -44,7 +44,7 @@ class CarsController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'user_id'=>'required|numeric|exists:users,id',
+            'user_id'=>'required|numeric|exists:users,id|unique:distributor_cars,user_id',
             'car_name'=>'required|string|max:191',
             'car_model'=>"required|string|max:191",
         ];
@@ -90,7 +90,7 @@ class CarsController extends Controller
         $car = DistributorCar::find($id);
 
         $rules = [
-            'user_id'=>'required|numeric|exists:users,id',
+            'user_id'=>'required|numeric|exists:users,id|unique:distributor_cars,user_id,'.$id,
             'car_name'=>'required|string|max:191',
             'car_model'=>"required|string|max:191",
         ];

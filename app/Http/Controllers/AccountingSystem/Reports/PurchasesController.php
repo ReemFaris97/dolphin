@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\AccountingSystem\Reports;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingProductTax;

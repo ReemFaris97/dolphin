@@ -7,7 +7,7 @@ use App\Models\ProductImage;
 use App\Models\Store;
 use App\Models\StoreCategory;
 use App\Traits\Supplier\ProductsOperations;
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

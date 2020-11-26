@@ -42,7 +42,7 @@ class Task extends Model
 
     public function users()
     {
-        return $this->belongsToMany('App\User', 'task_users', 'task_id', 'user_id')->withPivot('finisher_id', 'rater_id', 'task_duration', 'finished_at', 'reviewed_at', 'rated_at');
+        return $this->belongsToMany('App\Models\User', 'task_users', 'task_id', 'user_id')->withPivot('finisher_id', 'rater_id', 'task_duration', 'finished_at', 'reviewed_at', 'rated_at');
     }
 
     public function task_users()
@@ -63,7 +63,7 @@ class Task extends Model
     public function creator()
     {
 
-        return $this->belongsTo('App\User', 'user_id');
+        return $this->belongsTo('App\Models\User', 'user_id');
     }
 
     public function currentTask()

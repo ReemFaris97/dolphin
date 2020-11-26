@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Supplier;
 
 use App\Models\Product;
 use App\Models\SupplierBill;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;

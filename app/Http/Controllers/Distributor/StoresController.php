@@ -7,7 +7,7 @@ use App\Models\ProductQuantity;
 use App\Models\Store;
 use App\Models\StoreCategory;
 use App\Traits\Distributor\StoreTransferRequestOperation;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
@@ -58,7 +58,7 @@ class StoresController extends Controller
             'name.*' => 'required|string|max:191',
             'store_category_id' => "required|numeric|exists:store_categories,id",
             'for_distributor'=>'required|boolean',
-            'distributor_id' => 'required_if:for_distributor,==,0|numeric|exists:users,id',
+            'distributor_id' => 'required_if:for_distributor,==,1|numeric|exists:users,id',
             'note' => 'nullable|string',
 
         ];

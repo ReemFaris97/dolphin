@@ -6,7 +6,7 @@ use App\Models\Product;
 use App\Models\Store;
 use App\Models\StoreTransferRequest;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;

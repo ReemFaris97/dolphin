@@ -11,7 +11,7 @@ use App\Models\AccountingSystem\AccountingPurchaseReturnItem;
 use App\Models\AccountingSystem\AccountingSafe;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingSupplier;
-use App\User;
+use App\Models\User;
 
 trait PurchaseOperation
 {

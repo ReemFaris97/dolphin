@@ -6,7 +6,7 @@ use App\Http\Resources\Supplier\SupplierLogsResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UsersResource;
 use App\Models\SupplierLog;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\ApiResponses;

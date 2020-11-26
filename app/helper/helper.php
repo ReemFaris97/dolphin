@@ -142,7 +142,7 @@ function rearrange_array($array, $key) {
 
 function storekeepers()
 {
-        $storekeepers = App\User::where('is_storekeeper',1)->get()->mapWithKeys(function ($q) {
+    $storekeepers = App\Models\User::where('is_storekeeper', 1)->get()->mapWithKeys(function ($q) {
         return [$q['id'] => $q['name']];
     });
     return $storekeepers;
@@ -267,7 +267,7 @@ function keepers($store_id= null)
     if ($store_id != null) {
 
         $store=AccountingStore::findOrfail($store_id);
-        $keepers = App\User::where('id', $store->user_id)->get()->mapWithKeys(function ($q) {
+        $keepers = App\Models\User::where('id', $store->user_id)->get()->mapWithKeys(function ($q) {
             return [$q['id'] => $q['name']];
         });
         // dd($keepers);
@@ -563,7 +563,7 @@ function rates()
 
 function idol_user()
 {
-    $idol_user = App\User::WhereHas('tasks',function ($q){
+    $idol_user = App\Models\User::WhereHas('tasks', function ($q) {
         $q->where('rate','!=',null);
         $q->whereMonth('finished_at',date("m"));
     })->get()->sortByDesc(function($user) {

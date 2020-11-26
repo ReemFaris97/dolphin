@@ -16,7 +16,7 @@ use App\Models\AccountingSystem\AccountingBranch as Branch;
 use App\Models\AccountingSystem\AccountingBranchShift;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Models\AccountingSystem\AccountingSupplier;
-use App\User;
+use App\Models\User;
 
 class HomeController extends Controller
 {

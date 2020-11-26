@@ -29,7 +29,7 @@ use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingUserPermission;
 use App\Traits\PurchaseOperation;
 use App\Traits\Viewable;
-use App\User;
+use App\Models\User;
 use Auth;
 use Carbon\Carbon;
 use Request as GlobalRequest;

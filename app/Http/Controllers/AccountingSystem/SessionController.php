@@ -10,7 +10,7 @@ use App\Models\AccountingSystem\AccountingDevice;
 use App\Models\AccountingSystem\AccountingSale;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Traits\Viewable;
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Cookie;
 use Request as GlobalRequest;
@@ -182,7 +182,7 @@ private $viewable = 'AccountingSystem.sessions.';
         return response()->json([
             'status'=>false,
         ]);
-    
+
     }
 
     public function close($id){

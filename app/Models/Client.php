@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Client extends Model
@@ -23,5 +23,16 @@ class Client extends Model
     {
         return $this->belongsTo(ClientClass::class, 'client_class_id')->withDefault(new ClientClass);
     }
+
+    public function sender_transactions()
+    {
+        return $this->morphMany(DistributorTransaction::class, 'sender');
+    }
+
+    public function receiver_transactions()
+    {
+        return $this->morphMany(DistributorTransaction::class, 'receiver');
+    }
+
 
 }

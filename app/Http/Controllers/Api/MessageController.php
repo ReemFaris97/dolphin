@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\InboxResource;
 use App\Http\Resources\MessagesResource;
 use App\Traits\ApiResponses;
-use App\User;
+use App\Models\User;
 use App\Models\Message;
 use App\Events\MessageSent;
 use Illuminate\Http\Request;

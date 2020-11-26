@@ -7,7 +7,7 @@ use App\Models\AccountingSystem\AccountingCompany;
 
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingUserPermission;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingJobTitle;

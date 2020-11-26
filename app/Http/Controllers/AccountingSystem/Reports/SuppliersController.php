@@ -5,7 +5,7 @@ namespace App\Http\Controllers\AccountingSystem\Reports;
 use App\Models\AccountingSystem\AccountingPurchase as Purchase;
 use App\Models\AccountingSystem\AccountingPurchaseReturn as PurchaseReturn;
 use App\Models\AccountingSystem\AccountingSupplierLog;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
