@@ -58,7 +58,7 @@ class StoresController extends Controller
             'name.*' => 'required|string|max:191',
             'store_category_id' => "required|numeric|exists:store_categories,id",
             'for_distributor'=>'required|boolean',
-            'distributor_id' => 'required_if:for_distributor,==,1|numeric|exists:users,id',
+            'distributor_id' => 'required_if:for_distributor,==,1|nullable|exists:users,id',
             'note' => 'nullable|string',
 
         ];
