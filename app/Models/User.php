@@ -253,7 +253,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function routes(): HasMany
     {
-        return $this->hasMany(DistributorRoute::class, 'user_id');
+        return $this->hasMany(DistributorRoute::class, 'user_id')->withCount('trips');
     }
 
     public function trips(): HasManyThrough

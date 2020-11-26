@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use JWTFactory;
 use JWTAuth;
 use Illuminate\Http\Response;
+use App\Models\User;
 
 
 class TransactionController extends Controller

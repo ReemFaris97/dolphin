@@ -93,6 +93,7 @@
                             <th>الترتيب</th>
                             <th>اسم المسار</th>
                             <th>اسم المستخدم</th>
+                            <th>عدد العملاء</th>
                             <th>الحاله</th>
                             <th>الاعدادت</th>
                         </tr>
@@ -116,6 +117,7 @@
                                 @endif
                                 <td>{!!$row->name!!}</td>
                                 <td>{!!optional($row->user)->name!!}</td>
+                                <td>{!!$row->trips_count!!}</td>
                                 <td>{!!$row->is_active?"مفعل":"غير مفعل"!!}</td>
                                 <td>
                                     <a href="{!!route('distributor.routes.show',$row->id)!!}" class="btn btn-success">
@@ -134,7 +136,7 @@
                             </tr>
                         @endforeach
                         </tbody>
-                   
+
                     </table>
 
 
