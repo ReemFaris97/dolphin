@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+
 use App\Models\AccountingSystem\AccountingSale;
 
 class SaleObserver
