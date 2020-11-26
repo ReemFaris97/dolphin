@@ -123,7 +123,7 @@ class ExpensesController extends Controller
         $rules = [
             'expenditure_clause_id'=>'required|numeric|exists:expenditure_clauses,id',
             'expenditure_type_id'=>'required|numeric|exists:expenditure_types,id',
-            'user_id'=>'required|numeric|exists:users,id',
+            // 'user_id'=>'required|numeric|exists:users,id',
             'date'=>'required|date',
             'time'=>'required|string',
             'amount'=>'required|numeric',

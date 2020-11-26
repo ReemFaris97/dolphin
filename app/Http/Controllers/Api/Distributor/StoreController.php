@@ -62,10 +62,9 @@ class StoreController extends Controller
     public function store(Request $request)
     {
         $request['products'] = json_decode($request->products,TRUE);
-
         $rules = [
             'distributor_id' => 'required|integer|exists:users,id',
-            'products'=>'required|array',
+            'products'=>'required',
             'products.*.product_id' =>'required|integer|exists:products,id',
             "products.*.quantity" => "required|integer",
         ];

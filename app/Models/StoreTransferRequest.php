@@ -10,8 +10,10 @@ class StoreTransferRequest extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['sender_id', 'distributor_id', 'is_confirmed', 'sender_store_id',
-        'distributor_store_id'];
+    protected $fillable = ['sender_id',
+    'distributor_id', 'is_confirmed', 'sender_store_id',
+        'distributor_store_id','receiver_store_id'
+    ];
 
     public function sender()
     {
@@ -36,6 +38,11 @@ class StoreTransferRequest extends Model
     public function distributor_store()
     {
         return $this->belongsTo(Store::class, 'distributor_store_id')->withDefault(new Store);
+    }
+
+    public function receiver_store()
+    {
+        return $this->belongsTo(Store::class, 'receiver_store_id')->withDefault(new Store);
     }
 
     public function sender_store()

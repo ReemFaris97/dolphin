@@ -4,7 +4,7 @@
         {!! Form::text('name[ar]',(isset($store) ? $store: new \App\Models\Store)->getTranslation('name', 'ar'),['class'=>'form-control m-input','placeholder'=>'ادخل الاسم بالعربية'])!!}
     </div>
     <div class="form-group m-form__group">
-        <label>الاسم</label>
+        <label>  الاسم باللغة الانجليزية</label>
         {!! Form::text('name[en]',(isset($store) ?$store: new \App\Models\Store)->getTranslation('name', 'en'),['class'=>'form-control m-input','placeholder'=>'ادخل الاسم بالانجليزية'])!!}
     </div>
 

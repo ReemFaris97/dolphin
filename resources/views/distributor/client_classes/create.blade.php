@@ -25,7 +25,7 @@
                                 <i class="la la-gear"></i>
                             </span>
                                 <h3 class="m-portlet__head-text">
-                                    اضافه عداد
+                                    اضافه شريحة عميل
                                 </h3>
                             </div>
                         </div>
