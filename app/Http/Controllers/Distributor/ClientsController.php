@@ -86,8 +86,7 @@ class ClientsController extends Controller
     public function activation()
     {
         $clients = Client::where('is_active',0)->get()->reverse();
-        return $this->toShow(compact('clients'));
-
+        return view('distributor.clients.activations',compact('clients'));
     }
 
     /**
