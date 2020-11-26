@@ -42,10 +42,10 @@
                         </div>
 
                         <div class="form-group m-form_group ">
-                            <label>من المخزن </label>
+                            <label>من المستودع </label>
                             {!!
                             Form::select('store_id',[],old('store_id')??$store->id??null,['class'=>'form-control
-                            m-input select2','placeholder'=>'اختر المخزن ',
+                            m-input select2','placeholder'=>'اختر المستودع ',
                             'onChange'=>'getStoreProducts(this.value)'
                             ]) !!}
 

@@ -68,7 +68,6 @@
 @push('scripts')
     <script>
         $('#add-product').on('click', function () {
-            debugger
             var product_id = $('#product_id').val();
             var selected_product = $('#product_id').find('option:selected');
             var product_name = selected_product.text();

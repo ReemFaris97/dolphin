@@ -28,9 +28,9 @@ trait StoreTransferRequestOperation
         DB::beginTransaction();
         try {
             $inputs = $request->all();
-    
+
             $request_transfer = StoreTransferRequest::create($inputs);
-            foreach ($request->products as $item) {
+            foreach ($request->products ?? [] as $item) {
                 $product = Product::find($item['product_id']);
                 $request_transfer->products()->create(
                     [
