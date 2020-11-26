@@ -77,6 +77,7 @@ class RouteController extends Controller
 
     public function attachProducts(Request $request)
     {
+        info($request->all());
         $request['products'] = json_decode($request->products,TRUE);
 
         $rules = [
