@@ -51,7 +51,7 @@ class RouteController extends Controller
 
     public function makeInventory(Request $request,$type)
     {
-        info($request->all());
+        // info($request->all());
         $request['type'] = $type;
         $request['products'] = json_decode($request->products,TRUE);
         $rules = [

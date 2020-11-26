@@ -54,7 +54,7 @@ trait RouteOperation
             return true;
         } catch (\Exception $e) {
             DB::rollback();
-            dd($e);
+            // dd($e);
             return false;
         }
     }
