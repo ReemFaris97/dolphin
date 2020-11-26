@@ -31,7 +31,7 @@ class TransactionController extends Controller
 
         $rules = [
            'distributor_id' => 'required|integer|exists:users,id',
-            'amount'=>'required|integer',
+            'amount' => 'required|numeric',
             'type'=>'required|in:send,receive',
             'signature' => 'required|string',
             'transaction_id'=>'nullable|exists:distributor_transactions,id'

@@ -8,6 +8,7 @@
     <tr>
         <th>#</th>
         <th>إسم المندوب</th>
+        <th>المخزن</th>
         <th>المبالغ النقدية</th>
         <th>التاريخ</th>
         <th>قيمة المصروفات</th>
@@ -19,6 +20,7 @@
     @foreach($dailyReports as $row)
         <tr>
             <td>{!!$loop->iteration!!}</td>
+            <td>{!! optional($row->user)->name !!}</td>
             <td>{!! optional($row->user)->name !!}</td>
             <td>{!! $row->cash !!}</td>
             <td>{!! $row->created_at->toDateString() !!}</td>
