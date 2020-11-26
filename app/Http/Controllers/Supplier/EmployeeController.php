@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Supplier;
 
 use App\Models\Bank;
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

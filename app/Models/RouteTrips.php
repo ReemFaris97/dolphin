@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class RouteTrips extends Model
@@ -16,7 +16,7 @@ class RouteTrips extends Model
     }
     public function client()
     {
-     
+
         return $this->belongsTo(Client::class,'client_id')->withDefault();
     }
     public function images()

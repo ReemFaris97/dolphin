@@ -11,7 +11,7 @@ use App\Sell;
 use App\Store;
 use App\StoreKeeper;
 use App\Traits\Viewable;
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

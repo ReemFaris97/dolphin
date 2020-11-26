@@ -9,7 +9,7 @@ use App\Models\ClientClass;
 use App\Models\DistributorRoute;
 use App\Traits\Viewable;
 use App\Models\User;
-use App\User as AppUser;
+use App\Models\User as AppUser;
 use Illuminate\Foundation\Auth\User as AuthUser;
 
 class ClientsController extends Controller

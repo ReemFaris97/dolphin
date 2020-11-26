@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use App\Http\Traits\FirebasOperation;
 use App\Models\AccountingSystem\AccountingJobTitle;
@@ -316,6 +316,14 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(SupplierTransaction::class, 'supplier_id');
     }
+    public function distributor_transactions()
+    {
+        return $this->hasMany(DistributorTransaction::class, 'user_id');
+    }
+    public function sender_transactions()
+    {
+        return $this->morphMany(DistributorTransaction::class, 'sender');
+    }
 
     public function supplierTotalBills()
     {
@@ -366,17 +374,13 @@ class User extends Authenticatable implements JWTSubject
 
     //    ******************************************************
 
+    public  function all_transactions()
+    {
+        return DistributorTransaction::UserTransactions($this->id)->walletOf($this->id)->get();
+    }
     public  function distributor_wallet()
     {
-        return DistributorTransaction::where(function (Builder $q) {
-            $q->where('sender_id', $this->id);
-            $q->orWhere('receiver_id', $this->id);
-        })->select(DB::raw("SUM(CASE
-        WHEN sender_id = " . $this->id . " THEN (`amount` * -1)
-        WHEN receiver_id = " . $this->id . " AND  is_received =1 THEN  `amount`
-        ELSE 0
-    END
-    ) as wallet"))->first()->wallet;
+        return $this->all_transactions()->sum('balance');
     }
 
 

@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 
 use App\Http\Traits\FirebasOperation;
-use App\User;
+use App\Models\User;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 

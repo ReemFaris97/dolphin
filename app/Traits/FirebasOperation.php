@@ -6,7 +6,7 @@ namespace App\Http\Traits;
 
 use App\Address;
 use App\Models\FcmToken;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 trait FirebasOperation

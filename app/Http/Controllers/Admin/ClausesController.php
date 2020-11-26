@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\User;
+use App\Models\User;
 use App\Models\Clause;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -34,7 +34,7 @@ class ClausesController extends Controller
      */
     public function create()
     {
-        $users = App\User::with('roles')->get();
+        $users = \App\Models\User::with('roles')->get();
         $users = $users->filter(function ($user, $key) {
             return $user->hasPermissionTo('insert_numbers');
         })->pluck('name','id');

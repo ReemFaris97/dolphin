@@ -2,7 +2,7 @@
 
 namespace App\Models\AccountingSystem;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class AccountingDamage extends Model

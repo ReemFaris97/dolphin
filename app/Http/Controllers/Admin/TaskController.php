@@ -11,7 +11,7 @@ use App\Models\Task;
 use App\Models\TaskUser;
 use App\Traits\TaskOperation;
 use App\Traits\Viewable;
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

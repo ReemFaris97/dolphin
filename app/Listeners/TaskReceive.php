@@ -5,7 +5,7 @@ namespace App\Listeners;
 use App\Events\ChargeReceived;
 use App\Events\TaskCreated;
 use App\Http\Traits\FirebasOperation;
-use App\User;
+use App\Models\User;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 

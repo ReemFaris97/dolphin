@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 use App\Events\ChargeCreated;
 use App\Http\Traits\FirebasOperation;
-use App\User;
+use App\Models\User;
 
 
 class ChargeCode

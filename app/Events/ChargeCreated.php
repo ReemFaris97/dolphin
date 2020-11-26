@@ -4,7 +4,7 @@ namespace App\Events;
 
 use App\Models\Charge;
 use App\Models\NotificationCategory;
-use App\User;
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;

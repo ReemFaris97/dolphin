@@ -9,8 +9,10 @@ use App\Events\TaskFinished;
 use App\Events\TaskRated;
 use App\Events\WorkerTaskFinished;
 use App\Models\Charge;
+use App\Models\Client;
 use App\Models\DailyReport;
 use App\Models\DistributorRoute;
+use App\Models\DistributorTransaction;
 use App\Models\Image;
 use App\Models\Note;
 use App\Models\Product;
@@ -19,7 +21,7 @@ use App\Models\RouteTrips;
 use App\Models\Task;
 use App\Models\TaskUser;
 use App\Models\TripInventory;
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -58,7 +60,7 @@ trait RouteOperation
     }
 
 
-    public function RegisterBill($request, $trip)
+    public function RegisterBill($request, RouteTrips $trip)
     {
         DB::beginTransaction();
         try {
@@ -70,6 +72,15 @@ trait RouteOperation
                     'price' => $product->price
                 ]);
                 $trip->update(['cash' => $request->cash]);
+
+                DistributorTransaction::create([
+                    'sender_type' => Client::class,
+                    'sender_id' => $trip->client_id,
+                    'receiver_type' => User::class,
+                    'receiver_id' => auth()->id(),
+                    'amount' => $request->cash,
+                    'received_at' => Carbon::now()
+                ]);
             }
 
             DB::commit();
@@ -95,7 +106,7 @@ trait RouteOperation
             $current_route = DistributorRoute::find($request->route_id);
             $user_routes = DistributorRoute::where('user_id', $current_route->user_id)->orderBy('arrange', 'desc')->first('arrange');
             $current_route->update(['is_finished' => 1, 'arrange' => $user_routes->arrange + 1, 'is_active' => 0]);
-            $report = RouteReport::create($inputs);
+            $report = RouteReport::query()->create($inputs);
             foreach ($request->products as $item) {
                 $product = Product::find($item['product_id']);
                 $report->products()->create(['quantity' => $item['quantity'], 'price' => $product->price]);

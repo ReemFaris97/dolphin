@@ -15,7 +15,7 @@ use App\Models\AccountingSystem\AccountingDevice;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Traits\Viewable;
-use App\User;
+use App\Models\User;
 use Cookie;
 use Request as GlobalRequest;
 use Session;

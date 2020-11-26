@@ -25,8 +25,17 @@ class Expense extends Model
     {
         return $this->belongsTo(Reader::class,'reader_id')->withDefault();
     }
+
+
+    public function sender_transactions()
+    {
+        return $this->morphMany(DistributorTransaction::class, 'sender');
+    }
+
     public function setDateAttribute($value)
     {
         $this->attributes['date'] =  Carbon::parse($value);
     }
+
+
 }

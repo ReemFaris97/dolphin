@@ -6,7 +6,7 @@ use App\Events\TaskTransfered;
 use App\Models\Task;
 use App\Models\TaskLog;
 use App\Models\TaskUser;
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
 
 class TaskUserObserver

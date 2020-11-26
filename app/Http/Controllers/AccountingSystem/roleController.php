@@ -4,7 +4,7 @@ namespace App\Http\Controllers\AccountingSystem;
 
 use App\Activity;
 use App\City;
-use App\User;
+use App\Models\User;
 use function GuzzleHttp\Promise\all;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -36,7 +36,7 @@ class roleController extends Controller
     {
 
         $permission = Permission::where('ar_name','-')->get();
-       
+
         return view('AccountingSystem.roles.create',compact('permission'));
 
     }

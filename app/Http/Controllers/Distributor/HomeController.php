@@ -6,7 +6,7 @@ use App\Models\Client;
 use App\Models\DistributorCar;
 use App\Models\Product;
 use App\Models\Store;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

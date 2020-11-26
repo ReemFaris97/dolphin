@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Charge;
 use App\Traits\ChargeOperation;
 use App\Traits\Viewable;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 

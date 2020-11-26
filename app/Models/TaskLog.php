@@ -10,9 +10,9 @@ class TaskLog extends Model
 
 
     public  function old_user(){
-        return $this->belongsTo('App\User','old_user_id');
+        return $this->belongsTo('App\Models\User', 'old_user_id');
     }
     public  function new_user(){
-        return $this->belongsTo('App\User','new_user_id');
+        return $this->belongsTo('App\Models\User', 'new_user_id');
     }
 }

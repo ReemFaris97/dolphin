@@ -7,7 +7,7 @@ use App\Models\Store;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\ProductQuantity;
-use App\User;
+use App\Models\User;
 
 class StoreMovementController extends Controller
 {
