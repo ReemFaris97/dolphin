@@ -76,7 +76,9 @@ class StoresController extends Controller
      */
     public function show($id)
     {
-        return $this->toShow(['store' => Store::findOrFail($id)]);
+        return $this->toShow(['store' => Store::with(['totalQuantities' => function ($q) {
+            $q->with('product');
+        }])->findOrFail($id)]);
     }
 
     /**
