@@ -15,7 +15,19 @@
         <th>الاعدادت</th>
     </tr>
     </thead>
+    <tfoot>
+    <tr>
+        <th>#</th>
+        <th class="filter">إسم المندوب</th>
+        <th class="filter">المبالغ النقدية</th>
+        <th class="filter">التاريخ</th>
+        <th class="filter">قيمة المصروفات</th>
+        <th>الصورة</th>
+        <th>الاعدادت</th>
+    </tr>
+    </tfoot>
     <tbody>
+
     @foreach($dailyReports as $row)
         <tr>
             <td>{!!$loop->iteration!!}</td>
@@ -37,15 +49,5 @@
         </tr>
     @endforeach
     </tbody>
-    <tfoot>
-    <tr>
-        <th>#</th>
-        <th class="filter">إسم المندوب</th>
-        <th class="filter">المبالغ النقدية</th>
-        <th class="filter">التاريخ</th>
-        <th class="filter">قيمة المصروفات</th>
-        <th>الصورة</th>
-        <th>الاعدادت</th>
-    </tr>
-    </tfoot>
+
 </table>

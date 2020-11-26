@@ -52,6 +52,11 @@ class StoreTransferController extends Controller
 
     }
 
+    public function show($id)
+    {
+
+        return $this->toShow(['store' => StoreTransferRequest::findOrFail($id)]);
+    }
     public function delete($id){
         StoreTransferRequest::find($id)->delete();
         toast('تم الحذف بنجاح', 'success','top-right');
