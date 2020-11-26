@@ -2,9 +2,7 @@
 
 namespace App\Observers;
 
-use App\Models\AccountingSystem\AccountingAccount;
-use App\Models\AccountingSystem\AccountingEntry;
-use App\Models\AccountingSystem\AccountingEntryAccount;
+
 use App\Models\AccountingSystem\AccountingSale;
 
 class SaleObserver
@@ -15,10 +13,8 @@ class SaleObserver
             if (getsetting('counter_type')=='daily') {
                 $exiss = AccountingSale::whereDate('created_at', date('Y-m-d'))->latest()->first();
                 if (!is_null($exiss)) {
-
                     $count = $exiss->daily_number ?? 1;
                     $sale->daily_number = $count + 1;
-
                 } else {
                     $sale->daily_number = 1;
                 }
