@@ -1,5 +1,6 @@
 @extends('distributor.layouts.app')
-@section('title') اضافه منتج جديد
+@section('title')                                     نقل مخزون من مندوب لآخر
+
 @endsection
 
 @section('header')
@@ -36,11 +37,11 @@
 
 
                         <div class="form-group m-form_group ">
-                            <label>من المخزن </label>
+                            <label>من المستودع </label>
 
                             {!!
                             Form::select('from[store_id]',$from_stores,old('from[store_id]')??$store->id??null,['class'=>'form-control
-                            m-input select2','placeholder'=>'اختر المخزن المنقوله منه',
+                            m-input select2','placeholder'=>'اختر المستودع المنقوله منه',
                             'onChange'=>'getStoreProducts(this.value)'
                             ]) !!}
 
@@ -57,11 +58,11 @@
                         </div>
 
                         <div class="form-group m-form_group ">
-                            <label>الى المخزن </label>
+                            <label>الى المستودع </label>
 
                             {!!
                             Form::select('to[store_id]',[],old('to[store_id]')??$store->id??null,['class'=>'form-control
-                            m-input select2','placeholder'=>'اختر المخزن']) !!}
+                            m-input select2','placeholder'=>'اختر المستودع']) !!}
 
                         </div>
 

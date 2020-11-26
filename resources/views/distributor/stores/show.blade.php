@@ -47,6 +47,7 @@
                         {{$store->name}}
                     </td>
                 </tr>
+                @if($store->for_distributor==1)
                 <tr>
                     <td>
                         المندوب
@@ -58,6 +59,7 @@
                         {{$store->distributor->name}}
                     </td>
                 </tr>
+                @endif
                 <tr>
                     <td>
                         نوع المستودع
@@ -69,7 +71,32 @@
 
                 </tbody>
             </table>
+<br>
+<h3> المنتجات</h3>
+<table class="table table-bordered table-hover ">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th> اسم المنتج</th>
+            <th> الكود</th>
+            <th> الكميه</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($store->totalQuantities ??[] as $product_quantity)
 
+        <tr>
+            <td> {{$loop->iteration}}</td>
+            <td> {{$product_quantity->product->name}}</td>
+            <td> {{$product_quantity->product->bar_code}}</td>
+            <td> {{$product_quantity->total_quantity}}</td>
+        </tr>
+        @endforeach
+    </tbody>
+
+
+
+</table>
         </div>
     </div>
 
