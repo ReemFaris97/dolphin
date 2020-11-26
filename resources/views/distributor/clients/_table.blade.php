@@ -34,13 +34,13 @@
 
                    <td>
                 @if ($client->is_active==0)
-                    <span class="lable lable-danger">غير مفعل</span>
+                    <span class="lable lable-danger">غير معتمد</span>
                    <a href="{{route("distributor.client.active",$client->id)}}" class="btn btn-success btn-circle">
                             <i class="fas fa-check"></i>
                         </a>
 
                     @else
-                    <span class="lable lable-success"> مفعل</span>
+                    <span class="lable lable-success"> معتمد</span>
                     <a href="{{route("distributor.client.dis_active",$client->id)}}" class="btn btn-danger btn-circle">
                         <i class="fas fa-times"></i>
                     </a>
@@ -52,13 +52,10 @@
             <td><img src="{!!asset($client->image)!!}" height="100" width="100"/></td>
             <td>
                 <a href="{!!route('distributor.clients.show',$client->id)!!}" class="btn btn-warning"> <i class="fas fa-book"></i> تفاصيل</a>
-
                 <a href="{!!route('distributor.clients.edit',$client->id)!!}" class="btn btn-primary"> <i class="fas fa-pen"></i> تعديل</a>
                 <a href="#"  onclick="Delete({{$client->id}})"  data-original-title="حذف" class="btn btn-danger btn-circle"><i  class="fa fa-trash"></i> حذف</a>
                 {!!Form::open( ['route' => ['distributor.clients.destroy',$client->id] ,'id'=>'delete-form'.$client->id, 'method' => 'Delete']) !!}
                 {!!Form::close() !!}
-
-
             </td>
 
         </tr>
@@ -68,12 +65,12 @@
     <tr>
         <th>#</th>
         <th>الكود</th>
-        <th>الاسم</th>
-        <th>الهاتف</th>
+        <th >الاسم</th>
+        <th >الهاتف</th>
         <th>البريد الالكترونى</th>
         <th>إسم المتجر</th>
-        <th>إسم المندوب</th>
-        <th>إسم المسار</th>
+        <th class="filter">إسم المندوب</th>
+        <th class="filter">إسم المسار</th>
         <th> الحالة</th>
         <th> صورة العميل</th>
         <th>الاعدادت</th>

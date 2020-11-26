@@ -34,6 +34,9 @@
                     <li class="m-portlet__nav-item"></li>
 
                 </ul>
+                {{--  <form class="form-inline" enctype="multipart/form-data" method="get" action="">
+
+                </form>  --}}
             </div>
         </div>
         <div class="m-portlet__body">
