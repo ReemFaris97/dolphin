@@ -139,7 +139,7 @@ class SpinnerController extends Controller
         if($validation instanceof Response){return $validation;}
 
         $product = Product::whereBarCode($request->bar_code)->first();
-        if (!$product) return $this->notFoundResponse();
+        if (!$product) return $this->apiResponse(' لايوجد منتج بهذا الباركود');
         return $this->apiResponse(new ProductsSpinnerModelResource($product));
     }
 
