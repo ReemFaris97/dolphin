@@ -249,7 +249,7 @@ class StoresController extends Controller
 
     }
 
-    public function damageProduct(Request $request, $store_id)
+    public function damageProduct(Request $request, $store_id = null)
     {
 
         $this->validate($request, [

@@ -42,7 +42,7 @@ class SpinnerController extends Controller
      */
     public function getReceivedMoneyTransactions(){
 
-        $distributors = DistributorTransaction::where('receiver_id',auth()->user()->id)->where('is_received',0)->get();
+        $distributors = DistributorTransaction::receiverUser(auth()->user()->id)->where('received_at',null)->get();
 
         return $this->apiResponse(TransactionsSpinnerModelResource::collection($distributors));
     }
