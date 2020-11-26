@@ -8,7 +8,6 @@
     <tr>
         <th>#</th>
         <th>إسم المندوب</th>
-        <th>المخزن</th>
         <th>المبالغ النقدية</th>
         <th>التاريخ</th>
         <th>قيمة المصروفات</th>
@@ -16,11 +15,22 @@
         <th>الاعدادت</th>
     </tr>
     </thead>
+    <tfoot>
+    <tr>
+        <th>#</th>
+        <th class="filter">إسم المندوب</th>
+        <th class="filter">المبالغ النقدية</th>
+        <th class="filter">التاريخ</th>
+        <th class="filter">قيمة المصروفات</th>
+        <th>الصورة</th>
+        <th>الاعدادت</th>
+    </tr>
+    </tfoot>
     <tbody>
+
     @foreach($dailyReports as $row)
         <tr>
             <td>{!!$loop->iteration!!}</td>
-            <td>{!! optional($row->user)->name !!}</td>
             <td>{!! optional($row->user)->name !!}</td>
             <td>{!! $row->cash !!}</td>
             <td>{!! $row->created_at->toDateString() !!}</td>
@@ -39,15 +49,5 @@
         </tr>
     @endforeach
     </tbody>
-    <tfoot>
-    <tr>
-        <th>#</th>
-        <th class="filter">إسم المندوب</th>
-        <th class="filter">المبالغ النقدية</th>
-        <th class="filter">التاريخ</th>
-        <th class="filter">قيمة المصروفات</th>
-        <th>الصورة</th>
-        <th>الاعدادت</th>
-    </tr>
-    </tfoot>
+
 </table>

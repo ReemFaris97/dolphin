@@ -45,17 +45,17 @@ class TransactionController extends Controller
         {
             return $this->apiResponse(null,'لا يمكنك ارسال واستقبال الاموال من نفسك',400);
         }
-        if (auth()->user()->distributor_wallet() < $request->amount) {
-            return $this->apiResponse(
-                null,
-                'الملبغ المطلوب اكبر من الموجود فى المحفظة',
-                400
-            );
-        }
 
 
-        if ($request->type == "send")
-        {
+        if ($request->type == "send") {
+
+            if (auth()->user()->distributor_wallet() < $request->amount) {
+                return $this->apiResponse(
+                    null,
+                    'الملبغ المطلوب اكبر من الموجود فى المحفظة',
+                    400
+                );
+            }
 
             $request['sender_type'] = $request['receiver_type'] = User::class;
             $request['sender_id'] = auth()->user()->id;

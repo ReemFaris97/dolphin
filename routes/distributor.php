@@ -37,6 +37,7 @@ Route::middleware('distributor')->group(function () {
 
     Route::get('/storeTransfer', 'StoreTransferController@index')->name('storeTransfer.index');
     Route::get('/storeTransfer/create', 'StoreTransferController@create')->name('storeTransfer.create');
+    Route::get('/storeTransfer/{id}', 'StoreTransferController@show')->name('storeTransfer.show');
     Route::post('/storeTransfer/store', 'StoreTransferController@store')->name('storeTransfer.store');
     Route::delete('storeTransfer/delete/{id}', 'StoreTransferController@delete')->name('storeTransfer.destroy');
 
