@@ -16,11 +16,11 @@ class Store extends Model
 
     protected $fillable = ['name', 'store_category_id', 'distributor_id', 'is_active', 'notes', 'for_distributor'];
 
+
     public function products()
     {
-        return $this->hasMany(Product::class);
+        return $this->belongsToMany(Store::class, 'product_quantities', 'store_id', 'product_id')->distinct();
     }
-
     public function ProductQuantity()
     {
         return $this->hasMany(ProductQuantity::class);

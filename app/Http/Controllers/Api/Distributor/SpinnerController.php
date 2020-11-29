@@ -7,6 +7,7 @@ use App\Http\Resources\Distributor\DistributorSpinnerModelResource;
 use App\Http\Resources\Distributor\ProductsSpinnerModelResource;
 use App\Http\Resources\Distributor\TransactionsSpinnerModelResource;
 use App\Http\Resources\GeneralModelResource;
+use App\Models\Client;
 use App\Models\DistributorTransaction;
 use App\Models\ExpenditureClause;
 use App\Models\ExpenditureType;
@@ -16,6 +17,7 @@ use App\Models\ReasonRefuseDistributor;
 use App\Models\Store;
 use App\Traits\ApiResponses;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -97,13 +99,16 @@ class SpinnerController extends Controller
      * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
      */
     public function getProductsByStore($store_id=null){
+
         if (is_null($store_id))
         {
-            $distributors = Product::get();
+            $distributors = Product::withClientPrice(request()->client_id)->get();
         }
         else
         {
-            $distributors = Product::whereStoreId($store_id)->get();
+            $distributors = Product::whereHas('stores', function (Builder $builder) use ($store_id) {
+                $builder->where('store_id',$store_id);
+            })->withClientPrice(request()->client_id)->get();
         }
         return $this->apiResponse(ProductsSpinnerModelResource::collection($distributors));
     }
@@ -133,13 +138,15 @@ class SpinnerController extends Controller
     {
         $rules = [
             'bar_code'=>'required|string',
-            'client_id' => 'required|integer'
+            'client_id' => 'required|integer|exists:clients,id'
         ];
 
         $validation=$this->apiValidation($request,$rules);
         if($validation instanceof Response){return $validation;}
 
-        $product = Product::whereBarCode($request->bar_code)->first();
+        $client = Client::find($request->client_id);
+        $product = Product::whereBarCode($request->bar_code)->withClassPrice($client->client_class_id)->first();
+
         if (!$product) return $this->notFoundResponse();
         return $this->apiResponse(new ProductsSpinnerModelResource($product));
     }
