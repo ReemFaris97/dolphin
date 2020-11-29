@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AttachedProducts extends Model
 {
-    protected $fillable = ['quantity','price','product_id'];
+    protected $fillable = ['quantity','price','product_id','transaction_id'];
 
     public function model()
     {

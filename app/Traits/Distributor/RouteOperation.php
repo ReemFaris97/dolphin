@@ -18,12 +18,10 @@ use App\Models\Note;
 use App\Models\Product;
 use App\Models\RouteReport;
 use App\Models\RouteTrips;
-use App\Models\Task;
-use App\Models\TaskUser;
+
 use App\Models\TripInventory;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 
@@ -67,13 +65,7 @@ trait RouteOperation
             foreach ($request->products as $item) {
                 $product = Product::find($item['product_id']);
 
-                $trip->products()->create([
-                    'quantity' => $item['quantity'],
-                    'price' => $product->price
-                ]);
-                $trip->update(['cash' => $request->cash]);
-
-                DistributorTransaction::create([
+               $transaction= DistributorTransaction::create([
                     'sender_type' => Client::class,
                     'sender_id' => $trip->client_id,
                     'receiver_type' => User::class,
@@ -81,6 +73,15 @@ trait RouteOperation
                     'amount' => $request->cash,
                     'received_at' => Carbon::now()
                 ]);
+
+                $trip->products()->create([
+                    'quantity' => $item['quantity'],
+                    'price' => $product->price,
+                    'product_id' => $product->id,
+                    'transaction_id' => $transaction->id,
+                ]);
+                $trip->update(['cash' => $request->cash]);
+
             }
 
             DB::commit();
