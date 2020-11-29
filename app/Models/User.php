@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Http\Traits\FirebasOperation;
 use App\Models\AccountingSystem\AccountingJobTitle;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingStore;
@@ -39,7 +38,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable, softDeletes, HasRoles, HashPassword, FirebasOperation, ApiResponses;
+    use Notifiable, softDeletes, HasRoles, HashPassword, ApiResponses;
 
 
     /**
