@@ -30,7 +30,10 @@
             <td>{!! $row->min_quantity !!}</td>
             <td>{!! $row->max_quantity !!}</td>
             <td>{!! $row->price !!}</td>
-            <td>{{ $row->bar_code }}
+            <td>
+                <?php echo \Milon\Barcode\DNS1D::getBarcodeHTML($row->bar_code, "C39",1) ?>
+
+                {{ $row->bar_code }}
 
             </td>
 {{--            <td>{!! $row->expired_at !!}</td>--}}
