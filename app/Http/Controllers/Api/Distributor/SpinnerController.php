@@ -133,6 +133,7 @@ class SpinnerController extends Controller
     {
         $rules = [
             'bar_code'=>'required|string',
+            'client_id' => 'required|integer'
         ];
 
         $validation=$this->apiValidation($request,$rules);
