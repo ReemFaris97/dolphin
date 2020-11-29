@@ -44,7 +44,7 @@ trait ApiResponses
     }
 
     public function notFoundResponse(){
-        return $this->apiResponse(null, __('messages.not_found'), 404);
+        return $this->apiResponse(null, 'لا يوجدمنتجات للباركود', 404);
     }
 
     public function unKnowError(){

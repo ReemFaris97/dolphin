@@ -51,6 +51,7 @@ class RouteController extends Controller
 
     public function makeInventory(Request $request,$type)
     {
+        // info($request->all());
         $request['type'] = $type;
         $request['products'] = json_decode($request->products,TRUE);
         $rules = [
@@ -77,6 +78,7 @@ class RouteController extends Controller
 
     public function attachProducts(Request $request)
     {
+
         $request['products'] = json_decode($request->products,TRUE);
 
         $rules = [
