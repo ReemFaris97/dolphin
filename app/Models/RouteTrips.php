@@ -19,6 +19,11 @@ class RouteTrips extends Model
 
         return $this->belongsTo(Client::class,'client_id')->withDefault();
     }
+    public function user()
+    {
+
+        return $this->belongsTo(User::class,'user_id')->withDefault();
+    }
     public function images()
     {
         return $this->morphMany(Image::class,'model');
