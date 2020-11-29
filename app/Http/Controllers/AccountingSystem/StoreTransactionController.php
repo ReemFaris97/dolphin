@@ -104,7 +104,7 @@ class StoreTransactionController extends Controller
         $product_store_form=AccountingProductStore::where('store_id',$id)->where('product_id',$request['product_id'])->first();
         if ($product_store_form->quantity-$request['quantity'] >= 0)
         {
-         
+
             $product_store_form->update([
                 'quantity' => $product_store_form->quantity - $request['quantity'],
             ]);
@@ -133,11 +133,6 @@ class StoreTransactionController extends Controller
 
 
     }
-
-
-
-
-
     public function transactions(Request $request){
 
         $inputs=$request->all();
@@ -146,7 +141,7 @@ class StoreTransactionController extends Controller
             'quantity'=>'required',
         ];
         $massage=[
-            'quantity.required'=>'اختر المخزن المحول منه ثم الاصناف المحولة',
+            'quantity.required' => 'اختر المستودع المحول منه ثم الاصناف المحولة',
         ];
         $this->validate($request,$rules,$massage);
         $quantity=collect($inputs['quantity']);
@@ -358,9 +353,9 @@ class StoreTransactionController extends Controller
             'user_id'=>'required|numeric|exists:users,id',
             'quantity'=>'required',
         ];
-    
+
         $massage=[
-            'quantity.required'=>'اختر المخزن  ثم حددالاصناف التالفة',
+            'quantity.required' => 'اختر المستودع  ثم حددالاصناف التالفة',
         ];
         $this->validate($request,$rules,$massage);
 
