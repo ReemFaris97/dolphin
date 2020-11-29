@@ -61,8 +61,8 @@
                             <label>الى المستودع </label>
 
                             {!!
-                            Form::select('to[store_id]',[],old('to[store_id]')??$store->id??null,['class'=>'form-control
-                            m-input select2','placeholder'=>'اختر المستودع']) !!}
+                            Form::select('to[store_id]',$user_stores??[],old('to[store_id]')??$store->id??null,['class'=>'form-control
+                            m-input select2','placeholder'=>'اختر مستودع']) !!}
 
                         </div>
 
