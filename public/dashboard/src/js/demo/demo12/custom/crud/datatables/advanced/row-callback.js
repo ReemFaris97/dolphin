@@ -9,7 +9,7 @@ var DatatablesAdvancedColumnVisibility = function() {
 			createdRow: function(row, data, index) {
 				var cell = $('td', row).eq(6);
 				if (data[6].replace(/[\$,]/g, '') * 1 > 400000 && data[6].replace(/[\$,]/g, '') * 1 < 600000) {
-					cell.addClass('highlight').css({'font-weight': 'bold', color: '#2C3E50'}).attr('title', 'Over $400,000 and below $600,000');
+					cell.addClass('highlight').css({'font-weight': 'bold', color: '#3D7CAE'}).attr('title', 'Over $400,000 and below $600,000');
 				}
 				if (data[6].replace(/[\$,]/g, '') * 1 > 600000) {
 					cell.addClass('highlight').css({'font-weight': 'bold', color: '#f4516c'}).attr('title', 'Over $600,000');
