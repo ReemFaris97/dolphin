@@ -14,7 +14,7 @@ class StoreObserver
      * @param  \App\Models\Store  $store
      * @return void
      */
-    public function creating(Store $store)
+    public function created(Store $store)
     {
 
 
