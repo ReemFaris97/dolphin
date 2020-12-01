@@ -43,7 +43,7 @@
 <!--
                 <div class="m-login__logo wow animated">
                     <a href="#">
-                        {{--<img src="{!! asset('dashboard/assets/app/media/img/logos/logo-1.png')!!}">--}}
+                        {{--<img src="{!! asset('dashboard/assets/demo/demo12/media/img/logo/logo.png')!!}">--}}
                     </a>
                 </div>
 -->
