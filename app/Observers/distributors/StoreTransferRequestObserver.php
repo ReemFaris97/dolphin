@@ -8,7 +8,7 @@ use App\Models\StoreTransferRequest;
 
 class StoreTransferRequestObserver
 {
-    public function creating(StoreTransferRequest $storeTransferRequest)
+    public function created(StoreTransferRequest $storeTransferRequest)
     {
         event(new StoreTransferRequestAdded($storeTransferRequest));
     }

@@ -16,7 +16,7 @@ body {
 }
 body {
     padding-right: 0!important;
-}	
+}
 .m-portlet .m-portlet__head .m-portlet__head-caption .m-portlet__head-title .m-portlet__head-text , .btn{
 	font-family: tajawal!important
 }
@@ -324,7 +324,7 @@ button.v-btn.v-btn--floating.v-btn--small.theme--dark.pink .v-btn__content i.fla
     left: unset!important;
 }
 .theme--light.v-input:not(.v-input--is-disabled) input, .theme--light.v-input:not(.v-input--is-disabled) textarea {
-   
+
 }
 .theme--light.v-input:not(.v-input--is-disabled) input, .theme--light.v-input:not(.v-input--is-disabled) textarea {
     max-height: 71px!important;
@@ -477,7 +477,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ecf0f1', end
 .m-subheader {
 	padding: 30px 30px 0 30px;
 	background: var(--main-color);
-	
+
 }
 .m-subheader .m-subheader__title.m-subheader__title--separator , .m-subheader{
 	font-family: tajawal !important;
@@ -664,8 +664,8 @@ table.table-bordered.dataTable td:last-child, table.table-bordered.dataTable td:
     color: #fff!important;
     height: 50px;
 }
-.m-portlet .m-portlet__head .m-portlet__head-caption .m-portlet__head-title , 
-.m-portlet .m-portlet__head .m-portlet__head-caption 
+.m-portlet .m-portlet__head .m-portlet__head-caption .m-portlet__head-title ,
+.m-portlet .m-portlet__head .m-portlet__head-caption
 {
     width: 100%;
 	    display: flex;
@@ -809,7 +809,7 @@ input#m_quicksearch_input:focus {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #EBECF7; 
+  background: #EBECF7;
 }
 
 /* Handle */
@@ -927,7 +927,7 @@ td.dataTables_empty {
     display: flex;
     align-items: center;
 }
-		
+
 	.m-stack__item.m-stack__item--middle.m-brand__logo {
     top: 60px;
     position: absolute;
@@ -1149,11 +1149,18 @@ li.img-list-wrapper {
     width: 100%;
 }
 /********************* Modifications *********************************/
-
 .m-portlet.m-portlet--unair {
     margin: 0 auto 30px auto;
 }
 
 .m-portlet__head:not(.belong-to-aform) .m-portlet__head-caption .m-portlet__head-title h3.m-portlet__head-text {
     color: #fff !important;
+}
+
+.m-body .m-content .m-portlet__head:not(.belong-to-aform) .m-portlet__head-caption .m-portlet__head-title h3.m-portlet__head-text {
+    color: #3d7cae !important;
+}
+
+.m-login.m-login--2 .m-login__wrapper .m-login__container .m-login__form .m-form__group .form-control {
+    color: #333333;
 }
