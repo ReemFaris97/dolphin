@@ -7,7 +7,7 @@ use App\Models\DistributorRoute;
 
 class DistributorRouteObserver
 {
-    public function creating(DistributorRoute $distributorRoute)
+    public function created(DistributorRoute $distributorRoute)
     {
         event(new DistributorRouteAdded($distributorRoute));
     }
