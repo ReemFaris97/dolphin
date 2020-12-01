@@ -1,14 +1,5 @@
 @extends('distributor.layouts.app')
-@section('chart-css')
-<style>
-.m-portlet.m-portlet--unair {
-    margin: 0 auto 30px auto;
-}
-.m-portlet__head:not(.belong-to-aform) .m-portlet__head-caption .m-portlet__head-title h3.m-portlet__head-text {
-    color: #fff!important;
-}
-</style>
-@endsection
+
 @section('content')
 <div class="m-grid__item m-grid__item--fluid m-wrapper">
     <!-- BEGIN: Subheader -->
