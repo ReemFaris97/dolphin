@@ -32,6 +32,8 @@ class NotifyDistributorWithNewRoute
             'item_id' => $event->route->id,
             'message' => $message,
             'type' => $type,
+            'title' => $title
+
         ];
 
         $users = User::where('id', $event->route->user_id)->get();

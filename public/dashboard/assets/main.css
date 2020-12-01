@@ -1149,14 +1149,18 @@ li.img-list-wrapper {
     width: 100%;
 }
 /********************* Modifications *********************************/
-<<<<<<< HEAD
-=======
-
->>>>>>> 71ed999d33a1787cb3ca5fabae29b7ae2e0bf371
 .m-portlet.m-portlet--unair {
     margin: 0 auto 30px auto;
 }
 
 .m-portlet__head:not(.belong-to-aform) .m-portlet__head-caption .m-portlet__head-title h3.m-portlet__head-text {
     color: #fff !important;
+}
+
+.m-body .m-content .m-portlet__head:not(.belong-to-aform) .m-portlet__head-caption .m-portlet__head-title h3.m-portlet__head-text {
+    color: #3d7cae !important;
+}
+
+.m-login.m-login--2 .m-login__wrapper .m-login__container .m-login__form .m-form__group .form-control {
+    color: #333333;
 }

@@ -28,6 +28,8 @@ class NotifyTransactionReceiver
             'item_id' => $event->transaction->id,
             'message' => $message,
             'type' => $type,
+            'title' => $title
+
         ];
 
         if ($event->transaction->receiver_type == User::class) {
