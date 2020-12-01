@@ -17,7 +17,6 @@ class StoreObserver
     public function created(Store $store)
     {
 
-
         event(new NewStoreAdded($store));
     }
 }
