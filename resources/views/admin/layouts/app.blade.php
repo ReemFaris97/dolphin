@@ -45,7 +45,7 @@
 
     <link rel="manifest" href="{!! asset('dashboard/assets/firebase/manifest.json') !!}">
 
-    <link rel="shortcut icon" href="{!! asset('dashboard/assets/app/media/img/logos/logo-1.png')!!}"/>
+    <link rel="shortcut icon" href="{!! asset('dashboard/assets/demo/demo12/media/img/logo/logo.png')!!}"/>
     @stack('header')
 </head>
 

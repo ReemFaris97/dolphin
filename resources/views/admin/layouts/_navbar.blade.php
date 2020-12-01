@@ -9,7 +9,7 @@
                 <div class="m-stack m-stack--ver m-stack--general">
                     <div class="m-stack__item m-stack__item--middle m-brand__logo">
                         <a href="{!! route('admin.home') !!}" class="m-brand__logo-wrapper">
-                            <img alt="" src="{!! asset('dashboard/assets/app/media/img/logos/logo-1.png')!!}"/>
+                            <img alt="" src="{!! asset('dashboard/assets/demo/demo12/media/img/logo/logo.png')!!}"/>
                         </a>
                     </div>
                     <div class="m-stack__item m-stack__item--middle m-brand__tools">
