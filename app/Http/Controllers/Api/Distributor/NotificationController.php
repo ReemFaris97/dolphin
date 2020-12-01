@@ -16,7 +16,14 @@ class NotificationController extends Controller
     public function index()
     {
 
-        $notifications = auth()->user()->notifications()->latest()->paginate();
+        $notifications = auth()->user()
+            ->notifications()
+            ->whereIn('type', [
+                'new_transaction_added', 'client_activation', 'new_distributor_route', 'new_store', 'new_store_transaction_received', 'new_store_transaction_added',
+                'new_transaction_added',
+                'new_transaction_received'
+            ])
+            ->latest()->paginate();
         return $this->apiResponse(new NotificationsResource($notifications));
     }
 }

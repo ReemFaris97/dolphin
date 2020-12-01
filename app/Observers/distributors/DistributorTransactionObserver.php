@@ -8,7 +8,7 @@ use App\Models\DistributorTransaction;
 
 class DistributorTransactionObserver
 {
-    public function creating(DistributorTransaction $distributorTransaction)
+    public function created(DistributorTransaction $distributorTransaction)
     {
         event(new DistributorTransactionAdded($distributorTransaction));
     }

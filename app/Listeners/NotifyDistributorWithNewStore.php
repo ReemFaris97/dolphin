@@ -30,6 +30,8 @@ class NotifyDistributorWithNewStore
             'item_id' => $event->store->id,
             'message' => $message,
             'type' => $type,
+            'title' => $title
+
         ];
         if ($event->store->for_distributor == 1 && $event->store->distributor_id != null) {
             $users = User::where('id', $event->store->distributor_id)->get();

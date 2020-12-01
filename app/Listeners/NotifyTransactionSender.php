@@ -30,6 +30,8 @@ class NotifyTransactionSender
             'item_id' => $event->transaction->id,
             'message' => $message,
             'type' => $type,
+            'title' => $title
+
         ];
         if ($event->transaction->sender_type == User::class) {
             $users = User::where('id', $event->transaction->sender)

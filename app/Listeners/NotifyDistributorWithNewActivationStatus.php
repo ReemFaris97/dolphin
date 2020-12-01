@@ -30,6 +30,7 @@ class NotifyDistributorWithNewActivationStatus
             'item_id' => $event->client->id,
             'message' => $message,
             'type' => $type,
+            'title' => $title
         ];
 
         $users = User::where('is_distributor', 1)->get();
