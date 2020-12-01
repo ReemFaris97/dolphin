@@ -42,7 +42,7 @@
             <div class="m-login__container">
                 <div class="m-login__logo">
                     <a href="#">
-                        {{--<img src="{!! asset('dashboard/assets/app/media/img/logos/logo-1.png')!!}">--}}
+                        {{--<img src="{!! asset('dashboard/assets/demo/demo12/media/img/logo/logo.png')!!}">--}}
                     </a>
                 </div>
                 <div class="m-login__signin">

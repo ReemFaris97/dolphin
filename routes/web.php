@@ -11,10 +11,29 @@
 |
 */
 
+use App\Events\ClientActivationChanged;
+use App\Events\DistributorRouteAdded;
+use App\Events\DistributorTransactionAdded;
+use App\Events\NewStoreAdded;
 use App\Models\AccountingSystem\AccountingAccount;
 use App\Models\AccountingSystem\AccountingAsset;
 use App\Models\AccountingSystem\AccountingAssetDamageLog;
+use App\Models\Client;
+use App\Models\DistributorCar;
+use App\Models\DistributorRoute;
+use App\Models\Store;
 use Carbon\Carbon;
+
+
+Route::get('push notifications', function ($id) {
+    event(new  ClientActivationChanged(Client::first()));
+    event(new  DistributorRouteAdded(DistributorRoute::where('user_id', 1)->first()));
+    event(new  DistributorTransactionAdded(DistributorRoute::where('user_id', 1)->first()));
+
+    // Client::where('id', 1)->first()->update(['is_active' => 0]);
+    dd('dddddddddddd');
+});
+
 
 Route::get('test',function(){
 
@@ -23,7 +42,7 @@ Route::get('test',function(){
     $today=Carbon::now();
     $Assets=AccountingAsset::all();
     foreach($Assets as $asset)
-    {
+{
 
             if($today->between($asset->damage_start_date,$asset->damage_end_date)){
                 $lastDamage=AccountingAssetDamageLog::where('asset_id',$asset->id)->latest()->first();
