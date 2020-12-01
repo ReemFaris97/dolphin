@@ -18,12 +18,12 @@ class ProductQuantity extends Model
 
     public function distributor()
     {
-        return $this->belongsTo(User::class, 'product_id')->withDefault(new User);
+        return $this->belongsTo(User::class, 'user_id')->withDefault(new User);
     }
 
     public function store()
     {
-        return $this->belongsTo(Store::class, 'product_id')->withDefault(new Store);
+        return $this->belongsTo(Store::class, 'store_id')->withDefault(new Store);
     }
 
     public function store_transfer_request()

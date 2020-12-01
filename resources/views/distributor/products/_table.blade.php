@@ -31,7 +31,16 @@
             <td>{!! $row->max_quantity !!}</td>
             <td>{!! $row->price !!}</td>
             <td>
-                <?php echo \Milon\Barcode\DNS1D::getBarcodeHTML($row->bar_code, "C39",1) ?>
+                <?php
+                    try{
+                    //حسبى الله ونعم والوكيل
+
+                        echo \Milon\Barcode\DNS1D::getBarcodeHTML($row->bar_code, "C39",1);
+                }
+                catch(\Exception $e){
+
+                }
+                    ?>
 
                 {{ $row->bar_code }}
 
