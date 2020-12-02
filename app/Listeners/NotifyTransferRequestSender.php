@@ -32,6 +32,8 @@ class NotifyTransferRequestSender
             'item_id' => $event->store_transaction->id,
             'message' => $message,
             'type' => $type,
+            'title' => $title
+
         ];
         $users = User::where('id', $event->store_transaction->sender_id)
             ->get();
