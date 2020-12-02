@@ -20,6 +20,7 @@ class ExpenseResource extends JsonResource
              'expenditure_clause_id' => $this->expenditure_clause_id,
              'expenditure_clause' => $this->clause->name,
              'expenditure_type_id' => $this->expenditure_type_id,
+             'distributor_route_id' => $this->distributor_route_id,
              'expenditure_type' => $this->type->name,
              'date' => date('d-m-y',strtotime($this->date)),
              'time' => $this->time,

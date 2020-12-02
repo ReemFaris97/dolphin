@@ -43,6 +43,8 @@ Route::group(['middleware' => ['jwt.auth']], function () {
         Route::get('/stores/{distributor_id}','SpinnerController@getStoresByDistributorId');
         Route::get('/expenditure_clauses','SpinnerController@getExpenditureClauses');
         Route::get('/expenditure_types','SpinnerController@getExpenditureTypes');
+        Route::get('/settings','SpinnerController@getSetting');
+
     });
 
 });
