@@ -128,7 +128,7 @@ class RouteController extends Controller
         $request['route']= $route_id;
              $rules = [
                  "name" => "required|string|min:1|max:255",
-                 "email" => "required|email|min:1|max:255|unique:users,email",
+            "email" => "nullable|email|min:1|max:255|unique:users,email",
                  'phone'      =>'required|string|unique:users,phone',
                  "image"=>"required|image",
                  "store_name" => "required|string|min:1|max:255",
