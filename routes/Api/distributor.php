@@ -40,9 +40,12 @@ Route::group(['middleware' => ['jwt.auth']], function () {
         Route::post('/product_by_code','SpinnerController@getProductByBarCode');
         Route::get('/products/{store_id?}','SpinnerController@getProductsByStore');
         Route::get('/stores','SpinnerController@getAllStores');
+        Route::get('/routes', 'SpinnerController@getDistributorRoutes');
         Route::get('/stores/{distributor_id}','SpinnerController@getStoresByDistributorId');
         Route::get('/expenditure_clauses','SpinnerController@getExpenditureClauses');
         Route::get('/expenditure_types','SpinnerController@getExpenditureTypes');
+        Route::get('/settings','SpinnerController@getSetting');
+
     });
 
 });

@@ -195,7 +195,6 @@ class ProductsController extends Controller
         return view('distributor.products.add_quantity', compact('product', 'users'));
     }
 
-
     public function storeProductQuantity(Request $request, $id)
     {
         $product = Product::query()->find($id);

@@ -11,6 +11,7 @@ use App\Models\StoreCategory;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\DistributorRoute;
 use App\Traits\Viewable;
 
 class ExpensesController extends Controller
@@ -63,7 +64,7 @@ class ExpensesController extends Controller
             'reader_name'=>"sometimes|string|max:191",
             'reader_number'=>"sometimes|numeric",
             'reader_image'=>"sometimes|image",
-
+            'distributor_route_id' => 'required|exists:distributor_routes,id'
         ];
         $this->validate($request,$rules);
         $inputs=$request->all();
@@ -76,7 +77,9 @@ class ExpensesController extends Controller
             $inputs['reader_image'] = saveImage($request->reader_image, 'photos');
         }
         $inputs['sanad_No']=mt_rand(1000000, 9999999);
-       Expense::create($inputs);
+        $route = DistributorRoute::find($request->distributor_route_id);
+        $inputs['round'] = $route->round;
+        Expense::create($inputs);
         toast('تم الإضافة بنجاح','success','top-right');
         return redirect()->route('distributor.expenses.index');
     }
