@@ -166,7 +166,7 @@ class SpinnerController extends Controller
     {
         return $this->apiResponse(
             GeneralModelResource::collection(
-                ClientClass::Active()->all()
+                ClientClass::Active()->get()
             )
         );
     }
