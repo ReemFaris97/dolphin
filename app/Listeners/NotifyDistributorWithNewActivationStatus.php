@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\ClientActivationChanged;
-use App\Http\Traits\FirebasOperation;
+use App\Traits\FirebasOperation;
 use App\Models\Client;
 use App\Models\User;
 use Illuminate\Queue\InteractsWithQueue;

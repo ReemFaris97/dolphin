@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\ChargeCreated;
-use App\Http\Traits\FirebasOperation;
+use App\Traits\FirebasOperation;
 use App\Models\User;
 
 
