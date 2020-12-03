@@ -8,6 +8,7 @@ use App\Http\Resources\Distributor\ProductsSpinnerModelResource;
 use App\Http\Resources\Distributor\TransactionsSpinnerModelResource;
 use App\Http\Resources\GeneralModelResource;
 use App\Models\Client;
+use App\Models\DistributorRoute;
 use App\Models\DistributorTransaction;
 use App\Models\ExpenditureClause;
 use App\Models\ExpenditureType;
@@ -69,7 +70,7 @@ class SpinnerController extends Controller
      * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
      */
     public function getAllStores(){
-        $stores = Store::where('distributor_id',auth()->user()->id)->get();
+        $stores = Store::active()->ofDistributor(auth()->id())->get();
         return $this->apiResponse(GeneralModelResource::collection($stores));
     }
 
@@ -149,6 +150,15 @@ class SpinnerController extends Controller
 
         if (!$product) return $this->notFoundResponse();
         return $this->apiResponse(new ProductsSpinnerModelResource($product));
+    }
+  
+    public function getDistributorRoutes()
+    {
+        return $this->apiResponse(
+            GeneralModelResource::collection(
+                DistributorRoute::where('user_id', auth()->id())->get()
+            )
+        );
     }
 
 }

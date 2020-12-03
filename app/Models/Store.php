@@ -47,6 +47,11 @@ class Store extends Model
     {
         $builder->where('is_active', 1);
     }
+    public function scopeOfDistributor(Builder $builder, $distributor_id): void
+    {
+        $builder->where('for_distributor', 1);
+        $builder->where('distributor_id', $distributor_id);
+    }
 
 
 }
