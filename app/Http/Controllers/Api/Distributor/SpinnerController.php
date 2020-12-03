@@ -8,6 +8,7 @@ use App\Http\Resources\Distributor\ProductsSpinnerModelResource;
 use App\Http\Resources\Distributor\TransactionsSpinnerModelResource;
 use App\Http\Resources\GeneralModelResource;
 use App\Models\Client;
+use App\Models\ClientClass;
 use App\Models\DistributorRoute;
 use App\Models\DistributorTransaction;
 use App\Models\ExpenditureClause;
@@ -151,12 +152,21 @@ class SpinnerController extends Controller
         if (!$product) return $this->notFoundResponse();
         return $this->apiResponse(new ProductsSpinnerModelResource($product));
     }
-  
+
     public function getDistributorRoutes()
     {
         return $this->apiResponse(
             GeneralModelResource::collection(
                 DistributorRoute::where('user_id', auth()->id())->get()
+            )
+        );
+    }
+
+    public function getClientClasses()
+    {
+        return $this->apiResponse(
+            GeneralModelResource::collection(
+                ClientClass::Active()->all()
             )
         );
     }
