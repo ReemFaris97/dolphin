@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Traits\FirebasOperation;
+use App\Traits\FirebasOperation;
 use App\Models\AdminNotification;
 use App\Models\Notification;
 use App\Traits\Viewable;
