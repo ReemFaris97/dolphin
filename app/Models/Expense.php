@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Expense extends Model
 {
     protected $fillable = ['user_id','expenditure_clause_id', 'expenditure_type_id', 'date', 'time', 'amount', 'image', 'notes',
-    'sanad_No','reader_number', 'reader_id','reader_image'];
+    'sanad_No','reader_number', 'reader_id','reader_image','distributor_route_id'];
 
     public function clause()
     {
