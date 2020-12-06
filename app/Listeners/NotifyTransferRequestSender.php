@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Http\Traits\FirebasOperation;
+use App\Traits\FirebasOperation;
 use App\Models\StoreTransferRequest;
 use App\Events\StoreTransferRequestReceiver;
 use App\Models\User;

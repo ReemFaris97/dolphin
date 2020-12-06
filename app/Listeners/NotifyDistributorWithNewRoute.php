@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\DistributorRouteAdded as EventsDistributorRouteAdded;
-use App\Http\Traits\FirebasOperation;
+use App\Traits\FirebasOperation;
 use App\Models\DistributorRoute;
 use App\Models\User;
 use App\Events\DistributorRouteAdded;

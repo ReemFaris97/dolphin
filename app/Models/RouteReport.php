@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class RouteReport extends Model
 {
 
-    protected $fillable = ['user_id','route_id','cash','expenses','image'];
+    protected $fillable = ['user_id', 'route_id', 'cash', 'expenses', 'image', 'round'];
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id')->withDefault(new User);

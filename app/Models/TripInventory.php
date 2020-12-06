@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class TripInventory extends Model
 {
-    protected $fillable = ['trip_id', 'type', 'notes', 'refuse_reason'];
+    protected $fillable = ['trip_id', 'type', 'notes', 'refuse_reason', 'route_trip_id'];
 
     public function trip()
     {
@@ -23,5 +24,11 @@ class TripInventory extends Model
     {
         return $this->morphMany(Image::class,'model');
     }
+
+    public function tripReport(): HasOne
+    {
+        return $this->hasOne(TripInventory::class, 'route_trip_id', 'trip_id');
+    }
+
 
 }

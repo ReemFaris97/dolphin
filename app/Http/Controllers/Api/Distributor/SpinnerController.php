@@ -8,6 +8,8 @@ use App\Http\Resources\Distributor\ProductsSpinnerModelResource;
 use App\Http\Resources\Distributor\TransactionsSpinnerModelResource;
 use App\Http\Resources\GeneralModelResource;
 use App\Models\Client;
+use App\Models\ClientClass;
+use App\Models\DistributorRoute;
 use App\Models\DistributorTransaction;
 use App\Models\ExpenditureClause;
 use App\Models\ExpenditureType;
@@ -69,7 +71,7 @@ class SpinnerController extends Controller
      * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
      */
     public function getAllStores(){
-        $stores = Store::where('distributor_id',auth()->user()->id)->get();
+        $stores = Store::active()->ofDistributor(auth()->id())->get();
         return $this->apiResponse(GeneralModelResource::collection($stores));
     }
 
@@ -153,6 +155,24 @@ class SpinnerController extends Controller
     public function getR(){
         $expenditure_types = ExpenditureType::all();
         return $this->apiResponse(GeneralModelResource::collection($expenditure_types));
+    }
+
+    public function getDistributorRoutes()
+    {
+        return $this->apiResponse(
+            GeneralModelResource::collection(
+                DistributorRoute::where('user_id', auth()->id())->get()
+            )
+        );
+    }
+
+    public function getClientClasses()
+    {
+        return $this->apiResponse(
+            GeneralModelResource::collection(
+                ClientClass::Active()->get()
+            )
+        );
     }
 
 }

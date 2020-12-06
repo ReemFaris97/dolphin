@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class ProductQuantity extends Model
 {
-    protected $fillable = ['product_id', 'user_id', 'quantity', 'type', 'is_confirmed', 'store_id', 'store_transfer_request_id'];
+    protected $fillable = ['product_id', 'user_id', 'quantity', 'type', 'is_confirmed', 'store_id', 'store_transfer_request_id', 'trip_report_id'];
 
     public function product()
     {
@@ -26,6 +27,10 @@ class ProductQuantity extends Model
         return $this->belongsTo(Store::class, 'store_id')->withDefault(new Store);
     }
 
+    public function trip_report()
+    {
+        return $this->belongsTo(RouteTripReport::class, 'trip_report_id');
+    }
     public function store_transfer_request()
     {
         return $this->belongsTo(StoreTransferRequest::class, 'store_transfer_request_id');
@@ -52,15 +57,43 @@ class ProductQuantity extends Model
     public function scopeFilterWithProduct(Builder $builder, $product_id = null)
     {
         $builder->when($product_id, function (Builder $q) use ($product_id) {
-            $q->whereDate('product_id', $product_id);
+            $q->where('product_id', $product_id);
         });
     }
     public function scopeFilterWithStore(Builder $builder, $store_id = null)
     {
 
         $builder->when($store_id, function (Builder $q) use ($store_id) {
-            $q->whereDate('store_id', $store_id);
+            $q->where('store_id', $store_id);
         });
     }
 
+
+    public function getMovementTypeAttribute()
+    {
+
+        if ($this->type == 'in' && $this->store_transfer_request_id == null) {
+            return 'انتاج(+) ';
+        }
+
+        if ($this->type == 'in' && $this->store_transfer_request_id != null) {
+            return ' استلام (+) ';
+        }
+
+        if ($this->type == 'out' && $this->store_transfer_request_id != null) {
+            return 'نقل  (-) ';
+        }
+        if ($this->type == 'out' && $this->store_transfer_request_id === null && $this->trip_report_id != null) {
+            return 'بيع (-) ';
+        }
+        if ($this->type == 'out' && $this->store_transfer_request_id === null && $this->trip_report_id == null) {
+            return 'بيع (-) ';
+        }
+        if ($this->type == 'damaged') {
+            return 'اتلاف (-)';
+        }
+        dd($this->type, $this->store_transfer_request_id, $this->trip_report_id);
+        //check $this->type,$this->store_transfer_request_id ,$this->trip_report_id
+        throw new Exception('Unhandled Type');
+    }
 }

@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class RouteTrips extends Model
 {
-    protected $fillable = [ 'route_id', 'client_id', 'lat', 'lng', 'address', 'status' , 'arrange','cash'];
+    protected $fillable = ['route_id', 'client_id', 'lat', 'lng', 'address', 'status', 'arrange', 'cash', 'round'];
 
     protected $appends = ['total'];
     public function route()
@@ -18,6 +19,15 @@ class RouteTrips extends Model
     {
 
         return $this->belongsTo(Client::class,'client_id')->withDefault();
+    }
+
+    public function reports()
+    {
+        return $this->hasMany(RouteTripReport::class, 'route_trip_id');
+    }
+    public function getCurrentReport()
+    {
+        return $this->hasOne(RouteTripReport::class, 'route_trip_id')->where('round', $this->round);
     }
     public function user()
     {
@@ -49,6 +59,14 @@ class RouteTrips extends Model
 
     }
 
+    public function scopeOfDistributor(Builder $builder,$distributor):void {
+
+        $builder->whereHas('route', function ($route) use ($distributor) {
+            $route->where('user_id', $distributor);
+        });
+
+    }
+
     public function getTotalAttribute()
     {
         $total = 0;
@@ -58,6 +76,8 @@ class RouteTrips extends Model
         }
         return $total;
     }
+
+
 
 
 }

@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 class Expense extends Model
 {
     protected $fillable = ['user_id','expenditure_clause_id', 'expenditure_type_id', 'date', 'time', 'amount', 'image', 'notes',
-    'sanad_No','reader_number', 'reader_id','reader_image','distributor_route_id'];
+        'sanad_No', 'reader_number', 'reader_id', 'reader_image', 'distributor_route_id', 'round'
+    ];
 
     public function clause()
     {
@@ -29,6 +30,10 @@ class Expense extends Model
     public function reader()
     {
         return $this->belongsTo(Reader::class,'reader_id')->withDefault();
+    }
+    public function distributor_route()
+    {
+        return $this->belongsTo(DistributorRoute::class, 'distributor_route_id');
     }
 
 
