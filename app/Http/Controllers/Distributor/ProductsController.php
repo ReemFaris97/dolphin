@@ -215,6 +215,7 @@ class ProductsController extends Controller
         }
         $requests = $request->all();
         $requests['type'] = 'in';
+        $requests['is_confirmed'] = 1;
         $product->quantities()->create($requests);
         toast('تم إضافة الكمية بنجاح', 'success', 'top-right');
         return redirect()->back();

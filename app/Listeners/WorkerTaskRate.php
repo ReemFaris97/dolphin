@@ -10,7 +10,6 @@ use App\Traits\FirebasOperation;
 use App\Models\User;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-
 class WorkerTaskRate
 {
 
