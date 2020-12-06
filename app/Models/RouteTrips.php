@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class RouteTrips extends Model
@@ -58,6 +59,14 @@ class RouteTrips extends Model
 
     }
 
+    public function scopeOfDistributor(Builder $builder,$distributor):void {
+
+        $builder->whereHas('route', function ($route) use ($distributor) {
+            $route->where('user_id', $distributor);
+        });
+
+    }
+
     public function getTotalAttribute()
     {
         $total = 0;
@@ -67,6 +76,8 @@ class RouteTrips extends Model
         }
         return $total;
     }
+
+
 
 
 }

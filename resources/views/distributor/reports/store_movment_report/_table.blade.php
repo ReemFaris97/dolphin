@@ -20,7 +20,7 @@
     @foreach($products as $row)
         <tr>
             <td>{!!$loop->iteration!!}</td>
-            <td>{{$row->product->barcode}}</td>
+            <td>{{$row->product->bar_code}}</td>
             <td>{!! $row->product->name !!}</td>
             <td>{!!optional($row->store)->name !!}</td>
             <td>{{$row->movement_type}}</td>
