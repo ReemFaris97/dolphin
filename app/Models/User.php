@@ -40,7 +40,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable, softDeletes, HasRoles, FirebasOperation,HashPassword, ApiResponses;
+    use Notifiable, softDeletes, HasRoles,HashPassword, ApiResponses;
 
 
     /**

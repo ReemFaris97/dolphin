@@ -1153,7 +1153,3 @@ li.img-list-wrapper {
 .m-portlet.m-portlet--unair {
     margin: 0 auto 30px auto;
 }
-
-.m-portlet__head:not(.belong-to-aform) .m-portlet__head-caption .m-portlet__head-title h3.m-portlet__head-text {
-    color: #fff !important;
-}
