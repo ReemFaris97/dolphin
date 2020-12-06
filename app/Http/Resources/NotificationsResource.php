@@ -6,6 +6,8 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class NotificationsResource extends ResourceCollection
 {
+
+
     /**
      * Transform the resource collection into an array.
      *
@@ -15,7 +17,7 @@ class NotificationsResource extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'categories'=>$this->collection->transform(function ($q){
+            'notifications'=>$this->collection->transform(function ($q){
                 return [
                     'id'=>$q->id,
                     'type'=>$q->type,

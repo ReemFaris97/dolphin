@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class ProductQuantity extends Model
 {
-    protected $fillable = ['product_id', 'user_id', 'quantity', 'type', 'is_confirmed', 'store_id', 'store_transfer_request_id'];
+    protected $fillable = ['product_id', 'user_id', 'quantity', 'type', 'is_confirmed', 'store_id', 'store_transfer_request_id', 'trip_report_id'];
 
     public function product()
     {
@@ -18,12 +18,12 @@ class ProductQuantity extends Model
 
     public function distributor()
     {
-        return $this->belongsTo(User::class, 'product_id')->withDefault(new User);
+        return $this->belongsTo(User::class, 'user_id')->withDefault(new User);
     }
 
     public function store()
     {
-        return $this->belongsTo(Store::class, 'product_id')->withDefault(new Store);
+        return $this->belongsTo(Store::class, 'store_id')->withDefault(new Store);
     }
 
     public function store_transfer_request()

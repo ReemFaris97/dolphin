@@ -16,11 +16,11 @@ class Store extends Model
 
     protected $fillable = ['name', 'store_category_id', 'distributor_id', 'is_active', 'notes', 'for_distributor'];
 
+
     public function products()
     {
-        return $this->hasMany(Product::class);
+        return $this->belongsToMany(Store::class, 'product_quantities', 'store_id', 'product_id')->distinct();
     }
-
     public function ProductQuantity()
     {
         return $this->hasMany(ProductQuantity::class);
@@ -46,6 +46,11 @@ class Store extends Model
     public function scopeActive(Builder $builder): void
     {
         $builder->where('is_active', 1);
+    }
+    public function scopeOfDistributor(Builder $builder, $distributor_id): void
+    {
+        $builder->where('for_distributor', 1);
+        $builder->where('distributor_id', $distributor_id);
     }
 
 

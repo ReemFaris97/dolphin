@@ -603,38 +603,7 @@
                 </div>
             </li>
 
-            {{--            ***********************************************************************************************************--}}
-            <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
-                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
-                                                                      class="m-menu__link m-menu__toggle"><span
-                        class="m-menu__item-here"></span><i
-                        class="m-menu__link-icon flaticon-user"></i><span
-                        class="m-menu__link-text">الملخصات اليومية</span><i
-                        class="m-menu__ver-arrow la la-angle-right"></i></a>
 
-
-                <div class="m-menu__submenu "><span class="m-menu__arrow"></span>
-                    <ul class="m-menu__subnav">
-
-                        <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true"><span
-                                class="m-menu__link"><span class="m-menu__item-here"></span><span
-                                    class="m-menu__link-text">كل الملخصات اليومية</span></span></li>
-                        {{--                            @if(auth()->user()->hasPermissionTo('view_workers'))--}}
-                        <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
-                                href="{{route('distributor.dailyReports.index')}}" class="m-menu__link "><i
-                                    class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
-                                    class="m-menu__link-text">كل الملخصات اليومية</span></a></li>
-
-                        {{--                            @endif--}}
-                        {{--                            @if(auth()->user()->hasPermissionTo('add_workers'))--}}
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
-                                href="{{route('distributor.dailyReports.create')}}" class="m-menu__link "><i
-                                    class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
-                                    class="m-menu__link-text">إنشاء ملخص يومي</span></a></li>
-                        {{--                            @endif--}}
-                    </ul>
-                </div>
-            </li>
 
 
             {{--            <li class="m-menu__item " aria-haspopup="true"><a class="m-menu__link" data-toggle="modal" data-target="#search_modal"><i--}}
@@ -672,6 +641,44 @@
                 </div>
             </li>
 
+
+
+               {{--            ***********************************************************************************************************--}}
+               <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
+               aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
+                                                                     class="m-menu__link m-menu__toggle"><span
+                       class="m-menu__item-here"></span><i
+                       class="m-menu__link-icon flaticon-user"></i><span
+                       class="m-menu__link-text"> التقارير</span><i
+                       class="m-menu__ver-arrow la la-angle-right"></i></a>
+
+
+               <div class="m-menu__submenu "><span class="m-menu__arrow"></span>
+                   <ul class="m-menu__subnav">
+                       <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true"><span
+                               class="m-menu__link"><span class="m-menu__item-here"></span><span
+                                   class="m-menu__link-text">تقرير كشف حساب عميل</span></span></li>
+                       {{--                            @if(auth()->user()->hasPermissionTo('view_workers'))--}}
+                       <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
+                               href="{{route('distributor.reports.client_report.index')}}" class="m-menu__link "><i
+                                   class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
+                                   class="m-menu__link-text">تقرير كشف حساب عميل</span></a></li>
+                   </ul>
+               </div>
+
+               <div class="m-menu__submenu "><span class="m-menu__arrow"></span>
+                <ul class="m-menu__subnav">
+                    <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true"><span
+                            class="m-menu__link"><span class="m-menu__item-here"></span><span
+                                class="m-menu__link-text">تقرير مبيعات</span></span></li>
+                    {{--                            @if(auth()->user()->hasPermissionTo('view_workers'))--}}
+                    <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
+                            href="{{route('distributor.reports.sale_report.index')}}" class="m-menu__link "><i
+                                class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
+                                class="m-menu__link-text">تقرير مبيعات</span></a></li>
+                </ul>
+            </div>
+           </li>
 
         </ul>
     </div>
