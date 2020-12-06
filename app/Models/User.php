@@ -126,6 +126,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->is_distributor ? 1 : 0;
     }
 
+
     public function IsSupplier(): bool
     {
         return $this->is_supplier ? 1 : 0;
