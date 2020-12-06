@@ -80,6 +80,8 @@ Route::middleware('distributor')->group(function () {
         Route::any('client_report', [ 'uses' => 'ClientController@index'])->name('client_report.index');
         Route::get('bill/{id}', [ 'uses' => 'ClientController@show'])->name('client_report.show');
         Route::any('sale_report', [ 'uses' => 'SaleController@index'])->name('sale_report.index');
+        Route::get('store_movement_report', 'StoreMovementController@index')->name('store_movement.index');
+        Route::get('store_movement_report/report', 'StoreMovementController@show')->name('store_movement.report');
 
     });
 });

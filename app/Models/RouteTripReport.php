@@ -49,4 +49,11 @@ class RouteTripReport extends Model
     {
         return $this->morphMany(Image::class, 'model');
     }
+
+
+    public function getInvoiceNumberAttribute()
+    {
+
+        return  str_pad($this->id, 6, 0, STR_PAD_LEFT);
+    }
 }
