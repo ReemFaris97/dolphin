@@ -67,6 +67,7 @@ Route::middleware('distributor')->group(function () {
     Route::post('/get/ajax/stores', 'AjaxDataController@getAllStoresById')->name('getAjaxStores');
     Route::post('/get/ajax/products', 'AjaxDataController@getAllProducts')->name('getAjaxProducts');
     Route::get('/get/ajax/store/products', 'AjaxDataController@getStoreProducts')->name('getAjaxstoreProducts');
+    Route::post('/get/ajax/cars', 'AjaxDataController@getcars')->name('getAjaxCars');
 
     Route::post('/get/ajax/sender', 'AjaxDataController@getsender')->name('getAjaxSender');
     Route::get('/get/ajax/distributor/stores', 'AjaxDataController@getDistributorStores')->name('getDistributorStores');

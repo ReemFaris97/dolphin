@@ -14,7 +14,7 @@ class Store extends Model
 
     public $translatable = ['name'];
 
-    protected $fillable = ['name', 'store_category_id', 'distributor_id', 'is_active', 'notes', 'for_distributor'];
+    protected $fillable = ['name', 'store_category_id', 'distributor_id', 'is_active', 'notes', 'for_distributor','has_car','car_id'];
 
 
     public function products()

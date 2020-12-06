@@ -9,6 +9,7 @@ use App\Http\Resources\NotificationsResource;
 use App\Http\Resources\SingleChargeResource;
 use App\Http\Resources\SpinnerClausesResource;
 use App\Http\Resources\UserResource;
+use App\Models\AccountingSystem\AccountingSetting;
 use App\Models\Charge;
 use App\Models\Clause;
 use App\Models\Notification;
@@ -83,5 +84,6 @@ class SpinnerController extends Controller
         $tasks = Clause::get();
         return $this->apiResponse(SpinnerClausesResource::collection($tasks));
     }
+  
 
 }
