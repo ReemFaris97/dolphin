@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AttachedProducts extends Model
 {
-    protected $fillable = ['quantity','price','product_id'];
+    protected $fillable = ['quantity', 'price', 'product_id', 'transaction_id', 'store_id'];
 
     public function model()
     {
@@ -18,6 +18,12 @@ class AttachedProducts extends Model
     {
 
         return $this->belongsTo(Product::class,'product_id')->withDefault('product_id');
+    }
+
+    public function store()
+    {
+
+        return $this->belongsTo(Store::class, 'store_id');
     }
 
 

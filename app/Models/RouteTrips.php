@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class RouteTrips extends Model
 {
-    protected $fillable = [ 'route_id', 'client_id', 'lat', 'lng', 'address', 'status' , 'arrange','cash'];
+    protected $fillable = ['route_id', 'client_id', 'lat', 'lng', 'address', 'status', 'arrange', 'cash', 'round'];
 
     protected $appends = ['total'];
     public function route()
@@ -18,6 +18,20 @@ class RouteTrips extends Model
     {
 
         return $this->belongsTo(Client::class,'client_id')->withDefault();
+    }
+
+    public function reports()
+    {
+        return $this->hasMany(RouteTripReport::class, 'route_trip_id');
+    }
+    public function getCurrentReport()
+    {
+        return $this->hasOne(RouteTripReport::class, 'route_trip_id')->where('round', $this->round);
+    }
+    public function user()
+    {
+
+        return $this->belongsTo(User::class,'user_id')->withDefault();
     }
     public function images()
     {

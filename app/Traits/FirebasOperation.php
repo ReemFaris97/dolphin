@@ -1,7 +1,6 @@
 <?php
 
-
-namespace App\Http\Traits;
+namespace App\Traits;
 
 
 use App\Address;
@@ -88,5 +87,6 @@ trait FirebasOperation
     function fcm_server_key()
     {
         return 'AAAAiTlRmGw:APA91bGRW2y7HH9Z3HrACHeMuP5ZDj9fXkbx-TEyVuDIRrAsJ0NDkkaYqjdwkaIN5YmvAhKVMWOs2jfNvH0l-TxLNeEn8MDkiftAhaXoV0wij4kl-YRuT0PtB_UZC3lz8DIHx8fGO4-D';
+
     }
 }

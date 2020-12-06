@@ -58,6 +58,29 @@ class EventServiceProvider extends ServiceProvider
         TaskRated::class => [
             \App\Listeners\TaskRated::class,
         ],
+        \App\Events\StoreTransferRequestAdded::class => [
+            \App\Listeners\NotifyTransferRequestReceiver::class,
+        ],
+        \App\Events\StoreTransferRequestReceiver::class => [
+            \App\Listeners\NotifyTransferRequestSender::class,
+        ],
+
+        \App\Events\DistributorTransactionAdded::class => [
+            \App\Listeners\NotifyTransactionReceiver::class,
+        ],
+        \App\Events\DistributorTransactionReceived::class => [
+            \App\Listeners\NotifyTransactionSender::class,
+        ],
+
+        \App\Events\DistributorRouteAdded::class => [
+            \App\Listeners\NotifyDistributorWithNewRoute::class,
+        ],
+        \App\Events\NewStoreAdded::class => [
+            \App\Listeners\NotifyDistributorWithNewStore::class,
+        ],
+        \App\Events\ClientActivationChanged::class => [
+            \App\Listeners\NotifyDistributorWithNewActivationStatus::class,
+        ],
 
 
     ];

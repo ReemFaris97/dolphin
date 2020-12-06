@@ -56,4 +56,9 @@ class DistributorTransaction extends Model
         END
         as balance"))/* ->limit(1) */;
     }
+    public function getInvoiceNumberAttribute()
+    {
+
+        return  str_pad($this->id, 6, 0, STR_PAD_LEFT);
+    }
 }

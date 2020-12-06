@@ -24,6 +24,16 @@ class Client extends Model
         return $this->belongsTo(ClientClass::class, 'client_class_id')->withDefault(new ClientClass);
     }
 
+
+    public function inventory()
+    {
+        return $this->hasManyThrough(TripInventory::class, RouteTrips::class, 'client_id', 'route_trip_id');
+    }
+
+    public function tripsReport()
+    {
+        return $this->hasManyThrough(RouteTripReport::class, RouteTrips::class, 'client_id', 'route_trip_id');
+    }
     public function sender_transactions()
     {
         return $this->morphMany(DistributorTransaction::class, 'sender');

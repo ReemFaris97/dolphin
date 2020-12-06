@@ -85,6 +85,7 @@ class RouteController extends Controller
             "trip_id" => "required|required|integer|exists:route_trips,id",
             'products'=>'required|array',
             'cash'=>'required|numeric',
+            'store_id' => 'required|integer',
             'products.*.product_id' =>'required|integer|exists:products,id',
             "products.*.quantity" => "required|integer",
         ];
@@ -112,11 +113,15 @@ class RouteController extends Controller
         if ($validation instanceof Response) {
             return $validation;
         }
-
+        /**  @var \App\Models\RouteTrips $route_trip */
         $route_trip = RouteTrips::find($request->trip_id);
+        $route_trip_report = $route_trip->getCurrentReport;
+        if ($route_trip_report == null) {
+            return $this->apiResponse(null, 'لا يوجد فاتوره لهذه الزياره ');
+        }
         foreach ($request->images as $image)
         {
-            $route_trip->images()->create(['image'=>saveImage($image,'users')]);
+            $route_trip_report->images()->create(['image' => saveImage($image, 'users')]);
         }
         $route_trip->update(['status'=>'accepted']);
 
@@ -128,7 +133,7 @@ class RouteController extends Controller
         $request['route']= $route_id;
              $rules = [
                  "name" => "required|string|min:1|max:255",
-                 "email" => "required|email|min:1|max:255|unique:users,email",
+            "email" => "nullable|email|min:1|max:255|unique:users,email",
                  'phone'      =>'required|string|unique:users,phone',
                  "image"=>"required|image",
                  "store_name" => "required|string|min:1|max:255",
