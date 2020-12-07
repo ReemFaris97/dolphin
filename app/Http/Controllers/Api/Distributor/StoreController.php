@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Api\Distributor;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Distributor\CarsResource;
 use App\Http\Resources\Distributor\ProductsResource;
+use App\Http\Resources\Distributor\SettingResource;
+use App\Http\Resources\Distributor\SettingResources;
 use App\Http\Resources\Distributor\StoreResource;
 use App\Http\Resources\Distributor\TransactionResource;
 use App\Http\Resources\Distributor\TransferRequestsResource;
+use App\Models\AccountingSystem\AccountingSetting;
 use App\Models\DistributorCar;
 use App\Models\DistributorTransaction;
 use App\Models\Product;
@@ -79,5 +82,12 @@ class StoreController extends Controller
         return $this->apiResponse('العملية تمت بنجاح');
     }
 
+        public function getTax(){
+            $tax = AccountingSetting::where('name','free_taxs')->first();
+            return $this->apiResponse([
+                'value'=>$tax->value
+            ]);
+        }
+        
 
 }

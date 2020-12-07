@@ -952,7 +952,7 @@
 							<span class="bill-lbl"><?php echo $sale->date  ?></span>
 							<i class="ti-calendar" style="float: none;"></i>
 						</div>
-						
+
 						<div class="one-bill-inpt the-cust-name" style="border-bottom: 0px;display:block;width:100%;margin-bottom: 0px;padding-bottom: 0px;border-bottom:1px solid #333!important">
 							<i class="ti-user"></i>
 							<span class="bill-lbl" style="float:right;text-align:right;">مدخل الفاتوره : </span>
@@ -1087,17 +1087,8 @@
 	<!-- End Container fluid  -->
 	<!-- ============================================================== -->
 
-
-
-
-
-
-
 </div>
-
-
 @endsection
-
 @section('scripts')
 <script>
 	$(document).ready(function() {

@@ -42,6 +42,7 @@ class SaleController extends Controller
         }
 
         $transactions=$query->orderBy('created_at')->get();
+        // dd( $transactions);
         return view('distributor.reports.client_report.index',compact('transactions'));
     }
 
@@ -52,7 +53,8 @@ class SaleController extends Controller
      */
     public function show(Request $request,$id)
     {
-        $routetrip=AttachedProducts::where('transaction_id',$id)->where('model_type','App\Models\RouteTrips')->first();
+        $routetrip=AttachedProducts::where('transaction_id',$id)
+        ->where('model_type','App\Models\RouteTrips')->first();
        $bill=RouteTrips::find($routetrip->model_id);
 
         return view('distributor.reports.sale_report.show',compact('bill'));

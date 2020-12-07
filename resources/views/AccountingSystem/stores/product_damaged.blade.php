@@ -74,6 +74,7 @@
                 $(this).parents('.parent-tr').find('.reminder').val(Number(reminder));
 
 
+                
             }
         });
 

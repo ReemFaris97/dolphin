@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::get('/get_tax','StoreController@getTax');
 
 Route::group(['middleware' => ['jwt.auth']], function () {
 
@@ -44,6 +45,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
         Route::get('/stores/{distributor_id}','SpinnerController@getStoresByDistributorId');
         Route::get('/expenditure_clauses','SpinnerController@getExpenditureClauses');
         Route::get('/expenditure_types','SpinnerController@getExpenditureTypes');
+
         Route::get('/client-classes', 'SpinnerController@getClientClasses');
         Route::get('/settings','SpinnerController@getSetting');
 

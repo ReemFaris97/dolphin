@@ -42,6 +42,8 @@ class UserResource extends JsonResource
              ]),
              'is_verified'=>$this->is_verified,
              'token' =>$this->token??"",
+             'permissions' => GeneralModelResource::collection($this->permissions),
+
             ];
     }
 }

@@ -152,6 +152,10 @@ class SpinnerController extends Controller
         if (!$product) return $this->notFoundResponse();
         return $this->apiResponse(new ProductsSpinnerModelResource($product));
     }
+    public function getR(){
+        $expenditure_types = ExpenditureType::all();
+        return $this->apiResponse(GeneralModelResource::collection($expenditure_types));
+    }
 
     public function getDistributorRoutes()
     {

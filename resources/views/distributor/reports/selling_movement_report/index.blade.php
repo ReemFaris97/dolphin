@@ -1,6 +1,5 @@
 @extends('distributor.layouts.app')
-@section('title')
-تقرير المبيعات
+@section('title')  تقريركشف حساب عميل
 @endsection
 
 
@@ -21,17 +20,16 @@
                                 <i class="la la-gear"></i>
                             </span>
                             <h3 class="m-portlet__head-text">
-                                تقرير المبيعات
-                            </h3>
+                                تقرير حركه مبيعات</h3>
                         </div>
                     </div>
                 </div>
 
                 <!--begin::Form-->
 
-                @include('distributor.reports.sale_report._form')
+                @include('distributor.reports.client_report._form')
                 <!--begin::Table-->
-                @include('distributor.reports.sale_report._table')
+                @include('distributor.reports.client_report._table')
 
             </div>
         </div>

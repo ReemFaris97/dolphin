@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Store;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\DistributorCar;
 use App\Models\ProductQuantity;
 use App\Models\User;
 
@@ -52,6 +53,15 @@ class AjaxDataController extends Controller
         return response()->json([
             'status' => true,
             'data' => view('distributor.transactions.getAjaxSenders')->with('users', $users)->render()
+        ]);
+    }
+    public function getcars(Request $request)
+    {
+        //dd($request->all());
+        $cars = DistributorCar::where('user_id', $request->id)->get();
+        return response()->json([
+            'status' => true,
+            'data' => view('distributor.transactions.getAjaxCars')->with('cars', $cars)->render()
         ]);
     }
 
