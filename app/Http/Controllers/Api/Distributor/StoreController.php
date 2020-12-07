@@ -83,11 +83,11 @@ class StoreController extends Controller
     }
 
         public function getTax(){
-            $tax = AccountingSetting::where('name','free_taxs')->first();
+            $tax = AccountingSetting::where('name','general_taxs')->first();
             return $this->apiResponse([
                 'value'=>$tax->value
             ]);
         }
-        
+
 
 }

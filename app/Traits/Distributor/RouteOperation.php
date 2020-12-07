@@ -137,7 +137,8 @@ trait RouteOperation
                     'is_finished' => 1,
                     'arrange' => $user_routes->arrange + 1,
                     'is_active' => 0,
-                    'round' => $inputs['round']
+                    'round' => $inputs['round'],
+                    'received_code'=>mt_rand(1000000, 9999999)
                 ]
             )->save();
             $report = RouteReport::query()->create($inputs);
