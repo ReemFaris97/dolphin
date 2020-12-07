@@ -40,7 +40,6 @@ class User extends Authenticatable implements JWTSubject
 {
     use Notifiable, softDeletes, HasRoles, HashPassword, ApiResponses, FirebasOperation;
 
-
     /**
      * The attributes that are mass assignable.
      *
