@@ -45,7 +45,6 @@ background-color: #e7eaef !important
     @yield('chart-css')
 	<!--Customize Style -->
     <link href="{!! asset('dashboard/assets/customize.css')!!}" rel="stylesheet" type="text/css"/>
-    @include('sweetalert::alert')
 </head>
 <!-- end::Head -->
 <!-- begin::Body -->
@@ -137,6 +136,8 @@ background-color: #e7eaef !important
 @stack('scripts')
 @yield('chart')
 @yield('owl')
+@include('sweetalert::alert')
+
 <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-messaging.js"></script>
 <script src="{!! asset('dashboard/assets/firebase/firebase_scripts.js') !!}"></script>

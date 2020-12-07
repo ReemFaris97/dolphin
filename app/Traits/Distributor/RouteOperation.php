@@ -89,8 +89,6 @@ trait RouteOperation
 
                 ]);
 
-                //TODO::SUB QUANTITY FROM THE DISTRIBUTOR STORE
-
                 ProductQuantity::create([
                     'product_id' => $product->id,
                     'user_id' => auth()->id(),

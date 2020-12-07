@@ -2,13 +2,22 @@
 
 <div class="m-portlet__foot m-portlet__foot--fit ">
     <div class="m-form__actions">
-        <div class="form-group m-form__group">
-            <label>   اسم العميل</label>
-            {!! Form::select('client_id',$clients,null,['class'=>'form-control m-input select2'])!!}
-        </div>
+
         <div class="form-group m-form__group">
             <label>اسم المندوب</label>
             {!! Form::select('user_id',$distributors,null,['class'=>'form-control m-input select2'])!!}
+        </div>
+        <div class="form-group m-form__group">
+            <label>    نوع المصروق</label>
+            {!! Form::select('expenditure_type_id',$types,null,['class'=>'form-control m-input select2'])!!}
+        </div>
+        <div class="form-group m-form__group">
+            <label>    بيان المصروق</label>
+            {!! Form::select('expenditure_clause_id',$clauses,null,['class'=>'form-control m-input select2'])!!}
+        </div>
+        <div class="form-group m-form__group">
+            <label>    رقم سند المصروق</label>
+            {!! Form::text('sanad_No',null,['class'=>'form-control m-input '])!!}
         </div>
         <div class="form-group m-form__group">
             <label>من تاريخ</label>

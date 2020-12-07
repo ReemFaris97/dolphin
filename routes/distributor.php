@@ -65,8 +65,12 @@ Route::middleware('distributor')->group(function () {
     Route::resource('/bills', 'BillController');
     Route::get('/map', 'TripsController@trips')->name('trips.map');
     Route::post('/get/ajax/stores', 'AjaxDataController@getAllStoresById')->name('getAjaxStores');
+
+    Route::get('/get/ajax/routes', 'AjaxDataController@getDistributorRoutes')->name('getAjaxRoutes');
+
     Route::post('/get/ajax/products', 'AjaxDataController@getAllProducts')->name('getAjaxProducts');
     Route::get('/get/ajax/store/products', 'AjaxDataController@getStoreProducts')->name('getAjaxstoreProducts');
+    Route::post('/get/ajax/cars', 'AjaxDataController@getcars')->name('getAjaxCars');
 
     Route::post('/get/ajax/sender', 'AjaxDataController@getsender')->name('getAjaxSender');
     Route::get('/get/ajax/distributor/stores', 'AjaxDataController@getDistributorStores')->name('getDistributorStores');
@@ -76,10 +80,21 @@ Route::middleware('distributor')->group(function () {
     Route::get('/disactive_client/{id}', 'ClientsController@disactive')->name('client.dis_active');
     Route::get('/activation', 'ClientsController@activation')->name('clients.activation');
 
-    Route::group([ 'namespace' => 'Reports', 'as' => 'reports.'], function () {
+    Route::group(['namespace' => 'Reports', 'prefix' => 'reports', 'as' => 'reports.'], function () {
         Route::any('client_report', [ 'uses' => 'ClientController@index'])->name('client_report.index');
         Route::get('bill/{id}', [ 'uses' => 'ClientController@show'])->name('client_report.show');
         Route::any('sale_report', [ 'uses' => 'SaleController@index'])->name('sale_report.index');
+        Route::get('store_movement_report', 'StoreMovementController@index')->name('store_movement.index');
+        Route::get('store_movement_report/report', 'StoreMovementController@show')->name('store_movement.report');
+
+        Route::get('distributors', 'DistributorController@index')->name('distributor.index');
+        Route::get('distributors/report', 'DistributorController@show')->name('distributor.report');
+        Route::get('expenses', 'ExpenseController@index')->name('expense_report.index');
+        Route::get('expenses/{id}', 'ExpenseController@show')->name('expense_report.show');
+
+        Route::get('selling-movement', 'SellingMovementController@index')->name('selling_movement.index');
+        Route::get('selling-movement/report', 'SellingMovementController@show')->name('selling_movement.show');
+
 
     });
 });
