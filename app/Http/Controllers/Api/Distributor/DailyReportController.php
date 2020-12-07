@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Distributor\CarsResource;
 use App\Http\Resources\Distributor\ProductsResource;
 use App\Http\Resources\Distributor\ReportsResource;
+use App\Http\Resources\Distributor\SettingResources;
+use App\Models\AccountingSystem\AccountingSetting;
 use App\Models\DistributorRoute;
 use App\Traits\ApiResponses;
 use App\Traits\Distributor\DailyReportOperation;
@@ -41,7 +43,7 @@ class DailyReportController extends Controller
 
         return $this->apiResponse(new ReportsResource($routes));
     }
-    
+
     public function store(Request $request){
 
         $request['products'] = json_decode($request->products,TRUE);
@@ -62,5 +64,6 @@ class DailyReportController extends Controller
        $this->RegisterDailyReport($request);
         return $this->apiResponse('تم ملأ التقرير بنجاح');
     }
+  
 
 }
