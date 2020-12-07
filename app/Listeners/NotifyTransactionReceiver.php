@@ -22,7 +22,7 @@ class NotifyTransactionReceiver
     public function handle(DistributorTransactionAdded $event)
     {
         $title = 'هناك اشعار جديد';
-        $message = "تم تحويل مبلغ نقدى جديد ";
+        $message = $event->transaction->signature . " تم تحويل مبلغ نقدى جديد بتوقيع : ";
         $type = 'new_transaction_added';
         $data = [
             'item_id' => $event->transaction->id,

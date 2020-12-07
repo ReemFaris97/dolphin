@@ -31,4 +31,19 @@ class TripInventory extends Model
     }
 
 
+    public function scopeOfDistributor(Builder $builder, $distributor = null): void
+    {
+        $builder->whereHas('route_trip', function ($route_trip) use ($distributor) {
+            $route_trip->OfDistributor($distributor);
+        });
+    }
+    public function scopeFilterDistributor(Builder $builder, $distributor = null): void
+    {
+        $builder->when($distributor != null, function ($q) use ($distributor) {
+            $q->ofDistributor($distributor);
+        });
+    }
+
+
+
 }

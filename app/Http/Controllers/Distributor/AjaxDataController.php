@@ -7,6 +7,7 @@ use App\Models\Store;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\DistributorCar;
+use App\Models\DistributorRoute;
 use App\Models\ProductQuantity;
 use App\Models\User;
 
@@ -81,7 +82,8 @@ class AjaxDataController extends Controller
                 ]
             )->render()
         ]);
-    } /**
+    }
+    /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      * @throws \Throwable
@@ -95,6 +97,25 @@ class AjaxDataController extends Controller
                 'distributor.stores.getAjaxStoreProducts',
                 [
                     'quantities' => ProductQuantity::with('product')->where('store_id', $request->store_id)->TotalQuantity()->get()
+                ]
+            )->render()
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Throwable
+     */
+    public function getDistributorRoutes(Request $request)
+    {
+
+        return response()->json([
+            'status' => true,
+            'data' => view(
+                'distributor.stores.getAjaxProducts',
+                [
+                    'cars' => DistributorRoute::where('user_id', $request->distributor_id)->get()
                 ]
             )->render()
         ]);

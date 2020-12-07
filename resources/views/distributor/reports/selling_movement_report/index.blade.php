@@ -27,10 +27,11 @@
 
                 <!--begin::Form-->
 
-                @include('distributor.reports.client_report._form')
+                @include('distributor.reports.selling_movement_report._form')
                 <!--begin::Table-->
-                @include('distributor.reports.client_report._table')
 
+{{--                 @include('distributor.reports.selling_movement_report._table')
+ --}}
             </div>
         </div>
     </div>
