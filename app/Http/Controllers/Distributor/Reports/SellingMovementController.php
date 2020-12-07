@@ -31,8 +31,9 @@ class SellingMovementController extends Controller
     public function show(Request $request)
     {
 
-        TripInventory::
-        
+        $trips_status = TripInventory::with('trip_report')->FilterRoute($request->route_id)->filterDistributor($request->distributor_id)->filterWithDates($request->date_from, $request->date_to)->get();
+
+        dd($trips_status);
         return view('distributor.reports.selling_movement_report.show', compact('bill'));
     }
 }

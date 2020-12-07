@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class TripInventory extends Model
@@ -25,15 +27,15 @@ class TripInventory extends Model
         return $this->morphMany(Image::class,'model');
     }
 
-    public function tripReport(): HasOne
+    public function trip_report(): HasOne
     {
-        return $this->hasOne(TripInventory::class, 'route_trip_id', 'trip_id');
+        return $this->hasOne(RouteTripReport::class, 'route_trip_id', 'trip_id')->whereColumn('route_trip_reports.round', 'round');
     }
 
 
     public function scopeOfDistributor(Builder $builder, $distributor = null): void
     {
-        $builder->whereHas('route_trip', function ($route_trip) use ($distributor) {
+        $builder->whereHas('trip', function ($route_trip) use ($distributor) {
             $route_trip->OfDistributor($distributor);
         });
     }
@@ -43,7 +45,22 @@ class TripInventory extends Model
             $q->ofDistributor($distributor);
         });
     }
+    public function scopeFilterRoute(Builder $builder, $route = null): void
+    {
+        $builder->when($route != null, function ($q) use ($route) {
+            $q->where('route_id', $route);
+        });
+    }
+    public function scopeFilterWithDates(Builder $builder, $from_date = null, $to_date = null): void
+    {
+        $builder->when($from_date, function (Builder $q) use ($from_date) {
+            $q->whereDate('created_at', '<=', $from_date);
+        });
 
+        $builder->when($to_date, function (Builder $q) use ($to_date) {
+            $q->whereDate('created_at', '>=', $to_date);
+        });
+    }
 
 
 }

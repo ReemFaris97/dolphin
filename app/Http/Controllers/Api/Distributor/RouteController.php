@@ -20,7 +20,7 @@ use Illuminate\Http\Request;
 use JWTFactory;
 use JWTAuth;
 use Illuminate\Http\Response;
-
+use Log;
 
 class RouteController extends Controller
 {
@@ -161,6 +161,7 @@ class RouteController extends Controller
 
     public function store(Request $request){
 
+        
         $request['products'] = json_decode($request->products,TRUE);
         $rules = [
             'route_id' =>'required|integer|exists:distributor_routes,id',
