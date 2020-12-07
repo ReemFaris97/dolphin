@@ -1,0 +1,454 @@
+@font-face {
+  font-family: "ElMessiri-Regular";
+  src: url(../fonts/ElMessiri-Regular.ttf);
+}
+
+@font-face {
+  font-family: "ElMessiri-Bold";
+  src: url(../fonts/ElMessiri-Bold.ttf);
+}
+
+@font-face {
+  font-family: "ElMessiri-SemiBold";
+  src: url(../fonts/ElMessiri-SemiBold.ttf);
+}
+
+/********* sass basic***/
+b, button, header .hd_inn .hd_txt h3, .the_table thead tr th {
+  font-family: "ElMessiri-Bold";
+}
+
+.box1 p, .the_table tbody tr td {
+  font-family: "ElMessiri-SemiBold";
+}
+
+body, .the_table tbody tr td p.not_bold {
+  font-family: "ElMessiri-Regular" !important;
+}
+
+/**********/
+* {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  outline: none !important;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  padding: 0 !important;
+  margin: 0 !important;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 14px;
+  /*    letter-spacing: 0.2px;*/
+  line-height: 1.6;
+  color: #212121;
+  overflow-x: hidden !important;
+  overflow-y: auto;
+  direction: rtl !important;
+}
+
+button {
+  border: 0;
+  color: #fff;
+}
+
+a {
+  color: #212121;
+}
+
+a:hover, a:focus {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/*************/
+a,
+button {
+  transition: all 0.4s ease-in-out;
+  -o-transition: all 0.4s ease-in-out;
+  -moz-transition: all 0.4s ease-in-out;
+  -webkit-transition: all 0.4s ease-in-out;
+  -ms-transition: all 0.4s ease-in-out;
+}
+
+.all-sections {
+  padding: 50px 0;
+}
+
+.h2-after {
+  font-size: 26px;
+  text-align: center;
+  margin: 0 auto 25px auto;
+  text-transform: capitalize;
+}
+
+.no-padding {
+  padding: 0 !important;
+}
+
+.no-margin {
+  margin: 0 !important;
+}
+
+.no-border {
+  border: 0 !important;
+}
+
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    width: 970px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    width: 1170px;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+h1, h2, h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+h4 {
+  font-size: 18px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+p {
+  margin: 0 0 10px;
+}
+
+/*|||||||||||||||||||||| ++++++++++++++++ |||||||||||||||||||||||*/
+/******** print button ************/
+#print-all {
+  color: #fff;
+  font-size: 19px;
+  padding: 5px 25px;
+  outline: none;
+  border-width: 1px;
+  border-style: solid;
+  -o-border-image: initial;
+     border-image: initial;
+  border-radius: 4px;
+  -webkit-transition: all 0.5s ease 0s;
+  transition: all 0.5s ease 0s;
+  background-color: #29567A;
+  margin: 20px auto;
+  display: table;
+  cursor: pointer;
+}
+
+#print-all:hover, #print-all:focus {
+  background-color: #3d7cae;
+}
+
+/***** bill content ***********/
+.flexx {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+/************* start header ***************/
+header {
+  background-color: #3d7cae;
+  position: relative;
+  color: #fff;
+  padding: 6px;
+  margin-bottom: 20px;
+}
+
+header .hd_inn {
+  border: 2px solid #f2f2f2;
+}
+
+header .hd_inn .hd_txt {
+  max-width: calc(100% - 220px);
+  padding: 20px 40px;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+
+header .hd_inn .hd_txt h3 {
+  margin-top: 0;
+  text-transform: uppercase;
+}
+
+header .hd_inn .hd_txt h3:last-child {
+  letter-spacing: 1px;
+}
+
+header .hd_inn .hd_txt .flexx h5 {
+  margin-bottom: 0;
+}
+
+header .hd_inn .logo {
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  left: 40px;
+  top: calc(50% - 100px);
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 10px;
+  background-color: #fff;
+}
+
+header .hd_inn .logo img {
+  max-width: 100%;
+  max-height: 100%;
+  -o-object-fit: contain;
+  object-fit: contain;
+}
+
+/************* end header ***************/
+/************* boxes ***************/
+.row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-right: 0;
+  margin-left: 0;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.row .col {
+  -ms-flex-preferred-size: 0;
+  flex-basis: 0;
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  max-width: 100%;
+}
+
+.row .col .box1 {
+  margin: 0 3px;
+}
+
+.row > .box1 {
+  width: 100%;
+}
+
+.box1 {
+  border: 1px solid #212121;
+  text-align: center;
+  padding: 10px 5px;
+  border-radius: 14px;
+}
+
+.box1 .flexx {
+  -webkit-box-align: baseline;
+      -ms-flex-align: baseline;
+          align-items: baseline;
+}
+
+.box1 .flexx .box1 {
+  border: 0;
+  border-radius: 0;
+}
+
+.box1 .flexx .box1 .flexx h4:first-child {
+  margin-left: 14px;
+}
+
+.box1 .flexx h4 {
+  text-transform: capitalize;
+  margin-top: 0;
+}
+
+.box1 p {
+  margin: 0;
+  min-height: 26px;
+  font-size: 16px;
+}
+
+/******** table *******/
+.bg_logo {
+  background-image: url("../img/logo.png");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin: 20px auto;
+}
+
+.the_table {
+  border-collapse: collapse;
+  width: 100%;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.the_table > thead > tr > th,
+.the_table > tbody > tr > th,
+.the_table > tfoot > tr > th,
+.the_table > thead > tr > td,
+.the_table > tbody > tr > td,
+.the_table > tfoot > tr > td {
+  border: 1px solid #71726C;
+  padding: 10px;
+}
+
+.the_table > tr:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+
+.the_table tfoot {
+  position: static !important;
+  page-break-before: always !important;
+  page-break-after: always !important;
+}
+
+.the_table thead,
+.the_table tfoot {
+  display: table-row-group;
+}
+
+.the_table thead tr th {
+  text-align: center !important;
+  background-color: #8E8F89;
+  -webkit-print-color-adjust: exact;
+  -webkit-box-shadow: inset 0 0 0 1000px #8E8F89;
+          box-shadow: inset 0 0 0 1000px #8E8F89;
+}
+
+.the_table thead tr th p {
+  margin-bottom: 4px;
+}
+
+.the_table thead tr th p:last-child, .the_table thead tr th p:only-child {
+  margin: 0;
+}
+
+.the_table tbody tr td {
+  text-align: center !important;
+}
+
+.the_table tbody tr td p {
+  margin: 0;
+}
+
+/******************************** in print **********************/
+@media print {
+  body,
+  html {
+    direction: rtl;
+    height: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-y: auto;
+  }
+  .hide-print,
+  #print-all {
+    display: none;
+  }
+  section.content {
+    margin: 0;
+    width: 100%;
+  }
+  .show-print {
+    display: block;
+  }
+  td.show-print,
+  th.show-print {
+    display: table-cell;
+  }
+  /******/
+  @page {
+    /* size: 8cm auto;
+        width: 8cm; */
+    margin: 0 auto;
+    overflow-y: auto;
+    width: 100%;
+    height: 100%;
+    page-break-after: always;
+  }
+  body {
+    /* width: 8cm !important; */
+    width: 100%;
+    height: auto;
+    page-break-after: always;
+    padding-bottom: 2px;
+    background: none;
+  }
+  #myDivToPrint,
+  body {
+    /* height:max-content!important; */
+    font-size: 11px;
+    overflow-y: visible;
+    page-break-after: always;
+    display: table !important;
+  }
+  #myDivToPrint {
+    border: 1px solid #000000 !important;
+    margin: 0 auto !important;
+    padding: 6px 2px 2px 2px;
+    background: none;
+    display: table !important;
+    width: 100%;
+    height: 100%;
+    page-break-after: always;
+    width: 100%;
+    margin: 0 auto 50px auto;
+    margin-top: 0px !important;
+  }
+  .the_table thead tr th {
+    background-color: #8E8F89;
+    -webkit-print-color-adjust: exact;
+    -webkit-box-shadow: inset 0 0 0 1000px #8E8F89;
+            box-shadow: inset 0 0 0 1000px #8E8F89;
+  }
+  body {
+    padding-bottom: 24px !important;
+    margin: 24px auto !important;
+  }
+}
+/*# sourceMappingURL=main.css.map */
