@@ -65,6 +65,9 @@ Route::middleware('distributor')->group(function () {
     Route::resource('/bills', 'BillController');
     Route::get('/map', 'TripsController@trips')->name('trips.map');
     Route::post('/get/ajax/stores', 'AjaxDataController@getAllStoresById')->name('getAjaxStores');
+
+    Route::get('/get/ajax/routes', 'AjaxDataController@getDistributorRoutes')->name('getAjaxRoutes');
+
     Route::post('/get/ajax/products', 'AjaxDataController@getAllProducts')->name('getAjaxProducts');
     Route::get('/get/ajax/store/products', 'AjaxDataController@getStoreProducts')->name('getAjaxstoreProducts');
     Route::post('/get/ajax/cars', 'AjaxDataController@getcars')->name('getAjaxCars');
@@ -88,6 +91,10 @@ Route::middleware('distributor')->group(function () {
         Route::get('distributors/report', 'DistributorController@show')->name('distributor.report');
         Route::get('expenses', 'ExpenseController@index')->name('expense_report.index');
         Route::get('expenses/{id}', 'ExpenseController@show')->name('expense_report.show');
+
+        Route::get('selling-movement', 'SellingMovementController@index')->name('selling_movement.index');
+        Route::get('selling-movement/report', 'SellingMovementController@show')->name('selling_movement.show');
+
 
     });
 });

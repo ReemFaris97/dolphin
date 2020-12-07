@@ -44,6 +44,8 @@
     <!--end::Global Theme Styles -->
 
     <link rel="manifest" href="{!! asset('dashboard/assets/firebase/manifest.json') !!}">
+    
+    <link href="{!! asset('dashboard/assets/new-style.css')!!}" rel="stylesheet" type="text/css"/>
 
     <link rel="shortcut icon" href="{!! asset('dashboard/assets/demo/demo12/media/img/logo/logo.png')!!}"/>
     @stack('header')
