@@ -14,7 +14,7 @@
 }
 
 /********* sass basic***/
-b, button, header .hd_inn .hd_txt h3, .the_table thead tr th {
+b, button, header .hd_inn .hd_txt h3, .the_table thead tr th, footer .foot_bg h5, footer .hint.code {
   font-family: "ElMessiri-Bold";
 }
 
@@ -122,12 +122,19 @@ button {
   }
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 500;
   line-height: 1.1;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   margin-top: 20px;
   margin-bottom: 10px;
 }
@@ -162,7 +169,7 @@ p {
   border-radius: 4px;
   -webkit-transition: all 0.5s ease 0s;
   transition: all 0.5s ease 0s;
-  background-color: #29567A;
+  background-color: #29567a;
   margin: 20px auto;
   display: table;
   cursor: pointer;
@@ -333,7 +340,7 @@ header .hd_inn .logo img {
 .the_table > thead > tr > td,
 .the_table > tbody > tr > td,
 .the_table > tfoot > tr > td {
-  border: 1px solid #71726C;
+  border: 1px solid #71726c;
   padding: 10px;
 }
 
@@ -354,17 +361,21 @@ header .hd_inn .logo img {
 
 .the_table thead tr th {
   text-align: center !important;
-  background-color: #8E8F89;
+  background-color: #c3c3c3;
   -webkit-print-color-adjust: exact;
-  -webkit-box-shadow: inset 0 0 0 1000px #8E8F89;
-          box-shadow: inset 0 0 0 1000px #8E8F89;
+  -webkit-box-shadow: inset 0 0 0 1000px #c3c3c3;
+          box-shadow: inset 0 0 0 1000px #c3c3c3;
 }
 
-.the_table thead tr th p {
+.the_table thead tr th p,
+.the_table tfoot tr th p {
   margin-bottom: 4px;
+  text-transform: capitalize;
 }
 
-.the_table thead tr th p:last-child, .the_table thead tr th p:only-child {
+.the_table thead tr th p:last-child, .the_table thead tr th p:only-child,
+.the_table tfoot tr th p:last-child,
+.the_table tfoot tr th p:only-child {
   margin: 0;
 }
 
@@ -374,6 +385,68 @@ header .hd_inn .logo img {
 
 .the_table tbody tr td p {
   margin: 0;
+}
+
+.hint {
+  color: red;
+}
+
+footer .row .col {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 0px;
+          flex: 1 1 0;
+}
+
+footer .row .col .box1 {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+footer .row .col:first-child .box1 {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 47%;
+          flex: 1 0 47%;
+  margin-bottom: 10px;
+}
+
+footer .row .col:first-child .box1:last-child {
+  margin: 0;
+}
+
+footer .foot_bg {
+  margin: 20px auto;
+  background-color: #c3c3c3;
+  border: 1px solid #212121;
+  text-align: center;
+  padding: 18px 5px;
+}
+
+footer .foot_bg > div {
+  min-width: 20%;
+}
+
+footer .foot_bg h5 {
+  text-transform: capitalize;
+  margin-top: 0;
+}
+
+footer .foot_bg h5:last-child {
+  margin-bottom: 0;
+}
+
+footer .hint.code {
+  font-size: 20px;
+  text-align: left;
+  width: 100%;
 }
 
 /******************************** in print **********************/
@@ -441,10 +514,10 @@ header .hd_inn .logo img {
     margin-top: 0px !important;
   }
   .the_table thead tr th {
-    background-color: #8E8F89;
+    background-color: #c3c3c3;
     -webkit-print-color-adjust: exact;
-    -webkit-box-shadow: inset 0 0 0 1000px #8E8F89;
-            box-shadow: inset 0 0 0 1000px #8E8F89;
+    -webkit-box-shadow: inset 0 0 0 1000px #c3c3c3;
+            box-shadow: inset 0 0 0 1000px #c3c3c3;
   }
   body {
     padding-bottom: 24px !important;

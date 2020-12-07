@@ -11,7 +11,7 @@
   src: url(../fonts/ElMessiri-SemiBold.ttf);
 }
 /********* sass basic***/
-$primary-color: #29567A;
+$primary-color: #29567a;
 $light-color: #3d7cae;
 $black-color: #212121;
 @mixin objectFit($fit) {
@@ -123,26 +123,33 @@ button {
   margin-right: auto;
   margin-left: auto;
 }
-@media (min-width: 768px){
+@media (min-width: 768px) {
   .container {
-      width: 750px;
+    width: 750px;
   }
 }
-@media (min-width: 992px){
+@media (min-width: 992px) {
   .container {
-      width: 970px;
+    width: 970px;
   }
 }
-@media (min-width: 1200px){
+@media (min-width: 1200px) {
   .container {
-      width: 1170px;
+    width: 1170px;
   }
 }
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 500;
   line-height: 1.1;
 }
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   margin-top: 20px;
   margin-bottom: 10px;
 }
@@ -159,7 +166,6 @@ p {
   margin: 0 0 10px;
 }
 /*|||||||||||||||||||||| ++++++++++++++++ |||||||||||||||||||||||*/
-
 /******** print button ************/
 #print-all {
   color: #fff;
@@ -209,7 +215,7 @@ header {
         margin-top: 0;
         @extend %bold;
         text-transform: uppercase;
-        &:last-child{
+        &:last-child {
           letter-spacing: 1px;
         }
       }
@@ -258,34 +264,34 @@ header {
     -ms-flex-positive: 1;
     flex-grow: 1;
     max-width: 100%;
-    .box1{
+    .box1 {
       margin: 0 3px;
     }
   }
-  &>.box1 {
+  & > .box1 {
     width: 100%;
+  }
 }
-}
-.box1{
+.box1 {
   border: 1px solid $black-color;
   text-align: center;
   padding: 10px 5px;
   border-radius: 14px;
-  .flexx{
+  .flexx {
     align-items: baseline;
-    .box1{
+    .box1 {
       border: 0;
       border-radius: 0;
       .flexx h4:first-child {
-          margin-left: 14px;
+        margin-left: 14px;
       }
     }
-    h4{
+    h4 {
       text-transform: capitalize;
       margin-top: 0;
     }
   }
-  p{
+  p {
     margin: 0;
     min-height: 26px;
     font-size: 16px;
@@ -293,8 +299,8 @@ header {
   }
 }
 /******** table *******/
-.bg_logo{
-  background-image: url('../img/logo.png');
+.bg_logo {
+  background-image: url("../img/logo.png");
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -304,14 +310,14 @@ header {
   border-collapse: collapse;
   width: 100%;
   position: relative;
-  background-color: rgba(255,255,255,.7);
+  background-color: rgba(255, 255, 255, 0.7);
   & > thead > tr > th,
   & > tbody > tr > th,
   & > tfoot > tr > th,
   & > thead > tr > td,
   & > tbody > tr > td,
   & > tfoot > tr > td {
-    border: 1px solid #71726C;
+    border: 1px solid #71726c;
     padding: 10px;
   }
   & > tr:nth-child(odd) {
@@ -328,13 +334,18 @@ header {
   }
   thead tr th {
     text-align: center !important;
-    background-color: #8E8F89;
-    -webkit-print-color-adjust: exact; 
-    box-shadow: inset 0 0 0 1000px #8E8F89;
+    background-color: #c3c3c3;
+    -webkit-print-color-adjust: exact;
+    box-shadow: inset 0 0 0 1000px #c3c3c3;
     @extend %bold;
-    p{
+  }
+  thead tr th,
+  tfoot tr th {
+    p {
       margin-bottom: 4px;
-      &:last-child , &:only-child{
+      text-transform: capitalize;
+      &:last-child,
+      &:only-child {
         margin: 0;
       }
     }
@@ -342,15 +353,61 @@ header {
   tbody tr td {
     text-align: center !important;
     @extend %semi_bold;
-    p{
+    p {
       margin: 0;
-      &.not_bold{
+      &.not_bold {
         @extend %regular;
       }
     }
   }
 }
-
+.hint {
+  color: red;
+}
+footer {
+  .row {
+    .col {
+      @include dis-flex();
+      flex-wrap: wrap;
+      flex: 1 1 0;
+      .box1 {
+        flex: 1 1 auto;
+        @include flex-col-center();
+      }
+      &:first-child .box1 {
+        flex: 1 0 47%;
+        margin-bottom: 10px;
+        &:last-child {
+          margin: 0;
+        }
+      }
+    }
+  }
+  .foot_bg {
+    margin: 20px auto;
+    background-color: #c3c3c3;
+    border: 1px solid #212121;
+    text-align: center;
+    padding: 18px 5px;
+    & > div {
+      min-width: 20%;
+    }
+    h5 {
+      text-transform: capitalize;
+      margin-top: 0;
+      @extend %bold;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+  .hint.code {
+    font-size: 20px;
+    text-align: left;
+    width: 100%;
+    @extend %bold;
+  }
+}
 /******************************** in print **********************/
 @media print {
   body,
@@ -416,14 +473,13 @@ header {
     margin-top: 0px !important;
   }
   .the_table {
-   
     thead tr th {
-      background-color: #8E8F89;
-      -webkit-print-color-adjust: exact; 
-      box-shadow: inset 0 0 0 1000px #8E8F89;
+      background-color: #c3c3c3;
+      -webkit-print-color-adjust: exact;
+      box-shadow: inset 0 0 0 1000px #c3c3c3;
     }
   }
-  body{
+  body {
     padding-bottom: 24px !important;
     margin: 24px auto !important;
   }
