@@ -50,7 +50,7 @@ class DailyReportController extends Controller
         $rules = [
             'cash'=>'required|numeric',
             'expenses'=>'required|numeric',
-            'image'=>'required|image',
+            'image'=>'required',
             'products'=>'required|array',
             'products.*.product_id' =>'required|integer|exists:products,id',
             "products.*.quantity" => "required|integer",
@@ -64,6 +64,6 @@ class DailyReportController extends Controller
        $this->RegisterDailyReport($request);
         return $this->apiResponse('تم ملأ التقرير بنجاح');
     }
-  
+
 
 }
