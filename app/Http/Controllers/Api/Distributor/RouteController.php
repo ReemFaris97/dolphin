@@ -147,7 +147,7 @@ class RouteController extends Controller
         }
         $request['is_active']=0;
         $client = Client::create($request->all());
-        dd($client);
+        // dd($client);
         $max_trips = RouteTrips::where('route_id',$route_id)->max('arrange');
         $request['route_id'] = $route_id;
         $request['client_id'] = $client->id;
