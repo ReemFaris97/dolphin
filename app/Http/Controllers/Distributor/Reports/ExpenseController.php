@@ -46,7 +46,7 @@ class ExpenseController extends Controller
             $query = $query->whereBetween('date',[$request->from,$request->to]);
         }
         $expenses=$query->orderBy('date')->get();
-        return view('distributor.reports.expense_report.index',compact('expenses'));
+        return view('distributor.reports.expenses.index',compact('expenses'));
     }
 
     /**
@@ -58,7 +58,7 @@ class ExpenseController extends Controller
     {
         $expense=Expense::find($id);
 
-        return view('distributor.reports.expense_report.show',compact('expense'));
+        return view('distributor.reports.expenses.show',compact('expense'));
 
 
     }
