@@ -9,7 +9,9 @@ use App\Http\Controllers\Controller;
 use App\Models\DistributorCar;
 use App\Models\DistributorRoute;
 use App\Models\ProductQuantity;
+use App\Models\TripInventory;
 use App\Models\User;
+use DB;
 
 class AjaxDataController extends Controller
 {
@@ -116,6 +118,23 @@ class AjaxDataController extends Controller
                 'distributor.stores.getAjaxProducts',
                 [
                     'cars' => DistributorRoute::where('user_id', $request->distributor_id)->get()
+                ]
+            )->render()
+        ]);
+    }
+    public function getDistributorTripsOnRoute(Request $request)
+    {
+
+        return response()->json([
+            'status' => true,
+            'data' => view(
+                'distributor.stores.getAjaxProducts',
+                [
+                    'cars' => TripInventory
+                        ::FilterRoute($request->route_id)
+                        ->filterDistributor($request->distributor_id)
+                        ->select(DB::raw('created_at as name ,id'))
+                        ->get()
                 ]
             )->render()
         ]);

@@ -63,7 +63,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
 
     Route::resource('charges','ChargeController');
     Route::post('charges_log/{charge_id}','ChargeController@addLog');
-    Route::post('charges_notes/{charge_id}','ChargeController@addNotes');
+    Route::post('charges_notes/{charge_id}','ChargeController@addNotefs');
     Route::post('charges_confirm/{charge_id}','ChargeController@confirmCharge');
     Route::get('assigned_tasks','ChargeController@assignedCharges');
     Route::get('notes/{id}','ChargeController@getNotes');

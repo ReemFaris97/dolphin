@@ -11,6 +11,7 @@ use App\Models\DistributorTransaction;
 use App\Models\RouteTrips;
 use App\Models\TripInventory;
 use App\Models\User;
+use DB;
 
 class SellingMovementController extends Controller
 {
@@ -31,9 +32,62 @@ class SellingMovementController extends Controller
     public function show(Request $request)
     {
 
-        $trips_status = TripInventory::with('trip_report')->FilterRoute($request->route_id)->filterDistributor($request->distributor_id)->filterWithDates($request->date_from, $request->date_to)->get();
+        $this->validate($request, ['trip_id' => 'required|integer|exists:trip_inventories,id']);        
+        $trips = TripInventory::select('*')
+            ->withReportProducts()
+            ->WithPreviousTripInventory()
+            ->WithPreviousTripReport()
+            ->withTripClientAndRoute()
+            ->with([
+                'products',
+                'previous_trip_report',
+                'previous_trip_inventory',
+                
+            ])
+            ->FilterRoute($request->route_id)
+            ->filterDistributor($request->distributor_id)
+            ->filterWithDates($request->date_from, $request->date_to)
+            ->find($request->trip_id);
+        $products = collect([]);
 
-        dd($trips_status);
-        return view('distributor.reports.selling_movement_report.show', compact('bill'));
+        $product_stub = [
+            'product_name' => null,
+            'product_id' => null,
+            'exists' => 0,
+            'sells' => 0,
+            'selling' => 0,
+        ];
+
+        // dd($trips->previous_trip_report);
+        //inventory products
+        foreach ($trips->products ?? [] as $product) {
+            $product_item = $product_stub;
+            $product_item['product_name'] = $product->product->name;
+            $product_item['product_id'] = $product->product_id;
+
+            if ($products->has($product->product_id)) {
+                $product_item = $products->get($product->product_id);
+            }
+            $product_item['exists'] = $product->quantity;
+            $pervious_sells = $trips->previous_trip_report->products->where('product_id', $product->product_id)->sum('quantity');
+            $pervious_exists = $trips->previous_trip_inventory->products->where('product_id', $product->product_id)->sum('quantity');
+            $selling = ($pervious_sells + $pervious_exists) - $product->quantity;
+            $product_item['selling'] = $selling;
+            $products[$product->product_id] = $product_item;
+        }
+
+
+        foreach ($trips->trip_report->products ?? [] as $product) {
+            $product_item = $product_stub;
+            $product_item['product_id'] = $product->product_id;
+
+            if ($products->has($product->product_id)) {
+                $product_item = $products->get($product->product_id);
+            }
+            $product_item['sells'] = $product->quantity;
+            $products[$product->product_id] = $product_item;
+        }
+
+        return view('distributor.reports.selling_movement_report.show', compact('trips', 'products'));
     }
 }
