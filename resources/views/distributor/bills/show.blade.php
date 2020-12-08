@@ -116,7 +116,15 @@
                                 <tr>
                                 <td>{{ $value->product->name }}</td>
                                 <td>{{ $value->quantity }}</td>
-                                <td>{{ $value->quantity /$value->product->quantity_per_unit }}</td>
+                                <td>
+                                    @if($value->product->quantity_per_unit != 0)
+                                  {{  $value->quantity / $value->product->quantity_per_unit }}
+                                    @else
+                                    {{    $value->quantity / 1 }}
+
+                                    @endif
+
+                                    </td>
                                 <td>{{ $value->price }}</td>
                                 </tr>
                                 @endforeach

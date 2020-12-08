@@ -145,9 +145,15 @@ class RouteController extends Controller
         if ($validation instanceof Response) {
             return $validation;
         }
+        if ($request->image != null)
+        {
+            if ($request->hasFile('image')) {
+                $inputs['image'] = saveImage($request->image,'users');
+            }
+        }
         $request['is_active']=0;
         $client = Client::create($request->all());
-        dd($client);
+
         $max_trips = RouteTrips::where('route_id',$route_id)->max('arrange');
         $request['route_id'] = $route_id;
         $request['client_id'] = $client->id;
