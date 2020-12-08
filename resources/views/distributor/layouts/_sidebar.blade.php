@@ -712,6 +712,11 @@
                                     href="{{route('distributor.reports.distributor.index')}}" class="m-menu__link "><i
                                         class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
                                         class="m-menu__link-text">تقرير المندوبين</span></a></li>
+
+                                        <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
+                                            href="{{route('distributor.reports.selling_movement.index')}}" class="m-menu__link "><i
+                                                class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
+                                                class="m-menu__link-text">تقرير حركه البيع </span></a></li>
                 </ul>
             </div>
            </li>
