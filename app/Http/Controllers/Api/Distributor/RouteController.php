@@ -145,6 +145,12 @@ class RouteController extends Controller
         if ($validation instanceof Response) {
             return $validation;
         }
+        if ($request->image != null)
+        {
+            if ($request->hasFile('image')) {
+                $inputs['image'] = saveImage($request->image,'users');
+            }
+        }
         $request['is_active']=0;
         $client = Client::create($request->all());
 
