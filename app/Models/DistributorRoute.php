@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class DistributorRoute extends Model
 {
-    protected $fillable = ['name', 'is_finished', 'is_active', 'user_id', 'arrange', 'round'];
+    protected $fillable = ['name', 'is_finished', 'is_active', 'user_id', 'arrange', 'round','received_code'];
 protected static function boot()
 {
         parent::boot();
@@ -25,7 +25,19 @@ protected static function boot()
     {
         return $this->hasMany(RouteTrips::class, 'route_id')->orderBy('arrange', 'asc');
     }
+    public function clients()
+    {
+        return $this->hasMany(RouteTrips::class, 'route_id')->groupBy('client_id')->get()->count();
+    }
+    public function accepted_trips()
+    {
+        return $this->hasMany(RouteTrips::class, 'route_id')->where('status','accepted')->get()->count();
+    }
 
+    public function refused_trips()
+    {
+        return $this->hasMany(RouteTrips::class, 'route_id')->where('status','refused')->get()->count();
+    }
     public function user()
     {
         return $this->belongsTo(User::class,'user_id')->withDefault();
@@ -55,8 +67,13 @@ protected static function boot()
      */
     public function trips_reports(): HasManyThrough
     {
-        return $this->hasManyThrough(RouteTripReport::class, RouteTrips::class, 'route_id', 'route_trip_id');
+        return $this->hasManyThrough(
+            RouteTripReport::class,
+             RouteTrips::class,
+              'route_id',
+             'route_trip_id');
     }
+
 
 
 }
