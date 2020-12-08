@@ -37,6 +37,7 @@ class StoreController extends Controller
     }
 
     public function pendingTransferRequests(){
+        
         $stores = StoreTransferRequest::where(['distributor_id'=>auth()->user()->id,'is_confirmed'=>0])->paginate($this->paginateNumber);
         return $this->apiResponse(new TransferRequestsResource($stores));
     }

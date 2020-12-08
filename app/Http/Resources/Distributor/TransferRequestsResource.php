@@ -19,7 +19,7 @@ class TransferRequestsResource extends ResourceCollection
             'transfer_requests'=>$this->collection->transform(function ($q){
                 return [
                      'id'=>$q->id,
-                    'sender_name'=>$q->sender->name,
+                    'name'=>$q->sender->name,
                     'sender_store'=>$q->sender_store->name,
                     'products'=>   $q->productQuantities->transform(function ($qu){
                         return [
