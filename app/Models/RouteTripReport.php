@@ -20,7 +20,8 @@ class RouteTripReport extends Model
         'cash',
         'notes',
         'store_id',
-        'distributor_transaction_id'
+        'distributor_transaction_id',
+        'expenses'
     ];
     /**
      * distributor_transaction relation

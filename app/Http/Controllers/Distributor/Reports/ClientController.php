@@ -21,7 +21,7 @@ class ClientController extends Controller
     public function index(Request $request)
     {
 
-   
+
         $query = DistributorTransaction::query();
 
         if($request->has('user_id') && $request->user_id != null){
@@ -37,7 +37,7 @@ class ClientController extends Controller
         }
 
         $transactions=$query->orderBy('created_at')->get();
-        return view('distributor.reports.sale_report.index',compact('transactions'));
+        return view('distributor.reports.clients.index',compact('transactions'));
     }
 
     /**
@@ -50,7 +50,7 @@ class ClientController extends Controller
         $routetrip=AttachedProducts::where('transaction_id',$id)->where('model_type','App\Models\RouteTrips')->first();
        $bill=RouteTrips::find($routetrip->model_id);
 
-        return view('distributor.reports.client_report.show',compact('bill'));
+        return view('distributor.reports.clients.show',compact('bill'));
 
 
     }
