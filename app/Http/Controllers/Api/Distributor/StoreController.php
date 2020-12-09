@@ -58,8 +58,17 @@ class StoreController extends Controller
 
     public function show($id)
     {
-        $products = Product::whereStoreId($id)->paginate($this->paginateNumber);
-        return $this->apiResponse(new ProductsResource($products));
+        $product_quantities = Store::findOrFail($id)->totalQuantities()->paginate();
+
+        $products = collect($product_quantities->items())->map(function ($products_quantities) {
+
+            $product =          $products_quantities->product;
+
+            $product['quantity'] = $products_quantities->total_quantity;
+            return $product;
+        });
+        $product_quantities->setCollection($products);
+        return $this->apiResponse(new ProductsResource($product_quantities));
 
     }
 

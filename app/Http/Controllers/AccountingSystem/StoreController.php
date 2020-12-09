@@ -67,7 +67,7 @@ class StoreController extends Controller
 
             'ar_name'=>'required|string|max:191|store_name:accounting_stores,ar_name,company_id,branch_id,'.$request['ar_name'].','.$request['company_id'].','.$request['branch_id'],
             'en_name'=>'nullable|string|max:191',
-            'image'=>'nullable|sometimes|image',
+            'image'=>'nullable|sometimes|mimes:jpg,jpeg,gif,png',
             'company_id'=>'nullable|numeric|exists:accounting_companies,id',
 
         ];
@@ -140,7 +140,7 @@ class StoreController extends Controller
         $rules = [
             'ar_name'=>'required|string|max:191',
             'en_name'=>'nullable|string|max:191',
-            'image'=>'nullable|sometimes|image',
+            'image'=>'nullable|sometimes|mimes:jpg,jpeg,gif,png',
             'company_id'=>'nullable|numeric|exists:accounting_companies,id',
         ];
      //   dd($request->all());
@@ -426,7 +426,7 @@ class StoreController extends Controller
             }
 
         }elseif($bond->type == 'transactions'){
-           
+
             $transaction=session('transaction');
             $bond->update([
                 'store_to'=>$transaction['to_store_id'],
@@ -479,7 +479,7 @@ class StoreController extends Controller
         $bondproducts=AccountingBondProduct::where('bond_id',$bond->id)->get();
 
         // alert()->success('تم اضافة  السند  بنجاح !')->autoclose(5000);
-       
+
     return redirect()->route('accounting.stores.show_bond',$bond->id)->with('bond',$bond->id)->with('bondproducts',$bondproducts);
     }
 

@@ -173,7 +173,7 @@ class RouteController extends Controller
             'route_id' =>'required|integer|exists:distributor_routes,id',
             'cash'=>'required|numeric',
             'expenses'=>'required|numeric',
-            'image'=>'required|image',
+            'image'=>'required|mimes:jpg,jpeg,gif,png',
             'products'=>'required|array',
             'products.*.product_id' =>'required|integer|exists:products,id',
             "products.*.quantity" => "required|integer",

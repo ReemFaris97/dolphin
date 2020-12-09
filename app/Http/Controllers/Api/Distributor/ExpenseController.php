@@ -46,18 +46,18 @@ class ExpenseController extends Controller
 
     public function store(Request $request){
         $rules = [
-            
+
             'distributor_route_id'=> 'required|integer|exists:distributor_routes,id',
             'expenditure_clause_id' => 'required|integer|exists:expenditure_clauses,id',
             'expenditure_type_id' => 'required|integer|exists:expenditure_types,id',
             'date'=>'required|date',
             'time'=>'required|string',
-            'image' =>'required|image|mimes:jpg,jpeg,gif,png',
+            'image' => 'required|mimes:jpg,jpeg,gif,png',
             'amount'=>'required|numeric',
             'notes'=>'required|string',
             'reader_name'=>'nullable|string',
             'reader_number'=>'nullable|string',
-            'reader_image' =>'nullable|image|mimes:jpg,jpeg,gif,png',
+            'reader_image' => 'nullable|mimes:jpg,jpeg,gif,png',
         ];
         $validation = $this->apiValidation($request,$rules);
         if ($validation instanceof Response) {

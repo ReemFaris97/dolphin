@@ -205,7 +205,7 @@ class TaskController extends Controller
         $task = Task::find($id);
        if (!$task) return  $this->notFoundResponse();
         $rules = [
-            'image' => 'required|image'
+            'image' => 'required|mimes:jpg,jpeg,gif,png'
         ];
         $validation = $this->apiValidation($request,$rules);
         if ($validation instanceof Response) {

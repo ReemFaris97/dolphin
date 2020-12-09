@@ -26,7 +26,7 @@ class ProductsResource extends ResourceCollection
                     'name' => $q->name,
                     'min_quantity' => $q->min_quantity,
                     'max_quantity' => $q->max_quantity,
-                    'quantity' => $q->quantity(),
+                    'quantity' => $q->quantity ?? 99999999999999999,
                 ];
             }),
             'paginate' => [

@@ -51,7 +51,7 @@ class CategoryController extends Controller
             'en_name'=>'nullable|string|max:191',
             'ar_description'=>'nullable|string',
             'en_description'=>'nullable|string',
-            'image'=>'nullable|sometimes|image',
+            'image'=>'nullable|sometimes|mimes:jpg,jpeg,gif,png',
             'company_id'=>'required|numeric|exists:accounting_companies,id',
 
 
@@ -112,7 +112,7 @@ class CategoryController extends Controller
             'en_name'=>'nullable|string|max:191',
             'ar_description'=>'nullable|string',
             'en_description'=>'nullable|string',
-            'image'=>'nullable|sometimes|image',
+            'image'=>'nullable|sometimes|mimes:jpg,jpeg,gif,png',
             'company_id'=>'required|numeric|exists:accounting_companies,id',
 
         ];
