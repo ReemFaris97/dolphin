@@ -54,7 +54,7 @@ class BenodController extends Controller
         $rules = [
             'ar_name'=>'required|string',
             'desc'=>'nullable|string',
-            'image'=>'nullable|sometimes|image',
+            'image'=>'nullable|sometimes|mimes:jpg,jpeg,gif,png',
         ];
         $message=[
             'ar_name.required'=>'اسم البند مطلوب'

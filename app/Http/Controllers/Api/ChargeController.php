@@ -69,7 +69,7 @@ class ChargeController extends Controller
             'worker_id' => 'required|exists:users,id',
             'supervisor_id' => 'required|exists:users,id',
             'images' => 'required|array',
-             'images.*' =>'required|image|mimes:jpg,jpeg,gif,png',
+             'images.*' =>'required|mimes:jpg,jpeg,gif,png',
         ];
         $validation = $this->apiValidation($request,$rules);
         if ($validation instanceof Response) {
@@ -89,7 +89,7 @@ class ChargeController extends Controller
             'description' => 'required|string',
             'worker_id' => 'required|exists:users,id',
             'images' => 'sometimes|array',
-             'images.*' =>'sometimes|image|mimes:jpg,jpeg,gif,png',
+             'images.*' =>'sometimes|mimes:jpg,jpeg,gif,png',
         ];
         $validation = $this->apiValidation($request,$rules);
         if ($validation instanceof Response) {
@@ -108,7 +108,7 @@ class ChargeController extends Controller
             'worker_id' => 'required|exists:users,id',
             'type' => 'required|string|in:transfer,receive',
             'images' => 'sometimes|array',
-            'images.*' =>'sometimes|image|mimes:jpg,jpeg,gif,png',
+            'images.*' =>'sometimes|mimes:jpg,jpeg,gif,png',
         ];
         $validation = $this->apiValidation($request,$rules);
         if ($validation instanceof Response) {
@@ -125,7 +125,7 @@ class ChargeController extends Controller
         $rules = [
             'description' => 'required|string',
             'images' => 'required|array',
-            'images.*' =>'required|image|mimes:jpg,jpeg,gif,png',
+            'images.*' =>'required|mimes:jpg,jpeg,gif,png',
         ];
         $validation = $this->apiValidation($request,$rules);
         if ($validation instanceof Response) {

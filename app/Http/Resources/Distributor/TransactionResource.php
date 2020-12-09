@@ -16,10 +16,13 @@ class TransactionResource extends ResourceCollection
     {
         return [
             'transactions'=>$this->collection->transform(function ($q){
+                /** @var  \App\Models\DistributorTransaction $q */
+
+                ;
                 return [
                     'id'=>$q->id,
-                    'name'=>$q->sender->name,
-                    'amount'=>(floatval($q->amount)),
+                    'name'=>optional($q->sender)->name,
+                    'amount' => floatval( $q->amountByType(auth()->user())),
                     'date'=>$q->created_at->format('Y-m-d'),
                 ];
             }),

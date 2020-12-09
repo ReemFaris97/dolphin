@@ -87,7 +87,7 @@ class ProductsController extends Controller
                 'price'=>'required|numeric',
                 'bar_code'=>'required|string|unique:products,bar_code',
                 'expired_at'=>'required|date|after_or_equal:today',
-                'image'=>'required|image',
+                'image' => 'required|mimes:jpg,jpeg,gif,png',
                 'images'=>"nullable|array",
                 'images.*'=>'image',
             ];

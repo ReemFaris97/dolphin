@@ -146,40 +146,11 @@
                             <!--end::Total Profit-->
                         </a>
                     </div>
-                    {{-- <div class="col-md-12 col-lg-12 col-xl-12">--}}
-                    {{-- <!--begin::New Users-->--}}
-                    {{-- <div class="m-widget24" style="height:180px">--}}
-                    {{-- <div class="m-widget24__item">--}}
-                    {{-- <h4 class="m-widget24__title">--}}
-                    {{-- الموظف المثالى لهذا الشهر :--}}
-                    {{-- </h4>--}}
-                    {{-- --}}
-                    {{-- <div class="m-widget24__desc">--}}
-                    {{-- </div>--}}
-                    {{-- <div class="text-center mb-4 ">--}}
-                    {{-- <span class="fas fa-star "--}}
-                    {{-- @if(optional(idol_user())->rate()>=1)--}}
-                    {{-- style="color:orange" @endif ></span>--}}
-                    {{-- <span class="fas fa-star"--}}
-                    {{-- @if(optional(idol_user())->rate()>=2)style="color:orange" @endif ></span>--}}
-                    {{-- <span class="fas fa-star"--}}
-                    {{-- @if(optional(idol_user())->rate()>=3)style="color:orange" @endif ></span>--}}
-                    {{-- <span class="fas fa-star"--}}
-                    {{-- @if(optional(idol_user())->rate()>=4)style="color:orange" @endif></span>   <span class="fas fa-star"--}}
-                    {{-- @if(optional(idol_user())->rate()>=5)style="color:orange" @endif></span>--}}
-                    {{-- </div>--}}
-                    {{-- <span class="m-widget24__stats m--font-success">--}}
-                    {{-- --}}
-                    {{-- {!! round(optional(idol_user())->rate() ) !!}--}}
-                    {{-- </span>--}}
-                    {{-- </div>--}}
-                    {{-- </div>--}}
-                    {{-- <!--end::New Users-->--}}
-                    {{-- </div>--}}
+
                 </div>
             </div>
         </div>
-        <!--end:: Widgets/Stats-->
+    {{--     <!--end:: Widgets/Stats-->
         <!----------- start chart ----------->
         <div class="row">
             <div class="col-lg-12">
@@ -204,7 +175,7 @@
                 <!--end::Portlet-->
             </div>
         </div>
-        <!----------- end chart ----------->
+        <!----------- end chart -----------> --}}
     </div>
 </div>
 @endsection
