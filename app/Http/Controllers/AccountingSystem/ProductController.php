@@ -89,7 +89,7 @@ class ProductController extends Controller
             'size'=>'nullable|string',
             'color'=>'nullable|string',
             'height'=>'nullable|string',
-            'image'=>'nullable|sometimes|image',
+            'image'=>'nullable|sometimes|mimes:jpg,jpeg,gif,png',
             'width'=>'nullable|string',
             'num_days_recession'=>'nullable|string',
             'cell_id'=>'required',
@@ -379,7 +379,7 @@ class ProductController extends Controller
             'size'=>'nullable|string',
             'color'=>'nullable|string',
             'height'=>'nullable|string',
-            'image'=>'nullable|sometimes|image',
+            'image'=>'nullable|sometimes|mimes:jpg,jpeg,gif,png',
             'width'=>'nullable|string',
             'num_days_recession'=>'nullable|string',
 

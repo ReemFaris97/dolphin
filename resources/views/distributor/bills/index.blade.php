@@ -22,19 +22,7 @@
                 </div>
             </div>
             <div class="m-portlet__head-tools">
-                {{-- <ul class="m-portlet__nav">
-                    <li class="m-portlet__nav-item">
-                        <a href="{!!route('distributor.cars.create')!!}"
-                           class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">
-                        <span>
-                            <i class="fas fa-plus"></i>
-                            <span>اضافه سيارة جديدة</span>
-                        </span>
-                        </a>
-                    </li>
-                    <li class="m-portlet__nav-item"></li>
-
-                </ul> --}}
+              
             </div>
         </div>
         <div class="m-portlet__body">

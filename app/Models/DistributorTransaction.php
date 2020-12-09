@@ -61,5 +61,13 @@ class DistributorTransaction extends Model
 
         return  str_pad($this->id, 6, 0, STR_PAD_LEFT);
     }
-    
+
+    public function amountByType($user)
+    {
+        if ($user->id == $this->receiver_id  && $this->receiver_type == get_class($user)) {
+
+            return $this->amount;
+        }
+        return $this->amount * -1;
+    }
 }

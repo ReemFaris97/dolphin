@@ -109,7 +109,7 @@ class AuthController extends Controller
         $user = auth()->user();
         $rules = [
             'phone'      =>'sometimes|string|unique:users,phone,'. $user->id,
-            'image' =>'sometimes|image|mimes:jpg,jpeg,gif,png',
+            'image' =>'sometimes|mimes:jpg,jpeg,gif,png',
              "name" => "sometimes|string|min:1|max:255",
             "email" => "sometimes|email|min:1|max:255|unique:users,email,".$user->id,
             "password" => "sometimes|string|max:255|confirmed",

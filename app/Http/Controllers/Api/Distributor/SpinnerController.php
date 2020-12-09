@@ -140,14 +140,20 @@ class SpinnerController extends Controller
     {
         $rules = [
             'bar_code'=>'required|string',
-            'client_id' => 'required|integer|exists:clients,id'
+            'client_id' => 'required|integer|exists:clients,id',
+            'store_id' => 'required|integer|exists:stores,id',
         ];
 
         $validation=$this->apiValidation($request,$rules);
         if($validation instanceof Response){return $validation;}
 
         $client = Client::find($request->client_id);
-        $product = Product::whereBarCode($request->bar_code)->withClassPrice($client->client_class_id)->first();
+        $product = Product::with(['quantities' => function ($q) use ($request) {
+            $q->where('store_id', $request->store_id);
+            $q->totalQuantity();
+        }])->whereBarCode($request->bar_code)->withClassPrice($client->client_class_id)->first();
+
+        $product->quantity = $product->quantities->where('product_id', $product->id)->sum('total_quantity');
 
         if (!$product) return $this->notFoundResponse();
         return $this->apiResponse(new ProductsSpinnerModelResource($product));

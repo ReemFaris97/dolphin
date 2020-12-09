@@ -40,15 +40,15 @@
                         <tbody>
                         <tr>
                             <td>رقم الفاتوره</td>
-                            <td>000{{$bill->id}}</td>
+                            <td>{{$bill->invoice_number}}</td>
                         </tr>
                         <tr>
                             <td>العميل</td>
-                            <td>{{$bill->routetrip->client->name}}</td>
+                            <td>{!!optional(optional($bill->route_trip)->client)->name  !!}</td>
                         </tr>
                         <tr>
                             <td>تاريخ الفاتوره</td>
-                            <td>{{$bill->created_at}}</td>
+                            <td>{{$bill->created_at->format('Y-m-d H:m A')}}</td>
                         </tr>
                         <tr>
                             <td> قيمةالفاتوره </td>
@@ -56,25 +56,24 @@
                         </tr>
                         <tr>
                             <td>اسم المندوب </td>
-                            <td>{{$bill->user->name}}</td>
+                            <td>{!! optional($bill->route_trip)->route->user->name !!}</td>
                         </tr>
                         <tr>
                             <td>حالة الزيارة</td>
                             <td>
-                                @if($bill->routetrip->status=='accepted')
-                                <label class="btn btn-success"> تم القبول</label>
+                                @if($bill->inventory->type=='accept')                                <label class="btn btn-success"> تم القبول</label>
                                       @else
                                       <label class="btn btn-danger"> تم الرفض</label>
 
                                   @endif
                             </td>
                         </tr>
-                        @if($bill->routetrip->status=='refused')
+                        @if($bill->inventory->type=='refuse')
                         <tr>
                             <td> سبب الرفض</td>
                             <td>
 
-
+{{$bill->inventory->refuse_reason}}
                             </td>
                         </tr>
                         @endif
@@ -83,7 +82,7 @@
 
                         <td>صورقبل الزيارة</td>
                         <td>
-                            @foreach($bill->routetrip->images as $key => $image)
+                            @foreach($bill->inventory->images as $key => $image)
                             <img src="{!!asset($image->image)!!}" height="100" width="100"/>
                             @endforeach()
                         </td>
@@ -91,7 +90,9 @@
                         <tr>
                         <td>صور بعد الزيارة</td>
                         <td>
-                            <img src="{!!asset($bill->image)!!}" height="100" width="100"/>
+                            @foreach($bill->images as $key => $image)
+                            <img src="{!!asset($image->image)!!}" height="100" width="100"/>
+                            @endforeach()
                         </td>
                     </tr>
                         </tr>
@@ -128,22 +129,22 @@
                                 <td>{{ $value->price }}</td>
                                 </tr>
                                 @endforeach
-                        <tbody>
-                            <tfoot>
+
                                 <tr>
-                                <td>اجمالى عدد  الاصناف: </td>
-                                <td>{{ $bill->products->count() }}</td>
+                                <td  colspan="2">اجمالى عدد  الاصناف: </td>
+                                <td  colspan="2">{{ $bill->products->count() }}</td>
                                 </tr>
                                 <tr>
-                                    <td>اجمالى الفاتوره  : </td>
-                                    <td>{{ $bill->cash}}</td>
+                                    <td  colspan="2">اجمالى الفاتوره  : </td>
+                                    <td  colspan="2">{{ $bill->cash}}</td>
                                 </tr>
                                 <tr>
-                                    <td>اجمالى الموجود  : </td>
-                                    <td>{{ $bill->products->sum('price')}}</td>
+                                    <td  colspan="2">اجمالى الموجود  : </td>
+                                    <td  colspan="2" >{{ $bill->products->sum('price')}}</td>
                                  </tr>
 
-                            </tfoot>
+                                 <tbody>
+
                     </table>
 
         </div>
