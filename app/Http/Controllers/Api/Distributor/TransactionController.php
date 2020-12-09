@@ -22,7 +22,7 @@ class TransactionController extends Controller
 
     public function index(){
 
-        $transactions = DistributorTransaction::receiverUser(auth()->id())
+        $transactions = DistributorTransaction::UserTransactions(auth()->id())
             ->paginate($this->paginateNumber);
         return $this->apiResponse(new TransactionResource($transactions));
     }

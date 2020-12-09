@@ -34,7 +34,7 @@ class NotifyTransactionSender
 
         ];
         if ($event->transaction->sender_type == User::class) {
-            $users = User::where('id', $event->transaction->sender)
+            $users = User::where('id', $event->transaction->sender_id)
                 ->get();
             $this->fire($title, $message, $data, $users);
             /** @var  \App\Models\User $user  */
