@@ -13,10 +13,13 @@
     </thead>
     <tbody>
   <tr>
-    <td>    
+    <td>
     <a href="{{route('distributor.clients.show',$trips->trip->client->id)}}" class="btn btn-info"> {{$trips->trip->client->name}}</a>
     </td>
-    <td>{{$trips->trip_report->invoice_number}}</td>
+    <td>
+        <a href="{!!route('distributor.bills.show',$row->id)!!}" class="btn btn-warning"> <i class="fas fa-book"></i>        {{$trips->trip_report->invoice_number}}</a>
+
+ </td>
     <td>
         @if($trips->type=='accept')
       <span style="color: green"> مقبول</span>
@@ -32,9 +35,9 @@
           </td>
 
   </tr>
-  
+
     </tbody>
-  
+
 </table>
 
 <hr>
@@ -54,15 +57,15 @@
     <th>{{$product['product_name']}}        </th>
     <th>{{$product['exists']}}    </th>
     <th>
-        {{$product['sells']}} 
+        {{$product['sells']}}
     </th>
-    <th>{{$product['selling']}} 
+    <th>{{$product['selling']}}
     </th>
 
   </tr>
   @endforeach
     </tbody>
-   
+
 </table>
 
 <!-- Modal -->
@@ -84,22 +87,22 @@
                     <th> اسم المسار</th>
                     <th> اسم المندوب
                     </th>
-                   
+
                 </tr>
                 </thead>
                 <tbody>
               <tr>
                 <td>{{$trips->trip->client->name}}
-                
+
                 </td>
                 <td>{{$trips->trip->client->phone}}</td>
                 <td>{{$trips->trip->route->name}}</td>
                 <td>{{$trips->trip->route->user->name}}</td>
-             
+
               </tr>
-              
+
                 </tbody>
-              
+
             </table>
         </div>
         <div class="modal-footer">

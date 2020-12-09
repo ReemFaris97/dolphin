@@ -12,7 +12,7 @@ class StoreTransferRequest extends Model
 
     protected $fillable = ['sender_id',
     'distributor_id', 'is_confirmed', 'sender_store_id',
-        'distributor_store_id','receiver_store_id'
+        'distributor_store_id'
     ];
 
     public function sender()
