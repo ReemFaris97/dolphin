@@ -61,10 +61,10 @@ class AjaxDataController extends Controller
     public function getcars(Request $request)
     {
         //dd($request->all());
-        $cars = DistributorCar::where('user_id', $request->id)->get();
+        $cars = DistributorCar::where('user_id', $request->id)->select(['id', 'car_name as name'])->get();
         return response()->json([
             'status' => true,
-            'data' => view('distributor.transactions.getAjaxCars')->with('cars', $cars)->render()
+            'data' => view('distributor.stores.getAjaxProducts')->with('cars', $cars)->render()
         ]);
     }
 

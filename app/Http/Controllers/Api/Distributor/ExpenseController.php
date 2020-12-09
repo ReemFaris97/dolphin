@@ -46,6 +46,7 @@ class ExpenseController extends Controller
 
     public function store(Request $request){
         $rules = [
+            
             'distributor_route_id'=> 'required|integer|exists:distributor_routes,id',
             'expenditure_clause_id' => 'required|integer|exists:expenditure_clauses,id',
             'expenditure_type_id' => 'required|integer|exists:expenditure_types,id',

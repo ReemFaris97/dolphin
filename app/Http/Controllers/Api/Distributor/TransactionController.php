@@ -64,7 +64,16 @@ class TransactionController extends Controller
         }
     else
         {
+
             $transaction = DistributorTransaction::find($request->transaction_id);
+
+            if ($transaction->signature != $request->signature) {
+                return $this->apiResponse(
+                    null,
+                    'لم تتم العملية تم تسجيل توقيع خطأ',
+                    400
+                );
+            }
             $transaction->update(['received_at' => Carbon::now()]);
         }
         return $this->apiResponse('العملية تمت بنجاح');
