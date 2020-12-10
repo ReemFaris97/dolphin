@@ -111,6 +111,25 @@ class SpinnerController extends Controller
             $distributors = Product::whereHas('stores', function (Builder $builder) use ($store_id) {
                 $builder->where('store_id',$store_id);
             })->withClientPrice(request()->client_id)->get();
+
+            $distributors = Product::with(
+                [
+                    'quantities' => function ($q) use ($store_id) {
+                        $q->where('store_id', $store_id);
+                        $q->totalQuantity();
+                    }
+                ]
+            )
+                ->whereHas('stores', function (Builder $builder) use ($store_id) {
+                    $builder->where('store_id', $store_id);
+                })
+                ->withClientPrice(request()->client_id)->get()->map(function ($product) {
+
+                    $product->store_quantity = $product->quantities->where('product_id', $product->id)->sum('total_quantity');
+                    return $product;
+                });
+
+
         }
         return $this->apiResponse(ProductsSpinnerModelResource::collection($distributors));
     }
