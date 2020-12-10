@@ -58,7 +58,7 @@ class StoreTransferRequest extends Model
             $this->productQuantities()->update(['is_confirmed'=> 1]);
             foreach ($products as $product) {
                 ProductQuantity::create([
-                    'product_id' => $product->id,
+                    'product_id' => $product->product_id,
                     'user_id' => $this->distributor_id,
                     'quantity' => $product->quantity,
                     'type' => 'in',

@@ -84,8 +84,8 @@ class SpinnerController extends Controller
         $readers = Reader::get();
         return $this->apiResponse(GeneralModelResource::collection($readers));
     }
-  /**
-   *
+    /**
+     *
      * Return List of Reasons
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
