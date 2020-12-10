@@ -153,7 +153,7 @@ class SpinnerController extends Controller
             $q->totalQuantity();
         }])->whereBarCode($request->bar_code)->withClassPrice($client->client_class_id)->first();
 
-        $product->quantity = $product->quantities->where('product_id', $product->id)->sum('total_quantity');
+        $product->store_quantity = $product->quantities->where('product_id', $product->id)->sum('total_quantity');
 
         if (!$product) return $this->notFoundResponse();
         return $this->apiResponse(new ProductsSpinnerModelResource($product));
