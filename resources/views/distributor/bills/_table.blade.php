@@ -27,7 +27,7 @@
             <td>{!! optional($row->route_trip)->route->user->name !!}</td>
             <td>{!!$row->cash  !!}</td>
             <td>
-                @if($row->inventory->type=='accept')
+                @if(optional($row->inventory)->type=='accept')
               <label class="btn btn-success"> تم القبول</label>
                     @else
                     <label class="btn btn-danger"> تم الرفض</label>

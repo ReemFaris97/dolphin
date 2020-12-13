@@ -164,11 +164,10 @@ class ClientsController extends Controller
     }
 
 
-    public function confirm($id)
+    public function disactive($id)
     {
         $client =Client::find($id);
-        $client->update([
-            'is_active' => '1'
+        $client->update(['is_active' => '0'
         ]);
         toast('تم الغاء تفعيل العميل', 'success', 'top-right');
 

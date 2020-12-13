@@ -61,7 +61,7 @@
                         <tr>
                             <td>حالة الزيارة</td>
                             <td>
-                                @if($bill->inventory->type=='accept')                                <label class="btn btn-success"> تم القبول</label>
+                                @if(optional($bill->inventory->type=='accept')                                <label class="btn btn-success"> تم القبول</label>
                                       @else
                                       <label class="btn btn-danger"> تم الرفض</label>
 
