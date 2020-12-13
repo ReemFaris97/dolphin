@@ -17,7 +17,7 @@
     <a href="{{route('distributor.clients.show',$trips->trip->client->id)}}" class="btn btn-info"> {{$trips->trip->client->name}}</a>
     </td>
     <td>
-        <a href="{!!route('distributor.bills.show',$row->id)!!}" class="btn btn-warning"> <i class="fas fa-book"></i>        {{$trips->trip_report->invoice_number}}</a>
+        <a href="{!!route('distributor.bills.show',$trips->trip_report->id)!!}" class="btn btn-warning"> <i class="fas fa-book"></i>        {{$trips->trip_report->invoice_number}}</a>
 
  </td>
     <td>
