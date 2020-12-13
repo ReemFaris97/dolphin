@@ -118,9 +118,9 @@ class ClientsController extends Controller
 
         $rules = [
             'name'=>'required|string|max:191',
-            'phone'=>'required|numeric|unique:clients,phone',
+            'phone' => 'required|numeric|unique:clients,phone,' . $id,
             // 'email'=>'required|string|unique:clients,email',
-            'tax_number' => 'required|string|unique:clients,tax_number',
+            'tax_number' => 'required|string|unique:clients,tax_number,' . $id,
             'store_name'=>'required|string|max:191',
             'address'=>'required|string|max:191',
             'client_class_id' => 'required|integer|exists:client_classes,id',

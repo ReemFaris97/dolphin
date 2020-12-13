@@ -13,10 +13,10 @@
     @foreach($expenses as $row)
         <tr>
             <td> {!!$loop->iteration!!}</td>
-            <td><a href="{{route('distributor.reports.expense_report.show',$row->id) }}">{!!$row->sanad_No!!}</a></td>
+            <td><a href="{{route('distributor.reports.expenses.show',$row->id) }}">{!!$row->sanad_No!!}</a></td>
             <td>{!!$row->distributor->name??'' !!}</td>
             <td>{!!$row-> date!!} {!!$row-> time!!}</td>
-            <td><a href="{{route('distributor.reports.expense_report.show',$row->id) }}" class="btn btn-success">عرض</a></td>
+            <td><a href="{{route('distributor.reports.expenses.show',$row->id) }}" class="btn btn-success">عرض</a></td>
 
         </tr>
     @endforeach
