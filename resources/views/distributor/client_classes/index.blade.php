@@ -50,7 +50,7 @@
             console.log(item_id);
             swal({
                 title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذا العداد ؟",
+                text: "هل تريد حذف هذا الشريحة ؟",
                 icon: "warning",
                 buttons: ["الغاء", "موافق"],
                 dangerMode: true,
@@ -60,7 +60,7 @@
                     document.getElementById('delete-form'+item_id).submit();
                 }
                 else{
-                    swal("تم االإلفاء", "حذف  العداد الغاؤه",'info',{buttons:'موافق'});
+                    swal("تم االإلفاء", "حذف  الشريحة الغاؤه",'info',{buttons:'موافق'});
                 }
             });
         }
