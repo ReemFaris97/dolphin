@@ -11,15 +11,15 @@ m-form m-form--fit m-form--label-align-right'])!!}
 
         <div class="form-group m-form__group  col-md-6">
             <label>الى تاريخ</label>
-            {!! Form::text('to_date',request()->from_date,['class'=>'form-control m-input datepicker'])!!}
+            {!! Form::text('to_date',request()->to_date,['class'=>'form-control m-input datepicker'])!!}
         </div>
         <div class="form-group m-form__group  col-md-6">
             <label>اسم المستودع</label>
-            {!! Form::select('store_id',$stores,request()->store_id,['class'=>'form-control m-input','placeholder'=>"الكل"])!!}
+            {!! Form::select('store_id',$stores,request()->store_id,['class'=>'form-control m-input select2','placeholder'=>"الكل"])!!}
         </div>
         <div class="form-group m-form__group  col-md-6">
             <label>اسم المنتج</label>
-            {!! Form::select('product_id',$products,request()->product_id,['class'=>'form-control m-input','placeholder'=>"الكل"])!!}
+            {!! Form::select('product_id',$products,request()->product_id,['class'=>'form-control m-input select2','placeholder'=>"الكل"])!!}
         </div>
     </div>
 
