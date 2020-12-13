@@ -20,10 +20,12 @@
                 <ul class="m-portlet__nav">
 
                     <li class="m-portlet__nav-item"></li>
+                    @if($store->for_distributor==0)
                     <li class="m-portlet__nav-item">
                         <a class="btn btn-warning"
                            href="{{route('distributor.stores.addProduct',$store->id)}}">انتاج</a>
                     </li>
+                    @endif
                     <li class="m-portlet__nav-item">
                         <a class="btn btn-warning"
                            href="{{route('distributor.stores.moveProduct')}}">نقل</a>
