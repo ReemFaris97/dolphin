@@ -45,6 +45,8 @@ background-color: #e7eaef !important
     @yield('chart-css')
 	<!--Customize Style -->
     <link href="{!! asset('dashboard/assets/customize.css')!!}" rel="stylesheet" type="text/css"/>
+    @include('sweetalert::alert')
+
 </head>
 <!-- end::Head -->
 <!-- begin::Body -->
@@ -117,6 +119,7 @@ background-color: #e7eaef !important
         }
     });
 </script>
+
 <!--begin::Page Vendors -->
 <script src="{!! asset('dashboard/assets/vendors/custom/datatables/datatables.bundle.js')!!}"
         type="text/javascript"></script>
@@ -131,12 +134,11 @@ background-color: #e7eaef !important
 <script src="{!! asset('dashboard/assets/bootstrap-datepicker.ar.min.js') !!}"></script>
 <script src="{!! asset('dashboard/assets/vendors/custom/countdown/jquery.countdown.min.js') !!}"></script>
 <script src="{!! asset('dashboard/assets/scripts.js') !!}"></script>
-{{--<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>--}}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!--end::Page Scripts -->
 @stack('scripts')
 @yield('chart')
 @yield('owl')
-@include('sweetalert::alert')
 
 <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-messaging.js"></script>

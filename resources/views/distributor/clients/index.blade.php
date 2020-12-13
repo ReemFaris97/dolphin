@@ -1,5 +1,5 @@
 @extends('distributor.layouts.app')
-@section('title') الاعضاء
+@section('title') العملاء
 @endsection
 
 @section('header')
