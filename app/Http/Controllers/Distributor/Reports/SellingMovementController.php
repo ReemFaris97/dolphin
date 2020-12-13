@@ -32,7 +32,7 @@ class SellingMovementController extends Controller
     public function show(Request $request)
     {
 
-        $this->validate($request, ['trip_id' => 'required|integer|exists:trip_inventories,id']);        
+        $this->validate($request, ['trip_id' => 'required|integer|exists:trip_inventories,id']);
         $trips = TripInventory::select('*')
             ->withReportProducts()
             ->WithPreviousTripInventory()
@@ -42,7 +42,7 @@ class SellingMovementController extends Controller
                 'products',
                 'previous_trip_report',
                 'previous_trip_inventory',
-                
+
             ])
             ->FilterRoute($request->route_id)
             ->filterDistributor($request->distributor_id)
@@ -69,8 +69,12 @@ class SellingMovementController extends Controller
                 $product_item = $products->get($product->product_id);
             }
             $product_item['exists'] = $product->quantity;
+            $pervious_sells = 0;
+            $pervious_exists = 0;
+            if ($trips->previous_trip_report != null) {
             $pervious_sells = $trips->previous_trip_report->products->where('product_id', $product->product_id)->sum('quantity');
             $pervious_exists = $trips->previous_trip_inventory->products->where('product_id', $product->product_id)->sum('quantity');
+            }
             $selling = ($pervious_sells + $pervious_exists) - $product->quantity;
             $product_item['selling'] = $selling;
             $products[$product->product_id] = $product_item;
