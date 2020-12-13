@@ -7,15 +7,16 @@
     <thead>
     <tr>
         <th>#</th>
+        <th>صوره العميل</th>
+        <th>صوره الوكيل</th>
         <th>الكود</th>
         <th>الاسم</th>
         <th>الهاتف</th>
-        <th>البريد الالكترونى</th>
+        {{-- <th>البريد الالكترونى</th> --}}
         <th>إسم المتجر</th>
         <th>إسم المندوب</th>
         <th>إسم المسار</th>
         <th> الحالة</th>
-        <th> صورة العميل</th>
         <th>الاعدادت</th>
     </tr>
     </thead>
@@ -24,10 +25,24 @@
     @foreach($clients as $client)
         <tr>
             <td>{!!$loop->iteration!!}</td>
+              <td>
+                @if($client->image)
+                <img src="{!!asset($client->image)!!}" width="100" height="100"/>
+           @else
+           لا توجد صوره
+           @endif
+        </td>
+                <td>
+                    @if($client->user->image)
+                <img src="{!!asset($client->user->image)!!}" width="100" height="100"/>
+           @else
+           لا توجد صوره
+           @endif
+                </td>
               <td>{!!$client->code!!}</td>
             <td>{!!$client->name!!}</td>
             <td>{!!$client->phone!!}</td>
-            <td>{!!$client->email!!}</td>
+            {{-- <td>{!!$client->email!!}</td> --}}
             <td>{!!$client->store_name !!}</td>
             <td>{!!$client->user->name !!}</td>
             <td>{!!$client->route->name!!}</td>
@@ -49,7 +64,6 @@
 
             </td>
 
-            <td><img src="{!!asset($client->image)!!}" height="100" width="100"/></td>
             <td>
                 <a href="{!!route('distributor.clients.show',$client->id)!!}" class="btn btn-warning"> <i class="fas fa-book"></i> تفاصيل</a>
                 <a href="{!!route('distributor.clients.edit',$client->id)!!}" class="btn btn-primary"> <i class="fas fa-pen"></i> تعديل</a>

@@ -31,13 +31,13 @@
                     @csrf() @method('patch')
                     @if($row->is_active == 1)
                         <button type="submit" class="btn btn-warning"
-                                onclick="if(!confirm('هل انت متاكد من الغاء تفعيل العداد')) event.preventDefault() ">
+                                onclick="if(!confirm('هل انت متاكد من الغاء تفعيل الشريحة')) event.preventDefault() ">
                             <i class="fas fa-skull"></i>
                             الغاء تفعيل
                         </button>
                     @else
                         <button type="submit" class="btn btn-success"
-                                onclick="if(!confirm('هل انت متاكد من تفعيل العداد')) event.preventDefault() ">
+                                onclick="if(!confirm('هل انت متاكد من تفعيل الشريحة')) event.preventDefault() ">
                             <i class="far fa-thumbs-up"></i>
                             تفعيل
                         </button>

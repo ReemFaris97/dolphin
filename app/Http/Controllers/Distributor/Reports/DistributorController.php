@@ -55,7 +55,7 @@ class DistributorController extends Controller
         $accepted_trips_count = $total_trips->where('type', 'accept')->count();
         $refused_trips_count = $total_trips->where('type', 'refuse')->count();
         $total_routes_during_to_rounds_count = $trips_counts * $roundsGroups->count();
-        $finishing_percentage = ($total_trips->count() / $total_routes_during_to_rounds_count) * 100;
+        $finishing_percentage = ($total_trips->count() / ($total_routes_during_to_rounds_count ?: 1)) * 100;
         //end trips statistics
 
 

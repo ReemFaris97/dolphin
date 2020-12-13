@@ -81,7 +81,7 @@ class SpinnerController extends Controller
      * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
      */
     public function getAllReaders(){
-        $readers = Reader::get();
+        $readers = Reader::where('is_active', 1)->get();
         return $this->apiResponse(GeneralModelResource::collection($readers));
     }
     /**
@@ -150,7 +150,7 @@ class SpinnerController extends Controller
      * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
      */
     public function getExpenditureTypes(){
-        $expenditure_types = ExpenditureType::all();
+        $expenditure_types = ExpenditureType::where('is_active', 1)->get();
         return $this->apiResponse(GeneralModelResource::collection($expenditure_types));
     }
 
@@ -166,7 +166,7 @@ class SpinnerController extends Controller
         $validation=$this->apiValidation($request,$rules);
         if($validation instanceof Response){return $validation;}
 
-        $client = Client::find($request->client_id);
+        $client = Client::where('is_active', 1)->find($request->client_id);
         $product = Product::with(['quantities' => function ($q) use ($request) {
             $q->where('store_id', $request->store_id);
             $q->totalQuantity();
