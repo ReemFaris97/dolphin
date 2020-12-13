@@ -6,7 +6,7 @@
         <th>   رقم سند المصروف</th>
         <th>اسم المندوب</th>
         <th>وقت وتاريخ المصروف</th>
-        <th>عمليات</th>
+        <th class="noExport">عمليات</th>
     </tr>
     </thead>
     <tbody>
@@ -23,11 +23,11 @@
     </tbody>
     <tfoot>
     <tr>
-        <th>#</th>
-        <th> كود العملية</th>
-        <th>تاريخ ووقت العملية</th>
-        <th> قيمة العملية</th>
-        <th></th>
+    <th>#</th>
+        <th>   رقم سند المصروف</th>
+        <th>اسم المندوب</th>
+        <th>وقت وتاريخ المصروف</th>
+        <th class="noExport">عمليات</th>
     </tr>
     </tfoot>
 </table>

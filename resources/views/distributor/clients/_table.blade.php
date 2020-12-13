@@ -16,7 +16,7 @@
         <th>إسم المسار</th>
         <th> الحالة</th>
         <th> صورة العميل</th>
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </thead>
     <tbody>
@@ -73,7 +73,7 @@
         <th class="filter">إسم المسار</th>
         <th> الحالة</th>
         <th> صورة العميل</th>
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </tfoot>
 </table>

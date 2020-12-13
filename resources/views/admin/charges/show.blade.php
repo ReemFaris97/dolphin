@@ -140,7 +140,7 @@
             <th>الموظف</th>
             <th>تاريخ</th>
             <th>الصور</th>
-            <th>الاعدادت</th>
+            <th class="noExport">الاعدادت</th>
         </tr>
         </thead>
         <tbody>

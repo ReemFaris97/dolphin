@@ -12,7 +12,7 @@
         <th>سبب المرتجع</th>
         <th>نوع السداد</th>
         <th>التاريخ</th>
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </thead>
     <tbody>
@@ -46,13 +46,13 @@
     </tbody>
     <tfoot>
     <tr>
-        <th>#</th>
+    <th>#</th>
         <th>إسم المستخدم</th>
         <th>إسم المورد</th>
         <th>سبب المرتجع</th>
         <th>نوع السداد</th>
         <th>التاريخ</th>
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </tfoot>
 </table>

@@ -11,7 +11,7 @@
         <th>الوصف</th>
         <th>التاريخ</th>
         <th>النوع</th>
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </thead>
     <tbody>
@@ -56,7 +56,7 @@
         <th>الوصف</th>
         <th>التاريخ</th>
         <th>النوع</th>
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tfoot>
 </table>
 

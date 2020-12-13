@@ -10,7 +10,7 @@
         <th>إسم المرسل</th>
         <th>إسم المرسل اليه</th>
         <th>حالة التأكيد</th>
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </thead>
     <tbody>

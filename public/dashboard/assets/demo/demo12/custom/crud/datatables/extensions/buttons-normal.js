@@ -41,10 +41,31 @@ var DatatablesExtensionButtons = function () {
 			<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,
             language: language,
             buttons: [
-                'copyHtml5',
-                'excelHtml5',
-                'csvHtml5',
-                'print'
+                {
+                    extend: 'copy',
+                    exportOptions: {
+                        columns: "thead th:not(.noExport)"
+                    }
+                },
+                {
+                    extend: 'excel',
+                    exportOptions: {
+                        columns: "thead th:not(.noExport)"
+                    }
+                },
+                {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: "thead th:not(.noExport)"
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: "thead th:not(.noExport)"
+                    }
+                }
+                //'copy', 'excel', 'csv', 'print' // , 'pdf' - Wait for next PDFMake release because of this bug https://github.com/bpampuch/pdfmake/pull/443
             ],
 
         });
