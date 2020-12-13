@@ -52,9 +52,15 @@
     </div>
 
 
+    <div class="form-group m-form__group col-md-12" style="width: 100% !important">
+        <label>الملاحظات</label>
+        {!! Form::textarea('notes',null,['class'=>'form-control m-input','placeholder'=>' ادخل الملاحظات'])!!}
+  </div>
+
     <div id="map" style="width: 100%; height: 450px;"></div>
     <input type="hidden" name="lat" id="lat" @if(isset($user)) value="{{ $user->lat }}" @endif />
     <input type="hidden" name="lng" id="lng" @if(isset($user)) value="{{ $user->lng }}" @endif />
+
 
 </div>
 @push('scripts')

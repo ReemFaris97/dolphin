@@ -9,8 +9,8 @@
         <th>#</th>
         <th>الصورة</th>
         <th>الإسم</th>
-        <th>المستودع</th>
-{{--        <th>الكمية بالوحدة</th>--}}
+        {{-- <th>المستودع</th> --}}
+       <th>الكمية بالوحدة</th>
         <th>الحد الأدنى</th>
         <th>الحد الأقصى</th>
         <th>السعر</th>
@@ -25,8 +25,8 @@
             <td>{!!$loop->iteration!!}</td>
             <td><img src="{!!asset($row->image)!!}" height="100" width="100"/></td>
             <td>{!! $row->name !!}</td>
-            <td>{!!optional($row->store) ->name !!}</td>
-{{--            <td>{!! $row->quantity_per_unit !!}</td>--}}
+            {{-- <td>{!!optional($row->store) ->name !!}</td> --}}
+           <td>{!! $row->quantity_per_unit !!}</td>
             <td>{!! $row->min_quantity !!}</td>
             <td>{!! $row->max_quantity !!}</td>
             <td>{!! $row->price !!}</td>
@@ -59,11 +59,16 @@
         </tr>
     @endforeach
     </tbody>
-{{--    <tfoot>--}}
-{{--    <tr>--}}
-{{--        <th>#</th>--}}
-{{--        <th>الاسم</th>--}}
-{{--        <th>الاعدادت</th>--}}
-{{--    </tr>--}}
-{{--    </tfoot>--}}
+   <tfoot>
+    <th>#</th>
+    <th>الصورة</th>
+    <th class="filter">الإسم</th>
+    {{-- <th>المستودع</th> --}}
+   <th class="filter">الكمية بالوحدة</th>
+    <th class="filter">الحد الأدنى</th>
+    <th class="filter">الحد الأقصى</th>
+    <th class="filter">السعر</th>
+    <th>الباركود</th>
+{{--        <th>تاريخ الصلاحية</th>--}}
+    <th>الاعدادت</th> </tfoot>
 </table>
