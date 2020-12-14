@@ -17,7 +17,7 @@ class StoreTransferController extends Controller
     private $viewable = 'distributor.storeTransferRequest.';
 
     public function index(){
-        $storeTransfers = StoreTransferRequest::all()->reverse();
+        $storeTransfers = StoreTransferRequest::withCount('products')->get()->reverse();
         return $this->toIndex(compact('storeTransfers'));
     }
 

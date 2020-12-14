@@ -70,20 +70,16 @@
                 </tr>
 
                 <tr>
-                    <td> اسم المتجر</td>
-                    <td>{{$client->store_name}}</td>
-                </tr>
-                <tr>
                     <td> جوال العميل </td>
                     <td>{{$client->phone }}</td>
                 </tr>
 
-                <tr>
+{{--                 <tr>
                     <td> البريد الإلكتروني
                     </td>
                     <td>{{$client->email }}</td>
                 </tr>
-
+ --}}
                 <tr>
                     <td>
                         تاريخ ووقت الإضافة
