@@ -64,6 +64,8 @@
             </td>
 
             <td>
+                <a href="{!!route('distributor.expenses.show',$row->id)!!}" class="btn btn-success"> <i
+                        class="fas fa-pen"></i> عرض</a>
                 <a href="{!!route('distributor.expenses.edit',$row->id)!!}" class="btn btn-primary"> <i
                         class="fas fa-pen"></i> تعديل</a>
                 <a href="#" onclick="Delete({{$row->id}})" data-original-title="حذف"

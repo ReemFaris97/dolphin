@@ -69,6 +69,9 @@ Route::middleware('distributor')->group(function () {
     Route::get('/get/ajax/routes', 'AjaxDataController@getDistributorRoutes')->name('getAjaxRoutes');
     Route::get('/get/ajax/trips', 'AjaxDataController@getDistributorTripsOnRoute')->name('getAjaxTrips');
     Route::post('/get/ajax/products', 'AjaxDataController@getAllProducts')->name('getAjaxProducts');
+    Route::get('/getAjaxStores/{id}', 'AjaxDataController@getAllStores')->name('getAjaxStores');
+    Route::get('/getAjaxClauses/{id}', 'AjaxDataController@getAjaxClauses')->name('getAjaxClauses');
+
     Route::get('/get/ajax/store/products', 'AjaxDataController@getStoreProducts')->name('getAjaxstoreProducts');
     Route::post('/get/ajax/cars', 'AjaxDataController@getcars')->name('getAjaxCars');
 
@@ -79,6 +82,8 @@ Route::middleware('distributor')->group(function () {
     Route::get('/active_client/{id}', 'ClientsController@active')->name('client.active');
     Route::get('/disactive_client/{id}', 'ClientsController@disactive')->name('client.dis_active');
     Route::get('/activation', 'ClientsController@activation')->name('clients.activation');
+    Route::get('/active_expenditureClause/{id}', 'ExpenditureClausesController@active')->name('expenditureClauses.active');
+    Route::get('/disactive_expenditureClause/{id}', 'ExpenditureClausesController@disactive')->name('expenditureClauses.dis_active');
 
     Route::group(['namespace' => 'Reports', 'prefix' => 'reports', 'as' => 'reports.'], function () {
         Route::any('client_report', [ 'uses' => 'ClientController@index'])->name('clients.index');
