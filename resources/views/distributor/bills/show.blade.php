@@ -48,7 +48,7 @@
                         </tr>
                         <tr>
                             <td>تاريخ الفاتوره</td>
-                            <td>{{$bill->created_at->format('Y-m-d H:m A')}}</td>
+                            <td>{{$bill->created_at}}</td>
                         </tr>
                         <tr>
                             <td> قيمةالفاتوره </td>
@@ -61,8 +61,9 @@
                         <tr>
                             <td>حالة الزيارة</td>
                             <td>
-                                @if(optional($bill->inventory->type=='accept')                                <label class="btn btn-success"> تم القبول</label>
-                                      @else
+                                @if(optional($bill->inventory->type=='accept'))
+                                    <label class="btn btn-success"> تم القبول</label>
+                                  @else
                                       <label class="btn btn-danger"> تم الرفض</label>
 
                                   @endif
@@ -73,7 +74,7 @@
                             <td> سبب الرفض</td>
                             <td>
 
-{{$bill->inventory->refuse_reason}}
+                           {{$bill->inventory->refuse_reason}}
                             </td>
                         </tr>
                         @endif

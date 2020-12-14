@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Distributor;
 
+use App\Models\ExpenditureClause;
 use App\Models\Product;
 use App\Models\Store;
 use Illuminate\Http\Request;
@@ -43,6 +44,22 @@ class AjaxDataController extends Controller
         ]);
     }
 
+    public function getAllStores($id)
+    {
+        $stores = Store::where('distributor_id',$id)->get();
+        return response()->json([
+            'status' => true,
+            'data' => view('distributor.dailyReports.getAjaxStores')->with('stores', $stores)->render()
+        ]);
+    }
+    public function getAjaxClauses($id)
+    {
+        $clauses = ExpenditureClause::where('expenditure_type_id',$id)->get();
+        return response()->json([
+            'status' => true,
+            'data' => view('distributor.expenses.getAjaxClauses')->with('clauses', $clauses)->render()
+        ]);
+    }
 
     /**
      * @param Request $request
