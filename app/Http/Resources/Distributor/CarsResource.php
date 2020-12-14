@@ -4,6 +4,9 @@ namespace App\Http\Resources\Distributor;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
+/** @package App\Http\Resources\Distributor
+ * @mixin \App\Models\DistributorCar
+ */
 class CarsResource extends ResourceCollection
 {
     /**
@@ -21,6 +24,7 @@ class CarsResource extends ResourceCollection
                     'name'=>$q->car_name,
                     'model'=>$q->car_model,
                     'products_count'=>0,
+                    'plate_number' => $q->plate_number,
                 ];
             }),
             'paginate'=>[
