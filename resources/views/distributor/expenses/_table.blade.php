@@ -5,19 +5,20 @@
 
 <table class="table table-striped- table-bordered table-hover table-checkable" id="m_table_1">
     <thead>
-        <tr>
-            <th> # </th>
-            <th> رقم سند المصروف</th>
-            <th>اسم المندوب</th>
-            <th>اسم البند</th>
-            <th>نوع البند</th>
-            <th>تاريخ الصرف</th>
-            <th>اسم العداد</th>
-            <th>قراءة العداد</th>
-            <th>صوره العداد</th>
-            <th>صوره فاتوره المصروف</th>
-            <th>الاعدادت</th>
-        </tr>
+<tr>
+        <th> # </th>
+        <th> رقم سند المصروف</th>
+        <th>اسم المندوب</th>
+        <th>اسم البند</th>
+        <th>نوع البند</th>
+        <th>تاريخ الصرف</th>
+        <th>اسم العداد</th>
+        <th>قراءة العداد</th>
+        <th>صوره العداد</th>
+        <th>صوره فاتوره المصروف</th>
+        <th class="noExport">الاعدادت</th>
+    </tr>
+
     </thead>
     <tbody>
         @foreach($expenses as $row)
@@ -64,6 +65,8 @@
             </td>
 
             <td>
+                <a href="{!!route('distributor.expenses.show',$row->id)!!}" class="btn btn-success"> <i
+                        class="fas fa-pen"></i> عرض</a>
                 <a href="{!!route('distributor.expenses.edit',$row->id)!!}" class="btn btn-primary"> <i
                         class="fas fa-pen"></i> تعديل</a>
                 <a href="#" onclick="Delete({{$row->id}})" data-original-title="حذف"
@@ -77,6 +80,7 @@
         @endforeach
     </tbody>
     <tfoot>
+
         <tr>
             <th> # </th>
             <th class="filter"> رقم سند المصروف</th>
@@ -88,7 +92,7 @@
             <th class="filter">قراءة العداد</th>
             <th>صوره العداد</th>
             <th>صوره فاتوره المصروف</th>
-            <th>الاعدادت</th>
+<th class="noExport">الاعدادت</th>
         </tr>
     </tfoot>
 </table>

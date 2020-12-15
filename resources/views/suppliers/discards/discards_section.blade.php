@@ -43,7 +43,7 @@
         <th>الصنف</th>
         <th>الكمية</th>
         <th>السعر</th>
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </thead>
     <tbody id="discards_products">

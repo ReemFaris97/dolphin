@@ -174,7 +174,7 @@ class SpinnerController extends Controller
 
         $product->store_quantity = $product->quantities->where('product_id', $product->id)->sum('total_quantity');
 
-        if (!$product) return $this->notFoundResponse();
+        if (!$product || $product->store_quantity == 0) return $this->notFoundResponse();
         return $this->apiResponse(new ProductsSpinnerModelResource($product));
     }
     public function getR(){

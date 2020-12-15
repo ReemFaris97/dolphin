@@ -13,7 +13,7 @@
         <th>إسم المندوب</th>
         <th> قيمة الفاتورة</th>
         <th> حالة  الفاتورة</th>
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </thead>
     <tbody>
@@ -23,7 +23,7 @@
             <td>{!!$loop->iteration!!}</td>
             <td>{!! $row->invoice_number!!}  </td>
             <td>{!!optional(optional($row->route_trip)->client)->name  !!}</td>
-            <td>{!! $row->created_at->format('Y-m-d h:m A') !!}</td>
+{{--            <td>{!! $row->created_at->format('Y-m-d h:m A') !!}</td>--}}
             <td>{!! optional($row->route_trip)->route->user->name !!}</td>
             <td>{!!$row->cash  !!}</td>
             <td>
@@ -48,7 +48,7 @@
 {{--    <tr>--}}
 {{--        <th>#</th>--}}
 {{--        <th>الاسم</th>--}}
-{{--        <th>الاعدادت</th>--}}
+{{--        <th class="noExport">الاعدادت</th>--}}
 {{--    </tr>--}}
 {{--    </tfoot>--}}
 </table>

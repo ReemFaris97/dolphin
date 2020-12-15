@@ -32,7 +32,8 @@ class StoreController extends Controller
 
     public function index(){
 
-        $stores = Store::where('distributor_id',auth()->user()->id)->paginate($this->paginateNumber);
+        $stores = Store::with('totalQuantities')->where('distributor_id', auth()->user()->id)->paginate($this->paginateNumber);
+        
         return $this->apiResponse(new StoreResource($stores));
     }
 

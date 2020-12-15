@@ -8,22 +8,25 @@
     <tr>
         <th>#</th>
         <th>إسم المندوب</th>
+        <th>إسم المستودع</th>
         <th>المبالغ النقدية</th>
         <th>التاريخ</th>
         <th>قيمة المصروفات</th>
         <th>الصورة</th>
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </thead>
     <tfoot>
     <tr>
         <th>#</th>
         <th class="filter">إسم المندوب</th>
+        <th class="filter">إسم المستودع</th>
+
         <th class="filter">المبالغ النقدية</th>
         <th class="filter">التاريخ</th>
         <th class="filter">قيمة المصروفات</th>
         <th>الصورة</th>
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </tfoot>
     <tbody>
