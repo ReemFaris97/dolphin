@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Distributor;
 
 use App\Models\DailyReport;
 use App\Models\Product;
+use App\Models\ProductQuantity;
 use App\Models\Store;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class DailyReportsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request  $request)
     {
         $dailyReports = DailyReport::all()->reverse();
         return $this->toIndex(compact('dailyReports'));
@@ -50,11 +51,12 @@ class DailyReportsController extends Controller
             'cash'=>"required|numeric",
             'expenses'=>"required|numeric",
             'image'=>"required|image",
-            'quantity'=>"required|array|min:1",
-            'product_id'=>"required|array|min:1",
+//            'quantity'=>"required|array|min:1",
+//            'product_id'=>"required|array|min:1",
         ];
         $this->validate($request,$rules);
         $inputs = $request->all();
+//      dd($inputs);
         if ($request->image != null)
         {
             if ($request->hasFile('image')) {
@@ -64,18 +66,26 @@ class DailyReportsController extends Controller
 
         $report = DailyReport::create($inputs);
 
-        $productIds = $request->product_id;
-        $quantities = $request->quantity;
+        $productIds= $request->products
+        ;
+//        $quantities = $request->package;
 
-        for($i = 0 ; $i <count($productIds); $i++)
+        foreach($productIds as $key=>$product_)
         {
-            $product = Product::find($productIds[$i]);
-            $report->products()->create(['quantity'=> $quantities[$i],'price'=>$product->price]);
+
+            $product = Product::find($product_['product_id']);
+            $report->products()->create([
+           'quantity'=>$product_['quantity'],
+            'price'=>$product->price
+            ]);
         }
+
+
         toast('تم إضافة العملية بنجاح', 'success','top-right');
         return redirect()->route('distributor.dailyReports.index');
 
     }
+
 
     /**
      * Display the specified resource.
@@ -126,4 +136,5 @@ class DailyReportsController extends Controller
         return redirect()->route('distributor.dailyReports.index');
 
     }
+
 }

@@ -58,6 +58,10 @@
                             </tr>
 
                             <tr>
+                                <td>  اسم المستودع </td>
+                                <td>{{$report->store->name ??'' }}</td>
+                            </tr>
+                            <tr>
                             <td>صور الملخص</td>
                             <td>
                                 <img src="{!!asset($report->image)!!}" height="100" width="100"/>
@@ -79,8 +83,16 @@
                                 @foreach($report->products as $value)
                                 <tr>
                                 <td>{{ $value->product->name }}</td>
-                                <td>{{ $value->quantity * $value->product->quantity_per_unit }}</td>
-                                <td>{{ $value->quantity }}</td>
+                                    <td>
+                                        @if($value->product->quantity_per_unit !=0)
+                                    @if(($value->quantity/$value->product->quantity_per_unit) >=0)
+                                     {{ $value->quantity/ $value->product->quantity_per_unit }}
+                                        @else
+                                      {{ $value->quantity }}
+                                    @endif
+                                            @endif
+                                    </td>
+                                <td></td>
                                 <td>{{ $value->price }}</td>
                                 </tr>
                                 @endforeach
