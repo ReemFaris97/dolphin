@@ -13,7 +13,7 @@
         <th>التاريخ</th>
         <th>قيمة المصروفات</th>
         <th>الصورة</th>
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </thead>
     <tfoot>
@@ -26,7 +26,7 @@
         <th class="filter">التاريخ</th>
         <th class="filter">قيمة المصروفات</th>
         <th>الصورة</th>
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </tfoot>
     <tbody>

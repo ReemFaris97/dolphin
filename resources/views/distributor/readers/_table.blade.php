@@ -10,7 +10,7 @@
 
         <th>اسم  العداد</th>
         {{--  <th>صورة  العداد</th>  --}}
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </thead>
     <tbody>
@@ -53,7 +53,7 @@
         <th>#</th>
         <th>اسم العداد</th>
 {{--        <th>صورة  العداد</th>--}}
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </tfoot>
 </table>

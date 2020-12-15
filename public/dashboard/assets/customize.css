@@ -247,3 +247,27 @@ table.table-bordered.dataTable tfoot th .form-control::placeholder {
         width: auto;
     }
 }
+.m-portlet .m-form.m-form--fit>.m-portlet__body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.m-portlet .m-form.m-form--fit>.m-portlet__body div#map {
+    margin: 20px auto;
+}
+@media (min-width: 768px)
+{
+    .m-portlet .m-form.m-form--fit>.m-portlet__body .form-group.m-form__group {
+        flex: 1 0 50%;
+        padding-right:16px;
+        padding-left:16px;
+    }
+}
+.dataTables_wrapper table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child:before {
+    color: #384ad7;
+    background-color: #fff;
+    font-weight: bold;
+}
+.table-bordered th {
+    text-align: center;
+}

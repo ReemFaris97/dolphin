@@ -8,7 +8,7 @@
     <tr>
         <th>#</th>
         <th>الاسم</th>
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </thead>
     <tbody>
@@ -47,7 +47,7 @@
     <tr>
         <th>#</th>
         <th>الاسم</th>
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </tfoot>
 </table>

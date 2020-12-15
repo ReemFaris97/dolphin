@@ -7,10 +7,8 @@
     <thead>
     <tr>
         <th>#</th>
-
-        <th>الاسم</th>
         <th >نوع المصروف</th>
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </thead>
     <tbody>
@@ -45,8 +43,9 @@
     <tr>
         <th>#</th>
         <th>الاسم</th>
+
         <th  class="filter">نوع المصروف</th>
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </tfoot>
 </table>

@@ -52,7 +52,7 @@
                     <th>إسم المسار</th>
                     <th> الحالة</th>
                     <th> صورة العميل</th>
-                    <th>الاعدادت</th>
+                    <th class="noExport">الاعدادت</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -109,7 +109,7 @@
                     <th>البريد الالكترونى</th>
                     <th> الحالة</th>
                     <th> صورة العميل</th>
-                    <th>الاعدادت</th>
+                    <th class="noExport">الاعدادت</th>
                 </tr>
                 </tfoot>
             </table>

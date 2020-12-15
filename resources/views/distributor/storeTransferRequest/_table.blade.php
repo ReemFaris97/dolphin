@@ -14,7 +14,7 @@
         <th>تاريخ العمليه</th>
         <th>نوع الحركه</th>
         <th>عدد المنتجات</th>
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </thead>
     <tbody>
