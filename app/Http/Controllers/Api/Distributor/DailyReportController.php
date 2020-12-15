@@ -9,9 +9,11 @@ use App\Http\Resources\Distributor\ReportsResource;
 use App\Http\Resources\Distributor\SettingResources;
 use App\Models\AccountingSystem\AccountingSetting;
 use App\Models\DistributorRoute;
+use App\Models\RouteTripReport;
 use App\Traits\ApiResponses;
 use App\Traits\Distributor\DailyReportOperation;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Http\Request;
 use JWTFactory;
 use JWTAuth;
@@ -27,21 +29,21 @@ class DailyReportController extends Controller
     {
 
 
+        $report = RouteTripReport::ofDistributor(auth()->id())
+            ->groupBy(DB::raw('Date(created_at)'))->withProductsPrice();
+
         if (request('from') != null && \request('to')) {
 
             $from = Carbon::parse(\request('from'));
             $to = Carbon::parse(\request('to'));
 
-            $routes = DistributorRoute::where('user_id',auth()->user()->id)->whereBetween('created_at',[$from,$to])
+            $report = $report->whereBetween('created_at', [$from, $to])
                 ->paginate($this->paginateNumber);
         }
-        else
-        {
+        $report = $report->select('*')->addSelect(DB::raw("sum(cash) as total_cash"))
+        ->addSelect(DB::raw("sum(products_price) as total_products_price"));
 
-            $routes = DistributorRoute::where('user_id',auth()->user()->id)->paginate($this->paginateNumber);
-        }
-
-        return $this->apiResponse(new ReportsResource($routes));
+        return $this->apiResponse(new ReportsResource($report->paginate($this->paginateNumber)));
     }
 
     public function store(Request $request){
