@@ -15,7 +15,7 @@
         <th>الجنسية</th>
         <th> اسم الشركه</th>
         <th> النوع</th>
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </thead>
     <tbody>
@@ -102,7 +102,7 @@
         <th>الجنسية</th>
         <th> اسم الشركه</th>
         <th> النوع</th>
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </tfoot>
 </table>

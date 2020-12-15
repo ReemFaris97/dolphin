@@ -16,7 +16,7 @@
         <th>السعر</th>
         <th>الباركود</th>
 {{--        <th>تاريخ الصلاحية</th>--}}
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </thead>
     <tbody>
@@ -59,8 +59,7 @@
         </tr>
     @endforeach
     </tbody>
-   <tfoot>
-    <th>#</th>
+   <th>#</th>
     <th>الصورة</th>
     <th class="filter">الإسم</th>
     {{-- <th>المستودع</th> --}}
@@ -70,5 +69,5 @@
     <th class="filter">السعر</th>
     <th>الباركود</th>
 {{--        <th>تاريخ الصلاحية</th>--}}
-    <th>الاعدادت</th> </tfoot>
+    <th class="noExport">الاعدادت</th> </tfoot>
 </table>

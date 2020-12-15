@@ -17,7 +17,7 @@
             <th>إسم المندوب</th>
             <th>إسم المسار</th>
             <th> الحالة</th>
-            <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
         </tr>
     </thead>
     <tbody>
@@ -80,6 +80,7 @@
         @endforeach
     </tbody>
     <tfoot>
+
         <tr>
             <th>#</th>
             <th>الكود</th>
@@ -91,7 +92,7 @@
             <th class="filter">إسم المسار</th>
             <th> الحالة</th>
             <th> صورة العميل</th>
-            <th>الاعدادت</th>
+<th class="noExport">الاعدادت</th>
         </tr>
     </tfoot>
 </table>

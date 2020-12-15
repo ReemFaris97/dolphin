@@ -5,19 +5,20 @@
 
 <table class="table table-striped- table-bordered table-hover table-checkable" id="m_table_1">
     <thead>
-        <tr>
-            <th> # </th>
-            <th> رقم سند المصروف</th>
-            <th>اسم المندوب</th>
-            <th>اسم البند</th>
-            <th>نوع البند</th>
-            <th>تاريخ الصرف</th>
-            <th>اسم العداد</th>
-            <th>قراءة العداد</th>
-            <th>صوره العداد</th>
-            <th>صوره فاتوره المصروف</th>
-            <th>الاعدادت</th>
-        </tr>
+<tr>
+        <th> # </th>
+        <th> رقم سند المصروف</th>
+        <th>اسم المندوب</th>
+        <th>اسم البند</th>
+        <th>نوع البند</th>
+        <th>تاريخ الصرف</th>
+        <th>اسم العداد</th>
+        <th>قراءة العداد</th>
+        <th>صوره العداد</th>
+        <th>صوره فاتوره المصروف</th>
+        <th class="noExport">الاعدادت</th>
+    </tr>
+
     </thead>
     <tbody>
         @foreach($expenses as $row)
@@ -79,6 +80,7 @@
         @endforeach
     </tbody>
     <tfoot>
+
         <tr>
             <th> # </th>
             <th class="filter"> رقم سند المصروف</th>
@@ -90,7 +92,7 @@
             <th class="filter">قراءة العداد</th>
             <th>صوره العداد</th>
             <th>صوره فاتوره المصروف</th>
-            <th>الاعدادت</th>
+<th class="noExport">الاعدادت</th>
         </tr>
     </tfoot>
 </table>
