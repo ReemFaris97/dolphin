@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Distributor;
 
+use App\Http\Resources\Distributor\ProductQuantityResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class TransferRequestsResource extends ResourceCollection
@@ -17,9 +18,15 @@ class TransferRequestsResource extends ResourceCollection
         return [
             'transfer_requests'=>$this->collection->transform(function ($q){
                 return [
-                    'id'=>$q->id,
+                     'id'=>$q->id,
                     'name'=>$q->sender->name,
-                    ''
+                    'sender_store'=>$q->sender_store->name,
+                    'products'=>   $q->productQuantities->transform(function ($qu){
+                        return [
+                            'id'=>$qu->id,
+                            'name'=>$qu->product->name,
+                            'quantity'=>$qu->quantity,                        ];
+                    }),
                 ];
             }),
             'paginate'=>[

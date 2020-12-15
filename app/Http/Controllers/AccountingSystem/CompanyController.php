@@ -48,7 +48,7 @@ class CompanyController extends Controller
             'phone'=>'required|numeric|unique:accounting_companies,phone',
             'email'=>'required|string|unique:accounting_companies,email',
             'password'=>'required|string|max:191',
-            'image'=>'nullable|sometimes|image',
+            'image'=>'nullable|sometimes|mimes:jpg,jpeg,gif,png',
         ];
         $this->validate($request,$rules);
         $requests = $request->except('image');
@@ -104,7 +104,7 @@ class CompanyController extends Controller
             'name'=>'required|string|max:191',
             'phone'=>'required|numeric|unique:accounting_companies,phone,'.$company->id,
             'email'=>'required|string|unique:accounting_companies,email,'.$company->id,
-            'image'=>'nullable|sometimes|image'
+            'image'=>'nullable|sometimes|mimes:jpg,jpeg,gif,png'
         ];
         $this->validate($request,$rules);
         $requests = $request->except('image');

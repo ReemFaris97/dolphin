@@ -5,7 +5,7 @@
 @section('header')
 @endsection
 
-@section('breadcrumb') @php($breadcrumbs=['عرض بيانات العميل'=>'/distributor',$client->id ])
+@section('breadcrumb') @php($breadcrumbs=['عرض بيانات المصروف'=>'/distributor',$expense->id ])
 @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
 
@@ -15,7 +15,7 @@
         <div class="m-portlet__head-caption">
             <div class="m-portlet__head-title">
                 <h3 class="m-portlet__head-text">
-                    عرض بيانات العميل {!!$client->name!!}
+                    عرض بيانات المصروف {!!$expense->sanad_No!!}
                 </h3>
             </div>
         </div>
@@ -38,93 +38,90 @@
                 </tr>
             </thead>
             <tbody>
+
+
                 <tr>
-                    <td>صوره العميل</td>
-                    <td>
-                        @if($client->image)
-                        <img src="{!!asset($client->image)!!}" width="100" height="100" />
-                        @else
-                        لا توجد صوره
-                        @endif
-                    </td>
+                    <td>  رقم سندالمصروف </td>
+                    <td>{{$expense->name}}</td>
                 </tr>
                 <tr>
-                    <td>صوره المندوب</td>
-
-                    <td>
-                        @if($client->user->image)
-                        <img src="{!!asset($client->user->image)!!}" width="100" height="100" />
-                        @else
-                        لا توجد صوره
-                        @endif
-                    </td>
+                    <td> اسم بند المصروف</td>
+                    <td>{{$expense->clause->name}}</td>
                 </tr>
 
                 <tr>
-                    <td> كود العميل </td>
-                    <td>{{$client->name}}</td>
+                    <td> نوع المصروف </td>
+                    <td>{{$expense->type->name}}</td>
                 </tr>
                 <tr>
-                    <td> اسم العميل</td>
-                    <td>{{$client->name}}</td>
+                    <td> اسم المندوب </td>
+                    <td>{{$expense->distributor->name ??''}}</td>
                 </tr>
 
                 <tr>
-                    <td> جوال العميل </td>
-                    <td>{{$client->phone }}</td>
-                </tr>
-
-{{--                 <tr>
                     <td> البريد الإلكتروني
                     </td>
-                    <td>{{$client->email }}</td>
-                </tr>
- --}}
-                <tr>
-                    <td>
-                        تاريخ ووقت الإضافة
-                    </td>
-                    <td>{{$client->created_at }}</td>
+                    <td>{{$expense->email }}</td>
                 </tr>
 
                 <tr>
                     <td>
-                        الحالة
-
+                        تاريخ ووقت المصروف
                     </td>
-                    <td>{{$client->is_active?'معتمد':'غير معتمد' }}</td>
+                    <td>{{$expense->date  }}-{{ $expense->time}}</td>
+                </tr>
+
+                <tr>
+                    <td>
+                             صورة المصروف
+                    </td>
+                    <td>
+                        @if($expense->image)
+                            <img src="{!!asset($expense->image)!!}" height="100" width="100" />
+                        @else
+                            لا يوجد صوره للمصروف
+                        @endif
+                    </td>
                 </tr>
                 <tr>
                     <td>
-                        اسم المسار
+                                المبالغ النقدية
+                    </td>
+                    <td>{{$expense->amount }}</td>
+                </tr>
+
+                <tr>
+                    <td>
+                        اسم العداد
 
                     </td>
-                    <td>{{$client->route->name }}</td>
+                    <td>{{$expense->reader->name }}</td>
                 </tr>
                 <tr>
                     <td>
-                        اسم المندوب
-
+                        قراءة العداد
                     </td>
-                    <td>{{$client->user->name }}</td>
-                </tr>
-                <tr>
-                    <td>
-                        اسم المتجر
-
-                    </td>
-                    <td>{{$client->store_name }}</td>
+                    <td>{{$expense->reader_number }}</td>
                 </tr>
                 <tr>
                     <td>
                         الملاحظات
-
                     </td>
-                    {{--  <td>{{$client-> }}</td> --}}
+                    <td>{{$expense->notes }}</td>
+                </tr>  <tr>
+                    <td>
+                        رقم التكرار
+                    </td>
+                    <td>{{$expense->round }}</td>
+                </tr>
+                <tr>
+                    <td>
+                        اسم المسار
+                    </td>
+                      <td>{{$expense->distributor_route->name??'' }}</td>
                 </tr>
             </tbody>
         </table>
-        @include('distributor.clients._map', ['lat'=>$client->lat,'lng'=>$client->lng])
 
     </div>
 </div>

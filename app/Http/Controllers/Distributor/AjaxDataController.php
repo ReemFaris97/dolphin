@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Distributor;
 
+use App\Models\ExpenditureClause;
 use App\Models\Product;
 use App\Models\Store;
 use Illuminate\Http\Request;
@@ -9,7 +10,9 @@ use App\Http\Controllers\Controller;
 use App\Models\DistributorCar;
 use App\Models\DistributorRoute;
 use App\Models\ProductQuantity;
+use App\Models\TripInventory;
 use App\Models\User;
+use DB;
 
 class AjaxDataController extends Controller
 {
@@ -41,6 +44,22 @@ class AjaxDataController extends Controller
         ]);
     }
 
+    public function getAllStores($id)
+    {
+        $stores = Store::where('distributor_id',$id)->get();
+        return response()->json([
+            'status' => true,
+            'data' => view('distributor.dailyReports.getAjaxStores')->with('stores', $stores)->render()
+        ]);
+    }
+    public function getAjaxClauses($id)
+    {
+        $clauses = ExpenditureClause::where('expenditure_type_id',$id)->get();
+        return response()->json([
+            'status' => true,
+            'data' => view('distributor.expenses.getAjaxClauses')->with('clauses', $clauses)->render()
+        ]);
+    }
 
     /**
      * @param Request $request
@@ -59,10 +78,10 @@ class AjaxDataController extends Controller
     public function getcars(Request $request)
     {
         //dd($request->all());
-        $cars = DistributorCar::where('user_id', $request->id)->get();
+        $cars = DistributorCar::where('user_id', $request->id)->select(['id', 'car_name as name'])->get();
         return response()->json([
             'status' => true,
-            'data' => view('distributor.transactions.getAjaxCars')->with('cars', $cars)->render()
+            'data' => view('distributor.stores.getAjaxProducts')->with('cars', $cars)->render()
         ]);
     }
 
@@ -116,6 +135,23 @@ class AjaxDataController extends Controller
                 'distributor.stores.getAjaxProducts',
                 [
                     'cars' => DistributorRoute::where('user_id', $request->distributor_id)->get()
+                ]
+            )->render()
+        ]);
+    }
+    public function getDistributorTripsOnRoute(Request $request)
+    {
+
+        return response()->json([
+            'status' => true,
+            'data' => view(
+                'distributor.stores.getAjaxProducts',
+                [
+                    'cars' => TripInventory
+                        ::FilterRoute($request->route_id)
+                        ->filterDistributor($request->distributor_id)
+                        ->select(DB::raw('created_at as name ,id'))
+                        ->get()
                 ]
             )->render()
         ]);

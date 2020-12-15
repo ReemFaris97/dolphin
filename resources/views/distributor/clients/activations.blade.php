@@ -1,5 +1,5 @@
 @extends('distributor.layouts.app')
-@section('title') الاعضاء
+@section('title') العملاء
 الغير معتمدين@endsection
 
 @section('header')
@@ -16,7 +16,7 @@
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-title">
                     <h3 class="m-portlet__head-text">
-                        كل العملاءالغير معتمدين
+                        كل العملاء الغير معتمدين
                     </h3>
                 </div>
             </div>
@@ -52,6 +52,7 @@
                     <th>إسم المندوب</th>
                     <th>إسم المسار</th>
                     <th> صورة العميل</th>
+                    <th> الاعتماد</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -67,6 +68,23 @@
                         <td>{!!$client->user->name !!}</td>
                         <td>{!!$client->route->name!!}</td>
                         <td><img src="{!!asset($client->image)!!}" height="100" width="100"/></td>
+                        <td>
+                            @if ($client->is_active==0)
+                            <span class="lable lable-danger">غير معتمد</span>
+                            <a href="{{route("distributor.client.active",$client->id)}}" class="btn btn-success btn-circle">
+                                <i class="fas fa-check"></i>
+                            </a>
+
+                            @else
+                            <span class="lable lable-success"> معتمد</span>
+                            <a href="{{route("distributor.client.dis_active",$client->id)}}" class="btn btn-danger btn-circle">
+                                <i class="fas fa-times"></i>
+                            </a>
+                            @endif
+
+
+                        </td>
+
                     </tr>
                 @endforeach
                 </tbody>

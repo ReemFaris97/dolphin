@@ -9,7 +9,11 @@
         <th>#</th>
         <th>إسم المرسل</th>
         <th>إسم المرسل اليه</th>
+
         <th>حالة التأكيد</th>
+        <th>تاريخ العمليه</th>
+        <th>نوع الحركه</th>
+        <th>عدد المنتجات</th>
         <th class="noExport">الاعدادت</th>
     </tr>
     </thead>
@@ -25,6 +29,13 @@
                     @else
                     غير مؤكد
                 @endif
+            </td>
+            <td>{{optional($row->created_at)->format("Y-m-d h:m A")}}</td>
+            <td>
+                 نقل
+            </td>
+            <td>
+                {{$row->products_count}}
             </td>
             <td>
                <a href="{!!route('distributor.storeTransfer.show',$row->id)!!}" class="btn btn-warning"> <i class="fas fa-book"></i> تفاصيل</a>

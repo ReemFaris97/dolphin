@@ -92,7 +92,7 @@ class ExpensesController extends Controller
      */
     public function show($id)
     {
-        //
+        return $this->toShow(['expense' => Expense::findOrFail($id)]);
     }
 
     /**

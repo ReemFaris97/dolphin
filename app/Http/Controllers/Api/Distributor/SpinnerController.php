@@ -81,11 +81,11 @@ class SpinnerController extends Controller
      * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
      */
     public function getAllReaders(){
-        $readers = Reader::get();
+        $readers = Reader::where('is_active', 1)->get();
         return $this->apiResponse(GeneralModelResource::collection($readers));
     }
-  /**
-   *
+    /**
+     *
      * Return List of Reasons
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
@@ -111,6 +111,25 @@ class SpinnerController extends Controller
             $distributors = Product::whereHas('stores', function (Builder $builder) use ($store_id) {
                 $builder->where('store_id',$store_id);
             })->withClientPrice(request()->client_id)->get();
+
+            $distributors = Product::with(
+                [
+                    'quantities' => function ($q) use ($store_id) {
+                        $q->where('store_id', $store_id);
+                        $q->totalQuantity();
+                    }
+                ]
+            )
+                ->whereHas('stores', function (Builder $builder) use ($store_id) {
+                    $builder->where('store_id', $store_id);
+                })
+                ->withClientPrice(request()->client_id)->get()->map(function ($product) {
+
+                    $product->store_quantity = $product->quantities->where('product_id', $product->id)->sum('total_quantity');
+                    return $product;
+                });
+
+
         }
         return $this->apiResponse(ProductsSpinnerModelResource::collection($distributors));
     }
@@ -131,7 +150,7 @@ class SpinnerController extends Controller
      * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
      */
     public function getExpenditureTypes(){
-        $expenditure_types = ExpenditureType::all();
+        $expenditure_types = ExpenditureType::where('is_active', 1)->get();
         return $this->apiResponse(GeneralModelResource::collection($expenditure_types));
     }
 
@@ -140,14 +159,20 @@ class SpinnerController extends Controller
     {
         $rules = [
             'bar_code'=>'required|string',
-            'client_id' => 'required|integer|exists:clients,id'
+            'client_id' => 'required|integer|exists:clients,id',
+            'store_id' => 'required|integer|exists:stores,id',
         ];
 
         $validation=$this->apiValidation($request,$rules);
         if($validation instanceof Response){return $validation;}
 
-        $client = Client::find($request->client_id);
-        $product = Product::whereBarCode($request->bar_code)->withClassPrice($client->client_class_id)->first();
+        $client = Client::where('is_active', 1)->find($request->client_id);
+        $product = Product::with(['quantities' => function ($q) use ($request) {
+            $q->where('store_id', $request->store_id);
+            $q->totalQuantity();
+        }])->whereBarCode($request->bar_code)->withClassPrice($client->client_class_id)->first();
+
+        $product->store_quantity = $product->quantities->where('product_id', $product->id)->sum('total_quantity');
 
         if (!$product) return $this->notFoundResponse();
         return $this->apiResponse(new ProductsSpinnerModelResource($product));

@@ -50,7 +50,7 @@ class BranchController extends Controller
             'phone'=>'required|numeric|unique:accounting_branches,phone',
             'email'=>'required|string|unique:accounting_branches,email',
             'password'=>'required|string|max:191',
-            'image'=>'nullable|sometimes|image',
+            'image'=>'nullable|sometimes|mimes:jpg,jpeg,gif,png',
             'company_id'=>'required|numeric|exists:accounting_companies,id',
 
         ];

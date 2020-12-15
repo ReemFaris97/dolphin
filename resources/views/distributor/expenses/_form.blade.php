@@ -7,15 +7,20 @@
 
     </div>
     @endif
+        <div class="form-group m-form__group">
+            <label>نوع الصرف</label>
+            {!! Form::select('expenditure_type_id',$expenditure_types,null,['class'=>'form-control m-input select2','placeholder'=>'ادخل نوع الصرف','id'=>'expenditure_type_id'])!!}
+        </div>
     <div class="form-group m-form__group">
         <label>بند الصرف</label>
-        {!! Form::select('expenditure_clause_id',$expenditure_clauses,null,['class'=>'form-control  select2','placeholder'=>'ادخل بند الصرف'])!!}
+{{--        {!! Form::select('expenditure_clause_id',$expenditure_clauses,null,['class'=>'form-control  select2','placeholder'=>'ادخل بند الصرف'])!!}--}}
+        <select id="expenditure_clause_id" class="form-control  m-input select2" id="expenditure_clause_id">
+            <option disabled selected> بند الصرف</option>
+
+        </select>
     </div>
 
-    <div class="form-group m-form__group">
-        <label>نوع الصرف</label>
-        {!! Form::select('expenditure_type_id',$expenditure_types,null,['class'=>'form-control m-input select2','placeholder'=>'ادخل نوع الصرف'])!!}
-    </div>
+
     @if(isset($expense))
     <div class="form-group m-form__group">
         <label>اسم المندوب</label>
@@ -55,7 +60,7 @@
     </div>
 
     <div class="form-group m-form__group">
-        <label> صوره الفاتورة  </label>
+        <label> صوره المصروف  </label>
         @if(isset($expense))
 
             <img src="{!! asset($expense->image)!!}" width="250" height="250">
@@ -97,6 +102,23 @@
         $('#check-all').change(function () {
             $("input:checkbox").prop("checked", $(this).prop("checked"))
         })
+
+
+
+
+        $('#expenditure_type_id').change(function () {
+            var id = $(this).val();
+            alert(id);
+            $.ajax({
+                type: 'get',
+                url: '/distributor/getAjaxClauses/'+id,
+                // data: {id: id},
+                dataType: 'json',
+                success: function (data) {
+                    $('#expenditure_clause_id').html(data.data);
+                }
+            });
+        });
     </script>
 
 @endpush

@@ -37,6 +37,7 @@ class StoreController extends Controller
     }
 
     public function pendingTransferRequests(){
+
         $stores = StoreTransferRequest::where(['distributor_id'=>auth()->user()->id,'is_confirmed'=>0])->paginate($this->paginateNumber);
         return $this->apiResponse(new TransferRequestsResource($stores));
     }
@@ -57,8 +58,17 @@ class StoreController extends Controller
 
     public function show($id)
     {
-        $products = Product::whereStoreId($id)->paginate($this->paginateNumber);
-        return $this->apiResponse(new ProductsResource($products));
+        $product_quantities = Store::findOrFail($id)->totalQuantities()->paginate();
+
+        $products = collect($product_quantities->items())->map(function ($products_quantities) {
+
+            $product =          $products_quantities->product;
+
+            $product['quantity'] = $products_quantities->total_quantity;
+            return $product;
+        });
+        $product_quantities->setCollection($products);
+        return $this->apiResponse(new ProductsResource($product_quantities));
 
     }
 
@@ -68,6 +78,8 @@ class StoreController extends Controller
         $rules = [
             'distributor_id' => 'required|integer|exists:users,id',
             'products'=>'required',
+            'distributor_store_id' => 'required|integer|exists:stores,id',
+            'sender_store_id' => 'required|integer|exists:stores,id',
             'products.*.product_id' =>'required|integer|exists:products,id',
             "products.*.quantity" => "required|integer",
         ];

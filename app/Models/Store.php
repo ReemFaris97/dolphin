@@ -38,6 +38,7 @@ class Store extends Model
     }
 
 
+
     public function category()
     {
         return $this->belongsTo(StoreCategory::class, 'store_category_id');

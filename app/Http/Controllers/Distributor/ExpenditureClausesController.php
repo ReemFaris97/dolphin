@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Distributor;
 
 use App\Models\ExpenditureClause;
+use App\Models\ExpenditureType;
 use App\Models\Store;
 use App\Models\StoreCategory;
 use Illuminate\Http\Request;
@@ -31,8 +32,8 @@ class ExpenditureClausesController extends Controller
      */
     public function create()
     {
-
-        return $this->toCreate();
+        $expenditure_types=ExpenditureType::pluck('name','id');
+        return $this->toCreate(compact('expenditure_types'));
     }
 
     /**
@@ -73,7 +74,9 @@ class ExpenditureClausesController extends Controller
     public function edit($id)
     {
         $expenditureClause =ExpenditureClause::findOrFail($id);
-        return $this->toEdit(compact('expenditureClause'));
+        $expenditure_types=ExpenditureType::pluck('name','id');
+
+        return $this->toEdit(compact('expenditureClause','expenditure_types'));
 
 
     }
@@ -117,4 +120,26 @@ class ExpenditureClausesController extends Controller
 
 
     }
+    public function active($id)
+    {
+        $expenditureClause =ExpenditureClause::find($id);
+        $expenditureClause->update([
+            'is_active' => '1'
+        ]);
+        toast('تم تفعيل البند', 'success', 'top-right');
+
+        return back();
+    }
+
+
+    public function disactive($id)
+    {
+        $expenditureClause =ExpenditureClause::find($id);
+        $expenditureClause->update(['is_active' => '0'
+        ]);
+        toast('تم الغاء تفعيل بند الصرف', 'success', 'top-right');
+
+        return back();
+    }
+
 }

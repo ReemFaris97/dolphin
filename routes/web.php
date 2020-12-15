@@ -25,14 +25,6 @@ use App\Models\Store;
 use Carbon\Carbon;
 
 
-Route::get('push notifications', function ($id) {
-    event(new  ClientActivationChanged(Client::first()));
-    event(new  DistributorRouteAdded(DistributorRoute::where('user_id', 1)->first()));
-    event(new  DistributorTransactionAdded(DistributorRoute::where('user_id', 1)->first()));
-
-    // Client::where('id', 1)->first()->update(['is_active' => 0]);
-    dd('dddddddddddd');
-});
 
 
 Route::get('test',function(){

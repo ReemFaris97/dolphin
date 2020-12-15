@@ -12,7 +12,7 @@ class StoreTransferRequest extends Model
 
     protected $fillable = ['sender_id',
     'distributor_id', 'is_confirmed', 'sender_store_id',
-        'distributor_store_id','receiver_store_id'
+        'distributor_store_id'
     ];
 
     public function sender()
@@ -58,7 +58,7 @@ class StoreTransferRequest extends Model
             $this->productQuantities()->update(['is_confirmed'=> 1]);
             foreach ($products as $product) {
                 ProductQuantity::create([
-                    'product_id' => $product->id,
+                    'product_id' => $product->product_id,
                     'user_id' => $this->distributor_id,
                     'quantity' => $product->quantity,
                     'type' => 'in',

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Distributor;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\RouteReport;
+use App\Models\RouteTripReport;
 use App\Models\TripInventory;
 use App\Traits\Viewable;
 
@@ -19,7 +20,14 @@ class BillController extends Controller
      */
     public function index()
     {
-        $bills = RouteReport::all()->reverse();
+        $bills = RouteTripReport::with([
+            'inventory',
+            'route_trip' => function ($builder) {
+                $builder->with(['route' => function ($q) {
+                    $q->with('user');
+                }, 'client']);
+            },
+        ])->get()->reverse();
         return $this->toIndex(compact('bills'));
     }
 
@@ -52,8 +60,14 @@ class BillController extends Controller
      */
     public function show($id)
     {
-        return $this->toShow([
-            'bill' => RouteReport::findOrFail($id)
+        return $this->toShow(['bill' => RouteTripReport::with([
+                'inventory',
+                'route_trip' => function ($builder) {
+                    $builder->with(['route' => function ($q) {
+                        $q->with('user');
+                    }, 'client']);
+                },
+            ])->findOrFail($id)
         ]);
     }
 

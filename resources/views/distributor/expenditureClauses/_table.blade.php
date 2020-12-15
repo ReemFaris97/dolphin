@@ -7,8 +7,7 @@
     <thead>
     <tr>
         <th>#</th>
-
-        <th>الاسم</th>
+        <th >نوع المصروف</th>
         <th class="noExport">الاعدادت</th>
     </tr>
     </thead>
@@ -18,7 +17,19 @@
             <td>{!!$loop->iteration!!}</td>
 
             <td>{!!$row->name!!}</td>
+            <td>{!!$row->type->name ?? ''!!}</td>
             <td>
+                @if ($row->is_active==0)
+                    <span class="lable lable-danger">غير مفعل</span>
+                    <a href="{{route("distributor.expenditureClauses.active",$row->id)}}" class="btn btn-success btn-circle">
+                        <i class="fas fa-check"></i>
+                    </a>
+                @else
+                    <span class="lable lable-success">مفعل</span>
+                    <a href="{{route("distributor.expenditureClauses.dis_active",$row->id)}}" class="btn btn-danger btn-circle">
+                        <i class="fas fa-times"></i>
+                    </a>
+                @endif
                 <a href="{!!route('distributor.expenditureClauses.edit',$row->id)!!}" class="btn btn-primary"> <i class="fas fa-pen"></i> تعديل</a>
                 <a href="#"  onclick="Delete({{$row->id}})"  data-original-title="حذف" class="btn btn-danger btn-circle"><i  class="fa fa-trash"></i> حذف</a>
                 {!!Form::open( ['route' => ['distributor.expenditureClauses.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
@@ -32,6 +43,8 @@
     <tr>
         <th>#</th>
         <th>الاسم</th>
+
+        <th  class="filter">نوع المصروف</th>
         <th class="noExport">الاعدادت</th>
     </tr>
     </tfoot>

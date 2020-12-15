@@ -3,13 +3,13 @@
 
 {{--'name', 'phone', 'email', 'password', 'image', 'job', 'nationality', 'company_name', 'blocked_at', 'is_admin',--}}
 
-<table class="table table-striped- table-bordered table-hover table-checkable dataTable">
+<table class="table table-striped- table-bordered table-hover table-checkable dataTable" id="m_table_1">
     <thead>
     <tr>
         <th>#</th>
 
         <th>اسم المسار</th>
-        <th>اسم مستودع</th>
+        <th>اسم المندوب</th>
         <th>الحاله</th>
         <th class="noExport">الاعدادت</th>
     </tr>
@@ -39,12 +39,11 @@
     </tbody>
     <tfoot>
     <tr>
-    <th>#</th>
-
-<th>اسم المسار</th>
-<th>اسم مستودع</th>
-<th>الحاله</th>
-<th class="noExport">الاعدادت</th>
-    </tr>
+        <th>#</th>
+        <th>اسم المسار</th>
+        <th>اسم المندوب</th>
+        <th>الحاله</th>
+        <th class="noExport">الاعدادت</th>
+    </tr> 
     </tfoot>
 </table>

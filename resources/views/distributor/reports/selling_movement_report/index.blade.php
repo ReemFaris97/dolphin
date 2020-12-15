@@ -1,5 +1,5 @@
 @extends('distributor.layouts.app')
-@section('title')  تقريركشف حساب عميل
+@section('title')  تقرير حركات البيع
 @endsection
 
 

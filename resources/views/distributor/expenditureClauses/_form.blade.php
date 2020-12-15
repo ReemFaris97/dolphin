@@ -4,7 +4,10 @@
         {!! Form::text('name',null,['class'=>'form-control m-input','placeholder'=>'ادخل الاسم'])!!}
     </div>
 
-
+    <div class="form-group m-form__group">
+        <label>نوع الصرف</label>
+        {!! Form::select('expenditure_type_id',$expenditure_types,null,['class'=>'form-control m-input select2','placeholder'=>'ادخل نوع الصرف'])!!}
+    </div>
 </div>
 
 @push('scripts')

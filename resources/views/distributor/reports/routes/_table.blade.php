@@ -3,6 +3,7 @@
     <tr>
         <th> كود العملية</th>
         <th>  اسم المسار</th>
+        <th>  تاريخ بداية المسار</th>
         <th> الحالة</th>
         <th>اسم المندوب</th>
         <th>  عدد العملاء</th>
@@ -19,6 +20,8 @@
         <tr>
             <td> {!!$loop->iteration!!} </td>
             <td>{!!$row->name!!}</td>
+            <td>{!!$row->created_at!!}</td>
+
             <td>{!!$row->is_finished==0? 'منتهى':'غيرمنتهى' !!}</td>
             <td>{!!$row->user->name !!}</td>
             <td>{!!$row->clients()!!}</td>

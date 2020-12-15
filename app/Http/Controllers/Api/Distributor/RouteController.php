@@ -133,9 +133,9 @@ class RouteController extends Controller
         $request['route']= $route_id;
              $rules = [
                  "name" => "required|string|min:1|max:255",
-            "email" => "nullable|email|min:1|max:255|unique:users,email",
+                "email" => "nullable|email|min:1|max:255|unique:users,email",
                  'phone'      =>'required|string|unique:users,phone',
-                 "image"=>"required|image",
+                 "image"=>"required",
                  "store_name" => "required|string|min:1|max:255",
                  "address" => "required|string|min:1|max:255",
                  "lat" => "required|string|min:1|max:255",
@@ -144,6 +144,12 @@ class RouteController extends Controller
         $validation = $this->apiValidation($request,$rules);
         if ($validation instanceof Response) {
             return $validation;
+        }
+        if ($request->image != null)
+        {
+            if ($request->hasFile('image')) {
+                $inputs['image'] = saveImage($request->image,'users');
+            }
         }
         $request['is_active']=0;
         $client = Client::create($request->all());
@@ -161,13 +167,13 @@ class RouteController extends Controller
 
     public function store(Request $request){
 
-        
+
         $request['products'] = json_decode($request->products,TRUE);
         $rules = [
             'route_id' =>'required|integer|exists:distributor_routes,id',
             'cash'=>'required|numeric',
             'expenses'=>'required|numeric',
-            'image'=>'required|image',
+            'image'=>'required|mimes:jpg,jpeg,gif,png',
             'products'=>'required|array',
             'products.*.product_id' =>'required|integer|exists:products,id',
             "products.*.quantity" => "required|integer",
