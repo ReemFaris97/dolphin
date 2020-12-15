@@ -11,6 +11,7 @@
         <th>طبيعه المستودع</th>
         <th>المندوب</th>
         <th>نوع المستودع</th>
+        <th> الملاحظات</th>
         <th class="noExport">الاعدادت</th>
     </tr>
     </thead>
@@ -22,6 +23,7 @@
             <td>{!!($row->for_distributor)? 'خارجى':"داخلى"!!}</td>
             <td>{!!($row->for_distributor)? $row->distributor->name:null!!}</td>
             <td>{!!$row->category->name!!}</td>
+            <td>{!!$row->notes!!}</td>
             <td>
                 <a href="{!!route('distributor.stores.show',$row->id)!!}" class="btn btn-success"> <i
                         class="fas fa-eye"></i>مشاهده</a>
@@ -58,9 +60,9 @@
         <th>#</th>
         <th class="filter">الاسم</th>
         <th class="filter">طبيعه المستودع</th>
-
         <th class="filter">نوع المستودع</th>
         <th class="filter">المندوب</th>
+        <th class="filter"> الملاحظات</th>
         <th class="noExport">الاعدادت</th>
     </tr>
     </tfoot>
