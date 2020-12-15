@@ -8,12 +8,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class DailyReport extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['user_id','cash','expenses','image'];
+    protected $fillable = ['user_id','cash','expenses','image','store_id'];
 
     public function user()
     {
 
         return $this->belongsTo(User::class,'user_id')->withDefault('user_id');
+    }
+
+    public function store()
+    {
+        return $this->belongsTo(Store::class,'store_id')->withDefault('store_id');
     }
 
     public function products()
