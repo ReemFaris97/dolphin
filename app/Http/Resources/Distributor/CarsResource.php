@@ -24,7 +24,7 @@ class CarsResource extends ResourceCollection
                     'name'=>$q->car_name,
                     'model'=>$q->car_model,
                     'products_count'=>0,
-                    'plate_number' => $q->plate_number,
+                    'plate_number' => (string)  $q->plate_number ?? "",
                 ];
             }),
             'paginate'=>[
