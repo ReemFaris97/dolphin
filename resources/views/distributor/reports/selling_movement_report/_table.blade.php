@@ -7,7 +7,7 @@
         <th> الحالة</th>
         <th>تاريخ الزيارة
         </th>
-        <th>الاعدادات
+        <th class="noExport">الاعدادات
         </th>
     </tr>
     </thead>

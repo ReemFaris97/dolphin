@@ -11,7 +11,7 @@
         <th>طبيعه المستودع</th>
         <th>المندوب</th>
         <th>نوع المستودع</th>
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </thead>
     <tbody>
@@ -61,7 +61,7 @@
 
         <th class="filter">نوع المستودع</th>
         <th class="filter">المندوب</th>
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </tfoot>
 </table>

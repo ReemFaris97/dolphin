@@ -136,7 +136,7 @@
                             <th>القائم على انهاء المهمه</th>
                             <th>تاريخ الانتهاء</th>
                             <th>تاريخ التقيم</th>
-                            <th>الاعدادت</th>
+                            <th class="noExport">الاعدادت</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -291,7 +291,7 @@
             <th>صاحب المهمة</th>
             <th>الوصف</th>
             <th>الصور</th>
-            <th>الاعدادت</th>
+            <th class="noExport">الاعدادت</th>
         </tr>
         </thead>
         <tbody>
