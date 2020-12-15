@@ -33,9 +33,11 @@ class NotifyTransferRequestReceiver
             'title' => $title
 
         ];
-        $users = User::where('id', $event->store_transaction->receiver_store_id)
+
+        $users = User::where('id', $event->store_transaction->distributor_id)
             ->get();
-        $this->fire($title, $message, $data, $users);
+
+            $this->fire($title, $message, $data, $users);
         /** @var  \App\Models\User $user  */
         foreach ($users as $user) {
             $user->sendNotification($data, $type);
