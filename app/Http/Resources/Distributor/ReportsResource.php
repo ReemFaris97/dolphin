@@ -18,9 +18,9 @@ class ReportsResource extends ResourceCollection
             'reports'=>$this->collection->transform(function ($q){
                 return [
                     'id'=>$q->id,
-                    'created_at'=>isset($q->created_at)?$q->created_at->format('y-m-d'):"",
-                    'total_cash'=>$q->trips->sum('cash'),
-                    'total'=>$q->trips->sum('total')
+                    'created_at' => isset($q->created_at) ? $q->created_at->format('Y-m-d') : "",
+                    'total_cash' => $q->total_cash,
+                    'total' => $q->total_products_price
                 ];
             }),
             'paginate'=>[

@@ -20,7 +20,7 @@ class StoreResource extends ResourceCollection
                     'id'=>$q->id,
                     'name'=>$q->name,
                     'category_name'=>$q->category->name,
-                    'products_count'=>$q->products->count()??0,
+                    'products_count' => $q->totalQuantities->count() ?? 0,
                 ];
             }),
             'paginate'=>[

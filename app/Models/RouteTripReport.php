@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -61,6 +62,22 @@ class RouteTripReport extends Model
         $builder->whereHas('route_trip', function ($route_trip) use ($distributor) {
             $route_trip->OfDistributor($distributor);
         });
+    }
+
+    public function scopeWithProductsPrice(Builder $builder)
+    {
+        $builder->join(
+            DB::raw(
+                "(
+                    select model_id as route_trip_id,
+                    SUM(price *quantity) as products_price from attached_products
+                    where model_type= 'App\\\\Models\\\\RouteTripReport'
+                    group by model_id
+                ) as attached_products"
+            ),
+            'attached_products.route_trip_id',
+            'route_trip_reports.id'
+        );
     }
     public function scopeFilterDistributor(Builder $builder, $distributor = null): void
     {
