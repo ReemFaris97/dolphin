@@ -95,7 +95,7 @@
                             <th>اسم مستودع</th>
                             <th>عدد العملاء</th>
                             <th>الحاله</th>
-                            <th>الاعدادت</th>
+                            <th class="noExport">الاعدادت</th>
                         </tr>
                         </thead>
                         <tbody id="routes-list">

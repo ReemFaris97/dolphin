@@ -7,6 +7,7 @@ namespace App\Traits\Distributor;
 
 use App\Models\Charge;
 use App\Models\Clause;
+use App\Models\DistributorRoute;
 use App\Models\DistributorTransaction;
 use App\Models\Expense;
 use App\Models\Task;
@@ -36,7 +37,17 @@ trait ExpenseOperation
           $inputs['reader_image'] = saveImage($request->reader_image, 'photos');
       }
 
+        $inputs['round'] = DistributorRoute::find($request->distributor_route_id)->round;
       $clause=  Expense::create($inputs);
+
+        DistributorTransaction::create([
+            'sender_type' => User::class,
+            'sender_id' => auth()->id(),
+            'receiver_type' => Expense::class,
+            'receiver_id' => $clause->id,
+            'amount' => $request->amount,
+            'received_at' => Carbon::now(),
+        ]);
        return $clause;
   }
 

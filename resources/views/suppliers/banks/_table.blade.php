@@ -11,7 +11,7 @@
         <th>الاسم</th>
         <th>رقم الحساب</th>
 
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </thead>
     <tbody>
@@ -49,10 +49,12 @@
     </tbody>
     <tfoot>
     <tr>
-        <th>#</th>
-        <th>الاسم</th>
-        <th>رقم الحساب</th>
-        <th>الاعدادت</th>
+    <th>#</th>
+
+<th>الاسم</th>
+<th>رقم الحساب</th>
+
+<th class="noExport">الاعدادت</th>
     </tr>
     </tfoot>
 </table>

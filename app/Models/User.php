@@ -216,6 +216,14 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Notification::class, 'user_id')->orderBy('created_at', 'desc');
     }
 
+
+    public function scopeOfClient(Builder $builder, $client_id)
+    {
+
+        $this->whereHas('trips', function ($trip) use ($client_id) {
+            $trip->where('client_id', $client_id);
+        });
+    }
     /**
      * Send the given notification.
      *

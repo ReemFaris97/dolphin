@@ -11,7 +11,7 @@
         <th>اسم المسار</th>
         <th>اسم المندوب</th>
 {{--        <th>الحاله</th>--}}
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </thead>
     <tbody>
@@ -54,7 +54,7 @@
         <th>اسم المسار</th>
         <th>اسم المندوب</th>
 {{--        <th>الحاله</th>--}}
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </tfoot>
 </table>

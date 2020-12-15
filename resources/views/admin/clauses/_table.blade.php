@@ -12,7 +12,7 @@
         <th>الكمية</th>
         <th>الكمية الإفتراضية</th>
         <th>الحالة</th>
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </thead>
     <tbody>
@@ -87,6 +87,6 @@
         <th>الكمية</th>
         <th>الكمية الإفتراضية</th>
         <th>الحالة</th>
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tfoot>
 </table>

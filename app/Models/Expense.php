@@ -14,7 +14,7 @@ class Expense extends Model
 
     public function clause()
     {
-        return $this->belongsTo(ExpenditureClause::class,'expenditure_clause_id');
+        return $this->belongsTo(ExpenditureClause::class, 'expenditure_clause_id')->withDefault(new ExpenditureClause);
     }
 
     public function distributor()
@@ -24,7 +24,7 @@ class Expense extends Model
 
     public function type()
     {
-        return $this->belongsTo(ExpenditureType::class,'expenditure_type_id');
+        return $this->belongsTo(ExpenditureType::class, 'expenditure_type_id')->withDefault(new ExpenditureType);
     }
 
     public function reader()
@@ -47,5 +47,9 @@ class Expense extends Model
         $this->attributes['date'] =  Carbon::parse($value);
     }
 
+    public function getNameAttribute()
+    {
+        return  $this->type->name;
+    }
 
 }

@@ -12,7 +12,7 @@
         <th> قيمته</th>
 
 
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </thead>
     <tbody>
@@ -48,7 +48,7 @@
         <th>رقم العرض </th>
         <th>تاريخ العرض</th>
         <th> قيمته</th>
-        <th>الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
     </tr>
     </tfoot>
 </table>
