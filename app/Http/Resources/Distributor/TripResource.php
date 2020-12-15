@@ -25,6 +25,7 @@ class TripResource extends JsonResource
              'steps'=>$this->steps(),
              'address'=>$this->address,
              'status'=>$this->status,
+            'round' => $this->round,
             ];
     }
 }
