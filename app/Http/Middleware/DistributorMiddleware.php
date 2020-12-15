@@ -19,7 +19,7 @@ class DistributorMiddleware
             return redirect()->route('admin.login');
         }
         else{
-            if(auth()->user()->is_distributor == 1)
+            if(auth()->user()->is_distributor == 1 && auth()->user()->is_admin == 1)
                 return $next($request);
         }
 
