@@ -138,4 +138,24 @@ class DistributorRoutesController extends Controller
 
         return response()->noContent();
     }
+    public function active($id)
+    {
+        $route =DistributorRoute::find($id);
+        $route->update([
+            'is_active' => '1'
+        ]);
+        toast('تم تفعيل المسار', 'success', 'top-right');
+
+        return back();
+    }
+
+
+    public function disactive($id)
+    {
+        $route =DistributorRoute::find($id);
+        $route->update(['is_active' => '0'
+        ]);
+        toast('تم الغاء تفعيل المسار ', 'success', 'top-right');
+        return back();
+    }
 }

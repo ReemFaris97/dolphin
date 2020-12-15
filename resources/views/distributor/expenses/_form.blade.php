@@ -19,7 +19,10 @@
 
         </select>
     </div>
-
+        <div class="form-group m-form__group">
+            <label> المسار </label>
+            {!! Form::select('distributor_route_id',$routs,null,['class'=>'form-control m-input select2','placeholder'=>'ادخل نوع الصرف','id'=>'expenditure_type_id'])!!}
+        </div>
 
     @if(isset($expense))
     <div class="form-group m-form__group">
@@ -62,39 +65,36 @@
     <div class="form-group m-form__group">
         <label> صوره المصروف  </label>
         @if(isset($expense))
-
             <img src="{!! asset($expense->image)!!}" width="250" height="250">
         @endif
         <input type="file" class="form-control m-input" name="image">
     </div>
 
-
-    {{--<div class="form-group m-form__group">--}}
-        {{--<label>اسم  العداد</label>--}}
-        {{--{!! Form::text('reader_name',null,['class'=>'form-control m-input','placeholder'=>'ادخل  اسم العداد'])!!}--}}
-    {{--</div>--}}
-
-
     <div class="form-group m-form__group">
+        <label> يوجد عداد</label>
+        {!! Form::radio('has_reader',1,['class'=>'form-control m-input','onclick'=>'showReader()'])!!}
+       <label>لا يوجد عداد</label>
+        {!! Form::radio('has_reader',0,['class'=>'form-control m-input','onclick'=>'showReader()'])!!}
+        </div>
+        <div class="clearfix"></div>
+    <div class="form-group m-form__group reader">
         <label> اسم العداد</label>
         {!! Form::select('reader_id',$readers,null,['class'=>'form-control m-input select2','placeholder'=>'ادخل اسم العداد'])!!}
     </div>
-
-
-    <div class="form-group m-form__group">
+    <div class="form-group m-form__group reader">
         <label>  اصل  قراءه العداد</label>
         {!! Form::text('reader_number',null,['class'=>'form-control m-input','placeholder'=>'ادخل اصل  قراءه العداد'])!!}
     </div>
 
 
-    {{--<div class="form-group m-form__group">--}}
-        {{--<label> صوره العداد </label>--}}
-        {{--@if(isset($expense))--}}
+    <div class="form-group m-form__group reader">
+        <label> صوره العداد </label>
+        @if(isset($expense))
 
-            {{--<img src="{!! url($expense->reader_image)!!}" width="250" height="250">--}}
-        {{--@endif--}}
-        {{--<input type="file" class="form-control m-input" name="reader_image">--}}
-    {{--</div>--}}
+            <img src="{!! url($expense->reader_image)!!}" width="250" height="250">
+        @endif
+        <input type="file" class="form-control m-input" name="reader_image">
+    </div>
 </div>
 
 @push('scripts')
@@ -103,9 +103,19 @@
             $("input:checkbox").prop("checked", $(this).prop("checked"))
         })
 
-
-
-
+        function showReader(){
+            alert("sefdc");
+            if (value == 1) {
+                alert("sefdc");
+                // $('.reader').addClass('d-block')
+                $('.reader').removeClass('d-none')
+            }else{
+                alert("s444444fdc");
+                // $(
+                // '.reader').removeClass('d-block')
+                $('.reader').addClass('d-none')
+            }
+        }
         $('#expenditure_type_id').change(function () {
             var id = $(this).val();
             alert(id);
@@ -119,6 +129,18 @@
                 }
             });
         });
+        function showReader(value){
+            if (value == 1) {
+                alert("sefdc");
+                // $('.reader').addClass('d-block')
+                $('.reader').removeClass('d-none')
+            }else{
+                alert("s444444fdc");
+                // $(
+                // '.reader').removeClass('d-block')
+                $('.reader').addClass('d-none')
+            }
+        }
     </script>
 
 @endpush

@@ -1,20 +1,15 @@
 @extends('distributor.layouts.app')
 @section('title')تفاصيل المنتج
 @endsection
-
 @section('header')
 @endsection
-
 @section('breadcrumb') @php($breadcrumbs=['الاصناف'=>'/products','اضافه'=>'/products/create'])
 @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
-
 @section('content')
     <div class="m-section__content">
         <div class="m-demo" data-code-preview="true" data-code-html="true" data-code-js="false">
             <div class="m-demo__preview  m-demo__preview--btn">
-
-
             </div>
         </div>
     </div>
@@ -56,7 +51,7 @@
 
 
                 <div class="col-xs-4">
-                    <h5>شكل الباركود</h5>
+                    <h5> الباركود</h5>
                     <h3>
                         <?php echo \Milon\Barcode\DNS1D::getBarcodeHTML($product->bar_code, "C39",1) ?>
                     </h3>
@@ -69,7 +64,7 @@
                 </div>
 
                 <div class="col-xs-4">
-                    <h5>تاريخ الصلاحية</h5>
+                    <h5>تاريخ انتهاء الصلاحية</h5>
                     <h3>{{$product->expired_at}}</h3>
                 </div>
 
