@@ -1,7 +1,7 @@
-<div class="form-group m-form__group">
+<div class="form-group m-form__group "style="width:100%">
     <label>إختار المنتج والكمية </label>
 
-    <select name="product_id" class="form-control m-input select2" id="product_id">
+    <select name="product_id" class="form-control m-input select2" style="width:100%" id="product_id">
         <option disabled @if(old('product_id')==null) selected @endif value="">اختر المنتج</option>
         @foreach($products as $product)
 
