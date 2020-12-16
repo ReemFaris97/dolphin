@@ -37,12 +37,12 @@
                         {!! Form::select('for_distributor',[
                         'مستودع داخلى',
                         'مستودع خارجى',
-                        ],null,['class'=>'form-control m-input select2','placeholder'=>'إختار نوع
+                        ],$store->for_distributor,['class'=>'form-control m-input select2','placeholder'=>'إختار نوع
                         المستودع','onChange'=>'showDistributor(this.value)'])!!}
                     </div>
 
 
-                    <div class="form-group m-form_group distributor-section">
+                    <div class="form-group m-form_group distributor-section @if($store->for_distributor) d-block @else d-none @endif ">
                         <label> من المندوب</label>
                         {!! Form::select('from[user_id]',$users,old('from[user_id]')??$store->distributor_id??null,['id'=>'userSelect','class'=>'form-control select2  m-input select2','placeholder'=>'اختر  المندوب','onChange'=>"getUserStore('select[name=\"from[store_id]\"]', this.value)"]) !!}
 
@@ -51,7 +51,7 @@
                     <div class="form-group m-form_group ">
                         <label>من المستودع </label>
 
-                        {!! Form::select('from[store_id]',[],old('from[store_id]')??$store->id??null,['class'=>'form-control
+                        {!! Form::select('from[store_id]',$stores,old('from[store_id]')??$store->id??null,['class'=>'form-control
                         m-input select2','placeholder'=>'اختر المستودع المنقوله منه',
                         'onChange'=>'getStoreProducts(this.value)']) !!}
 
@@ -77,7 +77,7 @@
 
                     </div>
 </div>
-                    @include('distributor.stores._attach_product',['products'=>[]])
+                    @include('distributor.stores._attach_product',['products'=>$products])
                 </div>
 
 

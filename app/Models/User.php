@@ -191,6 +191,10 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsTo(AccountingStore::class, 'accounting_store_id');
     }
+    public function stores()
+    {
+        return $this->hasMany(Store::class, 'distributor_id');
+    }
 
 
     public function updateFcmToken($token, $device)

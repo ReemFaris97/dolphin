@@ -198,15 +198,26 @@ class StoresController extends Controller
 
     }
 
-    public function moveProductForm()
+    public function moveProductForm($store_id = null)
     {
+        $store = Store::find($store_id);
+
+        $products = optional($store)->totalQuantities ?? [];
+        if ($store->for_distributor) {
+            $stores = Store::where('is_active', 1)->where('distributor_id', $store->distributor_id)->pluck('name', 'id');
+        } else {
+            $stores = Store::where('is_active', 1)->where('for_distributor', 0)->pluck('name', 'id');
+        }
         return view('distributor.stores.MoveProducts',
             [
+                'store' => $store,
+                'stores' => $stores,
+                'products' => $products,
                 'users' => User::query()->available()->distributor()->pluck('name', 'id')
             ]);
     }
 
-    public function moveProduct(Request $request)
+    public function moveProduct(Request $request, $store_id = null)
     {
         $this->validate($request, [
             'for_distributor' => 'required|boolean',

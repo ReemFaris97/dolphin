@@ -26,7 +26,7 @@
                 </li>
                 @endif
                 <li class="m-portlet__nav-item">
-                    <a class="btn btn-warning" href="{{route('distributor.stores.moveProduct')}}">نقل</a>
+                    <a class="btn btn-warning" href="{{route('distributor.stores.moveProduct',$store->id)}}">نقل</a>
                 </li>
                 <li class="m-portlet__nav-item">
                     <a class="btn btn-warning" href="{{route('distributor.stores.damageProduct',$store->id)}}">اتلاف</a>
@@ -122,9 +122,9 @@
                     <td> {{$loop->iteration}}</td>
                     <td> {{$product_quantity->product->name}}</td>
                     <td> {{$product_quantity->product->bar_code}}</td>
-                    
+
                     <td> {{$product_quantity->movement_type}}</td>
-                    
+
                     <td> {{$product_quantity->quantity}}</td>
                 </tr>
                 @endforeach
