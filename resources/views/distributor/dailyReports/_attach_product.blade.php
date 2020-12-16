@@ -54,7 +54,7 @@
                 </td>
                 <input type="hidden" name="products[{{$key}}][product_id]" value="{{$old_product['product_id']}}">
                 <input type="hidden" name="products[{{$key}}][quantity]" value="{{$old_product['quantity']}}">
-                <input type="hidden" name="products[{{$key}}][package]" value="{{$old_product['packages']}}">
+                <input type="hidden" name="products[{{$key}}][package]" value="{{$old_product['packages'] ??0}}">
                 <input type="hidden" name="products[{{$key}}][units]" value="{{$old_product['units']}}">
                 <input type="hidden" name="products[{{$key}}][unit_per_package]"
                        value="{{$old_product['unit_per_package']}}">
@@ -98,7 +98,6 @@
                     '<input type="hidden" name="products[' + key + '][product_name]" value="' + product_name + '">' +
                     '</tr>');
                 $('#product_quantity').val("");
-
             }
         });
 

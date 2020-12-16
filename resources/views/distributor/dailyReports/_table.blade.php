@@ -21,7 +21,6 @@
         <th>#</th>
         <th class="filter">إسم المندوب</th>
         <th class="filter">إسم المستودع</th>
-
         <th class="filter">المبالغ النقدية</th>
         <th class="filter">التاريخ</th>
         <th class="filter">قيمة المصروفات</th>
@@ -35,6 +34,8 @@
         <tr>
             <td>{!!$loop->iteration!!}</td>
             <td>{!! optional($row->user)->name !!}</td>
+            <td>{!! optional($row->store)->name !!}</td>
+
             <td>{!! $row->cash !!}</td>
             <td>{!! $row->created_at->toDateString() !!}</td>
             <td>{!! $row->expenses !!}</td>
