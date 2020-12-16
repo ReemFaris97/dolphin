@@ -56,7 +56,6 @@ Route::middleware('distributor')->group(function () {
 
     Route::resource('/expenditureTypes', 'ExpenditureTypesController');
     Route::patch('expenditureTypes/change-status/{item}', 'ExpenditureTypesController@changeStatus')->name('expenditureTypes.changeStatus');
-
     Route::resource('/expenses', 'ExpensesController');
     Route::resource('/routes', 'DistributorRoutesController');
     Route::get('available_route/{id}', 'DistributorRoutesController@available')->name('routes.available');
@@ -100,6 +99,8 @@ Route::middleware('distributor')->group(function () {
         Route::get('expenses/{id}', 'ExpenseController@show')->name('expenses.show');
         Route::get('routes', 'RouteController@index')->name('routes.index');
         Route::get('routes/{id}', 'RouteController@show')->name('routes.show');
+        Route::get('movements', 'DistributorMovementController@index')->name('distributor_movements.index');
+        Route::get('movements/{id}', 'DistributorMovementController@show')->name('distributor_movements.show');
 
         Route::get('selling-movement', 'SellingMovementController@index')->name('selling_movement.index');
         Route::get('selling-movement/report', 'SellingMovementController@show')->name('selling_movement.show');
