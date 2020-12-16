@@ -21,7 +21,7 @@
     </div>
         <div class="form-group m-form__group">
             <label> المسار </label>
-            {!! Form::select('distributor_route_id',$routs,null,['class'=>'form-control m-input select2','placeholder'=>'ادخل نوع الصرف','id'=>'expenditure_type_id'])!!}
+            {!! Form::select('distributor_route_id',$routes??[],null,['class'=>'form-control m-input select2','placeholder'=>'ادخل اسم المسار','id'=>'distributor_route_id'])!!}
         </div>
 
     @if(isset($expense))
@@ -89,7 +89,7 @@
 
     <div class="form-group m-form__group reader">
         <label> صوره العداد </label>
-        @if(isset($expense))
+        @if(isset($expense)&&$expense->reader_image)
 
             <img src="{!! url($expense->reader_image)!!}" width="250" height="250">
         @endif

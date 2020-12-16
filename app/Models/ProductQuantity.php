@@ -96,4 +96,6 @@ class ProductQuantity extends Model
         //check $this->type,$this->store_transfer_request_id ,$this->trip_report_id
         throw new Exception('Unhandled Type');
     }
+
+    
 }

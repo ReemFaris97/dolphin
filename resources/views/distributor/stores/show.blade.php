@@ -26,7 +26,7 @@
                 </li>
                 @endif
                 <li class="m-portlet__nav-item">
-                    <a class="btn btn-warning" href="{{route('distributor.stores.moveProduct')}}">نقل</a>
+                    <a class="btn btn-warning" href="{{route('distributor.stores.moveProduct',$store->id)}}">نقل</a>
                 </li>
                 <li class="m-portlet__nav-item">
                     <a class="btn btn-warning" href="{{route('distributor.stores.damageProduct',$store->id)}}">اتلاف</a>
@@ -96,6 +96,36 @@
                     <td> {{$product_quantity->product->name}}</td>
                     <td> {{$product_quantity->product->bar_code}}</td>
                     <td> {{$product_quantity->total_quantity}}</td>
+                </tr>
+                @endforeach
+            </tbody>
+
+
+
+        </table>
+        <br>
+        <h3> حركه المخزون</h3>
+        <table class="table table-bordered table-hover ">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th> اسم المنتج</th>
+                    <th> الكود</th>
+                    <th> طبيعة الحركة</th>
+                    <th> الكميه</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($store->ProductQuantity ??[] as $product_quantity)
+
+                <tr>
+                    <td> {{$loop->iteration}}</td>
+                    <td> {{$product_quantity->product->name}}</td>
+                    <td> {{$product_quantity->product->bar_code}}</td>
+
+                    <td> {{$product_quantity->movement_type}}</td>
+
+                    <td> {{$product_quantity->quantity}}</td>
                 </tr>
                 @endforeach
             </tbody>
