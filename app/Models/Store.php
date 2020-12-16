@@ -19,7 +19,7 @@ class Store extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Store::class, 'product_quantities', 'store_id', 'product_id')->distinct();
+        return $this->belongsToMany(Product::class, 'product_quantities', 'store_id', 'product_id')->distinct();
     }
     public function ProductQuantity()
     {

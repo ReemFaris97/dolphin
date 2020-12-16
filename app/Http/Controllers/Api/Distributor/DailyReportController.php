@@ -37,8 +37,7 @@ class DailyReportController extends Controller
             $from = Carbon::parse(\request('from'));
             $to = Carbon::parse(\request('to'));
 
-            $report = $report->whereBetween('created_at', [$from, $to])
-                ->paginate($this->paginateNumber);
+            $report = $report->whereBetween('created_at', [$from, $to]);
         }
         $report = $report->select('*')->addSelect(DB::raw("sum(cash) as total_cash"))
         ->addSelect(DB::raw("sum(products_price) as total_products_price"));

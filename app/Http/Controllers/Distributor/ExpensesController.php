@@ -40,6 +40,7 @@ class ExpensesController extends Controller
         $expenditure_types=ExpenditureType::pluck('name','id');
         $readers=Reader::pluck('name','id');
         $users=User::where('is_distributor',1)->pluck('name','id');
+
         return $this->toCreate(compact('expenditure_clauses','expenditure_types','users','readers'));
     }
 
@@ -108,6 +109,7 @@ class ExpensesController extends Controller
         $expenditure_types=ExpenditureType::pluck('name','id');
         $users=User::pluck('name','id');
         $readers=Reader::pluck('name','id');
+        $routes = $expense->distributor->routes()->pluck('name', 'id');
         return $this->toEdit(compact('expense','users','expenditure_types','expenditure_clauses','readers'));
 
 

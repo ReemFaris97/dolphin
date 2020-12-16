@@ -143,6 +143,8 @@ background-color: #e7eaef !important
 <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-messaging.js"></script>
 <script src="{!! asset('dashboard/assets/firebase/firebase_scripts.js') !!}"></script>
+<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+
 <!--end::Global Theme Bundle -->
 </body>
 <!-- end::Body -->
