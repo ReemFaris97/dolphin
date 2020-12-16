@@ -130,7 +130,7 @@ class RouteController extends Controller
     }
     public function AddClientToRoute(Request $request,$route_id)
     {
-        $request['route']= $route_id;
+        $request['route_id'] = $route_id;
              $rules = [
                  "name" => "required|string|min:1|max:255",
                 "email" => "nullable|email|min:1|max:255|unique:users,email",
@@ -140,22 +140,32 @@ class RouteController extends Controller
                  "address" => "required|string|min:1|max:255",
                  "lat" => "required|string|min:1|max:255",
                  "lng" => "required|string|min:1|max:255",
+            'notes' => 'nullable|string',
+            'code' => 'nullable|string',
+            'client_class_id' => 'required|integer',
+            'tax_number' => 'nullable|string',
              ];
+/*  'notes','code', 'route_id', 'client_class_id', 'tax_number' */
+
+
         $validation = $this->apiValidation($request,$rules);
+        $requests = $request->all();
         if ($validation instanceof Response) {
             return $validation;
         }
         if ($request->image != null)
         {
             if ($request->hasFile('image')) {
-                $inputs['image'] = saveImage($request->image,'users');
+                $requests['image'] = saveImage($request->image, 'users');
             }
         }
-        $request['is_active']=0;
-        $client = Client::create($request->all());
+        $requests['is_active'] = 0;
+        $requests['user_id'] = auth()->id();
+        $client = Client::create($requests);
 
         $max_trips = RouteTrips::where('route_id',$route_id)->max('arrange');
         $request['route_id'] = $route_id;
+        $request['round'] = optional(DistributorRoute::find($route_id))->round ?? 0;
         $request['client_id'] = $client->id;
         $request['status']='pending';
         $request['arrange']=$max_trips + 1;

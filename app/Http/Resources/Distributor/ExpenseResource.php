@@ -26,7 +26,7 @@ class ExpenseResource extends JsonResource
              'time' => $this->time,
              'amount' => floatval($this->amount),
              'notes' => $this->notes??"",
-             'reader_name' => $this->reader_name??"",
+            'reader_name' => $this->reader->name,
              'reader_number' => $this->reader_number??"",
              'image' => getimg($this->image),
              'reader_image' => getimg($this->reader_image),
