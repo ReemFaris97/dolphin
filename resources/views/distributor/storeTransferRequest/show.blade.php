@@ -54,7 +54,7 @@
                     </td>
 
                     <td>
-                        {{$store->receiver_store->name}}
+                        {{$store->distributor_store->name}}
                     </td>
                 </tr>
 
