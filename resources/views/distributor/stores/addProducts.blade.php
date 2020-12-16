@@ -1,5 +1,5 @@
 @extends('distributor.layouts.app')
-@section('title')                                     انتاج 
+@section('title')                                     انتاج
 
 @endsection
 
@@ -39,8 +39,8 @@
 
                             {!!
                             Form::select('to[store_id]',$stores??[],old('to[store_id]')??$store_id??null,[
-                            'style'=>'width:100% !important',    
-                            'class'=>'form-control 
+                            'style'=>'width:100% !important',
+                            'class'=>'form-control
                             m-input select2','placeholder'=>'اختر مستودع']) !!}
 
                         </div>
@@ -51,7 +51,8 @@
 
                     <div class="m-portlet__foot m-portlet__foot--fit full--width">
                         <div class="m-form__actions">
-                            <button type="submit" class="btn btn-primary">حفظ</button>
+                            <button type="submit" class="btn btn-primary">إضافة الإنتاج
+                            </button>
                         </div>
                     </div>
                 {!!Form::close()!!}

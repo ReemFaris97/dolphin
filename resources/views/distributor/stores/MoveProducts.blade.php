@@ -83,7 +83,7 @@
 
                 <div class="m-portlet__foot m-portlet__foot--fit full--width">
                     <div class="m-form__actions">
-                        <button type="submit" class="btn btn-primary">حفظ</button>
+                        <button type="submit" class="btn btn-primary">نقل</button>
                     </div>
                 </div>
                 {!!Form::close()!!}
