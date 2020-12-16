@@ -246,14 +246,19 @@ class StoresController extends Controller
     public function damageProductForm($store_id = null)
     {
 
-        $store = Store::query()->find($store_id);
+        $store = Store::find($store_id);
 
+        if ($store->for_distributor) {
+            $stores = Store::where('is_active', 1)->where('distributor_id', $store->distributor_id)->pluck('name', 'id');
+        } else {
+            $stores = Store::where('is_active', 1)->where('for_distributor', 0)->pluck('name', 'id');
+        }
         return view('distributor.stores.DamageProducts',
             [
                 'users' => User::query()->distributor()->pluck('name', 'id'),
                 'store' => $store,
-                'products' => Product::query()->get(['name', 'id', 'quantity_per_unit']),
-                'user_stores' => Store::where('distributor_id', optional($store)->distributor_id)->pluck('name', 'id')
+                'products' => optional($store)->totalQuantities ?? [],
+                'user_stores' => $stores
             ]);
 
     }
@@ -262,7 +267,8 @@ class StoresController extends Controller
     {
 
         $this->validate($request, [
-            "user_id" => 'required|integer|exists:users,id',
+            'for_distributor' => 'required|boolean',
+            "user_id" => 'nullable|required_if:for_distributor,==,1|integer|exists:users,id',
             "store_id" => 'required|integer|exists:stores,id',
             "products.*.product_id" => "required|integer|exists:products,id",
             "products.*.quantity" => 'required|integer',
