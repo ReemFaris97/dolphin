@@ -62,7 +62,17 @@
 
                 <tr>
                     <td> كود العميل </td>
-                    <td>{{$client->name}}</td>
+                    <td>{{$client->code}}</td>
+                </tr>
+
+                <tr>
+                    <td>السجل الضريبى </td>
+                    <td>{{$client->tax_number}}</td>
+                </tr>
+
+                <tr>
+                    <td>الشريحة </td>
+                    <td>{{optional($client->client_class)->name}}</td>
                 </tr>
                 <tr>
                     <td> اسم العميل</td>
@@ -120,7 +130,7 @@
                         الملاحظات
 
                     </td>
-                    {{--  <td>{{$client-> }}</td> --}}
+                      <td>{{$client->notes }}</td>
                 </tr>
             </tbody>
         </table>
