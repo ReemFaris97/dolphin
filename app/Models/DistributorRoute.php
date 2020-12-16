@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class DistributorRoute extends Model
 {
-    protected $fillable = ['name', 'is_finished', 'is_active', 'user_id', 'arrange', 'round','received_code'];
+    protected $fillable = ['name', 'is_finished', 'is_active', 'user_id', 'arrange', 'round','received_code','is_available'];
 protected static function boot()
 {
         parent::boot();
@@ -18,9 +18,7 @@ protected static function boot()
             $builder->orderBy('round', 'asc');
         $builder->orderBy('arrange', 'asc');
     });
-
 }
-
     public function trips()
     {
         return $this->hasMany(RouteTrips::class, 'route_id')->orderBy('arrange', 'asc');

@@ -1,5 +1,4 @@
 <form class="Clearfix m-form m-form--fit m-form--label-align-right a-smaller-input-wrapper" enctype="multipart/form-data" method="get" action="">
-
 <div class="m-portlet__foot m-portlet__foot--fit ">
     <div class="m-form__actions">
         <div class="form-group m-form__group">

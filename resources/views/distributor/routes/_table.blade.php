@@ -24,13 +24,13 @@
 {{--            <td>{!!$row->is_active?"مفعل":"غير مفعل"!!}</td>--}}
             <td>
                 @if ($row->is_active==0)
-                    <span class="lable lable-danger">غير مفعل</span>
-                    <a href="{{route('distributor.routes.active',$row->id)}}" class="btn btn-success btn-circle">
+                    <span class="lable lable-danger">غير متاح</span>
+                    <a href="{{route('distributor.routes.available',$row->id)}}" class="btn btn-success btn-circle">
                         <i class="fas fa-check"></i>
                     </a>
                 @else
-                    <span class="lable lable-success">مفعل</span>
-                    <a href="{{route("distributor.routes.dis_active",$row->id)}}" class="btn btn-danger btn-circle">
+                    <span class="lable lable-success">متاح</span>
+                    <a href="{{route("distributor.routes.dis_available",$row->id)}}" class="btn btn-danger btn-circle">
                         <i class="fas fa-times"></i>
                     </a>
                 @endif

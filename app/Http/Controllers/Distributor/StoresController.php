@@ -279,14 +279,12 @@ class StoresController extends Controller
             'store_id' => $request->store_id
         ];
         foreach ($request->products ?? [] as $product) {
-
             ProductQuantity::create($data + [
                     'product_id' => $product['product_id'],
                     'quantity' => $product['quantity'],
                 ]);
         }
         toast('تم  تسجيل التالف بنجاح', 'success', 'top-right');
-
         return redirect()->route('distributor.stores.index');
 
     }
