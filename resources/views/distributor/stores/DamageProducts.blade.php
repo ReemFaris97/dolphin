@@ -125,7 +125,6 @@
 
 
     function showDistributor(value) {
-        debugger
         if (value == 1) {
             $('.distributor-section').addClass('d-block')
             $('.distributor-section').removeClass('d-none')
