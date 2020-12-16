@@ -50,7 +50,7 @@
             console.log(item_id);
             swal({
                 title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذا المنتج ؟",
+                text: "هل تريد حذف هذا الصنف ؟",
                 icon: "warning",
                 buttons: ["الغاء", "موافق"],
                 dangerMode: true,
@@ -60,7 +60,7 @@
                     document.getElementById('delete-form'+item_id).submit();
                 }
                 else{
-                    swal("تم االإلفاء", "حذف  المنتج الغاؤه",'info',{buttons:'موافق'});
+                    swal("تم االإلفاء", "حذف  الصنف الغاؤه",'info',{buttons:'موافق'});
                 }
             });
         }

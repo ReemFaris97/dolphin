@@ -1,4 +1,4 @@
-<option disabled selected >اختر المنتج </option>
+<option disabled selected >اختر الصنف </option>
 @foreach($quantities as $quantity)
     <option  value="{{$quantity->product_id}}"
         data-quantity="{{$quantity->total_quantity}}"

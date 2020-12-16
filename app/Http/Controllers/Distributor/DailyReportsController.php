@@ -22,7 +22,7 @@ class DailyReportsController extends Controller
      */
     public function index(Request  $request)
     {
-        $dailyReports = DailyReport::all()->reverse();
+        $dailyReports = DailyReport::FilterWithDates($request->from,$request->to)->get()->reverse();
         return $this->toIndex(compact('dailyReports'));
     }
 
