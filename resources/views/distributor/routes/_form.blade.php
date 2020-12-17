@@ -16,10 +16,10 @@
     {{--</div>--}}
 
 
-    <div class="form-group m-form__group">
-        <label> التفعيل</label>
-        {!! Form::select('is_active',['1'=>'مفعل ','0'=>'غير مفعل'],null,['class'=>'form-control select2'])!!}
-    </div>
+{{--    <div class="form-group m-form__group">--}}
+{{--        <label> التفعيل</label>--}}
+{{--        {!! Form::select('is_active',['1'=>'مفعل ','0'=>'غير مفعل'],null,['class'=>'form-control select2'])!!}--}}
+{{--    </div>--}}
 </div>
 
 @push('scripts')
