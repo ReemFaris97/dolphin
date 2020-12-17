@@ -43,7 +43,7 @@
                         الاسم
                     </td>
                     <td>
-                        @dd($store->name)
+{{--                        @dd($store->name)--}}
                         {{$store->name}}
                     </td>
                 </tr>
