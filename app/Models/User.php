@@ -377,8 +377,8 @@ class User extends Authenticatable implements JWTSubject
 
         return optional($this
             ->trips()
-            ->where('status', 'accepted')
-            ->orderBy('arrange', 'asc')
+           // ->where('status', 'accepted')
+          //  ->orderBy('arrange', 'asc')
             ->orderBy('updated_at', 'desc')
             ->first());
     }

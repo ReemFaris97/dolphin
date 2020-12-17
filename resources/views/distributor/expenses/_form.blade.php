@@ -15,11 +15,13 @@
     </div>
     <div class="form-group m-form__group">
         <label>بند الصرف</label>
-        {{--        {!! Form::select('expenditure_clause_id',$expenditure_clauses,null,['class'=>'form-control  select2','placeholder'=>'ادخل بند الصرف'])!!}--}}
-        <select id="expenditure_clause_id" class="form-control  m-input select2" id="expenditure_clause_id">
+               {!! Form::select('expenditure_clause_id',$expenditure_clauses,null,['class'=>'form-control m-input select2',
+         'id'=>"expenditure_clause_id", 'placeholder'=>'ادخل بند الصرف'])!!}
+   {{--      <select id="expenditure_clause_id" class="form-control  m-input select2" id="expenditure_clause_id">
+
             <option disabled selected> بند الصرف</option>
 
-        </select>
+        </select> --}}
     </div>
 
 
