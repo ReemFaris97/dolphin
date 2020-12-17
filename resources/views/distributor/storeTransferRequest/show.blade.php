@@ -61,12 +61,12 @@
             </tbody>
         </table>
         <br>
-        <h3> المنتجات</h3>
+        <h3> الصنفات</h3>
         <table class="table table-bordered table-hover ">
             <thead>
                 <tr>
                     <th>#</th>
-                    <th> اسم المنتج</th>
+                    <th> اسم الصنف</th>
                     <th> الكود</th>
                     <th> الكميه</th>
                 </tr>

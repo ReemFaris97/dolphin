@@ -44,7 +44,7 @@ class RouteTripReport extends Model
     }
     public function inventory(): HasOne
     {
-        return $this->hasOne(TripInventory::class, 'trip_id', 'route_trip_id');
+        return $this->hasOne(TripInventory::class, 'trip_id', 'route_trip_id')->whereColumn('route_trip_reports.round', 'round');
     }
 
     public function products()
@@ -110,7 +110,6 @@ class RouteTripReport extends Model
             $q->whereMonth('created_at', $month);
         });
     }
-
 
     public function getInvoiceNumberAttribute()
     {

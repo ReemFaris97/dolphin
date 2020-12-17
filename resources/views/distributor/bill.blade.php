@@ -1,7 +1,7 @@
 @extends('distributor.layouts.app')
 @section('title') الفاتورة
 @endsection
-    <link href="{!! asset('dashboard/assets/bill.css')!!}" rel="stylesheet" type="text/css"/>	
+    <link href="{!! asset('dashboard/assets/bill.css')!!}" rel="stylesheet" type="text/css"/>
 
 @section('header')
 @endsection
@@ -29,7 +29,7 @@
 
                 <div class="col-md-8 col-sm-6 col-12">
                     <div class="yurSections">
-                        
+
                         	<div class="col-12">
                         <nav>
 					<div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
@@ -40,8 +40,8 @@
 					</div>
 				</nav>
                         </div>
-                        
-                        
+
+
 <!--
                         <ul>
                             <li class="active"><a href="#">الكل</a></li>
@@ -51,7 +51,7 @@
                         </ul>
 -->
                         <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
-                            
+
 					<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                         <div class="yurProdc">
                             <div class="col-lg-4 col-sm-12 col-6">
@@ -130,7 +130,7 @@
                                 </div>
                             </div>
                             </div>
-                            
+
                             <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-home-tab">
                             <div class="col-lg-4 col-sm-12 col-6">
                                 <div class="prod1">
@@ -183,13 +183,13 @@
                                 </div>
                             </div>
                             </div>
-                            
+
                         </div>
-                        
+
                             <div class="col-12">
                                 <input class="fxd-btn" id="fxd-btn" type="submit" value="إتمام" data-dismiss='modal' disabled>
                             </div>
-                        
+
                     </div>
                 </div>
 
@@ -198,13 +198,13 @@
                         <table border="1" class="finalTb">
                             <thead>
                                 <tr>
-                                    <th>المنتج</th>
+                                    <th>الصنف</th>
                                     <th>الكمية</th>
                                     <th>السعر</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                
+
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -273,7 +273,7 @@
                             $n.val(amount - 1);
                         }
                     });
-                    
+
                 } else {
                     $($this).parent(".prod1").find('.inDetails').find('.addme').remove();
                     numberOfItems--;
@@ -291,35 +291,35 @@
                     if ($(this).is(':checked')) {
                         var itemName = $(this).parent(".prod1").find(".new-p").find('.name').html();
                         console.log(itemName);
-                        
+
                         var itemQuantity = parseFloat($(this).parent('.prod1').find('.inDetails').find('input').val());
                         console.log(itemQuantity);
-                        
-                        
+
+
                         var itemPrice = parseFloat($(this).attr("data-price"));
-                        
+
                         var totalR= parseFloat(itemQuantity) * parseFloat(itemPrice) ;
-                        
+
 //                        var totalR =( $(itemQuantity).text() * $(itemPrice).text() );
-                        
+
 //                        $(".totalB").text(itemQuantity * itemPrice);
 //		              var totalR = $(".totalB").text();
                         console.log(totalR);
 
                         $(".finalTb tbody").append('<tr class="newProd"><td><input type="hidden" value="' + itemName + '"> <h4> ' + itemName + '</h4> </td><td><input type="hidden" value="' + itemQuantity + '"> <span class="qnt"> ' + itemQuantity + '</span></td><td><input type="hidden" value="' + totalR + '"> <span class="qnt singleprice"> ' + totalR + '</span><a class="close"><i class="fas fa-times"></a></td></tr>');
-                        
+
                         var allResult = 0;
-                        
+
                         $("#the-choseen-parts .singleprice").each(function(){
                             allResult += parseFloat($(this).html());
                         });
-                        
+
                         $("#allResult").html(allResult);
-                        
-                        
+
+
                          var sale = $("#sale").val();
                         var allReminder = 0;
-                      
+
                         $('#sale').change(function() {
                             allReminder =  parseFloat($("#allResult").html()) - ((parseFloat($(this).val()) * parseFloat($("#allResult").html())) / 100); console.log('change val is' + allReminder);
                             $("#reminder").html(allReminder);
@@ -331,72 +331,72 @@
                             lastReminder =  parseFloat($(this).val()) - parseFloat($("#reminder").html());
                             $("#lastreminder").html(lastReminder);
                         });
-                        
-                        
+
+
                         /********************/
 
 //                      $( "#sale" ).on('input', function() {
 //    if ($(this).val().length>100) {
-//        alert('you have reached a limit of 100');       
+//        alert('you have reached a limit of 100');
 //    }
 //});
 
 //$( "#myinput2" ).on('input', function() {
 //    if ($(this).val().length>=3) {
-//        alert('you have reached a limit of 3');       
+//        alert('you have reached a limit of 3');
 //    }
 //});
                     }
-                    
+
                     /**********************  Remove Piece *****************/
                     $(".close").click(function() {
                         $(this).parents(".newProd").remove();
-                        
+
                         var allResult = 0;
-                        
+
                         $("#the-choseen-parts .singleprice").each(function(){
                             allResult += parseFloat($(this).html());
                         });
-                        
+
                         $("#allResult").html(allResult);
-                        
-                        
+
+
                          var sale = $("#sale").val();
                         var allReminder = 0;
-                      
+
 //                        $('#sale').change(function() {console.log('change val is' + allReminder);
 //                            $("#reminder").html(allReminder);
 //                        });
-                        
-                        
-                        allReminder =  parseFloat($("#allResult").html()) - ((parseFloat($("#sale").val()) * parseFloat($("#allResult").html())) / 100); 
+
+
+                        allReminder =  parseFloat($("#allResult").html()) - ((parseFloat($("#sale").val()) * parseFloat($("#allResult").html())) / 100);
                         $("#reminder").html(allReminder);
-                        
-                        
+
+
                         var lastReminder = 0;
 //                        $('#paid').change(function() {
 //                            console.log('alnateg' + parseFloat($("#reminder").html()));
 //                            console.log('elinput' + parseFloat($(this).val()));
 //                        });
-//                        
+//
 
                         lastReminder =  parseFloat($("#paid").val()) - parseFloat($("#reminder").html());
                         $("#lastreminder").html(lastReminder);
-                        
+
 //                        if ($(".finalTb tbody").html('')) {
 //                        $("#sale").val("0");
 //                        $("#paid").val("0");
 //                        $("#lastreminder").html('');
-//                    } 
-                        
+//                    }
+
                     });
-                    
-                    
+
+
                 });
-                
+
             });
-            
-            
+
+
         });
 
     </script>

@@ -33,26 +33,26 @@
     </div>
 
     <div class="form-group m-form__group">
-        <label>إختار المنتج والكمية </label>
+        <label>إختار الصنف والكمية </label>
         <select id="product_id" class="form-control  m-input select2">
-            <option disabled selected>إختار المنتج</option>
+            <option disabled selected>إختار الصنف</option>
         </select>
     </div>
 
     <div class="form-group m-form__group">
-        <label>كمية المنتج</label>
+        <label>كمية الصنف</label>
         {!! Form::number('quantity',null,['class'=>'form-control m-input','id'=>'product_quantity'])!!}
     </div>
 
     <div class="form-group m-form__group">
-        <button id="addProduct" type="button" class="btn btn-primary">إضافة المنتج</button>
+        <button id="addProduct" type="button" class="btn btn-primary">إضافة الصنف</button>
     </div>
 
     <div class="form-group m-form__group">
         <table class="table table-striped- table-bordered table-hover table-checkable" >
             <thead>
             <tr>
-                <th>المنتج</th>
+                <th>الصنف</th>
                 <th>الكمية</th>
                 <th>حذف</th>
             </tr>
@@ -95,7 +95,7 @@
                 alert('برجاء إختيار منتج قبل إضافته');
             }
              else if(quantity == ''){
-                alert("برجاء اختيار الكمية قبل إضافة المنتج");
+                alert("برجاء اختيار الكمية قبل إضافة الصنف");
             }
              else{
                 $('#tableBody').append('' +
