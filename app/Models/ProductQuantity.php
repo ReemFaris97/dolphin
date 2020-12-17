@@ -48,11 +48,11 @@ class ProductQuantity extends Model
     public function scopeFilterWithDates(Builder $builder, $from_date = null, $to_date = null): void
     {
         $builder->when($from_date, function (Builder $q) use ($from_date) {
-            $q->whereDate('created_at', '<=', Carbon::parse($from_date));
+            $q->whereDate('created_at', '>=', Carbon::parse($from_date));
         });
 
         $builder->when($to_date, function (Builder $q) use ($to_date) {
-            $q->whereDate('created_at', '>=', Carbon::parse($to_date));
+            $q->whereDate('created_at', '<=', Carbon::parse($to_date));
         });
     }
     public function scopeFilterWithProduct(Builder $builder, $product_id = null)
