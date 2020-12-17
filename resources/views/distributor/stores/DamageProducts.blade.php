@@ -54,7 +54,7 @@
                         <div class="form-group m-form_group ">
                             <label>من المستودع </label>
                             {!!
-                            Form::select('store_id',$user_stores??[],old('store_id'),['class'=>'form-control
+                            Form::select('store_id',$user_stores??[],old('store_id')??$store->id??null,['class'=>'form-control
                             m-input select2','placeholder'=>'اختر المستودع ',
                             'onChange'=>'getStoreProducts(this.value)'
                             ]) !!}
