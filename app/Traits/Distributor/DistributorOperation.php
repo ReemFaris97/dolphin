@@ -7,6 +7,7 @@ namespace App\Traits\Distributor;
 
 use App\Models\Charge;
 use App\Models\Clause;
+use App\Models\User;
 use App\Models\DistributorTransaction;
 use App\Models\Task;
 use Carbon\Carbon;
