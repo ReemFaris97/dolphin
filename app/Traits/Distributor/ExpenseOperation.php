@@ -38,6 +38,7 @@ trait ExpenseOperation
       }
 
         $inputs['round'] = DistributorRoute::find($request->distributor_route_id)->round;
+        $inputs['sanad_No'] = mt_rand(1000000, 9999999);
       $clause=  Expense::create($inputs);
 
         DistributorTransaction::create([

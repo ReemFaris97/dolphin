@@ -1,6 +1,6 @@
 @extends('distributor.layouts.app')
 @section('title')
-تقرير المبيعات
+تقرير كشف حساب عميل
 @endsection
 
 

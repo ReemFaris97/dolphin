@@ -417,10 +417,10 @@
                                     class="m-menu__link-text">إضافة مسار جديد </span></a></li>
                         {{--                            @endif--}}
 
-                        <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
-                                href="{!! route('distributor.trips.map') !!}" class="m-menu__link "><i
-                                    class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
-                                    class="m-menu__link-text">خريطة المسارات  </span></a></li>
+{{--                        <li class="m-menu__item  --}}{{--m-menu__item--active--}}{{--" aria-haspopup="true"><a--}}
+{{--                                href="{!! route('distributor.trips.map') !!}" class="m-menu__link "><i--}}
+{{--                                    class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span--}}
+{{--                                    class="m-menu__link-text">خريطة المسارات  </span></a></li>--}}
 
 
                     </ul>
