@@ -105,4 +105,7 @@ class BillController extends Controller
     {
         //
     }
+    public  function bill_show($id){
+     return view("distributor.bills.bill");
+    }
 }

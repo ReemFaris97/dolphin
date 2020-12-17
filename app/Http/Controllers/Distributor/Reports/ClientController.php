@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Distributor\Reports;
 
 
+use App\Models\RouteTripReport;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AttachedProducts;
@@ -22,14 +23,14 @@ class ClientController extends Controller
     {
 
 
-        $query = DistributorTransaction::query();
+        $query = RouteTripReport::query();
 
         if($request->has('user_id') && $request->user_id != null){
-             $query = $query->where('receiver_id',$request->user_id);
+             $query = $query->OfDistributor($request->user_id);
 
         }
         if($request->has('client_id') && $request->client_id != null){
-            $query = $query->where('sender_id',$request->client_id);
+            $query = $query->OfClient($request->client_id);
         }
         if($request->has('from') && $request->has('to')){
 
@@ -47,9 +48,9 @@ class ClientController extends Controller
      */
     public function show(Request $request,$id)
     {
-        $routetrip=AttachedProducts::where('transaction_id',$id)->where('model_type','App\Models\RouteTrips')->first();
-       $bill=RouteTrips::find($routetrip->model_id);
-
+//        $routetrip=AttachedProducts::where('transaction_id',$id)->where('model_type','App\Models\RouteTrips')->first();
+//        $transaction=DistributorTransaction::find($id);
+        $bill=RouteTrips::find();
         return view('distributor.reports.clients.show',compact('bill'));
 
 
