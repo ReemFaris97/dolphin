@@ -17,7 +17,7 @@
     </tr>
     </thead>
     <tbody>
-    @foreach($products as $row)
+    @foreach($store_products as $row)
         <tr>
             <td>{!!$loop->iteration!!}</td>
             <td>{{$row->product->bar_code}}</td>
