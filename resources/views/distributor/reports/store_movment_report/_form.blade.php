@@ -18,7 +18,7 @@ m-form m-form--fit m-form--label-align-right'])!!}
             {!! Form::select('store_id',$stores,request()->store_id,['class'=>'form-control m-input select2','placeholder'=>"الكل"])!!}
         </div>
         <div class="form-group m-form__group  col-md-6">
-            <label>اسم المنتج</label>
+            <label>اسم الصنف</label>
             {!! Form::select('product_id',$products,request()->product_id,['class'=>'form-control m-input select2','placeholder'=>"الكل"])!!}
         </div>
     </div>
