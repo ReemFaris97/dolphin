@@ -17,7 +17,7 @@
     </tr>
     </thead>
     <tbody>
-    @foreach($products as $row)
+    @foreach($store_products as $row)
         <tr>
             <td>{!!$loop->iteration!!}</td>
             <td>{{$row->product->bar_code}}</td>
@@ -26,7 +26,7 @@
             <td>{{$row->movement_type}}</td>
             <td>
                 @if($row->store_transfer_request_id!=null)
-                <a href="{{route('storeTransfer.show',$row->store_transfer_request_id)}}" class="btn btn-info"> <i class="fas fa-eye"></i> </a>
+                <a href="{{route('distributor.storeTransfer.show',$row->store_transfer_request_id)}}" class="btn btn-info"> <i class="fas fa-eye"></i> </a>
                 @else
                 لا يوجد طلب لحركه النقل
                 @endif
