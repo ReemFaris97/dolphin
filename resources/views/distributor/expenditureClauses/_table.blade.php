@@ -7,6 +7,7 @@
     <thead>
     <tr>
         <th>#</th>
+        <th >الاسم</th>
         <th >نوع المصروف</th>
         <th class="noExport">الاعدادت</th>
     </tr>
@@ -20,14 +21,13 @@
             <td>{!!$row->type->name ?? ''!!}</td>
             <td>
                 @if ($row->is_active==0)
-                    <span class="lable lable-danger">غير مفعل</span>
-                    <a href="{{route("distributor.expenditureClauses.active",$row->id)}}" class="btn btn-success btn-circle">
-                        <i class="fas fa-check"></i>
+                    <a href="{{route("distributor.expenditureClauses.active",$row->id)}}" class="btn btn-success circle" title="تفعيل">
+                        <i class="fas fa-check"></i> تفعيل
                     </a>
                 @else
-                    <span class="lable lable-success">مفعل</span>
-                    <a href="{{route("distributor.expenditureClauses.dis_active",$row->id)}}" class="btn btn-danger btn-circle">
+                    <a href="{{route("distributor.expenditureClauses.dis_active",$row->id)}}" class="btn btn-danger" title="الغاء تفعيل">
                         <i class="fas fa-times"></i>
+                        الغاء تفعيل
                     </a>
                 @endif
                 <a href="{!!route('distributor.expenditureClauses.edit',$row->id)!!}" class="btn btn-primary"> <i class="fas fa-pen"></i> تعديل</a>
@@ -42,8 +42,7 @@
     <tfoot>
     <tr>
         <th>#</th>
-        <th>الاسم</th>
-
+        <th class="filter">الاسم</th>
         <th  class="filter">نوع المصروف</th>
         <th class="noExport">الاعدادت</th>
     </tr>

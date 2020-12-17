@@ -48,7 +48,7 @@ class DistributorRoutesController extends Controller
         $rules = [
             'user_id' => 'required|exists:users,id',
             'name' => 'required|string',
-            'is_active' => 'required|numeric',
+//            'is_active' => 'required|numeric',
 
         ];
 
@@ -99,7 +99,7 @@ class DistributorRoutesController extends Controller
         $rules = [
             'user_id' => 'required|exists:users,id',
             'name' => 'required|string',
-            'is_active' => 'required|numeric',
+//            'is_active' => 'required|numeric',
 
         ];
 

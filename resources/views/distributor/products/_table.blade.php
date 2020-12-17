@@ -59,7 +59,8 @@
         </tr>
     @endforeach
     </tbody>
-   <th>#</th>
+<tfoot>
+    <th>#</th>
     <th>الصورة</th>
     <th class="filter">الإسم</th>
     {{-- <th>المستودع</th> --}}
@@ -69,5 +70,7 @@
     <th class="filter">السعر</th>
     <th>الباركود</th>
 {{--        <th>تاريخ الصلاحية</th>--}}
-    <th class="noExport">الاعدادت</th> </tfoot>
+    <th class="noExport">الاعدادت</th>
+
+</tfoot>
 </table>
