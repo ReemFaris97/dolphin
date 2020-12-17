@@ -62,9 +62,9 @@ class ExpensesController extends Controller
             'amount'=>'required|numeric',
             'notes'=>'sometimes|string',
             'image'=>'sometimes|image',
-            'reader_name'=>"sometimes|string|max:191",
-            'reader_number'=>"sometimes|numeric",
-            'reader_image'=>"sometimes|image",
+            'reader_name' => "nullable|string|max:191",
+            'reader_number' => "nullable|numeric",
+            'reader_image' => "nullable|file",
             'distributor_route_id' => 'required|exists:distributor_routes,id'
         ];
         $this->validate($request,$rules);
