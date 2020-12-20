@@ -43,7 +43,6 @@ Route::middleware('distributor')->group(function () {
 
     Route::resource('/dailyReports', 'DailyReportsController');
 
-
     Route::resource('/refuses', 'ReasonRefuseDistributorController');
     Route::resource('/readers', 'ReaderController');
     Route::patch('readers/change-status/{reader}', 'ReaderController@changeStatus')->name('readers.changeStatus');

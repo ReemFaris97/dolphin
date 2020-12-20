@@ -83,16 +83,17 @@
 
         <tr>
             <th>#</th>
+            <th>صوره العميل</th>
+            <th>صوره الوكيل</th>
             <th>الكود</th>
             <th>الاسم</th>
             <th>الهاتف</th>
-            <th>البريد الالكترونى</th>
+            {{-- <th>البريد الالكترونى</th> --}}
             <th>إسم المتجر</th>
-            <th class="filter">إسم المندوب</th>
-            <th class="filter">إسم المسار</th>
+            <th>إسم المندوب</th>
+            <th>إسم المسار</th>
             <th> الحالة</th>
-            <th> صورة العميل</th>
-<th class="noExport">الاعدادت</th>
+        <th class="noExport">الاعدادت</th>
         </tr>
     </tfoot>
 </table>

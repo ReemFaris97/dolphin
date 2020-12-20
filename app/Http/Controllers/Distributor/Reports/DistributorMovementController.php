@@ -48,6 +48,6 @@ class DistributorMovementController extends Controller
         $trips=TripInventory::with('trip')->whereRouteId($id)
             ->where('round',$route->round)->get();
 
-        return view('distributor.reports.distributor_movements.show',compact('trips'));
+        return view('distributor.reports.distributor_movements.show',compact('trips','id','route'));
     }
 }
