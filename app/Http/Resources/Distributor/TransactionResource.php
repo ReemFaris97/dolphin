@@ -23,7 +23,7 @@ class TransactionResource extends ResourceCollection
                     'id'=>$q->id,
                     'name'=>optional($q->sender)->name,
                     'amount' => floatval( $q->amountByType(auth()->user())),
-                    'date'=>$q->created_at->format('Y-m-d'),
+                    'date' => optional($q->created_at)->format('Y-m-d') ?? '',
                 ];
             }),
             'paginate'=>[

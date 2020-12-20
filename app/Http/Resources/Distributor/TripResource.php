@@ -18,6 +18,7 @@ class TripResource extends JsonResource
          return [
              'id' => $this->id,
              'client_id'=>$this->client_id??0,
+             'route_id'=>$this->route_id,
              'client'=>optional($this->client)->name??"",
              'lat'=>$this->lat,
              'lng'=>$this->lng,

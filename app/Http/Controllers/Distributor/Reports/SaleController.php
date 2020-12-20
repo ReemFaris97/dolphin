@@ -10,6 +10,7 @@ use App\Models\Client;
 use App\Models\DistributorRoute;
 use App\Models\DistributorTransaction;
 use App\Models\Product;
+use App\Models\RouteTripReport;
 use App\Models\RouteTrips;
 use App\Models\User;
 use Route;
@@ -27,14 +28,14 @@ class SaleController extends Controller
     public function index(Request $request)
     {
 
-        $query = DistributorTransaction::query();
+        $query = RouteTripReport::query();
 
         if($request->has('user_id') && $request->user_id != null){
-             $query = $query->where('receiver_id',$request->user_id);
+            $query = $query->OfDistributor($request->user_id);
 
         }
         if($request->has('client_id') && $request->client_id != null){
-            $query = $query->where('sender_id',$request->client_id);
+            $query = $query->OfClient($request->client_id);
         }
         if($request->has('from') && $request->has('to')){
 

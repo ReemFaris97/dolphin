@@ -13,6 +13,8 @@ use App\Models\StoreTransferRequest;
 use App\Models\Task;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
+use App\Models\User;
+
 use Illuminate\Support\Facades\DB;
 
 trait StoreTransferRequestOperation
