@@ -23,7 +23,7 @@
             <td>{!!$loop->iteration!!}</td>
             <td>{!! $row->invoice_number!!}  </td>
             <td>{!!optional(optional($row->route_trip)->client)->name  !!}</td>
-{{--            <td>{!! $row->created_at->format('Y-m-d h:m A') !!}</td>--}}
+           <td>{!! $row->created_at->format('Y-m-d h:m A') !!}</td>
             <td>{!! optional($row->route_trip)->route->user->name !!}</td>
             <td>{!!$row->cash  !!}</td>
             <td>
@@ -44,11 +44,12 @@
         </tr>
     @endforeach
     </tbody>
-{{--    <tfoot>--}}
-{{--    <tr>--}}
-{{--        <th>#</th>--}}
-{{--        <th>الاسم</th>--}}
-{{--        <th class="noExport">الاعدادت</th>--}}
-{{--    </tr>--}}
-{{--    </tfoot>--}}
+    <th>#</th>
+    <th> رقم الفاتورة</th>
+    <th> اسم العميل </th>
+    <th>تاريخ الفاتوره </th>
+    <th>إسم المندوب</th>
+    <th> قيمة الفاتورة</th>
+    <th> حالة  الفاتورة</th>
+    <th class="noExport">الاعدادت</th>
 </table>
