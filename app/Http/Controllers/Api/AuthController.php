@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use App\Models\FcmToken;
 use App\Traits\ApiResponses;
 use App\Traits\UserOperation;
 use App\Models\User;
@@ -192,7 +193,9 @@ class AuthController extends Controller
 
     public function Logout()
     {
-//        auth()->user()->deleteFCMToken();
+        FcmToken::where('token', request()->token)->delete();
+        /* لو ضربت exception اسئلو سهام */
+        auth()->logout();
         return $this->apiResponse(__('تم تسجيل الخروج بنجاح بنجاح'));
     }
 
