@@ -33,7 +33,7 @@ class StoreController extends Controller
     public function index(){
 
         $stores = Store::with('totalQuantities')->where('distributor_id', auth()->user()->id)->paginate($this->paginateNumber);
-        
+
         return $this->apiResponse(new StoreResource($stores));
     }
 
@@ -53,7 +53,7 @@ class StoreController extends Controller
 
     public function cars()
     {
-        $cars = DistributorCar::whereUserId(auth()->user()->id)->paginate($this->paginateNumber);
+        $cars = DistributorCar::where('is_active', 1)->whereUserId(auth()->user()->id)->paginate($this->paginateNumber);
         return $this->apiResponse(new CarsResource($cars));
     }
 
