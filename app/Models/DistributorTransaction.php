@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\DB;
 class DistributorTransaction extends Model
 {
     use SoftDeletes;
-
     // protected $fillable = ['sender_id', 'receiver_id', 'amount','is_received','signature'];
     protected $fillable = ['sender_type', 'sender_id', 'receiver_type', 'receiver_id', 'amount', 'received_at', 'signature'];
 
@@ -19,6 +18,7 @@ class DistributorTransaction extends Model
     {
         return $this->morphTo('sender');
     }
+
     public function receiver()
     {
         return $this->morphTo('receiver');

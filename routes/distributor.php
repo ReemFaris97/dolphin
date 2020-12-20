@@ -15,8 +15,8 @@ Route::middleware('distributor')->group(function () {
     Route::get('stores/product/add/{store_id?}', 'StoresController@addProductForm')->name('stores.addProduct');
     Route::post('stores/product/add/{store_id?}', 'StoresController@addProduct');
 
-    Route::get('stores/products/move', 'StoresController@moveProductForm')->name('stores.moveProduct');
-    Route::post('stores/products/move', 'StoresController@moveProduct');
+    Route::get('stores/products/move/{store_id?}', 'StoresController@moveProductForm')->name('stores.moveProduct');
+    Route::post('stores/products/move/{store_id?}', 'StoresController@moveProduct');
 
     Route::get('stores/products/damage/{store_id?}', 'StoresController@damageProductForm')->name('stores.damageProduct');
     Route::post('stores/products/damage/{store_id?}', 'StoresController@damageProduct');
@@ -56,16 +56,16 @@ Route::middleware('distributor')->group(function () {
 
     Route::resource('/expenditureTypes', 'ExpenditureTypesController');
     Route::patch('expenditureTypes/change-status/{item}', 'ExpenditureTypesController@changeStatus')->name('expenditureTypes.changeStatus');
-
     Route::resource('/expenses', 'ExpensesController');
     Route::resource('/routes', 'DistributorRoutesController');
-    Route::get('active_route/{id}', 'DistributorRoutesController@active')->name('routes.active');
-    Route::get('disactive_route/{id}', 'DistributorRoutesController@disactive')->name('routes.dis_active');
-
+    Route::get('available_route/{id}', 'DistributorRoutesController@available')->name('routes.available');
+    Route::get('dis_available_route/{id}', 'DistributorRoutesController@disavailable')->name('routes.dis_available');
     Route::post('/trips/update-arrange', 'TripsController@updateArrange')->name('trips.update-arrange');
     Route::post('/routes/update-arrange', 'DistributorRoutesController@updateArrange')->name('routes.update-arrange');
     Route::resource('/trips', 'TripsController');
     Route::resource('/bills', 'BillController');
+    Route::get('bill-show/{id}', [ 'uses' => 'BillController@bill_show'])->name('bills.bill_show');
+
     Route::get('/map', 'TripsController@trips')->name('trips.map');
     Route::post('/get/ajax/stores', 'AjaxDataController@getAllStoresById')->name('getAjaxStores');
 
@@ -101,6 +101,8 @@ Route::middleware('distributor')->group(function () {
         Route::get('expenses/{id}', 'ExpenseController@show')->name('expenses.show');
         Route::get('routes', 'RouteController@index')->name('routes.index');
         Route::get('routes/{id}', 'RouteController@show')->name('routes.show');
+        Route::get('movements', 'DistributorMovementController@index')->name('distributor_movements.index');
+        Route::get('movements/{id}', 'DistributorMovementController@show')->name('distributor_movements.show');
 
         Route::get('selling-movement', 'SellingMovementController@index')->name('selling_movement.index');
         Route::get('selling-movement/report', 'SellingMovementController@show')->name('selling_movement.show');

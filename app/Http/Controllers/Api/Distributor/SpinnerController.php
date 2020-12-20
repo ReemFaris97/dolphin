@@ -140,7 +140,7 @@ class SpinnerController extends Controller
      * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
      */
     public function getExpenditureClauses(){
-        $expenditure_clause = ExpenditureClause::all();
+        $expenditure_clause = ExpenditureClause::where('is_active',1)->get();
         return $this->apiResponse(GeneralModelResource::collection($expenditure_clause));
     }
 

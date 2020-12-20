@@ -92,12 +92,19 @@ class AjaxDataController extends Controller
      */
     public function getDistributorStores(Request $request)
     {
+
+        if ($request->user_id == null) {
+
+            $stores = Store::where('for_distributor', 0)->get();
+        } else {
+            $stores = Store::where('distributor_id', $request->user_id)->get();
+        }
         return response()->json([
             'status' => true,
             'data' => view(
                 'distributor.products.getAjaxStoreByCategoryId',
                 [
-                    'stores' => Store::where('distributor_id', $request->user_id)->get()
+                    'stores' => $stores
                 ]
             )->render()
         ]);

@@ -1,17 +1,11 @@
 @extends('distributor.layouts.app')
 @section('title')
-تقرير كشف حساب عميل
+تقرير تحركات المندوب
 @endsection
-
-
-
 @section('content')
-
-
 <div class="m-content">
     <div class="row">
         <div class="col-md-12">
-
             <!--begin::Portlet-->
             <div class="m-portlet m-portlet--tab">
                 <div class="m-portlet__head belong-to-aform">
@@ -21,7 +15,7 @@
                                 <i class="la la-gear"></i>
                             </span>
                             <h3 class="m-portlet__head-text">
-                                تقرير كشف حساب
+                                تقرير تحركات المندوب
                             </h3>
                         </div>
                     </div>
@@ -29,9 +23,9 @@
 
                 <!--begin::Form-->
 
-                @include('distributor.reports.clients._form')
+                @include('distributor.reports.distributor_movements._form')
                 <!--begin::Table-->
-                @include('distributor.reports.clients._table')
+                @include('distributor.reports.distributor_movements._table')
 
             </div>
         </div>

@@ -4,16 +4,21 @@
         <th>#</th>
         <th> كود العملية</th>
         <th>تاريخ ووقت العملية</th>
-        <th> قيمة العملية</th>
+        <th> الايراد </th>
+        <th>  المصروف</th>
+        <th>  العمليات</th>
     </tr>
     </thead>
     <tbody>
-    @foreach($transactions as $row)
+    @foreach($routes as $row)
         <tr>
             <td> {!!$loop->iteration!!}</td>
-            <td> <a href="{{route('distributor.reports.clients.show',$row->id) }}">{!!$row->invoice_number!!}</a></td>
+            <td>{!!$row->InvoiceNumber!!}</td>
             <td>{!!$row->created_at!!}</td>
             <td>{!!$row->cash!!}</td>
+            <td>{!!$row->expenses!!}</td>
+            <td><a href="{{route('distributor.reports.distributor_movements.show',$row->id) }}">{!!$row->هي
+!!}</a></td>
 
 
         </tr>
@@ -24,7 +29,10 @@
         <th>#</th>
         <th> كود العملية</th>
         <th>تاريخ ووقت العملية</th>
-        <th> قيمة العملية</th>
+        <th> الايراد </th>
+        <th>  المصروف</th>
+        <th>  العمليات</th>
+
     </tr>
     </tfoot>
 </table>

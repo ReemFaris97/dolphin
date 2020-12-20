@@ -30,9 +30,19 @@
 
                     {!! Form::open(['method'=>'post','class'=>'clearfix m-form m-form--fit m-form--label-align-right'])!!}
 
-                    <div class="m-portlet__body a-smaller-input-wrapper">
+                    <div class="">
 
-                        <div class="form-group m-form_group ">
+                        <div class="form-group m-form__group">
+                            <label>نوع المستودع </label>
+                            {!! Form::select('for_distributor',[
+                            'مستودع داخلى',
+                            'مستودع خارجى',
+                            ],$store->for_distributor,['class'=>'form-control m-input select2','placeholder'=>'إختار نوع
+                            المستودع','onChange'=>'showDistributor(this.value)'])!!}
+                        </div>
+
+
+                        <div class="form-group m-form_group distributor-section  @if($store->for_distributor) d-block @else d-none @endif">
                             <label> المندوب</label>
                             {!!
                             Form::select('user_id',$users,old('user_id')??$store->distributor_id??null,['id'=>'userSelect','class'=>'form-control
@@ -44,7 +54,7 @@
                         <div class="form-group m-form_group ">
                             <label>من المستودع </label>
                             {!!
-                            Form::select('store_id',$user_stores??[],old('store_id'),['class'=>'form-control
+                            Form::select('store_id',$user_stores??[],old('store_id')??$store->id??null,['class'=>'form-control
                             m-input select2','placeholder'=>'اختر المستودع ',
                             'onChange'=>'getStoreProducts(this.value)'
                             ]) !!}
@@ -58,7 +68,7 @@
 
                     <div class="m-portlet__foot m-portlet__foot--fit full--width">
                         <div class="m-form__actions">
-                            <button type="submit" class="btn btn-primary">حفظ</button>
+                            <button type="submit" class="btn btn-primary">إتلاف</button>
                         </div>
                     </div>
                 {!!Form::close()!!}
@@ -112,6 +122,23 @@
                 });
             }
 
+
+
+    function showDistributor(value) {
+        if (value == 1) {
+            $('.distributor-section').addClass('d-block')
+            $('.distributor-section').removeClass('d-none')
+            $('select[name="store_id"]').html(
+                "<option selected disabled> اختر</option>"
+                );
+            $('select[name="user_id"]').prop('disabled',false)
+        } else {
+            $('.distributor-section').removeClass('d-block')
+            $('.distributor-section').addClass('d-none')
+            getUserStore('select[name="store_id"]',null)
+            $('select[name="user_id"]').prop('disabled',true)
+        }
+    }
         </script>
 
     @endpush

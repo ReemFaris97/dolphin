@@ -34,7 +34,7 @@ FilterWithStore */
 
 
         return view('distributor.reports.store_movment_report.show', [
-            'products' => ProductQuantity::filterWithDates($request->from_date, $request->to_date)
+            'store_products' => ProductQuantity::filterWithDates($request->from_date, $request->to_date)
                 ->FilterWithProduct($request->product_id)
                 ->FilterWithStore($request->store_id)
                 ->with(

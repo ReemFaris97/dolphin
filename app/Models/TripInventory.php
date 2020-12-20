@@ -109,7 +109,7 @@ class TripInventory extends Model
 
         $builder->addSelect(DB::raw("
         (
-            select id from trip_inventories as pervious 
+            select id from trip_inventories as pervious
             where pervious.round < trip_inventories.round
             and pervious.trip_id = trip_inventories.trip_id
             order by 'desc' limit 1
@@ -120,10 +120,16 @@ class TripInventory extends Model
     {
         $builder->addSelect(DB::raw("
         (
-            select id from route_trip_reports as pervious 
+            select id from route_trip_reports as pervious
             where pervious.round < trip_inventories.round
             and pervious.route_trip_id = trip_inventories.trip_id
             order by 'desc' limit 1
         ) as pervious_route_trip_report_id"));
+    }
+    public  function scopeWhereRouteId($q,$route_id):void
+    {
+        $q->whereHas('trip', function($trip) use($route_id){
+            $trip->where('route_id',$route_id);
+        });
     }
 }

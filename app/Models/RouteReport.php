@@ -28,7 +28,6 @@ class RouteReport extends Model
 
     public function getInvoiceNumberAttribute()
     {
-
         return  str_pad($this->id, 6, 0, STR_PAD_LEFT);
     }
 

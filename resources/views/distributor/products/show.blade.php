@@ -1,5 +1,5 @@
 @extends('distributor.layouts.app')
-@section('title')تفاصيل المنتج
+@section('title')تفاصيل الصنف
 @endsection
 @section('header')
 @endsection
@@ -7,85 +7,100 @@
 @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
 @section('content')
-    <div class="m-section__content">
-        <div class="m-demo" data-code-preview="true" data-code-html="true" data-code-js="false">
-            <div class="m-demo__preview  m-demo__preview--btn">
+
+<div class="m-portlet m-portlet--mobile">
+    <div class="m-portlet__head">
+        <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+                <h3 class="m-portlet__head-text">
+                    {{$product->name}}
+                </h3>
             </div>
         </div>
+
     </div>
+    <div class="m-portlet__body">
+        <table class="table table-bordered table-hober">
+            <tr>
+                <td>الاسم</td>
+                <td>{{$product->name}}</td>
+            </tr>
+
+            <tr>
+                <td>المستودع</td>
+                <td>{{$product->store->name}}</td>
+            </tr>
+
+            <tr>
+                <td>الكمية بالوحدة</td>
+                <td>{{$product->quantity_per_unit}}</td>
+            </tr>
+
+            <tr>
+                <td>الحد الأدنى</td>
+                <td>{{$product->min_quantity}}</td>
+            </tr>
+
+            <tr>
+                <td>الحد الأقصى</td>
+                <td>{{$product->max_quantity}}</td>
+            </tr>
+
+            <tr>
+                <td>السعر</td>
+                <td>{{$product->price}}</td>
+            </tr>
 
 
-    <div class="m-section__content">
-        <div class="m-demo" data-code-preview="true" data-code-html="true" data-code-js="false">
-            <div class="m-portlet__body">
+            <tr>
+                <td> الباركود</td>
+                <td>
+                    <?php echo \Milon\Barcode\DNS1D::getBarcodeHTML($product->bar_code, "C39",1) ?>
+                </td>
+            </tr>
+            <tr>
+                <td>قيمة الباركود</td>
+                <td>
+                    {{$product->bar_code}}
+                </td>
+            </tr>
 
-                <div class="col-xs-4">
-                    <h5>الاسم</h5>
-                    <h3>{{$product->name}}</h3>
-                </div>
-
-                <div class="col-xs-4">
-                    <h5>المستودع</h5>
-                    <h3>{{$product->store->name}}</h3>
-                </div>
-
-                <div class="col-xs-4">
-                    <h5>الكمية بالوحدة</h5>
-                    <h3>{{$product->quantity_per_unit}}</h3>
-                </div>
-
-                <div class="col-xs-4">
-                    <h5>الحد الأدنى</h5>
-                    <h3>{{$product->min_quantity}}</h3>
-                </div>
-
-                <div class="col-xs-4">
-                    <h5>الحد الأقصى</h5>
-                    <h3>{{$product->max_quantity}}</h3>
-                </div>
-
-                <div class="col-xs-4">
-                    <h5>السعر</h5>
-                    <h3>{{$product->price}}</h3>
-                </div>
-
-
-                <div class="col-xs-4">
-                    <h5> الباركود</h5>
-                    <h3>
-                        <?php echo \Milon\Barcode\DNS1D::getBarcodeHTML($product->bar_code, "C39",1) ?>
-                    </h3>
-                </div>
-                <div class="col-xs-4">
-                    <h5>قيمة الباركود</h5>
-                    <h3>
-                       {{$product->bar_code}}
-                    </h3>
-                </div>
-
-                <div class="col-xs-4">
-                    <h5>تاريخ انتهاء الصلاحية</h5>
-                    <h3>{{$product->expired_at}}</h3>
-                </div>
+            <tr>
+                <td>تاريخ انتهاء الصلاحية</td>
+                <td>{{$product->expired_at}}</td>
+            </tr>
 
 
 
-                <div class="col-xs-4">
-                    <h5> الصورة الرئيسية</h5>
-                    <h3><img src="{!!asset($product->image)!!}" style="width: 300px; height: 300px;"></h3>
-                </div>
+            <tr>
+                <td> الصورة الرئيسية</td>
+                <td><img src="{!!asset($product->image)!!}" style="width: 100px; height: 100px;"></td>
+            </tr>
+        </table>
 
+        <hr>
+        <h3>شرائح الاسعار</h3>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>الشريحة</th>
+                    <th>السعر</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($product->client_classes as $client_class )
+                <tr>
+                    <td>{{$client_class->name}}</td>
+                    <td>{{$client_class->pivot->price}}</td>
 
-                <div class="col-xs-4">
-                    <h5> صور المنتج</h5>
-                    @foreach(\App\Models\Image::where('model_type','App\Models\Product')->where('model_id',$product->id)->get() as $image)
-                  <img src="{!!asset($image->image)!!}" style="width: 300px; height: 300px;">
-                        @endforeach
-                </div>
+                </tr>
+                @endforeach
 
-            </div>
-        </div>
+            </tbody>
+        </table>
+
     </div>
+</div>
 
 
 

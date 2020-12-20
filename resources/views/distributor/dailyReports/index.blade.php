@@ -36,6 +36,26 @@
                 </ul>
             </div>
         </div>
+        <form class="Clearfix m-form m-form--fit m-form--label-align-right a-smaller-input-wrapper" enctype="multipart/form-data" method="get" action="">
+            <div class="m-portlet__foot m-portlet__foot--fit ">
+                <div class="m-form__actions">
+
+                    <div class="form-group m-form__group">
+                        <label>من تاريخ</label>
+                        {!! Form::text('from',request()->from,['class'=>'form-control m-input datepicker' ])!!}
+                    </div>
+                    <div class="form-group m-form__group">
+                        <label>الى تاريخ</label>
+                        {!! Form::text('to',request()->to,['class'=>'form-control m-input datepicker'])!!}
+                    </div>
+
+
+                    <button type="submit" class="btn btn-primary">حفظ</button>
+                </div>
+            </div>
+
+        </form>
+
         <div class="m-portlet__body">
             @include('distributor.dailyReports._table')
         </div>

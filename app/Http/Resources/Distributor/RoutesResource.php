@@ -21,6 +21,7 @@ class RoutesResource extends ResourceCollection
                     'id' => $q->id,
                     'route_name' => $q->name,
                     'clients' => (int)$q->trips->count()??0,
+                    'round'=>$q->round,
                     'trips' =>TripResource::collection($q->trips->Sortby('arrange')),
                 ];
             }),

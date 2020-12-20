@@ -48,7 +48,7 @@ class DistributorRoutesController extends Controller
         $rules = [
             'user_id' => 'required|exists:users,id',
             'name' => 'required|string',
-            'is_active' => 'required|numeric',
+//            'is_active' => 'required|numeric',
 
         ];
 
@@ -99,7 +99,7 @@ class DistributorRoutesController extends Controller
         $rules = [
             'user_id' => 'required|exists:users,id',
             'name' => 'required|string',
-            'is_active' => 'required|numeric',
+//            'is_active' => 'required|numeric',
 
         ];
 
@@ -142,7 +142,7 @@ class DistributorRoutesController extends Controller
     {
         $route =DistributorRoute::find($id);
         $route->update([
-            'is_active' => '1'
+            'is_available' => '1'
         ]);
         toast('تم تفعيل المسار', 'success', 'top-right');
 
@@ -153,7 +153,7 @@ class DistributorRoutesController extends Controller
     public function disactive($id)
     {
         $route =DistributorRoute::find($id);
-        $route->update(['is_active' => '0'
+        $route->update(['is_available' => '0'
         ]);
         toast('تم الغاء تفعيل المسار ', 'success', 'top-right');
         return back();

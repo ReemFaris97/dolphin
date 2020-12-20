@@ -111,7 +111,7 @@
 
 
     <div class="form-group m-form__group">
-        <label>صور المنتج </label><span style="color: red"> ارفع اكتر من صورة</span>
+        <label>صور الصنف </label><span style="color: red"> ارفع اكتر من صورة</span>
         <input type="file" name="images[]" class="form-control m-input" multiple>
     </div>
     <table class="table table-bordered table-hover ">

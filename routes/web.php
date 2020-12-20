@@ -53,19 +53,23 @@ Route::get('/', function () {
 
 Route::get('/check',function(){
     if(auth()->check()){
-        if(auth()->user()->is_distributor == 1){
+        if(auth()->user()->is_distributor == 1 &auth()->user()->is_admin == 1){
             return redirect('/distributor/home');
         }
 
     elseif(auth()->user()->is_supplier == 1) {
         return redirect('/supplier/home');
     }
-    else{
+    elseif(auth()->user()->is_admin == 1){
             return redirect('/accounting/home');
+        }
+        else{
+            Auth::logout();
         }
     }else{
         Auth::logout();
     }
+    return redirect()->route('admin.login');
 });
 
 //Route::get('/home', 'HomeController@index')->name('home');

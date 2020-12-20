@@ -191,6 +191,10 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsTo(AccountingStore::class, 'accounting_store_id');
     }
+    public function stores()
+    {
+        return $this->hasMany(Store::class, 'distributor_id');
+    }
 
 
     public function updateFcmToken($token, $device)
@@ -373,8 +377,8 @@ class User extends Authenticatable implements JWTSubject
 
         return optional($this
             ->trips()
-            ->where('status', 'accepted')
-            ->orderBy('arrange', 'asc')
+           // ->where('status', 'accepted')
+          //  ->orderBy('arrange', 'asc')
             ->orderBy('updated_at', 'desc')
             ->first());
     }
