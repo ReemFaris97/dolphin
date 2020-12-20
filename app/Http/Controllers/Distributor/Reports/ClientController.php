@@ -38,6 +38,7 @@ class ClientController extends Controller
         }
 
         $transactions=$query->orderBy('created_at')->get();
+
         return view('distributor.reports.clients.index',compact('transactions'));
     }
 

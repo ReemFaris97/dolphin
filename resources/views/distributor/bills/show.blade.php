@@ -61,7 +61,7 @@
                         <tr>
                             <td>حالة الزيارة</td>
                             <td>
-                                @if(optional($bill->inventory->type=='accept'))
+                                @if(optional(optional($bill->inventory)->type=='accept'))
                                     <label class="btn btn-success"> تم القبول</label>
                                   @else
                                       <label class="btn btn-danger"> تم الرفض</label>
@@ -69,12 +69,12 @@
                                   @endif
                             </td>
                         </tr>
-                        @if($bill->inventory->type=='refuse')
+                        @if(optional($bill->inventory)->type=='refuse')
                         <tr>
                             <td> سبب الرفض</td>
                             <td>
 
-                           {{$bill->inventory->refuse_reason}}
+                           {{optional($bill->inventory)->refuse_reason}}
                             </td>
                         </tr>
                         @endif
@@ -83,7 +83,7 @@
 
                         <td>صورقبل الزيارة</td>
                         <td>
-                            @foreach($bill->inventory->images as $key => $image)
+                            @foreach(optional($bill->inventory)->images as $key => $image)
                             <img src="{!!asset($image->image)!!}" height="100" width="100"/>
                             @endforeach()
                         </td>
