@@ -44,7 +44,7 @@ class RouteTripReport extends Model
     }
     public function inventory(): HasOne
     {
-        return $this->hasOne(TripInventory::class, 'trip_id', 'route_trip_id')->whereColumn('route_trip_reports.round', 'round');
+        return $this->hasOne(TripInventory::class, 'trip_id', 'route_trip_id')->whereColumn('trip_inventories.round', 'round');
     }
 
     public function products()
@@ -61,7 +61,8 @@ class RouteTripReport extends Model
     {
         $builder->whereHas('route_trip', function ($route_trip) use ($distributor) {
 
-            $route_trip->route()->OfDistributor($distributor);
+
+            $route_trip->OfDistributor($distributor);
         });
     }
 
