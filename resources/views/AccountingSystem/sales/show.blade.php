@@ -886,8 +886,6 @@
 			<span>{!! $sale->client->name !!} </span>
 		</div>
 
-
-
 		<div class="clearfix">
 
 		</div>

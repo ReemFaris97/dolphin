@@ -42,11 +42,11 @@
 
                     <div class="form-group m-form__group">
                         <label>من تاريخ</label>
-                        {!! Form::date('from',null,['class'=>'form-control m-input'])!!}
+                        {!! Form::text('from',request()->from,['class'=>'form-control m-input datepicker' ])!!}
                     </div>
                     <div class="form-group m-form__group">
                         <label>الى تاريخ</label>
-                        {!! Form::date('to',null,['class'=>'form-control m-input'])!!}
+                        {!! Form::text('to',request()->to,['class'=>'form-control m-input datepicker'])!!}
                     </div>
 
 

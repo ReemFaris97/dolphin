@@ -52,46 +52,47 @@
             zoom: 16,
         });
         const iconBase =
-            "https://developers.google.com/maps/documentation/javascript/examples/full/images/";
+            "http://maps.google.com/mapfiles/kml/paddle/";
         const icons = {
-            parking: {
-                icon: iconBase + "parking_lot_maps.png",
+            refuse: {
+                icon: iconBase + "grn-blank.png",
             },
-            library: {
-                icon: iconBase + "library_maps.png",
-            },
-            info: {
-                icon: iconBase + "info-i_maps.png",
+
+            accept:{
+                icon: iconBase + "1.png",
             },
         };
         const features = [];
         for(let x = 0; x < trips.length; x++) {
+            console.log(trips[x].type)
           features.push({
-              lat:parseFloat(trips[x].trip.lat),
-              lng:parseFloat(trips[x].trip.lng),
-              // type: "info",
+              // lat:parseFloat(trips[x].trip.lat),
+              // lng:parseFloat(trips[x].trip.lng),
+              position: new google.maps.LatLng(trips[x].trip.lat, trips[x].trip.lng),
+
+                type:((trips[x].type== 'accept') ? 'accept' : 'refuse'),
 
           })
         }
 
 
-        const flightPath = new google.maps.Polyline({
-            path: features,
-            geodesic: true,
-            strokeColor: "#FF0000",
-            strokeOpacity: 1.0,
-            strokeWeight: 2,
-        });
-        console.log(features);
-        flightPath.setMap(map);
+        // const flightPath = new google.maps.Polyline({
+        //     path: features,
+        //     geodesic: true,
+        //     strokeColor: "#FF0000",
+        //     strokeOpacity: 1.0,
+        //     strokeWeight: 2,
+        // });
+      console.log(features);
+        // flightPath.setMap(map);
         // Create markers.
-        // for (let i = 0; i < features.length; i++) {
-        //     const marker = new google.maps.Marker({
-        //         position: features[i].position,
-        //         icon: icons[features[i].type].icon,
-        //         map: map,
-        //     });
-        // }
+        for (let i = 0; i < features.length; i++) {
+            const marker = new google.maps.Marker({
+                position: features[i].position,
+                icon: icons[features[i].type].icon,
+                map: map,
+            });
+        }
     }
 </script>
 

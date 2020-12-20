@@ -64,6 +64,8 @@ Route::middleware('distributor')->group(function () {
     Route::post('/routes/update-arrange', 'DistributorRoutesController@updateArrange')->name('routes.update-arrange');
     Route::resource('/trips', 'TripsController');
     Route::resource('/bills', 'BillController');
+    Route::get('bill-show/{id}', [ 'uses' => 'BillController@bill_show'])->name('bills.bill_show');
+
     Route::get('/map', 'TripsController@trips')->name('trips.map');
     Route::post('/get/ajax/stores', 'AjaxDataController@getAllStoresById')->name('getAjaxStores');
 
