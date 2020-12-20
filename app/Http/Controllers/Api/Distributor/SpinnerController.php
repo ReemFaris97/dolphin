@@ -35,7 +35,7 @@ class SpinnerController extends Controller
      * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
      */
     public function getAllDistributors(){
-        $distributors = User::where('is_distributor',1)->get();
+        $distributors = User::available()->where('is_distributor', 1)->get();
         return $this->apiResponse(DistributorSpinnerModelResource::collection($distributors));
     }
 
