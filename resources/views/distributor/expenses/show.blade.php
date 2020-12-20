@@ -42,7 +42,7 @@
 
                 <tr>
                     <td>  رقم سندالمصروف </td>
-                    <td>{{$expense->name}}</td>
+                    <td>{{$expense->sanad_No}}</td>
                 </tr>
                 <tr>
                     <td> اسم بند المصروف</td>
