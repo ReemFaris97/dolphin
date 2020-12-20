@@ -48,9 +48,10 @@ class ClientController extends Controller
      */
     public function show(Request $request,$id)
     {
-//        $routetrip=AttachedProducts::where('transaction_id',$id)->where('model_type','App\Models\RouteTrips')->first();
-//        $transaction=DistributorTransaction::find($id);
-        $bill=RouteTrips::find();
+        //        $routetrip=AttachedProducts::where('transaction_id',$id)->where('model_type','App\Models\RouteTrips')->first();
+        //        $transaction=DistributorTransaction::find($id);
+        $bill = RouteTripReport::find($id);
+        dd($bill);
         return view('distributor.reports.clients.show',compact('bill'));
 
 
