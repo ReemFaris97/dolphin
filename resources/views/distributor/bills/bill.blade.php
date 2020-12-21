@@ -2,9 +2,9 @@
 @section('title')
 @endsection
 
-@section('bill-css')
+@push('header')
 <link href="{!! asset('dashboard/assets/vendors/base/bill-print.css') !!}" rel="stylesheet" type="text/css" />
-@endsection
+@endpush
 
 @section('breadcrumb') @php($breadcrumbs=['عرض الفاتورة'=>'/distributor',])
 @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
@@ -400,9 +400,8 @@
         </div>
         </div>
     </div>
-    @endsection
 
-    @section('bill-scripts')
+    @push('scripts')
     <script src="{!! asset('dashboard/assets/vendors/base/jquery-2.1.4.min.js') !!}"></script>
 
     <script>
@@ -424,4 +423,5 @@
             });
         })
     </script>
+    @endpush
     @endsection
