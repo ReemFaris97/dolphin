@@ -301,12 +301,12 @@
                                         <h4>رقم السائق</h4>
                                         <h4>Deliver no.</h4>
                                     </div>
-                                    <p>{!! optional($bill->route_trip)->route->user->phone !!}</p>
+                                    <p>{!! optional($bill->route_trip)->route->user->phone ??''!!}</p>
 
                                     @if($bill->store->has_car==1)
                                     <div class="flexx">
                                         <h4>رقم الشاحنة</h4>
-                                        <h4> {{$bill->store->car->plate_number }}</h4>
+                                        <h4> {{$bill->store->car->plate_number ??''}}</h4>
                                     </div>
                                     @endif
                                     <p></p>
