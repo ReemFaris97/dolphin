@@ -36,18 +36,21 @@ class StoreController extends Controller
 
         return $this->apiResponse(new StoreResource($stores));
     }
-
     public function pendingTransferRequests(){
-
         $stores = StoreTransferRequest::where(['distributor_id'=>auth()->user()->id,'is_confirmed'=>0])->paginate($this->paginateNumber);
         return $this->apiResponse(new TransferRequestsResource($stores));
     }
-
-    public function AcceptTransferRequest($id){
+    public function AcceptTransferRequest(Request  $request,$id){
         $store = StoreTransferRequest::query()->find($id);
-        if (!$store) return $this->notFoundResponse();
-        $store->confirmRequest();
-        return $this->apiResponse('تم تأكيد الطلب بنجاح');
+        if ($request['signature']==$store->signature) {
+
+
+            if (!$store) return $this->notFoundResponse();
+            $store->confirmRequest();
+            return $this->apiResponse('تم تأكيد الطلب بنجاح');
+        }else{
+            return  $this->notFoundResponse();
+        }
     }
 
 
@@ -79,6 +82,7 @@ class StoreController extends Controller
         $rules = [
             'distributor_id' => 'required|integer|exists:users,id',
             'products'=>'required',
+            'signature'=>'required',
             'distributor_store_id' => 'required|integer|exists:stores,id',
             'sender_store_id' => 'required|integer|exists:stores,id',
             'products.*.product_id' =>'required|integer|exists:products,id',

@@ -31,7 +31,6 @@ class NotifyTransferRequestReceiver
             'message' => $message,
             'type' => $type,
             'title' => $title
-
         ];
 
         $users = User::where('id', $event->store_transaction->distributor_id)
