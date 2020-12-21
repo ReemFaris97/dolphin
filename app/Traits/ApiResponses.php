@@ -17,13 +17,11 @@ trait ApiResponses
             $array = [
                 'value' => in_array($code, $this->successCode()) ? true : false,
                 'msg' => $error,
-                'comment'=>$this->FunnyComments(),
             ];
         } else {
             $array = [
                 'value' => in_array($code, $this->successCode()) ? true : false,
                 'data' => $data,
-                'comment'=>$this->FunnyComments(),
             ];
         }
         return response($array, 200);
