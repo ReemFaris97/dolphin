@@ -83,9 +83,11 @@
 
                         <td>صورقبل الزيارة</td>
                         <td>
-                            @foreach(optional($bill->inventory)->images as $key => $image)
+                            @isset($bill->inventory->images )
+                            @foreach($bill->inventory->images as $key => $image)
                             <img src="{!!asset($image->image)!!}" height="100" width="100"/>
                             @endforeach()
+                            @endisset
                         </td>
                         </tr>
                         <tr>
@@ -109,7 +111,6 @@
                             <th>اسم الصنف </th>
                             <th>   الكمية بالحبة</th>
                             <th>   الكمية بالعلبة</th>
-
                             <th> السعر</th>
                             </tr>
                         </thead>
@@ -123,14 +124,11 @@
                                   {{  $value->quantity / $value->product->quantity_per_unit }}
                                     @else
                                     {{    $value->quantity / 1 }}
-
                                     @endif
-
                                     </td>
                                 <td>{{ $value->price }}</td>
                                 </tr>
                                 @endforeach
-
                                 <tr>
                                 <td  colspan="2">اجمالى عدد  الاصناف: </td>
                                 <td  colspan="2">{{ $bill->products->count() }}</td>
@@ -143,17 +141,11 @@
                                     <td  colspan="2">اجمالى الموجود  : </td>
                                     <td  colspan="2" >{{ $bill->products->sum('price')}}</td>
                                  </tr>
-
                                  <tbody>
-
                     </table>
-
         </div>
     </div>
 
-
 @endsection
-
-
 @section('scripts')
 @endsection
