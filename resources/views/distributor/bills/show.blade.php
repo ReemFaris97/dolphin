@@ -210,7 +210,7 @@
                                     <h4>فاتورة نوع</h4>
                                     <h4>invoice type</h4>
                                 </div>
-                                <p>اجله</p>
+                                <p></p>
                             </div>
                         </div>
                         <div class="col">
@@ -227,14 +227,14 @@
                                 <div class="flexx">
                                     <h4>مدة السداد</h4>
                                 </div>
-                                <p>تستحق بتاريخ 7/12/2020</p>
+                                <p></p>
                             </div>
                         </div>
                         <div class="col">
                             <div class="box1">
                                 <div class="flexx">
                                     <h4>أمر شراء العميل</h4>
-                                    <h4>Cust.P.O</h4>
+                                    <h4></h4>
                                 </div>
                                 <p></p>
                             </div>
@@ -302,16 +302,19 @@
                                         <h4>Deliver no.</h4>
                                     </div>
                                     <p>{!! optional($bill->route_trip)->route->user->phone !!}</p>
+
+                                    @if($bill->store->has_car==1)
                                     <div class="flexx">
                                         <h4>رقم الشاحنة</h4>
-                                        <h4>Truck Id</h4>
+                                        <h4> {{$bill->store->car->plate_number }}</h4>
                                     </div>
+                                    @endif
                                     <p></p>
                                 </div>
                                 <div class="box1">
                                     <div class="flexx">
                                         <h4>نقطة الشحن</h4>
-                                        <h4>landing site</h4>
+                                        <h4>{{$bill->store->name }}</h4>
                                     </div>
                                     <p>القصيم</p>
                                 </div>
@@ -374,8 +377,8 @@
                             <tbody>
                             @foreach($bill->products as $value)
                             <tr>
-                                <td></td>
-                                <td>{{ $value->product->price * getsetting('general_taxs')}}</td>
+                                <td>{{ $value->product->price +($value->product->price * getsetting('general_taxs')/100)}}</td>
+                                <td>{{ ($value->product->price * getsetting('general_taxs')/100)}}</td>
                                 <td>{{getsetting('general_taxs')}}%</td>
                                 <td>{{ $value->product->price }}</td>
                                 <td>{{ $value->quantity }}</td>
@@ -384,7 +387,7 @@
                                     <p class="not_bold"></p>
                                 </td>
                                 <td>{{ $value->product->bar_code }}</td>
-                                <td>n</td>
+                                <td>{{ $value->product->store->name ??'' }}</td>
                             </tr>
                             @endforeach
 
@@ -429,7 +432,7 @@
                                 </th>
                             </tr>
                             <tr>
-                                <th>{{$bill->cash+$bill->cash*getsetting('general_taxs') }}</th>
+                                <th>{{$bill->cash+($bill->cash*getsetting('general_taxs') /100)}}</th>
                                 <th>
                                     <p>net amount</p>
                                     <p>مبلغ الفاتورة</p>
@@ -440,7 +443,11 @@
                                             <h4>المبلغ كتابة:</h4>
                                             <h4>S.R in words:</h4>
                                         </div>
-                                        <p>فقط مائتان واثنان ريالان وأربعون هالة لا غير</p>
+                                        <p>{{ $bill->CashArabic($bill->cash+($bill->cash*getsetting('general_taxs')/100))[0] }}
+                                             ريال و
+                                            {{ $bill->CashArabic($bill->cash+($bill->cash*getsetting('general_taxs')/100))[1] }}
+                                            هللة لاغير
+                                        </p>
                                     </div>
                                 </th>
                             </tr>
@@ -470,7 +477,7 @@
                                         <h4>الوزن الإجمالى</h4>
                                         <h4>total weight</h4>
                                     </div>
-                                    <p>KGM - 75</p>
+                                    <p></p>
                                 </div>
                             </div>
                             <div class="col">

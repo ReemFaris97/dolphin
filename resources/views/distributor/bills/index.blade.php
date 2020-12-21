@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="m-portlet__head-tools">
-              
+
             </div>
         </div>
         <div class="m-portlet__body">
@@ -30,7 +30,6 @@
         </div>
     </div>
 @endsection
-
 
 @push('scripts')
     <script>
