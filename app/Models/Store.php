@@ -31,13 +31,16 @@ class Store extends Model
         return $this->ProductQuantity()->totalQuantity();
     }
 
+    public function car()
+    {
+        return $this->belongsTo(DistributorCar::class, 'car_id');
+    }
+
     public function distributor()
     {
         return $this->belongsTo(User::class, 'distributor_id')
             ->withDefault(new User);
     }
-
-
 
     public function category()
     {

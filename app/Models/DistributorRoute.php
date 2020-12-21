@@ -13,7 +13,6 @@ class DistributorRoute extends Model
 protected static function boot()
 {
         parent::boot();
-
     static::addGlobalScope('arrange', function (Builder $builder) {
             $builder->orderBy('round', 'asc');
         $builder->orderBy('arrange', 'asc');
@@ -31,7 +30,6 @@ protected static function boot()
     {
         return $this->hasMany(RouteTrips::class, 'route_id')->where('status','accepted')->get()->count();
     }
-
     public function refused_trips()
     {
         return $this->hasMany(RouteTrips::class, 'route_id')->where('status','refused')->get()->count();
@@ -40,14 +38,11 @@ protected static function boot()
     {
         return $this->belongsTo(User::class,'user_id')->withDefault();
     }
-
     public function points()
     {
         return $routeTrips = $this->trips();
 
     }
-
-
     /**
      * inventory
      *

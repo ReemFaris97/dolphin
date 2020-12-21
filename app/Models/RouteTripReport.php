@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Helpers\num_to_ar;
 use DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -41,6 +42,10 @@ class RouteTripReport extends Model
     public function route_trip(): BelongsTo
     {
         return $this->belongsTo(RouteTrips::class, 'route_trip_id');
+    }
+    public function store()
+    {
+        return $this->belongsTo(store::class, 'store_id')->withDefault();
     }
     public function inventory(): HasOne
     {
@@ -123,7 +128,14 @@ class RouteTripReport extends Model
 
     public function getInvoiceNumberAttribute()
     {
-
         return  str_pad($this->id, 6, 0, STR_PAD_LEFT);
+    }
+    public function CashArabic($cach)
+    {
+        $total = explode(".", $cach);
+        $total_in_arabic_rial=new  num_to_ar($total[0],"male");
+        $total_in_arabic_halla=new  num_to_ar($total[1],"male");
+        $AllTotal=[$total_in_arabic_rial->convert_number(), $total_in_arabic_halla->convert_number()];
+        return $AllTotal;
     }
 }
