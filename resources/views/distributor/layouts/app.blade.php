@@ -42,7 +42,8 @@ background-color: #e7eaef !important
 }
     </style>
     @stack('header')
-    @yield('chart-css')
+
+
 	<!--Customize Style -->
     <link href="{!! asset('dashboard/assets/customize.css')!!}" rel="stylesheet" type="text/css"/>
     @include('sweetalert::alert')
@@ -137,8 +138,8 @@ background-color: #e7eaef !important
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!--end::Page Scripts -->
 @stack('scripts')
-@yield('chart')
 @yield('owl')
+
 
 <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-messaging.js"></script>
