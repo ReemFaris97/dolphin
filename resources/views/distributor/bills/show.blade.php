@@ -376,7 +376,7 @@
                             <tr>
                                 <td></td>
                                 <td>{{ $value->product->price * getsetting('general_taxs')}}</td>
-                                <td>{{getsetting('general_taxs')}}</td>
+                                <td>{{getsetting('general_taxs')}}%</td>
                                 <td>{{ $value->product->price }}</td>
                                 <td>{{ $value->quantity }}</td>
                                 <td>حبة</td>
@@ -414,7 +414,7 @@
                                 </th>
                             </tr>
                             <tr>
-                                <th>{{getsetting('general_taxs')}}</th>
+                                <th>{{getsetting('general_taxs')}}%</th>
                                 <th>
                                     <p>vat</p>
                                     <p>ضريبة القيمة المضافة</p>
@@ -456,14 +456,14 @@
                                         <h4>إدارة المبيعات</h4>
                                         <h4>logistics dept.</h4>
                                     </div>
-                                    <p>هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز</p>
+                                    <p>   </p>
                                 </div>
                                 <div class="box1">
                                     <div class="flexx">
                                         <h4>توقيع السائق</h4>
                                         <h4>driver signature</h4>
                                     </div>
-                                    <p>هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز</p>
+                                    <p></p>
                                 </div>
                                 <div class="box1">
                                     <div class="flexx">
