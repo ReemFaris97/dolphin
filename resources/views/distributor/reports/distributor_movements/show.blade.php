@@ -62,6 +62,9 @@
         var dbRef = firebase.database().ref('delegates/' + distributor_id)/*.once('value').then((snapshot) => {
         console.log(snapshot.val());
     }).catch(error=>{debugger});*/
+        // if (Object.keys(dbRef).length === 0 && obj.constructor === Object){
+        // catch(error=>{debugger})
+        // }
         var round=<?php echo $route->round; ?>;
         var route_id=<?php echo $route->id; ?>;
         dbRef.on('value', (snapshot) => {
@@ -69,12 +72,12 @@
                 return (point.round == round && point.route_id==route_id)
             });
             drawployLine(points)
-                console.log(points);
+                // console.log(points);
         })
         console.log("11");
         var trips =<?php echo json_encode($trips); ?>;
         console.log(trips[0].trip.lat);
-var map;
+       var map;
         function initMap() {
             map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 16,
@@ -91,7 +94,6 @@ var map;
                 },
             };
 
-
             const features = [];
             for (let x = 0; x < trips.length; x++) {
                 console.log(trips[x].type)
@@ -99,9 +101,7 @@ var map;
                     // lat:parseFloat(trips[x].trip.lat),
                     // lng:parseFloat(trips[x].trip.lng),
                     position: new google.maps.LatLng(trips[x].trip.lat, trips[x].trip.lng),
-
                     type: ((trips[x].type == 'accept') ? 'accept' : 'refuse'),
-
                 })
             }
 

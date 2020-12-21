@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\NotificationsResource;
 use App\Http\Resources\UserResource;
 use App\Models\FcmToken;
 use App\Traits\ApiResponses;
@@ -202,7 +203,7 @@ class AuthController extends Controller
     public function getNotifications()
     {
         $notifications = DatabaseNotification::where('notifiable_id',auth()->user()->id)->paginate($this->paginateNumber);
-        return $this->apiResponse(new NotificationResource($notifications));
+        return $this->apiResponse(new NotificationsResource($notifications));
     }
 
 

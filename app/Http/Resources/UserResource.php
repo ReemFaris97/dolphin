@@ -21,6 +21,7 @@ class UserResource extends JsonResource
              'phone' => $this->phone,
              'email' => $this->email,
              'image' => getimg($this->image),
+            'fcm_token' => $request->token,
              'is_blocked' => $this->isBlocked(),
              $this->mergeWhen((!$this->IsDistributor()),[
                  'job' => $this->job??"",
