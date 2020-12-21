@@ -11,10 +11,8 @@ class StoreTransferRequest extends Model
     use SoftDeletes;
 
     protected $fillable = ['sender_id',
-    'distributor_id', 'is_confirmed', 'sender_store_id',
-        'distributor_store_id'
+    'distributor_id', 'is_confirmed', 'sender_store_id','distributor_store_id','signature'
     ];
-
     public function sender()
     {
         return $this->belongsTo(User::class, 'sender_id')->withDefault(new User);
@@ -29,12 +27,10 @@ class StoreTransferRequest extends Model
     {
         return $this->hasMany(ProductQuantity::class, 'store_transfer_request_id');
     }
-
-    public function products()
+  public function products()
     {
         return $this->morphMany(AttachedProducts::class, 'model');
     }
-
     public function distributor_store()
     {
         return $this->belongsTo(Store::class, 'distributor_store_id')->withDefault(new Store);
