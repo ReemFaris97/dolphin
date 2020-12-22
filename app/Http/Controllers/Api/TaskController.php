@@ -32,6 +32,7 @@ class TaskController extends Controller
 
     public function index()
     {
+
         if (\request('type') == "present")
             $tasks =  Task::present(auth()->user()->id,1)->orderby('id','desc')->paginate($this->paginateNumber);
         elseif (\request('type') == "future")
@@ -51,9 +52,9 @@ class TaskController extends Controller
 
     public function home()
     {
-        $present_tasks = Task::present(auth()->user()->id,1)->count();
-        $old_tasks = Task::old(auth()->user()->id,1)->count();
-        $future_tasks = Task::future(auth()->user()->id,1)->count();
+        $present_tasks = Task::present(auth()->user()->id)->count();
+        $old_tasks = Task::old(auth()->user()->id)->count();
+        $future_tasks = Task::future(auth()->user()->id)->count();
         $finished_user_tasks = TaskUser::whereNotNull('finished_at')
             ->where('user_id',auth()->user()->id)->orderby('finished_at','desc')->whereDate('finished_at',Carbon::today())->get()->take(5);
         $data = [
