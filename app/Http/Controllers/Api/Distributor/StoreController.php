@@ -42,7 +42,7 @@ class StoreController extends Controller
     }
     public function AcceptTransferRequest(Request  $request,$id){
         $store = StoreTransferRequest::query()->find($id);
-            if ($request['signature']!=$store->signature) return $this->notFoundResponse();
+            if ($request['signature']!=$store->signature) return $this->SignaturenotFoundResponse();
             if (!$store) return $this->notFoundResponse();
             $store->confirmRequest();
             return $this->apiResponse('تم تأكيد الطلب بنجاح');
@@ -62,7 +62,7 @@ class StoreController extends Controller
 
         $products = collect($product_quantities->items())->map(function ($products_quantities) {
 
-            $product =          $products_quantities->product;
+            $product = $products_quantities->product;
 
             $product['quantity'] = $products_quantities->total_quantity;
             return $product;
