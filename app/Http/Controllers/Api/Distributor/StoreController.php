@@ -42,16 +42,12 @@ class StoreController extends Controller
     }
     public function AcceptTransferRequest(Request  $request,$id){
         $store = StoreTransferRequest::query()->find($id);
-        if ($request['signature']==$store->signature) {
-
-
+            if ($request['signature']!=$store->signature) return $this->notFoundResponse();
             if (!$store) return $this->notFoundResponse();
             $store->confirmRequest();
             return $this->apiResponse('تم تأكيد الطلب بنجاح');
-        }else{
-            return  $this->notFoundResponse();
         }
-    }
+
 
 
     public function cars()
