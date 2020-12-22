@@ -34,11 +34,11 @@ class TaskController extends Controller
     {
 
         if (\request('type') == "present")
-            $tasks =  Task::present(auth()->user()->id,1)->orderby('id','desc')->paginate($this->paginateNumber);
+            $tasks =  Task::present(auth()->user()->id)->orderby('id','desc')->paginate($this->paginateNumber);
         elseif (\request('type') == "future")
-            $tasks = Task::future(auth()->user()->id,1)->orderby('id','desc')->paginate($this->paginateNumber);
+            $tasks = Task::future(auth()->user()->id)->orderby('id','desc')->paginate($this->paginateNumber);
         elseif (\request('type') == "old")
-            $tasks = Task::old(auth()->user()->id,1)->orderby('id','desc')->paginate($this->paginateNumber);
+            $tasks = Task::old(auth()->user()->id)->orderby('id','desc')->paginate($this->paginateNumber);
         elseif (\request('type') == "to_finish")
             $tasks = Task::toFinish(auth()->user()->id)->orderby('id','desc')->paginate($this->paginateNumber);
         elseif (\request('type') == "to_rate")
@@ -80,6 +80,7 @@ class TaskController extends Controller
 
     public function show($id)
     {
+
         $task = Task::find($id);
         if (!$task) return $this->notFoundResponse();
         return $this->apiResponse(new SingleTaskResource($task));
