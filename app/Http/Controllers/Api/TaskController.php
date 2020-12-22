@@ -315,7 +315,7 @@ class TaskController extends Controller
                 &&$to_date->lessThanOrEqualTo($task_user->from_time));
         });
 
-        return $this->apiResponse(['rate'=>rates()[round(User::find($request->worker_id)->rate())??0],'tasks'=>ReportResource::collection($tasks)]);
+        return $this->apiResponse(['rate'=>rates()[round(User::find($request->worker_id)->rate())??0],new ReportResource($tasks)]);
 
     }
 
