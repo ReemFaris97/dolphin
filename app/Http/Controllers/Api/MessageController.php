@@ -21,9 +21,9 @@ class MessageController extends Controller
 
     public function Inbox()
     {
-        $messages_recievers_id = Message::where('user_id',auth()->user()->id)->orderByDesc('created_at')->pluck('receiver_id');
-        $messages_user_id = Message::where('receiver_id',auth()->user()->id)->orderByDesc('created_at')->pluck('user_id');
-        $ids = $messages_recievers_id->merge($messages_user_id);
+        $messages_recievers_id = Message::where('user_id',auth()->user()->id)->pluck('receiver_id','created_at');
+        $messages_user_id = Message::where('receiver_id',auth()->user()->id)->pluck('user_id','created_at');
+        $ids = $messages_recievers_id->merge($messages_user_id)->orderByDesc('created_at');
         $users = User::whereIn('id',$ids)->paginate($this->paginateNumber);
         return $this->apiResponse(new InboxResource($users));
     }
