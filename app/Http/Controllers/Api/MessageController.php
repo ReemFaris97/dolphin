@@ -23,7 +23,7 @@ class MessageController extends Controller
     {
         $messages_recievers_id = Message::where('user_id',auth()->user()->id)->pluck('receiver_id','created_at');
         $messages_user_id = Message::where('receiver_id',auth()->user()->id)->pluck('user_id','created_at');
-        $ids = $messages_recievers_id->merge($messages_user_id)->orderByDesc('created_at');
+        $ids = $messages_recievers_id->merge($messages_user_id)->sortBy('created_at')->toArray();
         $users = User::whereIn('id',$ids)->paginate($this->paginateNumber);
         return $this->apiResponse(new InboxResource($users));
     }
