@@ -24,7 +24,7 @@ class NotifyTransferRequestReceiver
     {
 
         $title = 'هناك اشعار جديد';
-        $message = "تم ارسال طلب نقل مخزون جديد بتوقيع";
+        $message = "تم ارسال طلب نقل مخزون جديد بتوقيع".$event->store_transaction->signature;
         $type = 'new_store_transaction_added';
         $data = [
             'item_id' => $event->store_transaction->id,
