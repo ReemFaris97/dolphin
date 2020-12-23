@@ -163,9 +163,9 @@ class Task extends Model
     public function scopeToFinish($query, $user_id = null)
     {
         $user_tasks = TaskUser::whereNotNull('worker_finished_at')->whereNull('finished_at')->when(($user_id != null), function ($task_user) use ($user_id) {
-//            $task_user->where('user_id', $user_id);
+
             $task_user->where('finisher_id', $user_id);
-//            $task_user->Orwhere('rater_id', $user_id);
+
         })->whereNull('finished_at')->get();
         $user_tasks_ids = $user_tasks->pluck('task_id');
         return $query->whereIn('id', $user_tasks_ids);
