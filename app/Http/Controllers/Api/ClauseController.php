@@ -37,8 +37,8 @@ class ClauseController extends Controller
     }
 
     public function store(Request $request){
-//        dd($request['clauses']);
-//    $request['clauses'] = json_decode($request->clauses,true);
+      dd($request['clauses']);
+   $request['clauses'] = json_decode($request->clauses,true);
 
         $rules = [
 //            'clauses' => 'required|array',
