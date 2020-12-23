@@ -37,12 +37,12 @@ class ClauseController extends Controller
     }
 
     public function store(Request $request){
-      dd($request['clauses']);
-   $request['clauses'] = json_decode($request->clauses,true);
-
+//  $request['clauses'] = json_decode($request->clauses);
+//
         $rules = [
-//            'clauses' => 'required|array',
-//            'clauses.*' =>'required|integer|exists:clauses,id',
+          'clauses' => 'required|array',
+           'clauses.*.id' =>'required|integer|exists:clauses,id',
+           'clauses.*.value' =>'required|',
         ];
         $validation = $this->apiValidation($request,$rules);
         if ($validation instanceof Response) {
