@@ -60,15 +60,16 @@ trait ClauseOperation
         return true;
     }
 
-   public function AddClauseLogWithJson($request)
+   public function AddClauseLogWithJson($clauses)
     {
-        foreach ($request->clauses as $c)
+//dd($clauses);
+        foreach ($clauses as $key=>$c)
         {
-            $clause = Clause::find($c['id']);
+            $clause = Clause::find($key);
            if ($clause)
            {
-               $clause->logs()->create(['amount'=>$c['value'], 'user_id'=>auth()->user()->id]);
-               $clause->update(['amount'=>$c['value']]);
+               $clause->logs()->create(['amount'=>$c, 'user_id'=>auth()->user()->id]);
+               $clause->update(['amount'=>$c]);
            }
         }
         return true;
