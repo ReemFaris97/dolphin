@@ -74,9 +74,12 @@ trait TaskOperation
     }
     public function TaskWorkerFinish($id): bool
     {
+
         $task = TaskUser::find($id);
+
         $task->fill(['worker_finished_at' => Carbon::now()]);
-        event(new WorkerTaskFinished(new User(),$task->task));
+//        dd($task);
+     event(new WorkerTaskFinished(new User(),$task->task));
 //        event(new TaskFinished(new User(),$task->task));
         return $task->save();
     }
