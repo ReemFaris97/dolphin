@@ -33,6 +33,7 @@ class SellingMovementController extends Controller
     {
 
         $this->validate($request, ['trip_id' => 'required|integer|exists:trip_inventories,id']);
+        /* 53 */
         $trips = TripInventory::select('*')
             ->withReportProducts()
             ->WithPreviousTripInventory()
