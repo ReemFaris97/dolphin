@@ -18,7 +18,7 @@ class ClausesResource extends JsonResource
             'id'=>$this->id,
             'name'=>$this->name,
             'amount'=>$this->amount,
-//            'is_active'=>$this->is_active,
+            'is_active'=>$this->is_active,
         ];
     }
 }
