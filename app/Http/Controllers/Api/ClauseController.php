@@ -40,7 +40,7 @@ class ClauseController extends Controller
 //        $request['clauses'] = json_decode($request->clauses);
 //        dd($request['clauses']);
         $rules = [
-            'clauses' => 'required|array',
+//            'clauses' => 'required|array',
 //            'clauses.*' =>'required|integer|exists:clauses,id',
         ];
         $validation = $this->apiValidation($request,$rules);
