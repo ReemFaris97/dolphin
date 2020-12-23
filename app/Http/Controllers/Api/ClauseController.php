@@ -40,8 +40,8 @@ class ClauseController extends Controller
 //  $request['clauses'] = json_decode($request->clauses);
 //
         $inputs=$request->all();
-        $request['clauses']=json_decode($request->clauses);
-        dd($request->all());
+        $request['clauses']=json_decode($request->clauses,true);
+//        dd($request->all());
         $rules = [
             'clauses' => 'required|array',
             'clauses.*.id' =>'required|integer|exists:clauses,id',
