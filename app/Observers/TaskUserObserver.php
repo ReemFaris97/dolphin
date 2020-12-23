@@ -29,7 +29,7 @@ class TaskUserObserver
 
             ////start task after  task
             Task::where('after_task_id', $taskUser->task_id)->update(
-                ['date' => $taskUser->finished_at, 'time_from' => $taskUser->finished_at->toTimeString()]
+                ['date' => $taskUser->finished_at, 'time_from' => $taskUser->finished_at]
             );
             ////start period   task
 
