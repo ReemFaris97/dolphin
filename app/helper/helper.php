@@ -526,7 +526,9 @@ function presentFilter($task_user)
     if($task_user->from_time==null){
         return false;
     };
-    return (Carbon::now()->greaterThanOrEqualTo($task_user->from_time) && Carbon::now()->LessThanOrEqualTo($task_user->to_time));
+//    dd($task_user);
+    return (Carbon::now()->greaterThanOrEqualTo($task_user->from_time)
+        && Carbon::now()->LessThanOrEqualTo($task_user->to_time));
 }
 
 function oldFilter($task_user)
@@ -542,9 +544,9 @@ function futureFilter($task_user)
     if($task_user->from_time==null){
         return false;
     };
-
-    return (Carbon::now()->lessThan($task_user->from_time) && Carbon::now()->lessThan($task_user->to_time));
-
+//dd($task_user);
+    return (Carbon::now()->lessThan($task_user->from_time)
+        && Carbon::now()->lessThan($task_user->to_time));
 }
 
 
