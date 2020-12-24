@@ -38,7 +38,8 @@ trait RouteOperation
                 $product = Product::find($item['product_id']);
                 $trip->products()->create([
                     'quantity' => $item['quantity'],
-                    'price' => $product->price
+                    'price' => $product->price,
+                    'product_id' => $product->id
 
                 ]);
             }

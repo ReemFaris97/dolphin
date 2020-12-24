@@ -14,7 +14,7 @@ m-form m-form--fit m-form--label-align-right'])!!}
         </div>
         <div class="form-group m-form__group  col-md-6">
             <label>  تواريخ الرحلات </label>
-            {!! Form::select('trip_id',[],null,['class'=>'form-control m-input select2','placeholder'=>'اختر'])!!}
+            {!! Form::select('day',[],null,['class'=>'form-control m-input select2','placeholder'=>'اختر'])!!}
         </div>
 
 {{--         <div class="form-group m-form__group col-md-6" >
@@ -59,7 +59,7 @@ $(document).on('change','select[name="distributor_id"] , select[name="route_id"]
                     route_id: $('select[name="route_id"]').val(),
                     },
                 success: function (data) {
-                    $('select[name="trip_id"]').html(data.data);
+                    $('select[name="day"]').html(data.data);
 
                 }
             });
