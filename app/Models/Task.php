@@ -110,9 +110,18 @@ class Task extends Model
 
     public function scopePresent($query, $user_id = null,$assigned_only=null)
     {
-        $user_tasks = TaskUser::where('finished_at',null)->has('task')->when(($user_id != null), function ($task_user) use ($user_id,$assigned_only) {
+        $user_tasks = TaskUser::where('finished_at', null)
+
+            ->has('task')
+            ->when(($user_id != null),
+                function ($task_user) use ($user_id, $assigned_only) {
             $task_user->OfUser($user_id,$assigned_only);
-        })->get()->filter('presentFilter');
+                }
+            )
+            ->whereIn('task_id', [337])
+            ->get()
+            ->filter('presentFilter');
+
         $user_tasks_ids = $user_tasks->pluck('task_id');
         return $query->whereIn('id', $user_tasks_ids);
     }

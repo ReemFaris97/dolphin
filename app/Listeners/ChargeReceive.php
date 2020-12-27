@@ -24,10 +24,10 @@ class ChargeReceive
             'item_id'=>$event->charge->id,
             'message'=>$message,
             'type'=>$type,
-            'worker_name'=>$event->charge->worker->name
+            'worker_name' => optional(optional($event->charge)->worker)->name
         ];
         $this->fire($title,$message,$data,User::where('id',$event->charge->worker_id)->get());
-        $event->charge->worker->sendNotification($data,$type);
+        optional(optional($event->charge)->worker)->sendNotification($data, $type);
     }
 
 }

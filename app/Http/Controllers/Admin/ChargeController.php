@@ -235,6 +235,7 @@ $page_title = 'كل العهد';
         ];
 
         $this->validate($request, $rules);
+        /** @var Charge $charge */
         $charge = Charge::whereIdAndSupervisorId($request->id, auth()->user()->id)->whereCode($request->code)->first();
         if (!$charge) return abort(404);
         $charge->markAsConfirmed();

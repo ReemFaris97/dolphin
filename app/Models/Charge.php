@@ -20,12 +20,12 @@ class Charge extends Model
 
     public function worker()
     {
-        return $this->belongsTo('App\Models\User', 'worker_id');
+        return $this->belongsTo(User::class, 'worker_id');
     }
 
     public function supervisor()
     {
-        return $this->belongsTo('App\Models\User', 'supervisor_id');
+        return $this->belongsTo(User::class, 'supervisor_id');
     }
 
     public function images()
@@ -65,8 +65,9 @@ class Charge extends Model
     {
         if (is_null($this->confirmed_at)) {
             $this->forceFill(['confirmed_at' => $this->freshTimestamp()])->save();
-
+            if ($this->worker != null) {
             event(new ChargeReceived($this->worker, $this));
+        }
         }
     }
 
