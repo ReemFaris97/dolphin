@@ -34,10 +34,12 @@ class TaskController extends Controller
         /*if (!auth()->user()->hasPermissionTo('view_tasks')) {
             return abort(401);
         }*/
-        $old_tasks = Task::old()->get()->reverse();;
-        $present_tasks = Task::present()->get()->reverse();
-        $future_tasks = Task::future()->get()->reverse();
+        $old_tasks = Task::old()->with('task_users')->get()->reverse();;
+        $present_tasks = Task::present()->with('task_users')->get()->reverse();
+        $future_tasks = Task::future()->with('task_users')->get()->reverse();
         $page_title = "مهمات النظام";
+
+    
         return $this->toIndex(compact('present_tasks', 'old_tasks', 'future_tasks', 'page_title'));
     }
 
