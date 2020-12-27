@@ -89,7 +89,7 @@ $page_title = 'كل العهد';
             'worker_id' => 'required|exists:users,id',
             'supervisor_id' => 'required|exists:users,id',
             'images' => 'required|array',
-            'images.*' => 'required|image|mimes:jpg,jpeg,gif,png',
+            'images.*' => 'required|mimes:jpg,jpeg,gif,png',
         ];
         $messages = [
             'name.required'=>"الإسم مطلوب",
@@ -178,7 +178,7 @@ $page_title = 'كل العهد';
             'worker_id' => 'required|exists:users,id',
             'type' => 'required|string|in:transfer,receive',
             'images' => 'required|array',
-            'images.*' => 'required|image|mimes:jpg,jpeg,gif,png',
+            'images.*' => 'required|mimes:jpg,jpeg,gif,png',
         ];
 
         $messages = [
