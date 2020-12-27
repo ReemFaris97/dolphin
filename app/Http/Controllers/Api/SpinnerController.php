@@ -63,6 +63,7 @@ class SpinnerController extends Controller
         if (\request('worker_id')!="")
         {
             $tasks_ids = User::find(\request('worker_id'))->tasks->where('finished_at','!=',Null)->pluck('task_id');
+            dd($tasks_ids);
             $tasks = Task::whereIn('id',$tasks_ids)->get();
         }
         elseif (\request('current') != "")
