@@ -37,16 +37,22 @@ class ClauseController extends Controller
     }
 
     public function store(Request $request){
-        $request['clauses'] = json_decode($request->clauses,TRUE);
+//  $request['clauses'] = json_decode($request->clauses);
+//
+        $inputs=$request->all();
+        $request['clauses']=json_decode($request->clauses,true);
+//        dd($request->all());
         $rules = [
-//            'clauses' => 'required|array',
-//            'clauses.*' =>'required|integer|exists:clauses,id',
+            'clauses' => 'required|array',
+            'clauses.*.id' =>'required|integer|exists:clauses,id',
+            'clauses.*.value' =>'required|',
         ];
         $validation = $this->apiValidation($request,$rules);
         if ($validation instanceof Response) {
             return $validation;
         }
-       $result= $this->AddClauseLogWithJson($request);
+        $clauses=$request['clauses'];
+        $result= $this->AddClauseLogWithJson($request);
         if ($result) return $this->apiResponse('تم ادخال الارقام بنجاح');
         return $this->apiResponse('عذراً هناك بعض الارقام الغير مفعله');
     }

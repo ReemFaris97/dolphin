@@ -32,12 +32,13 @@ class TaskController extends Controller
 
     public function index()
     {
+
         if (\request('type') == "present")
-            $tasks =  Task::present(auth()->user()->id,1)->orderby('id','desc')->paginate($this->paginateNumber);
+            $tasks =  Task::present(auth()->user()->id)->orderby('id','desc')->paginate($this->paginateNumber);
         elseif (\request('type') == "future")
-            $tasks = Task::future(auth()->user()->id,1)->orderby('id','desc')->paginate($this->paginateNumber);
+            $tasks = Task::future(auth()->user()->id)->orderby('id','desc')->paginate($this->paginateNumber);
         elseif (\request('type') == "old")
-            $tasks = Task::old(auth()->user()->id,1)->orderby('id','desc')->paginate($this->paginateNumber);
+            $tasks = Task::old(auth()->user()->id)->orderby('id','desc')->paginate($this->paginateNumber);
         elseif (\request('type') == "to_finish")
             $tasks = Task::toFinish(auth()->user()->id)->orderby('id','desc')->paginate($this->paginateNumber);
         elseif (\request('type') == "to_rate")
@@ -46,14 +47,15 @@ class TaskController extends Controller
             $tasks = Task::Mine(auth()->user()->id)->orderby('id','desc')->paginate($this->paginateNumber);
         else
             $tasks = Task::whereUserId(auth()->user()->id)->orderby('id','desc')->paginate($this->paginateNumber);
+//    dd($tasks);
         return $this->apiResponse(new TasksResource($tasks));
     }
 
     public function home()
     {
-        $present_tasks = Task::present(auth()->user()->id,1)->count();
-        $old_tasks = Task::old(auth()->user()->id,1)->count();
-        $future_tasks = Task::future(auth()->user()->id,1)->count();
+        $present_tasks = Task::present(auth()->user()->id)->count();
+        $old_tasks = Task::old(auth()->user()->id)->count();
+        $future_tasks = Task::future(auth()->user()->id)->count();
         $finished_user_tasks = TaskUser::whereNotNull('finished_at')
             ->where('user_id',auth()->user()->id)->orderby('finished_at','desc')->whereDate('finished_at',Carbon::today())->get()->take(5);
         $data = [
@@ -79,6 +81,7 @@ class TaskController extends Controller
 
     public function show($id)
     {
+
         $task = Task::find($id);
         if (!$task) return $this->notFoundResponse();
         return $this->apiResponse(new SingleTaskResource($task));
@@ -314,7 +317,7 @@ class TaskController extends Controller
                 &&$to_date->lessThanOrEqualTo($task_user->from_time));
         });
 
-        return $this->apiResponse(['rate'=>rates()[round(User::find($request->worker_id)->rate())??0],'tasks'=>ReportResource::collection($tasks)]);
+        return $this->apiResponse(['rate'=>rates()[round(User::find($request->worker_id)->rate())??0],'tasks'=>new ReportResource($tasks)]);
 
     }
 

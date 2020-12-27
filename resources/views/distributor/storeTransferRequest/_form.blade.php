@@ -22,6 +22,7 @@
 
     </div>
 
+
     <div class="form-group m-form__group">
         <label>المستودع الذي سيتم النقل له</label>
         <select id="store_id" class="form-control  m-input select2">
@@ -38,6 +39,7 @@
             <option disabled selected>إختار الصنف</option>
         </select>
     </div>
+
 
     <div class="form-group m-form__group">
         <label>كمية الصنف</label>

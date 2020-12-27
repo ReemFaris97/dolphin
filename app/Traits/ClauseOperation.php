@@ -46,6 +46,7 @@ trait ClauseOperation
      */
     public function AddClauseLog($request)
     {
+        dd($request['clauses']);
         foreach ($request->clauses as $key=>$c)
         {
             $clause = Clause::find($key);

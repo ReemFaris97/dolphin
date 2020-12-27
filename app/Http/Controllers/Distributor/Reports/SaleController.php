@@ -27,23 +27,17 @@ class SaleController extends Controller
     }
     public function index(Request $request)
     {
-
         $query = RouteTripReport::query();
-
         if($request->has('user_id') && $request->user_id != null){
             $query = $query->OfDistributor($request->user_id);
-
         }
         if($request->has('client_id') && $request->client_id != null){
             $query = $query->OfClient($request->client_id);
         }
         if($request->has('from') && $request->has('to')){
-
             $query = $query->whereBetween('created_at',[$request->from,$request->to]);
         }
-
         $transactions=$query->orderBy('created_at')->get();
-        // dd( $transactions);
         return view('distributor.reports.clients.index',compact('transactions'));
     }
 
@@ -54,13 +48,9 @@ class SaleController extends Controller
      */
     public function show(Request $request,$id)
     {
-        $routetrip=AttachedProducts::where('transaction_id',$id)
-        ->where('model_type','App\Models\RouteTrips')->first();
-       $bill=RouteTrips::find($routetrip->model_id);
-
+       $routetrip=AttachedProducts::where('transaction_id',$id)->where('model_type','App\Models\RouteTrips')->first();
+        $bill=RouteTrips::find($routetrip->model_id);
         return view('distributor.reports.sales.show',compact('bill'));
-
-
     }
 
 

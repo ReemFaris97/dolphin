@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class TaskUser extends Model
 {
     protected $dates = ['rated_at', 'finished_at'];
-    public $fillable = ['comment', 'task_id', 'user_id', 'date', 'finisher_id', 'rater_id', 'task_duration', 'finished_at', 'rated_at', 'rate', 'worker_finished_at'];
 
-    public $appends = ['days', 'hours', 'minutes', 'full_date', 'to_time', 'from_time'];
+    protected $fillable = ['comment', 'task_id', 'user_id', 'date', 'finisher_id', 'rater_id', 'task_duration', 'finished_at', 'rated_at', 'rate', 'worker_finished_at'];
+
+    protected $appends = ['days', 'hours', 'minutes', 'full_date', 'to_time', 'from_time'];
 
 
     public static function findNext($id)
@@ -85,7 +86,26 @@ class TaskUser extends Model
         $minutes = $dtF->diff($dtT)->format('%i');
         return ['days' => $days, 'hours' => $hours, 'minutes' => $minutes];
 
+    }
+    public  function scopeOfUser($task_user,$user_id,$assigned_only) :void{
+        $task_user->where(function ($q) use ($user_id, $assigned_only) {
+            $q->where('user_id', $user_id);
+            if (is_null($assigned_only))
+            {
+                $q->Orwhere(function ($q) use($user_id){
+                    $q->where('finisher_id', $user_id);
+                    $q->where('worker_finished_at', '!=',Null);
 
+                });
+                $q->Orwhere(function ($q) use($user_id){
+
+                    $q->where('rater_id', $user_id);
+                    $q->where('finished_at', '!=',Null);
+
+                });
+
+            }
+        });
     }
 
     public function getDaysAttribute()
@@ -127,6 +147,7 @@ class TaskUser extends Model
         $time = $this->hours . ':' . $this->minutes . ':00';
         $combinedDateTime = $after_date . ' ' . $time;
         $time = date("Y-m-d H:i:s", strtotime($combinedDateTime));
+
         $full_time = new \DateTime($time);
         return $full_time;
     }
@@ -134,33 +155,24 @@ class TaskUser extends Model
 
     function getTotalDurationAttribute()
     {
-
-
-        $all_task_users = TaskUser::where('task_id', $this->task_id)->where('id', '<=', $this->id)->orderBy('id', 'asc')->get();
-
-
+        $all_task_users = TaskUser::where('task_id', $this->task_id)->
+        where('id', '<=', $this->id)->orderBy('id', 'asc')->get();
         $all_task_users_duration = $all_task_users->sum('task_duration');
-
-
         return $all_task_users_duration;
     }
-
 
     function getToTimeAttribute()
     {
         return optional(optional($this->task)->date_with_time)->addSeconds($this->total_duration);
-
     }
 
     function getFromTimeAttribute()
     {
         if (optional($this->task)->date_with_time == null) {
-
             return null;
-
         }
-
-        return optional($this->task)->date_with_time->addSeconds($this->total_duration)->subSeconds($this->task_duration);
+        return optional($this->task)->date_with_time->
+        addSeconds($this->total_duration)->subSeconds($this->task_duration);
     }
 
     function getCanFinishAttribute()

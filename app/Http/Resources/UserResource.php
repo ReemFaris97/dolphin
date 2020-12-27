@@ -27,10 +27,7 @@ class UserResource extends JsonResource
                  'job' => $this->job??"",
                  'nationality' => $this->nationality??"",
                  'company_name' => $this->company_name??"",
-                 'current_rate' => $this->rate(),
-                 'idol_user_name' => optional(idol_user())->name??"",
-                 'idol_user_image' => getimg(optional(idol_user())->image),
-                 'permissions' => GeneralModelResource::collection($this->permissions),
+
              ]),
              $this->mergeWhen(($this->IsSupplier()),[
                  'supplier_type'=>$this->supplier_type,
@@ -43,6 +40,9 @@ class UserResource extends JsonResource
              ]),
              'is_verified'=>$this->is_verified,
              'token' =>$this->token??"",
+             'current_rate' => $this->rate(),
+             'idol_user_name' => optional(idol_user())->name??"",
+             'idol_user_image' => getimg(optional(idol_user())->image),
              'permissions' => GeneralModelResource::collection($this->permissions),
 
             ];

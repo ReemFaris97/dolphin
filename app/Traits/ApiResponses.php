@@ -44,7 +44,9 @@ trait ApiResponses
     public function notFoundResponse(){
         return $this->apiResponse(null, 'لا يوجدمنتجات للباركود', 404);
     }
-
+    public function SignaturenotFoundResponse(){
+        return $this->apiResponse(null, 'كود التسليم غير مطابق', 404);
+    }
     public function unKnowError(){
         return $this->apiResponse(null, 'Un know error', 520);
     }
