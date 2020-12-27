@@ -5625,7 +5625,10 @@ namespace Illuminate\Support\Facades {
          *
          * @param string $path
          * @param int $days
-         * @param string $level
+         * @param string $l
+         *
+         *
+         * evel
          * @return void
          * @static
          */

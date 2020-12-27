@@ -92,8 +92,14 @@ class TaskUser extends Model
             $q->where('user_id', $user_id);
             if (is_null($assigned_only))
             {
-                $q->Orwhere('finisher_id', $user_id);
+                $q->Orwhere(function ($q) use($user_id){
+                    $q->where('finisher_id', $user_id);
+                    $q->where('worker_finished_at', '!=',Null);
+
+                });
                 $q->Orwhere('rater_id', $user_id);
+                $q->where('finished_at', '!=',Null);
+
             }
         });
     }
