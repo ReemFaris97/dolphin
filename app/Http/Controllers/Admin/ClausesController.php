@@ -206,7 +206,7 @@ class ClausesController extends Controller
 
         $ids = $request->ids;
         $amounts = $request->amounts;
-        for ($i=0;$i<count($request->ids);$i++){
+        for ($i = 0; $i < count($request->ids ?? []); $i++) {
             $clause = Clause::find($ids[$i]);
             if($clause){
                 if($amounts[$i] != null){

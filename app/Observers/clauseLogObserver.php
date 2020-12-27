@@ -20,11 +20,13 @@ class clauseLogObserver
 
         foreach ($depends_tasks as $task) {
             $statment = $task->clause_amount . ' ' . $task->equation_mark . ' ' . $task->clause_amount . ';';
-            if (eval($statment)) {
+            if (eval("return $statment ;")) {
                 $task->fill(['date' => Carbon::now()])->save();
                 $task->save();
             }
         }
+
+        /*  */
 
 
     }
