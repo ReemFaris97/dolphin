@@ -62,7 +62,7 @@ class SpinnerController extends Controller
     public function getAllTasks(){
         if (\request('worker_id')!="")
         {
-            $tasks_ids = User::find(\request('worker_id'))->tasks->pluck('task_id');
+            $tasks_ids = User::find(\request('worker_id'))->tasks->where('finished_at','!=',Null)->pluck('task_id');
             $tasks = Task::whereIn('id',$tasks_ids)->get();
         }
         elseif (\request('current') != "")
@@ -84,6 +84,6 @@ class SpinnerController extends Controller
         $tasks = Clause::get();
         return $this->apiResponse(SpinnerClausesResource::collection($tasks));
     }
-  
+
 
 }
