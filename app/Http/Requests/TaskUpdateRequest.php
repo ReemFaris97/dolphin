@@ -30,7 +30,7 @@ class TaskUpdateRequest extends FormRequest
             "date" => "nullable|date",
             "time_from" => "required_if:type,date|required_if:type,period|nullable",
             "clause_id" => "required_if:type,depends|nullable|integer|exists:clauses,id",
-            "equation_mark" => "required_if:type,depends|nullable|in:<,>,=,<=,>=",
+            "equation_mark" => "required_if:type,depends|nullable|in:<,>,==,<=,>=",
             "period" => "required_if:type,period|integer|nullable",
             'after_task_id' => 'required_if:type,after|nullable|integer|exists:tasks,id',
             'clause_amount' => 'required_if:task,depends|nullable'

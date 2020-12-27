@@ -69,9 +69,10 @@
     <div class="form-group m-form__group depends-task
 @if(isset($task))  {!! ShowOrHide($task,['depends']) !!}  @else d-none @endif ">
         <label>إختر  المعادله</label>
-        {!! Form::select('equation_mark',['<'=>'اكبر من', '>'=>'اصغر من', '='=>'يساوى', '<='=>'اكبر من او يساوى', '>='=>'اصغر من او يساوى'],null,['class'=>'form-control m-input select2'])!!}
+        {!! Form::select('equation_mark',[
+            '<'=>'اكبر من', '>'=>'اصغر من', '=='=>'يساوى', '<='=>'اكبر من او يساوى', '>='=>'اصغر من او يساوى'],null,['class'=>'form-control m-input select2'])!!}
     </div>
-    <div class="form-group m-form__group after_task-task 
+    <div class="form-group m-form__group after_task-task
 @if(isset($task))  {!! ShowOrHide($task,['after_task']) !!}   @else  d-none  @endif ">
         <label>المهمة الرئيسية</label>
         {!! Form::select('after_task_id',$tasks,null,['class'=>'form-control m-input select2'])!!}
