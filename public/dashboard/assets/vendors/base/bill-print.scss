@@ -377,6 +377,7 @@ $black-color: #212121;
         border: 1px solid #212121;
         text-align: center;
         padding: 18px 5px;
+        align-items: baseline;
         & > div {
             min-width: 20%;
         }

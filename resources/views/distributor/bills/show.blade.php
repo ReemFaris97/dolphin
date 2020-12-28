@@ -430,21 +430,21 @@
                     <div class="row">
                         <div class="flexx foot_bg">
                             <div>
-                                <h5>المملكة العربية السعودية - الرقم الموحد 4563222</h5>
-                                <h5>جدة - حى بترومين - شارع الحراج - بجوار دوار النجوم - هناك حقيقة مثبتة منذ زمن طويل وهي
-                                    أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز</h5>
+                                <h5>المملكة العربية السعودية - القصيم - بريدة - شارع المياه
+                                </h5>
+                                <h5>الهاتف</h5>
+                                <h5>0163231301</h5>
+                                <h5>الفاكس</h5>
+                                <h5>0163231301</h5>
                             </div>
                             <div>
                                 <h5>الرقم الضريبى vat no.</h5>
-                                <h5>435653</h5>
+                                <h5>111111111111111111111</h5>
                                 <h5>سجل تجارى c.r</h5>
-                                <h5>445673</h5>
+                                <h5>222222222222222222222</h5>
                             </div>
                             <div>
-                                <h5> The Kingdom of Saudi Arabia - the standard number 4563222 </h5>
-                                <h5> Jeddah - Petromin district - Al-Haraj Street - next to Al Nujoom Roundabout - There is
-                                    a long-established fact that the readable content of a page will distract the reader
-                                    from focusing </h5>
+                                <h5> Kingdom of Saudi Arabia - Al-Qassim - Buraidah - Al-Miyah Street</h5>
                             </div>
                         </div>
                     </div>
