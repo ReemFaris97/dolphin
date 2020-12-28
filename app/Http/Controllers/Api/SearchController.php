@@ -33,8 +33,6 @@ use Illuminate\Http\Response;
 class SearchController extends Controller
 {
     use ApiResponses;
-
-
     public function chatSearch(){
         $this->apiValidation(\request(),[
             'name'=>'required|string',
@@ -44,12 +42,8 @@ class SearchController extends Controller
                 ->orwhere('name','Like',\request('name'))
                 ->where('id','!=',auth()->user()->id)->
                 paginate($this->paginateNumber);
-
         return $this->apiResponse(new InboxResource($users));
     }
-
-
-
     public function taskSearch(){
         $this->apiValidation(\request(),[
             'name'=>'required|string',
@@ -59,7 +53,4 @@ class SearchController extends Controller
                 ->orwhere('name','Like',\request('name'))->paginate($this->paginateNumber);
         return $this->apiResponse(new TasksResource($tasks));
     }
-
-
-
 }
