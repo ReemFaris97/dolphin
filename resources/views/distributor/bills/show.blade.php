@@ -463,9 +463,9 @@
         document.addEventListener("DOMContentLoaded", function() {
             document.getElementById('print-all').addEventListener('click', () => {
                 var mywindow = window.open('', 'PRINT');
-                mywindow.document.write('<html><head><title>الفاتورة</title>');
+                mywindow.document.write('<html>');
                 mywindow.document.write("<link href=\"{!! asset('dashboard/assets/demo/demo12/media/img/logo/logo-black.png')!!}\" rel=\"icon\"><link href=\"{!! asset('dashboard/assets/vendors/base/bill-print.css') !!}\" rel=\"stylesheet\">")
-                mywindow.document.write('</head><body >');
+                mywindow.document.write('<body >');
                 mywindow.document.write(document.getElementById('print_this').innerHTML);
                 mywindow.document.write('</body></html>');
                 mywindow.document.close(); // necessary for IE >= 10
