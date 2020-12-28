@@ -153,6 +153,7 @@ class ChargeController extends Controller
         if ($validation instanceof Response) {
             return $validation;
         }
+        /** @var Charge $charge */
         $charge = Charge::whereIdAndSupervisorId($id,auth()->user()->id)->whereCode($request->code)->first();
         if (!$charge) return $this->notFoundResponse();
 //        event(new ChargeReceived($charge->worker,$charge));

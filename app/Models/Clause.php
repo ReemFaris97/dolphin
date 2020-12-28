@@ -22,8 +22,8 @@ class Clause extends Model
     public function getIsActiveAttribute()
     {
         $log = $this->logs()->whereDate('created_at', Carbon::today())->first();
-        if ($log) return 0 ;
-        return 1 ;
+        if ($log) return 1 ;
+        return 0 ;
     }
 
     public function user(){

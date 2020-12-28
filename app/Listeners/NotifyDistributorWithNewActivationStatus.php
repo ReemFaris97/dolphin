@@ -33,7 +33,11 @@ class NotifyDistributorWithNewActivationStatus
             'title' => $title
         ];
 
-        $users = User::where('is_distributor', 1)->ofClient($event->client->id)->get();
+
+        $users = User::where('is_distributor', 1)
+        ->whereHas('trips', function ($trip) use ($event) {
+            $trip->where('client_id', $event->client->id);
+        })->get();
 
         $this->fire($title, $message, $data, $users);
         /** @var  \App\Models\User $user  */

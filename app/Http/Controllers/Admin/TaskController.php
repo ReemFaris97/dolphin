@@ -34,10 +34,13 @@ class TaskController extends Controller
         /*if (!auth()->user()->hasPermissionTo('view_tasks')) {
             return abort(401);
         }*/
-        $old_tasks = Task::old()->get()->reverse();;
-        $present_tasks = Task::present()->get()->reverse();
-        $future_tasks = Task::future()->get()->reverse();
+        Task::present()->whereIn('id', [337, 338])->get();
+        $old_tasks = Task::old()->with('task_users')->get()->reverse();;
+        $present_tasks = Task::present()->with('task_users')->get()->reverse();
+        $future_tasks = Task::future()->with('task_users')->get()->reverse();
         $page_title = "مهمات النظام";
+
+
         return $this->toIndex(compact('present_tasks', 'old_tasks', 'future_tasks', 'page_title'));
     }
 
@@ -115,7 +118,7 @@ class TaskController extends Controller
             "date" => "nullable|date",
             "time_from" => "required_if:type,date|required_if:type,period|nullable",
             "clause_id" => "required_if:type,depends|nullable|integer|exists:clauses,id",
-            "equation_mark" => "required_if:type,depends|nullable|in:<,>,=,<=,>=",
+            "equation_mark" => "required_if:type,depends|nullable|in:<,>,==,<=,>=",
             "period" => "required_if:type,period|integer|nullable|min:0",
             'after_task_id' => 'required_if:type,after|nullable|integer|exists:tasks,id',
             'users'=>'required|array',

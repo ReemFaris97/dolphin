@@ -138,7 +138,7 @@ class DistributorRoutesController extends Controller
 
         return response()->noContent();
     }
-    public function active($id)
+    public function available($id)
     {
         $route =DistributorRoute::find($id);
         $route->update([
@@ -150,7 +150,7 @@ class DistributorRoutesController extends Controller
     }
 
 
-    public function disactive($id)
+    public function disavailable($id)
     {
         $route =DistributorRoute::find($id);
         $route->update(['is_available' => '0'

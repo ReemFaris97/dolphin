@@ -200,7 +200,7 @@ class StoresController extends Controller
 
     public function moveProductForm($store_id = null)
     {
-        $store = Store::find($store_id);
+        $store = Store::find($store_id)?? new Store();
 
         $products = optional($store)->totalQuantities ?? [];
         if ($store->for_distributor) {
@@ -246,9 +246,9 @@ class StoresController extends Controller
     public function damageProductForm($store_id = null)
     {
 
-        $store = Store::find($store_id);
+        $store = Store::find($store_id)??new Store();
 
-        if ($store->for_distributor) {
+        if ($store->for_distributor==1) {
             $stores = Store::where('is_active', 1)->where('distributor_id', $store->distributor_id)->pluck('name', 'id');
         } else {
             $stores = Store::where('is_active', 1)->where('for_distributor', 0)->pluck('name', 'id');

@@ -24,14 +24,13 @@ class NotifyTransferRequestReceiver
     {
 
         $title = 'هناك اشعار جديد';
-        $message = "تم ارسال طلب نقل مخزون جديد";
+        $message = "تم ارسال طلب نقل مخزون جديد بتوقيع".$event->store_transaction->signature;
         $type = 'new_store_transaction_added';
         $data = [
             'item_id' => $event->store_transaction->id,
             'message' => $message,
             'type' => $type,
             'title' => $title
-
         ];
 
         $users = User::where('id', $event->store_transaction->distributor_id)

@@ -17,7 +17,10 @@ class Task extends Model
             'name', 'type', 'description', 'duration', 'date', 'time_from', 'equation_mark', 'rate', 'period', 'after_task_id', 'clause_id', 'clause_amount',];
 
 
-    public static $types = ['period' => 'دورية', 'date' => 'روتينه او مفاجئة', 'after_task' => 'مهمة تابعة', 'depends' => 'مهمة مبنية على معادلة'];
+    public static $types = ['period' => 'دورية',
+        'date' => 'روتينه او مفاجئة',
+        'after_task' => 'مهمة تابعة',
+        'depends' => 'مهمة مبنية على معادلة'];
 
     public static function boot()
     {
@@ -107,14 +110,18 @@ class Task extends Model
 
     public function scopePresent($query, $user_id = null,$assigned_only=null)
     {
-        $user_tasks = TaskUser::where('finished_at',null)->when(($user_id != null), function ($task_user) use ($user_id,$assigned_only) {
-            $task_user->where('user_id', $user_id);
-            if (is_null($assigned_only))
-            {
-                $task_user->Orwhere('finisher_id', $user_id);
-                $task_user->Orwhere('rater_id', $user_id);
-            }
-        })->get()->filter('presentFilter');
+        $user_tasks = TaskUser::where('finished_at', null)
+
+            ->has('task')
+            ->when(($user_id != null),
+                function ($task_user) use ($user_id, $assigned_only) {
+            $task_user->OfUser($user_id,$assigned_only);
+                }
+            )
+            ->whereIn('task_id', [337])
+            ->get()
+            ->filter('presentFilter');
+
         $user_tasks_ids = $user_tasks->pluck('task_id');
         return $query->whereIn('id', $user_tasks_ids);
     }
@@ -122,39 +129,26 @@ class Task extends Model
     public function scopeMine($query, $user_id = null,$assigned_only=null)
     {
         $user_tasks = TaskUser::when(($user_id != null), function ($task_user) use ($user_id,$assigned_only) {
-            $task_user->where('user_id', $user_id);
-            if (is_null($assigned_only))
-            {
-                $task_user->Orwhere('finisher_id', $user_id);
-                $task_user->Orwhere('rater_id', $user_id);
-            }
-        })->get();
+            $task_user->OfUser($user_id,$assigned_only);
+        })->has('task')->get();
         $user_tasks_ids = $user_tasks->pluck('task_id');
         return $query->whereIn('id', $user_tasks_ids);
     }
     public function scopeOld($query, $user_id = null,$assigned_only=null)
     {
-        $user_tasks = TaskUser::where('finished_at','!=',null)->where('worker_finished_at','!=',null)->when(($user_id != null), function ($task_user) use ($user_id,$assigned_only) {
-            $task_user->where('user_id', $user_id);
-            if (is_null($assigned_only))
-            {
-                $task_user->Orwhere('finisher_id', $user_id);
-                $task_user->Orwhere('rater_id', $user_id);
-            }
-        })->get()/*->filter('oldFilter')*/;
+        $user_tasks = TaskUser::where('finished_at','!=',null)->has('task')->where('worker_finished_at','!=',null)->when(($user_id != null), function ($task_user) use ($user_id,$assigned_only) {
+            $task_user->OfUser($user_id,$assigned_only);
+        })->get()->filter('oldFilter');
         $user_tasks_ids = $user_tasks->pluck('task_id');
         return $query->whereIn('id', $user_tasks_ids);
     }
 
     public function scopeFuture($query, $user_id = null,$assigned_only=null)
     {
-        $user_tasks = TaskUser::where('finished_at',null)->where('worker_finished_at',null)->when(($user_id != null), function ($task_user) use ($user_id,$assigned_only) {
-            $task_user->where('user_id', $user_id);
-            if (is_null($assigned_only))
-            {
-                $task_user->Orwhere('finisher_id', $user_id);
-                $task_user->Orwhere('rater_id', $user_id);
-            }
+        $user_tasks = TaskUser::where('finished_at',null)->has('task')
+            ->where('worker_finished_at',null)
+            ->when(($user_id != null), function ($task_user) use ($user_id,$assigned_only) {
+            $task_user->OfUser($user_id,$assigned_only);
         })->get()->filter('futureFilter');
         $user_tasks_ids = $user_tasks->pluck('task_id');
         return $query->whereIn('id', $user_tasks_ids);
@@ -162,10 +156,9 @@ class Task extends Model
 
     public function scopeToFinish($query, $user_id = null)
     {
-        $user_tasks = TaskUser::whereNotNull('worker_finished_at')->whereNull('finished_at')->when(($user_id != null), function ($task_user) use ($user_id) {
-//            $task_user->where('user_id', $user_id);
-            $task_user->where('finisher_id', $user_id);
-//            $task_user->Orwhere('rater_id', $user_id);
+        $user_tasks = TaskUser::whereNotNull('worker_finished_at')->whereNull('finished_at')
+            ->when(($user_id != null), function ($task_user) use ($user_id) {
+       $task_user->where('finisher_id', $user_id);
         })->whereNull('finished_at')->get();
         $user_tasks_ids = $user_tasks->pluck('task_id');
         return $query->whereIn('id', $user_tasks_ids);

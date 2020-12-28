@@ -33,6 +33,7 @@ class StoreTransferController extends Controller
             'distributor_id'=>"required|numeric|exists:users,id",
             'quantity'=>"required|array|min:1",
             'product_id'=>"required|array|min:1",
+            'signature'=>'required',
         ];
         $messages  = [
             'sender_id.different'=>"يجب اختيار مندوبين مختلفين"

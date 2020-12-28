@@ -389,7 +389,7 @@
         </div>
     </div>
     {{--modals--}}
-    @php($users=\App\User::pluck('name','id'))
+    @php($users=\App\Models\User::pluck('name','id'))
     @foreach($task->task_users as $user)
 
         @can('replace_tasks')

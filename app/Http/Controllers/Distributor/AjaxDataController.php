@@ -152,12 +152,12 @@ class AjaxDataController extends Controller
         return response()->json([
             'status' => true,
             'data' => view(
-                'distributor.stores.getAjaxProducts',
+                'distributor.stores.getAjaxTripsDate',
                 [
                     'cars' => TripInventory
                         ::FilterRoute($request->route_id)
                         ->filterDistributor($request->distributor_id)
-                        ->select(DB::raw('created_at as name ,id'))
+                        ->select(DB::raw('Date(created_at) as name, Date(created_at) as id'))
                         ->get()
                 ]
             )->render()

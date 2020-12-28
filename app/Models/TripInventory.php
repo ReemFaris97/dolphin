@@ -132,4 +132,56 @@ class TripInventory extends Model
             $trip->where('route_id',$route_id);
         });
     }
+
+
+    public function getProductItemsAttribute()
+    {
+
+
+        $products = collect([]);
+
+        $product_stub = [
+            'product_name' => null,
+            'product_id' => null,
+            'exists' => 0,
+            'sells' => 0,
+            'selling' => 0,
+        ];
+
+        // dd($trips->previous_trip_report);
+        //inventory products
+        foreach ($this->products ?? [] as $product) {
+            $product_item = $product_stub;
+            $product_item['product_name'] = $product->product->name;
+            $product_item['product_id'] = $product->product_id;
+
+            if ($products->has($product->product_id)) {
+                $product_item = $products->get($product->product_id);
+            }
+            $product_item['exists'] = $product->quantity;
+            $pervious_sells = 0;
+            $pervious_exists = 0;
+            if ($this->previous_trip_report != null) {
+                $pervious_sells = $this->previous_trip_report->products->where('product_id', $product->product_id)->sum('quantity');
+                $pervious_exists = $this->previous_trip_inventory->products->where('product_id', $product->product_id)->sum('quantity');
+            }
+            $selling = ($pervious_sells + $pervious_exists) - $product->quantity;
+            $product_item['selling'] = $selling;
+            $products[$product->product_id] = $product_item;
+        }
+
+
+        foreach ($this->trip_report->products ?? [] as $product) {
+            $product_item = $product_stub;
+            $product_item['product_id'] = $product->product_id;
+
+            if ($products->has($product->product_id)) {
+                $product_item = $products->get($product->product_id);
+            }
+            $product_item['sells'] = $product->quantity;
+            $products[$product->product_id] = $product_item;
+        }
+
+        return $products->values();
+    }
 }

@@ -18,7 +18,7 @@
 			</span>
         </a>
     </div>
-    {!! Form::select("company_id",$companies,null,['class'=>'form-control js-example-basic-single','required',placeholder'=>' اختر اسم الشركة التابع لها الفرع '])!!}
+    {!! Form::select("company_id",$companies,null,['class'=>'form-control js-example-basic-single','required','placeholder'=>' اختر اسم الشركة التابع لها الفرع '])!!}
 </div>
 
 <div class="form-group col-md-6 pull-left">
