@@ -188,7 +188,7 @@ class ClausesController extends Controller
 
         $blocked_at = $clause->blocked_at;
         if ($blocked_at == null) {
-            $clause->fill(['blocked_at' => Carbon::now(env('TIME_ZONE','Africa/Cairo'))]);
+            $clause->fill(['blocked_at' => Carbon::now(env('TIME_ZONE','Asia/Riyadh'))]);
         } else {
             $clause->fill(['blocked_at' => null]);
         }
