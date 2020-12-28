@@ -60,18 +60,19 @@ class SpinnerController extends Controller
      * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
      */
     public function getAllTasks(){
+        $tasks=Task::query();
         if (\request('worker_id')!="")
         {
-            $tasks_ids = User::find(\request('worker_id'))->tasks->pluck('task_id');
-            $tasks = Task::whereIn('id',$tasks_ids)->get();
+            $tasks_ids = User::find(\request('worker_id'))->tasks/*->where('finished_at','!=',Null)*/->pluck('task_id');
+
+            $tasks = $tasks->whereIn('id',$tasks_ids);
         }
-        elseif (\request('current') != "")
+        if (\request('current') != "")
         {
-            $tasks =  Task::present()->get();
+            $tasks =  $tasks->present();
         }
-        else{
-            $tasks = Task::get();
-        }
+
+        $tasks=$tasks->get();
         return $this->apiResponse(GeneralModelResource::collection($tasks));
     }
 
@@ -84,6 +85,6 @@ class SpinnerController extends Controller
         $tasks = Clause::get();
         return $this->apiResponse(SpinnerClausesResource::collection($tasks));
     }
-  
+
 
 }

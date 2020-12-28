@@ -94,7 +94,10 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
+
+        if(gettype($request['users'])!=='array'){
        $request['users'] = json_decode($request->users,TRUE);
+        }
         $rules = [
             "name" => "required|string|max:191",
             "description" => "required|string",
