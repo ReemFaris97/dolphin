@@ -18,9 +18,9 @@ class WorkerTaskFinish
     public function handle(WorkerTaskFinished $event)
     {
         $title = 'هناك اشعار جديد';
-        $message = ' تم اسناد صلاحية انهاء المهمه  '
-            .$event->task->name.
-            ' اليك ';
+        $message = ' تم أداء المهمة '
+            .$event->task->name
+           ;
         $type = 'finish_task';
         $data = [
             'item_id'=>$event->task->id,
