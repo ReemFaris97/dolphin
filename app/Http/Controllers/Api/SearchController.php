@@ -44,6 +44,7 @@ class SearchController extends Controller
                 ->orwhere('name','Like',\request('name'))
                 ->where('id','!=',auth()->user()->id)->
                 paginate($this->paginateNumber);
+
         return $this->apiResponse(new InboxResource($users));
     }
 
