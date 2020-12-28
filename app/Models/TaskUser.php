@@ -140,7 +140,7 @@ class TaskUser extends Model
     }
 
 
-    function getFullDateAttribute()
+    public function getFullDateAttribute()
     {
         $date = $this->task->date;
         $after_date = date('Y-m-d', strtotime($date . ' + ' . $this->days . ' days'));
@@ -153,7 +153,7 @@ class TaskUser extends Model
     }
 
 
-    function getTotalDurationAttribute()
+    public function getTotalDurationAttribute()
     {
         $all_task_users = TaskUser::where('task_id', $this->task_id)->
         where('id', '<=', $this->id)->orderBy('id', 'asc')->get();
@@ -161,21 +161,49 @@ class TaskUser extends Model
         return $all_task_users_duration;
     }
 
-    function getToTimeAttribute()
+
+    public function getToTimeAttribute()
     {
         return optional(optional($this->task)->date_with_time)->addSeconds($this->total_duration);
     }
 
-    function getFromTimeAttribute()
+    public function getFromTimeAttribute()
     {
         if (optional($this->task)->date_with_time == null) {
             return null;
         }
-        return optional($this->task)->date_with_time->
-        addSeconds($this->total_duration)->subSeconds($this->task_duration);
+        return optional($this->task)->date_with_time->addSeconds($this->total_duration)->subSeconds($this->task_duration);
     }
 
-    function getCanFinishAttribute()
+    public function getStatusAttribute()
+    {
+
+        if ($this->from_time == null) {
+            return 'future';
+        };
+
+        if (
+            Carbon::now()->greaterThanOrEqualTo($this->from_time)
+            && Carbon::now()->LessThanOrEqualTo($this->to_time)
+        ) {
+            return 'active';
+        }
+
+        if (Carbon::now()->greaterThan($this->from_time) && Carbon::now()->greaterThan($this->to_time)) {
+            return 'old';
+        }
+
+        if (
+            Carbon::now()->lessThan($this->from_time)
+            && Carbon::now()->lessThan($this->to_time)
+        ) {
+            return 'future';
+        }
+    }
+
+
+
+    public    function getCanFinishAttribute()
     {
         $finished_users = TaskUser::where('task_id', $this->task_id)->where('finished_at', '!=', null)->get();
         $can_finsh = Carbon::now()->between($this->from_time, $this->to_time);
