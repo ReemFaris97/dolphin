@@ -41,7 +41,10 @@ class SearchController extends Controller
         ]);
             $users = User::where('name','Like','%'.\request('name'))
                 ->orwhere('name','Like','%'.\request('name').'%')
-                ->orwhere('name','Like',\request('name'))->paginate($this->paginateNumber);
+                ->orwhere('name','Like',\request('name'))
+                ->where('id','!=',auth()->user()->id)->
+                paginate($this->paginateNumber);
+
         return $this->apiResponse(new InboxResource($users));
     }
 
