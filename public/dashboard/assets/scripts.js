@@ -118,10 +118,29 @@ function read_notification(url){
     })
 }
 
-$('[data-countdown]').each(function() {
+$("[data-countdown]").each(function (key, val) {
+    console.log(val);
     var $this = $(this),
-        finalDate = $(this).data('countdown');
-    $this.countdown(finalDate, function(event) {
-        $this.html(event.strftime('%D يوم %H  ساعة %M دقيقة %S ثانية'));
-    });
+        finalDate = $(this).data("countdown");
+    // debugger;
+    /* {elapse: true})
+  .on('update.countdown', function(event) {
+    if (event.elapsed) { // Either true or false
+      // Counting up...
+    } else {
+      // Countdown...
+    }
+  }); */
+    $this
+        .countdown(finalDate, { elapse: true })
+        .on("update.countdown", function (event) {
+            if (event.elapsed) {
+                $this.html(event.strftime("(-%D) يوم (-%H)  ساعة (-%M) دقيقة (-%S )ثانية"));
+
+            }
+
+            else{
+            $this.html(event.strftime("%D يوم %H  ساعة %M دقيقة %S ثانية"));
+        }
+        });
 });
