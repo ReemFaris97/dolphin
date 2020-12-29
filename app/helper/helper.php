@@ -527,7 +527,7 @@ function presentFilter($task_user)
     };
     //    dd($task_user);
     return (Carbon::now()->greaterThanOrEqualTo($task_user->from_time)
-        && Carbon::now()->LessThanOrEqualTo($task_user->to_time));
+        /* && Carbon::now()->LessThanOrEqualTo($task_user->to_time) */);
 }
 
 function oldFilter($task_user)
@@ -536,9 +536,6 @@ function oldFilter($task_user)
         return false;
     };
 
-    if ($task_user->id == 100) {
-        dd($task_user);
-    }
     return (Carbon::now()->greaterThan($task_user->from_time) && Carbon::now()->greaterThan($task_user->to_time));
 }
 function futureFilter($task_user)
