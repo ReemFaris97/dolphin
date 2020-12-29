@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 class TaskUser extends Model
@@ -152,13 +153,34 @@ class TaskUser extends Model
         return $full_time;
     }
 
+    public function scopeWithTotalDuration($q)
+    {
+        $q->addSelect(DB::raw("(
+            select sum(task_duration)
+             from task_users as tu2
+             where task_users.task_id = tu2.task_id
+             and task_users.id>=tu2.id
+             limit 1
+             ) as total_duration"));
+    }
+    public function scopeFromTimeDuration($q)
+    {
+        $q->addSelect(DB::raw("(
+            select sum(task_duration)
+             from task_users as tu2
+             where task_users.task_id = tu2.task_id
+             and task_users.id>=tu2.id
+             limit 1
+             ) as total_duration"));
+    }
 
     public function getTotalDurationAttribute()
     {
-        $all_task_users = TaskUser::where('task_id', $this->task_id)->
-        where('id', '<=', $this->id)->orderBy('id', 'asc')->get();
-        $all_task_users_duration = $all_task_users->sum('task_duration');
-        return $all_task_users_duration;
+
+        if (!isset($this->attributes['total_duration'])) {
+            return TaskUser::where('task_id', $this->task_id)->where('id', '<=', $this->id)->orderBy('id', 'asc')->sum('task_duration');
+        }
+        return $this->total_duration;
     }
 
 

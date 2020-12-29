@@ -31,13 +31,10 @@ class TaskController extends Controller
      */
     public function index()
     {
-        /*if (!auth()->user()->hasPermissionTo('view_tasks')) {
-            return abort(401);
-        }*/
-        Task::present()->whereIn('id', [337, 338])->get();
-        $old_tasks = Task::old()->with('task_users')->get()->reverse();;
-        $present_tasks = Task::present()->with('task_users')->get()->reverse();
-        $future_tasks = Task::future()->with('task_users')->get()->reverse();
+        $old_tasks = Task::old(auth()->id())->with('task_users')->get()->reverse();;
+        $present_tasks = Task::present(auth()->id())->with('task_users')->get()->reverse();
+
+        $future_tasks = Task::future(auth()->id())->with('task_users')->get()->reverse();
         $page_title = "مهمات النظام";
 
 
