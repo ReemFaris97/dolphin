@@ -118,7 +118,7 @@ class Task extends Model
             $task_user->OfUser($user_id,$assigned_only);
                 }
             )
-            ->whereIn('task_id', [337])
+            //->whereIn('task_id', [337])
             ->get()
             ->filter('presentFilter');
 
@@ -176,8 +176,9 @@ class Task extends Model
 
     public function getDateWithTimeAttribute()
     {
+
         $date = is_null($this->date) ? $this->created_at->addDays(30)->format('Y-m-d') : $this->date->toDateString();
-        $time_from = is_null($this->time_from) ? "00:00:00" : date("H:i:s", strtotime($this->time_from));;
+        $time_from = is_null($this->time_from) ? "00:00:00" : date("H:i:s", strtotime($this->time_from));
         $date_with_time = $date . ' ' . $time_from;
         return Carbon::parse($date_with_time);
     }

@@ -51,7 +51,7 @@
 
                 <div class="col-xs-4">
                     <label>الموظف</label>
-                    <input type="text" disabled class="form-control m-input" value="{{$charge->worker->name}}">
+                    <input type="text" disabled class="form-control m-input" value="{{($charge->worker)->name}}">
                 </div>
 
 
@@ -100,10 +100,10 @@
             @foreach($charge->logs as $log)
                 <tr>
                     <td>{{$loop->iteration}}</td>
-                    <td>{{$log->charge->supervisor->name}}</td>
+                    <td>{{optional(optional($log->charge)->supervisor)->name}}</td>
                     <td>{{$log->created_at->format('Y-m-d')}}</td>
-                    <td>{{$log->previousWorker->name??"احمد"}}</td>
-                    <td>{{$log->worker->name}}</td>
+                    <td>{{optional($log->previousWorker)->name??"احمد"}}</td>
+                    <td>{{optional($log->worker)->name}}</td>
                     <td>
 <!--                        @foreach($log->images as $image)-->
                             <ul style="list-style: none;">
@@ -153,7 +153,7 @@
                 <td>
                       <ul class="table-images-wrapper" style="list-style: none;">
 							@foreach($note->images as $image)
-                            <li class="img-list-wrapper"> 
+                            <li class="img-list-wrapper">
 								<a href="{{getimgWeb($image->image)}}" data-fancybox="notesimg">
                                 	<img src="{{getimgWeb($image->image)}}">
 								</a>
@@ -161,7 +161,7 @@
                             </li>
                              @endforeach
                         </ul>
-                   
+
                 </td>
                 <td>
                     @if($charge->destroyed_at == null)
