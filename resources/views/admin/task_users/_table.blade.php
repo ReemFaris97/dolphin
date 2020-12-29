@@ -22,7 +22,7 @@
             <td>{!!optional($user->task)->description!!}</td>
             <td>
                 <div>{!! $user->to_time->format('Y/m/d h:m:s') !!}</div>
-                <div. data-countdown="{!! $user->to_time->format('Y/m/d h:m:s') !!}"></div>
+                <div data-countdown="{!! $user->to_time->format('Y/m/d h:m:s') !!}"></div>
             </td>
             <td>{!!$user->rate!!} /5</td>
             <td>{!!optional($user->user)->name!!}</td>
