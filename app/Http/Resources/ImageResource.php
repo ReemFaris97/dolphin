@@ -16,6 +16,7 @@ class ImageResource extends JsonResource
     {
         return [
             'id'=>$this->id,
+            'user_id'=>auth()->user()->id,
             'image'=>getimg($this->image),
         ];
     }

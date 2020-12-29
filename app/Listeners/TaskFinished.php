@@ -16,7 +16,7 @@ class TaskFinished
     public function handle(\App\Events\TaskFinished $event)
     {
         $title = 'هناك اشعار جديد';
-        $message = ' تم انهاء المهمه  '
+        $message = ' تم أداء المهمه  '
             . $event->task->name .
             ' من قبل المشرف ';
         $type = 'finished_task';
