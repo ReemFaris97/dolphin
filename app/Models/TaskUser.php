@@ -88,7 +88,8 @@ class TaskUser extends Model
         return ['days' => $days, 'hours' => $hours, 'minutes' => $minutes];
 
     }
-    public  function scopeOfUser($task_user,$user_id,$assigned_only) :void{
+    public  function scopeOfUser($task_user, $user_id, $assigned_only = null): void
+    {
         $task_user->where(function ($q) use ($user_id, $assigned_only) {
             $q->where('user_id', $user_id);
             if (is_null($assigned_only))
@@ -101,7 +102,7 @@ class TaskUser extends Model
                 $q->Orwhere(function ($q) use($user_id){
 
                     $q->where('rater_id', $user_id);
-                    $q->where('finished_at', '!=',Null);
+                    $q->where('worker_finished_at', '!=', Null);
 
                 });
 
@@ -206,7 +207,7 @@ class TaskUser extends Model
 
         if (
             Carbon::now()->greaterThanOrEqualTo($this->from_time)
-            && Carbon::now()->LessThanOrEqualTo($this->to_time)
+        //    && Carbon::now()->LessThanOrEqualTo($this->to_time)
         ) {
             return 'active';
         }
