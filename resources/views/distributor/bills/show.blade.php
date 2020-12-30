@@ -30,11 +30,11 @@
                 <header>
                     <div class="hd_inn">
                         <div class="hd_txt">
-                            <h3>شركة دولفين العالمية للحلويات والمكسرات</h3>
-                            <h3>Dolphin International Company for sweets and nuts</h3>
+                            <h3>شركة دولفين  للحلويات والمكسرات</h3>
+                            <h3>Dolphin  Company for sweets and nuts</h3>
                             <div class="flexx">
-                                <h5>تجارة المواد الغذائية بالجملة</h5>
-                                <h5>Wholesale foodstuff trading</h5>
+{{--                                <h5>تجارة المواد الغذائية بالجملة</h5>--}}
+{{--                                <h5>Wholesale foodstuff trading</h5>--}}
                             </div>
                         </div>
                         <div class="logo">
@@ -142,7 +142,7 @@
                                     <h4>اسم المندوب</h4>
                                     <h4>Representative Name</h4>
                                 </div>
-                                <p>محمد أحمد</p>
+                                <p> {{optional($bill->route_trip)->route->user->name ??''}}</p>
                             </div>
                             <!-- <div class="box1">
                                     <div class="flexx">
@@ -219,21 +219,21 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th>{{ $bill->cash}}</th>
+                                <th>{{ $bill->product_total()}}</th>
                                 <th colspan="10">
                                     <p>total</p>
                                     <p>الإجمالى (بدون ضريبة)</p>
                                 </th>
                             </tr>
                             <tr>
-                                <th>{{($bill->cash*getsetting('general_taxs') /100)}}</th>
+                                <th>{{($bill->product_total() *getsetting('general_taxs') /100)}}</th>
                                 <th colspan="10">
                                     <p>vat (15%)</p>
                                     <p>قيمة القيمة المضافة</p>
                                 </th>
                             </tr>
                             <tr>
-                                <th>{{$bill->cash+($bill->cash*getsetting('general_taxs') /100)}}</th>
+                                <th>{{$bill->product_total()+($bill->product_total()*getsetting('general_taxs') /100)}}</th>
                                 <th>
                                     <p>net amount</p>
                                     <p>اجمالى الفاتورة</p>
@@ -244,10 +244,13 @@
                                             <h4>المبلغ كتابة:</h4>
                                             <h4>S.R in words:</h4>
                                         </div>
-                                        <p>{{ $bill->CashArabic($bill->cash+($bill->cash*getsetting('general_taxs')/100))[0] }}
-                                            ريال و
-                                            {{ $bill->CashArabic($bill->cash+($bill->cash*getsetting('general_taxs')/100))[1] }}
-                                            هللة لاغير
+                                        <p>{{ $bill->CashArabic($bill->product_total()+($bill->product_total()*getsetting('general_taxs')/100))[0] }}
+                                            ريال
+                                            {{ $bill->CashArabic($bill->product_total()+($bill->product_total()*getsetting('general_taxs')/100))[1] ??''}}
+                                            @if($bill->CashArabic($bill->product_total()+($bill->product_total()*getsetting('general_taxs')/100))[1]!=0)
+                                            هللة
+                                                @endif
+                                            لاغير
                                         </p>
                                     </div>
                                 </th>
@@ -310,7 +313,7 @@
             </div>
         </div>
     </div>
-
+</div>
     @push('scripts')
     <script src="{!! asset('dashboard/assets/vendors/base/jquery-2.1.4.min.js') !!}"></script>
 
