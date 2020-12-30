@@ -56,7 +56,18 @@ class RouteTripReport extends Model
     {
         return $this->morphMany(AttachedProducts::class, 'model')->with('product');
     }
-
+    public function product_total()
+    {
+        $products=$this->morphMany(AttachedProducts::class, 'model')->with('product');
+      $total=0;
+//      dd($products->get());
+        foreach( $products->get() as $item){
+          $sum= $item->price* $item->quantity;
+          $total+=$sum;
+      }
+//        dd($total);
+        return $total;
+    }
 
     public function images()
     {
@@ -134,8 +145,8 @@ class RouteTripReport extends Model
     {
         $total = explode(".", $cach);
         $total_in_arabic_rial=new  num_to_ar($total[0],"male");
-        $total_in_arabic_halla=new  num_to_ar($total[1],"male");
-        $AllTotal=[$total_in_arabic_rial->convert_number(), $total_in_arabic_halla->convert_number()];
+        $total_in_arabic_halla=new  num_to_ar($total[1]??0,"male");
+        $AllTotal=[$total_in_arabic_rial->convert_number(), $total_in_arabic_halla->convert_number()??0];
         return $AllTotal;
     }
 }
