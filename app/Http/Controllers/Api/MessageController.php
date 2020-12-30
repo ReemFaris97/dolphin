@@ -78,7 +78,6 @@ class MessageController extends Controller
             $input['receiver_id']=$user_id;
             $message=auth()->user()->messages()->create($input);
         }
-
         $options = array(
             'cluster' => 'eu',
             'useTLS' => true
@@ -89,7 +88,6 @@ class MessageController extends Controller
             '791292',
             $options
         );
-
         $q=$message;
         $data = [
             'id'=>$q->id,
@@ -104,7 +102,6 @@ class MessageController extends Controller
             ]
         ];
         $pusher->trigger('privatechat.'.$user_id, 'PrivateMessageSent', $data);
-
         return $this->apiResponse('تم ارسال الرسالة بنجاح');
     }
 
