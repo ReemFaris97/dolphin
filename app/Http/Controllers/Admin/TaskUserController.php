@@ -16,9 +16,11 @@ class TaskUserController extends Controller
 
     public function presentTasks()
     {
-        $task_users = TaskUser::where('finished_at', null)->where(function ($q) {
+        $task_users = TaskUser::where('finished_at', null)
+            ->where(function ($q) {
             $q->where('finisher_id', \Auth::id());
             $q->orWhere('user_id', Auth::id());
+            $q->orWhere('rater_id', Auth::id());
         })->get()->filter('presentFilter')->reverse();
         $page_title = 'مهمات تحت العمل';
         return $this->toIndex(compact('task_users', 'page_title'));
@@ -44,7 +46,7 @@ class TaskUserController extends Controller
 
     public function ratableTasks()
     {
-        $task_users = TaskUser::where('finished_at', '!=', null)->where('rate', null)->where('rater_id', \Auth::id())->get()->reverse();
+        $task_users = TaskUser::/* where('finished_at', '!=', null)-> */where('rate', null)->where('rater_id', \Auth::id())->get()->reverse();
         $page_title = 'مهمات تحتاج للتقيم';
         return $this->toIndex(compact('task_users', 'page_title'));
     }
