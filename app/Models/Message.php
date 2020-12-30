@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Message extends Model
 {
     protected $guarded=[];
-    protected $fillable=['user_id','receiver_id','image','message'];
+    protected $fillable=['user_id','receiver_id','image','message','channel_id'];
 
     public function user()
     {

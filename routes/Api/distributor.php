@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 Route::get('/get_tax','StoreController@getTax');
+Route::get('/bills/print_bill/{id}', 'RouteController@print_bill');
 
 Route::group(['middleware' => ['jwt.auth']], function () {
 
@@ -24,6 +25,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::resource('routes','RouteController');
     Route::post('make_inventory/{type}','RouteController@makeInventory');
     Route::post('make_bill','RouteController@attachProducts');
+
     Route::post('attach_images','RouteController@attachImages');
     Route::get('current_trips','RouteController@currentTrips');
     Route::post('add_client/{route_id}','RouteController@AddClientToRoute');
