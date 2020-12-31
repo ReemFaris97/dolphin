@@ -145,7 +145,12 @@
                             <tr>
                                 <td>{!! $loop->iteration !!}</td>
                                 <td>
-                                    <div data-countdown="{!! $user->to_time->format('Y/m/d h:m:s') !!}"></div>
+                                    <div>{!! $user->to_time->format('Y/m/d H:m:s') !!}</div>
+
+                                                  <div data-countdown="{!! $user->to_time->format('Y/m/d H:m:s') !!}" >
+                                                    {!! $user->to_time->format('Y/m/d H:m:s') !!}
+                                                </div>
+
 
                                 </td>
                                 <td>{!!$user->rate!!} /5</td>

@@ -21,7 +21,8 @@
             <td>{!!optional($user->task)->name!!}</td>
             <td>{!!optional($user->task)->description!!}</td>
             <td>
-                <div data-countdown="{!! $user->to_time->format('Y/m/d h:m:s') !!}"></div>
+                <div>{!! $user->to_time->format('Y/m/d H:m:s') !!}</div>
+                <div data-countdown="{!! $user->to_time->format('Y/m/d H:m:s') !!}"></div>
             </td>
             <td>{!!$user->rate!!} /5</td>
             <td>{!!optional($user->user)->name!!}</td>
@@ -32,24 +33,26 @@
             <td>
 
 
-                @if($user->rate==null&& $user->rater_id==Auth::user()->id &&$user->finished_at!=null)
+                @if($user->rate==null&& $user->rater_id==Auth::user()->id &&$user->worker_finished_at!=null)
                     <a class="btn btn-primary" data-toggle="modal"
                        data-target="#rate_task_{!! $user->id !!}">
                         <i class="fas fa-star"></i>
                         تقيم
                     </a>
                 @endif
-                @if($user->worker_finished_at==null && $user->user_id==Auth::user()->id)
-                    @if(!(\App\Models\TaskUser::notFinished()->where('id',$user->id)->first() && \Carbon\Carbon::now()->greaterThan($user->from_time) && \Carbon\Carbon::now()->greaterThan($user->to_time)))
+                @if(
+                $user->worker_finished_at==null &&
+                 $user->user_id==Auth::user()->id
+                && $user->status=='active'
+                )
                     <form method="POST" action="{!!route('admin.tasks.finishWorker',$user->id)!!}">
                         @csrf()
                         <button type="submit" class="btn btn-danger">
                             <i class="fas fa-check"></i>
 اتمام                        </button>
                     </form>
-                    @endif
-                @endif
-                    @if($user->finished_at==null && $user->finisher_id==Auth::user()->id && $user->can_finish && $user->worker_finished_at!=null)
+@endif
+                    @if($user->finished_at==null && $user->finisher_id==Auth::user()->id &&  $user->worker_finished_at!=null)
                     <form method="POST" action="{!!route('admin.tasks.finish',$user->id)!!}">
                         @csrf()
                         <button type="submit" class="btn btn-danger">

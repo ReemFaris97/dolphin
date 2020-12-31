@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 class TaskUser extends Model
@@ -87,7 +88,8 @@ class TaskUser extends Model
         return ['days' => $days, 'hours' => $hours, 'minutes' => $minutes];
 
     }
-    public  function scopeOfUser($task_user,$user_id,$assigned_only) :void{
+    public  function scopeOfUser($task_user, $user_id, $assigned_only = null): void
+    {
         $task_user->where(function ($q) use ($user_id, $assigned_only) {
             $q->where('user_id', $user_id);
             if (is_null($assigned_only))
@@ -100,7 +102,7 @@ class TaskUser extends Model
                 $q->Orwhere(function ($q) use($user_id){
 
                     $q->where('rater_id', $user_id);
-                    $q->where('finished_at', '!=',Null);
+                    $q->where('worker_finished_at', '!=', Null);
 
                 });
 
@@ -140,7 +142,7 @@ class TaskUser extends Model
     }
 
 
-    function getFullDateAttribute()
+    public function getFullDateAttribute()
     {
         $date = $this->task->date;
         $after_date = date('Y-m-d', strtotime($date . ' + ' . $this->days . ' days'));
@@ -152,30 +154,79 @@ class TaskUser extends Model
         return $full_time;
     }
 
-
-    function getTotalDurationAttribute()
+    public function scopeWithTotalDuration($q)
     {
-        $all_task_users = TaskUser::where('task_id', $this->task_id)->
-        where('id', '<=', $this->id)->orderBy('id', 'asc')->get();
-        $all_task_users_duration = $all_task_users->sum('task_duration');
-        return $all_task_users_duration;
+        $q->addSelect(DB::raw("(
+            select sum(task_duration)
+             from task_users as tu2
+             where task_users.task_id = tu2.task_id
+             and task_users.id>=tu2.id
+             limit 1
+             ) as total_duration"));
+    }
+    public function scopeFromTimeDuration($q)
+    {
+        $q->addSelect(DB::raw("(
+            select sum(task_duration)
+             from task_users as tu2
+             where task_users.task_id = tu2.task_id
+             and task_users.id>=tu2.id
+             limit 1
+             ) as total_duration"));
     }
 
-    function getToTimeAttribute()
+    public function getTotalDurationAttribute()
+    {
+
+        if (!isset($this->attributes['total_duration'])) {
+            return TaskUser::where('task_id', $this->task_id)->where('id', '<=', $this->id)->orderBy('id', 'asc')->sum('task_duration');
+        }
+        return $this->total_duration;
+    }
+
+
+    public function getToTimeAttribute()
     {
         return optional(optional($this->task)->date_with_time)->addSeconds($this->total_duration);
     }
 
-    function getFromTimeAttribute()
+    public function getFromTimeAttribute()
     {
         if (optional($this->task)->date_with_time == null) {
             return null;
         }
-        return optional($this->task)->date_with_time->
-        addSeconds($this->total_duration)->subSeconds($this->task_duration);
+        return optional($this->task)->date_with_time->addSeconds($this->total_duration)->subSeconds($this->task_duration);
     }
 
-    function getCanFinishAttribute()
+    public function getStatusAttribute()
+    {
+
+        if ($this->from_time == null) {
+            return 'future';
+        };
+
+        if (
+            Carbon::now()->greaterThanOrEqualTo($this->from_time)
+        //    && Carbon::now()->LessThanOrEqualTo($this->to_time)
+        ) {
+            return 'active';
+        }
+
+        if (Carbon::now()->greaterThan($this->from_time) && Carbon::now()->greaterThan($this->to_time)) {
+            return 'old';
+        }
+
+        if (
+            Carbon::now()->lessThan($this->from_time)
+            && Carbon::now()->lessThan($this->to_time)
+        ) {
+            return 'future';
+        }
+    }
+
+
+
+    public    function getCanFinishAttribute()
     {
         $finished_users = TaskUser::where('task_id', $this->task_id)->where('finished_at', '!=', null)->get();
         $can_finsh = Carbon::now()->between($this->from_time, $this->to_time);

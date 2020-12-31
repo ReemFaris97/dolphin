@@ -25,8 +25,11 @@ class TaskRated
             'message'=>$message,
             'type'=>$type,
         ];
-        $this->fire($title,$message,$data,User::where('id',$event->task->currentTask()->user_id)->get());
-        $event->task->currentTask()->user->sendNotification($data,$type);
+        $current_task = $event->task->currentTask();
+
+        $this->fire($title, $message, $data, User::where('id', $current_task->user_id)->get());
+
+        optional($current_task->user)->sendNotification($data, $type);
     }
 
 }

@@ -5,6 +5,7 @@
 
 use App\Models\AccountingSystem\AccountingAccount;
 use App\Models\AccountingSystem\AccountingStore;
+use App\Models\Message;
 use Carbon\Carbon;
 
 
@@ -527,7 +528,7 @@ function presentFilter($task_user)
     };
     //    dd($task_user);
     return (Carbon::now()->greaterThanOrEqualTo($task_user->from_time)
-        && Carbon::now()->LessThanOrEqualTo($task_user->to_time));
+        /* && Carbon::now()->LessThanOrEqualTo($task_user->to_time) */);
 }
 
 function oldFilter($task_user)
@@ -535,6 +536,7 @@ function oldFilter($task_user)
     if($task_user->from_time==null){
         return false;
     };
+
     return (Carbon::now()->greaterThan($task_user->from_time) && Carbon::now()->greaterThan($task_user->to_time));
 }
 function futureFilter($task_user)
@@ -543,9 +545,9 @@ function futureFilter($task_user)
     if($task_user->from_time==null){
         return false;
     };
-//dd($task_user);
-    return (Carbon::now()->lessThan($task_user->from_time)
-        && Carbon::now()->lessThan($task_user->to_time));
+
+    //dd($task_user);
+    return Carbon::now()->lessThan($task_user->from_time);
 }
 
 
@@ -586,7 +588,11 @@ function lastMessage($user_id)
     elseif ($message_reciver) return $message_reciver->message;
     return 'لا يوجد رسائل';
 }
-
+//function channel_name($receiver_id){
+//    $channel_name=Message::where('channel_id',auth()->user()->id.'_'.$receiver_id)
+//        ->orWhere('channel_id',$receiver_id.'_'.auth()->user()->id)->first();
+//return $channel_name->channel_id;
+//}
 
 function allowExtentionsImage()
 {

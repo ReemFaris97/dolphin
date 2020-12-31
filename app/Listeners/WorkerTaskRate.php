@@ -18,9 +18,9 @@ class WorkerTaskRate
     public function handle(WorkerTaskFinished $event)
     {
         $title = 'هناك اشعار جديد';
-        $message = ' تم اسناد صلاحية تقييم المهمه  '
+        $message = ' تم أداء المهمة   '
             . $event->task->name .
-            ' اليك ';
+            'برجاء تقيمها';
         $type = 'rate_task';
         $data = [
             'item_id' => $event->task->id,

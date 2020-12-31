@@ -188,7 +188,7 @@ class UserController extends Controller
 
         $blocked_at = $user->blocked_at;
         if ($blocked_at == null) {
-            $user->fill(['blocked_at' => Carbon::now(env('TIME_ZONE','Africa/Cairo'))]);
+            $user->fill(['blocked_at' => Carbon::now(env('TIME_ZONE','Asia/Riyadh'))]);
         } else {
             $user->fill(['blocked_at' => null]);
         }

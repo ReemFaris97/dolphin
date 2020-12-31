@@ -71,14 +71,22 @@ class MessageController extends Controller
             $message=Message::create([
                 'user_id' => auth()->user()->id,
                 'image' => $filename,
-                'receiver_id' => $user_id
+                'receiver_id' => $user_id,
+                'channel_id' => auth()->user()->id.'_'.$user_id,
             ]);
         }else{
             $input=$request->all();
             $input['receiver_id']=$user_id;
+
+//            $channel_name=Message::where('channel_id',auth()->user()->id.'_'.$receiver_id)
+//                ->orWhere('channel_id',$receiver_id.'_'.auth()->user()->id)->first();
+//            if ($channel_name){
+//                $input['channel_id']= $channel_name->channel_id;
+//            }else{
+//                $input['channel_id'] = auth()->user()->id . '_' . $receiver_id;
+//            }
             $message=auth()->user()->messages()->create($input);
         }
-
         $options = array(
             'cluster' => 'eu',
             'useTLS' => true
@@ -89,7 +97,6 @@ class MessageController extends Controller
             '791292',
             $options
         );
-
         $q=$message;
         $data = [
             'id'=>$q->id,
@@ -104,7 +111,6 @@ class MessageController extends Controller
             ]
         ];
         $pusher->trigger('privatechat.'.$user_id, 'PrivateMessageSent', $data);
-
         return $this->apiResponse('تم ارسال الرسالة بنجاح');
     }
 

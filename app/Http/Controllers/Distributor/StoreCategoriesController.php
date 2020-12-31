@@ -118,7 +118,7 @@ class StoreCategoriesController extends Controller
 
         $blocked_at = $store_category->blocked_at;
         if ($blocked_at == null) {
-            $store_category->fill(['blocked_at' => Carbon::now(env('TIME_ZONE', 'Africa/Cairo'))]);
+            $store_category->fill(['blocked_at' => Carbon::now(env('TIME_ZONE', 'Asia/Riyadh'))]);
         } else {
             $store_category->fill(['blocked_at' => null]);
         }
