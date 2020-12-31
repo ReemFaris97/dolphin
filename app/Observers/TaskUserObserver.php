@@ -28,9 +28,11 @@ class TaskUserObserver
         if ($taskUser->isDirty('worker_finished_at')) {
 
             ////start task after  task
-            Task::where('after_task_id', $taskUser->task_id)->update(
-                ['date' => $taskUser->finished_at, 'time_from' => $taskUser->finished_at]
-            );
+            //  dd($taskUser->task_id);
+            $depends_tasks = Task::where('after_task_id', $taskUser->task_id)
+                ->update(
+                    ['date' => $taskUser->worker_finished_at, 'time_from' => $taskUser->worker_finished_at]
+                );
             ////start period   task
 
             if ($taskUser->task->type == 'period') {

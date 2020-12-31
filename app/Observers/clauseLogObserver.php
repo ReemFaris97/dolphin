@@ -16,17 +16,19 @@ class clauseLogObserver
      */
     public function created(ClauseLog $clauseLog)
     {
-        $depends_tasks = Task::where('type', 'depends')->where('clause_id', $clauseLog->clause_id)->get();
+        $depends_tasks = Task::where('type', 'depends')
+        ->where('clause_id', $clauseLog->clause_id)
+            ->whereNull('date')
+            ->get();
+            foreach ($depends_tasks as $task) {
 
-        foreach ($depends_tasks as $task) {
-            $statment = $task->clause_amount . ' ' . $task->equation_mark . ' ' . $task->clause_amount . ';';
+            $statment = $clauseLog->amount . ' ' . $task->equation_mark . ' ' .  $task->clause_amount . ';';
+
             if (eval("return $statment ;")) {
                 $task->fill(['date' => Carbon::now()])->save();
                 $task->save();
             }
         }
-
-        /*  */
 
 
     }
