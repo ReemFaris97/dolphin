@@ -1,3 +1,10 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v7.0.29,
+* Autoprefixer: v9.7.6
+* Browsers: last 4 version
+*/
+
 @font-face {
   font-family: "ElMessiri-Regular";
   src: url(../fonts/ElMessiri-Regular.ttf);
@@ -143,6 +150,7 @@
      border-image: initial;
   border-radius: 4px;
   -webkit-transition: all 0.5s ease 0s;
+  -o-transition: all 0.5s ease 0s;
   transition: all 0.5s ease 0s;
   background-color: #29567a;
   margin: 20px auto;
@@ -616,4 +624,3 @@ h3.m-portlet__head-text {
     margin: 24px auto !important;
   }
 }
-/*# sourceMappingURL=bill-print.css.map */
