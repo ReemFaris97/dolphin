@@ -316,18 +316,35 @@
 </div>
     @push('scripts')
     <script src="{!! asset('dashboard/assets/vendors/base/jquery-2.1.4.min.js') !!}"></script>
-
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        $(document).ready(function() {
+            $("#print-all").on('click', function() {
+                let t = document.getElementById("print_this").innerHTML;
+                let win = window.open('', '');
+                win.document.write(`<html>
+        <head>
+        <title>الفاتورة</title>
+<link href="{!! asset('dashboard/assets/demo/demo12/media/img/logo/logo-black.png')!!}" rel="icon">
+<link href="{!! asset('dashboard/assets/vendors/base/bill-print.css') !!}" rel="stylesheet">
+        <head>
+        <body>${t}</body></html>`);
+                win.document.close();
+                win.print();
+            });
+        })
+    </script>
+<!--
+    <script>
+		        document.addEventListener("DOMContentLoaded", function() {
             document.getElementById('print-all').addEventListener('click', () => {
                 var mywindow = window.open('', 'PRINT');
-                mywindow.document.write('<html>');
-                mywindow.document.write("<link href=\"{!! asset('dashboard/assets/demo/demo12/media/img/logo/logo-black.png')!!}\" rel=\"icon\"><link href=\"{!! asset('dashboard/assets/vendors/base/bill-print.css') !!}\" rel=\"stylesheet\">")
-                mywindow.document.write('<body >');
+                mywindow.document.write(`
+<body>
+`)
                 mywindow.document.write(document.getElementById('print_this').innerHTML);
-                mywindow.document.write('</body></html>');
-                mywindow.document.close(); // necessary for IE >= 10
-                mywindow.focus(); // necessary for IE >= 10*/
+                mywindow.document.write('</body>');
+                mywindow.document.close();
+                mywindow.focus();
                 setTimeout(function() {
                     mywindow.print();
                     mywindow.document.close();
@@ -335,6 +352,7 @@
                 return true;
             });
         })
-    </script>
+	</script>
+-->
     @endpush
     @endsection
