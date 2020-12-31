@@ -5,6 +5,7 @@
 
 use App\Models\AccountingSystem\AccountingAccount;
 use App\Models\AccountingSystem\AccountingStore;
+use App\Models\Message;
 use Carbon\Carbon;
 
 
@@ -587,7 +588,11 @@ function lastMessage($user_id)
     elseif ($message_reciver) return $message_reciver->message;
     return 'لا يوجد رسائل';
 }
-
+//function channel_name($receiver_id){
+//    $channel_name=Message::where('channel_id',auth()->user()->id.'_'.$receiver_id)
+//        ->orWhere('channel_id',$receiver_id.'_'.auth()->user()->id)->first();
+//return $channel_name->channel_id;
+//}
 
 function allowExtentionsImage()
 {

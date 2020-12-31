@@ -1,154 +1,3 @@
-{{--@extends('distributor.layouts.app')--}}
-{{--@section('title')--}}
-{{--@endsection--}}
-
-{{--@section('header')--}}
-{{--@endsection--}}
-
-{{--@section('breadcrumb') @php($breadcrumbs=['عرض الفاتورة'=>'/distributor',$bill->id])--}}
-{{--@includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])--}}
-{{--@endsection--}}
-
-{{--@section('content')--}}
-{{-- <div class="m-portlet m-portlet--mobile">--}}
-{{-- <div class="m-portlet__head">--}}
-{{-- <div class="m-portlet__head-caption">--}}
-{{-- <div class="m-portlet__head-title">--}}
-{{-- <h3 class="m-portlet__head-text">--}}
-{{-- --}}{{-- {{$user->name}} --}}
-{{-- </h3>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- <div class="m-portlet__head-tools">--}}
-{{-- <ul class="m-portlet__nav">--}}
-
-{{-- <li class="m-portlet__nav-item"></li>--}}
-
-{{-- </ul>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-{{-- <div class="m-portlet__body">--}}
-
-
-{{-- <table class="table  dataTable table-responsive-sm table-bordered  table-hover ">--}}
-{{-- <thead>--}}
-{{-- <tr>--}}
-{{-- <th> المعلومه</th>--}}
-{{-- <th> القيمه</th>--}}
-{{-- </tr>--}}
-{{-- </thead>--}}
-{{-- <tbody>--}}
-{{-- <tr>--}}
-{{-- <td>رقم الفاتوره</td>--}}
-{{-- <td>{{$bill->invoice_number}}</td>--}}
-{{-- </tr>--}}
-{{-- <tr>--}}
-{{-- <td>العميل</td>--}}
-{{-- <td>{!!optional(optional($bill->route_trip)->client)->name  !!}</td>--}}
-{{-- </tr>--}}
-{{-- <tr>--}}
-{{-- <td>تاريخ الفاتوره</td>--}}
-{{-- <td>{{$bill->created_at}}</td>--}}
-{{-- </tr>--}}
-{{-- <tr>--}}
-{{-- <td> قيمةالفاتوره </td>--}}
-{{-- <td>{{$bill->cash }}</td>--}}
-{{-- </tr>--}}
-{{-- <tr>--}}
-{{-- <td>اسم المندوب </td>--}}
-{{-- <td>{!! optional($bill->route_trip)->route->user->name !!}</td>--}}
-{{-- </tr>--}}
-{{-- <tr>--}}
-{{-- <td>حالة الزيارة</td>--}}
-{{-- <td>--}}
-{{-- @if(optional(optional($bill->inventory)->type=='accept'))--}}
-{{-- <label class="btn btn-success"> تم القبول</label>--}}
-{{-- @else--}}
-{{-- <label class="btn btn-danger"> تم الرفض</label>--}}
-
-{{-- @endif--}}
-{{-- </td>--}}
-{{-- </tr>--}}
-{{-- @if(optional($bill->inventory)->type=='refuse')--}}
-{{-- <tr>--}}
-{{-- <td> سبب الرفض</td>--}}
-{{-- <td>--}}
-
-{{-- {{optional($bill->inventory)->refuse_reason}}--}}
-{{-- </td>--}}
-{{-- </tr>--}}
-{{-- @endif--}}
-
-{{-- <tr>--}}
-
-{{-- <td>صورقبل الزيارة</td>--}}
-{{-- <td>--}}
-{{-- @isset($bill->inventory->images )--}}
-{{-- @foreach($bill->inventory->images as $key => $image)--}}
-{{-- <img src="{!!asset($image->image)!!}" height="100" width="100"/>--}}
-{{-- @endforeach()--}}
-{{-- @endisset--}}
-{{-- </td>--}}
-{{-- </tr>--}}
-{{-- <tr>--}}
-{{-- <td>صور بعد الزيارة</td>--}}
-{{-- <td>--}}
-{{-- @foreach($bill->images as $key => $image)--}}
-{{-- <img src="{!!asset($image->image)!!}" height="100" width="100"/>--}}
-{{-- @endforeach()--}}
-{{-- </td>--}}
-{{-- </tr>--}}
-{{-- </tr>--}}
-
-
-{{-- </tbody>--}}
-{{-- </table>--}}
-
-
-{{-- <table class="table  dataTable table-responsive-sm table-bordered  table-hover ">--}}
-{{-- <thead>--}}
-{{-- <tr>--}}
-{{-- <th>اسم الصنف </th>--}}
-{{-- <th>   الكمية بالحبة</th>--}}
-{{-- <th>   الكمية بالعلبة</th>--}}
-{{-- <th> السعر</th>--}}
-{{-- </tr>--}}
-{{-- </thead>--}}
-{{-- <tbody>--}}
-{{-- @foreach($bill->products as $value)--}}
-{{-- <tr>--}}
-{{-- <td>{{ $value->product->name }}</td>--}}
-{{-- <td>{{ $value->quantity }}</td>--}}
-{{-- <td>--}}
-{{-- @if($value->product->quantity_per_unit != 0)--}}
-{{-- {{  $value->quantity / $value->product->quantity_per_unit }}--}}
-{{-- @else--}}
-{{-- {{    $value->quantity / 1 }}--}}
-{{-- @endif--}}
-{{-- </td>--}}
-{{-- <td>{{ $value->price }}</td>--}}
-{{-- </tr>--}}
-{{-- @endforeach--}}
-{{-- <tr>--}}
-{{-- <td  colspan="2">اجمالى عدد  الاصناف: </td>--}}
-{{-- <td  colspan="2">{{ $bill->products->count() }}</td>--}}
-{{-- </tr>--}}
-{{-- <tr>--}}
-{{-- <td  colspan="2">اجمالى الفاتوره  : </td>--}}
-{{-- <td  colspan="2">{{ $bill->cash}}</td>--}}
-{{-- </tr>--}}
-{{-- <tr>--}}
-{{-- <td  colspan="2">اجمالى الموجود  : </td>--}}
-{{-- <td  colspan="2" >{{ $bill->products->sum('price')}}</td>--}}
-{{-- </tr>--}}
-{{-- <tbody>--}}
-{{-- </table>--}}
-{{-- </div>--}}
-{{-- </div>--}}
-
-{{--@endsection--}}
-{{--@section('scripts')--}}
-{{--@endsection--}}
 @extends('distributor.layouts.app')
 @section('title')
 @endsection
@@ -181,11 +30,11 @@
                 <header>
                     <div class="hd_inn">
                         <div class="hd_txt">
-                            <h3>شركة دولفين العالمية للحلويات والمكسرات</h3>
-                            <h3>Dolphin International Company for sweets and nuts</h3>
+                            <h3>شركة دولفين  للحلويات والمكسرات</h3>
+                            <h3>Dolphin  Company for sweets and nuts</h3>
                             <div class="flexx">
-                                <h5>تجارة المواد الغذائية بالجملة</h5>
-                                <h5>Wholesale foodstuff trading</h5>
+{{--                                <h5>تجارة المواد الغذائية بالجملة</h5>--}}
+{{--                                <h5>Wholesale foodstuff trading</h5>--}}
                             </div>
                         </div>
                         <div class="logo">
@@ -293,7 +142,7 @@
                                     <h4>اسم المندوب</h4>
                                     <h4>Representative Name</h4>
                                 </div>
-                                <p>محمد أحمد</p>
+                                <p> {{optional($bill->route_trip)->route->user->name ??''}}</p>
                             </div>
                             <!-- <div class="box1">
                                     <div class="flexx">
@@ -311,7 +160,7 @@
                         <thead>
                             <tr>
                                 <th>
-                                    <p>الإجمالى</p>
+                                    <p>الإجمالى (بدون ضريبة)</p>
                                     <p></p>
                                 </th>
                                 <th>
@@ -339,6 +188,10 @@
                                     <p>product description</p>
                                 </th>
                                 <th>
+                                    <p>إسم الصنف</p>
+                                    <p>product Name</p>
+                                </th>
+                                <th>
                                     <p>المسلسل</p>
                                     <p>No.</p>
                                 </th>
@@ -347,7 +200,7 @@
                         <tbody>
                             @foreach($bill->products as $value)
                             <tr>
-                                <td>{{ $value->product->price +($value->product->price * getsetting('general_taxs')/100)}}</td>
+                                <td>{{ $value->product->price * $value->quantity }}</td>
                                 <td>{{ ($value->product->price * getsetting('general_taxs')/100)}}</td>
                                 <td>{{getsetting('general_taxs')}}%</td>
                                 <td>{{ $value->product->price }}</td>
@@ -356,32 +209,34 @@
                                 <td>
                                     <p class="not_bold"></p>
                                 </td>
-                                <!-- <td>{{ $value->product->bar_code }}</td> -->
-                                <td>{{ $value->product->store->name ??'' }}</td>
+
+{{--                                <td>{{ $value->product->store->name ??'' }}</td>--}}
+                                <td>{{ $value->product->name }}</td>
+                                <td>{!!$loop->iteration!!}</td>
                             </tr>
                             @endforeach
 
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th>{{ $bill->cash}}</th>
+                                <th>{{ $bill->product_total()}}</th>
                                 <th colspan="10">
                                     <p>total</p>
-                                    <p>المجموع</p>
+                                    <p>الإجمالى (بدون ضريبة)</p>
                                 </th>
                             </tr>
                             <tr>
-                                <th>{{getsetting('general_taxs')}}%</th>
+                                <th>{{($bill->product_total() *getsetting('general_taxs') /100)}}</th>
                                 <th colspan="10">
-                                    <p>vat</p>
-                                    <p>ضريبة القيمة المضافة</p>
+                                    <p>vat (15%)</p>
+                                    <p>قيمة القيمة المضافة</p>
                                 </th>
                             </tr>
                             <tr>
-                                <th>{{$bill->cash+($bill->cash*getsetting('general_taxs') /100)}}</th>
+                                <th>{{$bill->product_total()+($bill->product_total()*getsetting('general_taxs') /100)}}</th>
                                 <th>
                                     <p>net amount</p>
-                                    <p>مبلغ الفاتورة</p>
+                                    <p>اجمالى الفاتورة</p>
                                 </th>
                                 <th colspan="9">
                                     <div class="box1">
@@ -389,10 +244,13 @@
                                             <h4>المبلغ كتابة:</h4>
                                             <h4>S.R in words:</h4>
                                         </div>
-                                        <p>{{ $bill->CashArabic($bill->cash+($bill->cash*getsetting('general_taxs')/100))[0] }}
-                                            ريال و
-                                            {{ $bill->CashArabic($bill->cash+($bill->cash*getsetting('general_taxs')/100))[1] }}
-                                            هللة لاغير
+                                        <p>{{ $bill->CashArabic($bill->product_total()+($bill->product_total()*getsetting('general_taxs')/100))[0] }}
+                                            ريال
+                                            {{ $bill->CashArabic($bill->product_total()+($bill->product_total()*getsetting('general_taxs')/100))[1] ??''}}
+                                            @if($bill->CashArabic($bill->product_total()+($bill->product_total()*getsetting('general_taxs')/100))[1]!=0)
+                                            هللة
+                                                @endif
+                                            لاغير
                                         </p>
                                     </div>
                                 </th>
@@ -449,13 +307,13 @@
                         </div>
                     </div>
                     <div class="row">
-                        <b class="hint code">4636</b>
+{{--                        <b class="hint code">4636</b>--}}
                     </div>
                 </footer>
             </div>
         </div>
     </div>
-
+</div>
     @push('scripts')
     <script src="{!! asset('dashboard/assets/vendors/base/jquery-2.1.4.min.js') !!}"></script>
 

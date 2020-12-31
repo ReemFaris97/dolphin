@@ -82,7 +82,9 @@ class EventServiceProvider extends ServiceProvider
             \App\Listeners\NotifyDistributorWithNewActivationStatus::class,
         ],
 
-
+        \App\Events\MessageCreated::class => [
+            \App\Listeners\NotifyDistributorWithNewActivationStatus::class,
+        ],
     ];
 
     /**

@@ -11,6 +11,7 @@ use App\Http\Resources\Distributor\TripResource;
 use App\Models\Client;
 use App\Models\DistributorRoute;
 use App\Models\Product;
+use App\Models\RouteTripReport;
 use App\Models\RouteTrips;
 use App\Traits\ApiResponses;
 use App\Traits\Distributor\ExpenseOperation;
@@ -97,9 +98,15 @@ class RouteController extends Controller
 
         $route_trip = RouteTrips::find($request->trip_id);
         $this->RegisterBill($request,$route_trip);
+        $trip_report=RouteTripReport::latest()->first();
+        return $this->apiResponse(
+            ['msg'=>'تم تسجيل الفاتورة بنجاح','bill'=>'http://panorama-t.com/api/distributor/bills/print_bill/'.$trip_report->id]
+        );
 
-        return $this->apiResponse('تم تسجيل الفاتورة بنجاح');
-
+    }
+    public  function print_bill ($id){
+        $bill=RouteTripReport::find($id);
+        return view('distributor.bills.api',compact('bill'));
     }
 
     public function attachImages(Request $request)
