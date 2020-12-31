@@ -110,7 +110,11 @@ class MessageController extends Controller
                 'image'=>$q->user->name,
             ]
         ];
-        $pusher->trigger('privatechat.'.$user_id, 'PrivateMessageSent', $data);
+        $users=[intval($user_id),auth()->user()->id];
+        sort($users);
+        $channel=$users[0]."_".$users[1];
+        $pusher->trigger('privatechat.'.$channel, 'PrivateMessageSent', $data);
+//        dd($pusher);
         return $this->apiResponse('تم ارسال الرسالة بنجاح');
     }
 
