@@ -116,7 +116,7 @@ class TaskController extends Controller
             "clause_id" => "required_if:type,depends|nullable|integer|exists:clauses,id",
             "equation_mark" => "required_if:type,depends|nullable|in:<,>,==,<=,>=",
             "period" => "required_if:type,period|integer|nullable|min:0",
-            'after_task_id' => 'required_if:type,after|nullable|integer|exists:tasks,id',
+           // 'after_task_id' => 'required_if:type,after|nullable|integer|exists:tasks,id',
             'users'=>'required|array',
             "users.*.user_id" => 'nullable|integer|exists:users,id',
             "users.*.days" => "nullable|integer|min:0|max:265",
@@ -125,7 +125,10 @@ class TaskController extends Controller
             "users.*.rater_id" => "nullable|integer|exists:users,id",
             "users.*.finisher_id" =>"nullable|integer|exists:users,id",
             'clause_amount' => 'required_if:task,depends|nullable|min:0'];
-        if ($request->after_task_id == 0) $request['after_task_id']=null;
+        if ($request->after_task_id == 0) {
+            $request['after_task_id'] = null;
+        }
+        // dd($request->all());
         $this->validate($request,$rules);
         $task = $this->RegisterTask($request);
 
