@@ -32,7 +32,9 @@ class TaskController extends Controller
 
     public function index()
     {
-
+        if(auth()->user()->is_admin) {
+            auth()->user()->id = null;
+        }
         if (\request('type') == "present")
             $tasks =  Task::present(auth()->user()->id)->orderby('id','desc')->paginate($this->paginateNumber);
         elseif (\request('type') == "future")
