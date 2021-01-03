@@ -55,6 +55,9 @@ class TaskController extends Controller
 
     public function home()
     {
+        if(auth()->user()->is_admin) {
+            auth()->user()->id = null;
+        }
         $present_tasks = Task::present(auth()->user()->id)->count();
         $old_tasks = Task::old(auth()->user()->id)->count();
         $future_tasks = Task::future(auth()->user()->id)->count();
