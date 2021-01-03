@@ -194,9 +194,9 @@ class Task extends Model
         $tasks_pre =  Task::present(auth()->user()->id)->pluck('id')->toArray();
         $tasks_fut=  Task::future(auth()->user()->id)->pluck('id')->toArray();
         $tasks_old =  Task::old(auth()->user()->id)->pluck('id')->toArray();
-        $tasks_to_fin =  Task::toFinish(auth()->user()->id)->pluck('id')->toArray();
-        $tasks_to_rat =  Task::toRate(auth()->user()->id)->pluck('id')->toArray();
-//dd($tasks_old);
+        $tasks_to_fin =Task::toFinish(auth()->user()->id)->pluck('id')->toArray();
+        $tasks_to_rat =Task::toRate(auth()->user()->id)->pluck('id')->toArray();
+ dd($tasks_old);
         if (in_array($id,$tasks_pre))
         {
             return "present";
