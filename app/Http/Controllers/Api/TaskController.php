@@ -74,6 +74,9 @@ class TaskController extends Controller
 
     public function homeToFinish()
     {
+        if(auth()->user()->is_admin) {
+            auth()->user()->id = null;
+        }
         $toRateTasks = Task::toRate(auth()->user()->id)->count();
         $toFinishTasks = Task::toFinish(auth()->user()->id)->count();
 
