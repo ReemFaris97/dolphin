@@ -191,18 +191,27 @@ class Task extends Model
 
     public function taskStatus($id)
     {
+        $tasks_pre =  Task::present(auth()->user()->id)->pluck('id','id')->toArray();
+        $tasks_fut=  Task::future(auth()->user()->id)->pluck('id','id')->toArray();
+        $tasks_old =  Task::old(auth()->user()->id)->pluck('id','id')->toArray();
+        $tasks_to_fin =  Task::toFinish(auth()->user()->id)->pluck('id','id')->toArray();
+        $tasks_to_rat =  Task::toRate(auth()->user()->id)->pluck('id','id')->toArray();
+//dd($tasks_old);
+        if (in_array($id,$tasks_pre))
+        {
+            return "present";
+        }
 
-        $task =  Task::present(auth()->user()->id)->where('id',$id)->first();
-        if ($task) return "present";
-        $task =  Task::future(auth()->user()->id)->where('id',$id)->first();
-        if ($task)  return "future";
-        $task =  Task::old(auth()->user()->id)->where('id',$id)->first();
-        if ($task)  return "old";
-        $task =  Task::toFinish(auth()->user()->id)->where('id',$id)->first();
-        if ($task)  return "to_finish";
-        $task =  Task::toRate(auth()->user()->id)->where('id',$id)->first();
-        if ($task)  return "to_rate";
+        elseif (in_array($id,$tasks_fut)) {
+            return "future";
+        }
 
+       elseif (in_array($id,$tasks_old))
+            return "old";
+        if (in_array($id,$tasks_to_fin))
+            return "to_finish";
+        if (in_array($id,$tasks_to_rat))
+            return "to_rate";
     }
 
 }
