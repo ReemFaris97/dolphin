@@ -191,6 +191,7 @@ class Task extends Model
 
     public function taskStatus($id)
     {
+
         $task =  Task::present(auth()->user()->id)->where('id',$id)->first();
         if ($task) return "present";
         $task =  Task::future(auth()->user()->id)->where('id',$id)->first();
@@ -201,6 +202,7 @@ class Task extends Model
         if ($task)  return "to_finish";
         $task =  Task::toRate(auth()->user()->id)->where('id',$id)->first();
         if ($task)  return "to_rate";
+
     }
 
 }
