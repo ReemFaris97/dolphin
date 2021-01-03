@@ -30,7 +30,7 @@
             <header>
                 <div class="hd_inn">
                     <div class="hd_txt">
-                        <h3>شركة دولفين العالمية للتجازة المحدودة</h3>
+                        <h3>شركة دلفن العالمية للتجازة المحدودة</h3>
                         <h3>Aljameel International Trading co.,ltd</h3>
                         <div class="flexx">
                             <h5>تجارة المواد الغذائية بالجملة</h5>
