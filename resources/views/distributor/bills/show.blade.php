@@ -30,7 +30,7 @@
                 <header>
                     <div class="hd_inn">
                         <div class="hd_txt">
-                            <h3>شركة دولفين  للحلويات والمكسرات</h3>
+                            <h3>شركة دلفن  للحلويات والمكسرات</h3>
                             <h3>Dolphin  Company for sweets and nuts</h3>
                             <div class="flexx">
 {{--                                <h5>تجارة المواد الغذائية بالجملة</h5>--}}
@@ -215,7 +215,6 @@
                                 <td>{!!$loop->iteration!!}</td>
                             </tr>
                             @endforeach
-
                         </tbody>
                         <tfoot>
                             <tr>
@@ -325,11 +324,8 @@
                 win.document.write(`${style}${t}`);
                 win.document.close();
                 win.print();
-
             });
         })
     </script>
-    
-    
     @endpush
     @endsection
