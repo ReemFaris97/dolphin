@@ -139,6 +139,7 @@ class Task extends Model
         $user_tasks = TaskUser::where('finished_at','!=',null)->has('task')->where('worker_finished_at','!=',null)->when(($user_id != null), function ($task_user) use ($user_id,$assigned_only) {
             $task_user->OfUser($user_id,$assigned_only);
         })->get()->filter('oldFilter');
+        dd($user_tasks->pluck('task_id'));
         $user_tasks_ids = $user_tasks->pluck('task_id');
         return $query->whereIn('id', $user_tasks_ids);
     }
