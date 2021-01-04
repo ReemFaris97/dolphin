@@ -60,7 +60,7 @@ class SearchController extends Controller
                $q->orwhere('name','Like','%'.\request('name').'%');
               $q->orwhere('name','Like',\request('name'));
         });
-dd($tasks->get());
+
         $tasks = $tasks->paginate($this->paginateNumber);
         return $this->apiResponse(new TasksResource($tasks));
     }
