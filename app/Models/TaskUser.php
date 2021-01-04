@@ -100,7 +100,6 @@ class TaskUser extends Model
 
                 });
                 $q->Orwhere(function ($q) use($user_id){
-
                     $q->where('rater_id', $user_id);
                     $q->where('worker_finished_at', '!=', Null);
 
