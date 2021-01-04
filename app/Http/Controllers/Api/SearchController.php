@@ -48,12 +48,15 @@ class SearchController extends Controller
         $this->apiValidation(\request(),[
             'name'=>'required|string',
         ]);
+        $tasks=Task::query();
         if(auth()->user()->is_admin) {
             auth()->user()->id = null;
+        }else{
+            $tasks_ids = User::find(auth()->user()->id)->tasks->pluck('task_id');
+            $tasks=$tasks->whereIn('id',$tasks_ids);
         }
-        $tasks=Task::query();
-        $tasks_ids = User::find(auth()->user()->id)->tasks->pluck('task_id');
-        $tasks=$tasks->whereIn('id',$tasks_ids);
+
+
 //       dd($tasks_ids);
         $tasks=$tasks->where(function ($q){
             $q->where('name','Like','%'.\request('name'));
