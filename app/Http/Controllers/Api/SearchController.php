@@ -55,9 +55,11 @@ class SearchController extends Controller
         $tasks_ids = User::find(auth()->user()->id)->tasks->pluck('task_id');
         $tasks=$tasks->whereIn('id',$tasks_ids);
 //        dd($tasks->get());
-        $tasks=$tasks->where('name','Like','%'.\request('name'))
-            ->orwhere('name','Like','%'.\request('name').'%')
-            ->orwhere('name','Like',\request('name'));
+        $tasks=$tasks->where(function ($q){
+            $q->where('name','Like','%'.\request('name'));
+               $q->orwhere('name','Like','%'.\request('name').'%');
+              $q->orwhere('name','Like',\request('name'));
+        });
 dd($tasks->get());
         $tasks = $tasks->paginate($this->paginateNumber);
         return $this->apiResponse(new TasksResource($tasks));
