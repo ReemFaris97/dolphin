@@ -48,9 +48,11 @@ class SearchController extends Controller
         $this->apiValidation(\request(),[
             'name'=>'required|string',
         ]);
-        $tasks = Task::where('name','Like','%'.\request('name'))
-                ->orwhere('name','Like','%'.\request('name').'%')
-                ->orwhere('name','Like',\request('name'))->paginate($this->paginateNumber);
+        $query=Task::where('name','Like','%'.\request('name'))
+            ->orwhere('name','Like','%'.\request('name').'%')
+            ->orwhere('name','Like',\request('name'));
+
+        $tasks = $query->paginate($this->paginateNumber);
 
         return $this->apiResponse(new TasksResource($tasks));
     }
