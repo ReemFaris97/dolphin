@@ -58,9 +58,8 @@ class SearchController extends Controller
         $tasks=$tasks->where('name','Like','%'.\request('name'))
             ->orwhere('name','Like','%'.\request('name').'%')
             ->orwhere('name','Like',\request('name'));
-
+dd($tasks->get());
         $tasks = $tasks->paginate($this->paginateNumber);
-
         return $this->apiResponse(new TasksResource($tasks));
     }
 }
