@@ -54,7 +54,7 @@ class SearchController extends Controller
 
         $tasks_ids = User::find(auth()->user()->id)->tasks->pluck('task_id');
         $tasks=$tasks->whereIn('id',$tasks_ids);
-        dd($tasks);
+        dd($tasks->get());
         $tasks=$tasks->where('name','Like','%'.\request('name'))
             ->orwhere('name','Like','%'.\request('name').'%')
             ->orwhere('name','Like',\request('name'));
