@@ -11,7 +11,7 @@
         <th>اسم المسؤول</th>
         <th>الكمية</th>
         <th>الكمية الإفتراضية</th>
-        <th>الحالة</th>
+        {{-- <th>الحالة</th> --}}
         <th class="noExport">الاعدادت</th>
     </tr>
     </thead>
@@ -25,13 +25,13 @@
             <td>{!!$row->amount!!}</td>
             <td>{!!$row->default_amount !!}</td>
             <td>
-                @if($row->getIsActiveAttribute())
+                @if($row->blocked_at==null)
                     مفعل
                     @else
                     غير مفعل
                     @endif
             </td>
-            
+
             <td>
                 <a href="{!!route('admin.clauses.show',$row->id)!!}" class="btn btn-warning"> <i class="fas fa-allergies"></i>
                     تفاصيل</a>

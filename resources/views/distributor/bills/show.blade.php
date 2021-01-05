@@ -201,8 +201,11 @@
                             @foreach($bill->products as $value)
                             <tr>
                                 <td>{{ $value->product->price * $value->quantity }}</td>
-                                <td>{{ ($value->product->price * getsetting('general_taxs')/100)}}</td>
-                                <td>{{getsetting('general_taxs')}}%</td>
+                                <td>
+
+                                    {{ ($value->price * ((float) getsetting('general_taxs')??0)/100)}}
+                                </td>
+                                <td>{{(float) getsetting('general_taxs')}}%</td>
                                 <td>{{ $value->product->price }}</td>
                                 <td>{{ $value->quantity }}</td>
                                 <td>حبة</td>
@@ -218,21 +221,21 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th>{{ $bill->product_total()}}</th>
+                                <th>{{(float) $bill->product_total()}}</th>
                                 <th colspan="10">
                                     <p>total</p>
                                     <p>الإجمالى (بدون ضريبة)</p>
                                 </th>
                             </tr>
                             <tr>
-                                <th>{{($bill->product_total() *getsetting('general_taxs') /100)}}</th>
+                                <th>{{($bill->product_total() * (float)(getsetting('general_taxs')) /100)}}</th>
                                 <th colspan="10">
                                     <p>vat (15%)</p>
                                     <p>قيمة القيمة المضافة</p>
                                 </th>
                             </tr>
                             <tr>
-                                <th>{{$bill->product_total()+($bill->product_total()*getsetting('general_taxs') /100)}}</th>
+                                <th>{{$bill->product_total()+($bill->product_total()* ((float) getsetting('general_taxs')) /100)}}</th>
                                 <th>
                                     <p>net amount</p>
                                     <p>اجمالى الفاتورة</p>
@@ -243,10 +246,10 @@
                                             <h4>المبلغ كتابة:</h4>
                                             <h4>S.R in words:</h4>
                                         </div>
-                                        <p>{{ $bill->CashArabic($bill->product_total()+($bill->product_total()*getsetting('general_taxs')/100))[0] }}
+                                        <p>{{ $bill->CashArabic($bill->product_total()+($bill->product_total()* ((float) getsetting('general_taxs')/100)))[0] }}
                                             ريال
-                                            {{ $bill->CashArabic($bill->product_total()+($bill->product_total()*getsetting('general_taxs')/100))[1] ??''}}
-                                            @if($bill->CashArabic($bill->product_total()+($bill->product_total()*getsetting('general_taxs')/100))[1]!=0)
+                                            {{ $bill->CashArabic($bill->product_total()+($bill->product_total()*((float) getsetting('general_taxs'))/100))[1] ??''}}
+                                            @if($bill->CashArabic($bill->product_total()+($bill->product_total()*((float) getsetting('general_taxs'))/100))[1]!=0)
                                             هللة
                                                 @endif
                                             لاغير
@@ -328,4 +331,5 @@
         })
     </script>
     @endpush
+
     @endsection
