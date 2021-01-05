@@ -71,6 +71,9 @@ class Task extends Model
 
     public function currentTask()
     {
+        if ($this->relationLoaded('currentTask')) {
+            return $this->currentTask;
+        }
         $task_user = $this->user_tasks()->whereNotNull('finished_at')->first();
         if ($task_user) return $task_user;
         foreach ($this->user_tasks as $task_user) {

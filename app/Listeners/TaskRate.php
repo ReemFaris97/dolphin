@@ -27,11 +27,14 @@ class TaskRate
             'message' => $message,
             'type' => $type,
         ];
-        if ($event->task->currentTask()->rater_id != null) {
 
-            $this->fire($title, $message, $data, User::where('id', $event->task->currentTask()->rater_id)->get());
-            $event->task->currentTask()->rater->sendNotification($data, $type);
+        foreach ($event->task->user_tasks as $task_user) if ($task_user->rater_id != null) {
+
+            $user = User::where('id', $task_user->rater_id)->get();
+            $this->fire($title, $message, $data, $user);
+            $user->first()->sendNotification($data, $type);
         }
+
 
     }
 

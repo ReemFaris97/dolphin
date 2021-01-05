@@ -26,11 +26,17 @@ class TaskFinish
             'message'=>$message,
             'type'=>$type,
         ];
-        if ($event->task->currentTask()->finisher_id != null) {
 
-            $this->fire($title, $message, $data, User::where('id', $event->task->currentTask()->finisher_id)->get());
-            $event->task->currentTask()->finisher->sendNotification($data, $type);
+
+
+        foreach ($event->task->user_tasks as $task_user) if ($task_user->finisher_id != null) {
+
+            $user = User::where('id', $task_user->finisher_id)->get();
+            $this->fire($title, $message, $data, $user);
+            $user->first()->sendNotification($data, $type);
         }
+        
+
     }
 
 }

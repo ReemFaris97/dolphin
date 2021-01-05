@@ -37,11 +37,8 @@ class SearchController extends Controller
         $this->apiValidation(\request(),[
             'name'=>'required|string',
         ]);
-            $users = User::where('name','Like','%'.\request('name'))
-                ->orwhere('name','Like','%'.\request('name').'%')
-                ->orwhere('name','Like',\request('name'))
-                ->where('id','!=',auth()->user()->id)->
-                paginate($this->paginateNumber);
+        $users = User::where('id', '!=', auth()->user()->id)->SearchByName()
+            ->paginate($this->paginateNumber);
         return $this->apiResponse(new InboxResource($users));
     }
     public function taskSearch(){

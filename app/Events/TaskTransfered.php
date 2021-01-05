@@ -5,6 +5,7 @@ namespace App\Events;
 use App\Models\Charge;
 use App\Models\NotificationCategory;
 use App\Models\Task;
+use App\Models\TaskUser;
 use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
@@ -26,7 +27,7 @@ class TaskTransfered
      *
      * @return void
      */
-    public function __construct(User $user, Task $task)
+    public function __construct(User $user, TaskUser $task)
     {
         $this->user = $user;
         $this->task = $task;
