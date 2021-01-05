@@ -145,7 +145,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(FcmToken::class, 'user_id');
     }
-    
+
 
 
     /**
@@ -229,6 +229,18 @@ class User extends Authenticatable implements JWTSubject
             $trip->where('client_id', $client_id);
         });
     }
+
+
+    public function scopeSearchByName(Builder $builder): void
+    {
+        $builder->where(
+            function ($q) {
+                $q->where('name', 'Like', '%' . \request('name'));
+                $q->orWhere('name', 'Like', '%' . \request('name') . '%');
+                $q->orWhere('name', 'Like', \request('name'));
+            }
+        );
+    }
     /**
      * Send the given notification.
      *
@@ -237,7 +249,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function sendNotification($data, $type)
     {
-        $this->notifications()->create([
+        $a =        $this->notifications()->create([
             'data' => $data,
             'type' => $type
         ]);
