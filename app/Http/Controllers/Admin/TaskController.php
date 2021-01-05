@@ -33,7 +33,6 @@ class TaskController extends Controller
     {
         $old_tasks = Task::old(auth()->id())->with('task_users')->get()->reverse();;
         $present_tasks = Task::present(auth()->id())->with('task_users')->get()->reverse();
-
         $future_tasks = Task::future(auth()->id())->with('task_users')->get()->reverse();
         $page_title = "مهمات النظام";
 

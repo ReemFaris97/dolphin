@@ -22,7 +22,7 @@
                             <div class="m-widget24">
                                 <div class="m-widget24__item">
                                     <h4 class="m-widget24__title">
-                                        عدد المندوبين
+                                         الخطة الاجمالية
                                     </h4><br>
                                     <span class="m-widget24__desc">
                                     </span>
@@ -48,7 +48,7 @@
                             <div class="m-widget24">
                                 <div class="m-widget24__item">
                                     <h4 class="m-widget24__title">
-                                        عدد العملاء
+                                        عدد الزيارات
                                     </h4><br>
                                     <span class="m-widget24__desc">
                                     </span>
@@ -74,7 +74,7 @@
                             <div class="m-widget24">
                                 <div class="m-widget24__item">
                                     <h4 class="m-widget24__title">
-                                        عدد المستودعات
+                                         اجمالى مرات الرفض
                                     </h4><br>
                                     <span class="m-widget24__desc">
                                     </span>
@@ -100,7 +100,7 @@
                             <div class="m-widget24">
                                 <div class="m-widget24__item">
                                     <h4 class="m-widget24__title">
-                                        عدد الاصناف
+                                  المسارات المسحوبة
                                     </h4><br>
                                     <span class="m-widget24__desc">
                                     </span>
@@ -126,7 +126,59 @@
                             <div class="m-widget24">
                                 <div class="m-widget24__item">
                                     <h4 class="m-widget24__title">
-                                        عدد سيارات المندوبين
+                                   المسارات المنجزة
+                                    </h4><br>
+                                    <span class="m-widget24__desc">
+                                    </span>
+                                    <span class="m-widget24__stats m--font-brand">
+                                        {{$data['cars_count']}}
+                                    </span>
+                                    <div class="m--space-10"></div>
+                                    <div class="progress m-progress--sm">
+                                        <div class="progress-bar m--bg-brand" role="progressbar" style="width: {{$data['cars_count']}}%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <span class="m-widget24__change">
+                                    </span>
+                                    <span class="m-widget24__number">
+                                    </span>
+                                </div>
+                            </div>
+                            <!--end::Total Profit-->
+                        </a>
+                    </div>
+                    <div class="col-md-12 col-lg-6 col-xl-3">
+                        <a href="{!! route('distributor.cars.index') !!}">
+                            <!--begin::Total Profit-->
+                            <div class="m-widget24">
+                                <div class="m-widget24__item">
+                                    <h4 class="m-widget24__title">
+                                        المسارات الغير مسلمة
+                                    </h4><br>
+                                    <span class="m-widget24__desc">
+                                    </span>
+                                    <span class="m-widget24__stats m--font-brand">
+                                        {{$data['cars_count']}}
+                                    </span>
+                                    <div class="m--space-10"></div>
+                                    <div class="progress m-progress--sm">
+                                        <div class="progress-bar m--bg-brand" role="progressbar" style="width: {{$data['cars_count']}}%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <span class="m-widget24__change">
+                                    </span>
+                                    <span class="m-widget24__number">
+                                    </span>
+                                </div>
+                            </div>
+                            <!--end::Total Profit-->
+                        </a>
+                    </div>
+                    <div class="col-md-12 col-lg-6 col-xl-3">
+                        <a href="{!! route('distributor.cars.index') !!}">
+                            <!--begin::Total Profit-->
+                            <div class="m-widget24">
+                                <div class="m-widget24__item">
+                                    <h4 class="m-widget24__title">
+                                        إجمالى المبيعات
                                     </h4><br>
                                     <span class="m-widget24__desc">
                                     </span>

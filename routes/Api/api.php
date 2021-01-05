@@ -49,7 +49,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::group(['prefix' => 'chats'], function () {
         Route::get('/','MessageController@inbox');
         Route::get('/{user_id}','MessageController@messages');
-        Route::post('/{user_id}','MessageController@sendMessage');
+        Route::post('/{id}','MessageController@sendMessage');
     });
 
     Route::group(['prefix' => 'spinner'], function () {

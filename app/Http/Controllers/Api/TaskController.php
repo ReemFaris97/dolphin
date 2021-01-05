@@ -32,7 +32,9 @@ class TaskController extends Controller
 
     public function index()
     {
-
+        if(auth()->user()->is_admin) {
+            auth()->user()->id = null;
+        }
         if (\request('type') == "present")
             $tasks =  Task::present(auth()->user()->id)->orderby('id','desc')->paginate($this->paginateNumber);
         elseif (\request('type') == "future")
@@ -53,6 +55,9 @@ class TaskController extends Controller
 
     public function home()
     {
+        if(auth()->user()->is_admin) {
+            auth()->user()->id = null;
+        }
         $present_tasks = Task::present(auth()->user()->id)->count();
         $old_tasks = Task::old(auth()->user()->id)->count();
         $future_tasks = Task::future(auth()->user()->id)->count();
@@ -69,6 +74,9 @@ class TaskController extends Controller
 
     public function homeToFinish()
     {
+        if(auth()->user()->is_admin) {
+            auth()->user()->id = null;
+        }
         $toRateTasks = Task::toRate(auth()->user()->id)->count();
         $toFinishTasks = Task::toFinish(auth()->user()->id)->count();
 
