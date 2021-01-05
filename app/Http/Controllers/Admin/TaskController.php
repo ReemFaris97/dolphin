@@ -77,12 +77,11 @@ class TaskController extends Controller
         //       $tasks = Task::pluck('name', 'id');
         $present_tasks = Task::present()->get()->reverse()->pluck('name','id');
         $future_tasks = Task::future()->get()->reverse()->pluck('name','id');
-        $tasks = $present_tasks->merge($future_tasks);
+        $tasks = $present_tasks->concat($future_tasks);
 
 
         $users = User::pluck('name', 'id');
         $clauses = Clause::pluck('name', 'id');
-
 
         return $this->toCreate(compact('tasks', 'users', 'clauses'));
 
