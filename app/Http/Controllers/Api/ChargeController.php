@@ -120,6 +120,7 @@ class ChargeController extends Controller
 
     public function addNotes(Request $request,$id)
     {
+//        dd($request->all());
         $charge = Charge::find($id);
         if (!$charge) return $this->notFoundResponse();
         $rules = [

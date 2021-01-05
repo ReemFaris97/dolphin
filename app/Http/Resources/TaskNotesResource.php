@@ -17,8 +17,8 @@ class TaskNotesResource extends JsonResource
         return [
             'id'=>$this->id,
             'description'=>$this->description,
-            'user_name'=>$this->user->name,
-            'user_id'=>$this->user_id,
+            'user_name'=>$this->user->name??'',
+            'user_id'=>$this->user_id ??'',
             'can_delete'=>($this->user_id === auth()->user()->id)?true:false,
         ];
     }

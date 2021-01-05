@@ -137,8 +137,10 @@ class Task extends Model
     public function scopeOld($query, $user_id = null,$assigned_only=null)
     {
         $user_tasks = TaskUser::where('finished_at','!=',null)->has('task')->where('worker_finished_at','!=',null)->when(($user_id != null), function ($task_user) use ($user_id,$assigned_only) {
+
             $task_user->OfUser($user_id,$assigned_only);
         })->get()->filter('oldFilter');
+
         $user_tasks_ids = $user_tasks->pluck('task_id');
         return $query->whereIn('id', $user_tasks_ids);
     }
@@ -191,16 +193,27 @@ class Task extends Model
 
     public function taskStatus($id)
     {
-        $task =  Task::present(auth()->user()->id)->where('id',$id)->first();
-        if ($task) return "present";
-        $task =  Task::future(auth()->user()->id)->where('id',$id)->first();
-        if ($task)  return "future";
-        $task =  Task::old(auth()->user()->id)->where('id',$id)->first();
-        if ($task)  return "old";
-        $task =  Task::toFinish(auth()->user()->id)->where('id',$id)->first();
-        if ($task)  return "to_finish";
-        $task =  Task::toRate(auth()->user()->id)->where('id',$id)->first();
-        if ($task)  return "to_rate";
+        $tasks_pre =  Task::present(auth()->user()->id)->pluck('id')->toArray();
+        $tasks_fut=  Task::future(auth()->user()->id)->pluck('id')->toArray();
+        $tasks_old =  Task::old(auth()->user()->id)->pluck('id')->toArray();
+        $tasks_to_fin =Task::toFinish(auth()->user()->id)->pluck('id')->toArray();
+        $tasks_to_rat =Task::toRate(auth()->user()->id)->pluck('id')->toArray();
+// dd($tasks_old);
+        if (in_array($id,$tasks_pre))
+        {
+            return "present";
+        }
+
+        elseif (in_array($id,$tasks_fut)) {
+            return "future";
+        }
+
+       elseif (in_array($id,$tasks_old))
+            return "old";
+        if (in_array($id,$tasks_to_fin))
+            return "to_finish";
+        if (in_array($id,$tasks_to_rat))
+            return "to_rate";
     }
 
 }

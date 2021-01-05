@@ -16,13 +16,16 @@ class InboxResource extends ResourceCollection
     {
         return [
             'inbox'=>$this->collection->transform(function ($q){
+                $users=[intval($q->id),auth()->user()->id];
+                sort($users);
+                $channel=$users[0]."_".$users[1];
                 return [
                     'id'=>$q->id,
                     'user_name'=>$q->name,
                     'user_image'=>getimg($q->image),
                     'last_message'=>lastMessage($q->id)??"",
                     'total_message_pages'=>$q->total_message_pages($q->id),
-                    'channel'=>'privatechat.'.$q->id,
+                    'channel'=>'privatechat.'.$channel,
                 ];
             }),
             'paginate'=>[

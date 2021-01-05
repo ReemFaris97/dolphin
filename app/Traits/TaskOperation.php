@@ -25,6 +25,7 @@ trait TaskOperation
     public function RegisterTask($request)
     {
         $requests = $this->filterRequestOnType($request);
+        // dd($requests);
         DB::beginTransaction();
         try {
             $task = Task::create($requests);
@@ -125,9 +126,7 @@ trait TaskOperation
 
         } elseif ($request->type == 'depends') {
             $requests = $request->only('name', 'description', 'type', 'users', 'clause_id', 'clause_amount', 'equation_mark');
-
         }
-
         return $requests;
     }
 

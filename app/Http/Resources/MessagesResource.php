@@ -25,7 +25,7 @@ class MessagesResource extends ResourceCollection
                     'user'=>[
                         'id'=>$q->user->id,
                         'name'=>$q->user->name,
-                        'image'=>$q->user->name,
+                        'image'=>getStorageImg($q->user->image)??'',
                     ]
                 ];
             }),
