@@ -245,11 +245,11 @@ class User extends Authenticatable implements JWTSubject
      * Send the given notification.
      *
      * @param mixed $instance
-     * @return void
+     * @return \App\Models\Notification
      */
     public function sendNotification($data, $type)
     {
-        $a =        $this->notifications()->create([
+        return        $this->notifications()->create([
             'data' => $data,
             'type' => $type
         ]);

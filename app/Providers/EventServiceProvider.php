@@ -38,9 +38,9 @@ class EventServiceProvider extends ServiceProvider
             ChargeReceive::class,
         ],
        TaskCreated::class => [
+           TaskReceive::class,
             TaskFinish::class,
             TaskRate::class,
-            TaskReceive::class,
         ],
        TaskFinished::class => [
             \App\Listeners\TaskFinished::class,
@@ -50,14 +50,13 @@ class EventServiceProvider extends ServiceProvider
             WorkerTaskRate::class,
             ],
         TaskRated::class => [
-            \App\Listeners\TaskRate::class,
+            \App\Listeners\TaskRated::class,
+
         ],
         TaskTransfered::class => [
             \App\Listeners\TaskTransfer::class,
         ],
-        TaskRated::class => [
-            \App\Listeners\TaskRated::class,
-        ],
+
         \App\Events\StoreTransferRequestAdded::class => [
             \App\Listeners\NotifyTransferRequestReceiver::class,
         ],
