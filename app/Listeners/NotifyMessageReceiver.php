@@ -20,11 +20,11 @@ class NotifyMessageReceiver
      */
     public function handle(MessageCreated $event)
     {
-        $title = 'هناك رساله جديدة جديد';
+        $title = 'هناك رساله جديدة ';
         $message = $event->message->message;
         $type = 'new_message';
         $data = [
-            'item_id' => $event->message->receiver_id,
+            'item_id' => $event->message->user_id,
             'message' => $message,
             'type' => $type,
             'title' => $title

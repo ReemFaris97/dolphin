@@ -32,7 +32,7 @@ class ClauseController extends Controller
 
     public function index(){
 
-        $clauses = Clause::where('user_id',auth()->user()->id)->get();
+        $clauses = Clause::where('user_id',auth()->user()->id)->where('blocked_at',null)->get();
         return $this->apiResponse(ClausesResource::collection($clauses));
     }
 
