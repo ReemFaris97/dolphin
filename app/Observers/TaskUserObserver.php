@@ -18,7 +18,7 @@ class TaskUserObserver
             $old_user_id = $taskUser->getOriginal('user_id');
             $task_id = $taskUser->task_id;
             TaskLog::create(compact('new_user_id', 'old_user_id', 'task_id'));
-            event(new TaskTransfered(new User(), $taskUser->task));
+            event(new TaskTransfered(new User(), $taskUser));
         }
         if ($taskUser->isDirty('rate')) {
             $taskUser->rated_at = Carbon::now();

@@ -17,18 +17,42 @@ class TaskTransfer
 
     public function handle(TaskTransfered $event)
     {
+        $this->notifyOldWorker($event);
+        $this->notifyNewWorker($event);
+    }
+
+    public function notifyOldWorker($event)
+    {
         $title = 'هناك اشعار جديد';
         $message = ' تم نقل المهمه المسندة اليك  '
-            .$event->task->name.
+        . $event->task->task->name .
             ' الى موظف اخر ';
         $type = 'transfer_task';
         $data = [
-            'item_id'=>$event->task->id,
+            'item_id' => $event->task->task_id,
             'message'=>$message,
             'type'=>$type,
         ];
-        $this->fire($title,$message,$data,User::where('id',$event->task->currentTask()->worker_id)->get());
-        $event->task->currentTask()->user->sendNotification($data,$type);
-    }
+        $user = User::where('id', $event->task->getOriginal('user_id'))->get();
+        $this->fire($title, $message, $data, $user);
+        $user->first()->sendNotification($data, $type);
 
+    }
+    public function notifyNewWorker($event)
+    {
+        $title = 'هناك اشعار جديد';
+        $message = ' تم اسناد المهمه  '
+        . $event->task->name .
+            ' اليك ';
+        $type = 'new_task';
+        $data = [
+            'item_id' => $event->task->task_id,
+            'message' => $message,
+            'type' => $type,
+        ];
+        $user =  $event->task->user()->get();
+        $this->fire($title, $message, $data, $user);
+        $user->first()->sendNotification($data, $type);
+
+    }
 }

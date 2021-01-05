@@ -57,9 +57,12 @@ class TaskController extends Controller
         /*if (!auth()->user()->hasPermissionTo('view_tasks')) {
             return abort(401);
         }*/
-        $present_tasks = Task::present()->where('user_id', \Auth::id())->get()->reverse();;
-        $old_tasks = Task::old()->where('user_id', \Auth::id())->get()->reverse();;
-        $future_tasks = Task::future()->where('user_id', \Auth::id())->get()->reverse();;
+        if (auth()->user()->is_admin = 1 && auth()->user()->hasPermissionTo('view_tasks')) {
+            auth()->user()->id = null;
+        }
+        $present_tasks = Task::present()->where('user_id', auth()->user()->id)->get()->reverse();;
+        $old_tasks = Task::old()->where('user_id', auth()->user()->id)->get()->reverse();;
+        $future_tasks = Task::future()->where('user_id', auth()->user()->id)->get()->reverse();;
         $page_title = "المهمات المضافه";
         return $this->toIndex(compact('present_tasks', 'old_tasks', 'future_tasks', 'page_title'));
     }

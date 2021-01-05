@@ -14,6 +14,10 @@ class Message extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function receiver()
+    {
+        return $this->belongsTo(User::class, 'receiver_id');
+    }
 
 
     function type()
@@ -23,4 +27,9 @@ class Message extends Model
         return "image";
     }
 
+    public function getChannelAttribute()
+    {
+        $arr = array_sort($this->only('user_id', 'receiver_id'));
+        return 'privatechat.' . implode('_', $arr);
+    }
 }
