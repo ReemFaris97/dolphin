@@ -82,7 +82,7 @@ class SpinnerController extends Controller
      * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
      */
     public function getAllClauses(){
-        $tasks = Clause::get();
+        $tasks = Clause::where('blocked_at', null)->get();
         return $this->apiResponse(SpinnerClausesResource::collection($tasks));
     }
 

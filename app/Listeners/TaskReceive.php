@@ -8,6 +8,7 @@ use App\Traits\FirebasOperation;
 use App\Models\User;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Collection;
 
 class TaskReceive
 {
@@ -26,8 +27,12 @@ class TaskReceive
             'message'=>$message,
             'type'=>$type,
         ];
-        $this->fire($title,$message,$data,User::where('id',$event->task->currentTask()->user_id)->get());
-        $event->task->currentTask()->user->sendNotification($data,$type);
+        foreach ($event->task->user_tasks as $task_user) {
+            $user = User::where('id', $task_user->user_id)->get();
+            // dd($user);
+            $this->fire($title, $message, $data, $user);
+            $user->first()->sendNotification($data, $type);
+        }
     }
 
 }
