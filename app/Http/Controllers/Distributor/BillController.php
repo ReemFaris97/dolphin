@@ -62,8 +62,6 @@ class BillController extends Controller
      */
     public function show($id)
     {
-
-
         return $this->toShow(['bill' => RouteTripReport::with([
             'inventory',
             'route_trip' => function ($builder) {
