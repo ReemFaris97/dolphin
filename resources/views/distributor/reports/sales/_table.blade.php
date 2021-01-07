@@ -11,7 +11,7 @@
     @foreach($transactions as $row)
         <tr>
             <td> {!!$loop->iteration!!}</td>
-            <td><a href="{{route('distributor.reports.client_report.show',$row->id) }}">{!!$row->invoice_number!!}</a></td>
+            <td><a href="{{route('distributor.reports.sales.show',$row->id) }}">{!!$row->invoice_number!!}</a></td>
             <td>{!!$row->created_at!!}</td>
             <td>{!!$row->amount!!}</td>
 

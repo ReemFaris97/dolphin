@@ -8,7 +8,7 @@
             <div class="mr-auto">
                 <h3 class="m-subheader__title ">المندوبين / الرئيسية</h3>
                 @php($today=\Carbon\Carbon::today()->format('d-m-Y'))
-                <h4>حالة اليوم :{{$today}} </h4>
+                <h4 style="margin-bottom: 45px;">حالة اليوم :{{$today}} </h4>
 
             </div>
         </div>

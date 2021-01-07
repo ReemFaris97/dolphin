@@ -32,7 +32,6 @@ class HomeController extends Controller
            $trips_accept=TripInventory::whereIn('trip_id',$trips)->where('type','accept')->count();
            $trips_accept_count+= $trips_accept;
        }
-
         $data = [
             'trips_all_count'=>$trips_all_count,
             'trips_count'=>$trips_accept_count,
