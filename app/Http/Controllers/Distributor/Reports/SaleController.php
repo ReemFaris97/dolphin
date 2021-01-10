@@ -44,6 +44,10 @@ class SaleController extends Controller
         if($request->has('from') && $request->has('to')) {
         $period = CarbonPeriod::create($request->from, $request->to);
           $day_count=  $period->count();
+            $total_trips_count_all=0;
+               $accepted_trips_count_all=0;
+               $refused_trips_count_all=0;
+               $trips_cash_all=0;
            foreach ( $period->toArray() as  $day){
             $trips_during_the_period = RouteTripReport::whereDate('created_at',$day->format('Y-m-d'))->get();
             $roundsGroups = $trips_during_the_period->groupBy('round');
@@ -61,12 +65,18 @@ class SaleController extends Controller
                 'total_trips'=>$total_trips_count,'accepted_trips'=>$accepted_trips_count,
                 'refused_trips'=>$refused_trips_count,'trips_cash'=>$trips_cash
                 ];
-            $dataAll=[
-                'total_trips'=>$total_trips_count,'accepted_trips'=>$accepted_trips_count,
-                'refused_trips'=>$refused_trips_count,'trips_cash'=>$trips_cash
-            ];
 
+               $total_trips_count_all +=$total_trips_count;
+               $accepted_trips_count_all +=$accepted_trips_count;
+               $refused_trips_count_all +=$refused_trips_count;
+               $trips_cash_all +=$trips_cash;
         }
+            $dataAll=[
+                'total_trips'=>$total_trips_count_all,
+                'accepted_trips'=>$accepted_trips_count_all,
+                'refused_trips'=>$refused_trips_count_all,
+                'trips_cash'=>$trips_cash_all,
+            ];
 
          }
  else{

@@ -116,8 +116,10 @@
                 </div>
             </div>
                 </div>
-             <div id="chart_div" style="width: 900px; height: 500px;"></div>
-
+<div>
+              <div id="chart_div" style="width: 500px; height: 400px;"></div>
+                <div id="chart_div_2" style="width: 500px; height: 400px;"></div>
+</div>
                 @include('distributor.reports.sales._table')
 
             </div>
@@ -130,38 +132,59 @@
     <script type="text/javascript">
 
         var statistics =<?php echo json_encode($data); ?>;
+        var count =<?php echo json_encode($day_count); ?>;
 
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawVisualization);
+        google.charts.load('current', {'packages':['corechart','bar']});
+         google.charts.setOnLoadCallback(drawVisualization);
+        google.charts.setOnLoadCallback(drawVisualizationSales);
 
         function drawVisualization() {
             // Some raw data (not necessarily accurate)
             var xx=[
-                ['تاريخ اليوم', 'اجمالى الزيارات', 'اجمالى الزيارات المستلمة', 'اجمالى الزيارات المرفوضة', 'اجمالى المبيعات'],
+                ['تاريخ اليوم', 'اجمالى الزيارات', 'اجمالى الزيارات المستلمة', 'اجمالى الزيارات المرفوضة'],
             ];
             Object.values(statistics).forEach(function (item) {
-                xx.push([item.day,item.total_trips,item.accepted_trips,item.refused_trips,item.trips_cash]);
+                xx.push([item.day,item.total_trips,item.accepted_trips,item.refused_trips]);
             });
+            var data = google.visualization.arrayToDataTable(xx);
 
-            var data = google.visualization.arrayToDataTable(
-           xx
-
-
-            );
-
-            console.log(data);
-var count=<?php echo $day_count; ?>;
 console.log(count);
             var options = {
-                title : 'المبيعات اليومية',
+                title : 'اجمالى اليومية',
                 vAxis: {title: 'Cups'},
-                hAxis: {title: 'Month'},
+                hAxis: {title: 'الايام'},
                 seriesType: 'bars',
                 series: {count: {type: 'line'}}
             };
 
             var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
             chart.draw(data, options);
+        }
+
+
+        function drawVisualizationSales() {
+            var sales=[
+                ['تاريخ اليوم', 'اجمالى المبيعات',],
+            ];
+            Object.values(statistics).forEach(function (item) {
+
+                sales.push([item.day,item.trips_cash]);
+            });
+            // console.log(sales);
+            var dataSales = google.visualization.arrayToDataTable(
+                sales
+            );
+
+            var optionsBar = {
+                title : 'اجمالى اليومية',
+                        vAxis: {title: 'Cups'},
+                        hAxis: {title: 'الايام'},
+                        seriesType: 'bars',
+                        series: {count: {type: 'line'}}
+
+        };
+            var bar = new google.visualization.ComboChart(document.getElementById('chart_div_2'));
+            bar.draw(dataSales, optionsBar);
         }
     </script>
 @endpush
