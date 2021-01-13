@@ -43,9 +43,7 @@ class RouteController extends Controller
     public function show($id)
     {
         $trips =  RouteTrips::where('route_id',$id)->orderby('arrange','asc')->get();
-
         $trips = TripResource::collection($trips);
-
         return $this->apiResponse($trips);
     }
 

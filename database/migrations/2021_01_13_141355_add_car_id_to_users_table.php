@@ -14,10 +14,8 @@ class AddCarIdToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('car_id')->nullable();
-//            $table->foreign('car_id')->references('id')
-//                ->on('distributor_cars')->onDelete('cascade')
-//                ->onUpdate('cascade');
+            $table->unsignedBigInteger('car_id')->index();
+
         });
     }
 
