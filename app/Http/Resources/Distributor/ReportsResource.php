@@ -20,6 +20,8 @@ class ReportsResource extends ResourceCollection
                     'id'=>$q->id,
                     'created_at' => isset($q->created_at) ? $q->created_at->format('Y-m-d') : "",
                     'total_cash' => $q->total_cash,
+                    'total_expenses'=>$q->total_expenses,
+                    'profit'=>$q->total_cash-$q->total_expenses,
                     'total' => $q->total_products_price
                 ];
             }),
