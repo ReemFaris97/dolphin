@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Distributor;
 
+use App\Models\DistributorCar;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -32,7 +33,9 @@ class DistributorsController extends Controller
      */
     public function create()
     {
-        return $this->toCreate();
+        $cars = DistributorCar::all();
+
+        return $this->toCreate(compact('cars'));
     }
 
     /**
@@ -94,7 +97,8 @@ class DistributorsController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        return $this->toEdit(compact('user'));
+        $cars = DistributorCar::all();
+        return $this->toEdit(compact('user','user'));
     }
 
     /**
