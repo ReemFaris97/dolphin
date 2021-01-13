@@ -40,9 +40,10 @@ class DailyReportController extends Controller
             $report = $report->whereBetween('created_at', [$from, $to]);
         }
         $report = $report->select('*')->addSelect(DB::raw("sum(cash) as total_cash"))
+            ->addSelect(DB::raw("sum(expenses) as total_expenses"))
         ->addSelect(DB::raw("sum(products_price) as total_products_price"));
 
-        return $this->apiResponse(new ReportsResource($report->paginate($this->paginateNumber)));
+        return $this->apiResponse(new ReportsResource($report->orderBy('date', 'DESC')->paginate($this->paginateNumber)));
     }
 
     public function store(Request $request){
