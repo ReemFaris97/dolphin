@@ -36,8 +36,8 @@ class RouteController extends Controller
 
     public function currentTrips()
     {
-        $routes = DistributorRoute::where('user_id',auth()->user()->id)->where(['is_available'=>1])->get();
-        return $this->apiResponse(MapRoutesResource::collection($routes));
+        $routes = DistributorRoute::where('user_id',auth()->user()->id)->where(['is_available'=>1,'is_active'=>1])->first();
+        return $this->apiResponse(new MapRoutesResource($routes));
     }
 
     public function show($id)
@@ -143,14 +143,14 @@ class RouteController extends Controller
                 "email" => "nullable|email|min:1|max:255|unique:users,email",
                  'phone'      =>'required|string|unique:users,phone',
                  "image"=>"required",
-                 "store_name" => "required|string|min:1|max:255",
+//                 "store_name" => "required|string|min:1|max:255",
                  "address" => "required|string|min:1|max:255",
                  "lat" => "required|string|min:1|max:255",
                  "lng" => "required|string|min:1|max:255",
             'notes' => 'nullable|string',
-            'code' => 'nullable|string',
+//            'code' => 'nullable|string',
             'client_class_id' => 'required|integer',
-            'tax_number' => 'nullable|string',
+            'tax_number' => 'required|string|min:15',
              ];
 /*  'notes','code', 'route_id', 'client_class_id', 'tax_number' */
 
@@ -166,7 +166,8 @@ class RouteController extends Controller
                 $requests['image'] = saveImage($request->image, 'users');
             }
         }
-        $requests['is_active'] = 0;
+        $requests['is_active'] = 1;
+        $requests['code'] =mt_rand(10000, 100000);
         $requests['user_id'] = auth()->id();
         $client = Client::create($requests);
 

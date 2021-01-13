@@ -53,6 +53,9 @@ class DistributorsController extends Controller
             'affiliate'=>'nullable|numeric',
             'address'=>'nullable|string',
             'notes'=>'nullable|string',
+            'car_id'=>'required|numeric|exists:distributor_cars,id|unique:users,car_id,',
+
+
         ];
 
         $this->validate($request, $rules);
@@ -110,7 +113,7 @@ class DistributorsController extends Controller
             'phone' => 'required|numeric|unique:users,phone,' . $user->id,
             'email' => 'required|string|unique:users,email,' . $user->id,
             'image' => 'nullable|sometimes|image',
-
+            'car_id'=>'required|numeric|exists:distributor_cars,id|unique:users,car_id,'.$id,
             'target'=>'nullable|integer',
             'affiliate'=>'nullable|numeric',
             'address'=>'nullable|string',

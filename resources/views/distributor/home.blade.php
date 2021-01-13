@@ -7,6 +7,9 @@
         <div class="d-flex align-items-center">
             <div class="mr-auto">
                 <h3 class="m-subheader__title ">المندوبين / الرئيسية</h3>
+                @php($today=\Carbon\Carbon::today()->format('d-m-Y'))
+                <h4 style="margin-bottom: 45px;">حالة اليوم :{{$today}} </h4>
+
             </div>
         </div>
     </div>
@@ -17,7 +20,7 @@
             <div class="m-portlet__body  m-portlet__body--no-padding">
                 <div class="row m-row--no-padding m-row--col-separator-xl">
                     <div class="col-md-12 col-lg-6 col-xl-3">
-                        <a href="{!! route('distributor.distributors.index') !!}">
+                        <a href="#">
                             <!--begin::Total Profit-->
                             <div class="m-widget24">
                                 <div class="m-widget24__item">
@@ -27,11 +30,11 @@
                                     <span class="m-widget24__desc">
                                     </span>
                                     <span class="m-widget24__stats m--font-brand">
-                                        {{$data['distributors_count']}}
+                                        {{$data['trips_all_count']}}
                                     </span>
                                     <div class="m--space-10"></div>
                                     <div class="progress m-progress--sm">
-                                        <div class="progress-bar m--bg-brand" role="progressbar" style="width: {{$data['distributors_count']}}%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar m--bg-brand" role="progressbar" style="width: {{$data['trips_all_count']}}%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <span class="m-widget24__change">
                                     </span>
@@ -43,7 +46,7 @@
                         </a>
                     </div>
                     <div class="col-md-12 col-lg-6 col-xl-3">
-                        <a href="{!! route('distributor.clients.index') !!}">
+                        <a href="#">
                             <!--begin::New Feedbacks-->
                             <div class="m-widget24">
                                 <div class="m-widget24__item">
@@ -53,11 +56,11 @@
                                     <span class="m-widget24__desc">
                                     </span>
                                     <span class="m-widget24__stats m--font-info">
-                                        {{$data['clients_count']}}
+                                        {{$data['trips_count']}}
                                     </span>
                                     <div class="m--space-10"></div>
                                     <div class="progress m-progress--sm">
-                                        <div class="progress-bar m--bg-info" role="progressbar" style="width: {{$data['clients_count']}}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar m--bg-info" role="progressbar" style="width: {{$data['trips_count']}}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <span class="m-widget24__change">
                                     </span>
@@ -69,7 +72,7 @@
                         </a>
                     </div>
                     <div class="col-md-12 col-lg-6 col-xl-3">
-                        <a href="{!! route('distributor.stores.index') !!}">
+                        <a href="#">
                             <!--begin::New Orders-->
                             <div class="m-widget24">
                                 <div class="m-widget24__item">
@@ -79,11 +82,11 @@
                                     <span class="m-widget24__desc">
                                     </span>
                                     <span class="m-widget24__stats m--font-danger">
-                                        {{$data['stores_count']}}
+                                        {{$data['trips_refused_count']}}
                                     </span>
                                     <div class="m--space-10"></div>
                                     <div class="progress m-progress--sm">
-                                        <div class="progress-bar m--bg-danger" role="progressbar" style="width: {{$data['stores_count']}}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar m--bg-danger" role="progressbar" style="width: {{$data['trips_refused_count']}}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <span class="m-widget24__change">
                                     </span>
@@ -95,7 +98,7 @@
                         </a>
                     </div>
                     <div class="col-md-12 col-lg-6 col-xl-3">
-                        <a href="{!! route('distributor.products.index') !!}">
+                        <a href="#">
                             <!--begin::New Users-->
                             <div class="m-widget24">
                                 <div class="m-widget24__item">
@@ -105,11 +108,11 @@
                                     <span class="m-widget24__desc">
                                     </span>
                                     <span class="m-widget24__stats m--font-success">
-                                        {{$data['products_count']}}
+                                        {{$data['routes_count']}}
                                     </span>
                                     <div class="m--space-10"></div>
                                     <div class="progress m-progress--sm">
-                                        <div class="progress-bar m--bg-success" role="progressbar" style="width: {{$data['products_count']}}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar m--bg-success" role="progressbar" style="width: {{$data['routes_count']}}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <span class="m-widget24__change">
                                     </span>
@@ -121,7 +124,7 @@
                         </a>
                     </div>
                     <div class="col-md-12 col-lg-6 col-xl-3">
-                        <a href="{!! route('distributor.cars.index') !!}">
+                        <a href="#">
                             <!--begin::Total Profit-->
                             <div class="m-widget24">
                                 <div class="m-widget24__item">
@@ -131,11 +134,11 @@
                                     <span class="m-widget24__desc">
                                     </span>
                                     <span class="m-widget24__stats m--font-brand">
-                                        {{$data['cars_count']}}
+                                        {{$data['routes_finished_count']}}
                                     </span>
                                     <div class="m--space-10"></div>
                                     <div class="progress m-progress--sm">
-                                        <div class="progress-bar m--bg-brand" role="progressbar" style="width: {{$data['cars_count']}}%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar m--bg-brand" role="progressbar" style="width: {{$data['routes_finished_count']}}%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <span class="m-widget24__change">
                                     </span>
@@ -147,7 +150,7 @@
                         </a>
                     </div>
                     <div class="col-md-12 col-lg-6 col-xl-3">
-                        <a href="{!! route('distributor.cars.index') !!}">
+                        <a href="#">
                             <!--begin::Total Profit-->
                             <div class="m-widget24">
                                 <div class="m-widget24__item">
@@ -157,11 +160,11 @@
                                     <span class="m-widget24__desc">
                                     </span>
                                     <span class="m-widget24__stats m--font-brand">
-                                        {{$data['cars_count']}}
+                                        {{$data['routes_not_finished_count']}}
                                     </span>
                                     <div class="m--space-10"></div>
                                     <div class="progress m-progress--sm">
-                                        <div class="progress-bar m--bg-brand" role="progressbar" style="width: {{$data['cars_count']}}%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar m--bg-brand" role="progressbar" style="width: {{$data['routes_not_finished_count']}}%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <span class="m-widget24__change">
                                     </span>
@@ -173,7 +176,7 @@
                         </a>
                     </div>
                     <div class="col-md-12 col-lg-6 col-xl-3">
-                        <a href="{!! route('distributor.cars.index') !!}">
+                        <a href="#">
                             <!--begin::Total Profit-->
                             <div class="m-widget24">
                                 <div class="m-widget24__item">
@@ -183,11 +186,11 @@
                                     <span class="m-widget24__desc">
                                     </span>
                                     <span class="m-widget24__stats m--font-brand">
-                                        {{$data['cars_count']}}
+                                        {{$data['sales_total']}}
                                     </span>
                                     <div class="m--space-10"></div>
                                     <div class="progress m-progress--sm">
-                                        <div class="progress-bar m--bg-brand" role="progressbar" style="width: {{$data['cars_count']}}%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar m--bg-brand" role="progressbar" style="width: {{$data['sales_total']}}%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <span class="m-widget24__change">
                                     </span>

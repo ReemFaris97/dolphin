@@ -92,6 +92,7 @@ Route::middleware('distributor')->group(function () {
         Route::any('client_report', [ 'uses' => 'ClientController@index'])->name('clients.index');
         Route::get('bill/{id}', [ 'uses' => 'ClientController@show'])->name('clients.show');
         Route::any('sale_report', [ 'uses' => 'SaleController@index'])->name('sales.index');
+        Route::get('bill/{id}', [ 'uses' => 'SaleController@show'])->name('sales.show');
         Route::get('store_movement_report', 'StoreMovementController@index')->name('store_movement.index');
         Route::get('store_movement_report/report', 'StoreMovementController@show')->name('store_movement.report');
 

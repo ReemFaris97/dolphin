@@ -67,6 +67,17 @@
         <input type="file" class="form-control m-input" name="image">
     </div>
 
+        <div class="form-group m-form__group">
+            <label>السيارة</label>
+            <select name="user_id" class="form-control  m-input select2">
+                <option disabled selected>إختار السيارة</option>
+                @foreach($cars as $car)
+                    <option value="{{$car->id}}" @if(isset($user)) {{$user->car_id == $car->id ? 'selected' :'' }} @endif  >{{$car->name}}</option>
+                @endforeach
+            </select>
+        </div>
+
+
     {{--    @can('edit_workers')--}}
     {{--        <div class="form-group m-form__group">--}}
     {{--            <label> الجنسيه</label>--}}
