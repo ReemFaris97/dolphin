@@ -19,10 +19,10 @@ class ReportsResource extends ResourceCollection
                 return [
                     'id'=>$q->id,
                     'created_at' => isset($q->created_at) ? $q->created_at->format('Y-m-d') : "",
-                    'total_cash' => $q->total_cash,
-                    'total_expenses'=>$q->total_expenses,
-                    'profit'=>$q->total_cash-$q->total_expenses,
-                    'total' => $q->total_products_price
+                    'total_cash' =>(string) ($q->total_cash ??0),
+                    'total_expenses'=>(string) ($q->total_expenses ??0),
+                    'profit'=>(string) (($q->total_cash - $q->total_expenses)??0),
+                    'total' => (string) ($q->total_products_price ?? 0)
                 ];
             }),
             'paginate'=>[
