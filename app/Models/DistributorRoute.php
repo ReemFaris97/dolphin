@@ -10,7 +10,12 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 class DistributorRoute extends Model
 {
     protected $fillable = ['name', 'is_finished', 'is_active', 'user_id', 'arrange', 'round','received_code','is_available'];
-protected static function boot()
+
+    public static function where(string $string, $id)
+    {
+    }
+
+    protected static function boot()
 {
         parent::boot();
     static::addGlobalScope('arrange', function (Builder $builder) {

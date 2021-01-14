@@ -43,7 +43,7 @@ class DailyReportController extends Controller
             ->addSelect(DB::raw("sum(expenses) as total_expenses"))
         ->addSelect(DB::raw("sum(products_price) as total_products_price"));
 
-        return $this->apiResponse(new ReportsResource($report->orderBy('date', 'DESC')->paginate($this->paginateNumber)));
+        return $this->apiResponse(new ReportsResource($report->latest()->paginate($this->paginateNumber)));
     }
 
     public function store(Request $request){

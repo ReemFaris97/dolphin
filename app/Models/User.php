@@ -349,6 +349,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->morphMany(DistributorTransaction::class, 'sender');
     }
 
+
     public function supplierTotalBills()
     {
         $amount = $this->supplierBills()->sum('vat');
