@@ -265,7 +265,6 @@ class StoresController extends Controller
 
     public function damageProduct(Request $request, $store_id = null)
     {
-
         $this->validate($request, [
             'for_distributor' => 'required|boolean',
             "user_id" => 'nullable|required_if:for_distributor,==,1|integer|exists:users,id',
@@ -278,10 +277,16 @@ class StoresController extends Controller
             'type' => 'damaged',
             'store_id' => $request->store_id
         ];
+
+        $requests = $request->except('image');
+        if ($request->hasFile('image')) {
+            $request['image'] = saveImage($request->image, 'users');
+        }
         foreach ($request->products ?? [] as $product) {
             ProductQuantity::create($data + [
                     'product_id' => $product['product_id'],
                     'quantity' => $product['quantity'],
+                    'image'=>$request['image'],
                 ]);
         }
         toast('تم  تسجيل التالف بنجاح', 'success', 'top-right');
