@@ -11,9 +11,6 @@ class DistributorRoute extends Model
 {
     protected $fillable = ['name', 'is_finished', 'is_active', 'user_id', 'arrange', 'round','received_code','is_available'];
 
-    public static function where(string $string, $id)
-    {
-    }
 
     protected static function boot()
 {
