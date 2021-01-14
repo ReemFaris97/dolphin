@@ -29,7 +29,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::post('attach_images','RouteController@attachImages');
     Route::get('current_trips','RouteController@currentTrips');
     Route::post('add_client/{route_id}','RouteController@AddClientToRoute');
-    Route::resource('daily_reports','DailyReportController');
+    Route::resource('daily_reports','DailyReportController')->only('store');
     Route::get('cars','StoreController@cars');
     Route::get('transfer_requests','StoreController@pendingTransferRequests');
     Route::get('transfer_requests/{id}','StoreController@AcceptTransferRequest');
