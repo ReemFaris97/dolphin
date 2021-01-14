@@ -33,7 +33,7 @@ class DistributorsController extends Controller
      */
     public function create()
     {
-        $cars = DistributorCar::all();
+        $cars = DistributorCar::Available()->get();
 
         return $this->toCreate(compact('cars'));
     }
@@ -52,11 +52,11 @@ class DistributorsController extends Controller
             'email' => 'required|string|unique:users,email',
             'password' => 'required|string|confirmed|max:191',
             'image' => 'nullable|sometimes|image',
-            'target'=>'nullable|integer',
-            'affiliate'=>'nullable|numeric',
-            'address'=>'nullable|string',
-            'notes'=>'nullable|string',
-            'car_id'=>'required|numeric|exists:distributor_cars,id|unique:users,car_id,',
+            'target' => 'nullable|integer',
+            'affiliate' => 'nullable|numeric',
+            'address' => 'nullable|string',
+            'notes' => 'nullable|string',
+            'car_id' => 'required|numeric|exists:distributor_cars,id|unique:users,car_id,',
 
 
         ];
@@ -97,8 +97,14 @@ class DistributorsController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        $cars = DistributorCar::all();
-        return $this->toEdit(compact('user','user'));
+        $cars = DistributorCar::Available()->get();
+
+        $car = DistributorCar::whereHas('store', function ($b) use ($user) {
+            $b->where('user_id', $user->id);
+        })->first();
+        $cars = $cars->push($car);
+
+        return $this->toEdit(compact('user', 'user'));
     }
 
     /**
@@ -117,11 +123,11 @@ class DistributorsController extends Controller
             'phone' => 'required|numeric|unique:users,phone,' . $user->id,
             'email' => 'required|string|unique:users,email,' . $user->id,
             'image' => 'nullable|sometimes|image',
-            'car_id'=>'required|numeric|exists:distributor_cars,id|unique:users,car_id,'.$id,
-            'target'=>'nullable|integer',
-            'affiliate'=>'nullable|numeric',
-            'address'=>'nullable|string',
-            'notes'=>'nullable|string',
+            'car_id' => 'required|numeric|exists:distributor_cars,id|unique:users,car_id,' . $id,
+            'target' => 'nullable|integer',
+            'affiliate' => 'nullable|numeric',
+            'address' => 'nullable|string',
+            'notes' => 'nullable|string',
         ];
         $this->validate($request, $rules);
         $requests = $request->except('image', 'password');

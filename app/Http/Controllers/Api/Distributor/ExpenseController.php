@@ -54,7 +54,7 @@ class ExpenseController extends Controller
             'time' => 'nullable|string',
             'image' => 'nullable|mimes:jpg,jpeg,gif,png',
             'amount' => 'required|numeric',
-            'notes' => 'required|string',
+            'notes' => 'nullable|string',
             'reader_name' => 'nullable|string',
             'reader_number' => 'nullable|string',
             'reader_image' => 'nullable|mimes:jpg,jpeg,gif,png',
