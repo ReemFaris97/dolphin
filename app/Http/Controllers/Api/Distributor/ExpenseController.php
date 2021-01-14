@@ -32,12 +32,12 @@ class ExpenseController extends Controller
             $from = Carbon::parse(\request('from'));
             $to = Carbon::parse(\request('to'));
 
-            $expenses = Expense::Where('user_id',auth()->user()->id)->whereBetween('date',[$from,$to])
+            $expenses = Expense::Where('user_id',auth()->user()->id)->whereBetween('date',[$from,$to])->orderBy('date', 'DESC')
                 ->paginate($this->paginateNumber);
         }
         else
         {
-            $expenses = Expense::Where('user_id',auth()->user()->id)
+            $expenses = Expense::Where('user_id',auth()->user()->id)->orderBy('date', 'DESC')
                 ->paginate($this->paginateNumber);
         }
 

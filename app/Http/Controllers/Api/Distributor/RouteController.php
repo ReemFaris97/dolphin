@@ -50,7 +50,6 @@ class RouteController extends Controller
             })/*->orderby('arrange', 'asc')*/->get();
 
         $trips = TripResource::collection($trips);
-
         return $this->apiResponse($trips);
     }
 
