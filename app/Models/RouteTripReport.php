@@ -25,6 +25,7 @@ class RouteTripReport extends Model
         'distributor_transaction_id',
         'expenses'
     ];
+
     /**
      * distributor_transaction relation
      *
@@ -34,6 +35,7 @@ class RouteTripReport extends Model
     {
         return $this->belongsTo(DistributorTransaction::class, 'distributor_transaction_id');
     }
+
     /**
      * route_trip relation
      *
@@ -43,10 +45,12 @@ class RouteTripReport extends Model
     {
         return $this->belongsTo(RouteTrips::class, 'route_trip_id');
     }
+
     public function store()
     {
         return $this->belongsTo(store::class, 'store_id')->withDefault();
     }
+
     public function inventory(): HasOne
     {
         return $this->hasOne(TripInventory::class, 'trip_id', 'route_trip_id')->whereColumn('trip_inventories.round', 'round');
@@ -56,15 +60,16 @@ class RouteTripReport extends Model
     {
         return $this->morphMany(AttachedProducts::class, 'model')->with('product');
     }
+
     public function product_total()
     {
-        $products=$this->morphMany(AttachedProducts::class, 'model')->with('product');
-      $total=0;
+        $products = $this->morphMany(AttachedProducts::class, 'model')->with('product');
+        $total = 0;
 //      dd($products->get());
-        foreach( $products->get() as $item){
-          $sum= $item->price* $item->quantity;
-          $total+=$sum;
-      }
+        foreach ($products->get() as $item) {
+            $sum = $item->price * $item->quantity;
+            $total += $sum;
+        }
 //        dd($total);
         return $total;
     }
@@ -73,6 +78,7 @@ class RouteTripReport extends Model
     {
         return $this->morphMany(Image::class, 'model');
     }
+
     public function scopeOfDistributor(Builder $builder, $distributor = null): void
     {
         $builder->whereHas('route_trip', function ($route_trip) use ($distributor) {
@@ -97,6 +103,7 @@ class RouteTripReport extends Model
             'route_trip_reports.id'
         );
     }
+
     public function scopeFilterDistributor(Builder $builder, $distributor = null): void
     {
         $builder->when($distributor != null, function ($q) use ($distributor) {
@@ -108,7 +115,7 @@ class RouteTripReport extends Model
     {
 
         $builder->whereHas('route_trip', function ($route_trip) use ($client) {
-            $route_trip->where('client_id',$client);
+            $route_trip->where('client_id', $client);
         });
 
     }
@@ -137,16 +144,18 @@ class RouteTripReport extends Model
         });
     }
 
+
     public function getInvoiceNumberAttribute()
     {
-        return  str_pad($this->id, 6, 0, STR_PAD_LEFT);
+        return str_pad($this->id, 6, 0, STR_PAD_LEFT);
     }
+
     public function CashArabic($cach)
     {
         $total = explode(".", $cach);
-        $total_in_arabic_rial=new  num_to_ar($total[0],"male");
-        $total_in_arabic_halla=new  num_to_ar($total[1]??0,"male");
-        $AllTotal=[$total_in_arabic_rial->convert_number(), $total_in_arabic_halla->convert_number()??0];
+        $total_in_arabic_rial = new  num_to_ar($total[0], "male");
+        $total_in_arabic_halla = new  num_to_ar($total[1] ?? 0, "male");
+        $AllTotal = [$total_in_arabic_rial->convert_number(), $total_in_arabic_halla->convert_number() ?? 0];
         return $AllTotal;
     }
 }
