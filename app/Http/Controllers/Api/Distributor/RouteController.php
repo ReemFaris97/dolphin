@@ -37,8 +37,8 @@ class RouteController extends Controller
 
     public function currentTrips()
     {
-        $routes = DistributorRoute::where('user_id', auth()->user()->id)->where(['is_available' => 1, 'is_active' => 1])->first();
-        return $this->apiResponse(new MapRoutesResource($routes));
+        $routes = DistributorRoute::where('user_id', auth()->user()->id)->where(['is_available' => 1, 'is_active' => 1])->get();
+        return $this->apiResponse( MapRoutesResource::collection($routes));
     }
 
 
