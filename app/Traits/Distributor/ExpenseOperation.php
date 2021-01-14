@@ -44,6 +44,8 @@ trait ExpenseOperation
 
         $inputs['distributor_route_id'] = optional($active_route)->id;
         $inputs['round'] = optional($active_route)->round;
+        $inputs['date'] = date('Y-m-d');
+        $inputs['time'] = date('H:i:s');
 //        $inputs['route_trip_id']=
         \DB::beginTransaction();
         $clause = Expense::create($inputs);
