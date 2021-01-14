@@ -50,8 +50,8 @@ class DailyReportController extends Controller
 
         $request['products'] = json_decode($request->products,TRUE);
         $rules = [
-            'cash'=>'required|numeric',
-            'expenses'=>'required|numeric',
+            'cash'=>'nullable|numeric',
+            'expenses'=>'nullable|numeric',
             'image'=>'required',
             'store_id' => 'required|integer|exists:stores,id',
             'products'=>'required|array',
