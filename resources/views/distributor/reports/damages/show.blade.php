@@ -17,7 +17,7 @@
                                 <i class="la la-gear"></i>
                             </span>
                             <h3 class="m-portlet__head-text">
-                           عرض المصروف
+                           عرض  السجل
                             </h3>
                         </div>
                     </div>
@@ -35,57 +35,41 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td>رقم سند المصروف</td>
-                            <td>{{$expense->sanad_No}}</td>
+                            <td>  اسم المخزن</td>
+                            <td>{{$damage->store->name}}</td>
                         </tr>
                         <tr>
                             <td>اسم المندوب</td>
-                            <td>{{$expense->distributor->name}}</td>
+                            <td>{{$damage->distributor->name}}</td>
                         </tr>
                         <tr>
-                            <td>تاريخ المصروف</td>
-                            <td>{{$expense->created_at}}</td>
-                        </tr>
-                        <tr>
-                            <td> قيمة المصروف </td>
-                            <td>{{$expense->amount }}</td>
-                        </tr>
-                        @if($expense->reader_number != Null)
-                        <tr>
-                            <td> اسم العداد</td>
-                            <td>
-                                {{$expense->name }}
-                            </td>
+                            <td>تاريخ السجل</td>
+                            <td>{{$damage->created_at}}</td>
                         </tr>
 
-                        <tr>
-                            <td> قراءة  العداد</td>
-                            <td>
-                                {{$expense->reader_number }}
-                            </td>
-                        </tr>
+
 
                             <tr>
-                            <td>صور قراءةالعداد</td>
+                            <td>صور محضر الاتلاف</td>
                             <td>
-                                <img src="{!!asset($expense->reader_image )!!}" height="100" width="100"/>
+                                <img src="{!!asset($damage->image )!!}" height="100" width="100"/>
                             </td>
                             </tr>
-                        @endif
+
                         <tr>
-                            <td> ملاحظة المصروف </td>
-                            <td>{{$expense->notes }}</td>
+                            <td> اسم المنتج</td>
+                            <td>{{$damage->product->name}}</td>
                         </tr>
                         <tr>
-                            <td>صورة فاتورة المصروف
-                            </td>
-                            <td>
-                                <img src="{!!asset($expense->image )!!}" height="100" width="100"/>
-                            </td>
-                            </tr>
-
-
-
+                            <td> الكميه</td>
+                            <td>{{$damage->quantity}}</td>
+                        </tr>
+                        <tr>
+                            <td> الحاله</td>
+                            <td>@if($damage->is_confirmed==1)
+                                    مؤكدة
+                                @endif</td>
+                        </tr>
 
                         </tbody>
                     </table>

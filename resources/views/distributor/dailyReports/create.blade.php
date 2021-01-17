@@ -1,11 +1,11 @@
 @extends('distributor.layouts.app')
-@section('title') إضافة ملخص يومي
+@section('title') إضافة الجرد
 @endsection
 
 @section('header')
 @endsection
 
-@section('breadcrumb') @php($breadcrumbs=['الملخصات اليومية'=>route('distributor.dailyReports.index'),'اضافه'=>route('distributor.dailyReports.create')])
+@section('breadcrumb') @php($breadcrumbs=[' الجرد'=>route('distributor.dailyReports.index'),'اضافه'=>route('distributor.dailyReports.create')])
 @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
 

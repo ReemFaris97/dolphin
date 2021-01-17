@@ -20,15 +20,15 @@
     </div>
 
 
-    <div class="form-group m-form__group">
-        <label>المبالغ النقدية</label>
-        {!! Form::number('cash',null,['class'=>'form-control m-input '])!!}
-    </div>
+{{--    <div class="form-group m-form__group">--}}
+{{--        <label>المبالغ النقدية</label>--}}
+{{--        {!! Form::number('cash',null,['class'=>'form-control m-input '])!!}--}}
+{{--    </div>--}}
 
-    <div class="form-group m-form__group">
-        <label>قيمة المصروفات</label>
-        {!! Form::number('expenses',null,['class'=>'form-control m-input '])!!}
-    </div>
+{{--    <div class="form-group m-form__group">--}}
+{{--        <label>قيمة المصروفات</label>--}}
+{{--        {!! Form::number('expenses',null,['class'=>'form-control m-input '])!!}--}}
+{{--    </div>--}}
 
     <div class="form-group m-form__group">
         <label> الصوره </label>
