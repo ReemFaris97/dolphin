@@ -56,6 +56,7 @@ Route::middleware('distributor')->group(function () {
     Route::resource('/expenditureTypes', 'ExpenditureTypesController');
     Route::patch('expenditureTypes/change-status/{item}', 'ExpenditureTypesController@changeStatus')->name('expenditureTypes.changeStatus');
     Route::resource('/expenses', 'ExpensesController');
+    Route::resource('banks', 'BankController');
     Route::resource('/routes', 'DistributorRoutesController');
     Route::get('available_route/{id}', 'DistributorRoutesController@available')->name('routes.available');
     Route::get('dis_available_route/{id}', 'DistributorRoutesController@disavailable')->name('routes.dis_available');
