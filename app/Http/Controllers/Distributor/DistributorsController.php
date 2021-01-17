@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Distributor;
 
 use App\Models\DistributorCar;
+use App\Models\StoreCategory;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
+use Illuminate\Support\Facades\DB;
 
 class DistributorsController extends Controller
 {
@@ -34,7 +36,6 @@ class DistributorsController extends Controller
     public function create()
     {
         $cars = DistributorCar::Available()->get();
-
         return $this->toCreate(compact('cars'));
     }
 
@@ -46,12 +47,13 @@ class DistributorsController extends Controller
      */
     public function store(Request $request)
     {
+     //   dd($request->all());
         $rules = [
             'name' => 'required|string|max:191',
             'phone' => 'required|numeric|unique:users,phone',
             'email' => 'required|string|unique:users,email',
             'password' => 'required|string|confirmed|max:191',
-            'image' => 'nullable|sometimes|image',
+            'image' => 'nullable|mimes:jpg,jpeg,gif,png',
             'target' => 'nullable|integer',
             'affiliate' => 'nullable|numeric',
             'address' => 'nullable|string',
@@ -61,15 +63,27 @@ class DistributorsController extends Controller
 
         ];
 
-        $this->validate($request, $rules);
+       $this->validate($request, $rules);
 
         $requests = $request->except('image');
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'users');
         }
         $requests['is_distributor'] = 1;
-        $user = User::create($requests);
-
+        $car = DistributorCar::find($request->car_id);
+        \DB::beginTransaction();
+        $user = User::query()->create($requests);
+        if ($car) {
+            $user->stores()->create([
+                'name' => ['ar' => $car->car_name, 'en' => $car->car_name],
+                'store_category_id' => StoreCategory::first()->id,
+                'is_active' => 1,
+                'for_distributor' => 1,
+                'has_car' => 1,
+                'car_id' => $car->id
+            ]);
+        }
+        DB::commit();
         toast('تم الاضافه بنجاح', 'success', 'top-right');
         return redirect()->route('distributor.distributors.index');
     }
@@ -102,9 +116,11 @@ class DistributorsController extends Controller
         $car = DistributorCar::whereHas('store', function ($b) use ($user) {
             $b->where('user_id', $user->id);
         })->first();
-        $cars = $cars->push($car);
+        $user->car_id = optional($car)->id;
+        $cars = $cars->push($car)->filter();
 
-        return $this->toEdit(compact('user', 'user'));
+
+        return $this->toEdit(compact('user', 'user', 'cars'));
     }
 
     /**
