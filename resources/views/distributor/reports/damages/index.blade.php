@@ -1,6 +1,6 @@
 @extends('distributor.layouts.app')
 @section('title')
-تقرير المصروفات
+تقرير سجل التوالف
 @endsection
 
 
@@ -21,7 +21,7 @@
                                 <i class="la la-gear"></i>
                             </span>
                             <h3 class="m-portlet__head-text">
-                                تقرير المصروفات
+                                تقرير سجل التوالف
                             </h3>
                         </div>
                     </div>
@@ -29,9 +29,9 @@
 
                 <!--begin::Form-->
 
-                @include('distributor.reports.expenses._form')
+                @include('distributor.reports.damages._form')
                 <!--begin::Table-->
-                @include('distributor.reports.expenses._table')
+                @include('distributor.reports.damages._table')
 
             </div>
         </div>

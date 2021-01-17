@@ -48,8 +48,8 @@ class DailyReportsController extends Controller
     {
         $rules = [
             'user_id'=>"required|numeric|exists:users,id",
-            'cash'=>"required|numeric",
-            'expenses'=>"required|numeric",
+//            'cash'=>"nullable|numeric",
+//            'expenses'=>"nullable|numeric",
             'image'=>"required|image",
 //            'quantity'=>"required|array|min:1",
 //            'product_id'=>"required|array|min:1",
