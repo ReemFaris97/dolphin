@@ -5,7 +5,7 @@
 @section('header')
 @endsection
 
-@section('breadcrumb') @php($breadcrumbs=['عرض الملخص اليومى'=>'/distributor',$report->id ])
+@section('breadcrumb') @php($breadcrumbs=['عرض  الجرد'=>'/distributor',$report->id ])
 @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
 
@@ -46,23 +46,23 @@
                                 <td>تاريخ الاضافة</td>
                                 <td>{{$report->created_at}}</td>
                             </tr>
-                            <tr>
-                                <td> المبالغ النقدية </td>
-                                <td>{{$report->cash }}</td>
-                            </tr>
+{{--                            <tr>--}}
+{{--                                <td> المبالغ النقدية </td>--}}
+{{--                                <td>{{$report->cash }}</td>--}}
+{{--                            </tr>--}}
 
 
-                            <tr>
-                                <td>  المصروفات </td>
-                                <td>{{$report->expenses }}</td>
-                            </tr>
+{{--                            <tr>--}}
+{{--                                <td>  المصروفات </td>--}}
+{{--                                <td>{{$report->expenses }}</td>--}}
+{{--                            </tr>--}}
 
                             <tr>
                                 <td>  اسم المستودع </td>
                                 <td>{{$report->store->name ??'' }}</td>
                             </tr>
                             <tr>
-                            <td>صور الملخص</td>
+                            <td>صور الجرد</td>
                             <td>
                                 <img src="{!!asset($report->image)!!}" height="100" width="100"/>
                             </td>
