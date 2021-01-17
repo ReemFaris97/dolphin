@@ -86,16 +86,16 @@ class RouteController extends Controller
     {
 
         $request['products'] = json_decode($request->products, TRUE);
+        $request->merge('store_id', auth()->user()->car_store->id);
 
         $rules = [
             "trip_id" => "required|required|integer|exists:route_trips,id",
             'products' => 'required|array',
             'cash' => 'required|numeric',
-            'store_id' => 'required|integer',
+              'store_id' => 'required|integer',
             'products.*.product_id' => 'required|integer|exists:products,id',
             "products.*.quantity" => "required|integer",
         ];
-
         $validation = $this->apiValidation($request, $rules);
         if ($validation instanceof Response) {
             return $validation;
