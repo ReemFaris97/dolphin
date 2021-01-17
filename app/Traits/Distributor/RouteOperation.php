@@ -63,7 +63,7 @@ trait RouteOperation
     {
         DB::beginTransaction();
         try {
-            $transaction= DistributorTransaction::create([
+            $transaction = DistributorTransaction::create([
                 'sender_type' => Client::class,
                 'sender_id' => $trip->client_id,
                 'receiver_type' => User::class,
@@ -97,12 +97,11 @@ trait RouteOperation
                     'type' => 'out',
                     'is_confirmed' => 1,
                     'store_id' => $request->store_id,
-                    'trip_report_id'=>$trip_report->id
+                    'trip_report_id' => $trip_report->id
                 ]);
 
 
-
-            //    $trip->update(['cash' => $request->cash]);
+                //    $trip->update(['cash' => $request->cash]);
 
             }
 
@@ -118,28 +117,29 @@ trait RouteOperation
 
     public function RegisterRouteReport($request)
     {
-        DB::beginTransaction();
-        try {
-            $inputs = $request->all();
-            if ($request->image != null) {
-                if ($request->hasFile('image')) {
-                    $inputs['image'] = saveImage($request->image, 'users');
-                }
+
+        $inputs = $request->all();
+        if ($request->image != null) {
+            if ($request->hasFile('image')) {
+                $inputs['image'] = saveImage($request->image, 'users');
             }
-            /** @var \App\Models\DistributorRoute  $current_route*/
-            $current_route = DistributorRoute::find($request->route_id);
-            $inputs['round'] = $current_route->round + 1;
-            $user_routes = DistributorRoute::where('user_id', $current_route->user_id)
+        }
+        /** @var \App\Models\DistributorRoute $current_route */
+        $current_route = DistributorRoute::find($request->route_id);
+        $inputs['round'] = $current_route->round ;
+        $user_routes = DistributorRoute::where('user_id', $current_route->user_id)
             ->orderBy('round', 'desc')
             ->orderBy('arrange', 'desc')
             ->first('arrange');
+        DB::beginTransaction();
+        try {
             $current_route->fill(
                 [
-                    'is_finished' => 1,
+                    'is_finished' => 0,
                     'arrange' => $user_routes->arrange + 1,
                     'is_active' => 0,
-                    'round' => $inputs['round'],
-                    'received_code'=>mt_rand(1000000, 9999999)
+                    'round' => $inputs['round']+ 1,
+                    'received_code' => mt_rand(1000000, 9999999)
                 ]
             )->save();
             $report = RouteReport::query()->create($inputs);
@@ -151,16 +151,15 @@ trait RouteOperation
                 ]);
             }
             $current_route->trips()->update([
-                'round' => $inputs['round'],
+                'round' => $inputs['round']+ 1,
                 'status' => 'pending',
             ]);
             DB::commit();
 
-            return true;
+            return $report;
         } catch (\Exception $e) {
             DB::rollback();
             dd($e);
-            return false;
         }
     }
 
