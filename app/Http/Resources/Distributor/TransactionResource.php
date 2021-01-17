@@ -20,7 +20,7 @@ class TransactionResource extends ResourceCollection
                 return [
                     'id' => $q->id,
                     'name' => optional($q->sender)->name,
-                    'amount' => (int)$q->amountByType(auth()->user()),
+                    'amount' => (string)$q->amountByType(auth()->user()),
                     'date' => optional($q->created_at)->format('Y-m-d') ?? '',
                 ];
             }),
