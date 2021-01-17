@@ -1,11 +1,11 @@
 @extends('distributor.layouts.app')
-@section('title') الملخصات اليومية
+@section('title')الجرد
 @endsection
 
 @section('header')
 @endsection
 
-@section('breadcrumb') @php($breadcrumbs=['الملخصات اليومية'=>route('distributor.dailyReports.index'),])
+@section('breadcrumb') @php($breadcrumbs=['الجرد'=>route('distributor.dailyReports.index'),])
 @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
 
@@ -16,7 +16,7 @@
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-title">
                     <h3 class="m-portlet__head-text">
-                        الملخصات اليومية
+                     الجرد
                     </h3>
                 </div>
             </div>
@@ -27,7 +27,7 @@
                            class="btn btn-primary m-btn m-btn--custom m-btn--icon m-btn--air">
                         <span>
                             <i class="fas fa-plus"></i>
-                            <span>إنشاء ملخص يومي</span>
+                            <span>إنشاء جرد</span>
                         </span>
                         </a>
                     </li>
@@ -70,7 +70,7 @@
             console.log(item_id);
             swal({
                 title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذا الملخص ؟",
+                text: "هل تريد حذف هذا الجرد ؟",
                 icon: "warning",
                 buttons: ["الغاء", "موافق"],
                 dangerMode: true,
@@ -80,7 +80,7 @@
                     document.getElementById('delete-form'+item_id).submit();
                 }
                 else{
-                    swal("تم االإلفاء", "حذف  الملخص الغاؤه",'info',{buttons:'موافق'});
+                    swal("تم االإلفاء", "حذف  الجرد الغاؤه",'info',{buttons:'موافق'});
                 }
             });
         }

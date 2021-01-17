@@ -78,7 +78,7 @@ class StoreController extends Controller
         $rules = [
             'distributor_id' => 'required|integer|exists:users,id',
             'products'=>'required',
-            'signature'=>'required',
+            'signature'=>'nullable|string|required_if:distributor_store_id,!=,'.auth()->id(),
             'distributor_store_id' => 'required|integer|exists:stores,id',
             'sender_store_id' => 'required|integer|exists:stores,id',
             'products.*.product_id' =>'required|integer|exists:products,id',
