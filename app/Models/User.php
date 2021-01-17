@@ -49,7 +49,7 @@ class User extends Authenticatable implements JWTSubject
         'name', 'phone', 'email', 'password', 'image', 'job', 'nationality', 'company_name', 'blocked_at', 'is_admin', 'remember_token'
         , 'is_distributor', 'is_supplier', 'supplier_type', 'tex_number', 'lat', 'lng', 'bank_id', 'verification_code', 'parent_user_id', 'bank_account_number',
         'distributor_status', 'settle_commission', 'sell_commission', 'reword_value', 'store_id', 'route_id', 'is_storekeeper', 'enable'
-        , 'accounting_store_id', 'is_saler', 'is_accountant', 'delete_product', 'role_id', 'hiring_date', 'salary', 'title_id', 'is_active' ,'target', 'affiliate', 'address', 'notes','ordering_coin'
+        , 'accounting_store_id', 'is_saler', 'is_accountant', 'delete_product', 'role_id', 'hiring_date', 'salary', 'title_id', 'is_active', 'target', 'affiliate', 'address', 'notes', 'ordering_coin'
     ];
 
     /**
@@ -147,7 +147,6 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
-
     /**
      * Block The User.
      *
@@ -192,6 +191,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsTo(AccountingStore::class, 'accounting_store_id');
     }
+
     public function stores()
     {
         return $this->hasMany(Store::class, 'distributor_id');
@@ -241,6 +241,7 @@ class User extends Authenticatable implements JWTSubject
             }
         );
     }
+
     /**
      * Send the given notification.
      *
@@ -249,7 +250,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function sendNotification($data, $type)
     {
-        return        $this->notifications()->create([
+        return $this->notifications()->create([
             'data' => $data,
             'type' => $type
         ]);
@@ -340,10 +341,12 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(SupplierTransaction::class, 'supplier_id');
     }
+
     public function distributor_transactions()
     {
         return $this->hasMany(DistributorTransaction::class, 'user_id');
     }
+
     public function sender_transactions()
     {
         return $this->morphMany(DistributorTransaction::class, 'sender');
@@ -391,21 +394,22 @@ class User extends Authenticatable implements JWTSubject
 
         return optional($this
             ->trips()
-           // ->where('status', 'accepted')
-          //  ->orderBy('arrange', 'asc')
+            // ->where('status', 'accepted')
+            //  ->orderBy('arrange', 'asc')
             ->orderBy('updated_at', 'desc')
             ->first());
     }
 
     //    ******************************************************
 
-    public  function all_transactions()
+    public function all_transactions()
     {
         return DistributorTransaction::UserTransactions($this->id)->walletOf($this->id)->get();
     }
-    public  function distributor_wallet()
+
+    public function distributor_wallet()
     {
-        return $this->all_transactions()->sum('balance');
+        return round($this->all_transactions()->sum('balance'), 2);
     }
 
 

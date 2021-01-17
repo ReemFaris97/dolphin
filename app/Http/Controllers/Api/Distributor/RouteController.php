@@ -18,6 +18,7 @@ use App\Traits\Distributor\ExpenseOperation;
 use App\Traits\Distributor\RouteOperation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use JWTFactory;
 use JWTAuth;
 use Illuminate\Http\Response;
@@ -207,9 +208,11 @@ class RouteController extends Controller
         if ($validation instanceof Response) {
             return $validation;
         }
-        $this->RegisterRouteReport($request);
+        $report = $this->RegisterRouteReport($request);
 
-        return $this->apiResponse('تم ملأ التقرير بنجاح');
+        return $this->apiResponse([
+            'message' => 'تم ملأ التقرير بنجاح',
+            'code' => $report->Invoice_number]);
     }
 
 }

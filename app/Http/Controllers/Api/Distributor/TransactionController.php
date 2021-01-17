@@ -17,33 +17,34 @@ use App\Models\User;
 
 class TransactionController extends Controller
 {
-    use ApiResponses,DistributorOperation;
+    use ApiResponses, DistributorOperation;
 
 
-    public function index(){
+    public function index()
+    {
 
         $transactions = DistributorTransaction::UserTransactions(auth()->id())
             ->paginate($this->paginateNumber);
         return $this->apiResponse(new TransactionResource($transactions));
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
         $rules = [
-           'distributor_id' => 'required|integer|exists:users,id',
+            'distributor_id' => 'required|integer|exists:users,id',
             'amount' => 'required|numeric',
-            'type'=>'required|in:send,receive',
+            'type' => 'required|in:send,receive',
             'signature' => 'required|string',
-            'transaction_id'=>'nullable|exists:distributor_transactions,id'
+            'transaction_id' => 'nullable|exists:distributor_transactions,id'
         ];
-        $validation = $this->apiValidation($request,$rules);
+        $validation = $this->apiValidation($request, $rules);
         if ($validation instanceof Response) {
             return $validation;
         }
 
-        if ($request->distributor_id == auth()->user()->id)
-        {
-            return $this->apiResponse(null,'لا يمكنك ارسال واستقبال الاموال من نفسك',400);
+        if ($request->distributor_id == auth()->user()->id) {
+            return $this->apiResponse(null, 'لا يمكنك ارسال واستقبال الاموال من نفسك', 400);
         }
 
 
@@ -61,9 +62,7 @@ class TransactionController extends Controller
             $request['sender_id'] = auth()->user()->id;
             $request['receiver_id'] = $request->distributor_id;
             $this->AddTransaction($request);
-        }
-    else
-        {
+        } else {
 
             $transaction = DistributorTransaction::find($request->transaction_id);
 
@@ -82,7 +81,7 @@ class TransactionController extends Controller
     public function getWallet()
     {
 
-        return $this->apiResponse(['walllet' => auth()->user()->distributor_wallet()]);
+        return $this->apiResponse(['walllet' => (string)auth()->user()->distributor_wallet()]);
     }
 
 }
