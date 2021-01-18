@@ -53,7 +53,6 @@ class BankDepositsController extends Controller
             'deposit_number' => "required|string|max:191",
             'deposit_date' => "required|date",
             'image' => "required||mimes:jpg,jpeg,gif,png",
-            'image' => "required",
         ];
         $this->validate($request, $rules);
         BankDeposit::create($request->all());
