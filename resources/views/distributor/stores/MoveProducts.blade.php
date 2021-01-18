@@ -77,10 +77,10 @@
 
                     </div>
             </div>
-                    <div class="form-group m-form__group">
-                        <label> كود التسليم </label>
-                        {!! Form::text('signature',null,['class'=>'form-control m-input','id'=>'signature'])!!}
-                    </div>
+{{--                    <div class="form-group m-form__group">--}}
+{{--                        <label> كود التسليم </label>--}}
+{{--                        {!! Form::text('signature',null,['class'=>'form-control m-input','id'=>'signature'])!!}--}}
+{{--                    </div>--}}
 
                     @include('distributor.stores._attach_product',['products'=>$products])
                 </div>
