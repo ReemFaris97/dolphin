@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Distributor;
 use App\Models\Bank;
 use App\Models\BankDeposit;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
@@ -34,8 +35,8 @@ class BankDepositsController extends Controller
      */
     public function create()
     {
-        $users = User::distributor(1)->latest()->get();
-        $banks = Bank::latest()->get();
+        $users = User::distributor(1)->pluck('name','id')->toArray();
+        $banks = Bank::pluck('name','id')->toArray();
         return $this->toCreate(compact('users', 'banks'));
     }
 
@@ -55,9 +56,15 @@ class BankDepositsController extends Controller
             'image' => "required||mimes:jpg,jpeg,gif,png",
         ];
         $this->validate($request, $rules);
+        $request['deposit_date']=Carbon::parse($request['deposit_date']);
+        if ($request->hasFile('image') && $request->image != null) {
+
+            $request['image'] = saveImage($request->image, 'photos');
+        }
+
         BankDeposit::create($request->all());
         toast('تم إضافة الايداع بنجاح', 'success', 'top-right');
-        return redirect()->route('distributor.bank_deposits.index');
+        return redirect()->route('distributor.bank-deposits.index');
     }
 
     /**
@@ -103,7 +110,7 @@ class BankDepositsController extends Controller
         $this->validate($request, $rules);
         $bank_deposit->update($request->all());
         toast('تم تعديل الايداع بنجاح', 'success', 'top-right');
-        return redirect()->route('distributor.bank_deposits.index');
+        return redirect()->route('distributor.bank-deposits.index');
     }
 
     /**
@@ -116,7 +123,16 @@ class BankDepositsController extends Controller
     {
         BankDeposit::find($id)->delete();
         toast('تم حذف الايداع بنجاح', 'success', 'top-right');
-        return redirect()->route('distributor.bank_deposits.index');
+        return redirect()->route('distributor.bank-deposits.index');
+    }
+    public function getUserWallet($id){
+
+       $wallet= User::find($id)->distributor_wallet();
+
+        return response()->json([
+            'status'=>true,
+            'wallet'=>$wallet
+        ]);
     }
 
 }

@@ -57,7 +57,9 @@ Route::middleware('distributor')->group(function () {
     Route::patch('expenditureTypes/change-status/{item}', 'ExpenditureTypesController@changeStatus')->name('expenditureTypes.changeStatus');
     Route::resource('/expenses', 'ExpensesController');
     Route::resource('banks', 'BankController');
+    Route::resource('bank-deposits', 'BankDepositsController');
     Route::resource('/routes', 'DistributorRoutesController');
+    Route::get('/getAjaxWallet/{id}', 'BankDepositsController@getUserWallet')->name('getAjaxWallet');
     Route::get('available_route/{id}', 'DistributorRoutesController@available')->name('routes.available');
     Route::get('dis_available_route/{id}', 'DistributorRoutesController@disavailable')->name('routes.dis_available');
     Route::post('/trips/update-arrange', 'TripsController@updateArrange')->name('trips.update-arrange');
@@ -74,6 +76,7 @@ Route::middleware('distributor')->group(function () {
     Route::get('/get/ajax/trips', 'AjaxDataController@getDistributorTripsOnRoute')->name('getAjaxTrips');
     Route::post('/get/ajax/products', 'AjaxDataController@getAllProducts')->name('getAjaxProducts');
     Route::get('/getAjaxStores/{id}', 'AjaxDataController@getAllStores')->name('getAjaxStores');
+
     Route::get('/getAjaxClauses/{id}', 'AjaxDataController@getAjaxClauses')->name('getAjaxClauses');
 
     Route::get('/get/ajax/store/products', 'AjaxDataController@getStoreProducts')->name('getAjaxstoreProducts');

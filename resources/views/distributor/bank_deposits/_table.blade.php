@@ -18,7 +18,7 @@
     </tr>
     </thead>
     <tbody>
-    @foreach($bank_deposit as $row)
+    @foreach($bank_deposits as $row)
         <tr>
             <td>{!!$loop->iteration!!}</td>
 

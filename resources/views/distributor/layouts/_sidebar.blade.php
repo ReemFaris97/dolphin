@@ -312,10 +312,15 @@
                                     class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
                                     class="m-menu__link-text"> الفواتير</span></a></li>
 
+
                         <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
                                 href="{!! route('distributor.expenses.index') !!}" class="m-menu__link "><i
                                     class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
                                     class="m-menu__link-text"> المصروفات</span></a></li>
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
+                                href="{!! route('distributor.bank-deposits.index') !!}" class="m-menu__link "><i
+                                    class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
+                                    class="m-menu__link-text"> سجل الايداعات</span></a></li>
 
                         <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
                                 href="{!! route('distributor.transactions.index') !!}" class="m-menu__link "><i
