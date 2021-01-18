@@ -35,8 +35,8 @@
                     <div class="form-group m-form__group">
                         <label>نوع المستودع </label>
                         {!! Form::select('for_distributor',[
-                        'مستودع داخلى',
-                        'مستودع خارجى',
+                        'مستودع رئيسى',
+                        'مستودع فرعى',
                         ],$store->for_distributor,['class'=>'form-control m-input select2','placeholder'=>'إختار نوع
                         المستودع','onChange'=>'showDistributor(this.value)'])!!}
                     </div>
@@ -77,10 +77,10 @@
 
                     </div>
             </div>
-                    <div class="form-group m-form__group">
-                        <label> كود التسليم </label>
-                        {!! Form::text('signature',null,['class'=>'form-control m-input','id'=>'signature'])!!}
-                    </div>
+{{--                    <div class="form-group m-form__group">--}}
+{{--                        <label> كود التسليم </label>--}}
+{{--                        {!! Form::text('signature',null,['class'=>'form-control m-input','id'=>'signature'])!!}--}}
+{{--                    </div>--}}
 
                     @include('distributor.stores._attach_product',['products'=>$products])
                 </div>

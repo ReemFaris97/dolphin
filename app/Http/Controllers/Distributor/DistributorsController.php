@@ -47,7 +47,7 @@ class DistributorsController extends Controller
      */
     public function store(Request $request)
     {
-     //   dd($request->all());
+        //   dd($request->all());
         $rules = [
             'name' => 'required|string|max:191',
             'phone' => 'required|numeric|unique:users,phone',
@@ -63,7 +63,7 @@ class DistributorsController extends Controller
 
         ];
 
-       $this->validate($request, $rules);
+        $this->validate($request, $rules);
 
         $requests = $request->except('image');
         if ($request->hasFile('image')) {
@@ -82,6 +82,8 @@ class DistributorsController extends Controller
                 'has_car' => 1,
                 'car_id' => $car->id
             ]);
+
+
         }
         DB::commit();
         toast('تم الاضافه بنجاح', 'success', 'top-right');
@@ -113,13 +115,12 @@ class DistributorsController extends Controller
         $user = User::findOrFail($id);
         $cars = DistributorCar::Available()->get();
 
-        $car = DistributorCar::whereHas('store', function ($b) use ($user) {
-            $b->where('user_id', $user->id);
-        })->first();
-        $user->car_id = optional($car)->id;
-        $cars = $cars->push($car)->filter();
+        $car = $user->car_store;
 
-
+        $user->car_id = optional($car)->car_id;
+        if ($user->car_id != null) {
+            $cars = $cars->push($car->car);
+        }
         return $this->toEdit(compact('user', 'user', 'cars'));
     }
 
@@ -158,6 +159,22 @@ class DistributorsController extends Controller
         $user->fill($requests);
 //        $user->syncPermissions($request->permissions);
         $user->save();
+        if ($user->car_store->id != null) {
+            $user->car_store->fill(['car_id', $request->car_id])->save();
+        } else {
+            $car = DistributorCar::find($request->car_id);
+
+            $user->stores()->create([
+                'name' => ['ar' => $car->car_name, 'en' => $car->car_name],
+                'store_category_id' => StoreCategory::first()->id,
+                'is_active' => 1,
+                'for_distributor' => 1,
+                'has_car' => 1,
+                'car_id' => $car->id
+            ]);
+
+
+        }
         toast('تم التعديل بنجاح', 'success', 'top-right');
         return redirect()->route('distributor.distributors.index');
     }

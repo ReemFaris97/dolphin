@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api\Distributor;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Distributor\BankSpinnerModelResource;
 use App\Http\Resources\Distributor\DistributorSpinnerModelResource;
 use App\Http\Resources\Distributor\ProductsSpinnerModelResource;
 use App\Http\Resources\Distributor\TransactionsSpinnerModelResource;
 use App\Http\Resources\GeneralModelResource;
+use App\Models\Bank;
 use App\Models\Client;
 use App\Models\ClientClass;
 use App\Models\DistributorRoute;
@@ -34,9 +36,35 @@ class SpinnerController extends Controller
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
      */
-    public function getAllDistributors(){
+    public function getAllDistributors()
+    {
         $distributors = User::available()->where('is_distributor', 1)->get();
         return $this->apiResponse(DistributorSpinnerModelResource::collection($distributors));
+    }
+
+
+
+    /**
+     * Return List of Banks
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
+     */
+    public function getAllBanks()
+    {
+        $banks = Bank::all();
+        return $this->apiResponse(BankSpinnerModelResource::collection($banks));
+    }
+    /**
+     * Return List of Distributors
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
+     */
+    public function getReceivedMoneyTransactions()
+    {
+
+        $distributors = DistributorTransaction::receiverUser(auth()->user()->id)->where('received_at', null)->get();
+
+        return $this->apiResponse(TransactionsSpinnerModelResource::collection($distributors));
     }
 
     /**
@@ -44,25 +72,13 @@ class SpinnerController extends Controller
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
      */
-    public function getReceivedMoneyTransactions(){
+    public function getStoresByDistributorId($id)
+    {
 
-        $distributors = DistributorTransaction::receiverUser(auth()->user()->id)->where('received_at',null)->get();
-
-        return $this->apiResponse(TransactionsSpinnerModelResource::collection($distributors));
-    }
-
-   /**
-     * Return List of Distributors
-     *
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
-     */
-    public function getStoresByDistributorId($id){
-
-        $stores = Store::where('distributor_id',$id)->get();
+        $stores = Store::where('distributor_id', $id)->get();
 
         return $this->apiResponse(GeneralModelResource::collection($stores));
     }
-
 
 
     /**
@@ -70,7 +86,8 @@ class SpinnerController extends Controller
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
      */
-    public function getAllStores(){
+    public function getAllStores()
+    {
         $stores = Store::active()->ofDistributor(auth()->id())->get();
         return $this->apiResponse(GeneralModelResource::collection($stores));
     }
@@ -80,17 +97,20 @@ class SpinnerController extends Controller
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
      */
-    public function getAllReaders(){
+    public function getAllReaders()
+    {
         $readers = Reader::where('is_active', 1)->get();
         return $this->apiResponse(GeneralModelResource::collection($readers));
     }
+
     /**
      *
      * Return List of Reasons
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
      */
-    public function getAllDistributorsRefuseReason(){
+    public function getAllDistributorsRefuseReason()
+    {
         $readers = ReasonRefuseDistributor::get();
         return $this->apiResponse(GeneralModelResource::collection($readers));
     }
@@ -100,16 +120,14 @@ class SpinnerController extends Controller
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
      */
-    public function getProductsByStore($store_id=null){
+    public function getProductsByStore($store_id = null)
+    {
 
-        if (is_null($store_id))
-        {
+        if (is_null($store_id)) {
             $distributors = Product::withClientPrice(request()->client_id)->get();
-        }
-        else
-        {
+        } else {
             $distributors = Product::whereHas('stores', function (Builder $builder) use ($store_id) {
-                $builder->where('store_id',$store_id);
+                $builder->where('store_id', $store_id);
             })->withClientPrice(request()->client_id)->get();
 
             $distributors = Product::with(
@@ -139,8 +157,9 @@ class SpinnerController extends Controller
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
      */
-    public function getExpenditureClauses($id){
-        $expenditure_clause = ExpenditureClause::where('is_active',1)->where('expenditure_type_id',$id)->get();
+    public function getExpenditureClauses($id)
+    {
+        $expenditure_clause = ExpenditureClause::where('is_active', 1)->where('expenditure_type_id', $id)->get();
         return $this->apiResponse(GeneralModelResource::collection($expenditure_clause));
     }
 
@@ -149,7 +168,8 @@ class SpinnerController extends Controller
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
      */
-    public function getExpenditureTypes(){
+    public function getExpenditureTypes()
+    {
         $expenditure_types = ExpenditureType::where('is_active', 1)->get();
         return $this->apiResponse(GeneralModelResource::collection($expenditure_types));
     }
@@ -158,26 +178,33 @@ class SpinnerController extends Controller
     public function getProductByBarCode(Request $request)
     {
         $rules = [
-            'bar_code'=>'required|string',
+            'bar_code' => 'required|string',
             'client_id' => 'required|integer|exists:clients,id',
-            'store_id' => 'required|integer|exists:stores,id',
+            //  'store_id' => 'required|integer|exists:stores,id',
         ];
 
-        $validation=$this->apiValidation($request,$rules);
-        if($validation instanceof Response){return $validation;}
+        $validation = $this->apiValidation($request, $rules);
+        if ($validation instanceof Response) {
+            return $validation;
+        }
 
         $client = Client::where('is_active', 1)->find($request->client_id);
         $product = Product::with(['quantities' => function ($q) use ($request) {
-            $q->where('store_id', $request->store_id);
+            $q->where('store_id', auth()->user()->car_store->id);
             $q->totalQuantity();
-        }])->whereBarCode($request->bar_code)->withClassPrice($client->client_class_id)->first();
+        }])
+            ->whereBarCode($request->bar_code)
+            ->withClassPrice($client->client_class_id)
+            ->first();
 
         $product->store_quantity = $product->quantities->where('product_id', $product->id)->sum('total_quantity');
 
         if (!$product || $product->store_quantity == 0) return $this->notFoundResponse();
         return $this->apiResponse(new ProductsSpinnerModelResource($product));
     }
-    public function getR(){
+
+    public function getR()
+    {
         $expenditure_types = ExpenditureType::all();
         return $this->apiResponse(GeneralModelResource::collection($expenditure_types));
     }
