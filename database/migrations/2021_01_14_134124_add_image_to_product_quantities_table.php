@@ -26,7 +26,8 @@ class AddImageToProductQuantitiesTable extends Migration
     public function down()
     {
         Schema::table('product_quantities', function (Blueprint $table) {
-            //
+            $table->dropColumn('image');
+
         });
     }
 }

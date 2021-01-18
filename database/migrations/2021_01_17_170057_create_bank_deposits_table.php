@@ -15,6 +15,7 @@ class CreateBankDepositsTable extends Migration
     {
         Schema::create('bank_deposits', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->date('deposit_date');
             $table->string('deposit_number')->nullable();
             $table->unsignedBigInteger('bank_id')->nullable();
             $table->unsignedBigInteger('user_id');
