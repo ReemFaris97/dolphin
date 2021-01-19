@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class ProductQuantity extends Model
 {
-    protected $fillable = ['product_id', 'user_id', 'quantity', 'type', 'is_confirmed', 'store_id', 'store_transfer_request_id', 'trip_report_id', 'image'];
+    protected $fillable = ['product_id', 'user_id', 'quantity', 'type', 'is_confirmed', 'store_id', 'store_transfer_request_id', 'trip_report_id', 'route_trip_id', 'round', 'image'];
 
     public function product()
     {
