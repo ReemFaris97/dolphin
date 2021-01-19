@@ -18,9 +18,10 @@ class BankDepositsResource extends ResourceCollection
             'BankDeposits' => $this->collection->transform(function ($q) {
                 return [
                     'id' => $q->id,
+                    'type' =>$q->type=='bank_transaction'? 'تحويل بنكى':'مبلغ مباشر',
                     'deposit_date' =>$q->deposit_date,
-                    'deposit_number' => $q->deposit_number,
-                    'bank' => $q->bank->name,
+                    'deposit_number' => $q->deposit_number??'',
+                    'bank' => $q->bank->name??'',
                     'amount' => (string)((float)$q->amount ?? 0),
                     'image' =>getimg($q->image),
                 ];

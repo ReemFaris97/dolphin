@@ -11,10 +11,12 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
+use Illuminate\Validation\Rule;
+
 
 class StoresController extends Controller
 {
- use Viewable, StoreTransferRequestOperation;
+    use Viewable, StoreTransferRequestOperation;
 
     private $viewable = 'distributor.stores.';
 
@@ -57,7 +59,7 @@ class StoresController extends Controller
         $rules = [
             'name.*' => 'required|string|max:191',
             'store_category_id' => "required|numeric|exists:store_categories,id",
-            'for_distributor'=>'required|boolean',
+            'for_distributor' => 'required|boolean',
             'distributor_id' => 'required_if:for_distributor,==,1|nullable|exists:users,id',
             'note' => 'nullable|string',
 
@@ -114,7 +116,7 @@ class StoresController extends Controller
             'store_category_id' => "required|numeric|exists:store_categories,id",
             'distributor_id' => 'required_if:for_distributor,==,1|nullable|exists:users,id',
             'note' => 'nullable|string',
-            'for_distributor'=>'required|boolean'
+            'for_distributor' => 'required|boolean'
         ];
         $this->validate($request, $rules);
         $store->update($request->all());
@@ -167,7 +169,7 @@ class StoresController extends Controller
                 'store_id' => $store_id,
                 'users' => User::query()->distributor()->pluck('name', 'id'),
                 'products' => Product::query()->get(['name', 'id', 'quantity_per_unit']),
-                'stores' => Store::where('for_distributor', 0)->pluck('name', 'id')
+                'stores' => Store::where('for_distributor', 0)->where('for_damaged', 0)->pluck('name', 'id')
             ]);
 
     }
@@ -176,8 +178,8 @@ class StoresController extends Controller
     {
 
         $this->validate($request, [
-           // "from.store_id" => 'required|integer|exists:stores,id',
-           // "to.user_id" => 'required|integer|exists:users,id',
+            // "from.store_id" => 'required|integer|exists:stores,id',
+            // "to.user_id" => 'required|integer|exists:users,id',
             "to.store_id" => 'required|integer|exists:stores,id',
             "products.*.product_id" => "required|integer|exists:products,id",
             "products.*.quantity" => 'required|integer',
@@ -200,13 +202,13 @@ class StoresController extends Controller
 
     public function moveProductForm($store_id = null)
     {
-        $store = Store::find($store_id)?? new Store();
+        $store = Store::find($store_id) ?? new Store();
 
         $products = optional($store)->totalQuantities ?? [];
         if ($store->for_distributor) {
-            $stores = Store::where('is_active', 1)->where('distributor_id', $store->distributor_id)->pluck('name', 'id');
+            $stores = Store::where('for_damaged', 0)->where('is_active', 1)->where('distributor_id', $store->distributor_id)->pluck('name', 'id');
         } else {
-            $stores = Store::where('is_active', 1)->where('for_distributor', 0)->pluck('name', 'id');
+            $stores = Store::where('for_damaged', 0)->where('is_active', 1)->where('for_distributor', 0)->pluck('name', 'id');
         }
         return view('distributor.stores.MoveProducts',
             [
@@ -222,9 +224,11 @@ class StoresController extends Controller
         $this->validate($request, [
             'for_distributor' => 'required|boolean',
             "from.user_id" => 'nullable|required_if:for_distributor,==,1|integer|exists:users,id',
-            "from.store_id" => 'required|integer|exists:stores,id',
+            "from.store_id" => ['required', 'integer',
+                Rule::exists('stores', 'id')->where('for_damaged', 0),],
             "to.user_id" => 'required|integer|exists:users,id',
-            "to.store_id" => 'required|integer|exists:stores,id',
+            "to.store_id" => ['required', 'integer',
+                Rule::exists('stores', 'id')->where('for_damaged', 0)],
             "products.*.product_id" => "required|integer|exists:products,id",
             "products.*.quantity" => 'required|integer',
         ]);
@@ -246,13 +250,15 @@ class StoresController extends Controller
     public function damageProductForm($store_id = null)
     {
 
-        $store = Store::find($store_id)??new Store();
+        $store = Store::find($store_id) ?? new Store();
 
-        if ($store->for_distributor==1) {
-            $stores = Store::where('is_active', 1)->where('distributor_id', $store->distributor_id)->pluck('name', 'id');
+        if ($store->for_distributor == 1) {
+            $stores = Store::where('is_active', 1)->where('distributor_id', $store->distributor_id)->where('for_damaged', 0)->pluck('name', 'id');
         } else {
-            $stores = Store::where('is_active', 1)->where('for_distributor', 0)->pluck('name', 'id');
+            $stores = Store::where('for_damaged', 0)->where('is_active', 1)->where('for_distributor', 0)->pluck('name', 'id');
         }
+        /*,
+                Rule::exists('stores','id')->where('for_damaged',0)*/
         return view('distributor.stores.DamageProducts',
             [
                 'users' => User::query()->distributor()->pluck('name', 'id'),
@@ -268,7 +274,7 @@ class StoresController extends Controller
         $this->validate($request, [
             'for_distributor' => 'required|boolean',
             "user_id" => 'nullable|required_if:for_distributor,==,1|integer|exists:users,id',
-            "store_id" => 'required|integer|exists:stores,id',
+            "store_id" => ['required', 'integer', Rule::exists('stores', 'id')->where('for_damaged', 0)],
             "products.*.product_id" => "required|integer|exists:products,id",
             "products.*.quantity" => 'required|integer',
         ]);
@@ -277,18 +283,29 @@ class StoresController extends Controller
             'type' => 'damaged',
             'store_id' => $request->store_id
         ];
+        $damage_store = Store::ofDistributor($request->user_id)->where('for_damaged', 1)->first() ?? User::find($request->user_id)->createDamageStore();
 
         $requests = $request->except('image');
         if ($request->hasFile('image')) {
-            $request['image'] = saveImage($request->image, 'users');
+            $requests['image'] = saveImage($request->image, 'users');
         }
+        \DB::beginTransaction();
         foreach ($request->products ?? [] as $product) {
-            ProductQuantity::create($data + [
+            ProductQuantity::create([
                     'product_id' => $product['product_id'],
                     'quantity' => $product['quantity'],
-                    'image'=>$request['image'],
-                ]);
+                    'image' => $requests['image'],
+                ] + $data);
+            ProductQuantity::create([
+                    'product_id' => $product['product_id'],
+                    'quantity' => $product['quantity'],
+                    'image' => $requests['image'],
+                    'store_id' => $damage_store->id,
+                    'type' => 'in',
+
+                ] + $data);
         }
+        \DB::commit();
         toast('تم  تسجيل التالف بنجاح', 'success', 'top-right');
         return redirect()->route('distributor.stores.index');
 

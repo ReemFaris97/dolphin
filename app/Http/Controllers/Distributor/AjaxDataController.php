@@ -46,15 +46,16 @@ class AjaxDataController extends Controller
 
     public function getAllStores($id)
     {
-        $stores = Store::where('distributor_id',$id)->get();
+        $stores = Store::where('distributor_id', $id)->where('is_active', 1)->where('for_damaged', 0)->get();
         return response()->json([
             'status' => true,
             'data' => view('distributor.dailyReports.getAjaxStores')->with('stores', $stores)->render()
         ]);
     }
+
     public function getAjaxClauses($id)
     {
-        $clauses = ExpenditureClause::where('expenditure_type_id',$id)->get();
+        $clauses = ExpenditureClause::where('expenditure_type_id', $id)->get();
         return response()->json([
             'status' => true,
             'data' => view('distributor.expenses.getAjaxClauses')->with('clauses', $clauses)->render()
@@ -75,6 +76,7 @@ class AjaxDataController extends Controller
             'data' => view('distributor.transactions.getAjaxSenders')->with('users', $users)->render()
         ]);
     }
+
     public function getcars(Request $request)
     {
         //dd($request->all());
@@ -95,9 +97,9 @@ class AjaxDataController extends Controller
 
         if ($request->user_id == null) {
 
-            $stores = Store::where('for_distributor', 0)->get();
+            $stores = Store::where('for_distributor', 0)->where('is_active', 1)->get();
         } else {
-            $stores = Store::where('distributor_id', $request->user_id)->get();
+            $stores = Store::where('distributor_id', $request->user_id)->where('for_damaged', 0)->where('is_active', 1)->get();
         }
         return response()->json([
             'status' => true,
@@ -109,6 +111,7 @@ class AjaxDataController extends Controller
             )->render()
         ]);
     }
+
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -146,6 +149,7 @@ class AjaxDataController extends Controller
             )->render()
         ]);
     }
+
     public function getDistributorTripsOnRoute(Request $request)
     {
 

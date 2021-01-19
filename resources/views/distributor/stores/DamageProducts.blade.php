@@ -28,7 +28,7 @@
 
                     <!--begin::Form-->
 
-                    {!! Form::open(['method'=>'post','class'=>'clearfix m-form m-form--fit m-form--label-align-right'])!!}
+                    {!! Form::open(['method'=>'post','class'=>'clearfix m-form m-form--fit m-form--label-align-right','files'=>'true'])!!}
 
                     <div class="">
 

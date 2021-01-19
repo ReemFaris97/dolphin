@@ -88,32 +88,32 @@ class User extends Authenticatable implements JWTSubject
      *
      * @return array
      */
-    public function getJWTCustomClaims()
+    public function getJWTCustomClaims(): array
     {
         return [];
     }
 
-    public function role()
+    public function role(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Role::class, 'role_id');
     }
 
-    public function title()
+    public function title(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(AccountingJobTitle::class, 'title_id');
     }
 
-    public function messages()
+    public function messages(): HasMany
     {
         return $this->hasMany(Message::class);
     }
 
-    public function user_charge()
+    public function user_charge(): HasMany
     {
         return $this->hasMany('App\Models\Charge', 'worker_id');
     }
 
-    public function supervisor_charge()
+    public function supervisor_charge(): HasMany
     {
         return $this->hasMany('App\Models\Charge', 'supervisor_id');
     }
@@ -131,7 +131,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->is_supplier ? 1 : 0;
     }
 
-    public function getTypeAttribute()
+    public function getTypeAttribute(): string
     {
         if ($this->is_admin == 0) {
 
@@ -141,7 +141,7 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
-    public function tokens()
+    public function tokens(): HasMany
     {
         return $this->hasMany(FcmToken::class, 'user_id');
     }
@@ -159,7 +159,7 @@ class User extends Authenticatable implements JWTSubject
         }
     }
 
-    public function rate()
+    public function rate(): float
     {
         $finished_tasks_rate = $this->tasks()->whereMonth('finished_at', date('m'))->whereNotNull('rate')->avg('rate');
         return floatval($finished_tasks_rate);
@@ -171,7 +171,7 @@ class User extends Authenticatable implements JWTSubject
      *
      * @return bool
      */
-    public function isBlocked()
+    public function isBlocked(): bool
     {
         return $this->blocked_at !== null;
     }
@@ -187,17 +187,22 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
-    public function store()
+    public function store(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(AccountingStore::class, 'accounting_store_id');
     }
 
-    public function stores()
+    public function stores(): HasMany
     {
         return $this->hasMany(Store::class, 'distributor_id');
     }
 
-    public function car_store()
+    public function damaged_store(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Store::class, 'distributor_id')->where('for_damaged', 1);
+    }
+
+    public function car_store(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Store::class, 'distributor_id')->where('car_id',
             '!=', null)->withDefault(new Store);
@@ -217,12 +222,12 @@ class User extends Authenticatable implements JWTSubject
             ]);
     }
 
-    public function tasks()
+    public function tasks(): HasMany
     {
         return $this->hasMany(TaskUser::class, 'user_id');
     }
 
-    public function notifications()
+    public function notifications(): HasMany
     {
         return $this->hasMany(Notification::class, 'user_id')->orderBy('created_at', 'desc');
     }
@@ -252,9 +257,9 @@ class User extends Authenticatable implements JWTSubject
      * Send the given notification.
      *
      * @param mixed $instance
-     * @return \App\Models\Notification
+     * @return \Illuminate\Database\Eloquent\Model
      */
-    public function sendNotification($data, $type)
+    public function sendNotification($data, $type): \Illuminate\Database\Eloquent\Model
     {
         return $this->notifications()->create([
             'data' => $data,
@@ -263,6 +268,10 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
+    /**
+     * @param $user_id
+     * @return false|float|int
+     */
     public function total_message_pages($user_id)
     {
 
@@ -277,7 +286,7 @@ class User extends Authenticatable implements JWTSubject
         return ceil($messages / $pagniation);
     }
 
-    public function bank()
+    public function bank(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Bank::class, 'bank_id');
     }
@@ -292,7 +301,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasManyThrough(RouteTrips::class, DistributorRoute::class, 'user_id', 'route_id');
     }
 
-    public function accounting_store()
+    public function accounting_store(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(AccountingStore::class, 'accounting_store_id');
     }
@@ -419,4 +428,52 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
+    public function createCarStore($car_id)
+    {
+        return $this->car_store()->create([
+            'name' => ['ar' => ' سيارة' . $this->name, 'en' => $this->name . "'s Car"],
+//            'store_category_id' => StoreCategory::first()->id,
+            'is_active' => 1,
+            'for_distributor' => 1,
+            'has_car' => 1,
+            'car_id' => $car_id
+        ]);
+    }
+
+    /**
+     * @return Builder|\Illuminate\Database\Eloquent\Model
+     */
+    public function createDamageStore()
+    {
+        return Store::query()->create([
+            'name' => ['en' => $this->name . "'s damaged store", 'ar' => $this->name . 'مخزن توالف '],
+            'distributor_id' => $this->id,
+            'is_active' => 1,
+            'for_distributor' => 1,
+            'has_car' => 0,
+            'for_damaged' => 1
+        ]);
+    }
+
+    public function updateCarStore($car_id = null)
+    {
+
+        //remove car if exists
+        if (($car_id == null && $this->car_store->car_id != null)) {
+            ($this->car_store)->fill(['car_id', null])->save();
+        }
+
+        //change car
+        if ($car_id != null && $this->car_store->car_id != null) {
+            $this->car_store->fill(['car_id', $car_id])->save();
+        }
+        //user haven't car ,create new one
+        if (($car_id != null && $this->car_store->car_id == null)) {
+            $car = DistributorCar::find($car_id);
+            $this->createCarStore($car->id);
+
+        }
+
+
+    }
 }
