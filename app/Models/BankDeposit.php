@@ -23,7 +23,7 @@ class BankDeposit extends Model
         });
     }
 
-    protected $fillable = ['deposit_number', 'deposit_date','bank_id', 'user_id', 'amount', 'image'];
+    protected $fillable = ['deposit_number', 'deposit_date','bank_id', 'user_id', 'amount', 'image','type'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

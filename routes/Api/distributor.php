@@ -30,6 +30,8 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::get('current_trips','RouteController@currentTrips');
     Route::post('add_client/{route_id}','RouteController@AddClientToRoute');
     Route::resource('daily_reports','DailyReportController')->only('store');
+    Route::resource('bank_deposits', 'BankDepositsController');
+
     Route::get('cars','StoreController@cars');
     Route::get('transfer_requests','StoreController@pendingTransferRequests');
     Route::get('transfer_requests/{id}','StoreController@AcceptTransferRequest');
@@ -37,6 +39,8 @@ Route::group(['middleware' => ['jwt.auth']], function () {
 
     Route::group(['prefix' => 'spinner'], function () {
         Route::get('/distributors','SpinnerController@getAllDistributors');
+        Route::get('/banks','SpinnerController@getAllBanks');
+
         Route::get('/distributors_transactions','SpinnerController@getReceivedMoneyTransactions');
         Route::get('/distributors_reasons','SpinnerController@getAllDistributorsRefuseReason');
         Route::get('/readers','SpinnerController@getAllReaders');

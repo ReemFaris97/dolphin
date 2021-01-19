@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api\Distributor;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Distributor\BankSpinnerModelResource;
 use App\Http\Resources\Distributor\DistributorSpinnerModelResource;
 use App\Http\Resources\Distributor\ProductsSpinnerModelResource;
 use App\Http\Resources\Distributor\TransactionsSpinnerModelResource;
 use App\Http\Resources\GeneralModelResource;
+use App\Models\Bank;
 use App\Models\Client;
 use App\Models\ClientClass;
 use App\Models\DistributorRoute;
@@ -40,6 +42,18 @@ class SpinnerController extends Controller
         return $this->apiResponse(DistributorSpinnerModelResource::collection($distributors));
     }
 
+
+
+    /**
+     * Return List of Banks
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
+     */
+    public function getAllBanks()
+    {
+        $banks = Bank::all();
+        return $this->apiResponse(BankSpinnerModelResource::collection($banks));
+    }
     /**
      * Return List of Distributors
      *
