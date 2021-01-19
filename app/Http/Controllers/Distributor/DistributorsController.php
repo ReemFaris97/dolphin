@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Distributor;
 
 use App\Models\DistributorCar;
+use App\Models\Store;
 use App\Models\StoreCategory;
 use App\Models\User;
 use Carbon\Carbon;
@@ -74,17 +75,10 @@ class DistributorsController extends Controller
         \DB::beginTransaction();
         $user = User::query()->create($requests);
         if ($car) {
-            $user->stores()->create([
-                'name' => ['ar' => $car->car_name, 'en' => $car->car_name],
-                'store_category_id' => StoreCategory::first()->id,
-                'is_active' => 1,
-                'for_distributor' => 1,
-                'has_car' => 1,
-                'car_id' => $car->id
-            ]);
-
+            $user->createCarStore($car->id);
 
         }
+        $user->createDamageStore();
         DB::commit();
         toast('تم الاضافه بنجاح', 'success', 'top-right');
         return redirect()->route('distributor.distributors.index');
@@ -133,7 +127,8 @@ class DistributorsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail($id);
+        /** @var User $user */
+        $user = User::query()->findOrFail($id);
 
         $rules = [
             'name' => 'required|string|max:191',
@@ -159,22 +154,8 @@ class DistributorsController extends Controller
         $user->fill($requests);
 //        $user->syncPermissions($request->permissions);
         $user->save();
-        if ($user->car_store->id != null) {
-            $user->car_store->fill(['car_id', $request->car_id])->save();
-        } else {
-            $car = DistributorCar::find($request->car_id);
+        $user->updateCarStore($request->car_id);
 
-            $user->stores()->create([
-                'name' => ['ar' => $car->car_name, 'en' => $car->car_name],
-                'store_category_id' => StoreCategory::first()->id,
-                'is_active' => 1,
-                'for_distributor' => 1,
-                'has_car' => 1,
-                'car_id' => $car->id
-            ]);
-
-
-        }
         toast('تم التعديل بنجاح', 'success', 'top-right');
         return redirect()->route('distributor.distributors.index');
     }
@@ -185,7 +166,8 @@ class DistributorsController extends Controller
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($id)
+    public
+    function destroy($id)
     {
 //        if (!auth()->user()->hasPermissionTo('delete_workers')) {
 //            return abort(401);
@@ -202,7 +184,7 @@ class DistributorsController extends Controller
 
         $blocked_at = $user->blocked_at;
         if ($blocked_at == null) {
-            $user->fill(['blocked_at' => Carbon::now(env('TIME_ZONE', 'Asia/Riyadh'))]);
+            $user->fill(['blocked_at' => Carbon::now()]);
         } else {
             $user->fill(['blocked_at' => null]);
         }
