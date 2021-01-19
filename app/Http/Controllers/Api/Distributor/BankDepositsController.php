@@ -50,8 +50,8 @@ class BankDepositsController extends Controller
 
         $rules = [
             'user_id'=>'required|integer|exists:users,id',
-            'bank_id'=>'required|integer|exists:banks,id',
-            'deposit_number' => "required|string|max:191",
+            'bank_id'=>'required_if:type,==,bank_transaction|integer|nullable|exists:banks,id',
+            'deposit_number' => "required_if:type,==,bank_transaction|nullable|string|max:191",
             'deposit_date' => "required|date",
             'image' => "required||mimes:jpg,jpeg,gif,png",
         ];
