@@ -31,41 +31,42 @@ class BankDepositsController extends Controller
     {
 
 
-
         if (request('from') != null && \request('to')) {
             $from = Carbon::parse(\request('from'));
             $to = Carbon::parse(\request('to'));
-            $BankDeposits = BankDeposit::where('user_id',auth()->id())->whereBetween('deposit_date', [$from, $to])->orderBy('deposit_date', 'DESC')
+            $BankDeposits = BankDeposit::where('user_id', auth()->id())->whereBetween('deposit_date', [$from, $to])->orderBy('deposit_date', 'DESC')
                 ->paginate($this->paginateNumber);
-        }else{
-            $BankDeposits= BankDeposit::where('user_id',auth()->id())->orderBy('deposit_date', 'DESC')
-                    ->paginate($this->paginateNumber);
+        } else {
+            $BankDeposits = BankDeposit::where('user_id', auth()->id())->orderBy('deposit_date', 'DESC')
+                ->paginate($this->paginateNumber);
 
         }
 
         return $this->apiResponse(new BankDepositsResource($BankDeposits));
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
         $rules = [
-            'user_id'=>'required|integer|exists:users,id',
-            'bank_id'=>'required_if:type,==,bank_transaction|integer|nullable|exists:banks,id',
+            'user_id' => 'required|integer|exists:users,id',
+            'bank_id' => 'required_if:type,==,bank_transaction|integer|nullable|exists:banks,id',
             'deposit_number' => "required_if:type,==,bank_transaction|nullable|string|max:191",
             'deposit_date' => "required|date",
             'image' => "required||mimes:jpg,jpeg,gif,png",
         ];
-        $validation = $this->apiValidation($request,$rules);
+        $validation = $this->apiValidation($request, $rules);
 
         if ($validation instanceof Response) {
             return $validation;
         }
+        $requests = $request->except('image');
         if ($request->hasFile('image') && $request->image != null) {
 
-            $request['image'] = saveImage($request->image, 'photos');
+            $requests['image'] = saveImage($request->image, 'photos');
         }
-        $request['deposit_date']=Carbon::parse($request['deposit_date']);
-        BankDeposit::create($request->all());
+        $requests['deposit_date'] = Carbon::parse($request['deposit_date']);
+        BankDeposit::create($requests);
 
         return $this->apiResponse('تم الايداع بنجاح');
     }

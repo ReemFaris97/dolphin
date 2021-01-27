@@ -15,6 +15,7 @@ use App\Models\Store;
 use App\Models\TripInventory;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 
@@ -126,7 +127,7 @@ trait RouteOperation
         }
         /** @var \App\Models\DistributorRoute $current_route */
         $current_route = DistributorRoute::find($request->route_id);
-        $inputs['round'] = $current_route->round ;
+        $inputs['round'] = $current_route->round;
         $user_routes = DistributorRoute::where('user_id', $current_route->user_id)
             ->orderBy('round', 'desc')
             ->orderBy('arrange', 'desc')
@@ -138,7 +139,7 @@ trait RouteOperation
                     'is_finished' => 0,
                     'arrange' => $user_routes->arrange + 1,
                     'is_active' => 0,
-                    'round' => $inputs['round']+ 1,
+                    'round' => $inputs['round'] + 1,
                     'received_code' => mt_rand(1000000, 9999999)
                 ]
             )->save();
@@ -151,7 +152,7 @@ trait RouteOperation
                 ]);
             }
             $current_route->trips()->update([
-                'round' => $inputs['round']+ 1,
+                'round' => $inputs['round'] + 1,
                 'status' => 'pending',
             ]);
             DB::commit();
@@ -161,6 +162,34 @@ trait RouteOperation
             DB::rollback();
             dd($e);
         }
+    }
+
+    public function damageProduct(Request $request)
+    {
+
+        $damage_store = Store::ofDistributor(auth()->id())->where('for_damaged', 1)->first() ?? User::find(auth()->id())->createDamageStore();
+        if ($request->hasFile('image')) {
+            $requests['image'] = saveImage($request->image, 'users');
+        }
+        \DB::beginTransaction();
+        $arr = [];
+        foreach ($request->products ?? [] as $product) {
+
+            $arr[] = ProductQuantity::create([
+                'product_id' => $product['product_id'],
+                'quantity' => $product['quantity'],
+                'image' => $request->hasFile('image') ? saveImage($request->image, 'users') : null,
+                'store_id' => $damage_store->id,
+                'user_id' => auth()->id(),
+                'type' => 'in',
+                'round' => $request->round,
+                'route_trip_id' => $request->route_trip_id,
+
+            ]);
+        }
+        \DB::commit();
+
+        return $arr;
     }
 
 }

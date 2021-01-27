@@ -115,6 +115,8 @@ class SpinnerController extends Controller
         return $this->apiResponse(GeneralModelResource::collection($readers));
     }
 
+
+
     /**
      * Return List of Products By Store Id
      *

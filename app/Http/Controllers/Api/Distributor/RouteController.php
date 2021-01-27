@@ -11,8 +11,11 @@ use App\Http\Resources\Distributor\TripResource;
 use App\Models\Client;
 use App\Models\DistributorRoute;
 use App\Models\Product;
+use App\Models\ProductQuantity;
 use App\Models\RouteTripReport;
 use App\Models\RouteTrips;
+use App\Models\Store;
+use App\Models\User;
 use App\Traits\ApiResponses;
 use App\Traits\Distributor\ExpenseOperation;
 use App\Traits\Distributor\RouteOperation;
@@ -92,7 +95,7 @@ class RouteController extends Controller
             "trip_id" => "required|required|integer|exists:route_trips,id",
             'products' => 'required|array',
             'cash' => 'required|numeric',
-              'store_id' => 'required|integer',
+            'store_id' => 'required|integer',
             'products.*.product_id' => 'required|integer|exists:products,id',
             "products.*.quantity" => "required|integer",
         ];
@@ -214,5 +217,29 @@ class RouteController extends Controller
             'message' => 'تم ملأ التقرير بنجاح',
             'code' => $report->Invoice_number]);
     }
+
+    public function AddDamage(Request $request)
+    {
+
+
+        $request['products'] = json_decode($request->products, TRUE);
+        $rules = [
+            'route_trip_id' => 'required|integer|exists:route_trips,id',
+            'image' => 'required|mimes:jpg,jpeg,gif,png',
+            'products' => 'required|array',
+            'products.*.product_id' => 'required|integer|exists:products,id',
+            "products.*.quantity" => "required|integer",
+        ];
+        $validation = $this->apiValidation($request, $rules);
+
+        if ($validation instanceof Response) {
+            return $validation;
+        }
+        $report = $this->damageProduct($request);
+
+        return $this->apiResponse([
+            'message' => 'تم تسجيل التوالف بنجاح']);
+    }
+
 
 }
