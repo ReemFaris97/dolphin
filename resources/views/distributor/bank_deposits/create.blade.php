@@ -2,8 +2,9 @@
 @section('title') اضافه ايداع جديد
 @endsection
 
-@section('header')
-@endsection
+@push('header')
+    <link href="{{asset('admin/assets/css/jquery.datetimepicker.min.css')}}" rel="stylesheet" type="text/css">
+@endpush
 
 @section('breadcrumb') @php($breadcrumbs=[' ايداعات العملاء'=>route('distributor.bank-deposits.index'),'اضافه'=>route('distributor.bank-deposits.create')])
 @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])

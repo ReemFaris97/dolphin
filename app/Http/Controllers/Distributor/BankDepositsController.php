@@ -48,20 +48,20 @@ class BankDepositsController extends Controller
      */
     public function store(Request $request)
     {
+//dd($request->all());
+//dd(Carbon::now()->format('m/d/Y, h:i:s A'));
         $rules = [
             'user_id'=>'required|integer|exists:users,id',
             'bank_id'=>'required_if:type,==,bank_transaction|integer|nullable|exists:banks,id',
-            'deposit_number' => "required_if:type,==,bank_transaction|nullable|string|max:191",
-            'deposit_date' => "required|date",
+             'deposit_number' => "required_if:type,==',bank_transaction|nullable|string|max:191",
+//             'deposit_date' =>"required|date_format:mm/d/Y, H:i:s A",
             'image' => "required||mimes:jpg,jpeg,gif,png",
         ];
         $this->validate($request, $rules);
         $request['deposit_date']=Carbon::parse($request['deposit_date']);
         if ($request->hasFile('image') && $request->image != null) {
-
             $request['image'] = saveImage($request->image, 'photos');
         }
-
         BankDeposit::create($request->all());
         toast('تم إضافة الايداع بنجاح', 'success', 'top-right');
         return redirect()->route('distributor.bank-deposits.index');
