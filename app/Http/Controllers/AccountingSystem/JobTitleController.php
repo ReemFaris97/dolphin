@@ -46,11 +46,9 @@ class JobTitleController extends Controller
     {
         $rules = [
             'name'=>'required|string|max:191',
-
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
-
         AccountingJobTitle::create($requests);
         alert()->success('تم اضافة  المسمى الوظيفى بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.jobTitles.index');
