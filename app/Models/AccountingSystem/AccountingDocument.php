@@ -17,7 +17,6 @@ class AccountingDocument extends Model
         return $this->morphTo('documentable_type');
     }
 
-
     public function getUrlAttribute(){
         return getimg($this->attributes['document']);
     }

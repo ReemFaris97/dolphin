@@ -12,8 +12,12 @@
 
 
 <div class="form-group col-md-6 pull-left">
-    <label>اسم المسمى الوظيفى   </label>
-    {!! Form::text("name",null,['class'=>'form-control','placeholder'=>'  اسم  المسمى الوظيفى   ','required'])!!}
+    <label>اسم  الاجازاة   </label>
+    {!! Form::text("name",null,['class'=>'form-control','placeholder'=>'  اسم الاجازاة ','required'])!!}
+</div>
+<div class="form-group col-md-6 pull-left">
+    <label>  المدة   </label>
+    {!! Form::text("duration",null,['class'=>'form-control','placeholder'=>'المدة','required'])!!}
 </div>
 
 

@@ -93,15 +93,17 @@ class DocumentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id,$type)
+    public function edit($type,$id)
     {
         $document = AccountingDocument::find($id);
+
         if($type == 'employee'){
             $query = '$targets = '.$this->types[$type].'::get(["id","name"]);';
         }else{
             $query = '$targets = '.$this->types[$type].'::get(["id","name"]);';
         }
         eval($query);
+
         return view('AccountingSystem.documents.edit',compact('type','targets','document'));
     }
 
@@ -112,9 +114,8 @@ class DocumentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,$type,$id)
     {
-
         $ules=[
                 'document_name'=>'required',
                 'document_number'=>'required',
@@ -124,15 +125,17 @@ class DocumentController extends Controller
 
             ];
         $document = AccountingDocument::find($id);
+//        dd($document);
         $inputs = $request->except('_token');
         if($request->file('document')){
             $inputs['document'] = uploader($request,'document');
         }else{
             unset($inputs['document']);
         }
+
         $document->update($inputs);
-     alert()->success('تم اضافة  المسمى الوظيفى بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.documents.index');
+     alert()->success('تم اضافة  الوظيفة بنجاح !')->autoclose(5000);
+        return redirect()->route('accounting.documents.index',$type);
     }
 
     /**

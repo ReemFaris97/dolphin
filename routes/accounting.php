@@ -335,13 +335,13 @@ Route::middleware('admin')->group(function () {
     //////////////////////////////////----employees_resources----////
     Route::group(['prefix'=>'documents/{type}','as'=>'documents.'],function($type){
         Route::get('/{id}/edit', 'DocumentController@edit')->name('edit');
-        Route::put('/{id}', 'DocumentController@update')->name('update');
+        Route::put('/{id}', 'DocumentController@update')->name('put');
         Route::get('/{id}/delete', 'DocumentController@destroy')->name('delete');
         Route::resource('/', 'DocumentController');
     });
 
     Route::resource('allowances', 'AllowanceController');
-    Route::resource('holidays', 'HolidaysController');
+    Route::resource('holidays', 'HolidayController');
     Route::resource('holidays-requests', 'UserHolidaysRequestController');
     Route::get('holidays-requests/get-user-data/{id}','UserHolidaysRequestController@getUserData');
     Route::resource('bonus-discount', 'BonusDiscountController');

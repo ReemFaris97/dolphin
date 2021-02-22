@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
+use App\Models\AccountingSystem\AccountingBonusDiscount;
+use App\Models\AccountingSystem\AccountingDocument;
+use App\Models\User;
+use App\Traits\Viewable;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class BonusDiscountController extends Controller
 {
+    use Viewable;
+    private $viewable = 'AccountingSystem.bouns_discount.';
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +20,9 @@ class BonusDiscountController extends Controller
      */
     public function index()
     {
-        //
+        $bouns =AccountingBonusDiscount::with('typeable')->get();
+        return $this->toIndex(compact('bouns'));
+
     }
 
     /**
@@ -24,7 +32,9 @@ class BonusDiscountController extends Controller
      */
     public function create()
     {
-        //
+        $users = User::pluck('name','id');
+        return $this->toCreate(compact('users'));
+
     }
 
     /**
@@ -35,7 +45,19 @@ class BonusDiscountController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'typeable_id'=>'required',
+            'type'=>'required',
+            'value'=>'required',
+            'date'=>'required'
+        ];
+        $this->validate($request,$rules);
+        $requests = $request->all();
+        $requests['typeable_type'] = 'employee';
+        AccountingBonusDiscount::create($requests);
+        alert()->success('تم اضافة الخصم او البونص بنجاح !')->autoclose(5000);
+        return redirect()->route('accounting.bonus-discount.index');
+
     }
 
     /**
@@ -57,7 +79,10 @@ class BonusDiscountController extends Controller
      */
     public function edit($id)
     {
-        //
+        $users = User::pluck('name','id');
+        $bonus =AccountingBonusDiscount::findOrFail($id);
+        return $this->toEdit(compact('bonus','users'));
+
     }
 
     /**
@@ -69,7 +94,21 @@ class BonusDiscountController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $bonus =AccountingBonusDiscount::findOrFail($id);
+        $rules = [
+
+            'typeable_id'=>'required',
+            'type'=>'required',
+            'value'=>'required',
+            'date'=>'required'
+        ];
+        $this->validate($request,$rules);
+        $requests = $request->all();
+        $requests['typeable_type'] = 'employee';
+
+        $bonus->update($requests);
+        alert()->success('تم تعديل الخصم او البونص بنجاح !')->autoclose(5000);
+        return redirect()->route('accounting.bonus-discount.index');
     }
 
     /**
@@ -80,6 +119,8 @@ class BonusDiscountController extends Controller
      */
     public function destroy($id)
     {
-        //
+        AccountingBonusDiscount::find($id)->delete();
+        alert()->success('تم  الحذف بنجاح !')->autoclose(5000);
+        return back();
     }
 }

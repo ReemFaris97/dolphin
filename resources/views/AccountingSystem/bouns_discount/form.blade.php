@@ -8,15 +8,30 @@
     </div>
 @endif
 
-
-
-
-<div class="form-group col-md-6 pull-left">
-    <label>اسم المسمى الوظيفى   </label>
-    {!! Form::text("name",null,['class'=>'form-control','placeholder'=>'  اسم  المسمى الوظيفى   ','required'])!!}
+<div class="form-group col-sm-6">
+    <label for="type">النوع</label>
+    {!! Form::select('type', ['bonus'=>'بونص','discount'=>'خصم'], null, ['class'=>'form-control','id'=>'type']) !!}
 </div>
-
-
+<div class="form-group col-sm-6">
+    <label for="typeable_id"> اسم المستخدم</label>
+    {!! Form::select('typeable_id',$users, null, ['class'=>'form-control','id'=>'typeable_id']) !!}
+</div>
+<div class="form-group col-sm-6">
+    <label for="date">التاريخ </label>
+    {!! Form::date('date',null, ['class'=>'form-control','id'=>'date']) !!}
+</div>
+<div class="form-group col-sm-6">
+    <label for="value">القيمة</label>
+    {!! Form::number('value',null, ['class'=>'form-control','id'=>'value']) !!}
+</div>
+<div class="form-group col-sm-6">
+    <label for="reason">السبب</label>
+    {!! Form::textarea('reason',null, ['class'=>'form-control','id'=>'reason']) !!}
+</div>
+<div class="form-group col-sm-6">
+    <label for="notes">الملاحظات</label>
+    {!! Form::textarea('notes',null, ['class'=>'form-control','id'=>'notes']) !!}
+</div>
 
 <div class="text-center col-md-12">
     <div class="text-right">

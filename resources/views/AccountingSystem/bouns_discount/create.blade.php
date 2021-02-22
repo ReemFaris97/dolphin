@@ -1,7 +1,7 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','اضافة مسمى وظيفى  جديد')
 @section('parent_title','إدارة المسميات الوظفية')
-@section('action', URL::route('accounting.fiscalYears.index'))
+@section('action', URL::route('accounting.bonus-discount.index'))
 
 @section('styles')
 
@@ -21,8 +21,10 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::open( ['route' => 'accounting.jobTitles.store' ,'class'=>'parsley-validate-form form phone_validate', 'method' => 'Post','files' => true]) !!}
-            @include('AccountingSystem.job_titles.form')
+            {!!Form::open( ['route' => 'accounting.bonus-discount.store' ,'class'=>'parsley-validate-form form phone_validate', 'method' => 'Post','files' => true]) !!}
+
+            @include('AccountingSystem.bouns_discount.form')
+
             {!!Form::close() !!}
         </div>
 

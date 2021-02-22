@@ -6,5 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class AccountingUserHolidaysBalance extends Model
 {
-    protected  $fillable=['typeable_type','typeable_id','allowance_id','value'];
+    protected $fillable = ['typeable_id','typeable_type', 'holiday_id', 'days', 'type','start_date','notes'];
+    protected $dates = ['start_date'];
+    protected $table='accounting_holiday_balances';
+
+    public function typeable(){
+        return $this->morphTo('typeable_type');
+    }
+    public function holiday(){
+        return $this->belongsTo(AccountingUserHolidaysBalance::class,'holiday_id');
+    }
 }

@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض المسميات الوظفية ')
-@section('parent_title','إدارةالمسميات الوظفية ')
+@section('title','عرض وثائق  ' .$type=='employee'?' الموظفين':' الفروع' )
+@section('parent_title',' إدارة الموظفين ')
 @section('action', URL::route('accounting.jobTitles.index'))
 
 @section('styles')
@@ -10,7 +10,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">  عرض وثائق الموظفين
+            <h5 class="panel-title">  عرض وثائق {{$type=='employee'?' الموظفين':' الفروع'}}
             <div class="btn-group beside-btn-title">
                 <a href="{{route('accounting.documents.create',$type)}}" class="btn btn-success">إضافه  وثيقة جديدة
                     <span class="m-l-5"><i class="fa fa-plus"></i></span>
@@ -43,7 +43,8 @@
                 @foreach ($documents as $document)
                     <tr>
                         <td>{{$document->id}}</td>
-                        <td>{{$document->documentable->name ??''}}</td>
+{{--@dd($document->documentable)--}}
+                        <td>{{$document->documentable->name??'' }}</td>
                         <td>
                             <a href="{{$document->url}}">{{$document->document_name}}</a>
                         </td>

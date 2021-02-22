@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تعديل  المسمى وظيفى'.{{$title->name}})
-@section('parent_title','إدارةالممسمىالوظيفى ')
+@section('title',)
+@section('parent_title','أدارة الموظفين ')
 @section('action', URL::route('accounting.taxs.index'))
 
 @section('content')
@@ -17,7 +17,7 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::model($title, ['route' => ['accounting.documents.update' ,$title->id] ,'class'=>'parsley-validate-form phone_validate','method' => 'PATCH','files'=>true]) !!}
+            {!!Form::model($document, ['route' => ['accounting.documents.update' ,$type,$document->id] ,'class'=>'parsley-validate-form phone_validate','method' => 'put','files'=>true]) !!}
 
             @include('AccountingSystem.documents.form')
 

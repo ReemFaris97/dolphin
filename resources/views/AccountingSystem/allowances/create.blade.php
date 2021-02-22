@@ -1,7 +1,7 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','اضافة مسمى وظيفى  جديد')
-@section('parent_title','إدارة المسميات الوظفية')
-@section('action', URL::route('accounting.fiscalYears.index'))
+@section('title','اضافة بدلات ')
+@section('parent_title','إدارة  الموظفين')
+@section('action', URL::route('accounting.allowances.index'))
 
 @section('styles')
 
@@ -10,7 +10,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">  إضافة مسمى وظيفى  </h5>
+            <h5 class="panel-title">  إضافة  بدلات جديدة  </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -21,8 +21,8 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::open( ['route' => 'accounting.jobTitles.store' ,'class'=>'parsley-validate-form form phone_validate', 'method' => 'Post','files' => true]) !!}
-            @include('AccountingSystem.job_titles.form')
+            {!!Form::open( ['route' => 'accounting.allowances.store' ,'class'=>'parsley-validate-form form phone_validate', 'method' => 'Post','files' => true]) !!}
+            @include('AccountingSystem.allowances.form')
             {!!Form::close() !!}
         </div>
 

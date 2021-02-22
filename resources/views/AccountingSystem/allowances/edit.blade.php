@@ -1,7 +1,7 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تعديل  المسمى وظيفى'.{{$title->name}})
-@section('parent_title','إدارةالممسمىالوظيفى ')
-@section('action', URL::route('accounting.taxs.index'))
+@section('title','تعديل   البدلات'." ".$allowance->name)
+@section('parent_title','إدارة الموظفين ')
+@section('action', URL::route('accounting.allowances.index'))
 
 @section('content')
     <div class="panel panel-flat">
@@ -17,9 +17,9 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::model($title, ['route' => ['accounting.jobTitles.update' ,$title->id] ,'class'=>'parsley-validate-form phone_validate','method' => 'PATCH','files'=>true]) !!}
+            {!!Form::model($allowance, ['route' => ['accounting.allowances.update' ,$allowance->id] ,'class'=>'parsley-validate-form phone_validate','method' => 'PATCH','files'=>true]) !!}
 
-            @include('AccountingSystem.job_titles.form')
+            @include('AccountingSystem.allowances.form')
 
             {!!Form::close() !!}
         </div>

@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
+use App\Models\AccountingSystem\AccountingHoliday;
+use App\Traits\Viewable;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class HolidayController extends Controller
 {
+    use Viewable;
+    private $viewable = 'AccountingSystem.holidays.';
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +19,10 @@ class HolidayController extends Controller
      */
     public function index()
     {
-        //
+
+        $holidays =AccountingHoliday::all()->reverse();
+
+        return $this->toIndex(compact('holidays'));
     }
 
     /**
@@ -24,7 +32,7 @@ class HolidayController extends Controller
      */
     public function create()
     {
-        //
+        return $this->toCreate();
     }
 
     /**
@@ -35,7 +43,16 @@ class HolidayController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'name'=>'required|string|max:191',
+            'duration'=>'required|string|max:191',
+        ];
+        $this->validate($request,$rules);
+        $requests = $request->all();
+        AccountingHoliday::create($requests);
+        alert()->success('تم اضافة  الاجازة بنجاح !')->autoclose(5000);
+        return redirect()->route('accounting.holidays.index');
+
     }
 
     /**
@@ -57,7 +74,10 @@ class HolidayController extends Controller
      */
     public function edit($id)
     {
-        //
+        $holiday =AccountingHoliday::findOrFail($id);
+
+        return $this->toEdit(compact('holiday'));
+
     }
 
     /**
@@ -69,7 +89,19 @@ class HolidayController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $holiday =AccountingHoliday::findOrFail($id);
+        $rules = [
+
+            'name'=>'required|string|max:191',
+
+        ];
+        $this->validate($request,$rules);
+        $requests = $request->all();
+
+        $holiday->update($requests);
+        alert()->success('تم تعديل الاجازة بنجاح !')->autoclose(5000);
+        return redirect()->route('accounting.holidays.index');
+
     }
 
     /**
@@ -80,6 +112,8 @@ class HolidayController extends Controller
      */
     public function destroy($id)
     {
-        //
+        AccountingHoliday::find($id)->delete();
+        alert()->success('تم  الحذف بنجاح !')->autoclose(5000);
+        return back();
     }
 }

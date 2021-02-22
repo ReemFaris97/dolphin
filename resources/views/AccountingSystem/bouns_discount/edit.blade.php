@@ -1,7 +1,7 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تعديل  المسمى وظيفى')
-@section('parent_title','إدارةالممسمىالوظيفى ')
-@section('action', URL::route('accounting.taxs.index'))
+@section('title','تعديل الخصم اوالبونص')
+@section('parent_title','إدارة الموظفين ')
+@section('action', URL::route('accounting.bonus-discount.index'))
 
 @section('content')
     <div class="panel panel-flat">
@@ -17,10 +17,8 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::model($title, ['route' => ['accounting.jobTitles.update' ,$title->id] ,'class'=>'parsley-validate-form phone_validate','method' => 'PATCH','files'=>true]) !!}
-
-            @include('AccountingSystem.job_titles.form')
-
+            {!!Form::model($bonus, ['route' => ['accounting.bonus-discount.update' ,$bonus->id] ,'class'=>'parsley-validate-form phone_validate','method' => 'PATCH','files'=>true]) !!}
+            @include('AccountingSystem.bouns_discount.form')
             {!!Form::close() !!}
         </div>
 
