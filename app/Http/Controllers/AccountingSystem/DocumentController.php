@@ -71,8 +71,9 @@ class DocumentController extends Controller
             $inputs['document'] = uploader($request,'document');
         }
         AccountingDocument::create($inputs);
+
         alert()->success('تم اضافة  المسمى الوظيفى بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.documents.index');
+        return redirect()->route('accounting.documents.index',$type);
     }
 
     /**

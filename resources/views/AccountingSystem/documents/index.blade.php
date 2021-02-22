@@ -10,10 +10,9 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">  عرض كل المسميات الوظفية
+            <h5 class="panel-title">  عرض وثائق الموظفين
             <div class="btn-group beside-btn-title">
-                <a href="{{route('accounting.jobTitles.create')}}" class="btn btn-success">
-                إضافه  مسمى جديد
+                <a href="{{route('accounting.documents.create',$type)}}" class="btn btn-success">إضافه  وثيقة جديدة
                     <span class="m-l-5"><i class="fa fa-plus"></i></span>
                 </a>
             </div>
@@ -32,39 +31,33 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th> اسم المسمى الوظيفى </th>
-
-                    <th> الحالة </th>
+                    <th> {{$type=='employee'?'اسم الموظف':'اسم الفرع'}}</th>
+                    <th>اسم الوثيقة</th>
+                    <th>رقم الوثيقة</th>
+                    <th>تاريخ البدايه</th>
+                    <th>تاريخ النهاية </th>
                     <th class="text-center">العمليات</th>
                 </tr>
                 </thead>
                 <tbody>
-
-                @foreach($titles as $row)
+                @foreach ($documents as $document)
                     <tr>
-                        <td>{!!$loop->iteration!!}</td>
-                        <td>{!! $row->name!!}</td>
-
+                        <td>{{$document->id}}</td>
+                        <td>{{$document->documentable->name ??''}}</td>
                         <td>
-                            @if($row->active==1)
-                            مفعل
-                            @else
-                            غير مفعل
-                            @endif
+                            <a href="{{$document->url}}">{{$document->document_name}}</a>
                         </td>
-
+                        <td>{{$document->document_number}}</td>
+                        <td>{{$document->start_date->format('Y-m-d')}}</td>
+                        <td>{{$document->end_date->format('Y-m-d')}}</td>
 
 
                         <td class="text-center">
-                            <a href="{{route('accounting.jobTitles.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
-                            @if ($row->active==0)
-                            <a href="{{route('accounting.jobTitles.active',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="  "> <i class="fa fa-close"></i></a>
-                            @else
-                            <a href="{{route('accounting.jobTitles.dis_active',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="  "> <i class="icon-checkmark-circle" style="margin-left: 10px"></i> </a>
-                        @endif
-                            <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.documents.edit',[$type,'id'=>$document->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
 
-                            {!!Form::open( ['route' => ['accounting.jobTitles.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
+                            <a href="#" onclick="Delete({{$document->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
+
+                            {!!Form::open( ['route' => ['accounting.documents.delete',$type,'id'=>$document->id] ,'id'=>'delete-form'.$document->id, 'method' => 'get']) !!}
                             {!!Form::close() !!}
 
                         </td>
