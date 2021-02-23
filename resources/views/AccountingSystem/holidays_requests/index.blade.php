@@ -44,13 +44,16 @@
                 </thead>
                 <tbody>
 
-                @foreach($userHolidaysBalance as $row)
+                @foreach($holidaysRequests as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
-{{--                        <td>{!! $row->name!!}</td>--}}
-
-
-
+                        <td>{!! $row->typeable->name !!}</td>
+                        <td>{{optional($row->typeable)->nationality ?? '---'}}</td>
+                        <td>{{optional($row->typeable)->name}}</td>
+                        <td>{{$row->holiday->name}}</td>
+                        <td>{{optional($row->start_date)->format('Y-m-d')}}</td>
+                        <td>{{optional(optional($row->start_date)->addDays($row->days-1))->format('Y-m-d')}}</td>
+                        <td>
 
                         <td class="text-center">
                             <a href="{{route('accounting.holidays-requests.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
@@ -59,23 +62,14 @@
 
                             {!!Form::open( ['route' => ['accounting.holidays-requests.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
                             {!!Form::close() !!}
-
                         </td>
                     </tr>
-
                 @endforeach
-
-
-
                 </tbody>
             </table>
         </div>
-
     </div>
-
-
 @endsection
-
 @section('scripts')
 
     <script>

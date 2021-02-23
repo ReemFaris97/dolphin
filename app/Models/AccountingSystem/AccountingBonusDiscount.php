@@ -9,6 +9,6 @@ class AccountingBonusDiscount extends Model
     protected $fillable = ['typeable_id','typeable_type', 'type', 'date', 'value', 'notes','reason'];
 
     public function typeable(){
-        return $this->morphTo('typeable_type');
+        return $this->morphTo('typeable');
     }
 }

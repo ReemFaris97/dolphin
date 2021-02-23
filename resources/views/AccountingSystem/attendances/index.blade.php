@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض المسميات الوظفية ')
-@section('parent_title','إدارةالمسميات الوظفية ')
+@section('title','عرض  حضور وانصراف كل الموظفين ')
+@section('parent_title','إدارة الموظفين')
 @section('action', URL::route('accounting.jobTitles.index'))
 
 @section('styles')
@@ -10,10 +10,10 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">  عرض كل المسميات الوظفية
+            <h5 class="panel-title">  عرض كل سجلات الموظفين
             <div class="btn-group beside-btn-title">
-                <a href="{{route('accounting.jobTitles.create')}}" class="btn btn-success">
-                إضافه  مسمى جديد
+                <a href="{{route('accounting.attendances.create')}}" class="btn btn-success">
+                إضافه  سجل  جديد
                     <span class="m-l-5"><i class="fa fa-plus"></i></span>
                 </a>
             </div>
@@ -32,48 +32,31 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th> اسم المسمى الوظيفى </th>
-
-                    <th> الحالة </th>
+                    <th> اسم  الموظف </th>
+                    <th> النشاط </th>
+                    <th> الوقت </th>
                     <th class="text-center">العمليات</th>
                 </tr>
                 </thead>
                 <tbody>
 
-                @foreach($titles as $row)
+                @foreach($attendances as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
-                        <td>{!! $row->name!!}</td>
-
-                        <td>
-                            @if($row->active==1)
-                            مفعل
-                            @else
-                            غير مفعل
-                            @endif
-                        </td>
-
-
+                        <td>{!! $row->typeable->name ??'' !!}</td>
+                        <td>{!! $row->type=='in'?'حضور':'انصراف' !!}</td>
+                        <td>{!! $row->date!!}</td>
 
                         <td class="text-center">
-                            <a href="{{route('accounting.jobTitles.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
-                            @if ($row->active==0)
-                            <a href="{{route('accounting.jobTitles.active',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="  "> <i class="fa fa-close"></i></a>
-                            @else
-                            <a href="{{route('accounting.jobTitles.dis_active',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="  "> <i class="icon-checkmark-circle" style="margin-left: 10px"></i> </a>
-                        @endif
+                            <a href="{{route('accounting.attendances.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
 
-                            {!!Form::open( ['route' => ['accounting.jobTitles.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
+                            {!!Form::open( ['route' => ['accounting.attendances.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
                             {!!Form::close() !!}
 
                         </td>
                     </tr>
-
                 @endforeach
-
-
-
                 </tbody>
             </table>
         </div>

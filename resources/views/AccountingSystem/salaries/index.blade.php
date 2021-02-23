@@ -10,14 +10,25 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">  عرض كل المسميات الوظفية
-            <div class="btn-group beside-btn-title">
-                <a href="{{route('accounting.jobTitles.create')}}" class="btn btn-success">
-                إضافه  مسمى جديد
-                    <span class="m-l-5"><i class="fa fa-plus"></i></span>
-                </a>
-            </div>
-            </h5>
+            <form action="{{request()->fullUrl()}}">
+                <div class="form-group col-sm-3">
+                    <label for="month">الشهر</label>
+                    <select name="month" id="month" class="form-control">
+                        @for ($i = 1; $i <= 12; $i++)
+                            <option value="{{$i}}" {{request('month') == $i ? 'selected' : ''}}>{{$i}}</option>
+                        @endfor
+                    </select>
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="year">السنة</label>
+                    <select name="year" id="year" class="form-control">
+                        @for ($i = 2000; $i <= now()->year; $i++)
+                            <option value="{{$i}}" {{request('year') == $i ? 'selected' : ''}}>{{$i}}</option>
+                        @endfor
+                    </select>
+                </div>
+                <input type="submit" value="{{__('trans.save')}}" class="btn btn-info">
+            </form>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li><a data-action="collapse"></a></li>
@@ -32,47 +43,66 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th> اسم المسمى الوظيفى </th>
-
-                    <th> الحالة </th>
+                    <th>الاسم</th>
+                    <th>المرتب</th>
+                    <th>البونص</th>
+                    <th>الخصومات</th>
+                    <th>البدلات</th>
+                    <th>السلف</th>
+                    <th>الاجمالى</th>
+                    <th>الاجمالى بدون السلف</th>
                     <th class="text-center">العمليات</th>
                 </tr>
                 </thead>
                 <tbody>
 
-                @foreach($titles as $row)
+                @foreach ($users as $user)
                     <tr>
-                        <td>{!!$loop->iteration!!}</td>
-                        <td>{!! $row->name!!}</td>
-
+                        <td>{{$user->id}}</td>
+                        <td>{{$user->name}}</td>
+                        <td>{{$user->salary}}</td>
+                        <td>{{$user->bonus}}</td>
+                        <td>{{$user->discount}}</td>
+                        <td>{{$user->allowance}}</td>
+                        <td>{{$user->debts->sum('total_amount')}}</td>
+                        <td>{{$user->total}}</td>
+                        <td>{{$user->total_without_debts}}</td>
                         <td>
-                            @if($row->active==1)
-                            مفعل
+                            @if (!$user->is_payed && $user->salary != 0)
+                                @if($user->debts->sum('total_amount') > 0)
+                                    <a href="javascript:" onclick="$('.store-{{$user->id}}').submit()" class="btn btn-info">{{__('trans.payThisMonthWithDebts')}}</a>
+                                    <form action="{{route('accounting.salaries.store')}}" class="store-{{$user->id}}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="typeable_id" value="{{$user->id}}">
+                                        <input type="hidden" name="salary" value="{{$user->salary}}">
+                                        <input type="hidden" name="bonus" value="{{$user->bonus}}">
+                                        <input type="hidden" name="discount" value="{{$user->discount}}">
+                                        <input type="hidden" name="allowance" value="{{$user->allowance}}">
+                                        <input type="hidden" name="total" value="{{$user->total}}">
+                                        <input type="hidden" name="debts" value="payed">
+                                        <input type="hidden" name="date" value="{{$date}}">
+                                        <input type="hidden" name="debts_object" value="{{json_encode($user->debts)}}">
+                                    </form>
+
+                                    <a href="javascript:" onclick="$('.store--{{$user->id}}').submit()" class="btn btn-info">دفع الشهر</a>
+                                    <form action="{{route('accounting.salaries.store')}}" class="store--{{$user->id}}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="typeable_id" value="{{$user->id}}">
+                                        <input type="hidden" name="salary" value="{{$user->salary}}">
+                                        <input type="hidden" name="bonus" value="{{$user->bonus}}">
+                                        <input type="hidden" name="discount" value="{{$user->discount}}">
+                                        <input type="hidden" name="allowance" value="{{$user->allowance}}">
+                                        <input type="hidden" name="total" value="{{$user->total_without_debts}}">
+                                        <input type="hidden" name="debts" value="not_payed">
+                                        <input type="hidden" name="date" value="{{$date}}">
+                                    </form>
                             @else
-                            غير مفعل
+                                تم الدفع
                             @endif
-                        </td>
-
-
-
-                        <td class="text-center">
-                            <a href="{{route('accounting.jobTitles.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
-                            @if ($row->active==0)
-                            <a href="{{route('accounting.jobTitles.active',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="  "> <i class="fa fa-close"></i></a>
-                            @else
-                            <a href="{{route('accounting.jobTitles.dis_active',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="  "> <i class="icon-checkmark-circle" style="margin-left: 10px"></i> </a>
                         @endif
-                            <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
-
-                            {!!Form::open( ['route' => ['accounting.jobTitles.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
-                            {!!Form::close() !!}
-
                         </td>
                     </tr>
-
                 @endforeach
-
-
 
                 </tbody>
             </table>

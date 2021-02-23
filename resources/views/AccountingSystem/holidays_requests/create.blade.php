@@ -21,7 +21,7 @@
 
         <div class="panel-body">
             {!!Form::open( ['route' => 'accounting.holidays-requests.store' ,'class'=>'parsley-validate-form form phone_validate', 'method' => 'Post','files' => true]) !!}
-            @include('AccountingSystem.holidays-requests.form')
+            @include('AccountingSystem.holidays_requests.form')
             {!!Form::close() !!}
         </div>
 

@@ -55,7 +55,7 @@ class DebtController extends Controller
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
-        $requests['typeable_type'] = 'employee';
+        $requests['typeable_type'] = 'App\Models\User';
         AccountingDebt::create($requests);
         alert()->success('تم اضافة  السلفة بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.debts.index');
@@ -107,7 +107,7 @@ class DebtController extends Controller
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
-        $requests['typeable_type'] = 'employee';
+        $requests['typeable_type'] = 'App\Models\User';
         $debt->update($requests);
         alert()->success('تم تعديل السلفة بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.debts.index');

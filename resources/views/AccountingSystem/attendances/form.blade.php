@@ -8,12 +8,17 @@
     </div>
 @endif
 
-
-
-
-<div class="form-group col-md-6 pull-left">
-    <label>اسم المسمى الوظيفى   </label>
-    {!! Form::text("name",null,['class'=>'form-control','placeholder'=>'  اسم  المسمى الوظيفى   ','required'])!!}
+<div class="form-group col-sm-6">
+    <label for="typeable_id">اسم الموظف</label>
+    {!! Form::select('typeable_id', $users, null, ['class'=>'form-control','id'=>'typeable_id']) !!}
+</div>
+<div class="form-group col-sm-6">
+    <label for="type">التسجيل</label>
+    {!! Form::select('type', ['in'=>'حضور','out'=>'انصراف'], null, ['class'=>'form-control','id'=>'type']) !!}
+</div>
+<div class="form-group col-sm-12">
+    <label for="date">التاريخ</label>
+    {!! Form::datetimeLocal('date', null, ['class'=>'form-control','id'=>'date']) !!}
 </div>
 
 

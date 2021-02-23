@@ -53,7 +53,7 @@ class BonusDiscountController extends Controller
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
-        $requests['typeable_type'] = 'employee';
+        $requests['typeable_type'] = 'App\Models\User';
         AccountingBonusDiscount::create($requests);
         alert()->success('تم اضافة الخصم او البونص بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.bonus-discount.index');
@@ -104,8 +104,7 @@ class BonusDiscountController extends Controller
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
-        $requests['typeable_type'] = 'employee';
-
+        $requests['typeable_type'] = 'App\Models\User';
         $bonus->update($requests);
         alert()->success('تم تعديل الخصم او البونص بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.bonus-discount.index');
