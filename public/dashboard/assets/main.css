@@ -40,7 +40,7 @@ body {
 	opacity: 1
 }
 .m-login.m-login--2.m-login-2--skin-1 .m-login__container .m-login__form .m-login__form-sub .m-checkbox {
-    color: #eee;
+    color: #333;
 }
 
 .v-input.v-text-field.v-text-field--single-line.theme--light {
@@ -94,6 +94,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ecf0f1', end
 	 transition: 0.4s all ease-in-out;
 	 font-family: cairo
 }
+
+.m-login.m-login--2.m-login--signin .m-login__signin .m-form__group .form-control:focus{
+    color: #fff !important;
+}
+
 .m-form__group .form-control:focus{
 	border-radius: 0px!important;
 	box-shadow: 0px 0px 20px rgba(52, 73, 94,0.6);

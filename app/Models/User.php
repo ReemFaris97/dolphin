@@ -2,8 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\AccountingSystem\AccountingAllowance;
+use App\Models\AccountingSystem\AccountingAttendance;
+use App\Models\AccountingSystem\AccountingAttentance;
+use App\Models\AccountingSystem\AccountingBonusDiscount;
+use App\Models\AccountingSystem\AccountingDebt;
+use App\Models\AccountingSystem\AccountingHoliday;
 use App\Models\AccountingSystem\AccountingJobTitle;
 use App\Models\AccountingSystem\AccountingProductStore;
+use App\Models\AccountingSystem\AccountingSalary;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingUserPermission;
 use App\Models\Bank;
@@ -125,6 +132,10 @@ class User extends Authenticatable implements JWTSubject
         return $this->is_distributor ? 1 : 0;
     }
 
+    public function holidays(){
+        return $this->belongsToMany(AccountingHoliday::class,'accounting_holiday_balances','typeable_id','holiday_id')
+            ->withPivot('typeable_type','days','type','start_date','notes')->wherePivot('typeable_type','employee');
+    }
 
     public function IsSupplier(): bool
     {
@@ -475,5 +486,24 @@ class User extends Authenticatable implements JWTSubject
         }
 
 
+    }
+
+    public function salaries(){
+        return $this->morphMany(AccountingSalary::class,'typeable');
+    }
+    public function attendances()
+    {
+        return $this->morphMany(AccountingAttendance::class,'typeable');
+    }
+    public function allowances()
+    {
+        return $this->belongsToMany(AccountingAllowance::class,'accounting_user_allowances','typeable_id','allowance_id')->withPivot(['value','typeable_type']);
+    }
+    public function debts(){
+        return $this->hasMany(AccountingDebt::class,'typeable_id');
+    }
+
+    public function bonus_discount(){
+        return $this->morphMany(AccountingBonusDiscount::class,'typeable');
     }
 }

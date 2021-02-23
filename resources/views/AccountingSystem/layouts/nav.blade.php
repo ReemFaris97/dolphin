@@ -38,6 +38,22 @@
 
                         </ul>
                     </li>
+                    <li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-basket"></i>  أدارة الموظفين </a>
+                        <ul class="dropdown-menu">
+
+                            <li><a href="{{route('accounting.documents.index','employee')}}"><i class="icon-eye"></i> وثائق الموظفين</a></li>
+
+                            <li><a href="{{route('accounting.documents.index','branch')}}"><i class="icon-eye"></i>  وثائق الفروع </a></li>
+
+                            <li><a href="{{route('accounting.allowances.index')}}"><i class="icon-eye"></i>   البدلات </a></li>
+                            <li><a href="{{route('accounting.holidays.index')}}"><i class="icon-eye"></i>   الاجازات </a></li>
+                            <li><a href="{{route('accounting.holidays-requests.index')}}"><i class="icon-eye"></i>   طلبات الاجازات </a></li>
+                            <li><a href="{{route('accounting.bonus-discount.index')}}"><i class="icon-eye"></i>  خصومات واضافات </a></li>
+                            <li><a href="{{route('accounting.attendances.index')}}"><i class="icon-eye"></i>   الحضور والانصراف  </a></li>
+                            <li><a href="{{route('accounting.debts.index')}}"><i class="icon-eye"></i>   السلف </a></li>
+                            <li><a href="{{route('accounting.salaries.index')}}"><i class="icon-eye"></i>  الرواتب </a></li>
+                        </ul>
+                    </li>
 
                     @can('إدارة الشركات')
 					<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i> إدارة الشركات </a>
@@ -518,6 +534,7 @@
 			</ul>
 		</li>
             @endcan
+
 		<!--Tis will be commented temporarly-->
 		<!-- <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-cabinet position-left"></i> إدارة المندوبين <span class="caret"></span> </a> <ul class="dropdown-menu dropdown-menu-right"> <li><a href="{{route('accounting.delegates.index')}}"><i class="icon-eye"></i> عرض المندوبين</a></li> <li><a href="{{route('accounting.delegates.create')}}"><i class="icon-add-to-list"></i> اضافة مندوب جديد</a></li> </ul> </li> -->
 		<!-- الحسابات-->
