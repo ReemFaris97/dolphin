@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض المسميات الوظفية ')
-@section('parent_title','إدارةالمسميات الوظفية ')
+@section('title','عرض المرتبات ')
+@section('parent_title','إدارة الموظفين ')
 @section('action', URL::route('accounting.jobTitles.index'))
 
 @section('styles')
@@ -27,7 +27,7 @@
                         @endfor
                     </select>
                 </div>
-                <input type="submit" value="{{__('trans.save')}}" class="btn btn-info">
+                <input type="submit" value="حفظ" class="btn btn-info">
             </form>
             <div class="heading-elements">
                 <ul class="icons-list">
@@ -110,11 +110,8 @@
 
     </div>
 
-
 @endsection
-
 @section('scripts')
-
     <script>
         function Delete(id) {
             var item_id=id;

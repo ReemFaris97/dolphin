@@ -133,7 +133,7 @@
                 <td>
                     {{$client_class->name}}
                     <input type="hidden" name="client_classes[{{$loop->index}}][id]"
-                        value="{{$client_class->id}}">
+                        value="{{$client_class->id}}" required>
                 </td>
                 <td>
                     <input type="text" class="form-control m-input w-100" required
