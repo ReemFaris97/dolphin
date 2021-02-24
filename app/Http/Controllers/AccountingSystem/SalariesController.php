@@ -20,7 +20,7 @@ class SalariesController extends Controller
             ->get()->transform(function($q){
                 $newData['name'] = $q->name;
                 $newData['id'] = $q->id;
-                $newData['salary'] = optional($q->details)->salary??0;
+                $newData['salary'] = $q->salary??0;
                 $newData['bonus'] = $q->bonus_discount->where('type','bonus')->sum('value');
                 $newData['discount'] = $q->bonus_discount->where('type','discount')->sum('value');
                 $newData['allowance'] = $q->allowances->sum('pivot.value');

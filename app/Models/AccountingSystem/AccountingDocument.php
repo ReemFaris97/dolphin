@@ -14,7 +14,7 @@ class AccountingDocument extends Model
     protected $dates = ['start_date','end_date'];
 
     public function documentable(){
-        return $this->morphTo('documentable_type');
+        return $this->morphTo();
     }
 
     public function getUrlAttribute(){

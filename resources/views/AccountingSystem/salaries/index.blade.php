@@ -70,7 +70,7 @@
                         <td>
                             @if (!$user->is_payed && $user->salary != 0)
                                 @if($user->debts->sum('total_amount') > 0)
-                                    <a href="javascript:" onclick="$('.store-{{$user->id}}').submit()" class="btn btn-info">{{__('trans.payThisMonthWithDebts')}}</a>
+                                    <a href="javascript:" onclick="$('.store-{{$user->id}}').submit()" class="btn btn-info">تسديد السلفة</a>
                                     <form action="{{route('accounting.salaries.store')}}" class="store-{{$user->id}}" method="POST">
                                         @csrf
                                         <input type="hidden" name="typeable_id" value="{{$user->id}}">

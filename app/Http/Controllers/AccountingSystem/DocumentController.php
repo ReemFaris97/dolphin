@@ -19,7 +19,7 @@ class DocumentController extends Controller
     public $types = ['employee'=>User::class,'branch'=>AccountingBranch::class];
     public function index($type)
     {
-        $newType = ($type == 'employee' ? $type : $this->types[$type]);
+        $newType = ($type == 'employee' ? 'App\Models\User' : 'App\Models\AccountingSystem\AccountingBranch');
         $documents = AccountingDocument::with('documentable')->where('documentable_type', $newType)->get();
         return view('AccountingSystem.documents.index', compact('documents', 'type'));
     }
@@ -66,7 +66,7 @@ class DocumentController extends Controller
         $requests = $request->all();
 
         $inputs = $request->except('_token');
-        $inputs['documentable_type'] = ($type == 'employee' ? $type : $this->types[$type]);
+        $inputs['documentable_type'] = ($type == 'employee' ? 'App\Models\User' : 'App\Models\AccountingSystem\AccountingBranch');
         if($request->file('document')){
             $inputs['document'] = uploader($request,'document');
         }
@@ -134,7 +134,7 @@ class DocumentController extends Controller
         }
 
         $document->update($inputs);
-     alert()->success('تم اضافة  الوظيفة بنجاح !')->autoclose(5000);
+     alert()->success('تم اضافة  الوثيقة بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.documents.index',$type);
     }
 

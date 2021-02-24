@@ -17,7 +17,7 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::model($title, ['route' => ['accounting.debts.update' ,$title->id] ,'class'=>'parsley-validate-form phone_validate','method' => 'PATCH','files'=>true]) !!}
+            {!!Form::model($request, ['route' => ['accounting.holidays-requests.update' ,$request->id] ,'class'=>'parsley-validate-form phone_validate','method' => 'PATCH','files'=>true]) !!}
 
             @include('AccountingSystem.holidays_requests.form')
 
