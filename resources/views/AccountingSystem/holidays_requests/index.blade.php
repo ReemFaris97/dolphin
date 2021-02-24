@@ -34,7 +34,7 @@
                     <th>#</th>
                     <th> اسم الموظف </th>
                     <th> جنسية الموظف </th>
-                    <th>  الفرع </th>
+{{--                    <th>  الفرع </th>--}}
                     <th> نوع الاجازه </th>
                     <th> تاريخ بداية الاجازه </th>
                     <th> تاريخ نهاية الاجازه </th>
@@ -49,11 +49,12 @@
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->typeable->name !!}</td>
                         <td>{{optional($row->typeable)->nationality ?? '---'}}</td>
-                        <td>{{optional($row->typeable)->name}}</td>
-                        <td>{{$row->holiday->name}}</td>
+{{--                        <td>{{optional($row->typeable)->name}}</td>--}}
+                        <td>{{$row->holiday->name }}</td>
                         <td>{{optional($row->start_date)->format('Y-m-d')}}</td>
                         <td>{{optional(optional($row->start_date)->addDays($row->days-1))->format('Y-m-d')}}</td>
-                        <td>
+                        <td>{{$row->notes }}</td>
+
 
                         <td class="text-center">
                             <a href="{{route('accounting.holidays-requests.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
@@ -78,7 +79,7 @@
             console.log(item_id);
             swal({
                 title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذة  الضريبة ؟",
+                text: "هل تريد حذف هذا الطلب   ؟",
                 icon: "warning",
                 buttons: ["الغاء", "موافق"],
                 dangerMode: true,
@@ -88,7 +89,7 @@
                     document.getElementById('delete-form'+item_id).submit();
                 }
                 else{
-                    swal("تم االإلفاء", "حذف  الضريبة  تم الغاؤه",'info',{buttons:'موافق'});
+                    swal("تم االإلفاء", "حذف  الطلب  تم الغاؤه",'info',{buttons:'موافق'});
                 }
             });
         }

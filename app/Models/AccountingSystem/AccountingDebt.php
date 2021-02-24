@@ -12,7 +12,7 @@ class AccountingDebt extends Model
 
     public function typeable()
     {
-        return $this->morphTo('typeable_type');
+        return $this->morphTo();
     }
 
     public function payments(){

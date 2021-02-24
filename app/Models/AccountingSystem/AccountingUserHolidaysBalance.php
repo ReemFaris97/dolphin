@@ -14,6 +14,6 @@ class AccountingUserHolidaysBalance extends Model
         return $this->morphTo('typeable');
     }
     public function holiday(){
-        return $this->belongsTo(AccountingUserHolidaysBalance::class,'holiday_id');
+        return $this->belongsTo(AccountingHoliday::class,'holiday_id');
     }
 }

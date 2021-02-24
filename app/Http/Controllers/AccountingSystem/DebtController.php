@@ -86,7 +86,7 @@ class DebtController extends Controller
         $debt['date'] = Carbon::parse($debt['date'])->format('Y-m-d');
         $debt['pay_from'] = Carbon::parse($debt['pay_from'])->format('Y-m-d');
         $debt = (object)$debt;
-        return view('admin.debts.edit',compact('debt','users'));
+        return view('AccountingSystem.debts.edit',compact('debt','users'));
     }
 
     /**

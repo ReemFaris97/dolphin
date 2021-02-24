@@ -44,13 +44,10 @@
                 @foreach($bouns as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
-                        <td>{{$row->typeable->name ??''}}</td>
+                        <td>{{$row->typeable->name }}</td>
                         <td>{{$row->type=='bonus'? 'بونص':'خصم'}}</td>
                         <td>{{$row->date}}</td>
                         <td>{{$row->value}}</td>
-
-
-
                         <td class="text-center">
                             <a href="{{route('accounting.bonus-discount.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
 
@@ -83,7 +80,7 @@
             console.log(item_id);
             swal({
                 title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذة  الضريبة ؟",
+                text: "هل تريد حذف هذة  البونص او الخصم ؟",
                 icon: "warning",
                 buttons: ["الغاء", "موافق"],
                 dangerMode: true,
@@ -93,7 +90,7 @@
                     document.getElementById('delete-form'+item_id).submit();
                 }
                 else{
-                    swal("تم االإلفاء", "حذف  الضريبة  تم الغاؤه",'info',{buttons:'موافق'});
+                    swal("تم االإلفاء", "حذف   البونص او الخصم   تم الغاؤه",'info',{buttons:'موافق'});
                 }
             });
         }
