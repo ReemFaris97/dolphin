@@ -88,8 +88,8 @@ class RouteController extends Controller
     public function attachProducts(Request $request)
     {
 
+        $request['store_id']= optional(optional(auth()->user())->car_store)->id;
         $request['products'] = json_decode($request->products, TRUE);
-        $request->merge('store_id', auth()->user()->car_store->id);
 
         $rules = [
             "trip_id" => "required|required|integer|exists:route_trips,id",
