@@ -70,16 +70,14 @@ class ProductsController extends Controller
 
         $this->validate($request, $rules);
         $inputs = $request->all();
-        // dd($inputs);
+
         $inputs['expired_at'] = Carbon::parse($request->expired_at);
         $inputs['image'] = saveImage($request->image, 'products');
 
         $product = Product::create($inputs);
-
         foreach ($request->images as $image) {
             $product->images()->create(['image' => saveImage($image, 'users')]);
         }
-
         foreach ($request->client_classes as $client_class) {
             ClientClassProduct::query()->updateOrCreate([
                 'product_id' => $product->id,

@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
-
+use App\Models\AccountingSystem\AccountingHoliday;
+use App\Traits\Viewable;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\AccountingSystem\AccountingCostCenter;
-use App\Models\AccountingSystem\AccountingJobTitle;
-use App\Traits\Viewable;
 
-class JobTitleController extends Controller
+class HolidayController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.job_titles.';
+    private $viewable = 'AccountingSystem.holidays.';
+
     /**
      * Display a listing of the resource.
      *
@@ -21,9 +20,9 @@ class JobTitleController extends Controller
     public function index()
     {
 
-        $titles =AccountingJobTitle::all()->reverse();
+        $holidays =AccountingHoliday::all()->reverse();
 
-        return $this->toIndex(compact('titles'));
+        return $this->toIndex(compact('holidays'));
     }
 
     /**
@@ -46,12 +45,14 @@ class JobTitleController extends Controller
     {
         $rules = [
             'name'=>'required|string|max:191',
+            'duration'=>'required|string|max:191',
         ];
         $this->validate($request,$rules);
         $requests = $request->all();
-        AccountingJobTitle::create($requests);
-        alert()->success('تم اضافة  المسمى الوظيفى بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.jobTitles.index');
+        AccountingHoliday::create($requests);
+        alert()->success('تم اضافة  الاجازة بنجاح !')->autoclose(5000);
+        return redirect()->route('accounting.holidays.index');
+
     }
 
     /**
@@ -73,10 +74,9 @@ class JobTitleController extends Controller
      */
     public function edit($id)
     {
-        $title =AccountingJobTitle::findOrFail($id);
+        $holiday =AccountingHoliday::findOrFail($id);
 
-        return $this->toEdit(compact('title'));
-
+        return $this->toEdit(compact('holiday'));
 
     }
 
@@ -89,8 +89,7 @@ class JobTitleController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        $title =AccountingJobTitle::findOrFail($id);
+        $holiday =AccountingHoliday::findOrFail($id);
         $rules = [
 
             'name'=>'required|string|max:191',
@@ -99,11 +98,9 @@ class JobTitleController extends Controller
         $this->validate($request,$rules);
         $requests = $request->all();
 
-        $title->update($requests);
-        alert()->success('تم تعديل المسمى الوظيفى بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.jobTitles.index');
-
-
+        $holiday->update($requests);
+        alert()->success('تم تعديل الاجازة بنجاح !')->autoclose(5000);
+        return redirect()->route('accounting.holidays.index');
 
     }
 
@@ -115,30 +112,8 @@ class JobTitleController extends Controller
      */
     public function destroy($id)
     {
-        $title =AccountingJobTitle::findOrFail($id);
-        $title->delete();
-        alert()->success('تم حذف   المسمى الوظيفى بنجاح !')->autoclose(5000);
-            return back();
-
-
-    }
-
-    public  function  active($id){
-        $title =AccountingJobTitle::findOrFail($id);
-        $title->update([
-            'active'=>1
-        ]);
-        alert()->success('تم تفعيل  المسمى الوظيفى بنجاح !')->autoclose(5000);
-        return back();
-    }
-
-
-    public  function  dis_active ($id){
-        $title =AccountingJobTitle::findOrFail($id);
-        $title->update([
-            'active'=>0
-        ]);
-        alert()->success('تم الغاء تفعيل  المسمى الوظيفى بنجاح !')->autoclose(5000);
+        AccountingHoliday::find($id)->delete();
+        alert()->success('تم  الحذف بنجاح !')->autoclose(5000);
         return back();
     }
 }

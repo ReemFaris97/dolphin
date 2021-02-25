@@ -15,7 +15,7 @@
     </div>
     <div class="form-group m-form__group">
         <label>تاريخ الايداع</label>
-        {!! Form::text('deposit_date',null,['class'=>'form-control m-input datepicker','placeholder'=>'ادخل تاريخ الايداع']) !!}
+        {!! Form::text('deposit_date',null,['class'=>'form-control m-input inlinedatepicker inline-control','placeholder'=>'ادخل تاريخ الايداع']) !!}
     </div>
     <div class="form-group m-form__group bank">
         <label>البنك</label>
@@ -42,8 +42,15 @@
 
 </div>
 @push('scripts')
-
+    <script src="{{asset('admin/assets/js/jquery.datetimepicker.full.min.js')}}"></script>
 <script>
+    $(document).ready(function() {
+        // For initializing now date
+        $('.inlinedatepicker').datetimepicker({defaultDate :new Date()});
+        $('.inlinedatepicker').text(new Date().toLocaleString());
+        $('.inlinedatepicker').val(new Date().toLocaleString());
+
+    });
 
     function showBank(val) {
 

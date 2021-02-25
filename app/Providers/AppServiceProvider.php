@@ -217,5 +217,22 @@ class AppServiceProvider extends ServiceProvider
                 return false;
             }
         });
+
+
+        Validator::extend('date_format', function($attribute, $value, $formats) {
+//dd($attribute);
+            foreach($formats as $format) {
+
+                $parsed = date_parse_from_format($format, $value);
+//dd($value,$format,$parsed);
+                // validation success
+                if ($parsed['error_count'] === 0 && $parsed['warning_count'] === 0) {
+                    return true;
+                }
+            }
+
+            // validation failed
+            return false;
+        });
     }
 }
