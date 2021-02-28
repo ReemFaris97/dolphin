@@ -34,7 +34,6 @@ class RouteController extends Controller
 
     public function index()
     {
-
         $routes = DistributorRoute::where('user_id', auth()->user()->id)->paginate($this->paginateNumber);
         return $this->apiResponse(new RoutesResource($routes));
     }
@@ -57,12 +56,27 @@ class RouteController extends Controller
         return $this->apiResponse($trips);
     }
 
+    public function TripCashes(Request $request, $id)
+    {
+        $route = DistributorRoute::with(['round_expenses', 'trips'])->find($id);
+        $cash= $route->trips->load(['reports'=>function ($q) use ($route) {
+            $q->where('round', $route->round);
+        }])->pluck('reports')->flatten()->sum('cash');
+        $total_expenses=$route->round_expenses->sum('amount');
+
+        return[
+            'cash'=>$cash,
+            'expenses'=> $total_expenses,
+            'total'=>$cash - $total_expenses
+        ];
+    }
+
 
     public function makeInventory(Request $request, $type)
     {
         // info($request->all());
         $request['type'] = $type;
-        $request['products'] = json_decode($request->products, TRUE);
+        $request['products'] = json_decode($request->products, true);
         $rules = [
             "trip_id" => "required|required|integer|exists:route_trips,id",
             "type" => "required|in:refuse,accept",
@@ -79,17 +93,19 @@ class RouteController extends Controller
             return $validation;
         }
 
-        if ($request->type == "refuse") $request['status'] = "refused";
-        else $request['status'] = "accepted";
+        if ($request->type == "refuse") {
+            $request['status'] = "refused";
+        } else {
+            $request['status'] = "accepted";
+        }
         $this->RegisterInventory($request);
         return $this->apiResponse('تم عمل الجرد بنجاح');
     }
 
     public function attachProducts(Request $request)
     {
-
         $request['store_id']= optional(optional(auth()->user())->car_store)->id;
-        $request['products'] = json_decode($request->products, TRUE);
+        $request['products'] = json_decode($request->products, true);
 
         $rules = [
             "trip_id" => "required|required|integer|exists:route_trips,id",
@@ -110,7 +126,6 @@ class RouteController extends Controller
         return $this->apiResponse(
             ['msg' => 'تم تسجيل الفاتورة بنجاح', 'bill' => 'http://panorama-t.com/api/distributor/bills/print_bill/' . $trip_report->id]
         );
-
     }
 
     public function print_bill($id)
@@ -142,7 +157,6 @@ class RouteController extends Controller
         $route_trip->update(['status' => 'accepted']);
 
         return $this->apiResponse('تم تسجيل الصور بنجاح');
-
     }
 
     public function AddClientToRoute(Request $request, $route_id)
@@ -194,9 +208,7 @@ class RouteController extends Controller
 
     public function store(Request $request)
     {
-
-
-        $request['products'] = json_decode($request->products, TRUE);
+        $request['products'] = json_decode($request->products, true);
         $rules = [
             'route_id' => 'required|integer|exists:distributor_routes,id',
             'cash' => 'required|numeric',
@@ -220,9 +232,7 @@ class RouteController extends Controller
 
     public function AddDamage(Request $request)
     {
-
-
-        $request['products'] = json_decode($request->products, TRUE);
+        $request['products'] = json_decode($request->products, true);
         $rules = [
             'route_trip_id' => 'required|integer|exists:route_trips,id',
             'image' => 'required|mimes:jpg,jpeg,gif,png',
@@ -240,6 +250,4 @@ class RouteController extends Controller
         return $this->apiResponse([
             'message' => 'تم تسجيل التوالف بنجاح']);
     }
-
-
 }

@@ -69,6 +69,30 @@ class DistributorRoute extends Model
              'route_trip_id');
     }
 
+    public function expenses(){
+
+        return $this->hasMany(Expense::class, 'distributor_route_id');
+    }
+
+    public function round_expenses(){
+
+        return $this->expenses()->whereColumn('expenses.round', 'round');
+    }
+
+    /**
+     * trips_reports
+     *
+     * @return HasManyThrough
+     */
+    public function round_trips_reports(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            RouteTripReport::class,
+            RouteTrips::class,
+            'route_id',
+            'route_trip_id'
+        )->whereColumn('route_trips.round', 'route_trip_reports.round');
+    }
 
 
 }
