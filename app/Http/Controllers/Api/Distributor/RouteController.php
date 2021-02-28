@@ -31,7 +31,6 @@ class RouteController extends Controller
 {
     use ApiResponses, RouteOperation;
 
-
     public function index()
     {
         $routes = DistributorRoute::where('user_id', auth()->user()->id)->paginate($this->paginateNumber);
@@ -43,7 +42,6 @@ class RouteController extends Controller
         $routes = DistributorRoute::where('user_id', auth()->id())->where(['is_available' => 1])->get();
         return $this->apiResponse(MapRoutesResource::collection($routes));
     }
-
 
     public function show(Request $request, $id)
     {
@@ -59,18 +57,17 @@ class RouteController extends Controller
     public function TripCashes(Request $request, $id)
     {
         $route = DistributorRoute::with(['round_expenses', 'trips'])->find($id);
-        $cash= $route->trips->load(['reports'=>function ($q) use ($route) {
+        $cash = $route->trips->load(['reports' => function ($q) use ($route) {
             $q->where('round', $route->round);
         }])->pluck('reports')->flatten()->sum('cash');
-        $total_expenses=$route->round_expenses->sum('amount');
+        $total_expenses = $route->round_expenses->sum('amount');
 
         return[
-            'cash'=>$cash,
-            'expenses'=> $total_expenses,
-            'total'=>$cash - $total_expenses
+            'cash' => (string) round($cash, 2),
+            'expenses' => (string) round($total_expenses, 2),
+            'total' => (string) round(($cash - $total_expenses), 2)
         ];
     }
-
 
     public function makeInventory(Request $request, $type)
     {
@@ -78,14 +75,14 @@ class RouteController extends Controller
         $request['type'] = $type;
         $request['products'] = json_decode($request->products, true);
         $rules = [
-            "trip_id" => "required|required|integer|exists:route_trips,id",
-            "type" => "required|in:refuse,accept",
-            "notes" => "sometimes|string|min:1|max:255",
-            "refuse_reason" => "sometimes|string|min:1|max:255",
+            'trip_id' => 'required|required|integer|exists:route_trips,id',
+            'type' => 'required|in:refuse,accept',
+            'notes' => 'sometimes|string|min:1|max:255',
+            'refuse_reason' => 'sometimes|string|min:1|max:255',
             'products' => 'required|array',
             'images' => 'required|array',
             'products.*.product_id' => 'required|integer|exists:products,id',
-            "products.*.quantity" => "required|integer",
+            'products.*.quantity' => 'required|integer',
         ];
 
         $validation = $this->apiValidation($request, $rules);
@@ -93,10 +90,10 @@ class RouteController extends Controller
             return $validation;
         }
 
-        if ($request->type == "refuse") {
-            $request['status'] = "refused";
+        if ($request->type == 'refuse') {
+            $request['status'] = 'refused';
         } else {
-            $request['status'] = "accepted";
+            $request['status'] = 'accepted';
         }
         $this->RegisterInventory($request);
         return $this->apiResponse('تم عمل الجرد بنجاح');
@@ -104,16 +101,16 @@ class RouteController extends Controller
 
     public function attachProducts(Request $request)
     {
-        $request['store_id']= optional(optional(auth()->user())->car_store)->id;
+        $request['store_id'] = optional(optional(auth()->user())->car_store)->id;
         $request['products'] = json_decode($request->products, true);
 
         $rules = [
-            "trip_id" => "required|required|integer|exists:route_trips,id",
+            'trip_id' => 'required|required|integer|exists:route_trips,id',
             'products' => 'required|array',
             'cash' => 'required|numeric',
             'store_id' => 'required|integer',
             'products.*.product_id' => 'required|integer|exists:products,id',
-            "products.*.quantity" => "required|integer",
+            'products.*.quantity' => 'required|integer',
         ];
         $validation = $this->apiValidation($request, $rules);
         if ($validation instanceof Response) {
@@ -137,7 +134,7 @@ class RouteController extends Controller
     public function attachImages(Request $request)
     {
         $rules = [
-            "trip_id" => "required|required|integer|exists:route_trips,id",
+            'trip_id' => 'required|required|integer|exists:route_trips,id',
             'images' => 'required|array',
         ];
 
@@ -163,21 +160,20 @@ class RouteController extends Controller
     {
         $request['route_id'] = $route_id;
         $rules = [
-            "name" => "required|string|min:1|max:255",
-            "email" => "nullable|email|min:1|max:255|unique:users,email",
+            'name' => 'required|string|min:1|max:255',
+            'email' => 'nullable|email|min:1|max:255|unique:users,email',
             'phone' => 'required|string|unique:users,phone',
-            "image" => "required",
-//                 "store_name" => "required|string|min:1|max:255",
-            "address" => "required|string|min:1|max:255",
-            "lat" => "required|string|min:1|max:255",
-            "lng" => "required|string|min:1|max:255",
+            'image' => 'required',
+            //                 "store_name" => "required|string|min:1|max:255",
+            'address' => 'required|string|min:1|max:255',
+            'lat' => 'required|string|min:1|max:255',
+            'lng' => 'required|string|min:1|max:255',
             'notes' => 'nullable|string',
-//            'code' => 'nullable|string',
+            //            'code' => 'nullable|string',
             'client_class_id' => 'required|integer',
             'tax_number' => 'required|string|min:15',
         ];
         /*  'notes','code', 'route_id', 'client_class_id', 'tax_number' */
-
 
         $validation = $this->apiValidation($request, $rules);
         $requests = $request->all();
@@ -205,7 +201,6 @@ class RouteController extends Controller
         return $this->apiResponse(['msg' => 'تم اضافه العميل الى المسار بنجاح', 'trip' => new TripResource($trip)]);
     }
 
-
     public function store(Request $request)
     {
         $request['products'] = json_decode($request->products, true);
@@ -216,7 +211,7 @@ class RouteController extends Controller
             'image' => 'required|mimes:jpg,jpeg,gif,png',
             'products' => 'required|array',
             'products.*.product_id' => 'required|integer|exists:products,id',
-            "products.*.quantity" => "required|integer",
+            'products.*.quantity' => 'required|integer',
         ];
         $validation = $this->apiValidation($request, $rules);
 
@@ -238,7 +233,7 @@ class RouteController extends Controller
             'image' => 'required|mimes:jpg,jpeg,gif,png',
             'products' => 'required|array',
             'products.*.product_id' => 'required|integer|exists:products,id',
-            "products.*.quantity" => "required|integer",
+            'products.*.quantity' => 'required|integer',
         ];
         $validation = $this->apiValidation($request, $rules);
 
