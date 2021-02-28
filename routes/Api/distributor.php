@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +22,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::resource('stores','StoreController');
     Route::resource('expenses','ExpenseController');
     Route::post('damage','RouteController@AddDamage');
+    Route::get('routes/{id}/cash', 'RouteController@TripCashes');
     Route::resource('routes','RouteController');
     Route::post('make_inventory/{type}','RouteController@makeInventory');
     Route::post('make_bill','RouteController@attachProducts');
