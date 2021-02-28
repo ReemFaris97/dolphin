@@ -60,6 +60,8 @@ class DailyReportController extends Controller
              ->addSelect(DB::raw("sum(cash) as total_cash"))
              ->addSelect(DB::raw("sum(expenses) as total_expenses"))
              ->addSelect(DB::raw("sum(products_price) as total_products_price"));
+        //  ->addSelect(DB::raw("sum(products_price) as total_products_price"));
+        return $report->latest()->paginate($this->paginateNumber);
     }
     public function store(Request $request)
     {

@@ -30,6 +30,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::post('attach_images','RouteController@attachImages');
     Route::get('current_trips','RouteController@currentTrips');
     Route::post('add_client/{route_id}','RouteController@AddClientToRoute');
+    Route::get('products_report', 'DailyReportController@productReport');
     Route::resource('daily_reports','DailyReportController')->only('store');
     Route::resource('bank_deposits', 'BankDepositsController');
 
