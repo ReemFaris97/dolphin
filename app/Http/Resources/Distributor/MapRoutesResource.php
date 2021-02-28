@@ -17,6 +17,7 @@ class MapRoutesResource extends JsonResource
         return [
             'id' => $this->id,
             'route_name' => $this->name,
+            'round'=>$this->round,
             'trips' =>TripResource::collection($this->trips->Sortby('arrange')),
         ];
     }
