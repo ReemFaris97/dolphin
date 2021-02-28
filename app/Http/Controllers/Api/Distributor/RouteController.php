@@ -21,11 +21,7 @@ use App\Traits\Distributor\ExpenseOperation;
 use App\Traits\Distributor\RouteOperation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use JWTFactory;
-use JWTAuth;
 use Illuminate\Http\Response;
-use Log;
 
 class RouteController extends Controller
 {
@@ -94,6 +90,10 @@ class RouteController extends Controller
             $request['status'] = 'refused';
         } else {
             $request['status'] = 'accepted';
+
+//             DistributorRoute::whereHas('trips',function($q)use($request){
+// $q->where();
+//             });
         }
         $this->RegisterInventory($request);
         return $this->apiResponse('تم عمل الجرد بنجاح');
