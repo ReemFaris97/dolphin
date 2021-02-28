@@ -95,6 +95,8 @@ class RouteTripReport extends Model
                 "(
                     select model_id as route_trip_id,
                     SUM(price *quantity) as products_price,
+                    SUM(quantity) as total_quantity,
+                    price ,
                     product_id
                     from attached_products
                     where model_type= 'App\\\\Models\\\\RouteTripReport'

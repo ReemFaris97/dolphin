@@ -35,8 +35,15 @@ class RouteController extends Controller
 
     public function currentTrips()
     {
-        $routes = DistributorRoute::where('user_id', auth()->id())->where(['is_available' => 1])->get();
-        return $this->apiResponse(MapRoutesResource::collection($routes));
+        $routes = DistributorRoute::with('trips')->where('user_id', auth()->id())->where(['is_available' => 1])->get();
+
+        $active_route = DistributorRoute::with('trips')->where('user_id', auth()->id())->where(['is_available' => 1])->whereHas('trips', function ($q) {
+            $q->whereIn('status', ['accepted', 'refused']);
+        })->first();
+
+        return $this->apiResponse([
+            'active_route' => ($active_route != null) ? new MapRoutesResource($active_route) : null,
+            'routes' => MapRoutesResource::collection($routes)]);
     }
 
     public function show(Request $request, $id)
@@ -54,7 +61,7 @@ class RouteController extends Controller
     {
         $route = DistributorRoute::with(['round_expenses', 'trips'])->find($id);
         $cash = $route->trips->load(['reports' => function ($q) use ($route) {
-            $q->where('round', $route->round);
+             $q->where('round', $route->round);
         }])->pluck('reports')->flatten()->sum('cash');
         $total_expenses = $route->round_expenses->sum('amount');
 
