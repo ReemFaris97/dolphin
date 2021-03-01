@@ -66,15 +66,14 @@ class DailyReportController extends Controller
               ->selectRaw('`total_quantity` ,`price` ,`product_id`,`products_price`')
               ->addSelect(DB::raw('sum(cash) as total_cash'))
              ->addSelect(DB::raw('(select name from products where products.id = product_id limit 1 ) as product_name'));
-        return $report->latest()->paginate($this->paginateNumber);
-
-//        $report = $report->latest()->get();
-//        return $this->apiResponse([
-//            'reports' => $report,
-//            'total_quantities' => (string) $report->sum('total_quantity'),
-//            'total_cash' => (string) $report->sum('total_cash'),
-//            'total_expenses' => (string) $expenses
-//        ]);
+//        return $report->latest()->paginate($this->paginateNumber);
+        $report = $report->latest()->get();
+        return $this->apiResponse([
+            'reports' => $report,
+            'total_quantities' => (string) $report->sum('total_quantity'),
+            'total_cash' => (string) $report->sum('total_cash'),
+            'total_expenses' => (string) $expenses
+        ]);
     }
 
     public function store(Request $request)
