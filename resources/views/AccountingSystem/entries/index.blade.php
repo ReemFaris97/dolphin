@@ -45,7 +45,7 @@
                             </div>
                             <div class="form-group col-sm-3">
                                 <label>مصدر  العمليه  </label>
-                                {{-- {!! Form::select("source",['قيد يدوى'=>'قيد يدوى','مشتريات'=>'مشتريات','مبيعات'=>'مبيعات ','مرتجعات'=>'مرتجعات'],null,['class'=>'form-control','placeholder'=>'اختر مصدر العمل'])!!} --}}
+
                           <select class="form-control" name="source">
                               <option></option>
                               <option value="قيد يدوى">قيد يدوى</option>

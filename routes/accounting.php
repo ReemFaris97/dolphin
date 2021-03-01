@@ -250,6 +250,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/productReturnPurchase', 'PurchaseReturnController@product');
     Route::get('/backup', 'SettingController@backup')->name('backup');
 
+    Route::resource('templates', 'TemplateController');
 
     Route::group(['prefix' => 'reports', 'namespace' => 'Reports', 'as' => 'reports.'], function () {
         Route::any('damaged-products', ['as' => 'damaged-products', 'uses' => 'StoresController@damages']);
@@ -291,6 +292,7 @@ Route::middleware('admin')->group(function () {
 
             Route::any('daily-earnings', ['as' => 'daily_earnings', 'uses' => 'SalesController@daily_earnings']);
             Route::any('period-earnings', ['as' => 'period_earnings', 'uses' => 'SalesController@period_earnings']);
+
 
         });
     });
@@ -347,7 +349,7 @@ Route::middleware('admin')->group(function () {
     Route::resource('bonus-discount', 'BonusDiscountController');
     Route::resource('attendances', 'AttendanceController');
     Route::resource('debts', 'DebtController');
-   Route::resource('salaries', 'SalariesController');
+    Route::resource('salaries', 'SalariesController');
     Route::post('debts-{id}', 'DebtController@payDebt')->name('payDebt');
 
 
