@@ -421,6 +421,13 @@
                             <li><a href="{{route('accounting.fiscalPeriods.index')}}"><i class="icon-eye"></i>   عرض الفترات المالية</a></li>
                       </ul>
                     </li>
+                    <li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i> التقارير المالية </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="{{route('accounting.templates.create')}}"><i class="icon-eye"></i>  اضافه قالب تقرير</a></li>
+                            <li><a href="{{route('accounting.templates.index')}}"><i class="icon-eye"></i>   عرض قوالب التقارير المالية</a></li>
+                        </ul>
+                    </li>
+
                     <li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i>  مراكز التكلفة </a>
                         <ul class="dropdown-menu dropdown-menu-right">
                             <li><a href="{{route('accounting.costCenters.create')}}"><i class="icon-eye"></i>  اضافه مركز تكلفة</a></li>
