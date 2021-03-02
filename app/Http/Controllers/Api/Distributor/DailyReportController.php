@@ -45,33 +45,18 @@ class DailyReportController extends Controller
 
     public function productReport(Request $request)
     {
-        $report = RouteTripReport::ofDistributor(auth()->id())->groupBy('product_id')->withProductsPrice();
+        $date = Carbon::parse($request->date);
+        $report = RouteTripReport::ofDistributor(auth()->id())->whereDate('route_trip_reports.created_at', $date)->groupBy('product_id')->withProductsPrice()
+                ->selectRaw('`total_quantity` ,`price` ,`product_id`,`products_price`')
+//                ->addSelect(DB::raw('sum(cash) as total_cash'))
+                ->addSelect(DB::raw('(select name from products where products.id = product_id limit 1 ) as product_name'))->latest()->get();
 
-        if (request('from') != null && \request('to')) {
-            $from = Carbon::parse(\request('from'));
-            $to = Carbon::parse(\request('to'));
+        $expenses = Expense::whereDate('date', $date)->sum('amount');
 
-            $report = $report->whereBetween('created_at', [$from, $to]);
-        }
-        $expenses = 0;
-        if (request()->route_trip_report_id != null) {
-            $report = $report->where('route_trip_reports.id', $request->route_trip_report_id);
-            $route_trip = RouteTrips::with('reports')->whereHas('reports', function ($q) use ($request) {
-                $q->where('id', $request->route_trip_report_id);
-            })->first();
-            $expenses = Expense::where('round', $route_trip->reports->first()->round)->where('distributor_route_id', $route_trip->route_id)->sum('amount');
-        }
-
-        $report = $report
-              ->selectRaw('`total_quantity` ,`price` ,`product_id`,`products_price`')
-              ->addSelect(DB::raw('sum(cash) as total_cash'))
-             ->addSelect(DB::raw('(select name from products where products.id = product_id limit 1 ) as product_name'));
-
-        $report = $report->latest()->get();
         return $this->apiResponse([
             'reports' => $report,
             'total_quantities' => (string) $report->sum('total_quantity'),
-            'total_cash' => (string) $report->sum('total_cash'),
+            'total_cash' => (string) $report->sum('products_price'),
             'total_expenses' => (string) $expenses
         ]);
     }
