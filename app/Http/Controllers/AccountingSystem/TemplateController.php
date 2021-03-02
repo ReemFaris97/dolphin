@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
+use App\Models\AccountingSystem\AccountingAccount;
 use App\Models\AccountingSystem\AccountingAllowance;
 use App\Models\AccountingSystem\AccountingTemplate;
 use App\Traits\Viewable;
@@ -31,7 +32,8 @@ class TemplateController extends Controller
      */
     public function create()
     {
-        return $this->toCreate();
+        $accounts=AccountingAccount::select(['ar_name','id'])->get();
+        return $this->toCreate(compact('accounts'));
     }
 
     /**
@@ -42,6 +44,7 @@ class TemplateController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         $rules = [
             'name'=>'required|string|max:191',
         ];
