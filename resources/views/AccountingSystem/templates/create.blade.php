@@ -26,7 +26,11 @@
 
 
         {!!Form::open( ['route' => 'accounting.templates.store' ,'class'=>'form phone_validate', 'method' => 'Post','files' => true,'x-data'=>'reportTemplate()']) !!}
-
+        <div class="form-group col-sm-3 col-xs-3 pull-left ">
+            <label>  اسم التقرير </label>
+            <input type="text" name="report_no" class="form-control" >
+        </div>
+        <div class="clearfix"></div>
         <table>
             <tbody class="accounts">
 

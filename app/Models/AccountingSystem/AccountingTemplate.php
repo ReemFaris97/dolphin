@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AccountingTemplate extends Model
 {
-    protected $fillable = ['first_account_id', 'second_account_id', 'result','operation'];
+    protected $fillable = ['first_account_id', 'second_account_id', 'result','operation','template_id','report_no'];
     protected $table = 'accounting_templates';
 
     public function first_account()
@@ -18,6 +18,10 @@ class AccountingTemplate extends Model
     public function second_account()
     {
         return $this->belongsTo(AccountingAccount::class,'second_account_id');
+    }
+    public function template()
+    {
+        return $this->belongsTo(AccountingTemplate::class,'template_id');
     }
 }
 
