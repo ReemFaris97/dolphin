@@ -45,11 +45,8 @@ class TemplateController extends Controller
     public function store(Request $request)
     {
         dd($request->all());
-        $rules = [
-            'name'=>'required|string|max:191',
-        ];
-        $this->validate($request,$rules);
         $requests = $request->all();
+
         AccountingTemplate::create($requests);
         alert()->success('تم اضافة  البدلات بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.templates.index');

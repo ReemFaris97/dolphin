@@ -35,7 +35,7 @@
                     <td>
                         <div class="form-group col-sm-3 col-xs-3 pull-left ">
                             <label> البند الاول </label>
-                            <select key="first_account_id" class="form-control js-example-basic-single"
+                            <select key="first_account_id" class="form-control js-example-basic-single" :name="`Nodes[${i}][first_account_id]`"
                                     @change="updateChildren($event,i)">
                                 <option value="x" x-text="parent.result"></option>
                                 <template x-for="(account,index) in level_accounts(i)" :key="index">
@@ -45,14 +45,25 @@
                         </div>
                         <div class="form-group col-sm-1 col-xs-1 pull-left ">
                             <label> العملية</label>
-                            {!! Form::select("operation[]",['+'=>'+','-'=>'-','*'=>'*','/'=>'/'],null,['class'=>'form-control' ,"@change"=>'updateChildren($event,i)', "key"=>"second_account_id"])!!}
+
+                            <select  class="form-control" key="operation" :name="`Nodes[${i}][operation]`"
+                                    @change="updateChildren($event,i)">
+
+                                <option value="+" >+</option>
+                                <option value="-" >-</option>
+                                <option value="*" >*</option>
+                                <option value="/" >/</option>
+                            </select>
+
+
                         </div>
                         <div class="form-group col-sm-3 col-xs-3 pull-left ">
                             <label> البند الثانى </label>
-                            <select class="form-control js-example-basic-single"
-                                    @change="updateChildren($event,i)" key="second_account_id">
+
+                            <select key="first_account_id" class="form-control js-example-basic-single" :name="`Nodes[${i}][second_account_id]`"
+                                    @change="updateChildren($event,i)">
                                 <option value="x" x-text="parent.result"></option>
-                                <template x-for="(account,index) in accounts " :key="index">
+                                <template x-for="(account,index) in level_accounts(i)" :key="index">
                                     <option :value="account.id" x-text="account.ar_name"></option>
                                 </template>
                             </select>
@@ -63,12 +74,13 @@
                         </div>
                         <div class="form-group col-sm-3 col-xs-3 pull-left ">
                             <label> ادخل اسم البند المحصل</label>
-                            <input type="text" name="result[]" key="result" class="form-control result"
+                            <input type="text" :name="`Nodes[${i}][result]`" key="result" class="form-control result"
                                    @change="updateChildren($event,i)">
                         </div>
                     </td>
                     <td>
-                        <div class="form-group col-sm-3 col-xs-3 pull-left ">
+                        <div class="form-group col-sm-3 col-xs-3 pull-left"
+                             x-show="i===(children_number-1)">
                             <button type="button" @click="children_number=children_number+1" class="btn btn-success ">+
                                 <i class="icon-arrow-left13 position-right"></i></button>
                         </div>
@@ -77,7 +89,6 @@
             </template>
             </tbody>
         </table>
-
         <div class="text-center col-md-12 ">
             <div class="text-right">
                 <button type="submit" id="register" class="btn btn-success">حفظ <i
@@ -86,7 +97,6 @@
         </div>
         {!!Form::close() !!}
     </div>
-
     </div>
 
 @endsection
@@ -118,21 +128,19 @@
                 level_accounts(level) {
                     var generic_accounts = [];
 
-                    let arr =  JSON.parse(JSON.stringify(this.children));
+                    let arr = JSON.parse(JSON.stringify(this.children));
 
-                    arr.splice(level -arr.length )
+                    arr.splice(level - arr.length)
 
-                    arr.forEach(function (value,key){
+                    arr.forEach(function (value, key) {
+
                         generic_accounts.push({
-                            id: 'x',
-                            level: key,
-                            ar_name: value,result,
+                            id: `x-${key}`,
+                            ar_name: value.result,
                         })
-                    })
-                    let n=[...generic_accounts, ...(JSON.parse(JSON.stringify(this.accounts)))];
-                    debugger
-                    // console.log(generic_accounts);
-                    return [...generic_accounts, ...this.accounts]
+                    });
+
+                    return [...generic_accounts, ...(JSON.parse(JSON.stringify(this.accounts)))]
                 },
                 children_number: 1,
                 children: [],
