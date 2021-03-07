@@ -43,16 +43,11 @@
                 @foreach ($documents as $document)
                     <tr>
                         <td>{{$document->id}}</td>
-{{--@dd($document->documentable)--}}
                         <td>{{$document->documentable->name??'' }}</td>
-                        <td>
-                            <a href="{{$document->url}}">{{$document->document_name}}</a>
-                        </td>
+                        <td><a href="{{$document->url}}">{{$document->document_name}}</a></td>
                         <td>{{$document->document_number}}</td>
                         <td>{{$document->start_date->format('Y-m-d')}}</td>
                         <td>{{$document->end_date->format('Y-m-d')}}</td>
-
-
                         <td class="text-center">
                             <a href="{{route('accounting.documents.edit',[$type,'id'=>$document->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
 
