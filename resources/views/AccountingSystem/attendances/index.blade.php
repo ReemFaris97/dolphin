@@ -74,7 +74,7 @@
             console.log(item_id);
             swal({
                 title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذة  الضريبة ؟",
+                text: "هل تريد حذف هذا السجل ؟",
                 icon: "warning",
                 buttons: ["الغاء", "موافق"],
                 dangerMode: true,
@@ -84,7 +84,7 @@
                     document.getElementById('delete-form'+item_id).submit();
                 }
                 else{
-                    swal("تم االإلفاء", "حذف  الضريبة  تم الغاؤه",'info',{buttons:'موافق'});
+                    swal("تم االإلفاء", "حذف  السجل  تم الغاؤه",'info',{buttons:'موافق'});
                 }
             });
         }

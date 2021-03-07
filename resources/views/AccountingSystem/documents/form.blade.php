@@ -42,7 +42,9 @@
         <label for="document">صورة الوثيقة</label>
         <input type="file" name="document" id="document" class="form-control">
         @if(isset($document) && !request()->has('parent'))
-            <a href="{{$document->url}}" target="_blank">{{__('trans.show_file')}}</a>
+            <a href="{{ asset($document->document)}}" target="_blank">
+                <img src="{!! asset($document->document)!!}" style="width:100px; height:100px">
+            </a>
         @endif
     </div>
     <input type="hidden" name="paret" value="{{request('parent') ?? 0}}">

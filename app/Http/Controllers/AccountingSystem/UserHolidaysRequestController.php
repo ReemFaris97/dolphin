@@ -48,7 +48,7 @@ class UserHolidaysRequestController extends Controller
             $rules=[
                 'typeable_id'=>'required',
                 'holiday_id'=>'required',
-                'days'=>'required',
+//                'days'=>'required',
                 'start_date'=>'required'
             ];
         $this->validate($request,$rules);
@@ -60,14 +60,20 @@ class UserHolidaysRequestController extends Controller
             ->where('start_date','>=',$startDate)
             ->where('start_date','<=',$endDate)->sum('days');
         if(($balance - $requests) < $request->days){
-            alert()->success('يجب ان يكون طلب الاجازه اصغر من الرصيد الموجود!')->autoclose(5000);
-//            return back()->withInput($request->all());
+            toast('يجب ان يكون طلب الاجازه اصغر من الرصيد الموجود! !','warning');
+
+//            alert()->success('يجب ان يكون طلب الاجازه اصغر من الرصيد الموجود!')->autoclose(5000);
+            return back();
+        }else{
+            $inputs = $request->all();
+            $inputs['typeable_type'] = 'App\Models\User';
+            AccountingUserHolidaysBalance::create($inputs);
+//            alert()->success('تم اضافة طلب الاجازة بنجاح !')->autoclose(5000);
+            toast('تم اضافة طلب الاجازة بنجاح! !','success');
+
+            return back();
         }
-        $inputs = $request->all();
-        $inputs['typeable_type'] = 'App\Models\User';
-        AccountingUserHolidaysBalance::create($inputs);
-        alert()->success('تم اضافة طلب الاجازة بنجاح !')->autoclose(5000);
-        return back();
+
     }
 
     /**

@@ -68,7 +68,7 @@ class DocumentController extends Controller
         $inputs = $request->except('_token');
         $inputs['documentable_type'] = ($type == 'employee' ? 'App\Models\User' : 'App\Models\AccountingSystem\AccountingBranch');
         if($request->file('document')){
-            $inputs['document'] = uploader($request,'document');
+            $inputs['document'] = saveImage($request['document'],'document');
         }
         AccountingDocument::create($inputs);
 
@@ -128,7 +128,7 @@ class DocumentController extends Controller
 //        dd($document);
         $inputs = $request->except('_token');
         if($request->file('document')){
-            $inputs['document'] = uploader($request,'document');
+            $inputs['document'] = saveImage($request['document'],'document');
         }else{
             unset($inputs['document']);
         }
