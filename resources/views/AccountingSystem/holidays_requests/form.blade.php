@@ -76,6 +76,7 @@
                     </div>`)
                 modalBody.append(`
                     <div class="col-sm-6">الوظيفه : ${data.role}</div>
+                        <div class="col-sm-6">رصيد الاجازات : ${data.holiday_balance}</div>
                     <div class="col-sm-6">الجنسيه : ${data.nationality}</div>
                     <div class="col-sm-12">الفرع : ${data.branch}</div>
                     <h2 class="text-center">رصيد الاجازات</h2>
