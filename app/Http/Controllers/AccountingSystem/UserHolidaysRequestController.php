@@ -62,7 +62,7 @@ class UserHolidaysRequestController extends Controller
        $user=User::find($request->typeable_id);
         $holiday=AccountingHoliday::findOrFail($request->holiday_id);
 
-        if($user->holiday_balance < $holiday->duration){
+        if($user->holiday_balance < $userHolidaysBalance->days){
             alert()->error('','يجب ان يكون طلب الاجازه اصغر من الرصيد الموجود! !')->persistent(true,false);
             return back();
         }else{
@@ -123,13 +123,10 @@ class UserHolidaysRequestController extends Controller
             $rules=[
                 'typeable_id'=>'required',
                 'holiday_id'=>'required',
-//                'days'=>'required',
+                'days'=>'required',
                 'start_date'=>'required'
             ];
-
-
             return back()->withInput($request->all());
-
         $userHolidaysBalance = UserHolidaysBalance::whereTypeableIdAndHolidayId($request->typeable_id,$request->holiday_id)
             ->where('id','!=',$id)->get();
         $startDate = Carbon::parse(now()->format('Y-m-01 00:00:00'));
@@ -138,7 +135,7 @@ class UserHolidaysRequestController extends Controller
         $requests = $userHolidaysBalance->where('type','request')
             ->where('start_date','>=',$startDate)
             ->where('start_date','<=',$endDate)->sum('days');
-        if($user->holiday_balance < $holiday->duration){
+        if($user->holiday_balance < $userHolidaysBalance->days){
             alert()->error('','يجب ان يكون طلب الاجازه اصغر من الرصيد الموجود! !')->persistent(true,false);
             return back();
         }else {
