@@ -62,7 +62,7 @@ class UserHolidaysRequestController extends Controller
        $user=User::find($request->typeable_id);
         $holiday=AccountingHoliday::findOrFail($request->holiday_id);
 
-        if($user->holiday_balance < $userHolidaysBalance->days){
+        if($user->holiday_balance < $request->days){
             alert()->error('','يجب ان يكون طلب الاجازه اصغر من الرصيد الموجود! !')->persistent(true,false);
             return back();
         }else{
@@ -72,7 +72,7 @@ class UserHolidaysRequestController extends Controller
 //            $user->holiday_balance=$user->holiday_balance - $holiday->duration;
 //            $user->save();
             $user->update([
-                'holiday_balance'=>$user->holiday_balance- $userHolidaysBalance->days
+                'holiday_balance'=>$user->holiday_balance- $request->days
             ]);
 
 //            dd($user->holiday_balance);
@@ -135,7 +135,7 @@ class UserHolidaysRequestController extends Controller
         $requests = $userHolidaysBalance->where('type','request')
             ->where('start_date','>=',$startDate)
             ->where('start_date','<=',$endDate)->sum('days');
-        if($user->holiday_balance < $userHolidaysBalance->days){
+        if($user->holiday_balance < $request->days){
             alert()->error('','يجب ان يكون طلب الاجازه اصغر من الرصيد الموجود! !')->persistent(true,false);
             return back();
         }else {
