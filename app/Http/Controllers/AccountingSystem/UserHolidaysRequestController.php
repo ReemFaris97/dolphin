@@ -69,8 +69,12 @@ class UserHolidaysRequestController extends Controller
             $inputs = $request->all();
             $inputs['typeable_type'] = 'App\Models\User';
             AccountingUserHolidaysBalance::create($inputs);
-            $user->holiday_balance=$user->holiday_balance - $holiday->duration;
-            $user->save();
+//            $user->holiday_balance=$user->holiday_balance - $holiday->duration;
+//            $user->save();
+            $user->update([
+                'holiday_balance'=>$user->holiday_balance- $holiday->duration
+            ]);
+
 //            dd($user->holiday_balance);
             alert()->success('تم اضافة طلب الاجازة بنجاح !')->autoclose(5000);
             return back();
