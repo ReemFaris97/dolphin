@@ -242,7 +242,6 @@ Route::middleware('admin')->group(function () {
 
     Route::post('/confirm', 'SessionController@confirm')->name('sessions.confirm');
 
-
     ////purchases
     Route::get('/buy_point', 'BuyPointController@buy_point')->name('buy_point.buy_point');
     Route::get('/productsAjexPurchase/{id}', 'BuyPointController@getProductAjex');

@@ -165,6 +165,7 @@ class UserHolidaysRequestController extends Controller
             'role'=> $user->role->name ?? '---',
             'nationality'=> $user->nationality ?? '---',
             'branch'=>optional($user->branch)->name  ?? '---' ,
+            'holiday_balance'=> $user->holiday_balance ?? '---',
         ];
         $holidays = $user->holidays->transform(function($q){
             $q['pivot_data'] = $q->pivot;
@@ -180,7 +181,7 @@ class UserHolidaysRequestController extends Controller
                 ->where('pivot_data.start_date','<=',$endDate)->sum('pivot_data.days');
             $data['holidays'][] = [
                 'name'=>optional($holiday->first())->name,
-                'balance'=> ($balance - $requests ) .' '. ''
+                'balance'=> ($balance - $requests ) .' '. '',
             ];
         }
         return response()->json($data);
