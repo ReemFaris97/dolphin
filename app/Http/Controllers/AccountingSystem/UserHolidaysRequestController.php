@@ -72,7 +72,7 @@ class UserHolidaysRequestController extends Controller
 //            $user->holiday_balance=$user->holiday_balance - $holiday->duration;
 //            $user->save();
             $user->update([
-                'holiday_balance'=>$user->holiday_balance- $holiday->duration
+                'holiday_balance'=>$user->holiday_balance- $userHolidaysBalance->days
             ]);
 
 //            dd($user->holiday_balance);
