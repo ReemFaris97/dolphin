@@ -48,7 +48,7 @@ class UserHolidaysRequestController extends Controller
             $rules=[
                 'typeable_id'=>'required',
                 'holiday_id'=>'required',
-//                'days'=>'required',
+                'days'=>'required',
                 'start_date'=>'required'
             ];
         $this->validate($request,$rules);
