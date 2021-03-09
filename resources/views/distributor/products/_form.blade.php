@@ -57,7 +57,7 @@
     </div>
  --}}
     <div class="form-group m-form__group">
-        <label>الكمية بالحبة</label>
+        <label>عدد الحبات فى الكارتونة</label>
         {!! Form::number('quantity_per_unit',null,['class'=>'form-control m-input '])!!}
     </div>
 
