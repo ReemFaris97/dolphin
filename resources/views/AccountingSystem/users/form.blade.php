@@ -21,6 +21,11 @@
 	<label> البريد الإلكتروني للعضو </label>
 	{!! Form::email("email",null,['class'=>'form-control','placeholder'=>' البريد الإلكتروني للعضو','required'])!!}
 </div>
+<div class="form-group col-sm-4 col-xs-6 pull-left">
+    <label> رصيد الاجازات </label>
+    {!! Form::text("holiday_balance",null,['class'=>'form-control','placeholder'=>'  رصيد الاجازات','required'])!!}
+</div>
+
 @if (!isset($user))
 <div class="form-group col-sm-4 col-xs-6 pull-left">
 	<label> الصلاحية </label>

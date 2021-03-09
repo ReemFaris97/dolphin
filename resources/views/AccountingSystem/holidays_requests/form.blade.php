@@ -38,10 +38,10 @@
     <label for="start_date">تاريخ بداية الاجازة</label>
     {!! Form::date('start_date', null, ['class'=>'form-control','id'=>'start_date']) !!}
 </div>
-<div class="form-group col-sm-6">
-    <label for="days">المدة/أيام </label>
-    {!! Form::number('days',null, ['class'=>'form-control','id'=>'days']) !!}
-</div>
+{{--<div class="form-group col-sm-6">--}}
+{{--    <label for="days">المدة/أيام </label>--}}
+{{--    {!! Form::number('days',null, ['class'=>'form-control','id'=>'days']) !!}--}}
+{{--</div>--}}
 <div class="form-group col-sm-12">
     <label for="notes">الملاحظات</label>
     {!! Form::textarea('notes', null, ['class'=>'form-control','id'=>'notes']) !!}
@@ -76,6 +76,7 @@
                     </div>`)
                 modalBody.append(`
                     <div class="col-sm-6">الوظيفه : ${data.role}</div>
+                        <div class="col-sm-6">رصيد الاجازات :${data.holiday_balance}</div>
                     <div class="col-sm-6">الجنسيه : ${data.nationality}</div>
                     <div class="col-sm-12">الفرع : ${data.branch}</div>
                     <h2 class="text-center">رصيد الاجازات</h2>

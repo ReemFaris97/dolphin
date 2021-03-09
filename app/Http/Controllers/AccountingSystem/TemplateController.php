@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
+use App\Models\AccountingSystem\AccountingAccount;
 use App\Models\AccountingSystem\AccountingAllowance;
 use App\Models\AccountingSystem\AccountingTemplate;
 use App\Traits\Viewable;
@@ -19,7 +20,7 @@ class TemplateController extends Controller
      */
     public function index()
     {
-        $templates =AccountingTemplate::all()->reverse();
+        $templates =AccountingTemplate::groupBy('report_no')->get();
 
         return $this->toIndex(compact('templates'));
     }
@@ -31,7 +32,8 @@ class TemplateController extends Controller
      */
     public function create()
     {
-        return $this->toCreate();
+        $accounts=AccountingAccount::select(['ar_name','id'])->get();
+        return $this->toCreate(compact('accounts'));
     }
 
     /**
@@ -42,12 +44,47 @@ class TemplateController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [
-            'name'=>'required|string|max:191',
-        ];
-        $this->validate($request,$rules);
-        $requests = $request->all();
-        AccountingTemplate::create($requests);
+
+        $templates= $request['Nodes'];
+        foreach($templates as $key=>$template){
+            if (str_contains($template['first_account_id'],'x-')===false && str_contains($template['second_account_id'],'x-')=== false ) {
+               $obj[$key]= AccountingTemplate::create([
+                    'first_account_id'=>$template['first_account_id'],
+                    'second_account_id'=>$template['second_account_id'],
+                    'operation'=>$template['operation'],
+                    'result'=>$template['result'],
+                   'report_no'=>$request['report_no'],
+                ]);
+            }
+            elseif(str_contains($template['first_account_id'],'x-')==true && str_contains($template['second_account_id'],'x-')== false ){
+
+                $ref = substr_count( $template['first_account_id'],2);
+                AccountingTemplate::create([
+                    'first_account_id'=>null,
+                    'second_account_id'=>$template['second_account_id'],
+                    'operation'=>$template['operation'],
+                    'result'=>$template['result'],
+                    'template_id'=>$obj[$ref]->id,
+                    'report_no'=>$request['report_no'],
+
+
+                ]);
+            }
+            else{
+                $ref = substr_count( $template['second_account_id'],2);
+                AccountingTemplate::create([
+                    'first_account_id'=>$template['first_account_id'],
+                    'second_account_id'=>null,
+                    'operation'=>$template['operation'],
+                    'result'=>$template['result'],
+                    'template_id'=>$obj[$ref]->id,
+                    'report_no'=>$request['report_no'],
+                ]);
+
+            }
+
+        }
+
         alert()->success('تم اضافة  البدلات بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.templates.index');
 

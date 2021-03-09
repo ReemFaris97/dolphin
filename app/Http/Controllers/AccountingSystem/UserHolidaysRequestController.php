@@ -48,7 +48,7 @@ class UserHolidaysRequestController extends Controller
             $rules=[
                 'typeable_id'=>'required',
                 'holiday_id'=>'required',
-                'days'=>'required',
+//                'days'=>'required',
                 'start_date'=>'required'
             ];
         $this->validate($request,$rules);
@@ -59,15 +59,27 @@ class UserHolidaysRequestController extends Controller
         $requests = $userHolidaysBalance->where('type','request')
             ->where('start_date','>=',$startDate)
             ->where('start_date','<=',$endDate)->sum('days');
-        if(($balance - $requests) < $request->days){
-            alert()->success('يجب ان يكون طلب الاجازه اصغر من الرصيد الموجود!')->autoclose(5000);
-//            return back()->withInput($request->all());
+       $user=User::find($request->typeable_id);
+        $holiday=AccountingHoliday::findOrFail($request->holiday_id);
+
+        if($user->holiday_balance < $holiday->duration){
+            alert()->error('','يجب ان يكون طلب الاجازه اصغر من الرصيد الموجود! !')->persistent(true,false);
+            return back();
+        }else{
+            $inputs = $request->all();
+            $inputs['typeable_type'] = 'App\Models\User';
+            AccountingUserHolidaysBalance::create($inputs);
+//            $user->holiday_balance=$user->holiday_balance - $holiday->duration;
+//            $user->save();
+            $user->update([
+                'holiday_balance'=>$user->holiday_balance- $holiday->duration
+            ]);
+
+//            dd($user->holiday_balance);
+            alert()->success('تم اضافة طلب الاجازة بنجاح !')->autoclose(5000);
+            return back();
         }
-        $inputs = $request->all();
-        $inputs['typeable_type'] = 'App\Models\User';
-        AccountingUserHolidaysBalance::create($inputs);
-        alert()->success('تم اضافة طلب الاجازة بنجاح !')->autoclose(5000);
-        return back();
+
     }
 
     /**
@@ -111,7 +123,7 @@ class UserHolidaysRequestController extends Controller
             $rules=[
                 'typeable_id'=>'required',
                 'holiday_id'=>'required',
-                'days'=>'required',
+//                'days'=>'required',
                 'start_date'=>'required'
             ];
 
@@ -126,16 +138,16 @@ class UserHolidaysRequestController extends Controller
         $requests = $userHolidaysBalance->where('type','request')
             ->where('start_date','>=',$startDate)
             ->where('start_date','<=',$endDate)->sum('days');
-        if(($balance - $requests) < $request->days){
-            popup(['error'=>'يجب ان يكون طلب الاجازه اصغر من الرصيد الموجود']);
-            return back()->withInput($request->all());
+        if($user->holiday_balance < $holiday->duration){
+            alert()->error('','يجب ان يكون طلب الاجازه اصغر من الرصيد الموجود! !')->persistent(true,false);
+            return back();
+        }else {
+            $inputs = $request->all();
+            $inputs['typeable_type'] = 'App\Models\User';
+            $holiday->update($inputs);
+            alert()->success('تم  التعديل بنجاح !')->autoclose(5000);
+            return back();
         }
-        $inputs = $request->all();
-        $inputs['typeable_type'] = 'App\Models\User';
-        $holiday->update($inputs);
-        alert()->success('تم  التعديل بنجاح !')->autoclose(5000);
-        return back();
-
     }
 
     /**
@@ -157,6 +169,7 @@ class UserHolidaysRequestController extends Controller
             'role'=> $user->role->name ?? '---',
             'nationality'=> $user->nationality ?? '---',
             'branch'=>optional($user->branch)->name  ?? '---' ,
+            'holiday_balance'=> $user->holiday_balance ?? '---',
         ];
         $holidays = $user->holidays->transform(function($q){
             $q['pivot_data'] = $q->pivot;
@@ -172,7 +185,7 @@ class UserHolidaysRequestController extends Controller
                 ->where('pivot_data.start_date','<=',$endDate)->sum('pivot_data.days');
             $data['holidays'][] = [
                 'name'=>optional($holiday->first())->name,
-                'balance'=> ($balance - $requests ) .' '. ''
+                'balance'=> ($balance - $requests ) .' '. '',
             ];
         }
         return response()->json($data);

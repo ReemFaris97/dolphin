@@ -16,11 +16,11 @@ class CreateAccountingTemplatesTable extends Migration
         Schema::create('accounting_templates', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->unsignedBigInteger('first_account_id')->index();
+            $table->unsignedBigInteger('first_account_id')->index()->nullable();
             $table->foreign('first_account_id')->references('id')->on('accounting_accounts')->onDelete('cascade');
 
 
-            $table->unsignedBigInteger('second_account_id')->index();
+            $table->unsignedBigInteger('second_account_id')->index()->nullable();
             $table->foreign('second_account_id')->references('id')->on('accounting_accounts')->onDelete('cascade');
 
 

@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض الاوجه')
-@section('parent_title','إدارة  الاصناف')
+@section('title','عرض التقارير')
+@section('parent_title','إدارة  التقارير المالية')
 @section('action', URL::route('accounting.products.index'))
 
 @section('styles')
@@ -10,10 +10,10 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">عرض كل الاوجه
+            <h5 class="panel-title">عرض كل التقارير
             <div class="btn-group beside-btn-title">
-                <a href="{{route('accounting.faces.create')}}" class="btn btn-success">
-                    إضافه وجه  جديد
+                <a href="{{route('accounting.templates.create')}}" class="btn btn-success">
+                    إضافه قالب تقرير  جديد
                     <span class="m-l-5"><i class="fa fa-plus"></i></span>
                 </a>
             </div>
@@ -32,27 +32,36 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th> اسم الوجه </th>
-                    <th> الفرع التابعة له </th>
+                    <th> اسم التقرير </th>
+                    <th> معادلات التقرير </th>
 
                     <th class="text-center">العمليات</th>
                 </tr>
                 </thead>
                 <tbody>
 
-                @foreach($faces as $row)
+                @foreach($templates as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
-                        <td>{!! $row->name!!}</td>
-                        <td>{!! $row->branch->name!!}</td>
+                        <td>{!! $row->report_no!!}</td>
+                        <td>
+                            @foreach(\App\Models\AccountingSystem\AccountingTemplate::where('report_no', $row->report_no)->get() as $template)
+                            <li>
+                                {{ $template->first_account->ar_name ?? $template->template->result}}
+                                {{$template->operation}}
+                                {{ $template->second_account->ar_name?? $template->template->result}}
+                                =
+                                {{$template->result}}
 
+                            </li>
+                            @endforeach
+                        </td>
 
 
                         <td class="text-center">
-                            <a href="{{route('accounting.faces.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
-                            <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
 
-                            {!!Form::open( ['route' => ['accounting.faces.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
+                            <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
+                            {!!Form::open( ['route' => ['accounting.templates.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
                             {!!Form::close() !!}
 
                         </td>

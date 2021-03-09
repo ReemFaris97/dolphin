@@ -1,5 +1,5 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تعديل الاجازة'.{{$holiday->name}})
+@section('title','تعديل الاجازة'. $holiday->name)
 @section('parent_title','اداره الموظفين ')
 @section('action', URL::route('accounting.holidays.index'))
 
@@ -17,9 +17,9 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::model($title, ['route' => ['accounting.jobTitles.update' ,$title->id] ,'class'=>'parsley-validate-form phone_validate','method' => 'PATCH','files'=>true]) !!}
+            {!!Form::model($holiday, ['route' => ['accounting.holidays.update' ,$holiday->id] ,'class'=>'parsley-validate-form phone_validate','method' => 'PATCH','files'=>true]) !!}
 
-            @include('AccountingSystem.job_titles.form')
+            @include('AccountingSystem.holidays.form')
 
             {!!Form::close() !!}
         </div>
