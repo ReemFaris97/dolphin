@@ -8,6 +8,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\ValidationException;
 
 class UserHolidaysRequestController extends Controller
 {
@@ -63,8 +64,9 @@ class UserHolidaysRequestController extends Controller
         $holiday=AccountingHoliday::findOrFail($request->holiday_id);
 
         if($user->holiday_balance < $request->days){
-            alert()->error('','يجب ان يكون طلب الاجازه اصغر من الرصيد الموجود! !')->persistent(true,false);
-            return back();
+//            alert()->error('','يجب ان يكون طلب الاجازه اصغر من الرصيد الموجود! !')->persistent(true,false);
+            throw  ValidationException::withMessages(['days'=>['يجب ان يكون طلب الاجازه اصغر من الرصيد الموجود! !']]);
+//            return back();
         }else{
             $inputs = $request->all();
             $inputs['typeable_type'] = 'App\Models\User';
