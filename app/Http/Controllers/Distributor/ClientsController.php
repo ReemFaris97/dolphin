@@ -16,6 +16,7 @@ class ClientsController extends Controller
 {
     use Viewable;
     private $viewable = 'distributor.clients.';
+
     /**
      * Display a listing of the resource.
      *
@@ -35,8 +36,8 @@ class ClientsController extends Controller
      */
     public function create()
     {
-        $distributors=AppUser::whereIsDistributor(1)->pluck('name','id')->toArray();
-        $routes=DistributorRoute::pluck('name','id')->toArray();
+        $distributors = AppUser::whereIsDistributor(1)->pluck('name', 'id')->toArray();
+        $routes = DistributorRoute::pluck('name', 'id')->toArray();
         $client_classes = ClientClass::active()->pluck('name', 'id');
 
         return $this->toCreate(compact('distributors', 'routes', 'client_classes'));
@@ -50,31 +51,31 @@ class ClientsController extends Controller
      */
     public function store(Request $request)
     {
-         $rules = [
-                    'name'=>'required|string|max:191',
-                    'phone'=>'required|numeric|unique:clients,phone',
+        $rules = [
+            'name' => 'required|string|max:191',
+            'phone' => 'required|numeric|unique:clients,phone',
             // 'email'=>'required|string|unique:clients,email',
             'tax_number' => 'required|string|unique:clients,tax_number',
-
-                    'store_name'=>'required|string|max:191',
-                    'address'=>'required|string|max:191',
+            'store_name' => 'required|string|max:191',
+            'address' => 'required|string|max:191',
+            'payment_type' => 'nullable|string|in:cash,deffered',
             'client_class_id' => 'required|integer|exists:client_classes,id',
-                    'lat'=>'required',
-                    'lng'=>'required'
-                ];
-         $messages =[
-             'lat.required'=>"الموقع على الخريطة مطلوب",
-             'lng.required'=>"الموقع على الخريطة مطلوب",
-         ];
-                $this->validate($request,$rules,$messages);
+            'lat' => 'required',
+            'lng' => 'required'
+        ];
+        $messages = [
+            'lat.required' => 'الموقع على الخريطة مطلوب',
+            'lng.required' => 'الموقع على الخريطة مطلوب',
+        ];
+        $this->validate($request, $rules, $messages);
         $requests = $request->except('image');
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'users');
         }
 
         Client::create($requests);
-                toast('تم الاضافه بنجاح', 'success', 'top-right');
-                return redirect()->route('distributor.clients.index');
+        toast('تم الاضافه بنجاح', 'success', 'top-right');
+        return redirect()->route('distributor.clients.index');
     }
 
     /**
@@ -85,8 +86,8 @@ class ClientsController extends Controller
      */
     public function activation()
     {
-        $clients = Client::where('is_active',0)->get()->reverse();
-        return view('distributor.clients.activations',compact('clients'));
+        $clients = Client::where('is_active', 0)->get()->reverse();
+        return view('distributor.clients.activations', compact('clients'));
     }
 
     /**
@@ -98,8 +99,8 @@ class ClientsController extends Controller
     public function edit($id)
     {
         $user = Client::findOrFail($id);
-        $distributors=AppUser::whereIsDistributor(1)->pluck('name','id')->toArray();
-        $routes=DistributorRoute::pluck('name','id')->toArray();
+        $distributors = AppUser::whereIsDistributor(1)->pluck('name', 'id')->toArray();
+        $routes = DistributorRoute::pluck('name', 'id')->toArray();
         $client_classes = ClientClass::active()->pluck('name', 'id');
 
         return $this->toEdit(compact('user', 'distributors', 'routes', 'client_classes'));
@@ -117,25 +118,25 @@ class ClientsController extends Controller
         $user = Client::findOrFail($id);
 
         $rules = [
-            'name'=>'required|string|max:191',
+            'name' => 'required|string|max:191',
             'phone' => 'required|numeric|unique:clients,phone,' . $id,
             // 'email'=>'required|string|unique:clients,email',
             'tax_number' => 'required|string|unique:clients,tax_number,' . $id,
-            'store_name'=>'required|string|max:191',
-            'address'=>'required|string|max:191',
+            'store_name' => 'required|string|max:191',
+            'address' => 'required|string|max:191',
             'client_class_id' => 'required|integer|exists:client_classes,id',
-            'lat'=>'required',
-            'lng'=>'required'
+            'payment_type' => 'nullable|string|in:cash,deffered',
+            'lat' => 'required',
+            'lng' => 'required'
         ];
-        $messages =[
-            'lat.required'=>"الموقع على الخريطة مطلوب",
-            'lng.required'=>"الموقع على الخريطة مطلوب",
+        $messages = [
+            'lat.required' => 'الموقع على الخريطة مطلوب',
+            'lng.required' => 'الموقع على الخريطة مطلوب',
         ];
-        $this->validate($request,$rules,$messages);
+        $this->validate($request, $rules, $messages);
         $user->update($request->all());
         toast('تم التعديل بنجاح', 'success', 'top-right');
         return redirect()->route('distributor.clients.index');
-
     }
 
     /**
@@ -146,7 +147,6 @@ class ClientsController extends Controller
      */
     public function destroy($id)
     {
-
         Client::find($id)->forceDelete();
         toast('تم الحذف', 'success', 'top-right');
         return back();
@@ -154,7 +154,7 @@ class ClientsController extends Controller
 
     public function active($id)
     {
-        $client =Client::find($id);
+        $client = Client::find($id);
         $client->update([
             'is_active' => '1'
         ]);
@@ -163,10 +163,9 @@ class ClientsController extends Controller
         return back();
     }
 
-
     public function disactive($id)
     {
-        $client =Client::find($id);
+        $client = Client::find($id);
         $client->update(['is_active' => '0'
         ]);
         toast('تم الغاء تفعيل العميل', 'success', 'top-right');
@@ -177,7 +176,7 @@ class ClientsController extends Controller
     public function show($id)
     {
         return $this->toShow([
-            'client' =>Client::findOrFail($id)
+            'client' => Client::findOrFail($id)
         ]);
     }
 }

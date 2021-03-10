@@ -38,6 +38,12 @@
         {!! Form::select('client_class_id',$client_classes,null,['class'=>'form-control m-input select2','placeholder'=>' اختر الشريحة'])!!}
   </div>
  <div class="form-group m-form__group">
+        <label>طريقة الدفع</label>
+        {!! Form::select('payment_type', ['cash'=>'فورى','deffered'=>'اجل'],['class'=>'form-control m-input select2','placeholder'=>' اختر طريقه الدفع'])!!}
+  </div>
+
+
+  <div class="form-group m-form__group">
         <label>المندوبين</label>
         {!! Form::select('user_id', $distributors,null,['class'=>'form-control m-input select2','placeholder'=>' اختر المندوبين'])!!}
   </div>

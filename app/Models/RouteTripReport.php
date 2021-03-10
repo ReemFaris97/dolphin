@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Helpers\num_to_ar;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -23,8 +24,25 @@ class RouteTripReport extends Model
         'notes',
         'store_id',
         'distributor_transaction_id',
-        'expenses'
+        'expenses',
+        'paid_at'
     ];
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (!request()->is_deffered) {
+                $model->paid_at = Carbon::now();
+            }
+        });
+    }
 
     /**
      * distributor_transaction relation
@@ -82,8 +100,6 @@ class RouteTripReport extends Model
     public function scopeOfDistributor(Builder $builder, $distributor = null): void
     {
         $builder->whereHas('route_trip', function ($route_trip) use ($distributor) {
-
-
             $route_trip->OfDistributor($distributor);
         });
     }
@@ -117,11 +133,9 @@ class RouteTripReport extends Model
 
     public function scopeOfClient(Builder $builder, $client = null): void
     {
-
         $builder->whereHas('route_trip', function ($route_trip) use ($client) {
             $route_trip->where('client_id', $client);
         });
-
     }
 
     /**
@@ -148,7 +162,6 @@ class RouteTripReport extends Model
         });
     }
 
-
     public function getInvoiceNumberAttribute()
     {
         return str_pad($this->id, 6, 0, STR_PAD_LEFT);
@@ -156,9 +169,9 @@ class RouteTripReport extends Model
 
     public function CashArabic($cach)
     {
-        $total = explode(".", $cach);
-        $total_in_arabic_rial = new  num_to_ar($total[0], "male");
-        $total_in_arabic_halla = new  num_to_ar($total[1] ?? 0, "male");
+        $total = explode('.', $cach);
+        $total_in_arabic_rial = new  num_to_ar($total[0], 'male');
+        $total_in_arabic_halla = new  num_to_ar($total[1] ?? 0, 'male');
         $AllTotal = [$total_in_arabic_rial->convert_number(), $total_in_arabic_halla->convert_number() ?? 0];
         return $AllTotal;
     }
