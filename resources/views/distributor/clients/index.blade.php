@@ -49,7 +49,6 @@
     <script>
         function Delete(id) {
             var item_id=id;
-            console.log(item_id);
             swal({
                 title: "هل أنت متأكد ",
                 text: "هل تريد حذف هذا العميل ؟",

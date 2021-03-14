@@ -28,6 +28,7 @@ Route::middleware('distributor')->group(function () {
     Route::get('/products/add/quantity/{id}', 'ProductsController@addQuantityForm')->name('products.quantity.form');
     Route::post('/products/store/quantity/{id}', 'ProductsController@storeProductQuantity')->name('products.quantity.store');
     Route::resource('/transactions', 'DistributorTransactionsController');
+    Route::post('/invoice/pay', 'ClientsController@payBill');
     Route::resource('/clients', 'ClientsController');
     Route::patch('clients/block/{user}', 'ClientsController@block')->name('clients.block');
 

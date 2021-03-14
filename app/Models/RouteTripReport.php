@@ -25,9 +25,14 @@ class RouteTripReport extends Model
         'store_id',
         'distributor_transaction_id',
         'expenses',
-        'paid_at'
+        'paid_at',
     ];
-
+/**
+ * The attributes that should be mutated to dates.
+ *
+ * @var array
+ */
+protected $dates = ['created_at', 'updated_at', 'paid_at'];
     /**
      * The "booting" method of the model.
      *
@@ -38,7 +43,7 @@ class RouteTripReport extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            if (!request()->is_deffered) {
+            if (!request()->is_deffered==1) {
                 $model->paid_at = Carbon::now();
             }
         });

@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\ClientClass;
 use App\Models\DistributorRoute;
+use App\Models\RouteTripReport;
 use App\Traits\Viewable;
 use App\Models\User;
 use App\Models\User as AppUser;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as AuthUser;
 
 class ClientsController extends Controller
@@ -178,5 +180,13 @@ class ClientsController extends Controller
         return $this->toShow([
             'client' => Client::findOrFail($id)
         ]);
+    }
+
+    public function payBill(Request $request){
+
+        $route_trip_report=  RouteTripReport::findOrFail($request->invoice_id);
+        $route_trip_report->fill(['paid_at'=>Carbon::now()]);
+        $route_trip_report->save();
+        return $route_trip_report->append('invoice_number');
     }
 }
