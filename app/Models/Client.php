@@ -13,6 +13,12 @@ class Client extends Model
 
     protected $fillable = ['name', 'phone', 'email', 'store_name', 'address', 'lat', 'lng', 'image', 'notes', 'is_active', 'code', 'route_id', 'user_id', 'client_class_id', 'tax_number', 'payment_type'
     ];
+     /**
+      * The accessors to append to the model's array form.
+      *
+      * @var array
+      */
+     protected $appends = [''];
 
     public function user()
     {
@@ -47,6 +53,11 @@ class Client extends Model
     public function receiver_transactions()
     {
         return $this->morphMany(DistributorTransaction::class, 'receiver');
+    }
+
+    public function invoices()
+    {
+        return $this->hasManyThrough(RouteTripReport::class, RouteTrips::class, 'client_id', 'route_trip_id')->latest();
     }
 
     public function getIsBlockedAttribute()
