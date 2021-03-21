@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class ProductQuantity extends Model
 {
-    protected $fillable = ['product_id', 'user_id', 'quantity', 'type', 'is_confirmed', 'store_id', 'store_transfer_request_id', 'trip_report_id'];
+    protected $fillable = ['product_id', 'user_id', 'quantity', 'type', 'is_confirmed', 'store_id', 'store_transfer_request_id', 'trip_report_id', 'route_trip_id', 'round', 'image'];
 
     public function product()
     {
@@ -32,6 +32,7 @@ class ProductQuantity extends Model
     {
         return $this->belongsTo(RouteTripReport::class, 'trip_report_id');
     }
+
     public function store_transfer_request()
     {
         return $this->belongsTo(StoreTransferRequest::class, 'store_transfer_request_id');
@@ -39,12 +40,20 @@ class ProductQuantity extends Model
 
     public function scopeTotalQuantity(Builder $query)
     {
-        /* SELECT id,product_id, store_id,sum( CASE WHEN type != 'in' THEN (-1 * quantity) ELSE quantity END ) q FROM `product_quantities` where store_id=9 GROUP by product_id
- */
-        $query->groupBy('product_id')
+
+        $query->groupBy(['product_id'])
             ->select('*')
-            ->addSelect(DB::raw("sum( CASE WHEN type != 'in' THEN (-1 * quantity) ELSE quantity END ) total_quantity"));
+            ->addSelect(DB::raw("sum(
+             CASE
+                WHEN type != 'in'
+                THEN
+                    (-1 * quantity)
+                ELSE
+                     quantity
+                END
+              ) total_quantity"));
     }
+
     public function scopeFilterWithDates(Builder $builder, $from_date = null, $to_date = null): void
     {
         $builder->when($from_date, function (Builder $q) use ($from_date) {
@@ -55,12 +64,14 @@ class ProductQuantity extends Model
             $q->whereDate('created_at', '<=', Carbon::parse($to_date));
         });
     }
+
     public function scopeFilterWithProduct(Builder $builder, $product_id = null)
     {
         $builder->when($product_id, function (Builder $q) use ($product_id) {
             $q->where('product_id', $product_id);
         });
     }
+
     public function scopeFilterWithStore(Builder $builder, $store_id = null)
     {
 

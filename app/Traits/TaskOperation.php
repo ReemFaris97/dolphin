@@ -38,9 +38,9 @@ trait TaskOperation
                     $task->users()->attach([$user['user_id'] => $user]);
                 }
 
+                event(new TaskCreated(new User(),$task));
             DB::commit();
 
-            event(new TaskCreated(new User(),$task));
 
             return $task;
         } catch (\Exception $e) {
@@ -70,7 +70,8 @@ trait TaskOperation
     {
         $task = TaskUser::find($id);
         $task->fill(['finished_at' => Carbon::now()]);
-        event(new TaskFinished(new User(),$task->task));
+       $main_task= $task->task->setRelation('currentTask',$task);
+        event(new TaskFinished(new User(),$main_task));
         return $task->save();
     }
     public function TaskWorkerFinish($id): bool
@@ -80,7 +81,9 @@ trait TaskOperation
 
         $task->fill(['worker_finished_at' => Carbon::now()]);
 //        dd($task);
-     event(new WorkerTaskFinished(new User(),$task->task));
+$main_task= $task->task->setRelation('currentTask',$task);
+
+     event(new WorkerTaskFinished(new User(),$main_task));
 //        event(new TaskFinished(new User(),$task->task));
         return $task->save();
     }
@@ -89,7 +92,9 @@ trait TaskOperation
     {
         $task = TaskUser::find($id);
         $task->fill(['rate' => $request->rate, 'comment' => $request->comment]);
-        event(new TaskRated(new User(),$task->task));
+        $main_task= $task->task->setRelation('currentTask',$task);
+
+        event(new TaskRated(new User(),$main_task));
         return $task->save();
     }
 

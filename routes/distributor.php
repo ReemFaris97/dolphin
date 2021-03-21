@@ -28,6 +28,7 @@ Route::middleware('distributor')->group(function () {
     Route::get('/products/add/quantity/{id}', 'ProductsController@addQuantityForm')->name('products.quantity.form');
     Route::post('/products/store/quantity/{id}', 'ProductsController@storeProductQuantity')->name('products.quantity.store');
     Route::resource('/transactions', 'DistributorTransactionsController');
+    Route::post('/invoice/pay', 'ClientsController@payBill');
     Route::resource('/clients', 'ClientsController');
     Route::patch('clients/block/{user}', 'ClientsController@block')->name('clients.block');
 
@@ -56,13 +57,17 @@ Route::middleware('distributor')->group(function () {
     Route::resource('/expenditureTypes', 'ExpenditureTypesController');
     Route::patch('expenditureTypes/change-status/{item}', 'ExpenditureTypesController@changeStatus')->name('expenditureTypes.changeStatus');
     Route::resource('/expenses', 'ExpensesController');
+    Route::resource('banks', 'BankController');
+    Route::resource('bank-deposits', 'BankDepositsController');
     Route::resource('/routes', 'DistributorRoutesController');
+    Route::get('/getAjaxWallet/{id}', 'BankDepositsController@getUserWallet')->name('getAjaxWallet');
     Route::get('available_route/{id}', 'DistributorRoutesController@available')->name('routes.available');
     Route::get('dis_available_route/{id}', 'DistributorRoutesController@disavailable')->name('routes.dis_available');
     Route::post('/trips/update-arrange', 'TripsController@updateArrange')->name('trips.update-arrange');
     Route::post('/routes/update-arrange', 'DistributorRoutesController@updateArrange')->name('routes.update-arrange');
     Route::resource('/trips', 'TripsController');
     Route::resource('/bills', 'BillController');
+    Route::get('/bills/{id}/images', 'BillController@details')->name('bills.images');
     Route::get('bill-show/{id}', [ 'uses' => 'BillController@bill_show'])->name('bills.bill_show');
 
     Route::get('/map', 'TripsController@trips')->name('trips.map');
@@ -72,6 +77,7 @@ Route::middleware('distributor')->group(function () {
     Route::get('/get/ajax/trips', 'AjaxDataController@getDistributorTripsOnRoute')->name('getAjaxTrips');
     Route::post('/get/ajax/products', 'AjaxDataController@getAllProducts')->name('getAjaxProducts');
     Route::get('/getAjaxStores/{id}', 'AjaxDataController@getAllStores')->name('getAjaxStores');
+
     Route::get('/getAjaxClauses/{id}', 'AjaxDataController@getAjaxClauses')->name('getAjaxClauses');
 
     Route::get('/get/ajax/store/products', 'AjaxDataController@getStoreProducts')->name('getAjaxstoreProducts');
@@ -91,6 +97,7 @@ Route::middleware('distributor')->group(function () {
         Route::any('client_report', [ 'uses' => 'ClientController@index'])->name('clients.index');
         Route::get('bill/{id}', [ 'uses' => 'ClientController@show'])->name('clients.show');
         Route::any('sale_report', [ 'uses' => 'SaleController@index'])->name('sales.index');
+        Route::get('bill/{id}', [ 'uses' => 'SaleController@show'])->name('sales.show');
         Route::get('store_movement_report', 'StoreMovementController@index')->name('store_movement.index');
         Route::get('store_movement_report/report', 'StoreMovementController@show')->name('store_movement.report');
 

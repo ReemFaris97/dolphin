@@ -159,7 +159,7 @@ Route::middleware('admin')->group(function () {
     Route::get('active-title/{id}', 'JobTitleController@active')->name('jobTitles.active');
     Route::get('dis-active-title/{id}', 'JobTitleController@dis_active')->name('jobTitles.dis_active');
     Route::get('pay-salaries', 'SalaryController@index')->name('users.pay_salaries');
-    Route::get('salaries', 'SalaryController@salaries')->name('users.salaries_paid');
+    Route::get('user_salaries', 'SalaryController@salaries')->name('users.salaries_paid');
     Route::get('/userSalary', 'SalaryController@userSalary');
     Route::get('/titleSalary', 'SalaryController@titleSalary');
     Route::get('/checks', 'ClauseController@checks')->name('clauses.checks');
@@ -242,7 +242,6 @@ Route::middleware('admin')->group(function () {
 
     Route::post('/confirm', 'SessionController@confirm')->name('sessions.confirm');
 
-
     ////purchases
     Route::get('/buy_point', 'BuyPointController@buy_point')->name('buy_point.buy_point');
     Route::get('/productsAjexPurchase/{id}', 'BuyPointController@getProductAjex');
@@ -250,6 +249,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/productReturnPurchase', 'PurchaseReturnController@product');
     Route::get('/backup', 'SettingController@backup')->name('backup');
 
+    Route::resource('templates', 'TemplateController');
 
     Route::group(['prefix' => 'reports', 'namespace' => 'Reports', 'as' => 'reports.'], function () {
         Route::any('damaged-products', ['as' => 'damaged-products', 'uses' => 'StoresController@damages']);
@@ -292,6 +292,7 @@ Route::middleware('admin')->group(function () {
             Route::any('daily-earnings', ['as' => 'daily_earnings', 'uses' => 'SalesController@daily_earnings']);
             Route::any('period-earnings', ['as' => 'period_earnings', 'uses' => 'SalesController@period_earnings']);
 
+
         });
     });
 
@@ -331,6 +332,28 @@ Route::middleware('admin')->group(function () {
 
     });
     Route::get('/destroy_account/{id}',['as'=>'entries.destroy_account', 'uses' => 'EntryController@destroy_account']);
+
+    //////////////////////////////////----employees_resources----////
+    Route::group(['prefix'=>'documents/{type}','as'=>'documents.'],function($type){
+        Route::get('/{id}/edit', 'DocumentController@edit')->name('edit');
+        Route::put('/{id}', 'DocumentController@update')->name('put');
+        Route::get('/{id}/delete', 'DocumentController@destroy')->name('delete');
+        Route::resource('/', 'DocumentController');
+    });
+
+    Route::resource('allowances', 'AllowanceController');
+    Route::resource('holidays', 'HolidayController');
+    Route::resource('holidays-requests', 'UserHolidaysRequestController');
+    Route::get('holidays-requests/get-user-data/{id}','UserHolidaysRequestController@getUserData');
+    Route::resource('bonus-discount', 'BonusDiscountController');
+    Route::resource('attendances', 'AttendanceController');
+    Route::resource('debts', 'DebtController');
+    Route::resource('salaries', 'SalariesController');
+    Route::post('debts-{id}', 'DebtController@payDebt')->name('payDebt');
+
+
+
+
 
 });
 

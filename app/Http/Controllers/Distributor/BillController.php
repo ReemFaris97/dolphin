@@ -12,7 +12,9 @@ use App\Traits\Viewable;
 class BillController extends Controller
 {
     use Viewable;
-    private  $viewable = 'distributor.bills.';
+
+    private $viewable = 'distributor.bills.';
+
     /**
      * Display a listing of the resource.
      *
@@ -44,7 +46,7 @@ class BillController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -55,28 +57,39 @@ class BillController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
     public function show($id)
     {
-
-
         return $this->toShow(['bill' => RouteTripReport::with([
-                'inventory',
-                'route_trip' => function ($builder) {
-                    $builder->with(['route' => function ($q) {
-                        $q->with('user');
-                    }, 'client']);
-                },
-            ])->findOrFail($id)
+            'inventory',
+            'route_trip' => function ($builder) {
+                $builder->with(['route' => function ($q) {
+                    $q->with('user');
+                }, 'client']);
+            },
+        ])->findOrFail($id)
+        ]);
+    }
+
+    public function details($id)
+    {
+
+
+        return view('distributor.bills.bill', ['bill' => RouteTripReport::with([
+            'inventory' => function ($q) {
+                $q->with('images');
+            },
+            'images',
+        ])->findOrFail($id)
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -88,8 +101,8 @@ class BillController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -100,14 +113,16 @@ class BillController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         //
     }
-    public  function bill_show($id){
-     return view("distributor.bills.bill");
+
+    public function bill_show($id)
+    {
+        return view("distributor.bills.bill");
     }
 }

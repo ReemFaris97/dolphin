@@ -8,10 +8,20 @@ use App\Models\StoreTransferRequest;
 
 class StoreTransferRequestObserver
 {
+    public function creating(StoreTransferRequest $storeTransferRequest)
+    {
+        if ($storeTransferRequest->sender_id == $storeTransferRequest->distributor_id) {
+            $storeTransferRequest->is_confirmed = 1;
+        }
+    }
+
     public function created(StoreTransferRequest $storeTransferRequest)
     {
-        event(new StoreTransferRequestAdded($storeTransferRequest));
+        if ($storeTransferRequest->sender_id != $storeTransferRequest->distributor_id) {
+            event(new StoreTransferRequestAdded($storeTransferRequest));
+        }
     }
+
     public function updating(StoreTransferRequest $storeTransferRequest)
     {
 

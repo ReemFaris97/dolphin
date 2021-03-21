@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Helpers\num_to_ar;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -23,8 +24,31 @@ class RouteTripReport extends Model
         'notes',
         'store_id',
         'distributor_transaction_id',
-        'expenses'
+        'expenses',
+        'paid_at',
     ];
+/**
+ * The attributes that should be mutated to dates.
+ *
+ * @var array
+ */
+protected $dates = ['created_at', 'updated_at', 'paid_at'];
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (!request()->is_deffered==1) {
+                $model->paid_at = Carbon::now();
+            }
+        });
+    }
+
     /**
      * distributor_transaction relation
      *
@@ -34,6 +58,7 @@ class RouteTripReport extends Model
     {
         return $this->belongsTo(DistributorTransaction::class, 'distributor_transaction_id');
     }
+
     /**
      * route_trip relation
      *
@@ -43,10 +68,12 @@ class RouteTripReport extends Model
     {
         return $this->belongsTo(RouteTrips::class, 'route_trip_id');
     }
+
     public function store()
     {
         return $this->belongsTo(store::class, 'store_id')->withDefault();
     }
+
     public function inventory(): HasOne
     {
         return $this->hasOne(TripInventory::class, 'trip_id', 'route_trip_id')->whereColumn('trip_inventories.round', 'round');
@@ -56,15 +83,16 @@ class RouteTripReport extends Model
     {
         return $this->morphMany(AttachedProducts::class, 'model')->with('product');
     }
+
     public function product_total()
     {
-        $products=$this->morphMany(AttachedProducts::class, 'model')->with('product');
-      $total=0;
+        $products = $this->morphMany(AttachedProducts::class, 'model')->with('product');
+        $total = 0;
 //      dd($products->get());
-        foreach( $products->get() as $item){
-          $sum= $item->price* $item->quantity;
-          $total+=$sum;
-      }
+        foreach ($products->get() as $item) {
+            $sum = $item->price * $item->quantity;
+            $total += $sum;
+        }
 //        dd($total);
         return $total;
     }
@@ -73,11 +101,10 @@ class RouteTripReport extends Model
     {
         return $this->morphMany(Image::class, 'model');
     }
+
     public function scopeOfDistributor(Builder $builder, $distributor = null): void
     {
         $builder->whereHas('route_trip', function ($route_trip) use ($distributor) {
-
-
             $route_trip->OfDistributor($distributor);
         });
     }
@@ -88,15 +115,20 @@ class RouteTripReport extends Model
             DB::raw(
                 "(
                     select model_id as route_trip_id,
-                    SUM(price *quantity) as products_price from attached_products
+                    SUM(price *quantity) as products_price,
+                    SUM(quantity) as total_quantity,
+                    price ,
+                    product_id
+                    from attached_products
                     where model_type= 'App\\\\Models\\\\RouteTripReport'
-                    group by model_id
+                    group by model_id ,product_id
                 ) as attached_products"
             ),
             'attached_products.route_trip_id',
             'route_trip_reports.id'
         );
     }
+
     public function scopeFilterDistributor(Builder $builder, $distributor = null): void
     {
         $builder->when($distributor != null, function ($q) use ($distributor) {
@@ -106,11 +138,9 @@ class RouteTripReport extends Model
 
     public function scopeOfClient(Builder $builder, $client = null): void
     {
-
         $builder->whereHas('route_trip', function ($route_trip) use ($client) {
-            $route_trip->where('client_id',$client);
+            $route_trip->where('client_id', $client);
         });
-
     }
 
     /**
@@ -139,14 +169,15 @@ class RouteTripReport extends Model
 
     public function getInvoiceNumberAttribute()
     {
-        return  str_pad($this->id, 6, 0, STR_PAD_LEFT);
+        return str_pad($this->id, 6, 0, STR_PAD_LEFT);
     }
+
     public function CashArabic($cach)
     {
-        $total = explode(".", $cach);
-        $total_in_arabic_rial=new  num_to_ar($total[0],"male");
-        $total_in_arabic_halla=new  num_to_ar($total[1]??0,"male");
-        $AllTotal=[$total_in_arabic_rial->convert_number(), $total_in_arabic_halla->convert_number()??0];
+        $total = explode('.', $cach);
+        $total_in_arabic_rial = new  num_to_ar($total[0], 'male');
+        $total_in_arabic_halla = new  num_to_ar($total[1] ?? 0, 'male');
+        $AllTotal = [$total_in_arabic_rial->convert_number(), $total_in_arabic_halla->convert_number() ?? 0];
         return $AllTotal;
     }
 }

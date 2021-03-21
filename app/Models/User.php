@@ -2,8 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\AccountingSystem\AccountingAllowance;
+use App\Models\AccountingSystem\AccountingAttendance;
+use App\Models\AccountingSystem\AccountingAttentance;
+use App\Models\AccountingSystem\AccountingBonusDiscount;
+use App\Models\AccountingSystem\AccountingDebt;
+use App\Models\AccountingSystem\AccountingHoliday;
 use App\Models\AccountingSystem\AccountingJobTitle;
 use App\Models\AccountingSystem\AccountingProductStore;
+use App\Models\AccountingSystem\AccountingSalary;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingUserPermission;
 use App\Models\Bank;
@@ -49,7 +56,7 @@ class User extends Authenticatable implements JWTSubject
         'name', 'phone', 'email', 'password', 'image', 'job', 'nationality', 'company_name', 'blocked_at', 'is_admin', 'remember_token'
         , 'is_distributor', 'is_supplier', 'supplier_type', 'tex_number', 'lat', 'lng', 'bank_id', 'verification_code', 'parent_user_id', 'bank_account_number',
         'distributor_status', 'settle_commission', 'sell_commission', 'reword_value', 'store_id', 'route_id', 'is_storekeeper', 'enable'
-        , 'accounting_store_id', 'is_saler', 'is_accountant', 'delete_product', 'role_id', 'hiring_date', 'salary', 'title_id', 'is_active' ,'target', 'affiliate', 'address', 'notes','ordering_coin'
+        , 'accounting_store_id', 'is_saler', 'is_accountant', 'delete_product', 'role_id', 'hiring_date', 'salary', 'title_id', 'is_active', 'target', 'affiliate', 'address', 'notes', 'ordering_coin','holiday_balance'
     ];
 
     /**
@@ -88,32 +95,32 @@ class User extends Authenticatable implements JWTSubject
      *
      * @return array
      */
-    public function getJWTCustomClaims()
+    public function getJWTCustomClaims(): array
     {
         return [];
     }
 
-    public function role()
+    public function role(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Role::class, 'role_id');
     }
 
-    public function title()
+    public function title(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(AccountingJobTitle::class, 'title_id');
     }
 
-    public function messages()
+    public function messages(): HasMany
     {
         return $this->hasMany(Message::class);
     }
 
-    public function user_charge()
+    public function user_charge(): HasMany
     {
         return $this->hasMany('App\Models\Charge', 'worker_id');
     }
 
-    public function supervisor_charge()
+    public function supervisor_charge(): HasMany
     {
         return $this->hasMany('App\Models\Charge', 'supervisor_id');
     }
@@ -125,13 +132,17 @@ class User extends Authenticatable implements JWTSubject
         return $this->is_distributor ? 1 : 0;
     }
 
+    public function holidays(){
+        return $this->belongsToMany(AccountingHoliday::class,'accounting_holiday_balances','typeable_id','holiday_id')
+            ->withPivot('typeable_type','days','type','start_date','notes')->wherePivot('typeable_type','employee');
+    }
 
     public function IsSupplier(): bool
     {
         return $this->is_supplier ? 1 : 0;
     }
 
-    public function getTypeAttribute()
+    public function getTypeAttribute(): string
     {
         if ($this->is_admin == 0) {
 
@@ -141,11 +152,10 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
-    public function tokens()
+    public function tokens(): HasMany
     {
         return $this->hasMany(FcmToken::class, 'user_id');
     }
-    
 
 
     /**
@@ -160,7 +170,7 @@ class User extends Authenticatable implements JWTSubject
         }
     }
 
-    public function rate()
+    public function rate(): float
     {
         $finished_tasks_rate = $this->tasks()->whereMonth('finished_at', date('m'))->whereNotNull('rate')->avg('rate');
         return floatval($finished_tasks_rate);
@@ -172,7 +182,7 @@ class User extends Authenticatable implements JWTSubject
      *
      * @return bool
      */
-    public function isBlocked()
+    public function isBlocked(): bool
     {
         return $this->blocked_at !== null;
     }
@@ -188,13 +198,25 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
-    public function store()
+    public function store(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(AccountingStore::class, 'accounting_store_id');
     }
-    public function stores()
+
+    public function stores(): HasMany
     {
         return $this->hasMany(Store::class, 'distributor_id');
+    }
+
+    public function damaged_store(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Store::class, 'distributor_id')->where('for_damaged', 1);
+    }
+
+    public function car_store(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Store::class, 'distributor_id')->where('car_id',
+            '!=', null)->withDefault(new Store);
     }
 
 
@@ -211,12 +233,12 @@ class User extends Authenticatable implements JWTSubject
             ]);
     }
 
-    public function tasks()
+    public function tasks(): HasMany
     {
         return $this->hasMany(TaskUser::class, 'user_id');
     }
 
-    public function notifications()
+    public function notifications(): HasMany
     {
         return $this->hasMany(Notification::class, 'user_id')->orderBy('created_at', 'desc');
     }
@@ -229,21 +251,38 @@ class User extends Authenticatable implements JWTSubject
             $trip->where('client_id', $client_id);
         });
     }
+
+
+    public function scopeSearchByName(Builder $builder): void
+    {
+        $builder->where(
+            function ($q) {
+                $q->where('name', 'Like', '%' . \request('name'));
+                $q->orWhere('name', 'Like', '%' . \request('name') . '%');
+                $q->orWhere('name', 'Like', \request('name'));
+            }
+        );
+    }
+
     /**
      * Send the given notification.
      *
      * @param mixed $instance
-     * @return void
+     * @return \Illuminate\Database\Eloquent\Model
      */
-    public function sendNotification($data, $type)
+    public function sendNotification($data, $type): \Illuminate\Database\Eloquent\Model
     {
-        $this->notifications()->create([
+        return $this->notifications()->create([
             'data' => $data,
             'type' => $type
         ]);
     }
 
 
+    /**
+     * @param $user_id
+     * @return false|float|int
+     */
     public function total_message_pages($user_id)
     {
 
@@ -258,7 +297,7 @@ class User extends Authenticatable implements JWTSubject
         return ceil($messages / $pagniation);
     }
 
-    public function bank()
+    public function bank(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Bank::class, 'bank_id');
     }
@@ -273,7 +312,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasManyThrough(RouteTrips::class, DistributorRoute::class, 'user_id', 'route_id');
     }
 
-    public function accounting_store()
+    public function accounting_store(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(AccountingStore::class, 'accounting_store_id');
     }
@@ -328,14 +367,17 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(SupplierTransaction::class, 'supplier_id');
     }
+
     public function distributor_transactions()
     {
         return $this->hasMany(DistributorTransaction::class, 'user_id');
     }
+
     public function sender_transactions()
     {
         return $this->morphMany(DistributorTransaction::class, 'sender');
     }
+
 
     public function supplierTotalBills()
     {
@@ -378,22 +420,90 @@ class User extends Authenticatable implements JWTSubject
 
         return optional($this
             ->trips()
-           // ->where('status', 'accepted')
-          //  ->orderBy('arrange', 'asc')
+            // ->where('status', 'accepted')
+            //  ->orderBy('arrange', 'asc')
             ->orderBy('updated_at', 'desc')
             ->first());
     }
 
     //    ******************************************************
 
-    public  function all_transactions()
+    public function all_transactions()
     {
         return DistributorTransaction::UserTransactions($this->id)->walletOf($this->id)->get();
     }
-    public  function distributor_wallet()
+
+    public function distributor_wallet()
     {
-        return $this->all_transactions()->sum('balance');
+        return round($this->all_transactions()->sum('balance'), 2);
     }
 
 
+    public function createCarStore($car_id)
+    {
+        return $this->car_store()->create([
+            'name' => ['ar' => ' سيارة' . $this->name, 'en' => $this->name . "'s Car"],
+//            'store_category_id' => StoreCategory::first()->id,
+            'is_active' => 1,
+            'for_distributor' => 1,
+            'has_car' => 1,
+            'car_id' => $car_id
+        ]);
+    }
+
+    /**
+     * @return Builder|\Illuminate\Database\Eloquent\Model
+     */
+    public function createDamageStore()
+    {
+        return Store::query()->create([
+            'name' => ['en' => $this->name . "'s damaged store", 'ar' => $this->name . 'مخزن توالف '],
+            'distributor_id' => $this->id,
+            'is_active' => 1,
+            'for_distributor' => 1,
+            'has_car' => 0,
+            'for_damaged' => 1
+        ]);
+    }
+
+    public function updateCarStore($car_id = null)
+    {
+
+        //remove car if exists
+        if (($car_id == null && $this->car_store->car_id != null)) {
+            ($this->car_store)->fill(['car_id', null])->save();
+        }
+
+        //change car
+        if ($car_id != null && $this->car_store->car_id != null) {
+            $this->car_store->fill(['car_id', $car_id])->save();
+        }
+        //user haven't car ,create new one
+        if (($car_id != null && $this->car_store->car_id == null)) {
+            $car = DistributorCar::find($car_id);
+            $this->createCarStore($car->id);
+
+        }
+
+
+    }
+
+    public function salaries(){
+        return $this->morphMany(AccountingSalary::class,'typeable');
+    }
+    public function attendances()
+    {
+        return $this->morphMany(AccountingAttendance::class,'typeable');
+    }
+    public function allowances()
+    {
+        return $this->belongsToMany(AccountingAllowance::class,'accounting_user_allowances','typeable_id','allowance_id')->withPivot(['value','typeable_type']);
+    }
+    public function debts(){
+        return $this->hasMany(AccountingDebt::class,'typeable_id');
+    }
+
+    public function bonus_discount(){
+        return $this->morphMany(AccountingBonusDiscount::class,'typeable');
+    }
 }

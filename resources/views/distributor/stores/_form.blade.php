@@ -20,8 +20,8 @@
         <label>طبيعه المستودع
         </label>
         {!! Form::select('for_distributor',[
-        'مستودع داخلى',
-        'مستودع خارجى',
+        'مستودع رئيسى',
+        'مستودع فرعى',
         ],null,['class'=>'form-control m-input select2','placeholder'=>'إختار طبيعه
         المستودع','onChange'=>'showDistributor(this.value)'])!!}
     </div>

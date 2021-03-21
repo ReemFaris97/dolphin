@@ -1,3 +1,4 @@
+
 @extends('AccountingSystem.layouts.master')
 @section('title','عرض بيانات مستودع'.' '. $store->name )
 @section('parent_title','إدارة  المستودعات')

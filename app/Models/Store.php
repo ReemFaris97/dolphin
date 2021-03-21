@@ -14,13 +14,14 @@ class Store extends Model
 
     public $translatable = ['name'];
 
-    protected $fillable = ['name', 'store_category_id', 'distributor_id', 'is_active', 'notes', 'for_distributor','has_car','car_id'];
+    protected $fillable = ['name', 'store_category_id', 'distributor_id', 'is_active', 'notes', 'for_distributor', 'has_car', 'car_id', 'for_damaged'];
 
 
     public function products()
     {
         return $this->belongsToMany(Product::class, 'product_quantities', 'store_id', 'product_id')->distinct();
     }
+
     public function ProductQuantity()
     {
         return $this->hasMany(ProductQuantity::class);
@@ -44,13 +45,14 @@ class Store extends Model
 
     public function category()
     {
-        return $this->belongsTo(StoreCategory::class, 'store_category_id');
+        return $this->belongsTo(StoreCategory::class, 'store_category_id')->withDefault(new StoreCategory);
     }
 
     public function scopeActive(Builder $builder): void
     {
         $builder->where('is_active', 1);
     }
+
     public function scopeOfDistributor(Builder $builder, $distributor_id): void
     {
         $builder->where('for_distributor', 1);

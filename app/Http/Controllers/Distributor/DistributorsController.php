@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Distributor;
 
+use App\Models\DistributorCar;
+use App\Models\Store;
+use App\Models\StoreCategory;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
+use Illuminate\Support\Facades\DB;
 
 class DistributorsController extends Controller
 {
@@ -32,7 +36,8 @@ class DistributorsController extends Controller
      */
     public function create()
     {
-        return $this->toCreate();
+        $cars = DistributorCar::Available()->get();
+        return $this->toCreate(compact('cars'));
     }
 
     /**
@@ -43,16 +48,20 @@ class DistributorsController extends Controller
      */
     public function store(Request $request)
     {
+        //   dd($request->all());
         $rules = [
             'name' => 'required|string|max:191',
             'phone' => 'required|numeric|unique:users,phone',
             'email' => 'required|string|unique:users,email',
             'password' => 'required|string|confirmed|max:191',
-            'image' => 'nullable|sometimes|image',
-            'target'=>'nullable|integer',
-            'affiliate'=>'nullable|numeric',
-            'address'=>'nullable|string',
-            'notes'=>'nullable|string',
+            'image' => 'nullable|mimes:jpg,jpeg,gif,png',
+            'target' => 'nullable|integer',
+            'affiliate' => 'nullable|numeric',
+            'address' => 'nullable|string',
+            'notes' => 'nullable|string',
+            'car_id' => 'required|numeric|exists:distributor_cars,id|unique:users,car_id,',
+
+
         ];
 
         $this->validate($request, $rules);
@@ -62,8 +71,15 @@ class DistributorsController extends Controller
             $requests['image'] = saveImage($request->image, 'users');
         }
         $requests['is_distributor'] = 1;
-        $user = User::create($requests);
+        $car = DistributorCar::find($request->car_id);
+        \DB::beginTransaction();
+        $user = User::query()->create($requests);
+        if ($car) {
+            $user->createCarStore($car->id);
 
+        }
+        $user->createDamageStore();
+        DB::commit();
         toast('تم الاضافه بنجاح', 'success', 'top-right');
         return redirect()->route('distributor.distributors.index');
     }
@@ -91,7 +107,15 @@ class DistributorsController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        return $this->toEdit(compact('user'));
+        $cars = DistributorCar::Available()->get();
+
+        $car = $user->car_store;
+
+        $user->car_id = optional($car)->car_id;
+        if ($user->car_id != null) {
+            $cars = $cars->push($car->car);
+        }
+        return $this->toEdit(compact('user', 'user', 'cars'));
     }
 
     /**
@@ -103,18 +127,19 @@ class DistributorsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail($id);
+        /** @var User $user */
+        $user = User::query()->findOrFail($id);
 
         $rules = [
             'name' => 'required|string|max:191',
             'phone' => 'required|numeric|unique:users,phone,' . $user->id,
             'email' => 'required|string|unique:users,email,' . $user->id,
             'image' => 'nullable|sometimes|image',
-
-            'target'=>'nullable|integer',
-            'affiliate'=>'nullable|numeric',
-            'address'=>'nullable|string',
-            'notes'=>'nullable|string',
+            'car_id' => 'required|numeric|exists:distributor_cars,id|unique:users,car_id,' . $id,
+            'target' => 'nullable|integer',
+            'affiliate' => 'nullable|numeric',
+            'address' => 'nullable|string',
+            'notes' => 'nullable|string',
         ];
         $this->validate($request, $rules);
         $requests = $request->except('image', 'password');
@@ -129,6 +154,8 @@ class DistributorsController extends Controller
         $user->fill($requests);
 //        $user->syncPermissions($request->permissions);
         $user->save();
+        $user->updateCarStore($request->car_id);
+
         toast('تم التعديل بنجاح', 'success', 'top-right');
         return redirect()->route('distributor.distributors.index');
     }
@@ -139,7 +166,8 @@ class DistributorsController extends Controller
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($id)
+    public
+    function destroy($id)
     {
 //        if (!auth()->user()->hasPermissionTo('delete_workers')) {
 //            return abort(401);
@@ -156,7 +184,7 @@ class DistributorsController extends Controller
 
         $blocked_at = $user->blocked_at;
         if ($blocked_at == null) {
-            $user->fill(['blocked_at' => Carbon::now(env('TIME_ZONE', 'Asia/Riyadh'))]);
+            $user->fill(['blocked_at' => Carbon::now()]);
         } else {
             $user->fill(['blocked_at' => null]);
         }

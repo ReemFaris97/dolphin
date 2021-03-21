@@ -28,15 +28,15 @@
 
                     <!--begin::Form-->
 
-                    {!! Form::open(['method'=>'post','class'=>'clearfix m-form m-form--fit m-form--label-align-right'])!!}
+                    {!! Form::open(['method'=>'post','class'=>'clearfix m-form m-form--fit m-form--label-align-right','files'=>'true'])!!}
 
                     <div class="">
 
                         <div class="form-group m-form__group">
                             <label>نوع المستودع </label>
                             {!! Form::select('for_distributor',[
-                            'مستودع داخلى',
-                            'مستودع خارجى',
+                            'مستودع رئيسى',
+                            'مستودع فرعى',
                             ],$store->for_distributor,['class'=>'form-control m-input select2','placeholder'=>'إختار نوع
                             المستودع','onChange'=>'showDistributor(this.value)'])!!}
                         </div>
@@ -60,10 +60,14 @@
                             ]) !!}
 
                         </div>
-
+                        <div class="form-group m-form__group">
+                            <label> صورة محضر الاتلاف </label>
+                            <input type="file" class="form-control m-input" name="image">
+                        </div>
+                    </div>
 
                         @include('distributor.stores._attach_product',['products'=>[]])
-                    </div>
+
 
 
                     <div class="m-portlet__foot m-portlet__foot--fit full--width">

@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +21,8 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::get('notifications', 'NotificationController@index');
     Route::resource('stores','StoreController');
     Route::resource('expenses','ExpenseController');
+    Route::post('damage','RouteController@AddDamage');
+    Route::get('routes/{id}/cash', 'RouteController@TripCashes');
     Route::resource('routes','RouteController');
     Route::post('make_inventory/{type}','RouteController@makeInventory');
     Route::post('make_bill','RouteController@attachProducts');
@@ -29,7 +30,10 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::post('attach_images','RouteController@attachImages');
     Route::get('current_trips','RouteController@currentTrips');
     Route::post('add_client/{route_id}','RouteController@AddClientToRoute');
-    Route::resource('daily_reports','DailyReportController');
+    Route::get('products_report', 'DailyReportController@productReport');
+    Route::resource('daily_reports','DailyReportController')->only('store');
+    Route::resource('bank_deposits', 'BankDepositsController');
+
     Route::get('cars','StoreController@cars');
     Route::get('transfer_requests','StoreController@pendingTransferRequests');
     Route::get('transfer_requests/{id}','StoreController@AcceptTransferRequest');
@@ -37,6 +41,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
 
     Route::group(['prefix' => 'spinner'], function () {
         Route::get('/distributors','SpinnerController@getAllDistributors');
+        Route::get('/banks','SpinnerController@getAllBanks');
         Route::get('/distributors_transactions','SpinnerController@getReceivedMoneyTransactions');
         Route::get('/distributors_reasons','SpinnerController@getAllDistributorsRefuseReason');
         Route::get('/readers','SpinnerController@getAllReaders');
@@ -46,9 +51,8 @@ Route::group(['middleware' => ['jwt.auth']], function () {
         Route::get('/routes', 'SpinnerController@getDistributorRoutes');
         Route::get('/stores/{distributor_id}',
         'SpinnerController@getStoresByDistributorId');
-        Route::get('/expenditure_clauses','SpinnerController@getExpenditureClauses');
+        Route::get('/expenditure_clauses/{id}','SpinnerController@getExpenditureClauses');
         Route::get('/expenditure_types','SpinnerController@getExpenditureTypes');
-
         Route::get('/client-classes', 'SpinnerController@getClientClasses');
         Route::get('/settings','SpinnerController@getSetting');
 

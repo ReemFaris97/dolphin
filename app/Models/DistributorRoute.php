@@ -10,7 +10,9 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 class DistributorRoute extends Model
 {
     protected $fillable = ['name', 'is_finished', 'is_active', 'user_id', 'arrange', 'round','received_code','is_available'];
-protected static function boot()
+
+
+    protected static function boot()
 {
         parent::boot();
     static::addGlobalScope('arrange', function (Builder $builder) {
@@ -67,6 +69,30 @@ protected static function boot()
              'route_trip_id');
     }
 
+    public function expenses(){
+
+        return $this->hasMany(Expense::class, 'distributor_route_id');
+    }
+
+    public function round_expenses(){
+
+        return $this->expenses()->whereColumn('expenses.round', 'round');
+    }
+
+    /**
+     * trips_reports
+     *
+     * @return HasManyThrough
+     */
+    public function round_trips_reports(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            RouteTripReport::class,
+            RouteTrips::class,
+            'route_id',
+            'route_trip_id'
+        )->whereColumn('route_trips.round', 'route_trip_reports.round');
+    }
 
 
 }

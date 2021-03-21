@@ -15,6 +15,7 @@ use App\Models\Store;
 use App\Models\TripInventory;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 
@@ -28,11 +29,9 @@ trait RouteOperation
             $inputs = $request->all();
             $route_trip = RouteTrips::find($request->trip_id);
             $inputs['round'] = $route_trip->round;
-            if ($request->status == "refused") {
                 $route_trip->update([
                     'status' => $request->status
                 ]);
-            }
             $trip = TripInventory::create($inputs);
             foreach ($request->products as $item) {
                 $product = Product::find($item['product_id']);
@@ -40,7 +39,6 @@ trait RouteOperation
                     'quantity' => $item['quantity'],
                     'price' => $product->price,
                     'product_id' => $product->id
-
                 ]);
             }
 
@@ -63,7 +61,7 @@ trait RouteOperation
     {
         DB::beginTransaction();
         try {
-            $transaction= DistributorTransaction::create([
+            $transaction = DistributorTransaction::create([
                 'sender_type' => Client::class,
                 'sender_id' => $trip->client_id,
                 'receiver_type' => User::class,
@@ -80,6 +78,7 @@ trait RouteOperation
                 'store_id' => $request->store_id,
                 'distributor_transaction_id' => $transaction->id,
             ]);
+
             foreach ($request->products as $item) {
                 $product = Product::find($item['product_id']);
                 $trip_report->products()->create([
@@ -97,12 +96,14 @@ trait RouteOperation
                     'type' => 'out',
                     'is_confirmed' => 1,
                     'store_id' => $request->store_id,
-                    'trip_report_id'=>$trip_report->id
+                    'trip_report_id' => $trip_report->id
                 ]);
 
 
-
-            //    $trip->update(['cash' => $request->cash]);
+                $trip->update([
+                    'status' => 'pending',
+                    'round' => $trip->round + 1,
+                ]);
 
             }
 
@@ -118,28 +119,29 @@ trait RouteOperation
 
     public function RegisterRouteReport($request)
     {
-        DB::beginTransaction();
-        try {
-            $inputs = $request->all();
-            if ($request->image != null) {
-                if ($request->hasFile('image')) {
-                    $inputs['image'] = saveImage($request->image, 'users');
-                }
+
+        $inputs = $request->all();
+        if ($request->image != null) {
+            if ($request->hasFile('image')) {
+                $inputs['image'] = saveImage($request->image, 'users');
             }
-            /** @var \App\Models\DistributorRoute  $current_route*/
-            $current_route = DistributorRoute::find($request->route_id);
-            $inputs['round'] = $current_route->round + 1;
-            $user_routes = DistributorRoute::where('user_id', $current_route->user_id)
+        }
+        /** @var \App\Models\DistributorRoute $current_route */
+        $current_route = DistributorRoute::find($request->route_id);
+        $inputs['round'] = $current_route->round;
+        $user_routes = DistributorRoute::where('user_id', $current_route->user_id)
             ->orderBy('round', 'desc')
             ->orderBy('arrange', 'desc')
             ->first('arrange');
+        DB::beginTransaction();
+        try {
             $current_route->fill(
                 [
-                    'is_finished' => 1,
+                    'is_finished' => 0,
                     'arrange' => $user_routes->arrange + 1,
                     'is_active' => 0,
-                    'round' => $inputs['round'],
-                    'received_code'=>mt_rand(1000000, 9999999)
+                    'round' => $inputs['round'] + 1,
+                    'received_code' => mt_rand(1000000, 9999999)
                 ]
             )->save();
             $report = RouteReport::query()->create($inputs);
@@ -151,17 +153,44 @@ trait RouteOperation
                 ]);
             }
             $current_route->trips()->update([
-                'round' => $inputs['round'],
+                'round' => $inputs['round'] + 1,
                 'status' => 'pending',
             ]);
             DB::commit();
 
-            return true;
+            return $report;
         } catch (\Exception $e) {
             DB::rollback();
             dd($e);
-            return false;
         }
+    }
+
+    public function damageProduct(Request $request)
+    {
+
+        $damage_store = Store::ofDistributor(auth()->id())->where('for_damaged', 1)->first() ?? User::find(auth()->id())->createDamageStore();
+        if ($request->hasFile('image')) {
+            $requests['image'] = saveImage($request->image, 'users');
+        }
+        \DB::beginTransaction();
+        $arr = [];
+        foreach ($request->products ?? [] as $product) {
+
+            $arr[] = ProductQuantity::create([
+                'product_id' => $product['product_id'],
+                'quantity' => $product['quantity'],
+                'image' => $request->hasFile('image') ? saveImage($request->image, 'users') : null,
+                'store_id' => $damage_store->id,
+                'user_id' => auth()->id(),
+                'type' => 'in',
+                'round' => $request->round,
+                'route_trip_id' => $request->route_trip_id,
+
+            ]);
+        }
+        \DB::commit();
+
+        return $arr;
     }
 
 }

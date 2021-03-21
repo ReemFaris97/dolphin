@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Api;
+
+use App\Events\MessageCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\InboxResource;
 use App\Http\Resources\MessagesResource;
@@ -110,11 +112,9 @@ class MessageController extends Controller
                 'image'=>$q->user->name,
             ]
         ];
-        $users=[intval($user_id),auth()->user()->id];
-        sort($users);
-        $channel=$users[0]."_".$users[1];
-        $pusher->trigger('privatechat.'.$channel, 'PrivateMessageSent', $data);
-//        dd($pusher);
+        $pusher->trigger($message->channel, 'PrivateMessageSent', $data);
+        //        dd($pusher);
+        event(new MessageCreated($message));
         return $this->apiResponse('تم ارسال الرسالة بنجاح');
     }
 
