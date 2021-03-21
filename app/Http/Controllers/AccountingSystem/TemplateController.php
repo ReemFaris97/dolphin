@@ -98,7 +98,10 @@ class TemplateController extends Controller
      */
     public function show($id)
     {
-        //
+        $templete=AccountingTemplate::find($id);
+        // dd($templete);
+        return view('AccountingSystem.templates.show',compact('templete'));
+
     }
 
     /**
