@@ -145,7 +145,8 @@ class SpinnerController extends Controller
                 })
                 ->withClientPrice(request()->client_id)->get()->map(function ($product) {
 
-                    $product->store_quantity = $product->quantities->where('product_id', $product->id)->sum('total_quantity');
+
+                $product->store_quantity = optional(optional($product->quantities)->where('product_id', $product->id))->sum('total_quantity') ?? 0;
                     return $product;
                 });
 
