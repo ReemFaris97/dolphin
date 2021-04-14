@@ -199,6 +199,9 @@ class SpinnerController extends Controller
             ->whereBarCode($request->bar_code)
             ->withClassPrice($client->client_class_id)
             ->first();
+        if (!$product) {
+            return $this->notFoundResponse();
+        }
 
         $product->store_quantity = $product->quantities->where('product_id', $product->id)->sum('total_quantity');
 
