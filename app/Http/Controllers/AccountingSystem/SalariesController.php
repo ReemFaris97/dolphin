@@ -21,10 +21,7 @@ class SalariesController extends Controller
                     $this->dateFilter($q, 'date');
                 },
             ])
-        ->whereMonth('created_at', '<=',$request->month?? now()->month)
-
-          ->whereYear('created_at','<=',$request->year?? now()->year)
-
+         ->whereMonth('created_at', '<=',$request->month?? now()->month)->whereYear('created_at','<=',$request->year?? now()->year)
                 ->get()->transform(function ($q) {
                     $newData['name'] = $q->name;
                     $newData['id'] = $q->id;
@@ -48,7 +45,6 @@ class SalariesController extends Controller
                 $month = '0' . $month;
             }
             $date = '01-' . $month . '-' . ($request->year ?? now()->year);
-
         return view('AccountingSystem.salaries.index',compact('users','date'));
     }
 
