@@ -87,7 +87,7 @@
                         <tbody>
                         <tr>
                         <td>
-                            <a href="{{route('accounting.entries.show',['id'=>$entry->id])}}" class="link">
+                            <a href="{{route('accounting.entries.show',$entry->id)}}" class="link">
                                 {!! $entry->code!!}
                             </a>
                         </td>
@@ -136,7 +136,7 @@
                     </div>
                     @if ($entry->status=='new'&&$entry->type=='manual')
                     <div class="btn-group beside-btn-title">
-                        <a href="{{route('accounting.entries.edit',['id'=>$entry->id])}}" class="btn btn-success">
+                        <a href="{{route('accounting.entries.edit',$entry->id)}}" class="btn btn-success">
                            تعديل القيد
                             <span class="m-l-5"><i class="icon-pencil7 text-inverse"></i></span>
                         </a>

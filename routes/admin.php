@@ -2,10 +2,8 @@
 
 
 
-Auth::routes(['register' => false]);
-
+Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
-
 Route::middleware('auth')->group(function () {
     Route::resource('users', 'UserController')->except('destroy');
     Route::get('users/edit/profile','UserController@editProfile')->name('users.edit.profile');
@@ -19,29 +17,17 @@ Route::middleware('auth')->group(function () {
     Route::get('tasks/user/index', 'TaskController@userTasks')->name('tasks.user.index');
     Route::get('tasks/user/creator', 'TaskController@CreatedTasks')->name('tasks.user.creator');
     /*tasks routes*/
-
     Route::post('tasks/{task}/finished', 'TaskController@finishTask')->name('tasks.finish');
-
-
     /*Replace Tasks*/
     Route::get('task_user/replace','TaskController@getReplacePage')->name('tasks.get.replace');
     Route::post('task_user/replace','TaskController@postReplaceTasks')->name('tasks.post.replace');
     Route::post('task_user/get-ajax-all-tasks','TaskController@getAjaxAllTasks')->name('tasks.get.allTasks');
-
-
-
     Route::post('tasks/worker/{task}/finished', 'TaskController@finishWorkerTask')->name('tasks.finishWorker');
     Route::put('task_user/{task}', 'TaskController@TaskUserUpdate')->name('task_user.update');
     Route::post('tasks/{task}/rate', 'TaskController@rateTask')->name('tasks.rate');
     Route::post('tasks/{task}/note', 'TaskController@storeTaskNote')->name('task.note.store');
-
-
-
     Route::get('tasks-users/present', 'TaskUserController@presentTasks')->name('task-user.present');
-
-
      Route::get('tasks-users/ratable', 'TaskUserController@ratableTasks')->name('task-user.ratable');
-
     Route::post('tasks/{task}/image', 'TaskController@storeTaskImage')->name('task.images.store');
     Route::get('tasks/finished/today', 'TaskUserController@TasksFinishedToDay')->name('task.finished.today');
 

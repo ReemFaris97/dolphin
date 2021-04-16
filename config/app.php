@@ -136,7 +136,7 @@ return [
 
 
     'providers' => [
-        Arcanedev\LogViewer\LogViewerServiceProvider::class,
+      Arcanedev\LogViewer\LogViewerServiceProvider::class,
 
         /*
          * Laravel Framework Service Providers...
@@ -168,7 +168,7 @@ return [
         /*
          * Package Service Providers...
          */
-        Milon\Barcode\BarcodeServiceProvider::class,
+//        Milon\Barcode\BarcodeServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -180,7 +180,7 @@ return [
         App\Providers\ModelServiceProvider::class,
         App\Providers\DirectiveServiceProvider::class,
         UxWeb\SweetAlert\SweetAlertServiceProvider::class,
-        Maatwebsite\Excel\ExcelServiceProvider::class,
+//        Maatwebsite\Excel\ExcelServiceProvider::class,
 
 
 
@@ -234,15 +234,13 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
-        'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
-        'Alert' => UxWeb\SweetAlert\SweetAlert::class,
-        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-        'MyHelper'  => App\Helpers\MyHelper::class,
-       'MyHelperCostCenter' => App\Helpers\MyHelperCostCenter::class,
-       'MyHelperAccountingAmount' => App\Helpers\MyHelperAccountingAmount::class,
-
-
+//        'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
+//        'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
+//        'Alert' => UxWeb\SweetAlert\SweetAlert::class,
+//        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+//        'MyHelper'  => App\Helpers\MyHelper::class,
+//       'MyHelperCostCenter' => App\Helpers\MyHelperCostCenter::class,
+//       'MyHelperAccountingAmount' => App\Helpers\MyHelperAccountingAmount::class,
 
     ],
 
