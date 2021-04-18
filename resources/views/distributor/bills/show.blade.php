@@ -214,7 +214,7 @@
                                 </td>
 
 {{--                                <td>{{ $value->product->store->name ??'' }}</td>--}}
-                                <td>{{ $value->product->name }}</td>
+                                <td class="product-name">{{ $value->product->name }}</td>
                                 <td>{!!$loop->iteration!!}</td>
                             </tr>
                             @endforeach
@@ -223,20 +223,26 @@
                             <tr>
                                 <th>{{(float) $bill->product_total()}}</th>
                                 <th colspan="10">
-                                    <p>total</p>
-                                    <p>الإجمالى (بدون ضريبة)</p>
+                                    <div class="flexx">
+                                        <p>total</p>
+                                        <p>الإجمالى (بدون ضريبة)</p>
+                                    </div>
+                                    
                                 </th>
                             </tr>
                             <tr>
                                 <th>{{($bill->product_total() * (float)(getsetting('general_taxs')) /100)}}</th>
                                 <th colspan="10">
-                                    <p>vat (15%)</p>
-                                    <p>قيمة القيمة المضافة</p>
+                                    <div class="flexx">
+                                        <p>قيمة القيمة المضافة</p>
+                                        <p>vat (15%)</p>
+                                    </div>
+                                    
                                 </th>
                             </tr>
                             <tr>
                                 <th>{{$bill->product_total()+($bill->product_total()* ((float) getsetting('general_taxs')) /100)}}</th>
-                                <th>
+                                <th colspan="2">
                                     <p>net amount</p>
                                     <p>اجمالى الفاتورة</p>
                                 </th>
