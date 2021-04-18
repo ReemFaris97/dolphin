@@ -263,7 +263,7 @@ $black-color: #212121;
 #myDivToPrint .box1 {
     border: 1px solid $black-color;
     text-align: center;
-    padding: 5px 5px;
+    padding: 2px 5px;
     border-radius: 14px;
     .flexx {
         align-items: baseline;
@@ -347,6 +347,12 @@ $black-color: #212121;
                 @extend %regular;
             }
         }
+    }
+    th div p {
+        font-size: 13px;
+    }
+    .product-name {
+        white-space: nowrap;
     }
 }
 #myDivToPrint .hint {
@@ -510,4 +516,7 @@ $black-color: #212121;
 }
 .product-name {
     white-space: nowrap;
+}
+th div p {
+    font-size: 13px;
 }

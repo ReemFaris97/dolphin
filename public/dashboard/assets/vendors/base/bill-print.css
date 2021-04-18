@@ -203,7 +203,7 @@
 #myDivToPrint .box1 {
   border: 1px solid #212121;
   text-align: center;
-  padding: 5px 5px;
+  padding: 2px 5px;
   border-radius: 14px; }
   #myDivToPrint .box1 .flexx {
     align-items: baseline; }
@@ -262,6 +262,10 @@
     text-align: center !important; }
     #myDivToPrint .the_table tbody tr td p {
       margin: 0; }
+  #myDivToPrint .the_table th div p {
+    font-size: 13px; }
+  #myDivToPrint .the_table .product-name {
+    white-space: nowrap; }
 
 #myDivToPrint .hint {
   color: red; }
@@ -401,5 +405,8 @@
     margin: 24px auto !important; } }
 .product-name {
   white-space: nowrap; }
+
+th div p {
+  font-size: 13px; }
 
 /*# sourceMappingURL=bill-print.css.map */
