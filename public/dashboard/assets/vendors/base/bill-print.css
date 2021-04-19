@@ -32,7 +32,7 @@
   margin: 0 !important;
   font-style: normal;
   font-weight: 300;
-  font-size: 14px;
+  font-size: 12px;
   /*    letter-spacing: 0.2px;*/
   line-height: 1.6;
   color: #212121;
@@ -82,13 +82,13 @@
 #myDivToPrint h2,
 #myDivToPrint h3 {
   margin-top: 20px;
-  margin-bottom: 10px; }
+  margin-bottom: 5px; }
 #myDivToPrint h3 {
-  font-size: 20px; }
+  font-size: 18px; }
 #myDivToPrint h4 {
-  font-size: 14px; }
-#myDivToPrint h5 {
   font-size: 12px; }
+#myDivToPrint h5 {
+  font-size: 10px; }
 #myDivToPrint p {
   margin: 0 0 10px; }
 
@@ -139,24 +139,24 @@
   #myDivToPrint header .hd_inn {
     border: 2px solid #f2f2f2; }
     #myDivToPrint header .hd_inn .hd_txt {
-      max-width: calc(100% - 220px);
-      padding: 8px 40px 0px 40px;
+      max-width: calc(100% - 180px);
+      padding: 8px 10px 0px 10px;
       width: max-content; }
       #myDivToPrint header .hd_inn .hd_txt h3 {
         margin-top: 0;
         text-transform: uppercase;
-        font-size: 23px; }
+        font-size: 15px; }
         #myDivToPrint header .hd_inn .hd_txt h3:last-child {
           letter-spacing: 1px; }
       #myDivToPrint header .hd_inn .hd_txt .flexx h5 {
         margin-bottom: 0; }
     #myDivToPrint header .hd_inn .logo {
       overflow: hidden;
-      width: 150px;
-      height: 150px;
+      width: 110px;
+      height: 110px;
       position: absolute;
       left: 40px;
-      top: calc(50% - 75px);
+      top: calc(50% - 55px);
       border-radius: 50%;
       display: -webkit-box;
       display: -ms-flexbox;
@@ -209,22 +209,28 @@
 #myDivToPrint .box1 {
   border: 1px solid #212121;
   text-align: center;
-  padding: 2px 5px;
+  padding: 0px 5px;
   border-radius: 14px; }
   #myDivToPrint .box1 .flexx {
     align-items: baseline; }
     #myDivToPrint .box1 .flexx .box1 {
       border: 0;
       border-radius: 0; }
-      #myDivToPrint .box1 .flexx .box1 .flexx h4:first-child {
-        margin-left: 14px; }
+      #myDivToPrint .box1 .flexx .box1 p {
+        margin: 0px 1px; }
+    #myDivToPrint .box1 .flexx .half {
+      width: 45%; }
+    #myDivToPrint .box1 .flexx .third-quater {
+      width: 70%; }
+    #myDivToPrint .box1 .flexx .quater {
+      width: 25%; }
     #myDivToPrint .box1 .flexx h4 {
       text-transform: capitalize;
       margin-top: 0; }
   #myDivToPrint .box1 p {
     margin: 0;
-    min-height: 24px;
-    font-size: 14px; }
+    min-height: 20px;
+    font-size: 12px; }
 
 /******** table *******/
 #myDivToPrint .bg_logo {
@@ -255,11 +261,12 @@
     text-align: center !important;
     background-color: #c3c3c3;
     -webkit-print-color-adjust: exact;
-    box-shadow: inset 0 0 0 1000px #c3c3c3; }
+    box-shadow: inset 0 0 0 1000px #eceaeaef; }
   #myDivToPrint .the_table thead tr th p,
   #myDivToPrint .the_table tfoot tr th p {
-    margin-bottom: 4px;
-    text-transform: capitalize; }
+    margin-bottom: 0px;
+    text-transform: capitalize;
+    font-size: 12.5px; }
     #myDivToPrint .the_table thead tr th p:last-child, #myDivToPrint .the_table thead tr th p:only-child,
     #myDivToPrint .the_table tfoot tr th p:last-child,
     #myDivToPrint .the_table tfoot tr th p:only-child {
@@ -415,4 +422,4 @@
 th div p {
   font-size: 13px; }
 
-/*# sourceMappingURL=bill-print.css.map */
+/*# sourceMappingURL=bill-Print.css.map */
