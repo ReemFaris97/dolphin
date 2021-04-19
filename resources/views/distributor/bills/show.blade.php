@@ -81,7 +81,7 @@
                 <div class="row">
                     <div class="box1">
                         <div class="flexx">
-                            <div class="box1">
+                            <div class="box1 third">
                                 <div class="flexx">
                                     <h4>كود العميل</h4>
                                     <p>{!!optional(optional($bill->route_trip)->client)->code !!}</p>
@@ -89,7 +89,7 @@
                                 </div>
                                 
                             </div>
-                            <div class="box1">
+                            <div class="box1 third">
                                 <div class="flexx">
                                     <h4>اسم العميل</h4>
                                     <p>{!!optional(optional($bill->route_trip)->client)->name !!}</p>
@@ -97,8 +97,8 @@
                                 </div>
                                 
                             </div>
-                            <div class="box1">
-                                <div class="flexx">
+                            <div class="box1 third">
+                                <div class="flexx ">
                                     <h4>الرقم الضريبى للعميل</h4>
                                     <p>{!!optional(optional($bill->route_trip)->client)->tax_number !!}</p>
                                     <h4>cust. vat no.</h4>
@@ -171,20 +171,20 @@
                     <table class="the_table">
                         <thead>
                             <tr>
-                                <th>
-                                    <p>الإجمالى (بدون ضريبة)</p>
+                                <th class="col9">
+                                    <p>الإجمالى  <br> (بدون ضريبة)</p>
                                     <p></p>
                                 </th>
                                 <th>
-                                    <p>ضريبة القيمة المضافة</p>
+                                    <p>ضريبة <br>  القيمة المضافة</p>
                                     <p>vat</p>
                                 </th>
                                 <th>
-                                    <p>نسبة ضريبة القيمة المضافة</p>
+                                    <p>نسبة ضريبة<br> القيمة المضافة</p>
                                     <p>vat%</p>
                                 </th>
                                 <th>
-                                    <p>السعر بدون ضريبة القيمة المضافة</p>
+                                    <p>السعر بدون ضريبة<br>  القيمة المضافة</p>
                                     <p>price without vat</p>
                                 </th>
                                 <th>
@@ -230,6 +230,7 @@
                                 <td>{!!$loop->iteration!!}</td>
                             </tr>
                             @endforeach
+                            
                         </tbody>
                     </table>
                 </div>

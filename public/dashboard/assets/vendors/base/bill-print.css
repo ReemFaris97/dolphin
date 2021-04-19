@@ -126,7 +126,7 @@
 .bill-container {
   display: flex;
   flex-direction: column;
-  min-height: 1000px;
+  min-height: 985px;
   justify-content: space-between; }
 
 /************* start header ***************/
@@ -220,6 +220,8 @@
         margin: 0px 1px; }
     #myDivToPrint .box1 .flexx .half {
       width: 45%; }
+    #myDivToPrint .box1 .flexx .third {
+      width: 30%; }
     #myDivToPrint .box1 .flexx .third-quater {
       width: 70%; }
     #myDivToPrint .box1 .flexx .quater {
@@ -378,14 +380,14 @@
     margin: 0 5px;
     overflow-y: auto;
     width: 100%;
-    height: 200%;
+    height: 100%;
     page-break-after: always; }
   body {
     /* width: 8cm !important; */
     width: 98%;
-    height: auto;
+    height: 50px;
     page-break-after: always;
-    padding-bottom: 2px;
+    padding-bottom: 0px;
     background: none; }
 
   #myDivToPrint,
