@@ -26,7 +26,9 @@
         <!--------- start content ---------->
         <div id="print_this">
             <div id="myDivToPrint">
-                <!--- header -->
+                <div class="bill-container">
+                <div>
+                    <!--- header -->
                 <header>
                     <div class="hd_inn">
                         <div class="hd_txt">
@@ -219,7 +221,13 @@
                             </tr>
                             @endforeach
                         </tbody>
-                        <tfoot>
+                    </table>
+                </div>
+                
+                </div>
+                    <div>
+                    <table class="the_table">
+                    <tfoot>
                             <tr>
                                 <th>{{(float) $bill->product_total()}}</th>
                                 <th colspan="10">
@@ -264,8 +272,8 @@
                                 </th>
                             </tr>
                         </tfoot>
+                    </div>
                     </table>
-                </div>
                 <!--- footer -->
                 <footer>
                     <div class="row">
@@ -318,6 +326,8 @@
 {{--                        <b class="hint code">4636</b>--}}
                     </div>
                 </footer>
+                </div>
+                
             </div>
         </div>
     </div>

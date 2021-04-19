@@ -123,6 +123,12 @@
   -ms-flex-align: center;
   align-items: center; }
 
+.bill-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 1000px;
+  justify-content: space-between; }
+
 /************* start header ***************/
 #myDivToPrint header {
   background-color: #3d7cae;
@@ -369,7 +375,7 @@
     page-break-after: always; }
   body {
     /* width: 8cm !important; */
-    width: 100%;
+    width: 98%;
     height: auto;
     page-break-after: always;
     padding-bottom: 2px;
