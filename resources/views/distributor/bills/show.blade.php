@@ -26,12 +26,14 @@
         <!--------- start content ---------->
         <div id="print_this">
             <div id="myDivToPrint">
-                <!--- header -->
+                <div class="bill-container">
+                <div>
+                    <!--- header -->
                 <header>
                     <div class="hd_inn">
                         <div class="hd_txt">
-                            <h3>شركة دلفن  للحلويات والمكسرات</h3>
-                            <h3>Dolphin  Company for sweets and nuts</h3>
+                            <h3>مصنع إبراهيم سليمان العثيم للتعبئة و التغليف</h3>
+                            <h3>Ibrahim Sulaiman Al-Othaim Factory for Filling and Packaging</h3>
                             <div class="flexx">
 {{--                                <h5>تجارة المواد الغذائية بالجملة</h5>--}}
 {{--                                <h5>Wholesale foodstuff trading</h5>--}}
@@ -48,27 +50,30 @@
                         <div class="box1">
                             <div class="flexx">
                                 <h4>التاريخ</h4>
+                                <p>{{$bill->created_at}}</p>
                                 <h4>date</h4>
                             </div>
-                            <p>{{$bill->created_at}}</p>
+                            
                         </div>
                     </div>
                     <div class="col">
                         <div class="box1">
                             <div class="flexx">
                                 <h4>نوع الفاتورة</h4>
+                                <p>فاتورة نقدية</p>
                                 <h4>invoice type</h4>
                             </div>
-                            <p>فاتورة نقدية</p>
+                            
                         </div>
                     </div>
                     <div class="col">
                         <div class="box1">
                             <div class="flexx">
                                 <h4>رقم الفاتورة</h4>
+                                <p>{{$bill->invoice_number}} </p>
                                 <h4>invoice no.</h4>
                             </div>
-                            <p>{{$bill->invoice_number}} </p>
+                            
                         </div>
                     </div>
                 </div>
@@ -76,43 +81,48 @@
                 <div class="row">
                     <div class="box1">
                         <div class="flexx">
-                            <div class="box1">
+                            <div class="box1 third">
                                 <div class="flexx">
                                     <h4>كود العميل</h4>
+                                    <p>{!!optional(optional($bill->route_trip)->client)->code !!}</p>
                                     <h4>cust. code</h4>
                                 </div>
-                                <p>{!!optional(optional($bill->route_trip)->client)->code !!}</p>
+                                
                             </div>
-                            <div class="box1">
+                            <div class="box1 third">
                                 <div class="flexx">
                                     <h4>اسم العميل</h4>
+                                    <p>{!!optional(optional($bill->route_trip)->client)->name !!}</p>
                                     <h4>cust. name</h4>
                                 </div>
-                                <p>{!!optional(optional($bill->route_trip)->client)->name !!}</p>
+                                
                             </div>
-                            <div class="box1">
-                                <div class="flexx">
+                            <div class="box1 third">
+                                <div class="flexx ">
                                     <h4>الرقم الضريبى للعميل</h4>
+                                    <p>{!!optional(optional($bill->route_trip)->client)->tax_number !!}</p>
                                     <h4>cust. vat no.</h4>
                                 </div>
-                                <p>{!!optional(optional($bill->route_trip)->client)->tax_number !!}</p>
+                                
                             </div>
                         </div>
                         <div class="flexx">
-                            <div class="box1">
+                            <div class="box1  third-quater">
                                 <div class="flexx">
                                     <h4>العنوان</h4>
+                                    <p>{!!optional(optional($bill->route_trip)->client)->address !!}</p>
                                     <h4>address</h4>
                                 </div>
-                                <p>{!!optional(optional($bill->route_trip)->client)->address !!}</p>
+                                
 
                             </div>
-                            <div class="box1">
+                            <div class="box1 quater">
                                 <div class="flexx">
                                     <h4>هاتف</h4>
+                                    <p>{!!optional(optional($bill->route_trip)->client)->phone !!}</p>
                                     <h4>phone</h4>
                                 </div>
-                                <p>{!!optional(optional($bill->route_trip)->client)->phone !!}</p>
+                                
                             </div>
                         </div>
                     </div>
@@ -121,12 +131,13 @@
                 <div class="row">
                     <div class="box1">
                         <div class="flexx">
-                            <div class="box1">
+                            <div class="box1 half">
                                 <div class="flexx">
                                     <h4>جوال المندوب</h4>
+                                    <p>{!! optional($bill->route_trip)->route->user->phone ??''!!}</p>
                                     <h4>Representative no.</h4>
                                 </div>
-                                <p>{!! optional($bill->route_trip)->route->user->phone ??''!!}</p>
+                                
                             </div>
                             <!-- <div class="box1">
                                 @if($bill->store->has_car==1)
@@ -137,12 +148,13 @@
                                 @endif
                                 <p></p>
                             </div> -->
-                            <div class="box1">
+                            <div class="box1 half">
                                 <div class="flexx">
                                     <h4>اسم المندوب</h4>
+                                    <p> {{optional($bill->route_trip)->route->user->name ??''}}</p>
                                     <h4>Representative Name</h4>
                                 </div>
-                                <p> {{optional($bill->route_trip)->route->user->name ??''}}</p>
+                                
                             </div>
                             <!-- <div class="box1">
                                     <div class="flexx">
@@ -159,20 +171,20 @@
                     <table class="the_table">
                         <thead>
                             <tr>
-                                <th>
-                                    <p>الإجمالى (بدون ضريبة)</p>
+                                <th class="col9">
+                                    <p>الإجمالى  <br> (بدون ضريبة)</p>
                                     <p></p>
                                 </th>
                                 <th>
-                                    <p>ضريبة القيمة المضافة</p>
+                                    <p>ضريبة <br>  القيمة المضافة</p>
                                     <p>vat</p>
                                 </th>
                                 <th>
-                                    <p>نسبة ضريبة القيمة المضافة</p>
+                                    <p>نسبة ضريبة<br> القيمة المضافة</p>
                                     <p>vat%</p>
                                 </th>
                                 <th>
-                                    <p>السعر بدون ضريبة القيمة المضافة</p>
+                                    <p>السعر بدون ضريبة<br>  القيمة المضافة</p>
                                     <p>price without vat</p>
                                 </th>
                                 <th>
@@ -183,10 +195,10 @@
                                     <p>الوحدة</p>
                                     <p>unit</p>
                                 </th>
-                                <th>
+                                <!-- <th>
                                     <p>بيان الصنف</p>
                                     <p>product description</p>
-                                </th>
+                                </th> -->
                                 <th>
                                     <p>إسم الصنف</p>
                                     <p>product Name</p>
@@ -209,34 +221,47 @@
                                 <td>{{ $value->product->price }}</td>
                                 <td>{{ $value->quantity }}</td>
                                 <td>حبة</td>
-                                <td>
+                                <!-- <td>
                                     <p class="not_bold"></p>
-                                </td>
+                                </td> -->
 
 {{--                                <td>{{ $value->product->store->name ??'' }}</td>--}}
-                                <td>{{ $value->product->name }}</td>
+                                <td class="product-name">{{ $value->product->name }}</td>
                                 <td>{!!$loop->iteration!!}</td>
                             </tr>
                             @endforeach
+                            
                         </tbody>
-                        <tfoot>
+                    </table>
+                </div>
+                
+                </div>
+                    <div>
+                    <table class="the_table">
+                    <tfoot>
                             <tr>
                                 <th>{{(float) $bill->product_total()}}</th>
                                 <th colspan="10">
-                                    <p>total</p>
-                                    <p>الإجمالى (بدون ضريبة)</p>
+                                    <div class="flexx">
+                                        <p>total</p>
+                                        <p>الإجمالى (بدون ضريبة)</p>
+                                    </div>
+                                    
                                 </th>
                             </tr>
                             <tr>
                                 <th>{{($bill->product_total() * (float)(getsetting('general_taxs')) /100)}}</th>
                                 <th colspan="10">
-                                    <p>vat (15%)</p>
-                                    <p>قيمة القيمة المضافة</p>
+                                    <div class="flexx">
+                                        <p>قيمة القيمة المضافة</p>
+                                        <p>vat (15%)</p>
+                                    </div>
+                                    
                                 </th>
                             </tr>
                             <tr>
                                 <th>{{$bill->product_total()+($bill->product_total()* ((float) getsetting('general_taxs')) /100)}}</th>
-                                <th>
+                                <th colspan="2">
                                     <p>net amount</p>
                                     <p>اجمالى الفاتورة</p>
                                 </th>
@@ -258,23 +283,17 @@
                                 </th>
                             </tr>
                         </tfoot>
+                    </div>
                     </table>
-                </div>
                 <!--- footer -->
                 <footer>
                     <div class="row">
                         <div class="col">
                             <div class="box1 flexx">
+                                
                                 <div class="col">
                                     <div>
-                                    <h4>إسم المستلم</h4>
-                                        <h4>receiver name</h4>
-                                    </div>
-                                    <p> </p>
-                                </div>
-                                <div class="col">
-                                    <div>
-                                        <h4>إسم توقيع</h4>
+                                        <h4>توقيع المستلم</h4>
                                         <h4>signature</h4>
                                     </div>
                                     <p> </p>
@@ -286,7 +305,7 @@
                     <div class="row">
                         <div class="flexx foot_bg">
                             <div>
-                                <h5>المملكة العربية السعودية - القصيم - بريدة - شارع المياه
+                                <h5>المملكة العربية السعودية - القصيم - المدينة الصناعية الثانية بالقصيم
                                 </h5>
                                 <div class="sp-arrownd">
                                     <h5>الهاتف</h5>
@@ -299,12 +318,12 @@
                             </div>
                             <div>
                                 <h5>الرقم الضريبى vat no.</h5>
-                                <h5>111111111111111111111</h5>
+                                <h5>300420708200003</h5>
                                 <h5>سجل تجارى c.r</h5>
-                                <h5>222222222222222222222</h5>
+                                <h5>1131021506</h5>
                             </div>
                             <div>
-                                <h5> Kingdom of Saudi Arabia - Al-Qassim - Buraidah - Al-Miyah Street</h5>
+                                <h5> Kingdom of Saudi Arabia - Al-Qassim - Qassim Second Industrial City</h5>
                             </div>
                         </div>
                     </div>
@@ -312,6 +331,8 @@
 {{--                        <b class="hint code">4636</b>--}}
                     </div>
                 </footer>
+                </div>
+                
             </div>
         </div>
     </div>
