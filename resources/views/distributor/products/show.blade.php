@@ -55,7 +55,7 @@
             <tr>
                 <td> الباركود</td>
                 <td>
-                    <?php echo \Milon\Barcode\DNS1D::getBarcodeHTML($product->bar_code, "C39",1) ?>
+                    <?php echo \Milon\Barcode\Facades\DNS1DFacade::getBarcodeHTML($product->bar_code, "C39",1) ?>
                 </td>
             </tr>
             <tr>
