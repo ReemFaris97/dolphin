@@ -38,7 +38,7 @@
                         echo \Milon\Barcode\Facades\DNS1DFacade::getBarcodeHTML($row->bar_code, "C39",1);
                 }
                 catch(\Exception $e){
-                {{ $row->bar_code }}
+                echo $row->bar_code
 
                 }
                     ?>
