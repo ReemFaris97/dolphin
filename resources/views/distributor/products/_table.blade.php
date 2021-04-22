@@ -35,14 +35,14 @@
                     try{
                     //حسبى الله ونعم والوكيل
 
-                        echo \Milon\Barcode\DNS1D::getBarcodeHTML($row->bar_code, "C39",1);
+                        echo \Milon\Barcode\Facades\DNS1DFacade::getBarcodeHTML($row->bar_code, "C39",1);
                 }
                 catch(\Exception $e){
+                {{ $row->bar_code }}
 
                 }
                     ?>
 
-                {{ $row->bar_code }}
 
             </td>
 {{--            <td>{!! $row->expired_at !!}</td>--}}
