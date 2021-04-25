@@ -153,7 +153,7 @@ class RouteController extends Controller
         $route_trip = RouteTrips::find($request->trip_id);
         $route_trip_report = $route_trip->getCurrentReport;
         if ($route_trip_report == null) {
-            return $this->apiResponse(null, 'لا يوجد فاتوره لهذه الزياره ');
+            return $this->apiResponse(null, 'لا يوجد فاتوره لهذه الزياره ',400);
         }
         foreach ($request->images as $image) {
             $route_trip_report->images()->create(['image' => saveImage($image, 'users')]);
