@@ -31,7 +31,7 @@
             <td>{!! $row->max_quantity !!}</td>
             <td>{!! $row->price !!}</td>
             <td>
-                <?php
+                {{--  <?php
                     try{
                     //حسبى الله ونعم والوكيل
 
@@ -41,8 +41,8 @@
                 echo $row->bar_code;
 
                 }
-                    ?>
-
+                    ?>  --}}
+                    {!!DNS1D::getBarcodeHTML($row->bar_code, 'C39')!!}
 
             </td>
 {{--            <td>{!! $row->expired_at !!}</td>--}}

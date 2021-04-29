@@ -16,15 +16,23 @@
         "laravel/framework": "^8.0",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.0",
+        "laravelcollective/html": "^6.0",
+        "maatwebsite/excel": "^3.1",
+        "milon/barcode": "^8.0",
+        "realrashid/sweet-alert": "^3.2",
+        "spatie/laravel-permission": "4.0.0",
         "spatie/laravel-translatable": "^4.5",
         "staudenmeir/eloquent-has-many-deep": "^1.7",
-        "realrashid/sweet-alert": "^3.2",
         "staudenmeir/laravel-adjacency-list": "^1.0",
+<<<<<<< HEAD
         "laravelcollective/html": "^6.0",
         "maatwebsite/excel": "^3.1",
         "uxweb/sweet-alert": "^2.0",
         "spatie/laravel-permission": "4.0.0",
             "milon/barcode": "^6.0"
+=======
+        "uxweb/sweet-alert": "^2.0"
+>>>>>>> 0e6c62ce3568c9c0b0bd3e089134f2769c90d2ba
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",
