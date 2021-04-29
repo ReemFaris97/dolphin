@@ -139,7 +139,7 @@
                     <input type="text" class="form-control m-input w-100" required
                         name="client_classes[{{$loop->index}}][price]" value="
             @if(isset($product))
-            {{$product->client_classes->where('id',$client_class->id)->first()->pivot->price}}
+            {{$product->client_classes->where('id',$client_class->id)->first()->price}}
             @else
             {{ old('client_classes.'.$loop->index.'.price')}}
             @endif">
