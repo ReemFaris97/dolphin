@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Distributor;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\RouteReport;
@@ -125,4 +126,13 @@ class BillController extends Controller
     {
         return view("distributor.bills.bill");
     }
+    public function pay($id)
+    {
+        $item=RouteTripReport::find($id);
+
+            $item->update(['paid_at'=>Carbon::now()]);
+            toast('تم إلغاء التفعيل بنجاح','success','top-right');
+            return redirect()->route('distributor.bills.index');
+
+        }
 }
