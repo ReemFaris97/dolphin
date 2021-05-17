@@ -2,16 +2,12 @@
 @section('title')
 الفواتير
 @endsection
-
 @section('header')
 @endsection
-
 @section('breadcrumb') @php($breadcrumbs=['الفواتير'=>route('distributor.bills.index'),])
 @includeWhen(isset($breadcrumbs),'distributor.layouts._breadcrumb', ['breadcrumbs' =>$breadcrumbs ])
 @endsection
-
 @section('content')
-
     <div class="m-portlet m-portlet--mobile">
         <div class="m-portlet__head">
             <div class="m-portlet__head-caption">
@@ -49,6 +45,29 @@
                 }
                 else{
                     swal("تم االإلفاء", "حذف  الفاتورة الغاؤه",'info',{buttons:'موافق'});
+                }
+            });
+        }
+
+
+        function pay(id,cash) {
+
+            var item_id=id;
+            var cash=cash;
+            console.log(item_id);
+            swal({
+                title: "هل أنت متأكد ",
+                text: "هل تريد سدداد هذه الفاتورة  بمبلغ" +cash +"؟",
+                icon: "warning",
+                buttons: ["الغاء", "موافق"],
+                dangerMode: true,
+
+            }).then(function(isConfirm){
+                if(isConfirm){
+                    document.getElementById('pay-form'+item_id).submit();
+                }
+                else{
+                    swal("تم االإلفاء", "سداد  الفاتورة الغاؤه",'info',{buttons:'موافق'});
                 }
             });
         }

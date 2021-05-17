@@ -55,17 +55,35 @@
                                 <p>{{$bill->created_at}}</p>
                                 <h4>date</h4>
                             </div>
-                            
+
                         </div>
                     </div>
                     <div class="col">
                         <div class="box1">
                             <div class="flexx">
                                 <h4>نوع الفاتورة</h4>
-                                <p>فاتورة نقدية</p>
+                                @if($row->created_at==$row->paid_at)
+                                <p>نقدى</p>
+                                @elseif($row->paid_at!=null && $row->created_at!=$row->paid_at)
+                                    <p>أجل مسددة </p>
+                                @elseif($row->paid_at==null)
+                                    <p>أجل  </p>
+                                @endif
                                 <h4>invoice type</h4>
                             </div>
-                            
+
+                            <div class="flexx">
+                                <h4>حالة الفاتورة</h4>
+                                @if($row->created_at==$row->paid_at)
+                                    <p> تم السداد نقديا </p>
+                                @elseif($row->paid_at!=null && $row->created_at!=$row->paid_at)
+                                    <p>تم السداد </p>
+                                @elseif($row->paid_at==null)
+                                    <p>غير مسدده  </p>
+                                @endif
+                                <h4>invoice status</h4>
+                            </div>
+
                         </div>
                     </div>
                     <div class="col">
@@ -75,7 +93,7 @@
                                 <p>{{$bill->invoice_number}} </p>
                                 <h4>invoice no.</h4>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -89,7 +107,7 @@
                                     <p>{!!optional(optional($bill->route_trip)->client)->code !!}</p>
                                     <h4>cust. code</h4>
                                 </div>
-                                
+
                             </div>
                             <div class="box1 third">
                                 <div class="flexx">
@@ -97,7 +115,7 @@
                                     <p>{!!optional(optional($bill->route_trip)->client)->name !!}</p>
                                     <h4>cust. name</h4>
                                 </div>
-                                
+
                             </div>
                             <div class="box1 third">
                                 <div class="flexx ">
@@ -105,7 +123,7 @@
                                     <p>{!!optional(optional($bill->route_trip)->client)->tax_number !!}</p>
                                     <h4>cust. vat no.</h4>
                                 </div>
-                                
+
                             </div>
                         </div>
                         <div class="flexx">
@@ -115,7 +133,7 @@
                                     <p>{!!optional(optional($bill->route_trip)->client)->address !!}</p>
                                     <h4>address</h4>
                                 </div>
-                                
+
 
                             </div>
                             <div class="box1 quater">
@@ -124,7 +142,7 @@
                                     <p>{!!optional(optional($bill->route_trip)->client)->phone !!}</p>
                                     <h4>phone</h4>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -139,7 +157,7 @@
                                     <p>{!! optional($bill->route_trip)->route->user->phone ??''!!}</p>
                                     <h4>Representative no.</h4>
                                 </div>
-                                
+
                             </div>
                             <!-- <div class="box1">
                                 @if($bill->store->has_car==1)
@@ -156,7 +174,7 @@
                                     <p> {{optional($bill->route_trip)->route->user->name ??''}}</p>
                                     <h4>Representative Name</h4>
                                 </div>
-                                
+
                             </div>
                             <!-- <div class="box1">
                                     <div class="flexx">
@@ -232,11 +250,11 @@
                                 <td>{!!$loop->iteration!!}</td>
                             </tr>
                             @endforeach
-                            
+
                         </tbody>
                     </table>
                 </div>
-                
+
                 </div>
                     <div>
                     <table class="the_table">
@@ -248,7 +266,7 @@
                                         <p>total</p>
                                         <p>الإجمالى (بدون ضريبة)</p>
                                     </div>
-                                    
+
                                 </th>
                             </tr>
                             <tr>
@@ -258,7 +276,7 @@
                                         <p>قيمة القيمة المضافة</p>
                                         <p>vat (15%)</p>
                                     </div>
-                                    
+
                                 </th>
                             </tr>
                             <tr>
@@ -292,7 +310,7 @@
                     <div class="row">
                         <div class="col">
                             <div class="box1 flexx">
-                                
+
                                 <div class="col">
                                     <div>
                                         <h4>توقيع المستلم</h4>
@@ -300,7 +318,7 @@
                                     </div>
                                     <p> </p>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -334,7 +352,7 @@
                     </div>
                 </footer>
                 </div>
-                
+
             </div>
                 </div>
             </div>
