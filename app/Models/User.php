@@ -468,7 +468,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function updateCarStore($car_id = null)
     {
-
+//dd($this->car_store->car_id );
         //remove car if exists
         if (($car_id == null && $this->car_store->car_id != null)) {
             ($this->car_store)->fill(['car_id', null])->save();
@@ -476,7 +476,8 @@ class User extends Authenticatable implements JWTSubject
 
         //change car
         if ($car_id != null && $this->car_store->car_id != null) {
-            $this->car_store->fill(['car_id', $car_id])->save();
+            $this->car_store->update([
+                'car_id'=>$car_id]);
         }
         //user haven't car ,create new one
         if (($car_id != null && $this->car_store->car_id == null)) {
