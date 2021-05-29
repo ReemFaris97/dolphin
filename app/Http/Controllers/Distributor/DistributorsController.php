@@ -150,7 +150,7 @@ class DistributorsController extends Controller
         if ($request->password != null && !\Hash::check($request->old_password, $user->password)) {
             return back()->withInput()->withErrors(['old_password' => 'كلمه المرور القديمه غير صحيحه']);
         }
-
+//dd($requests);
         $user->fill($requests);
 //        $user->syncPermissions($request->permissions);
         $user->save();
