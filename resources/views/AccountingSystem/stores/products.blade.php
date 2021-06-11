@@ -78,9 +78,9 @@
                         <td><img src="{!! getimg($row->product->image)!!}" style="width:100px; height:100px"> </td>
                         <td>
                             @if ($row->is_active==0)
-                                <a href="{{route('accounting.stores.is_active_product',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="اصناف المستودع "> <i class="fa fa-close"></i></a>
+                                <a href="{{route('accounting.stores.is_active_product',$row->id)}}" data-toggle="tooltip" data-original-title="اصناف المستودع "> <i class="fa fa-close"></i></a>
                             @else
-                                <a href="{{route('accounting.stores.dis_active_product',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="اصناف المستودع "> <i class="icon-checkmark-circle" style="margin-left: 10px"></i> </a>
+                                <a href="{{route('accounting.stores.dis_active_product',$row->id)}}" data-toggle="tooltip" data-original-title="اصناف المستودع "> <i class="icon-checkmark-circle" style="margin-left: 10px"></i> </a>
 
                                 @endif
 

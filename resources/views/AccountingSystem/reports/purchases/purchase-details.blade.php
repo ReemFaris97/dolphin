@@ -55,7 +55,7 @@
                         <td>{!! $row->total?? 0 !!}</td>
 
                         <td class="text-center td-display-none">
-                            <a href="{{route('accounting.purchases.show',['id'=>$row->id])}}" target="_blank" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.purchases.show',$row->id)}}" target="_blank" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
 
                         </td>
                     </tr>

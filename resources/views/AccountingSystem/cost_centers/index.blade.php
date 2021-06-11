@@ -66,11 +66,11 @@
 
 
                         <td class="text-center">
-                            <a href="{{route('accounting.costCenters.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.costCenters.edit',$row->id)}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
                             @if ($row->active==0)
-                            <a href="{{route('accounting.costCenters.active',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="  "> <i class="fa fa-close"></i></a>
+                            <a href="{{route('accounting.costCenters.active',$row->id)}}" data-toggle="tooltip" data-original-title="  "> <i class="fa fa-close"></i></a>
                             @else
-                            <a href="{{route('accounting.costCenters.dis_active',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="  "> <i class="icon-checkmark-circle" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.costCenters.dis_active',$row->id)}}" data-toggle="tooltip" data-original-title="  "> <i class="icon-checkmark-circle" style="margin-left: 10px"></i> </a>
                         @endif
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
 

@@ -77,7 +77,7 @@
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td >
-                            <a href="{{route('accounting.ChartsAccounts.show',['id'=>$row->id])}}" class="link">
+                            <a href="{{route('accounting.ChartsAccounts.show',$row->id)}}" class="link">
                                 {!! $row->ar_name!!}- {!! $row->code!!}
                             </a>
                         </td>

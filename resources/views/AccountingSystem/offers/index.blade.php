@@ -59,10 +59,10 @@
 
 
                         <td class="text-center">
-                            <a href="{{route('accounting.offers.show',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.offers.show',$row->id)}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
 
                             @if ($row->status=="accept")
-                                <a href="{{route('accounting.sales.sale_order',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="امر بيع"> <i class="icon-cart-add" style="margin-left: 10px"></i> </a>
+                                <a href="{{route('accounting.sales.sale_order',$row->id)}}" data-toggle="tooltip" data-original-title="امر بيع"> <i class="icon-cart-add" style="margin-left: 10px"></i> </a>
 
                             @endif
                         </td>
