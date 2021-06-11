@@ -46,7 +46,7 @@
 
                         <td class="text-center">
 
-                            <a href="{{route('accounting.stores.show_inventory',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.stores.show_inventory',$row->id)}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>
 
 
                         </td>

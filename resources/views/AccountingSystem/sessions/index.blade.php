@@ -11,7 +11,7 @@
     <div class="panel panel-flat">
         <div class="panel-heading">
             <h5 class="panel-title">عرض كل  الجلسات
-        
+
             </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
@@ -65,7 +65,7 @@
                             {{--</td>--}}
                         <td>
                             @if($row->status=='open')
-                            <a href="{{route('accounting.sessions.close',['id'=>$row->id])}}" data-toggle="tooltip"  class="btn btn-danger" > اغلاق  الجلسه</a>
+                            <a href="{{route('accounting.sessions.close',$row->id)}}" data-toggle="tooltip"  class="btn btn-danger" > اغلاق  الجلسه</a>
                             @elseif($row->status=='closed')
                                 <label class="lable lable-warning">مغلقة </label>
                             @else
@@ -74,7 +74,7 @@
                             @endif
                         </td>
                         <td class="text-center">
-                            <a href="{{route('accounting.sessions.show',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.sessions.show',$row->id)}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
 
                             {!!Form::open( ['route' => ['accounting.sessions.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}

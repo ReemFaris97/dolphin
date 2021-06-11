@@ -62,7 +62,7 @@
                         </td>
 
                         <td class="text-center td-display-none">
-                            <a href="{{route('accounting.puchaseReturns.show',['id'=>$row->id])}}" target="_blank" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.puchaseReturns.show',$row->id)}}" target="_blank" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
 
                         </td>
                     </tr>

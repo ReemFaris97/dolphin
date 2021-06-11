@@ -65,7 +65,7 @@
 
 
                         <td class="text-center">
-                            <a href="{{route('accounting.clauses.show',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.clauses.show',$row->id)}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>
 
                         </td>
                     </tr>
@@ -107,7 +107,7 @@
 
 
                                 <td class="text-center">
-                                    <a href="{{route('accounting.clauses.show',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>
+                                    <a href="{{route('accounting.clauses.show',$row->id)}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>
 
                                 </td>
                             </tr>
@@ -146,7 +146,7 @@
 
 
                                 <td class="text-center">
-                                    <a href="{{route('accounting.purchases.show',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
+                                    <a href="{{route('accounting.purchases.show',$row->id)}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
 
 
                                 </td>

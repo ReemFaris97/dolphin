@@ -55,8 +55,8 @@
                 </div>
 
             </div>
-            
-            
+
+
 			<div class="col-md-8 the-orders-iframe">
 		  		<div class="the-new-orders-style embed-responsive embed-responsive-16by9">
                     <iframe class="embed-responsive-item" name="treeframe" src="https://www.google.com/"></iframe>
@@ -87,7 +87,7 @@
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>
-                            <a href="{{route('accounting.ChartsAccounts.show',['id'=>$row->id])}}" class="link">
+                            <a href="{{route('accounting.ChartsAccounts.show',$row->id)}}" class="link">
                                 {!! $row->ar_name!!}
                             </a>
                         </td>
@@ -109,7 +109,7 @@
                             @endif
                         </td>
                         <td class="text-center">
-                            <a href="{{route('accounting.ChartsAccounts.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.ChartsAccounts.edit',$row->id)}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
 
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
 

@@ -9,7 +9,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">عرض كل الفروع  
+            <h5 class="panel-title">عرض كل الفروع
             	<div class="btn-group beside-btn-title">
                 <a href="{{route('accounting.branches.create')}}" class="btn btn-success">
                    إضافه  فرع  جديد
@@ -17,7 +17,7 @@
                 </a>
             </div>
             </h5>
-            
+
 
             <div class="heading-elements">
                 <ul class="icons-list">
@@ -60,9 +60,9 @@
 
 
                         <td class="text-center">
-                            <a href="{{route('accounting.branches.show',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.branches.show',$row->id)}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>
                             @can('تعديل الفرع')
-                            <a href="{{route('accounting.branches.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.branches.edit',$row->id)}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
                            @endcan
                             @can('حذف الفرع')
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>

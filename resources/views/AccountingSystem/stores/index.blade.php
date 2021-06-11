@@ -70,17 +70,17 @@
 
 
                         <td class="text-center">
-                            <a href="{{route('accounting.stores.product',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="اصناف المستودع "> <i class="icon-cart" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.stores.product',$row->id)}}" data-toggle="tooltip" data-original-title="اصناف المستودع "> <i class="icon-cart" style="margin-left: 10px"></i> </a>
                                 @if ($row->is_active==0)
-                                <a href="{{route('accounting.stores.is_active',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="اصناف المستودع "> <i class="fa fa-close"></i></a>
+                                <a href="{{route('accounting.stores.is_active',$row->id)}}" data-toggle="tooltip" data-original-title="اصناف المستودع "> <i class="fa fa-close"></i></a>
                                 @else
-                                <a href="{{route('accounting.stores.dis_active',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="اصناف المستودع "> <i class="icon-checkmark-circle" style="margin-left: 10px"></i> </a>
+                                <a href="{{route('accounting.stores.dis_active',$row->id)}}" data-toggle="tooltip" data-original-title="اصناف المستودع "> <i class="icon-checkmark-circle" style="margin-left: 10px"></i> </a>
 
                             @endif
 
-                            <a href="{{route('accounting.stores.show',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.stores.show',$row->id)}}" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a>
                             @can('تعديل المستودع')
-                            <a href="{{route('accounting.stores.edit',['id'=>$row->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.stores.edit',$row->id)}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
                             @endcan
                             @can('حذف المستودع')
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
