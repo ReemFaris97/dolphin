@@ -111,10 +111,11 @@ protected $dates = ['created_at', 'updated_at', 'paid_at'];
 
     public function scopeWithProductsPrice(Builder $builder)
     {
+
         $builder->join(
             DB::raw(
                 "(
-                    select model_id as route_trip_id,
+                    select model_id as route_trip,
                     SUM(price *quantity) as products_price,
                     SUM(quantity) as total_quantity,
                     price ,
@@ -124,7 +125,7 @@ protected $dates = ['created_at', 'updated_at', 'paid_at'];
                     group by model_id ,product_id
                 ) as attached_products"
             ),
-            'attached_products.route_trip_id',
+            'attached_products.route_trip',
             'route_trip_reports.id'
         );
     }
