@@ -62,11 +62,11 @@
                         <div class="box1">
                             <div class="flexx">
                                 <h4>نوع الفاتورة</h4>
-                                @if($row->created_at==$row->paid_at)
+                                @if($bill->created_at==$bill->paid_at)
                                 <p>نقدى</p>
-                                @elseif($row->paid_at!=null && $row->created_at!=$row->paid_at)
+                                @elseif($bill->paid_at!=null && $bill->created_at!=$bill->paid_at)
                                     <p>أجل مسددة </p>
-                                @elseif($row->paid_at==null)
+                                @elseif($bill->paid_at==null)
                                     <p>أجل  </p>
                                 @endif
                                 <h4>invoice type</h4>
@@ -74,11 +74,11 @@
 
                             <div class="flexx">
                                 <h4>حالة الفاتورة</h4>
-                                @if($row->created_at==$row->paid_at)
+                                @if($bill->created_at==$bill->paid_at)
                                     <p> تم السداد نقديا </p>
-                                @elseif($row->paid_at!=null && $row->created_at!=$row->paid_at)
+                                @elseif($bill->paid_at!=null && $bill->created_at!=$bill->paid_at)
                                     <p>تم السداد </p>
-                                @elseif($row->paid_at==null)
+                                @elseif($bill->paid_at==null)
                                     <p>غير مسدده  </p>
                                 @endif
                                 <h4>invoice status</h4>
