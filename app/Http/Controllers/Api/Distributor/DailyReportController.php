@@ -23,7 +23,7 @@ use Illuminate\Http\Response;
 
 class DailyReportController extends Controller
 {
-    use ApiResponses,DailyReportOperation;
+    use ApiResponses, DailyReportOperation;
 
     public function reports()
     {
@@ -46,10 +46,12 @@ class DailyReportController extends Controller
     public function productReport(Request $request)
     {
         $date = Carbon::parse($request->date);
-        $report = RouteTripReport::ofDistributor(auth()->id())->whereDate('route_trip_reports.created_at', $date)->groupBy('product_id')->withProductsPrice()
-                ->selectRaw('`total_quantity` ,`price` ,`product_id`,`products_price`')
-//                ->addSelect(DB::raw('sum(cash) as total_cash'))
-                ->addSelect(DB::raw('(select name from products where products.id = product_id limit 1 ) as product_name'))->latest()->get();
+        $report = RouteTripReport::ofDistributor(auth()->id())
+            ->whereDate('route_trip_reports.created_at', $date)
+            ->groupBy('product_id')->withProductsPrice()
+            ->selectRaw('`total_quantity` ,`price` ,`product_id`,`products_price`')
+            //                ->addSelect(DB::raw('sum(cash) as total_cash'))
+            ->addSelect(DB::raw('(select name from products where products.id = product_id limit 1 ) as product_name'))->latest()->get();
 
         $expenses = Expense::whereDate('date', $date)->sum('amount');
 
@@ -68,11 +70,12 @@ class DailyReportController extends Controller
             $expenses = Expense::where('round', $route_trip->reports->first()->round)->where('distributor_route_id', $route_trip->route_id)->sum('amount');
         }
 
-  
+
+        //دى تعديله عشان المحلاوى مايعدش فى ال keys  وهو ملخبطهم عنده  فا عشان العميل ما يعلقناش
         return $this->apiResponse([
             'reports' => $report,
-            'total_quantities' => (string) $report->sum('total_quantity'),
             'total_cash' => (string) $report->sum('products_price'),
+            'total_quantities' => (string) ($report->sum('products_price') - $expenses),
             'total_expenses' => (string) $expenses
         ]);
     }
