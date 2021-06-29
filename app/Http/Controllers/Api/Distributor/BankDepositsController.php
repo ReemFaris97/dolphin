@@ -39,7 +39,6 @@ class BankDepositsController extends Controller
         } else {
             $BankDeposits = BankDeposit::where('user_id', auth()->id())->orderBy('deposit_date', 'DESC')
                 ->paginate($this->paginateNumber);
-
         }
 
         return $this->apiResponse(new BankDepositsResource($BankDeposits));
@@ -52,7 +51,7 @@ class BankDepositsController extends Controller
             'user_id' => 'required|integer|exists:users,id',
             'bank_id' => 'required_if:type,==,bank_transaction|integer|nullable|exists:banks,id',
             'deposit_number' => "required_if:type,==,bank_transaction|nullable|string|max:191",
-//            'deposit_date' => "required|date",
+            'deposit_date' => "required|date|before:today",
             'image' => "required||mimes:jpg,jpeg,gif,png",
         ];
         $validation = $this->apiValidation($request, $rules);
@@ -70,6 +69,4 @@ class BankDepositsController extends Controller
 
         return $this->apiResponse('تم الايداع بنجاح');
     }
-
-
 }

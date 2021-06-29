@@ -47,7 +47,7 @@ class ExpenseController extends Controller
     {
         $rules = [
 
-//            'distributor_route_id'=> 'required|integer|exists:distributor_routes,id',
+            //            'distributor_route_id'=> 'required|integer|exists:distributor_routes,id',
             'expenditure_clause_id' => 'required|integer|exists:expenditure_clauses,id',
             'expenditure_type_id' => 'required|integer|exists:expenditure_types,id',
             'date' => 'nullable|date',
@@ -65,12 +65,10 @@ class ExpenseController extends Controller
         }
         $request['user_id'] = auth()->user()->id;
 
-        if (DistributorRoute::where('user_id', auth()->id())->where('is_active', 1)->count() == 0) {
+        if (DistributorRoute::where('user_id', auth()->id())->count() == 0) {
             return $this->apiResponse(null, ['date' => __("no active route")], 422);
-
         }
         $expense = $this->AddExpense($request);
         return $this->apiResponse(['msg' => 'العملية تمت بنجاح', 'data' => new ExpenseResource($expense)]);
     }
-
 }
