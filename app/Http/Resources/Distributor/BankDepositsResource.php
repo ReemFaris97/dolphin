@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Distributor;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class BankDepositsResource extends ResourceCollection
@@ -19,7 +20,7 @@ class BankDepositsResource extends ResourceCollection
                 return [
                     'id' => $q->id,
                     'type' => $q->type == 'bank_transaction' ? 'تحويل بنكى' : 'مبلغ مباشر',
-                    'deposit_date' => $q->deposit_date->toDateString() . ' ' . $q->created_at->toTimeString(),
+                    'deposit_date' => Carbon::parse($q->deposit_date)->toDateString() . ' ' . $q->created_at->toTimeString(),
                     'deposit_number' => $q->deposit_number ?? '',
                     'bank' => $q->bank->name ?? '',
                     'amount' => (string)((float)$q->amount ?? 0),
