@@ -25,8 +25,8 @@ trait ExpenseOperation
      */
     public function AddExpense($request)
     {
-//      $inputs = $request->all();
-//      $clause = Expense::create($inputs);
+        //      $inputs = $request->all();
+        //      $clause = Expense::create($inputs);
 
         $inputs = $request->all();
 
@@ -39,14 +39,15 @@ trait ExpenseOperation
         }
 
         $inputs['sanad_No'] = mt_rand(1000000, 9999999);
-//        dd(DistributorRoute::where('user_id', auth()->id())->get());
-        $active_route = DistributorRoute::where('user_id', auth()->id())->where('is_active', 1)->first();
+        //        dd(DistributorRoute::where('user_id', auth()->id())->get());
+        $active_route = DistributorRoute::where('user_id', auth()->id())->orderBy('round', 'asc')
+            ->orderBy('arrange', 'asc')->first();
 
         $inputs['distributor_route_id'] = optional($active_route)->id;
         $inputs['round'] = optional($active_route)->round;
         $inputs['date'] = date('Y-m-d');
         $inputs['time'] = date('H:i:s');
-//        $inputs['route_trip_id']=
+        //        $inputs['route_trip_id']=
         \DB::beginTransaction();
         $clause = Expense::create($inputs);
 
@@ -61,6 +62,4 @@ trait ExpenseOperation
         \DB::commit();
         return $clause;
     }
-
-
 }
