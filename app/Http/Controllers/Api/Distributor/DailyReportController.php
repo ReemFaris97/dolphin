@@ -48,8 +48,9 @@ class DailyReportController extends Controller
         $date = Carbon::parse($request->date);
         $report = RouteTripReport::ofDistributor(auth()->id())
             ->whereDate('route_trip_reports.created_at', $date)
-            ->groupBy('product_id')->withProductsPrice()
-            ->selectRaw('`total_quantity` ,`price` ,`product_id`,`products_price`')
+            ->groupBy('product_id')
+            ->withProductsPrice()
+            ->selectRaw('sum(`total_quantity`)  as total_quantity,`price` ,`product_id`,sum(`products_price`) as products_price ')
             //                ->addSelect(DB::raw('sum(cash) as total_cash'))
             ->addSelect(DB::raw('(select name from products where products.id = product_id limit 1 ) as product_name'))->latest()->get();
 
