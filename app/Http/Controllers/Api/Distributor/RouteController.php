@@ -43,7 +43,8 @@ class RouteController extends Controller
 
         return $this->apiResponse([
             'active_route' => ($active_route != null) ? new MapRoutesResource($active_route) : null,
-            'routes' => MapRoutesResource::collection($routes)]);
+            'routes' => MapRoutesResource::collection($routes)
+        ]);
     }
 
     public function show(Request $request, $id)
@@ -51,7 +52,7 @@ class RouteController extends Controller
         $trips = RouteTrips::query()->where('route_id', $id)
             ->when(($request->lat != null && $request->lng != null), function ($q) use ($request) {
                 $q->OrderByDistance($request->lat, $request->lng);
-            })/*->orderby('arrange', 'asc')*/ ->get();
+            })/*->orderby('arrange', 'asc')*/->get();
 
         $trips = TripResource::collection($trips);
         return $this->apiResponse($trips);
@@ -61,11 +62,11 @@ class RouteController extends Controller
     {
         $route = DistributorRoute::with(['round_expenses', 'trips'])->find($id);
         $cash = $route->trips->load(['reports' => function ($q) use ($route) {
-             $q->where('round', $route->round);
+            $q->where('round', $route->round);
         }])->pluck('reports')->flatten()->sum('cash');
         $total_expenses = $route->round_expenses->sum('amount');
 
-        return[
+        return [
             'cash' => (string) round($cash, 2),
             'expenses' => (string) round($total_expenses, 2),
             'total' => (string) round(($cash - $total_expenses), 2)
@@ -98,9 +99,9 @@ class RouteController extends Controller
         } else {
             $request['status'] = 'accepted';
 
-//             DistributorRoute::whereHas('trips',function($q)use($request){
-// $q->where();
-//             });
+            //             DistributorRoute::whereHas('trips',function($q)use($request){
+            // $q->where();
+            //             });
         }
         $this->RegisterInventory($request);
         return $this->apiResponse('تم عمل الجرد بنجاح');
@@ -151,14 +152,20 @@ class RouteController extends Controller
         }
         /**  @var \App\Models\RouteTrips $route_trip */
         $route_trip = RouteTrips::find($request->trip_id);
-        $route_trip_report = $route_trip->getCurrentReport;
+        $route_trip_report = $route_trip->getLatestReport;
         if ($route_trip_report == null) {
-            return $this->apiResponse(null, 'لا يوجد فاتوره لهذه الزياره ',400);
+            return $this->apiResponse(null, 'لا يوجد فاتوره لهذه الزياره ', 400);
         }
         foreach ($request->images as $image) {
             $route_trip_report->images()->create(['image' => saveImage($image, 'users')]);
         }
-        $route_trip->update(['status' => 'accepted']);
+        // $route_trip->update(['status' => 'accepted']);
+        $route_trip->update([
+            'status' => 'pending',
+            'round' => $route_trip->round + 1,
+        ]);
+
+
 
         return $this->apiResponse('تم تسجيل الصور بنجاح');
     }
@@ -229,7 +236,8 @@ class RouteController extends Controller
 
         return $this->apiResponse([
             'message' => 'تم ملأ التقرير بنجاح',
-            'code' => $report->Invoice_number]);
+            'code' => $report->Invoice_number
+        ]);
     }
 
     public function AddDamage(Request $request)
@@ -250,6 +258,7 @@ class RouteController extends Controller
         $report = $this->damageProduct($request);
 
         return $this->apiResponse([
-            'message' => 'تم تسجيل التوالف بنجاح']);
+            'message' => 'تم تسجيل التوالف بنجاح'
+        ]);
     }
 }

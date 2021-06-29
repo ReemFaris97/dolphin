@@ -29,9 +29,10 @@ trait RouteOperation
             $inputs = $request->all();
             $route_trip = RouteTrips::find($request->trip_id);
             $inputs['round'] = $route_trip->round;
-                $route_trip->update([
-                    'status' => $request->status
-                ]);
+            $route_trip->update([
+                'status' => $request->status,
+                'round' => $route_trip->round + ($request->status == 'refuse' ? 1 : 0)
+            ]);
             $trip = TripInventory::create($inputs);
             foreach ($request->products as $item) {
                 $product = Product::find($item['product_id']);
@@ -98,13 +99,6 @@ trait RouteOperation
                     'store_id' => $request->store_id,
                     'trip_report_id' => $trip_report->id
                 ]);
-
-
-                $trip->update([
-                    'status' => 'pending',
-                    'round' => $trip->round + 1,
-                ]);
-
             }
 
             DB::commit();
@@ -140,7 +134,7 @@ trait RouteOperation
                     'is_finished' => 0,
                     'arrange' => $user_routes->arrange + 1,
                     'is_active' => 0,
-                    'round' => $inputs['round'] + 1,
+                    'round' => $inputs['round'],
                     'received_code' => mt_rand(1000000, 9999999)
                 ]
             )->save();
@@ -153,7 +147,7 @@ trait RouteOperation
                 ]);
             }
             $current_route->trips()->update([
-                'round' => $inputs['round'] + 1,
+                'round' => $inputs['round'],
                 'status' => 'pending',
             ]);
             DB::commit();
@@ -192,5 +186,4 @@ trait RouteOperation
 
         return $arr;
     }
-
 }

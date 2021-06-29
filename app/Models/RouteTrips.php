@@ -17,12 +17,12 @@ class RouteTrips extends Model
 
     public function route()
     {
-        return $this->belongsTo(DistributorRoute::class,'route_id')->withDefault();
+        return $this->belongsTo(DistributorRoute::class, 'route_id')->withDefault();
     }
     public function client()
     {
 
-        return $this->belongsTo(Client::class,'client_id')->withDefault();
+        return $this->belongsTo(Client::class, 'client_id')->withDefault();
     }
 
     public function reports()
@@ -33,32 +33,38 @@ class RouteTrips extends Model
     {
         return $this->hasOne(RouteTripReport::class, 'route_trip_id')->where('round', $this->round);
     }
+    public function getLatestReport()
+    {
+        return $this->hasOne(RouteTripReport::class, 'route_trip_id')->latest();
+    }
+
+
     public function user()
     {
 
-        return $this->belongsTo(User::class,'user_id')->withDefault();
+        return $this->belongsTo(User::class, 'user_id')->withDefault();
     }
     public function images()
     {
-        return $this->morphMany(Image::class,'model');
+        return $this->morphMany(Image::class, 'model');
     }
 
     public function products()
     {
-        return $this->morphMany(AttachedProducts::class,'model');
+        return $this->morphMany(AttachedProducts::class, 'model');
     }
 
     public function inventory()
     {
-        return $this->hasOne(TripInventory::class,'trip_id');
+        return $this->hasOne(TripInventory::class, 'trip_id');
     }
 
-    public function scopeOfDistributor(Builder $builder,$distributor):void {
+    public function scopeOfDistributor(Builder $builder, $distributor): void
+    {
 
         $builder->whereHas('route', function ($route) use ($distributor) {
             $route->where('user_id', $distributor);
         });
-
     }
 
 
@@ -82,12 +88,11 @@ class RouteTrips extends Model
 
     public function steps()
     {
-        if(!$this->inventory) $status = "inventory";
-        elseif (!$this->products->first()) $status ="bill";
-        elseif(!$this->images->first()) $status="images";
+        if (!$this->inventory) $status = "inventory";
+        elseif (!$this->products->first()) $status = "bill";
+        elseif (!$this->images->first()) $status = "images";
         else $status = "finished";
         return $status;
-
     }
 
 
@@ -96,14 +101,9 @@ class RouteTrips extends Model
     public function getTotalAttribute()
     {
         $total = 0;
-        foreach ($this->products as $product)
-        {
+        foreach ($this->products as $product) {
             $total += $product->price * $product->quantity;
         }
         return $total;
     }
-
-
-
-
 }

@@ -85,7 +85,7 @@
     <div class="form-group m-form__group">
         <label> شكل الباركود </label>
         @if(isset($product))
-        <?php echo \Milon\Barcode\Facades\DNS1DFacade::getBarcodeHTML($product->bar_code, "C39", 1) ?>
+         {{\Milon\Barcode\Facades\DNS1DFacade::getBarcodeHTML($product->bar_code, "C39", 1) }}
         @endif
     </div>
 
