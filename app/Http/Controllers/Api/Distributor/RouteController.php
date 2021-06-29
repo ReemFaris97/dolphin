@@ -38,12 +38,22 @@ class RouteController extends Controller
 
     public function currentTrips()
     {
-        $routes = DistributorRoute::with('trips')->where('user_id', auth()->id())->where(['is_available' => 1])->get();
+        $routes = DistributorRoute::with('trips')
+            ->where('user_id', auth()->id())
+            ->where(['is_available' => 1])
+            ->orderBy('round', 'asc')
+            ->orderBy('arrange', 'asc')
+            ->get();
 
-        $active_route = DistributorRoute::with('trips')->where('user_id', auth()->id())->where(['is_available' => 1])->whereHas('trips', function ($q) {
-            $q->whereIn('status', ['accepted', 'refused']);
-        })->first();
-
+        $active_route = DistributorRoute::with('trips')
+            ->where('user_id', auth()->id())
+            ->where(['is_available' => 1])
+            ->orderBy('round', 'asc')
+            ->orderBy('arrange', 'asc')
+            ->whereHas('trips', function ($q) {
+                $q->whereIn('status', ['accepted', 'refused']);
+            })->first();
+ 
         return $this->apiResponse([
             'active_route' => ($active_route != null) ? new MapRoutesResource($active_route) : null,
             'routes' => MapRoutesResource::collection($routes)

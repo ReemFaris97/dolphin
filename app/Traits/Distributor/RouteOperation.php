@@ -126,7 +126,7 @@ trait RouteOperation
         $user_routes = DistributorRoute::where('user_id', $current_route->user_id)
             ->orderBy('round', 'desc')
             ->orderBy('arrange', 'desc')
-            ->first('arrange');
+            ->first();
         DB::beginTransaction();
         try {
             $current_route->fill(
@@ -134,7 +134,7 @@ trait RouteOperation
                     'is_finished' => 0,
                     'arrange' => $user_routes->arrange + 1,
                     'is_active' => 0,
-                    'round' => $inputs['round'],
+                    'round' => $inputs['round'] +1,
                     'received_code' => mt_rand(1000000, 9999999)
                 ]
             )->save();
@@ -147,7 +147,7 @@ trait RouteOperation
                 ]);
             }
             $current_route->trips()->update([
-                'round' => $inputs['round'],
+                'round' => $inputs['round'] + 1,
                 'status' => 'pending',
             ]);
             DB::commit();
