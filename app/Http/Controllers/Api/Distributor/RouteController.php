@@ -30,8 +30,9 @@ class RouteController extends Controller
     public function index()
     {
         $routes = DistributorRoute::where('user_id', auth()->user()->id)
-            ->orderBy('round', 'asc')
             ->orderBy('arrange', 'asc')
+            ->orderBy('round', 'asc')
+
             ->paginate($this->paginateNumber);
         return $this->apiResponse(new RoutesResource($routes));
     }
