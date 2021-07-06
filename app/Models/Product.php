@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\AccountingSystem\AccountingSetting;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -11,7 +12,7 @@ class Product extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'store_id', 'quantity_per_unit', 'min_quantity', 'max_quantity', 'price', 'type', 'bar_code', 'image', 'expired_at', 'code','tax','pirce_has_tax'];
+    protected $fillable = ['name', 'store_id', 'quantity_per_unit', 'min_quantity', 'max_quantity', 'price', 'type', 'bar_code', 'image', 'expired_at', 'code', 'tax', 'pirce_has_tax'];
 
 
     public function quantities()
@@ -66,8 +67,8 @@ class Product extends Model
     }
 
     /**
-     * @return mixed 
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException 
+     * @return mixed
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function authSupplierProductExpireDate()
     {
@@ -77,9 +78,9 @@ class Product extends Model
     }
 
     /**
-     * @param \Illuminate\Database\Eloquent\Builder $builder 
-     * @param mixed $class_id 
-     * @return void 
+     * @param \Illuminate\Database\Eloquent\Builder $builder
+     * @param mixed $class_id
+     * @return void
      */
     public function scopeWithClassPrice(Builder $builder, $class_id)
     {
@@ -111,15 +112,27 @@ class Product extends Model
     }
 
     /**
-     * @param \Illuminate\Database\Eloquent\Builder $builder 
-     * @param mixed $store_id 
-     * @return void 
-     * @throws \RuntimeException 
+     * @param \Illuminate\Database\Eloquent\Builder $builder
+     * @param mixed $store_id
+     * @return void
+     * @throws \RuntimeException
      */
     public function ScopeOfStore(Builder $builder, $store_id): void
     {
         $builder->whereHas('stores', function (Builder $builder) use ($store_id) {
             $builder->where('store_id', $store_id);
         });
+    }
+
+    public  function getTaxAmountAttribute()
+    {
+        $tax = AccountingSetting::where('name', 'general_taxs')->first();
+
+
+        return $this->price * ($tax->value/100);
+    }
+
+    public  function getNetPriceAttribute()
+    {
     }
 }

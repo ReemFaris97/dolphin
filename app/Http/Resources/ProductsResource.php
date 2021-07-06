@@ -19,7 +19,7 @@ class ProductsResource extends ResourceCollection
                 return [
                     'id'=>$q->id,
                     'name'=>$q->name,
-                    'price'=>$q->price,
+                    'price'=>round($q->price,2),
                     'bar_code'=>$q->bar_code,
                     'image'=>$q->image?getimg($q->image):"",
                     'images' => $q->images->transform(function ($qu){

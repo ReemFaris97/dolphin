@@ -17,7 +17,7 @@ class ProductsSpinnerModelResource extends JsonResource
         return [
             'id'=>$this->id,
             'name'=>$this->name,
-            'price'=>$this->price,
+            'price'=>round($this->price,2),
             'quantity_per_unit'=>(int)$this->quantity_per_unit,
             'quantity' => (int)($this->store_quantity) ?? $this->quantity()
         ];
