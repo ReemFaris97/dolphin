@@ -25,7 +25,10 @@
         "spatie/laravel-translatable": "^4.5",
         "staudenmeir/eloquent-has-many-deep": "^1.7",
         "staudenmeir/laravel-adjacency-list": "^1.0",
-        "uxweb/sweet-alert": "^2.0"
+        "laravelcollective/html": "^6.0",
+        "maatwebsite/excel": "^3.1",
+        "uxweb/sweet-alert": "^2.0",
+        "spatie/laravel-permission": "4.0.0"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",

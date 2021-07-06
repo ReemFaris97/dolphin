@@ -158,7 +158,6 @@
 <script src="{!! asset('dashboard/assets/vendors/custom/countdown/jquery.countdown.min.js') !!}"></script>
 <script src="{!! asset('dashboard/assets/scripts.js') !!}"></script>
 
-{{--@include('sweetalert::alert')--}}
 
 
 <!--end::Page Scripts -->

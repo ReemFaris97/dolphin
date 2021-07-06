@@ -173,6 +173,7 @@ function stores_to($id=Null)
     return $stores_to;
 }
 
+
 function products($store=null){
 
     $store_product=App\Models\AccountingSystem\AccountingProductStore::where('store_id',$store)->pluck('product_id','id')->toArray();

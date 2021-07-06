@@ -17,7 +17,7 @@ class TransactionsSpinnerModelResource extends JsonResource
         return [
             'id'=>$this->id,
             'sender_id'=>$this->sender_id,
-            'sender'=>$this->sender->name,
+            'sender'=>optional($this->sender)->name??"",
             'amount'=>$this->amount,
             'signature'=>$this->signature??"",
         ];

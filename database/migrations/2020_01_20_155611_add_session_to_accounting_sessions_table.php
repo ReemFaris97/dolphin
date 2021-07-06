@@ -14,7 +14,7 @@ class AddSessionToAccountingSessionsTable extends Migration
     public function up()
     {
         Schema::table('accounting_sessions', function (Blueprint $table) {
-            $table->enum('status',['open','closed','confirmed'])->default('open')->nullable();
+            // $table->enum('status',['open','closed','confirmed'])->default('open')->nullable();
 
         });
     }
