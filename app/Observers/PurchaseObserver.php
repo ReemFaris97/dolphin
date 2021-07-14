@@ -76,7 +76,7 @@ class PurchaseObserver
 
            //حساب  المشتريات والمخزون
 //           dd($purchase->store_id);
-           $storeAccount=AccountingAccount::where('store_id',$purchase->store_id)->first();
+           $storeAccount=AccountingAccount::where('store_id',$purchase->store_id)->first()?? new AccountingAccount() ;
            AccountingEntryAccount::create([
                'entry_id'=>$entry->id,
                'account_id'=>$storeAccount->id,
@@ -110,7 +110,7 @@ class PurchaseObserver
         // ]);
            //حساب  المشتريات والمخزون
 
-           $storeAccount=AccountingAccount::where('store_id',$purchase->store_id)->first();
+           $storeAccount=AccountingAccount::where('store_id',$purchase->store_id)->first()?? new AccountingAccount() ;
            AccountingEntryAccount::create([
                'entry_id'=>$entry->id,
             //    'from_account_id'=>$storeAccount->id,

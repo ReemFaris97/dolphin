@@ -83,8 +83,8 @@ class PurchaseController extends Controller
              if (getsetting('automatic_purchases')==1){
                  $requests['account_id']=getsetting('accounting_id_purchases');
              }
-             $requests['branch_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:Null;
-             $requests['company_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingCompany')?$user->store->model_id:Null;
+             $requests['branch_id']=(optional($user->store)->model_type=='App\Models\AccountingSystem\AccountingBranch')?optional($user->store)->model_id:Null;
+             $requests['company_id']=(optional($user->store)->model_type=='App\Models\AccountingSystem\AccountingCompany')?optional($user->store)->model_id:Null;
              $requests['store_id']=$user->accounting_store_id;
              $purchase=AccountingPurchase::create($requests);
              if ($requests['total']==Null){

@@ -37,7 +37,7 @@
                     data-name="{{$product->name}}"
                     data-price="{{$product->selling_price}}"
                     data-bar-code="{{$product->bar_code}}"
-                    data-link= "{{route('accounting.products.show',['id'=>$product->id])}}"
+                    data-link= "{{route('accounting.products.show',$product->id)}}"
                     data-price-has-tax="{{isset($producttax)? $producttax->price_has_tax : '0' }}"
                     data-total-taxes="{{ isset($producttax)? $product->total_taxes : '0'}}"
                     data-subunits="{{json_encode($merged)}}"

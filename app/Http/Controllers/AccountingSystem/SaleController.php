@@ -111,7 +111,7 @@ class SaleController extends Controller
             'debts'=>$requests['reminder'] ,
 //            'payment'=>'agel',
             'total'=>$requests['total'],
-            'branch_id'=>($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:Null,
+            'branch_id'=>(optional($user->store)->model_type=='App\Models\AccountingSystem\AccountingBranch')?optional($user->store)->model_id:Null,
         ]);
         if($requests['discount_byPercentage']!=0&&$requests['discount_byAmount']==0){
             $sale->update([
@@ -134,7 +134,7 @@ class SaleController extends Controller
         $qtys = collect($requests['quantity']);
         $unit_id = collect($requests['unit_id']);
         $taxs = collect($requests['tax']);
-        $price_after_tax = collect($requests['price_after_tax']);
+        $price_after_tax = collect($requests['price_after_tax']??0);
         $merges = $products->zip($qtys,$unit_id,$taxs,$price_after_tax);
 
         foreach ($merges as $merge)
@@ -244,7 +244,7 @@ class SaleController extends Controller
                 ]);
 //                dd($sale->getItemCostAttribute());
                 //حساب  المبيعات والمخزون
-                $storeAccount = AccountingAccount::where('store_id', $sale->store_id)->first();
+                $storeAccount = AccountingAccount::where('store_id', $sale->store_id)->first()??new AccountingAccount();
                 AccountingEntryAccount::create([
                     'entry_id' => $entry->id,
                     'from_account_id' =>getsetting('accounting_sales_cost_id'),

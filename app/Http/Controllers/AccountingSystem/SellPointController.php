@@ -33,7 +33,7 @@ class SellPointController extends Controller
     {
         $categories=AccountingProductCategory::all();
 //        dd(Cookie::get('session'));
-        $session=AccountingSession::find(Cookie::get('session'));
+        $session=AccountingSession::find(Cookie::get('session'))??AccountingSession::latest()->first();
         $clients=AccountingClient::pluck('name','id')->toArray();
         $userstores = AccountingUserPermission::where('user_id',auth()->user()->id)
             ->where('model_type','App\Models\AccountingSystem\AccountingStore')->pluck('model_id','id')->toArray();

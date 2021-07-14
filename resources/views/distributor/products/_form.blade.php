@@ -68,12 +68,12 @@
 
     <div class="form-group m-form__group">
         <label>الحد الأقصى للكمية</label>
-        {!! Form::number('max_quantity',null,['class'=>'form-control m-input '])!!}
+        {!! Form::number('max_quantity',null,['class'=>'form-control m-input'])!!}
     </div>
 
     <div class="form-group m-form__group">
         <label>السعر</label>
-        {!! Form::number('price',null,['class'=>'form-control m-input '])!!}
+        {!! Form::text('price',null,['class'=>'form-control m-input ','onkeypress'=>'return isNumberKey(this, event) ;'])!!}
     </div>
 
     <div class="form-group m-form__group">
@@ -85,7 +85,7 @@
     <div class="form-group m-form__group">
         <label> شكل الباركود </label>
         @if(isset($product))
-         {{\Milon\Barcode\Facades\DNS1DFacade::getBarcodeHTML($product->bar_code, "C39", 1) }}
+         {!!\Milon\Barcode\Facades\DNS1DFacade::getBarcodeHTML($product->bar_code, "C39", 1) !!}
         @endif
     </div>
 
@@ -142,7 +142,10 @@
             {{$product->client_classes->where('id',$client_class->id)->first()->pivot->price ??''}}
             @else
             {{ old('client_classes.'.$loop->index.'.price')}}
-            @endif">
+            @endif"
+            
+            onkeypress="isNumberKey(this, event)"
+            >
                 </td>
             </tr>
             @endforeach
@@ -151,28 +154,24 @@
 
 </div>
 
-{{--
-@push('scripts')
-    <script>
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
 
-        $('#store_category').change(function () {
-            var id = $(this).val();
-            $.ajax({
-                type: 'POST',
-                url: '{{ route('distributor.getAjaxStores') }}',
-data: {id: id},
-dataType: 'json',
-success: function (data) {
-$('#store_id').html(data.data);
-}
-});
-});
-</script>
+  <script >
+    function isNumberKey(txt, evt) {
+      var charCode = (evt.which) ? evt.which : evt.keyCode;
+      if (charCode == 46) {
+        //Check if the text already contains the . character
+        if (txt.value.indexOf('.') === -1) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        if (charCode > 31 &&
+          (charCode < 48 || charCode > 57))
+          return false;
+      }
+      return true;
+    }
+  </script>
 
-@endpush
---}}
+
