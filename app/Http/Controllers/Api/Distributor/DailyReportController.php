@@ -46,13 +46,17 @@ class DailyReportController extends Controller
     public function productReport(Request $request)
     {
         $date = Carbon::parse($request->date);
-        $report = RouteTripReport::ofDistributor(auth()->id())
+        $report = RouteTripReport::query()
+            ->ofDistributor(auth()->id())
             ->whereDate('route_trip_reports.created_at', $date)
             ->groupBy('product_id')
             ->withProductsPrice()
             ->selectRaw('sum(`total_quantity`)  as total_quantity,`price` ,`product_id`,sum(`products_price`) as products_price ')
-            //                ->addSelect(DB::raw('sum(cash) as total_cash'))
-            ->addSelect(DB::raw('(select name from products where products.id = product_id limit 1 ) as product_name'))->latest()->get();
+            ->addSelect(DB::raw('sum(cash) as total_cash'))
+            ->addSelect(DB::raw('sum(visa) as total_visa'))
+            ->addSelect(DB::raw('sum(total_money) as total_money'))
+            ->addSelect(DB::raw('(select name from products where products.id = product_id limit 1 ) as product_name'))
+            ->latest()->get();
 
         $expenses = Expense::whereDate('date', $date)->sum('amount');
 
@@ -75,7 +79,11 @@ class DailyReportController extends Controller
         //دى تعديله عشان المحلاوى مايعدش فى ال keys  وهو ملخبطهم عنده  فا عشان العميل ما يعلقناش
         return $this->apiResponse([
             'reports' => $report,
-            'total_cash' => (string) $report->sum('products_price'),
+            'products_price' => (string) $report->sum('products_price'),
+            'total_cash' => (string) $report->sum('total_cash'),
+            'total_visa' => (string) $report->sum('total_visa'),
+            'total_money' => (string) $report->sum('total_money'),
+            'total_remaining' => $report->sum('products_price') - $report->sum('total_money'),
             'total_quantities' => (string) ($report->sum('products_price') - $expenses),
             'total_expenses' => (string) $expenses
         ]);

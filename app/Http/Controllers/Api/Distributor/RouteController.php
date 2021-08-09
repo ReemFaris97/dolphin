@@ -53,7 +53,7 @@ class RouteController extends Controller
             ->whereHas('trips', function ($q) {
                 $q->whereIn('status', ['accepted', 'refused']);
             })->first();
- 
+
         return $this->apiResponse([
             'active_route' => ($active_route != null) ? new MapRoutesResource($active_route) : null,
             'routes' => MapRoutesResource::collection($routes)
@@ -234,6 +234,7 @@ class RouteController extends Controller
         $rules = [
             'route_id' => 'required|integer|exists:distributor_routes,id',
             'cash' => 'required|numeric',
+            'visa' => 'required|numeric',
             'expenses' => 'required|numeric',
             'image' => 'required|mimes:jpg,jpeg,gif,png',
             'products' => 'required|array',

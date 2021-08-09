@@ -23,7 +23,7 @@ use Request as GlobalRequest;
 class BuyPointController extends Controller
 {
     // use Viewable;
-//    private $viewable = 'AccountingSystem.sells_points.';
+    //    private $viewable = 'AccountingSystem.sells_points.';
     /**
      * Display a listing of the resource.
      *
@@ -31,23 +31,20 @@ class BuyPointController extends Controller
      */
     public function buy_point()
     {
-        $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
-
-        $suppliers=AccountingSupplier::pluck('name','id')->toArray();
-        $safes=AccountingSafe::pluck('name','id')->toArray();
+        $categories = AccountingProductCategory::pluck('ar_name', 'id')->toArray();
+        $suppliers = AccountingSupplier::pluck('name', 'id')->toArray();
+        $safes = AccountingSafe::pluck('name', 'id')->toArray();
         // $products=AccountingProduct::all();
-        $userstores=AccountingUserPermission::where('user_id',auth()->user()->id)->where('model_type','App\Models\AccountingSystem\AccountingStore')->pluck('model_id','id')->toArray();
-        $stores=AccountingStore::whereIn('id',$userstores)->pluck('ar_name','id')->toArray();
-        if($userstores){
-        $store_product=AccountingProductStore::whereIn('store_id',$userstores)->pluck('product_id','id')->toArray();
-            $products=AccountingProduct::whereIn('id',$store_product)->get();
+        $userstores = AccountingUserPermission::where('user_id', auth()->user()->id)->where('model_type', 'App\Models\AccountingSystem\AccountingStore')->pluck('model_id', 'id')->toArray();
+        $stores = AccountingStore::whereIn('id', $userstores)->pluck('ar_name', 'id')->toArray();
+        if ($userstores) {
+            $store_product = AccountingProductStore::whereIn('store_id', $userstores)->pluck('product_id', 'id')->toArray();
+            $products = AccountingProduct::whereIn('id', $store_product)->get();
+        } else {
+            $products = [];
+        }
 
-
-             }else{
-        $products=[];
-      }
-
-       return  view('AccountingSystem.buy_points.buy_point',compact('categories','suppliers','safes','products','stores'));
+        return  view('AccountingSystem.buy_points.buy_point', compact('categories', 'suppliers', 'safes', 'products', 'stores'));
     }
 
 
@@ -56,61 +53,59 @@ class BuyPointController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public  function getProductAjex(Request $request){
-        $store_product=AccountingProductStore::where('store_id',$request['id'])->pluck('product_id','id')->toArray();
-        $products=AccountingProduct::whereIn('id',$store_product)->get();
-//dd($products);
+    public  function getProductAjex(Request $request)
+    {
+        $store_product = AccountingProductStore::where('store_id', $request['id'])->pluck('product_id', 'id')->toArray();
+        $products = AccountingProduct::whereIn('id', $store_product)->get();
+        //dd($products);
 
         return response()->json([
-            'status'=>true,
-            'data'=>view('AccountingSystem.buy_points.products')->with('products',$products)->render()
+            'status' => true,
+            'data' => view('AccountingSystem.buy_points.products')->with('products', $products)->render()
         ]);
     }
 
-    public  function pro_search($q){
+    public  function pro_search($q)
+    {
 
-        $products=AccountingProduct::where('name','LIKE','%'.$q.'%')->get();
+        $products = AccountingProduct::where('name', 'LIKE', '%' . $q . '%')->get();
 
         return response()->json([
-            'status'=>true,
-            'data'=>view('AccountingSystem.buy_points.sell')->with('products',$products)->render()
+            'status' => true,
+            'data' => view('AccountingSystem.buy_points.sell')->with('products', $products)->render()
         ]);
-
     }
 
-    public  function barcode_search(Request $request,$q){
+    public  function barcode_search(Request $request, $q)
+    {
 
-        if($request['store_id']!=null){
-        $store_product=AccountingProductStore::where('store_id',$request['store_id'])->pluck('product_id','id')->toArray();
+        if ($request['store_id'] != null) {
+            $store_product = AccountingProductStore::where('store_id', $request['store_id'])->pluck('product_id', 'id')->toArray();
 
 
-        $products=AccountingProduct::where('bar_code',$q)->get();
+            $products = AccountingProduct::where('bar_code', $q)->get();
 
-		if(!$products->isEmpty())
-		{
-			$selectd_unit_id = 'main-'.$products[0]->id;
-		}
-        else
-        {
-            $product_unit=AccountingProductSubUnit::where('bar_code',$q)->pluck('product_id');
-            $products=AccountingProduct::whereIn('id',$product_unit)->whereIn('id',$store_product)->get();
-            $unit=	AccountingProductSubUnit::where('bar_code',$q)->first();
-			if($unit)
-			$selectd_unit_id = $unit->id;
-			else
-				$select_unit_id = 0;
+            if (!$products->isEmpty()) {
+                $selectd_unit_id = 'main-' . $products[0]->id;
+            } else {
+                $product_unit = AccountingProductSubUnit::where('bar_code', $q)->pluck('product_id');
+                $products = AccountingProduct::whereIn('id', $product_unit)->whereIn('id', $store_product)->get();
+                $unit =    AccountingProductSubUnit::where('bar_code', $q)->first();
+                if ($unit)
+                    $selectd_unit_id = $unit->id;
+                else
+                    $select_unit_id = 0;
+            }
+            return response()->json([
+                'status' => true,
+                'data' => view('AccountingSystem.buy_points.barcodeProducts', compact('products', 'selectd_unit_id'))->render()
+            ]);
+        } else {
+
+            return response()->json([
+                'status' => false,
+            ]);
         }
-        return response()->json([
-            'status'=>true,
-            'data'=>view('AccountingSystem.buy_points.barcodeProducts',compact('products','selectd_unit_id'))->render()
-        ]);
-    }else{
-
-        return response()->json([
-            'status'=>false,
-        ]);
-    }
-
     }
     /**
      * Store a newly created resource in storage.
@@ -137,8 +132,6 @@ class BuyPointController extends Controller
      */
     public function edit($id)
     {
-
-
     }
 
     /**
@@ -150,7 +143,6 @@ class BuyPointController extends Controller
      */
     public function update(Request $request, $id)
     {
-
     }
 
     /**
@@ -161,8 +153,5 @@ class BuyPointController extends Controller
      */
     public function destroy($id)
     {
-
-
-
     }
 }

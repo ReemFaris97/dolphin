@@ -22,17 +22,18 @@ class RouteTripReport extends Model
         'round',
         'cash',
         'notes',
+        'visa',
         'store_id',
         'distributor_transaction_id',
         'expenses',
         'paid_at',
     ];
-/**
- * The attributes that should be mutated to dates.
- *
- * @var array
- */
-protected $dates = ['created_at', 'updated_at', 'paid_at'];
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['created_at', 'updated_at', 'paid_at'];
     /**
      * The "booting" method of the model.
      *
@@ -43,7 +44,7 @@ protected $dates = ['created_at', 'updated_at', 'paid_at'];
         parent::boot();
 
         static::creating(function ($model) {
-            if (!request()->is_deffered==1) {
+            if (!request()->is_deffered == 1) {
                 $model->paid_at = Carbon::now();
             }
         });
@@ -88,12 +89,12 @@ protected $dates = ['created_at', 'updated_at', 'paid_at'];
     {
         $products = $this->morphMany(AttachedProducts::class, 'model')->with('product');
         $total = 0;
-//      dd($products->get());
+        //      dd($products->get());
         foreach ($products->get() as $item) {
             $sum = $item->price * $item->quantity;
             $total += $sum;
         }
-//        dd($total);
+        //        dd($total);
         return $total;
     }
 

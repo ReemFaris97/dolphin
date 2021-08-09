@@ -67,7 +67,7 @@ trait RouteOperation
                 'sender_id' => $trip->client_id,
                 'receiver_type' => User::class,
                 'receiver_id' => auth()->id(),
-                'amount' => $request->cash,
+                'amount' => $request->cash + $request->visa,
                 'received_at' => Carbon::now()
             ]);
 
@@ -75,6 +75,7 @@ trait RouteOperation
                 'route_trip_id' => $trip->id,
                 'round' => $trip->round,
                 'cash' => $request->cash,
+                'cash' => $request->visa,
                 'notes' => $request->notes,
                 'store_id' => $request->store_id,
                 'distributor_transaction_id' => $transaction->id,
@@ -134,7 +135,7 @@ trait RouteOperation
                     'is_finished' => 0,
                     'arrange' => $user_routes->arrange + 1,
                     'is_active' => 0,
-                    'round' => $inputs['round'] +1,
+                    'round' => $inputs['round'] + 1,
                     'received_code' => mt_rand(1000000, 9999999)
                 ]
             )->save();
