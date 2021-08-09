@@ -144,7 +144,7 @@
             {{ old('client_classes.'.$loop->index.'.price')}}
             @endif"
             
-            onkeypress="isNumberKey(this, event)"
+            onkeypress="return isNumberKey(this, event);"
             >
                 </td>
             </tr>
