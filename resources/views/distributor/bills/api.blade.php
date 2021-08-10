@@ -283,7 +283,8 @@
                                 <th>{{$bill->product_total()+($bill->product_total()* ((float) getsetting('general_taxs')) /100)}}</th>
                                 <th colspan="2">
                                     <p>net amount</p>
-                                    <p>اجمالى الفاتورة</p>
+                                    <
+                                    p>اجمالى الفاتورة</>
                                 </th>
                                 <th colspan="9">
                                     <div class="box1">

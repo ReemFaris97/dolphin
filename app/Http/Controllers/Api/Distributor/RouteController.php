@@ -130,6 +130,7 @@ class RouteController extends Controller
             'products' => 'required|array',
             'cash' => 'required|numeric',
             'store_id' => 'required|integer',
+            'visa' => 'required|numeric',
             'products.*.product_id' => 'required|integer|exists:products,id',
             'products.*.quantity' => 'required|integer',
         ];

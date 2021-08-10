@@ -75,7 +75,7 @@ trait RouteOperation
                 'route_trip_id' => $trip->id,
                 'round' => $trip->round,
                 'cash' => $request->cash,
-                'cash' => $request->visa,
+                'visa' => $request->visa,
                 'notes' => $request->notes,
                 'store_id' => $request->store_id,
                 'distributor_transaction_id' => $transaction->id,
