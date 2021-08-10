@@ -83,7 +83,7 @@ class DailyReportController extends Controller
             'total_cash' => (string) $report->sum('total_cash'),
             'total_visa' => (string) $report->sum('total_visa'),
             'total_money' => (string) $report->sum('total_money'),
-            'total_remaining' => $report->sum('products_price') - $report->sum('total_money'),
+            'total_remaining' =>  (string) $report->sum('products_price') - $report->sum('total_money'),
             'total_quantities' => (string) ($report->sum('products_price') - $expenses),
             'total_expenses' => (string) $expenses
         ]);

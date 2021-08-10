@@ -87,14 +87,12 @@ class RouteTripReport extends Model
 
     public function product_total()
     {
-        $products = $this->morphMany(AttachedProducts::class, 'model')->with('product');
         $total = 0;
-        //      dd($products->get());
-        foreach ($products->get() as $item) {
+
+        foreach ($this->products as $item) {
             $sum = $item->price * $item->quantity;
             $total += $sum;
         }
-        //        dd($total);
         return $total;
     }
 
