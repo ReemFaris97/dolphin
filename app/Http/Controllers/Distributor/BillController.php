@@ -25,6 +25,7 @@ class BillController extends Controller
     {
         $bills = RouteTripReport::with([
             'inventory',
+            'products',
             'route_trip' => function ($builder) {
                 $builder->with(['route' => function ($q) {
                     $q->with('user');
@@ -126,12 +127,23 @@ class BillController extends Controller
     {
         return view("distributor.bills.bill");
     }
-    public function pay($id)
+    public function pay(Request $request, $id)
     {
-        $item = RouteTripReport::find($id);
+        $total = $request->cash + $request->visa;
 
-        $item->update(['paid_at' => Carbon::now()]);
-        toast('تم إلغاء التفعيل بنجاح', 'success', 'top-right');
+        $item = RouteTripReport::find($id);
+        if ($item->product_total() != $total) {
+            toast('المبلغ يجب ان يكون مساويا لقيمه الفاتوره', 'success', 'top-right');
+            return back();
+        }
+        $item->update(
+            [
+                'paid_at' => Carbon::now(),
+                'cash' => $request->cash,
+                'visa' => $request->visa
+            ]
+        );
+        toast('تم الدفع بنجاح', 'success', 'top-right');
         return redirect()->route('distributor.bills.index');
     }
 }

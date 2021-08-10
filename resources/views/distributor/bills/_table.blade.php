@@ -27,7 +27,7 @@
             <td>{!!optional(optional($row->route_trip)->client)->name  !!}</td>
            <td>{!! $row->created_at->format('Y-m-d h:m A') !!}</td>
             <td>{!! optional($row->route_trip)->route->user->name !!}</td>
-            <td>{!!$row->cash !!}</td>
+            <td>{!!$row->product_total() !!}</td>
             <td>
                 @if(optional($row->inventory)->type=='accept')
               <label class="btn btn-success"> تم القبول</label>
@@ -52,9 +52,55 @@
                 @elseif($row->paid_at==null)
                     <label class="btn btn-danger">غير مسدده </label>
 
-                    <a href="#"  onclick="pay({{$row->id}},{{$row->cash}})"  data-original-title="سداد" class="btn btn-outline-danger btn-circle"><i  class="fa fa-coins"></i> سداد</a>
-                    {!!Form::open( ['route' => ['distributor.bills.pay',$row->id] ,'id'=>'pay-form'.$row->id, 'method' => 'get']) !!}
-                    {!!Form::close() !!}
+<button type="button" class="btn btn-outline-danger btn-circle" data-toggle="modal" data-target="#pay-{{$row->id}}">
+<i  class="fa fa-coins"></i>
+سداد </button>
+
+
+<div class="modal fade" id="pay-{{$row->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+   {!!Form::open(
+       ['route' => ['distributor.bills.pay',$row->id] ,
+       'id'=>'pay-form'.$row->id,
+        'method' => 'post']) !!}
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">تسديد فاتوره</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+                    <div class="m-portlet__body a-smaller-input-wrapper">
+                         <div class="form-group ">
+                             <label>الكاش</label>
+                                  {!! Form::text('cash',null,['class'=>'form-control m-input','placeholder'=>'الكاش'])!!}
+                         </div>
+
+                    </div>
+
+                    <div class="m-portlet__body a-smaller-input-wrapper">
+                        <div class="form-group ">
+                            <label>شبكة</label>
+                         {!! Form::text('visa',null,['class'=>'form-control m-input',   'placeholder'=>'شبكه'])!!}
+                        </div>
+
+                    </div>
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+   {{Form::close()}}
+    </div>
+  </div>
+</div>
+
 
                 @endif
             </td>

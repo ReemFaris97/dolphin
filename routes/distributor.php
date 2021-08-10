@@ -67,7 +67,7 @@ Route::middleware('distributor')->group(function () {
     Route::post('/routes/update-arrange', 'DistributorRoutesController@updateArrange')->name('routes.update-arrange');
     Route::resource('/trips', 'TripsController');
     Route::resource('/bills', 'BillController');
-    Route::get('/pay/{id}', 'BillController@pay')->name('bills.pay');
+    Route::post('/pay/{id}', 'BillController@pay')->name('bills.pay');
 
     Route::get('/bills/{id}/images', 'BillController@details')->name('bills.images');
     Route::get('bill-show/{id}', [ 'uses' => 'BillController@bill_show'])->name('bills.bill_show');
