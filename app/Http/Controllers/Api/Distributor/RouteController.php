@@ -235,7 +235,7 @@ class RouteController extends Controller
         $rules = [
             'route_id' => 'required|integer|exists:distributor_routes,id',
             'cash' => 'required|numeric',
-            'visa' => 'required|numeric',
+            // 'visa' => 'required|numeric',
             'expenses' => 'required|numeric',
             'image' => 'required|mimes:jpg,jpeg,gif,png',
             'products' => 'required|array',
