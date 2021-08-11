@@ -64,19 +64,31 @@
    {!!Form::open(
        ['route' => ['distributor.bills.pay',$row->id] ,
        'id'=>'pay-form'.$row->id,
-        'method' => 'post']) !!}
+        'method' => 'post',
+        'x-data'=>"{
+            row:".$row->toJson().",
+            cash:null,
+            total:".$row->product_total().",
+            visa:null,
+              get is_equal_total() { return parseFloat(this.cash||0)+parseFloat(this.visa||0)==parseFloat(this.total) },
+}"
+    
+        ]) !!}
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">تسديد فاتوره</h5>
+        <h5 class="modal-title" id="exampleModalLabel">تسديد فاتوره (بقيمة {{$row->product_total()}}ريال ) </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
+<span class="badge badge-danger p-1" style="font-size: initial;" x-show="!is_equal_total">
+يجب ان يكون المجموع مساوى لقيمة الفاتورة
 
+</span>
                     <div class="m-portlet__body a-smaller-input-wrapper">
                          <div class="form-group ">
                              <label>الكاش</label>
-                                  {!! Form::text('cash',null,['class'=>'form-control m-input','placeholder'=>'الكاش'])!!}
+                                  {!! Form::number('cash',null,['class'=>'form-control m-input','placeholder'=>'الكاش' ,'x-model'=>'cash'])!!}
                          </div>
 
                     </div>
@@ -84,7 +96,8 @@
                     <div class="m-portlet__body a-smaller-input-wrapper">
                         <div class="form-group ">
                             <label>شبكة</label>
-                         {!! Form::text('visa',null,['class'=>'form-control m-input',   'placeholder'=>'شبكه'])!!}
+                         {!! Form::number('visa',null,['class'=>'form-control m-input',   'placeholder'=>'شبكه',
+                         'x-model'=>'visa'])!!}
                         </div>
 
                     </div>
@@ -93,8 +106,8 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary"  data-dismiss="modal">اغلاق </button>
+        <button type="submit" class="btn btn-primary" x-bind:disabled="!is_equal_total">حفظ</button>
       </div>
    {{Form::close()}}
     </div>

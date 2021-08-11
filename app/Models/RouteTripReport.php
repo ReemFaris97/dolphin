@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Helpers\num_to_ar;
+use App\helper\num_to_ar;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\Builder;

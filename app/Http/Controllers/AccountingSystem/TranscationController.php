@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\AccountingSystem\AccountingCompanies;
+namespace App\Http\Controllers\AccountingSystem;
 
 use App\Models\AccountingSystem\AccountingBranch;
-
 use App\Models\AccountingSystem\AccountingMoneyClause;
 use App\Models\AccountingSystem\AccountingMoneyTransaction;
 use Illuminate\Http\Request;
@@ -21,11 +20,11 @@ class TranscationController extends Controller
      */
     public function index()
     {
-        $branches_id =AccountingBranch::where('company_id',auth('accounting_companies')->user()->id)->pluck('id','id')->toArray();
-        $transactions_company=AccountingMoneyTransaction::where('model_type','App\Models\AccountingSystem\AccountingCompany')->where('model_id',auth('accounting_companies')->user()->id)->get();
-        $transactions_branch=AccountingMoneyTransaction::where('model_type','App\Models\AccountingSystem\AccountingBranch')->whereIn('model_id',$branches_id)->get();
+        $branches_id = AccountingBranch::where('company_id', auth('accounting_companies')->user()->id)->pluck('id', 'id')->toArray();
+        $transactions_company = AccountingMoneyTransaction::where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->where('model_id', auth('accounting_companies')->user()->id)->get();
+        $transactions_branch = AccountingMoneyTransaction::where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->whereIn('model_id', $branches_id)->get();
 
-        $transactions=$transactions_company->merge($transactions_branch);
+        $transactions = $transactions_company->merge($transactions_branch);
         return $this->toIndex(compact('transactions'));
     }
 
@@ -37,10 +36,10 @@ class TranscationController extends Controller
     public function create()
     {
 
-        $branches=AccountingBranch::where('company_id',auth('accounting_companies')->user()->id)->pluck('name','id')->toArray();
-        $clauses=AccountingMoneyClause::pluck('ar_name','id')->toArray();
+        $branches = AccountingBranch::where('company_id', auth('accounting_companies')->user()->id)->pluck('name', 'id')->toArray();
+        $clauses = AccountingMoneyClause::pluck('ar_name', 'id')->toArray();
 
-        return $this->toCreate(compact('branches','clauses'));
+        return $this->toCreate(compact('branches', 'clauses'));
     }
 
     /**
@@ -53,26 +52,22 @@ class TranscationController extends Controller
     {
         $rules = [
 
-            'notes'=>'nullable|string',
-            'amount'=>'nullable|string',
+            'notes' => 'nullable|string',
+            'amount' => 'nullable|string',
 
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
 
-        if ($requests['company_id']==NULL & $requests['branch_id']!=NULL)
-        {
+        if ($requests['company_id'] == NULL & $requests['branch_id'] != NULL) {
 
-            $requests['model_id']= $requests['branch_id'];
-            $requests[ 'model_type']='App\Models\AccountingSystem\AccountingBranch';
-
+            $requests['model_id'] = $requests['branch_id'];
+            $requests['model_type'] = 'App\Models\AccountingSystem\AccountingBranch';
         }
-        if ($requests['branch_id']==NULL & $requests['company_id']!=NULL)
-        {
+        if ($requests['branch_id'] == NULL & $requests['company_id'] != NULL) {
 
-            $requests[ 'model_id']= $requests['company_id'];
-            $requests[ 'model_type']='App\Models\AccountingSystem\AccountingCompany';
-
+            $requests['model_id'] = $requests['company_id'];
+            $requests['model_type'] = 'App\Models\AccountingSystem\AccountingCompany';
         }
 
 
@@ -100,13 +95,11 @@ class TranscationController extends Controller
      */
     public function edit($id)
     {
-        $transaction =AccountingMoneyTransaction::findOrFail($id);
-        $branches=AccountingBranch::where('company_id',auth('accounting_companies')->user()->id)->pluck('name','id')->toArray();
-        $clauses=AccountingMoneyClause::pluck('ar_name','id')->toArray();
+        $transaction = AccountingMoneyTransaction::findOrFail($id);
+        $branches = AccountingBranch::where('company_id', auth('accounting_companies')->user()->id)->pluck('name', 'id')->toArray();
+        $clauses = AccountingMoneyClause::pluck('ar_name', 'id')->toArray();
 
-        return $this->toEdit(compact('transaction','branches','clauses'));
-
-
+        return $this->toEdit(compact('transaction', 'branches', 'clauses'));
     }
 
     /**
@@ -118,23 +111,21 @@ class TranscationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $transaction =AccountingMoneyTransaction::findOrFail($id);
+        $transaction = AccountingMoneyTransaction::findOrFail($id);
 
         $rules = [
-            'ar_name'=>'required|string|max:191',
-            'en_name'=>'nullable|string|max:191',
-            'ar_description'=>'nullable|string',
-            'en_description'=>'nullable|string',
+            'ar_name' => 'required|string|max:191',
+            'en_name' => 'nullable|string|max:191',
+            'ar_description' => 'nullable|string',
+            'en_description' => 'nullable|string',
 
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
 
         $transaction->update($requests);
         alert()->success('تم تعديل  البند بنجاح !')->autoclose(5000);
         return redirect()->route('company.transactions.index');
-
-
     }
 
     /**
@@ -145,11 +136,9 @@ class TranscationController extends Controller
      */
     public function destroy($id)
     {
-        $transaction =AccountingMoneyTransaction::findOrFail($id);
+        $transaction = AccountingMoneyTransaction::findOrFail($id);
         $transaction->delete();
         alert()->success('تم حذف  التحويل بنجاح !')->autoclose(5000);
-            return back();
-
-
+        return back();
     }
 }

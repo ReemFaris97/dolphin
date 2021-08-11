@@ -96,7 +96,7 @@ Route::middleware('distributor')->group(function () {
     Route::get('/disactive_expenditureClause/{id}', 'ExpenditureClausesController@disactive')->name('expenditureClauses.dis_active');
 
     Route::group(['namespace' => 'Reports', 'prefix' => 'reports', 'as' => 'reports.'], function () {
-        Route::any('client_report', [ 'uses' => 'ClientController@index'])->name('clients.index');
+        Route::any('client_report', 'ClientController@index')->name('clients.index');
         Route::get('bill/{id}', [ 'uses' => 'ClientController@show'])->name('clients.show');
         Route::any('sale_report', [ 'uses' => 'SaleController@index'])->name('sales.index');
         Route::get('bill/{id}', [ 'uses' => 'SaleController@show'])->name('sales.show');
