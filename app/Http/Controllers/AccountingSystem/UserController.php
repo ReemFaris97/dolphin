@@ -148,9 +148,11 @@ class UserController extends Controller
 
         if ($requests['role'] == 'is_accountant') {
             $requests['is_accountant'] = 1;
-        } elseif ($requests['role'] == 'is_saler') {
+        }
+         if ($requests['role'] == 'is_saler') {
             $requests['is_saler'] = 1;
-        } elseif ($requests['role'] == 'is_admin') {
+        }
+        if ($requests['role'] == 'is_admin') {
             $requests['is_admin'] = 1;
         }
         $user->update($requests);

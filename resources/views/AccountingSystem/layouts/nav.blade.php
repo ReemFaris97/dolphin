@@ -100,7 +100,7 @@
                     @can('إدارة  الاجهزة')
 					<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list position-left"></i> إدارة الاجهزة <span class="caret"></span> </a>
 						<ul class="dropdown-menu dropdown-menu-right">
-							@can('عرض الاجهزه')
+							@can('عرض  الاجهزه')
 							<li><a href="{{route('accounting.devices.index')}}"><i class="icon-eye"></i> عرض الاجهزة</a></li>
 					     	@endcan
 							@can('اضافة جهاز')
