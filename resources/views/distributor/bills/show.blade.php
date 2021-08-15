@@ -53,7 +53,7 @@
                                 <p>{{$bill->created_at}}</p>
                                 <h4>date</h4>
                             </div>
-                            
+
                         </div>
                     </div>
                     <div class="col">
@@ -63,7 +63,7 @@
                                 <p>فاتورة نقدية</p>
                                 <h4>invoice type</h4>
                             </div>
-                            
+
                         </div>
                     </div>
                     <div class="col">
@@ -73,7 +73,7 @@
                                 <p>{{$bill->invoice_number}} </p>
                                 <h4>invoice no.</h4>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -87,7 +87,7 @@
                                     <p>{!!optional(optional($bill->route_trip)->client)->code !!}</p>
                                     <h4>cust. code</h4>
                                 </div>
-                                
+
                             </div>
                             <div class="box1 third">
                                 <div class="flexx">
@@ -95,7 +95,7 @@
                                     <p>{!!optional(optional($bill->route_trip)->client)->name !!}</p>
                                     <h4>cust. name</h4>
                                 </div>
-                                
+
                             </div>
                             <div class="box1 third">
                                 <div class="flexx ">
@@ -103,7 +103,7 @@
                                     <p>{!!optional(optional($bill->route_trip)->client)->tax_number !!}</p>
                                     <h4>cust. vat no.</h4>
                                 </div>
-                                
+
                             </div>
                         </div>
                         <div class="flexx">
@@ -113,7 +113,7 @@
                                     <p>{!!optional(optional($bill->route_trip)->client)->address !!}</p>
                                     <h4>address</h4>
                                 </div>
-                                
+
 
                             </div>
                             <div class="box1 quater">
@@ -122,7 +122,7 @@
                                     <p>{!!optional(optional($bill->route_trip)->client)->phone !!}</p>
                                     <h4>phone</h4>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -137,7 +137,7 @@
                                     <p>{!! optional($bill->route_trip)->route->user->phone ??''!!}</p>
                                     <h4>Representative no.</h4>
                                 </div>
-                                
+
                             </div>
                             <!-- <div class="box1">
                                 @if($bill->store->has_car==1)
@@ -154,7 +154,7 @@
                                     <p> {{optional($bill->route_trip)->route->user->name ??''}}</p>
                                     <h4>Representative Name</h4>
                                 </div>
-                                
+
                             </div>
                             <!-- <div class="box1">
                                     <div class="flexx">
@@ -230,42 +230,412 @@
                                 <td>{!!$loop->iteration!!}</td>
                             </tr>
                             @endforeach
-                            
+                            @foreach($bill->products as $value)
+                            <tr>
+                                <td>{{ $value->product->price * $value->quantity }}</td>
+                                <td>
+
+                                    {{ ($value->price * ((float) getsetting('general_taxs')??0)/100)}}
+                                </td>
+                                <td>{{(float) getsetting('general_taxs')}}%</td>
+                                <td>{{ $value->product->price }}</td>
+                                <td>{{ $value->quantity }}</td>
+                                <td>حبة</td>
+                                <!-- <td>
+                                    <p class="not_bold"></p>
+                                </td> -->
+
+{{--                                <td>{{ $value->product->store->name ??'' }}</td>--}}
+                                <td class="product-name">{{ $value->product->name }}</td>
+                                <td>{!!$loop->iteration!!}</td>
+                            </tr>
+                            @endforeach
+                            @foreach($bill->products as $value)
+                            <tr>
+                                <td>{{ $value->product->price * $value->quantity }}</td>
+                                <td>
+
+                                    {{ ($value->price * ((float) getsetting('general_taxs')??0)/100)}}
+                                </td>
+                                <td>{{(float) getsetting('general_taxs')}}%</td>
+                                <td>{{ $value->product->price }}</td>
+                                <td>{{ $value->quantity }}</td>
+                                <td>حبة</td>
+                                <!-- <td>
+                                    <p class="not_bold"></p>
+                                </td> -->
+
+{{--                                <td>{{ $value->product->store->name ??'' }}</td>--}}
+                                <td class="product-name">{{ $value->product->name }}</td>
+                                <td>{!!$loop->iteration!!}</td>
+                            </tr>
+                            @endforeach
+                            @foreach($bill->products as $value)
+                            <tr>
+                                <td>{{ $value->product->price * $value->quantity }}</td>
+                                <td>
+
+                                    {{ ($value->price * ((float) getsetting('general_taxs')??0)/100)}}
+                                </td>
+                                <td>{{(float) getsetting('general_taxs')}}%</td>
+                                <td>{{ $value->product->price }}</td>
+                                <td>{{ $value->quantity }}</td>
+                                <td>حبة</td>
+                                <!-- <td>
+                                    <p class="not_bold"></p>
+                                </td> -->
+
+{{--                                <td>{{ $value->product->store->name ??'' }}</td>--}}
+                                <td class="product-name">{{ $value->product->name }}</td>
+                                <td>{!!$loop->iteration!!}</td>
+                            </tr>
+                            @endforeach
+                            @foreach($bill->products as $value)
+                            <tr>
+                                <td>{{ $value->product->price * $value->quantity }}</td>
+                                <td>
+
+                                    {{ ($value->price * ((float) getsetting('general_taxs')??0)/100)}}
+                                </td>
+                                <td>{{(float) getsetting('general_taxs')}}%</td>
+                                <td>{{ $value->product->price }}</td>
+                                <td>{{ $value->quantity }}</td>
+                                <td>حبة</td>
+                                <!-- <td>
+                                    <p class="not_bold"></p>
+                                </td> -->
+
+{{--                                <td>{{ $value->product->store->name ??'' }}</td>--}}
+                                <td class="product-name">{{ $value->product->name }}</td>
+                                <td>{!!$loop->iteration!!}</td>
+                            </tr>
+                            @endforeach
+                            @foreach($bill->products as $value)
+                            <tr>
+                                <td>{{ $value->product->price * $value->quantity }}</td>
+                                <td>
+
+                                    {{ ($value->price * ((float) getsetting('general_taxs')??0)/100)}}
+                                </td>
+                                <td>{{(float) getsetting('general_taxs')}}%</td>
+                                <td>{{ $value->product->price }}</td>
+                                <td>{{ $value->quantity }}</td>
+                                <td>حبة</td>
+                                <!-- <td>
+                                    <p class="not_bold"></p>
+                                </td> -->
+
+{{--                                <td>{{ $value->product->store->name ??'' }}</td>--}}
+                                <td class="product-name">{{ $value->product->name }}</td>
+                                <td>{!!$loop->iteration!!}</td>
+                            </tr>
+                            @endforeach
+                            @foreach($bill->products as $value)
+                            <tr>
+                                <td>{{ $value->product->price * $value->quantity }}</td>
+                                <td>
+
+                                    {{ ($value->price * ((float) getsetting('general_taxs')??0)/100)}}
+                                </td>
+                                <td>{{(float) getsetting('general_taxs')}}%</td>
+                                <td>{{ $value->product->price }}</td>
+                                <td>{{ $value->quantity }}</td>
+                                <td>حبة</td>
+                                <!-- <td>
+                                    <p class="not_bold"></p>
+                                </td> -->
+
+{{--                                <td>{{ $value->product->store->name ??'' }}</td>--}}
+                                <td class="product-name">{{ $value->product->name }}</td>
+                                <td>{!!$loop->iteration!!}</td>
+                            </tr>
+                            @endforeach
+                            @foreach($bill->products as $value)
+                            <tr>
+                                <td>{{ $value->product->price * $value->quantity }}</td>
+                                <td>
+
+                                    {{ ($value->price * ((float) getsetting('general_taxs')??0)/100)}}
+                                </td>
+                                <td>{{(float) getsetting('general_taxs')}}%</td>
+                                <td>{{ $value->product->price }}</td>
+                                <td>{{ $value->quantity }}</td>
+                                <td>حبة</td>
+                                <!-- <td>
+                                    <p class="not_bold"></p>
+                                </td> -->
+
+{{--                                <td>{{ $value->product->store->name ??'' }}</td>--}}
+                                <td class="product-name">{{ $value->product->name }}</td>
+                                <td>{!!$loop->iteration!!}</td>
+                            </tr>
+                            @endforeach
+                            @foreach($bill->products as $value)
+                            <tr>
+                                <td>{{ $value->product->price * $value->quantity }}</td>
+                                <td>
+
+                                    {{ ($value->price * ((float) getsetting('general_taxs')??0)/100)}}
+                                </td>
+                                <td>{{(float) getsetting('general_taxs')}}%</td>
+                                <td>{{ $value->product->price }}</td>
+                                <td>{{ $value->quantity }}</td>
+                                <td>حبة</td>
+                                <!-- <td>
+                                    <p class="not_bold"></p>
+                                </td> -->
+
+{{--                                <td>{{ $value->product->store->name ??'' }}</td>--}}
+                                <td class="product-name">{{ $value->product->name }}</td>
+                                <td>{!!$loop->iteration!!}</td>
+                            </tr>
+                            @endforeach
+                            @foreach($bill->products as $value)
+                            <tr>
+                                <td>{{ $value->product->price * $value->quantity }}</td>
+                                <td>
+
+                                    {{ ($value->price * ((float) getsetting('general_taxs')??0)/100)}}
+                                </td>
+                                <td>{{(float) getsetting('general_taxs')}}%</td>
+                                <td>{{ $value->product->price }}</td>
+                                <td>{{ $value->quantity }}</td>
+                                <td>حبة</td>
+                                <!-- <td>
+                                    <p class="not_bold"></p>
+                                </td> -->
+
+{{--                                <td>{{ $value->product->store->name ??'' }}</td>--}}
+                                <td class="product-name">{{ $value->product->name }}</td>
+                                <td>{!!$loop->iteration!!}</td>
+                            </tr>
+                            @endforeach
+                            @foreach($bill->products as $value)
+                            <tr>
+                                <td>{{ $value->product->price * $value->quantity }}</td>
+                                <td>
+
+                                    {{ ($value->price * ((float) getsetting('general_taxs')??0)/100)}}
+                                </td>
+                                <td>{{(float) getsetting('general_taxs')}}%</td>
+                                <td>{{ $value->product->price }}</td>
+                                <td>{{ $value->quantity }}</td>
+                                <td>حبة</td>
+                                <!-- <td>
+                                    <p class="not_bold"></p>
+                                </td> -->
+
+{{--                                <td>{{ $value->product->store->name ??'' }}</td>--}}
+                                <td class="product-name">{{ $value->product->name }}</td>
+                                <td>{!!$loop->iteration!!}</td>
+                            </tr>
+                            @endforeach
+                            @foreach($bill->products as $value)
+                            <tr>
+                                <td>{{ $value->product->price * $value->quantity }}</td>
+                                <td>
+
+                                    {{ ($value->price * ((float) getsetting('general_taxs')??0)/100)}}
+                                </td>
+                                <td>{{(float) getsetting('general_taxs')}}%</td>
+                                <td>{{ $value->product->price }}</td>
+                                <td>{{ $value->quantity }}</td>
+                                <td>حبة</td>
+                                <!-- <td>
+                                    <p class="not_bold"></p>
+                                </td> -->
+
+{{--                                <td>{{ $value->product->store->name ??'' }}</td>--}}
+                                <td class="product-name">{{ $value->product->name }}</td>
+                                <td>{!!$loop->iteration!!}</td>
+                            </tr>
+                            @endforeach
+                            @foreach($bill->products as $value)
+                            <tr>
+                                <td>{{ $value->product->price * $value->quantity }}</td>
+                                <td>
+
+                                    {{ ($value->price * ((float) getsetting('general_taxs')??0)/100)}}
+                                </td>
+                                <td>{{(float) getsetting('general_taxs')}}%</td>
+                                <td>{{ $value->product->price }}</td>
+                                <td>{{ $value->quantity }}</td>
+                                <td>حبة</td>
+                                <!-- <td>
+                                    <p class="not_bold"></p>
+                                </td> -->
+
+{{--                                <td>{{ $value->product->store->name ??'' }}</td>--}}
+                                <td class="product-name">{{ $value->product->name }}</td>
+                                <td>{!!$loop->iteration!!}</td>
+                            </tr>
+                            @endforeach
+                            @foreach($bill->products as $value)
+                            <tr>
+                                <td>{{ $value->product->price * $value->quantity }}</td>
+                                <td>
+
+                                    {{ ($value->price * ((float) getsetting('general_taxs')??0)/100)}}
+                                </td>
+                                <td>{{(float) getsetting('general_taxs')}}%</td>
+                                <td>{{ $value->product->price }}</td>
+                                <td>{{ $value->quantity }}</td>
+                                <td>حبة</td>
+                                <!-- <td>
+                                    <p class="not_bold"></p>
+                                </td> -->
+
+{{--                                <td>{{ $value->product->store->name ??'' }}</td>--}}
+                                <td class="product-name">{{ $value->product->name }}</td>
+                                <td>{!!$loop->iteration!!}</td>
+                            </tr>
+                            @endforeach
+                            @foreach($bill->products as $value)
+                            <tr>
+                                <td>{{ $value->product->price * $value->quantity }}</td>
+                                <td>
+
+                                    {{ ($value->price * ((float) getsetting('general_taxs')??0)/100)}}
+                                </td>
+                                <td>{{(float) getsetting('general_taxs')}}%</td>
+                                <td>{{ $value->product->price }}</td>
+                                <td>{{ $value->quantity }}</td>
+                                <td>حبة</td>
+                                <!-- <td>
+                                    <p class="not_bold"></p>
+                                </td> -->
+
+{{--                                <td>{{ $value->product->store->name ??'' }}</td>--}}
+                                <td class="product-name">{{ $value->product->name }}</td>
+                                <td>{!!$loop->iteration!!}</td>
+                            </tr>
+                            @endforeach
+                            @foreach($bill->products as $value)
+                            <tr>
+                                <td>{{ $value->product->price * $value->quantity }}</td>
+                                <td>
+
+                                    {{ ($value->price * ((float) getsetting('general_taxs')??0)/100)}}
+                                </td>
+                                <td>{{(float) getsetting('general_taxs')}}%</td>
+                                <td>{{ $value->product->price }}</td>
+                                <td>{{ $value->quantity }}</td>
+                                <td>حبة</td>
+                                <!-- <td>
+                                    <p class="not_bold"></p>
+                                </td> -->
+
+{{--                                <td>{{ $value->product->store->name ??'' }}</td>--}}
+                                <td class="product-name">{{ $value->product->name }}</td>
+                                <td>{!!$loop->iteration!!}</td>
+                            </tr>
+                            @endforeach
+                            @foreach($bill->products as $value)
+                            <tr>
+                                <td>{{ $value->product->price * $value->quantity }}</td>
+                                <td>
+
+                                    {{ ($value->price * ((float) getsetting('general_taxs')??0)/100)}}
+                                </td>
+                                <td>{{(float) getsetting('general_taxs')}}%</td>
+                                <td>{{ $value->product->price }}</td>
+                                <td>{{ $value->quantity }}</td>
+                                <td>حبة</td>
+                                <!-- <td>
+                                    <p class="not_bold"></p>
+                                </td> -->
+
+{{--                                <td>{{ $value->product->store->name ??'' }}</td>--}}
+                                <td class="product-name">{{ $value->product->name }}</td>
+                                <td>{!!$loop->iteration!!}</td>
+                            </tr>
+                            @endforeach
+                            @foreach($bill->products as $value)
+                            <tr>
+                                <td>{{ $value->product->price * $value->quantity }}</td>
+                                <td>
+
+                                    {{ ($value->price * ((float) getsetting('general_taxs')??0)/100)}}
+                                </td>
+                                <td>{{(float) getsetting('general_taxs')}}%</td>
+                                <td>{{ $value->product->price }}</td>
+                                <td>{{ $value->quantity }}</td>
+                                <td>حبة</td>
+                                <!-- <td>
+                                    <p class="not_bold"></p>
+                                </td> -->
+
+{{--                                <td>{{ $value->product->store->name ??'' }}</td>--}}
+                                <td class="product-name">{{ $value->product->name }}</td>
+                                <td>{!!$loop->iteration!!}</td>
+                            </tr>
+                            @endforeach
+                            @foreach($bill->products as $value)
+                            <tr>
+                                <td>{{ $value->product->price * $value->quantity }}</td>
+                                <td>
+
+                                    {{ ($value->price * ((float) getsetting('general_taxs')??0)/100)}}
+                                </td>
+                                <td>{{(float) getsetting('general_taxs')}}%</td>
+                                <td>{{ $value->product->price }}</td>
+                                <td>{{ $value->quantity }}</td>
+                                <td>حبة</td>
+                                <!-- <td>
+                                    <p class="not_bold"></p>
+                                </td> -->
+
+{{--                                <td>{{ $value->product->store->name ??'' }}</td>--}}
+                                <td class="product-name">{{ $value->product->name }}</td>
+                                <td>{!!$loop->iteration!!}</td>
+                            </tr>
+                            @endforeach
+
                         </tbody>
                     </table>
                 </div>
-                
+
                 </div>
                     <div>
                     <table class="the_table">
                     <tfoot>
                             <tr>
                                 <th>{{(float) $bill->product_total()}}</th>
-                                <th colspan="10">
+                                <th colspan="4">
                                     <div class="flexx">
                                         <p>total</p>
                                         <p>الإجمالى (بدون ضريبة)</p>
                                     </div>
-                                    
+
                                 </th>
+                                
                             </tr>
+
                             <tr>
                                 <th>{{($bill->product_total() * (float)(getsetting('general_taxs')) /100)}}</th>
-                                <th colspan="10">
+                                <th colspan="4">
                                     <div class="flexx">
                                         <p>قيمة القيمة المضافة</p>
                                         <p>vat (15%)</p>
                                     </div>
-                                    
+
                                 </th>
                             </tr>
                             <tr>
                                 <th>{{$bill->product_total()+($bill->product_total()* ((float) getsetting('general_taxs')) /100)}}</th>
-                                <th colspan="2">
+                                <th >
                                     <p>net amount</p>
                                     <p>اجمالى الفاتورة</p>
                                 </th>
-                                <th colspan="9">
+                                <th >
+                                    <p style="text-align:center;">المدفوع كاش</p>
+                                    <p style="text-align:center;">200</p>
+                                </th>
+                                <th >
+                                    <p style="text-align:center;">المدفوع شبكة</p>
+                                    <p style="text-align:center;">200</p>
+                                </th>
+                                <th >
                                     <div class="box1">
                                         <div class="flexx">
                                             <h4>المبلغ كتابة:</h4>
@@ -281,6 +651,7 @@
                                         </p>
                                     </div>
                                 </th>
+                                
                             </tr>
                         </tfoot>
                     </div>
@@ -290,7 +661,7 @@
                     <div class="row">
                         <div class="col">
                             <div class="box1 flexx">
-                                
+
                                 <div class="col">
                                     <div>
                                         <h4>توقيع المستلم</h4>
@@ -298,7 +669,7 @@
                                     </div>
                                     <p> </p>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -332,7 +703,7 @@
                     </div>
                 </footer>
                 </div>
-                
+
             </div>
         </div>
     </div>
