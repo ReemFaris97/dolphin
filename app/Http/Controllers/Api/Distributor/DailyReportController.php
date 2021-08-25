@@ -51,7 +51,11 @@ class DailyReportController extends Controller
             ->whereDate('route_trip_reports.created_at', $date)
             ->groupBy('product_id')
             ->withProductsPrice()
-            ->selectRaw('sum(`total_quantity`)  as total_quantity,`price` ,`product_id`,sum(`products_price`) as products_price ')
+            ->selectRaw('
+            sum(`total_quantity`)  as total_quantity,
+            `price`,
+            `product_id`,
+            sum(`products_price`) as products_price ')
             ->addSelect(DB::raw('sum(cash) as total_cash'))
             ->addSelect(DB::raw('sum(visa) as total_visa'))
             ->addSelect(DB::raw('sum(total_money) as total_money'))
@@ -75,9 +79,10 @@ class DailyReportController extends Controller
             $expenses = Expense::where('round', $route_trip->reports->first()->round)->where('distributor_route_id', $route_trip->route_id)->sum('amount');
         }
 
-        $tax = AccountingSetting::find(82)->first()->value;
+        $tax = AccountingSetting::find(82)->value;
         $report =   $report->map(function ($report) use ($tax) {
-            $report['products_price'] = $report['products_price'] + ($report['products_price'] * $tax);
+            $report['products_price'] = $report['products_price'] + ($report['products_price'] * ($tax/100));
+
             return $report;
         });
         return $this->apiResponse([
