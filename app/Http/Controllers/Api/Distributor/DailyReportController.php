@@ -75,8 +75,11 @@ class DailyReportController extends Controller
             $expenses = Expense::where('round', $route_trip->reports->first()->round)->where('distributor_route_id', $route_trip->route_id)->sum('amount');
         }
 
-
-        //دى تعديله عشان المحلاوى مايعدش فى ال keys  وهو ملخبطهم عنده  فا عشان العميل ما يعلقناش
+        $tax = AccountingSetting::find(82)->first()->value;
+        $report =   $report->map(function ($report) use ($tax) {
+            $report['products_price'] = $report['products_price'] + ($report['products_price'] * $tax);
+            return $report;
+        });
         return $this->apiResponse([
             'reports' => $report,
             'products_price' => (string) $report->sum('products_price'),
