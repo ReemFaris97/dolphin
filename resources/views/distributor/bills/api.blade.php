@@ -261,7 +261,7 @@
                     <tfoot>
                             <tr>
                                 <th>{{(float) $bill->product_total()}}</th>
-                                <th colspan="10">
+                                <th colspan="4">
                                     <div class="flexx">
                                         <p>total</p>
                                         <p>الإجمالى (بدون ضريبة)</p>
@@ -271,7 +271,7 @@
                             </tr>
                             <tr>
                                 <th>{{($bill->product_total() * (float)(getsetting('general_taxs')) /100)}}</th>
-                                <th colspan="10">
+                                <th colspan="4">
                                     <div class="flexx">
                                         <p>قيمة القيمة المضافة</p>
                                         <p>vat (15%)</p>
@@ -281,12 +281,19 @@
                             </tr>
                             <tr>
                                 <th>{{$bill->product_total()+($bill->product_total()* ((float) getsetting('general_taxs')) /100)}}</th>
-                                <th colspan="2">
+                             <th >
                                     <p>net amount</p>
-                                    <
-                                    p>اجمالى الفاتورة</>
+                                    <p>اجمالى الفاتورة</p>
                                 </th>
-                                <th colspan="9">
+                                <th >
+                                    <p style="text-align:center;">المدفوع كاش</p>
+                                    <p style="text-align:center;">{{$bill->cash}}</p>
+                                </th>
+                                <th >
+                                    <p style="text-align:center;">المدفوع شبكة</p>
+                                    <p style="text-align:center;">{{$bill->visa}}</p>
+                                </th>
+                                <th >
                                     <div class="box1">
                                         <div class="flexx">
                                             <h4>المبلغ كتابة:</h4>
