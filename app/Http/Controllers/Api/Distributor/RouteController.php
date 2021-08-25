@@ -62,12 +62,16 @@ class RouteController extends Controller
 
     public function show(Request $request, $id)
     {
-        $trips = RouteTrips::query()->where('route_id', $id)
+        $trips = RouteTrips::query()
+            ->with(['route', 'getCurrentReport', 'LastInventory'])
+
+            ->where('route_id', $id)
             ->when(($request->lat != null && $request->lng != null), function ($q) use ($request) {
                 $q->OrderByDistance($request->lat, $request->lng);
-            })/*->orderby('arrange', 'asc')*/->get();
+            })->orderby('arrange', 'asc')->get();
 
         $trips = TripResource::collection($trips);
+
         return $this->apiResponse($trips);
     }
 

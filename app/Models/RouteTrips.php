@@ -31,7 +31,9 @@ class RouteTrips extends Model
     }
     public function getCurrentReport()
     {
-        return $this->hasOne(RouteTripReport::class, 'route_trip_id')->where('round', $this->round);
+        return $this->hasOne(RouteTripReport::class, 'route_trip_id')
+            ->latest()
+            ->whereColumn('round', 'route_trip_reports.round');
     }
     public function getLatestReport()
     {
@@ -59,6 +61,13 @@ class RouteTrips extends Model
         return $this->hasOne(TripInventory::class, 'trip_id');
     }
 
+    public function LastInventory()
+    {
+        return $this->hasOne(TripInventory::class, 'trip_id')
+            ->whereColumn('round', 'trip_inventories.round')
+            ->latest();
+    }
+
     public function scopeOfDistributor(Builder $builder, $distributor): void
     {
 
@@ -83,15 +92,32 @@ class RouteTrips extends Model
         return $q->orderBy(\DB::raw($haversine), 'asc'); // 1 kilometer
     }
 
+    public function getStatusAttribute()
+    {
+        if ($this->LastInventory->round === $this->round) {
+            return $this->LastInventory->type;
+        }
+
+        return 'pending';
+    }
 
 
 
     public function steps()
     {
-        if (!$this->inventory) $status = "inventory";
-        elseif (!$this->products->first()) $status = "bill";
-        elseif (!$this->images->first()) $status = "images";
-        else $status = "finished";
+        if ($this->getStatusAttribute() === 'pending') {
+            return 'inventory';
+        }
+
+        if (!$this->inventory) {
+            $status = "inventory";
+        } elseif (!$this->products->first()) {
+            $status = "bill";
+        } elseif (!$this->images->first()) {
+            $status = "images";
+        } else {
+            $status = "finished";
+        }
         return $status;
     }
 

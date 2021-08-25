@@ -23,7 +23,7 @@
             <td>{!!$loop->iteration!!}</td>
 
               <td><img src="{!!asset($row->image)!!}" height="100" width="100"/></td>
-              <td>{{$row->type=='bank_transaction'? 'تحويل بنكى':'مبلغ مباشر'}}</td>
+              <td>{{$row->bank_id==null? 'تحويل بنكى':'مبلغ مباشر'}}</td>
               <td>{{$row->deposit_date}}</td>
               <td>{{$row->bank->name}}</td>
               <td>{{$row->distributor->name}}</td>
