@@ -81,7 +81,7 @@ class DailyReportController extends Controller
 
         $tax = AccountingSetting::find(82)->value;
         $report =   $report->map(function ($report) use ($tax) {
-            $report['products_price'] =round( $report['products_price'] + ($report['products_price'] * ($tax/100)),4);
+            $report['products_price'] = number_format(($report['products_price'] + ($report['products_price'] * ($tax / 100))), 4);
 
             return $report;
         });
