@@ -77,7 +77,7 @@ class DailyReportController extends Controller
 
         $tax = AccountingSetting::find(82)->first()->value;
         $report =   $report->map(function ($report) use ($tax) {
-            $report['products_price'] = $report['products_price'] + ($report['products_price'] * $tax);
+            $report['price'] = $report['price'] + ($report['price'] * $tax);
             return $report;
         });
         return $this->apiResponse([
