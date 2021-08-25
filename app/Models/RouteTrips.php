@@ -94,8 +94,8 @@ class RouteTrips extends Model
 
     public function getStatusAttribute()
     {
-        if ($this->LastInventory->round === $this->round) {
-            return $this->LastInventory->type;
+        if (optional($this->LastInventory)->round === $this->round) {
+            return optional($this->LastInventory)->type;
         }
 
         return 'pending';
