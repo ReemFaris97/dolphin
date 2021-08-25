@@ -4,6 +4,7 @@
 namespace App\Traits\Distributor;
 
 use App\Models\Client;
+use App\Models\ClientClassProduct;
 use App\Models\DistributorRoute;
 use App\Models\DistributorTransaction;
 use App\Models\Product;
@@ -80,12 +81,15 @@ trait RouteOperation
                 'store_id' => $request->store_id,
                 'distributor_transaction_id' => $transaction->id,
             ]);
-
+            $class_id = $trip->client->client_class_id;
             foreach ($request->products as $item) {
                 $product = Product::find($item['product_id']);
                 $trip_report->products()->create([
                     'quantity' => $item['quantity'],
-                    'price' => $product->price,
+                    'price' =>  optional(ClientClassProduct::query()
+                                ->where('product_id', $item['product_id'])
+                                ->where('client_class_id', $class_id)->first())
+                                ->price ?? $product->price,
                     'product_id' => $product->id,
                     'transaction_id' => $transaction->id,
 
@@ -142,6 +146,7 @@ trait RouteOperation
             $report = RouteReport::query()->create($inputs);
             foreach ($request->products as $item) {
                 $product = Product::find($item['product_id']);
+                
                 $report->products()->create([
                     'quantity' => $item['quantity'],
                     'price' => $product->price,
