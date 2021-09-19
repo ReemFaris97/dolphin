@@ -61,7 +61,7 @@
 @section('scripts')
 
     <script>
-
+$(".js-example-basic-single").select2()
 
     function getUserData(){
         var id = $('select[name="typeable_id"]').val();

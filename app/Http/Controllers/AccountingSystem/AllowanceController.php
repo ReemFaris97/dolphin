@@ -42,14 +42,13 @@ class AllowanceController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name'=>'required|string|max:191',
+            'name'=>'required|string|max:191|unique:accounting_allowances,name',
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
         AccountingAllowance::create($requests);
         alert()->success('تم اضافة  البدلات بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.allowances.index');
-
     }
 
     /**
@@ -86,14 +85,13 @@ class AllowanceController extends Controller
     {
         $allowance =AccountingAllowance::findOrFail($id);
         $rules = [
-            'name'=>'required|string|max:191',
+            'name'=>'required|string|max:191|unique:accounting_allowances,name,'.$id,
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
         $allowance->update($requests);
         alert()->success('تم تعديل البدلات بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.allowances.index');
-
     }
 
     /**

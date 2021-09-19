@@ -19,7 +19,6 @@ class HolidayController extends Controller
      */
     public function index()
     {
-
         $holidays =AccountingHoliday::all()->reverse();
 
         return $this->toIndex(compact('holidays'));
@@ -44,15 +43,14 @@ class HolidayController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name'=>'required|string|max:191',
+            'name'=>'required|string|max:191|unique:accounting_holidays,name',
             'duration'=>'required|string|max:191',
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
         AccountingHoliday::create($requests);
         alert()->success('تم اضافة  الاجازة بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.holidays.index');
-
     }
 
     /**
@@ -77,7 +75,6 @@ class HolidayController extends Controller
         $holiday =AccountingHoliday::findOrFail($id);
 
         return $this->toEdit(compact('holiday'));
-
     }
 
     /**
@@ -92,16 +89,15 @@ class HolidayController extends Controller
         $holiday =AccountingHoliday::findOrFail($id);
         $rules = [
 
-            'name'=>'required|string|max:191',
+            'name'=>'required|string|max:191|unique:accounting_holidays,name,'.$id,
 
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
 
         $holiday->update($requests);
         alert()->success('تم تعديل الاجازة بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.holidays.index');
-
     }
 
     /**

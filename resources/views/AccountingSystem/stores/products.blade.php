@@ -46,25 +46,25 @@
                 @foreach($products_store as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
-                        <td>{!! $row->product->name!!}</td>
+                        <td>{!! optional($row->product)->name!!}</td>
 
                         <td>
-                            @if ($row->product->type=="store")
+                            @if (optional($row->product)->type=="store")
                                 مخزون
-                            @elseif($row->product->type=="service")
+                            @elseif(optional($row->product)->type=="service")
                                 خدمه
-                            @elseif($row->product->type=="offer")
+                            @elseif(optional($row->product)->type=="offer")
                                 مجموعة اصناف
-                            @elseif($row->product->type=="creation")
+                            @elseif(optional($row->product)->type=="creation")
                                 تصنيع
-                            @elseif($row->product->type=="product_expiration")
+                            @elseif(optional($row->product)->type=="product_expiration")
                                 منتج بتاريخ صلاحيه
                             @endif
                         </td>
-                        <td>{!! $row->product-> bar_code!!}</td>
-                        <td>{!! $row->product->  main_unit!!}</td>
-                        <td>{!! $row->product->  selling_price!!}</td>
-                        <td>{!! $row->product->  purchasing_price!!}</td>
+                        <td>{!! optional($row->product)-> bar_code!!}</td>
+                        <td>{!! optional($row->product)->  main_unit!!}</td>
+                        <td>{!! optional($row->product)->  selling_price!!}</td>
+                        <td>{!! optional($row->product)->  purchasing_price!!}</td>
                         <td>
                             @php( $storeproduct_quantity=\App\Models\AccountingSystem\AccountingProductStore::where('product_id',$row->product->id)->where('store_id',$store->id)->sum('quantity'))
                             {{ $storeproduct_quantity}}
