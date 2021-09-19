@@ -13,7 +13,7 @@
 @if( isset($device))
     @if($device->model_type=='App\Models\AccountingSystem\AccountingBranch')
         <div class="form-group r-group">
-            <label class="display-block text-semibold">الخزنة تابع الى</label>
+            <label class="display-block text-semibold">الجهاز تابع الى</label>
             <label class="radio-inline">
                 <input type="radio" name="radio-inline-left" class="styled" id="company"  onclick="myFunction()" disabled>
                 شركة
@@ -26,7 +26,7 @@
         </div>
         @elseif($device->model_type=='App\Models\AccountingSystem\AccountingCompany')
         <div class="form-group r-group">
-            <label class="display-block text-semibold">الخزنة تابع الى</label>
+            <label class="display-block text-semibold">الجهاز تابع الى</label>
             <label class="radio-inline">
                 <input type="radio" name="radio-inline-left" class="styled" id="company" checked="checked" onclick="myFunction()" disabled>
                 شركة
@@ -40,7 +40,7 @@
         @endif
     @else
     <div class="form-group r-group">
-        <label class="display-block text-semibold">الخزنة تابع الى</label>
+        <label class="display-block text-semibold">الجهاز تابع الى</label>
         <label class="radio-inline">
             <input type="radio" name="radio-inline-left" class="styled" id="company" checked="checked" onclick="myFunction()">
             شركة

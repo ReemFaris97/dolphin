@@ -36,11 +36,9 @@ class DeviceController extends Controller
      */
     public function create()
     {
-
-        $companies=AccountingCompany::pluck('name','id')->toArray();
-        $branches=AccountingBranch::pluck('name','id')->toArray();
-        return $this->toCreate(compact('companies','branches'));
-
+        $companies=AccountingCompany::pluck('name', 'id')->toArray();
+        $branches=AccountingBranch::pluck('name', 'id')->toArray();
+        return $this->toCreate(compact('companies', 'branches'));
     }
 
     /**
@@ -51,11 +49,10 @@ class DeviceController extends Controller
      */
     public function store(Request $request)
     {
-
-		$rules = [
+        $rules = [
 
             'name'=>'required|string|max:191|device_name:accounting_devices,name,company_id,branch_id,'.$request['name'].','.$request['company_id'].','.$request['branch_id'],
-            'code'=>'required|string|max:191|device_code:accounting_devices,code,company_id,branch_id,'.$request['code'].','.$request['company_id'].','.$request['branch_id'],
+            'code'=>'nullable|string|max:191|device_code:accounting_devices,code,company_id,branch_id,'.$request['code'].','.$request['company_id'].','.$request['branch_id'],
 
             'model_id' => 'required_if:company_id,=,null|required_if:branch_id,=,null',
 
@@ -64,20 +61,18 @@ class DeviceController extends Controller
             'name.device_name'=>"اسم الجهاز موجود بالفعل بالشركة",
             'code.device_code'=>"كود الجهاز موجود بالفعل بالشركة",
         ];
-        $this->validate($request,$rules,$messsage);
+        $this->validate($request, $rules, $messsage);
 
         $requests = $request->all();
 
 
-        if ($requests['company_id']==NULL & $requests['branch_id']!=NULL)
-        {
+        if ($requests['company_id']==null & $requests['branch_id']!=null) {
             $requests['model_id']= $requests['branch_id'];
-               $requests[ 'model_type']='App\Models\AccountingSystem\AccountingBranch';
+            $requests[ 'model_type']='App\Models\AccountingSystem\AccountingBranch';
         }
-        if ($requests['branch_id']==NULL & $requests['company_id']!=NULL)
-        {
+        if ($requests['branch_id']==null & $requests['company_id']!=null) {
             $requests[ 'model_id']= $requests['company_id'];
-             $requests[ 'model_type']='App\Models\AccountingSystem\AccountingCompany';
+            $requests[ 'model_type']='App\Models\AccountingSystem\AccountingCompany';
         }
         $device=AccountingDevice::create($requests);
         AccountingSafe::create([
@@ -113,12 +108,10 @@ class DeviceController extends Controller
     public function edit($id)
     {
         $device=AccountingDevice::findOrFail($id);
-        $companies=AccountingCompany::pluck('name','id')->toArray();
-        $branches=AccountingBranch::pluck('name','id')->toArray();
+        $companies=AccountingCompany::pluck('name', 'id')->toArray();
+        $branches=AccountingBranch::pluck('name', 'id')->toArray();
 
-        return $this->toEdit(compact('device','branches','companies'));
-
-
+        return $this->toEdit(compact('device', 'branches', 'companies'));
     }
 
     /**
@@ -136,28 +129,22 @@ class DeviceController extends Controller
             'name'=>'required|string|max:191',
 
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
         $device->update($requests);
 
 
-        if (array_key_exists('company_id',$requests)) {
-
+        if (array_key_exists('company_id', $requests)) {
             $device->update([
                 'model_id' => $requests['company_id']
             ]);
-        }elseif(array_key_exists('branch_id',$requests)) {
-
-
+        } elseif (array_key_exists('branch_id', $requests)) {
             $device->update([
                 'model_id' => $requests['branch_id']
             ]);
         }
         alert()->success('تم تعديل  الصف بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.devices.index');
-
-
-
     }
 
     /**
@@ -171,8 +158,6 @@ class DeviceController extends Controller
         $device =AccountingDevice::findOrFail($id);
         $device->delete();
         alert()->success('تم حذف  الجهاز بنجاح !')->autoclose(5000);
-            return back();
-
-
+        return back();
     }
 }
