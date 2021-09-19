@@ -51,14 +51,17 @@
                     <br/>
                     <div class="row flex2 branches">
                         @foreach($userpermisionsbranch as $value)
-                            <div class="checkbox checkbox-left checkbox-switchery col-md-3 col-sm-6 col-xs-12">
+                        @php($branch=\App\Models\AccountingSystem\AccountingBranch::find($value))
+                        @if($branch!=null)
+                        <div class="checkbox checkbox-left checkbox-switchery col-md-3 col-sm-6 col-xs-12">
                                 <input type="checkbox" name="branches[]" value="{{$value}}" class="switchery branch" id="branch-{{$value}}" checked  >
                                 <label style="margin-left: 20px;"  for=branch-{{$value}}>
-                                    @php($branch=\App\Models\AccountingSystem\AccountingBranch::find($value))
+
                                     {{ $branch->name }}
 
                                 </label>
                             </div>
+                            @endif
                         @endforeach
 
                     </div>

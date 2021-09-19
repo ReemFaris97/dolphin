@@ -5,7 +5,8 @@ namespace App\Http\Controllers\CompanyAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
-use Hesto\MultiAuth\Traits\LogsoutGuard;
+
+// use Hesto\MultiAuth\Traits\LogsoutGuard;
 
 class LoginController extends Controller
 {
@@ -20,9 +21,9 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers, LogsoutGuard {
+    use AuthenticatesUsers;/* , LogsoutGuard {
         LogsoutGuard::logout insteadof AuthenticatesUsers;
-    }
+    } */
 
     /**
      * Where to redirect users after login / registration.
@@ -58,7 +59,6 @@ class LoginController extends Controller
      */
     protected function guard()
     {
-
         return Auth::guard('accounting_companies');
     }
 }

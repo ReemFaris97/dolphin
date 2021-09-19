@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تعديل  المسمى وظيفى'.{{$title->name}})
-@section('parent_title','إدارةالممسمىالوظيفى ')
+@section('title','تعديل  المسمى وظيفى'.$title->name)
+@section('parent_title','إدارة المسمى الوظيفى ')
 @section('action', URL::route('accounting.taxs.index'))
 
 @section('content')

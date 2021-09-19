@@ -39,7 +39,6 @@ class SafeController extends Controller
      */
     public function create()
     {
-
         $companies = AccountingCompany::pluck('name', 'id')->toArray();
         $branches = AccountingBranch::pluck('name', 'id')->toArray();
         return $this->toCreate(compact('companies', 'branches'));
@@ -59,21 +58,21 @@ class SafeController extends Controller
         $messsage = [
             'name.safe_name'=>"اسم الخزنه  موجود بالفعل بالشركة",
         ];
-        $this->validate($request,$rules,$messsage);
-        $requests = $request->except('company_id','model_type','status','branch_id');
+        $this->validate($request, $rules, $messsage);
+        $requests = $request->except('company_id', 'model_type', 'status', 'branch_id');
 //          dd($requests);
-            if (isset($requests['company_id'])) {
-                if ($requests['company_id'] == NULL & $requests['branch_id'] != NULL) {
-                    $requests['model_id'] = $requests['branch_id'];
-                    $requests['model_type'] = 'App\Models\AccountingSystem\AccountingBranch';
-                    $requests['status'] = 'branch';
-                }
-                if ($requests['branch_id'] == NULL & $requests['company_id'] != NULL) {
-                    $requests['model_id'] = $requests['company_id'];
-                    $requests['model_type'] = 'App\Models\AccountingSystem\AccountingCompany';
-                    $requests['status'] = 'company';
-                }
+        if (isset($requests['company_id'])) {
+            if ($requests['company_id'] == null & $requests['branch_id'] != null) {
+                $requests['model_id'] = $requests['branch_id'];
+                $requests['model_type'] = 'App\Models\AccountingSystem\AccountingBranch';
+                $requests['status'] = 'branch';
             }
+            if ($requests['branch_id'] == null & $requests['company_id'] != null) {
+                $requests['model_id'] = $requests['company_id'];
+                $requests['model_type'] = 'App\Models\AccountingSystem\AccountingCompany';
+                $requests['status'] = 'company';
+            }
+        }
         AccountingSafe::create($requests);
         alert()->success('تم اضافة الخزينة بنجاح !')->autoclose(5000);
         return back();
@@ -91,20 +90,10 @@ class SafeController extends Controller
 
         $safe = AccountingSafe::findOrFail($id);
         //branch_all_safes
-        $safes_cashier= AccountingSafe::where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->where('model_id',$safe->model_id)->where('id','!=',$id)->get();
-        $safes_branch= AccountingSafe::where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->where('model_id',$safe->model_id)->where('status','branch')->where('id','!=',$id)->get();
-        if(isset($safe->branch->company_id)){
-        $safe_company=AccountingSafe::where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->where('model_id',
-        $safe->branch->company_id)->first();
-        $safes_branch->push($safe_company);
-        $safes_company=AccountingSafe::where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->where('model_id',$safe->branch->company_id)->get();
+        //حسبى الله ونعم والوكيل فى اللى كتب الكود
+        $safes= AccountingSafe::where('model_type', $safe->model_type)->where('model_id', $safe->model_id)->where('id', '!=', $id)->get();
 
-        }else{
-            $safes_branch=[];
-            $safes_company=[];
-        }
-
-        return $this->toShow(compact('transactions','safe','safes_branch','safes_cashier','safes_company'));
+        return $this->toShow(compact('transactions', 'safe', 'safes'));
     }
 
     /**
@@ -133,9 +122,9 @@ class SafeController extends Controller
         $safe = AccountingSafe::findOrFail($id);
         $rules = [
 
-            'code' => 'required|string|max:191',
+            // 'code' => 'required|string|max:191',
 
-            'branch_id' => 'required|numeric|exists:accounting_branches,id',
+            // 'branch_id' => 'required|numeric|exists:accounting_branches,id',
 
         ];
         $this->validate($request, $rules);
@@ -144,13 +133,10 @@ class SafeController extends Controller
 
 
         if (array_key_exists('company_id', $requests)) {
-
             $safe->update([
                 'model_id' => $requests['company_id']
             ]);
         } elseif (array_key_exists('branch_id', $requests)) {
-
-
             $safe->update([
                 'model_id' => $requests['branch_id']
             ]);
@@ -174,9 +160,8 @@ class SafeController extends Controller
     }
 
 
-    public  function company_devices($id)
+    public function company_devices($id)
     {
-
         $devices = AccountingDevice::where('model_id', $id)->where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->pluck('name', 'id')->toArray();
         //    dd($devices);
         return response()->json([
@@ -185,9 +170,8 @@ class SafeController extends Controller
         ]);
     }
 
-    public  function branch_devices($id)
+    public function branch_devices($id)
     {
-
         $devices = AccountingDevice::where('model_id', $id)->where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->pluck('ar_name', 'id')->toArray();
         return response()->json([
             'status' => true,
@@ -198,8 +182,12 @@ class SafeController extends Controller
 
     public function transactionsafe_store(Request $request, $id)
     {
-
-        $inputs = $request->all();
+        $inputs = $request->validate([
+            'safe_form_id'=>['required'],
+            'safe_to_id'=>['required'],
+            'amount'=>['required'],
+            'notes'=>['nullable'],
+        ]);
 
         AccountingTransactionSafe::create([
             'safe_form_id' => $inputs['safe_form_id'],
@@ -213,7 +201,6 @@ class SafeController extends Controller
         $safe_form = AccountingSafe::where('id', $inputs['safe_form_id'])->first();
         $safe_to = AccountingSafe::where('id', $inputs['safe_to_id'])->first();
         if ($safe_form->amount >= $inputs['amount']) {
-
             $safe_form->update([
                 'amount' => $safe_form->amount - $inputs['amount']
             ]);
@@ -222,16 +209,9 @@ class SafeController extends Controller
             ]);
             alert()->success('تم   التحويل من الخزنة بنجاح !')->autoclose(5000);
             return back();
-
-        }else{
-
+        } else {
             alert()->error('المبلغ بالخزنه غير كافى !')->autoclose(5000);
             return back();
         }
-
-
-
-
-
     }
 }

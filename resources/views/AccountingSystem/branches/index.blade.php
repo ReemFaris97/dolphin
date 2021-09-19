@@ -50,7 +50,7 @@
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->name!!}</td>
 
-                        <td><a href="{{route('accounting.companies.show',['id'=>$row->company_id])}}">{!! $row->company->name!!}</a></td>
+                        <td><a href="{{route('accounting.companies.show',$row->company_id)}}">{!! $row->company->name!!}</a></td>
                         <td>{!! $row->phone!!}</td>
                         <td>{!! $row->email!!}</td>
                         <td>{!! $row->getGeneralBalances()!!}</td>

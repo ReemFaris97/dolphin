@@ -1,8 +1,7 @@
 <?php
 
-Route::get('/',function (){
-
-return redirect()->route('accounting.home');
+Route::get('/', function () {
+    return redirect()->route('accounting.home');
 });
 
 
@@ -61,9 +60,9 @@ Route::middleware('admin')->group(function () {
     Route::get('/settlements', 'StoreController@settlements')->name('stores.settlements');
     Route::get('/settlements-index', 'StoreController@settlements_index')->name('stores.settlements_index');
 
-    Route::get('/product-settlement/{id}', 'products_storeProductController@settlement')->name('products.settlements');
+    Route::get('/product-settlement/{id}', 'ProductController@settlement')->name('products.settlements');
     Route::any('/settlements_store', 'ProductController@settlements_store')->name('products_settlement.store');
-///////////////////////////inventory  للمستوعات  الجرد وتسوية الجرد
+    ///////////////////////////inventory  للمستوعات  الجرد وتسوية الجرد
     Route::get('/inventory', 'StoreInventroyController@inventory')->name('stores.inventory');
     Route::post('/inventory', 'StoreInventroyController@inventory_store')->name('stores.filter_inventory');
     Route::post('/inventory-bond', 'StoreInventroyController@inventory_bond')->name('inventory_bond.store');
@@ -74,7 +73,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/invertory_details/{id}', 'StoreInventroyController@invertory_details')->name('stores.inventory_details');
     Route::get('/inventory_result/{id}', 'StoreInventroyController@inventory_result')->name('stores.inventory_result');
     Route::post('/balances-filter', 'StoreController@balances_filter')->name('stores.balances_filter');
-///////////////////////////inventory  للاصناف  الجرد وتسوية الجرد
+    ///////////////////////////inventory  للاصناف  الجرد وتسوية الجرد
     Route::get('/inventory-product', 'StoreInventroyController@inventory_product')->name('stores.inventory_product');
     Route::post('/inventory-product', 'StoreInventroyController@inventory_store_product')->name('stores.filter_inventory_product');
     Route::post('/inventory-settlement-product', 'StoreInventroyController@inventory_settlement_product')->name('inventory_settlement.store_product');
@@ -86,7 +85,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/inventories_band', 'StoreInventroyController@inventories_band')->name('stores.inventories_band');
     Route::get('/show-inventory_band/{id}', 'StoreInventroyController@show_inventory_band')->name('stores.show_inventory_band');
 
- //تحويل الاصناف  من  مستودع  الى  اخر/////////////////////////////////////
+    //تحويل الاصناف  من  مستودع  الى  اخر/////////////////////////////////////
     Route::get('/transaction', 'StoreTransactionController@transaction_form')->name('stores.transaction');
     Route::post('transactions', 'StoreTransactionController@transactions')->name('stores.transactions');
     Route::get('/products_store/{id}', 'StoreController@getproducts')->name('products_store');
@@ -109,7 +108,7 @@ Route::middleware('admin')->group(function () {
     Route::post('/refused_request/{id}', 'StoreTransactionController@refused_request')->name('stores.refused_request');
     Route::get('/requests-all', 'StoreTransactionController@requests_all')->name('stores.requests_all');
     Route::get('/request-detail/{id}', 'StoreTransactionController@request_detail')->name('stores.request_detail');
-//////////////////التالف///////////////////
+    //////////////////التالف///////////////////
     Route::get('/damages', 'StoreTransactionController@damaged_index')->name('stores.damaged_index');
     Route::get('/damages-create', 'StoreTransactionController@damaged_create')->name('stores.damaged_create');
     Route::post('/damages-store', 'StoreTransactionController@damaged_store')->name('stores.damaged_store');
@@ -199,10 +198,10 @@ Route::middleware('admin')->group(function () {
 
     Route::resource('clauses', 'ClauseController');
     Route::resource('suppliers_sadad', 'SupplierSadadController');
-    Route::get('/getBalance/{id}','SupplierSadadController@getBalance');
-    Route::get('/getClient/{id}','ClientController@getClient');
+    Route::get('/getBalance/{id}', 'SupplierSadadController@getBalance');
+    Route::get('/getClient/{id}', 'ClientController@getClient');
 
-    Route::get('/getNewBalance/{amount}','SupplierSadadController@getNewBalance');
+    Route::get('/getNewBalance/{amount}', 'SupplierSadadController@getNewBalance');
 
     Route::resource('delegates', 'DelegateController');
     Route::resource('suppliers', 'SupplierController');
@@ -215,8 +214,8 @@ Route::middleware('admin')->group(function () {
 
     Route::resource('puchaseReturns', 'PurchaseReturnController');
 
-    Route::post('/product','OfferController@getAjaxProductQty')->name('getAjaxProductQty');
-    Route::get('/order_sale/{id}','SaleController@sale_order')->name('sales.sale_order');
+    Route::post('/product', 'OfferController@getAjaxProductQty')->name('getAjaxProductQty');
+    Route::get('/order_sale/{id}', 'SaleController@sale_order')->name('sales.sale_order');
 
     Route::resource('products', 'ProductController');
     Route::get('/company_branch/{id}', 'ProductController@getBranch')->name('company.branch');
@@ -269,8 +268,6 @@ Route::middleware('admin')->group(function () {
             Route::any('purchases-returns-all', ['as' => 'purchases-returns-all', 'uses' => 'SuppliersController@purchasesReturnsAll']);
 
             Route::any('account-statement', ['as' => 'account-statement', 'uses' => 'SuppliersController@accountStatement']);
-
-
         });
 
         Route::group(['prefix' => 'purchases'], function () {
@@ -291,8 +288,6 @@ Route::middleware('admin')->group(function () {
 
             Route::any('daily-earnings', ['as' => 'daily_earnings', 'uses' => 'SalesController@daily_earnings']);
             Route::any('period-earnings', ['as' => 'period_earnings', 'uses' => 'SalesController@period_earnings']);
-
-
         });
     });
 
@@ -329,13 +324,12 @@ Route::middleware('admin')->group(function () {
         Route::get('filter', ['as' => 'entries.filter', 'uses' => 'EntryController@filter']);
         Route::get('posting/{id}', ['as' => 'entries.posting', 'uses' => 'EntryController@posting']);
         Route::get('toAccounts/{id}', ['as' => 'entries.toAccounts', 'uses' => 'EntryController@toaccounts']);
-
     });
-    Route::get('/destroy_account/{id}',['as'=>'entries.destroy_account', 'uses' => 'EntryController@destroy_account']);
+    Route::get('/destroy_account/{id}', ['as'=>'entries.destroy_account', 'uses' => 'EntryController@destroy_account']);
 
     //////////////////////////////////----employees_resources----////
-    Route::group(['prefix'=>'documents/{type}','as'=>'documents.'],function($type){
-        Route::get('/{id}/edit', 'DocumentController@edit')->name('edit');
+    Route::group(['prefix'=>'documents/{type}','as'=>'documents.'], function () {
+        Route::get('/{id}/edit', 'DocumentController@edit')->name('edit-real');
         Route::put('/{id}', 'DocumentController@update')->name('put');
         Route::get('/{id}/delete', 'DocumentController@destroy')->name('delete');
         Route::resource('/', 'DocumentController');
@@ -344,16 +338,10 @@ Route::middleware('admin')->group(function () {
     Route::resource('allowances', 'AllowanceController');
     Route::resource('holidays', 'HolidayController');
     Route::resource('holidays-requests', 'UserHolidaysRequestController');
-    Route::get('holidays-requests/get-user-data/{id}','UserHolidaysRequestController@getUserData');
+    Route::get('holidays-requests/get-user-data/{id}', 'UserHolidaysRequestController@getUserData');
     Route::resource('bonus-discount', 'BonusDiscountController');
     Route::resource('attendances', 'AttendanceController');
     Route::resource('debts', 'DebtController');
     Route::resource('salaries', 'SalariesController');
     Route::post('debts-{id}', 'DebtController@payDebt')->name('payDebt');
-
-
-
-
-
 });
-

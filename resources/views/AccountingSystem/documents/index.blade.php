@@ -49,11 +49,19 @@
                         <td>{{$document->start_date->format('Y-m-d')}}</td>
                         <td>{{$document->end_date->format('Y-m-d')}}</td>
                         <td class="text-center">
-                            <a href="{{route('accounting.documents.edit',[$type,'id'=>$document->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
+                            <a href="{{
+                            route('accounting.documents.edit-real',
+                            [   'type'=>$type,
+                            'id'=>$document->id,
+                            ])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
 
                             <a href="#" onclick="Delete({{$document->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
 
-                            {!!Form::open( ['route' => ['accounting.documents.delete',$type,'id'=>$document->id] ,'id'=>'delete-form'.$document->id, 'method' => 'get']) !!}
+                            {!!Form::open( ['route' => [
+                                'accounting.documents.delete',[
+                                    'type'=>$type,
+                                    'id'=>$document->id
+                                    ] ],'id'=>'delete-form'.$document->id, 'method' => 'get']) !!}
                             {!!Form::close() !!}
 
                         </td>

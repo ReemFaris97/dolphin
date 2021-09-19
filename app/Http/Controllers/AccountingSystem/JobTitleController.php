@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
-
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingCostCenter;
@@ -20,7 +19,6 @@ class JobTitleController extends Controller
      */
     public function index()
     {
-
         $titles =AccountingJobTitle::all()->reverse();
 
         return $this->toIndex(compact('titles'));
@@ -45,9 +43,9 @@ class JobTitleController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name'=>'required|string|max:191',
+            'name'=>'required|string|max:191|unique:accounting_job_titles,id',
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
         AccountingJobTitle::create($requests);
         alert()->success('تم اضافة  المسمى الوظيفى بنجاح !')->autoclose(5000);
@@ -76,8 +74,6 @@ class JobTitleController extends Controller
         $title =AccountingJobTitle::findOrFail($id);
 
         return $this->toEdit(compact('title'));
-
-
     }
 
     /**
@@ -89,22 +85,18 @@ class JobTitleController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $title =AccountingJobTitle::findOrFail($id);
         $rules = [
 
-            'name'=>'required|string|max:191',
+            'name'=>'required|string|max:191|unique:accounting_job_titles,id,'.$id,
 
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
 
         $title->update($requests);
         alert()->success('تم تعديل المسمى الوظيفى بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.jobTitles.index');
-
-
-
     }
 
     /**
@@ -118,12 +110,11 @@ class JobTitleController extends Controller
         $title =AccountingJobTitle::findOrFail($id);
         $title->delete();
         alert()->success('تم حذف   المسمى الوظيفى بنجاح !')->autoclose(5000);
-            return back();
-
-
+        return back();
     }
 
-    public  function  active($id){
+    public function active($id)
+    {
         $title =AccountingJobTitle::findOrFail($id);
         $title->update([
             'active'=>1
@@ -133,7 +124,8 @@ class JobTitleController extends Controller
     }
 
 
-    public  function  dis_active ($id){
+    public function dis_active($id)
+    {
         $title =AccountingJobTitle::findOrFail($id);
         $title->update([
             'active'=>0

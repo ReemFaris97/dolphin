@@ -70,21 +70,11 @@
 
                                 <label style="color:black">الخزينة المنقول اليها </label>
                                 <select name="safe_to_id" class="form-control">
-                                    @if ($safe->status=='cashier')
-                                    @foreach($safes_cashier  as  $saf)
-                                        <option value="{{$saf->id}}">{{$saf->name}}</option>
-                                    @endforeach
-                                        @elseif ($safe->status=='branch')
 
-                                        @foreach($safes_branch  as  $saf)
-                                            <option value="{{$saf->id}}">{{$saf->name}}</option>
-                                        @endforeach
-                                    @elseif ($safe->status=='company')
-                                        @foreach($safes_company  as  $saf)
+                                        @foreach($safes  as  $saf)
                                             <option value="{{$saf->id}}">{{$saf->name}}</option>
                                         @endforeach
 
-                                    @endif
                                 </select>
 
                                 <label style="color:black"> المبلغ</label>

@@ -14,12 +14,12 @@
         <div class="form-group r-group">
             <label class="display-block text-semibold">الخزنية تابع الى</label>
             <label class="radio-inline">
-                <input type="radio" name="radio-inline-left" class="styled" id="company"  onclick="myFunction()" disabled>
+                <input type="radio" name="radio-inline-left" class="styled" id="company"  onclick="myFunction()" readonly>
                 شركة
             </label>
 
             <label class="radio-inline">
-                <input type="radio" name="radio-inline-left" id="branch" class="styled" onclick="myFunction2()" checked="checked"disabled >
+                <input type="radio" name="radio-inline-left" id="branch" class="styled" onclick="myFunction2()" checked="checked"readonly >
                 فرع
             </label>
         </div>
@@ -27,12 +27,12 @@
         <div class="form-group r-group">
             <label class="display-block text-semibold">الخزنة تابع الى</label>
             <label class="radio-inline">
-                <input type="radio" name="radio-inline-left" class="styled" id="company" checked="checked" onclick="myFunction()" disabled>
+                <input type="radio" name="radio-inline-left" class="styled" id="company" checked="checked" onclick="myFunction()" readonly>
                 شركة
             </label>
 
             <label class="radio-inline">
-                <input type="radio" name="radio-inline-left" id="branch" class="styled" onclick="myFunction2()" disabled>
+                <input type="radio" name="radio-inline-left" id="branch" class="styled" onclick="myFunction2()" readonly>
                 فرع
             </label>
         </div>
@@ -119,12 +119,12 @@
         <div class="form-group">
             <label class="display-block text-semibold r-group">  نوع الخزنة</label>
             <label class="radio-inline">
-                <input type="radio" name="type" class="styled type"  value="1"   checked="checked" disabled >
+                <input type="radio" name="type" class="styled type"  value="1"   checked="checked" readonly >
                 رئيسى
             </label>
 
             <label class="radio-inline">
-                <input type="radio" name="type"  class="styled type" value="0"  disabled >
+                <input type="radio" name="type"  class="styled type" value="0"  readony >
                     فرعية
             </label>
         </div>
@@ -132,12 +132,12 @@
         <div class="form-group r-group">
             <label class="display-block text-semibold"> نوع الخزنة</label>
             <label class="radio-inline">
-                <input type="radio" name="type" class="styled type"  value="1" disabled>
+                <input type="radio" name="type" class="styled type"  value="1" readonly>
                 رئيسى
             </label>
 
             <label class="radio-inline">
-                <input type="radio" name="type"  class="styled type" value="0" checked="checked" disabled>
+                <input type="radio" name="type"  class="styled type" value="0" checked="checked" readonly>
                 فرعى
             </label>
         </div>
@@ -245,7 +245,9 @@ $(".type").on('change', function() {
                 $('.devices').empty();
                 $('.devices').append(data.data);
             }).fail(function (error) {
-                console.log(error);
+                $('.devices').empty();
+                swal("خطأ", "يجب اختيار الفرع اولا",'info');
+
             });
         }
         if ($('#branch1').is(':checked')) {
@@ -262,6 +264,8 @@ $(".type").on('change', function() {
 
             }).fail(function (error) {
                 console.log(error);
+                swal("خطأ", "يجب اختيار الفرع اولا",'info');
+
             });
         }
 

@@ -53,7 +53,7 @@
                 @foreach($categories as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
-                        <td>{!! $row->company->name!!}</td>
+                        <td>{!! optional($row->company)->name!!}</td>
                         <td>{!! $row->ar_name!!}</td>
                         <td>{!! $row->en_name!!}</td>
                         <td>{!! $row->ar_description!!}</td>
