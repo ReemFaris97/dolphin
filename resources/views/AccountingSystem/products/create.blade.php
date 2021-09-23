@@ -28,7 +28,7 @@
 	</div>
 	<div class="panel-body">
 		{!!Form::open( ['route' => 'accounting.products.store' ,'id'=>'montag-form','class'=>'form novalidate', 'method' => 'Post','files' => true]) !!}
-		@include('AccountingSystem.products.form')
+		@include('AccountingSystem.products.form_new')
 		{!!Form::close() !!}
 	</div>
 </div>
