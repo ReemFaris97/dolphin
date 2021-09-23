@@ -1,4 +1,8 @@
 @section('styles')
+
+<link rel="stylesheet" href="https://unpkg.com/vue-select@latest/dist/vue-select.css">
+<link rel="stylesheet" href="https://unpkg.com/vue-form-wizard/dist/vue-form-wizard.min.css">
+
 @endsection
 @if (count($errors) > 0)
 <div class="alert alert-danger">
@@ -542,86 +546,10 @@
 <!-- /collapsible with different panel styling -->
 <!-- end table-->
 <!-- end table-->
-@include('AccountingSystem.products.modals')
 @section('scripts')
-	<script>
-		$(document).ready(function() {
-			$("#TheBarCodeInput").change(function(e){
-				e.stopPropagation();
-				e.preventDefault();
-			})
-			$("select[multiple]").each(function(){
-				$(this).parent().find("ul.dropdown-menu.inner").children('li:first-child').removeClass('selected')
-				$(this).children('option:first-child').attr('selected' , false);
-				$(this).children('option:first-child').attr('disabled' , 'disabled');
-			})
-			$("#type").on('change', function () {
-			var id = $(this).val();
-			if (id =='service')
-			{
-			$("#services_button").show();
-			}
-			if (id !='service')
-			{
-			$("#services_button").hide();
-			}
-			});
+<script src="https://unpkg.com/vue@latest"></script>
+<script src="https://unpkg.com/vue-select@latest"></script>
+<script src="https://unpkg.com/vue-form-wizard/dist/vue-form-wizard.js"></script>
 
-			$("#type").on('change', function () {
-			var id = $(this).val();
-			if (id =='offer')
-			{
-			$("#offers_button").show();
-			}
-			if (id !='offer')
-			{
-			$("#offers_button").hide();
-			}
-			});
 
-			$(".percent").hide();
-			$('.js-example-basic-single').select2();
-			$('input[name="tax"]').click(function () {
-				if ($(this).is(':checked')) {
-					var id = $(this).val();
-					if (id == 1) {
-						$("#shamel-mesh").show();
-					} else if (id == 0) {
-						$("#shamel-mesh").hide();
-					}
-				}
-			});
-			$("button#openExampleModal").click(function(){
-				$("#exampleModal").find("input,textarea,select").val('');
-				$("#exampleModal").find("input[type=checkbox], input[type=radio]").prop("checked", "");
-			})
-		});
-		var bigData = [];
-		var bigDataComponent = [];
-		var bigDataOffer = [];
-		var bigDataDiscount = [];
-		var bigDataService = [];
-
-		$(function() {
-			var availableTags = <?php echo $units; ?>;
-			$(".autocomplete").autocomplete({
-				source: availableTags
-			});
-		});
-	</script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
-	<script src="{{asset('admin/assets/js/get_faces_by_branch.js')}}"></script>
-	<script src="{{asset('admin/assets/js/get_cells_by_column.js')}}"></script>
-	<script src="{{asset('admin/assets/js/get_columns_by_face.js')}}"></script>
-	<script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
-	<script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
-	<script src="{{asset('admin/assets/js/creation.js')}}"></script>
-	<script src="{{asset('admin/assets/js/discount.js')}}"></script>
-	<script src="{{asset('admin/assets/js/tax.js')}}"></script>
-	<script src="{{asset('admin/assets/js/productFunction/myFun.js')}}"></script>
-	<script src="{{asset('admin/assets/js/productFunction/myFun2.js')}}"></script>
-	<script src="{{asset('admin/assets/js/productFunction/myFun3.js')}}"></script>
-	<script src="{{asset('admin/assets/js/productFunction/myFun4.js')}}"></script>
-	<script src="{{asset('admin/assets/js/productFunction/myFun5.js')}}"></script>
-    <script src="{{asset('admin/assets/js/productFunction/myFun6.js')}}"></script>
 @endsection

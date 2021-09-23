@@ -73,7 +73,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-//dd($request->all());
+// dd($request->all());
         $rules = [
          'product_name'=>'required|string|max:191|product_name:accounting_products,name,category_id,'.$request['product_name'].','.$request['category_id'],
             'description'=>'nullable|string',
@@ -93,7 +93,8 @@ class ProductController extends Controller
             'width'=>'nullable|string',
             'num_days_recession'=>'nullable|string',
             'cell_id'=>'required',
-            'type'=>'required|string',
+            'type'=>'required|string',//        dd($inputs);
+
         ];
         $messsage = [
             'product_name.product_name'=>"اسم المنتج موجود بالفعل بالتصنيف",

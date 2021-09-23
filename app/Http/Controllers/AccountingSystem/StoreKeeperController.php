@@ -20,7 +20,6 @@ use Spatie\Permission\Models\Role;
 
 class StoreKeeperController extends Controller
 {
-
     use Viewable;
     private $viewable = 'AccountingSystem.storekeepers.';
 
@@ -35,11 +34,10 @@ class StoreKeeperController extends Controller
 //        if (!auth()->user()->hasPermissionTo('view_workers')) {
 //            return abort(401);
 //        }
-        $storeKeepers = User::where('is_storekeeper',1)->get();
+        $storeKeepers = User::where('is_storekeeper', 1)->get();
 
 
         return $this->toIndex(compact('storeKeepers'));
-
     }
 
     /**
@@ -49,12 +47,9 @@ class StoreKeeperController extends Controller
      */
     public function create()
     {
-
-        $stores = AccountingStore::pluck('ar_name','id')->toArray();
+        $stores = AccountingStore::pluck('ar_name', 'id')->toArray();
 
         return $this->toCreate(compact('stores'));
-
-
     }
 
     /**
@@ -67,8 +62,8 @@ class StoreKeeperController extends Controller
     {
         $rules = [
             'name'=>'required|string|max:191',
-            'email'=>'required|string|unique:accounting_storekeepers,email',
-
+            'email'=>'required|string|unique:users,email',
+            'phone'=>['required','unique:users,phone']
 
         ];
 
@@ -80,12 +75,11 @@ class StoreKeeperController extends Controller
 
         ];
 
-        $this->validate($request,$rules,$messsage);
+        $this->validate($request, $rules, $messsage);
 
 
         $requests = $request->all();
-       // dd($requests);
-
+        //حسبى الله ونعم والوكيل
         $storeKeeper = User::create($requests);
         $storeKeeper->update([
             'is_storekeeper'=>1,
@@ -105,10 +99,9 @@ class StoreKeeperController extends Controller
      */
     public function show($id)
     {
-
         $storekeeper= User::findOrFail($id);
-        $inventories=AccountingInventory::where('user_id',$id)->get();
-        return $this->toShow(compact('storekeeper','inventories'));
+        $inventories=AccountingInventory::where('user_id', $id)->get();
+        return $this->toShow(compact('storekeeper', 'inventories'));
     }
 
     /**
@@ -119,12 +112,10 @@ class StoreKeeperController extends Controller
      */
     public function edit($id)
     {
-
         $storeKeeper=User::findOrFail($id);
-        $stores = AccountingStore::pluck('ar_name','id')->toArray();
+        $stores = AccountingStore::pluck('ar_name', 'id')->toArray();
 
-        return $this->toEdit(compact('storeKeeper','stores'));
-
+        return $this->toEdit(compact('storeKeeper', 'stores'));
     }
 
     /**
@@ -139,13 +130,15 @@ class StoreKeeperController extends Controller
         $storeKeeper = User::findOrFail($id);
         $rules = [
             'name'=>'required|string|max:191',
-            'email'=>'required|string|unique:accounting_storekeepers,email,'.$storeKeeper->id,
+            'email'=>'required|string|unique:users,email,'.$storeKeeper->id,
         ];
-        $this->validate($request,$rules);
-        $inputs=$request->all();
-        if($request->password != null) {$storeKeeper->update(['password'=>bcrypt($request->password),]);}
+        $this->validate($request, $rules);
+        $inputs=$request->except('password');
+        if ($request->password != null) {
+            $storeKeeper->update(['password'=>$request->password,]);
+        }
 
-        $storeKeeper->update(array_except($inputs,['password']));
+        $storeKeeper->update(($inputs));
 
 
         alert()->success('تم تعديل   بنجاح !')->autoclose(5000);
@@ -163,11 +156,7 @@ class StoreKeeperController extends Controller
         $storeKeeper=User::find($id);
 
         $storeKeeper->delete();
-            alert()->success('تم حذف  الامين بنجاح');
-            return back();
-
+        alert()->success('تم حذف  الامين بنجاح');
+        return back();
     }
-
-
-
 }

@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -12,21 +12,19 @@ $(function() {
         console.log(list);
     });
 
-    $("#company_id").on('change', function() {
+    $("#company_id").on('change', function () {
         var company_id = $(this).val();
-        console.log(company_id);
 
 
 
         var stores;
-        $("#branch_id").on('change', function() {
+        $("#branch_id").on('change', function () {
             var id = $(this).val();
             var company_id = $('#company_id').val();
-            console.log(id);
             $.ajax({
-                url:"/accounting/branches_store/"+id,
-                type:"GET",
-                data: {company_id: company_id },
+                url: "/accounting/branches_store/" + id,
+                type: "GET",
+                data: { company_id: company_id },
             }).done(function (data) {
                 // var newOption = new Option(data.text, data.id, false, false);
                 // $('#city_id').append(newOption).trigger('change');

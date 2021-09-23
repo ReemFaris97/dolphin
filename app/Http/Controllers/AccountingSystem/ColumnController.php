@@ -11,6 +11,7 @@ use App\Models\AccountingSystem\AccountingFaceColumn;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
+use Illuminate\Validation\Rule;
 
 class ColumnController extends Controller
 {
@@ -34,8 +35,7 @@ class ColumnController extends Controller
      */
     public function create()
     {
-
-        $faces=AccountingBranchFace::pluck('name','id')->toArray();
+        $faces=AccountingBranchFace::pluck('name', 'id')->toArray();
         return $this->toCreate(compact('faces'));
     }
 
@@ -49,12 +49,13 @@ class ColumnController extends Controller
     {
         $rules = [
 
-            'name'=>'required|string|max:191',
 
+            'name'=>['required','string','max:191',
+            Rule::unique('accounting_face_columns', 'name')->where('face_id', $request->face_id)],
             'face_id'=>'required|numeric|exists:accounting_branch_faces,id',
 
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
         AccountingFaceColumn::create($requests);
         alert()->success('تم اضافة  العمود بنجاح !')->autoclose(5000);
@@ -81,11 +82,9 @@ class ColumnController extends Controller
     public function edit($id)
     {
         $column =AccountingFaceColumn::findOrFail($id);
-        $faces=AccountingBranchFace::pluck('name','id')->toArray();
+        $faces=AccountingBranchFace::pluck('name', 'id')->toArray();
 
-        return $this->toEdit(compact('column','faces'));
-
-
+        return $this->toEdit(compact('column', 'faces'));
     }
 
     /**
@@ -101,22 +100,17 @@ class ColumnController extends Controller
 
         $rules = [
 
-            'name'=>'required|string|max:191',
-
-//            'face_id'=>'required|numeric|exists:accounting_branch_faces,id',
+            'name'=>['required','string','max:191',
+            Rule::unique('accounting_face_columns', 'name')->where('face_id', $request->face_id)->ignore($id)],
+           'face_id'=>'required|numeric|exists:accounting_branch_faces,id',
 
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
-        if ($requests['face_id']==Null){
-            $requests['face_id']=$column-> face_id;
-        }
+
         $column->update($requests);
         alert()->success('تم تعديل  العمود بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.columns.index');
-
-
-
     }
 
     /**
@@ -130,8 +124,6 @@ class ColumnController extends Controller
         $column =AccountingFaceColumn::findOrFail($id);
         $column->delete();
         alert()->success('تم حذف  العمود بنجاح !')->autoclose(5000);
-            return back();
-
-
+        return back();
     }
 }

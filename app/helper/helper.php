@@ -8,119 +8,101 @@ use App\Models\AccountingSystem\AccountingStore;
 use App\Models\Message;
 use Carbon\Carbon;
 
-
-class MyHelperAccountingAmount{
-
-    public static function amount($account, $step = 0)
-   {
-       $totalAmount = 0;
-               if($account->kind == 'sub'){
-                $totalAmount=$account->amount;
-           }else{
-            if($account->children){
-
-                $totalAmount=AccountingAccount::where('account_id',$account->id)->sum('amount')+self::amount($account->children, $step+1);
-                }
-           }
-       return $totalAmount;
-     }
-   }
-
-
-
-class MyHelper{
-
- public static function tree($accounts, $step = 0)
+class MyHelperAccountingAmount
 {
-    $output = '';
-    $base_url = url('/ChartsAccounts/ChartsAccounts/');
-        foreach($accounts as $account)
-        {
+    public static function amount($account, $step = 0)
+    {
+        $totalAmount = 0;
+        if ($account->kind == 'sub') {
+            $totalAmount=$account->amount;
+        } else {
+            if ($account->children) {
+                $totalAmount=AccountingAccount::where('account_id', $account->id)->sum('amount')+self::amount($account->children, $step+1);
+            }
+        }
+        return $totalAmount;
+    }
+}
+
+
+
+class MyHelper
+{
+    public static function tree($accounts, $step = 0)
+    {
+        $output = '';
+        $base_url = url('/ChartsAccounts/ChartsAccounts/');
+        foreach ($accounts as $account) {
             $output .=
 
             '<li name="'.$account->id.'"> '. $account->code . " -".$account->ar_name;
 
             // '<option  value="'.$account->id.'">'.str_repeat('&nbsp;&nbsp;&nbsp;',$step). $account->ar_name.'</option>';
-            if($account->kind!='sub'){
-            if($account->children)
-            {
-                $output .= '<ul>'. self::tree($account->children, $step+1).'</ul>'.'</li>';
-            }
-        }else{
-
+            if ($account->kind!='sub') {
+                if ($account->children) {
+                    $output .= '<ul>'. self::tree($account->children, $step+1).'</ul>'.'</li>';
+                }
+            } else {
                 $output .= '</li>';
-
             }
         }
-    return $output;
+        return $output;
+    }
 }
 
-}
 
 
-
-class MyHelperCostCenter_view{
-
+class MyHelperCostCenter_view
+{
     public static function center($centers, $step = 0)
-   {
-       $output = '';
+    {
+        $output = '';
 
-      $base_url = url('/ChartsAccounts/ChartsAccounts/');
-           foreach($centers as $center)
-           {
-               $output .=
+        $base_url = url('/ChartsAccounts/ChartsAccounts/');
+        foreach ($centers as $center) {
+            $output .=
 
                '<li name="'.$center->id.'"> '. $center->code . " -".$center->name;
 
-               // '<option  value="'.$account->id.'">'.str_repeat('&nbsp;&nbsp;&nbsp;',$step). $account->ar_name.'</option>';
-               if($center->kind!='sub'){
-               if($center->children)
-               {
-                   $output .= '<ul>'. self::center($center->children, $step+1).'</ul>'.'</li>';
-               }
-           }else{
-
-                   $output .= '</li>';
-
+            // '<option  value="'.$account->id.'">'.str_repeat('&nbsp;&nbsp;&nbsp;',$step). $account->ar_name.'</option>';
+            if ($center->kind!='sub') {
+                if ($center->children) {
+                    $output .= '<ul>'. self::center($center->children, $step+1).'</ul>'.'</li>';
                 }
-           }
-       return $output;
-   }
+            } else {
+                $output .= '</li>';
+            }
+        }
+        return $output;
+    }
+}
 
-   }
 
 
 
-
-class MyHelperCostCenter{
-
+class MyHelperCostCenter
+{
     public static function treecost($accounts, $step = 0)
-   {
-       $output = '';
-       $base_url = url('/ChartsAccounts/ChartsAccounts/');
-           foreach($accounts as $account)
-           {
-               // '<option  value="'.$account->id.'">'.str_repeat('&nbsp;&nbsp;&nbsp;',$step). $account->ar_name.'</option>';
-               if($account->kind!='sub'){
-
-                        if($account->children)
-                        {
-                            $output .=
+    {
+        $output = '';
+        $base_url = url('/ChartsAccounts/ChartsAccounts/');
+        foreach ($accounts as $account) {
+            // '<option  value="'.$account->id.'">'.str_repeat('&nbsp;&nbsp;&nbsp;',$step). $account->ar_name.'</option>';
+            if ($account->kind!='sub') {
+                if ($account->children) {
+                    $output .=
                             '<li name="'.$account->id.'"> '. $account->code . " -".$account->ar_name;
-                            $output .= '<ul>'. self::treecost($account->children, $step+1).'</ul>'.'</li>';
-                        }
-            }elseif($account->kind=='sub'&&$account->cost_center==1){
+                    $output .= '<ul>'. self::treecost($account->children, $step+1).'</ul>'.'</li>';
+                }
+            } elseif ($account->kind=='sub'&&$account->cost_center==1) {
                 $output .=  '<li name="'.$account->id.'"> '. $account->code . " -".$account->ar_name;
 
-                    $output .='</li>';
-
-
-                }
+                $output .='</li>';
             }
+        }
         return $output;
-   }
-
-   }
+    }
+}
 function responseJson($status, $msg, $data = null, $state = 200)
 {
     $response = [
@@ -131,7 +113,8 @@ function responseJson($status, $msg, $data = null, $state = 200)
     return response()->json($response, $state);
 }
 
-function rearrange_array($array, $key) {
+function rearrange_array($array, $key)
+{
     while ($key > 0) {
         $temp = array_shift($array);
         $array[] = $temp;
@@ -158,46 +141,43 @@ function allstores()
 }
 
 
-function stores_to($id=Null)
-
+function stores_to($id=null)
 {
     if ($id != null) {
-    $stores_to= \App\Models\AccountingSystem\AccountingStore::where('id','!=',$id)->get()->mapWithKeys(function ($q) {
-        return [$q['id'] => $q['ar_name']];
-    });
-}else{
-    $stores_to=[];
-}
+        $stores_to= \App\Models\AccountingSystem\AccountingStore::where('id', '!=', $id)->get()->mapWithKeys(function ($q) {
+            return [$q['id'] => $q['ar_name']];
+        });
+    } else {
+        $stores_to=[];
+    }
 
     // dd($stores_to);
     return $stores_to;
 }
 
 
-function products($store=null){
+function products($store=null)
+{
+    $store_product=App\Models\AccountingSystem\AccountingProductStore::where('store_id', $store)->pluck('product_id', 'id')->toArray();
 
-    $store_product=App\Models\AccountingSystem\AccountingProductStore::where('store_id',$store)->pluck('product_id','id')->toArray();
-
-          $products=App\Models\AccountingSystem\AccountingProduct::whereIn('id',$store_product)->get()->mapWithKeys(function ($q) {
-            return [$q['id'] => $q['name']];
-        });
+    $products=App\Models\AccountingSystem\AccountingProduct::whereIn('id', $store_product)->get()->mapWithKeys(function ($q) {
+        return [$q['id'] => $q['name']];
+    });
 
 
 
     return $products;
 }
 
-function products_purchase($purchase=null){
+function products_purchase($purchase=null)
+{
     if ($purchase != null) {
+        $products_id=App\Models\AccountingSystem\AccountingPurchaseItem::where('purchase_id', $purchase)->where('quantity', '!=', null)->pluck('product_id')->toArray();
 
-        $products_id=App\Models\AccountingSystem\AccountingPurchaseItem::where('purchase_id',$purchase)->where('quantity','!=',Null)->pluck('product_id')->toArray();
-
-          $products=App\Models\AccountingSystem\AccountingProduct::whereIn('id',$products_id)->get()->mapWithKeys(function ($q) {
+        $products=App\Models\AccountingSystem\AccountingProduct::whereIn('id', $products_id)->get()->mapWithKeys(function ($q) {
             return [$q['id'] => $q['name']];
         });
-
-
-    }else{
+    } else {
         $products=[];
     }
 
@@ -211,20 +191,18 @@ function products_purchase($purchase=null){
 
 function getsetting($name)
 {
-    $settings=App\Models\AccountingSystem\AccountingSetting::where('name',$name)->first();
+    $settings=App\Models\AccountingSystem\AccountingSetting::where('name', $name)->first();
 //    dd($settings);
     return $settings->value ??'';
 }
 
-function products_not_settement($store=null){
+function products_not_settement($store=null)
+{
     if ($store != null) {
+        $products_id=App\Models\AccountingSystem\AccountingProductStore::where('store_id', $store)->where('quantity', '!=', null)->where('quantity', '>', 0)->pluck('product_id')->toArray();
 
-        $products_id=App\Models\AccountingSystem\AccountingProductStore::where('store_id',$store)->where('quantity','!=',Null)->where('quantity','>',0)->pluck('product_id')->toArray();
-
-        $products=App\Models\AccountingSystem\AccountingProduct::select(['id', 'name'])->whereIn('id',$products_id)->where('is_settlement',0)->get();
-
-
-    }else{
+        $products=App\Models\AccountingSystem\AccountingProduct::select(['id', 'name'])->whereIn('id', $products_id)->where('is_settlement', 0)->get();
+    } else {
         $products=[];
     }
 
@@ -255,7 +233,7 @@ function devices()
     $devices = \App\Models\AccountingSystem\AccountingDevice::all()->mapWithKeys(function ($q) {
         return [$q['id'] => $q['code']];
     });
-// dd($devices);
+    // dd($devices);
     return $devices;
 }
 
@@ -266,13 +244,12 @@ function devices()
 function keepers($store_id= null)
 {
     if ($store_id != null) {
-
         $store=AccountingStore::findOrfail($store_id);
         $keepers = App\Models\User::where('id', $store->user_id)->get()->mapWithKeys(function ($q) {
             return [$q['id'] => $q['name']];
         });
-        // dd($keepers);
-    }else{
+    // dd($keepers);
+    } else {
         $keepers=[];
     }
 
@@ -284,13 +261,12 @@ function AllStore()
     $stores =App\Models\AccountingSystem\AccountingStore::all()->mapWithKeys(function ($q) {
         return [$q['id'] => $q['ar_name']];
     });
-// dd($devices);
+    // dd($devices);
     return $stores;
 }
 
 function branches($company = null)
 {
-
     if ($company != null) {
         $branches = App\Models\AccountingSystem\AccountingCompany::find($company)->branches->mapWithKeys(function ($item) {
             return [$item['id'] => $item['name'],'all' => 'كل الفروع'];
@@ -307,7 +283,6 @@ function branches($company = null)
 
 function branches_only($company = null)
 {
-
     if ($company != null) {
         $branches = App\Models\AccountingSystem\AccountingCompany::find($company)->branches->mapWithKeys(function ($item) {
             return [$item['id'] => $item['name']];
@@ -321,38 +296,35 @@ function branches_only($company = null)
 }
 
 
-function stores($branch=null){
-
-
+function stores($branch=null)
+{
     if ($branch != null) {
 
 
         // $stores=App\Models\AccountingSystem\AccountingStore::find($branch)->faces->mapWithKeys(function ($item) {
         //     return [$item['id'] => $item['ar_name']];
         // });
-    }else{
-    $stores=[];
-}
+    } else {
+        $stores=[];
+    }
     return $stores;
 }
 
 
-function faces($branch=null,$company_id=null){
+function faces($branch=null, $company_id=null)
+{
     if ($branch != null) {
         if ($branch != 'all') {
-        $faces=App\Models\AccountingSystem\AccountingBranch::find($branch)->faces->mapWithKeys(function ($item) {
-            return [$item['id'] => $item['name']];
-        });
-        }else{
-            $branches=App\Models\AccountingSystem\AccountingBranch::where('company_id',$company_id)->pluck('id','id')->toArray();
+            $faces=App\Models\AccountingSystem\AccountingBranch::find($branch)->faces->mapWithKeys(function ($item) {
+                return [$item['id'] => $item['name']];
+            });
+        } else {
+            $branches=App\Models\AccountingSystem\AccountingBranch::where('company_id', $company_id)->pluck('id', 'id')->toArray();
             $faces=[];
 
-               $faces=\App\Models\AccountingSystem\AccountingBranchFace::whereIn('branch_id',$branches)->pluck('name','id')->toArray();
-
-
+            $faces=\App\Models\AccountingSystem\AccountingBranchFace::whereIn('branch_id', $branches)->pluck('name', 'id')->toArray();
         }
-
-    }else{
+    } else {
         $faces=[];
     }
 
@@ -361,32 +333,30 @@ function faces($branch=null,$company_id=null){
 
 
 
-function colums($face=null,$cell=null){
+function colums($face=null, $cell=null)
+{
     if ($face != null) {
-
-
         $colums=App\Models\AccountingSystem\AccountingBranchFace::find($face)->columns->mapWithKeys(function ($item) {
             return [$item['id'] => $item['name']];
         });
-    }else{
+    } else {
         $colums=[];
     }
-    if($cell!= null){
+    if ($cell!= null) {
         dd($cell->column_id);
-       return $cell->column_id;
+        return $cell->column_id;
     }
 
     return $colums;
 }
 
-function cells($colum=null){
+function cells($colum=null)
+{
     if ($colum != null) {
-
-
         $cells=App\Models\AccountingSystem\AccountingFaceColumn::find($colum)->cells->mapWithKeys(function ($item) {
             return [$item['id'] => $item['name']];
         });
-    }else{
+    } else {
         $cells=[];
     }
 
@@ -396,7 +366,8 @@ function cells($colum=null){
 
 function saveImage($file, $folder = '/')
 {
-    $fileName = date('YmdHis') . '-' . $file->getClientOriginalName();;
+    $fileName = date('YmdHis') . '-' . $file->getClientOriginalName();
+    ;
     $path = \Storage::disk('public')->putFileAs($folder, $file, $fileName);
     return 'storage/' . $path;
 }
@@ -408,7 +379,6 @@ function uploadpath()
 }
 
 function uploader($request, $img_name)
-
 {
     $file = $request->file($img_name);
     $fileHash = str_replace('.' . $file->extension(), '', $file->hashName());
@@ -420,7 +390,6 @@ function uploader($request, $img_name)
 
 function routeActive($path, $active = 'active')
 {
-
     return request()->routeIs($path) ? $active : '';
 }
 
@@ -450,8 +419,8 @@ function getimg($filename)
 
 function deleteImg($img_name)
 {
-    \Storage::disk('public')->delete(uploadpath(),$img_name);
-    return True;
+    \Storage::disk('public')->delete(uploadpath(), $img_name);
+    return true;
 }
 
 
@@ -487,18 +456,14 @@ function generatePIN($digits = 4)
 
 function ShowOrHide($task, $types)
 {
-
     if (in_array($task->type, $types)) {
-
         return 'd-block';
     }
     return 'd-none';
-
 }
 
 function toSeconds($days, $hours, $minutes)
 {
-
     $seconds = 0;
     $seconds += (($days * 24 + $hours) * 60 + $minutes) * 60;
     /*    return strtotime("{$days} days {$hours} hours {$minutes} minutes");*/
@@ -519,12 +484,11 @@ function secondsToTime($seconds)
 
 function taskTypes()
 {
-
 }
 
 function presentFilter($task_user)
 {
-    if($task_user->from_time==null){
+    if ($task_user->from_time==null) {
         return false;
     };
     //    dd($task_user);
@@ -534,7 +498,7 @@ function presentFilter($task_user)
 
 function oldFilter($task_user)
 {
-    if($task_user->from_time==null){
+    if ($task_user->from_time==null) {
         return false;
     };
 
@@ -542,8 +506,7 @@ function oldFilter($task_user)
 }
 function futureFilter($task_user)
 {
-
-    if($task_user->from_time==null){
+    if ($task_user->from_time==null) {
         return false;
     };
 
@@ -568,9 +531,9 @@ function rates()
 function idol_user()
 {
     $idol_user = App\Models\User::WhereHas('tasks', function ($q) {
-        $q->where('rate','!=',null);
-        $q->whereMonth('finished_at',date("m"));
-    })->get()->sortByDesc(function($user) {
+        $q->where('rate', '!=', null);
+        $q->whereMonth('finished_at', date("m"));
+    })->get()->sortByDesc(function ($user) {
         return $user->rate();
     })->first();
 
@@ -583,10 +546,15 @@ function lastMessage($user_id)
     $message_user = \App\Models\Message::where(['user_id' => auth()->user()->id, 'receiver_id' => $user_id])->orderby('id', 'desc')->first();
     $message_reciver = \App\Models\Message::where(['receiver_id' => auth()->user()->id, 'user_id' => $user_id])->orderby('id', 'desc')->first();
     if ($message_user && $message_reciver) {
-        if ($message_reciver->created_at > $message_user->created_at) return $message_reciver->message;
+        if ($message_reciver->created_at > $message_user->created_at) {
+            return $message_reciver->message;
+        }
         return $message_user->message;
-    } elseif ($message_user) return $message_user->message;
-    elseif ($message_reciver) return $message_reciver->message;
+    } elseif ($message_user) {
+        return $message_user->message;
+    } elseif ($message_reciver) {
+        return $message_reciver->message;
+    }
     return 'لا يوجد رسائل';
 }
 //function channel_name($receiver_id){
@@ -638,14 +606,14 @@ function allowExtentionsFiles()
 
 function getFileType($filedName, $value)
 {
-        if (in_array(getExtention($value), allowExtentionsImage())) {
-            return 'Image';
-        }
-        if (in_array(getExtention($value), allowExtentionsFiles())) {
-            return 'File';
-        }
-        else
-            return "undefined";
+    if (in_array(getExtention($value), allowExtentionsImage())) {
+        return 'Image';
+    }
+    if (in_array(getExtention($value), allowExtentionsFiles())) {
+        return 'File';
+    } else {
+        return "undefined";
+    }
 }
 
 function getExtention($fileName)
@@ -655,8 +623,8 @@ function getExtention($fileName)
 }
 
 
-function getNationalities(){
-
+function getNationalities()
+{
     return [
         "Afghan"=> "أفغاني",
         "Albanian"=> "ألباني",
@@ -851,33 +819,31 @@ function getNationalities(){
         "Zambian"=> "زامبي",
         "Zimbabwean"=> "زيمبابوي"
     ];
-
-
 }
 
-function chooseNationality($nationality){
-    if(array_key_exists($nationality,getNationalities())){
+function chooseNationality($nationality)
+{
+    if (array_key_exists($nationality, getNationalities())) {
         return getNationalities()[$nationality];
     }
     return $nationality;
-
 }
 
-function currency(){
-$currencies=\App\Models\AccountingSystem\AccountingCurrency::pluck('ar_name','id')->toArray();
+function currency()
+{
+    $currencies=\App\Models\AccountingSystem\AccountingCurrency::pluck('ar_name', 'id')->toArray();
     return $currencies;
 }
 
 
-function accounts(){
-
-
-    $accounts=\App\Models\AccountingSystem\AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->where('kind','sub')->pluck('code_name','id')->toArray();
-return $accounts;
+function accounts()
+{
+    $accounts=\App\Models\AccountingSystem\AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->where('kind', 'sub')->pluck('code_name', 'id')->toArray();
+    return $accounts;
 }
 
-function pay_type(){
-
+function pay_type()
+{
     return [
         "cash"=> "نقدى",
         "agel"=> "أجل",
@@ -893,8 +859,8 @@ function productCategories()
     return $categories;
 }
 
-function months(){
-
+function months()
+{
     return [
         'Jan'=>'يناير',
         'Feb'=>'فبراير',
@@ -911,27 +877,29 @@ function months(){
 
     ];
 }
-function chooseMonthly($month){
-    if(array_key_exists($month,months())){
+function chooseMonthly($month)
+{
+    if (array_key_exists($month, months())) {
         return months()[$month];
     }
     return $month;
-
 }
 
 
-  function quarterly(){
-   return [
+  function quarterly()
+  {
+      return [
     '1'=>'الربع السنوى الاول',
     '2'=>'الربع السنوى الثاتى',
     '3'=>'الربع السنوى الثالث',
     '4'=>'الربع السنوى الرابع',
    ];
-}
+  }
 
 
 
-function levels(){
+function levels()
+{
     return [
      '1'=>' المستوى الاول  ',
      '2'=>' المستوى الثاتى',
@@ -951,11 +919,11 @@ function levels(){
      '16'=>' المستوى السادس عشر',
      '17'=>' المستوى السابع عشر',
     ];
- }
-function choosequarterly($quarter){
-    if(array_key_exists($quarter,quarterly())){
+}
+function choosequarterly($quarter)
+{
+    if (array_key_exists($quarter, quarterly())) {
         return quarterly()[$quarter];
     }
     return $quarter;
-
 }

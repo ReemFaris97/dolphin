@@ -37,7 +37,7 @@
 
                                 <h3>
                                     {{$product->bar_code}}
-                                    <?php echo \Milon\Barcode\DNS1D::getBarcodeHTML($product->bar_code, "C39",1) ?>
+                                    <?php echo \DNS1D::getBarcodeHTML($product->bar_code, "C39",1) ?>
                                 </h3>
                             </div>
 

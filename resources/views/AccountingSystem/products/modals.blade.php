@@ -11,7 +11,15 @@
 			<div class="modal-body">
 				<label> اسم الوحده</label>
 				<span class="required--in">*</span>
-				<input type="text" class="form-control the-unit-name" id="name" >
+				<input type="text" class="form-control the-unit-name autocomplete" id="name",list="unit_names2"  autocomplete="true">
+                <datalist id="unit_names2">
+                    @foreach (json_decode($units,true) as $unit )
+                    <option value="{{$unit}}">
+
+                    @endforeach
+                    </datalist>
+
+
 				<label> باركود</label>
 				<input type="text" class="form-control the-unit-bar" id="par_code" >
 				<label>مقدارها بالنسبة للوحده الاساسية</label>

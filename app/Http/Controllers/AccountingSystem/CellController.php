@@ -11,7 +11,7 @@ use App\Models\AccountingSystem\AccountingFaceColumn;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
-use phpDocumentor\Reflection\Types\Null_;
+use Illuminate\Validation\Rule;
 
 class CellController extends Controller
 {
@@ -35,7 +35,7 @@ class CellController extends Controller
      */
     public function create()
     {
-        $columns=AccountingFaceColumn::pluck('name','id')->toArray();
+        $columns=AccountingFaceColumn::pluck('name', 'id')->toArray();
         return $this->toCreate(compact('columns'));
     }
 
@@ -48,11 +48,12 @@ class CellController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name'=>'required|string|max:191',
+            'name'=>['required','string','max:191',
+            Rule::unique('accounting_column_cells', 'name')->where('column_id', $request->column_id)],
             'column_id'=>'required|numeric|exists:accounting_face_columns,id',
 
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
 
         AccountingColumnCell::create($requests);
@@ -80,11 +81,9 @@ class CellController extends Controller
     public function edit($id)
     {
         $cell =AccountingColumnCell::findOrFail($id);
-        $columns=AccountingFaceColumn::pluck('name','id')->toArray();
+        $columns=AccountingFaceColumn::pluck('name', 'id')->toArray();
 
-        return $this->toEdit(compact('cell','columns'));
-
-
+        return $this->toEdit(compact('cell', 'columns'));
     }
 
     /**
@@ -96,25 +95,19 @@ class CellController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $cell =AccountingColumnCell::findOrFail($id);
         $rules = [
 
-            'name'=>'required|string|max:191',
-
-//        'column_id'=>'required|numeric|exists:accounting_face_columns,id',
+            'name'=>['required','string','max:191',
+            Rule::unique('accounting_column_cells', 'name')->where('column_id', $request->column_id)->ignore($id)],
+       'column_id'=>'required|numeric|exists:accounting_face_columns,id',
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
-        if ($requests['column_id']==Null){
-            $requests['column_id']=$cell-> column_id;
-        }
+
         $cell->update($requests);
         alert()->success('تم تعديل  الصف بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.cells.index');
-
-
-
     }
 
     /**
@@ -128,8 +121,6 @@ class CellController extends Controller
         $shift =AccountingColumnCell::findOrFail($id);
         $shift->delete();
         alert()->success('تم حذف  الخليه بنجاح !')->autoclose(5000);
-            return back();
-
-
+        return back();
     }
 }
