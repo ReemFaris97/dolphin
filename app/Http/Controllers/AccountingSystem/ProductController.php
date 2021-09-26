@@ -67,9 +67,35 @@ class ProductController extends Controller
         $companies=AccountingCompany::get(['id', 'name']);
         $product= AccountingProduct::make();
         $product= collect(AccountingProduct::make()->getFillable())->mapWithKeys(fn ($c) =>[$c=>null]);
-
-
-        return $this->toCreate(compact('branches', 'categories', 'products', 'industrials', 'units', 'taxs', 'suppliers', 'product'));
+        $product['bar_code']=[];
+        $product['sub_products']=[];
+        $product['components']=[];
+        $product['stores']=[];
+        $unit_template=[
+        'name'=>null,
+        'bar_code'=>null,
+        'main_unit_present'=>null,
+        'selling_price'=>null,
+        'purchasing_price'=>null,
+        'quantity'=>null
+        ];
+        $component_temp=[
+            'name'=>null,
+            'quantity'=>null,
+            'main_unit'=>null,
+        ];
+        return $this->toCreate(compact(
+            'branches',
+            'categories',
+            'products',
+            'industrials',
+            'units',
+            'taxs',
+            'suppliers',
+            'product',
+            'unit_template',
+            'component_temp'
+        ));
     }
     /**
      * Store a newly created resource in storage.

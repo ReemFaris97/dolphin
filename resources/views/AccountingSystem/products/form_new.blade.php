@@ -143,7 +143,7 @@
                                 <input type="number" name="min_quantity" v-model="form.min_quantity" class="form-control" />
 
                             </div>
-                            <div class="form-group   col-md-6 col-xs-12 pull-left">
+                            <div class="form-group  col-md-6 col-xs-12 pull-left">
                                 <label>  <span class="text-danger">*</span> الحد الاقصى من الكمية</label>
                                 <input type="number" name="max_quantity" v-model="form.max_quantity" class="form-control" />
 
@@ -169,7 +169,7 @@
                         </div>
                             </div>
                         
-
+   
              </div>
 
 
