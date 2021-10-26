@@ -57,6 +57,7 @@
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
                         <td>{!! $row->name!!}</td>
+                        <td>{!! $row->en_name!!}</td>
 
                         <td>
                             @if ($row->type=="store")
