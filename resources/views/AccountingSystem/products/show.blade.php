@@ -28,23 +28,23 @@
 					</div>
 					<div class="form-group col-md-3 pull-left" id="store_id">
 						<label> اسم الشركة التابع لها المستودع </label>
-						{!! $product->store->model->name ??'' !!}
+						{!! optional($product->store)->model->name ??'' !!}
 
 					</div>
 					<div class="form-group col-md-3 pull-left">
 						<label> اسم الخلية </label>
 
-						{!! $product->cell_product->name !!}
+						{!! optional($product->cell_product)->name !!}
 					</div>
 					<div class="form-group col-md-3 pull-left">
 						<label> اسم العمود </label>
 
-						{!! $product->cell_product->column->name !!}
+						{!! optional(optional($product->cell_product)->column)->name !!}
 					</div>
 					<div class="form-group col-md-3 pull-left">
 						<label> اسم الوجه </label>
 
-						{!! $product->cell_product->column->face->name !!}
+						{!! optional(optional(optional($product->cell_product)->column)->face)->name !!}
 					</div>
 				</div>
 

@@ -67,7 +67,7 @@
 					@else
 					<select class="form-control js-example-basic-single pull-right" name="column_id">
 						@foreach ($faces as $face)
-						@if($product->cell_product->column->face_id == $face->id)
+						@if(optional(optional($product->cell_product)->column)->face_id == $face->id)
 						<option value="{{$face->id}}" selected>{{$face->name}}</option>
 						@else
 						<option value="{{$face->id}}">{{$face->name}}</option>
