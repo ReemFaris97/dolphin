@@ -70,9 +70,9 @@
                     @can('إدارة  الفروع')
 					<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-home2 position-left"></i> إدارة فروع الشركات </a>
 						<ul class="dropdown-menu dropdown-menu-right">
-							@can('عرض الفروع')
+{{--@can('عرض الفروع') --}}							
 							<li><a href="{{route('accounting.branches.index')}}"><i class="icon-eye"></i> عرض فروع الشركات</a></li>
-							@endcan
+						{{--@endcan --}}	
 							@can('اضافة الفرع')
 							<li><a href="{{route('accounting.branches.create')}}"><i class="icon-add-to-list"></i> اضافة فرع جديدة</a></li>
 							@endcan
