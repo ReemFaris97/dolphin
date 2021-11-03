@@ -21,7 +21,7 @@ class ProductsImport implements ToModel
         return new AccountingProduct([
             'name'     => $row[0]??'',
             'en_name'    => $row[1]??'',
-            // ''     => $row[2]??'',
+            'company_id'     => ,
             'bar_code'    => $row[3]??'',
             'category_id' => AccountingProductCategory::query()->firstOrCreate(['ar_name'=>$row[4],'en_name'=>$row[4]])->id,
             // 'industrial_id'=>  AccountingIndustrial::where("name", "like", "%".$row[5]."%"),

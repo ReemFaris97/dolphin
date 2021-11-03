@@ -147,7 +147,8 @@ class RouteController extends Controller
         $this->RegisterBill($request, $route_trip);
         $trip_report = RouteTripReport::latest()->first();
         return $this->apiResponse(
-            ['msg' => 'تم تسجيل الفاتورة بنجاح', 'bill' => 'http://panorama-t.com/api/distributor/bills/print_bill/' . $trip_report->id]
+            ['msg' => 'تم تسجيل الفاتورة بنجاح',
+             'bill' => env('APP_URL').'/api/distributor/bills/print_bill/' . $trip_report->id]
         );
     }
 
