@@ -148,7 +148,7 @@ class RouteController extends Controller
         $trip_report = RouteTripReport::latest()->first();
         return $this->apiResponse(
             ['msg' => 'تم تسجيل الفاتورة بنجاح',
-             'bill' => env('APP_URL').'/api/distributor/bills/print_bill/' . $trip_report->id]
+             'bill' => url('/api/distributor/bills/print_bill/' . $trip_report->id)]
         );
     }
 
