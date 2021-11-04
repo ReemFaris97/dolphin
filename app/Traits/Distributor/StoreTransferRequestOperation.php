@@ -38,7 +38,7 @@ trait StoreTransferRequestOperation
             $inputs = $request->all();
             $request_transfer = StoreTransferRequest::create($inputs);
 
-            foreach ($request->products as $item) {
+            foreach ($request->products??[] as $item) {
                 $product = Product::find($item['product_id']);
                 $request_transfer->products()->create(
                     [
@@ -47,7 +47,7 @@ trait StoreTransferRequestOperation
                         'price' => $product->price
                     ]);
 
-                if (isset($request->sender_store_id)) {
+                // if (isset($request->sender_store_id)) {
                     ProductQuantity::create([
                         'product_id' => $product->id,
                         'user_id' => $request->sender_id,
@@ -58,7 +58,7 @@ trait StoreTransferRequestOperation
                         'store_transfer_request_id' => $request_transfer->id
                     ]);
 
-                }
+                // }
             }
             DB::commit();
             return true;
