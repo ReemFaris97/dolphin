@@ -104,7 +104,6 @@ class ProductQuantity extends Model
         if ($this->type == 'damaged') {
             return 'اتلاف (-)';
         }
-        dd($this->type, $this->store_transfer_request_id, $this->trip_report_id);
         //check $this->type,$this->store_transfer_request_id ,$this->trip_report_id
         throw new Exception('Unhandled Type');
     }

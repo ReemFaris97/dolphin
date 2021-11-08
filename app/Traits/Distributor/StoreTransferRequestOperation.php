@@ -47,7 +47,19 @@ trait StoreTransferRequestOperation
                         'price' => $product->price
                     ]);
 
-                // if (isset($request->sender_store_id)) {
+
+
+                    ProductQuantity::create([
+                        'product_id' => $product->id,
+                        // 'user_id' => $request->sender_id,
+                        'quantity' => $item['quantity'],
+                        'type' => 'in',
+                        'is_confirmed' => 1,
+                        'store_id' => $request->distributor_store_id,
+                        'store_transfer_request_id' => $request_transfer->id
+                    ]);
+
+                if (isset($request->sender_store_id)) {
                     ProductQuantity::create([
                         'product_id' => $product->id,
                         'user_id' => $request->sender_id,
@@ -58,7 +70,7 @@ trait StoreTransferRequestOperation
                         'store_transfer_request_id' => $request_transfer->id
                     ]);
 
-                // }
+                }
             }
             DB::commit();
             return true;

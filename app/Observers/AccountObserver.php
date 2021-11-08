@@ -33,11 +33,11 @@ class AccountObserver
                 $lastfollowingAcount = AccountingAccount::where('kind','following_main')->where('account_id',$account->account_id)->latest()->first();
 
                if (!is_null($lastfollowingAcount)) {
-                   $account->code = $lastfollowingAcount->code + 1000;
-                   $account->level = $lastfollowingAcount->level;
+                   $account->code = optional($lastfollowingAcount)->code + 1000;
+                   $account->level = optional($lastfollowingAcount)->level;
                }else{
-                   $account->code = $perantAccount->code . 1000;
-                   $account->level = $perantAccount->level +1;
+                   $account->code = optional($perantAccount)->code . 1000;
+                   $account->level = optional($perantAccount)->level +1;
 
                }
             }
@@ -48,11 +48,11 @@ class AccountObserver
 
                 if (!is_null($lastsubAcount)) {
 
-                    $account->code = $lastsubAcount->code + 1;
-                    $account->level = $lastsubAcount->level;
+                    $account->code = optional($lastsubAcount)->code + 1;
+                    $account->level = optional($lastsubAcount)->level;
 
                 }else{
-                    $account->level = $perantAccount->level + 1 ;
+                    $account->level = optional($perantAccount)->level + 1 ;
 
                 }
             }
@@ -67,12 +67,12 @@ class AccountObserver
                 $lastsubAcount = AccountingAccount::whereIn('kind',['following_main', 'sub'])->where('account_id',$account->account_id)->latest()->first();
 
                 if (!is_null($lastsubAcount)) {
-                    $account->code = $lastsubAcount->code + getsetting('increased_number');
-                    $account->level = $lastsubAcount->level ;
+                    $account->code = optional($lastsubAcount)->code + getsetting('increased_number');
+                    $account->level = optional($lastsubAcount)->level ;
                 }else{
 
-                    $account->code = $perantAccount->code . getsetting('increased_number');
-                    $account->level = $perantAccount->level + 1;
+                    $account->code = optional($perantAccount)->code . getsetting('increased_number');
+                    $account->level = optional($perantAccount)->level + 1;
 
 
                 }
@@ -87,8 +87,8 @@ class AccountObserver
                 $lastMainAcount = AccountingAccount::where('kind', 'main')->latest()->first();
                 if (!is_null($lastMainAcount)) {
 
-                    $account->code = $lastMainAcount->code + 1;
-                    $account->level = $lastMainAcount->level ;
+                    $account->code = optional($lastMainAcount)->code + 1;
+                    $account->level = optional($lastMainAcount)->level ;
 
                 } else {
                     $account->code =getsetting('main_coding');
@@ -100,36 +100,23 @@ class AccountObserver
                 // dd($perantAccount);
                 $lastsubAcount = AccountingAccount::whereIn('kind',['following_main', 'sub'])->where('account_id',$account->account_id)->latest()->first();
                 if (!is_null($lastsubAcount)) {
-                    if (strpos($lastsubAcount->code, '*') == true) {
+                    if (strpos(optional($lastsubAcount)->code, '*') == true) {
                         $lastsubAcount->code = rtrim($lastsubAcount->code, '*');
 
                     }
-                    $account->code = $lastsubAcount->code + 1;
-                    $account->level = $lastsubAcount->level;
+                    $account->code = optional($lastsubAcount)->code + 1;
+                    $account->level = optional($lastsubAcount)->level;
 
 
                 }else{
-                         
-                    $account->code = $perantAccount->code . 1;
-                    $account->level = $perantAccount->level +1;
 
-
+                    $account->code = optional($perantAccount)->code . 1;
+                    $account->level = optional($perantAccount)->level +1;
                 }
 
             }
         }
 
     }
-
-    // public function posting(AccountingAccount $account)
-    // {
-
-    //         $account->update([
-    //             'amount' => $account->children()->sum('amount'),
-    //         ]);
-
-
-
-    // }
 
 }
