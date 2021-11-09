@@ -14,248 +14,249 @@ class DatabaseSeeder extends Seeder
         // $this->call(UsersTableSeeder::class);
         $this->call(PermissionsTableSeeder::class);
         \DB::table('model_has_permissions')->delete();
-        
+
         \DB::table('model_has_permissions')->insert(array (
-            0 => 
+            0 =>
             array (
                 'permission_id' => 1,
                 'model_type' => 'App\\User',
                 'model_id' => 51,
             ),
-            1 => 
+            1 =>
             array (
                 'permission_id' => 2,
                 'model_type' => 'App\\User',
                 'model_id' => 51,
             ),
-            2 => 
+            2 =>
             array (
                 'permission_id' => 3,
                 'model_type' => 'App\\User',
                 'model_id' => 51,
             ),
-            3 => 
+            3 =>
             array (
                 'permission_id' => 4,
                 'model_type' => 'App\\User',
                 'model_id' => 51,
             ),
-            4 => 
+            4 =>
             array (
                 'permission_id' => 5,
                 'model_type' => 'App\\User',
                 'model_id' => 51,
             ),
-            5 => 
+            5 =>
             array (
                 'permission_id' => 6,
                 'model_type' => 'App\\User',
                 'model_id' => 51,
             ),
-            6 => 
+            6 =>
             array (
                 'permission_id' => 7,
                 'model_type' => 'App\\User',
                 'model_id' => 51,
             ),
-            7 => 
+            7 =>
             array (
                 'permission_id' => 8,
                 'model_type' => 'App\\User',
                 'model_id' => 51,
             ),
-            8 => 
+            8 =>
             array (
                 'permission_id' => 9,
                 'model_type' => 'App\\User',
                 'model_id' => 51,
             ),
-            9 => 
+            9 =>
             array (
                 'permission_id' => 10,
                 'model_type' => 'App\\User',
                 'model_id' => 51,
             ),
-            10 => 
+            10 =>
             array (
                 'permission_id' => 11,
                 'model_type' => 'App\\User',
                 'model_id' => 51,
             ),
-            11 => 
+            11 =>
             array (
                 'permission_id' => 12,
                 'model_type' => 'App\\User',
                 'model_id' => 51,
             ),
-            12 => 
+            12 =>
             array (
                 'permission_id' => 13,
                 'model_type' => 'App\\User',
                 'model_id' => 51,
             ),
-            13 => 
+            13 =>
             array (
                 'permission_id' => 14,
                 'model_type' => 'App\\User',
                 'model_id' => 51,
             ),
-            14 => 
+            14 =>
             array (
                 'permission_id' => 15,
                 'model_type' => 'App\\User',
                 'model_id' => 51,
             ),
-            15 => 
+            15 =>
             array (
                 'permission_id' => 16,
                 'model_type' => 'App\\User',
                 'model_id' => 51,
             ),
-            16 => 
+            16 =>
             array (
                 'permission_id' => 17,
                 'model_type' => 'App\\User',
                 'model_id' => 51,
             ),
-            17 => 
+            17 =>
             array (
                 'permission_id' => 18,
                 'model_type' => 'App\\User',
                 'model_id' => 51,
             ),
-            18 => 
+            18 =>
             array (
                 'permission_id' => 19,
                 'model_type' => 'App\\User',
                 'model_id' => 51,
             ),
-            19 => 
+            19 =>
             array (
                 'permission_id' => 20,
                 'model_type' => 'App\\User',
                 'model_id' => 51,
             ),
-            20 => 
+            20 =>
             array (
                 'permission_id' => 21,
                 'model_type' => 'App\\User',
                 'model_id' => 51,
             ),
-            21 => 
+            21 =>
             array (
                 'permission_id' => 22,
                 'model_type' => 'App\\User',
                 'model_id' => 51,
             ),
-            22 => 
+            22 =>
             array (
                 'permission_id' => 24,
                 'model_type' => 'App\\User',
                 'model_id' => 51,
             ),
-            23 => 
+            23 =>
             array (
                 'permission_id' => 25,
                 'model_type' => 'App\\User',
                 'model_id' => 51,
             ),
-            24 => 
+            24 =>
             array (
                 'permission_id' => 26,
                 'model_type' => 'App\\User',
                 'model_id' => 51,
             ),
-            25 => 
+            25 =>
             array (
                 'permission_id' => 1,
                 'model_type' => 'App\\User',
                 'model_id' => 24,
             ),
-            26 => 
+            26 =>
             array (
                 'permission_id' => 4,
                 'model_type' => 'App\\User',
                 'model_id' => 24,
             ),
-            27 => 
+            27 =>
             array (
                 'permission_id' => 5,
                 'model_type' => 'App\\User',
                 'model_id' => 24,
             ),
-            28 => 
+            28 =>
             array (
                 'permission_id' => 6,
                 'model_type' => 'App\\User',
                 'model_id' => 24,
             ),
-            29 => 
+            29 =>
             array (
                 'permission_id' => 7,
                 'model_type' => 'App\\User',
                 'model_id' => 24,
             ),
-            30 => 
+            30 =>
             array (
                 'permission_id' => 8,
                 'model_type' => 'App\\User',
                 'model_id' => 24,
             ),
-            31 => 
+            31 =>
             array (
                 'permission_id' => 10,
                 'model_type' => 'App\\User',
                 'model_id' => 24,
             ),
-            32 => 
+            32 =>
             array (
                 'permission_id' => 15,
                 'model_type' => 'App\\User',
                 'model_id' => 24,
             ),
-            33 => 
+            33 =>
             array (
                 'permission_id' => 16,
                 'model_type' => 'App\\User',
                 'model_id' => 24,
             ),
-            34 => 
+            34 =>
             array (
                 'permission_id' => 18,
                 'model_type' => 'App\\User',
                 'model_id' => 24,
             ),
-            35 => 
+            35 =>
             array (
                 'permission_id' => 19,
                 'model_type' => 'App\\User',
                 'model_id' => 24,
             ),
-            36 => 
+            36 =>
             array (
                 'permission_id' => 21,
                 'model_type' => 'App\\User',
                 'model_id' => 24,
             ),
-            37 => 
+            37 =>
             array (
                 'permission_id' => 22,
                 'model_type' => 'App\\User',
                 'model_id' => 24,
             ),
-            38 => 
+            38 =>
             array (
                 'permission_id' => 25,
                 'model_type' => 'App\\User',
                 'model_id' => 24,
             ),
-            39 => 
+            39 =>
             array (
                 'permission_id' => 26,
                 'model_type' => 'App\\User',
                 'model_id' => 24,
             ),
         ));
-            }
+        // $this->call(AccountingAccountsTableSeeder::class);
+    }
 }
