@@ -155,6 +155,7 @@ class RouteController extends Controller
     public function print_bill($id)
     {
         $bill = RouteTripReport::find($id);
+        
         return view('distributor.bills.api', compact('bill'));
     }
 

@@ -15,6 +15,6 @@ class AccountingProductsTableSeeder extends Seeder
      */
     public function run()
     {
-        Excel::import(new ProductsImport, 'imports/products.xlsx');
+        Excel::import(new ProductsImport($this->command), 'imports/products.xlsx');
     }
 }

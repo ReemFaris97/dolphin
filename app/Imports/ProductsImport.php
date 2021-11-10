@@ -11,6 +11,7 @@ use App\Models\AccountingSystem\AccountingProductSubUnit;
 use App\Models\AccountingSystem\AccountingProductTax;
 use App\Models\AccountingSystem\AccountingSupplier;
 use DB;
+use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
@@ -19,6 +20,14 @@ use Schema;
 
 class ProductsImport implements ToCollection, WithHeadingRow //, WithChunkReading
 {
+    protected Command $command;
+
+    public function __construct($command=null)
+    {
+        $this->command = $command;
+    }
+
+
     /**
     * @param Collection $collection
     */
@@ -26,8 +35,10 @@ class ProductsImport implements ToCollection, WithHeadingRow //, WithChunkReadin
     {
         Schema::disableForeignKeyConstraints();
         DB::table('accounting_products')->delete();
+        DB::table('accounting_products_barcodes')->delete();
+        DB::table('accounting_product_taxes')->delete();
 
-        foreach ($rows as $row) {
+        $this->command->withProgressBar($rows, function ($row) {
             $product_id = DB::table('accounting_products')->insertGetId([
                 'name' => $row['asm_almad'],
                 'en_name' => $row['alasm_allatyny'],
@@ -41,19 +52,16 @@ class ProductsImport implements ToCollection, WithHeadingRow //, WithChunkReadin
             ]);
 
             $this->handleRelatoins($row, $product_id);
-        }
+        });
     }
 
     private function handleRelatoins($row, $product_id)
     {
-        DB::table('accounting_products_barcodes')->delete();
-
         $barcodes = explode(' ', $row['albarkod']);
         foreach ($barcodes as $value) {
             DB::table('accounting_products_barcodes')->insert(['product_id' => $product_id,'barcode' => $value]);
         }
 
-        DB::table('accounting_product_taxes')->delete();
         $taxes = [];
         $taxes['product_id'] = $product_id;
         $taxes['price_has_tax'] = $row['aaatmad_alnsb_lldryb'] == 'Y' ? 1:0;
@@ -89,8 +97,6 @@ class ProductsImport implements ToCollection, WithHeadingRow //, WithChunkReadin
         ])->filter(fn ($i) =>$i['name']!=null);
 
         DB::table('accounting_products_subUnits')->insert($units->toArray());
-
-        dump("mama ana 5last :D \b ");
     }
 
     // public function chunkSize(): int
