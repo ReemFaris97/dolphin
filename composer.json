@@ -26,7 +26,9 @@
         "spatie/laravel-translatable": "^4.5",
         "staudenmeir/eloquent-has-many-deep": "^1.7",
         "staudenmeir/laravel-adjacency-list": "^1.0",
-        "uxweb/sweet-alert": "^2.0"
+        "uxweb/sweet-alert": "^2.0",
+        "yajra/laravel-datatables": "^1.5",
+        "yajra/laravel-datatables-oracle": "^9.18"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",

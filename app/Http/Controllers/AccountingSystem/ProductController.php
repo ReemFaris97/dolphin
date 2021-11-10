@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
+use App\DataTables\AccountingProductsDataTable;
 use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingBranchFace;
 use App\Models\AccountingSystem\AccountingBranchShift;
@@ -42,9 +43,11 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(AccountingProductsDataTable $dataTable)
     {
-        $products =AccountingProduct::all()->reverse();
+        // $products =AccountingProduct::latest()->paginate(10);
+        return $dataTable->render('AccountingSystem.products.index');
+
         return $this->toIndex(compact('products'));
     }
 

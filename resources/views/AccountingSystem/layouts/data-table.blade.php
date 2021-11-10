@@ -22,6 +22,7 @@
 "></script>
 <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js
 "></script>
+<script src="/vendor/datatables/buttons.server-side.js"></script>
 
 <script>
     $(document).ready(function() {
