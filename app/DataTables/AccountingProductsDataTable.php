@@ -51,16 +51,14 @@ class AccountingProductsDataTable extends DataTable
                     ->addTableClass('finalTb table datatable-button-init-basic')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    ->parameters([
-                        'dom'          => 'Bfrtip',
-                        // 'buttons'      => ['export', 'print', 'reset', 'reload'],
-                    ]);                   /*  ->buttons(
-                        Button::make('create'),
-                        Button::make('export'),
+                    ->dom('Bfrtip')
+                   ->buttons(
+                        //Button::make('create'),
+                      //  Button::make('export'),
                         Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ) */;
+                       Button::make('reset'),
+                       Button::make('reload')
+                   ) ;
     }
 
     /**
