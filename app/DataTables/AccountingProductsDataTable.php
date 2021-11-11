@@ -73,26 +73,19 @@ class AccountingProductsDataTable extends DataTable
         return [
             Column::computed('image')
             ->width(60),
-            Column::make('name', 'الاسم'),
-            Column::make('en_name', 'الاسم بالانجليزية'),
-            Column::computed('type'/*  fn ($type) =>[
-                'store'=>'مخزون',
-                'service'=>'خدمه',
-                'offer'=>'مجموعة اصناف',
-                'creation'=>'تصنيع',
-                'product_expiration'=>'منتج بتاريخ صلاحيه',
-            ][$type] */)
+            Column::make('name')->title('الاسم'),
+            Column::make('en_name')->title('الاسم بالانجليزية'),
+            Column::computed('type')
             ->addClass('text-center'),
-            Column::computed('qunaitity', 'الكمية')
+            Column::computed('qunaitity')->title('الكمية')
             ->addClass('text-center'),
-            Column::make('bar_code', 'الباركود'),
-            Column::make('main_unit', 'الوحده الرئيسة'),
-            Column::make('selling_price', 'سعر البيع'),
-            Column::make('purchasing_price', 'سعر الشراء'),
+            Column::make('bar_code')->title('الباركود'),
+            Column::make('main_unit')->title('الوحده الرئيسة'),
+            Column::make('selling_price')->title('سعر البيع'),
+            Column::make('purchasing_price')->title('سعر الشراء'),
             Column::computed('action', 'الاعدادات')
             // ->exportable(false)
             // ->printable(false)
-            ->width(60)
             ->addClass('text-center'),
 
 
