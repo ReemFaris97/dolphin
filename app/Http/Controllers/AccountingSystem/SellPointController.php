@@ -41,8 +41,6 @@ class SellPointController extends Controller
         if($userstores){
             $store_product=AccountingProductStore::whereIn('store_id',$userstores)->pluck('product_id','id')->toArray();
             $products=AccountingProduct::whereIn('id',$store_product)->get();
-
-
         }else{
             $products=[];
         }
