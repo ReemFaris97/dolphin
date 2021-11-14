@@ -341,6 +341,7 @@ class ProductController extends Controller
         $subunits=AccountingProductSubUnit::where('product_id',$id)->get();
         $taxsproduct=AccountingProductTax::where('product_id',$id)->get();
         $tax=AccountingProductTax::where('product_id',$id)->first();
+
         $has_tax=($tax)?'1':'0';
         if (isset($tax)) {
             $price_has_tax = ($tax->price_has_tax == 1) ? '1' : '0';

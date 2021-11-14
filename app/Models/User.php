@@ -45,7 +45,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable, softDeletes, HasRoles, HashPassword, ApiResponses, FirebasOperation;
+    use Notifiable, softDeletes, HasRoles, HashPassword, FirebasOperation;
 
     /**
      * The attributes that are mass assignable.
