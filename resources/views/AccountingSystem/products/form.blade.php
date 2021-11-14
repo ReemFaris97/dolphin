@@ -94,7 +94,7 @@
 				</div>
 				<div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left">
 					<label> اسم الخلية التابعة للعمود </label>
-{{--					 {!! Form::text("cell",null,['class'=>'form-control','placeholder'=>'  ادخل اسم  الخلية  '])!!}--}}
+
 					@if (!isset($product))
 					{!! Form::select("cell_id",cells(),null,['class'=>'form-control selectpicker cell_id','id'=>'cell_id','required','placeholder'=>' اختر خلية للمنتج '])!!}
 					@else

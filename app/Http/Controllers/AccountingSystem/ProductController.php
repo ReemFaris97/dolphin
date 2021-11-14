@@ -57,19 +57,24 @@ class ProductController extends Controller
     public function create()
     {
         $industrials=AccountingIndustrial::get(['name as label', 'id']);
-        $units=AccountingProductMainUnit::get(['main_unit as lable','id']);
+        $units=AccountingProductMainUnit::get(['main_unit as label','id']);
         $branches=AccountingBranch::get(['name as label', 'id']);
         $categories=AccountingProductCategory::get(['ar_name as label', 'id']);
         $products=AccountingProduct::get(['name as label', 'id']);
         $taxs=AccountingTaxBand::get(['name as label', 'id']);
         $suppliers=AccountingSupplier::get(['name as label', 'id']);
         $accounts=AccountingAccount::where('kind', 'sub')->get(['id', \DB::raw("concat(ar_name, ' - ',code) as label")]);
-        $companies=AccountingCompany::get(['id', 'name']);
+        $faces=AccountingBranchFace::get(['name as label', 'id']);
+        $companies=AccountingCompany::get(['id', 'name as label']);
+        $stores=AccountingStore::get(['id', 'ar_name as label']);
+        $columns=AccountingFaceColumn::get(['id', 'name as label']);
+        $cells=AccountingColumnCell::get(['id', 'name as label']);
         $product= AccountingProduct::make();
         $product= collect(AccountingProduct::make()->getFillable())->mapWithKeys(fn ($c) =>[$c=>null]);
         $product['bar_code']=[];
         $product['sub_products']=[];
         $product['components']=[];
+        $product['sub_units']=[];
         $product['stores']=[];
         $unit_template=[
         'name'=>null,
@@ -94,7 +99,12 @@ class ProductController extends Controller
             'suppliers',
             'product',
             'unit_template',
-            'component_temp'
+            'component_temp',
+            'faces',
+            'companies',
+            'stores',
+            'columns',
+            'cells',
         ));
     }
     /**
@@ -314,6 +324,7 @@ class ProductController extends Controller
         $product=AccountingProduct::find($id);
         $products=AccountingProduct::all();
         $storeproduct=AccountingProductStore::where('product_id', $id)->first();
+        $store=AccountingStore::find(optional($storeproduct)->store_id??1);
         $store=AccountingStore::find(optional($storeproduct)->store_id??1);
         $cells=AccountingColumnCell::all();
         $discounts=AccountingProductDiscount::where('product_id', $id)->get();
