@@ -7,8 +7,10 @@
     <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
     <link href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.min.css" rel="stylesheet"
         type="text/css">
-    <link href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css
-    " rel="stylesheet" type="text/css">
+    <link
+        href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css
+                                                                                                                                                                        "
+        rel="stylesheet" type="text/css">
     <!--- end datatable -->
     <link href="{{ asset('admin/assets/css/jquery.datetimepicker.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('admin/assets/css/all.css') }}" rel="stylesheet" type="text/css">
@@ -47,7 +49,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="panel-body">
+            <div class="panel-body" x-data="{selected:null}">
                 <!----------------  Start Bill Content ----------------->
                 <section class="yourBill">
                     <div class="yurSections">
@@ -76,7 +78,7 @@
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <div class="form-group block-gp">
                                     <label> اختر المستودع </label>
-                                    {!! Form::select('store_id', $stores, null, ['class' => 'selectpicker form-control js-example-basic-single category_id', 'id' => 'store_id', 'placeholder' => ' اختر المستودع ', 'data-live-search' => 'true']) !!}
+                                    {!! Form::select('store_id', $stores, null, ['class' => 'selectpicker form-control js-example-basic-single category_id', 'id' => 'store_id', 'placeholder' => ' اختر المستودع ', 'data-live-search' => 'true', 'x-model' => 'selected']) !!}
                                 </div>
                             </div>
                             <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
@@ -84,7 +86,8 @@
                                     <div class="form-group block-gp">
                                         <label>بحث بإسم الصنف أو الباركود</label>
                                         <select class=" form-control js-example-basic-single" name="product_id"
-                                            data-live-search="true" placeholder="اختر المنتج" id="selectID">
+                                            data-live-search="true" {{-- disabled='selected == null ? false : true' --}} placeholder="اختر المنتج"
+                                            id="selectID">
                                             <option value=""> حدد المستودع اولا</option>
 
                                         </select>
@@ -322,7 +325,7 @@
 @endsection
 @section('scripts')
     <!--- scroll to the last table row -->
-
+    <script src="//unpkg.com/alpinejs" defer></script>
     <!--- end datatable -->
     <script src="{{ asset('admin/assets/js/jquery.datetimepicker.full.min.js') }}"></script>
     <script src="{{ asset('admin/assets/js/scanner.js') }}"></script>
@@ -545,8 +548,12 @@
             $.ajax({
                 type: 'get',
                 url: "/accounting/productsAjex/" + store_id,
-                data: {
-                    id: store_id,
+                data: function(params) {
+                    return {
+                        q: params.term, // search term
+                        id: store_id, // store_id
+                        page: params.page
+                    };
                 },
                 dataType: 'json',
                 success: function(data) {
@@ -603,13 +610,13 @@
                         $(this).val(100);
                     }
                     total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this)
-                    .val()) / 100));
+                        .val()) / 100));
                     $("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
                     $("#total").val(total);
                 });
                 $("input#byAmount").change(function() {
                     if ((Number($(this).val())) > Number($("#amountAfterDariba span.dynamic-span")
-                    .html())) {
+                            .html())) {
                         alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $(
                             "#amountAfterDariba span.dynamic-span").html());
                         $(this).val(0);
@@ -644,7 +651,7 @@
                 $("#allPaid").html(allPaid.toFixed(rondingNumber));
                 $("#allPaid1").val(allPaid);
                 var remaindedAmount = Number(allPaid) - Number($("#demandedAmount span.dynamic-span")
-                .html());
+                    .html());
                 $("#remaindedAmount span.dynamic-span").html(remaindedAmount.toFixed(rondingNumber));
                 $('#remainder-inputt').val(Math.abs(remaindedAmount));
                 if (remaindedAmount > 0) {
@@ -659,6 +666,76 @@
                 }
             })
         });
+
+
+        // $('#selectID').select2({
+        //     ajax: {
+        //         url: `{{ route('accounting.ajaxProducts', '+id+') }}`,
+        //         dataType: 'json',
+        //         delay: 250,
+        //         data: function(params) {
+        //             return {
+        //                 q: params.term, // search term
+        //                 id: $("#store_id").val(), // store_id
+        //                 page: params.page
+        //             };
+        //         },
+        //         processResults: function(data, params) {
+        //             console.log(data);
+        //             // parse the results into the format expected by Select2
+        //             // since we are using custom formatting functions we do not need to
+        //             // alter the remote JSON data, except to indicate that infinite
+        //             // scrolling can be used
+        //             params.page = params.page || 1;
+
+        //             return {
+        //                 results: data.items,
+        //                 pagination: {
+        //                     more: (params.page * 30) < data.total_count
+        //                 }
+        //             };
+        //         },
+        //         cache: true
+        //     },
+        //     placeholder: 'اكتب اسم المنتج',
+        //     minimumInputLength: 3,
+        //     templateResult: formatRepo,
+        //     templateSelection: formatRepoSelection
+        // });
+
+        // function formatRepo(repo) {
+        //     if (repo.loading) {
+        //         return repo.text;
+        //     }
+
+        //     var $container = $(
+        //         "<div class='select2-result-repository clearfix'>" +
+        //         "<div class='select2-result-repository__avatar'><img src='" + repo.owner.avatar_url + "' /></div>" +
+        //         "<div class='select2-result-repository__meta'>" +
+        //         "<div class='select2-result-repository__title'></div>" +
+        //         "<div class='select2-result-repository__description'></div>" +
+        //         "<div class='select2-result-repository__statistics'>" +
+        //         "<div class='select2-result-repository__forks'><i class='fa fa-flash'></i> </div>" +
+        //         "<div class='select2-result-repository__stargazers'><i class='fa fa-star'></i> </div>" +
+        //         "<div class='select2-result-repository__watchers'><i class='fa fa-eye'></i> </div>" +
+        //         "</div>" +
+        //         "</div>" +
+        //         "</div>"
+        //     );
+
+        //     $container.find(".select2-result-repository__title").text(repo.full_name);
+        //     $container.find(".select2-result-repository__description").text(repo.description);
+        //     $container.find(".select2-result-repository__forks").append(repo.forks_count + " Forks");
+        //     $container.find(".select2-result-repository__stargazers").append(repo.stargazers_count + " Stars");
+        //     $container.find(".select2-result-repository__watchers").append(repo.watchers_count + " Watchers");
+
+        //     return $container;
+        // }
+
+        // function formatRepoSelection(repo) {
+        //     return repo.full_name || repo.text;
+        // }
+
         $("#store_id").on('change', function() {
             var store_id = $(this).val();
             //	For Ajax Search By Product Bar Code
@@ -691,7 +768,7 @@
                                 if (alreadyChosen.length > 0 && alreadyChosen.is(
                                         ':selected')) {
                                     repeatedInputVal.val(Number(repeatedInputVal.val()) +
-                                    1);
+                                        1);
                                     repeatedInputVal.text(repeatedInputVal.val());
                                     $('.product-quantity').find('input').trigger('change');
                                 } else {
@@ -730,7 +807,7 @@
                                 if (alreadyChosen.length > 0 && alreadyChosen.is(
                                         ':selected')) {
                                     repeatedInputVal.val(Number(repeatedInputVal.val()) +
-                                    1);
+                                        1);
                                     repeatedInputVal.text(repeatedInputVal.val());
                                     $('.product-quantity').find('input').trigger('change');
                                 } else {
