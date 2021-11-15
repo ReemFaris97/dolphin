@@ -9,7 +9,7 @@
         type="text/css">
     <link
         href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css
-                                                                                                                                                                        "
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            "
         rel="stylesheet" type="text/css">
     <!--- end datatable -->
     <link href="{{ asset('admin/assets/css/jquery.datetimepicker.min.css') }}" rel="stylesheet" type="text/css">
@@ -78,19 +78,19 @@
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <div class="form-group block-gp">
                                     <label> اختر المستودع </label>
-                                    {!! Form::select('store_id', $stores, null, ['class' => 'selectpicker form-control js-example-basic-single category_id', 'id' => 'store_id', 'placeholder' => ' اختر المستودع ', 'data-live-search' => 'true', 'x-model' => 'selected']) !!}
+                                    {!! Form::select('store_id', $stores, null, ['class' => 'selectpicker form-control j category_id', 'id' => 'store_id', 'placeholder' => ' اختر المستودع ', 'data-live-search' => 'true', 'x-model' => 'selected']) !!}
                                 </div>
                             </div>
                             <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
                                 <div class="yurProdc">
                                     <div class="form-group block-gp">
                                         <label>بحث بإسم الصنف أو الباركود</label>
-                                        <select class=" form-control js-example-basic-single" name="product_id"
-                                            data-live-search="true" {{-- disabled='selected == null ? false : true' --}} placeholder="اختر المنتج"
-                                            id="selectID">
+                                        {{-- <select class=" form-control  products-select" name="product_id"
+                                            data-live-search="true" placeholder="اختر المنتج" id="selectID">
                                             <option value=""> حدد المستودع اولا</option>
+                                        </select> --}}
 
-                                        </select>
+                                        <select class="form-control" name="products" id="selectID2"></select>
                                     </div>
                                 </div>
                                 <div class="tempobar"></div>
@@ -537,47 +537,100 @@
             })
         };
 
-        //While Ajax search request by store
-        $("#store_id").on('change', function() {
-            var store_id = $(this).val();
-            $('#store_val').val(store_id);
-            var branch_id = $('#branch_id').val();
-            $('#branch_val').val(branch_id);
-            var company_id = $('#company_id').val();
-            $('#company_val').val(company_id);
-            $.ajax({
-                type: 'get',
+        // $("#store_id").on('change', function() {
+        var store_id = 1;
+        // $('#selectID').removeClass('hidden');
+        $('#selectID2').select2({
+            ajax: {
                 url: "/accounting/productsAjex/" + store_id,
                 data: function(params) {
+                    var query = {
+                        search: params.term,
+                    }
+                    return query;
+                },
+                processResults: function(data, params) {
+                    // parse the results into the format expected by Select2
+                    // since we are using custom formatting functions we do not need to
+                    // alter the remote JSON data, except to indicate that infinite
+                    // scrolling can be used
+                    params.page = params.page || 1;
+
                     return {
-                        q: params.term, // search term
-                        id: store_id, // store_id
-                        page: params.page
+                        results: data.data,
+                        pagination: {
+                            more: (params.page * 30) < data.total_count
+                        }
                     };
                 },
-                dataType: 'json',
-                success: function(data) {
-                    $('.yurProdc').html(data.data);
-                    $('#selectID').attr('data-live-search', 'true');
-                    $('#selectID').selectpicker('refresh');
-                    $('#selectID').change(function() {
-                        var selectedProduct = $(this).find(":selected");
-                        var productId = $('#selectID').val();
-                        var productName = selectedProduct.text();
-                        var productBarCode = selectedProduct.data('bar-code');
-                        var productPrice = Number(selectedProduct.data('price'));
-                        var priceHasTax = selectedProduct.data('price-has-tax');
-                        var totalTaxes = selectedProduct.data('total-taxes');
-                        var mainUnit = selectedProduct.data('main-unit');
-                        var productUnits = selectedProduct.data('subunits');
-                        console.log('in select')
-                        console.table(productUnits)
-                        calcBill(selectedProduct, productId, productName, productBarCode,
-                            productPrice, priceHasTax, totalTaxes, mainUnit, productUnits)
-                    });
-                },
-            })
+                cache: true
+            },
+            placeholder: 'Search for a repository',
+            minimumInputLength: 1,
+            templateResult: formatRepo,
+            templateSelection: formatRepoSelection,
         });
+
+        function formatRepo(repo) {
+            if (repo.loading) {
+                return repo.text;
+            }
+
+            // var $container = $(
+            //     "<div class='select2-result-products-select clearfix'>" +
+            //     "<div class='select2-result-products-select__meta'>" +
+            //     "<div class='select2-result-products-select__value'></div>" +
+            //     "<div class='select2-result-products-select__title'></div>" +
+            //     "</div>" +
+            //     "</div>"
+            // );
+            // data-subunits="` + JSON.stringify({
+        //                 'id': 1
+        //             }) + `"
+
+            // $container.find(".select2-result-products-select__value").text(repo.id);
+            // $container.find(".select2-result-products-select__title").text(repo.name);
+
+            var $container = $(`
+                <option value="` + repo.id + `" data-main-unit="` + repo.main_unit + `"
+                data-name="` + repo.name + `" data-price="` + repo.selling_price + `"
+                data-bar-code="` + repo.bar_code + `"
+                data-link="route('accounting.products.show', ` + repo.id + `)"
+                data-price-has-tax="` + repo.x ? repo.x - > price_has_tax : '0' + `"
+                data-total-taxes="` + repo.x ? repo.total_taxes : '0' + `"
+
+                data-total_discounts="` + repo.total_discounts + `"
+                >
+                ` + repo.name + `
+            </option>
+            `)
+
+            return $container;
+        }
+
+        $('#selectID2').change(function() {
+            var selectedProduct = $(this).find(":selected");
+            console.log(selectedProduct);
+            var productId = $('#selectID2').val();
+            var productName = selectedProduct.text();
+            var productBarCode = selectedProduct.data('bar-code');
+            var productPrice = Number(selectedProduct.data('price'));
+            var priceHasTax = selectedProduct.data('price-has-tax');
+            var totalTaxes = selectedProduct.data('total-taxes');
+            var mainUnit = selectedProduct.data('main-unit');
+            var productUnits = selectedProduct.data('subunits');
+            console.table(productUnits)
+            calcBill(selectedProduct, productId, productName, productBarCode,
+                productPrice, priceHasTax, totalTaxes, mainUnit, productUnits)
+        });
+
+
+        function formatRepoSelection(repo) {
+            return repo.name || repo.bar_code;
+        }
+        // });
+
+
         //  Tfoot general bill data calculatoin
         $(".bill-table tbody").change(function() {
             preventDiscount();
@@ -609,16 +662,19 @@
                         alert('لا يمكن ان تكون قيم الخصم بالنسبة أكبر من 100% .');
                         $(this).val(100);
                     }
-                    total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this)
+                    total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(
+                            this)
                         .val()) / 100));
                     $("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
                     $("#total").val(total);
                 });
                 $("input#byAmount").change(function() {
-                    if ((Number($(this).val())) > Number($("#amountAfterDariba span.dynamic-span")
+                    if ((Number($(this).val())) > Number($(
+                                "#amountAfterDariba span.dynamic-span")
                             .html())) {
-                        alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $(
-                            "#amountAfterDariba span.dynamic-span").html());
+                        alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' +
+                            $(
+                                "#amountAfterDariba span.dynamic-span").html());
                         $(this).val(0);
                     }
                     total = Number(amountAfterDariba) - (Number($(this).val()));
@@ -631,15 +687,18 @@
                     alert('لا يمكن ان تكون قيم الخصم بالنسبة أكبر من 100% .');
                     $(this).val(100);
                 }
-                total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) /
+                total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this)
+                        .val()) /
                     100));
                 $("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
                 $("#total").val(total);
             });
             $("input#byAmount").change(function() {
-                if ((Number($(this).val())) > Number($("#amountAfterDariba span.dynamic-span").html())) {
-                    alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $(
-                        "#amountAfterDariba span.dynamic-span").html());
+                if ((Number($(this).val())) > Number($("#amountAfterDariba span.dynamic-span")
+                        .html())) {
+                    alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' +
+                        $(
+                            "#amountAfterDariba span.dynamic-span").html());
                     $(this).val(0);
                 }
                 total = Number(amountAfterDariba) - (Number($(this).val()));
@@ -650,91 +709,30 @@
                 var allPaid = Number($("#byCache").val()) + Number($("#byNet").val());
                 $("#allPaid").html(allPaid.toFixed(rondingNumber));
                 $("#allPaid1").val(allPaid);
-                var remaindedAmount = Number(allPaid) - Number($("#demandedAmount span.dynamic-span")
+                var remaindedAmount = Number(allPaid) - Number($(
+                        "#demandedAmount span.dynamic-span")
                     .html());
-                $("#remaindedAmount span.dynamic-span").html(remaindedAmount.toFixed(rondingNumber));
+                $("#remaindedAmount span.dynamic-span").html(remaindedAmount.toFixed(
+                    rondingNumber));
                 $('#remainder-inputt').val(Math.abs(remaindedAmount));
                 if (remaindedAmount > 0) {
-                    $("#remaindedAmount .rel-cols").removeClass("aagel-case").removeClass("tmam-case")
+                    $("#remaindedAmount .rel-cols").removeClass("aagel-case").removeClass(
+                            "tmam-case")
                         .addClass("motabaqy-case");
                 } else if (remaindedAmount < 0) {
-                    $("#remaindedAmount .rel-cols").removeClass("motabaqy-case").removeClass("tmam-case")
+                    $("#remaindedAmount .rel-cols").removeClass("motabaqy-case").removeClass(
+                            "tmam-case")
                         .addClass("aagel-case");
                 } else {
-                    $("#remaindedAmount .rel-cols").removeClass("motabaqy-case").removeClass("aagel-case")
+                    $("#remaindedAmount .rel-cols").removeClass("motabaqy-case").removeClass(
+                            "aagel-case")
                         .addClass("tmam-case");
                 }
             })
         });
 
 
-        // $('#selectID').select2({
-        //     ajax: {
-        //         url: `{{ route('accounting.ajaxProducts', '+id+') }}`,
-        //         dataType: 'json',
-        //         delay: 250,
-        //         data: function(params) {
-        //             return {
-        //                 q: params.term, // search term
-        //                 id: $("#store_id").val(), // store_id
-        //                 page: params.page
-        //             };
-        //         },
-        //         processResults: function(data, params) {
-        //             console.log(data);
-        //             // parse the results into the format expected by Select2
-        //             // since we are using custom formatting functions we do not need to
-        //             // alter the remote JSON data, except to indicate that infinite
-        //             // scrolling can be used
-        //             params.page = params.page || 1;
 
-        //             return {
-        //                 results: data.items,
-        //                 pagination: {
-        //                     more: (params.page * 30) < data.total_count
-        //                 }
-        //             };
-        //         },
-        //         cache: true
-        //     },
-        //     placeholder: 'اكتب اسم المنتج',
-        //     minimumInputLength: 3,
-        //     templateResult: formatRepo,
-        //     templateSelection: formatRepoSelection
-        // });
-
-        // function formatRepo(repo) {
-        //     if (repo.loading) {
-        //         return repo.text;
-        //     }
-
-        //     var $container = $(
-        //         "<div class='select2-result-repository clearfix'>" +
-        //         "<div class='select2-result-repository__avatar'><img src='" + repo.owner.avatar_url + "' /></div>" +
-        //         "<div class='select2-result-repository__meta'>" +
-        //         "<div class='select2-result-repository__title'></div>" +
-        //         "<div class='select2-result-repository__description'></div>" +
-        //         "<div class='select2-result-repository__statistics'>" +
-        //         "<div class='select2-result-repository__forks'><i class='fa fa-flash'></i> </div>" +
-        //         "<div class='select2-result-repository__stargazers'><i class='fa fa-star'></i> </div>" +
-        //         "<div class='select2-result-repository__watchers'><i class='fa fa-eye'></i> </div>" +
-        //         "</div>" +
-        //         "</div>" +
-        //         "</div>"
-        //     );
-
-        //     $container.find(".select2-result-repository__title").text(repo.full_name);
-        //     $container.find(".select2-result-repository__description").text(repo.description);
-        //     $container.find(".select2-result-repository__forks").append(repo.forks_count + " Forks");
-        //     $container.find(".select2-result-repository__stargazers").append(repo.stargazers_count + " Stars");
-        //     $container.find(".select2-result-repository__watchers").append(repo.watchers_count + " Watchers");
-
-        //     return $container;
-        // }
-
-        // function formatRepoSelection(repo) {
-        //     return repo.full_name || repo.text;
-        // }
 
         $("#store_id").on('change', function() {
             var store_id = $(this).val();
@@ -756,26 +754,35 @@
                             if (data.data.length !== 0) {
                                 $('#barcode_search').val('');
                                 $(".tempobar").html(data.data);
-                                var selectedID = $(".tempobar").find('option').data(
-                                    'unit-id');
+                                var selectedID = $(".tempobar").find('option')
+                                    .data(
+                                        'unit-id');
                                 var alreadyChosen = $(
                                     ".bill-table tbody td select option[value=" +
                                     selectedID + "]");
                                 var repeatedInputVal = $(
-                                    ".bill-table tbody td select option[value=" +
-                                    selectedID + "]:selected").parents('tr').find(
-                                    '.product-quantity').find('input');
-                                if (alreadyChosen.length > 0 && alreadyChosen.is(
+                                        ".bill-table tbody td select option[value=" +
+                                        selectedID + "]:selected").parents('tr')
+                                    .find(
+                                        '.product-quantity').find('input');
+                                if (alreadyChosen.length > 0 && alreadyChosen
+                                    .is(
                                         ':selected')) {
-                                    repeatedInputVal.val(Number(repeatedInputVal.val()) +
+                                    repeatedInputVal.val(Number(repeatedInputVal
+                                            .val()) +
                                         1);
-                                    repeatedInputVal.text(repeatedInputVal.val());
-                                    $('.product-quantity').find('input').trigger('change');
+                                    repeatedInputVal.text(repeatedInputVal
+                                        .val());
+                                    $('.product-quantity').find('input')
+                                        .trigger(
+                                            'change');
                                 } else {
                                     $('#barcode_search').val('');
                                     rowNum++;
                                     byBarcode();
-                                    $('.product-quantity').find('input').trigger('change');
+                                    $('.product-quantity').find('input')
+                                        .trigger(
+                                            'change');
                                 }
                             }
                         }
@@ -795,26 +802,35 @@
                             if (data.data.length !== 0) {
                                 $('#barcode_search').val('');
                                 $(".tempobar").html(data.data);
-                                var selectedID = $(".tempobar").find('option').data(
-                                    'unit-id');
+                                var selectedID = $(".tempobar").find('option')
+                                    .data(
+                                        'unit-id');
                                 var alreadyChosen = $(
                                     ".bill-table tbody td select option[value=" +
                                     selectedID + "]");
                                 var repeatedInputVal = $(
-                                    ".bill-table tbody td select option[value=" +
-                                    selectedID + "]:selected").parents('tr').find(
-                                    '.product-quantity').find('input');
-                                if (alreadyChosen.length > 0 && alreadyChosen.is(
+                                        ".bill-table tbody td select option[value=" +
+                                        selectedID + "]:selected").parents('tr')
+                                    .find(
+                                        '.product-quantity').find('input');
+                                if (alreadyChosen.length > 0 && alreadyChosen
+                                    .is(
                                         ':selected')) {
-                                    repeatedInputVal.val(Number(repeatedInputVal.val()) +
+                                    repeatedInputVal.val(Number(repeatedInputVal
+                                            .val()) +
                                         1);
-                                    repeatedInputVal.text(repeatedInputVal.val());
-                                    $('.product-quantity').find('input').trigger('change');
+                                    repeatedInputVal.text(repeatedInputVal
+                                        .val());
+                                    $('.product-quantity').find('input')
+                                        .trigger(
+                                            'change');
                                 } else {
                                     $('#barcode_search').val('');
                                     rowNum++;
                                     byBarcode();
-                                    $('.product-quantity').find('input').trigger('change');
+                                    $('.product-quantity').find('input')
+                                        .trigger(
+                                            'change');
                                 }
                             }
                         }
@@ -838,7 +854,8 @@
             var productUnits = selectedProduct.data('subunits');
             console.log('in barcode')
             console.table(productUnits)
-            calcBill(selectedProduct, productId, productName, productBarCode, productPrice, priceHasTax, totalTaxes,
+            calcBill(selectedProduct, productId, productName, productBarCode, productPrice, priceHasTax,
+                totalTaxes,
                 mainUnit, productUnits)
         }
         $(document).keydown(function(event) {

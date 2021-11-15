@@ -14,13 +14,6 @@
             $lastPrice = \App\Models\AccountingSystem\AccountingPurchaseItem::where('product_id', $product->id)
                 ->latest()
                 ->first();
-            //            $sumQuantity=\App\Models\AccountingSystem\AccountingPurchaseItem::where('product_id',$product->id)->sum('quantity');
-            //            $sumPrice=\App\Models\AccountingSystem\AccountingPurchaseItem::where('product_id',$product->id)->sum('price');
-            //            if($sumPrice){
-            //                $average= $sumQuantity/$sumPrice;
-            //            }else{
-            //                $average=0;
-            //            }
             ?>
             <option value="{{ $product->id }}" data-main-unit="{{ $product->main_unit }}"
                 data-name="{{ $product->name }}" data-price="{{ $product->selling_price }}"

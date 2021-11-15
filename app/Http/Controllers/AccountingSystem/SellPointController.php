@@ -55,18 +55,19 @@ class SellPointController extends Controller
      */
     public function getProductAjex(Request $request, $id)
     {
-        // $store_product=AccountingProductStore::where('store_id', $request['id'])->pluck('product_id', 'id')->toArray();
         if ($request->id) {
             $products=AccountingProduct::query()
-                ->when($request->q, fn ($b) => $b->where('name', 'LIKE', '%'.$request->q.'%')->orWhere('description', 'LIKE', '%'.$request->q.'%'))
-                ->where('store_id', $request->id)
-                ->limit(30)
+                ->when($request->search, fn ($b) => $b->where('name', 'LIKE', '%'.$request->search.'%')->orWhere('description', 'LIKE', '%'.$request->search.'%')->orWhere('bar_code', $request->search))
+                ->where('store_id', $id)
+                ->limit(20)
                 ->get();
-            // dd($products->count());
+
+            // return $products;
 
             return response()->json([
                 'status'=>true,
-                'data'=>view('AccountingSystem.sell_points.products')->with('products', $products)->render()
+                'products_count' => count($products),
+                'data'=> $products
             ]);
         }
     }
