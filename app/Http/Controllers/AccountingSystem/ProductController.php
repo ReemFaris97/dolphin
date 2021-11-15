@@ -61,7 +61,7 @@ class ProductController extends Controller
         $branches=AccountingBranch::get(['name as label', 'id']);
         $categories=AccountingProductCategory::get(['ar_name as label', 'id']);
         $products=AccountingProduct::get(['name as label', 'id']);
-        $taxs=AccountingTaxBand::get(['name as label', 'id']);
+        $taxs=AccountingTaxBand::get([\DB::raw('CONCAT(name," ",percent," %") as label'), 'id']);
         $suppliers=AccountingSupplier::get(['name as label', 'id']);
         $accounts=AccountingAccount::where('kind', 'sub')->get(['id', \DB::raw("concat(ar_name, ' - ',code) as label")]);
         $faces=AccountingBranchFace::get(['name as label', 'id']);
@@ -75,7 +75,12 @@ class ProductController extends Controller
         $product['sub_products']=[];
         $product['components']=[];
         $product['sub_units']=[];
+        $product['offers']=[];
         $product['stores']=[];
+        $offer_template=[
+            'quantity'=>'',
+            'gift_quantity'=>'',
+        ];
         $unit_template=[
         'name'=>null,
         'bar_code'=>null,
@@ -105,6 +110,7 @@ class ProductController extends Controller
             'stores',
             'columns',
             'cells',
+            'offer_template',
         ));
     }
     /**

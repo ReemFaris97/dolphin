@@ -305,6 +305,15 @@ Route::middleware('admin')->group(function () {
         Route::get('products/{id}', 'HomeController@getProducts');
         Route::get('sessions/{id}', 'HomeController@getSessions');
         Route::get('suppliers/{id}', 'HomeController@getSuppliers');
+
+
+        Route::get('company/{company}/branches', "AjaxController@getcompanyBranches");
+        Route::get('branch/{branch}/stores', "AjaxController@getBranchStores");
+        Route::get('branch/{branch}/faces', "AjaxController@getBranchFaces");
+        Route::get('face/{face}/columns', "AjaxController@getFaceColumns");
+        Route::get('column/{column}/cells', "AjaxController@getColumnCells");
+
+
     });
 
 

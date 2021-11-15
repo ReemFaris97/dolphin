@@ -204,7 +204,7 @@
                                 <div class="col-md-11">
 
                                     <v-select name="company_id" v-model="form.company_id" :options="companies"
-                                        :reduce="company=>company.id" />
+                                        :reduce="company=>company.id" @input="getBranches"/>
                                 </div>
                                 <div class="col-md-1">
 
@@ -227,7 +227,8 @@
                                 <div class="col-md-11">
 
                                     <v-select name="branch_id" v-model="form.branch_id" :options="branches"
-                                        :reduce="branch=>branch.id" />
+                                        :reduce="branch=>branch.id" 
+                                         @input="(event)=>{getStores();getFaces()}"/>
                                 </div>
                                 <div class=" col-md-1 btn-group ">
                                     <a href="{{ route('accounting.branches.create') }}" class="btn btn-success"
@@ -243,105 +244,207 @@
                             <label> اسم المستودع </label>
                             <div class="
                             row">
-                            <div class="col-md-11">
+                                <div class="col-md-11">
 
-                                <v-select name="store_id" v-model="form.store" :options="stores"
-                                    :reduce="store=>store.id" />
-                            </div>
-                            <div class="btn-group col-md-1">
-                                <a href="{{ route('accounting.stores.create') }}" class="btn btn-success"
-                                    target="_blank">
-                                    <span class="m-l-5">
+                                    <v-select name="store_id" v-model="form.store" :options="stores"
+                                        :reduce="store=>store.id" />
+                                </div>
+                                <div class="btn-group col-md-1">
+                                    <a href="{{ route('accounting.stores.create') }}" class="btn btn-success"
+                                        target="_blank">
+                                        <span class="m-l-5">
 
-                                        <i class="fa fa-plus"></i>
-                                    </span>
-                                </a>
+                                            <i class="fa fa-plus"></i>
+                                        </span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group   col-md-6  col-xs-12 ">
-                        <label> اسم الوجه </label>
+                        <div class="form-group   col-md-6  col-xs-12 ">
+                            <label> اسم الوجه </label>
 
-                        <v-select name="face_id" v-model="form.face_id" :options="faces" :reduce="face=>face.id" />
+                            <v-select name="face_id" v-model="form.face_id" :options="faces" :reduce="face=>face.id" 
+                                @input="getColumns"
+                                />
+                        </div>
+                        <div class="form-group   col-md-6  col-xs-12 ">
+                            <label> اسم العمود التابع للوجه </label>
+                            <v-select name="column_id" v-model="form.column_id" :options="columns"
+                                :reduce="column=>column.id"
+                                @input="getCells"
+                                />
+
+                        </div>
+                        <div class="form-group   col-md-6  col-xs-12 ">
+                            <label> اسم الخلية التابعة للعمود </label>
+
+                            <v-select name="cell_id" v-model="form.cell_id" :options="cells" :reduce="cell=>cell.id" />
+
+                        </div>
                     </div>
-                    <div class="form-group   col-md-6  col-xs-12 ">
-                        <label> اسم العمود التابع للوجه </label>
-                        <v-select name="column_id" v-model="form.column_id" :options="columns"
-                            :reduce="column=>column.id" />
+
+                    <div class="row">
+                        <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left">
+                            <label> الحجم </label><span class="asided-hint"> اختيارى ويكون بالسنتمتر المكعب</span>
+                            <input type="text" name="size" v-model="form.size" class="form-control"
+                                placeholder="الحجم" />
+                        </div>
+                        <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left">
+                            <label> اللون </label><span class="asided-hint">اختيارى</span>
+                            <input type="text" name="color" v-model="form.color" class="form-control"
+                                placeholder="اللون" />
+
+                        </div>
+                        <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left">
+                            <label> الارتفاع </label><span class="asided-hint">اختيارى ويكون بالسنتمتر</span>
+                            <input type="text" name="height" v-model="form.height" class="form-control"
+                                placeholder="الارتفاع" />
+
+                        </div>
+                        <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left">
+                            <label> العرض </label><span class="asided-hint">اختيارى ويكون بالسنتمتر المربع</span>
+                            <input type="text" name="width" v-model="form.width" class="form-control"
+                                placeholder="العرض" />
+
+                        </div>
+                        <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left">
+                            <label> تاريخ الانتهاء </label><span class="asided-hint">اختيارى</span>
+                            <input type="text" name="expired_at" v-model="form.expired_at" class="form-control"
+                                placeholder="تاريخ الانتهاء" />
+
+                        </div>
+                        <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left">
+                            <label>مده التنبية</label><span class="asided-hint">اختيارى</span>
+                            <input type="number" name="alert_duration" v-model="form.alert_duration"
+                                class="form-control" placeholder="مده التنبية" />
+
+                        </div>
+                        <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left">
+                            <label>عدد أيام فترة الركود</label><span class="asided-hint">اختيارى</span>
+                            <input type="number" name="num_days_recession" v-model="form.num_days_recession"
+                                class="form-control" placeholder="عدد أيام فترة الركود" />
+
+
+                        </div>
 
                     </div>
-                    <div class="form-group   col-md-6  col-xs-12 ">
-                        <label> اسم الخلية التابعة للعمود </label>
+                </tab-content>
+                <tab-content title="Last step">
+                    <div>
+                        <div class="row">
+                            <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left">
+                                <label> نوع الخصم </label>
+                                <v-select name="discout_type" v-model="form.discount_type" :options="
+                                 [
+                                  {id:'percent',label:'نسبة'},
+                                  {id:'quantity',label:'كمية'},
+                                 ]
+                                   " :reduce="o=>o.id" />
+                            </div>
+                            <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left" id="nesba-wrp"
+                                v-if="form.discount_type==='percent'">
+                                <label> النسبة </label>
+                                <input name="percent" v-model="form.percent" palceholder="النسبة"
+                                    class="form-control" />
+                            </div>
+                            <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left "
+                            style="margin-top: 25px;"
+                                v-if="form.discount_type==='quantity'">
+                                <button type="button" class="btn btn-primary" @click="addOffer">العروض
+                                    والخصومات</button>
+                            </div>
+                            <div class="col-md-12 inside-form-tbl" v-if="form.discount_type==='quantity'">
+                                <span>الخصومات</span>
+                                <table class="table table-bordered   table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th> الكمية الاساسية</th>
+                                            <th> الكمية الهدية</th>
+                                            <th> العمليات</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(offer,index) of form.offers">
+                                            <td>
+                                                <input class="form-control" :name="`offers[${index}][quantity]`"
+                                                    v-model="offer.quantity" />
+                                            </td>
+                                            <td>
+                                                <input class="form-control" :name="`offers[${index}][gift_quantity]`"
+                                                    v-model="offer.gift_quantity" />
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-danger" type="button"><i
+                                                        class="fas fa-trash"></i></button>
 
-                        <v-select name="cell_id" v-model="form.cell_id" :options="cells" :reduce="cell=>cell.id" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- end table-->
+                        </div>
+                        <div>
+                            <div class="row">
+                                <div
+                                    class="form-group form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left taxs form-line new-radio-big-wrapper ">
 
-                    </div>
+                                    <label>الضريبة</label>
+                                    <span class="new-radio-wrap">
+                                        <label for="yes1">يوجد ضريبة </label>
+                                        <input type="radio" v-model="form.tax" name="tax" class="form-control"
+                                            required checked id="yes1" value="1">
+                                    </span>
+                                    <span class="new-radio-wrap">
+                                        <label for="no1">لايوجد ضريبة</label>
+                                        <input type="radio" v-model="form.tax" name="tax" class="form-control"
+                                            id="no1" value="0">
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                            <div v-if="form.tax==1" class="row">
+                                <div class="col-md-6">
+                                <div class="">
+                                    <label>شمول الضريبة</label>
+                                    <span class="new-radio-wrap">
+                                        <label> السعر شامل الضريبة </label>
+                                        <input type="radio" name="price_has_tax" required class="form-control"
+                                            value="0" v-model="form.price_has_tax" />
+                                    </span>
+                                    <span class="new-radio-wrap">
+                                        <label>السعر غير شامل الضريبة </label>
+                                        <input type="radio" name="price_has_tax" required class="form-control"
+                                            value="1" v-model="form.price_has_tax">
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6" v-if="form.price_has_tax==0">
+                                <div class="">
+                                    <label> اسم شريحة الضرائب</label>
+
+                                    <v-select name="tax_band_id[]" :options="taxs" :reduce="o=>o.id" v-model="form.taxs"
+                                        multiple />
+                                </div>
+                            </div>
+                            </div>
+                </tab-content>
+            </form-wizard>
         </div>
-
-        <div class="row">
-            <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left">
-                <label> الحجم </label><span class="asided-hint"> اختيارى ويكون بالسنتمتر المكعب</span>
-                <input type="text" name="size" v-model="form.size" class="form-control" placeholder="الحجم" />
-            </div>
-            <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left">
-                <label> اللون </label><span class="asided-hint">اختيارى</span>
-                <input type="text" name="color" v-model="form.color" class="form-control" placeholder="اللون" />
-
-            </div>
-            <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left">
-                <label> الارتفاع </label><span class="asided-hint">اختيارى ويكون بالسنتمتر</span>
-                <input type="text" name="height" v-model="form.height" class="form-control" placeholder="الارتفاع" />
-
-            </div>
-            <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left">
-                <label> العرض </label><span class="asided-hint">اختيارى ويكون بالسنتمتر المربع</span>
-                <input type="text" name="width" v-model="form.width" class="form-control" placeholder="العرض" />
-
-            </div>
-            <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left">
-                <label> تاريخ الانتهاء </label><span class="asided-hint">اختيارى</span>
-                <input type="text" name="expired_at" v-model="form.expired_at" class="form-control"
-                    placeholder="تاريخ الانتهاء" />
-
-            </div>
-            <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left">
-                <label>مده التنبية</label><span class="asided-hint">اختيارى</span>
-                <input type="number" name="alert_duration" v-model="form.alert_duration" class="form-control"
-                    placeholder="مده التنبية" />
-
-            </div>
-            <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left">
-                <label>عدد أيام فترة الركود</label><span class="asided-hint">اختيارى</span>
-                <input type="number" name="num_days_recession" v-model="form.num_days_recession" class="form-control"
-                    placeholder="عدد أيام فترة الركود" />
-
-
-            </div>
-            {{-- <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left">
-                <label> اختر الحساب </label>
-                {!! Form::select("account_id",accounts(),null,['class'=>'form-control','placeholder'=>' اختر الحساب'])!!}
-            </div> --}}
-        </div>
-        </tab-content>
-        <tab-content title="Last step">
-            Yuhuuu! This seems pretty damn simple
-        </tab-content>
-        </form-wizard>
     </div>
-</div>
 
 </div>
 
-<div class="text-center col-md-12 m--margin-bottom-5">
+{{-- <div class="text-center col-md-12 m--margin-bottom-5">
     <div class="text-center">
         <button type="submit" id="register" class="btn btn-success">حفظ <i
                 class="icon-arrow-left13 position-right"></i>
         </button>
     </div>
-</div>
+</div> --}}
 
-<!-- /collapsible with different panel styling -->
-<!-- end table-->
 <!-- end table-->
 @section('scripts')
 
@@ -355,6 +458,8 @@
     <script
         src="https://cdn.jsdelivr.net/combine/npm/vuelidate@0.7.6/dist/validators.min.js,npm/vuelidate@0.7.6/dist/vuelidate.min.js">
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 
     <script>
         Vue.component('v-select', VueSelect.VueSelect);
@@ -380,6 +485,7 @@
                 stores: @json($stores),
                 columns: @json($columns),
                 cells: @json($cells),
+                offer: @json($offer_template),
                 product_type: [{
                         id: "store",
                         label: "مخزون",
@@ -413,35 +519,42 @@
                     });
 
                 },
+
                 getBranches: function() {
                     var company_id = this.form.company_id;
-                    axios.get('/api/branches/' + company_id).then(response => {
+                    axios.get(`/accounting/ajax/company/${company_id}/branches`).then(response => {
                         this.branches = response.data;
                     });
                 },
                 getStores: function() {
                     var branch_id = this.form.branch_id;
-                    axios.get('/api/stores/' + branch_id).then(response => {
+                    axios.get(`/accounting/ajax/branch/${branch_id}/stores`).then(response => {
                         this.stores = response.data;
                     });
                 },
                 getFaces: function() {
-                    var store_id = this.form.store_id;
-                    axios.get('/api/faces/' + store_id).then(response => {
+                    var branch_id = this.form.branch_id;
+                    axios.get(`/accounting/ajax/branch/${branch_id}/faces`).then(response => {
                         this.faces = response.data;
                     });
                 },
-                getFaces: function() {
-                    var store_id = this.form.store_id;
-                    axios.get('/api/columns/' + store_id).then(response => {
+                getColumns: function() {
+                    var face_id = this.form.face_id;
+                    axios.get(`/accounting/ajax/face/${face_id}/columns`).then(response => {
                         this.columns = response.data;
                     });
                 },
                 getCells: function() {
                     var column_id = this.form.column_id;
-                    axios.get('/api/cells/' + column_id).then(response => {
+                    axios.get(`/accounting/ajax/column/${column_id}/cells`).then(response => {
                         this.columns = response.data;
                     });
+                },
+                addOffer() {
+                    this.form.offers.push({
+                        ...this.offer
+                    });
+
                 }
 
             }

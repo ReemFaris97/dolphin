@@ -398,31 +398,31 @@
 							<!--discounts table-->
 			<div class="col-md-12 inside-form-tbl" id="discountTable-wrap" style="display:none">
 				<span>الخصومات</span>
-				<table id="discountTable">
-				<thead>
-				<tr>
-					<th> الكمية الاساسية</th>
-					<th> الكمية الهدية</th>
-					<th>  العمليات</th>
-				</tr>
-				</thead>
-				<tbody class="add-discounts">
-					@if (isset($discounts))
-					@foreach($discounts as $discount)
-						@if ($discount->discount_type=="quantity")
-						<tr>
-							<td>{{$discount->quantity}}</td>
-							<td>{{$discount->gift_quantity}}</td>
-							<td></td>
-						</tr>
-						@endif
-					@endforeach
-					@endif
-				</tbody>
+			    <table id="discountTable">
+			    	<thead>
+			    	        <tr>
+				            	<th> الكمية الاساسية</th>
+				           	    <th> الكمية الهدية</th>
+				            	<th>  العمليات</th>
+				         </tr>
+				    </thead>
+				    <tbody class="add-discounts">
+					        @if (isset($discounts))
+					        @foreach($discounts as $discount)
+						        @if ($discount->discount_type=="quantity")
+					    	    <tr>
+							        <td>{{$discount->quantity}}</td>
+							        <td>{{$discount->gift_quantity}}</td>
+							        <td></td>
+						        </tr>
+						        @endif
+					        @endforeach
+					    @endif
+				    </tbody>
 			</table>
-			</div>
-			<!-- end table-->
-			</div>
+            </div>
+                <!-- end table-->
+        </div>
 		</div>
 		<div>
 			<div class="row">

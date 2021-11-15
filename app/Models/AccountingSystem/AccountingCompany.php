@@ -8,14 +8,16 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class AccountingCompany extends Authenticatable
+class
+AccountingCompany extends Authenticatable
 {
     use Notifiable;
     use SoftDeletes,HashPassword;
 
     protected $guard = 'accounting_companies';
 
-    protected $fillable = ['name', 'phone', 'password', 'email', 'image','legal_title',
+    protected $fillable = [
+    'name', 'phone', 'password', 'email', 'image','legal_title',
     'another_title',
     'license_number',
     'street',
