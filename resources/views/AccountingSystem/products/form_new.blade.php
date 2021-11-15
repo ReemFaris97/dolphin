@@ -8,7 +8,6 @@
     </div>
 @endif
 <div id="app">
-    <div id="app">
         <div>
             <form-wizard shape="tab" color="#2ECC71">
                 <tab-content title="Personal details" icon="fas fa-archive">
