@@ -57,18 +57,26 @@ class SellPointController extends Controller
     {
         if ($request->id) {
             $products=AccountingProduct::query()
-                ->when($request->search, fn ($b) => $b->where('name', 'LIKE', '%'.$request->search.'%')->orWhere('description', 'LIKE', '%'.$request->search.'%')->orWhere('bar_code', $request->search))
+                ->when($request->search, fn ($b) => $b->where('name', 'LIKE', '%'.$request->search.'%')->orWhere('en_name', 'LIKE', '%'.$request->search.'%')->orWhere('description', 'LIKE', '%'.$request->search.'%')->orWhere('bar_code', $request->search))
                 ->where('store_id', $id)
                 ->limit(20)
                 ->get();
 
-            // return $products;
+            $newProducts = $products->map(
+                function ($product) {
+                    return [
+                    'id' => $product->id,
+                    'text' => $product->name,
+                ];
+                }
+            );
 
             return response()->json([
-                'status'=>true,
-                'products_count' => count($products),
-                'data'=> $products
-            ]);
+                    'status'=>true,
+                    'products_count' => count($products),
+                    'data'=> $newProducts,
+                    'attributes' => view('AccountingSystem.sell_points.product-optionss', ['products' => $products])->render()
+                ]);
         }
     }
 
@@ -144,7 +152,7 @@ class SellPointController extends Controller
     public function barcode_search(Request $request, $q)
     {
         $store_product=AccountingProductStore::where('store_id', $request['store_id'])->pluck('product_id', 'id')->toArray();
-        $products=AccountingProduct::whereIn('id', $store_product)->where('bar_code', $q)->get();
+        $products=AccountingProduct::whereIn('id', $store_product)->where('bar_code', $q)->limit(10)->get();
         if (!$products->isEmpty()) {
             $selectd_unit_id = 'main-'.$products[0]->id;
         } else {

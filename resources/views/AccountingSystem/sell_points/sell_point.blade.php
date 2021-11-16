@@ -9,7 +9,7 @@
         type="text/css">
     <link
         href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            "
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            "
         rel="stylesheet" type="text/css">
     <!--- end datatable -->
     <link href="{{ asset('admin/assets/css/jquery.datetimepicker.min.css') }}" rel="stylesheet" type="text/css">
@@ -368,6 +368,7 @@
         function calcBill(selectedProduct, productId, productName, productBarCode, productPrice, priceHasTax, totalTaxes,
             mainUnit, productUnits) {
             rowNum++;
+            // alert(productUnits);
             let unitName = productUnits.map(a => a.name);
             let unitPrice = productUnits.map(b => b.selling_price);
             var unitId = productUnits.map(c => c.id);
@@ -549,6 +550,9 @@
                     }
                     return query;
                 },
+                success: function(res) {
+                    $('#selectID2').empty().append(res.attributes);
+                },
                 processResults: function(data, params) {
                     // parse the results into the format expected by Select2
                     // since we are using custom formatting functions we do not need to
@@ -575,42 +579,31 @@
             if (repo.loading) {
                 return repo.text;
             }
+            // debugger;
 
-            // var $container = $(
-            //     "<div class='select2-result-products-select clearfix'>" +
-            //     "<div class='select2-result-products-select__meta'>" +
-            //     "<div class='select2-result-products-select__value'></div>" +
-            //     "<div class='select2-result-products-select__title'></div>" +
-            //     "</div>" +
-            //     "</div>"
-            // );
-            // data-subunits="` + JSON.stringify({
-        //                 'id': 1
-        //             }) + `"
+            var $container = $(
+                "<div class='select2-result-products-select clearfix'>" +
+                "<div class='select2-result-products-select__meta'>" +
+                "<div class='select2-result-products-select__title'></div>" +
+                "<div class='select2-result-products-select__desc'></div>" +
+                "</div>" +
+                "</div>"
+            );
 
-            // $container.find(".select2-result-products-select__value").text(repo.id);
-            // $container.find(".select2-result-products-select__title").text(repo.name);
+            $container.find(".select2-result-products-select__title").text(repo.text);
+            $container.find(".select2-result-products-select__desc").text(repo.description);
 
-            var $container = $(`
-                <option value="` + repo.id + `" data-main-unit="` + repo.main_unit + `"
-                data-name="` + repo.name + `" data-price="` + repo.selling_price + `"
-                data-bar-code="` + repo.bar_code + `"
-                data-link="route('accounting.products.show', ` + repo.id + `)"
-                data-price-has-tax="` + repo.x ? repo.x - > price_has_tax : '0' + `"
-                data-total-taxes="` + repo.x ? repo.total_taxes : '0' + `"
 
-                data-total_discounts="` + repo.total_discounts + `"
-                >
-                ` + repo.name + `
-            </option>
-            `)
 
             return $container;
         }
 
-        $('#selectID2').change(function() {
+
+        $('#selectID2').on('change', function(e) {
+            console.log(e);
+            // $('#selectID2').change(function() {
             var selectedProduct = $(this).find(":selected");
-            console.log(selectedProduct);
+            // console.log(selectedProduct);
             var productId = $('#selectID2').val();
             var productName = selectedProduct.text();
             var productBarCode = selectedProduct.data('bar-code');
@@ -619,14 +612,14 @@
             var totalTaxes = selectedProduct.data('total-taxes');
             var mainUnit = selectedProduct.data('main-unit');
             var productUnits = selectedProduct.data('subunits');
-            console.table(productUnits)
+            // console.table(productUnits)
             calcBill(selectedProduct, productId, productName, productBarCode,
                 productPrice, priceHasTax, totalTaxes, mainUnit, productUnits)
         });
 
 
         function formatRepoSelection(repo) {
-            return repo.name || repo.bar_code;
+            return repo.title || repo.bar_code;
         }
         // });
 
