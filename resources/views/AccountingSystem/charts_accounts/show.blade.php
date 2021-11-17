@@ -108,7 +108,7 @@
                                     <td>{!! $loop->iteration !!}</td>
                                     <td>{!! $row->account->code !!}</td>
                                     <td>{!! optional($row->entry)->date !!}</td>
-                                    <td>{!! $row->another_account->ar_name !!}</td>
+                                    <td>{!! optional($row->another_account)->ar_name !!}</td>
                                     <td>{!! $row->amount !!}</td>
                                     <td>
                                         @if ($row->affect == 'debtor')
@@ -202,7 +202,7 @@
                                     <td>
                                         <a href="{{ route('accounting.ChartsAccounts.show', $row->another_account->id) }}"
                                             class="link">
-                                            {!! $row->another_account->ar_name !!}
+                                            {!! optional($row->another_account)->ar_name !!}
                                         </a>
                                     </td>
                                 </tr>
@@ -266,7 +266,7 @@
                         <div class="form-group col-sm-6 col-xs-12 pull-left">
                             <label> الحساب الرئيسى </label>
                             <select class="form-control" disabled>
-                                <option selected> {{ $account->account->ar_name }}</option>
+                                <option selected> {{ optional($account->account)->ar_name }}</option>
                             </select>
                         </div>
                     @endif

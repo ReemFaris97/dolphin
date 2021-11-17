@@ -236,9 +236,10 @@ class SaleController extends Controller
                 AccountingEntryAccount::create([
                     'entry_id' => $entry->id,
                     'from_account_id' =>getsetting('accounting_sales_cost_id'),
-                    'to_account_id' => $storeAccount->id,
+                    'to_account_id' => $storeAccount->id??getsetting('accounting_sales_cost_id'),
                     'amount' => $sale->getItemCostAttribute(),
                 ]);
+                dd('success');
             }
         }
 
