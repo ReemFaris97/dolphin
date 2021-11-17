@@ -28,6 +28,7 @@ use App\Models\AccountingSystem\AccountingReturn;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingUserPermission;
+use App\Models\Client;
 use App\Traits\SaleOperation;
 use App\Traits\Viewable;
 use App\Models\User;
@@ -78,9 +79,8 @@ class SaleController extends Controller
     public function store(Request $request)
     {
         $requests = $request->all();
-
         if (!$request->client_id) {
-            $requests['client_id']=5;
+            $requests['client_id']=optional(Client::first())->id;
         }
 
         $user=User::find($requests['user_id']);

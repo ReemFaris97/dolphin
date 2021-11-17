@@ -65,9 +65,9 @@ class SellPointController extends Controller
             $newProducts = $products->map(
                 function ($product) {
                     return [
-                    'id' => $product->id,
-                    'text' => $product->name,
-                ];
+                        'id' => $product->id,
+                        'text' => $product->name,
+                    ];
                 }
             );
 

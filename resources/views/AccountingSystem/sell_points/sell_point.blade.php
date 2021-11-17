@@ -9,7 +9,7 @@
         type="text/css">
     <link
         href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            "
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "
         rel="stylesheet" type="text/css">
     <!--- end datatable -->
     <link href="{{ asset('admin/assets/css/jquery.datetimepicker.min.css') }}" rel="stylesheet" type="text/css">
@@ -538,7 +538,7 @@
             })
         };
 
-        // $("#store_id").on('change', function() {
+        // var store_id = $("#store_id").val();
         var store_id = 1;
         // $('#selectID').removeClass('hidden');
         $('#selectID2').select2({
