@@ -92,7 +92,6 @@ class RouteController extends Controller
 
     public function makeInventory(Request $request, $type)
     {
-        // info($request->all());
         $request['type'] = $type;
         $request['products'] = json_decode($request->products, true);
         $rules = [
@@ -155,7 +154,7 @@ class RouteController extends Controller
     public function print_bill($id)
     {
         $bill = RouteTripReport::find($id);
-        
+
         return view('distributor.bills.api', compact('bill'));
     }
 
@@ -182,7 +181,7 @@ class RouteController extends Controller
         // $route_trip->update(['status' => 'accepted']);
         $route_trip->update([
             'status' => 'pending',
-            'round' => $route_trip->round + 1,
+            'round' => $route_trip->route->round + 1,
         ]);
 
 

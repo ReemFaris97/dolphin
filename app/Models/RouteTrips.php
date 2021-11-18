@@ -109,17 +109,24 @@ class RouteTrips extends Model
             return 'inventory';
         }
 
-        if (!$this->inventory) {
+        if (!$this->inventory && $this->route->round===$this->round) {
             $status = "inventory";
-        } elseif (!$this->products->first()) {
-            $status = "bill";
-        } elseif (!$this->images->first()) {
+        }
+        elseif (!$this->images->first() &&
+        !!$this->getCurrentReport->products->first() && $this->inventory->type=='accept') {
             $status = "images";
-        } else {
+        }
+        elseif ($this->getCurrentReport->products->first()==null &&
+        $this->inventory->type=='accept'  && $this->images->first()==null)
+        {
+            $status = "bill";
+        }
+        else {
             $status = "finished";
         }
-        return $status;
+        return $status??'unkown';
     }
+
 
 
 

@@ -29,10 +29,10 @@ trait RouteOperation
         try {
             $inputs = $request->all();
             $route_trip = RouteTrips::find($request->trip_id);
-            $inputs['round'] = $route_trip->round;
+            $inputs['round'] = $route_trip->route->round;
             $route_trip->update([
                 'status' => $request->status,
-                'round' => $route_trip->round + ($request->status == 'refuse' ? 1 : 0)
+                'round' => $route_trip->route->round + ($request->status == 'refuse' ? 1 : 0)
             ]);
             $trip = TripInventory::create($inputs);
             foreach ($request->products as $item) {
@@ -146,7 +146,7 @@ trait RouteOperation
             $report = RouteReport::query()->create($inputs);
             foreach ($request->products as $item) {
                 $product = Product::find($item['product_id']);
-                
+
                 $report->products()->create([
                     'quantity' => $item['quantity'],
                     'price' => $product->price,
