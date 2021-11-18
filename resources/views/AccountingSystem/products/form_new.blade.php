@@ -169,6 +169,7 @@
                                     <th>سعر البيع</th>
                                     <th>سعر الشراء</th>
                                     <th>الكمية</th>
+                                    <th>الاعدادات</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -187,8 +188,17 @@
                                             class="form-control" v-model="sub_unit.selling_price"></td>
                                     <td><input type="number" :name="`[sub_units][${index}][purchasing_price]`"
                                             class="form-control" v-model="sub_unit.purchasing_price"></td>
-                                    <td><input type="number" :name="`[sub_units][${index}][quantity]`"
-                                            class="form-control" v-model="sub_unit.quantity"></td>
+                                    <td>
+                                        <input type="number" :name="`[sub_units][${index}][quantity]`"
+                                            class="form-control" v-model="sub_unit.quantity">
+                                    </td>
+
+                                    <td><button type="button" class="btn btn-danger" @click="(e)=>{form.sub_units.splice(index,1)}"
+                                        >
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    </td>
+
                                 </tr>
                             </tbody>
                         </table>
@@ -226,7 +236,7 @@
                                 <div class="col-md-11">
 
                                     <v-select name="branch_id" v-model="form.branch_id" :options="branches"
-                                        :reduce="branch=>branch.id" 
+                                        :reduce="branch=>branch.id"
                                          @input="(event)=>{getStores();getFaces()}"/>
                                 </div>
                                 <div class=" col-md-1 btn-group ">
@@ -241,8 +251,7 @@
                         </div>
                         <div class="form-group   col-md-6  col-xs-12 ">
                             <label> اسم المستودع </label>
-                            <div class="
-                            row">
+                            <div class="row">
                                 <div class="col-md-11">
 
                                     <v-select name="store_id" v-model="form.store" :options="stores"
@@ -262,7 +271,7 @@
                         <div class="form-group   col-md-6  col-xs-12 ">
                             <label> اسم الوجه </label>
 
-                            <v-select name="face_id" v-model="form.face_id" :options="faces" :reduce="face=>face.id" 
+                            <v-select name="face_id" v-model="form.face_id" :options="faces" :reduce="face=>face.id"
                                 @input="getColumns"
                                 />
                         </div>
@@ -373,8 +382,10 @@
                                                     v-model="offer.gift_quantity" />
                                             </td>
                                             <td>
-                                                <button class="btn btn-danger" type="button"><i
-                                                        class="fas fa-trash"></i></button>
+                                                <button type="button" class="btn btn-danger" type="button"><i
+                                                        class="fas fa-trash"
+                                                        @click="(e)=>{form.offers.splice(index,1)}"
+                                                        ></i></button>
 
                                             </td>
                                         </tr>
