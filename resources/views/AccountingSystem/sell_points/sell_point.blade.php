@@ -7,8 +7,10 @@
     <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
     <link href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.min.css" rel="stylesheet"
         type="text/css">
-    <link href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css
-    " rel="stylesheet" type="text/css">
+    <link
+        href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "
+        rel="stylesheet" type="text/css">
     <!--- end datatable -->
     <link href="{{ asset('admin/assets/css/jquery.datetimepicker.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('admin/assets/css/all.css') }}" rel="stylesheet" type="text/css">
@@ -47,7 +49,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="panel-body">
+            <div class="panel-body" x-data="{selected:null}">
                 <!----------------  Start Bill Content ----------------->
                 <section class="yourBill">
                     <div class="yurSections">
@@ -76,18 +78,19 @@
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <div class="form-group block-gp">
                                     <label> اختر المستودع </label>
-                                    {!! Form::select('store_id', $stores, null, ['class' => 'selectpicker form-control js-example-basic-single category_id', 'id' => 'store_id', 'placeholder' => ' اختر المستودع ', 'data-live-search' => 'true']) !!}
+                                    {!! Form::select('store_id', $stores, null, ['class' => 'selectpicker form-control j category_id', 'id' => 'store_id', 'placeholder' => ' اختر المستودع ', 'data-live-search' => 'true', 'x-model' => 'selected']) !!}
                                 </div>
                             </div>
                             <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
                                 <div class="yurProdc">
                                     <div class="form-group block-gp">
                                         <label>بحث بإسم الصنف أو الباركود</label>
-                                        <select class=" form-control js-example-basic-single" name="product_id"
+                                        {{-- <select class=" form-control  products-select" name="product_id"
                                             data-live-search="true" placeholder="اختر المنتج" id="selectID">
                                             <option value=""> حدد المستودع اولا</option>
+                                        </select> --}}
 
-                                        </select>
+                                        <select class="form-control" name="products" id="selectID2"></select>
                                     </div>
                                 </div>
                                 <div class="tempobar"></div>
@@ -322,7 +325,7 @@
 @endsection
 @section('scripts')
     <!--- scroll to the last table row -->
-
+    <script src="//unpkg.com/alpinejs" defer></script>
     <!--- end datatable -->
     <script src="{{ asset('admin/assets/js/jquery.datetimepicker.full.min.js') }}"></script>
     <script src="{{ asset('admin/assets/js/scanner.js') }}"></script>
@@ -365,6 +368,7 @@
         function calcBill(selectedProduct, productId, productName, productBarCode, productPrice, priceHasTax, totalTaxes,
             mainUnit, productUnits) {
             rowNum++;
+            // alert(productUnits);
             let unitName = productUnits.map(a => a.name);
             let unitPrice = productUnits.map(b => b.selling_price);
             var unitId = productUnits.map(c => c.id);
@@ -534,43 +538,92 @@
             })
         };
 
-        //While Ajax search request by store
-        $("#store_id").on('change', function() {
-            var store_id = $(this).val();
-            $('#store_val').val(store_id);
-            var branch_id = $('#branch_id').val();
-            $('#branch_val').val(branch_id);
-            var company_id = $('#company_id').val();
-            $('#company_val').val(company_id);
-            $.ajax({
-                type: 'get',
+        // var store_id = $("#store_id").val();
+        var store_id = 1;
+        // $('#selectID').removeClass('hidden');
+        $('#selectID2').select2({
+            ajax: {
                 url: "/accounting/productsAjex/" + store_id,
-                data: {
-                    id: store_id,
+                data: function(params) {
+                    var query = {
+                        search: params.term,
+                    }
+                    return query;
                 },
-                dataType: 'json',
-                success: function(data) {
-                    $('.yurProdc').html(data.data);
-                    $('#selectID').attr('data-live-search', 'true');
-                    $('#selectID').selectpicker('refresh');
-                    $('#selectID').change(function() {
-                        var selectedProduct = $(this).find(":selected");
-                        var productId = $('#selectID').val();
-                        var productName = selectedProduct.text();
-                        var productBarCode = selectedProduct.data('bar-code');
-                        var productPrice = Number(selectedProduct.data('price'));
-                        var priceHasTax = selectedProduct.data('price-has-tax');
-                        var totalTaxes = selectedProduct.data('total-taxes');
-                        var mainUnit = selectedProduct.data('main-unit');
-                        var productUnits = selectedProduct.data('subunits');
-                        console.log('in select')
-                        console.table(productUnits)
-                        calcBill(selectedProduct, productId, productName, productBarCode,
-                            productPrice, priceHasTax, totalTaxes, mainUnit, productUnits)
-                    });
+                success: function(res) {
+                    $('#selectID2').empty().append(res.attributes);
                 },
-            })
+                processResults: function(data, params) {
+                    // parse the results into the format expected by Select2
+                    // since we are using custom formatting functions we do not need to
+                    // alter the remote JSON data, except to indicate that infinite
+                    // scrolling can be used
+                    params.page = params.page || 1;
+
+                    return {
+                        results: data.data,
+                        pagination: {
+                            more: (params.page * 30) < data.total_count
+                        }
+                    };
+                },
+                cache: true
+            },
+            placeholder: 'Search for a repository',
+            minimumInputLength: 1,
+            templateResult: formatRepo,
+            templateSelection: formatRepoSelection,
         });
+
+        function formatRepo(repo) {
+            if (repo.loading) {
+                return repo.text;
+            }
+            // debugger;
+
+            var $container = $(
+                "<div class='select2-result-products-select clearfix'>" +
+                "<div class='select2-result-products-select__meta'>" +
+                "<div class='select2-result-products-select__title'></div>" +
+                "<div class='select2-result-products-select__desc'></div>" +
+                "</div>" +
+                "</div>"
+            );
+
+            $container.find(".select2-result-products-select__title").text(repo.text);
+            $container.find(".select2-result-products-select__desc").text(repo.description);
+
+
+
+            return $container;
+        }
+
+
+        $('#selectID2').on('change', function(e) {
+            console.log(e);
+            // $('#selectID2').change(function() {
+            var selectedProduct = $(this).find(":selected");
+            // console.log(selectedProduct);
+            var productId = $('#selectID2').val();
+            var productName = selectedProduct.text();
+            var productBarCode = selectedProduct.data('bar-code');
+            var productPrice = Number(selectedProduct.data('price'));
+            var priceHasTax = selectedProduct.data('price-has-tax');
+            var totalTaxes = selectedProduct.data('total-taxes');
+            var mainUnit = selectedProduct.data('main-unit');
+            var productUnits = selectedProduct.data('subunits');
+            // console.table(productUnits)
+            calcBill(selectedProduct, productId, productName, productBarCode,
+                productPrice, priceHasTax, totalTaxes, mainUnit, productUnits)
+        });
+
+
+        function formatRepoSelection(repo) {
+            return repo.title || repo.bar_code;
+        }
+        // });
+
+
         //  Tfoot general bill data calculatoin
         $(".bill-table tbody").change(function() {
             preventDiscount();
@@ -602,16 +655,19 @@
                         alert('لا يمكن ان تكون قيم الخصم بالنسبة أكبر من 100% .');
                         $(this).val(100);
                     }
-                    total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this)
-                    .val()) / 100));
+                    total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(
+                            this)
+                        .val()) / 100));
                     $("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
                     $("#total").val(total);
                 });
                 $("input#byAmount").change(function() {
-                    if ((Number($(this).val())) > Number($("#amountAfterDariba span.dynamic-span")
-                    .html())) {
-                        alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $(
-                            "#amountAfterDariba span.dynamic-span").html());
+                    if ((Number($(this).val())) > Number($(
+                                "#amountAfterDariba span.dynamic-span")
+                            .html())) {
+                        alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' +
+                            $(
+                                "#amountAfterDariba span.dynamic-span").html());
                         $(this).val(0);
                     }
                     total = Number(amountAfterDariba) - (Number($(this).val()));
@@ -624,15 +680,18 @@
                     alert('لا يمكن ان تكون قيم الخصم بالنسبة أكبر من 100% .');
                     $(this).val(100);
                 }
-                total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) /
+                total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this)
+                        .val()) /
                     100));
                 $("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
                 $("#total").val(total);
             });
             $("input#byAmount").change(function() {
-                if ((Number($(this).val())) > Number($("#amountAfterDariba span.dynamic-span").html())) {
-                    alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $(
-                        "#amountAfterDariba span.dynamic-span").html());
+                if ((Number($(this).val())) > Number($("#amountAfterDariba span.dynamic-span")
+                        .html())) {
+                    alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' +
+                        $(
+                            "#amountAfterDariba span.dynamic-span").html());
                     $(this).val(0);
                 }
                 total = Number(amountAfterDariba) - (Number($(this).val()));
@@ -643,22 +702,31 @@
                 var allPaid = Number($("#byCache").val()) + Number($("#byNet").val());
                 $("#allPaid").html(allPaid.toFixed(rondingNumber));
                 $("#allPaid1").val(allPaid);
-                var remaindedAmount = Number(allPaid) - Number($("#demandedAmount span.dynamic-span")
-                .html());
-                $("#remaindedAmount span.dynamic-span").html(remaindedAmount.toFixed(rondingNumber));
+                var remaindedAmount = Number(allPaid) - Number($(
+                        "#demandedAmount span.dynamic-span")
+                    .html());
+                $("#remaindedAmount span.dynamic-span").html(remaindedAmount.toFixed(
+                    rondingNumber));
                 $('#remainder-inputt').val(Math.abs(remaindedAmount));
                 if (remaindedAmount > 0) {
-                    $("#remaindedAmount .rel-cols").removeClass("aagel-case").removeClass("tmam-case")
+                    $("#remaindedAmount .rel-cols").removeClass("aagel-case").removeClass(
+                            "tmam-case")
                         .addClass("motabaqy-case");
                 } else if (remaindedAmount < 0) {
-                    $("#remaindedAmount .rel-cols").removeClass("motabaqy-case").removeClass("tmam-case")
+                    $("#remaindedAmount .rel-cols").removeClass("motabaqy-case").removeClass(
+                            "tmam-case")
                         .addClass("aagel-case");
                 } else {
-                    $("#remaindedAmount .rel-cols").removeClass("motabaqy-case").removeClass("aagel-case")
+                    $("#remaindedAmount .rel-cols").removeClass("motabaqy-case").removeClass(
+                            "aagel-case")
                         .addClass("tmam-case");
                 }
             })
         });
+
+
+
+
         $("#store_id").on('change', function() {
             var store_id = $(this).val();
             //	For Ajax Search By Product Bar Code
@@ -679,26 +747,35 @@
                             if (data.data.length !== 0) {
                                 $('#barcode_search').val('');
                                 $(".tempobar").html(data.data);
-                                var selectedID = $(".tempobar").find('option').data(
-                                    'unit-id');
+                                var selectedID = $(".tempobar").find('option')
+                                    .data(
+                                        'unit-id');
                                 var alreadyChosen = $(
                                     ".bill-table tbody td select option[value=" +
                                     selectedID + "]");
                                 var repeatedInputVal = $(
-                                    ".bill-table tbody td select option[value=" +
-                                    selectedID + "]:selected").parents('tr').find(
-                                    '.product-quantity').find('input');
-                                if (alreadyChosen.length > 0 && alreadyChosen.is(
+                                        ".bill-table tbody td select option[value=" +
+                                        selectedID + "]:selected").parents('tr')
+                                    .find(
+                                        '.product-quantity').find('input');
+                                if (alreadyChosen.length > 0 && alreadyChosen
+                                    .is(
                                         ':selected')) {
-                                    repeatedInputVal.val(Number(repeatedInputVal.val()) +
-                                    1);
-                                    repeatedInputVal.text(repeatedInputVal.val());
-                                    $('.product-quantity').find('input').trigger('change');
+                                    repeatedInputVal.val(Number(repeatedInputVal
+                                            .val()) +
+                                        1);
+                                    repeatedInputVal.text(repeatedInputVal
+                                        .val());
+                                    $('.product-quantity').find('input')
+                                        .trigger(
+                                            'change');
                                 } else {
                                     $('#barcode_search').val('');
                                     rowNum++;
                                     byBarcode();
-                                    $('.product-quantity').find('input').trigger('change');
+                                    $('.product-quantity').find('input')
+                                        .trigger(
+                                            'change');
                                 }
                             }
                         }
@@ -718,26 +795,35 @@
                             if (data.data.length !== 0) {
                                 $('#barcode_search').val('');
                                 $(".tempobar").html(data.data);
-                                var selectedID = $(".tempobar").find('option').data(
-                                    'unit-id');
+                                var selectedID = $(".tempobar").find('option')
+                                    .data(
+                                        'unit-id');
                                 var alreadyChosen = $(
                                     ".bill-table tbody td select option[value=" +
                                     selectedID + "]");
                                 var repeatedInputVal = $(
-                                    ".bill-table tbody td select option[value=" +
-                                    selectedID + "]:selected").parents('tr').find(
-                                    '.product-quantity').find('input');
-                                if (alreadyChosen.length > 0 && alreadyChosen.is(
+                                        ".bill-table tbody td select option[value=" +
+                                        selectedID + "]:selected").parents('tr')
+                                    .find(
+                                        '.product-quantity').find('input');
+                                if (alreadyChosen.length > 0 && alreadyChosen
+                                    .is(
                                         ':selected')) {
-                                    repeatedInputVal.val(Number(repeatedInputVal.val()) +
-                                    1);
-                                    repeatedInputVal.text(repeatedInputVal.val());
-                                    $('.product-quantity').find('input').trigger('change');
+                                    repeatedInputVal.val(Number(repeatedInputVal
+                                            .val()) +
+                                        1);
+                                    repeatedInputVal.text(repeatedInputVal
+                                        .val());
+                                    $('.product-quantity').find('input')
+                                        .trigger(
+                                            'change');
                                 } else {
                                     $('#barcode_search').val('');
                                     rowNum++;
                                     byBarcode();
-                                    $('.product-quantity').find('input').trigger('change');
+                                    $('.product-quantity').find('input')
+                                        .trigger(
+                                            'change');
                                 }
                             }
                         }
@@ -761,7 +847,8 @@
             var productUnits = selectedProduct.data('subunits');
             console.log('in barcode')
             console.table(productUnits)
-            calcBill(selectedProduct, productId, productName, productBarCode, productPrice, priceHasTax, totalTaxes,
+            calcBill(selectedProduct, productId, productName, productBarCode, productPrice, priceHasTax,
+                totalTaxes,
                 mainUnit, productUnits)
         }
         $(document).keydown(function(event) {

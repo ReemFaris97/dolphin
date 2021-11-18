@@ -14,52 +14,53 @@ trait ManualCreateEntry
      */
     public static function ManualCreateEntry($request)
     {
-
-        $requests = $request->except('from_account_id','to_account_id');
+        $requests = $request->except('from_account_id', 'to_account_id');
 
 
         $requests['type']='manual';
 
-        $entry=AccountingEntry::create($requests);
+        $entrydata = $request->all();
+        $entrydata['details'] = $request['details'][0];
+        $entry=AccountingEntry::create($entrydata);
         $account_id=collect($request['account_id']);
         $debtor=collect($request['debtor']);
         $creditor=collect($request['creditor']);
         $types=[];
-        foreach($debtor as $key=>$item){
-            if($item==0){
+        foreach ($debtor as $key=>$item) {
+            if ($item==0) {
                 $types[$key]='creditor';
-            }else{
+            } else {
                 $types[$key]='debtor';
             }
         }
 
-        $all= $account_id->zip($debtor,$creditor,$types);
+        $all= $account_id->zip($debtor, $creditor, $types);
         $debtorAccounts=[];
         $creditorAccounts=[];
 
-       foreach($all as $key=>$item){
-            if($item[3]=='debtor'){
-               $debator= AccountingEntryAccount::create([
+        foreach ($all as $key=>$item) {
+            if ($item[3]=='debtor') {
+                $debator= AccountingEntryAccount::create([
                     'entry_id'=>$entry->id,
                     'account_id'=>$item['0'],
                     'affect'=>'debtor',
                     'amount'=>$item['1'],
                 ]);
-               array_push( $debtorAccounts,$debator);
+                array_push($debtorAccounts, $debator);
             }
-            if($item[3]=='creditor'){
-              $creditor = AccountingEntryAccount::create([
+            if ($item[3]=='creditor') {
+                $creditor = AccountingEntryAccount::create([
                     'entry_id'=>$entry->id,
                     'affect'=>'creditor',
                     'account_id'=>$item['0'],
                     'amount'=>$item['2'],
                 ]);
-                array_push( $creditorAccounts,$creditor);
+                array_push($creditorAccounts, $creditor);
             }
-       }
-        foreach($debtorAccounts as$debtorAccount){
-                foreach($creditorAccounts as $creditorAccount){
-                    $last=AccountingAccountLog::where('account_id',$debtorAccount->account_id)->latest()->first();
+        }
+        foreach ($debtorAccounts as$debtorAccount) {
+            foreach ($creditorAccounts as $creditorAccount) {
+                $last=AccountingAccountLog::where('account_id', $debtorAccount->account_id)->latest()->first();
                 AccountingAccountLog::create([
                 'entry_id'=>$entry->id,
                 'account_id'=>$debtorAccount->account_id,
@@ -69,14 +70,13 @@ trait ManualCreateEntry
                 'account_amount_after'=>isset($last)?$last->account_amount_after  - $creditorAccount->amount :$debtorAccount->account->amount - $creditorAccount->amount,
                 'affect'=>'debtor',
                     ]);
-                }
+            }
         }
-        foreach($creditorAccounts as$creditorAccount){
+        foreach ($creditorAccounts as$creditorAccount) {
+            foreach ($debtorAccounts as$debtorAccount) {
+                $last=AccountingAccountLog::where('account_id', $creditorAccount->account_id)->latest()->first();
 
-              foreach($debtorAccounts as$debtorAccount){
-                $last=AccountingAccountLog::where('account_id',$creditorAccount->account_id)->latest()->first();
-
-                    AccountingAccountLog::create([
+                AccountingAccountLog::create([
                     'entry_id'=>$entry->id,
                     'account_id'=>$creditorAccount->account_id,
                     'account_amount_before'=>$last->account_amount_after??$creditorAccount->account->amount,
@@ -85,8 +85,7 @@ trait ManualCreateEntry
                     'account_amount_after'=>isset($last)?$last->account_amount_after+ ($creditorAccount->amount) : $creditorAccount->account->amount + ($creditorAccount->amount),
                     'affect'=>'creditor',
                     ]);
+            }
         }
-    }
-
     }
 }
