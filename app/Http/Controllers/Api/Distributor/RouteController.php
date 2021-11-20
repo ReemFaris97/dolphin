@@ -125,7 +125,7 @@ class RouteController extends Controller
 
     public function attachProducts(Request $request)
     {
-        $request['store_id'] = optional(optional(auth()->user())->car_store)->id;
+        $request['store_id'] = $request->store_id??optional(optional(auth()->user())->car_store)->id;
         $request['products'] = json_decode($request->products, true);
 
         $rules = [

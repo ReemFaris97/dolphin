@@ -74,7 +74,7 @@ trait RouteOperation
 
             $trip_report = RouteTripReport::create([
                 'route_trip_id' => $trip->id,
-                'round' => $trip->round,
+                'round' => $trip->route->round,
                 'cash' => $request->cash,
                 'visa' => $request->visa,
                 'notes' => $request->notes,
