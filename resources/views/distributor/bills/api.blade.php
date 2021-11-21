@@ -282,7 +282,7 @@
                             <tr>
                                 @php($tax=((float) getsetting('general_taxs'))/100)
                                 @php($tax_total=round(($bill->product_total() * $tax),2))
-                                @php($total=($bill->product_total() * $tax) + $bill->product_total(),2)
+                                @php($total=($tax_total + $bill->product_total()))
                                 <th>{{$total}}</th>
                              <th >
                                     <p>net amount</p>
