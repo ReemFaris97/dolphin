@@ -51,33 +51,52 @@ class SellPointController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getProductAjex(Request $request, $id)
     {
         if ($request->id) {
             $products=AccountingProduct::query()
-                ->when($request->search, fn ($b) => $b->where('name', 'LIKE', '%'.$request->search.'%')->orWhere('en_name', 'LIKE', '%'.$request->search.'%')->orWhere('description', 'LIKE', '%'.$request->search.'%')->orWhere('bar_code', $request->search))
+                ->when($request->search, function ($b) use ($request) {
+                    return $b->where('name', 'LIKE', '%' . $request->search . '%')->orWhere('en_name', 'LIKE', '%' . $request->search . '%')->orWhere('description', 'LIKE', '%' . $request->search . '%')->orWhere('bar_code', $request->search);
+                })
                 ->where('store_id', $id)
-                ->limit(20)
-                ->get();
-
-            $newProducts = $products->map(
-                function ($product) {
-                    return [
-                        'id' => $product->id,
-                        'text' => $product->name,
-                    ];
-                }
-            );
+                ->paginate(20);
 
             return response()->json([
                     'status'=>true,
-                    'products_count' => count($products),
-                    'data'=> $newProducts,
+                    'has_more' => $products->hasMorePages(),
+                    'data'=> $products,
                     'attributes' => view('AccountingSystem.sell_points.product-optionss', ['products' => $products])->render()
                 ]);
         }
+    }
+
+    public function selectedProduct(AccountingProduct $product)
+    {
+        $producttax = \App\Models\AccountingSystem\AccountingProductTax::where('product_id', $product->id)->first();
+        $units = \App\Models\AccountingSystem\AccountingProductSubUnit::where('product_id', $product->id)->get();
+        $subunits = collect($units);
+
+        $allunits = json_encode($subunits, JSON_UNESCAPED_UNICODE);
+        $mainunits = json_encode(collect([['id' => 'main-' . $product->id, 'name' => $product->main_unit, 'purchasing_price' => $product->purchasing_price, 'product_id' => $product->id, 'bar_code' => $product->bar_code, 'main_unit_present' => 1, 'selling_price' => $product->selling_price, 'created_at' => $product->created_at, 'updated_at' => $product->updated_at, 'quantity' => $product->quantity]]), JSON_UNESCAPED_UNICODE);
+        $merged = array_merge(json_decode($mainunits), json_decode($allunits));
+        $lastPrice = \App\Models\AccountingSystem\AccountingPurchaseItem::where('product_id', $product->id)
+            ->latest()
+            ->first();
+        return response()->json([
+            'id'=>$product->id,
+            'main_unit'=>$product->main_unit,
+            'name'=>$product->name,
+            'price'=>$product->selling_price,
+            'bar_code'=>$product->bar_code,
+            'link'=>route('accounting.products.show', $product->id),
+            'price_has_tax'=>isset($producttax) ? $producttax->price_has_tax : '0',
+            'total_taxes'=>isset($producttax) ? $product->total_taxes : '0',
+            'subunits'=> json_encode($merged),
+            'total_discounts'=>$product->total_discounts
+
+        ]);
     }
 
     public function pro_search($q)
