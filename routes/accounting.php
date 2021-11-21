@@ -232,6 +232,7 @@ Route::middleware('admin')->group(function () {
     Route::post('/subunit', 'ProductController@subunit')->name('subunit');
 
     Route::get('/productsAjex/{id}', 'SellPointController@getProductAjex')->name('ajaxProducts');
+    Route::get('/products-single-product/{product}', 'SellPointController@selectedProduct')->name('single-product-ajax');
 
     Route::get('/pro_search/{name}', 'SellPointController@pro_search');
     Route::get('/barcode_search/{name}', 'BuyPointController@barcode_search');
