@@ -101,7 +101,7 @@
                                 <div class="flexx ">
                                     <h4>الرقم الضريبى للعميل</h4>
                                     <p>{!!optional(optional($bill->route_trip)->client)->tax_number !!}</p>
-                                    <h4>cust. vat no.</h4>
+                                    <h4>Cust. vat No.</h4>
                                 </div>
 
                             </div>
@@ -249,6 +249,9 @@
                                     </div>
 
                                 </th>
+                                <th style="width: 95px;" rowspan="3">
+                                    <img style="width: 100%;" src="{!! asset('dashboard/assets/demo/demo12/media/img/websiteQRCode_noFrame.png')!!}" alt="QR">
+                                </th>
 
                             </tr>
 
@@ -268,14 +271,7 @@
                                     <p>net amount</p>
                                     <p>اجمالى الفاتورة</p>
                                 </th>
-                                <th >
-                                    <p style="text-align:center;">المدفوع كاش</p>
-                                    <p style="text-align:center;">{{$bill->cash}}</p>
-                                </th>
-                                <th >
-                                    <p style="text-align:center;">المدفوع شبكة</p>
-                                    <p style="text-align:center;">{{$bill->visa}}</p>
-                                </th>
+
                                 <th >
                                     <div class="box1">
                                         <div class="flexx">
@@ -300,19 +296,23 @@
                 <!--- footer -->
                 <footer>
                     <div class="row">
+                        <div class="col-3 box1 flexx" style="width:25%">
+                                    <p style="text-align:center;">المدفوع كاش</p>
+                                    <p style="text-align:center;">{{$bill->cash}}</p>
+                        </div>
+                        <div class="col-3 box1 flexx" style="width:25%">
+                                    <p style="text-align:center;">المدفوع شبكة</p>
+                                    <p style="text-align:center;">{{$bill->visa}}</p>
+                        </div>
                         <div class="col">
                             <div class="box1 flexx">
-
-                                <div class="col">
                                     <div>
                                         <h4>توقيع المستلم</h4>
                                         <h4>signature</h4>
                                     </div>
-                                    <p> </p>
-                                </div>
-
                             </div>
                         </div>
+
                     </div>
                     <div class="row">
                         <div class="flexx foot_bg">
@@ -359,7 +359,7 @@
                 let win = window.open('', '');
                 win.document.write(`${style}${t}`);
                 win.document.close();
-                win.print();
+                setTimeout(() => {win.print()}, 100);
             });
         })
     </script>
