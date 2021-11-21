@@ -177,6 +177,7 @@ return [
          App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
         App\Providers\ModelServiceProvider::class,
         App\Providers\DirectiveServiceProvider::class,
         UxWeb\SweetAlert\SweetAlertServiceProvider::class,
