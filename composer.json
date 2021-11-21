@@ -23,6 +23,7 @@
         "milon/barcode": "^8.0",
         "orangehill/iseed": "^3.0",
         "realrashid/sweet-alert": "^3.2",
+        "simplesoftwareio/simple-qrcode": "~4",
         "spatie/laravel-permission": "4.0.0",
         "spatie/laravel-translatable": "^4.5",
         "staudenmeir/eloquent-has-many-deep": "^1.7",
