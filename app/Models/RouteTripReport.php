@@ -93,7 +93,7 @@ class RouteTripReport extends Model
             $sum = $item->price * $item->quantity;
             $total += $sum;
         }
-        return $total;
+        return round($total, 2);
     }
 
     public function images()
@@ -110,7 +110,6 @@ class RouteTripReport extends Model
 
     public function scopeWithProductsPrice(Builder $builder)
     {
-
         $builder->join(
             DB::raw(
                 "(
