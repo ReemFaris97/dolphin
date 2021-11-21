@@ -114,13 +114,13 @@ class RouteTrips extends Model
         }
 
         if (
-            $this->total_reports_in_round === $this->total_inventories_in_round
+            $this->total_reports_in_round >= $this->total_inventories_in_round
             &&!$this->is_last_report_has_images
 
             ) {
             return 'images';
         }
-        if ($this->total_reports_in_round === $this->total_inventories_in_round &&$this->is_last_report_has_images) {
+        if ($this->total_reports_in_round >= $this->total_inventories_in_round &&$this->is_last_report_has_images) {
             return 'finished';
         }
 
