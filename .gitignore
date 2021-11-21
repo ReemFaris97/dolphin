@@ -12,7 +12,8 @@ yarn-error.log
 .idea
 .idea/workspace.xml
 .idea/*
-/dolphin-system-new  
+/dolphin-system-new
 /accounting
-/dolpin-system 
-/dolphin 
+/dolpin-system
+/dolphin
+.vscode
