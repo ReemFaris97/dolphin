@@ -240,6 +240,9 @@
                     <div>
                     <table class="the_table">
                     <tfoot>
+                        @php($tax_percent=(float)(getsetting('general_taxs')) /100)
+                        @php($tax_amount= round($bill->product_total() * $tax_percent,2))
+                        @php($total=$bill->product_total() + $tax_amount)
                             <tr>
                                 <th>{{(float) $bill->product_total()}}</th>
                                 <th colspan="4">
@@ -256,7 +259,7 @@
                             </tr>
 
                             <tr>
-                                <th>{{($bill->product_total() * (float)(getsetting('general_taxs')) /100)}}</th>
+                                <th>{{$tax_amount}}</th>
                                 <th colspan="4">
                                     <div class="flexx">
                                         <p>قيمة القيمة المضافة</p>
@@ -266,7 +269,7 @@
                                 </th>
                             </tr>
                             <tr>
-                                <th>{{$bill->product_total()+($bill->product_total()* ((float) getsetting('general_taxs')) /100)}}</th>
+                                <th>{{$total}}</th>
                                 <th >
                                     <p>net amount</p>
                                     <p>اجمالى الفاتورة</p>
@@ -278,10 +281,10 @@
                                             <h4>المبلغ كتابة:</h4>
                                             <h4>S.R in words:</h4>
                                         </div>
-                                        <p>{{ $bill->CashArabic($bill->product_total()+($bill->product_total()* ((float) getsetting('general_taxs')/100)))[0] }}
+                                        <p>{{ $bill->CashArabic($total)[0] }}
                                             ريال
-                                            {{ $bill->CashArabic($bill->product_total()+($bill->product_total()*((float) getsetting('general_taxs'))/100))[1] ??''}}
-                                            @if($bill->CashArabic($bill->product_total()+($bill->product_total()*((float) getsetting('general_taxs'))/100))[1]!=0)
+                                            {{ $bill->CashArabic($total)[1] ??''}}
+                                            @if($bill->CashArabic($total)[1]!=0)
                                             هللة
                                                 @endif
                                             لاغير
