@@ -48,6 +48,8 @@
     <link href="{!! asset('dashboard/assets/new-style.css')!!}" rel="stylesheet" type="text/css"/>
 
     <link rel="shortcut icon" href="{!! asset('dashboard/assets/demo/demo12/media/img/logo/logo.png')!!}"/>
+    <link href="{!! asset('dashboard/assets/customize.css')!!}" rel="stylesheet" type="text/css"/>
+
     @stack('header')
 </head>
 

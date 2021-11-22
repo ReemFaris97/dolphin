@@ -169,7 +169,7 @@ table.table-bordered.dataTable tfoot th .form-control::placeholder {
     color: #d2d2d2;
 }
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item>.m-menu__heading .m-menu__link-icon, .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item>.m-menu__link .m-menu__link-icon {
-    color: #52A6C2;
+    color: white;
 }
 .m-topbar .m-topbar__nav.m-nav>.m-nav__item>.m-nav__link .m-nav__link-icon {
     color: #d2d2d2;
