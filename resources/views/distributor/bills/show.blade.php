@@ -26,6 +26,7 @@
         <!--------- start content ---------->
         <div id="print_this">
             <div id="myDivToPrint">
+            <div class="logo-bg">
                 <div class="bill-container">
                 <div>
                     <!--- header -->
@@ -35,9 +36,7 @@
                             <h3>مصنع إبراهيم سليمان العثيم للتعبئة و التغليف</h3>
                             <h3>Ibrahim Sulaiman Al-Othaim Factory for Filling and Packaging</h3>
                             <div class="flexx">
-{{--                                <h5>تجارة المواد الغذائية بالجملة</h5>--}}
-{{--                                <h5>Wholesale foodstuff trading</h5>--}}
-                            </div>
+                           </div>
                         </div>
                         <div class="logo">
                             <img src="{!! asset('dashboard/assets/demo/demo12/media/img/logo/logo-black.png')!!}" alt="logo">
@@ -101,7 +100,7 @@
                                 <div class="flexx ">
                                     <h4>الرقم الضريبى للعميل</h4>
                                     <p>{!!optional(optional($bill->route_trip)->client)->tax_number !!}</p>
-                                    <h4>cust. vat no.</h4>
+                                    <h4>Cust. vat No.</h4>
                                 </div>
 
                             </div>
@@ -139,15 +138,7 @@
                                 </div>
 
                             </div>
-                            <!-- <div class="box1">
-                                @if($bill->store->has_car==1)
-                                <div class="flexx">
-                                    <h4>رقم الشاحنة</h4>
-                                    <h4> {{$bill->store->car->plate_number ??''}}</h4>
-                                </div>
-                                @endif
-                                <p></p>
-                            </div> -->
+
                             <div class="box1 half">
                                 <div class="flexx">
                                     <h4>اسم المندوب</h4>
@@ -156,13 +147,7 @@
                                 </div>
 
                             </div>
-                            <!-- <div class="box1">
-                                    <div class="flexx">
-                                        <h4>نقطة الشحن</h4>
-                                        <h4>{{$bill->store->name }}</h4>
-                                    </div>
-                                    <p>القصيم</p>
-                                </div> -->
+
                         </div>
                     </div>
                 </div>
@@ -195,10 +180,7 @@
                                     <p>الوحدة</p>
                                     <p>unit</p>
                                 </th>
-                                <!-- <th>
-                                    <p>بيان الصنف</p>
-                                    <p>product description</p>
-                                </th> -->
+
                                 <th>
                                     <p>إسم الصنف</p>
                                     <p>product Name</p>
@@ -221,11 +203,8 @@
                                 <td>{{ $value->product->price }}</td>
                                 <td>{{ $value->quantity }}</td>
                                 <td>حبة</td>
-                                <!-- <td>
-                                    <p class="not_bold"></p>
-                                </td> -->
 
-{{--                                <td>{{ $value->product->store->name ??'' }}</td>--}}
+
                                 <td class="product-name">{{ $value->product->name }}</td>
                                 <td>{!!$loop->iteration!!}</td>
                             </tr>
@@ -240,6 +219,9 @@
                     <div>
                     <table class="the_table">
                     <tfoot>
+                        @php($tax_percent=(float)(getsetting('general_taxs')) /100)
+                        @php($tax_amount= round($bill->product_total() * $tax_percent,2))
+                        @php($total=$bill->product_total() + $tax_amount)
                             <tr>
                                 <th>{{(float) $bill->product_total()}}</th>
                                 <th colspan="4">
@@ -249,11 +231,17 @@
                                     </div>
 
                                 </th>
+                                <th style="width: 95px;" rowspan="3">
+
+                                    {!! QrCode::size(100)->generate(
+                                 url('/api/distributor/bills/print_bill/' .  encrypt($bill->id))
+                                        ); !!}
+                             </th>
 
                             </tr>
 
                             <tr>
-                                <th>{{($bill->product_total() * (float)(getsetting('general_taxs')) /100)}}</th>
+                                <th>{{$tax_amount}}</th>
                                 <th colspan="4">
                                     <div class="flexx">
                                         <p>قيمة القيمة المضافة</p>
@@ -263,29 +251,22 @@
                                 </th>
                             </tr>
                             <tr>
-                                <th>{{$bill->product_total()+($bill->product_total()* ((float) getsetting('general_taxs')) /100)}}</th>
+                                <th>{{$total}}</th>
                                 <th >
                                     <p>net amount</p>
                                     <p>اجمالى الفاتورة</p>
                                 </th>
-                                <th >
-                                    <p style="text-align:center;">المدفوع كاش</p>
-                                    <p style="text-align:center;">{{$bill->cash}}</p>
-                                </th>
-                                <th >
-                                    <p style="text-align:center;">المدفوع شبكة</p>
-                                    <p style="text-align:center;">{{$bill->visa}}</p>
-                                </th>
+
                                 <th >
                                     <div class="box1">
                                         <div class="flexx">
                                             <h4>المبلغ كتابة:</h4>
                                             <h4>S.R in words:</h4>
                                         </div>
-                                        <p>{{ $bill->CashArabic($bill->product_total()+($bill->product_total()* ((float) getsetting('general_taxs')/100)))[0] }}
+                                        <p>{{ $bill->CashArabic($total)[0] }}
                                             ريال
-                                            {{ $bill->CashArabic($bill->product_total()+($bill->product_total()*((float) getsetting('general_taxs'))/100))[1] ??''}}
-                                            @if($bill->CashArabic($bill->product_total()+($bill->product_total()*((float) getsetting('general_taxs'))/100))[1]!=0)
+                                            {{ $bill->CashArabic($total)[1] ??''}}
+                                            @if($bill->CashArabic($total)[1]!=0)
                                             هللة
                                                 @endif
                                             لاغير
@@ -300,19 +281,23 @@
                 <!--- footer -->
                 <footer>
                     <div class="row">
+                        <div class="col-3 box1 flexx" style="width:25%">
+                                    <p style="text-align:center;">المدفوع كاش</p>
+                                    <p style="text-align:center;">{{round($bill->cash,2)}}</p>
+                        </div>
+                        <div class="col-3 box1 flexx" style="width:25%">
+                                    <p style="text-align:center;">المدفوع شبكة</p>
+                                    <p style="text-align:center;">{{round($bill->visa,2)}}</p>
+                        </div>
                         <div class="col">
                             <div class="box1 flexx">
-
-                                <div class="col">
                                     <div>
                                         <h4>توقيع المستلم</h4>
                                         <h4>signature</h4>
                                     </div>
-                                    <p> </p>
-                                </div>
-
                             </div>
                         </div>
+
                     </div>
                     <div class="row">
                         <div class="flexx foot_bg">
@@ -340,11 +325,10 @@
                         </div>
                     </div>
                     <div class="row">
-{{--                        <b class="hint code">4636</b>--}}
                     </div>
                 </footer>
                 </div>
-
+            </div>
             </div>
         </div>
     </div>
@@ -359,7 +343,7 @@
                 let win = window.open('', '');
                 win.document.write(`${style}${t}`);
                 win.document.close();
-                win.print();
+                setTimeout(() => {win.print()}, 100);
             });
         })
     </script>

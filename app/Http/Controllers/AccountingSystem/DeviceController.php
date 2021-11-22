@@ -50,18 +50,12 @@ class DeviceController extends Controller
     public function store(Request $request)
     {
         $rules = [
-
-            'name'=>'required|string|max:191|device_name:accounting_devices,name,company_id,branch_id,'.$request['name'].','.$request['company_id'].','.$request['branch_id'],
-            'code'=>'nullable|string|max:191|device_code:accounting_devices,code,company_id,branch_id,'.$request['code'].','.$request['company_id'].','.$request['branch_id'],
-
-            'model_id' => 'required_if:company_id,=,null|required_if:branch_id,=,null',
+            'name'=>'required|string|max:191',
+            'code'=>'nullable|string|max:191|unique:accounting_devices,code',
 
         ];
-        $messsage = [
-            'name.device_name'=>"اسم الجهاز موجود بالفعل بالشركة",
-            'code.device_code'=>"كود الجهاز موجود بالفعل بالشركة",
-        ];
-        $this->validate($request, $rules, $messsage);
+     
+        $this->validate($request, $rules);
 
         $requests = $request->all();
 

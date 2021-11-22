@@ -69,7 +69,7 @@ class UserController extends Controller
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'photos');
         }
-        //        $requests['is_admin']=1;
+               $requests['is_admin']=1;
         //        dd($requests);
 
         if ($requests['role'] == 'is_accountant') {

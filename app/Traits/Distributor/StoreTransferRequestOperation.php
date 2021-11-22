@@ -38,13 +38,25 @@ trait StoreTransferRequestOperation
             $inputs = $request->all();
             $request_transfer = StoreTransferRequest::create($inputs);
 
-            foreach ($request->products as $item) {
+            foreach ($request->products??[] as $item) {
                 $product = Product::find($item['product_id']);
                 $request_transfer->products()->create(
                     [
                         'product_id'=>$product->id,
                         'quantity' => $item['quantity'],
                         'price' => $product->price
+                    ]);
+
+
+
+                    ProductQuantity::create([
+                        'product_id' => $product->id,
+                        // 'user_id' => $request->sender_id,
+                        'quantity' => $item['quantity'],
+                        'type' => 'in',
+                        'is_confirmed' => 1,
+                        'store_id' => $request->distributor_store_id,
+                        'store_transfer_request_id' => $request_transfer->id
                     ]);
 
                 if (isset($request->sender_store_id)) {

@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض صلاحيات المستخدم ')
-@section('parent_title','إدارة اعضاء  الاداره ')
+@section('title', 'عرض صلاحيات المستخدم ')
+@section('parent_title', 'إدارة اعضاء الاداره ')
 @section('action', URL::route('accounting.users.index'))
 
 @section('styles')
@@ -11,7 +11,7 @@
     <div class="panel panel-flat">
         <div class="panel-heading">
 
-            <span>عرض كل  صلاحيات  المستخدم  </span>
+            <span>عرض كل صلاحيات المستخدم </span>
             <div class="heading-elements">
 
                 <ul class="icons-list">
@@ -24,43 +24,45 @@
         </div>
 
         <div class="panel-body">
-            {!!Form::model($user, ['route' => ['accounting.user_permissions.update' ,$user->id] ,'class'=>'phone_validate','method' => 'PATCH','files'=>true]) !!}
+            {!! Form::model($user, ['route' => ['accounting.user_permissions.update', $user->id], 'class' => 'phone_validate', 'method' => 'PATCH', 'files' => true]) !!}
 
             <div class="col-sm-12 col-xs-12">
                 <div class="form-group form-float">
                     <strong>الشركات:</strong>
-                    <br/>
+                    <br />
                     <div class="row flex2">
 
-                        @foreach($companies as $value)
+                        @foreach ($companies as $value)
                             <div class="checkbox checkbox-left checkbox-switchery col-md-3 col-sm-6 col-xs-12">
-                                <input type="checkbox" name="companies[]" value="{{$value->id}}" class="switchery company" id="company-{{$value->id}}" @if(in_array($value->id,$userpermisionscompany)) checked  @endif  >
-                                <label style="margin-left: 20px;"  for=company-{{$value->id}} >
+                                <input type="checkbox" name="companies[]" value="{{ $value->id }}"
+                                    class="switchery company" id="company-{{ $value->id }}" @if (in_array($value->id, $userpermisionscompany)) checked  @endif>
+                                <label style="margin-left: 20px;" for=company-{{ $value->id }}>
                                     {{ $value->name }}
                                 </label>
                             </div>
-                                @endforeach
+                        @endforeach
 
                     </div>
                 </div>
-        </div>
+            </div>
 
             <div class="col-sm-12 col-xs-12">
                 <div class="form-group form-float">
                     <strong>الفروع:</strong>
-                    <br/>
+                    <br />
                     <div class="row flex2 branches">
-                        @foreach($userpermisionsbranch as $value)
-                        @php($branch=\App\Models\AccountingSystem\AccountingBranch::find($value))
-                        @if($branch!=null)
-                        <div class="checkbox checkbox-left checkbox-switchery col-md-3 col-sm-6 col-xs-12">
-                                <input type="checkbox" name="branches[]" value="{{$value}}" class="switchery branch" id="branch-{{$value}}" checked  >
-                                <label style="margin-left: 20px;"  for=branch-{{$value}}>
+                        @foreach ($userpermisionsbranch as $value)
+                            @php($branch = \App\Models\AccountingSystem\AccountingBranch::find($value))
+                            @if ($branch != null)
+                                <div class="checkbox checkbox-left checkbox-switchery col-md-3 col-sm-6 col-xs-12">
+                                    <input type="checkbox" name="branches[]" value="{{ $value }}"
+                                        class="switchery branch" id="branch-{{ $value }}" checked>
+                                    <label style="margin-left: 20px;" for=branch-{{ $value }}>
 
-                                    {{ $branch->name }}
+                                        {{ $branch->name }}
 
-                                </label>
-                            </div>
+                                    </label>
+                                </div>
                             @endif
                         @endforeach
 
@@ -70,14 +72,15 @@
             <div class="col-sm-12 col-xs-12">
                 <div class="form-group form-float">
                     <strong>المستودعات:</strong>
-                    <br/>
+                    <br />
                     <div class="row flex2 stores">
-                        @foreach($userpermisionsstore as $value)
+                        @foreach ($userpermisionsstore as $value)
                             <div class="checkbox checkbox-left checkbox-switchery col-md-3 col-sm-6 col-xs-12">
-                                <input type="checkbox" name="stores[]" value="{{$value}}" class="switchery store" id="store-{{$value}}" checked  >
-                                <label style="margin-left: 20px;"  for=store-{{$value}}>
-                                    @php($branch=\App\Models\AccountingSystem\AccountingStore::find($value))
-                                    {{ $branch->ar_name }}
+                                <input type="checkbox" name="stores[]" value="{{ $value }}" class="switchery store"
+                                    id="store-{{ $value }}" checked>
+                                <label style="margin-left: 20px;" for=store-{{ $value }}>
+                                    @php($branch = \App\Models\AccountingSystem\AccountingStore::find($value))
+                                    {{ @$branch->ar_name }}
 
                                 </label>
                             </div>
@@ -88,51 +91,47 @@
 
             <div class="text-center col-xs-12">
                 <div class="text-right">
-                    <button type="submit" id="register" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i></button>
+                    <button type="submit" id="register" class="btn btn-success">حفظ <i
+                            class="icon-arrow-left13 position-right"></i></button>
                 </div>
             </div>
-            {!!Form::close() !!}
+            {!! Form::close() !!}
 
         </div>
 
 
-@endsection
+    @endsection
 
-        @section('scripts')
+    @section('scripts')
 
-            <script>
+        <script>
+            $('.company').change(function() {
+                if ($(this).is(":checked")) {
 
-                $('.company').change(function() {
-                    if($(this).is(":checked")) {
+                    var company_id = $(this).val();
+                    $.ajax({
+                        url: "/accounting/getBranchesPermission/" + company_id,
+                        type: "GET",
+                    }).done(function(data) {
 
-                     var company_id=   $(this).val();
-                        $.ajax({
-                            url: "/accounting/getBranchesPermission/" + company_id,
-                            type: "GET",
-                        }).done(function (data) {
+                        $('.branches').append(data.branch);
+                    }).fail(function(error) {
+                        console.log(error);
+                    });
 
-                            $('.branches').append(data.branch);
-                        }).fail(function (error) {
-                            console.log(error);
-                        });
+                    $.ajax({
+                        url: "/accounting/getStoresCampanyPermission/" + company_id,
+                        type: "GET",
+                    }).done(function(data) {
 
-                        $.ajax({
-                            url: "/accounting/getStoresCampanyPermission/" + company_id,
-                            type: "GET",
-                        }).done(function (data) {
-
-                            $('.stores').append(data.store);
-                        }).fail(function (error) {
-                            console.log(error);
-                        });
-                    }
-
-
-
-                });
+                        $('.stores').append(data.store);
+                    }).fail(function(error) {
+                        console.log(error);
+                    });
+                }
 
 
 
-
-            </script>
-            @endsection
+            });
+        </script>
+    @endsection

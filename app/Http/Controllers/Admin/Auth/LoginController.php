@@ -49,10 +49,8 @@ class LoginController extends Controller
 
 //        dd($request->all());
         if (!filter_var($request->get('email'), FILTER_VALIDATE_EMAIL)) {
-
             return ['name' => $request->get('email'), 'password' => $request->password, 'blocked_at' => null];
         } else {
-
             return ['email' => $request->{$this->username()}, 'password' => $request->password, 'blocked_at' => null];
             /*        return $request->only($this->username(), 'password');*/
         }

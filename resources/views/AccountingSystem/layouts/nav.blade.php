@@ -70,9 +70,9 @@
                     @can('إدارة  الفروع')
 					<li class="dropdown-submenu dropdown-submenu-right"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-home2 position-left"></i> إدارة فروع الشركات </a>
 						<ul class="dropdown-menu dropdown-menu-right">
-							@can('عرض الفروع')
+{{--@can('عرض الفروع') --}}
 							<li><a href="{{route('accounting.branches.index')}}"><i class="icon-eye"></i> عرض فروع الشركات</a></li>
-							@endcan
+						{{--@endcan --}}
 							@can('اضافة الفرع')
 							<li><a href="{{route('accounting.branches.create')}}"><i class="icon-add-to-list"></i> اضافة فرع جديدة</a></li>
 							@endcan
@@ -213,6 +213,7 @@
 				<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-basket"></i> الاصناف </a>
 					<ul class="dropdown-menu">
 						<li><a href="{{route('accounting.products.index')}}"><i class="icon-eye"></i> عرض الاصناف</a></li>
+						<li><a href="{{route('accounting.products.print_barcode_view')}}"><i class="icon-barcode2"></i>   طباعة الباركود</a></li>
 						<li class="dropdown-submenu dropdown-submenu-right"> <a href="{{route('accounting.products.create')}}"><i class="icon-add-to-list"></i> اضافة منتج جديد</a> </li>
 					</ul>
 				</li>

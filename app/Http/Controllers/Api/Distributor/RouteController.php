@@ -92,7 +92,6 @@ class RouteController extends Controller
 
     public function makeInventory(Request $request, $type)
     {
-        // info($request->all());
         $request['type'] = $type;
         $request['products'] = json_decode($request->products, true);
         $rules = [
@@ -126,7 +125,7 @@ class RouteController extends Controller
 
     public function attachProducts(Request $request)
     {
-        $request['store_id'] = optional(optional(auth()->user())->car_store)->id;
+        $request['store_id'] = $request->store_id??optional(optional(auth()->user())->car_store)->id;
         $request['products'] = json_decode($request->products, true);
 
         $rules = [
@@ -147,13 +146,15 @@ class RouteController extends Controller
         $this->RegisterBill($request, $route_trip);
         $trip_report = RouteTripReport::latest()->first();
         return $this->apiResponse(
-            ['msg' => 'تم تسجيل الفاتورة بنجاح', 'bill' => 'http://panorama-t.com/api/distributor/bills/print_bill/' . $trip_report->id]
+            ['msg' => 'تم تسجيل الفاتورة بنجاح',
+             'bill' => url('/api/distributor/bills/print_bill/' . encrypt($trip_report->id))]
         );
     }
 
     public function print_bill($id)
     {
-        $bill = RouteTripReport::find($id);
+        $bill = RouteTripReport::find(decrypt(str_replace('.html', '', $id)));
+
         return view('distributor.bills.api', compact('bill'));
     }
 
@@ -180,7 +181,7 @@ class RouteController extends Controller
         // $route_trip->update(['status' => 'accepted']);
         $route_trip->update([
             'status' => 'pending',
-            'round' => $route_trip->round + 1,
+            'round' => $route_trip->route->round + 1,
         ]);
 
 

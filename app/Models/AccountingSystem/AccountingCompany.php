@@ -4,6 +4,7 @@
 
 use App\Traits\HashPassword;
 use App\Notifications\CompanyResetPassword;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -11,7 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class
 AccountingCompany extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable,HasFactory;
     use SoftDeletes,HashPassword;
 
     protected $guard = 'accounting_companies';

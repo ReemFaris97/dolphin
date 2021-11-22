@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @font-face {
+        font-family: Almarai;
+        src: url(Almarai-Bold.ttf) format("truetype");
+      }
+      * {
+        font-family: Almarai, Arial, Helvetica;
+      }
+      body {
+        height: 100vh;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        background-image: url(panel_bg.png);
+        direction: rtl;
+      }
+      main {
+        text-align: center;
+      }
+      main div {
+        display: flex;
+        justify-content: space-evenly;
+      }
+      h1 {
+        font-size: 40px;
+        font-weight: bolder;
+      }
+      a {
+        width: 15%;
+        text-decoration: none;
+        padding: 50px;
+        border-radius: 50px;
+        border: 1px solid;
+        transition: all 0.7s ease;
+        justify-content: space-between;
+        display: flex;
+        flex-direction: column;
+      }
+      a:hover {
+        transform: scale(1.03);
+        box-shadow: 0 0 20px rgb(0 0 0 / 70%), inset 0 0 20px rgb(0 0 0 / 20%);
+        background-color: beige;
+      }
+      a img {
+        width: 100%;
+      }
+      a span {
+        font-size: calc(1.5vw + 9px);
+        color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>الشركة القابضة</h1>
+      <div>
+        <a href="#">
+          <img
+            src="toppng.com-bannercalculator-icon-free-and-calculator-icon-black-and-white-1213x1577.png"
+            alt=""
+          />
+          <span>المحاسبة</span></a
+        >
+        <a href="#"
+          ><img src="logo-black.png" alt="" /><span>المندوبين</span></a
+        >
+        <a href="#"
+          ><img
+            src="PinClipart.com_clipart-erstellen-freeware_1254536.png"
+            alt=""
+          /><span>المهام</span></a
+        >
+      </div>
+    </main>
+  </body>
+</html>
