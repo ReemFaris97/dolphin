@@ -35,21 +35,22 @@ Route::get('/', function () {
 });
 
 Route::get('/check', function () {
-    if (auth()->check()) {
-        if (auth()->user()->is_distributor == 1 &auth()->user()->is_admin == 1) {
-            return redirect('/distributor/home');
-        } elseif (auth()->user()->is_supplier == 1) {
-            return redirect('/supplier/home');
-        } elseif (auth()->user()->is_admin == 1) {
-            return redirect('/accounting/home');
-        } else {
-            dump(auth()->user());
-            throw  new Exception('unhandled user type');
-        }
-    } else {
-        throw  new Exception('user having login');
-    }
-    return redirect()->route('admin.login');
+//    if (auth()->check()) {
+//        if (auth()->user()->is_distributor == 1 &auth()->user()->is_admin == 1) {
+//            return redirect('/distributor/home');
+//        } elseif (auth()->user()->is_supplier == 1) {
+//            return redirect('/supplier/home');
+//        } elseif (auth()->user()->is_admin == 1) {
+//            return redirect('/accounting/home');
+//        } else {
+//            dump(auth()->user());
+//            throw  new Exception('unhandled user type');
+//        }
+//    } else {
+//        throw  new Exception('user having login');
+//    }
+    //return redirect()->route('admin.login');
+    return view('admin.auth.after-login');
 });
 
 //Route::get('/home', 'HomeController@index')->name('home');
