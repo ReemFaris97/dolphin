@@ -33,11 +33,7 @@ class ProductsImport implements ToCollection, WithHeadingRow //, WithChunkReadin
     */
     public function collection(Collection $rows)
     {
-        Schema::disableForeignKeyConstraints();
-        DB::table('accounting_products')->delete();
-        DB::table('accounting_products_barcodes')->delete();
-        DB::table('accounting_product_taxes')->delete();
-
+        DB::beginTransaction();
         $this->command->withProgressBar($rows, function ($row) {
             $product_id = DB::table('accounting_products')->insertGetId([
                 'name' => $row['asm_almad'],
@@ -74,25 +70,34 @@ class ProductsImport implements ToCollection, WithHeadingRow //, WithChunkReadin
                 'product_id' => $product_id,
                 'name' => $row['aloahd2'],
                 'bar_code' => $row['albarkod2'],
-                'main_unit_present' => $row['altaaadl2']
+                'main_unit_present' => $row['altaaadl2'],
+            'selling_price'=> $row['mbyaa2'],
+            'purchasing_price'=>$row['shraaa2'],
+
             ],
             [
                 'product_id' => $product_id,
                 'name' => $row['aloahd3'],
                 'bar_code' => $row['albarkod3'],
-                'main_unit_present' => $row['altaaadl3']
+                'main_unit_present' => $row['altaaadl3'],
+                'selling_price'=> $row['mbyaa3'],
+                'purchasing_price'=>$row['shraaa3'],
             ],
             [
                 'product_id' => $product_id,
                 'name' => $row['aloahd4'],
                 'bar_code' => $row['albarkod4'],
-                'main_unit_present' => $row['altaaadl4']
+                'main_unit_present' => $row['altaaadl4'],
+                'selling_price'=> $row['mbyaa4'],
+                'purchasing_price'=>$row['shraaa4'],
             ],
             [
                 'product_id' => $product_id,
                 'name' => $row['aloahd5'],
                 'bar_code' => $row['albarkod5']??null,
-                'main_unit_present' => $row['altaaadl5']
+                'main_unit_present' => $row['altaaadl5'],
+                'selling_price'=> $row['mbyaa5'],
+                'purchasing_price'=>$row['shraaa5'],
             ],
         ])->filter(fn ($i) =>$i['name']!=null);
 
