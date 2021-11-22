@@ -26,6 +26,7 @@
         <!--------- start content ---------->
         <div id="print_this">
             <div id="myDivToPrint">
+            <div class="logo-bg">
                 <div class="bill-container">
                 <div>
                     <!--- header -->
@@ -327,7 +328,7 @@
                     </div>
                 </footer>
                 </div>
-
+            </div>
             </div>
         </div>
     </div>

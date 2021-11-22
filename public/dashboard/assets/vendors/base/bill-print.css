@@ -157,12 +157,19 @@
     -ms-flex-align: center;
     align-items: center;
 }
-
+.logo-bg {
+    background-image: url("../../demo/demo12/media/img/logo/logo-black.png");
+    background-position: center;
+    background-size: 50%;
+    background-repeat: no-repeat;
+    margin: 5px auto;
+}
 .bill-container {
     display: flex;
     flex-direction: column;
     min-height: 985px;
     justify-content: space-between;
+    background-color: rgba(255, 255, 255, 0.4);
 }
 
 /************* start header ***************/
@@ -295,11 +302,11 @@
 
 /******** table *******/
 #myDivToPrint .bg_logo {
-    background-image: url("../../demo/demo12/media/img/logo/logo-black.png");
+    /* background-image: url("../../demo/demo12/media/img/logo/logo-black.png");
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
-    margin: 5px auto;
+    margin: 5px auto; */
 }
 
 #myDivToPrint .the_table {
