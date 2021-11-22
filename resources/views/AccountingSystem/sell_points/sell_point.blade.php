@@ -335,6 +335,12 @@
     <script src="{{ asset('admin/assets/js/scanner.js') }}"></script>
     <script>
         $(document).ready(function() {
+            $('#sllForm').keydown(function(event){
+                if(event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
             $('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
             $('.inlinedatepicker').text(new Date().toLocaleString());
             $('.inlinedatepicker').val(new Date().toLocaleString());
@@ -856,7 +862,7 @@
                 mainUnit, productUnits)
         }
         $(document).keydown(function(event) {
-            if (event.which == 118 || event.which == 13) { //F7 حفظ
+            if (event.which == 118) { //F7 حفظ
                 confirmSubmit(event);
                 return false;
             }
