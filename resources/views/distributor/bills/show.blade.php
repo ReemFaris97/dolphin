@@ -286,7 +286,7 @@
                         </div>
                         <div class="col-3 box1 flexx" style="width:25%">
                                     <p style="text-align:center;">المدفوع شبكة</p>
-                                    <p style="text-align:center;">{{round($bill->cash,2)}}</p>
+                                    <p style="text-align:center;">{{round($bill->visa,2)}}</p>
                         </div>
                         <div class="col">
                             <div class="box1 flexx">

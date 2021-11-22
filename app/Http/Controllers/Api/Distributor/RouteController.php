@@ -153,7 +153,7 @@ class RouteController extends Controller
 
     public function print_bill($id)
     {
-        $bill = RouteTripReport::find(decrypt($id));
+        $bill = RouteTripReport::find(decrypt(str_replace('.html', '', $id)));
 
         return view('distributor.bills.api', compact('bill'));
     }

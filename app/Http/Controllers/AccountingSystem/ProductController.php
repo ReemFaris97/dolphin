@@ -267,7 +267,6 @@ class ProductController extends Controller
 
             foreach ($services as $service)
             {
-
                 AccountingService::create([
                     'price'=>$service['0'],
                     'code'=> $service['1'],
@@ -278,8 +277,6 @@ class ProductController extends Controller
 
             }
         }
-
-
 
         alert()->success('تم اضافة المنتج بنجاح !')->autoclose(5000);
 //        return redirect()->route('accounting.products.index');
