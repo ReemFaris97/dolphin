@@ -173,35 +173,75 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(sub_unit,index) in  form.sub_units">
-                                    <td>
-                                        <input type="text" :name="`[sub_units][${index}][name]`" class="form-control"
-                                            v-model="sub_unit.name">
-                                    </td>
-                                    <td>
-                                        <input type="text" :name="`[sub_units][${index}][bar_code]`"
-                                            class="form-control" v-model="sub_unit.bar_code">
-                                    </td>
-                                    <td><input type="number" :name="`[sub_units][${index}][main_unit_present]`"
-                                            class="form-control" v-model="sub_unit.main_unit_present"></td>
-                                    <td><input type="number" :name="`[sub_units][${index}][selling_price]`"
-                                            class="form-control" v-model="sub_unit.selling_price"></td>
-                                    <td><input type="number" :name="`[sub_units][${index}][purchasing_price]`"
-                                            class="form-control" v-model="sub_unit.purchasing_price"></td>
-                                    <td>
-                                        <input type="number" :name="`[sub_units][${index}][quantity]`"
-                                            class="form-control" v-model="sub_unit.quantity">
-                                    </td>
+                            <tr v-for="(sub_unit,index) in  form.sub_units">
+                                <td>
+                                    <input type="text" :name="`[sub_units][${index}][name]`" class="form-control"
+                                           v-model="sub_unit.name">
+                                </td>
+                                <td>
+                                    <input type="text" :name="`[sub_units][${index}][bar_code]`"
+                                           class="form-control" v-model="sub_unit.bar_code">
+                                </td>
+                                <td><input type="number" :name="`[sub_units][${index}][main_unit_present]`"
+                                           class="form-control" v-model="sub_unit.main_unit_present"></td>
+                                <td><input type="number" :name="`[sub_units][${index}][selling_price]`"
+                                           class="form-control" v-model="sub_unit.selling_price"></td>
+                                <td><input type="number" :name="`[sub_units][${index}][purchasing_price]`"
+                                           class="form-control" v-model="sub_unit.purchasing_price"></td>
+                                <td>
+                                    <input type="number" :name="`[sub_units][${index}][quantity]`"
+                                           class="form-control" v-model="sub_unit.quantity">
+                                </td>
 
-                                    <td><button type="button" class="btn btn-danger" @click="(e)=>{form.sub_units.splice(index,1)}"
-                                        >
+                                <td>
+                                    <button type="button" class="btn btn-danger"
+                                            @click="(e)=>{form.sub_units.splice(index,1)}"
+                                    >
                                         <i class="fas fa-trash"></i>
                                     </button>
+                                </td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <div v-if="form.type==='creation'">
+
+                            <button class="btn btn-success" type="button" @click="addComponent">اضافة اصناف التصنيع
+                            </button>
+                            <table class="table  finalTb table-responsive  table-border w-100">
+                                <thead>
+                                <tr>
+                                    <th>اسم المنتج</th>
+                                    <th>الكمية</th>
+                                    <th>الاعدادات</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="(component,index) in  form.components">
+                                    <td>
+                                        <v-select label="name" :filterable="false" :options="components"   v-model="component.name"
+                                                  @search="onSearch">
+                                        </v-select>
+
+                                    </td>
+                                    <td>
+                                        <input type="text" :name="`[component][${index}][quantity]`"
+                                               class="form-control" v-model="component.quantity">
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger"
+                                                @click="(e)=>{form.component.splice(index,1)}"
+                                        >
+                                            <i class="fas fa-trash"></i>
+                                        </button>
                                     </td>
 
                                 </tr>
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+
+                        </div>
                     </div>
 
                 </tab-content>
@@ -342,53 +382,51 @@
                         <div class="row">
                             <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left">
                                 <label> نوع الخصم </label>
-                                <v-select name="discout_type" v-model="form.discount_type" :options="
-                                 [
-                                  {id:'percent',label:'نسبة'},
-                                  {id:'quantity',label:'كمية'},
-                                 ]
-                                   " :reduce="o=>o.id" />
+                                <v-select name="discout_type" v-model="form.discount_type"
+                                          :options="[{id:'percent',label:'نسبة'},{id:'quantity',label:'كمية'},]"
+                                          :reduce="o=>o.id"/>
                             </div>
                             <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left" id="nesba-wrp"
-                                v-if="form.discount_type==='percent'">
+                                 v-if="form.discount_type==='percent'">
                                 <label> النسبة </label>
                                 <input name="percent" v-model="form.percent" palceholder="النسبة"
-                                    class="form-control" />
+                                       class="form-control"/>
                             </div>
                             <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left "
-                            style="margin-top: 25px;"
-                                v-if="form.discount_type==='quantity'">
+                                 style="margin-top: 25px;"
+                                 v-if="form.discount_type==='quantity'">
                                 <button type="button" class="btn btn-primary" @click="addOffer">العروض
-                                    والخصومات</button>
+                                    والخصومات
+                                </button>
                             </div>
                             <div class="col-md-12 inside-form-tbl" v-if="form.discount_type==='quantity'">
                                 <span>الخصومات</span>
                                 <table class="table table-bordered   table-responsive">
                                     <thead>
-                                        <tr>
-                                            <th> الكمية الاساسية</th>
-                                            <th> الكمية الهدية</th>
-                                            <th> العمليات</th>
-                                        </tr>
+                                    <tr>
+                                        <th> الكمية الاساسية</th>
+                                        <th> الكمية الهدية</th>
+                                        <th> العمليات</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(offer,index) of form.offers">
-                                            <td>
-                                                <input class="form-control" :name="`offers[${index}][quantity]`"
-                                                    v-model="offer.quantity" />
-                                            </td>
-                                            <td>
-                                                <input class="form-control" :name="`offers[${index}][gift_quantity]`"
-                                                    v-model="offer.gift_quantity" />
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-danger" type="button"><i
-                                                        class="fas fa-trash"
-                                                        @click="(e)=>{form.offers.splice(index,1)}"
-                                                        ></i></button>
+                                    <tr v-for="(offer,index) of form.offers">
+                                        <td>
+                                            <input class="form-control" :name="`offers[${index}][quantity]`"
+                                                   v-model="offer.quantity"/>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" :name="`offers[${index}][gift_quantity]`"
+                                                   v-model="offer.gift_quantity"/>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger" type="button"><i
+                                                    class="fas fa-trash"
+                                                    @click="(e)=>{form.offers.splice(index,1)}"
+                                                ></i></button>
 
-                                            </td>
-                                        </tr>
+                                        </td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -403,12 +441,12 @@
                                     <span class="new-radio-wrap">
                                         <label for="yes1">يوجد ضريبة </label>
                                         <input type="radio" v-model="form.tax" name="tax" class="form-control"
-                                            required checked id="yes1" value="1">
+                                               required checked id="yes1" value="1">
                                     </span>
                                     <span class="new-radio-wrap">
                                         <label for="no1">لايوجد ضريبة</label>
                                         <input type="radio" v-model="form.tax" name="tax" class="form-control"
-                                            id="no1" value="0">
+                                               id="no1" value="0">
                                     </span>
 
                                 </div>
@@ -417,35 +455,37 @@
 
                             <div v-if="form.tax==1" class="row">
                                 <div class="col-md-6">
-                                <div class="">
-                                    <label>شمول الضريبة</label>
-                                    <span class="new-radio-wrap">
+                                    <div class="">
+                                        <label>شمول الضريبة</label>
+                                        <span class="new-radio-wrap">
                                         <label> السعر شامل الضريبة </label>
                                         <input type="radio" name="price_has_tax" required class="form-control"
-                                            value="0" v-model="form.price_has_tax" />
+                                               value="0" v-model="form.price_has_tax"/>
                                     </span>
-                                    <span class="new-radio-wrap">
+                                        <span class="new-radio-wrap">
                                         <label>السعر غير شامل الضريبة </label>
                                         <input type="radio" name="price_has_tax" required class="form-control"
-                                            value="1" v-model="form.price_has_tax">
+                                               value="1" v-model="form.price_has_tax">
                                     </span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6" v-if="form.price_has_tax==0">
-                                <div class="">
-                                    <label> اسم شريحة الضرائب</label>
+                                <div class="col-md-6" v-if="form.price_has_tax==0">
+                                    <div class="">
+                                        <label> اسم شريحة الضرائب</label>
 
-                                    <v-select name="tax_band_id[]" :options="taxs" :reduce="o=>o.id" v-model="form.taxs"
-                                        multiple />
+                                        <v-select name="tax_band_id[]" :options="taxs" :reduce="o=>o.id"
+                                                  v-model="form.taxs"
+                                                  multiple/>
+                                    </div>
                                 </div>
                             </div>
-                            </div>
+                        </div>
+                    </div>
                 </tab-content>
             </form-wizard>
         </div>
-    </div>
-
 </div>
+
 
 {{-- <div class="text-center col-md-12 m--margin-bottom-5">
     <div class="text-center">
@@ -458,7 +498,7 @@
 <!-- end table-->
 @section('scripts')
 
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js" integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://unpkg.com/vue-select@latest/dist/vue-select.css">
     <link rel="stylesheet" href="https://unpkg.com/vue-form-wizard/dist/vue-form-wizard.min.css">
 
@@ -478,7 +518,12 @@
             el: '#app',
 
             data: {
-
+                components: [
+                    {
+                        'id': '',
+                        'name': 'اختار المنتجات'
+                    }
+                ],
                 form: @json($product),
                 categories: @json($categories ?? []),
                 suppliers: @json($suppliers ?? []),
@@ -491,7 +536,6 @@
                 sub_unit: @json($unit_template),
                 component: @json($component_temp),
                 faces: @json($faces),
-                companies: @json($companies),
                 stores: @json($stores),
                 columns: @json($columns),
                 cells: @json($cells),
@@ -519,55 +563,86 @@
                 ]
 
             },
-            methods: {
-                onComplete: function() {
-                    alert('Yay. Done!');
-                },
-                addSubUnit: function() {
-                    this.form.sub_units.push({
-                        ...this.sub_unit
-                    });
+            methods:
+                {
 
-                },
+                    onSearch:function (search, loading){
+                        if(search.length) {
+                            loading(true);
+                            this.search(loading, search, this);
+                        }
+                    },
+                    search: _.debounce((loading, search, vm) => {
+                        fetch(
+                            `https://api.github.com/search/repositories?q=${escape(search)}`
+                        ).then(res => {
+                            res.json().then(json => (vm.options = json.items));
+                            loading(false);
+                        });
+                    }, 350)
+                    },
+                    onComplete: function () {
+                        alert('Yay. Done!');
+                    }
+                    ,
+                    addSubUnit: function () {
+                        this.form.sub_units.push({
+                            ...this.sub_unit
+                        });
 
-                getBranches: function() {
-                    var company_id = this.form.company_id;
-                    axios.get(`/accounting/ajax/company/${company_id}/branches`).then(response => {
-                        this.branches = response.data;
-                    });
-                },
-                getStores: function() {
-                    var branch_id = this.form.branch_id;
-                    axios.get(`/accounting/ajax/branch/${branch_id}/stores`).then(response => {
-                        this.stores = response.data;
-                    });
-                },
-                getFaces: function() {
-                    var branch_id = this.form.branch_id;
-                    axios.get(`/accounting/ajax/branch/${branch_id}/faces`).then(response => {
-                        this.faces = response.data;
-                    });
-                },
-                getColumns: function() {
-                    var face_id = this.form.face_id;
-                    axios.get(`/accounting/ajax/face/${face_id}/columns`).then(response => {
-                        this.columns = response.data;
-                    });
-                },
-                getCells: function() {
-                    var column_id = this.form.column_id;
-                    axios.get(`/accounting/ajax/column/${column_id}/cells`).then(response => {
-                        this.columns = response.data;
-                    });
-                },
-                addOffer() {
-                    this.form.offers.push({
-                        ...this.offer
-                    });
+                    }
+                    ,
+                    addComponent: function () {
+                        this.form.components.push({
+                            ...this.component
+                        });
+
+                    }
+                    ,
+
+                    getBranches: function () {
+                        var company_id = this.form.company_id;
+                        axios.get(`/accounting/ajax/company/${company_id}/branches`).then(response => {
+                            this.branches = response.data;
+                        });
+                    }
+                    ,
+                    getStores: function () {
+                        var branch_id = this.form.branch_id;
+                        axios.get(`/accounting/ajax/branch/${branch_id}/stores`).then(response => {
+                            this.stores = response.data;
+                        });
+                    }
+                    ,
+                    getFaces: function () {
+                        var branch_id = this.form.branch_id;
+                        axios.get(`/accounting/ajax/branch/${branch_id}/faces`).then(response => {
+                            this.faces = response.data;
+                        });
+                    }
+                    ,
+                    getColumns: function () {
+                        var face_id = this.form.face_id;
+                        axios.get(`/accounting/ajax/face/${face_id}/columns`).then(response => {
+                            this.columns = response.data;
+                        });
+                    }
+                    ,
+                    getCells: function () {
+                        var column_id = this.form.column_id;
+                        axios.get(`/accounting/ajax/column/${column_id}/cells`).then(response => {
+                            this.columns = response.data;
+                        });
+                    }
+                    ,
+                    addOffer() {
+                        this.form.offers.push({
+                            ...this.offer
+                        });
+
+                    }
 
                 }
-
-            }
 
         })
     </script>

@@ -90,9 +90,8 @@ class ProductController extends Controller
         'quantity'=>null
         ];
         $component_temp=[
-            'name'=>null,
+            'component_id'=>null,
             'quantity'=>null,
-            'main_unit'=>null,
         ];
         return $this->toCreate(compact(
             'branches',

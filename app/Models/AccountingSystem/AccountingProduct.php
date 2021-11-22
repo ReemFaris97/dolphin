@@ -35,6 +35,11 @@ class AccountingProduct extends Model
         return $this->belongsTo(AccountingProductCategory::class,'category_id');
     }
 
+    public function ProductComponent()
+    {
+//        return $this->belongsToMany(AccountingProduct::class,AccountingProductComponent::class);
+    }
+
 
 
     public function getTotalTaxesAttribute()

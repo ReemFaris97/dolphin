@@ -32,7 +32,6 @@
 		{!!Form::close() !!}
 	</div>
 </div>
-</div>
 @endsection
 @section('scripts')
 @endsection
