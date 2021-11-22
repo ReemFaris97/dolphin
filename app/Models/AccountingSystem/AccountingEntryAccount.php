@@ -19,4 +19,9 @@ class AccountingEntryAccount extends Model
     {
         return $this->belongsTo(AccountingAccount::class, 'from_account_id');
     }
+
+    public function to()
+    {
+        return $this->belongsTo(AccountingAccount::class, 'to_account_id');
+    }
 }
