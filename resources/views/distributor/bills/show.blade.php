@@ -233,7 +233,7 @@
                                 <th style="width: 95px;" rowspan="3">
 
                                     {!! QrCode::size(100)->generate(
-                                 url('/api/distributor/bills/print_bill/' . $bill->id)
+                                 url('/api/distributor/bills/print_bill/' .  encrypt($bill->id))
                                         ); !!}
                              </th>
 

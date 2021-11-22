@@ -125,18 +125,6 @@ class RouteTrips extends Model
         }
 
         return 'unkown';
-        // if (!$this->inventory && $this->route->round===$this->round) {
-        //     $status = "inventory";
-        // } elseif (!$this->images->first() &&
-        // !!optional(optional($this->getCurrentReport)->products)->first() && $this->inventory->type=='accept') {
-        //     $status = "images";
-        // } elseif (optional(optional($this->getCurrentReport)->products)->first()==null &&
-        // $this->inventory->type=='accept'  && $this->images->first()==null) {
-        //     $status = "bill";
-        // } else {
-        //     $status = "finished";
-        // }
-        // return $status??'unkown';
     }
 
     public function getTotalReportsInRoundAttribute()

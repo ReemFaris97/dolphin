@@ -147,13 +147,13 @@ class RouteController extends Controller
         $trip_report = RouteTripReport::latest()->first();
         return $this->apiResponse(
             ['msg' => 'تم تسجيل الفاتورة بنجاح',
-             'bill' => url('/api/distributor/bills/print_bill/' . $trip_report->id)]
+             'bill' => url('/api/distributor/bills/print_bill/' . encrypt($trip_report->id))]
         );
     }
 
     public function print_bill($id)
     {
-        $bill = RouteTripReport::find($id);
+        $bill = RouteTripReport::find(decrypt($id));
 
         return view('distributor.bills.api', compact('bill'));
     }
