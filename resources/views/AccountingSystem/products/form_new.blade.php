@@ -204,16 +204,14 @@
                             </tr>
                             </tbody>
                         </table>
-
                         <div v-if="form.type==='creation'">
-
                             <button class="btn btn-success" type="button" @click="addComponent">اضافة اصناف التصنيع
                             </button>
                             <table class="table  finalTb table-responsive  table-border w-100">
                                 <thead>
                                 <tr>
                                     <th>اسم المنتج</th>
-                                    <th>الكمية</th>
+                                    <th>الكمية بالوحدة الاساسية</th>
                                     <th>الاعدادات</th>
                                 </tr>
                                 </thead>
@@ -241,6 +239,13 @@
                                 </tbody>
                             </table>
 
+                        </div>
+                        <div v-if="form.type==='offer'">
+                            <div class="form-group col-xs-12 pull-left">
+                                <label for="products"><span class="text-danger">*</span> مجموعة الااصناف </label>
+                                <v-select name="products"  label="name" :filterable="false" :options="components"   v-model="form.products"
+                                          @search="onSearch" multiple id="products"></v-select>
+                            </div>
                         </div>
                     </div>
 
@@ -513,10 +518,8 @@
 
     <script>
         Vue.component('v-select', VueSelect.VueSelect);
-
         var app = new Vue({
             el: '#app',
-
             data: {
                 components: [
                     {
@@ -524,6 +527,8 @@
                         'name': 'اختار المنتجات'
                     }
                 ],
+                products:[],
+                products_select:[],
                 form: @json($product),
                 categories: @json($categories ?? []),
                 suppliers: @json($suppliers ?? []),
@@ -563,86 +568,86 @@
                 ]
 
             },
-            methods:
-                {
+            methods: {
 
-                    onSearch:function (search, loading){
-                        if(search.length) {
-                            loading(true);
-                            this.search(loading, search, this);
-                        }
-                    },
-                    search: _.debounce((loading, search, vm) => {
-                        fetch(
-                            `https://api.github.com/search/repositories?q=${escape(search)}`
-                        ).then(res => {
-                            res.json().then(json => (vm.options = json.items));
-                            loading(false);
-                        });
-                    }, 350)
-                    },
-                    onComplete: function () {
-                        alert('Yay. Done!');
+                onSearch: function (search, loading) {
+                    if (search.length) {
+                        loading(true);
+                        this.search(loading, search, this);
                     }
-                    ,
-                    addSubUnit: function () {
-                        this.form.sub_units.push({
-                            ...this.sub_unit
-                        });
+                },
+                search: _.debounce((loading, search, vm) => {
+                    fetch(
+                        `/accounting/products-by-ajax?search=${search}`
+                    ).then(res => {
 
-                    }
-                    ,
-                    addComponent: function () {
-                        this.form.components.push({
-                            ...this.component
-                        });
-
-                    }
-                    ,
-
-                    getBranches: function () {
-                        var company_id = this.form.company_id;
-                        axios.get(`/accounting/ajax/company/${company_id}/branches`).then(response => {
-                            this.branches = response.data;
-                        });
-                    }
-                    ,
-                    getStores: function () {
-                        var branch_id = this.form.branch_id;
-                        axios.get(`/accounting/ajax/branch/${branch_id}/stores`).then(response => {
-                            this.stores = response.data;
-                        });
-                    }
-                    ,
-                    getFaces: function () {
-                        var branch_id = this.form.branch_id;
-                        axios.get(`/accounting/ajax/branch/${branch_id}/faces`).then(response => {
-                            this.faces = response.data;
-                        });
-                    }
-                    ,
-                    getColumns: function () {
-                        var face_id = this.form.face_id;
-                        axios.get(`/accounting/ajax/face/${face_id}/columns`).then(response => {
-                            this.columns = response.data;
-                        });
-                    }
-                    ,
-                    getCells: function () {
-                        var column_id = this.form.column_id;
-                        axios.get(`/accounting/ajax/column/${column_id}/cells`).then(response => {
-                            this.columns = response.data;
-                        });
-                    }
-                    ,
-                    addOffer() {
-                        this.form.offers.push({
-                            ...this.offer
-                        });
-
-                    }
+                        res.json().then(json => (vm.components = json.data.data));
+                        loading(false);
+                    });
+                }, 350),
+                onComplete: function () {
+                    alert('Yay. Done!');
+                }
+                ,
+                addSubUnit: function () {
+                    this.form.sub_units.push({
+                        ...this.sub_unit
+                    });
 
                 }
+                ,
+                addComponent: function () {
+                    this.form.components.push({
+                        ...this.component
+                    });
+
+                }
+                ,
+
+                getBranches: function () {
+                    var company_id = this.form.company_id;
+                    axios.get(`/accounting/ajax/company/${company_id}/branches`).then(response => {
+                        this.branches = response.data;
+                    });
+                }
+                ,
+                getStores: function () {
+                    var branch_id = this.form.branch_id;
+                    axios.get(`/accounting/ajax/branch/${branch_id}/stores`).then(response => {
+                        this.stores = response.data;
+                    });
+                }
+                ,
+                getFaces: function () {
+                    var branch_id = this.form.branch_id;
+                    axios.get(`/accounting/ajax/branch/${branch_id}/faces`).then(response => {
+                        this.faces = response.data;
+                    });
+                }
+                ,
+                getColumns: function () {
+                    var face_id = this.form.face_id;
+                    axios.get(`/accounting/ajax/face/${face_id}/columns`).then(response => {
+                        this.columns = response.data;
+                    });
+                }
+                ,
+                getCells: function () {
+                    var column_id = this.form.column_id;
+                    axios.get(`/accounting/ajax/column/${column_id}/cells`).then(response => {
+                        this.columns = response.data;
+                    });
+                }
+                ,
+                addOffer() {
+                    this.form.offers.push({
+                        ...this.offer
+                    });
+
+                }
+
+            },
+
 
         })
     </script>
