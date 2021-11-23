@@ -27,6 +27,7 @@ class RouteTripReport extends Model
         'distributor_transaction_id',
         'expenses',
         'paid_at',
+        'is_packages',
     ];
     /**
      * The attributes that should be mutated to dates.
@@ -47,6 +48,7 @@ class RouteTripReport extends Model
             if (!request()->is_deffered == 1) {
                 $model->paid_at = Carbon::now();
             }
+            $model->is_packages=request()->is_packages??0;
         });
     }
 
