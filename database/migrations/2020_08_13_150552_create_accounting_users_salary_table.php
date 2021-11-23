@@ -25,9 +25,9 @@ class CreateAccountingUsersSalaryTable extends Migration
             $table->foreign('title_id')->references('id')
                 ->on('users')->onDelete('cascade')
                 ->onUpdate('cascade');
-                $table->decimal('salary')->nullable();
-                $table->decimal('bouns')->nullable();
-                $table->decimal('total_salary')->nullable();
+            $table->decimal('salary')->nullable();
+            $table->decimal('bouns')->nullable();
+            $table->decimal('total_salary')->nullable();
             $table->timestamps();
         });
     }

@@ -1,7 +1,7 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','اضافة مسمى وظيفى  جديد')
 @section('parent_title','إدارة المسميات الوظفية')
-@section('action', URL::route('accounting.fiscalYears.index'))
+@section('action', URL::route('accounting.jobTitles.index'))
 
 @section('styles')
 

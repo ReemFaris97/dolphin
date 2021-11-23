@@ -186,52 +186,37 @@
 @section('scripts')
 
 <script>
-
     $(document).ready(function() {
-
         $('.companies').show();
         $('.branches').hide();
         $(".rent").hide();
-
         $('.js-example-basic-single').select2();
-
-
-
-
-
     });
 
 </script>
 
 <script>
     function myFunction() {
-
-
         $(".companies").show();
         $(".branches").hide();
-
     }
 
     function myFunction2() {
-
         $(".companies").hide();
         $(".branches").show();
     }
-
 
         @if( isset($safe))
 
         if ($('#company').is(':checked')) {
             $(".companies").show();
-        }elseif ($('#branch').is(':checked')); {{
+        }else ($('#branch').is(':checked') );{
             $(".branches").show();
         }
-
         @endif
 
 </script>
  <script>
-
 $(".type").on('change', function() {
     var idddd = $(this).val();
 
@@ -246,7 +231,7 @@ $(".type").on('change', function() {
                 $('.devices').append(data.data);
             }).fail(function (error) {
                 $('.devices').empty();
-                swal("خطأ", "يجب اختيار الفرع اولا",'info');
+               // swal("خطأ", "يجب اختيار الفرع اولا",'info');
 
             });
         }
@@ -256,23 +241,17 @@ $(".type").on('change', function() {
             $.ajax({
                 url: "/accounting/branch_devices/" + branch_id,
                 type: "GET",
-
             }).done(function (data) {
-
                 $('.devices').empty();
                 $('.devices').append(data.data);
-
             }).fail(function (error) {
                 console.log(error);
-                swal("خطأ", "يجب اختيار الفرع اولا",'info');
-
+               // swal("خطأ", "يجب اختيار الفرع اولا",'info');
             });
         }
 
     }else if (idddd == 1) {
         $('.devices').empty();
-
-
     }
 });
 </script>
