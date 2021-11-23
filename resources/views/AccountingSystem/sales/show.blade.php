@@ -515,22 +515,7 @@
 
 
 
-        @media print {
 
-            .a-new-table.tablesaw-sortable>tbody>tr>td:first-child:after,
-            .a-new-table.tablesaw-sortable>tbody>tr>th:first-child:after {
-                position: absolute;
-                left: 4px;
-                top: 2px;
-                content: " : ";
-                color: #000 !important;
-                font-size: 20px;
-            }
-
-            .end-notice div:last-child {
-                margin-bottom: 25px
-            }
-        }
 
         @media (min-width:768px) {
             .v-customized-radio .custo-labl {
@@ -560,30 +545,7 @@
             }
         }
 
-        @media print {
 
-            .card .card-subtitle,
-            .card .card-title,
-            .m-t-40.all-em-links-wrapper,
-            .print,
-            .row.page-titles,
-            footer {
-                display: none
-            }
-
-            @page {
-                size: auto;
-                margin: 0
-            }
-
-            .too-be-topped {
-                margin-top: -40px !important
-            }
-
-            .too-be-topped table {
-                margin-bottom: -10px
-            }
-        }
 
         .new-home-link {
             margin-top: 40px;
@@ -595,7 +557,7 @@
         }
 
         .full-width {
-            width: 100%
+            width: 100%;
         }
 
         .end-notice {
@@ -624,17 +586,7 @@
             width: 100% !important
         }
 
-        @media print {
-            #all-services-table {
-                position: fixed;
-                width: 100%;
-                height: 100%;
-                right: 0;
-                left: 0;
-                top: 0;
-                z-index: 9999999999
-            }
-        }
+
 
         @media (min-width :768px) {
             .form-group.the-sub-service-wrapper {
@@ -748,7 +700,41 @@
         .table-hover>tbody>tr:hover {
             background-color: inherit;
         }
+        .end-notice div:last-child {
+            margin-bottom: 25px
+        }
 
+
+
+
+
+        @media print {
+            .a-new-table.tablesaw-sortable>tbody>tr>td:first-child:after,
+            .a-new-table.tablesaw-sortable>tbody>tr>th:first-child:after {
+                position: absolute;
+                left: 4px;
+                top: 2px;
+                content: " : ";
+                color: #000 !important;
+                font-size: 20px;
+            }
+
+            .end-notice div:last-child {
+                margin-bottom: 25px
+            }
+        }
+
+        @media print {
+            #all-services-table {
+                position: fixed;
+                width: 100%;
+                height: 100%;
+                right: 0;
+                left: 0;
+                top: 0;
+                z-index: 9999999999
+            }
+        }
         @media print {
             thead:not(:first-child) {
                 display: none !important
@@ -796,24 +782,13 @@
 
             .container-fluid.the-bill-design {
                 margin: 0 auto;
-                float: left;
             }
 
             .bill-table-whole-wrapper>tbody:first-child>tr>th {
-                background: #002060 !important;
+                background: #2ECC71 !important;
                 color: #fff !important
             }
 
-
-
-
-            #div-to-print {
-                border: 0px !important;
-                margin-top: 5px !important;
-                margin-left: -0.8cm !important;
-                padding-bottom: 115px !important;
-                border-bottom: 8px dotted #000 !important
-            }
 
             table.bill-table-whole-wrapper {
                 border: solid #000 !important;
@@ -825,15 +800,26 @@
                 border: solid #000 !important;
                 border-width: 0 1px 1px 0 !important;
             }
+        }
+        @media print {
 
+            .card .card-subtitle,
+            .card .card-title,
+            .m-t-40.all-em-links-wrapper,
+            .print,
+            .row.page-titles,
+            footer,.page-header,.footer {
+                display: none
+            }
 
+            @page {
+                size: auto;
+                margin: 0
+            }
+
+  
 
         }
-
-        .end-notice div:last-child {
-            margin-bottom: 25px
-        }
-
     </style>
     <!--<link href="{{ asset('_admin/assets/css/edit.css') }}" rel="stylesheet" type="text/css">-->
 @endsection
@@ -1091,6 +1077,9 @@
                             <span class="bill-lbl">{!! getsetting('lower_data') !!}</span>
 
                             <div class="end-notice">
+                            <img style="width:30%" src="{{ asset('dashboard/assets/app/media/img/websiteQRCode_noFrame.png') }}">
+                            </div>
+                            <div class="end-notice">
                                 <div>شكراً لكم</div>
                                 <div>Thank you </div>
                             </div>
@@ -1114,11 +1103,10 @@
 @endsection
 @section('scripts')
     <script>
-        $(document).ready(function() {
             $(".print").click(function() {
+                
                 window.print();
             })
-        });
     </script>
     <script>
         function Delete(id) {

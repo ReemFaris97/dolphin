@@ -499,7 +499,7 @@ td a.show-file:hover {
 }
 
 tbody {
-	background-color: rgb(69, 90, 100);
+	/* background-color: rgb(69, 90, 100); */
 }
 
 .font-c {
