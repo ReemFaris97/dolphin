@@ -59,7 +59,8 @@
 @endif
 <div class="form-group col-sm-4 col-xs-6 pull-left">
 	<label>كلمة المرور</label>
-	{!! Form::password('password',['class'=>'form-control m-input','placeholder'=>'ادخل كلمة المرور','required'])!!}
+
+	{!! Form::password('password',['class'=>'form-control m-input','placeholder'=>'ادخل كلمة المرور',request()->url() == url('/').'/accounting/users/create' ? 'required':''])!!}
 </div>
 
 <div class="form-group col-sm-4 col-xs-6 pull-left">

@@ -126,6 +126,12 @@ Route::middleware('admin')->group(function () {
 
     ////////////////////////////طباعة الباركود
     Route::get('/product-barcode/{id}', 'ProductController@barcode')->name('products.barcode');
+    Route::get('/print-barcode-view', 'ProductController@print_barcode_view')->name('products.print_barcode_view');
+    Route::post('/print/barcode', 'ProductController@print_barcode')->name('products.print_barcode');
+
+    Route::get('/products-by-ajax', 'ProductController@getProductsByAjax')->name('getProductsByAjax');
+    Route::get('/get-product-price/{id}', 'ProductController@getProductPrice')->name('getProductPrice');
+
     Route::get('/sell_login', 'SellPointController@sell_login')->name('sells_points.login');
     Route::get('/sell_point/{id}', 'SellPointController@sell_point')->name('sells_points.sells_point');
     // Route::get('/sell_point', 'SellPointController@sell_point')->name('sells_points.sells_point');

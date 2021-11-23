@@ -194,15 +194,20 @@
                         <tbody>
                             @foreach($bill->products as $value)
                             <tr>
-                                <td>{{ $value->product->price * $value->quantity }}</td>
+                                <td>{{ $value->price * $value->quantity }}</td>
                                 <td>
 
                                     {{ ($value->price * ((float) getsetting('general_taxs')??0)/100)}}
                                 </td>
                                 <td>{{(float) getsetting('general_taxs')}}%</td>
-                                <td>{{ $value->product->price }}</td>
+                                <td>{{ $value->price }}</td>
                                 <td>{{ $value->quantity }}</td>
-                                <td>حبة</td>
+                                <td>    @if($bill->is_packages)
+                                    كرتونة
+                                            @else
+                                                                    حبة                 
+                                                        @endif      
+                                </td>
 
 
                                 <td class="product-name">{{ $value->product->name }}</td>

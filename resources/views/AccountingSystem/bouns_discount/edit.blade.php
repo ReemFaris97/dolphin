@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','تعديل الخصم اوالبونص')
-@section('parent_title','إدارة الموظفين ')
+@section('parent_title','إدارة الخصومات والاضافات ')
 @section('action', URL::route('accounting.bonus-discount.index'))
 
 @section('content')

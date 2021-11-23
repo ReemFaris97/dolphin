@@ -1,7 +1,7 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تعديل  المسمى وظيفى')
-@section('parent_title','إدارةالممسمى الوظيفى ')
-@section('action', URL::route('accounting.taxs.index'))
+@section('title','تعديل طلب اجازة')
+@section('parent_title','  إدارة  الاجازات ')
+@section('action', URL::route('accounting.holidays-requests.index'))
 
 @section('content')
     <div class="panel panel-flat">

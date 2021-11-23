@@ -1,7 +1,7 @@
 @extends('AccountingSystem.layouts.master')
 @section('title','اضافة  طلب إجازة جديد')
-@section('parent_title','إدارة  الموظفين')
-@section('action', URL::route('accounting.fiscalYears.index'))
+@section('parent_title','إدارة  الاجازات')
+@section('action', URL::route('accounting.holidays-requests.index'))
 
 @section('styles')
 @endsection
