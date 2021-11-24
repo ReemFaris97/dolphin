@@ -196,6 +196,17 @@ function getsetting($name)
     return $settings->value ??'';
 }
 
+function getBarcodeDisplay($name)
+{
+    $setting =  App\Models\AccountingSystem\AccountingSetting::where('name', $name)->first();
+      return $setting->display ?? '';
+}
+function getBarcodeHeight($name)
+{
+    $setting =  App\Models\AccountingSystem\AccountingSetting::where('name', $name)->first();
+      return $setting->height ?? '';
+}
+
 function products_not_settement($store=null)
 {
     if ($store != null) {
