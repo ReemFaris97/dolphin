@@ -171,20 +171,25 @@ class SellPointController extends Controller
     public function barcode_search(Request $request, $q)
     {
         $store_product=AccountingProductStore::where('store_id', $request['store_id'])->pluck('product_id', 'id')->toArray();
-        $products=AccountingProduct::whereIn('id', $store_product)->where('bar_code', $q)->limit(10)->get();
+        $products=AccountingProduct::whereIn('id', $store_product)
+        ->where(
+            fn ($query) =>$query
+        ->where('bar_code', 'like', "%$q%")
+        ->orwhereHas('barcodes', fn ($b) =>$b->where('barcode', 'like', "%$q%"))
+        )
+        ->where('bar_code', 'like', "%$q%")->limit(10)->get();
         if (!$products->isEmpty()) {
             $selectd_unit_id = 'main-'.$products[0]->id;
         } else {
-            $product_unit=AccountingProductSubUnit::where('bar_code', $q)->pluck('product_id');
+            $product_unit=AccountingProductSubUnit::where('bar_code', 'like', "%$q%")->pluck('product_id');
             $products=AccountingProduct::whereIn('id', $product_unit)->whereIn('id', $store_product)->get();
-            $unit=	AccountingProductSubUnit::where('bar_code', $q)->first();
+            $unit=	AccountingProductSubUnit::where('bar_code', 'like', "%$q%")->first();
             if ($unit) {
                 $selectd_unit_id = $unit->id;
             } else {
                 $selectd_unit_id = 0;
             }
         }
-
 
         return response()->json([
             'status'=>true,
