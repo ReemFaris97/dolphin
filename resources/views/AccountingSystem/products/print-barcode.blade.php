@@ -19,10 +19,14 @@
             -webkit-print-color-adjust: exact;
 
         }
+
         @media print {
-            .barcode-wrapper {page-break-after: always;}
+            .barcode-wrapper {
+                page-break-after: always;
+            }
         }
-        p {
+
+        .p {
             margin: 0;
         }
 
@@ -33,20 +37,36 @@
 
         }
 
-        img[alt='logo'] {
+        .img[alt='logo'] {
             margin-bottom: 5px;
         }
     </style>
 </head>
 <body>
 @for($i=0;$i< $printCount;$i++)
-    <div class="barcode-wrapper" style="width: 80mm; height: 40mm">
-        <img src="{{asset('admin/logo-black.png')}}" alt="logo" style="width: 20mm; height: 15mm"/>
-        <?php echo \DNS1D::getBarcodeHTML($product->bar_code, "C39", 1) ?>
+    <div class="barcode-wrapper"
+         style="width: {{getBarcodeDisplay('barcode_scale')}}mm; height: {{getBarcodeHeight('barcode_scale')}}mm">
+
+        <img class="img" src="{{asset('admin/logo-black.png')}}" alt="logo"
+             style="width: {{getBarcodeDisplay('barcode_logo')}}mm; height: {{getBarcodeHeight('barcode_logo')}}mm"/>
+
+        <span
+            style="width: {{getBarcodeDisplay('barcode_reader')}}mm; height: {{getBarcodeHeight('barcode_reader')}}mm">
+            {!!  \DNS1D::getBarcodeHTML($product->bar_code, "C39", 1) !!}
+        </span>
+
         <div class="data">
-            <p> {{$product->bar_code}}</p>
-            <p> {{$product->name}}  </p>
-            <p>{{$product->selling_price}} ريال</p>
+            @if(getsetting('show_barcode_num') ==1)
+                <p class="p"> {{$product->bar_code}}</p>
+            @endif
+
+            @if(getsetting('show_name') ==1)
+                <p class="p"> {{$product->name}}  </p>
+            @endif
+
+            @if(getsetting('show_price') ==1)
+                <p class="p">{{$product->selling_price}} ريال</p>
+            @endif
         </div>
     </div>
 @endfor
@@ -55,9 +75,9 @@
 <script type="text/javascript" src="{{ asset('admin/assets/js/core/libraries/jquery.min.js') }}"></script>
 <script>
     $(document).ready(function () {
-        setTimeout(function (){
+        setTimeout(function () {
             window.print();
-        },200);
+        }, 200);
     });
 </script>
 

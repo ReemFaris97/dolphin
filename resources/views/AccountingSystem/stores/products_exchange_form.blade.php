@@ -31,9 +31,7 @@
                     </ul>
                 </div>
             @endif
-
             <input type="hidden" name="type" value="exchange">
-
             <div class="form-group col-md-6 pull-left">
                 <label> رقم السند</label>
                 <input value="<?php echo mt_rand();?>" name="bond_num" class="form-control" placeholder="رقم السند">
@@ -41,7 +39,7 @@
             </div>
 
             <div class="form-group col-md-6 pull-left">
-                <label>تاريخ السند  </label>
+                <label>تاريخ السند </label>
                 {!! Form::date("date",null,['class'=>'form-control'])!!}
             </div>
             <div class="form-group col-md-6 pull-left">
@@ -51,26 +49,24 @@
 
             <div class="form-group col-md-4 pull-left">
                 <label>اختر المستودع </label>
-                {!! Form::select("store_id",allstores(),null,['class'=>'form-control js-example-basic-single store_id','placeholder'=>' اختر  المستودع'])!!}
+                {!! Form::select("store_id",allstores(),null,['class'=>'form-control js-example-basic-single store_id','placeholder'=>' اختر  المستودع','id'=>'store_id'])!!}
             </div>
 
             <div class="form-group col-md-4 pull-left">
                 <label>اختر امين المستودع </label>
                 {!! Form::select("user_id",keepers(),null,['class'=>'form-control js-example-basic-single storekeeper_id','id'=>'storekeeper_id','placeholder'=>' اختر امين المستودع'])!!}
             </div>
-
             <div class="clearfix"></div>
-
             <div class="form-group col-md-6">
                 <label>اسم الصنف</label>
                 <select class="form-control"
                         id="product"
                         data-parsley-trigger="select"
                         data-parsley-required-message="اسم الصنف مطلوب">
-                    <option value="" selected disabled>اختر  الصنف</option>
-                    @foreach ($products  as $product)
-                        <option data-name="{{$product->name}}" data-selling_price="{{$product->selling_price}}" data-purchasing_price="{{$product->purchasing_price}}" value="{{$product->id}}">{{$product->name}}</option>
-                    @endforeach
+                    <option value="" selected disabled>اختر الصنف</option>
+                    {{--                    @foreach ($products  as $product)--}}
+                    {{--                        <option data-name="{{$product->name}}" data-selling_price="{{$product->selling_price}}" data-purchasing_price="{{$product->purchasing_price}}" value="{{$product->id}}">{{$product->name}}</option>--}}
+                    {{--                    @endforeach--}}
                 </select>
 
                 @if($errors->has('products'))
@@ -94,7 +90,7 @@
             </div>
 
             <div class="col-md-2">
-                <button id="addProduct" class="btn btn-primary waves-effect waves-light m-t-20"  type="button">
+                <button id="addProduct" class="btn btn-primary waves-effect waves-light m-t-20" type="button">
                     اضافة
                 </button>
             </div>
@@ -118,36 +114,29 @@
                                 <td>{{$sup->quantity}} </td>
                                 <td>{{$sup->price}} </td>
                                 <td>
-                                    <a href="javascript:" id="{{$sup->id}}" class="removeProduct btn btn-danger waves-effect waves-light btn-xs m-b-5">حذف</a>
-
+                                    <a href="javascript:" id="{{$sup->id}}"
+                                       class="removeProduct btn btn-danger waves-effect waves-light btn-xs m-b-5">حذف</a>
                                 </td>
-
-                                <input type="hidden" name="products[]" value="id" />
+                                <input type="hidden" name="products[]" value="id"/>
                             </tr>
                         @endforeach
-
-
                     @endif
-
-
                     </tbody>
                 </table>
             </div>
 
             <div class="text-center col-md-12">
                 <div class="text-right">
-                    <button type="submit" id="register" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i></button>
+                    <button type="submit" id="register" class="btn btn-success">حفظ <i
+                            class="icon-arrow-left13 position-right"></i></button>
                 </div>
             </div>
-
-
             {!!Form::close() !!}
         </div>
-
-        </div>
+    </div>
     </div>
 
- @endsection
+@endsection
 
 
 
@@ -158,36 +147,36 @@
         })
     </script>
     <script>
-        $('body').delegate('#addProduct','click', function(){
-            var product_name   = $('#product').find("option:selected").attr('data-name');
-            var product_selling_price  = $('#product').find("option:selected").attr('data-selling_price');
+        $('body').delegate('#addProduct', 'click', function () {
+            var product_name = $('#product').find("option:selected").attr('data-name');
+            var product_selling_price = $('#product').find("option:selected").attr('data-selling_price');
             var product_purchasing_price = $('#product').find("option:selected").attr('data-purchasing_price');
 
             var product_id = $('#product').find("option:selected").val();
-            var deleteId = "removeProduct"+product_id;
-            var trId = "tr"+product_id;
+            var deleteId = "removeProduct" + product_id;
+            var trId = "tr" + product_id;
 
             var qty = $('#qty').val();
             var price = $('#price').val();
 
-            if(product_name == null || qty <= 0 || qty == "" ){
-                $('#addProduct').attr('disabled')==true;
-            }else {
-                $('#addProduct').attr('disabled')==false;
+            if (product_name == null || qty <= 0 || qty == "") {
+                $('#addProduct').attr('disabled') == true;
+            } else {
+                $('#addProduct').attr('disabled') == false;
                 $('#productsTable > tbody:last-child').append(
-                    '<tr id="'+trId+'">' +
-                    '<td>' + product_name + '</td>'+
-                    '<td>' + qty + '</td>'+
-                    '<td>' + product_selling_price + '</td>'+
-                    '<td>' + product_purchasing_price + '</td>'+
+                    '<tr id="' + trId + '">' +
+                    '<td>' + product_name + '</td>' +
+                    '<td>' + qty + '</td>' +
+                    '<td>' + product_selling_price + '</td>' +
+                    '<td>' + product_purchasing_price + '</td>' +
                     '<td>' +
-                    '<a href="javascript:;" id="' +deleteId +'" data-id="'+product_id+'"  class="removeProduct btn btn-danger waves-effect waves-light btn-xs m-b-5">'+'حذف'+'</a>' + '</td>'+
+                    '<a href="javascript:;" id="' + deleteId + '" data-id="' + product_id + '"  class="removeProduct btn btn-danger waves-effect waves-light btn-xs m-b-5">' + 'حذف' + '</a>' + '</td>' +
                     '<input type="hidden" name="products[]" value="' + product_id + '" />' +
                     '<input type="hidden" name="qtys[]" value="' + qty + '" />' +
                     '<input type="hidden" name="prices[]" value="' + product_selling_price + '" />' +
                     '</tr>');
 
-                $('#product').prop('selectedIndex',0);
+                $('#product').prop('selectedIndex', 0);
                 $('#qty').val('');
                 $('#price').val('');
             }
@@ -225,13 +214,29 @@
 //                        $('#students').append("<option value='"+ele.id+"'>" + ele.name + "</option>");
 //                    });
 //                    $('#full_degree').html("الدرجة الكلية "+data.data);
-                    $('#qty').attr("data-parsley-max",data.data);
-                    $('#qty').attr("data-parsley-max-message","@lang('system.allowed_qty') "+data.data);
+                    $('#qty').attr("data-parsley-max", data.data);
+                    $('#qty').attr("data-parsley-max-message", "@lang('system.allowed_qty') " + data.data);
                 }
             });
         });
 
 
+        $(document).ready(function () {
+            $('#store_id').on('change', function () {
+                var store_id = $(this).val();
+                $.ajax({
+                    url: "/accounting/get-product-by-store/" + store_id,
+                    method: 'GET',
+                    type: 'json',
+                    success: function (data) {
+                        $('#product').empty();
+                        $.each(data, function (index, value) {
+                            $('#product').append('<option value="' + value.id + '" data-name="' + value.name + '" data-selling_price="' + value.selling_price + '" data-purchasing_price="' + value.purchasing_price + '">' + value.name + '</option>');
+                        });
+                    },
+                });
+            });
+        });
 
     </script>
     <script src="{{asset('admin/assets/js/get_keepers_by_store.js')}}"></script>
