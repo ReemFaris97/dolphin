@@ -56,7 +56,7 @@ class User extends Authenticatable implements JWTSubject
         'name', 'phone', 'email', 'password', 'image', 'job', 'nationality', 'company_name', 'blocked_at', 'is_admin', 'remember_token'
         , 'is_distributor', 'is_supplier', 'supplier_type', 'tex_number', 'lat', 'lng', 'bank_id', 'verification_code', 'parent_user_id', 'bank_account_number',
         'distributor_status', 'settle_commission', 'sell_commission', 'reword_value', 'store_id', 'route_id', 'is_storekeeper', 'enable'
-        , 'accounting_store_id', 'is_saler', 'is_accountant', 'delete_product', 'role_id', 'hiring_date', 'salary', 'title_id', 'is_active', 'target', 'affiliate', 'address', 'notes', 'ordering_coin','holiday_balance'
+        , 'accounting_store_id', 'is_saler', 'is_accountant', 'delete_product', 'role_id', 'hiring_date', 'salary', 'title_id', 'is_active', 'target', 'affiliate', 'address', 'notes', 'ordering_coin','holiday_balance','is_cash','is_visa', 'is_deffered',
     ];
 
     /**
@@ -128,13 +128,13 @@ class User extends Authenticatable implements JWTSubject
 
     public function IsDistributor(): bool
     {
-
         return $this->is_distributor ? 1 : 0;
     }
 
-    public function holidays(){
-        return $this->belongsToMany(AccountingHoliday::class,'accounting_holiday_balances','typeable_id','holiday_id')
-            ->withPivot('typeable_type','days','type','start_date','notes')->wherePivot('typeable_type','employee');
+    public function holidays()
+    {
+        return $this->belongsToMany(AccountingHoliday::class, 'accounting_holiday_balances', 'typeable_id', 'holiday_id')
+            ->withPivot('typeable_type', 'days', 'type', 'start_date', 'notes')->wherePivot('typeable_type', 'employee');
     }
 
     public function IsSupplier(): bool
@@ -145,11 +145,9 @@ class User extends Authenticatable implements JWTSubject
     public function getTypeAttribute(): string
     {
         if ($this->is_admin == 0) {
-
             return 'عضو';
         }
         return 'مدير';
-
     }
 
     public function tokens(): HasMany
@@ -215,14 +213,18 @@ class User extends Authenticatable implements JWTSubject
 
     public function car_store(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
-        return $this->hasOne(Store::class, 'distributor_id')->where('car_id',
-            '!=', null)->withDefault(new Store);
+        return $this->hasOne(Store::class, 'distributor_id')->where(
+            'car_id',
+            '!=',
+            null
+        )->withDefault(new Store);
     }
 
 
     public function updateFcmToken($token, $device)
     {
-        FcmToken::updateOrCreate([
+        FcmToken::updateOrCreate(
+            [
             'device' => $device,
             'user_id' => $this->id,
         ],
@@ -230,7 +232,8 @@ class User extends Authenticatable implements JWTSubject
                 'token' => $token,
                 'device' => $device,
                 'user_id' => $this->id,
-            ]);
+            ]
+        );
     }
 
     public function tasks(): HasMany
@@ -246,7 +249,6 @@ class User extends Authenticatable implements JWTSubject
 
     public function scopeOfClient(Builder $builder, $client_id)
     {
-
         $this->whereHas('trips', function ($trip) use ($client_id) {
             $trip->where('client_id', $client_id);
         });
@@ -285,14 +287,15 @@ class User extends Authenticatable implements JWTSubject
      */
     public function total_message_pages($user_id)
     {
-
         $messages = Message::with('user')
             ->where(['user_id' => auth()->user()->id, 'receiver_id' => $user_id])
             ->orWhere(function ($query) use ($user_id) {
                 $query->where(['user_id' => $user_id, 'receiver_id' => auth()->user()->id]);
             })->count();
 
-        if ($messages == 0) return 0;
+        if ($messages == 0) {
+            return 0;
+        }
         $pagniation = $this->paginateNumber;
         return ceil($messages / $pagniation);
     }
@@ -343,7 +346,6 @@ class User extends Authenticatable implements JWTSubject
 
     public function supplierProducts()
     {
-
         $ids = SupplierPrice::where('user_id', $this->id)->pluck('product_id');
         $products = Product::whereIn('id', $ids)->get();
         return $products;
@@ -359,8 +361,11 @@ class User extends Authenticatable implements JWTSubject
     public function checkIfProductAddedBefore($productId)
     {
         $check = SupplierPrice::where('product_id', $productId)->where('user_id', $this->id)->first();
-        if ($check) return 1;
-        else return 0;
+        if ($check) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     public function supplier_transactions()
@@ -390,7 +395,6 @@ class User extends Authenticatable implements JWTSubject
     public function totalPaidMoneyInBill(): float
     {
         return $amount = $this->supplierBills()->sum('amount_paid');
-
     }
 
     public function supplierPaidMoneyInTransactions(): float
@@ -417,7 +421,6 @@ class User extends Authenticatable implements JWTSubject
 
     public function getLastLocationAttribute()
     {
-
         return optional($this
             ->trips()
             // ->where('status', 'accepted')
@@ -468,7 +471,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function updateCarStore($car_id = null)
     {
-//dd($this->car_store->car_id );
+        //dd($this->car_store->car_id );
         //remove car if exists
         if (($car_id == null && $this->car_store->car_id != null)) {
             ($this->car_store)->fill(['car_id', null])->save();
@@ -483,28 +486,28 @@ class User extends Authenticatable implements JWTSubject
         if (($car_id != null && $this->car_store->car_id == null)) {
             $car = DistributorCar::find($car_id);
             $this->createCarStore($car->id);
-
         }
-
-
     }
 
-    public function salaries(){
-        return $this->morphMany(AccountingSalary::class,'typeable');
+    public function salaries()
+    {
+        return $this->morphMany(AccountingSalary::class, 'typeable');
     }
     public function attendances()
     {
-        return $this->morphMany(AccountingAttendance::class,'typeable');
+        return $this->morphMany(AccountingAttendance::class, 'typeable');
     }
     public function allowances()
     {
-        return $this->belongsToMany(AccountingAllowance::class,'accounting_user_allowances','typeable_id','allowance_id')->withPivot(['value','typeable_type']);
+        return $this->belongsToMany(AccountingAllowance::class, 'accounting_user_allowances', 'typeable_id', 'allowance_id')->withPivot(['value','typeable_type']);
     }
-    public function debts(){
-        return $this->hasMany(AccountingDebt::class,'typeable_id');
+    public function debts()
+    {
+        return $this->hasMany(AccountingDebt::class, 'typeable_id');
     }
 
-    public function bonus_discount(){
-        return $this->morphMany(AccountingBonusDiscount::class,'typeable');
+    public function bonus_discount()
+    {
+        return $this->morphMany(AccountingBonusDiscount::class, 'typeable');
     }
 }

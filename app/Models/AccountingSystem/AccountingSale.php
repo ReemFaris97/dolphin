@@ -2,10 +2,8 @@
 
 namespace App\Models\AccountingSystem;
 
-use App\Traits\HashPassword;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AccountingSale extends Model
 {
@@ -62,4 +60,6 @@ class AccountingSale extends Model
 
         return $cost;
     }
+
+
 }

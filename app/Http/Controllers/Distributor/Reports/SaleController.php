@@ -62,8 +62,10 @@ class SaleController extends Controller
            $trips_cash = $trips_during_the_period->sum('cash');
             $data[$day->format('Y-m-d')]=[
                 'day'=>$day->format('m-d'),
-                'total_trips'=>$total_trips_count,'accepted_trips'=>$accepted_trips_count,
-                'refused_trips'=>$refused_trips_count,'trips_cash'=>$trips_cash
+                'total_trips'=>$total_trips_count,
+                'accepted_trips'=>$accepted_trips_count,
+                'refused_trips'=>$refused_trips_count,
+                'trips_cash'=>$trips_cash
                 ];
 
                $total_trips_count_all +=$total_trips_count;
