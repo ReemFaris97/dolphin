@@ -103,7 +103,7 @@
                         </td>
 
                         <td class="text-center">
-                            <a href="{{route('accounting.debts.edit',['id'=>$debt->id])}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.debts.edit',$debt->id)}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
                             <a href="#" onclick="Delete({{$debt->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
                             {!!Form::open( ['route' => ['accounting.debts.destroy',$debt->id] ,'id'=>'delete-form'.$debt->id, 'method' => 'Delete']) !!}
                             {!!Form::close() !!}

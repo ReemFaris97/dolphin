@@ -16,7 +16,8 @@ class DocumentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public $types = ['employee'=>User::class,'branch'=>AccountingBranch::class];
+    public $types = ['employee' => User::class, 'branch' => AccountingBranch::class];
+
     public function index($type)
     {
         $newType = ($type == 'employee' ? 'App\Models\User' : 'App\Models\AccountingSystem\AccountingBranch');
@@ -29,57 +30,59 @@ class DocumentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($type){
-        if($type == 'employee'){
-            $query = '$data["targets"] = '.$this->types[$type].'::get(["id","name"]);';
-        }else{
-            $query = '$data["targets"] = '.$this->types[$type].'::get(["id","name"]);';
+    public function create($type)
+    {
+        if ($type == 'employee') {
+            $query = '$data["targets"] = ' . $this->types[$type] . '::get(["id","name"]);';
+        } else {
+            $query = '$data["targets"] = ' . $this->types[$type] . '::get(["id","name"]);';
         }
         $data['type'] = $type;
         eval($query);
-        if(request()->has('parent')){
+        if (request()->has('parent')) {
             $data['document'] = AccountingDocument::with('documentable')->find(request('parent'));
         }
-        return view('AccountingSystem.documents.create',$data);
+        return view('AccountingSystem.documents.create', $data);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,$type)
+    public function store(Request $request, $type)
     {
 
-            $rules=[
-                'document_name'=>'required',
-                'document_number'=>'required',
-                'documentable_id'=>'required',
-                'start_date'=>'required|date|before:end_date',
-                'end_date'=>'required',
-                // 'notes'=>'required',
-                'document'=>'required|file'
-            ];
+        $rules = [
+            'document_name' => 'required',
+            'document_number' => 'required',
+            'documentable_id' => 'required',
+            'start_date' => 'required|date|before:end_date',
+            'end_date' => 'required',
+            'notes' => 'nullable',
+            'document' => 'required|file'
+        ];
 
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
 
         $inputs = $request->except('_token');
+
         $inputs['documentable_type'] = ($type == 'employee' ? 'App\Models\User' : 'App\Models\AccountingSystem\AccountingBranch');
-        if($request->file('document')){
-            $inputs['document'] = saveImage($request['document'],'document');
+        if ($request->file('document')) {
+            $inputs['document'] = saveImage($request['document'], 'document');
         }
         AccountingDocument::create($inputs);
 
-        alert()->success('تم اضافة  المسمى الوظيفى بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.documents.index',$type);
+        alert()->success('تم اضافة الوئيقة بنجاح !')->autoclose(5000);
+        return redirect()->route('accounting.documents.index', $type);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -90,61 +93,62 @@ class DocumentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($type,$id)
+    public function edit($type, $id)
     {
         $document = AccountingDocument::find($id);
 
-        if($type == 'employee'){
-            $query = '$targets = '.$this->types[$type].'::get(["id","name"]);';
-        }else{
-            $query = '$targets = '.$this->types[$type].'::get(["id","name"]);';
+        if ($type == 'employee') {
+            $query = '$targets = ' . $this->types[$type] . '::get(["id","name"]);';
+        } else {
+            $query = '$targets = ' . $this->types[$type] . '::get(["id","name"]);';
         }
         eval($query);
 
-        return view('AccountingSystem.documents.edit',compact('type','targets','document'));
+        return view('AccountingSystem.documents.edit', compact('type', 'targets', 'document'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$type,$id)
+    public function update(Request $request, $type, $id)
     {
-        $ules=[
-                'document_name'=>'required',
-                'document_number'=>'required',
-                'documentable_id'=>'required',
-                'start_date'=>'required|date|before:end_date',
-                'end_date'=>'required',
-
-            ];
+        $request->validate([
+            'document_name' => 'required',
+            'document_number' => 'required',
+            'documentable_id' => 'required',
+            'start_date' => 'required|date|before:end_date',
+            'end_date' => 'required',
+            'notes' => 'nullable',
+        ]);
         $document = AccountingDocument::find($id);
 //        dd($document);
         $inputs = $request->except('_token');
-        if($request->file('document')){
-            $inputs['document'] = saveImage($request['document'],'document');
-        }else{
+        if ($request->file('document')) {
+            $inputs['document'] = saveImage($request['document'], 'document');
+        } else {
             unset($inputs['document']);
         }
 
         $document->update($inputs);
-     alert()->success('تم اضافة  الوثيقة بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.documents.index',$type);
+        alert()->success('تم اضافة  الوثيقة بنجاح !')->autoclose(5000);
+        return redirect()->route('accounting.documents.index', $type);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($type,$id){
+    public function destroy($type, $id)
+    {
         AccountingDocument::find($id)->delete();
         alert()->success('تم  الحذف بنجاح !')->autoclose(5000);
         return back();

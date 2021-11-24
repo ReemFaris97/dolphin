@@ -2,7 +2,7 @@
 @section('title','  عرض    الخزينة ')
 @section('parent_title','إدارة  الخزائن')
 
-@section('action', URL::route('accounting.stores.index'))
+@section('action', URL::route('accounting.safes.index'))
 @section('styles')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 @endsection

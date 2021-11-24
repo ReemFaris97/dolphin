@@ -10,7 +10,14 @@
 @endsection
 
 @section('content')
+    <style>
+        .informations p{
+            width:30%;
+            font-size: 16px;
+            font-weight: 600;
+        }
 
+    </style>
 
     <div class="m-portlet m-portlet--mobile">
         <div class="m-portlet__head">
@@ -28,14 +35,52 @@
                 </ul>
             </div>
         </div>
+        <h4 style="margin: 15px 30px;">البيانات الأساسية</h4>
+        <div style="display:flex; margin: 20px 50px; flex-wrap:wrap;" class="informations">
+                            <p>الاسم :  
+                            {!!$task->name!!}</p>
+                            <p>النوع : 
+                            {!!\App\Models\Task::$types[$task->type]!!}
+                            </p>
+                            <p>الوصف : 
+                            {!!$task->description!!}
+                            </p>
+                            @if($task->type=='date')
+                                <p> التاريخ : 
+                                {!!$task->date->toDateString()!!}
+                                </p>
+                            @endif
+                            <p>وقت بدايه المهمه : 
+                            {!!$task->time_from!!}
+                            </p>
+                            @if($task->type=='depends')
+                                <p> البند : 
+                                {!!$task->clause->name!!}
+                                </p>
+                                <p> المعادله : 
+                                {!!$task->equation_mark .' ',$task->clause_amount!!}
+                                </p>
+                            @endif
+                            @if($task->type=='period')                        
+                                <p>الفتره : 
+                                    @switch($task->period)
+                                        @case(1) يومية @break
+                                        @case(30) شهرية @break
+                                        @case(365) سنوية @break
+                                    @endswitch
+                                </p>
+                            @endif
+                            @if($task->type=='after_task'))
+                                <p>المهمه المعتمده عليها : 
+                                {!!optional($task->afterTask)->name!!}
+                                </p>
+                            @endif
+        </div>
         <div class="m-portlet__body">
             <ul class="nav nav-tabs" role="tablist">
+            
                 <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#" data-target="#task_info">المعلومات
-                        الرئيسيه</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#task_users">المنفذون</a>
+                    <a class="nav-link active" data-toggle="tab" href="#task_users">المنفذون</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link " data-toggle="tab" href="#task_log">سجل تغير الموظفين</a>
@@ -48,83 +93,8 @@
                 </li>
             </ul>
             <div class="tab-content">
-                <div class="tab-pane active" id="task_info" role="tabpanel">
-                    <table class="table table-striped- table-bordered table-hover table-checkable datatable">
-                        <thead>
-                        <tr>
-                            <th>الاسم</th>
-                            <th>القيمه</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-
-                        <tr>
-                            <td>الاسم</td>
-                            <td colspan="2">{!!$task->name!!}</td>
-                        </tr>
-                        <tr>
-                            <td>النوع</td>
-
-                            <td colspan="2">{!!\App\Models\Task::$types[$task->type]!!}</td>
-                        </tr>
-                        <tr>
-                            <td>الوصف</td>
-                            <td colspan="2">{!!$task->description!!}</td>
-                        </tr>
-
-                        @if($task->type=='date')
-                            <tr>
-                                <td> التاريخ</td>
-                                <td>{!!$task->date->toDateString()!!}</td>
-
-                            </tr>
-                        @endif
-
-                        <tr>
-                            <td>وقت بدايه المهمه</td>
-                            <td colspan="2">{!!$task->time_from!!}</td>
-                        </tr>
-
-                        @if($task->type=='depends')
-                            <tr>
-                                <td> البند</td>
-                                <td colspan="2">{!!$task->clause->name!!}</td>
-
-                            </tr>
-                            <tr>
-                                <td> المعادله</td>
-                                <td colspan="2">{!!$task->equation_mark .' ',$task->clause_amount!!}</td>
-                            </tr>
-
-                        @endif
-                        @if($task->type=='period')
-                            <tr>
-                                <td>الفتره</td>
-                                <td colspan="2">
-                                    @switch($task->period)
-                                        @case(1) يومية @break
-                                        @case(30) شهرية @break
-                                        @case(365) سنوية @break
-                                    @endswitch
-                                    {{--                                    {!!$task->period!!}--}}
-                                </td>
-                            </tr>
-
-                        @endif
-                        @if($task->type=='after_task'))
-                        <tr>
-                            <td>المهمه المعتمده عليها</td>
-                            <td colspan="2">{!!optional($task->afterTask)->name!!}</td>
-                        </tr>
-
-                        @endif
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-                <div class="tab-pane " id="task_users" role="tabpanel">
+      
+                <div class="tab-pane active" id="task_users" role="tabpanel">
                     <table class="table table-striped- table-bordered table-hover table-checkable datatable">
                         <thead>
                         <tr>
@@ -245,7 +215,7 @@
                         @endif
                     @endif
                     <!--begin::Portlet-->
-                    @foreach($task->notes as $note)
+                    {{-- @foreach($task->notes as $note)
                         <div class="m-portlet m-portlet--bordered m-portlet--unair">
                             <div class="m-portlet__head">
                                 <div class="m-portlet__head-caption">
@@ -283,7 +253,7 @@
 
 
                         </div>
-                @endforeach
+                @endforeach --}}
 
 
 
@@ -359,8 +329,8 @@
                                 @foreach($task->images as $image)
 
 
-<div class="appended-attachements-wrapper">
-										<form method="POST" action="{!!route('admin.images.destroy',$image->id)!!}"
+                                <div class="appended-attachements-wrapper">
+									<form method="POST" action="{!!route('admin.images.destroy',$image->id)!!}"
                                           class="pull-left">
                                         @csrf() @method('delete')
                                         <button type="submit" class="btn btn-danger"
@@ -371,9 +341,9 @@
 
 
                                     </form>
-										<a href="{!! asset($image->image) !!}" class="mr-2" data-fancybox="images">
-											<img src="{!! asset($image->image) !!}" />
-										</a>
+									<a href="{!! asset($image->image) !!}" class="mr-2" data-fancybox="images">
+										<img src="{!! asset($image->image) !!}" />
+									</a>
 									</div>
 
                                 @endforeach
