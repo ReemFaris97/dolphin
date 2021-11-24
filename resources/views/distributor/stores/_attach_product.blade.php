@@ -5,7 +5,7 @@
         <option disabled @if(old('product_id')==null) selected @endif value="">اختر الصنف</option>
         @foreach($products as $product)
 
-            <option data-quantity="999999"
+            <option data-quantity="999999999999"
                     value="{{$product->id}}" data-unit="{{$product->quantity_per_unit}}"
                     @if($product->id == (old("product_id")))
                     selected

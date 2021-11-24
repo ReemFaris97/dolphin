@@ -36,9 +36,6 @@ use Auth;
 use Carbon\Carbon;
 use Cookie;
 use Hash;
-use phpDocumentor\Reflection\Types\Null_;
-use Request as GlobalRequest;
-use Session;
 
 class SaleController extends Controller
 {
@@ -125,7 +122,6 @@ class SaleController extends Controller
         }
 
         $products=$requests['product_id'];
-        $quantities=$requests['quantity'];
         $products = collect($requests['product_id']);
         $qtys = collect($requests['quantity']);
         $unit_id = collect($requests['unit_id']);

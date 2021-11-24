@@ -13,7 +13,7 @@ return [
     | enabled and Laravel needs to be in Debug mode.
     |
     */
-    'enabled' => env('TELESCOPE_TOOLBAR_ENABLED', env('TELESCOPE_ENABLED', true)),
+    'enabled' => env('TELESCOPE_TOOLBAR_ENABLED', env('TELESCOPE_ENABLED', false)),
 
     /*
     |--------------------------------------------------------------------------
@@ -24,7 +24,7 @@ return [
     | Laravel Telescope toolbar has two themes; Light and Dark.
     |
     */
-    'light_theme' => env('TELESCOPE_LIGHT_THEME', true),
+    'light_theme' => env('TELESCOPE_LIGHT_THEME', false),
 
     /*
     |--------------------------------------------------------------------------

@@ -205,7 +205,7 @@
                                 <td>    @if($bill->is_packages)
                                     كرتونة
                                             @else
-                                                                    حبة                 
+                  حبة     
                                                         @endif      
                                 </td>
 
