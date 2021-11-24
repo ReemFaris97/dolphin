@@ -39,6 +39,10 @@ class AccountingProduct extends Model
     {
         return $this->belongsTo(AccountingProductCategory::class, 'category_id');
     }
+    public function barcodes()
+    {
+        return $this->hasMany(AccountingProductBarcode::class, 'product_id');
+    }
 
 
 

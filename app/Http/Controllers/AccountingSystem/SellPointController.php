@@ -176,8 +176,7 @@ class SellPointController extends Controller
             fn ($query) =>$query
         ->where('bar_code', 'like', "%$q%")
         ->orwhereHas('barcodes', fn ($b) =>$b->where('barcode', 'like', "%$q%"))
-        )
-        ->where('bar_code', 'like', "%$q%")->limit(10)->get();
+        )->get();
         if (!$products->isEmpty()) {
             $selectd_unit_id = 'main-'.$products[0]->id;
         } else {
