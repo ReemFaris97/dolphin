@@ -91,7 +91,7 @@ class SafeController extends Controller
         $safe = AccountingSafe::findOrFail($id);
         //branch_all_safes
         //حسبى الله ونعم والوكيل فى اللى كتب الكود
-        $safes= AccountingSafe::where('model_type', $safe->model_type)->where('model_id', $safe->model_id)->where('id', '!=', $id)->get();
+        $safes= AccountingSafe::where('id', '!=', $id)->get();
 
         return $this->toShow(compact('transactions', 'safe', 'safes'));
     }
