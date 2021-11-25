@@ -71,7 +71,7 @@
 						   <div class="form-group col-xs-6  {{$setting->name}} ">
 							   <label> {{$setting->title}} </label>
 							   <div class="form-group col-md-6 pull-left">
-								   {!! Form::select($setting->name.'[]',$chart_accounts,$setting->value,['class'=>'form-control'])!!}
+								   {!! Form::select($setting->name.'[]',$chart_accounts,$setting->value,['class'=>'form-control select2'])!!}
 							   </div>
 						   </div>
 					   @endif
@@ -130,7 +130,7 @@
 							<div class="form-group col-xs-6  {{$setting->name}} ">
 								<label> {{$setting->title}} </label>
 								<div class="form-group col-md-6 pull-left">
-									{!! Form::select($setting->name.'[]',$chart_accounts,$setting->value,['class'=>'form-control'])!!}
+									{!! Form::select($setting->name.'[]',$chart_accounts,$setting->value,['class'=>'form-control select2'])!!}
 								</div>
 							</div>
 						@endif
@@ -190,7 +190,7 @@
 							<div class="form-group col-xs-6  {{$setting->name}} ">
 								<label> {{$setting->title}} </label>
 								<div class="form-group col-md-6 pull-left">
-									{!! Form::select($setting->name.'[]',$chart_accounts,$setting->value,['class'=>'form-control'])!!}
+									{!! Form::select($setting->name.'[]',$chart_accounts,$setting->value,['class'=>'form-control select2'])!!}
 								</div>
 							</div>
 						@endif
@@ -212,5 +212,9 @@
 		</div><!-- end col -->
 		@endsection
 		@section('scripts')
-
+            <script>
+                $(document).ready(function (){
+                    $('.select2').select2();
+                });
+            </script>
 		@endsection

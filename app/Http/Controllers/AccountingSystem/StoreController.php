@@ -365,13 +365,14 @@ class StoreController extends Controller
         // ];
 
         // $this->validate($request,$rules,$massage);
-        // dd($request->all());
+         // dd($request->all());
         if ($bond->type == 'entry' || $bond->type == 'exchange') {
             $products_store = AccountingProductStore::where('store_id', $bond->store_id)->get();
             $quantity = collect($inputs['qtys']);
             $products = collect($inputs['products']);
             $prices = collect($inputs['prices']);
             $merges = $products->zip($quantity, $prices);
+
             foreach ($merges as $merge) {
                 AccountingBondProduct::create([
                     'bond_id' => $bond->id,
@@ -380,6 +381,7 @@ class StoreController extends Controller
                     'price' => $merge[2],
                 ]);
             }
+
             foreach ($products_store as $productstore) {
                 foreach ($merges as $merge) {
                     if ($productstore->product_id == $merge[0]) {

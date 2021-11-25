@@ -893,8 +893,8 @@
 <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
 <!---- new design --->
 <script>
-	@if(!empty(\Illuminate\ Support\ Facades\ Session::has('sale_id')))
-	@php($sale_id = \Illuminate\ Support\ Facades\ Session::get('sale_id'))
+	@if(!empty(\Illuminate\Support\Facades\Session::has('sale_id')))
+	@php($sale_id = \Illuminate\Support\Facades\Session::get('sale_id'))
 	window.open(
 		"{{route('accounting.sales.show',$sale_id)}}",
 		"_blank"
