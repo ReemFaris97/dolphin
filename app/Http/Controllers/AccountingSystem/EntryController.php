@@ -67,7 +67,7 @@ class EntryController extends Controller
         // $this->validate($request,$rules,$message);
 
 
-        $this->ManualCreateEntry($request);
+        $this->ManualCreaAccountingAccountLogteEntry($request);
 
 
         alert()->success('تم اضافةالقيد اليومى بنجاح !')->autoclose(5000);

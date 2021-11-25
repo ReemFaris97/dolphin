@@ -215,29 +215,29 @@ class SaleController extends Controller
             'status'=>'new'
         ]);
 
-        if ($sale->payment=='cash') {
-            $saleAccount=AccountingAccount::find(getsetting('accounting_id_sales'));
-            if (isset($saleAccount)) {
 
-                //حساب  المبيعات والنقدية
-                AccountingEntryAccount::create([
+        //حساب  المبيعات والنقدية
+        AccountingEntryAccount::create([
                     'entry_id' => $entry->id,
-                    'from_account_id' => getsetting('accounting_id_clients'),
-                    'to_account_id' => getsetting('accounting_id_sales'),
+                    'affect'=> 'creditor',
+                    'account_id'=>getsetting('accounting_id_sales'),
+                    'amount' => $sale->total,
+                ]);
+        AccountingEntryAccount::create([
+                    'entry_id' => $entry->id,
+                    'affect'=> 'creditor',
+                    'account_id'=>  getsetting('accounting_id_clients'),
                     'amount' => $sale->total,
                 ]);
 //                dd($sale->getItemCostAttribute());
-                //حساب  المبيعات والمخزون
-                $storeAccount = AccountingAccount::where('store_id', $sale->store_id)->first()??new AccountingAccount();
-                AccountingEntryAccount::create([
-                    'entry_id' => $entry->id,
-                    'from_account_id' =>getsetting('accounting_sales_cost_id'),
-                    'to_account_id' => $storeAccount->id??getsetting('accounting_sales_cost_id'),
-                    'amount' => $sale->getItemCostAttribute(),
-                ]);
-                dd('success');
-            }
-        }
+        //حساب  المبيعات والمخزون
+        // $storeAccount = AccountingAccount::where('store_id', $sale->store_id)->first()??new AccountingAccount();
+        // AccountingEntryAccount::create([
+        //             'entry_id' => $entry->id,
+        //             'from_account_id' =>getsetting('accounting_sales_cost_id'),
+        //             'to_account_id' => $storeAccount->id??getsetting('accounting_sales_cost_id'),
+        //             'amount' => $sale->getItemCostAttribute(),
+        //         ]);
 
 
 //        dd($sale);
