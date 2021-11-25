@@ -85,6 +85,7 @@ private $viewable = 'AccountingSystem.sessions.';
 
           $session_id= $session->id;
           Cookie::queue('session',$session->id);
+          session()->put('store_id',$request->store_id);
           return \Redirect::route('accounting.sells_points.sells_point', ['id' => $session->id, 'store_id' => $request->store_id])->with('session');
 
 

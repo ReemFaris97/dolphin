@@ -2,47 +2,42 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
+use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingAccount;
-use App\Models\AccountingSystem\AccountingBranch;
-use App\Models\AccountingSystem\AccountingBranchShift;
+use App\Models\AccountingSystem\AccountingAccountLog;
 use App\Models\AccountingSystem\AccountingClient;
-use App\Models\AccountingSystem\AccountingCompany;
-
+use App\Models\AccountingSystem\AccountingDevice;
 use App\Models\AccountingSystem\AccountingEntry;
 use App\Models\AccountingSystem\AccountingEntryAccount;
 use App\Models\AccountingSystem\AccountingOffer;
 use App\Models\AccountingSystem\AccountingPackage;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
+use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingProductSubUnit;
-use App\Models\AccountingSystem\AccountingPurchaseReturn;
+use App\Models\AccountingSystem\AccountingReturn;
 use App\Models\AccountingSystem\AccountingReturnSaleItem;
 use App\Models\AccountingSystem\AccountingSafe;
 use App\Models\AccountingSystem\AccountingSale;
 use App\Models\AccountingSystem\AccountingSaleItem;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\AccountingSystem\AccountingAccountLog;
-use App\Models\AccountingSystem\AccountingDevice;
-use App\Models\AccountingSystem\AccountingProductStore;
-use App\Models\AccountingSystem\AccountingReturn;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingUserPermission;
-use App\Models\Client;
+use App\Models\User;
 use App\Traits\SaleOperation;
 use App\Traits\Viewable;
-use App\Models\User;
-use Auth;
 use Carbon\Carbon;
 use Cookie;
 use Hash;
+use Illuminate\Http\Request;
 
 class SaleController extends Controller
 {
     use Viewable;
     use SaleOperation;
+
     private $viewable = 'AccountingSystem.sales.';
+
     /**
      * Display a listing of the resource.
      *
@@ -140,26 +135,26 @@ class SaleController extends Controller
                 }
             }
             $item= AccountingSaleItem::create([
-                    'product_id'=>$merge['0'],
-                    'quantity'=> $merge['1'],
-                    'price'=>$product->selling_price,
-                    'sale_id'=>$sale->id
-                ]);
+                'product_id'=>$merge['0'],
+                'quantity'=> $merge['1'],
+                'price'=>$product->selling_price,
+                'sale_id'=>$sale->id
+            ]);
             ///if-main-unit
 
             if ($merge['2']!='main-'.$product->id) {
                 $unit=AccountingProductSubUnit::where('product_id', $merge['0'])->where('id', $merge['2'])->first();
                 if ($unit) {
                     $unit->update([
-                            'quantity'=>$unit->quantity - $merge['1'],
-                        ]);
+                        'quantity'=>$unit->quantity - $merge['1'],
+                    ]);
                 }
                 $productstore=AccountingProductStore::where('store_id', auth()->user()->accounting_store_id)->where('product_id', $merge['0'])->where('unit_id', $merge['2'])->first();
                 if ($productstore) {
                     if ($productstore->quantity >= 0) {
                         $productstore->update([
-                               'quantity' => $productstore->quantity - $merge['1'],
-                           ]);
+                            'quantity' => $productstore->quantity - $merge['1'],
+                        ]);
                     }
                 }
             } else {
@@ -168,8 +163,8 @@ class SaleController extends Controller
                     if ($productstore->quantity >= 0) {
                         if ($productstore) {
                             $productstore->update([
-                                    'quantity' => $productstore->quantity - $merge['1'],
-                                ]);
+                                'quantity' => $productstore->quantity - $merge['1'],
+                            ]);
                         }
                     }
                 }
@@ -179,8 +174,8 @@ class SaleController extends Controller
                     if ($product->quantity >= 0) {
                         if ($product) {
                             $product->update([
-                                    'quantity' => $product->quantity - $merge['1'],
-                                ]);
+                                'quantity' => $product->quantity - $merge['1'],
+                            ]);
                         }
                     }
                 }
@@ -193,8 +188,8 @@ class SaleController extends Controller
             $safe=AccountingSafe::where('device_id', $sale->session->device_id)->first();
             if ($safe) {
                 $safe->update([
-                   'amount' => $safe->amount - $sale->total
-               ]);
+                    'amount' => $safe->amount - $sale->total
+                ]);
             }
         } elseif ($sale->payment=='agel') {
             $client=AccountingClient::find($sale-> client_id);
@@ -218,20 +213,20 @@ class SaleController extends Controller
 
         //حساب  المبيعات والنقدية
         AccountingEntryAccount::create([
-                    'entry_id' => $entry->id,
-                    'from_account_id' => getsetting('accounting_id_clients'),
-                    'to_account_id' => getsetting('accounting_id_sales'),
-                    'amount' => $sale->total,
-                ]);
+            'entry_id' => $entry->id,
+            'from_account_id' => getsetting('accounting_id_clients'),
+            'to_account_id' => getsetting('accounting_id_sales'),
+            'amount' => $sale->total,
+        ]);
 //                dd($sale->getItemCostAttribute());
         //حساب  المبيعات والمخزون
         $storeAccount = AccountingAccount::where('store_id', $sale->store_id)->first()??AccountingAccount::first();
         AccountingEntryAccount::create([
-                    'entry_id' => $entry->id,
-                    'from_account_id' =>getsetting('accounting_sales_cost_id'),
-                    'to_account_id' => @$storeAccount->id,
-                    'amount' => $sale->getItemCostAttribute(),
-                ]);
+            'entry_id' => $entry->id,
+            'from_account_id' =>getsetting('accounting_sales_cost_id'),
+            'to_account_id' => @$storeAccount->id,
+            'amount' => $sale->getItemCostAttribute(),
+        ]);
         // }
         // }
         $debit_account=AccountingAccount::find(getsetting('accounting_id_sales'))??new AccountingAccount();
@@ -240,14 +235,14 @@ class SaleController extends Controller
         $last=AccountingAccountLog::where('account_id', getsetting('accounting_id_clients'))->latest()->first();
 
         AccountingAccountLog::create([
-        'entry_id'=>$entry->id,
-        'account_id'=>getsetting('accounting_id_sales'),
-        'account_amount_before'=>$last->account_amount_after ??$debit_account->amount,
-        'another_account_id'=>getsetting('accounting_id_clients'),
-        'amount'=>$sale->total,
-        'account_amount_after'=>isset($last)?$last->account_amount_after  - $debit_account->amount :$debit_account->amount - $debit_account->amount,
-        'affect'=>'debtor',
-            ]);
+            'entry_id'=>$entry->id,
+            'account_id'=>getsetting('accounting_id_sales'),
+            'account_amount_before'=>$last->account_amount_after ??$debit_account->amount,
+            'another_account_id'=>getsetting('accounting_id_clients'),
+            'amount'=>$sale->total,
+            'account_amount_after'=>isset($last)?$last->account_amount_after  - $debit_account->amount :$debit_account->amount - $debit_account->amount,
+            'affect'=>'debtor',
+        ]);
 
         $last=AccountingAccountLog::where('account_id',getsetting('accounting_id_clients'))->latest()->first();
 $credit_account=AccountingAccount::find(getsetting('accounting_id_clients'))??new AccountingAccount();
@@ -255,13 +250,11 @@ $credit_account=AccountingAccount::find(getsetting('accounting_id_clients'))??ne
         AccountingAccountLog::create([
             'entry_id'=>$entry->id,
             'account_id'=>getsetting('accounting_id_clients'),
-             'account_amount_before'=>@$last->account_amount_after??$credit_account->account->amount,
+            'account_amount_before'=>@$last->account_amount_after??$credit_account->account->amount,
             'another_account_id'=>getsetting('accounting_id_sales'),
             'amount'=>$sale->total,
-        'account_amount_after'=>isset($last)?@$last->account_amount_after+ ($sale->total) : $credit_account->amount + ($sale->total),
-            ]);
-
-
+            'account_amount_after'=>isset($last)?@$last->account_amount_after+ ($sale->total) : $credit_account->amount + ($sale->total),
+        ]);
 
 
 //        dd($sale);
@@ -352,16 +345,16 @@ $credit_account=AccountingAccount::find(getsetting('accounting_id_clients'))??ne
                 $productstore=AccountingProductStore::where('store_id', auth()->user()->accounting_store_id)->where('product_id', $merge['0'])->where('unit_id', $merge['2'])->first();
                 if ($productstore) {
                     $productstore->update([
-                            'quantity' => $productstore->quantity + $merge['1'],
-                        ]);
+                        'quantity' => $productstore->quantity + $merge['1'],
+                    ]);
                 }
             } else {
                 $productstore=AccountingProductStore::where('store_id', auth()->user()->accounting_store_id)->where('product_id', $merge['0'])->where('unit_id', null)->first();
                 if ($productstore) {
                     if ($productstore) {
                         $productstore->update([
-                                'quantity' => $productstore->quantity + $merge['1'],
-                            ]);
+                            'quantity' => $productstore->quantity + $merge['1'],
+                        ]);
                     }
                 }
             }
@@ -406,7 +399,7 @@ $credit_account=AccountingAccount::find(getsetting('accounting_id_clients'))??ne
         $returns_total=AccountingReturn::where('session_id', $request['session_id'])->sum('total');
         $session->update([
             'end_session'=>Carbon::now(),
-           ]);
+        ]);
 
         //    dd($session);
         if (!Hash::check($request['password'], $user->password)) {
@@ -427,7 +420,7 @@ $credit_account=AccountingAccount::find(getsetting('accounting_id_clients'))??ne
         $session->update([
             'status'=>'closed',
 
-           ]);
+        ]);
 
 
         //    Session::forget('session_id');
@@ -435,14 +428,15 @@ $credit_account=AccountingAccount::find(getsetting('accounting_id_clients'))??ne
         Cookie::queue(Cookie::forget('session'));
         $device=AccountingDevice::find($session->device_id);
         $device->update([
-               'available'=>'1'
-           ]);
+            'available'=>'1'
+        ]);
         $devices=AccountingDevice::where('available', 1)->pluck('name', 'id')->toArray();
         $userstores = AccountingUserPermission::where('user_id', auth()->user()->id)
             ->where('model_type', 'App\Models\AccountingSystem\AccountingStore')->pluck('model_id', 'id')->toArray();
         $stores=AccountingStore::whereIn('id', $userstores)->pluck('ar_name', 'id')->toArray();
         return view('AccountingSystem.sell_points.login', compact('users', 'devices','stores'));
     }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -455,7 +449,7 @@ $credit_account=AccountingAccount::find(getsetting('accounting_id_clients'))??ne
         $clients=AccountingClient::pluck('name', 'id')->toArray();
 
         $userstores = AccountingUserPermission::where('user_id', auth()->user()->id)
-        ->where('model_type', 'App\Models\AccountingSystem\AccountingStore')->pluck('model_id', 'id')->toArray();
+            ->where('model_type', 'App\Models\AccountingSystem\AccountingStore')->pluck('model_id', 'id')->toArray();
         $stores=AccountingStore::whereIn('id', $userstores)->pluck('ar_name', 'id')->toArray();
         if ($userstores) {
             $store_product=AccountingProductStore::whereIn('store_id', $userstores)->pluck('product_id', 'id')->toArray();
@@ -466,7 +460,6 @@ $credit_account=AccountingAccount::find(getsetting('accounting_id_clients'))??ne
 
         $product_items=AccountingSaleItem::where('sale_id', $id)->get();
         $session=AccountingSession::findOrFail($sale->session_id);
-
 
 
         return view('AccountingSystem.sales.edit', compact('sale', 'clients', 'products', 'product_items', 'session', 'stores'));
@@ -550,21 +543,17 @@ $credit_account=AccountingAccount::find(getsetting('accounting_id_clients'))??ne
     public function returns($id)
     {
         $sales=AccountingSale::whereDate('created_at', '>=', Carbon::now()->subDays(getsetting('return_period')))
-       ->pluck('id', 'id')->toArray();
+            ->pluck('id', 'id')->toArray();
         $session=AccountingSession::findOrFail($id);
 //        $session=AccountingSession::find(Cookie::get('session'));
         $clients=AccountingClient::pluck('name', 'id')->toArray();
         $categories=AccountingProductCategory::pluck('ar_name', 'id')->toArray();
         $sales_items=AccountingSaleItem::where('sale_id', $id)->pluck('product_id', 'id')->toArray();
         $userstores = AccountingUserPermission::where('user_id', auth()->user()->id)
-        ->where('model_type', 'App\Models\AccountingSystem\AccountingStore')->pluck('model_id', 'id')->toArray();
+            ->where('model_type', 'App\Models\AccountingSystem\AccountingStore')->pluck('model_id', 'id')->toArray();
         $stores=AccountingStore::whereIn('id', $userstores)->pluck('ar_name', 'id')->toArray();
-        if ($userstores) {
-            $store_product=AccountingProductStore::whereIn('store_id', $userstores)->pluck('product_id', 'id')->toArray();
-            $products=AccountingProduct::whereIn('id', $store_product)->get();
-        } else {
-            $products=[];
-        }
+
+        $products=[];
 
 
         return view('AccountingSystem.sales.returns', compact('sales', 'session', 'clients', 'categories', 'products', 'stores'));
@@ -605,6 +594,7 @@ $credit_account=AccountingAccount::find(getsetting('accounting_id_clients'))??ne
             'data' => ('failed')
         ]);
     }
+
     public function show_return($id)
     {
         $sale_return =AccountingReturn::findOrFail($id);

@@ -72,7 +72,7 @@
                                 </div>
 
                             @endif
-                            {!! Form::hidden('store_id',request('store_id'),['id'=>'store_id']) !!}
+                            {!! Form::hidden('store_id',request('store_id')??session('store_id'),['id'=>'store_id']) !!}
                             <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
                                 <div class="yurProdc">
                                     <div class="form-group block-gp">

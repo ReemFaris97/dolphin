@@ -98,21 +98,18 @@
                             {{-- {!! Form::select("category_id",$categories,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!} --}}
                             {{-- </div> --}}
 
-                            <div class="col-md-4 col-sm-4 col-xs-12">
+                           {{-- <div class="col-md-4 col-sm-4 col-xs-12">
                                 <div class="form-group block-gp">
                                     <label> اختر المستودع </label>
                                     {!! Form::select('store_id', $stores, null, ['class' => 'selectpicker form-control js-example-basic-single category_id', 'id' => 'store_id', 'placeholder' => ' اختر المستودع ', 'data-live-search' => 'true']) !!}
                                 </div>
-                            </div>
+                            </div>--}}
+                            {!! Form::hidden('store_id',request('store_id')??session('store_id'),['id'=>'store_id']) !!}
                             <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
                                 <div class="yurProdc">
                                     <div class="form-group block-gp">
                                         <label>بحث بإسم الصنف أو الباركود</label>
-                                        <select class=" form-control js-example-basic-single" name="product_id"
-                                            data-live-search="true" placeholder="اختر المنتج" id="selectID">
-                                            <option value=""> حدد المستودع اولا</option>
-
-                                        </select>
+                                        <select class="form-control" name="products" id="selectID2"></select>
                                     </div>
                                 </div>
                                 <div class="tempobar"></div>
@@ -346,6 +343,9 @@
     </div>
 @endsection
 @section('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
+            integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!--- scroll to the last table row -->
     <script>
         $('table').on('DOMSubtreeModified', 'tbody', function() {
@@ -682,94 +682,60 @@
                 }
             })
         });
-        $("#store_id").on('change', function() {
-            var store_id = $(this).val();
-            //	For Ajax Search By Product Bar Code
-            $("#barcode_search").scannerDetection({
-                timeBeforeScanTest: 200, // wait for the next character for upto 200ms
-                avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms
-                preventDefault: true,
-                endChar: [13],
-                onComplete: function(barcode, qty) {
-                    validScan = true;
-                    $.ajax({
-                        url: "/accounting/barcode_search_sale/" + barcode,
-                        type: "GET",
-                        data: {
-                            store_id: store_id,
-                        },
-                        success: function(data) {
-                            if (data.data.length !== 0) {
-                                $('#barcode_search').val('');
-                                $(".tempobar").html(data.data);
-                                var selectedID = $(".tempobar").find('option').data(
-                                    'unit-id');
-                                var alreadyChosen = $(
-                                    ".bill-table tbody td select option[value=" +
-                                    selectedID + "]");
-                                var repeatedInputVal = $(
-                                    ".bill-table tbody td select option[value=" +
-                                    selectedID + "]:selected").parents('tr').find(
-                                    '.product-quantity').find('input');
-                                if (alreadyChosen.length > 0 && alreadyChosen.is(
-                                        ':selected')) {
-                                    repeatedInputVal.val(Number(repeatedInputVal.val()) +
-                                    1);
-                                    repeatedInputVal.text(repeatedInputVal.val());
-                                    $('.product-quantity').find('input').trigger('change');
-                                } else {
-                                    $('#barcode_search').val('');
-                                    rowNum++;
-                                    byBarcode();
-                                    $('.product-quantity').find('input').trigger('change');
-                                }
-                            }
-                        }
-                    });
+        $('#selectID2').select2({
+            ajax: {
+                delay: 250,
+                url: "/accounting/productsAjex/" + store_id,
+                data: function (params) {
+                    var query = {
+                        search: params.term,
+                        page: params.page || 1
+                    }
+                    return query;
                 },
-                onError: function(string, qty) {
-                    $('#barcode_search').val($('#barcode_search').val() + string);
-                    var barcode = $('#barcode_search').val();
-                    validScan = true;
-                    $.ajax({
-                        url: "/accounting/barcode_search_sale/" + barcode,
-                        type: "GET",
-                        data: {
-                            store_id: store_id,
-                        },
-                        success: function(data) {
-                            if (data.data.length !== 0) {
-                                $('#barcode_search').val('');
-                                $(".tempobar").html(data.data);
-                                var selectedID = $(".tempobar").find('option').data(
-                                    'unit-id');
-                                var alreadyChosen = $(
-                                    ".bill-table tbody td select option[value=" +
-                                    selectedID + "]");
-                                var repeatedInputVal = $(
-                                    ".bill-table tbody td select option[value=" +
-                                    selectedID + "]:selected").parents('tr').find(
-                                    '.product-quantity').find('input');
-                                if (alreadyChosen.length > 0 && alreadyChosen.is(
-                                        ':selected')) {
-                                    repeatedInputVal.val(Number(repeatedInputVal.val()) +
-                                    1);
-                                    repeatedInputVal.text(repeatedInputVal.val());
-                                    $('.product-quantity').find('input').trigger('change');
-                                } else {
-                                    $('#barcode_search').val('');
-                                    rowNum++;
-                                    byBarcode();
-                                    $('.product-quantity').find('input').trigger('change');
-                                }
-                            }
+
+
+                processResults: function (data, params) {
+                    // parse the results into the format expected by Select2
+                    // since we are using custom formatting functions we do not need to
+                    // alter the remote JSON data, except to indicate that infinite
+                    // scrolling can be used
+                    params.page = params.page || 1;
+                    /*
+                    *     var productBarCode = selectedProduct.data('bar-code');
+            var productPrice = Number(selectedProduct.data('price'));
+            var priceHasTax = selectedProduct.data('price-has-tax');
+            var totalTaxes = selectedProduct.data('total-taxes');
+            var mainUnit = selectedProduct.data('main-unit');
+            var productUnits = selectedProduct.data('subunits');*/
+                    results = _.toArray(data.data.data);
+                    return {
+                        results: results,
+                        pagination: {
+                            more: data.has_more
                         }
-                    });
-
-                }
-            });
+                    };
+                },
+                cache: true
+            },
+            placeholder: 'Search for a repository',
+            minimumInputLength: 1,
+            // templateResult: formatRepo,
+            // templateSelection: formatRepoSelection,
+            delay: 250
         });
+        $('#selectID2').on('change', function (e) {
+            // $('#selectID2').change(function() {
+            $.ajax({
+                method: 'GET',
+                url: "/accounting/products-single-product/" + e.target.value,
+                success: function (resp) {
+                    calcBill(resp.id, resp.id, resp.name, resp.bar_code,
+                        parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits))
+                }
+            })
 
+        });
         function byBarcode() {
             $(".tempDisabled").removeClass("tempDisabled");
             $(".tempobar").find('option').prop('selected', true);
@@ -788,7 +754,7 @@
                 mainUnit, productUnits)
         }
         $(document).keydown(function(event) {
-            if (event.which == 118 || event.which == 13) { //F7 حفظ
+            if (event.which == 118 ) { //F7 حفظ
                 confirmSubmit(event);
                 return false;
             }
