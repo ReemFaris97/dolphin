@@ -22,6 +22,7 @@ use App\Models\AccountingSystem\AccountingSale;
 use App\Models\AccountingSystem\AccountingSaleItem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingAccountLog;
 use App\Models\AccountingSystem\AccountingDevice;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingReturn;
@@ -217,18 +218,29 @@ class SaleController extends Controller
 
 
         //حساب  المبيعات والنقدية
-        AccountingEntryAccount::create([
+        $creditorAccount=   AccountingEntryAccount::create([
                     'entry_id' => $entry->id,
                     'affect'=> 'creditor',
                     'account_id'=>getsetting('accounting_id_sales'),
                     'amount' => $sale->total,
                 ]);
-        AccountingEntryAccount::create([
+        $debtorAccount= AccountingEntryAccount::create([
                     'entry_id' => $entry->id,
                     'affect'=> 'creditor',
                     'account_id'=>  getsetting('accounting_id_clients'),
                     'amount' => $sale->total,
                 ]);
+
+        $last=AccountingAccountLog::where('account_id', $debtorAccount->account_id)->latest()->first();
+        AccountingAccountLog::create([
+                'entry_id'=>$entry->id,
+                'account_id'=>$debtorAccount->account_id,
+                'account_amount_before'=>$last->account_amount_after ??$debtorAccount->account->amount,
+                'another_account_id'=>$creditorAccount->account_id,
+                'amount'=>$creditorAccount->amount,
+                'account_amount_after'=>isset($last)?$last->account_amount_after  - $creditorAccount->amount :$debtorAccount->account->amount - $creditorAccount->amount,
+                'affect'=>'debtor',
+                    ]);
 //                dd($sale->getItemCostAttribute());
         //حساب  المبيعات والمخزون
         // $storeAccount = AccountingAccount::where('store_id', $sale->store_id)->first()??new AccountingAccount();
