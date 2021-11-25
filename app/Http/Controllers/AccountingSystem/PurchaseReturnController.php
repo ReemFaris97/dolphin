@@ -55,14 +55,8 @@ class PurchaseReturnController extends Controller
         // $products=AccountingProduct::all();
         $userstores=AccountingUserPermission::where('user_id',auth()->user()->id)->where('model_type','App\Models\AccountingSystem\AccountingStore')->pluck('model_id','id')->toArray();
         $stores=AccountingStore::whereIn('id',$userstores)->pluck('ar_name','id')->toArray();
-        if($userstores){
-        $store_product=AccountingProductStore::whereIn('store_id',$userstores)->pluck('product_id','id')->toArray();
-            $products=AccountingProduct::whereIn('id',$store_product)->get();
-
-
-             }else{
         $products=[];
-      }
+
 
        return  view('AccountingSystem.buy_points.buy_point',compact('categories','suppliers','safes','products','stores'));
     }
