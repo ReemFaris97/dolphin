@@ -22,7 +22,6 @@ use App\Models\AccountingSystem\AccountingSale;
 use App\Models\AccountingSystem\AccountingSaleItem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\AccountingSystem\AccountingAccountLog;
 use App\Models\AccountingSystem\AccountingDevice;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingReturn;
@@ -78,7 +77,7 @@ class SaleController extends Controller
     {
         $requests = $request->all();
         if (!$request->client_id) {
-            $requests['client_id']=optional(Client::first())->id;
+            $requests['client_id']=5;
         }
 
         $user=User::find($requests['user_id']);
@@ -107,7 +106,7 @@ class SaleController extends Controller
             'debts'=>$requests['reminder'] ,
 //            'payment'=>'agel',
             'total'=>$requests['total'],
-            'branch_id'=>(optional($user->store)->model_type=='App\Models\AccountingSystem\AccountingBranch')?optional($user->store)->model_id:null,
+            'branch_id'=>($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:null,
         ]);
         if ($requests['discount_byPercentage']!=0&&$requests['discount_byAmount']==0) {
             $sale->update([
@@ -123,12 +122,11 @@ class SaleController extends Controller
         }
 
         $products=$requests['product_id'];
+        $quantities=$requests['quantity'];
         $products = collect($requests['product_id']);
         $qtys = collect($requests['quantity']);
         $unit_id = collect($requests['unit_id']);
-        $taxs = collect($requests['tax']);
-        $price_after_tax = collect($requests['price_after_tax']??0);
-        $merges = $products->zip($qtys, $unit_id, $taxs, $price_after_tax);
+        $merges = $products->zip($qtys, $unit_id);
 
         foreach ($merges as $merge) {
             $product=AccountingProduct::find($merge['0']);
@@ -144,9 +142,6 @@ class SaleController extends Controller
                     'product_id'=>$merge['0'],
                     'quantity'=> $merge['1'],
                     'price'=>$product->selling_price,
-                    'unit_id'=> $merge['2'],
-                    'tax'=> $merge['3'],
-                    'price_after_tax'=> $merge['4'],
                     'sale_id'=>$sale->id
                 ]);
             ///if-main-unit
@@ -194,12 +189,12 @@ class SaleController extends Controller
         if ($sale->payment=='cash') {
             $store_id=auth()->user()->accounting_store_id;
             $store=AccountingStore::find($store_id);
-        //     $safe=AccountingSafe::where('device_id', $sale->session->device_id)->first();
-        //    if ($safe) {
-        //        $safe->update([
-        //            'amount' => $safe->amount - $sale->total
-        //        ]);
-        //    }
+            $safe=AccountingSafe::where('device_id', $sale->session->device_id)->first();
+            if ($safe) {
+                $safe->update([
+                   'amount' => $safe->amount - $sale->total
+               ]);
+            }
         } elseif ($sale->payment=='agel') {
             $client=AccountingClient::find($sale-> client_id);
             $client->update([
@@ -216,46 +211,35 @@ class SaleController extends Controller
             'status'=>'new'
         ]);
 
+        if ($sale->payment=='cash') {
+            $saleAccount=AccountingAccount::find(getsetting('accounting_id_sales'));
+            if (isset($saleAccount)) {
 
-        //حساب  المبيعات والنقدية
-        $creditorAccount=   AccountingEntryAccount::create([
+                //حساب  المبيعات والنقدية
+                AccountingEntryAccount::create([
                     'entry_id' => $entry->id,
-                    'affect'=> 'creditor',
-                    'account_id'=>getsetting('accounting_id_sales'),
+                    'from_account_id' => getsetting('accounting_id_clients'),
+                    'to_account_id' => getsetting('accounting_id_sales'),
                     'amount' => $sale->total,
                 ]);
-        $debtorAccount= AccountingEntryAccount::create([
-                    'entry_id' => $entry->id,
-                    'affect'=> 'creditor',
-                    'account_id'=>  getsetting('accounting_id_clients'),
-                    'amount' => $sale->total,
-                ]);
-
-        $last=AccountingAccountLog::where('account_id', $debtorAccount->account_id)->latest()->first();
-        AccountingAccountLog::create([
-                'entry_id'=>$entry->id,
-                'account_id'=>$debtorAccount->account_id,
-                'account_amount_before'=>$last->account_amount_after ??$debtorAccount->account->amount,
-                'another_account_id'=>$creditorAccount->account_id,
-                'amount'=>$creditorAccount->amount,
-                'account_amount_after'=>isset($last)?$last->account_amount_after  - $creditorAccount->amount :$debtorAccount->account->amount - $creditorAccount->amount,
-                'affect'=>'debtor',
-                    ]);
 //                dd($sale->getItemCostAttribute());
-        //حساب  المبيعات والمخزون
-        // $storeAccount = AccountingAccount::where('store_id', $sale->store_id)->first()??new AccountingAccount();
-        // AccountingEntryAccount::create([
-        //             'entry_id' => $entry->id,
-        //             'from_account_id' =>getsetting('accounting_sales_cost_id'),
-        //             'to_account_id' => $storeAccount->id??getsetting('accounting_sales_cost_id'),
-        //             'amount' => $sale->getItemCostAttribute(),
-        //         ]);
+                //حساب  المبيعات والمخزون
+                $storeAccount = AccountingAccount::where('store_id', $sale->store_id)->first();
+                AccountingEntryAccount::create([
+                    'entry_id' => $entry->id,
+                    'from_account_id' =>getsetting('accounting_sales_cost_id'),
+                    'to_account_id' => $storeAccount->id,
+                    'amount' => $sale->getItemCostAttribute(),
+                ]);
+            }
+        }
 
 
 //        dd($sale);
         alert()->success('تمت عملية البيع بنجاح !')->autoclose(5000);
         return back()->with('sale_id', $sale->id);
     }
+
 
     public function index_returns()
     {
