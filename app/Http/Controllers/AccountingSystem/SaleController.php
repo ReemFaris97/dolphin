@@ -22,6 +22,7 @@ use App\Models\AccountingSystem\AccountingSale;
 use App\Models\AccountingSystem\AccountingSaleItem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingAccountLog;
 use App\Models\AccountingSystem\AccountingDevice;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingReturn;
@@ -106,7 +107,7 @@ class SaleController extends Controller
             'debts'=>$requests['reminder'] ,
 //            'payment'=>'agel',
             'total'=>$requests['total'],
-            'branch_id'=>($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:null,
+            'branch_id'=>(@$user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?@$user->store->model_id:null,
         ]);
         if ($requests['discount_byPercentage']!=0&&$requests['discount_byAmount']==0) {
             $sale->update([
@@ -211,28 +212,56 @@ class SaleController extends Controller
             'status'=>'new'
         ]);
 
-        if ($sale->payment=='cash') {
-            $saleAccount=AccountingAccount::find(getsetting('accounting_id_sales'));
-            if (isset($saleAccount)) {
+        // if ($sale->payment=='cash') {
+        $saleAccount=AccountingAccount::find(getsetting('accounting_id_sales'));
+        // if (isset($saleAccount)) {
 
-                //حساب  المبيعات والنقدية
-                AccountingEntryAccount::create([
+        //حساب  المبيعات والنقدية
+        AccountingEntryAccount::create([
                     'entry_id' => $entry->id,
                     'from_account_id' => getsetting('accounting_id_clients'),
                     'to_account_id' => getsetting('accounting_id_sales'),
                     'amount' => $sale->total,
                 ]);
 //                dd($sale->getItemCostAttribute());
-                //حساب  المبيعات والمخزون
-                $storeAccount = AccountingAccount::where('store_id', $sale->store_id)->first();
-                AccountingEntryAccount::create([
+        //حساب  المبيعات والمخزون
+        $storeAccount = AccountingAccount::where('store_id', $sale->store_id)->first()??AccountingAccount::first();
+        AccountingEntryAccount::create([
                     'entry_id' => $entry->id,
                     'from_account_id' =>getsetting('accounting_sales_cost_id'),
-                    'to_account_id' => $storeAccount->id,
+                    'to_account_id' => @$storeAccount->id,
                     'amount' => $sale->getItemCostAttribute(),
                 ]);
-            }
-        }
+        // }
+        // }
+        $debit_account=AccountingAccount::find(getsetting('accounting_id_sales'))??new AccountingAccount();
+
+
+        $last=AccountingAccountLog::where('account_id', getsetting('accounting_id_clients'))->latest()->first();
+
+        AccountingAccountLog::create([
+        'entry_id'=>$entry->id,
+        'account_id'=>getsetting('accounting_id_sales'),
+        'account_amount_before'=>$last->account_amount_after ??$debit_account->amount,
+        'another_account_id'=>getsetting('accounting_id_clients'),
+        'amount'=>$sale->total,
+        'account_amount_after'=>isset($last)?$last->account_amount_after  - $debit_account->amount :$debit_account->amount - $debit_account->amount,
+        'affect'=>'debtor',
+            ]);
+
+        $last=AccountingAccountLog::where('account_id',getsetting('accounting_id_clients'))->latest()->first();
+$credit_account=AccountingAccount::find(getsetting('accounting_id_clients'))??new AccountingAccount();
+
+        AccountingAccountLog::create([
+            'entry_id'=>$entry->id,
+            'account_id'=>getsetting('accounting_id_clients'),
+             'account_amount_before'=>@$last->account_amount_after??$credit_account->account->amount,
+            'another_account_id'=>getsetting('accounting_id_sales'),
+            'amount'=>$sale->total,
+        'account_amount_after'=>isset($last)?@$last->account_amount_after+ ($sale->total) : $credit_account->amount + ($sale->total),
+            ]);
+
+
 
 
 //        dd($sale);
