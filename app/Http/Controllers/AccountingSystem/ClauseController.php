@@ -46,15 +46,16 @@ class ClauseController extends Controller
      */
     public function create()
     {
-
-        $benods=AccountingBenod::pluck('ar_name','id')->toArray();
-        $payments=AccountingPayment::where('active',1)->pluck('name','id')->toArray();
-        $centers=AccountingCostCenter::pluck('name','id')->toArray();
-        $accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->where('kind','sub')->pluck('code_name','id')->toArray();
-        $client_accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->where('kind','sub')->where('client_id','!=',Null)->pluck('code_name','id')->toArray();
-        $supplier_accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->where('kind','sub')->where('supplier_id','!=',Null)->pluck('code_name','id')->toArray();
-
-        return $this->toCreate(compact('payments','benods','centers','accounts','client_accounts','supplier_accounts'));
+        $benods=AccountingBenod::pluck('ar_name', 'id')->toArray();
+        $payments=AccountingPayment::where('active', 1)->pluck('name', 'id')->toArray();
+        $centers=AccountingCostCenter::pluck('name', 'id')->toArray();
+        $accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->where('kind', 'sub')->pluck('code_name', 'id')->toArray();
+        $client_accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->where('kind', 'sub')->where('client_id', '!=', null)->pluck('code_name', 'id')->toArray();
+        $supplier_accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))
+        // ->where('kind','sub')
+        ->whereIn('id', AccountingSupplier::pluck('account_id'))
+        ->pluck('code_name', 'id')->toArray();
+        return $this->toCreate(compact('payments', 'benods', 'centers', 'accounts', 'client_accounts', 'supplier_accounts'));
     }
 
     /**
@@ -65,8 +66,8 @@ class ClauseController extends Controller
      */
     public function store(Request $request)
     {
-//   dd($request->all());
-         $rules = [
+        //   dd($request->all());
+        $rules = [
 
              'type'=>'required',
              'amount'=>'required',
@@ -78,16 +79,15 @@ class ClauseController extends Controller
             'amount.required'=>' المبلغ  مطلوب ',
 
         ];
-        $this->validate($request,$rules,$message);
+        $this->validate($request, $rules, $message);
         $requests = $request->all();
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'photos');
         }
-// dd($requests);
+        // dd($requests);
         $clause = AccountingMoneyClause::create($requests);
 
-        if($clause->type=='revenue'){
-
+        if ($clause->type=='revenue') {
             $entry=AccountingEntry::create([
                 'date'=>$clause->date,
                 'source'=>'السندات',
@@ -102,10 +102,7 @@ class ClauseController extends Controller
                 'to_account_id'=>$clause->revenue_account_id,
                 'amount'=>$clause->amount,
             ]);
-        }
-
-       else if($clause->type=='check_revenue'){
-
+        } elseif ($clause->type=='check_revenue') {
             $entry=AccountingEntry::create([
                 'date'=>$clause->date,
                 'source'=>'السندات',
@@ -120,8 +117,7 @@ class ClauseController extends Controller
                 'to_account_id'=>$clause->revenue_account_id,
                 'amount'=>$clause->amount,
             ]);
-        }
-        elseif($clause->type=='expenses'){
+        } elseif ($clause->type=='expenses') {
             $entry=AccountingEntry::create([
                 'date'=>$clause->date,
                 'source'=>'السندات',
@@ -136,8 +132,7 @@ class ClauseController extends Controller
                 'to_account_id'=>$clause->account_id,
                   'amount'=>$clause->amount,
             ]);
-        }
-        elseif($clause->type=='check_expenses'){
+        } elseif ($clause->type=='check_expenses') {
             $entry=AccountingEntry::create([
                 'date'=>$clause->date,
                 'source'=>'السندات',
@@ -174,13 +169,13 @@ class ClauseController extends Controller
     public function edit($id)
     {
         $clause =AccountingMoneyClause::findOrFail($id);
-        $safes =AccountingSafe::pluck('name','id')->toArray();
-        $clients =AccountingClient::pluck('name','id')->toArray();
-        $suppliers =AccountingSupplier::pluck('name','id')->toArray();
-        $benods=AccountingBenod::pluck('ar_name','id')->toArray();
-        $banks =AccountingBank::pluck('name','id')->toArray();
+        $safes =AccountingSafe::pluck('name', 'id')->toArray();
+        $clients =AccountingClient::pluck('name', 'id')->toArray();
+        $suppliers =AccountingSupplier::pluck('name', 'id')->toArray();
+        $benods=AccountingBenod::pluck('ar_name', 'id')->toArray();
+        $banks =AccountingBank::pluck('name', 'id')->toArray();
 
-        return $this->toEdit(compact('clause','safes','clients','suppliers','benods','banks'));
+        return $this->toEdit(compact('clause', 'safes', 'clients', 'suppliers', 'benods', 'banks'));
     }
 
     /**
@@ -218,24 +213,19 @@ class ClauseController extends Controller
         $clause =AccountingMoneyClause::findOrFail($id);
         $clause->delete();
         alert()->success('تم حذف  البند بنجاح !')->autoclose(5000);
-            return back();
-
-
+        return back();
     }
 
-    public  function  show($id){
-
+    public function show($id)
+    {
         $clause =AccountingMoneyClause::findOrFail($id);
-        return view('AccountingSystem.clauses.show',compact('clause'));
+        return view('AccountingSystem.clauses.show', compact('clause'));
     }
 
 
-    public function checks(){
-
-        $clauses=AccountingMoneyClause::whereIn('type',['check_revenue','check_expenses'])->get();
-        return view('AccountingSystem.clauses.checks',compact('clauses'));
-
+    public function checks()
+    {
+        $clauses=AccountingMoneyClause::whereIn('type', ['check_revenue','check_expenses'])->get();
+        return view('AccountingSystem.clauses.checks', compact('clauses'));
     }
-
-    
 }
