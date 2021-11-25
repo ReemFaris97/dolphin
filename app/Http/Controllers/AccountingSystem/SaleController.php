@@ -409,8 +409,10 @@ class SaleController extends Controller
                'available'=>'1'
            ]);
         $devices=AccountingDevice::where('available', 1)->pluck('name', 'id')->toArray();
-
-        return view('AccountingSystem.sell_points.login', compact('users', 'devices'));
+        $userstores = AccountingUserPermission::where('user_id', auth()->user()->id)
+            ->where('model_type', 'App\Models\AccountingSystem\AccountingStore')->pluck('model_id', 'id')->toArray();
+        $stores=AccountingStore::whereIn('id', $userstores)->pluck('ar_name', 'id')->toArray();
+        return view('AccountingSystem.sell_points.login', compact('users', 'devices','stores'));
     }
     /**
      * Show the form for editing the specified resource.
