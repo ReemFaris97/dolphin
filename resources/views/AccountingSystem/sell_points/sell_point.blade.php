@@ -72,14 +72,7 @@
                                 </div>
 
                             @endif
-
-
-                            <div class="col-md-4 col-sm-4 col-xs-12">
-                                <div class="form-group block-gp">
-                                    <label> اختر المستودع </label>
-                                    {!! Form::select('store_id', $stores, null, ['class' => 'selectpicker form-control j category_id', 'id' => 'store_id', 'placeholder' => ' اختر المستودع ', 'data-live-search' => 'true', 'x-model' => 'selected']) !!}
-                                </div>
-                            </div>
+                            {!! Form::hidden('store_id',request('store_id'),['id'=>'store_id']) !!}
                             <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
                                 <div class="yurProdc">
                                     <div class="form-group block-gp">
@@ -547,8 +540,8 @@
             })
         };
 
-        // var store_id = $("#store_id").val();
-        var store_id = 1;
+        var store_id = $("#store_id").val();
+        // var store_id = 1;
         // $('#selectID').removeClass('hidden');
         $('#selectID2').select2({
             ajax: {
@@ -590,6 +583,19 @@
             minimumInputLength: 1,
             // templateResult: formatRepo,
             // templateSelection: formatRepoSelection,
+            delay: 250
+        });
+        $('#selectID2').on('change', function (e) {
+            // $('#selectID2').change(function() {
+            $.ajax({
+                method: 'GET',
+                url: "/accounting/products-single-product/" + e.target.value,
+                success: function (resp) {
+                    calcBill(resp.id, resp.id, resp.name, resp.bar_code,
+                        parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits))
+                }
+            })
+
         });
 
         function formatRepo(repo) {
@@ -615,18 +621,6 @@
         }
 
 
-        $('#selectID2').on('change', function (e) {
-            // $('#selectID2').change(function() {
-            $.ajax({
-                method: 'GET',
-                url: "/accounting/products-single-product/" + e.target.value,
-                success: function (resp) {
-                    calcBill(resp.id, resp.id, resp.name, resp.bar_code,
-                        parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits))
-                }
-            })
-
-        });
 
         function formatRepoSelection(repo) {
             return repo.title || repo.bar_code;

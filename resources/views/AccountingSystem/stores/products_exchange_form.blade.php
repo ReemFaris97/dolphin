@@ -59,7 +59,7 @@
             <div class="clearfix"></div>
             <div class="form-group col-md-6">
                 <label>اسم الصنف</label>
-                <select class="form-control"
+                <select class="form-control select2"
                         id="product"
                         data-parsley-trigger="select"
                         data-parsley-required-message="اسم الصنف مطلوب">
@@ -141,6 +141,11 @@
 
 
 @section('scripts')
+    <script>
+        $(document).ready(function (){
+            $('.select2').select2();
+        });
+    </script>
     <script>
         $('#check-all').change(function () {
             $("input:checkbox").prop("checked", $(this).prop("checked"))

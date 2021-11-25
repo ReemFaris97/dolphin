@@ -32,7 +32,7 @@
 
 <div class="form-group col-md-6 pull-left">
     <label> اختر الحساب </label>
-    {!! Form::select("account_id",$accounts,null,['class'=>'form-control','placeholder'=>' اختر الحساب'])!!}
+    {!! Form::select("account_id",$accounts,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر الحساب'])!!}
 </div>
 
 <div class="form-group col-md-6 pull-left ">
@@ -59,9 +59,10 @@
     });
 
     $('#payment_id').change(function() {
-    var type = $('#payment_id').val();
-    if (type=='fixed_installment'){
-     $('.fixed_installment').show();
+        var type = $('#payment_id').val();
+        if (type == 'fixed_installment') {
+            $('.fixed_installment').show();
+        }
     });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>

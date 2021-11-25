@@ -42,17 +42,22 @@
     {!! Form::select("device_id",$devices,null,['class'=>'form-control js-example-basic-single ','placeholder'=>'   اختر كود الجهاز  '])!!}
 </div>
 
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="form-group block-gp">
+                    <label> اختر المستودع </label>
+                    {!! Form::select('store_id', $stores, null, ['class' => 'selectpicker form-control j category_id', 'id' => 'store_id', 'placeholder' => ' اختر المستودع ', 'data-live-search' => 'true', 'x-model' => 'selected']) !!}
+                </div>
+            </div>
 
 
-
-<div class="form-group col-sm-6 col-xs-12 pull-left">
+<div class="form-group col-sm-4 col-xs-12 pull-left">
     <label> إيميل الكاشير </label>
     {!! Form::email("email",null,['class'=>'form-control','placeholder'=>'  إيميل الكاشير'])!!}
 </div>
 
 
 
-<div class="form-group col-sm-6 col-xs-12 pull-left">
+<div class="form-group col-sm-4 col-xs-12 pull-left">
     <label>  كلمه المرور </label>
     {!! Form::password('password',['class'=>'form-control  m-input','placeholder'=>' كلمه المرور'])!!}
 </div>

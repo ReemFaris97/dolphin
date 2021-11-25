@@ -121,6 +121,11 @@ class AccountingProduct extends Model
         )->latest();
     }
 
+    public function sub_units()
+    {
+        return $this->hasMany(AccountingProductSubUnit::class,'product_id');
+    }
+
     public function sales()
     {
         return $this->hasMany(AccountingSaleItem::class)->whereHas('sale', function ($q) {

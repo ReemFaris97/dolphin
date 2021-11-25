@@ -123,30 +123,24 @@
 							<label> اختر المستودع </label>
 							{!! Form::select("store_id",$stores,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'store_id','placeholder'=>' اختر المستودع ','data-live-search'=>'true'])!!}
 						</div>
-					</div>
+                    </div>
 
-					<div class="col-md-4 col-sm-4 col-xs-12">
-						<div class="yurProdc">
-							<!--Select Products-->
-							<div class="form-group block-gp">
-								<label>بحث بإسم الصنف أو الباركود</label>
-								<select class=" form-control js-example-basic-single"
-										name="product_id"
-										placeholder="اختر الصنف"
-										data-live-search="true"
-										id="selectID">
-									<option value="">  حدد  المستودع اولا</option>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="yurProdc">
+                                <!--Select Products-->
+                                <div class="form-group block-gp">
+                                    <label>بحث بإسم الصنف أو الباركود</label>
+                                    <select class="form-control" name="products" id="selectID2"></select>
 
-								</select>
-							</div>
-							<!--Select Products End-->
-						</div>
-					</div>
-					<div class="tempobar"></div>
-				</div>
-			</div>
-			<div class="result">
-					<input type="hidden" name="bill_date" id="bill_date_val">
+                                </div>
+                                <!--Select Products End-->
+                            </div>
+                        </div>
+                        <div class="tempobar"></div>
+                </div>
+            </div>
+            <div class="result">
+                <input type="hidden" name="bill_date" id="bill_date_val">
 {{--{{getsetting('free_taxs')}}--}}
 <table border="1" class="table finalTb moshtraiat-bill mabi3at-bill bill-table
 {{(getsetting('name_enable')==1) ? 'name_enable':'' }}
@@ -386,58 +380,120 @@ unit_total_tax_enable
 <!--- end datatable -->
 <script src="{{asset('admin/assets/js/jquery.datetimepicker.full.min.js')}}"></script>
 <script src="{{asset('admin/assets/js/scanner.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
+        integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-	$(document).ready(function() {
-		// For initializing now date
-		$('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
-		$('.inlinedatepicker').text(new Date().toLocaleString());
-		$('.inlinedatepicker').val(new Date().toLocaleString());
-		// For preventing user from inserting two methods of discount
-		$("#byPercentage").change(function() {
-			$("#byAmount").val(0);
-		});
-		$("#byAmount").change(function() {
-			$("#byPercentage").val(0);
-		});
-	});
+    $(document).ready(function () {
+        // For initializing now date
+        $('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
+        $('.inlinedatepicker').text(new Date().toLocaleString());
+        $('.inlinedatepicker').val(new Date().toLocaleString());
+        // For preventing user from inserting two methods of discount
+        $("#byPercentage").change(function () {
+            $("#byAmount").val(0);
+        });
+        $("#byAmount").change(function () {
+            $("#byPercentage").val(0);
+        });
+    });
 
-	var rondingNumber = $("#ronding-number").val();
+    var rondingNumber = $("#ronding-number").val();
 
-	//	variable for enumeration of bill products
-	var rowNum = 0;
+    //	variable for enumeration of bill products
+    var rowNum = 0;
 
-//	Calcuation Function
+    //	Calcuation Function
+    $('#selectID2').select2({
+        ajax: {
+            delay: 250,
+            url: "/accounting/productsAjexPurchase/",
+            data: function (params) {
+                var query = {
+                    search: params.term,
+                    page: params.page || 1,
+                    store_id: $('#store_id').val() || null
+                }
+                return query;
+            },
 
-function calculateBill(ProductId, productName, productLink, lastPrice, avgPrice, barCode, productPrice, priceHasTax, totalTaxes, productUnits , expirationDate){
-					var dateInpt = '';
-                    let today = new Date().toISOString().substr(0, 10);
-                    if (expirationDate == 1) {
-                        var dateInpt = '<input type="date" class="expiration form-control" name="expire_date" value="' + today + '" , min="' + today + '">';
-                    } else {
-                        var dateInpt = '---';
+
+            processResults: function (data, params) {
+                // parse the results into the format expected by Select2
+                // since we are using custom formatting functions we do not need to
+                // alter the remote JSON data, except to indicate that infinite
+                // scrolling can be used
+                params.page = params.page || 1;
+                /*
+                *     var productBarCode = selectedProduct.data('bar-code');
+        var productPrice = Number(selectedProduct.data('price'));
+        var priceHasTax = selectedProduct.data('price-has-tax');
+        var totalTaxes = selectedProduct.data('total-taxes');
+        var mainUnit = selectedProduct.data('main-unit');
+        var productUnits = selectedProduct.data('subunits');*/
+                results = _.toArray(_.mapValues(data.data.data, function (obj) {
+                    return {
+                        id: obj.id,
+                        text: obj.name + ' - ' + obj.bar_code
+                    };
+                }));
+                return {
+                    results: results,
+                    pagination: {
+                        more: data.has_more
                     }
-                    let unitName = productUnits.map(a => a.name);
-                    let unitId = productUnits.map(c => c.id);
-                    let unitPrice = productUnits.map(b => b.purchasing_price);
+                };
+            },
+            cache: true
+        },
+        placeholder: 'Search for a repository',
+        minimumInputLength: 1,
+        // templateResult: formatRepo,
+        // templateSelection: formatRepoSelection,
+    });
+    $('#selectID2').on('change', function (e) {
+        // $('#selectID2').change(function() {
+        $.ajax({
+            method: 'GET',
+            url: "/accounting/purchase/products-single-product/" + e.target.value,
+            success: function (resp) {
+                calculateBill(resp.id, resp.name, resp.link, parseFloat(resp.last_price),
+                    parseFloat(resp.average), resp.bar_code, parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, JSON.parse(resp.subunits), resp.product_expiration)
+            }
+        })
 
-                    //		Getting prices and taxes Code
-                    var singlePriceBefore, singlePriceAfter = 0;
-                    if (Number(priceHasTax) === 0) {
-                        var singlePriceBefore = Number(productPrice);
-                        var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
-                    } else if (Number(priceHasTax) === 1) {
-                        var onllyDariba = Number(productPrice) - (Number(productPrice) * (100 / (100 + Number(totalTaxes))));
-                        var singlePriceBefore = Number(productPrice) - Number(onllyDariba);
-                        var singlePriceAfter = Number(productPrice);
-                    } else {
-                        var singlePriceBefore = Number(productPrice);
-                        var singlePriceAfter = Number(productPrice);
-                    }
-                    var netTax = (Number(singlePriceAfter) - Number(singlePriceBefore)).toFixed(rondingNumber);
+    });
 
-                    var discountNum = 1;
-                    var optss = ``;
-                    for (var i = 0; i < productUnits.length; i++) {
+    function calculateBill(ProductId, productName, productLink, lastPrice, avgPrice, barCode, productPrice, priceHasTax, totalTaxes, productUnits, expirationDate) {
+        var dateInpt = '';
+        let today = new Date().toISOString().substr(0, 10);
+        if (expirationDate == 1) {
+            var dateInpt = '<input type="date" class="expiration form-control" name="expire_date" value="' + today + '" , min="' + today + '">';
+        } else {
+            var dateInpt = '---';
+        }
+        let unitName = productUnits.map(a => a.name);
+        let unitId = productUnits.map(c => c.id);
+        let unitPrice = productUnits.map(b => b.purchasing_price);
+
+        //		Getting prices and taxes Code
+        var singlePriceBefore, singlePriceAfter = 0;
+        if (Number(priceHasTax) === 0) {
+            var singlePriceBefore = Number(productPrice);
+            var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
+        } else if (Number(priceHasTax) === 1) {
+            var onllyDariba = Number(productPrice) - (Number(productPrice) * (100 / (100 + Number(totalTaxes))));
+            var singlePriceBefore = Number(productPrice) - Number(onllyDariba);
+            var singlePriceAfter = Number(productPrice);
+        } else {
+            var singlePriceBefore = Number(productPrice);
+            var singlePriceAfter = Number(productPrice);
+        }
+        var netTax = (Number(singlePriceAfter) - Number(singlePriceBefore)).toFixed(rondingNumber);
+
+        var discountNum = 1;
+        var optss = ``;
+        for (var i = 0; i < productUnits.length; i++) {
                         optss += '<option data-uni-price="' + unitPrice[i] + '" value="' + unitId[i] + '" > ' + unitName[i] + '</option> ';
                     }
 
@@ -502,10 +558,10 @@ function calculateBill(ProductId, productName, productLink, lastPrice, avgPrice,
 						</tr>
 					`);
                     $(".tempDisabled").removeClass("tempDisabled");
-	
+
 					var height = $("tbody").height();
 					$("tbody").animate({ scrollTop: $('tbody').prop("scrollHeight")}, height);
-			
+
                     calcInfo();
                     $('.popover-op').popover({trigger: "click"});
                     $("#modals-area").append(`<div id="discMod${rowNum}" class="modal fade special-discount-modal" role="dialog">
@@ -852,93 +908,94 @@ function calculateBill(ProductId, productName, productLink, lastPrice, avgPrice,
                         }
 
                     });
-			$("#remove-tax").change(function(){
-                if($(this).is(':checked')){
-                    $(".unit-total-tax input").each(function(){
-                        $(this).val(0);
-                        $(this).trigger('change');
-                        $(this).attr('readonly' , 'readonly')
-                    })
-                }else{
-                    $(".unit-total-tax input").each(function(){
-                        $(this).val(Number($(this).attr('data-original-tax')));
-                        $(this).trigger('change');
-						$(this).attr('readonly' , false)
-                    })
-                }
-            })
-}
+        $("#remove-tax").change(function () {
+            if ($(this).is(':checked')) {
+                $(".unit-total-tax input").each(function () {
+                    $(this).val(0);
+                    $(this).trigger('change');
+                    $(this).attr('readonly', 'readonly')
+                })
+            } else {
+                $(".unit-total-tax input").each(function () {
+                    $(this).val(Number($(this).attr('data-original-tax')));
+                    $(this).trigger('change');
+                    $(this).attr('readonly', false)
+                })
+            }
+        })
+    }
 
-	$('#selectID').selectpicker();
-    $("#store_id").on('change', function() {
+    $('#selectID').selectpicker();
+    $("#store_id").on('change', function () {
         var store_id = $(this).val();
         $('#store_val').val(store_id);
         var branch_id = $('#branch_id').val();
         $('#branch_val').val(branch_id);
         var company_id = $('#company_id').val();
         $('#company_val').val(company_id);
-        $.ajax({
-            type: 'get',
-            url: "/accounting/productsAjexPurchase/" + store_id,
-            data: {
-                id: store_id,
-            },
-            dataType: 'json',
-            success: function (data) {
-                $('.yurProdc').html(data.data);
-                $('#selectID').attr('data-live-search', 'true');
-                $('#selectID').attr('placeholder', 'اختر الصنف');
-                $('#selectID').selectpicker('refresh');
-                $('#selectID').change(function () {
-                    //		Getting initial vairiables and values code
-                    rowNum++;
-                    var selectedProduct = $(this).find(":selected");
-                    var ProductId = $('#selectID').val();
-                    var productName = selectedProduct.data('name');
-                    var productLink = selectedProduct.data('link');
-                    var lastPrice = Number(selectedProduct.data('last-price')).toFixed(rondingNumber);
-                    var avgPrice = Number(selectedProduct.data('average')).toFixed(rondingNumber);
-                    var barCode = selectedProduct.data('bar-code');
-                    var productPrice = selectedProduct.data('price');
-                    var priceHasTax = selectedProduct.data('price-has-tax');
-                    var totalTaxes = selectedProduct.data('total-taxes');
-                    var productUnits = selectedProduct.data('subunits');
-                    var expirationDate = selectedProduct.data('product_expiration');
-					calculateBill(ProductId, productName, productLink, lastPrice, avgPrice, barCode, productPrice, priceHasTax, totalTaxes, productUnits , expirationDate)
-                });
-            }
-        });
+        /*        $.ajax({
+                    type: 'get',
+                    url: "/accounting/productsAjexPurchase/" + store_id,
+                    data: {
+                        id: store_id,
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        $('.yurProdc').html(data.data);
+                        $('#selectID').attr('data-live-search', 'true');
+                        $('#selectID').attr('placeholder', 'اختر الصنف');
+                        $('#selectID').selectpicker('refresh');
+                        $('#selectID').change(function () {
+                            //		Getting initial vairiables and values code
+                            rowNum++;
+                            var selectedProduct = $(this).find(":selected");
+                            var ProductId = $('#selectID').val();
+                            var productName = selectedProduct.data('name');
+                            var productLink = selectedProduct.data('link');
+                            var lastPrice = Number(selectedProduct.data('last-price')).toFixed(rondingNumber);
+                            var avgPrice = Number(selectedProduct.data('average')).toFixed(rondingNumber);
+                            var barCode = selectedProduct.data('bar-code');
+                            var productPrice = selectedProduct.data('price');
+                            var priceHasTax = selectedProduct.data('price-has-tax');
+                            var totalTaxes = selectedProduct.data('total-taxes');
+                            var productUnits = selectedProduct.data('subunits');
+                            var expirationDate = selectedProduct.data('product_expiration');
+                            calculateBill(ProductId, productName, productLink, lastPrice, avgPrice, barCode, productPrice, priceHasTax, totalTaxes, productUnits , expirationDate)
+                        });
+                    }
+                });*/
     });
 
-//	For Ajax Search By Product Bar Code
-$("#barcode_search").scannerDetection({
-	timeBeforeScanTest: 200, // wait for the next character for upto 200ms
-	avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms
-	preventDefault: true,
-	endChar: [13],
-	onComplete: function(barcode, qty){
-   		validScan = true;
-        var store_id = $('#store_id').val();
-		$.ajax({
-			url: "/accounting/barcode_search/" + barcode,
-			type: "GET",
-            data: {
-                store_id:store_id,
-            },
-			success: function(data) {
-				if (data.data.length !== 0) {
-					$('#barcode_search').val('');
-					$(".tempobar").html(data.data);
-					var selectedID = $(".tempobar").find('option').data('unit-id');
-					var alreadyChosen = $(".bill-table tbody td select option[value=" + selectedID + "]");
-					var repeatedInputVal = $(".bill-table tbody td select option[value=" + selectedID + "]:selected").parents('tr').find('.product-quantity').find('input');
-					if (alreadyChosen.length > 0 && alreadyChosen.is(':selected')) {
-						repeatedInputVal.val(Number(repeatedInputVal.val()) + 1);
-						repeatedInputVal.text(repeatedInputVal.val());
-						$('.product-quantity').find('input').trigger('change');
-					} else {
-						$('#barcode_search').val('');
-						rowNum++;
+
+    //	For Ajax Search By Product Bar Code
+    $("#barcode_search").scannerDetection({
+        timeBeforeScanTest: 200, // wait for the next character for upto 200ms
+        avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms
+        preventDefault: true,
+        endChar: [13],
+        onComplete: function (barcode, qty) {
+            validScan = true;
+            var store_id = $('#store_id').val();
+            $.ajax({
+                url: "/accounting/barcode_search/" + barcode,
+                type: "GET",
+                data: {
+                    store_id: store_id,
+                },
+                success: function (data) {
+                    if (data.data.length !== 0) {
+                        $('#barcode_search').val('');
+                        $(".tempobar").html(data.data);
+                        var selectedID = $(".tempobar").find('option').data('unit-id');
+                        var alreadyChosen = $(".bill-table tbody td select option[value=" + selectedID + "]");
+                        var repeatedInputVal = $(".bill-table tbody td select option[value=" + selectedID + "]:selected").parents('tr').find('.product-quantity').find('input');
+                        if (alreadyChosen.length > 0 && alreadyChosen.is(':selected')) {
+                            repeatedInputVal.val(Number(repeatedInputVal.val()) + 1);
+                            repeatedInputVal.text(repeatedInputVal.val());
+                            $('.product-quantity').find('input').trigger('change');
+                        } else {
+                            $('#barcode_search').val('');
+                            rowNum++;
 						byBarcode();
 						$('.product-quantity').find('input').trigger('change');
 					}
@@ -1051,42 +1108,45 @@ $("#barcode_search").scannerDetection({
 <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
 <!--For Preventing closing screen-->
 <script>
-	//   For Alerting Before closing the window
-	window.onbeforeunload = function(e) {
-			e = e || window.event;
-			if (e) {
-				e.returnValue = 'هل انت متأكد من مغادرة الصفحة ؟!';
-			}
-			return 'هل انت متأكد من مغادرة الصفحة ؟!';
-		};
+    //   For Alerting Before closing the window
+    /*
+        window.onbeforeunload = function(e) {
+                e = e || window.event;
+                if (e) {
+                    e.returnValue = 'هل انت متأكد من مغادرة الصفحة ؟!';
+                }
+                return 'هل انت متأكد من مغادرة الصفحة ؟!';
+            };
+    */
 
-	function refreshTime() {
-		var today = new Date();
-		var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-		var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-		var dateTime = date + ' ' + time;
-		document.getElementById("theTime").innerHTML = dateTime;
-	}
-	setInterval(refreshTime, 1000)
+    function refreshTime() {
+        var today = new Date();
+        var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        var dateTime = date + ' ' + time;
+        document.getElementById("theTime").innerHTML = dateTime;
+    }
+
+    setInterval(refreshTime, 1000)
 </script>
 <!-- For handling Fullscreen -->
 <script type="text/javascript">
-	$(document).ready(function(){
-		$("#enlarge-scr").click(function(){
-			$("body").toggleClass("full-scr");
-			$(this).toggleClass("go-to-full go-to-min")
-		})
+    $(document).ready(function () {
+        $("#enlarge-scr").click(function () {
+            $("body").toggleClass("full-scr");
+            $(this).toggleClass("go-to-full go-to-min")
+        })
 
-		$(".go-to-full").click(function(){
-			var elem = document.body; // Make the body go full screen.
-			requestFullScreen(elem);
-		})
-		$(".go-to-min").click(function(){
-			var ele = document.body; // Make the body go full screen.
-			extFullScreen(ele);
-		})
+        $(".go-to-full").click(function () {
+            var elem = document.body; // Make the body go full screen.
+            requestFullScreen(elem);
+        })
+        $(".go-to-min").click(function () {
+            var ele = document.body; // Make the body go full screen.
+            extFullScreen(ele);
+        })
 
-	})
+    })
 
 var isFullscreen = false;
 function toggleFullscreen(){

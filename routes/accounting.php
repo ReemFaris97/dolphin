@@ -253,7 +253,9 @@ Route::middleware('admin')->group(function () {
 
     ////purchases
     Route::get('/buy_point', 'BuyPointController@buy_point')->name('buy_point.buy_point');
-    Route::get('/productsAjexPurchase/{id}', 'BuyPointController@getProductAjex');
+    Route::get('/productsAjexPurchase', 'BuyPointController@getProductAjex');
+    Route::get('/purchase/products-single-product/{product}', 'BuyPointController@selectedProduct')->name('purchase.single-product-ajax');
+
     Route::resource('purchases', 'PurchaseController');
     Route::get('/productReturnPurchase', 'PurchaseReturnController@product');
     Route::get('/backup', 'SettingController@backup')->name('backup');
