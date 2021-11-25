@@ -39,13 +39,13 @@ class SellPointController extends Controller
             ->where('model_type', 'App\Models\AccountingSystem\AccountingStore')->pluck('model_id', 'id')->toArray();
         $stores=AccountingStore::whereIn('id', $userstores)->pluck('ar_name', 'id')->toArray();
         if ($userstores) {
-            $store_product=AccountingProductStore::whereIn('store_id', $userstores)->pluck('product_id', 'id')->toArray();
-            $products=AccountingProduct::whereIn('id', $store_product)->get();
+//            $store_product=AccountingProductStore::whereIn('store_id', $userstores)->pluck('product_id', 'id')->toArray();
+//            $products=AccountingProduct::whereIn('id', $store_product)->get();
         } else {
             $products=[];
         }
 
-        return  view('AccountingSystem.sell_points.sell_point', compact('categories', 'clients', 'session', 'products', 'stores'));
+        return  view('AccountingSystem.sell_points.sell_point', compact('categories', 'clients', 'session', 'stores'));
     }
 
     /**

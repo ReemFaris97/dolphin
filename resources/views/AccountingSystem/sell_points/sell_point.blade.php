@@ -934,13 +934,13 @@
     </script>
     <script>
         //   For Alerting Before closing the window
-        window.onbeforeunload = function(e) {
-            e = e || window.event;
-            if (e) {
-                e.returnValue = 'هل انت متأكد من مغادرة الصفحة ؟!';
-            }
-            return 'هل انت متأكد من مغادرة الصفحة ؟!';
-        };
+        // window.onbeforeunload = function(e) {
+        //     e = e || window.event;
+        //     if (e) {
+        //         e.returnValue = 'هل انت متأكد من مغادرة الصفحة ؟!';
+        //     }
+        //     return 'هل انت متأكد من مغادرة الصفحة ؟!';
+        // };
 
         function refreshTime() {
             var today = new Date();
