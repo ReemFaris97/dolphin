@@ -6,23 +6,31 @@ use Illuminate\Database\Eloquent\Model;
 
 class AccountingProduct extends Model
 {
-    protected $fillable = ['name','en_name','description','type','is_active','category_id',
-    'column_id','bar_code','main_unit','selling_price','purchasing_price','min_quantity',
-    'max_quantity','expired_at','image','store_id'
-    ,'size','color','height','width','num_days_recession','industrial_id','quantity','unit_price',
-    'is_settlement','date_settlement','settlement_store_id','cell_id','alert_duration','supplier_id','account_id'
+    protected $fillable = ['name', 'en_name', 'description', 'type', 'is_active', 'category_id',
+        'column_id', 'bar_code', 'main_unit', 'selling_price', 'purchasing_price', 'min_quantity',
+        'max_quantity', 'expired_at', 'image', 'store_id'
+        , 'size', 'color', 'height', 'width', 'num_days_recession', 'industrial_id', 'quantity', 'unit_price',
+        'is_settlement', 'date_settlement', 'settlement_store_id', 'cell_id', 'alert_duration', 'supplier_id', 'account_id'
 
-];
-    protected $appends = ['total_taxes','total_discounts','text'];
+    ];
+    protected $appends = ['total_taxes', 'total_discounts', 'text'];
+    protected $casts = ['bar_code' => 'json'];
+
+    public function components()
+    {
+        return $this->belongsToMany(AccountingProduct::class, AccountingProductComponent::class, 'product_id', 'component_id');
+    }
 
     public function getTextAttribute()
     {
         return $this->name;
     }
+
     public function cell_product()
     {
         return $this->belongsTo(AccountingColumnCell::class, 'cell_id');
     }
+
     public function cell()
     {
         return $this->belongsTo(AccountingColumnCell::class, 'cell_id');

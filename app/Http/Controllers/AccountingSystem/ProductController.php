@@ -126,6 +126,7 @@ class ProductController extends Controller
         // dd($request->all());
         $rules = [
             'product_name' => 'required|string|max:191|product_name:accounting_products,name,category_id,' . $request['product_name'] . ',' . $request['category_id'],
+            'en_name' => 'required|string',
             'description' => 'nullable|string',
             'category_id' => 'nullable|numeric|exists:accounting_product_categories,id',
             'bar_code' => 'nullable|string|barcode_name:accounting_products,bar_code,bar_code,barcode,' . $request['bar_code'],
@@ -144,7 +145,6 @@ class ProductController extends Controller
             'num_days_recession' => 'nullable|string',
             'cell_id' => 'required',
             'type' => 'required|string',//        dd($inputs);
-
         ];
         $messsage = [
             'product_name.product_name' => "اسم المنتج موجود بالفعل بالتصنيف",
@@ -309,10 +309,210 @@ class ProductController extends Controller
         }
 
 
-
         alert()->success('تم اضافة المنتج بنجاح !')->autoclose(5000);
 //        return redirect()->route('accounting.products.index');
         return $this->show($product->id);
+    }
+
+    public function storeAjax(Request $request)
+    {
+        $rules = [
+            'product_name' => 'required|string|max:191',
+            'en_name' => 'required|string',
+            'company_id' => 'required',
+            'branch_id' => 'required',
+            'store' => 'required',
+            'type' => 'required|string|in:store,service,offer,creation,product_expiration',
+            'category_id' => 'required|numeric|exists:accounting_product_categories,id',
+            'description' => 'nullable|string',
+            'main_unit'=>'required',
+            'is_active'=>'required',
+
+            'bar_code' => 'nullable|',
+            'barcodes' => 'nullable|array|barcode_anther:accounting_products,bar_code,bar_code,barcode,',
+            'par_codes' => 'nullable|array|barcode_unit:accounting_products,bar_code,bar_code,barcode,',
+            'product_selling_price' => 'required',
+            'product_purchasing_price' => 'required',
+            'min_quantity' => 'required|string|numeric',
+            'max_quantity' => 'required|string|numeric',
+            'expired_at' => 'required_if:type,product_expiration|',
+            'size' => 'nullable|string',
+            'color' => 'nullable|string',
+            'height' => 'nullable|string',
+            'image' => 'nullable|sometimes|mimes:jpg,jpeg,gif,png',
+            'width' => 'nullable|string',
+            'num_days_recession' => 'nullable|string',
+            'cell_id' => 'required',
+          //        dd($inputs);
+        ];
+        $messsage = [
+            'product_name.product_name' => "اسم المنتج موجود بالفعل بالتصنيف",
+            'bar_code.barcode_name' => "باركود المنتج موجود مسبقا ",
+            'barcodes.barcode_anther' => "باركود المنتج موجود مسبقا ",
+            'par_codes.barcode_unit' => "باركود  الوحدة موجود مسبقا ",
+            'type.required' => 'نوع المنتج مطلوب ادخاله',
+        ];
+        $this->validate($request, $rules, $messsage);
+
+        $inputs = $request->except('image', 'main_unit_present', 'purchasing_price', 'selling_price', 'component_names', 'qtys', 'main_units');
+        $inputs['name'] = $inputs['product_name'];
+        $inputs['selling_price'] = $inputs['product_selling_price'];
+        $inputs['purchasing_price'] = $inputs['product_purchasing_price'];
+//        dd($inputs);
+        if ($request->hasFile('image')) {
+            $inputs['image'] = saveImage($request->image, 'photos');
+        }
+        if (getsetting('automatic_products') == 1) {
+            $requests['account_id'] = getsetting('accounting_id_products');
+        }
+        $inputs['is_settlement']=1;
+        $inputs['date_settlement']=now();
+        $product = AccountingProduct::create($inputs);
+
+        if (isset($inputs['store_id'])) {
+            $product->update([
+                'store_id' => $inputs['store_id'],
+            ]);
+            AccountingProductStore::create([
+                'store_id' => $inputs['store_id'],
+                'product_id' => $product->id,
+                'quantity' => $inputs['quantity'],
+            ]);
+        }
+        if (isset($request['main_unit'])) {
+            $main_unit = AccountingProductMainUnit::where('main_unit', $request['main_unit'])->first();
+            if (!isset($main_unit)) {
+                AccountingProductMainUnit::create([
+                    'main_unit' => $request['main_unit']
+                ]);
+            }
+        }
+        ///////  /// / //////subunits Arrays//////////////////////////////
+        $names = collect($request['name']);
+        $par_codes = collect($request['par_codes']);
+        $main_unit_presents = collect($request['main_unit_present']);
+        $selling_price = collect($request['selling_price']);
+        $purchasing_price = collect($request['purchasing_price']);
+        $quantities = collect($request['unit_quantities']);
+        $units = $names->zip($par_codes, $purchasing_price, $selling_price, $main_unit_presents, $quantities);
+
+        foreach ($units as $unit) {
+            $uni = AccountingProductSubUnit::create([
+                'name' => $unit['0'],
+                'bar_code' => $unit['1'],
+                'main_unit_present' => $unit['4'],
+                'selling_price' => $unit['3'],
+                'purchasing_price' => $unit['2'],
+                'quantity' => $unit['5'],
+                'product_id' => $product->id
+            ]);
+
+
+            if (isset($inputs['store_id'])) {
+                AccountingProductStore::create([
+                    'store_id' => $inputs['store_id'],
+                    'product_id' => $product->id,
+                    'quantity' => $unit['2'] * $unit['5'],
+                    'unit_id' => $uni->id
+
+                ]);
+            }
+        }
+        ////////////////////components Arrays////////////////////////////////
+
+        $component_names = collect($request['component_names']);
+        $qtys = collect($request['qtys']);
+        $main_units = collect($request['main_units']);
+        $components = $component_names->zip($qtys, $main_units);
+        foreach ($components as $component) {
+            AccountingProductComponent::create([
+                'name' => $component['0'],
+                'quantity' => $component['1'],
+                'main_unit' => $component['2'],
+                'product_id' => $product->id
+            ]);
+        }
+        /////////////////////////////barcodes_products///////////////////////////////////
+        if (isset($inputs['barcodes'])) {
+            $barcodes = $inputs['barcodes'];
+            foreach ($barcodes as $barcode) {
+                // dd($offer);
+                AccountingProductBarcode::create([
+                    'barcode' => $barcode,
+                    'product_id' => $product->id,
+                ]);
+            }
+        }
+        /////////////////////////////offers _products///////////////////////////////////
+        if (isset($inputs['offers'])) {
+            $offers = $inputs['offers'];
+            foreach ($offers as $offer) {
+                // dd($offer);
+                AccountingProductOffer::create([
+                    'child_product_id' => $offer,
+                    'parent_product_id' => $product->id,
+                ]);
+            }
+        }
+        ////////////////////discounts Arrays////////////////////////////////
+        if (isset($request['discount_type'])) {
+            if ($request['discount_type'] == 'percent') {
+                AccountingProductDiscount::create([
+                    'product_id' => $product->id,
+                    'discount_type' => 'percent',
+                    'percent' => $request['percent'],
+                ]);
+            } else {
+                $basic_quantity = collect($request['basic_quantity']);
+                $gift_quantity = collect($request['gift_quantity']);
+                $qtys_discount = $basic_quantity->zip($gift_quantity);
+
+                foreach ($qtys_discount as $discount) {
+                    AccountingProductDiscount::create([
+                        'quantity' => $discount['0'],
+                        'gift_quantity' => $discount['1'],
+                        'product_id' => $product->id,
+                        'discount_type' => 'quantity',
+                    ]);
+                }
+            }
+        }
+        /////////////////////product_taxs//////////////////////////////////////
+        if (isset($request['tax']) & $request['tax'] == 1) {
+            if (isset($request['tax_band_id'])) {
+                $taxs = $request['tax_band_id'];
+                foreach ($taxs as $tax) {
+                    AccountingProductTax::create([
+                        'product_id' => $product->id,
+                        'tax' => $request['tax'],
+                        'price_has_tax' => isset($request['price_has_tax']) ? $request['price_has_tax'] : null,
+                        'tax_band_id' => $tax,
+                    ]);
+                }
+            }
+        }
+        //////////////////////product_services////////////////////////////
+        if (isset($request['service_type'])) {
+            $service_type = collect($request['service_type']);
+            $services_code = collect($request['services_code']);
+            $services_price = collect($request['services_price']);
+            $services = $services_price->zip($services_code, $service_type);
+
+            foreach ($services as $service) {
+                AccountingService::create([
+                    'price' => $service['0'],
+                    'code' => $service['1'],
+                    'type' => $service['2'],
+                    'product_id' => $product->id,
+
+                ]);
+            }
+        }
+
+
+//        alert()->success('تم اضافة المنتج بنجاح !')->autoclose(5000);
+//        return redirect()->route('accounting.products.index');
+        return response()->json(['status' => true, 'message' => 'تم الاضافة بنجاح !']);
     }
 
 

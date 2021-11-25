@@ -38,7 +38,6 @@ use App\Observers\SafeObserver;
 use App\Observers\SaleObserver;
 use App\Observers\StoreObserver;
 use App\Observers\SupplierObserver;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Validator;
@@ -174,11 +173,8 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Validator::extend('product_name', function ($attribute, $value, $parameters) {
-            $count= AccountingProduct::where($parameters[1],$parameters[3])->
-                where($parameters[2], $parameters[4])->count()===0;
-
-            return $count;
-
+            return !AccountingProduct::where($parameters[1], $parameters[3])->
+            where($parameters[2], $parameters[4])->exists();
         });
         Validator::extend('barcode_name', function ($attribute, $value, $parameters) {
              $product= AccountingProduct::where($parameters[1],$parameters[4])->count();
