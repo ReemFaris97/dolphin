@@ -36,9 +36,6 @@ use Auth;
 use Carbon\Carbon;
 use Cookie;
 use Hash;
-use phpDocumentor\Reflection\Types\Null_;
-use Request as GlobalRequest;
-use Session;
 
 class SaleController extends Controller
 {
@@ -80,7 +77,7 @@ class SaleController extends Controller
     {
         $requests = $request->all();
         if (!$request->client_id) {
-            $requests['client_id']=optional(Client::first())->id;
+            $requests['client_id']=5;
         }
 
         $user=User::find($requests['user_id']);
@@ -109,7 +106,7 @@ class SaleController extends Controller
             'debts'=>$requests['reminder'] ,
 //            'payment'=>'agel',
             'total'=>$requests['total'],
-            'branch_id'=>(optional($user->store)->model_type=='App\Models\AccountingSystem\AccountingBranch')?optional($user->store)->model_id:null,
+            'branch_id'=>($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:null,
         ]);
         if ($requests['discount_byPercentage']!=0&&$requests['discount_byAmount']==0) {
             $sale->update([
@@ -129,9 +126,7 @@ class SaleController extends Controller
         $products = collect($requests['product_id']);
         $qtys = collect($requests['quantity']);
         $unit_id = collect($requests['unit_id']);
-        $taxs = collect($requests['tax']);
-        $price_after_tax = collect($requests['price_after_tax']??0);
-        $merges = $products->zip($qtys, $unit_id, $taxs, $price_after_tax);
+        $merges = $products->zip($qtys, $unit_id);
 
         foreach ($merges as $merge) {
             $product=AccountingProduct::find($merge['0']);
@@ -147,9 +142,6 @@ class SaleController extends Controller
                     'product_id'=>$merge['0'],
                     'quantity'=> $merge['1'],
                     'price'=>$product->selling_price,
-                    'unit_id'=> $merge['2'],
-                    'tax'=> $merge['3'],
-                    'price_after_tax'=> $merge['4'],
                     'sale_id'=>$sale->id
                 ]);
             ///if-main-unit
@@ -197,12 +189,12 @@ class SaleController extends Controller
         if ($sale->payment=='cash') {
             $store_id=auth()->user()->accounting_store_id;
             $store=AccountingStore::find($store_id);
-        //     $safe=AccountingSafe::where('device_id', $sale->session->device_id)->first();
-        //    if ($safe) {
-        //        $safe->update([
-        //            'amount' => $safe->amount - $sale->total
-        //        ]);
-        //    }
+            $safe=AccountingSafe::where('device_id', $sale->session->device_id)->first();
+            if ($safe) {
+                $safe->update([
+                   'amount' => $safe->amount - $sale->total
+               ]);
+            }
         } elseif ($sale->payment=='agel') {
             $client=AccountingClient::find($sale-> client_id);
             $client->update([
@@ -232,14 +224,13 @@ class SaleController extends Controller
                 ]);
 //                dd($sale->getItemCostAttribute());
                 //حساب  المبيعات والمخزون
-                $storeAccount = AccountingAccount::where('store_id', $sale->store_id)->first()??new AccountingAccount();
+                $storeAccount = AccountingAccount::where('store_id', $sale->store_id)->first();
                 AccountingEntryAccount::create([
                     'entry_id' => $entry->id,
                     'from_account_id' =>getsetting('accounting_sales_cost_id'),
-                    'to_account_id' => $storeAccount->id??getsetting('accounting_sales_cost_id'),
+                    'to_account_id' => $storeAccount->id,
                     'amount' => $sale->getItemCostAttribute(),
                 ]);
-                dd('success');
             }
         }
 
@@ -248,6 +239,7 @@ class SaleController extends Controller
         alert()->success('تمت عملية البيع بنجاح !')->autoclose(5000);
         return back()->with('sale_id', $sale->id);
     }
+
 
     public function index_returns()
     {

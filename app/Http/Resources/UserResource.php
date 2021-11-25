@@ -15,7 +15,7 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-         return [
+        return [
              'id' => $this->id,
              'name' => $this->name,
              'phone' => $this->phone,
@@ -23,13 +23,13 @@ class UserResource extends JsonResource
              'image' => getimg($this->image),
             'fcm_token' => $request->token,
              'is_blocked' => $this->isBlocked(),
-             $this->mergeWhen((!$this->IsDistributor()),[
+             $this->mergeWhen((!$this->IsDistributor()), [
                  'job' => $this->job??"",
                  'nationality' => $this->nationality??"",
                  'company_name' => $this->company_name??"",
 
              ]),
-             $this->mergeWhen(($this->IsSupplier()),[
+             $this->mergeWhen(($this->IsSupplier()), [
                  'supplier_type'=>$this->supplier_type,
                  'tax_number'=>$this->tax_number??"",
                  'lat'=>$this->lat?$this->lat:"",
@@ -44,7 +44,9 @@ class UserResource extends JsonResource
              'idol_user_name' => optional(idol_user())->name??"",
              'idol_user_image' => getimg(optional(idol_user())->image),
              'permissions' => GeneralModelResource::collection($this->permissions),
-
+            'is_deffered'=>$this->is_deffered,
+            'is_cash'=>$this->is_cash,
+            'is_visa'=>$this->is_visa,
             ];
     }
 }

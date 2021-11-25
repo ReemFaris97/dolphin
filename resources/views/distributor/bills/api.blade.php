@@ -37,9 +37,7 @@
                             <h3>مصنع إبراهيم سليمان العثيم للتعبئة و التغليف</h3>
                             <h3>Ibrahim Sulaiman Al-Othaim Factory for Filling and Packaging</h3>
                             <div class="flexx">
-{{--                                <h5>تجارة المواد الغذائية بالجملة</h5>--}}
-{{--                                <h5>Wholesale foodstuff trading</h5>--}}
-                            </div>
+                           </div>
                         </div>
                         <div class="logo">
                             <img src="{!! asset('dashboard/assets/demo/demo12/media/img/logo/logo-black.png')!!}" alt="logo">
@@ -159,15 +157,7 @@
                                 </div>
 
                             </div>
-                            <!-- <div class="box1">
-                                @if($bill->store->has_car==1)
-                                <div class="flexx">
-                                    <h4>رقم الشاحنة</h4>
-                                    <h4> {{$bill->store->car->plate_number ??''}}</h4>
-                                </div>
-                                @endif
-                                <p></p>
-                            </div> -->
+
                             <div class="box1 half">
                                 <div class="flexx">
                                     <h4>اسم المندوب</h4>
@@ -176,13 +166,7 @@
                                 </div>
 
                             </div>
-                            <!-- <div class="box1">
-                                    <div class="flexx">
-                                        <h4>نقطة الشحن</h4>
-                                        <h4>{{$bill->store->name }}</h4>
-                                    </div>
-                                    <p>القصيم</p>
-                                </div> -->
+
                         </div>
                     </div>
                 </div>
@@ -215,10 +199,7 @@
                                     <p>الوحدة</p>
                                     <p>unit</p>
                                 </th>
-                                <!-- <th>
-                                    <p>بيان الصنف</p>
-                                    <p>product description</p>
-                                </th> -->
+
                                 <th>
                                     <p>إسم الصنف</p>
                                     <p>product Name</p>
@@ -232,20 +213,23 @@
                         <tbody>
                             @foreach($bill->products as $value)
                             <tr>
-                                <td>{{ $value->product->price * $value->quantity }}</td>
+                                <td>{{ $value->price * $value->quantity }}</td>
                                 <td>
 
                                     {{ ($value->price * ((float) getsetting('general_taxs')??0)/100)}}
                                 </td>
                                 <td>{{(float) getsetting('general_taxs')}}%</td>
-                                <td>{{ $value->product->price }}</td>
+                                <td>{{ $value->price }}</td>
                                 <td>{{ $value->quantity }}</td>
-                                <td>حبة</td>
-                                <!-- <td>
-                                    <p class="not_bold"></p>
-                                </td> -->
+                                <td>
+                                    @if($bill->is_packages)
+    كرتونة
+            @else
+                                    حبة                 
+                        @endif      
 
-{{--                                <td>{{ $value->product->store->name ??'' }}</td>--}}
+                                </td>
+
                                 <td class="product-name">{{ $value->product->name }}</td>
                                 <td>{!!$loop->iteration!!}</td>
                             </tr>
@@ -258,77 +242,86 @@
                 </div>
                     <div>
                     <table class="the_table">
-                    <tfoot>
-                            <tr>
-                                <th>{{(float) $bill->product_total()}}</th>
-                                <th colspan="4">
-                                    <div class="flexx">
-                                        <p>total</p>
-                                        <p>الإجمالى (بدون ضريبة)</p>
-                                    </div>
-
-                                </th>
-                            </tr>
-                            <tr>
-                                <th>{{($bill->product_total() * (float)(getsetting('general_taxs')) /100)}}</th>
-                                <th colspan="4">
-                                    <div class="flexx">
-                                        <p>قيمة القيمة المضافة</p>
-                                        <p>vat (15%)</p>
-                                    </div>
-
-                                </th>
-                            </tr>
-                            <tr>
-                                <th>{{$bill->product_total()+($bill->product_total()* ((float) getsetting('general_taxs')) /100)}}</th>
-                             <th >
-                                    <p>net amount</p>
-                                    <p>اجمالى الفاتورة</p>
-                                </th>
-                                <th >
-                                    <p style="text-align:center;">المدفوع كاش</p>
-                                    <p style="text-align:center;">{{$bill->cash}}</p>
-                                </th>
-                                <th >
-                                    <p style="text-align:center;">المدفوع شبكة</p>
-                                    <p style="text-align:center;">{{$bill->visa}}</p>
-                                </th>
-                                <th >
-                                    <div class="box1">
+                        <tfoot>
+                            @php($tax_percent=(float)(getsetting('general_taxs')) /100)
+                            @php($tax_amount= round($bill->product_total() * $tax_percent,2))
+                            @php($total=$bill->product_total() + $tax_amount)
+                                <tr>
+                                    <th>{{(float) $bill->product_total()}}</th>
+                                    <th colspan="4">
                                         <div class="flexx">
-                                            <h4>المبلغ كتابة:</h4>
-                                            <h4>S.R in words:</h4>
+                                            <p>total</p>
+                                            <p>الإجمالى (بدون ضريبة)</p>
                                         </div>
-                                        <p>{{ $bill->CashArabic($bill->product_total()+($bill->product_total()* ((float) getsetting('general_taxs')/100)))[0] }}
-                                            ريال
-                                            {{ $bill->CashArabic($bill->product_total()+($bill->product_total()*((float) getsetting('general_taxs'))/100))[1] ??''}}
-                                            @if($bill->CashArabic($bill->product_total()+($bill->product_total()*((float) getsetting('general_taxs'))/100))[1]!=0)
-                                            هللة
-                                                @endif
-                                            لاغير
-                                        </p>
-                                    </div>
-                                </th>
-                            </tr>
-                        </tfoot>
-                    </div>
+
+                                    </th>
+                                    <th style="width: 95px;" rowspan="3">
+
+                                        {!! QrCode::size(100)->generate(
+                                     url('/api/distributor/bills/print_bill/' .  encrypt($bill->id))
+                                            ); !!}
+                                 </th>
+
+                                </tr>
+
+                                <tr>
+                                    <th>{{$tax_amount}}</th>
+                                    <th colspan="4">
+                                        <div class="flexx">
+                                            <p>قيمة القيمة المضافة</p>
+                                            <p>vat (15%)</p>
+                                        </div>
+
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>{{$total}}</th>
+                                    <th >
+                                        <p>net amount</p>
+                                        <p>اجمالى الفاتورة</p>
+                                    </th>
+
+                                    <th >
+                                        <div class="box1">
+                                            <div class="flexx">
+                                                <h4>المبلغ كتابة:</h4>
+                                                <h4>S.R in words:</h4>
+                                            </div>
+                                            <p>{{ $bill->CashArabic($total)[0] }}
+                                                ريال
+                                                {{ $bill->CashArabic($total)[1] ??''}}
+                                                @if($bill->CashArabic($total)[1]!=0)
+                                                هللة
+                                                    @endif
+                                                لاغير
+                                            </p>
+                                        </div>
+                                    </th>
+
+                                </tr>
+                            </tfoot>
+                                     </div>
                     </table>
                 <!--- footer -->
                 <footer>
                     <div class="row">
+                        <div class="col-3 box1 flexx" style="width:25%">
+                                    <p style="text-align:center;">المدفوع كاش</p>
+                                    <p style="text-align:center;">{{round($bill->cash,2)}}</p>
+                        </div>
+                        <div class="col-3 box1 flexx" style="width:25%">
+                                    <p style="text-align:center;">المدفوع شبكة</p>
+                                    <p style="text-align:center;">{{round($bill->visa,2)}}</p>
+                        </div>
                         <div class="col">
                             <div class="box1 flexx">
-
-                                <div class="col">
                                     <div>
                                         <h4>توقيع المستلم</h4>
                                         <h4>signature</h4>
                                     </div>
-                                    <p> </p>
-                                </div>
-
                             </div>
                         </div>
+
                     </div>
                     <div class="row">
                         <div class="flexx foot_bg">
@@ -356,10 +349,9 @@
                         </div>
                     </div>
                     <div class="row">
-{{--                        <b class="hint code">4636</b>--}}
                     </div>
                 </footer>
-                </div>
+                    </div>
 
             </div>
                 </div>

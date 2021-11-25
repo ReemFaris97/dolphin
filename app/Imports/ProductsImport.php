@@ -2,21 +2,13 @@
 
 namespace App\Imports;
 
-use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
-use App\Models\AccountingSystem\AccountingIndustrial;
-use App\Models\AccountingSystem\AccountingProductBarcode;
-use App\Models\AccountingSystem\AccountingProductMainUnit;
-use App\Models\AccountingSystem\AccountingProductSubUnit;
-use App\Models\AccountingSystem\AccountingProductTax;
 use App\Models\AccountingSystem\AccountingSupplier;
 use DB;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
-use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Schema;
 
 class ProductsImport implements ToCollection, WithHeadingRow //, WithChunkReading
 {
@@ -33,16 +25,13 @@ class ProductsImport implements ToCollection, WithHeadingRow //, WithChunkReadin
     */
     public function collection(Collection $rows)
     {
-        Schema::disableForeignKeyConstraints();
-        DB::table('accounting_products')->delete();
-        DB::table('accounting_products_barcodes')->delete();
-        DB::table('accounting_product_taxes')->delete();
-
+        DB::beginTransaction();
         $this->command->withProgressBar($rows, function ($row) {
             $product_id = DB::table('accounting_products')->insertGetId([
                 'name' => $row['asm_almad'],
                 'en_name' => $row['alasm_allatyny'],
                 'type' => 'product_expiration',
+                'category_id'=> AccountingProductCategory::query()->firstOrCreate(['ar_name'=>$row['alsnf']])->id,
                 'bar_code' => explode(' ', $row['albarkod'])[0],
                 'main_unit' => $row['aloahd'],
                 'selling_price' => $row['mbyaa'],
@@ -64,6 +53,7 @@ class ProductsImport implements ToCollection, WithHeadingRow //, WithChunkReadin
 
         $taxes = [];
         $taxes['product_id'] = $product_id;
+        $taxes['tax_band_id'] = 1;
         $taxes['price_has_tax'] = $row['aaatmad_alnsb_lldryb'] == 'Y' ? 1:0;
         $taxes['tax'] = $row['aaatmad_alnsb_lldryb'] == 'Y' ? 1:0;
         $taxes['tax_value'] = $row['aldryb'];
@@ -74,25 +64,33 @@ class ProductsImport implements ToCollection, WithHeadingRow //, WithChunkReadin
                 'product_id' => $product_id,
                 'name' => $row['aloahd2'],
                 'bar_code' => $row['albarkod2'],
-                'main_unit_present' => $row['altaaadl2']
+                'main_unit_present' => $row['altaaadl2'],
+                'selling_price'=> $row['mbyaa2'],
+                'purchasing_price'=>$row['shraaa2'],
             ],
             [
                 'product_id' => $product_id,
                 'name' => $row['aloahd3'],
                 'bar_code' => $row['albarkod3'],
-                'main_unit_present' => $row['altaaadl3']
+                'main_unit_present' => $row['altaaadl3'],
+                'selling_price'=> $row['mbyaa3'],
+                'purchasing_price'=>$row['shraaa3'],
             ],
             [
                 'product_id' => $product_id,
                 'name' => $row['aloahd4'],
                 'bar_code' => $row['albarkod4'],
-                'main_unit_present' => $row['altaaadl4']
+                'main_unit_present' => $row['altaaadl4'],
+                'selling_price'=> $row['mbyaa4'],
+                'purchasing_price'=>$row['shraaa4'],
             ],
             [
                 'product_id' => $product_id,
                 'name' => $row['aloahd5'],
                 'bar_code' => $row['albarkod5']??null,
-                'main_unit_present' => $row['altaaadl5']
+                'main_unit_present' => $row['altaaadl5'],
+                'selling_price'=> $row['mbyaa5'],
+                'purchasing_price'=>$row['shraaa5'],
             ],
         ])->filter(fn ($i) =>$i['name']!=null);
 

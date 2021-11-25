@@ -13,7 +13,12 @@ class AccountingProduct extends Model
     'is_settlement','date_settlement','settlement_store_id','cell_id','alert_duration','supplier_id','account_id'
 
 ];
-    protected $appends = ['total_taxes','total_discounts'];
+    protected $appends = ['total_taxes','total_discounts','text'];
+
+    public function getTextAttribute()
+    {
+        return $this->name;
+    }
     public function cell_product()
     {
         return $this->belongsTo(AccountingColumnCell::class, 'cell_id');
@@ -33,6 +38,10 @@ class AccountingProduct extends Model
     public function category()
     {
         return $this->belongsTo(AccountingProductCategory::class, 'category_id');
+    }
+    public function barcodes()
+    {
+        return $this->hasMany(AccountingProductBarcode::class, 'product_id');
     }
 
 

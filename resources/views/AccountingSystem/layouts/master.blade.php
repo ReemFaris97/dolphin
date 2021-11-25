@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{csrf_token()}}">
     <title>  @yield('title')</title>
 
     <!-- Global stylesheets -->
@@ -61,13 +62,13 @@
 </div>
 <!-- /page container -->
 @yield('scripts')
-<!---  current year --> 
+<!---  current year -->
 <script>
         document.getElementById("currentYear").innerHTML = new Date().getFullYear();
 
 </script>
 
-    
+
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 @include('sweet::alert')
 </body>

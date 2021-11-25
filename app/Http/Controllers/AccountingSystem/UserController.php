@@ -18,7 +18,9 @@ use Spatie\Permission\Models\Role;
 class UserController extends Controller
 {
     use Viewable;
+
     private $viewable = 'AccountingSystem.users.';
+
     /**
      * Display a listing of the resource.
      *
@@ -45,7 +47,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -69,7 +71,7 @@ class UserController extends Controller
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'photos');
         }
-               $requests['is_admin']=1;
+        $requests['is_admin'] = 1;
         //        dd($requests);
 
         if ($requests['role'] == 'is_accountant') {
@@ -92,7 +94,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -103,7 +105,7 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -119,8 +121,8 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -149,7 +151,7 @@ class UserController extends Controller
         if ($requests['role'] == 'is_accountant') {
             $requests['is_accountant'] = 1;
         }
-         if ($requests['role'] == 'is_saler') {
+        if ($requests['role'] == 'is_saler') {
             $requests['is_saler'] = 1;
         }
         if ($requests['role'] == 'is_admin') {
@@ -168,7 +170,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -179,7 +181,7 @@ class UserController extends Controller
         return back();
     }
 
-    public  function  user_permissions($id)
+    public function user_permissions($id)
     {
         $user = User::findOrFail($id);
         $companies = AccountingCompany::all();
@@ -193,7 +195,7 @@ class UserController extends Controller
     }
 
 
-    public  function getBranchesPermission($id)
+    public function getBranchesPermission($id)
     {
         $branches = AccountingBranch::where('company_id', $id)->get();
         return response()->json([
@@ -203,7 +205,7 @@ class UserController extends Controller
     }
 
 
-    public  function getStoresPermission($id)
+    public function getStoresPermission($id)
     {
         $stores = AccountingStore::where('model_id', $id)->where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->get();
         return response()->json([
@@ -212,7 +214,7 @@ class UserController extends Controller
         ]);
     }
 
-    public  function getStoresCampanyPermission($id)
+    public function getStoresCampanyPermission($id)
     {
         $stores = AccountingStore::where('model_id', $id)->where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->get();
         return response()->json([
@@ -221,36 +223,44 @@ class UserController extends Controller
         ]);
     }
 
-    public  function  user_permissions_update(Request $request, $id)
+    public function user_permissions_update(Request $request, $id)
     {
         $user = User::findOrFail($id);
         $user->permissions()->delete();
         $inputs = $request->all();
-        foreach ($inputs['companies'] as $company) {
-            AccountingUserPermission::create([
-                'user_id' => $id,
-                'model_type' => 'App\Models\AccountingSystem\AccountingCompany',
-                'model_id' => $company
-            ]);
+
+        if (isset($inputs['companies'])) {
+            foreach ($inputs['companies'] as $company) {
+                AccountingUserPermission::create([
+                    'user_id' => $id,
+                    'model_type' => 'App\Models\AccountingSystem\AccountingCompany',
+                    'model_id' => $company
+                ]);
+            }
         }
-        foreach ($inputs['branches'] as $branch) {
-            AccountingUserPermission::create([
-                'user_id' => $id,
-                'model_type' => 'App\Models\AccountingSystem\AccountingBranch',
-                'model_id' => $branch
-            ]);
+        if (isset($inputs['branches'])) {
+            foreach ($inputs['branches'] as $branch) {
+                AccountingUserPermission::create([
+                    'user_id' => $id,
+                    'model_type' => 'App\Models\AccountingSystem\AccountingBranch',
+                    'model_id' => $branch
+                ]);
+            }
         }
-        foreach ($inputs['stores'] as $store) {
-            AccountingUserPermission::create([
-                'user_id' => $id,
-                'model_type' => 'App\Models\AccountingSystem\AccountingStore',
-                'model_id' => $store
-            ]);
+        if (isset($inputs['stores'])) {
+            foreach ($inputs['stores'] as $store) {
+                AccountingUserPermission::create([
+                    'user_id' => $id,
+                    'model_type' => 'App\Models\AccountingSystem\AccountingStore',
+                    'model_id' => $store
+                ]);
+            }
         }
         alert()->success('تم تحديث صلاحيات  العضو بنجاح !')->autoclose(5000);
         return back();
     }
-    public  function  permissions($id)
+
+    public function permissions($id)
     {
         $role = Role::findOrFail($id);
         $permissions = $role->permissions()->get();

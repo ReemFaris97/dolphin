@@ -51,6 +51,9 @@ Route::middleware('admin')->group(function () {
     Route::get('/bonds', 'StoreController@bonds_index')->name('stores.bonds_index');
     Route::get('/bond-show/{id}', 'StoreController@bond_show')->name('stores.show_bond');
     Route::get('/products_exchange_form', 'StoreController@products_exchange_form')->name('stores.products_exchange_form');
+
+    Route::get('/get-product-by-store/{id}', 'StoreController@getProductByStore')->name('stores.getProductByStore');
+
     Route::post('/products_exchange_store', 'StoreController@products_exchange_store')->name('stores.products_exchange_store');
     Route::get('/store-product/{id}', 'StoreController@store_product')->name('stores.product');
     Route::post('/store-products-copy/{id}', 'StoreController@store_products_copy')->name('store_products_copy.store');
@@ -126,9 +129,15 @@ Route::middleware('admin')->group(function () {
 
     ////////////////////////////طباعة الباركود
     Route::get('/product-barcode/{id}', 'ProductController@barcode')->name('products.barcode');
+    Route::get('/print-barcode-view', 'ProductController@print_barcode_view')->name('products.print_barcode_view');
+    Route::post('/print/barcode', 'ProductController@print_barcode')->name('products.print_barcode');
+
+    Route::get('/products-by-ajax', 'ProductController@getProductsByAjax')->name('getProductsByAjax');
+    Route::get('/get-product-price/{id}', 'ProductController@getProductPrice')->name('getProductPrice');
+
     Route::get('/sell_login', 'SellPointController@sell_login')->name('sells_points.login');
     Route::get('/sell_point/{id}', 'SellPointController@sell_point')->name('sells_points.sells_point');
-    // Route::get('/sell_point', 'SellPointController@sell_point')->name('sells_points.sells_point');
+
     Route::get('/notification/{id}', 'OfferController@notification')->name('offers.notification');
     Route::get('/permiums', 'ClientController@permiums')->name('clients.permiums');
     Route::post('/permium_store', 'ClientController@permium_store')->name('clients.permiums_store');
@@ -232,6 +241,7 @@ Route::middleware('admin')->group(function () {
     Route::post('/subunit', 'ProductController@subunit')->name('subunit');
 
     Route::get('/productsAjex/{id}', 'SellPointController@getProductAjex')->name('ajaxProducts');
+    Route::get('/products-single-product/{product}', 'SellPointController@selectedProduct')->name('single-product-ajax');
 
     Route::get('/pro_search/{name}', 'SellPointController@pro_search');
     Route::get('/barcode_search/{name}', 'BuyPointController@barcode_search');

@@ -36,8 +36,9 @@
 			{!! Form::select("user_id",$users,null,['class'=>'form-control js-example-basic-single','id'=>'user_id','placeholder'=>' اختر اسم الموظف'])!!}
 		</div>
 		<div class="form-group col-md-4 pull-left job_title ">
-			<label> اختر المسمى الوظيفى </label>
-			{!! Form::select("title_id",$titles,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر المسمى الوظيفى ','id'=>'title_id'])!!}
+			<label>   المسمى الوظيفى </label>
+{{--			{!! Form::select("title_id",null,null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر المسمى الوظيفى ','id'=>'title_id'])!!}--}}
+            <select name="title_id" id="title_id" class="form-control js-example-basic-single"></select>
 		</div>
 		<div class="form-group col-md-4 pull-left ">
 			<label> اختر طريقةالدفع</label>
@@ -98,7 +99,7 @@
 			$('.job_title').show();
 			$('.one_employee').hide();
 		} else if (type == 'all') {
-			$('.job_title').show();
+			$('.job_title').hide();
 			$('.one_employee').hide();
 		}
 	});
@@ -112,6 +113,8 @@
 				'user_id': user_id
 			}
 		}).done(function(data) {
+            $('#title_id').empty();
+            $('#title_id').append('<option value="' + data.title_id + '" >' + data.title_name + '</option>');
 			$('.salaries').html(data.data);
 		}).fail(function(error) {
 			console.log(error);

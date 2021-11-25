@@ -19,10 +19,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-
 trait RouteOperation
 {
-
     public function RegisterInventory($request)
     {
         DB::beginTransaction();
@@ -32,7 +30,7 @@ trait RouteOperation
             $inputs['round'] = $route_trip->route->round;
             $route_trip->update([
                 'status' => $request->status,
-                'round' => $route_trip->route->round + ($request->status == 'refuse' ? 1 : 0)
+                'round' => $route_trip->route->round + 1
             ]);
             $trip = TripInventory::create($inputs);
             foreach ($request->products as $item) {
@@ -118,7 +116,6 @@ trait RouteOperation
 
     public function RegisterRouteReport($request)
     {
-
         $inputs = $request->all();
         if ($request->image != null) {
             if ($request->hasFile('image')) {
@@ -167,7 +164,6 @@ trait RouteOperation
 
     public function damageProduct(Request $request)
     {
-
         $damage_store = Store::ofDistributor(auth()->id())->where('for_damaged', 1)->first() ?? User::find(auth()->id())->createDamageStore();
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'users');
@@ -175,7 +171,6 @@ trait RouteOperation
         \DB::beginTransaction();
         $arr = [];
         foreach ($request->products ?? [] as $product) {
-
             $arr[] = ProductQuantity::create([
                 'product_id' => $product['product_id'],
                 'quantity' => $product['quantity'],

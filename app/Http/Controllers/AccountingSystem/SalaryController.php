@@ -27,11 +27,8 @@ class SalaryController extends Controller
         $bouns=$request['bouns'];
 
         $rules = [
-
             'user_id' => 'required_if:type,=,one_employee',
             'title_id' => 'required_if:type,=,job_title',
-
-
         ];
         $messsage = [
             'user_id.required_if'=>"اسم الموظف مطلوب",
@@ -64,8 +61,8 @@ class SalaryController extends Controller
            AccountingUserSalary::create([
                'user_id'=>$user->id,
                'salary'=>$user->salary,
-               'bouns'=>$bouns[$user->id],
-               'total_salary'=>$user->salary+$bouns[$user->id],
+               'bouns'=> 0,
+               'total_salary'=>$user->salary,
            ]);
        }
      }
@@ -95,6 +92,8 @@ class SalaryController extends Controller
         $users=User::where('id',$request['user_id'])->get();
         return response()->json([
             'status'=>true,
+            'title_id'=>$user->title_id,
+            'title_name'=>$user->title->name,
             'data'=>view('AccountingSystem.users.user_salary',compact('users'))->render()
         ]);
     }

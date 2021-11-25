@@ -10,7 +10,6 @@
 <div class="m-content">
     <div class="row">
         <div class="col-md-12">
-
             <!--begin::Portlet-->
             <div class="m-portlet m-portlet--tab">
                 <div class="m-portlet__head belong-to-aform">
@@ -143,12 +142,12 @@
             var xx=[
                 ['تاريخ اليوم', 'اجمالى الزيارات', 'اجمالى الزيارات المستلمة', 'اجمالى الزيارات المرفوضة'],
             ];
+
             Object.values(statistics).forEach(function (item) {
-                xx.push([item.day,item.total_trips,item.accepted_trips,item.refused_trips]);
+                xx.push([parseFloat(item.day),parseFloat(item.total_trips),parseFloat(item.accepted_trips),parseFloat(item.refused_trips)]);
             });
             var data = google.visualization.arrayToDataTable(xx);
 
-console.log(count);
             var options = {
                 title : 'اجمالى اليومية',
                 vAxis: {title: 'Cups'},
@@ -168,7 +167,7 @@ console.log(count);
             ];
             Object.values(statistics).forEach(function (item) {
 
-                sales.push([item.day,item.trips_cash]);
+                sales.push([parseFloat(item.day),parseFloat(item.trips_cash)]);
             });
             // console.log(sales);
             var dataSales = google.visualization.arrayToDataTable(

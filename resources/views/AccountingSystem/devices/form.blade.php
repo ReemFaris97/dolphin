@@ -31,7 +31,6 @@
                 <input type="radio" name="radio-inline-left" class="styled" id="company" checked="checked" onclick="myFunction()" disabled>
                 شركة
             </label>
-
             <label class="radio-inline">
                 <input type="radio" name="radio-inline-left" id="branch" class="styled" onclick="myFunction2()" disabled>
                 فرع
@@ -45,7 +44,6 @@
             <input type="radio" name="radio-inline-left" class="styled" id="company" checked="checked" onclick="myFunction()">
             شركة
         </label>
-
         <label class="radio-inline">
             <input type="radio" name="radio-inline-left" id="branch1" class="styled" onclick="myFunction2()">
             فرع
@@ -60,7 +58,7 @@
 @if(isset($device))
 @if($device->model_type=='App\Models\AccountingSystem\AccountingBranch')
     <div class="form-group col-xs-6 pull-left branches">
-        <label> اسم الفرع التابع لها المستودع: </label>
+        <label> اسم الفرع التابع لها الجهاز: </label>
         <div class="btn-group adding-new-comp">
             <a href="{{route('accounting.branches.create')}}" class="btn btn-success" target="_blank">
             <span class="m-l-5">
@@ -69,11 +67,11 @@
 			</span>
             </a>
         </div>
-        {!! Form::select("branch_id",$branches,$device->model_id,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الفرع التابع لها المستودع '])!!}
+        {!! Form::select("branch_id",$branches,$device->model_id,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الفرع التابع لها الجهاز '])!!}
     </div>
 @elseif($device->model_type=='App\Models\AccountingSystem\AccountingCompany')
     <div class="form-group col-xs-6 pull-left companies">
-        <label> اسم الشركة التابع لها المستودع: </label>
+        <label> اسم الشركة التابع لها الجهاز: </label>
         <div class="btn-group adding-new-comp">
             <a href="{{route('accounting.companies.create')}}" class="btn btn-success" target="_blank">
             <span class="m-l-5">
@@ -82,12 +80,12 @@
 			</span>
             </a>
         </div>
-        {!! Form::select("company_id",$companies,$device->model_id,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الشركة التابع لها المستودع '])!!}
+        {!! Form::select("company_id",$companies,$device->model_id,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الشركة التابع لها الجهاز '])!!}
     </div>
 @endif
     @else
     <div class="form-group col-xs-6 pull-left companies">
-        <label> اسم الشركة التابع لها المستودع: </label>
+        <label> اسم الشركة التابع لها الجهاز: </label>
         <div class="btn-group adding-new-comp">
             <a href="{{route('accounting.companies.create')}}" class="btn btn-success" target="_blank">
             <span class="m-l-5">
@@ -96,11 +94,11 @@
 			</span>
             </a>
         </div>
-        {!! Form::select("company_id",$companies,null,['class'=>'form-control js-example-basic-single','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع لها المستودع '])!!}
+        {!! Form::select("company_id",$companies,null,['class'=>'form-control js-example-basic-single','id'=>'company_id','placeholder'=>' اختر اسم الشركة التابع لها الجهاز '])!!}
     </div>
     <div class="form-group col-xs-6 pull-left branches">
-    <label> اسم الفرع التابع لها المستودع: </label>
-    {!! Form::select("branch_id",$branches,null,['class'=>'form-control js-example-basic-single','id'=>'branch_id','placeholder'=>' اختر اسم الفرع التابع لها المستودع '])!!}
+    <label> اسم الفرع التابع لها الجهاز: </label>
+    {!! Form::select("branch_id",$branches,null,['class'=>'form-control js-example-basic-single','id'=>'branch_id','placeholder'=>' اختر اسم الفرع التابع لها الجهاز '])!!}
     </div>
 
 @endif
@@ -128,53 +126,35 @@
 @section('scripts')
 
 <script>
-
     $(document).ready(function() {
-
         $('.companies').show();
         $('.branches').hide();
         $(".rent").hide();
-
         $('.js-example-basic-single').select2();
-
-
-
-
-
     });
-
 </script>
 
 <script>
     function myFunction() {
-
-
         $(".companies").show();
         $(".branches").hide();
-
     }
 
     function myFunction2() {
-
         $(".companies").hide();
         $(".branches").show();
     }
 
-
         @if( isset($device))
-
         if ($('#company').is(':checked')) {
             $(".companies").show();
         }elseif ($('#branch').is(':checked')); {
             $(".branches").show();
         }
-
         @endif
 
 </script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
-
     <script src="{{asset('admin/assets/js/get_branch_by_company.js')}}"></script>
     <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
 @endsection

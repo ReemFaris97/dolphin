@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\AccountingSystem\AccountingProductBarcode;
 use App\Models\AccountingSystem\AccountingSetting;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -32,12 +33,16 @@ class Product extends Model
 
     public function client_classes()
     {
-        return $this->belongsToMany(ClientClass::class, 'client_class_products',  'product_id', 'client_class_id')->withPivot('price');
+        return $this->belongsToMany(ClientClass::class, 'client_class_products', 'product_id', 'client_class_id')->withPivot('price');
     }
     public function quantity(): int
     {
         $count = $this->quantities()->where(['is_confirmed' => 1, 'type' => 'in'])->sum('quantity');
         return $count ?? 0;
+    }
+    public function barcodes()
+    {
+        return $this->hasMany(AccountingProductBarcode::class);
     }
 
     public function images()
@@ -73,8 +78,11 @@ class Product extends Model
     public function authSupplierProductExpireDate()
     {
         $expired_at = SupplierPrice::where('user_id', auth()->id())->where('product_id', $this->id)->first()->expired_at;
-        if ($expired_at == null) return "";
-        else return $expired_at;
+        if ($expired_at == null) {
+            return "";
+        } else {
+            return $expired_at;
+        }
     }
 
     /**
@@ -101,7 +109,7 @@ class Product extends Model
      * @param mixed|null $client_id
      * @return void
      */
-    public  function scopeWithClientPrice(Builder $builder, $client_id = null): void
+    public function scopeWithClientPrice(Builder $builder, $client_id = null): void
     {
         $builder->when($client_id != null, function ($q) use ($client_id) {
             $client = Client::find($client_id);
@@ -124,7 +132,7 @@ class Product extends Model
         });
     }
 
-    public  function getTaxAmountAttribute()
+    public function getTaxAmountAttribute()
     {
         $tax = AccountingSetting::where('name', 'general_taxs')->first();
 
@@ -132,7 +140,7 @@ class Product extends Model
         return $this->price * ($tax->value/100);
     }
 
-    public  function getNetPriceAttribute()
+    public function getNetPriceAttribute()
     {
     }
 }

@@ -245,7 +245,7 @@ $black-color: #212121;
     margin-right: 0;
     margin-left: 0;
     position: relative;
-    margin-bottom: 2px;
+    // margin-bottom: 2px;
     .col {
         -webkit-flex-basis: 0;
         -ms-flex-preferred-size: 0;
@@ -286,13 +286,13 @@ $black-color: #212121;
         .half {
             width: 45%;
         }
-        .third{
+        .third {
             width: 30%;
         }
         .third-quater {
             width: 70%;
         }
-        .quater{
+        .quater {
             width: 25%;
         }
         h4 {
@@ -357,7 +357,6 @@ $black-color: #212121;
             &:last-child,
             &:only-child {
                 margin: 0;
-            
             }
         }
     }

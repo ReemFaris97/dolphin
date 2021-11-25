@@ -6,12 +6,7 @@
     </div>
 
 
-    <div class="form-group m-form__group">
-        <label>وصف المهمة</label>
-        {!! Form::textarea('description',null,['class'=>'form-control m-input','placeholder'=>'الوصف'])!!}
-    </div>
-
-    <div class="form-group m-form__group">
+    <div class="form-group m-form__group" style="flex: 0 0 30%; padding-top: 0;">
         <label>نوع المهمة</label>
         {{--{!! Form::select('type',\App\Models\Task::$types,'',['class'=>'form-control m-input select2','onChange'=>'change_inputs(this.value)'])!!}--}}
 
@@ -23,6 +18,15 @@
         </select>
 
     </div>
+    <div class="checker-wrapper" style="flex: 0 0 20%;">
+		<input class="styled-checkbox checkbox_check" id="if-3-emps" type="checkbox" value="value1">
+        <label for="if-3-emps" class="the-big-checklabel">مهمة لموظف واحد</label>
+	</div>
+    <div class="form-group m-form__group" style="flex: 1 0 100%;">
+        <label>وصف المهمة</label>
+        {!! Form::textarea('description',null,['class'=>'form-control m-input', 'style'=>'height: 130px;','placeholder'=>'الوصف'])!!}
+    </div>
+
 
     <div class="form-group will-be-toggled m-form__group date-task period-task
         @if(isset($task))  {!! ShowOrHide($task,['period','date']) !!}  @else
@@ -42,11 +46,12 @@
 
 
 
-	<div class="checker-wrapper">
-		<input class="styled-checkbox checkbox_check" id="if-3-emps" type="checkbox" value="value1">
-        <label for="if-3-emps" class="the-big-checklabel">مهمة لموظف واحد</label>
-	</div>
-	<div id="threee-emps">
+
+	<div id="threee-emps" style="
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:space-between;">
     @if(!isset($task))
         @for($i=1;$i<=3;$i++)
             @include('admin.tasks._user_task')

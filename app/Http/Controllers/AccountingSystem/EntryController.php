@@ -67,7 +67,7 @@ class EntryController extends Controller
         // $this->validate($request,$rules,$message);
 
 
-        $this->ManualCreateEntry($request);
+        $this->ManualCreaAccountingAccountLogteEntry($request);
 
 
         alert()->success('تم اضافةالقيد اليومى بنجاح !')->autoclose(5000);
@@ -97,9 +97,10 @@ class EntryController extends Controller
     public function edit($id)
     {
         $entry =AccountingEntry::findOrFail($id);
-        $accounts=AccountingAccount::where('kind', 'sub')->get();
         $branches=AccountingBranch::pluck('name', 'id')->toArray();
         $entryAccount=AccountingEntryAccount::where('entry_id', $id)->first();
+
+        $accounts=AccountingAccount::get();
         return $this->toEdit(compact('entry', 'accounts', 'entryAccount', 'branches'));
     }
 

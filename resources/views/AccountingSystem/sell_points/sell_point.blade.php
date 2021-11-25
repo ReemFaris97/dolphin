@@ -8,8 +8,7 @@
     <link href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.min.css" rel="stylesheet"
         type="text/css">
     <link
-        href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "
+        href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css"
         rel="stylesheet" type="text/css">
     <!--- end datatable -->
     <link href="{{ asset('admin/assets/css/jquery.datetimepicker.min.css') }}" rel="stylesheet" type="text/css">
@@ -326,11 +325,21 @@
 @section('scripts')
     <!--- scroll to the last table row -->
     <script src="//unpkg.com/alpinejs" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
+            integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <!--- end datatable -->
     <script src="{{ asset('admin/assets/js/jquery.datetimepicker.full.min.js') }}"></script>
     <script src="{{ asset('admin/assets/js/scanner.js') }}"></script>
     <script>
         $(document).ready(function() {
+            $('#sllForm').keydown(function(event){
+                if(event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
             $('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
             $('.inlinedatepicker').text(new Date().toLocaleString());
             $('.inlinedatepicker').val(new Date().toLocaleString());
@@ -543,27 +552,35 @@
         // $('#selectID').removeClass('hidden');
         $('#selectID2').select2({
             ajax: {
+                delay: 250,
                 url: "/accounting/productsAjex/" + store_id,
-                data: function(params) {
+                data: function (params) {
                     var query = {
                         search: params.term,
+                        page: params.page || 1
                     }
                     return query;
                 },
-                success: function(res) {
-                    $('#selectID2').empty().append(res.attributes);
-                },
-                processResults: function(data, params) {
+
+
+                processResults: function (data, params) {
                     // parse the results into the format expected by Select2
                     // since we are using custom formatting functions we do not need to
                     // alter the remote JSON data, except to indicate that infinite
                     // scrolling can be used
                     params.page = params.page || 1;
-
+                    /*
+                    *     var productBarCode = selectedProduct.data('bar-code');
+            var productPrice = Number(selectedProduct.data('price'));
+            var priceHasTax = selectedProduct.data('price-has-tax');
+            var totalTaxes = selectedProduct.data('total-taxes');
+            var mainUnit = selectedProduct.data('main-unit');
+            var productUnits = selectedProduct.data('subunits');*/
+                    results = _.toArray(data.data.data);
                     return {
-                        results: data.data,
+                        results: results,
                         pagination: {
-                            more: (params.page * 30) < data.total_count
+                            more: data.has_more
                         }
                     };
                 },
@@ -571,8 +588,8 @@
             },
             placeholder: 'Search for a repository',
             minimumInputLength: 1,
-            templateResult: formatRepo,
-            templateSelection: formatRepoSelection,
+            // templateResult: formatRepo,
+            // templateSelection: formatRepoSelection,
         });
 
         function formatRepo(repo) {
@@ -594,35 +611,26 @@
             $container.find(".select2-result-products-select__desc").text(repo.description);
 
 
-
             return $container;
         }
 
 
-        $('#selectID2').on('change', function(e) {
-            console.log(e);
+        $('#selectID2').on('change', function (e) {
             // $('#selectID2').change(function() {
-            var selectedProduct = $(this).find(":selected");
-            // console.log(selectedProduct);
-            var productId = $('#selectID2').val();
-            var productName = selectedProduct.text();
-            var productBarCode = selectedProduct.data('bar-code');
-            var productPrice = Number(selectedProduct.data('price'));
-            var priceHasTax = selectedProduct.data('price-has-tax');
-            var totalTaxes = selectedProduct.data('total-taxes');
-            var mainUnit = selectedProduct.data('main-unit');
-            var productUnits = selectedProduct.data('subunits');
-            // console.table(productUnits)
-            calcBill(selectedProduct, productId, productName, productBarCode,
-                productPrice, priceHasTax, totalTaxes, mainUnit, productUnits)
-        });
+            $.ajax({
+                method: 'GET',
+                url: "/accounting/products-single-product/" + e.target.value,
+                success: function (resp) {
+                    calcBill(resp.id, resp.id, resp.name, resp.bar_code,
+                        parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits))
+                }
+            })
 
+        });
 
         function formatRepoSelection(repo) {
             return repo.title || repo.bar_code;
         }
-        // });
-
 
         //  Tfoot general bill data calculatoin
         $(".bill-table tbody").change(function() {
@@ -852,7 +860,7 @@
                 mainUnit, productUnits)
         }
         $(document).keydown(function(event) {
-            if (event.which == 118 || event.which == 13) { //F7 حفظ
+            if (event.which == 118) { //F7 حفظ
                 confirmSubmit(event);
                 return false;
             }

@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use App\Models\User;
+
 class UsersResource extends ResourceCollection
 {
     /**
@@ -15,14 +16,17 @@ class UsersResource extends ResourceCollection
     public function toArray($request)
     {
         return [
-            "users" => $this->collection->transform(function ($q){
+            "users" => $this->collection->transform(function ($q) {
                 return [
                 'id' => $q->id,
+                'is_deffered'=>$this->is_deffered,
+                'is_cash'=>$this->is_cash,
+                'is_visa'=>$this->is_visa,
                 'name' => $q->name,
                 'phone' => $q->phone,
                 'email' => $q->email,
                 'image' => getimg($q->image),
-                "supplier_data"=>$this->mergeWhen(($q->IsSupplier()),[
+                "supplier_data"=>$this->mergeWhen(($q->IsSupplier()), [
                     'supplier_type'=>$q->supplier_type,
                     'tax_number'=>$q->tax_number??"",
                     'lat'=>$q->lat?$q->lat:"",
@@ -33,7 +37,7 @@ class UsersResource extends ResourceCollection
                     'permissions' =>GeneralModelResource::collection($q->permissions),
                 ]),
             ];
-        }),
+            }),
             'paginate'=>[
                 'total' => $this->total(),
                 'count' => $this->count(),
