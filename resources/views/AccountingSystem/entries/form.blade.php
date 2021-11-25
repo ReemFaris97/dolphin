@@ -13,7 +13,7 @@
 </div>
 
 <input type="hidden" name="type" value="يدوى">
-<input type="hidden" name="source" value=" قيديدوى">
+<input type="hidden" name="source" value=" قيد يدوى">
 <div class="form-group col-sm-6 col-xs-12 pull-left">
 	<label>  اختر الفرع </label>
 	{!! Form::select("branch_id",$branches,null,['class'=>'form-control','placeholder'=>'اختر الفرع',])!!}
@@ -50,7 +50,7 @@
 			</td>
 
 			<td>
-				<select name="account_id[]" class="form-control">
+				<select name="account_id[]" class="form-control js-example-basic-single">
                     @foreach ($accounts as $account)
                     @if($accountEntry->account_id==$account->id)
 					<option value={{$account->id}}  selected >{{$account->ar_name}} -{{$account->code}}</option>
@@ -81,7 +81,7 @@
 				<input type="number" min="0" name="creditor[]" class="form-control creditor" value="0">
 			</td>
 			<td>
-				<select name="account_id[]" class="form-control">
+				<select name="account_id[]" class="form-control js-example-basic-single">
 					@foreach ($accounts as $account)
 					<option value={{$account->id}}>{{$account->ar_name}} -{{$account->amount}}</option>
 					@endforeach
@@ -129,9 +129,7 @@
 <script>
 	$(document).ready(function() {
 		$('.js-example-basic-single').select2();
-
 	});
-
 </script>
 <script>
 		$("#add-new").on('click' , function(){
