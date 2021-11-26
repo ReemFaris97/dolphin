@@ -44,6 +44,11 @@ class AccountingProduct extends Model
         return $this->hasMany(AccountingProductBarcode::class, 'product_id');
     }
 
+    public function ProductComponent()
+    {
+//        return $this->belongsToMany(AccountingProduct::class,AccountingProductComponent::class);
+    }
+
 
 
     public function getTotalTaxesAttribute()
