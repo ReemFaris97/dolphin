@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\AccountingSystem\AccountingProductBarcode;
+use App\Models\AccountingSystem\AccountingProductSubUnit;
 use App\Models\AccountingSystem\AccountingSetting;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -44,6 +45,11 @@ class Product extends Model
     {
         return $this->hasMany(AccountingProductBarcode::class);
     }
+    public function sub_units()
+    {
+        return $this->hasMany(AccountingProductSubUnit::class);
+    }
+
 
     public function images()
     {
@@ -143,4 +149,5 @@ class Product extends Model
     public function getNetPriceAttribute()
     {
     }
+    
 }

@@ -16,6 +16,7 @@ use App\Models\User;
 use App\Traits\Viewable;
 use Cookie;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class SellPointController extends Controller
 {
@@ -59,8 +60,8 @@ class SellPointController extends Controller
                     return $b->where(function ($q) use ($request) {
                         $q->where('name', 'LIKE', '%' . $request->search . '%')->orWhere('en_name', 'LIKE', '%' . $request->search . '%')->orWhere('description', 'LIKE', '%' . $request->search . '%')->orWhere('bar_code', 'like', '%' . $request->search . '%');
                     });
-                })->orwhereHas('barcodes', fn($b) => $b->where('barcode', 'like', "%$request->search%"))
-                ->orwhereHas('sub_units', fn($b) => $b->where('bar_code', 'like', "%$request->search%"))
+                })->orwhereHas('barcodes', fn ($b) => $b->where('barcode', 'like', "%$request->search%"))
+                ->orwhereHas('sub_units', fn ($b) => $b->where('bar_code', 'like', "%$request->search%"))
                 ->where('store_id', $id)
                 ->paginate(20);
 
@@ -176,25 +177,22 @@ class SellPointController extends Controller
     public function barcode_search(Request $request, $q)
     {
         $store_product=AccountingProductStore::where('store_id', $request['store_id'])->pluck('product_id', 'id')->toArray();
-        $products=AccountingProduct::whereIn('id', $store_product)
-            ->where(
-                fn ($query) => $query
-                    ->where('bar_code', 'like', "%$q%")
-                    ->orwhereHas('barcodes', fn($b) => $b->where('barcode', 'like', "%$q%"))
-                    ->orwhereHas('sub_units', fn($b) => $b->where('bar_code', 'like', "%$q%"))
-            )->get();
-        if (!$products->isEmpty()) {
-            $selectd_unit_id = 'main-'.$products[0]->id;
-        } else {
-            $product_unit=AccountingProductSubUnit::where('bar_code', 'like', "%$q%")->pluck('product_id');
-            $products=AccountingProduct::whereIn('id', $product_unit)->whereIn('id', $store_product)->get();
-            $unit=	AccountingProductSubUnit::where('bar_code', 'like', "%$q%")->first();
-            if ($unit) {
-                $selectd_unit_id = $unit->id;
+        $products=AccountingProduct::ofBarcode($q)
+        ->with('sub_units')
+        /* ->whereIn('id', $store_product) */
+        ->get();
+        $products->transform(function ($product) use ($q) {
+            $sub_unit=  $product->sub_units->filter(function ($subunit) use ($q) {
+                return  Str::contains($subunit->bar_code, $q);
+            })->first();
+            if ($sub_unit!=null) {
+                $product->bar_code=$sub_unit->id;
             } else {
-                $selectd_unit_id = 0;
+                $product->bar_code='main-'.$product->id;
             }
-        }
+            return $product;
+        });
+        $selectd_unit_id=optional($products->first())->bar_code??0;
 
         return response()->json([
             'status'=>true,

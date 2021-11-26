@@ -123,7 +123,7 @@ class AccountingProduct extends Model
 
     public function sub_units()
     {
-        return $this->hasMany(AccountingProductSubUnit::class,'product_id');
+        return $this->hasMany(AccountingProductSubUnit::class, 'product_id');
     }
 
     public function sales()
@@ -136,5 +136,18 @@ class AccountingProduct extends Model
     {
         $quantity=AccountingProductStore::where('store_id', $store_id)->where('product_id', $this->id)->sum('quantity');
         return $quantity;
+    }
+
+    public function scopeOfBarcode($builder, $barcode)
+    {
+        $builder->where('bar_code', 'like', "%$barcode%");
+        $builder->orwhereHas(
+            'barcodes',
+            fn ($b) => $b->where('barcode', 'like', "%$barcode%")
+        );
+        $builder->orwhereHas(
+            'sub_units',
+            fn ($b) => $b->where('bar_code', 'like', "%$barcode%")
+        );
     }
 }

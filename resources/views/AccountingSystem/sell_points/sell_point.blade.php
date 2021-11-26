@@ -729,8 +729,8 @@
 
 
 
-        $("#store_id").on('change', function() {
-            var store_id = $(this).val();
+        // $("#store_id").on('change', function() {
+            var store_id = $("#store_id").val();
             //	For Ajax Search By Product Bar Code
             $("#barcode_search").scannerDetection({
                 timeBeforeScanTest: 200, // wait for the next character for upto 200ms
@@ -833,7 +833,7 @@
 
                 }
             });
-        });
+        // });
 
         function byBarcode() {
             $(".tempDisabled").removeClass("tempDisabled");

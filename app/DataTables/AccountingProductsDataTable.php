@@ -21,11 +21,31 @@ class AccountingProductsDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
+
+            /* columns[5][search][value] */
+            ->filter(function ($query) {
+                if (isset(request()->columns[5]['search']['value']) && request()->columns[5]['search']['value'] != null) {
+                    $barcode= request()->columns[5]['search']['value'];
+
+                    $query->where(function ($builder) use ($barcode) {
+                        $builder->where('bar_code', 'like', "%$barcode%");
+                        $builder->orwhereHas(
+                            'barcodes',
+                            fn ($b) => $b->where('barcode', 'like', "%$barcode%")
+                        );
+                        $builder->orwhereHas(
+                            'sub_units',
+                            fn ($b) => $b->where('bar_code', 'like', "%$barcode%")
+                        );
+                    });
+                }
+            }, false)
             ->addIndexColumn()
             ->addColumn('action', fn ($product) =>view('AccountingSystem.products.actions', ['row'=>$product])->render())
             ->addColumn('qunaitity', fn ($product) =>$product->getTotalQuantities())
             ->addColumn('image', '<img src="{{getimg($image)}}" style="width:100px; height:100px">')
-            ->rawColumns(['image', 'action']);
+            ->rawColumns(['image', 'action'])
+            ;
     }
 
     /**
@@ -58,7 +78,18 @@ class AccountingProductsDataTable extends DataTable
                         // Button::make('print'),
                        Button::make('reset'),
                        Button::make('reload')
-                   ) ;
+                   ) ->parameters([
+                    'initComplete' => "function () {
+                        this.api().columns(5).every(function () {
+                            var column = this;
+                            var input = document.createElement(\"input\");
+                            $(input).appendTo($(column.footer()).empty())
+                            .on('change', function () {
+                                column.search($(this).val(), false, false, true).draw();
+                            });
+                        });
+                    }",
+                ]) ;
     }
 
     /**
