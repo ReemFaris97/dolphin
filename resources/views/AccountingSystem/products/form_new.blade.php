@@ -572,8 +572,8 @@
                             this.search(loading, search, this);
                         }
                     },
-                    search: _.debounce((loading, search, vm) => {
-                        fetch(
+                        search: _.debounce((loading, search, vm) => {
+                            fetch(
                             `https://api.github.com/search/repositories?q=${escape(search)}`
                         ).then(res => {
                             res.json().then(json => (vm.options = json.items));
@@ -643,7 +643,6 @@
                     }
 
                 }
-
-        })
+                       )
     </script>
 @endsection
