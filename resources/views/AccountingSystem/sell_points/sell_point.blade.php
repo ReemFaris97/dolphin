@@ -60,6 +60,11 @@
                                 <label> إسم العميل: </label>
                                 {!! Form::select('client', $clients, null, ['class' => 'selectpicker form-control inline-control', 'data-live-search' => 'true', 'id' => 'client_id']) !!}
                             </div>
+                            <div class="form-group block-gp col-md-1" style="margin-top: 3rem;">
+                                <a class="btn btn-success" href="{{route('accounting.clients.create')}}" target="_blank"> +</a>
+
+                            </div>
+
                             <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
                                 <label for="bill_date"> تاريخ الفاتورة </label>
                                 {!! Form::text('__bill_date', null, ['class' => 'inlinedatepicker form-control inline-control', 'placeholder' => ' تاريخ الفاتورة', 'id' => 'bill_date']) !!}
