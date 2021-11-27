@@ -115,10 +115,10 @@
                 </div>
             </div>
                 </div>
-<div>
+{{-- <div>
               <div id="chart_div" style="width: 500px; height: 400px;"></div>
                 <div id="chart_div_2" style="width: 500px; height: 400px;"></div>
-</div>
+</div> --}}
                 @include('distributor.reports.sales._table')
 
             </div>
@@ -127,12 +127,11 @@
 </div>
 @endsection
 @push('scripts')
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+{{--     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
 
         var statistics =<?php echo json_encode($data); ?>;
         var count =<?php echo json_encode($day_count); ?>;
-
         google.charts.load('current', {'packages':['corechart','bar']});
          google.charts.setOnLoadCallback(drawVisualization);
         google.charts.setOnLoadCallback(drawVisualizationSales);
@@ -185,5 +184,5 @@
             var bar = new google.visualization.ComboChart(document.getElementById('chart_div_2'));
             bar.draw(dataSales, optionsBar);
         }
-    </script>
+    </script> --}}
 @endpush
