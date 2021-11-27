@@ -331,7 +331,6 @@
     <script src="{{ asset('admin/assets/js/jquery.datetimepicker.full.min.js') }}"></script>
     <script src="{{ asset('admin/assets/js/scanner.js') }}"></script>
     <script>
-        $(document).ready(function() {
             $('#sllForm').keydown(function(event){
                 if(event.keyCode == 13) {
                     event.preventDefault();
@@ -341,7 +340,6 @@
             $('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
             $('.inlinedatepicker').text(new Date().toLocaleString());
             $('.inlinedatepicker').val(new Date().toLocaleString());
-        });
         // For preventing user from inserting two methods of discount
         function preventDiscount() {
             $("input#byPercentage").change(function() {

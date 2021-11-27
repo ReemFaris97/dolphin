@@ -186,13 +186,14 @@ class SellPointController extends Controller
                 return  Str::contains($subunit->bar_code, $q);
             })->first();
             if ($sub_unit!=null) {
-                $product->bar_code=$sub_unit->id;
-            } else {
-                $product->bar_code='main-'.$product->id;
-            }
+                $product->unit=$sub_unit->id;
+                $product->selling_price=$sub_unit->selling_price;
+            } /* else {
+                $product->main_unit='main-'.$product->id;
+            } */
             return $product;
         });
-        $selectd_unit_id=optional($products->first())->bar_code??0;
+        $selectd_unit_id=optional($products->first())->main_unit??0;
 
         return response()->json([
             'status'=>true,
