@@ -176,10 +176,9 @@ class SellPointController extends Controller
 
     public function barcode_search(Request $request, $q)
     {
-        $store_product=AccountingProductStore::where('store_id', $request['store_id'])->pluck('product_id', 'id')->toArray();
-        $products=AccountingProduct::ofBarcode($q)
+        $products=AccountingProduct::query()->ofBarcode($q)
+        ->whereRelation('stores', 'store_id', $request->store_id)
         ->with('sub_units')
-        /* ->whereIn('id', $store_product) */
         ->get();
         $products->transform(function ($product) use ($q) {
             $sub_unit=  $product->sub_units->filter(function ($subunit) use ($q) {
@@ -188,9 +187,7 @@ class SellPointController extends Controller
             if ($sub_unit!=null) {
                 $product->unit=$sub_unit->id;
                 $product->selling_price=$sub_unit->selling_price;
-            } /* else {
-                $product->main_unit='main-'.$product->id;
-            } */
+            }
             return $product;
         });
         $selectd_unit_id=optional($products->first())->main_unit??0;

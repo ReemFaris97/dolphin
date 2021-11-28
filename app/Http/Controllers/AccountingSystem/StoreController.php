@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
+use App\DataTables\AccountingProductsDataTable;
 use App\Models\AccountingSystem\AccountingBond;
 use App\Models\AccountingSystem\AccountingBondProduct;
 use App\Models\AccountingSystem\AccountingBranch;
@@ -216,20 +217,18 @@ class StoreController extends Controller
         ]);
     }
 
-    public function store_product($id)
+    public function store_product(AccountingProductsDataTable $datatable, $id)
     {
         $products_store = AccountingProductStore::query()
-            ->join('accounting_products', 'product_id', 'accounting_products.id')
             ->where('accounting_product_stores.store_id', $id)->with('product')
-            ->select(\DB::raw("accounting_product_stores.*"))
-            ->paginate();
+            ->paginate(9);
 
         $store = AccountingStore::findOrFail($id);
-        $stores = AccountingStore::where('id', '!=', $id)->pluck('ar_name', 'id')->toArray();
-        $all_stores = AccountingStore::all();
-        $storess = $all_stores->except($id);
+        // $stores = AccountingStore::where('id', '!=', $id)->pluck('ar_name', 'id')->toArray();
+        // $all_stores = AccountingStore::all();
+        // $storess = $all_stores->except($id);
 
-        return view('AccountingSystem.stores.products', compact('products_store', 'store', 'stores', 'storess'));
+        return view('AccountingSystem.stores.products', compact('products_store', 'store'));
     }
 
     public function show_product_details($id, Request $request)
@@ -365,7 +364,7 @@ class StoreController extends Controller
         // ];
 
         // $this->validate($request,$rules,$massage);
-         // dd($request->all());
+        // dd($request->all());
         if ($bond->type == 'entry' || $bond->type == 'exchange') {
             $products_store = AccountingProductStore::where('store_id', $bond->store_id)->get();
             $quantity = collect($inputs['qtys']);

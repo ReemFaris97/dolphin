@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\AccountingSystem;
 
 use App\DataTables\AccountingProductsDataTable;
+use App\Http\Controllers\Controller;
+use App\Imports\AccountingImport;
+use App\Models\AccountingSystem\AccountingAccount;
 use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingBranchFace;
-use App\Models\AccountingSystem\AccountingBranchShift;
 use App\Models\AccountingSystem\AccountingColumnCell;
 use App\Models\AccountingSystem\AccountingCompany;
-
 use App\Models\AccountingSystem\AccountingFaceColumn;
 use App\Models\AccountingSystem\AccountingIndustrial;
 use App\Models\AccountingSystem\AccountingProduct;
@@ -24,17 +25,12 @@ use App\Models\AccountingSystem\AccountingProductTax;
 use App\Models\AccountingSystem\AccountingService;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingSupplier;
-use App\Models\Product;
+use App\Models\AccountingSystem\AccountingTaxBand;
+use App\Traits\Viewable;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Imports\AccountingImport;
-use App\Models\AccountingSystem\AccountingAccount;
-use App\Models\AccountingSystem\AccountingTaxBand;
 use Maatwebsite\Excel\Facades\Excel;
 
-
-use App\Traits\Viewable;
 
 class ProductController extends Controller
 {
@@ -76,7 +72,7 @@ class ProductController extends Controller
         $columns = AccountingFaceColumn::get(['id', 'name as label']);
         $cells = AccountingColumnCell::get(['id', 'name as label']);
 //        $product= AccountingProduct::make();
-        $product = collect(AccountingProduct::make()->getFillable())->mapWithKeys(fn ($c) => [$c => null]);
+        $product = collect(AccountingProduct::make()->getFillable())->mapWithKeys(fn($c) => [$c => null]);
         $product['bar_code'] = [];
         $product['sub_products'] = [];
         $product['components'] = [];
@@ -883,10 +879,11 @@ class ProductController extends Controller
 
     public function getProductsByAjax(Request $request)
     {
+//        dd($request->all());
         $products = AccountingProduct::query()
             ->when($request->search, function ($b) use ($request) {
-                return $b->where('name', 'LIKE', '%' . $request->search . '%')->orWhere('en_name', 'LIKE', '%' . $request->search . '%')->orWhere('description', 'LIKE', '%' . $request->search . '%')->orWhere('bar_code', $request->search);
-            })->paginate(20);
+                return $b->where('name', 'LIKE', $request->search . '%')->orWhere('en_name', 'LIKE', '%' . $request->search . '%')->orWhere('description', 'LIKE', '%' . $request->search)->orWhere('bar_code', $request->search);
+            })->paginate(50);
 
         return response()->json([
             'status' => true,

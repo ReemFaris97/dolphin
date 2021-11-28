@@ -13,11 +13,12 @@ class AccountingProduct extends Model
         'is_settlement', 'date_settlement', 'settlement_store_id', 'cell_id', 'alert_duration', 'supplier_id', 'account_id'
 
     ];
-    protected $appends = ['total_taxes', 'total_discounts', 'text','product_name'];
-protected $casts=['bar_code'=>'array'];
-    public function getProductNameAttribute()
+    protected $appends = ['total_taxes', 'total_discounts', 'text'];
+    protected $casts = ['bar_code' => 'json'];
+
+    public function components()
     {
-        return $this->name;
+        return $this->belongsToMany(AccountingProduct::class, AccountingProductComponent::class, 'product_id', 'component_id');
     }
 
     public function getTextAttribute()
@@ -37,6 +38,10 @@ protected $casts=['bar_code'=>'array'];
     public function store()
     {
         return $this->belongsTo(AccountingStore::class, 'store_id');
+    }
+    public function stores()
+    {
+        return $this->belongsToMany(AccountingStore::class, 'accounting_product_stores', 'product_id', 'store_id');
     }
     public function storeSettlement()
     {
