@@ -44,11 +44,11 @@
                                         <span class="m-widget24__desc">
                                             </span>
                                         <span class="m-widget24__stats m--font-info">
-                                                {{$dataAll['total_trips']}}
+                                                {{0}}
                                             </span>
                                         <div class="m--space-10"></div>
                                         <div class="progress m-progress--sm">
-                                            <div class="progress-bar m--bg-info" role="progressbar" style="width: {{$dataAll['total_trips']}}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar m--bg-info" role="progressbar" style="width: {{0}}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                         <span class="m-widget24__change">
                                             </span>
@@ -70,11 +70,11 @@
                                         <span class="m-widget24__desc">
                                             </span>
                                         <span class="m-widget24__stats m--font-danger">
-                                                {{$dataAll['total_trips']}}
+                                                {{0}}
                                             </span>
                                         <div class="m--space-10"></div>
                                         <div class="progress m-progress--sm">
-                                            <div class="progress-bar m--bg-danger" role="progressbar" style="width: {{$dataAll['refused_trips']}}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar m--bg-danger" role="progressbar" style="width: {{0}}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                         <span class="m-widget24__change">
                                             </span>
@@ -96,11 +96,11 @@
                                         <span class="m-widget24__desc">
                                             </span>
                                         <span class="m-widget24__stats m--font-success">
-                                           {{$dataAll['trips_cash']}}
+                                           {{0}}
                                             </span>
                                         <div class="m--space-10"></div>
                                         <div class="progress m-progress--sm">
-                                            <div class="progress-bar m--bg-success" role="progressbar" style="width: {{$dataAll['trips_cash']}}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar m--bg-success" role="progressbar" style="width: {{0}}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                         <span class="m-widget24__change">
                                             </span>
