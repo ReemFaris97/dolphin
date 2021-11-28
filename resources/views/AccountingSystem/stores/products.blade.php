@@ -5,7 +5,11 @@
 @section('action', URL::route('accounting.stores.index'))
 
 @section('styles')
-
+<style>
+    #DataTables_Table_0_paginate{
+        display: none;
+    }
+</style>
 @endsection
 
 @section('content')
@@ -94,6 +98,7 @@
                 @endforeach
                 </tbody>
             </table>
+            {{$products_store->links()}}
         </div>
     </div>
 @endsection

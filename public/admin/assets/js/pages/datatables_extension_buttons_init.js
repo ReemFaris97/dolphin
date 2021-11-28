@@ -9,11 +9,11 @@
 *
 * ---------------------------------------------------------------------------- */
 
-$(function() {
+$(function () {
 
-	$("#print-all").click(function(){
-	let t = document.getElementById('print-window').innerHTML;
-		let style = `<style>.datatable-header , .datatable-footer{display: none !important;visibility: hidden !important}
+    $("#print-all").click(function () {
+        let t = document.getElementById('print-window').innerHTML;
+        let style = `<style>.datatable-header , .datatable-footer{display: none !important;visibility: hidden !important}
 					 html , body , table {direction : rtl !important}table {width: 100%; font-size: 17px;} table .td-display-none{display:none!important}
 table, th, td {border: solid 1px #DDD; border-collapse: collapse;padding: 2px 3px;text-align: center;}
 td.company-imgg-td span {
@@ -24,20 +24,20 @@ margin-top : 10px
 }
 </style>
 `;
-    let win = window.open('', '', 'height=700,width=700');
-    win.document.write(`<html><head><title>التقرير</title>${style}</head><body>${t}</body></html>`);
-    win.document.close();
-    win.print();
-	})
+        let win = window.open('', '', 'height=700,width=700');
+        win.document.write(`<html><head><title>التقرير</title>${style}</head><body>${t}</body></html>`);
+        win.document.close();
+        win.print();
+    })
 
 
 
-	
+
     // Table setup
     // ------------------------------
 
     // Setting datatable defaults
-    $.extend( $.fn.dataTable.defaults, {
+    $.extend($.fn.dataTable.defaults, {
         autoWidth: false,
         dom: '<"datatable-header"fBl><"datatable-scroll-wrap"t><"datatable-footer"ip>',
         language: {
@@ -47,27 +47,27 @@ margin-top : 10px
             paginate: { 'first': 'First', 'last': 'Last', 'next': '&larr;', 'previous': '&rarr;' }
         }
     });
-	
-	var table =  $('.datatable-button-init-basic');
+
+    var table = $('.datatable-button-init-basic');
     var tableOptions = {
         'bPaginate': true,
-		buttons: {
+        buttons: {
             dom: {
                 button: {
                     className: 'btn btn-default'
                 }
             },
             buttons: [
-                {extend: 'copy', footer: true},
-                {extend: 'csv', footer: true},
-                {extend: 'excel', footer: true},
-                {extend: 'pdf', footer: true},
-                {extend: 'print', footer: true , header : true}
+                { extend: 'copy', footer: true },
+                { extend: 'csv', footer: true },
+                { extend: 'excel', footer: true },
+                { extend: 'pdf', footer: true },
+                { extend: 'print', footer: true, header: true }
             ]
         }
     };
-   table.DataTable(tableOptions);
-   $('#print-all').on('click', function() {        
+    table.DataTable(tableOptions);
+    $('#print-all').on('click', function () {
         table.DataTable().destroy()
         tableOptions.bPaginate = false;
         table.DataTable(tableOptions);
@@ -75,22 +75,22 @@ margin-top : 10px
 
 
     // Basic initialization
-//    $('.datatable-button-init-basic').DataTable({
-//        buttons: {
-//            dom: {
-//                button: {
-//                    className: 'btn btn-default'
-//                }
-//            },
-//            buttons: [
-//                {extend: 'copy', footer: true},
-//                {extend: 'csv', footer: true},
-//                {extend: 'excel', footer: true},
-//                {extend: 'pdf', footer: true},
-//                {extend: 'print', footer: true , header : true}
-//            ]
-//        }
-//    });
+    //    $('.datatable-button-init-basic').DataTable({
+    //        buttons: {
+    //            dom: {
+    //                button: {
+    //                    className: 'btn btn-default'
+    //                }
+    //            },
+    //            buttons: [
+    //                {extend: 'copy', footer: true},
+    //                {extend: 'csv', footer: true},
+    //                {extend: 'excel', footer: true},
+    //                {extend: 'pdf', footer: true},
+    //                {extend: 'print', footer: true , header : true}
+    //            ]
+    //        }
+    //    });
 
 
     // Custom button
@@ -99,7 +99,7 @@ margin-top : 10px
             {
                 text: 'Custom button',
                 className: 'btn bg-teal-400',
-                action: function(e, dt, node, config) {
+                action: function (e, dt, node, config) {
                     swal({
                         title: "Good job!",
                         text: "Custom button activated",
@@ -122,14 +122,14 @@ margin-top : 10px
                 buttons: [
                     {
                         text: 'Toggle first name',
-                        action: function ( e, dt, node, config ) {
-                            dt.column( 0 ).visible( ! dt.column( 0 ).visible() );
+                        action: function (e, dt, node, config) {
+                            dt.column(0).visible(!dt.column(0).visible());
                         }
                     },
                     {
                         text: 'Toggle status',
-                        action: function ( e, dt, node, config ) {
-                            dt.column( -2 ).visible( ! dt.column( -2 ).visible() );
+                        action: function (e, dt, node, config) {
+                            dt.column(-2).visible(!dt.column(-2).visible());
                         }
                     }
                 ]
@@ -142,8 +142,8 @@ margin-top : 10px
     $('.datatable-button-init-length').DataTable({
         dom: '<"datatable-header"fB><"datatable-scroll-wrap"t><"datatable-footer"ip>',
         lengthMenu: [
-            [ 10, 25, 50, -1 ],
-            [ '10 rows', '25 rows', '50 rows', 'Show all' ]
+            [10, 25, 50, -1],
+            ['10 rows', '25 rows', '50 rows', 'Show all']
         ],
         buttons: [
             {
@@ -163,5 +163,5 @@ margin-top : 10px
         minimumResultsForSearch: Infinity,
         width: 'auto'
     });
-    
+
 });

@@ -31,6 +31,10 @@ class AccountingProduct extends Model
     {
         return $this->belongsTo(AccountingStore::class, 'store_id');
     }
+    public function stores()
+    {
+        return $this->belongsToMany(AccountingStore::class, 'accounting_product_stores', 'product_id', 'store_id');
+    }
     public function storeSettlement()
     {
         return $this->belongsTo(AccountingStore::class, 'settlement_store_id');
