@@ -21,7 +21,7 @@ class RouteServiceProvider extends ServiceProvider
     protected $apiSupplierNamespace = 'App\Http\Controllers\Api\Supplier';
     protected $supplierNameSpace = 'App\Http\Controllers\Supplier';
     protected $AccountingNameSpace = 'App\Http\Controllers\AccountingSystem';
-  protected $companyNameSpace = 'App\Http\Controllers\AccountingSystem\AccountingCompanies';
+    protected $companyNameSpace = 'App\Http\Controllers\AccountingSystem\AccountingCompanies';
     /**
      * Define your route model bindings, pattern filters, etc.
      *

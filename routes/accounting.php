@@ -9,6 +9,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('companies', 'CompanyController');
     Route::resource('branches', 'BranchController');
+    Route::resource('productionLines', 'ProductionLineController');
     Route::resource('shifts', 'ShiftController');
     Route::resource('users', 'UserController');
     Route::resource('stores', 'StoreController');
