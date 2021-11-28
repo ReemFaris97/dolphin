@@ -90,7 +90,7 @@
     @endforeach
 </tr>
 @endforeach
-@foreach($distributors as $distributor)
+@foreach($sales_distributors as $distributor)
 <tr>
 
     <td>{!!$distributor->name!!}</td>

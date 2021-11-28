@@ -96,8 +96,8 @@ class SaleController extends Controller
             $sales = $sales->whereBetween('created_at', [$request->from,$request->to]);
         }
         $sales=$sales->groupBy('distributor_id')->groupBy('product_id')->groupBy('name')->selectRaw('name,product_id,sum(price) as price,sum(quantity) as quantity')->get()->groupBy('distributor_id');
-        $distributors=User::where('is_distributor', 1)->whereNotIn('id', $sales->keys())->get(['id', 'name']);
-        return view('distributor.reports.sales.index', compact('transactions', 'data', 'day_count', 'dataAll', 'sales', 'distributors'));
+        $sales_distributors=User::where('is_distributor', 1)->whereNotIn('id', $sales->keys())->get(['id', 'name']);
+        return view('distributor.reports.sales.index', compact('transactions', 'data', 'day_count', 'dataAll', 'sales', 'sales_distributors'));
     }
 
     /**
