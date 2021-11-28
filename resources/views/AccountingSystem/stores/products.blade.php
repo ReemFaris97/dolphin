@@ -5,7 +5,11 @@
 @section('action', URL::route('accounting.stores.index'))
 
 @section('styles')
-
+<style>
+    #DataTables_Table_0_paginate{
+        display: none;
+    }
+</style>
 @endsection
 
 @section('content')
@@ -29,20 +33,17 @@
                     <th>#</th>
                     <th> اسم المنتج </th>
                     <th> نوع المنتج </th>
-
                     <th>  الباركود </th>
                     <th> الوحده الاساسية  </th>
                     <th> سعر البيع </th>
                     <th> سعر الشراء </th>
                     <th> الكميه الحاليه بالمستودع </th>
                     <th>  حاله المنتج بالمستودع </th>
-
                     <th> صورة  المنتج </th>
                     <th>عرض  تفاصيل    المنتج </th>
                 </tr>
                 </thead>
                 <tbody>
-
                 @foreach($products_store as $row)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
@@ -95,19 +96,11 @@
                     </tr>
 
                 @endforeach
-
-
-
                 </tbody>
             </table>
-
-
-
+            {{$products_store->links()}}
         </div>
-
     </div>
-
-
 @endsection
 
 @section('scripts')

@@ -10,7 +10,6 @@
 <div class="m-content">
     <div class="row">
         <div class="col-md-12">
-
             <!--begin::Portlet-->
             <div class="m-portlet m-portlet--tab">
                 <div class="m-portlet__head belong-to-aform">
@@ -116,10 +115,10 @@
                 </div>
             </div>
                 </div>
-<div>
+{{-- <div>
               <div id="chart_div" style="width: 500px; height: 400px;"></div>
                 <div id="chart_div_2" style="width: 500px; height: 400px;"></div>
-</div>
+</div> --}}
                 @include('distributor.reports.sales._table')
 
             </div>
@@ -128,12 +127,11 @@
 </div>
 @endsection
 @push('scripts')
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+{{--     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
 
         var statistics =<?php echo json_encode($data); ?>;
         var count =<?php echo json_encode($day_count); ?>;
-
         google.charts.load('current', {'packages':['corechart','bar']});
          google.charts.setOnLoadCallback(drawVisualization);
         google.charts.setOnLoadCallback(drawVisualizationSales);
@@ -143,12 +141,12 @@
             var xx=[
                 ['تاريخ اليوم', 'اجمالى الزيارات', 'اجمالى الزيارات المستلمة', 'اجمالى الزيارات المرفوضة'],
             ];
+
             Object.values(statistics).forEach(function (item) {
-                xx.push([item.day,item.total_trips,item.accepted_trips,item.refused_trips]);
+                xx.push([parseFloat(item.day),parseFloat(item.total_trips),parseFloat(item.accepted_trips),parseFloat(item.refused_trips)]);
             });
             var data = google.visualization.arrayToDataTable(xx);
 
-console.log(count);
             var options = {
                 title : 'اجمالى اليومية',
                 vAxis: {title: 'Cups'},
@@ -168,7 +166,7 @@ console.log(count);
             ];
             Object.values(statistics).forEach(function (item) {
 
-                sales.push([item.day,item.trips_cash]);
+                sales.push([parseFloat(item.day),parseFloat(item.trips_cash)]);
             });
             // console.log(sales);
             var dataSales = google.visualization.arrayToDataTable(
@@ -186,5 +184,5 @@ console.log(count);
             var bar = new google.visualization.ComboChart(document.getElementById('chart_div_2'));
             bar.draw(dataSales, optionsBar);
         }
-    </script>
+    </script> --}}
 @endpush

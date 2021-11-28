@@ -32,7 +32,7 @@ class ExpenditureClausesController extends Controller
      */
     public function create()
     {
-        $expenditure_types=ExpenditureType::pluck('name','id');
+        $expenditure_types=ExpenditureType::pluck('name', 'id');
         return $this->toCreate(compact('expenditure_types'));
     }
 
@@ -46,11 +46,12 @@ class ExpenditureClausesController extends Controller
     {
         $rules = [
             'name'=>'required|string|max:191',
+            'expenditure_type_id'=>'required',
 
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         ExpenditureClause::create($request->all());
-        toast('تم الإضافة بنجاح','success','top-right');
+        toast('تم الإضافة بنجاح', 'success', 'top-right');
         return redirect()->route('distributor.expenditureClauses.index');
     }
 
@@ -74,11 +75,9 @@ class ExpenditureClausesController extends Controller
     public function edit($id)
     {
         $expenditureClause =ExpenditureClause::findOrFail($id);
-        $expenditure_types=ExpenditureType::pluck('name','id');
+        $expenditure_types=ExpenditureType::pluck('name', 'id');
 
-        return $this->toEdit(compact('expenditureClause','expenditure_types'));
-
-
+        return $this->toEdit(compact('expenditureClause', 'expenditure_types'));
     }
 
     /**
@@ -90,18 +89,16 @@ class ExpenditureClausesController extends Controller
      */
     public function update(Request $request, $id)
     {
-       $expenditureClause = ExpenditureClause::findOrFail($id);
+        $expenditureClause = ExpenditureClause::findOrFail($id);
 
         $rules = [
             'name'=>'required|string|max:191',
-
+            'expenditure_type_id'=>'required',
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $expenditureClause->update($request->all());
-        toast('تم التعديل بنجاح','success','top-right');
+        toast('تم التعديل بنجاح', 'success', 'top-right');
         return redirect()->route('distributor.expenditureClauses.index');
-
-
     }
 
     /**
@@ -115,10 +112,8 @@ class ExpenditureClausesController extends Controller
         $expenditureClause  = ExpenditureClause::find($id);
 
         $expenditureClause->delete();
-            toast('تم الحذف بنجاح', 'success','top-right');
-            return back();
-
-
+        toast('تم الحذف بنجاح', 'success', 'top-right');
+        return back();
     }
     public function active($id)
     {
@@ -141,5 +136,4 @@ class ExpenditureClausesController extends Controller
 
         return back();
     }
-
 }

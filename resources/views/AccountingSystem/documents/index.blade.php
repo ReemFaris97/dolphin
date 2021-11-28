@@ -1,5 +1,7 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','عرض وثائق  ' .$type=='employee'?' الموظفين':' الفروع' )
+@section('title')
+    عرض وثائق {{ $type=='employee'?' الموظفين':' الفروع'}}
+@endsection
 @section('parent_title',' إدارة الموظفين ')
 @section('action', URL::route('accounting.jobTitles.index'))
 

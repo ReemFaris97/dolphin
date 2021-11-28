@@ -34,7 +34,7 @@
 
             </td>
             <td>
-                @if($row->trip_report_id!=null)
+                @if( optional($row->trip_report)->invoice_number!=null)
             <td>
                 <a href="{{route('distributor.bills.show', optional($row->trip_report)->invoice_number ) }}">
                     {!! optional($row->trip_report)->invoice_number !!}

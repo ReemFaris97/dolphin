@@ -60,6 +60,11 @@
                                 <label> إسم العميل: </label>
                                 {!! Form::select('client', $clients, null, ['class' => 'selectpicker form-control inline-control', 'data-live-search' => 'true', 'id' => 'client_id']) !!}
                             </div>
+                            <div class="form-group block-gp col-md-1" style="margin-top: 3rem;">
+                                <a class="btn btn-success" href="{{route('accounting.clients.create')}}" target="_blank"> +</a>
+
+                            </div>
+
                             <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
                                 <label for="bill_date"> تاريخ الفاتورة </label>
                                 {!! Form::text('__bill_date', null, ['class' => 'inlinedatepicker form-control inline-control', 'placeholder' => ' تاريخ الفاتورة', 'id' => 'bill_date']) !!}
@@ -72,14 +77,7 @@
                                 </div>
 
                             @endif
-
-
-                            <div class="col-md-4 col-sm-4 col-xs-12">
-                                <div class="form-group block-gp">
-                                    <label> اختر المستودع </label>
-                                    {!! Form::select('store_id', $stores, null, ['class' => 'selectpicker form-control j category_id', 'id' => 'store_id', 'placeholder' => ' اختر المستودع ', 'data-live-search' => 'true', 'x-model' => 'selected']) !!}
-                                </div>
-                            </div>
+                            {!! Form::hidden('store_id',request('store_id')??session('store_id'),['id'=>'store_id']) !!}
                             <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
                                 <div class="yurProdc">
                                     <div class="form-group block-gp">
@@ -333,7 +331,6 @@
     <script src="{{ asset('admin/assets/js/jquery.datetimepicker.full.min.js') }}"></script>
     <script src="{{ asset('admin/assets/js/scanner.js') }}"></script>
     <script>
-        $(document).ready(function() {
             $('#sllForm').keydown(function(event){
                 if(event.keyCode == 13) {
                     event.preventDefault();
@@ -343,7 +340,6 @@
             $('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
             $('.inlinedatepicker').text(new Date().toLocaleString());
             $('.inlinedatepicker').val(new Date().toLocaleString());
-        });
         // For preventing user from inserting two methods of discount
         function preventDiscount() {
             $("input#byPercentage").change(function() {
@@ -547,8 +543,8 @@
             })
         };
 
-        // var store_id = $("#store_id").val();
-        var store_id = 1;
+        var store_id = $("#store_id").val();
+        // var store_id = 1;
         // $('#selectID').removeClass('hidden');
         $('#selectID2').select2({
             ajax: {
@@ -590,6 +586,19 @@
             minimumInputLength: 1,
             // templateResult: formatRepo,
             // templateSelection: formatRepoSelection,
+            delay: 250
+        });
+        $('#selectID2').on('change', function (e) {
+            // $('#selectID2').change(function() {
+            $.ajax({
+                method: 'GET',
+                url: "/accounting/products-single-product/" + e.target.value,
+                success: function (resp) {
+                    calcBill(resp.id, resp.id, resp.name, resp.bar_code,
+                        parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits))
+                }
+            })
+
         });
 
         function formatRepo(repo) {
@@ -615,18 +624,6 @@
         }
 
 
-        $('#selectID2').on('change', function (e) {
-            // $('#selectID2').change(function() {
-            $.ajax({
-                method: 'GET',
-                url: "/accounting/products-single-product/" + e.target.value,
-                success: function (resp) {
-                    calcBill(resp.id, resp.id, resp.name, resp.bar_code,
-                        parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits))
-                }
-            })
-
-        });
 
         function formatRepoSelection(repo) {
             return repo.title || repo.bar_code;
@@ -735,8 +732,8 @@
 
 
 
-        $("#store_id").on('change', function() {
-            var store_id = $(this).val();
+        // $("#store_id").on('change', function() {
+            var store_id = $("#store_id").val();
             //	For Ajax Search By Product Bar Code
             $("#barcode_search").scannerDetection({
                 timeBeforeScanTest: 200, // wait for the next character for upto 200ms
@@ -839,7 +836,7 @@
 
                 }
             });
-        });
+        // });
 
         function byBarcode() {
             $(".tempDisabled").removeClass("tempDisabled");
@@ -942,13 +939,13 @@
     </script>
     <script>
         //   For Alerting Before closing the window
-        window.onbeforeunload = function(e) {
-            e = e || window.event;
-            if (e) {
-                e.returnValue = 'هل انت متأكد من مغادرة الصفحة ؟!';
-            }
-            return 'هل انت متأكد من مغادرة الصفحة ؟!';
-        };
+        // window.onbeforeunload = function(e) {
+        //     e = e || window.event;
+        //     if (e) {
+        //         e.returnValue = 'هل انت متأكد من مغادرة الصفحة ؟!';
+        //     }
+        //     return 'هل انت متأكد من مغادرة الصفحة ؟!';
+        // };
 
         function refreshTime() {
             var today = new Date();

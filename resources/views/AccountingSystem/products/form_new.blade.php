@@ -591,7 +591,39 @@
                 ]
 
             },
-            methods: {
+            methods:
+                {
+
+                    onSearch:function (search, loading){
+                        if(search.length) {
+                            loading(true);
+                            this.search(loading, search, this);
+                        }
+                    },
+                        search: _.debounce((loading, search, vm) => {
+                            fetch(
+                            `https://api.github.com/search/repositories?q=${escape(search)}`
+                        ).then(res => {
+                            res.json().then(json => (vm.options = json.items));
+                            loading(false);
+                        });
+                    }, 350)
+                    },
+                    onComplete: function () {
+                        alert('Yay. Done!');
+                    }
+                    ,
+                    addSubUnit: function () {
+                        this.form.sub_units.push({
+                            ...this.sub_unit
+                        });
+
+                    }
+                    ,
+                    addComponent: function () {
+                        this.form.components.push({
+                            ...this.component
+                        });
 
                 onSearch: function (search, loading) {
                     if (search.length) {
@@ -693,10 +725,6 @@
                     });
 
                 }
-
-            },
-
-
-        })
+                       )
     </script>
 @endsection

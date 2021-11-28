@@ -3,19 +3,16 @@
 namespace App\Http\Controllers\AccountingSystem;
 
 
-use App\Models\AccountingSystem\AccountingSafe;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingDevice;
+use App\Models\AccountingSystem\AccountingSafe;
 use App\Models\AccountingSystem\AccountingSale;
 use App\Models\AccountingSystem\AccountingSession;
-use App\Traits\Viewable;
 use App\Models\User;
+use App\Traits\Viewable;
 use Carbon\Carbon;
 use Cookie;
-use Request as GlobalRequest;
-use Response;
-use Session;
+use Illuminate\Http\Request;
 
 class SessionController extends Controller
 {
@@ -56,6 +53,7 @@ private $viewable = 'AccountingSystem.sessions.';
             'device_id'=>'required|numeric|exists:accounting_devices,id',
             'email'=>'required',
             'password'=>'required|string|max:191',
+            'store_id' => 'required'
         ];
         $messsage = [
             'shift_id.required'=>" اسم الوردية مطلوبة",
@@ -87,7 +85,8 @@ private $viewable = 'AccountingSystem.sessions.';
 
           $session_id= $session->id;
           Cookie::queue('session',$session->id);
-          return \Redirect::route('accounting.sells_points.sells_point',['id' => $session->id])->with('session');
+          session()->put('store_id',$request->store_id);
+          return \Redirect::route('accounting.sells_points.sells_point', ['id' => $session->id, 'store_id' => $request->store_id])->with('session');
 
 
       }else{

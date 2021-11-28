@@ -550,7 +550,10 @@
 		<ul class="nav navbar-nav navbar-right">
 			<li class="dropdown dropdown-user"> <a class="dropdown-toggle" data-toggle="dropdown"> <img src="{!! asset(Auth::user()->image )!!}" alt=""> <span>{!! Auth::user()->name !!}</span> <i class="caret"></i> </a>
 				<ul class="dropdown-menu dropdown-menu-right">
-					<li><a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="icon-switch2"></i> تسجيل خروج</a>
+					<li><a href="/check" ><i class="icon-switch2"></i>الرئيسية</a>
+					</li>
+
+                    <li><a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="icon-switch2"></i> تسجيل خروج</a>
 						<form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;"> @csrf </form>
 					</li>
 				</ul>

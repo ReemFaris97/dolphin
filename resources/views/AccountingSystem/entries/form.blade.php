@@ -11,25 +11,9 @@
 	<label>تاريخ العملية </label>
 	{!! Form::date("date",null,['class'=>'form-control'])!!}
 </div>
-{{-- <div class="form-group col-sm-6 col-xs-12 pull-left">
-    <label>مصدر  العمليه  </label>
-    {!! Form::text("source",'قيد يدوى',['class'=>'form-control','readonly'])!!}
-</div> --}}
-{{--<div class="form-group col-sm-6 col-xs-12 pull-left">--}}
-{{--<label>الكود </label>--}}
-{{--{!! Form::text("code",null,['class'=>'form-control','placeholder'=>'  الكود   '])!!}--}}
-{{--</div>--}}
-{{-- <div class="form-group col-sm-6 col-xs-12 pull-left">
-    <label> نوع  العمليه  </label>
-    {!! Form::text("type",'يدوى',['class'=>'form-control','placeholder'=>'  يدوى   ','readonly'])!!}
-</div> --}}
 
-{{-- <div class="form-group col-sm-6 col-xs-12 pull-left">
-    <label>   المبلغ  </label>
-    {!! Form::text("amount",null,['class'=>'form-control','placeholder'=>' المبلغ  ',])!!}
-</div> --}}
 <input type="hidden" name="type" value="يدوى">
-<input type="hidden" name="source" value=" قيديدوى">
+<input type="hidden" name="source" value=" قيد يدوى">
 <div class="form-group col-sm-6 col-xs-12 pull-left">
 	<label>  اختر الفرع </label>
 	{!! Form::select("branch_id",$branches,null,['class'=>'form-control','placeholder'=>'اختر الفرع',])!!}
@@ -55,7 +39,7 @@
         @if(isset($entry))
             @foreach($entry->accounts()->get() as $key=>$accountEntry)
         <tr class="single-row">
-			<td>{{++$key}}</td>
+			<td>{{$loop->iteration}}</td>
 
 
 			<td>
@@ -66,12 +50,12 @@
 			</td>
 
 			<td>
-				<select name="account_id[]" class="form-control">
+				<select name="account_id[]" class="form-control js-example-basic-single">
                     @foreach ($accounts as $account)
                     @if($accountEntry->account_id==$account->id)
-					<option value={{$account->id}}    selected >{{$account->ar_name}} -{{$account->code}}</option>
+					<option value={{$account->id}}  selected >{{$account->ar_name}} -{{$account->code}}</option>
                     @else
-                    <option value={{$account->id}}     >{{$account->ar_name}} -{{$account->code}}</option>
+                    <option value={{$account->id}} >{{$account->ar_name}} -{{$account->code}}</option>
                      @endif
                     @endforeach
 				</select>
@@ -82,8 +66,7 @@
 
 			<td>
             <a href="{{route("accounting.entries.destroy_account",['id'=>$accountEntry->id])}}" data-toggle="tooltip" class="delete-it">X</a>
-                {{-- {!!Form::open( ['route' => ['accounting.entries.destroy_account',$accountEntry->id] ,'id'=>'delete-form'.$accountEntry->id, 'method' => 'Delete']) !!}
-                {!!Form::close() !!} --}}
+
             </td>
         </tr>
         @endforeach
@@ -98,7 +81,7 @@
 				<input type="number" min="0" name="creditor[]" class="form-control creditor" value="0">
 			</td>
 			<td>
-				<select name="account_id[]" class="form-control">
+				<select name="account_id[]" class="form-control js-example-basic-single">
 					@foreach ($accounts as $account)
 					<option value={{$account->id}}>{{$account->ar_name}} -{{$account->amount}}</option>
 					@endforeach
@@ -146,30 +129,9 @@
 <script>
 	$(document).ready(function() {
 		$('.js-example-basic-single').select2();
-
 	});
-
-	$("#from_account_id").on('change', function() {
-		var id = $(this).val();
-		console.log(id);
-		$('.toAccounts').empty();
-		$.ajax({
-			url: "/accounting/entries/toAccounts/" + id,
-			type: "get",
-			data: {
-				'ids': id,
-			}
-
-		}).done(function(data) {
-			$('.perent_account_form').html(data.perent);
-			$('.toAccounts').html(data.data);
-		}).fail(function(error) {
-			console.log(error);
-		});
-	})
 </script>
 <script>
-	$(document).ready(function(){
 		$("#add-new").on('click' , function(){
 			var num = $("#qyoud-table-tbody tr").length + 1;
 			$("#qyoud-table-tbody").append(`<tr class="single-row">
@@ -231,7 +193,6 @@
 		})
 
 
-	})
 </script>
 <script>
     function Delete(id) {

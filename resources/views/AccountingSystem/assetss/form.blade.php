@@ -32,7 +32,7 @@
 
 <div class="form-group col-md-6 pull-left">
     <label> اختر الحساب </label>
-    {!! Form::select("account_id",$accounts,null,['class'=>'form-control','required','placeholder'=>' اختر الحساب'])!!}
+    {!! Form::select("account_id",$accounts,null,['class'=>'form-control js-example-basic-single','required','placeholder'=>' اختر الحساب'])!!}
 </div>
 
 <div class="form-group col-md-6 pull-left ">

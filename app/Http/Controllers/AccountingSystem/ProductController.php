@@ -549,58 +549,69 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $branches = AccountingBranch::pluck('name', 'id')->toArray();
-        $industrials = AccountingIndustrial::pluck('name', 'id')->toArray();
-        $unit = AccountingProductMainUnit::pluck('main_unit', 'id')->toArray();
-        $units = collect($unit)->toJson();
-        $categories = AccountingProductCategory::pluck('ar_name', 'id')->toArray();
+        $industrials = AccountingIndustrial::get(['name as label', 'id']);
+        $units = AccountingProductMainUnit::get(['main_unit as label', 'id']);
+        $branches = AccountingBranch::get(['name as label', 'id']);
+        $categories = AccountingProductCategory::get(['ar_name as label', 'id']);
+        $products = [];
+        $taxs = AccountingTaxBand::get([\DB::raw('CONCAT(name," ",percent," %") as label'), 'id']);
+        $suppliers = AccountingSupplier::get(['name as label', 'id']);
+        $accounts = AccountingAccount::where('kind', 'sub')->get(['id', \DB::raw("concat(ar_name, ' - ',code) as label")]);
+        $faces = AccountingBranchFace::get(['name as label', 'id']);
+        $companies = AccountingCompany::get(['id', 'name as label']);
+        $stores = AccountingStore::get(['id', 'ar_name as label']);
+        $columns = AccountingFaceColumn::get(['id', 'name as label']);
+        $cells = AccountingColumnCell::get(['id', 'name as label']);
+        $products = [];
+        $taxs = AccountingTaxBand::get([\DB::raw('CONCAT(name," ",percent," %") as label'), 'id']);
+        $suppliers = AccountingSupplier::get(['name as label', 'id']);
+        $accounts = AccountingAccount::where('kind', 'sub')->get(['id', \DB::raw("concat(ar_name, ' - ',code) as label")]);
+        $faces = AccountingBranchFace::get(['name as label', 'id']);
+        $companies = AccountingCompany::get(['id', 'name as label']);
+        $stores = AccountingStore::get(['id', 'ar_name as label']);
+        $columns = AccountingFaceColumn::get(['id', 'name as label']);
+        $cells = AccountingColumnCell::get(['id', 'name as label']);
+//        $product= AccountingProduct::make();
         $product = AccountingProduct::find($id);
-        $products = AccountingProduct::all();
-        $cells = AccountingColumnCell::all();
-        $columns = AccountingFaceColumn::all();
-        $faces = AccountingBranchFace::all();
-        $is_edit = 1;
-        $storeproduct = AccountingProductStore::where('product_id', $id)->first();
-        $store = AccountingStore::find(optional($storeproduct)->store_id ?? 1);
-        // dd($store);
-        $stores = AccountingStore::all();
-        $taxs = AccountingTaxBand::pluck('name', 'id')->toArray();
-        $subunits = AccountingProductSubUnit::where('product_id', $id)->get();
-        $taxsproduct = AccountingProductTax::where('product_id', $id)->get();
-        $tax = AccountingProductTax::where('product_id', $id)->first();
+        $product['bar_code'] = array_merge(is_array($product->bar_code) ? $product->bar_code : explode(',', $product->bar_code), $product->barcodes->pluck('barcode')->toArray());
+        $product['sub_products'] = AccountingProductComponent::where('product_id', $id)->get();
+        $product['components'] = AccountingProductComponent::where('product_id', $id)->get();
+        $product['sub_units'] = AccountingProductSubUnit::where('product_id', $id)->get();
+        $product['offers'] = AccountingProductOffer::where('parent_product_id', $id)->get();
 
-        $has_tax = ($tax) ? '1' : '0';
-        if (isset($tax)) {
-            $price_has_tax = ($tax->price_has_tax == 1) ? '1' : '0';
-        } else {
-            $price_has_tax = 0;
-        }
-        $discounts = AccountingProductDiscount::where('product_id', $id)->get();
-        $discount = AccountingProductDiscount::where('product_id', $id)->first();
-        $suppliers = AccountingSupplier::pluck('name', 'id')->toArray();
-
+        $offer_template = [
+            'quantity' => '',
+            'gift_quantity' => '',
+        ];
+        $unit_template = [
+            'name' => null,
+            'bar_code' => null,
+            'main_unit_present' => null,
+            'selling_price' => null,
+            'purchasing_price' => null,
+            'quantity' => null
+        ];
+        $component_temp = [
+            'component_id' => null,
+            'quantity' => null,
+        ];
         return $this->toEdit(compact(
-            'suppliers',
-            'industrials',
-            'taxs',
             'branches',
             'categories',
-            'id',
-            'product',
             'products',
-            'is_edit',
-            'cells',
-            'columns',
-            'faces',
-            'store',
-            'stores',
+            'industrials',
             'units',
-            'subunits',
-            'taxsproduct',
-            'has_tax',
-            'price_has_tax',
-            'discounts',
-            'discount'
+            'taxs',
+            'suppliers',
+            'product',
+            'unit_template',
+            'component_temp',
+            'faces',
+            'companies',
+            'stores',
+            'columns',
+            'cells',
+            'offer_template',
         ));
     }
 

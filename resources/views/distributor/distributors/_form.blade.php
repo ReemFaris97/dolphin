@@ -57,6 +57,38 @@
 
         {!! Form::textarea('notes',null,['class'=>'form-control   m-input','placeholder'=>'ادخل الملاحظات '])!!}
     </div>
+   <div class="form-group m-form__group clearfix ">
+       <h5> طرق السداد</h3>
+       <!-- select all boxes -->
+       <div class="m-form__group form-group ">
+
+        <div class="m-checkbox-inline" style="flex:100%;width:100%">
+            {{Form::checkbox('is_cash',1,null,['id'=>'check-visa'])}}
+               <label class="m-checkbox" for="check-visa" style="padding-right: 0">
+                   الدفع الكاش
+               </label>
+           </div>
+
+
+           <div class="m-checkbox-inline" style="flex:100%;width:100%">
+            {{Form::checkbox('is_deffered',1,null,['id'=>'check-differed'])}}
+               <label class="m-checkbox" for="check-differed" style="padding-right: 0">
+                   الدفع اجل
+               </label>
+           </div>
+
+           <div class="m-checkbox-inline" style="flex:100%;width:100%">
+            {{Form::checkbox('is_visa',1,null,['id'=>'check-cash'])}}
+               <label class="m-checkbox" for="check-cash" style="padding-right: 0">
+                   الدفع شبكة
+               </label>
+            </div>
+
+        </div>
+
+
+
+</div>
 
     <div class="form-group m-form__group">
         <label> الصوره </label>
@@ -76,6 +108,8 @@
             @endforeach
         </select>
     </div>
+
+
 
 
     {{--    @can('edit_workers')--}}

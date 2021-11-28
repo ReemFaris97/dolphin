@@ -2,28 +2,27 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
+use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingClient;
-
+use App\Models\AccountingSystem\AccountingDevice;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
+use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingProductSubUnit;
+use App\Models\AccountingSystem\AccountingSession;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingUserPermission;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\AccountingSystem\AccountingDevice;
-use App\Models\AccountingSystem\AccountingProductStore;
-use App\Models\AccountingSystem\AccountingSession;
-use App\Traits\Viewable;
 use App\Models\User;
+use App\Traits\Viewable;
 use Cookie;
-use Request as GlobalRequest;
-use Session;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class SellPointController extends Controller
 {
     use Viewable;
 //    private $viewable = 'AccountingSystem.sells_points.';
+
     /**
      * Display a listing of the resource.
      *
@@ -39,13 +38,13 @@ class SellPointController extends Controller
             ->where('model_type', 'App\Models\AccountingSystem\AccountingStore')->pluck('model_id', 'id')->toArray();
         $stores=AccountingStore::whereIn('id', $userstores)->pluck('ar_name', 'id')->toArray();
         if ($userstores) {
-            $store_product=AccountingProductStore::whereIn('store_id', $userstores)->pluck('product_id', 'id')->toArray();
-            $products=AccountingProduct::whereIn('id', $store_product)->get();
+//            $store_product=AccountingProductStore::whereIn('store_id', $userstores)->pluck('product_id', 'id')->toArray();
+//            $products=AccountingProduct::whereIn('id', $store_product)->get();
         } else {
             $products=[];
         }
 
-        return  view('AccountingSystem.sell_points.sell_point', compact('categories', 'clients', 'session', 'products', 'stores'));
+        return  view('AccountingSystem.sell_points.sell_point', compact('categories', 'clients', 'session', 'stores'));
     }
 
     /**
@@ -56,19 +55,22 @@ class SellPointController extends Controller
     public function getProductAjex(Request $request, $id)
     {
         if ($request->id) {
-            $products=AccountingProduct::query()
+            $products= AccountingProduct::query()
                 ->when($request->search, function ($b) use ($request) {
-                    return $b->where('name', 'LIKE', '%' . $request->search . '%')->orWhere('en_name', 'LIKE', '%' . $request->search . '%')->orWhere('description', 'LIKE', '%' . $request->search . '%')->orWhere('bar_code', $request->search);
-                })
+                    return $b->where(function ($q) use ($request) {
+                        $q->where('name', 'LIKE', '%' . $request->search . '%')->orWhere('en_name', 'LIKE', '%' . $request->search . '%')->orWhere('description', 'LIKE', '%' . $request->search . '%')->orWhere('bar_code', 'like', '%' . $request->search . '%');
+                    });
+                })->orwhereHas('barcodes', fn ($b) => $b->where('barcode', 'like', "%$request->search%"))
+                ->orwhereHas('sub_units', fn ($b) => $b->where('bar_code', 'like', "%$request->search%"))
                 ->where('store_id', $id)
                 ->paginate(20);
 
             return response()->json([
-                    'status'=>true,
-                    'has_more' => $products->hasMorePages(),
-                    'data'=> $products,
-                    'attributes' => view('AccountingSystem.sell_points.product-optionss', ['products' => $products])->render()
-                ]);
+                'status'=>true,
+                'has_more' => $products->hasMorePages(),
+                'data'=> $products,
+//                    'attributes' => view('AccountingSystem.sell_points.product-optionss', ['products' => $products])->render()
+            ]);
         }
     }
 
@@ -119,9 +121,13 @@ class SellPointController extends Controller
      */
     public function sell_login()
     {
-        $users=User::where('is_saler', 1)->pluck('name', 'id')->toArray();
-        $devices=AccountingDevice::where('available', 1)->pluck('name', 'id')->toArray();
-        return view('AccountingSystem.sell_points.login', compact('users', 'devices'));
+        $users = User::where('is_saler', 1)->pluck('name', 'id')->toArray();
+        $devices = AccountingDevice::where('available', 1)->pluck('name', 'id')->toArray();
+        $userstores = AccountingUserPermission::where('user_id', auth()->user()->id)
+            ->where('model_type', 'App\Models\AccountingSystem\AccountingStore')->pluck('model_id', 'id')->toArray();
+        $stores = AccountingStore::whereIn('id', $userstores)->pluck('ar_name', 'id')->toArray();
+
+        return view('AccountingSystem.sell_points.login', compact('users', 'devices', 'stores'));
     }
 
     /**
@@ -170,21 +176,21 @@ class SellPointController extends Controller
 
     public function barcode_search(Request $request, $q)
     {
-        $store_product=AccountingProductStore::where('store_id', $request['store_id'])->pluck('product_id', 'id')->toArray();
-        $products=AccountingProduct::whereIn('id', $store_product)->where('bar_code', $q)->limit(10)->get();
-        if (!$products->isEmpty()) {
-            $selectd_unit_id = 'main-'.$products[0]->id;
-        } else {
-            $product_unit=AccountingProductSubUnit::where('bar_code', $q)->pluck('product_id');
-            $products=AccountingProduct::whereIn('id', $product_unit)->whereIn('id', $store_product)->get();
-            $unit=	AccountingProductSubUnit::where('bar_code', $q)->first();
-            if ($unit) {
-                $selectd_unit_id = $unit->id;
-            } else {
-                $selectd_unit_id = 0;
+        $products=AccountingProduct::query()->ofBarcode($q)
+        ->whereRelation('stores', 'store_id', $request->store_id)
+        ->with('sub_units')
+        ->get();
+        $products->transform(function ($product) use ($q) {
+            $sub_unit=  $product->sub_units->filter(function ($subunit) use ($q) {
+                return  Str::contains($subunit->bar_code, $q);
+            })->first();
+            if ($sub_unit!=null) {
+                $product->unit=$sub_unit->id;
+                $product->selling_price=$sub_unit->selling_price;
             }
-        }
-
+            return $product;
+        });
+        $selectd_unit_id=optional($products->first())->main_unit??0;
 
         return response()->json([
             'status'=>true,

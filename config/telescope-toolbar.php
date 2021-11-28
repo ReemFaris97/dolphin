@@ -24,7 +24,7 @@ return [
     | Laravel Telescope toolbar has two themes; Light and Dark.
     |
     */
-    'light_theme' => env('TELESCOPE_LIGHT_THEME', true),
+    'light_theme' => env('TELESCOPE_LIGHT_THEME', false),
 
     /*
     |--------------------------------------------------------------------------

@@ -11,7 +11,7 @@
     <div class="panel panel-flat">
         <div class="panel-heading">
 
-            <span>عرض كل صلاحيات المستخدم </span>
+            <span>عرض كل صلاحيات المستخدم -  {{$user->name}} </span>
             <div class="heading-elements">
 
                 <ul class="icons-list">

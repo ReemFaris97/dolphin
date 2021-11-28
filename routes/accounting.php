@@ -51,6 +51,9 @@ Route::middleware('admin')->group(function () {
     Route::get('/bonds', 'StoreController@bonds_index')->name('stores.bonds_index');
     Route::get('/bond-show/{id}', 'StoreController@bond_show')->name('stores.show_bond');
     Route::get('/products_exchange_form', 'StoreController@products_exchange_form')->name('stores.products_exchange_form');
+
+    Route::get('/get-product-by-store/{id}', 'StoreController@getProductByStore')->name('stores.getProductByStore');
+
     Route::post('/products_exchange_store', 'StoreController@products_exchange_store')->name('stores.products_exchange_store');
     Route::get('/store-product/{id}', 'StoreController@store_product')->name('stores.product');
     Route::post('/store-products-copy/{id}', 'StoreController@store_products_copy')->name('store_products_copy.store');
@@ -134,7 +137,7 @@ Route::middleware('admin')->group(function () {
 
     Route::get('/sell_login', 'SellPointController@sell_login')->name('sells_points.login');
     Route::get('/sell_point/{id}', 'SellPointController@sell_point')->name('sells_points.sells_point');
-    // Route::get('/sell_point', 'SellPointController@sell_point')->name('sells_points.sells_point');
+
     Route::get('/notification/{id}', 'OfferController@notification')->name('offers.notification');
     Route::get('/permiums', 'ClientController@permiums')->name('clients.permiums');
     Route::post('/permium_store', 'ClientController@permium_store')->name('clients.permiums_store');
@@ -250,7 +253,9 @@ Route::middleware('admin')->group(function () {
 
     ////purchases
     Route::get('/buy_point', 'BuyPointController@buy_point')->name('buy_point.buy_point');
-    Route::get('/productsAjexPurchase/{id}', 'BuyPointController@getProductAjex');
+    Route::get('/productsAjexPurchase', 'BuyPointController@getProductAjex');
+    Route::get('/purchase/products-single-product/{product}', 'BuyPointController@selectedProduct')->name('purchase.single-product-ajax');
+
     Route::resource('purchases', 'PurchaseController');
     Route::get('/productReturnPurchase', 'PurchaseReturnController@product');
     Route::get('/backup', 'SettingController@backup')->name('backup');

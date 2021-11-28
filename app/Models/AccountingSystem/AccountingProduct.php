@@ -39,6 +39,10 @@ class AccountingProduct extends Model
     {
         return $this->belongsTo(AccountingStore::class, 'store_id');
     }
+    public function stores()
+    {
+        return $this->belongsToMany(AccountingStore::class, 'accounting_product_stores', 'product_id', 'store_id');
+    }
     public function storeSettlement()
     {
         return $this->belongsTo(AccountingStore::class, 'settlement_store_id');
@@ -46,6 +50,10 @@ class AccountingProduct extends Model
     public function category()
     {
         return $this->belongsTo(AccountingProductCategory::class, 'category_id');
+    }
+    public function barcodes()
+    {
+        return $this->hasMany(AccountingProductBarcode::class, 'product_id');
     }
 
     public function ProductComponent()
@@ -130,6 +138,11 @@ class AccountingProduct extends Model
         )->latest();
     }
 
+    public function sub_units()
+    {
+        return $this->hasMany(AccountingProductSubUnit::class, 'product_id');
+    }
+
     public function sales()
     {
         return $this->hasMany(AccountingSaleItem::class)->whereHas('sale', function ($q) {
@@ -140,5 +153,18 @@ class AccountingProduct extends Model
     {
         $quantity=AccountingProductStore::where('store_id', $store_id)->where('product_id', $this->id)->sum('quantity');
         return $quantity;
+    }
+
+    public function scopeOfBarcode($builder, $barcode)
+    {
+        $builder->where('bar_code', 'like', "%$barcode%");
+        $builder->orwhereHas(
+            'barcodes',
+            fn ($b) => $b->where('barcode', 'like', "%$barcode%")
+        );
+        $builder->orwhereHas(
+            'sub_units',
+            fn ($b) => $b->where('bar_code', 'like', "%$barcode%")
+        );
     }
 }

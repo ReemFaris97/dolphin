@@ -3,22 +3,17 @@
 namespace App\Http\Controllers\AccountingSystem;
 
 
+use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingProductSubUnit;
-use App\Models\AccountingSystem\AccountingPurchaseItem;
 use App\Models\AccountingSystem\AccountingSafe;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingSupplier;
 use App\Models\AccountingSystem\AccountingUserPermission;
-use App\Models\UserPermission;
-use App\Traits\Viewable;
-use App\Models\User;
-use Illuminate\Validation\Rules\Exists;
-use Request as GlobalRequest;
+use DB;
+use Illuminate\Http\Request;
 
 class BuyPointController extends Controller
 {
@@ -37,35 +32,107 @@ class BuyPointController extends Controller
         // $products=AccountingProduct::all();
         $userstores = AccountingUserPermission::where('user_id', auth()->user()->id)->where('model_type', 'App\Models\AccountingSystem\AccountingStore')->pluck('model_id', 'id')->toArray();
         $stores = AccountingStore::whereIn('id', $userstores)->pluck('ar_name', 'id')->toArray();
-        if ($userstores) {
-            $store_product = AccountingProductStore::whereIn('store_id', $userstores)->pluck('product_id', 'id')->toArray();
-            $products = AccountingProduct::whereIn('id', $store_product)->get();
-        } else {
-            $products = [];
-        }
 
-        return  view('AccountingSystem.buy_points.buy_point', compact('categories', 'suppliers', 'safes', 'products', 'stores'));
+        $products = [];
+
+
+        return view('AccountingSystem.buy_points.buy_point', compact('categories', 'suppliers', 'safes', 'products', 'stores'));
     }
 
+    public function getProductAjex(Request $request)
+    {
+
+        $products =AccountingProduct::query()
+                 ->when($request->search, function ($b) use ($request) {
+                     return $b->where(function ($q) use ($request) {
+                         $q->where('name', 'LIKE', '%' . $request->search . '%')->orWhere('en_name', 'LIKE', '%' . $request->search . '%')->orWhere('description', 'LIKE', '%' . $request->search . '%')->orWhere('bar_code', 'like', '%' . $request->search . '%');
+                     });
+                 })->orwhereHas('barcodes', fn($b) => $b->where('barcode', 'like', "%$request->search%"))
+                 ->orwhereHas('sub_units', fn($b) => $b->where('bar_code', 'like', "%$request->search%"))
+
+            ->when(\request('store_id'), function ($q) {
+                $q->where('store_id', \request('store_id'));
+            })
+
+            ->paginate(20);
+
+        return response()->json([
+            'status' => true,
+            'has_more' => $products->hasMorePages(),
+            'data' => $products,
+//                'attributes' => view('AccountingSystem.sell_points.product-optionss', ['products' => $products])->render()
+        ]);
+
+    }
+
+    public function selectedProduct(AccountingProduct $product)
+    {
+        $producttax = \App\Models\AccountingSystem\AccountingProductTax::where('product_id', $product->id)->first();
+        $units = \App\Models\AccountingSystem\AccountingProductSubUnit::where('product_id', $product->id)->get();
+        $subunits = collect($units);
+        $allunits = json_encode($subunits, JSON_UNESCAPED_UNICODE);
+        $mainunits = json_encode(collect([['id' => 'main-' . $product->id, 'name' => $product->main_unit,
+            'purchasing_price' => $product->purchasing_price,
+            'product_id' => $product->id,
+            'bar_code' => $product->bar_code,
+            'main_unit_present' => 1,
+            'selling_price' => $product->selling_price,
+            'created_at' => $product->created_at,
+            'updated_at' => $product->updated_at,
+            'quantity' => $product->quantity,
+        ]]), JSON_UNESCAPED_UNICODE);
+        $merged = array_merge(json_decode($mainunits), json_decode($allunits));
+        $lastPrice = \App\Models\AccountingSystem\AccountingPurchaseItem::where('product_id', $product->id)->latest()->first();
+
+        $sumQuantity = \App\Models\AccountingSystem\AccountingPurchaseItem::where('product_id', $product->id)->sum('quantity');
+        $arrPrice = DB::table('accounting_purchases_items')->where('product_id', $product->id)
+            ->selectRaw('SUM(price_after_tax * quantity) as total')
+            ->pluck('total');
+        $total = 0;
+        foreach ($arrPrice as $price) {
+            $total += $price;
+        }
+        if ($sumQuantity != 0) {
+            $average = $total / $sumQuantity;
+        } else {
+            $average = 0;
+        }
+
+        return response()->json([
+            'id' => $product->id,
+            'name' => $product->name,
+            'price' => $product->purchasing_price,
+            'bar_code' => $product->bar_code,
+            'link' => route('accounting.products.show', $product->id),
+            'main_unit' => $product->main_unit,
+            'price_has_tax' => isset($producttax) ? $producttax->price_has_tax : '0',
+            'total_taxes' => isset($producttax) ? $product->total_taxes : '0',
+            'subunits' => json_encode($merged),
+            'total_discounts' => $product->total_discounts,
+            'last_price' => $lastPrice->price_after_tax ?? 0,
+            'average' => ($average) ?? 0,
+            'product_expiration' => ($product->type == 'product_expiration') ? '1' : '0'
+        ]);
+    }
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public  function getProductAjex(Request $request)
-    {
-        $store_product = AccountingProductStore::where('store_id', $request['id'])->pluck('product_id', 'id')->toArray();
-        $products = AccountingProduct::whereIn('id', $store_product)->get();
-        //dd($products);
+    /* public  function getProductAjex(Request $request)
+     {
+         $store_product = AccountingProductStore::where('store_id', $request['id'])->pluck('product_id', 'id')->toArray();
+         $products = AccountingProduct::whereIn('id', $store_product)->get();
+         //dd($products);
 
-        return response()->json([
-            'status' => true,
-            'data' => view('AccountingSystem.buy_points.products')->with('products', $products)->render()
-        ]);
-    }
+         return response()->json([
+             'status' => true,
+             'data' => view('AccountingSystem.buy_points.products')->with('products', $products)->render()
+         ]);
+     }*/
 
-    public  function pro_search($q)
+    public function pro_search($q)
     {
 
         $products = AccountingProduct::where('name', 'LIKE', '%' . $q . '%')->get();
@@ -83,18 +150,20 @@ class BuyPointController extends Controller
             $store_product = AccountingProductStore::where('store_id', $request['store_id'])->pluck('product_id', 'id')->toArray();
 
 
-            $products = AccountingProduct::where('bar_code', $q)->get();
+            $products = AccountingProduct::where('bar_code', $q)->orWhereHas('sub_units', function ($b)use ($q) {
+                $b->where('bar_code', 'like', "%$q%");
+            })->get();
 
             if (!$products->isEmpty()) {
                 $selectd_unit_id = 'main-' . $products[0]->id;
             } else {
                 $product_unit = AccountingProductSubUnit::where('bar_code', $q)->pluck('product_id');
                 $products = AccountingProduct::whereIn('id', $product_unit)->whereIn('id', $store_product)->get();
-                $unit =    AccountingProductSubUnit::where('bar_code', $q)->first();
+                $unit = AccountingProductSubUnit::where('bar_code', $q)->first();
                 if ($unit)
                     $selectd_unit_id = $unit->id;
                 else
-                    $select_unit_id = 0;
+                    $selectd_unit_id = 0;
             }
             return response()->json([
                 'status' => true,

@@ -38,8 +38,8 @@ class SuppliersImport implements ToCollection, WithHeadingRow
     private function getAccountId($row) : int
     {
         $mainAcc = AccountingAccount::firstOrCreate(['ar_name' => $row['asm_alhsab']])->id;
-       
-        return AccountingAccount::firstOrCreate(['ar_name'=>$row['alhsab_alasl']], ['account_id'=>$mainAcc])->id;
+
+        return AccountingAccount::firstOrCreate(['ar_name'=>$row['asm_alhsab']], ['account_id'=>$mainAcc])->id;
     }
 
     private function getPhone($row):string

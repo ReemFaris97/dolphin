@@ -62,7 +62,7 @@
 
             <div class="form-group col-sm-6 col-xs-12">
                 <label>اسم الصنف</label>
-                <select class="form-control"
+                <select class="form-control select2"
                         id="product"
                         data-parsley-trigger="select"
                         data-parsley-required-message="اسم الصنف مطلوب">
@@ -92,16 +92,11 @@
                 @endif
             </div>
 
-
-
-
             <div class="col-md-2">
                 <button id="addProduct" class="btn btn-primary waves-effect waves-light m-t-20"  type="button">
                     اضافة
                 </button>
             </div>
-
-
 
             <div class="table-responsive">
                 <table id="productsTable" class="table m-0">
@@ -156,6 +151,11 @@
 
 
 @section('scripts')
+    <script>
+        $(document).ready(function (){
+            $('.select2').select2();
+        });
+    </script>
     <script>
         $('#check-all').change(function () {
             $("input:checkbox").prop("checked", $(this).prop("checked"))

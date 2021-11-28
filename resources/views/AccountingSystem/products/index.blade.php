@@ -35,7 +35,7 @@
         </div>
 
         <div class="panel-body">
-    {{$dataTable->table()}}
+    {{$dataTable->table([], true)}}
         </div>
 
     </div>
