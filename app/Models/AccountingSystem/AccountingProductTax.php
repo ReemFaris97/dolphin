@@ -10,7 +10,7 @@ class AccountingProductTax extends Model
 
 protected $table='accounting_product_taxes';
     public function  Taxband(){
-        return $this->belongsTo(AccountingTaxBand::class,'tax_band_id');
+        return $this->belongsTo(AccountingTaxBand::class,'tax');
     }
 
 
