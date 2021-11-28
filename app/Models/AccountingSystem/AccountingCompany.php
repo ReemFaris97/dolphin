@@ -56,7 +56,10 @@ AccountingCompany extends Authenticatable
         return $this->hasMany();
     }
 
-
+    public function categories()
+    {
+        return $this->hasMany(AccountingProductCategory::class,'company_id');
+}
 
     public function products()
     {
