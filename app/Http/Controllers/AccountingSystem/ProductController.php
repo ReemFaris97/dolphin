@@ -321,7 +321,7 @@ class ProductController extends Controller
     public function storeAjax(Request $request)
     {
         $rules = [
-            'product_name' => 'required|string|max:191',
+            'name' => 'required|string|max:191',
             'en_name' => 'required|string',
             'company_id' => 'required',
             'branch_id' => 'required',
@@ -335,8 +335,8 @@ class ProductController extends Controller
             'bar_code' => 'nullable|',
             'barcodes' => 'nullable|array|barcode_anther:accounting_products,bar_code,bar_code,barcode,',
             'par_codes' => 'nullable|array|barcode_unit:accounting_products,bar_code,bar_code,barcode,',
-            'product_selling_price' => 'required',
-            'product_purchasing_price' => 'required',
+            'selling_price' => 'required',
+            'purchasing_price' => 'required',
             'min_quantity' => 'required|string|numeric',
             'max_quantity' => 'required|string|numeric',
             'expired_at' => 'required_if:type,product_expiration|',
@@ -359,9 +359,6 @@ class ProductController extends Controller
         $this->validate($request, $rules, $messsage);
 
         $inputs = $request->except('image', 'main_unit_present', 'purchasing_price', 'selling_price', 'component_names', 'qtys', 'main_units');
-        $inputs['name'] = $inputs['product_name'];
-        $inputs['selling_price'] = $inputs['product_selling_price'];
-        $inputs['purchasing_price'] = $inputs['product_purchasing_price'];
 //        dd($inputs);
         if ($request->hasFile('image')) {
             $inputs['image'] = saveImage($request->image, 'photos');
@@ -577,6 +574,7 @@ class ProductController extends Controller
         $cells = AccountingColumnCell::get(['id', 'name as label']);
 //        $product= AccountingProduct::make();
         $product = AccountingProduct::find($id);
+//        dd(json_decode($product->bar_code));
         $product['bar_code'] = array_merge(is_array($product->bar_code) ? $product->bar_code : explode(',', $product->bar_code), $product->barcodes->pluck('barcode')->toArray());
         $product['sub_products'] = AccountingProductComponent::where('product_id', $id)->get();
         $product['components'] = AccountingProductComponent::where('product_id', $id)->get();

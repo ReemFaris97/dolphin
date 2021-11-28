@@ -15,7 +15,7 @@
                     <div class="row">
                         <div class="form-group   col-md-6 col-xs-12 pull-left">
                             <label> <span class="text-danger">*</span> اسم المنتج باللغة العربيه </label>
-                            <input name="product_name" v-model="form.product_name" class="form-control"
+                            <input name="name" v-model="form.name" class="form-control"
                                 placeholder="اسم المنتج باللغة العربية" required />
 
                         </div>
@@ -107,13 +107,13 @@
                             </div>
                             <div class="form-group   col-md-6 col-xs-12 pull-left">
                                 <label> <span class="text-danger">*</span> سعر التكلفة</label>
-                                <input type="number" name="product_purchasing_price"
-                                    v-model="form.product_purchasing_price" class="form-control" />
+                                <input type="number" name="purchasing_price"
+                                    v-model="form.purchasing_price" class="form-control" />
 
                             </div>
                             <div class="form-group   col-md-6 col-xs-12 pull-left">
                                 <label> <span class="text-danger">*</span> سعر البيع</label>
-                                <input type="number" name="product_selling_price" v-model="form.product_selling_price"
+                                <input type="number" name="selling_price" v-model="form.selling_price"
                                     class="form-control" />
 
                             </div>
@@ -572,15 +572,15 @@
                             this.search(loading, search, this);
                         }
                     },
-                        search: _.debounce((loading, search, vm) => {
-                            fetch(
+                    search: _.debounce((loading, search, vm) => {
+                        fetch(
                             `https://api.github.com/search/repositories?q=${escape(search)}`
                         ).then(res => {
                             res.json().then(json => (vm.options = json.items));
                             loading(false);
                         });
-                    }, 350)
-                    },
+                    }, 350),
+
                     onComplete: function () {
                         alert('Yay. Done!');
                     }
@@ -643,6 +643,7 @@
                     }
 
                 }
-                       )
+            },
+        )
     </script>
 @endsection
