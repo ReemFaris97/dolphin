@@ -183,7 +183,9 @@ class SellPointController extends Controller
 
         $producttax = \App\Models\AccountingSystem\AccountingProductTax::where('product_id', $product->id)->first();
         $units = \App\Models\AccountingSystem\AccountingProductSubUnit::where('product_id', $product->id)
-        ->where('id', '!=', $selected_sub_unit->id)
+        ->when($selected_sub_unit,function ($q) use($selected_sub_unit){
+            $q->where('id', '!=', $selected_sub_unit->id);
+        })
         ->get();
         $subunits = collect($units);
 
