@@ -476,7 +476,7 @@
                                     </span>
                                     </div>
                                 </div>
-                                <div class="col-md-6" v-if="form.price_has_tax==0">
+                                <div class="col-md-6" v-if="form.tax==1">
                                     <div class="">
                                         <label> اسم شريحة الضرائب</label>
 
