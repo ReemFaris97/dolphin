@@ -186,7 +186,7 @@ class SellPointController extends Controller
             })->first();
             if ($sub_unit!=null) {
                 $product->unit=$sub_unit->id;
-                $product->selling_price=$sub_unit->selling_price;
+                // $product->selling_price=$sub_unit->selling_price;
             }
             return $product;
         });
