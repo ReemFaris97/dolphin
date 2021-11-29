@@ -113,7 +113,7 @@ class AccountingProduct extends Model
         'column_id', 'bar_code', 'main_unit', 'selling_price', 'purchasing_price', 'min_quantity',
         'max_quantity', 'expired_at', 'image', 'store_id'
         , 'size', 'color', 'height', 'width', 'num_days_recession', 'industrial_id', 'quantity', 'unit_price',
-        'is_settlement', 'date_settlement', 'settlement_store_id', 'cell_id', 'alert_duration', 'supplier_id', 'account_id'
+        'is_settlement', 'date_settlement', 'settlement_store_id', 'cell_id', 'alert_duration', 'supplier_id', 'account_id','discount'
 
     ];
     protected $appends = ['total_taxes', 'total_discounts', 'text'];
@@ -187,7 +187,7 @@ class AccountingProduct extends Model
                 //انا اسف والله
             }
         }
-        return $totalQuantity+$this->quantity;
+        return $totalQuantity + $this->quantity;
     }
 
 
@@ -196,13 +196,17 @@ class AccountingProduct extends Model
         return $this->belongsTo(AccountingAccount::class, 'account_id');
     }
 
+    public function discounts()
+    {
+        return $this->hasMany(AccountingProductDiscount::class, 'product_id');
+    }
 
     public function getTotalDiscountsAttribute()
     {
-        $discounts=AccountingProductDiscount::where('product_id', $this->id)->get();
+        $discounts = AccountingProductDiscount::where('product_id', $this->id)->get();
         $total = 0;
         foreach ($discounts as $discount) {
-            $total+=$discount->percent;
+            $total += $discount->percent;
         }
         return $total;
     }

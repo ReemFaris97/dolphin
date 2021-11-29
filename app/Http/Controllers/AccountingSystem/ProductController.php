@@ -26,7 +26,6 @@ use App\Models\AccountingSystem\AccountingService;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingSupplier;
 use App\Models\AccountingSystem\AccountingTaxBand;
-use App\Models\Product;
 use App\Traits\Viewable;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -80,6 +79,7 @@ class ProductController extends Controller
         $product['sub_units'] = [];
         $product['offers'] = [];
         $product['stores'] = [];
+        $product['discount']=0;
         $offer_template = [
             'quantity' => '',
             'gift_quantity' => '',
@@ -322,7 +322,7 @@ class ProductController extends Controller
             'en_name' => 'required|string',
             'company_id' => 'required',
             'branch_id' => 'required',
-            'store' => 'required',
+//            'store' => 'required',
             'type' => 'required|string|in:store,service,offer,creation,product_expiration',
             'category_id' => 'required|numeric|exists:accounting_product_categories,id',
             'description' => 'nullable|string',
@@ -369,9 +369,6 @@ class ProductController extends Controller
         $product = AccountingProduct::create($inputs);
 
         if (isset($inputs['store_id'])) {
-            $product->update([
-                'store_id' => $inputs['store_id'],
-            ]);
             AccountingProductStore::create([
                 'store_id' => $inputs['store_id'],
                 'product_id' => $product->id,
@@ -394,7 +391,7 @@ class ProductController extends Controller
         $purchasing_price = collect($request['purchasing_price']);
         $quantities = collect($request['unit_quantities']);
         $units = $names->zip($par_codes, $purchasing_price, $selling_price, $main_unit_presents, $quantities);
-
+//dd($request->all());
         foreach ($units as $unit) {
             $uni = AccountingProductSubUnit::create([
                 'name' => $unit['0'],
@@ -571,12 +568,13 @@ class ProductController extends Controller
         $cells = AccountingColumnCell::get(['id', 'name as label']);
 //        $product= AccountingProduct::make();
         $product = AccountingProduct::find($id);
-        $product->load('category.company','sub_units');
+        $product->load('category.company', 'sub_units');
+//        $product->load('store.model');
 //        dd(json_decode($product->bar_code));
         $product['sub_products'] = AccountingProductComponent::where('product_id', $id)->get();
         $product['components'] = AccountingProductComponent::where('product_id', $id)->get();
         $product['sub_units'] = AccountingProductSubUnit::where('product_id', $id)->get();
-        $product['offers'] = AccountingProductOffer::where('parent_product_id', $id)->get();
+        $product['offers'] = $product->discounts;
 
         $offer_template = [
             'quantity' => '',
@@ -754,7 +752,7 @@ class ProductController extends Controller
 
         foreach ($request->sub_units as $sub_unit) {
 
-           $unit= $product->sub_units()->UpdateOrCreate(['id'=>\Arr::get($sub_unit,'id')],[
+            $unit = $product->sub_units()->UpdateOrCreate(['id' => \Arr::get($sub_unit, 'id')], [
                 'name' => $sub_unit['name'],
                 'bar_code' => $sub_unit['bar_code'],
                 'main_unit_present' => $sub_unit['main_unit_present'],
@@ -763,6 +761,19 @@ class ProductController extends Controller
                 'quantity' => $sub_unit['quantity'],
             ]);
         }
+
+
+//        dd($request->);
+        foreach ($request->offers as $offer) {
+            $product->discounts()->updateOrCreate([
+                'accounting_product_discounts.id'=>$offer['id']
+            ],[
+                'quantity'=>$offer['quantity'],
+                'gift_quantity'=>$offer['gift_quantity'],
+                'discount_type'=>'quantity']);
+        }
+
+
         ////////////////////components Arrays////////////////////////////////
         $component_names = collect($request['component_names']);
         $qtys = collect($request['qtys']);
