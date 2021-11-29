@@ -78,8 +78,6 @@ class BillController extends Controller
 
     public function details($id)
     {
-
-
         return view('distributor.bills.bill', [
             'bill' => RouteTripReport::with([
                 'inventory' => function ($q) {
@@ -91,28 +89,6 @@ class BillController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param int $id
@@ -120,7 +96,9 @@ class BillController extends Controller
      */
     public function destroy($id)
     {
-        //
+        RouteTripReport::findOrFail($id)->delete();
+        toast('تم الحذف بنجاح', 'success', 'top-right');
+        return back();
     }
 
     public function bill_show($id)
