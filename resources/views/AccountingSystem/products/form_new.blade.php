@@ -578,14 +578,14 @@
                         id: "service",
                         label: "خدمه",
                     },
-                    {
+            /*        {
                         id: "offer",
                         label: "مجموعة اصناف ",
                     },
                     {
                         id: "creation",
                         label: "تصنيع",
-                    },
+                    },*/
                     {
                         id: "product_expiration",
                         label: "منتج بتاريخ صلاحيه",
