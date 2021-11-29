@@ -383,6 +383,8 @@ class ProductController extends Controller
                 ]);
             }
         }
+        ///////  /// / //////subunits Arrays//////////////////////////////
+
         foreach ($request->sub_units as $sub_unit) {
 
             $unit = $product->sub_units()->UpdateOrCreate(['id' => \Arr::get($sub_unit, 'id')], [
@@ -393,19 +395,17 @@ class ProductController extends Controller
                 'purchasing_price' => $sub_unit['purchasing_price'],
                 'quantity' => $sub_unit['quantity'],
             ]);
-        }
-
-
             if (isset($inputs['store_id'])) {
                 AccountingProductStore::create([
                     'store_id' => $inputs['store_id'],
                     'product_id' => $product->id,
-                    'quantity' => $unit['2'] * $unit['5'],
-                    'unit_id' => $uni->id
+                    'quantity' => $unit->main_unit_present * $unit->quantity,
+                    'unit_id' => $unit->id
 
                 ]);
             }
         }
+
         ////////////////////components Arrays////////////////////////////////
 
         $component_names = collect($request['component_names']);
