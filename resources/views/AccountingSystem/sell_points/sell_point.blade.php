@@ -391,8 +391,9 @@
             }
             var optss = ``;
             for (var i = 0; i < productUnits.length; i++) {
+var is_selected = (i == 0) ? 'selected' : '';
                 optss += '<option data-uni-price="' + Number(unitPrice[i]).toFixed(rondingNumber) + '" value="' + unitId[
-                    i] + '"> ' + unitName[i] + '</option> ';
+                    i] + '" '+is_selected+' > ' + unitName[i] + '</option> ';
             }
 
 
@@ -743,13 +744,17 @@
                 onComplete: function(barcode, qty) {
                     validScan = true;
                     $.ajax({
-                        url: "/accounting/barcode_search_sale/" + barcode,
+                        url: "/accounting/products-single-product" + barcode,
                         type: "GET",
                         data: {
                             store_id: store_id,
                         },
-                        success: function(data) {
-                            if (data.data.length !== 0) {
+                        success: function(resp) {
+                            calcBill(resp.id, resp.id, resp.name, resp.bar_code,
+                        parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits))
+                        $('#barcode_search').val('')
+
+                            /*  if (data.data.length !== 0) {
                                 $('#barcode_search').val('');
                                 $(".tempobar").html(data.data);
                                 var selectedID = $(".tempobar").find('option')
@@ -782,7 +787,12 @@
                                         .trigger(
                                             'change');
                                 }
-                            }
+                            } */
+
+
+
+
+
                         }
                     });
                 },
@@ -796,8 +806,41 @@
                         data: {
                             store_id: store_id,
                         },
-                        success: function(data) {
-                            if (data.data.length !== 0) {
+                        success: function(resp) {
+
+                      var selectedID=  $('select[name="unit_id['+resp.id+']"]').val()||null;
+
+                      var alreadyChosen = $(
+                                    ".bill-table tbody td select option[value=" +
+                                    selectedID + "]");
+                      var repeatedInputVal = $(
+                                        ".bill-table tbody td select option[value=" +
+                                        selectedID + "]:selected").parents('tr')
+                                    .find(
+                                        '.product-quantity').find('input');
+
+                                        if (alreadyChosen.length > 0 && alreadyChosen
+                                    .is(
+                                        ':selected')
+&&
+                                        JSON.parse(resp.subunits)[0].id==selectedID
+                                        ) {
+                                    repeatedInputVal.val(Number(repeatedInputVal
+                                            .val()) +
+                                        1);
+                                    repeatedInputVal.text(repeatedInputVal
+                                        .val());
+                                    $('.product-quantity').find('input')
+                                        .trigger(
+                                            'change');
+                                } else {
+                                    calcBill(resp.id, resp.id, resp.name, resp.bar_code,                   parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits))
+
+                                }
+
+
+                        $('#barcode_search').val('');
+                           /*  if (data.data.length !== 0) {
                                 $('#barcode_search').val('');
                                 $(".tempobar").html(data.data);
                                 var selectedID = $(".tempobar").find('option')
@@ -830,7 +873,7 @@
                                         .trigger(
                                             'change');
                                 }
-                            }
+                            } */
                         }
                     });
 
