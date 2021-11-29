@@ -8,6 +8,46 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * App\Models\DistributorTransaction
+ *
+ * @property int $id
+ * @property string $sender_type
+ * @property int $sender_id
+ * @property string $receiver_type
+ * @property int $receiver_id
+ * @property string $amount
+ * @property string|null $received_at
+ * @property string|null $signature
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $invoice_number
+ * @property-read Model|\Eloquent $receiver
+ * @property-read Model|\Eloquent $sender
+ * @method static Builder|DistributorTransaction newModelQuery()
+ * @method static Builder|DistributorTransaction newQuery()
+ * @method static \Illuminate\Database\Query\Builder|DistributorTransaction onlyTrashed()
+ * @method static Builder|DistributorTransaction query()
+ * @method static Builder|DistributorTransaction receiverUser($user_id)
+ * @method static Builder|DistributorTransaction senderUser($user_id)
+ * @method static Builder|DistributorTransaction userTransactions($user_id)
+ * @method static Builder|DistributorTransaction walletOf($user_id)
+ * @method static Builder|DistributorTransaction whereAmount($value)
+ * @method static Builder|DistributorTransaction whereCreatedAt($value)
+ * @method static Builder|DistributorTransaction whereDeletedAt($value)
+ * @method static Builder|DistributorTransaction whereId($value)
+ * @method static Builder|DistributorTransaction whereReceivedAt($value)
+ * @method static Builder|DistributorTransaction whereReceiverId($value)
+ * @method static Builder|DistributorTransaction whereReceiverType($value)
+ * @method static Builder|DistributorTransaction whereSenderId($value)
+ * @method static Builder|DistributorTransaction whereSenderType($value)
+ * @method static Builder|DistributorTransaction whereSignature($value)
+ * @method static Builder|DistributorTransaction whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|DistributorTransaction withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|DistributorTransaction withoutTrashed()
+ * @mixin \Eloquent
+ */
 class DistributorTransaction extends Model
 {
     use SoftDeletes;

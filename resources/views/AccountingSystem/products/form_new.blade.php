@@ -12,11 +12,11 @@
         <form-wizard ref="form-wizard" shape="tab" color="#2ECC71" @on-complete="onComplete">
             <tab-content title="Personal details" icon="fas fa-archive">
 
-                <div class="row">
-                    <div class="form-group   col-md-6 col-xs-12 pull-left">
-                        <label> <span class="text-danger">*</span> اسم المنتج باللغة العربيه </label>
-                        <input name="name" v-model="form.product_name" class="form-control"
-                               placeholder="اسم المنتج باللغة العربية" required/>
+                    <div class="row">
+                        <div class="form-group   col-md-6 col-xs-12 pull-left">
+                            <label> <span class="text-danger">*</span> اسم المنتج باللغة العربيه </label>
+                            <input name="name" v-model="form.name" class="form-control"
+                                placeholder="اسم المنتج باللغة العربية" required />
 
                     </div>
                     <div class="form-group   col-md-6 col-xs-12 pull-left">
@@ -152,17 +152,23 @@
                                     <input type="radio" name="is_active" id="dis_active" checked :value="0"
                                            v-model="form.is_active" class="form-control"/>
                                 </span>
-                        </div>
-                        <div class="form-group   col-md-4 col-xs-12 pull-left">
-                            <label> <span class="text-danger">*</span> سعر التكلفة</label>
-                            <input type="number" name="product_purchasing_price"
-                                   v-model="form.product_purchasing_price" class="form-control"/>
+                            </div>
+                            <div class="form-group   col-md-6 col-xs-12 pull-left">
+                                <label> <span class="text-danger">*</span> سعر التكلفة</label>
+                                <input type="number" name="purchasing_price"
+                                    v-model="form.purchasing_price" class="form-control" />
 
-                        </div>
-                        <div class="form-group   col-md-4 col-xs-12 pull-left">
-                            <label> <span class="text-danger">*</span> سعر البيع</label>
-                            <input type="number" name="product_selling_price" v-model="form.product_selling_price"
-                                   class="form-control"/>
+                            </div>
+                            <div class="form-group   col-md-6 col-xs-12 pull-left">
+                                <label> <span class="text-danger">*</span> سعر البيع</label>
+                                <input type="number" name="selling_price" v-model="form.selling_price"
+                                    class="form-control" />
+
+                            </div>
+                            <div class="form-group   col-md-6 col-xs-12 pull-left">
+                                <label> <span class="text-danger">*</span> الحد الادنى من الكمية</label>
+                                <input type="number" name="min_quantity" v-model="form.min_quantity"
+                                    class="form-control" />
 
                         </div>
 
@@ -223,6 +229,7 @@
                             </tr>
                             </tbody>
                         </table>
+
                         <div v-if="form.type==='creation'">
                             <button class="btn btn-success" type="button" @click="addComponent">اضافة اصناف التصنيع
                             </button>
@@ -543,6 +550,7 @@
         Vue.component('v-select', VueSelect.VueSelect);
         var app = new Vue({
             el: '#app',
+
             data: {
                 components: [
                     {
@@ -600,19 +608,6 @@
                             this.search(loading, search, this);
                         }
                     },
-                        search: _.debounce((loading, search, vm) => {
-                            fetch(
-                            `https://api.github.com/search/repositories?q=${escape(search)}`
-                        ).then(res => {
-                            res.json().then(json => (vm.options = json.items));
-                            loading(false);
-                        });
-                    }, 350)
-                    },
-                    onComplete: function () {
-                        alert('Yay. Done!');
-                    }
-                    ,
                     addSubUnit: function () {
                         this.form.sub_units.push({
                             ...this.sub_unit
@@ -625,32 +620,27 @@
                             ...this.component
                         });
 
-                onSearch: function (search, loading) {
-                    if (search.length) {
-                        loading(true);
-                        this.search(loading, search, this);
-                    }
-                },
-                search: _.debounce((loading, search, vm) => {
-                    fetch(
-                        `/accounting/products-by-ajax?search=${search}`
-                    ).then(res => {
+                    },
+                    search: _.debounce((loading, search, vm) => {
+                        fetch(
+                            `/accounting/products-by-ajax?search=${search}`
+                        ).then(res => {
 
-                        res.json().then(json => (vm.components = json.data.data));
-                        loading(false);
-                    });
-                }, 350),
-                onComplete: function () {
-                    let that=this;
-                    axios.post('/accounting/ajax/products', this.form)
-                        .then(function (resp) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'تم اضافة المنتج بنجاح',
-                            });
-                            that.form = {};
-                            that.$refs['form-wizard'].reset();
-                            console.log('hi')
+                            res.json().then(json => (vm.components = json.data.data));
+                            loading(false);
+                        });
+                    }, 350),
+                    onComplete: function () {
+                        let that = this;
+                        axios.post('/accounting/ajax/products', this.form)
+                            .then(function (resp) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'تم اضافة المنتج بنجاح',
+                                });
+                                that.form = {};
+                                that.$refs['form-wizard'].reset();
+                                console.log('hi')
                         })
                         .catch(function (err) {
                             console.log(err);
@@ -711,20 +701,22 @@
                         this.columns = response.data;
                     });
                 }
-                ,
-                getCells: function () {
-                    var column_id = this.form.column_id;
-                    axios.get(`/accounting/ajax/column/${column_id}/cells`).then(response => {
-                        this.columns = response.data;
-                    });
-                }
-                ,
-                addOffer() {
-                    this.form.offers.push({
-                        ...this.offer
-                    });
+                    ,
+                    getCells: function () {
+                        var column_id = this.form.column_id;
+                        axios.get(`/accounting/ajax/column/${column_id}/cells`).then(response => {
+                            this.columns = response.data;
+                        });
+                    }
+                    ,
+                    addOffer() {
+                        this.form.offers.push({
+                            ...this.offer
+                        });
 
-                }
-                       )
+                    }
+                },
+            }
+        )
     </script>
 @endsection

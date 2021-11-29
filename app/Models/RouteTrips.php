@@ -7,6 +7,57 @@ use App\Services\RouteTripCollection;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\RouteTrips
+ *
+ * @property int $id
+ * @property int $route_id
+ * @property int $client_id
+ * @property string $lat
+ * @property string $lng
+ * @property string $address
+ * @property int $arrange
+ * @property string $status
+ * @property string|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string $cash
+ * @property int $round
+ * @property-read \App\Models\TripInventory|null $LastInventory
+ * @property-read \App\Models\Client $client
+ * @property-read void $is_last_report_has_images
+ * @property-read mixed $total
+ * @property-read mixed $total_inventories_in_round
+ * @property-read mixed $total_reports_in_round
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Image[] $images
+ * @property-read int|null $images_count
+ * @property-read \App\Models\TripInventory|null $inventory
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AttachedProducts[] $products
+ * @property-read int|null $products_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RouteTripReport[] $reports
+ * @property-read int|null $reports_count
+ * @property-read \App\Models\DistributorRoute $route
+ * @property-read User $user
+ * @method static Builder|RouteTrips newModelQuery()
+ * @method static Builder|RouteTrips newQuery()
+ * @method static Builder|RouteTrips ofDistributor($distributor)
+ * @method static Builder|RouteTrips orderByDistance($lat, $lng)
+ * @method static Builder|RouteTrips query()
+ * @method static Builder|RouteTrips whereAddress($value)
+ * @method static Builder|RouteTrips whereArrange($value)
+ * @method static Builder|RouteTrips whereCash($value)
+ * @method static Builder|RouteTrips whereClientId($value)
+ * @method static Builder|RouteTrips whereCreatedAt($value)
+ * @method static Builder|RouteTrips whereDeletedAt($value)
+ * @method static Builder|RouteTrips whereId($value)
+ * @method static Builder|RouteTrips whereLat($value)
+ * @method static Builder|RouteTrips whereLng($value)
+ * @method static Builder|RouteTrips whereRound($value)
+ * @method static Builder|RouteTrips whereRouteId($value)
+ * @method static Builder|RouteTrips whereStatus($value)
+ * @method static Builder|RouteTrips whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class RouteTrips extends Model
 {
     protected $fillable = ['route_id', 'client_id', 'lat', 'lng', 'address', 'status', 'arrange', 'cash', 'round'];

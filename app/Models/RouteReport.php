@@ -5,6 +5,37 @@ namespace App\Models;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\RouteReport
+ *
+ * @property int $id
+ * @property int $route_id
+ * @property string $cash
+ * @property string $expenses
+ * @property string $image
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $user_id
+ * @property int $round
+ * @property-read mixed $invoice_number
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AttachedProducts[] $products
+ * @property-read int|null $products_count
+ * @property-read \App\Models\RouteTrips $routetrip
+ * @property-read User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder|RouteReport newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|RouteReport newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|RouteReport query()
+ * @method static \Illuminate\Database\Eloquent\Builder|RouteReport whereCash($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RouteReport whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RouteReport whereExpenses($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RouteReport whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RouteReport whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RouteReport whereRound($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RouteReport whereRouteId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RouteReport whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RouteReport whereUserId($value)
+ * @mixin \Eloquent
+ */
 class RouteReport extends Model
 {
 
