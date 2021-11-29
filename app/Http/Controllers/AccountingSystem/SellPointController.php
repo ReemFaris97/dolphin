@@ -179,7 +179,7 @@ class SellPointController extends Controller
         $products=AccountingProduct::query()->ofBarcode($q)
         // ->whereRelation('stores', 'store_id', $request->store_id)
         ->with('sub_units')
-        ->dd();
+        ->get();
         $products->transform(function ($product) use ($q) {
             $sub_unit=  $product->sub_units->filter(function ($subunit) use ($q) {
                 return  Str::contains($subunit->bar_code, $q);
