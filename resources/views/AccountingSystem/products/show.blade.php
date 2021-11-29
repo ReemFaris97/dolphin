@@ -75,10 +75,14 @@
                     </div>
                     <div class="form-group col-md-3 pull-left">
                         <label>الباركود </label>
+                        @if(is_array($product->bar_code))
                        @foreach($product->bar_code as $barcode)
                            {!! $barcode !!}
 @if( ! $loop->last) - @endif
                            @endforeach
+                            @else
+                            {{$product->bar_code}}
+                        @endif
                     </div>
                     <div class="form-group col-md-3 pull-left">
                         <label>سعر البيع </label>
