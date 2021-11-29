@@ -5,6 +5,80 @@ namespace App\Models\AccountingSystem;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\AccountingSystem\AccountingAccount
+ *
+ * @property int $id
+ * @property string|null $ar_name
+ * @property string|null $en_name
+ * @property string|null $kind
+ * @property string|null $status
+ * @property string|null $code
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $account_id
+ * @property int|null $active
+ * @property int|null $supplier_id
+ * @property int|null $store_id
+ * @property string|null $amount
+ * @property string|null $closing_account
+ * @property int|null $safe_id
+ * @property int|null $bank_id
+ * @property int|null $cost_center
+ * @property string|null $openning_balance
+ * @property int|null $asset_id
+ * @property string|null $level
+ * @property string|null $type
+ * @property int|null $client_id
+ * @property-read AccountingAccount|null $account
+ * @property-read \App\Models\AccountingSystem\AccountingAsset|null $asset
+ * @property-read \Staudenmeir\LaravelAdjacencyList\Eloquent\Collection|AccountingAccount[] $children
+ * @property-read int|null $children_count
+ * @property-read \Staudenmeir\LaravelAdjacencyList\Eloquent\Collection|AccountingAccount[] $childrenCostCenter
+ * @property-read int|null $children_cost_center_count
+ * @property-read AccountingAccount|null $parent
+ * @property-read AccountingAccount|null $parents
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Collection|static[] all($columns = ['*'])
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount breadthFirst()
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount depthFirst()
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Collection|static[] get($columns = ['*'])
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount getExpressionGrammar()
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount hasChildren()
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount hasParent()
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount isLeaf()
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount isRoot()
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount newModelQuery()
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount newQuery()
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount query()
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount tree($maxDepth = null)
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount treeOf(callable $constraint, $maxDepth = null)
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount whereAccountId($value)
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount whereActive($value)
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount whereAmount($value)
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount whereArName($value)
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount whereAssetId($value)
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount whereBankId($value)
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount whereClientId($value)
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount whereClosingAccount($value)
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount whereCode($value)
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount whereCostCenter($value)
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount whereCreatedAt($value)
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount whereDepth($operator, $value = null)
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount whereEnName($value)
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount whereId($value)
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount whereKind($value)
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount whereLevel($value)
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount whereOpenningBalance($value)
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount whereSafeId($value)
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount whereStatus($value)
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount whereStoreId($value)
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount whereSupplierId($value)
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount whereType($value)
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount whereUpdatedAt($value)
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount withGlobalScopes(array $scopes)
+ * @method static \Staudenmeir\LaravelAdjacencyList\Eloquent\Builder|AccountingAccount withRelationshipExpression($direction, callable $constraint, $initialDepth, $from = null, $maxDepth = null)
+ * @mixin \Eloquent
+ */
 class AccountingAccount extends Model
 {
     use \Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;

@@ -26,6 +26,7 @@ use App\Models\AccountingSystem\AccountingService;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingSupplier;
 use App\Models\AccountingSystem\AccountingTaxBand;
+use App\Models\Product;
 use App\Traits\Viewable;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -317,7 +318,7 @@ class ProductController extends Controller
     public function storeAjax(Request $request)
     {
         $rules = [
-            'product_name' => 'required|string|max:191',
+            'name' => 'required|string|max:191',
             'en_name' => 'required|string',
             'company_id' => 'required',
             'branch_id' => 'required',
@@ -331,8 +332,8 @@ class ProductController extends Controller
             'bar_code' => 'nullable|',
             'barcodes' => 'nullable|array|barcode_anther:accounting_products,bar_code,bar_code,barcode,',
             'par_codes' => 'nullable|array|barcode_unit:accounting_products,bar_code,bar_code,barcode,',
-            'product_selling_price' => 'required',
-            'product_purchasing_price' => 'required',
+            'selling_price' => 'required',
+            'purchasing_price' => 'required',
             'min_quantity' => 'required|string|numeric',
             'max_quantity' => 'required|string|numeric',
             'expired_at' => 'required_if:type,product_expiration|',
@@ -343,6 +344,7 @@ class ProductController extends Controller
             'width' => 'nullable|string',
             'num_days_recession' => 'nullable|string',
             'cell_id' => 'required',
+            'store_id'=>'required'
           //        dd($inputs);
         ];
         $messsage = [
@@ -355,9 +357,6 @@ class ProductController extends Controller
         $this->validate($request, $rules, $messsage);
 
         $inputs = $request->except('image', 'main_unit_present', 'purchasing_price', 'selling_price', 'component_names', 'qtys', 'main_units');
-        $inputs['name'] = $inputs['product_name'];
-        $inputs['selling_price'] = $inputs['product_selling_price'];
-        $inputs['purchasing_price'] = $inputs['product_purchasing_price'];
 //        dd($inputs);
         if ($request->hasFile('image')) {
             $inputs['image'] = saveImage($request->image, 'photos');
@@ -553,7 +552,6 @@ class ProductController extends Controller
         $units = AccountingProductMainUnit::get(['main_unit as label', 'id']);
         $branches = AccountingBranch::get(['name as label', 'id']);
         $categories = AccountingProductCategory::get(['ar_name as label', 'id']);
-        $products = [];
         $taxs = AccountingTaxBand::get([\DB::raw('CONCAT(name," ",percent," %") as label'), 'id']);
         $suppliers = AccountingSupplier::get(['name as label', 'id']);
         $accounts = AccountingAccount::where('kind', 'sub')->get(['id', \DB::raw("concat(ar_name, ' - ',code) as label")]);
@@ -573,6 +571,8 @@ class ProductController extends Controller
         $cells = AccountingColumnCell::get(['id', 'name as label']);
 //        $product= AccountingProduct::make();
         $product = AccountingProduct::find($id);
+        $product->load('category.company','sub_units');
+//        dd(json_decode($product->bar_code));
         $product['bar_code'] = array_merge(is_array($product->bar_code) ? $product->bar_code : explode(',', $product->bar_code), $product->barcodes->pluck('barcode')->toArray());
         $product['sub_products'] = AccountingProductComponent::where('product_id', $id)->get();
         $product['components'] = AccountingProductComponent::where('product_id', $id)->get();
@@ -583,6 +583,7 @@ class ProductController extends Controller
             'quantity' => '',
             'gift_quantity' => '',
         ];
+
         $unit_template = [
             'name' => null,
             'bar_code' => null,
@@ -711,6 +712,74 @@ class ProductController extends Controller
 
         alert()->success('تم تعديل المنتج  بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.products.index');
+    }
+  public function updateAjax(Request $request, $id)
+    {
+        $product = AccountingProduct::findOrFail($id);
+
+        $rules = [
+
+
+            'description' => 'nullable|string',
+            'category_id' => 'nullable|numeric|exists:accounting_product_categories,id',
+            'bar_code' => 'required|array',
+            'main_unit' => 'required|string',
+            'selling_price' => 'sometimes',
+            'purchasing_price' => 'sometimes',
+            'min_quantity' => 'required|string|numeric',
+            'max_quantity' => 'required|string|numeric',
+            'expired_at' => 'nullable|string|date',
+            'size' => 'nullable|string',
+            'color' => 'nullable|string',
+            'height' => 'nullable|string',
+            'image' => 'nullable|sometimes|mimes:jpg,jpeg,gif,png',
+            'width' => 'nullable|string',
+            'num_days_recession' => 'nullable|string',
+
+
+        ];
+        $this->validate($request, $rules);
+
+        $inputs = $request->except('image', 'main_unit_present', 'purchasing_price', 'selling_price', 'component_names', 'qtys', 'main_units');
+
+        if ($request->hasFile('image')) {
+            $inputs['image'] = saveImage($request->image, 'photos');
+        }
+        $product->update($inputs);
+        if (isset($inputs['store_id'])) {
+            AccountingProductStore::create([
+                'store_id' => $inputs['store_id'],
+                'product_id' => $product->id,
+            ]);
+        }
+
+        foreach ($request->sub_units as $sub_unit) {
+
+           $unit= $product->sub_units()->UpdateOrCreate(['id'=>$sub_unit['id']],[
+                'name' => $sub_unit['name'],
+                'bar_code' => $sub_unit['bar_code'],
+                'main_unit_present' => $sub_unit['main_unit_present'],
+                'selling_price' => $sub_unit['selling_price'],
+                'purchasing_price' => $sub_unit['purchasing_price'],
+                'quantity' => $sub_unit['quantity'],
+            ]);
+        }
+        ////////////////////components Arrays////////////////////////////////
+        $component_names = collect($request['component_names']);
+        $qtys = collect($request['qtys']);
+        $main_units = collect($request['main_units']);
+        $components = $component_names->zip($qtys, $main_units);
+        foreach ($components as $component) {
+            AccountingProductComponent::create([
+                'name' => $component['0'],
+                'quantity' => $component['1'],
+                'main_unit' => $component['2'],
+                'product_id' => $product->id
+            ]);
+        }
+
+      return response()->json(['status' => true, 'message' => 'تم التعديل  بنجاح !']);
+
     }
 
     /**

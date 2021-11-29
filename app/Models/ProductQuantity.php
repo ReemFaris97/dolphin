@@ -9,6 +9,54 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * App\Models\ProductQuantity
+ *
+ * @property int $id
+ * @property int $product_id
+ * @property int|null $user_id
+ * @property int $quantity
+ * @property string|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string $type
+ * @property int $is_confirmed
+ * @property int|null $store_id
+ * @property int|null $store_transfer_request_id
+ * @property int|null $trip_report_id
+ * @property string|null $image
+ * @property int|null $route_trip_id
+ * @property int|null $round
+ * @property-read User|null $distributor
+ * @property-read mixed $movement_type
+ * @property-read \App\Models\Product $product
+ * @property-read \App\Models\Store|null $store
+ * @property-read \App\Models\StoreTransferRequest|null $store_transfer_request
+ * @property-read \App\Models\RouteTripReport|null $trip_report
+ * @method static Builder|ProductQuantity filterWithDates($from_date = null, $to_date = null)
+ * @method static Builder|ProductQuantity filterWithProduct($product_id = null)
+ * @method static Builder|ProductQuantity filterWithStore($store_id = null)
+ * @method static Builder|ProductQuantity newModelQuery()
+ * @method static Builder|ProductQuantity newQuery()
+ * @method static Builder|ProductQuantity query()
+ * @method static Builder|ProductQuantity totalQuantity()
+ * @method static Builder|ProductQuantity whereCreatedAt($value)
+ * @method static Builder|ProductQuantity whereDeletedAt($value)
+ * @method static Builder|ProductQuantity whereId($value)
+ * @method static Builder|ProductQuantity whereImage($value)
+ * @method static Builder|ProductQuantity whereIsConfirmed($value)
+ * @method static Builder|ProductQuantity whereProductId($value)
+ * @method static Builder|ProductQuantity whereQuantity($value)
+ * @method static Builder|ProductQuantity whereRound($value)
+ * @method static Builder|ProductQuantity whereRouteTripId($value)
+ * @method static Builder|ProductQuantity whereStoreId($value)
+ * @method static Builder|ProductQuantity whereStoreTransferRequestId($value)
+ * @method static Builder|ProductQuantity whereTripReportId($value)
+ * @method static Builder|ProductQuantity whereType($value)
+ * @method static Builder|ProductQuantity whereUpdatedAt($value)
+ * @method static Builder|ProductQuantity whereUserId($value)
+ * @mixin \Eloquent
+ */
 class ProductQuantity extends Model
 {
     protected $fillable = ['product_id', 'user_id', 'quantity', 'type', 'is_confirmed', 'store_id', 'store_transfer_request_id', 'trip_report_id', 'route_trip_id', 'round', 'image'];

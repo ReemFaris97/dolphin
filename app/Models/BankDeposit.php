@@ -5,6 +5,37 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\BankDeposit
+ *
+ * @property int $id
+ * @property string|null $deposit_number
+ * @property int|null $bank_id
+ * @property int $user_id
+ * @property string $amount
+ * @property string|null $image
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string $type
+ * @property string $deposit_date
+ * @property-read \App\Models\Bank|null $bank
+ * @property-read \App\Models\User $distributor
+ * @property-read \App\Models\DistributorTransaction|null $transaction
+ * @method static \Illuminate\Database\Eloquent\Builder|BankDeposit newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|BankDeposit newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|BankDeposit query()
+ * @method static \Illuminate\Database\Eloquent\Builder|BankDeposit whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BankDeposit whereBankId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BankDeposit whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BankDeposit whereDepositDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BankDeposit whereDepositNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BankDeposit whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BankDeposit whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BankDeposit whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BankDeposit whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BankDeposit whereUserId($value)
+ * @mixin \Eloquent
+ */
 class BankDeposit extends Model
 {
     protected static function boot()

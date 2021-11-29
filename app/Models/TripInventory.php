@@ -9,6 +9,48 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+/**
+ * App\Models\TripInventory
+ *
+ * @property int $id
+ * @property int $trip_id
+ * @property string $type
+ * @property string|null $notes
+ * @property string|null $refuse_reason
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $round
+ * @property-read mixed $product_items
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Image[] $images
+ * @property-read int|null $images_count
+ * @property-read TripInventory $previous_trip_inventory
+ * @property-read \App\Models\RouteTripReport $previous_trip_report
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AttachedProducts[] $products
+ * @property-read int|null $products_count
+ * @property-read \App\Models\RouteTrips $trip
+ * @property-read \App\Models\RouteTripReport|null $trip_report
+ * @method static Builder|TripInventory filterDistributor($distributor = null)
+ * @method static Builder|TripInventory filterRoute($route = null)
+ * @method static Builder|TripInventory filterWithDates($from_date = null, $to_date = null)
+ * @method static Builder|TripInventory newModelQuery()
+ * @method static Builder|TripInventory newQuery()
+ * @method static Builder|TripInventory ofDistributor($distributor = null)
+ * @method static Builder|TripInventory query()
+ * @method static Builder|TripInventory whereCreatedAt($value)
+ * @method static Builder|TripInventory whereId($value)
+ * @method static Builder|TripInventory whereNotes($value)
+ * @method static Builder|TripInventory whereRefuseReason($value)
+ * @method static Builder|TripInventory whereRound($value)
+ * @method static Builder|TripInventory whereRouteId($route_id)
+ * @method static Builder|TripInventory whereTripId($value)
+ * @method static Builder|TripInventory whereType($value)
+ * @method static Builder|TripInventory whereUpdatedAt($value)
+ * @method static Builder|TripInventory withPreviousTripInventory()
+ * @method static Builder|TripInventory withPreviousTripReport()
+ * @method static Builder|TripInventory withReportProducts()
+ * @method static Builder|TripInventory withTripClientAndRoute()
+ * @mixin \Eloquent
+ */
 class TripInventory extends Model
 {
     protected $fillable = ['trip_id', 'type', 'notes', 'round', 'refuse_reason', 'route_trip_id'];
