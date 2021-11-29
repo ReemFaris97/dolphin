@@ -573,7 +573,6 @@ class ProductController extends Controller
         $product = AccountingProduct::find($id);
         $product->load('category.company','sub_units');
 //        dd(json_decode($product->bar_code));
-        $product['bar_code'] = array_merge(is_array($product->bar_code) ? $product->bar_code : explode(',', $product->bar_code), $product->barcodes->pluck('barcode')->toArray());
         $product['sub_products'] = AccountingProductComponent::where('product_id', $id)->get();
         $product['components'] = AccountingProductComponent::where('product_id', $id)->get();
         $product['sub_units'] = AccountingProductSubUnit::where('product_id', $id)->get();
@@ -746,7 +745,7 @@ class ProductController extends Controller
             $inputs['image'] = saveImage($request->image, 'photos');
         }
         $product->update($inputs);
-        if (isset($inputs['store_id'])) {
+            if (isset($request['store_id'])) {
             AccountingProductStore::create([
                 'store_id' => $inputs['store_id'],
                 'product_id' => $product->id,
@@ -755,7 +754,7 @@ class ProductController extends Controller
 
         foreach ($request->sub_units as $sub_unit) {
 
-           $unit= $product->sub_units()->UpdateOrCreate(['id'=>$sub_unit['id']],[
+           $unit= $product->sub_units()->UpdateOrCreate(['id'=>\Arr::get($sub_unit,'id')],[
                 'name' => $sub_unit['name'],
                 'bar_code' => $sub_unit['bar_code'],
                 'main_unit_present' => $sub_unit['main_unit_present'],
