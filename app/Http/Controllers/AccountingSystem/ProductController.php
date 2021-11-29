@@ -384,36 +384,28 @@ class ProductController extends Controller
             }
         }
         ///////  /// / //////subunits Arrays//////////////////////////////
-        $names = collect($request['name']);
-        $par_codes = collect($request['par_codes']);
-        $main_unit_presents = collect($request['main_unit_present']);
-        $selling_price = collect($request['selling_price']);
-        $purchasing_price = collect($request['purchasing_price']);
-        $quantities = collect($request['unit_quantities']);
-        $units = $names->zip($par_codes, $purchasing_price, $selling_price, $main_unit_presents, $quantities);
-//dd($request->all());
-        foreach ($units as $unit) {
-            $uni = AccountingProductSubUnit::create([
-                'name' => $unit['0'],
-                'bar_code' => $unit['1'],
-                'main_unit_present' => $unit['4'],
-                'selling_price' => $unit['3'],
-                'purchasing_price' => $unit['2'],
-                'quantity' => $unit['5'],
-                'product_id' => $product->id
+
+        foreach ($request->sub_units as $sub_unit) {
+
+            $unit = $product->sub_units()->UpdateOrCreate(['id' => \Arr::get($sub_unit, 'id')], [
+                'name' => $sub_unit['name'],
+                'bar_code' => $sub_unit['bar_code'],
+                'main_unit_present' => $sub_unit['main_unit_present'],
+                'selling_price' => $sub_unit['selling_price'],
+                'purchasing_price' => $sub_unit['purchasing_price'],
+                'quantity' => $sub_unit['quantity'],
             ]);
-
-
             if (isset($inputs['store_id'])) {
                 AccountingProductStore::create([
                     'store_id' => $inputs['store_id'],
                     'product_id' => $product->id,
-                    'quantity' => $unit['2'] * $unit['5'],
-                    'unit_id' => $uni->id
+                    'quantity' => $unit->main_unit_present * $unit->quantity,
+                    'unit_id' => $unit->id
 
                 ]);
             }
         }
+
         ////////////////////components Arrays////////////////////////////////
 
         $component_names = collect($request['component_names']);
