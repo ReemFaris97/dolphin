@@ -79,6 +79,7 @@ class ProductController extends Controller
         $product['sub_units'] = [];
         $product['offers'] = [];
         $product['stores'] = [];
+        $product['discount']=0;
         $offer_template = [
             'quantity' => '',
             'gift_quantity' => '',
@@ -390,7 +391,7 @@ class ProductController extends Controller
         $purchasing_price = collect($request['purchasing_price']);
         $quantities = collect($request['unit_quantities']);
         $units = $names->zip($par_codes, $purchasing_price, $selling_price, $main_unit_presents, $quantities);
-dd($request->all());
+//dd($request->all());
         foreach ($units as $unit) {
             $uni = AccountingProductSubUnit::create([
                 'name' => $unit['0'],
