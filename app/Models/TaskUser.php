@@ -6,6 +6,63 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\TaskUser
+ *
+ * @property int $id
+ * @property int $task_id
+ * @property int $user_id
+ * @property string|null $date
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $finisher_id
+ * @property int|null $rater_id
+ * @property string $task_duration
+ * @property \Illuminate\Support\Carbon|null $finished_at
+ * @property \Illuminate\Support\Carbon|null $rated_at
+ * @property int|null $rate
+ * @property string|null $comment
+ * @property string|null $worker_finished_at
+ * @property-read \App\Models\User|null $finisher
+ * @property-read mixed $can_finish
+ * @property-read mixed $days
+ * @property-read mixed $duration_array
+ * @property-read mixed $duration
+ * @property-read mixed $finishing_rate
+ * @property-read mixed $from_time
+ * @property-read mixed $full_date
+ * @property-read mixed $hours
+ * @property-read mixed $minutes
+ * @property-read mixed $rest_time
+ * @property-read mixed $status
+ * @property-read mixed $to_time
+ * @property-read mixed $total_duration
+ * @property-read \App\Models\User|null $rater
+ * @property-read \App\Models\Task $task
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|TaskUser fromTimeDuration()
+ * @method static \Illuminate\Database\Eloquent\Builder|TaskUser newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|TaskUser newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|TaskUser notFinished()
+ * @method static \Illuminate\Database\Eloquent\Builder|TaskUser ofUser($user_id, $assigned_only = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|TaskUser query()
+ * @method static \Illuminate\Database\Eloquent\Builder|TaskUser whereComment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TaskUser whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TaskUser whereDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TaskUser whereFinishedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TaskUser whereFinisherId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TaskUser whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TaskUser whereRate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TaskUser whereRatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TaskUser whereRaterId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TaskUser whereTaskDuration($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TaskUser whereTaskId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TaskUser whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TaskUser whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TaskUser whereWorkerFinishedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TaskUser withTotalDuration()
+ * @mixin \Eloquent
+ */
 class TaskUser extends Model
 {
     protected $dates = ['rated_at', 'finished_at'];

@@ -6,6 +6,43 @@ use App\Traits\HashPassword;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * App\Models\AccountingSystem\AccountingPurchaseItem
+ *
+ * @property int $id
+ * @property int|null $purchase_id
+ * @property int|null $product_id
+ * @property string|null $quantity
+ * @property string|null $price
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $unit_id
+ * @property string|null $tax
+ * @property string|null $price_after_tax
+ * @property string|null $unit_type
+ * @property string|null $expire_date
+ * @property string|null $gifts
+ * @property-read \App\Models\AccountingSystem\AccountingProduct|null $product
+ * @property-read \App\Models\AccountingSystem\AccountingPurchase|null $purchase
+ * @property-read \App\Models\AccountingSystem\AccountingProductSubUnit|null $unit
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingPurchaseItem newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingPurchaseItem newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingPurchaseItem query()
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingPurchaseItem whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingPurchaseItem whereExpireDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingPurchaseItem whereGifts($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingPurchaseItem whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingPurchaseItem wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingPurchaseItem wherePriceAfterTax($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingPurchaseItem whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingPurchaseItem wherePurchaseId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingPurchaseItem whereQuantity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingPurchaseItem whereTax($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingPurchaseItem whereUnitId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingPurchaseItem whereUnitType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingPurchaseItem whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class AccountingPurchaseItem extends Model
 {
 

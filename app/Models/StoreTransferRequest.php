@@ -6,6 +6,46 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * App\Models\StoreTransferRequest
+ *
+ * @property int $id
+ * @property int|null $sender_id
+ * @property int|null $distributor_id
+ * @property int $is_confirmed
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property int|null $sender_store_id
+ * @property int|null $distributor_store_id
+ * @property string|null $signature
+ * @property-read User|null $distributor
+ * @property-read \App\Models\Store|null $distributor_store
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductQuantity[] $productQuantities
+ * @property-read int|null $product_quantities_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AttachedProducts[] $products
+ * @property-read int|null $products_count
+ * @property-read \App\Models\Store $receiver_store
+ * @property-read User|null $sender
+ * @property-read \App\Models\Store|null $sender_store
+ * @method static \Illuminate\Database\Eloquent\Builder|StoreTransferRequest newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|StoreTransferRequest newQuery()
+ * @method static \Illuminate\Database\Query\Builder|StoreTransferRequest onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|StoreTransferRequest query()
+ * @method static \Illuminate\Database\Eloquent\Builder|StoreTransferRequest whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|StoreTransferRequest whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|StoreTransferRequest whereDistributorId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|StoreTransferRequest whereDistributorStoreId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|StoreTransferRequest whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|StoreTransferRequest whereIsConfirmed($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|StoreTransferRequest whereSenderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|StoreTransferRequest whereSenderStoreId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|StoreTransferRequest whereSignature($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|StoreTransferRequest whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|StoreTransferRequest withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|StoreTransferRequest withoutTrashed()
+ * @mixin \Eloquent
+ */
 class StoreTransferRequest extends Model
 {
     use SoftDeletes;

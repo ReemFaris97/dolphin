@@ -6,6 +6,46 @@ use App\Traits\HashPassword;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * App\Models\AccountingSystem\AccountingBranch
+ *
+ * @property int $id
+ * @property int $company_id
+ * @property string $name
+ * @property string $phone
+ * @property string $password
+ * @property string|null $email
+ * @property string|null $image
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property string|null $code
+ * @property-read \App\Models\AccountingSystem\AccountingCompany $company
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AccountingSystem\AccountingBranchFace[] $faces
+ * @property-read int|null $faces_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AccountingSystem\AccountingSafe[] $safes
+ * @property-read int|null $safes_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AccountingSystem\AccountingStore[] $stores
+ * @property-read int|null $stores_count
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingBranch newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingBranch newQuery()
+ * @method static \Illuminate\Database\Query\Builder|AccountingBranch onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingBranch query()
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingBranch whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingBranch whereCompanyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingBranch whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingBranch whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingBranch whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingBranch whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingBranch whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingBranch whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingBranch wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingBranch wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingBranch whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|AccountingBranch withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|AccountingBranch withoutTrashed()
+ * @mixin \Eloquent
+ */
 class AccountingBranch extends Model
 {
     use SoftDeletes,HashPassword;

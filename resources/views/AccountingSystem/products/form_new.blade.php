@@ -550,6 +550,7 @@
         Vue.component('v-select', VueSelect.VueSelect);
         var app = new Vue({
             el: '#app',
+
             data: {
                 components: [
                     {
@@ -607,19 +608,6 @@
                             this.search(loading, search, this);
                         }
                     },
-                    search: _.debounce((loading, search, vm) => {
-                        fetch(
-                            `https://api.github.com/search/repositories?q=${escape(search)}`
-                        ).then(res => {
-                            res.json().then(json => (vm.options = json.items));
-                            loading(false);
-                        });
-                    }, 350),
-
-                    onComplete: function () {
-                        alert('Yay. Done!');
-                    }
-                    ,
                     addSubUnit: function () {
                         this.form.sub_units.push({
                             ...this.sub_unit
@@ -632,28 +620,27 @@
                             ...this.component
                         });
 
-                    }
-                },
-                search: _.debounce((loading, search, vm) => {
-                    fetch(
-                        `/accounting/products-by-ajax?search=${search}`
-                    ).then(res => {
+                    },
+                    search: _.debounce((loading, search, vm) => {
+                        fetch(
+                            `/accounting/products-by-ajax?search=${search}`
+                        ).then(res => {
 
-                        res.json().then(json => (vm.components = json.data.data));
-                        loading(false);
-                    });
-                }, 350),
-                onComplete: function () {
-                    let that=this;
-                    axios.post('/accounting/ajax/products', this.form)
-                        .then(function (resp) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'تم اضافة المنتج بنجاح',
-                            });
-                            that.form = {};
-                            that.$refs['form-wizard'].reset();
-                            console.log('hi')
+                            res.json().then(json => (vm.components = json.data.data));
+                            loading(false);
+                        });
+                    }, 350),
+                    onComplete: function () {
+                        let that = this;
+                        axios.post('/accounting/ajax/products', this.form)
+                            .then(function (resp) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'تم اضافة المنتج بنجاح',
+                                });
+                                that.form = {};
+                                that.$refs['form-wizard'].reset();
+                                console.log('hi')
                         })
                         .catch(function (err) {
                             console.log(err);
@@ -714,21 +701,22 @@
                         this.columns = response.data;
                     });
                 }
-                ,
-                getCells: function () {
-                    var column_id = this.form.column_id;
-                    axios.get(`/accounting/ajax/column/${column_id}/cells`).then(response => {
-                        this.columns = response.data;
-                    });
-                }
-                ,
-                addOffer() {
-                    this.form.offers.push({
-                        ...this.offer
-                    });
+                    ,
+                    getCells: function () {
+                        var column_id = this.form.column_id;
+                        axios.get(`/accounting/ajax/column/${column_id}/cells`).then(response => {
+                            this.columns = response.data;
+                        });
+                    }
+                    ,
+                    addOffer() {
+                        this.form.offers.push({
+                            ...this.offer
+                        });
 
-                }
-            },
+                    }
+                },
+            }
         )
     </script>
 @endsection

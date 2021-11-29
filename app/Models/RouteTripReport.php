@@ -10,6 +10,55 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+/**
+ * App\Models\RouteTripReport
+ *
+ * @property int $id
+ * @property int $route_trip_id
+ * @property int $store_id
+ * @property int $round
+ * @property string|null $cash
+ * @property string|null $visa
+ * @property string|null $total_money
+ * @property string|null $notes
+ * @property int|null $distributor_transaction_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $expenses
+ * @property \Illuminate\Support\Carbon|null $paid_at
+ * @property-read \App\Models\DistributorTransaction|null $distributor_transaction
+ * @property-read mixed $invoice_number
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Image[] $images
+ * @property-read int|null $images_count
+ * @property-read \App\Models\TripInventory|null $inventory
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AttachedProducts[] $products
+ * @property-read int|null $products_count
+ * @property-read \App\Models\RouteTrips $route_trip
+ * @property-read \App\Models\Store $store
+ * @method static Builder|RouteTripReport filterDistributor($distributor = null)
+ * @method static Builder|RouteTripReport newModelQuery()
+ * @method static Builder|RouteTripReport newQuery()
+ * @method static Builder|RouteTripReport ofClient($client = null)
+ * @method static Builder|RouteTripReport ofDistributor($distributor = null)
+ * @method static Builder|RouteTripReport ofMonth($month = null)
+ * @method static Builder|RouteTripReport ofYear($year = null)
+ * @method static Builder|RouteTripReport query()
+ * @method static Builder|RouteTripReport whereCash($value)
+ * @method static Builder|RouteTripReport whereCreatedAt($value)
+ * @method static Builder|RouteTripReport whereDistributorTransactionId($value)
+ * @method static Builder|RouteTripReport whereExpenses($value)
+ * @method static Builder|RouteTripReport whereId($value)
+ * @method static Builder|RouteTripReport whereNotes($value)
+ * @method static Builder|RouteTripReport wherePaidAt($value)
+ * @method static Builder|RouteTripReport whereRound($value)
+ * @method static Builder|RouteTripReport whereRouteTripId($value)
+ * @method static Builder|RouteTripReport whereStoreId($value)
+ * @method static Builder|RouteTripReport whereTotalMoney($value)
+ * @method static Builder|RouteTripReport whereUpdatedAt($value)
+ * @method static Builder|RouteTripReport whereVisa($value)
+ * @method static Builder|RouteTripReport withProductsPrice()
+ * @mixin \Eloquent
+ */
 class RouteTripReport extends Model
 {
     /**
