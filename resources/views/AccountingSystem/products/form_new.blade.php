@@ -72,7 +72,7 @@
                         <div class="row">
                             <div class="col-md-11">
 
-                                <v-select name="store_id" v-model="form.store" :options="stores"
+                                <v-select name="store_id" v-model="form.store_id" :options="stores"
                                           :reduce="store=>store.id"/>
                             </div>
                             <div class="btn-group col-md-1">
@@ -393,26 +393,20 @@
             <tab-content title="Last step">
                 <div>
                     <div class="row">
-                        <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left">
-                                <label> نوع الخصم </label>
-                                <v-select name="discout_type" v-model="form.discount_type"
-                                          :options="[{id:'percent',label:'نسبة'},{id:'quantity',label:'كمية'},]"
-                                          :reduce="o=>o.id"/>
-                            </div>
-                            <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left" id="nesba-wrp"
-                                 v-if="form.discount_type==='percent'">
+
+                            <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left" id="nesba-wrp">
                                 <label> النسبة </label>
-                                <input name="percent" v-model="form.percent" palceholder="النسبة"
+                                <input name="percent" v-model="form.discount" palceholder="النسبة"
                                        class="form-control"/>
                             </div>
                             <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left "
                                  style="margin-top: 25px;"
-                                 v-if="form.discount_type==='quantity'">
+                                >
                                 <button type="button" class="btn btn-primary" @click="addOffer">العروض
                                     والخصومات
                                 </button>
                             </div>
-                            <div class="col-md-12 inside-form-tbl" v-if="form.discount_type==='quantity'">
+                            <div class="col-md-12 inside-form-tbl" >
                                 <span>الخصومات</span>
                                 <table class="table table-bordered   table-responsive">
                                     <thead>
@@ -482,7 +476,7 @@
                                     </span>
                                     </div>
                                 </div>
-                                <div class="col-md-6" v-if="form.price_has_tax==0">
+                                <div class="col-md-6" v-if="form.tax==1">
                                     <div class="">
                                         <label> اسم شريحة الضرائب</label>
 
@@ -584,14 +578,14 @@
                         id: "service",
                         label: "خدمه",
                     },
-                    {
+            /*        {
                         id: "offer",
                         label: "مجموعة اصناف ",
                     },
                     {
                         id: "creation",
                         label: "تصنيع",
-                    },
+                    },*/
                     {
                         id: "product_expiration",
                         label: "منتج بتاريخ صلاحيه",
@@ -640,7 +634,7 @@
                                 });
                                 that.form = {};
                                 that.$refs['form-wizard'].reset();
-                                console.log('hi')
+                                // console.log('hi')
                         })
                         .catch(function (err) {
                             console.log(err);

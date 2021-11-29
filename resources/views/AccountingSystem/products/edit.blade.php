@@ -426,27 +426,20 @@
                         <tab-content title="Last step">
                             <div>
                                 <div class="row">
-                                    <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left">
-                                        <label> نوع الخصم </label>
-                                        <v-select name="discout_type" v-model="form.discount_type"
-                                                  :options="[{id:'percent',label:'نسبة'},{id:'quantity',label:'كمية'},]"
-                                                  :reduce="o=>o.id"/>
-                                    </div>
+
                                     <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left"
-                                         id="nesba-wrp"
-                                         v-if="form.discount_type==='percent'">
+                                         id="nesba-wrp">
                                         <label> النسبة </label>
-                                        <input name="percent" v-model="form.percent" palceholder="النسبة"
+                                        <input name="percent" v-model="form.discount" palceholder="النسبة"
                                                class="form-control"/>
                                     </div>
                                     <div class="form-group col-lg-3  col-md-4 col-sm-6 col-xs-12 pull-left "
-                                         style="margin-top: 25px;"
-                                         v-if="form.discount_type==='quantity'">
+                                         style="margin-top: 25px;">
                                         <button type="button" class="btn btn-primary" @click="addOffer">العروض
                                             والخصومات
                                         </button>
                                     </div>
-                                    <div class="col-md-12 inside-form-tbl" v-if="form.discount_type==='quantity'">
+                                    <div class="col-md-12 inside-form-tbl" >
                                         <span>الخصومات</span>
                                         <table class="table table-bordered   table-responsive">
                                             <thead>
@@ -588,7 +581,8 @@
                     var app = new Vue({
                             el: '#app',
                         created(){
-                           this.form.company_id=this.form.category.company.id;
+
+                           this.form.company_id=_.get(this.form,'category.company.id');
 
                         },
                         mounted(){
@@ -628,14 +622,14 @@
                                         id: "service",
                                         label: "خدمه",
                                     },
-                                    {
+                       /*             {
                                         id: "offer",
                                         label: "مجموعة اصناف ",
                                     },
                                     {
                                         id: "creation",
                                         label: "تصنيع",
-                                    },
+                                    },*/
                                     {
                                         id: "product_expiration",
                                         label: "منتج بتاريخ صلاحيه",
@@ -643,8 +637,7 @@
                                 ]
 
                             },
-                            methods:
-                                {
+                            methods: {
                                     onSearch: function (search, loading) {
                                         if (search.length) {
                                             loading(true);
@@ -701,6 +694,7 @@
                                     },
                                     getBranches: function () {
                                         var company_id = this.form.company_id;
+                                        if (company_id !=null)
                                         axios.get(`/accounting/ajax/company/${company_id}/branches`).then(response => {
                                             this.branches = response.data.branches;
                                             this.categories = response.data.categories;
