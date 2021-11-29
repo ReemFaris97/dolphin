@@ -43,7 +43,7 @@
                         {{current($product->bar_code)}}
                         @else
                         {{$product->bar_code}}
-@endif
+                        @endif
                         " data-link= "{{route('accounting.products.show',['product'=>$product->id])}}"
                     data-price-has-tax="{{isset($producttax)? $producttax->price_has_tax : '-1' }}"
                     data-total-taxes="{{ isset($producttax)? $product->total_taxes : '0'}}"
