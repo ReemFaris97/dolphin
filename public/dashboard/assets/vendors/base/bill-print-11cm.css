@@ -1,0 +1,40 @@
+*{
+    -webkit-print-color-adjust: exact;
+}
+body{
+    margin: 0;
+    direction: rtl;
+}
+p {
+    margin: 0;
+}
+#myDivToPrintsmall{
+    display: block;
+    width: 11cm;
+    text-align: center;
+}
+
+img[alt="logo"]{
+    width: 55px;
+}
+table{
+    font-size: 13px;
+
+}
+th,td{
+    padding-left:12px
+}
+.details-container{
+    display: flex;
+    justify-content: space-between;
+}
+.details-container p {
+    text-align: start;
+}
+.details-container p:first-child {
+    width: 90px;
+
+}
+.details-container p:nth-child(2) {
+    flex-grow: 4;
+}

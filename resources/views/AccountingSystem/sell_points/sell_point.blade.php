@@ -50,6 +50,11 @@
             </div>
             <div class="panel-body" x-data="{selected:null}">
                 <!----------------  Start Bill Content ----------------->
+                @error('sale')
+                <div class="alert alert-danger">
+                    {{$message}}
+                </div>
+                @enderror
                 <section class="yourBill">
                     <div class="yurSections">
                         {{-- @dd(auth()->user()->accounting_store_id) --}}
@@ -395,8 +400,7 @@
             var optss = ``;
             for (var i = 0; i < productUnits.length; i++) {
 var is_selected = (i == 0) ? 'selected' : '';
-                optss += '<option data-uni-price="' + Number(unitPrice[i]).toFixed(rondingNumber) + '" value="' + unitId[
-                    i] + '" '+is_selected+' > ' + unitName[i] + '</option> ';
+                optss += '<option data-uni-price="' + Number(unitPrice[i]).toFixed(rondingNumber) + '" value="' + unitId[i] + '" '+is_selected+' > ' + unitName[i] + '</option> ';
             }
 
 
