@@ -382,6 +382,7 @@
             mainUnit, productUnits,quantity=1,sub_unit_id='--') {
             rowNum++;
             // alert(productUnits);
+
             let unitName = productUnits.map(a => a.name);
             let unitPrice = productUnits.map(b => b.selling_price);
             var unitId = productUnits.map(c => c.id);
@@ -423,11 +424,11 @@ var is_selected = (i == 0) ? 'selected' : '';
 			</td>
 			<td class="single-unit-price maybe-hidden unit_price_after_enable" width="100">${Math.round(productPrice*10000)/10000}</td>
 			<td class="single-price-before maybe-hidden">${Math.round(singlePriceBefore*10000)/10000}</td>
-			<td class="single-price-after maybe-hidden">${Math.round(singlePriceAfter*1000)/1000}</td>
-			<td class="whole-price-before maybe-hidden">${Math.round(singlePriceBefore*10000)/10000}</td>
+			<td class="single-price-after maybe-hidden">${Math.round(singlePriceAfter*10000)/10000}</td>
+			<td class="whole-price-before maybe-hidden">${(Math.round(singlePriceBefore*10000)/10000*parseInt(quantity))}</td>
 			<td class="whole-price-after maybe-hidden total_price_after_enable" width="100">
-                ${Math.round(singlePriceAfter*1000)/1000*parseInt(quantity)}
-                <input  type="hidden" name="price_after_tax[]" value="${Math.round(singlePriceAfter*1000)/1000*parseInt(quantity)}"  class="form-control">
+                ${Math.round(singlePriceAfter*10000)/10000*parseInt(quantity)}
+                <input  type="hidden" name="price_after_tax[]" value="${Math.round(singlePriceAfter*10000)/10000*parseInt(quantity)}"  class="form-control">
             </td>
 			<td class="delete-single-row" width="70">
     @if ($session->user->is_admin == 1)
@@ -608,7 +609,6 @@ var is_selected = (i == 0) ? 'selected' : '';
             if (repo.loading) {
                 return repo.text;
             }
-            // debugger;
 
             var $container = $(
                 "<div class='select2-result-products-select clearfix'>" +
@@ -637,13 +637,13 @@ var is_selected = (i == 0) ? 'selected' : '';
             preventDiscount();
             var amountBeforeDariba = 0;
             $(".whole-price-before").each(function() {
-                amountBeforeDariba += Number($(this).text());
+                amountBeforeDariba += parseFloat($(this).text());
             });
             var amountAfterDariba = 0;
             $(".whole-price-after").each(function() {
-                amountAfterDariba += Number($(this).text());
+                amountAfterDariba += parseFloat($(this).text());
             });
-            var amountOfDariba = Number(amountAfterDariba) - Number(amountBeforeDariba);
+            var amountOfDariba = parseFloat(amountAfterDariba) - parseFloat(amountBeforeDariba);
             $("#amountBeforeDariba span.dynamic-span").html(Math.round(amountBeforeDariba*10000)/10000);
             $("#amountAfterDariba span.dynamic-span").html(Math.round(amountAfterDariba*10000)/10000);
             $("#amountOfDariba span.dynamic-span").html(Math.round(amountOfDariba*10000)/10000);
