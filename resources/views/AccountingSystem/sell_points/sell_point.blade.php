@@ -812,11 +812,9 @@ var is_selected = (i == 0) ? 'selected' : '';
                         },
                         delay: 250,
                         success: function (resp) {
-                            console.log(resp.status)
-                            if (resp.status==false) {
+                            if (resp.status===false) {
                                 $('#barcode-error-span').show();
                             } else {
-                                console.log('dfgdfgdfg')
                                 $('#barcode-error-span').hide();
 
                                 var selectedID = $('select[name="unit_id[' + resp.id + ']"]').val() || null;
@@ -833,7 +831,7 @@ var is_selected = (i == 0) ? 'selected' : '';
                                 if (alreadyChosen.length > 0 && alreadyChosen.is(':selected') && JSON.parse(resp.subunits)[0].id==selectedID) {
                                     repeatedInputVal.val(Number(repeatedInputVal
                                             .val()) +
-                                        1);
+                                        + parseInt(resp.quantity));
                                     repeatedInputVal.text(repeatedInputVal
                                         .val());
                                     $('.product-quantity').find('input')
