@@ -422,9 +422,9 @@ var is_selected = (i == 0) ? 'selected' : '';
 				<input type="number" placeholder="الضريبة" max="" min="0" data-original-tax="${totalTaxes}" value="${totalTaxes}" name="tax[]" class="form-control">
 			</td>
 			<td class="single-unit-price maybe-hidden unit_price_after_enable" width="100">${productPrice.toFixed(rondingNumber)}</td>
-			<td class="single-price-before maybe-hidden">${singlePriceBefore.toFixed(rondingNumber)}</td>
-			<td class="single-price-after maybe-hidden">${singlePriceAfter.toFixed(rondingNumber)}</td>
-			<td class="whole-price-before maybe-hidden">${singlePriceBefore.toFixed(rondingNumber)}</td>
+			<td class="single-price-before maybe-hidden">${Math.round(singlePriceBefore*10000)/10000}</td>
+			<td class="single-price-after maybe-hidden">${Math.round(singlePriceAfter*1000)/1000}</td>
+			<td class="whole-price-before maybe-hidden">${Math.round(singlePriceBefore*10000)/10000}</td>
 			<td class="whole-price-after maybe-hidden total_price_after_enable" width="100">
                 ${Math.round(singlePriceAfter*1000)/1000*parseInt(quantity)}
                 <input  type="hidden" name="price_after_tax[]" value="${Math.round(singlePriceAfter*1000)/1000*parseInt(quantity)}"  class="form-control">
