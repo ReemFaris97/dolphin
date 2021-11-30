@@ -52,7 +52,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-
         $rules = [
 
             'name' => 'required|string|max:191',
@@ -144,7 +143,7 @@ class UserController extends Controller
 
         if ($request->password != null) {
             $user->update(['password' => bcrypt($request->password),]);
-            unset($requests['password']);;
+            unset($requests['password']);
         }
 
 
