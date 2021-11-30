@@ -130,12 +130,11 @@ class SaleController extends Controller
         $merges = $products->zip($qtys, $unit_id);
 
         foreach ($merges as $merge) {
-//            dd($merge);
-//            dd($merge,$merges);
+//
             $product=AccountingProduct::find($merge['0']);
+
+            $unit=AccountingProductSubUnit::where('id', $merge['2'])->first();
             if ($merge['2']!='main-'.$product->id) {
-                $unit=AccountingProductSubUnit::where('product_id', $merge['0'])->where('id', $merge['2'])->first();
-//                dd($product->sub_units,$merge[2],$unit_id);
                 if ($unit) {
                     // throw_if($unit->quantity - $merge['1']<0,ValidationException::withMessages(['client_id'=>sprintf("عفوا لايوجد كميات من الوحدة الفرعية %s من المنتج الفرعي %s الكمية المتاحة هي : %s",$unit->name,$product->name,$unit->quantity)]));
                     $unit->update([
@@ -154,7 +153,7 @@ class SaleController extends Controller
             ///if-main-unit
 
             if ($merge['2']!='main-'.$product->id) {
-                $unit=AccountingProductSubUnit::where('product_id', $merge['0'])->where('id', $merge['2'])->first();
+                $unit=AccountingProductSubUnit::where('id', $merge['2'])->first();
                 if ($unit) {
                     $unit->update([
                         'quantity'=>$unit->quantity - $merge['1'],
@@ -348,18 +347,19 @@ class SaleController extends Controller
 
         foreach ($merges as $merge) {
             $product=AccountingProduct::find($merge['0']);
+            $unit=AccountingProductSubUnit::where('id', $merge['2'])->first();
+
             if ($merge['2']!='main-'.$product->id) {
-                $unit=AccountingProductSubUnit::where('product_id', $merge['0'])->where('id', $merge['2'])->first();
                 if ($unit) {
                     $unit->update([
                         'quantity'=>$unit->quantity + $merge['1'],
                     ]);
                 }
             }
-            $item= AccountingReturnSaleItem::create([
+             AccountingReturnSaleItem::create([
                 'product_id'=>$merge['0'],
                 'quantity'=> $merge['1'],
-                'price'=>$unit->selling_price,
+                'price'=>optional($unit)->selling_price??$product->selling_price,
                 'sale_return_id'=>$returnSale->id
             ]);
 

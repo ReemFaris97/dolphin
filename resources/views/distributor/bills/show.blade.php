@@ -420,8 +420,44 @@
                     @endforeach
                 </tbody>
             </table>
-            <p></p>
-            <p></p>
+            <p>........................................................................................................</p>
+            <div class="details-container">
+                <p>الإجمالى (بدون ضريبة)</p>
+                <p>{{(float) $bill->product_total()}}</p>
+            </div>
+            <div class="details-container">
+                <p>قيمة القيمة المضافة</p>
+                <p>{{$tax_amount}}</p>
+            </div>
+            <div class="details-container">
+                <p>اجمالى الفاتورة</p>
+                <p>{{$total}}</p>
+            </div>
+            <div class="details-container">
+                <p>المبلغ كتابة</p>
+                <p>
+                    {{ $bill->CashArabic($total)[0] }}
+                    ريال
+                    {{ $bill->CashArabic($total)[1] ??''}}
+                    @if($bill->CashArabic($total)[1]!=0)
+                        هللة
+                    @endif
+                        لاغير
+                </p>
+            </div>
+            <div class="details-container">
+                <p>المدفوع كاش</p>
+                <p>{{round($bill->cash,2)}}</p>
+            </div>
+            <div class="details-container">
+                <p>المدفوع شبكة</p>
+                <p>{{round($bill->visa,2)}}</p>
+            </div>
+            <div style="margin-top:20px">
+                {!! QrCode::size(100)->generate(
+                                 url('/api/distributor/bills/print_bill/' .  encrypt($bill->id))
+                                        ); !!}
+            </div>
         </div>
         </div>
     </div>

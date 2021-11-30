@@ -14,6 +14,7 @@
 use App\Http\Controllers\AccountingSystem\SellPointController;
 use App\Models\AccountingSystem\AccountingAsset;
 use App\Models\AccountingSystem\AccountingAssetDamageLog;
+use App\Models\AccountingSystem\AccountingProductSubUnit;
 use Carbon\Carbon;
 
 Route::get('test', function () {
@@ -32,6 +33,12 @@ Route::get('test', function () {
     }
 });
 Route::get('/', function () {
+    $a=  AccountingProductSubUnit::all();
+    foreach ($a as $b) {
+        $b->update([
+'bar_code'=>json_encode(explode(' ', $b->bar_code)),
+        ]);
+    }
     return redirect()->route('admin.login');
 });
 
@@ -71,4 +78,4 @@ Route::group(['prefix' => 'company'], function () {
      return view('distributor.bill');
  });
 
-Route::get('show-invoice/{uuid}','AccountingSystem\SaleController@showInvoice')->name('showInvoice');
+Route::get('show-invoice/{uuid}', 'AccountingSystem\SaleController@showInvoice')->name('showInvoice');
