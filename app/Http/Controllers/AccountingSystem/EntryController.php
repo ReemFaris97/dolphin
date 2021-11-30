@@ -84,7 +84,6 @@ class EntryController extends Controller
     {
         $entry=AccountingEntry::find($id);
         $logs=AccountingEntryLog::where('entry_id', $id)->get();
-
         return view("AccountingSystem.entries.show", compact('entry', 'logs'));
     }
 
