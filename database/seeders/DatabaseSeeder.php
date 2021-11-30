@@ -258,5 +258,6 @@ class DatabaseSeeder extends Seeder
             ),
         ));
         // $this->call(AccountingAccountsTableSeeder::class);
+          $this->call(\Database\Seeders\UpdateProductsTableSeeder::class);
     }
 }

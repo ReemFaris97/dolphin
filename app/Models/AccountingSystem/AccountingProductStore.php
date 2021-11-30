@@ -35,7 +35,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class AccountingProductStore extends Model
 {
-    protected $fillable = ['product_id','store_id','quantity','bond_id','is_active','unit_id'];
+    protected $fillable = ['product_id','store_id','quantity','bond_id','is_active','unit_id','price'];
 
     public function product()
     {
