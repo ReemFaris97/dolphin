@@ -119,13 +119,34 @@
               <div id="chart_div" style="width: 500px; height: 400px;"></div>
                 <div id="chart_div_2" style="width: 500px; height: 400px;"></div>
 </div> --}}
-                @include('distributor.reports.sales._table')
 
+                <div id="print_this">
+                @include('distributor.reports.sales._table')
+                </div>
+                <button type="button" id="print-all">print</button>
             </div>
         </div>
     </div>
 </div>
 @endsection
+
+    @push('scripts')
+    <script src="{!! asset('dashboard/assets/vendors/base/jquery-2.1.4.min.js') !!}"></script>
+        <script>
+        $(document).ready(function () {
+            $("#print-all").on('click', function () {
+                let t = document.getElementById("print_this").innerHTML;
+                console.log(t);
+                {{-- let style = `<link rel="stylesheet" type="text/css" href="{{ asset('dashboard/assets/vendors/base/bill-print.css') }}" >`; --}}
+                let style = '';
+                let win = window.open('', '');
+                win.document.write(`${style}${t}`);
+                win.document.close();
+                setTimeout(() => {win.print()}, 100);
+            });
+        })
+    </script>
+    @endpush
 @push('scripts')
 {{--     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
