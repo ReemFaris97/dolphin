@@ -502,12 +502,9 @@ var is_selected = (i == 0) ? 'selected' : '';
                     var singlePriceBefore = Number(productPrice);
                     var singlePriceAfter = Number(productPrice);
                 }
-                $(this).parents('.single-row-wrapper').find(".single-unit-price").text(productPrice.toFixed(
-                    rondingNumber));
-                $(this).parents('.single-row-wrapper').find(".single-price-before").text(singlePriceBefore.toFixed(
-                    rondingNumber));
-                $(this).parents('.single-row-wrapper').find(".single-price-after").text(singlePriceAfter.toFixed(
-                    rondingNumber));
+                $(this).parents('.single-row-wrapper').find(".single-unit-price").text(Math.round(productPrice*10000)/10000);
+                $(this).parents('.single-row-wrapper').find(".single-price-before").text(Math.round(singlePriceBefore*10000)/10000);
+                $(this).parents('.single-row-wrapper').find(".single-price-after").text(Math.round(singlePriceAfter*10000)/10000);
                 $(this).parents('.single-row-wrapper').find(".product-quantity input").trigger('change');
             });
             $(".product-quantity input").change(function() {
@@ -519,12 +516,10 @@ var is_selected = (i == 0) ? 'selected' : '';
                 $(".tempDisabled").removeClass("tempDisabled");
                 var wholePriceBefore = Number($(this).parents('.single-row-wrapper').find(".single-price-before")
                     .text()) * Number($(this).val());
-                $(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(
-                    rondingNumber));
+                $(this).parents('.single-row-wrapper').find(".whole-price-before").text(Math.round(wholePriceBefore*10000)/10000);
                 var wholePriceAfter = Number($(this).parents('.single-row-wrapper').find(".single-price-after")
                     .text()) * Number($(this).val());
-                $(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(
-                    rondingNumber));
+                $(this).parents('.single-row-wrapper').find(".whole-price-after").text(Math.round(wholePriceAfter*10000)/10000);
                 $(" input#byAmount , input#byPercentage , input#byCache , input#byNet").val(0)
                 //						$("input#byNet").trigger('change')
             });
