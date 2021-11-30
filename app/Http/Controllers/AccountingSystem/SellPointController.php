@@ -215,6 +215,7 @@ class SellPointController extends Controller
             'main_unit'=>/* optional($selected_sub_unit)->id ?? */ $product->main_unit,
             'name'=>$product->name,
             'price'=> optional($selected_sub_unit)->selling_price??$product->selling_price,
+            'selected_sub_unit'=>$selected_sub_unit->id??'--',
             'bar_code'=>$q,
             'link'=>route('accounting.products.show', $product->id),
             'price_has_tax'=>isset($producttax) ? $producttax->price_has_tax : '0',
