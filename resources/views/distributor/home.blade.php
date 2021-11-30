@@ -19,32 +19,32 @@
         <div class="m-portlet  m-portlet--unair">
             <div class="m-portlet__body  m-portlet__body--no-padding">
                 <div class="row m-row--no-padding m-row--col-separator-xl">
-                    <div class="col-md-12 col-lg-6 col-xl-3">
-                        <a href="#">
-                            <!--begin::Total Profit-->
-                            <div class="m-widget24">
-                                <div class="m-widget24__item">
-                                    <h4 class="m-widget24__title">
-                                         الخطة الاجمالية
-                                    </h4><br>
-                                    <span class="m-widget24__desc">
-                                    </span>
-                                    <span class="m-widget24__stats m--font-brand">
-                                        {{$data['trips_all_count']}}
-                                    </span>
-                                    <div class="m--space-10"></div>
-                                    <div class="progress m-progress--sm">
-                                        <div class="progress-bar m--bg-brand" role="progressbar" style="width: {{$data['trips_all_count']}}%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <span class="m-widget24__change">
-                                    </span>
-                                    <span class="m-widget24__number">
-                                    </span>
-                                </div>
-                            </div>
-                            <!--end::Total Profit-->
-                        </a>
-                    </div>
+{{--                    <div class="col-md-12 col-lg-6 col-xl-3">--}}
+{{--                        <a href="#">--}}
+{{--                            <!--begin::Total Profit-->--}}
+{{--                            <div class="m-widget24">--}}
+{{--                                <div class="m-widget24__item">--}}
+{{--                                    <h4 class="m-widget24__title">--}}
+{{--                                         الخطة الاجمالية--}}
+{{--                                    </h4><br>--}}
+{{--                                    <span class="m-widget24__desc">--}}
+{{--                                    </span>--}}
+{{--                                    <span class="m-widget24__stats m--font-brand">--}}
+{{--                                        {{$trips_count}}--}}
+{{--                                    </span>--}}
+{{--                                    <div class="m--space-10"></div>--}}
+{{--                                    <div class="progress m-progress--sm">--}}
+{{--                                        <div class="progress-bar m--bg-brand" role="progressbar" style="width: {{$data['trips_all_count']}}%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>--}}
+{{--                                    </div>--}}
+{{--                                    <span class="m-widget24__change">--}}
+{{--                                    </span>--}}
+{{--                                    <span class="m-widget24__number">--}}
+{{--                                    </span>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            <!--end::Total Profit-->--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
                     <div class="col-md-12 col-lg-6 col-xl-3">
                         <a href="#">
                             <!--begin::New Feedbacks-->
@@ -56,11 +56,11 @@
                                     <span class="m-widget24__desc">
                                     </span>
                                     <span class="m-widget24__stats m--font-info">
-                                        {{$data['trips_count']}}
+                                         {{$trips_count}}
                                     </span>
                                     <div class="m--space-10"></div>
                                     <div class="progress m-progress--sm">
-                                        <div class="progress-bar m--bg-info" role="progressbar" style="width: {{$data['trips_count']}}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar m--bg-info" role="progressbar" style="width:  {{$trips_count}}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <span class="m-widget24__change">
                                     </span>
@@ -82,11 +82,11 @@
                                     <span class="m-widget24__desc">
                                     </span>
                                     <span class="m-widget24__stats m--font-danger">
-                                        {{$data['trips_refused_count']}}
+                                        {{$refused_count}}
                                     </span>
                                     <div class="m--space-10"></div>
                                     <div class="progress m-progress--sm">
-                                        <div class="progress-bar m--bg-danger" role="progressbar" style="width: {{$data['trips_refused_count']}}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar m--bg-danger" role="progressbar" style="width: {{$refused_count}}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <span class="m-widget24__change">
                                     </span>
@@ -108,11 +108,14 @@
                                     <span class="m-widget24__desc">
                                     </span>
                                     <span class="m-widget24__stats m--font-success">
-                                        {{$data['routes_count']}}
+                                        {{$routes}}
                                     </span>
                                     <div class="m--space-10"></div>
                                     <div class="progress m-progress--sm">
-                                        <div class="progress-bar m--bg-success" role="progressbar" style="width: {{$data['routes_count']}}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar m--bg-success" role="progressbar"
+                                             style="width: {{$routes}}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+
+                                        </div>
                                     </div>
                                     <span class="m-widget24__change">
                                     </span>
@@ -134,11 +137,11 @@
                                     <span class="m-widget24__desc">
                                     </span>
                                     <span class="m-widget24__stats m--font-brand">
-                                        {{$data['routes_finished_count']}}
+                                        {{$daily_reports_count}}
                                     </span>
                                     <div class="m--space-10"></div>
                                     <div class="progress m-progress--sm">
-                                        <div class="progress-bar m--bg-brand" role="progressbar" style="width: {{$data['routes_finished_count']}}%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar m--bg-brand" role="progressbar" style="width:  {{$daily_reports_count}}%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <span class="m-widget24__change">
                                     </span>
@@ -149,32 +152,32 @@
                             <!--end::Total Profit-->
                         </a>
                     </div>
-                    <div class="col-md-12 col-lg-6 col-xl-3">
-                        <a href="#">
-                            <!--begin::Total Profit-->
-                            <div class="m-widget24">
-                                <div class="m-widget24__item">
-                                    <h4 class="m-widget24__title">
-                                        المسارات الغير مسلمة
-                                    </h4><br>
-                                    <span class="m-widget24__desc">
-                                    </span>
-                                    <span class="m-widget24__stats m--font-brand">
-                                        {{$data['routes_not_finished_count']}}
-                                    </span>
-                                    <div class="m--space-10"></div>
-                                    <div class="progress m-progress--sm">
-                                        <div class="progress-bar m--bg-brand" role="progressbar" style="width: {{$data['routes_not_finished_count']}}%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <span class="m-widget24__change">
-                                    </span>
-                                    <span class="m-widget24__number">
-                                    </span>
-                                </div>
-                            </div>
-                            <!--end::Total Profit-->
-                        </a>
-                    </div>
+{{--                    <div class="col-md-12 col-lg-6 col-xl-3">--}}
+{{--                        <a href="#">--}}
+{{--                            <!--begin::Total Profit-->--}}
+{{--                            <div class="m-widget24">--}}
+{{--                                <div class="m-widget24__item">--}}
+{{--                                    <h4 class="m-widget24__title">--}}
+{{--                                        المسارات الغير مسلمة--}}
+{{--                                    </h4><br>--}}
+{{--                                    <span class="m-widget24__desc">--}}
+{{--                                    </span>--}}
+{{--                                    <span class="m-widget24__stats m--font-brand">--}}
+{{--                                        {{$data['routes_not_finished_count']}}--}}
+{{--                                    </span>--}}
+{{--                                    <div class="m--space-10"></div>--}}
+{{--                                    <div class="progress m-progress--sm">--}}
+{{--                                        <div class="progress-bar m--bg-brand" role="progressbar" style="width: {{$data['routes_not_finished_count']}}%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>--}}
+{{--                                    </div>--}}
+{{--                                    <span class="m-widget24__change">--}}
+{{--                                    </span>--}}
+{{--                                    <span class="m-widget24__number">--}}
+{{--                                    </span>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            <!--end::Total Profit-->--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
                     <div class="col-md-12 col-lg-6 col-xl-3">
                         <a href="#">
                             <!--begin::Total Profit-->
@@ -186,11 +189,11 @@
                                     <span class="m-widget24__desc">
                                     </span>
                                     <span class="m-widget24__stats m--font-brand">
-                                        {{$data['sales_total']}}
+                                        {{$total}}
                                     </span>
                                     <div class="m--space-10"></div>
                                     <div class="progress m-progress--sm">
-                                        <div class="progress-bar m--bg-brand" role="progressbar" style="width: {{$data['sales_total']}}%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar m--bg-brand" role="progressbar" style="width: {{$total}}%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <span class="m-widget24__change">
                                     </span>

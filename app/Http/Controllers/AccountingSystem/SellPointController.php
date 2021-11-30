@@ -7,7 +7,6 @@ use App\Models\AccountingSystem\AccountingClient;
 use App\Models\AccountingSystem\AccountingDevice;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
-use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingProductSubUnit;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Models\AccountingSystem\AccountingStore;
@@ -16,7 +15,6 @@ use App\Models\User;
 use App\Traits\Viewable;
 use Cookie;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class SellPointController extends Controller
 {
@@ -124,7 +122,7 @@ class SellPointController extends Controller
         $users = User::where('is_saler', 1)->pluck('name', 'id')->toArray();
         $devices = AccountingDevice::where('available', 1)->pluck('name', 'id')->toArray();
         $userstores = AccountingUserPermission::where('user_id', auth()->user()->id)
-            ->where('model_type', 'App\Models\AccountingSystem\AccountingStore')->pluck('model_id', 'id')->toArray();
+            ->where('model_type', AccountingStore::class)->pluck('model_id', 'id')->toArray();
         $stores = AccountingStore::whereIn('id', $userstores)->pluck('ar_name', 'id')->toArray();
 
         return view('AccountingSystem.sell_points.login', compact('users', 'devices', 'stores'));
@@ -176,14 +174,24 @@ class SellPointController extends Controller
 
     public function barcode_search(Request $request, $q)
     {
-        $product=AccountingProduct::query()->ofBarcode($q)
-        // ->whereRelation('stores', 'store_id', $request->store_id)
-        ->with('sub_units')->first();
-        $selected_sub_unit=AccountingProductSubUnit::query()->ofBarcode($q)->first();
+        $quantity=1;
+        if (str_starts_with($q,getsetting('weight_code'))){
+            $barcode=substr($q,2);
+            $pos = getsetting('code_number');
+            $q = '"'.substr($barcode, 0, $pos).'"';
+            $quantity = substr($barcode, $pos);
+        }
+        $product = AccountingProduct::query()->ofBarcode($q)
+            ->with('sub_units')->first();
+        if (!$product) {
+            return response()->json(['status' => false, 'message' => 'bar code not found']);
+        }
+
+        $selected_sub_unit = AccountingProductSubUnit::query()->ofBarcode($q)->first();
 
         $producttax = \App\Models\AccountingSystem\AccountingProductTax::where('product_id', $product->id)->first();
         $units = \App\Models\AccountingSystem\AccountingProductSubUnit::where('product_id', $product->id)
-        ->when($selected_sub_unit,function ($q) use($selected_sub_unit){
+        ->when($selected_sub_unit, function ($q) use ($selected_sub_unit) {
             $q->where('id', '!=', $selected_sub_unit->id);
         })
         ->get();
@@ -192,18 +200,18 @@ class SellPointController extends Controller
         $allunits = json_encode($subunits, JSON_UNESCAPED_UNICODE);
         $mainunits = json_encode(collect([['id' => 'main-' . $product->id, 'name' => $product->main_unit, 'purchasing_price' => $product->purchasing_price, 'product_id' => $product->id, 'bar_code' => $product->bar_code, 'main_unit_present' => 1, 'selling_price' => $product->selling_price, 'created_at' => $product->created_at, 'updated_at' => $product->updated_at, 'quantity' => $product->quantity]]), JSON_UNESCAPED_UNICODE);
 
-if ($selected_sub_unit){
-    $merged =array_merge([$selected_sub_unit], json_decode($mainunits), json_decode($allunits));
-
-}else{
-    $merged =array_merge( json_decode($mainunits), json_decode($allunits));
-
-}
+        if ($selected_sub_unit) {
+            $merged =array_merge([$selected_sub_unit], json_decode($mainunits), json_decode($allunits));
+        } else {
+            $merged =array_merge(json_decode($mainunits), json_decode($allunits));
+        }
         $lastPrice = \App\Models\AccountingSystem\AccountingPurchaseItem::where('product_id', $product->id)
             ->latest()
             ->first();
         return response()->json([
+            'status'=>true,
             'id'=>$product->id,
+            'quantity'=>$quantity,
             'main_unit'=>/* optional($selected_sub_unit)->id ?? */ $product->main_unit,
             'name'=>$product->name,
             'price'=> optional($selected_sub_unit)->selling_price??$product->selling_price,

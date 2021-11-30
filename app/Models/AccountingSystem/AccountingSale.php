@@ -4,6 +4,7 @@ namespace App\Models\AccountingSystem;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * App\Models\AccountingSystem\AccountingSale
@@ -79,6 +80,12 @@ use Illuminate\Database\Eloquent\Model;
 class AccountingSale extends Model
 {
 
+    protected static function booted()
+    {
+        static::creating(function  ($model)  {
+            $model->uuid = (string) Str::uuid();
+        });
+    }
 
     protected $fillable = ['client_id','total','amount','discount','payment','payed','debts','package_id','session_id','branch_id','company_id','store_id','bill_num','totalTaxs'
      ,'status','user_id','cash','network','discount_type','counter','daily_number','counter_sale','date','account_id' ];

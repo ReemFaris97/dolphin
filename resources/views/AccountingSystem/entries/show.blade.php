@@ -105,18 +105,18 @@
                                         </thead>
                                         <tbody>
                                             {{-- @dd($logs) --}}
-                                            @foreach ($logs as $row)
+                                            @foreach ($entry->accounts as $row)
                                                 <tr>
-                                                    @if (isset($row->debtor))
+                                                    @if ($row->affect=='debtor')
                                                         <td>{!! $row->account->ar_name !!}</td>
                                                         <td></td>
-                                                        <td>{!! $row->debtor ?? '---' !!}</td>
-                                                        <td>{!! $row->creditor ?? '---' !!}</td>
+                                                        <td>---</td>
+                                                        <td>{!! $row->amount ?? '---' !!}</td>
                                                     @else
                                                         <td></td>
                                                         <td>{!! $row->account->ar_name !!}</td>
-                                                        <td>{!! $row->debtor ?? '---' !!}</td>
-                                                        <td>{!! $row->creditor ?? '---' !!}</td>
+                                                        <td>{!! $row->amount ?? '---' !!}</td>
+                                                        <td> --- </td>
                                                     @endif
                                                 </tr>
                                             @endforeach

@@ -11,6 +11,7 @@
 |
 */
 
+use App\Http\Controllers\AccountingSystem\SellPointController;
 use App\Models\AccountingSystem\AccountingAsset;
 use App\Models\AccountingSystem\AccountingAssetDamageLog;
 use Carbon\Carbon;
@@ -35,21 +36,17 @@ Route::get('/', function () {
 });
 
 Route::get('/check', function () {
-//    if (auth()->check()) {
-//        if (auth()->user()->is_distributor == 1 &auth()->user()->is_admin == 1) {
-//            return redirect('/distributor/home');
-//        } elseif (auth()->user()->is_supplier == 1) {
-//            return redirect('/supplier/home');
-//        } elseif (auth()->user()->is_admin == 1) {
-//            return redirect('/accounting/home');
-//        } else {
-//            dump(auth()->user());
-//            throw  new Exception('unhandled user type');
-//        }
-//    } else {
-//        throw  new Exception('user having login');
-//    }
-    //return redirect()->route('admin.login');
+    if (
+        auth()->check()&&
+        auth()->user()->is_saler==1
+         && auth()->user()->is_accountant!=1
+
+         && auth()->user()->is_distributor!=1
+    ) {
+        return  redirect()->action([SellPointController::class,'sell_login']);
+    }
+
+
     return view('admin.auth.after-login');
 });
 
@@ -73,3 +70,5 @@ Route::group(['prefix' => 'company'], function () {
  Route::get('/thebill', function () {
      return view('distributor.bill');
  });
+
+Route::get('show-invoice/{uuid}','AccountingSystem\SaleController@showInvoice')->name('showInvoice');

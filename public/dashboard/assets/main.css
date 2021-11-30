@@ -592,10 +592,10 @@ div#m_header_nav , .m-aside-menu .m-menu__nav {
 .m-widget24 .m-widget24__item .m-widget24__stats {
     float: left;
     font-size: 30px;
-    width: 100%;
     text-align: center;
     color: #fff !important;
-    width: 50px;
+    width: fit-content;
+    padding: 20px;
     height: 50px;
     display: flex;
     justify-content: center;
@@ -603,10 +603,13 @@ div#m_header_nav , .m-aside-menu .m-menu__nav {
     background: #36a3f7;
     border-radius: 50%;
     margin: auto;
-    margin-left: calc(50% - 25px);
     margin-bottom: 0px;
     font-size: 23px;
 	    box-shadow: 0px 0px 20px rgba(54,163,247,0.8);
+}
+.m-widget24__item{
+    display: flex;
+    flex-direction: column;
 }
 .progress .progress-bar {
     -webkit-transition: all 0.5s ease;
@@ -767,7 +770,7 @@ input#m_quicksearch_input:focus {
     color: #495057;
     background-color: #3D7CAE;
     border-color: #dee2e6 #dee2e6 #fff;
-    
+
     box-shadow: 0 0 10px rgb(0 0 0 / 40%);
     border-radius: 20px 20px 0 0;
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ecf0f1', endColorstr='#3D7CAE', GradientType=1 );

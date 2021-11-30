@@ -30,6 +30,7 @@ use Carbon\Carbon;
 use Cookie;
 use Hash;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class SaleController extends Controller
 {
@@ -71,6 +72,7 @@ class SaleController extends Controller
      */
     public function store(Request $request)
     {
+//        dd($request->all());
         $requests = $request->all();
         if (!$request->client_id) {
             $requests['client_id']=5;
@@ -91,7 +93,7 @@ class SaleController extends Controller
         }
         $requests['store_id']=$user->accounting_store_id;
 
-
+\DB::beginTransaction();
         $sale=AccountingSale::create($requests);
 
         $sale->update([
@@ -125,10 +127,12 @@ class SaleController extends Controller
         $merges = $products->zip($qtys, $unit_id);
 
         foreach ($merges as $merge) {
+//            dd($merge);
             $product=AccountingProduct::find($merge['0']);
             if ($merge['2']!='main-'.$product->id) {
                 $unit=AccountingProductSubUnit::where('product_id', $merge['0'])->where('id', $merge['2'])->first();
                 if ($unit) {
+                    throw_if($unit->quantity - $merge['1']<0,ValidationException::withMessages(['client_id'=>sprintf("عفوا لايوجد كميات من الوحدة الفرعية %s من المنتج الفرعي %s الكمية المتاحة هي : %s",$unit->name,$product->name,$unit->quantity)]));
                     $unit->update([
                         'quantity'=>$unit->quantity - $merge['1'],
                     ]);
@@ -137,8 +141,9 @@ class SaleController extends Controller
             $item= AccountingSaleItem::create([
                 'product_id'=>$merge['0'],
                 'quantity'=> $merge['1'],
-                'price'=>$product->selling_price,
-                'sale_id'=>$sale->id
+                'price'=>$unit->selling_price,
+                'sale_id'=>$sale->id,
+                'unit_id' => $merge[2]
             ]);
             ///if-main-unit
 
@@ -182,6 +187,7 @@ class SaleController extends Controller
             }
         }
 
+        \DB::commit();
         if ($sale->payment=='cash') {
             $store_id=auth()->user()->accounting_store_id;
             $store=AccountingStore::find($store_id);
@@ -208,16 +214,25 @@ class SaleController extends Controller
         ]);
 
         // if ($sale->payment=='cash') {
-        $saleAccount=AccountingAccount::find(getsetting('accounting_id_sales'));
         // if (isset($saleAccount)) {
 
         //حساب  المبيعات والنقدية
         AccountingEntryAccount::create([
             'entry_id' => $entry->id,
-            'from_account_id' => getsetting('accounting_id_clients'),
-            'to_account_id' => getsetting('accounting_id_sales'),
+            // 'from_account_id' => getsetting('accounting_id_clients'),
+            'account_id' => getsetting('accounting_id_sales'),
+            // 'account_id'=>getsetting('accounting_id_sales'),
             'amount' => $sale->total,
+            'affect'=>'debtor',
         ]);
+        AccountingEntryAccount::create([
+            'entry_id' => $entry->id,
+            'account_id' => getsetting('accounting_id_clients'),
+            'amount' => $sale->total,
+            'affect'=>'creditor',
+        ]);
+
+
 //                dd($sale->getItemCostAttribute());
         //حساب  المبيعات والمخزون
         $storeAccount = AccountingAccount::where('store_id', $sale->store_id)->first()??AccountingAccount::first();
@@ -244,8 +259,8 @@ class SaleController extends Controller
             'affect'=>'debtor',
         ]);
 
-        $last=AccountingAccountLog::where('account_id',getsetting('accounting_id_clients'))->latest()->first();
-$credit_account=AccountingAccount::find(getsetting('accounting_id_clients'))??new AccountingAccount();
+        $last=AccountingAccountLog::where('account_id', getsetting('accounting_id_clients'))->latest()->first();
+        $credit_account=AccountingAccount::find(getsetting('accounting_id_clients'))??new AccountingAccount();
 
         AccountingAccountLog::create([
             'entry_id'=>$entry->id,
@@ -434,7 +449,7 @@ $credit_account=AccountingAccount::find(getsetting('accounting_id_clients'))??ne
         $userstores = AccountingUserPermission::where('user_id', auth()->user()->id)
             ->where('model_type', 'App\Models\AccountingSystem\AccountingStore')->pluck('model_id', 'id')->toArray();
         $stores=AccountingStore::whereIn('id', $userstores)->pluck('ar_name', 'id')->toArray();
-        return view('AccountingSystem.sell_points.login', compact('users', 'devices','stores'));
+        return view('AccountingSystem.sell_points.login', compact('users', 'devices', 'stores'));
     }
 
     /**
@@ -608,5 +623,12 @@ $credit_account=AccountingAccount::find(getsetting('accounting_id_clients'))??ne
         $returns->delete();
         alert()->success('تم حذف  الفاتوره بنجاح !')->autoclose(5000);
         return back();
+    }
+
+    public function showInvoice($uuid)
+    {
+        $sale =AccountingSale::where('uuid',$uuid)->first();
+        $product_items=AccountingSaleItem::whereRelation('sale','uuid', $uuid)->get();
+        return $this->toShow(compact('sale', 'product_items'));
     }
 }

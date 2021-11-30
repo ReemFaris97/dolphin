@@ -1,4 +1,4 @@
-	
+
 (function($){
     $.fn.scannerDetection=function(options){
 
@@ -29,7 +29,7 @@
         }else{
             options=$.extend({},defaults,options);
         }
-        
+
         this.each(function(){
             var self=this, $self=$(self), firstCharTime=0, lastCharTime=0, stringWriting='', callIsScanner=false, testTimer=false;
             var initScannerDetection=function(){
@@ -93,7 +93,7 @@
                 }else{
                     testTimer=setTimeout(self.scannerDetectionTest,options.timeBeforeScanTest);
                 }
-                
+
                 if(options.onReceive) options.onReceive.call(self,e);
                 $self.trigger('scannerDetectionReceive',{evt:e});
             });
