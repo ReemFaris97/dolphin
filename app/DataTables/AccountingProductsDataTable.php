@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\AccountingSystem\AccountingProduct;
+use Str;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -25,16 +26,21 @@ class AccountingProductsDataTable extends DataTable
                 // $barcode= request()->columns[5]['search']['value'];
 
                 $query->where(function ($builder) use ($barcode) {
+                    $barcode= Str::startsWith($barcode, '"') ?  $barcode:'"'.$barcode;
+                    $barcode= Str::endsWith($barcode, '"') ?  $barcode:$barcode.'"';
                     $builder->where('bar_code', 'like', "%$barcode%");
-                    $builder->orwhereHas(
-                        'barcodes',
-                        fn ($b) => $b->where('barcode', 'like', "%$barcode%")
-                    );
                     $builder->orwhereHas(
                         'sub_units',
                         fn ($b) => $b->where('bar_code', 'like', "%$barcode%")
                     );
                 });
+            })
+            ->filterColumn('name', function ($query, $name) {
+                $query->where(
+                    fn ($q) =>$q
+                ->where('name', 'like', "%$name%")
+                ->orWhere('en_name', 'like', "%$name%")
+                );
             })
             ->addIndexColumn()
             ->smart(false)

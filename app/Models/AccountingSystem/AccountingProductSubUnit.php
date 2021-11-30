@@ -2,8 +2,8 @@
 
 namespace App\Models\AccountingSystem;
 
-
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * App\Models\AccountingSystem\AccountingProductSubUnit
@@ -35,11 +35,21 @@ use Illuminate\Database\Eloquent\Model;
  */
 class AccountingProductSubUnit extends Model
 {
-    protected  $table='accounting_products_subUnits';
+    protected $table='accounting_products_subUnits';
     protected $fillable = ['name','product_id','bar_code','main_unit_present','selling_price','purchasing_price','quantity'];
 
-    public function scopeOfBarcode($query,$barcode)
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'bar_code' => 'array',
+    ];
+    public function scopeOfBarcode($query, $barcode)
     {
-         $query->where('bar_code','like',"%$barcode%");
+        $barcode= Str::startsWith($barcode, '"') ?  $barcode:'"'.$barcode;
+        $barcode= Str::endsWith($barcode, '"') ?  $barcode:$barcode.'"';
+        $query->where('bar_code', 'like', "%$barcode%");
     }
 }

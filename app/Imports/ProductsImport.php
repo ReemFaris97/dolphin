@@ -63,7 +63,7 @@ class ProductsImport implements ToCollection, WithHeadingRow //, WithChunkReadin
             [
                 'product_id' => $product_id,
                 'name' => $row['aloahd2'],
-                'bar_code' => $row['albarkod2'],
+                'bar_code' =>  json_encode(' ', $row['albarkod2']) ,
                 'main_unit_present' => $row['altaaadl2'],
                 'selling_price'=> $row['mbyaa2'],
                 'purchasing_price'=>$row['shraaa2'],
@@ -71,7 +71,7 @@ class ProductsImport implements ToCollection, WithHeadingRow //, WithChunkReadin
             [
                 'product_id' => $product_id,
                 'name' => $row['aloahd3'],
-                'bar_code' => $row['albarkod3'],
+                'bar_code' =>    json_encode(' ', $row['albarkod3']),
                 'main_unit_present' => $row['altaaadl3'],
                 'selling_price'=> $row['mbyaa3'],
                 'purchasing_price'=>$row['shraaa3'],
@@ -79,7 +79,7 @@ class ProductsImport implements ToCollection, WithHeadingRow //, WithChunkReadin
             [
                 'product_id' => $product_id,
                 'name' => $row['aloahd4'],
-                'bar_code' => $row['albarkod4'],
+                'bar_code' => json_encode(' ', $row['albarkod4']),
                 'main_unit_present' => $row['altaaadl4'],
                 'selling_price'=> $row['mbyaa4'],
                 'purchasing_price'=>$row['shraaa4'],
@@ -87,7 +87,7 @@ class ProductsImport implements ToCollection, WithHeadingRow //, WithChunkReadin
             [
                 'product_id' => $product_id,
                 'name' => $row['aloahd5'],
-                'bar_code' => $row['albarkod5']??null,
+                'bar_code' => json_encode(' ', $row['albarkod5']),
                 'main_unit_present' => $row['altaaadl5'],
                 'selling_price'=> $row['mbyaa5'],
                 'purchasing_price'=>$row['shraaa5'],
