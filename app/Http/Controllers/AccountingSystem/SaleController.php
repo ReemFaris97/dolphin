@@ -146,7 +146,7 @@ class SaleController extends Controller
             $item= AccountingSaleItem::create([
                 'product_id'=>$merge['0'],
                 'quantity'=> $merge['1'],
-                'price'=>$unit->selling_price,
+                'price'=>optional($unit)->selling_price??$product->selling_price,
                 'sale_id'=>$sale->id,
                 'unit_id' => $merge[2]
             ]);
