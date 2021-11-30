@@ -821,7 +821,7 @@ var is_selected = (i == 0) ? 'selected' : '';
                             } else {
                                 $('#barcode-error-span').hide();
 
-                                var selectedID = $('select[name="unit_id[' + resp.id + ']"]').val() || null;
+                                var selectedID = $('select[name="unit_id[' + resp.id+'-'+resp.selected_sub_unit + ']"]').val() || null;
 
                                 var alreadyChosen = $(
                                     ".bill-table tbody td select option[value=" +
