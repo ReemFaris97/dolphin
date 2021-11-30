@@ -122,7 +122,7 @@ class SellPointController extends Controller
         $users = User::where('is_saler', 1)->pluck('name', 'id')->toArray();
         $devices = AccountingDevice::where('available', 1)->pluck('name', 'id')->toArray();
         $userstores = AccountingUserPermission::where('user_id', auth()->user()->id)
-            ->where('model_type', 'App\Models\AccountingSystem\AccountingStore')->pluck('model_id', 'id')->toArray();
+            ->where('model_type', AccountingStore::class)->pluck('model_id', 'id')->toArray();
         $stores = AccountingStore::whereIn('id', $userstores)->pluck('ar_name', 'id')->toArray();
 
         return view('AccountingSystem.sell_points.login', compact('users', 'devices', 'stores'));
@@ -191,22 +191,20 @@ class SellPointController extends Controller
 
         $producttax = \App\Models\AccountingSystem\AccountingProductTax::where('product_id', $product->id)->first();
         $units = \App\Models\AccountingSystem\AccountingProductSubUnit::where('product_id', $product->id)
-            ->when($selected_sub_unit, function ($q) use ($selected_sub_unit) {
-                $q->where('id', '!=', $selected_sub_unit->id);
-            })
-            ->get();
+        ->when($selected_sub_unit, function ($q) use ($selected_sub_unit) {
+            $q->where('id', '!=', $selected_sub_unit->id);
+        })
+        ->get();
         $subunits = collect($units);
 
         $allunits = json_encode($subunits, JSON_UNESCAPED_UNICODE);
         $mainunits = json_encode(collect([['id' => 'main-' . $product->id, 'name' => $product->main_unit, 'purchasing_price' => $product->purchasing_price, 'product_id' => $product->id, 'bar_code' => $product->bar_code, 'main_unit_present' => 1, 'selling_price' => $product->selling_price, 'created_at' => $product->created_at, 'updated_at' => $product->updated_at, 'quantity' => $product->quantity]]), JSON_UNESCAPED_UNICODE);
 
-if ($selected_sub_unit){
-    $merged =array_merge([$selected_sub_unit], json_decode($mainunits), json_decode($allunits));
-
-}else{
-    $merged =array_merge( json_decode($mainunits), json_decode($allunits));
-
-}
+        if ($selected_sub_unit) {
+            $merged =array_merge([$selected_sub_unit], json_decode($mainunits), json_decode($allunits));
+        } else {
+            $merged =array_merge(json_decode($mainunits), json_decode($allunits));
+        }
         $lastPrice = \App\Models\AccountingSystem\AccountingPurchaseItem::where('product_id', $product->id)
             ->latest()
             ->first();
