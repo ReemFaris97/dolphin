@@ -121,7 +121,7 @@
                         </div>
                     </div>
                     <div class="result">
-                        <form method="post" id="sllForm" action="{{ route('accounting.sales.store') }}">
+                        <form method="post" id="sllForm" action="{{ route('accounting.sales.store_returns') }}">
                             @csrf
                             <input type="hidden" name="user_id" value="{{ $session->user_id }}">
                             <input type="hidden" name="session_id" value="{{ $session->id }}">
