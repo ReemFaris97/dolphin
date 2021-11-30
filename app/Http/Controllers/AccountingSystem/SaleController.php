@@ -132,7 +132,7 @@ class SaleController extends Controller
             if ($merge['2']!='main-'.$product->id) {
                 $unit=AccountingProductSubUnit::where('product_id', $merge['0'])->where('id', $merge['2'])->first();
                 if ($unit) {
-                    throw_if($unit->quantity - $merge['1']<0,ValidationException::withMessages(['client_id'=>sprintf("عفوا لايوجد كميات من الوحدة الفرعية %s من المنتج الفرعي %s الكمية المتاحة هي : %s",$unit->name,$product->name,$unit->quantity)]));
+                    // throw_if($unit->quantity - $merge['1']<0,ValidationException::withMessages(['client_id'=>sprintf("عفوا لايوجد كميات من الوحدة الفرعية %s من المنتج الفرعي %s الكمية المتاحة هي : %s",$unit->name,$product->name,$unit->quantity)]));
                     $unit->update([
                         'quantity'=>$unit->quantity - $merge['1'],
                     ]);
@@ -216,12 +216,13 @@ class SaleController extends Controller
         // if ($sale->payment=='cash') {
         // if (isset($saleAccount)) {
 
+
         //حساب  المبيعات والنقدية
         AccountingEntryAccount::create([
             'entry_id' => $entry->id,
             // 'from_account_id' => getsetting('accounting_id_clients'),
-            'account_id' => getsetting('accounting_id_sales'),
-            // 'account_id'=>getsetting('accounting_id_sales'),
+            // 'account_id' => getsetting('accounting_id_clients'),
+            'account_id'=>getsetting('accounting_id_sales'),
             'amount' => $sale->total,
             'affect'=>'debtor',
         ]);
@@ -289,7 +290,7 @@ class SaleController extends Controller
 
     public function store_returns(Request $request)
     {
-        $requests = $request->all();
+        $requests = $request->all();DB::b
 
         if (!$request->client_id) {
             $requests['client_id']=5;
