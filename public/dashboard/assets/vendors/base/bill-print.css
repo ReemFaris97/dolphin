@@ -10,6 +10,9 @@
     font-family: "ElMessiri-SemiBold";
     src: url(../fonts/ElMessiri-SemiBold.ttf);
 }
+#print_small{
+    display: none;
+}
 /********* sass basic***/
 #myDivToPrint b,
 #myDivToPrint button,
@@ -125,7 +128,7 @@
 
 /*|||||||||||||||||||||| ++++++++++++++++ |||||||||||||||||||||||*/
 /******** print button ************/
-#print-all {
+#print-all,#print-11cm {
     color: #fff;
     font-size: 19px;
     padding: 5px 25px;

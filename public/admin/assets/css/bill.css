@@ -433,7 +433,16 @@ table.mabi3at-bill tfoot tr th#amountAfterDariba span.dynamic-span{
 .maybe-hidden{
 	display: none !important
 }
-
+.product-unit.maybe-hidden.unit_enable,
+.product-quantity.maybe-hidden.quantity_enable,
+.unit-total-tax.maybe-hidden.unit_total_tax_enable{
+    width: 120px;
+    padding: 9px 5px;}
+.maybe-hidden.unit_total_tax_enable,
+.maybe-hidden.quantity_enable,
+.maybe-hidden.unit_enable{
+    width: 120px;
+}
 
 .name_enable .maybe-hidden.name_enable ,
 .barcode_enable .maybe-hidden.barcode_enable ,
