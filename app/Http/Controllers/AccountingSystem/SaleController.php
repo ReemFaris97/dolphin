@@ -211,16 +211,25 @@ class SaleController extends Controller
         ]);
 
         // if ($sale->payment=='cash') {
-        $saleAccount=AccountingAccount::find(getsetting('accounting_id_sales'));
         // if (isset($saleAccount)) {
 
         //حساب  المبيعات والنقدية
         AccountingEntryAccount::create([
             'entry_id' => $entry->id,
-            'from_account_id' => getsetting('accounting_id_clients'),
-            'to_account_id' => getsetting('accounting_id_sales'),
+            // 'from_account_id' => getsetting('accounting_id_clients'),
+            'account_id' => getsetting('accounting_id_sales'),
+            // 'account_id'=>getsetting('accounting_id_sales'),
             'amount' => $sale->total,
+            'affect'=>'debtor',
         ]);
+        AccountingEntryAccount::create([
+            'entry_id' => $entry->id,
+            'account_id' => getsetting('accounting_id_clients'),
+            'amount' => $sale->total,
+            'affect'=>'creditor',
+        ]);
+
+
 //                dd($sale->getItemCostAttribute());
         //حساب  المبيعات والمخزون
         $storeAccount = AccountingAccount::where('store_id', $sale->store_id)->first()??AccountingAccount::first();
@@ -247,8 +256,8 @@ class SaleController extends Controller
             'affect'=>'debtor',
         ]);
 
-        $last=AccountingAccountLog::where('account_id',getsetting('accounting_id_clients'))->latest()->first();
-$credit_account=AccountingAccount::find(getsetting('accounting_id_clients'))??new AccountingAccount();
+        $last=AccountingAccountLog::where('account_id', getsetting('accounting_id_clients'))->latest()->first();
+        $credit_account=AccountingAccount::find(getsetting('accounting_id_clients'))??new AccountingAccount();
 
         AccountingAccountLog::create([
             'entry_id'=>$entry->id,
@@ -437,7 +446,7 @@ $credit_account=AccountingAccount::find(getsetting('accounting_id_clients'))??ne
         $userstores = AccountingUserPermission::where('user_id', auth()->user()->id)
             ->where('model_type', 'App\Models\AccountingSystem\AccountingStore')->pluck('model_id', 'id')->toArray();
         $stores=AccountingStore::whereIn('id', $userstores)->pluck('ar_name', 'id')->toArray();
-        return view('AccountingSystem.sell_points.login', compact('users', 'devices','stores'));
+        return view('AccountingSystem.sell_points.login', compact('users', 'devices', 'stores'));
     }
 
     /**
