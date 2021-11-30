@@ -30,6 +30,7 @@ use Carbon\Carbon;
 use Cookie;
 use Hash;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class SaleController extends Controller
 {
@@ -92,7 +93,7 @@ class SaleController extends Controller
         }
         $requests['store_id']=$user->accounting_store_id;
 
-
+\DB::beginTransaction();
         $sale=AccountingSale::create($requests);
 
         $sale->update([
@@ -131,6 +132,7 @@ class SaleController extends Controller
             if ($merge['2']!='main-'.$product->id) {
                 $unit=AccountingProductSubUnit::where('product_id', $merge['0'])->where('id', $merge['2'])->first();
                 if ($unit) {
+                    throw_if($unit->quantity - $merge['1']<0,ValidationException::withMessages(['client_id'=>sprintf("عفوا لايوجد كميات من الوحدة الفرعية %s من المنتج الفرعي %s الكمية المتاحة هي : %s",$unit->name,$product->name,$unit->quantity)]));
                     $unit->update([
                         'quantity'=>$unit->quantity - $merge['1'],
                     ]);
@@ -139,7 +141,7 @@ class SaleController extends Controller
             $item= AccountingSaleItem::create([
                 'product_id'=>$merge['0'],
                 'quantity'=> $merge['1'],
-                'price'=>$product->selling_price,
+                'price'=>$unit->selling_price,
                 'sale_id'=>$sale->id,
                 'unit_id' => $merge[2]
             ]);
@@ -185,6 +187,7 @@ class SaleController extends Controller
             }
         }
 
+        \DB::commit();
         if ($sale->payment=='cash') {
             $store_id=auth()->user()->accounting_store_id;
             $store=AccountingStore::find($store_id);
