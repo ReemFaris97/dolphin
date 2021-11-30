@@ -466,7 +466,7 @@
                                         <label>شمول الضريبة</label>
                                         <span class="new-radio-wrap">
                                         <label> السعر شامل الضريبة </label>
-                                        <input type="radio" name="price_has_tax" required class="form-control"
+                                        <input type="radio" name="price_has_tax" checked required class="form-control"
                                                value="0" v-model="form.price_has_tax"/>
                                     </span>
                                         <span class="new-radio-wrap">

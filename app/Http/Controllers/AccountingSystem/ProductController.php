@@ -80,6 +80,7 @@ class ProductController extends Controller
         $product['offers'] = [];
         $product['stores'] = [];
         $product['discount']=0;
+        $product['price_has_tax']=1;
         $offer_template = [
             'quantity' => '',
             'gift_quantity' => '',
@@ -344,7 +345,8 @@ class ProductController extends Controller
             'width' => 'nullable|string',
             'num_days_recession' => 'nullable|string',
             'cell_id' => 'required',
-            'store_id'=>'required'
+            'store_id'=>'required',
+            'price_has_tax'=>'nullable|boolean'
           //        dd($inputs);
         ];
         $messsage = [
@@ -466,18 +468,8 @@ class ProductController extends Controller
             }
         }
         /////////////////////product_taxs//////////////////////////////////////
-        if (isset($request['tax']) & $request['tax'] == 1) {
-            if (isset($request['tax_band_id'])) {
-                $taxs = $request['tax_band_id'];
-                foreach ($taxs as $tax) {
-                    AccountingProductTax::create([
-                        'product_id' => $product->id,
-                        'tax' => $request['tax'],
-                        'price_has_tax' => isset($request['price_has_tax']) ? $request['price_has_tax'] : null,
-                        'tax_band_id' => $tax,
-                    ]);
-                }
-            }
+        if ( $request['tax']) {
+                $product->tax()->sync($request->taxs);
         }
         //////////////////////product_services////////////////////////////
         if (isset($request['service_type'])) {
@@ -567,7 +559,8 @@ class ProductController extends Controller
         $product['components'] = AccountingProductComponent::where('product_id', $id)->get();
         $product['sub_units'] = AccountingProductSubUnit::where('product_id', $id)->get();
         $product['offers'] = $product->discounts;
-
+        $product['tax']=$product->tax()->count()==0?0:1;
+        $product['taxs']=$product->tax()->pluck('accounting_tax_bands.id');
         $offer_template = [
             'quantity' => '',
             'gift_quantity' => '',
@@ -707,8 +700,6 @@ class ProductController extends Controller
         $product = AccountingProduct::findOrFail($id);
 
         $rules = [
-
-
             'description' => 'nullable|string',
             'category_id' => 'nullable|numeric|exists:accounting_product_categories,id',
             'bar_code' => 'required|array',
@@ -724,10 +715,10 @@ class ProductController extends Controller
             'image' => 'nullable|sometimes|mimes:jpg,jpeg,gif,png',
             'width' => 'nullable|string',
             'num_days_recession' => 'nullable|string',
-
-
+            'tax'=>'required|boolean'
         ];
         $this->validate($request, $rules);
+//        dd($request->all());
 
         $inputs = $request->except('image', 'main_unit_present', 'purchasing_price', 'selling_price', 'component_names', 'qtys', 'main_units');
 
@@ -780,6 +771,9 @@ class ProductController extends Controller
             ]);
         }
 
+      if ( $request['tax'] ) {
+          $product->tax()->sync($request->taxs);
+      }
       return response()->json(['status' => true, 'message' => 'تم التعديل  بنجاح !']);
 
     }
