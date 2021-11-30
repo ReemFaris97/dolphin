@@ -411,7 +411,7 @@ var is_selected = (i == 0) ? 'selected' : '';
 			<td class="product-name maybe-hidden name_enable">${productName}</td>
 			<td class="product-name maybe-hidden barcode_enable" width="140">${productBarCode}</td>
 			<td class="product-unit maybe-hidden unit_enable" width="110">
-				<select class="form-control js-example-basic-single" name="unit_id[${productId}]">
+				<select class="form-control js-example-basic-single" name="unit_id[${productId}-${sub_unit_id}]">
 					${optss}
 				</select>
 			</td>
@@ -842,7 +842,7 @@ var is_selected = (i == 0) ? 'selected' : '';
                                         .trigger(
                                             'change');
                                 } else {
-                                    calcBill(resp.id, resp.id, resp.name, resp.bar_code, parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits),parseInt(resp.quantity))
+                                    calcBill(resp.id, resp.id, resp.name, resp.bar_code, parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits),parseInt(resp.quantity),resp.selected_sub_unit)
 
                                 }
 
