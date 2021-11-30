@@ -50,6 +50,11 @@
             </div>
             <div class="panel-body" x-data="{selected:null}">
                 <!----------------  Start Bill Content ----------------->
+                @error('sale')
+                <div class="alert alert-danger">
+                    {{$message}}
+                </div>
+                @enderror
                 <section class="yourBill">
                     <div class="yurSections">
                         {{-- @dd(auth()->user()->accounting_store_id) --}}
@@ -245,7 +250,7 @@
                                     اغلاق الجلسة [F8]
                                 </button>
                             @endif
-                            <a class="btn btn-primary" id="add-mortaga3"
+                            <a class="btn btn-primary" id="add-mortaga3" target="_blank"
                                 href="{{ route('accounting.sales.returns', $session->id) }}">
                                 اضافة فاتورة مرتجع [F9] </a>
                             <a class="btn btn-warning" id="ta3liik" href="#" target="_blank"> تعليق الفاتورة [F10] </a>
@@ -374,7 +379,7 @@
 
         //	Calculation Function
         function calcBill(selectedProduct, productId, productName, productBarCode, productPrice, priceHasTax, totalTaxes,
-            mainUnit, productUnits,quantity=1) {
+            mainUnit, productUnits,quantity=1,sub_unit_id='--') {
             rowNum++;
             // alert(productUnits);
             let unitName = productUnits.map(a => a.name);
@@ -395,8 +400,7 @@
             var optss = ``;
             for (var i = 0; i < productUnits.length; i++) {
 var is_selected = (i == 0) ? 'selected' : '';
-                optss += '<option data-uni-price="' + Number(unitPrice[i]).toFixed(rondingNumber) + '" value="' + unitId[
-                    i] + '" '+is_selected+' > ' + unitName[i] + '</option> ';
+                optss += '<option data-uni-price="' + Number(unitPrice[i]).toFixed(rondingNumber) + '" value="' + unitId[i] + '" '+is_selected+' > ' + unitName[i] + '</option> ';
             }
 
 
@@ -407,7 +411,7 @@ var is_selected = (i == 0) ? 'selected' : '';
 			<td class="product-name maybe-hidden name_enable">${productName}</td>
 			<td class="product-name maybe-hidden barcode_enable" width="140">${productBarCode}</td>
 			<td class="product-unit maybe-hidden unit_enable" width="110">
-				<select class="form-control js-example-basic-single" name="unit_id[${productId}]">
+				<select class="form-control js-example-basic-single" name="unit_id[${productId}-${sub_unit_id}]">
 					${optss}
 				</select>
 			</td>
@@ -817,7 +821,7 @@ var is_selected = (i == 0) ? 'selected' : '';
                             } else {
                                 $('#barcode-error-span').hide();
 
-                                var selectedID = $('select[name="unit_id[' + resp.id + ']"]').val() || null;
+                                var selectedID = $('select[name="unit_id[' + resp.id+'-'+resp.selected_sub_unit + ']"]').val() || null;
 
                                 var alreadyChosen = $(
                                     ".bill-table tbody td select option[value=" +
@@ -838,7 +842,7 @@ var is_selected = (i == 0) ? 'selected' : '';
                                         .trigger(
                                             'change');
                                 } else {
-                                    calcBill(resp.id, resp.id, resp.name, resp.bar_code, parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits),parseInt(resp.quantity))
+                                    calcBill(resp.id, resp.id, resp.name, resp.bar_code, parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits),parseInt(resp.quantity),resp.selected_sub_unit)
 
                                 }
 
