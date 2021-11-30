@@ -37,10 +37,11 @@ Route::get('/', function () {
 
 Route::get('/check', function () {
     if (
-        auth()->check()&&auth()->user()->is_saler==1
+        auth()->check()&&
+        auth()->user()->is_saler==1
          && auth()->user()->is_accountant!=1
-         && auth()->user()->is_admin!=1
-         && !auth()->user()->is_distributor!=1
+
+         && auth()->user()->is_distributor!=1
     ) {
         return  redirect()->action([SellPointController::class,'sell_login']);
     }
