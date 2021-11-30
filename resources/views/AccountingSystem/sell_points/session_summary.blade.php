@@ -42,7 +42,7 @@
 			</span>
 		</div>
 		</div>
-		
+
 		<div class="row normal-lbls">
 			<div class="form-group col-md-12 pull-left" style="margin-bottom:0">
 				<label class="label label-info"> اجمالى المبيعات :</label>
@@ -65,7 +65,7 @@
 					{!! $sales_payed !!}
 				</span>
 			</div>
-		</div>	
+		</div>
 		<div class="row">
 			<div class="form-group col-md-4 pull-left">
 				<label class="label label-info"> اجمالى المرتجعات :</label>
@@ -84,8 +84,8 @@
 			<a class="btn btn-warning" href="{{route('accounting.sales.end_session',$session->id)}}"> اغلاق الجلسة</a>
 		</div>
 
-		
-		
+
+
 	</div>
 
 </div>
@@ -99,20 +99,8 @@
 	function initMap() {
 		// The location of Uluru
 		var uluru = {
-			lat: {;
-				{
-					{
-						isset($store) ? $store - > lat : '26.381861087276274'
-					}
-				}
-			},
-			{
-				{
-					{
-						isset($store) ? $store - > lng : '43.99479680000002'
-					}
-				}
-			}
+			lat: {{isset($store) ? $store->lat : '26.381861087276274'}},
+            lng:{{isset($store) ? $store-> lng : '43.99479680000002'}}
     }
         // The map, centered at Uluru
 		var map = new google.maps.Map(document.getElementById('map'), {

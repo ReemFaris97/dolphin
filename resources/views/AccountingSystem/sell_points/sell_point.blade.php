@@ -422,8 +422,8 @@ var is_selected = (i == 0) ? 'selected' : '';
 			<td class="single-price-after maybe-hidden">${singlePriceAfter.toFixed(rondingNumber)}</td>
 			<td class="whole-price-before maybe-hidden">${singlePriceBefore.toFixed(rondingNumber)}</td>
 			<td class="whole-price-after maybe-hidden total_price_after_enable" width="100">
-                ${singlePriceAfter.toFixed(rondingNumber)+quantity}
-                <input  type="hidden" name="price_after_tax[]" value="${singlePriceAfter+quantity}"  class="form-control">
+                ${Math.round(singlePriceAfter*1000)/1000*parseInt(quantity)}
+                <input  type="hidden" name="price_after_tax[]" value="${Math.round(singlePriceAfter*1000)/1000*parseInt(quantity)}"  class="form-control">
             </td>
 			<td class="delete-single-row" width="70">
     @if ($session->user->is_admin == 1)
@@ -812,11 +812,9 @@ var is_selected = (i == 0) ? 'selected' : '';
                         },
                         delay: 250,
                         success: function (resp) {
-                            console.log(resp.status)
-                            if (resp.status==false) {
+                            if (resp.status===false) {
                                 $('#barcode-error-span').show();
                             } else {
-                                console.log('dfgdfgdfg')
                                 $('#barcode-error-span').hide();
 
                                 var selectedID = $('select[name="unit_id[' + resp.id + ']"]').val() || null;
@@ -833,7 +831,7 @@ var is_selected = (i == 0) ? 'selected' : '';
                                 if (alreadyChosen.length > 0 && alreadyChosen.is(':selected') && JSON.parse(resp.subunits)[0].id==selectedID) {
                                     repeatedInputVal.val(Number(repeatedInputVal
                                             .val()) +
-                                        1);
+                                        + parseInt(resp.quantity));
                                     repeatedInputVal.text(repeatedInputVal
                                         .val());
                                     $('.product-quantity').find('input')
