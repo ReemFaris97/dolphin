@@ -400,7 +400,7 @@
             var optss = ``;
             for (var i = 0; i < productUnits.length; i++) {
 var is_selected = (i == 0) ? 'selected' : '';
-                optss += '<option data-uni-price="' + Number(unitPrice[i]).toFixed(rondingNumber) + '" value="' + unitId[i] + '" '+is_selected+' > ' + unitName[i] + '</option> ';
+                optss += '<option data-uni-price="' + Math.round(unitPrice[i]*10000)/10000 + '" value="' + unitId[i] + '" '+is_selected+' > ' + unitName[i] + '</option> ';
             }
 
 
@@ -421,7 +421,7 @@ var is_selected = (i == 0) ? 'selected' : '';
 			<td class="unit-total-tax maybe-hidden unit_total_tax_enable" width="100">
 				<input type="number" placeholder="الضريبة" max="" min="0" data-original-tax="${totalTaxes}" value="${totalTaxes}" name="tax[]" class="form-control">
 			</td>
-			<td class="single-unit-price maybe-hidden unit_price_after_enable" width="100">${productPrice.toFixed(rondingNumber)}</td>
+			<td class="single-unit-price maybe-hidden unit_price_after_enable" width="100">${Math.round(productPrice*10000)/10000}</td>
 			<td class="single-price-before maybe-hidden">${Math.round(singlePriceBefore*10000)/10000}</td>
 			<td class="single-price-after maybe-hidden">${Math.round(singlePriceAfter*1000)/1000}</td>
 			<td class="whole-price-before maybe-hidden">${Math.round(singlePriceBefore*10000)/10000}</td>
