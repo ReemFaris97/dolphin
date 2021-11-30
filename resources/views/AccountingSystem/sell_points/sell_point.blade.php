@@ -644,9 +644,9 @@ var is_selected = (i == 0) ? 'selected' : '';
                 amountAfterDariba += Number($(this).text());
             });
             var amountOfDariba = Number(amountAfterDariba) - Number(amountBeforeDariba);
-            $("#amountBeforeDariba span.dynamic-span").html(amountBeforeDariba.toFixed(rondingNumber));
-            $("#amountAfterDariba span.dynamic-span").html(amountAfterDariba.toFixed(rondingNumber));
-            $("#amountOfDariba span.dynamic-span").html(amountOfDariba.toFixed(rondingNumber));
+            $("#amountBeforeDariba span.dynamic-span").html(Math.round(amountBeforeDariba*10000)/10000);
+            $("#amountAfterDariba span.dynamic-span").html(Math.round(amountAfterDariba*10000)/10000);
+            $("#amountOfDariba span.dynamic-span").html(Math.round(amountOfDariba*10000)/10000);
             $("#amountOfDariba1").val(amountOfDariba);
             $('#amountAfterDarib1').val(amountAfterDariba);
 
@@ -656,7 +656,7 @@ var is_selected = (i == 0) ? 'selected' : '';
             var total = 0;
 
             if (byAmount == 0 && byPercentage == 0) {
-                $("#demandedAmount span.dynamic-span").html(amountAfterDariba.toFixed(rondingNumber));
+                $("#demandedAmount span.dynamic-span").html(Math.round(amountAfterDariba*10000)/10000);
             } else {
                 $("input#byPercentage").change(function() {
                     if ((Number($(this).val())) > 100) {
@@ -666,7 +666,7 @@ var is_selected = (i == 0) ? 'selected' : '';
                     total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(
                             this)
                         .val()) / 100));
-                    $("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
+                    $("#demandedAmount span.dynamic-span").html(Math.round(total*10000)/10000);
                     $("#total").val(total);
                 });
                 $("input#byAmount").change(function() {
@@ -679,7 +679,7 @@ var is_selected = (i == 0) ? 'selected' : '';
                         $(this).val(0);
                     }
                     total = Number(amountAfterDariba) - (Number($(this).val()));
-                    $("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
+                    $("#demandedAmount span.dynamic-span").html(Math.round(total*10000)/10000);
                     $("#total").val(total);
                 });
             }
@@ -691,7 +691,7 @@ var is_selected = (i == 0) ? 'selected' : '';
                 total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this)
                         .val()) /
                     100));
-                $("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
+                $("#demandedAmount span.dynamic-span").html(Math.round(total*10000)/10000);
                 $("#total").val(total);
             });
             $("input#byAmount").change(function() {
