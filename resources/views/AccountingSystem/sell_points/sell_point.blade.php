@@ -250,7 +250,7 @@
                                     اغلاق الجلسة [F8]
                                 </button>
                             @endif
-                            <a class="btn btn-primary" id="add-mortaga3"
+                            <a class="btn btn-primary" id="add-mortaga3" target="_blank"
                                 href="{{ route('accounting.sales.returns', $session->id) }}">
                                 اضافة فاتورة مرتجع [F9] </a>
                             <a class="btn btn-warning" id="ta3liik" href="#" target="_blank"> تعليق الفاتورة [F10] </a>
