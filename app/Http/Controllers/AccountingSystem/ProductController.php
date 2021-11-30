@@ -704,8 +704,8 @@ class ProductController extends Controller
             'category_id' => 'nullable|numeric|exists:accounting_product_categories,id',
             'bar_code' => 'required|array',
             'main_unit' => 'required|string',
-            'selling_price' => 'sometimes',
-            'purchasing_price' => 'sometimes',
+            'selling_price' => 'required',
+            'purchasing_price' => 'required',
             'min_quantity' => 'required|string|numeric',
             'max_quantity' => 'required|string|numeric',
             'expired_at' => 'nullable|string|date',
@@ -720,7 +720,7 @@ class ProductController extends Controller
         $this->validate($request, $rules);
 //        dd($request->all());
 
-        $inputs = $request->except('image', 'main_unit_present', 'purchasing_price', 'selling_price', 'component_names', 'qtys', 'main_units');
+        $inputs = $request->except('image', 'main_unit_present', 'component_names', 'qtys', 'main_units');
 
         if ($request->hasFile('image')) {
             $inputs['image'] = saveImage($request->image, 'photos');

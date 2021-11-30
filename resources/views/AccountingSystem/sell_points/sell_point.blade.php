@@ -95,6 +95,7 @@
                             <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
                                 <label>بحث بالباركود </label>
                                 <input class="form-control" type="text" id="barcode_search">
+                                <span id="barcode-error-span"  class=" has-danger">عفوا لا يوجد منتج</span>
                             </div>
                         </div>
                     </div>
@@ -352,6 +353,8 @@
 
         $(document).ready(function() {
             preventDiscount();
+            $('#barcode-error-span').hide();
+
         });
 
         //	get general form data inputs values
@@ -371,7 +374,7 @@
 
         //	Calculation Function
         function calcBill(selectedProduct, productId, productName, productBarCode, productPrice, priceHasTax, totalTaxes,
-            mainUnit, productUnits) {
+            mainUnit, productUnits,quantity=1) {
             rowNum++;
             // alert(productUnits);
             let unitName = productUnits.map(a => a.name);
@@ -409,7 +412,7 @@ var is_selected = (i == 0) ? 'selected' : '';
 				</select>
 			</td>
 			<td class="product-quantity maybe-hidden quantity_enable" width="100">
-				<input type="number" placeholder="الكمية" max="" min="1" value="1" id="sale" name="quantity[]" class="form-control">
+				<input type="number" placeholder="الكمية" max="" min="1" value="${quantity}" id="sale" name="quantity[]" class="form-control">
 			</td>
 			<td class="unit-total-tax maybe-hidden unit_total_tax_enable" width="100">
 				<input type="number" placeholder="الضريبة" max="" min="0" data-original-tax="${totalTaxes}" value="${totalTaxes}" name="tax[]" class="form-control">
@@ -419,8 +422,8 @@ var is_selected = (i == 0) ? 'selected' : '';
 			<td class="single-price-after maybe-hidden">${singlePriceAfter.toFixed(rondingNumber)}</td>
 			<td class="whole-price-before maybe-hidden">${singlePriceBefore.toFixed(rondingNumber)}</td>
 			<td class="whole-price-after maybe-hidden total_price_after_enable" width="100">
-                ${singlePriceAfter.toFixed(rondingNumber)}
-                <input  type="hidden" name="price_after_tax[]" value="${singlePriceAfter}"  class="form-control">
+                ${Math.round(singlePriceAfter*1000)/1000*parseInt(quantity)}
+                <input  type="hidden" name="price_after_tax[]" value="${Math.round(singlePriceAfter*1000)/1000*parseInt(quantity)}"  class="form-control">
             </td>
 			<td class="delete-single-row" width="70">
     @if ($session->user->is_admin == 1)
@@ -741,18 +744,19 @@ var is_selected = (i == 0) ? 'selected' : '';
                 avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms
                 preventDefault: true,
                 endChar: [13],
-                onComplete: function(barcode, qty) {
+                onComplete: function (barcode, qty) {
                     validScan = true;
                     $.ajax({
-                        url: "/accounting/products-single-product" + barcode,
+                        url: "/accounting/barcode_search_sale/" + barcode,
                         type: "GET",
+                        delay: 250,
                         data: {
                             store_id: store_id,
                         },
-                        success: function(resp) {
+                        success: function (resp) {
                             calcBill(resp.id, resp.id, resp.name, resp.bar_code,
-                        parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits))
-                        $('#barcode_search').val('')
+                                parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits))
+                            $('#barcode_search').val('')
 
                             /*  if (data.data.length !== 0) {
                                 $('#barcode_search').val('');
@@ -796,7 +800,7 @@ var is_selected = (i == 0) ? 'selected' : '';
                         }
                     });
                 },
-                onError: function(string, qty) {
+                onError: function (string, qty) {
                     $('#barcode_search').val($('#barcode_search').val() + string);
                     var barcode = $('#barcode_search').val();
                     validScan = true;
@@ -806,84 +810,87 @@ var is_selected = (i == 0) ? 'selected' : '';
                         data: {
                             store_id: store_id,
                         },
-                        success: function(resp) {
+                        delay: 250,
+                        success: function (resp) {
+                            if (resp.status===false) {
+                                $('#barcode-error-span').show();
+                            } else {
+                                $('#barcode-error-span').hide();
 
-                      var selectedID=  $('select[name="unit_id['+resp.id+']"]').val()||null;
+                                var selectedID = $('select[name="unit_id[' + resp.id + ']"]').val() || null;
 
-                      var alreadyChosen = $(
-                                    ".bill-table tbody td select option[value=" +
-                                    selectedID + "]");
-                      var repeatedInputVal = $(
-                                        ".bill-table tbody td select option[value=" +
-                                        selectedID + "]:selected").parents('tr')
-                                    .find(
-                                        '.product-quantity').find('input');
-
-                                        if (alreadyChosen.length > 0 && alreadyChosen
-                                    .is(
-                                        ':selected')
-&&
-                                        JSON.parse(resp.subunits)[0].id==selectedID
-                                        ) {
-                                    repeatedInputVal.val(Number(repeatedInputVal
-                                            .val()) +
-                                        1);
-                                    repeatedInputVal.text(repeatedInputVal
-                                        .val());
-                                    $('.product-quantity').find('input')
-                                        .trigger(
-                                            'change');
-                                } else {
-                                    calcBill(resp.id, resp.id, resp.name, resp.bar_code,                   parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits))
-
-                                }
-
-
-                        $('#barcode_search').val('');
-                           /*  if (data.data.length !== 0) {
-                                $('#barcode_search').val('');
-                                $(".tempobar").html(data.data);
-                                var selectedID = $(".tempobar").find('option')
-                                    .data(
-                                        'unit-id');
                                 var alreadyChosen = $(
                                     ".bill-table tbody td select option[value=" +
                                     selectedID + "]");
                                 var repeatedInputVal = $(
-                                        ".bill-table tbody td select option[value=" +
-                                        selectedID + "]:selected").parents('tr')
+                                    ".bill-table tbody td select option[value=" +
+                                    selectedID + "]:selected").parents('tr')
                                     .find(
                                         '.product-quantity').find('input');
-                                if (alreadyChosen.length > 0 && alreadyChosen
-                                    .is(
-                                        ':selected')) {
+
+                                if (alreadyChosen.length > 0 && alreadyChosen.is(':selected') && JSON.parse(resp.subunits)[0].id==selectedID) {
                                     repeatedInputVal.val(Number(repeatedInputVal
                                             .val()) +
-                                        1);
+                                        + parseInt(resp.quantity));
                                     repeatedInputVal.text(repeatedInputVal
                                         .val());
                                     $('.product-quantity').find('input')
                                         .trigger(
                                             'change');
                                 } else {
-                                    $('#barcode_search').val('');
-                                    rowNum++;
-                                    byBarcode();
-                                    $('.product-quantity').find('input')
-                                        .trigger(
-                                            'change');
+                                    calcBill(resp.id, resp.id, resp.name, resp.bar_code, parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits),parseInt(resp.quantity))
+
                                 }
-                            } */
+
+
+                                $('#barcode_search').val('');
+                            }
+
+                            /*  if (data.data.length !== 0) {
+                                 $('#barcode_search').val('');
+                                 $(".tempobar").html(data.data);
+                                 var selectedID = $(".tempobar").find('option')
+                                     .data(
+                                         'unit-id');
+                                 var alreadyChosen = $(
+                                     ".bill-table tbody td select option[value=" +
+                                     selectedID + "]");
+                                 var repeatedInputVal = $(
+                                         ".bill-table tbody td select option[value=" +
+                                         selectedID + "]:selected").parents('tr')
+                                     .find(
+                                         '.product-quantity').find('input');
+                                 if (alreadyChosen.length > 0 && alreadyChosen
+                                     .is(
+                                         ':selected')) {
+                                     repeatedInputVal.val(Number(repeatedInputVal
+                                             .val()) +
+                                         1);
+                                     repeatedInputVal.text(repeatedInputVal
+                                         .val());
+                                     $('.product-quantity').find('input')
+                                         .trigger(
+                                             'change');
+                                 } else {
+                                     $('#barcode_search').val('');
+                                     rowNum++;
+                                     byBarcode();
+                                     $('.product-quantity').find('input')
+                                         .trigger(
+                                             'change');
+                                 }
+                             } */
                         }
                     });
 
                 }
             });
-        // });
 
-        function byBarcode() {
-            $(".tempDisabled").removeClass("tempDisabled");
-            $(".tempobar").find('option').prop('selected', true);
+            // });
+
+            function byBarcode() {
+                $(".tempDisabled").removeClass("tempDisabled");
+                $(".tempobar").find('option').prop('selected', true);
             var selectedProduct = $(".tempobar").find('option').prop('selected', true);
             var productId = $('option.ssID').val();
             var productName = selectedProduct.text();

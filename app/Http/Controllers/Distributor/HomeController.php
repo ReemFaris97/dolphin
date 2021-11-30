@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Distributor;
 
 use App\Models\Client;
+use App\Models\DailyReport;
 use App\Models\DistributorCar;
 use App\Models\DistributorRoute;
 use App\Models\Product;
@@ -17,30 +18,20 @@ use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
-    public function index(){
-       $routes =DistributorRoute::whereDate('created_at',Carbon::today())->where('is_active',1)->pluck('round','id')->toArray();
+    public function index()
+    {
+        $routes = DistributorRoute::whereDate('created_at', Carbon::today())
+            ->where('is_active', 1)->count();
 
-        $trips_all_count=0;
-        $trips_refused_count=0;
-        $trips_accept_count=0;
-       foreach ($routes as $key=>$round){
-           $trips_count=RouteTrips::where('route_id',$key)->where('round',$round)->count();
-           $trips_all_count +=$trips_count;
-           $trips=RouteTrips::where('route_id',$key)->where('round',$round)->pluck('id');
-            $trips_refused=TripInventory::whereIn('trip_id',$trips)->where('type','refuse')->count();
-           $trips_refused_count+= $trips_refused;
-           $trips_accept=TripInventory::whereIn('trip_id',$trips)->where('type','accept')->count();
-           $trips_accept_count+= $trips_accept;
-       }
-        $data = [
-            'trips_all_count'=>$trips_all_count,
-            'trips_count'=>$trips_accept_count,
-            'trips_refused_count'=>$trips_refused_count,
-            'routes_count'=>DistributorRoute::whereDate('created_at',Carbon::today())->where('is_active',1)->count(),
-            'routes_finished_count'=>DistributorRoute::whereDate('created_at',Carbon::today())->where('is_finished',1)->count(),
-            'routes_not_finished_count'=>DistributorRoute::whereDate('created_at',Carbon::today())->where('is_finished',0)->count(),
-            'sales_total'=>RouteTripReport::whereDate('created_at',Carbon::today())->sum('cash'),
-        ];
-        return view('distributor.home',compact('data'));
+        $trips_count = RouteTrips::whereDate('created_at', Carbon::today())->count();
+
+        $refused_count = TripInventory::whereDate('created_at', Carbon::today())->whereType('refuse')->count();
+
+        $daily_reports_count = DailyReport::whereDate('created_at', Carbon::today())->count();
+
+        $total =  RouteTripReport::whereDate('created_at', Carbon::today())->sum('total_money');
+
+        return view('distributor.home', compact('routes','trips_count',
+            'refused_count','daily_reports_count','total'));
     }
 }
