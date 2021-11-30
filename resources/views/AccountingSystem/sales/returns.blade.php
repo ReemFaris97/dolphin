@@ -141,7 +141,6 @@
                                     <tr>
                                         <th rowspan="2" width="40">م</th>
                                         <th rowspan="2" class="maybe-hidden name_enable">اسم الصنف</th>
-                                        <th rowspan="2" class="maybe-hidden barcode_enable" width="140">باركود</th>
                                         <th rowspan="2" class="maybe-hidden unit_enable" width="110">الوحدة</th>
                                         <th rowspan="2" class="maybe-hidden quantity_enable" width="100">الكمية</th>
                                         <th rowspan="2" class="maybe-hidden unit_total_tax_enable" width="100">الضريبة %
@@ -394,8 +393,155 @@
         $('#selectID').selectpicker('refresh');
 
         //	Calculation Function
+        $("#barcode_search").scannerDetection({
+            timeBeforeScanTest: 200, // wait for the next character for upto 200ms
+            avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms
+            preventDefault: true,
+            endChar: [13],
+            onComplete: function (barcode, qty) {
+                validScan = true;
+                $.ajax({
+                    url: "/accounting/barcode_search_sale/" + barcode,
+                    type: "GET",
+                    delay: 250,
+                    data: {
+                        store_id: store_id,
+                    },
+                    success: function (resp) {
+                        calcBill(resp.id, resp.id, resp.name, resp.bar_code,
+                            parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits))
+                        $('#barcode_search').val('')
+
+                        /*  if (data.data.length !== 0) {
+                            $('#barcode_search').val('');
+                            $(".tempobar").html(data.data);
+                            var selectedID = $(".tempobar").find('option')
+                                .data(
+                                    'unit-id');
+                            var alreadyChosen = $(
+                                ".bill-table tbody td select option[value=" +
+                                selectedID + "]");
+                            var repeatedInputVal = $(
+                                    ".bill-table tbody td select option[value=" +
+                                    selectedID + "]:selected").parents('tr')
+                                .find(
+                                    '.product-quantity').find('input');
+                            if (alreadyChosen.length > 0 && alreadyChosen
+                                .is(
+                                    ':selected')) {
+                                repeatedInputVal.val(Number(repeatedInputVal
+                                        .val()) +
+                                    1);
+                                repeatedInputVal.text(repeatedInputVal
+                                    .val());
+                                $('.product-quantity').find('input')
+                                    .trigger(
+                                        'change');
+                            } else {
+                                $('#barcode_search').val('');
+                                rowNum++;
+                                byBarcode();
+                                $('.product-quantity').find('input')
+                                    .trigger(
+                                        'change');
+                            }
+                        } */
+
+
+
+
+
+                    }
+                });
+            },
+            onError: function (string, qty) {
+                $('#barcode_search').val($('#barcode_search').val() + string);
+                var barcode = $('#barcode_search').val();
+                validScan = true;
+                $.ajax({
+                    url: "/accounting/barcode_search_sale/" + barcode,
+                    type: "GET",
+                    processData: false,
+                    data: {
+                        store_id: store_id,
+                    },
+                    delay: 250,
+                    success: function (resp) {
+                        if (resp.status===false) {
+                            $('#barcode-error-span').show();
+                        } else {
+                            $('#barcode-error-span').hide();
+
+                            var selectedID = $('select[name="unit_id[' + resp.id + ']"]').val() || null;
+
+                            var alreadyChosen = $(
+                                ".bill-table tbody td select option[value=" +
+                                selectedID + "]");
+                            var repeatedInputVal = $(
+                                ".bill-table tbody td select option[value=" +
+                                selectedID + "]:selected").parents('tr')
+                                .find(
+                                    '.product-quantity').find('input');
+
+                            if (alreadyChosen.length > 0 && alreadyChosen.is(':selected') && JSON.parse(resp.subunits)[0].id==selectedID) {
+                                repeatedInputVal.val(Number(repeatedInputVal
+                                        .val()) +
+                                    1);
+                                repeatedInputVal.text(repeatedInputVal
+                                    .val());
+                                $('.product-quantity').find('input')
+                                    .trigger(
+                                        'change');
+                            } else {
+                                calcBill(resp.id, resp.id, resp.name, resp.bar_code, parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits),parseInt(resp.quantity))
+
+                            }
+
+
+                            $('#barcode_search').val('');
+                        }
+
+                        /*  if (data.data.length !== 0) {
+                             $('#barcode_search').val('');
+                             $(".tempobar").html(data.data);
+                             var selectedID = $(".tempobar").find('option')
+                                 .data(
+                                     'unit-id');
+                             var alreadyChosen = $(
+                                 ".bill-table tbody td select option[value=" +
+                                 selectedID + "]");
+                             var repeatedInputVal = $(
+                                     ".bill-table tbody td select option[value=" +
+                                     selectedID + "]:selected").parents('tr')
+                                 .find(
+                                     '.product-quantity').find('input');
+                             if (alreadyChosen.length > 0 && alreadyChosen
+                                 .is(
+                                     ':selected')) {
+                                 repeatedInputVal.val(Number(repeatedInputVal
+                                         .val()) +
+                                     1);
+                                 repeatedInputVal.text(repeatedInputVal
+                                     .val());
+                                 $('.product-quantity').find('input')
+                                     .trigger(
+                                         'change');
+                             } else {
+                                 $('#barcode_search').val('');
+                                 rowNum++;
+                                 byBarcode();
+                                 $('.product-quantity').find('input')
+                                     .trigger(
+                                         'change');
+                             }
+                         } */
+                    }
+                });
+
+            }
+        });
         function calcBill(selectedProduct, productId, productName, productBarCode, productPrice, priceHasTax, totalTaxes,
-            mainUnit, productUnits) {
+            mainUnit, productUnits,quantity=1) {
             rowNum++;
             let unitName = productUnits.map(a => a.name);
             let unitPrice = productUnits.map(b => b.selling_price);
@@ -419,19 +565,18 @@
             }
 
 
-
+            //			// <td class="product-name maybe-hidden barcode_enable" width="140">${productBarCode}</td>
             $(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}">
 			<td class="row-num" width="40">${rowNum}</td>
 			<input type="hidden" name="product_id[]" value="${productId}">
 			<td class="product-name maybe-hidden name_enable">${productName}</td>
-			<td class="product-name maybe-hidden barcode_enable" width="140">${productBarCode}</td>
 			<td class="product-unit maybe-hidden unit_enable" width="110">
 				<select class="form-control js-example-basic-single" name="unit_id[${productId}]">
 					${optss}
 				</select>
 			</td>
 			<td class="product-quantity maybe-hidden quantity_enable" width="100">
-				<input type="number" placeholder="الكمية" max="" min="1" value="1" id="sale" name="quantity[]" class="form-control">
+				<input type="number" placeholder="الكمية" max="" min="1" value="${quantity}" id="sale" name="quantity[]" class="form-control">
 			</td>
 			<td class="unit-total-tax maybe-hidden unit_total_tax_enable" width="100">
 				<input type="number" placeholder="الضريبة" max="" min="0" data-original-tax="${totalTaxes}" value="${totalTaxes}" name="tax[]" class="form-control">
@@ -440,7 +585,7 @@
 			<td class="single-price-before maybe-hidden">${singlePriceBefore.toFixed(rondingNumber)}</td>
 			<td class="single-price-after maybe-hidden">${singlePriceAfter.toFixed(rondingNumber)}</td>
 			<td class="whole-price-before maybe-hidden">${singlePriceBefore.toFixed(rondingNumber)}</td>
-			<td class="whole-price-after maybe-hidden total_price_after_enable" width="100">${singlePriceAfter.toFixed(rondingNumber)}</td>
+			<td class="whole-price-after maybe-hidden total_price_after_enable" width="100">${singlePriceAfter.toFixed(rondingNumber)*quantity}</td>
 			<td class="delete-single-row" width="70">
     @if ($session->user->is_admin == 1)
         <a href="#"><span class="icon-cross"></span></a>

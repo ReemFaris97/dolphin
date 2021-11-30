@@ -812,11 +812,9 @@ var is_selected = (i == 0) ? 'selected' : '';
                         },
                         delay: 250,
                         success: function (resp) {
-                            console.log(resp.status)
-                            if (resp.status==false) {
+                            if (resp.status===false) {
                                 $('#barcode-error-span').show();
                             } else {
-                                console.log('dfgdfgdfg')
                                 $('#barcode-error-span').hide();
 
                                 var selectedID = $('select[name="unit_id[' + resp.id + ']"]').val() || null;
