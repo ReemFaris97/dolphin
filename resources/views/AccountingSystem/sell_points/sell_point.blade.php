@@ -422,8 +422,8 @@ var is_selected = (i == 0) ? 'selected' : '';
 			<td class="single-price-after maybe-hidden">${singlePriceAfter.toFixed(rondingNumber)}</td>
 			<td class="whole-price-before maybe-hidden">${singlePriceBefore.toFixed(rondingNumber)}</td>
 			<td class="whole-price-after maybe-hidden total_price_after_enable" width="100">
-                ${singlePriceAfter.toFixed(rondingNumber)+quantity}
-                <input  type="hidden" name="price_after_tax[]" value="${singlePriceAfter+quantity}"  class="form-control">
+                ${singlePriceAfter.toFixed(rondingNumber)+parseInt(quantity)}
+                <input  type="hidden" name="price_after_tax[]" value="${singlePriceAfter+parseInt(quantity)}"  class="form-control">
             </td>
 			<td class="delete-single-row" width="70">
     @if ($session->user->is_admin == 1)
