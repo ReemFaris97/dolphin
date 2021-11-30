@@ -379,7 +379,7 @@
 
         //	Calculation Function
         function calcBill(selectedProduct, productId, productName, productBarCode, productPrice, priceHasTax, totalTaxes,
-            mainUnit, productUnits,quantity=1) {
+            mainUnit, productUnits,quantity=1,sub_unit_id='--') {
             rowNum++;
             // alert(productUnits);
             let unitName = productUnits.map(a => a.name);
