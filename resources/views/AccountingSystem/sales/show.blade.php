@@ -1,12 +1,55 @@
-@extends('AccountingSystem.layouts.master')
-@section('title', 'عرض الفاتوره' . ' ' . $sale->id)
-@section('parent_title', 'إدارة المبيعات')
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> - الفاتورة {{$sale->id}}</title>
+    <!-- Global stylesheets -->
+    <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.min.css" rel="stylesheet"
+          type="text/css">
+    <link href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css
+" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/guillaumepotier/Parsley.js@2.9.2/src/parsley.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet"
+          type="text/css">
+    <link href="{{asset('admin/assets/css/icons/icomoon/styles.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('admin/assets/css/bootstrap.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('admin/assets/css/core.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('admin/assets/css/components.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('admin/assets/css/colors.css')}}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css"/>
+    <link href="{{asset('admin/assets/css/metro.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('admin/assets/css/customized.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('admin/assets/css/custom-tabs.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('admin/assets/css/new-style.css')}}" rel="stylesheet" type="text/css">
 
-@section('action', URL::route('accounting.stores.index'))
+    <script type="text/javascript" src="{{ asset('admin/assets/js/plugins/loaders/pace.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/assets/js/core/libraries/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/assets/js/core/libraries/bootstrap.min.js') }}"></script>
 
-@section('styles')
-    <!-- <link href="{{ asset('_admin/dist/css/pages/print.css') }}" rel="stylesheet">-->
+    <script type="text/javascript" src="{{ asset('admin/assets/js/plugins/loaders/blockui.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/assets/js/plugins/forms/styling/uniform.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/assets/js/plugins/forms/selects/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/assets/js/plugins/ui/prism.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/assets/js/plugins/ui/nicescroll.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/assets/js/plugins/ui/drilldown.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/assets/js/core/app.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('admin/assets/js/pages/navigation_horizontal_mega.js') }}"></script>
 
+    <script src="https://cdn.jsdelivr.net/gh/guillaumepotier/Parsley.js@2.9.2/dist/parsley.js"></script>
+    <script src="{{ asset('admin/assets/js/i18n/ar.js') }}"></script>
+    <script>
+        $(function () {
+            $('.parsley-validate-form').parsley()
+        })
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.js"></script>
+    <script type="text/javascript" src="{{ asset('admin/assets/js/all.min.js') }}"></script>
+
+    {{--    @include('AccountingSystem.layouts.data-table')--}}
 
     <style>
         .login-page .card {
@@ -21,7 +64,7 @@
             padding-top: 50px
         }
 
-        .em-link-wrap>a.waves-dark {
+        .em-link-wrap > a.waves-dark {
             width: 100px;
             background: #edf1f5;
             display: flex;
@@ -38,12 +81,12 @@
             word-break: break-word
         }
 
-        .em-link-wrap>a.waves-dark:hover {
+        .em-link-wrap > a.waves-dark:hover {
             background-color: #2ECC71;
             color: #fff
         }
 
-        .em-link-wrap>a.waves-dark i {
+        .em-link-wrap > a.waves-dark i {
             font-size: 20px;
             display: block;
             margin-bottom: 5px;
@@ -51,7 +94,7 @@
             transition: .4s all ease-in-out
         }
 
-        .em-link-wrap>a.waves-dark:hover i {
+        .em-link-wrap > a.waves-dark:hover i {
             color: #fff
         }
 
@@ -296,8 +339,7 @@
         }
 
 
-
-        .newest-chechk input[type=checkbox]:checked+label:after {
+        .newest-chechk input[type=checkbox]:checked + label:after {
             content: '';
             position: absolute;
             right: 23px;
@@ -372,23 +414,23 @@
         .btn-info:hover,
         .btn-info:active:hover,
         .btn-info.active:hover,
-        .open>.dropdown-toggle.btn-info:hover,
+        .open > .dropdown-toggle.btn-info:hover,
         .btn-info:active:focus,
         .btn-info.active:focus,
-        .open>.dropdown-toggle.btn-info:focus,
+        .open > .dropdown-toggle.btn-info:focus,
         .btn-info:active.focus,
         .btn-info.active.focus,
-        .open>.dropdown-toggle.btn-info.focus {
+        .open > .dropdown-toggle.btn-info.focus {
             background-color: #0aad4f;
             border-color: #0aad4f;
         }
 
-        .table>thead>tr>th,
-        .table>tbody>tr>th,
-        .table>tfoot>tr>th,
-        .table>thead>tr>td,
-        .table>tbody>tr>td,
-        .table>tfoot>tr>td {
+        .table > thead > tr > th,
+        .table > tbody > tr > th,
+        .table > tfoot > tr > th,
+        .table > thead > tr > td,
+        .table > tbody > tr > td,
+        .table > tfoot > tr > td {
             padding: 10px 5px;
             line-height: 1.5384616;
             vertical-align: top;
@@ -480,21 +522,21 @@
             color: #fff;
         }
 
-        .a-new-table.tablesaw-sortable>tbody>tr>td:first-child,
-        .a-new-table.tablesaw-sortable>tbody>tr>th:first-child {
+        .a-new-table.tablesaw-sortable > tbody > tr > td:first-child,
+        .a-new-table.tablesaw-sortable > tbody > tr > th:first-child {
             position: relative;
             width: 135px;
             padding-left: 0
         }
 
-        .a-new-table.tablesaw-sortable>tbody>tr>td:last-child,
-        .a-new-table.tablesaw-sortable>tbody>tr>th:last-child {
+        .a-new-table.tablesaw-sortable > tbody > tr > td:last-child,
+        .a-new-table.tablesaw-sortable > tbody > tr > th:last-child {
             padding-left: 2px;
             padding-right: 2px
         }
 
-        .a-new-table.tablesaw-sortable>tbody>tr>td:first-child:after,
-        .a-new-table.tablesaw-sortable>tbody>tr>th:first-child:after {
+        .a-new-table.tablesaw-sortable > tbody > tr > td:first-child:after,
+        .a-new-table.tablesaw-sortable > tbody > tr > th:first-child:after {
             position: absolute;
             left: 4px;
             top: 2px;
@@ -511,13 +553,7 @@
         }
 
 
-
-
-
-
-
-
-        @media (min-width:768px) {
+        @media (min-width: 768px) {
             .v-customized-radio .custo-labl {
                 height: 140px;
             }
@@ -544,7 +580,6 @@
                 border-right: 1px solid #eee
             }
         }
-
 
 
         .new-home-link {
@@ -587,22 +622,21 @@
         }
 
 
-
-        @media (min-width :768px) {
+        @media (min-width: 768px) {
             .form-group.the-sub-service-wrapper {
                 width: 50%
             }
         }
 
-        @media (max-width :768px) {
+        @media (max-width: 768px) {
             .topbar .top-navbar .navbar-header .navbar-brand {
                 width: 100px;
                 height: 30px
             }
         }
 
-        @media (min-width :576px) and (max-width :767px) {
-            li.nav-item+li.nav-item a.nav-link.d-none {
+        @media (min-width: 576px) and (max-width: 767px) {
+            li.nav-item + li.nav-item a.nav-link.d-none {
                 display: inline-block !important
             }
 
@@ -611,7 +645,7 @@
             }
         }
 
-        @media (max-width :576px) {
+        @media (max-width: 576px) {
             .form-group.the-sub-service-wrapper {
                 width: 50%
             }
@@ -675,7 +709,7 @@
         }
 
         /**********************************************/
-        .a-new-table>tbody>tr>td.car-path-div {
+        .a-new-table > tbody > tr > td.car-path-div {
             text-align: center !important;
             padding: 5px;
             background: #2ECC71 !important;
@@ -697,20 +731,18 @@
             color: #fff !important;
         }
 
-        .table-hover>tbody>tr:hover {
+        .table-hover > tbody > tr:hover {
             background-color: inherit;
         }
+
         .end-notice div:last-child {
             margin-bottom: 25px
         }
 
 
-
-
-
         @media print {
-            .a-new-table.tablesaw-sortable>tbody>tr>td:first-child:after,
-            .a-new-table.tablesaw-sortable>tbody>tr>th:first-child:after {
+            .a-new-table.tablesaw-sortable > tbody > tr > td:first-child:after,
+            .a-new-table.tablesaw-sortable > tbody > tr > th:first-child:after {
                 position: absolute;
                 left: 4px;
                 top: 2px;
@@ -735,6 +767,7 @@
                 z-index: 9999999999
             }
         }
+
         @media print {
             thead:not(:first-child) {
                 display: none !important
@@ -746,7 +779,7 @@
                 border-color: inherit;
             }
 
-            .bill-table-whole-wrapper>tr.bill-table-tr-wrapper.fixed-ta-hd {
+            .bill-table-whole-wrapper > tr.bill-table-tr-wrapper.fixed-ta-hd {
                 background: #2ECC71 !important;
                 color: #fff !important;
             }
@@ -784,7 +817,7 @@
                 margin: 0 auto;
             }
 
-            .bill-table-whole-wrapper>tbody:first-child>tr>th {
+            .bill-table-whole-wrapper > tbody:first-child > tr > th {
                 background: #2ECC71 !important;
                 color: #fff !important
             }
@@ -801,6 +834,7 @@
                 border-width: 0 1px 1px 0 !important;
             }
         }
+
         @media print {
 
             .card .card-subtitle,
@@ -808,7 +842,7 @@
             .m-t-40.all-em-links-wrapper,
             .print,
             .row.page-titles,
-            footer,.page-header,.footer {
+            footer, .page-header, .footer {
                 display: none
             }
 
@@ -818,224 +852,243 @@
             }
 
 
-
         }
     </style>
-    <!--<link href="{{ asset('_admin/assets/css/edit.css') }}" rel="stylesheet" type="text/css">-->
-@endsection
 
-@section('content')
+</head>
 
+<body>
 
+<div class="page-container">
+    <div class="page-content">
+        <!-- Main content -->
+        <div class="content-wrapper">
+            <div class="content">
+                <div class="row printer">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body ">
+                                <h4 class="card-title">الفاتوره</h4>
+                                <div class="container-fluid the-bill-design too-be-topped" id="div-to-print">
+                                    <div class="one-bill-inpt the-bill-logo text-center the-bill-number"
+                                         style="border-bottom:4px solid #333;padding-bottom: 0;margin-bottom: 15px">
+                                        <img
+                                            src="{{ asset('dashboard/assets/app/media/img/logos/20191031163554-شعار رمانة.png') }}">
+                                    </div>
+                                    <div class="one-bill-inpt the-bill-company text-center"
+                                         style="display:block;width:100%;text-align: center!important;margin-bottom: 0px">
+                                        <span class="bill-lbl">{!! getsetting('higher_data') !!}</span>
+                                    </div>
+                                    <div class="one-bill-inpt the-bill-address"
+                                         style="display:block;width:100%;text-align: center!important;margin-bottom: 5px">
+                                        <i class="ti-location-pin"></i>
+                                        {{-- <span class="bill-lbl">  {!! optional($sale->branch)->ar_name !!}</span> --}}
+                                    </div>
 
+                                    <div class="one-bill-inpt the-bill-date"
+                                         style="direction: ltr;border-bottom: 0px;display:inline-block;width:50%;text-align: center!important;margin-bottom: 0px;padding-bottom:0px;margin-top: 0px;">
+                                        <span class="bill-lbl"><?php echo $sale->date; ?></span>
+                                        <i class="ti-calendar" style="float: none;"></i>
+                                    </div>
 
-
-    <!-- ============================================================== -->
-    <!-- Start Page Content -->
-    <!-- ============================================================== -->
-    <div class="row printer">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body ">
-                    <h4 class="card-title">الفاتوره</h4>
-                    <div class="container-fluid the-bill-design too-be-topped" id="div-to-print">
-                        <div class="one-bill-inpt the-bill-logo text-center the-bill-number"
-                            style="border-bottom:4px solid #333;padding-bottom: 0;margin-bottom: 15px">
-                            <img src="{{ asset('dashboard/assets/app/media/img/logos/20191031163554-شعار رمانة.png') }}">
-                        </div>
-                        <div class="one-bill-inpt the-bill-company text-center"
-                            style="display:block;width:100%;text-align: center!important;margin-bottom: 0px">
-                            <span class="bill-lbl">{!! getsetting('higher_data') !!}</span>
-
-                        </div>
-                        <div class="one-bill-inpt the-bill-address"
-                            style="display:block;width:100%;text-align: center!important;margin-bottom: 5px">
-                            <i class="ti-location-pin"></i>
-                            {{-- <span class="bill-lbl">  {!! optional($sale->branch)->ar_name !!}</span> --}}
-                        </div>
-
-                        <div class="one-bill-inpt the-bill-date"
-                            style="direction: ltr;border-bottom: 0px;display:inline-block;width:50%;text-align: center!important;margin-bottom: 0px;padding-bottom:0px;margin-top: 0px;float:right">
-                            <span class="bill-lbl"><?php echo $sale->date; ?></span>
-                            <i class="ti-calendar" style="float: none;"></i>
-                        </div>
-
-                        <div class="one-bill-inpt the-cust-name"
-                            style="border-bottom: 0px;display:block;width:100%;margin-bottom: 0px;padding-bottom: 0px;border-bottom:1px solid #333!important">
-                            <i class="ti-user"></i>
-                            <span class="bill-lbl" style="float:right;text-align:right;">مدخل الفاتوره : </span>
-                            <span style="margin-right:5px;text-align:left;"> {!! optional($sale->user)->name !!}</span>
-                        </div>
-                        <div class="one-bill-inpt the-bill-numbere the-bill-number">
-                            <span>رقم الفاتوره</span>
-                            {!! $sale->counter_sale !!}
-                        </div>
-
-
+                                    <div class="one-bill-inpt the-cust-name"
+                                         style="border-bottom: 0px;display:block;width:100%;margin-bottom: 0px;padding-bottom: 0px;border-bottom:1px solid #333!important">
+                                        <i class="ti-user"></i>
+                                        <span class="bill-lbl"
+                                              style="float:right;text-align:right;">مدخل الفاتوره : </span>
+                                        <span
+                                            style="margin-right:5px;text-align:left;"> {!! optional($sale->user)->name !!}</span>
+                                    </div>
+                                    <div class="one-bill-inpt the-bill-numbere the-bill-number">
+                                        <span>رقم الفاتوره</span>
+                                        {!! $sale->counter_sale !!}
+                                    </div>
 
 
-                        <div class="flex-col">
-                            <table class="tablesaw a-new-table table-hover table table-bordered" data-tablesaw-mode="stack"
-                                data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap
-                                data-tablesaw-mode-switch>
-                                <tbody>
-                                    @if (getsetting('daily_number_sales') == 1)
-                                        <tr>
-                                            <td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i
-                                                    class="ti-mobile"></i>رقم الفاتوره اليومى </td>
-                                            <td> {!! $sale->daily_number !!}</td>
-                                        </tr>
-                                    @endif
-                                    <tr>
-                                        <th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i
-                                                class="ti-user"></i>اسم العميل </th>
-                                        <td> {!! optional($sale->client)->name !!}</td>
-                                    </tr>
-                                    {{-- <tr>
-										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-video-clapper"></i> اسم الفرع </td>
-										<td> {!! optional($sale->branch)->name !!}</td>
-									</tr>
-									<tr>
-										<th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-user"></i>اسم المستودع</th>
-										<td>  {!! optional($sale->store)->ar_name !!}</td>
-									</tr> --}}
-
-                                    {{-- <tr> --}}
-                                    {{-- <th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-bar-chart-alt"></i> طريقة الدفع </th> --}}
-                                    {{-- <td> --}}
-                                    {{-- @if ($sale->payment == 'cash') --}}
-
-                                    {{-- نقدى --}}
-                                    {{-- @elseif( $sale->payment=='agel') --}}
-                                    {{-- اجل --}}
-                                    {{-- @endif --}}
-                                    {{-- </td> --}}
-                                    {{-- </tr> --}}
-
-
-                                </tbody>
-                            </table>
-
-
-                            <div class="flex-col mar-top-15">
-                                <table class="tablesaw bill-table-whole-wrapper table-bordered table-hover table"
-                                    data-tablesaw-mode="stack" data-tablesaw-sortable data-tablesaw-sortable-switch
-                                    data-tablesaw-minimap data-tablesaw-mode-switch>
-                                    <tr class="bill-table-tr-wrapper fixed-ta-hd">
-                                        <th scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col
-                                            data-tablesaw-priority="persist">م</th>
-                                        <th scope="col" class="fixed-ta-hd" data-tablesaw-sortable-col
-                                            data-tablesaw-priority="persist">المنتج</th>
-                                        <th scope="col" class="fixed-ta-hd" data-tablesaw-sortable-col
-                                            data-tablesaw-priority="persist">الكمية</th>
-                                        <th scope="col" class="fixed-ta-hd" data-tablesaw-sortable-col
-                                            data-tablesaw-priority="persist">السعر</th>
-                                        <th scope="col" class="fixed-ta-hd" data-tablesaw-sortable-col
-                                            data-tablesaw-priority="persist">إجمالي السعر</th>
-                                    </tr>
-
-                                    <tbody>
-                                        @foreach ($product_items as $row)
+                                    <div class="flex-col">
+                                        <table class="tablesaw a-new-table table-hover table table-bordered"
+                                               data-tablesaw-mode="stack"
+                                               data-tablesaw-sortable data-tablesaw-sortable-switch
+                                               data-tablesaw-minimap
+                                               data-tablesaw-mode-switch>
+                                            <tbody>
+                                            @if (getsetting('daily_number_sales') == 1)
+                                                <tr>
+                                                    <td data-tablesaw-sortable-col data-tablesaw-priority="6"
+                                                        colspan="3"><i
+                                                            class="ti-mobile"></i>رقم الفاتوره اليومى
+                                                    </td>
+                                                    <td> {!! $sale->daily_number !!}</td>
+                                                </tr>
+                                            @endif
                                             <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>{!! optional($row->product)->name !!}</td>
-                                                <td>{{ $row->quantity }}</td>
-                                                <td>{!! $row->price !!}</td>
-                                                <td>{!! $row->price * $row->quantity !!}</td>
+                                                <th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i
+                                                        class="ti-user"></i>اسم العميل
+                                                </th>
+                                                <td> {!! optional($sale->client)->name !!}</td>
                                             </tr>
-                                        @endforeach
-                                        <tr>
-                                            <td colspan="2" data-tablesaw-sortable-col data-tablesaw-priority="6"><i
-                                                    class="ti-money"></i>الإجمالي</td>
-                                            <td colspan="3"><span class="tot-money">{!! $sale->amount ?? 0 !!}</span></td>
-                                        </tr>
+                                            {{-- <tr>
+                                                <td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-video-clapper"></i> اسم الفرع </td>
+                                                <td> {!! optional($sale->branch)->name !!}</td>
+                                            </tr>
+                                            <tr>
+                                                <th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-user"></i>اسم المستودع</th>
+                                                <td>  {!! optional($sale->store)->ar_name !!}</td>
+                                            </tr> --}}
 
-                                        <tr>
-                                            <td colspan="2" data-tablesaw-sortable-col data-tablesaw-priority="6"><i
-                                                    class="ti-minus"></i>الخصم</td>
-                                            <td colspan="3">{!! $sale->discount ?? 0 !!}</td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2" data-tablesaw-sortable-col data-tablesaw-priority="6"> <i
-                                                    class="ti-plus"></i> قيمة الضريبه</td>
-                                            <td colspan="3"> {{number_format($sale->totalTaxs,2) ?? 0}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2" data-tablesaw-sortable-col data-tablesaw-priority="6"><i
-                                                    class="ti-money"></i> المطلوب سداده</td>
-                                            <td colspan="3">{!! $sale->total ?? 0 !!}</td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2" data-tablesaw-sortable-col data-tablesaw-priority="6"><i
-                                                    class="ti-bag"></i> طريقة الدفع</td>
-                                            <td colspan="3">
-                                                @if ($sale->payment == 'cash')
-                                                    نقدى
-                                                @elseif( $sale->payment=='agel')
-                                                    اجل
-                                                @endif
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2" data-tablesaw-sortable-col data-tablesaw-priority="6"><i
-                                                    class="ti-money"></i>المدفوع</td>
-                                            <td colspan="3">{!! $sale->payed ?? 0 !!}</td>
-                                        </tr>
+                                            {{-- <tr> --}}
+                                            {{-- <th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-bar-chart-alt"></i> طريقة الدفع </th> --}}
+                                            {{-- <td> --}}
+                                            {{-- @if ($sale->payment == 'cash') --}}
 
-                                        <tr>
-                                            <th colspan="2" data-tablesaw-sortable-col data-tablesaw-priority="6"><i
-                                                    class="ti-export"></i>المتبقي</th>
-                                            <td colspan="3">{!! $sale->total - $sale->payed ?? 0 !!}</td>
-                                        </tr>
+                                            {{-- نقدى --}}
+                                            {{-- @elseif( $sale->payment=='agel') --}}
+                                            {{-- اجل --}}
+                                            {{-- @endif --}}
+                                            {{-- </td> --}}
+                                            {{-- </tr> --}}
 
-                                    </tbody>
-                                </table>
-                            </div>
-                            <span class="bill-lbl">{!! getsetting('lower_data') !!}</span>
 
-                            <div class="end-notice">
-{{--                            <img style="width:30%"--}}
-{{--                                 src="{{ asset('dashboard/assets/app/media/img/websiteQRCode_noFrame.png') }}">--}}
+                                            </tbody>
+                                        </table>
 
-                                    {{QrCode::size(100)->generate(route('showInvoice',$sale->uuid))}}
-                            </div>
 
-                            <div class="end-notice">
-                                <div>شكراً لكم</div>
-                                <div>Thank you </div>
+                                        <div class="flex-col mar-top-15">
+                                            <table
+                                                class="tablesaw bill-table-whole-wrapper table-bordered table-hover table"
+                                                data-tablesaw-mode="stack" data-tablesaw-sortable
+                                                data-tablesaw-sortable-switch
+                                                data-tablesaw-minimap data-tablesaw-mode-switch>
+                                                <tr class="bill-table-tr-wrapper fixed-ta-hd">
+                                                    <th scope="col" data-tablesaw-sortable-col
+                                                        data-tablesaw-sortable-default-col
+                                                        data-tablesaw-priority="persist">م
+                                                    </th>
+                                                    <th scope="col" class="fixed-ta-hd" data-tablesaw-sortable-col
+                                                        data-tablesaw-priority="persist">المنتج
+                                                    </th>
+                                                    <th scope="col" class="fixed-ta-hd" data-tablesaw-sortable-col
+                                                        data-tablesaw-priority="persist">الكمية
+                                                    </th>
+                                                    <th scope="col" class="fixed-ta-hd" data-tablesaw-sortable-col
+                                                        data-tablesaw-priority="persist">السعر
+                                                    </th>
+                                                    <th scope="col" class="fixed-ta-hd" data-tablesaw-sortable-col
+                                                        data-tablesaw-priority="persist">إجمالي السعر
+                                                    </th>
+                                                </tr>
+
+                                                <tbody>
+                                                @foreach ($product_items as $row)
+                                                    <tr>
+                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td>{!! optional($row->product)->name !!}</td>
+                                                        <td>{{ $row->quantity }}</td>
+                                                        <td>{!! $row->price !!}</td>
+                                                        <td>{!! $row->price * $row->quantity !!}</td>
+                                                    </tr>
+                                                @endforeach
+                                                <tr>
+                                                    <td colspan="2" data-tablesaw-sortable-col
+                                                        data-tablesaw-priority="6"><i
+                                                            class="ti-money"></i>الإجمالي
+                                                    </td>
+                                                    <td colspan="3"><span
+                                                            class="tot-money">{!! $sale->amount ?? 0 !!}</span></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td colspan="2" data-tablesaw-sortable-col
+                                                        data-tablesaw-priority="6"><i
+                                                            class="ti-minus"></i>الخصم
+                                                    </td>
+                                                    <td colspan="3">{!! $sale->discount ?? 0 !!}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" data-tablesaw-sortable-col
+                                                        data-tablesaw-priority="6"><i
+                                                            class="ti-plus"></i> قيمة الضريبه
+                                                    </td>
+                                                    <td colspan="3"> {{number_format($sale->totalTaxs,2) ?? 0}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" data-tablesaw-sortable-col
+                                                        data-tablesaw-priority="6"><i
+                                                            class="ti-money"></i> المطلوب سداده
+                                                    </td>
+                                                    <td colspan="3">{!! $sale->total ?? 0 !!}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" data-tablesaw-sortable-col
+                                                        data-tablesaw-priority="6"><i
+                                                            class="ti-bag"></i> طريقة الدفع
+                                                    </td>
+                                                    <td colspan="3">
+                                                        @if ($sale->payment == 'cash')
+                                                            نقدى
+                                                        @elseif( $sale->payment=='agel')
+                                                            اجل
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" data-tablesaw-sortable-col
+                                                        data-tablesaw-priority="6"><i
+                                                            class="ti-money"></i>المدفوع
+                                                    </td>
+                                                    <td colspan="3">{!! $sale->payed ?? 0 !!}</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th colspan="2" data-tablesaw-sortable-col
+                                                        data-tablesaw-priority="6"><i
+                                                            class="ti-export"></i>المتبقي
+                                                    </th>
+                                                    <td colspan="3">{!! $sale->total - $sale->payed ?? 0 !!}</td>
+                                                </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <span class="bill-lbl">{!! getsetting('lower_data') !!}</span>
+
+                                        <div class="end-notice" style="display: flex;
+justify-content: center;">
+                                            {{--                            <img style="width:30%"--}}
+                                            {{--                                 src="{{ asset('dashboard/assets/app/media/img/websiteQRCode_noFrame.png') }}">--}}
+
+                                            {{QrCode::size(100)->generate(route('showInvoice',$sale->uuid))}}
+                                        </div>
+
+                                        <div class="end-notice">
+                                            <div>شكراً لكم</div>
+                                            <div>Thank you</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="row justify-content-center width-100-flex">
+                        <button class="btn btn-info print col-sm-6 v-lg-print-btn" style="font-size: 26px;">طباعه
+                        </button>
+                    </div>
+                    <!-- ============================================================== -->
+                    <!-- End PAge Content -->
+                    <!-- ============================================================== -->
                 </div>
+
             </div>
         </div>
-        <div class="row justify-content-center width-100-flex">
-            <button class="btn btn-info print col-sm-6 v-lg-print-btn" style="font-size: 26px;">طباعه</button>
-        </div>
-        <!-- ============================================================== -->
-        <!-- End PAge Content -->
-        <!-- ============================================================== -->
     </div>
-    <!-- ============================================================== -->
-    <!-- End Container fluid  -->
-    <!-- ============================================================== -->
+</div>
 
-    </div>
-@endsection
-@section('scripts')
-    <script>
-            $(".print").click(function() {
-                window.print();
-            })
-    </script>
-
-@stop
+<script>
+    $(".print").click(function () {
+        window.print();
+    })
+</script>
+</body>
+</html>
 
 
-
-
-
-
-
-
-<!--=================================================================================================================================-->
