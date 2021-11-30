@@ -439,7 +439,7 @@
                                             والخصومات
                                         </button>
                                     </div>
-                                    <div class="col-md-12 inside-form-tbl" >
+                                    <div class="col-md-12 inside-form-tbl">
                                         <span>الخصومات</span>
                                         <table class="table table-bordered   table-responsive">
                                             <thead>
@@ -481,13 +481,11 @@
                                             <label>الضريبة</label>
                                             <span class="new-radio-wrap">
                                         <label for="yes1">يوجد ضريبة </label>
-                                        <input type="radio" v-model="form.tax" name="tax" class="form-control"
-                                               required checked id="yes1" value="1">
+                                        <input type="radio" v-model="form.tax" :checked="form.tax" name="tax"  class="form-control"  required id="yes1" value="1">
                                     </span>
                                             <span class="new-radio-wrap">
                                         <label for="no1">لايوجد ضريبة</label>
-                                        <input type="radio" v-model="form.tax" name="tax" class="form-control"
-                                               id="no1" value="0">
+                                        <input type="radio" v-model="form.tax" :checked="form.tax" name="tax"  class="form-control" id="no1" value="0">
                                     </span>
 
                                         </div>
@@ -580,15 +578,15 @@
                     Vue.component('v-select', VueSelect.VueSelect);
                     var app = new Vue({
                             el: '#app',
-                        created(){
+                            created() {
 
-                           this.form.company_id=_.get(this.form,'category.company.id');
+                                this.form.company_id = _.get(this.form, 'category.company.id');
 
-                        },
-                        mounted(){
-                            this.getBranches();
-                            // this.getStores();
-                        },
+                            },
+                            mounted() {
+                                this.getBranches();
+                                // this.getStores();
+                            },
                             data: {
                                 components: [
                                     {
@@ -622,14 +620,14 @@
                                         id: "service",
                                         label: "خدمه",
                                     },
-                       /*             {
-                                        id: "offer",
-                                        label: "مجموعة اصناف ",
-                                    },
-                                    {
-                                        id: "creation",
-                                        label: "تصنيع",
-                                    },*/
+                                    /*             {
+                                                     id: "offer",
+                                                     label: "مجموعة اصناف ",
+                                                 },
+                                                 {
+                                                     id: "creation",
+                                                     label: "تصنيع",
+                                                 },*/
                                     {
                                         id: "product_expiration",
                                         label: "منتج بتاريخ صلاحيه",
@@ -638,109 +636,109 @@
 
                             },
                             methods: {
-                                    onSearch: function (search, loading) {
-                                        if (search.length) {
-                                            loading(true);
-                                            this.search(loading, search, this);
-                                        }
-                                    },
-                                    addSubUnit: function () {
-                                        this.form.sub_units.push({
-                                            ...this.sub_unit
-                                        });
-                                    },
-                                    addComponent: function () {
-                                        this.form.components.push({
-                                            ...this.component
-                                        });
+                                onSearch: function (search, loading) {
+                                    if (search.length) {
+                                        loading(true);
+                                        this.search(loading, search, this);
+                                    }
+                                },
+                                addSubUnit: function () {
+                                    this.form.sub_units.push({
+                                        ...this.sub_unit
+                                    });
+                                },
+                                addComponent: function () {
+                                    this.form.components.push({
+                                        ...this.component
+                                    });
 
-                                    },
-                                    search: _.debounce((loading, search, vm) => {
-                                        fetch(
-                                            `/accounting/products-by-ajax?search=${search}`
-                                        ).then(res => {
+                                },
+                                search: _.debounce((loading, search, vm) => {
+                                    fetch(
+                                        `/accounting/products-by-ajax?search=${search}`
+                                    ).then(res => {
 
-                                            res.json().then(json => (vm.components = json.data.data));
-                                            loading(false);
-                                        });
-                                    }, 350),
-                                    onComplete: function () {
-                                        let that = this;
-                                        let id =this.form.id;
-                                        axios.put('/accounting/ajax/products/'+id, this.form)
-                                            .then(function (resp) {
-                                                Swal.fire({
-                                                    icon: 'success',
-                                                    title:resp.data.message,
-                                                });
-                                                // that.form = {};
-                                                that.$refs['form-wizard'].reset();
-                                                // console.log('hi')
-                                            })
-                                            .catch(function (err) {
-                                                console.log(err);
-                                                errors = err.response.data.errors;
-                                                //this code will get the first error message in side the erros object
-                                                // first_error=errors[Object.keys(err.response.data.errors)[0]][0]
-                                                console.log(errors)
-                                                _.each(errors, function (item) {
-                                                    _.each(item, function (error) {
-                                                        toastr["error"](error)
-                                                    })
+                                        res.json().then(json => (vm.components = json.data.data));
+                                        loading(false);
+                                    });
+                                }, 350),
+                                onComplete: function () {
+                                    let that = this;
+                                    let id = this.form.id;
+                                    axios.put('/accounting/ajax/products/' + id, this.form)
+                                        .then(function (resp) {
+                                            Swal.fire({
+                                                icon: 'success',
+                                                title: resp.data.message,
+                                            });
+                                            // that.form = {};
+                                            that.$refs['form-wizard'].reset();
+                                            // console.log('hi')
+                                        })
+                                        .catch(function (err) {
+                                            console.log(err);
+                                            errors = err.response.data.errors;
+                                            //this code will get the first error message in side the erros object
+                                            // first_error=errors[Object.keys(err.response.data.errors)[0]][0]
+                                            console.log(errors)
+                                            _.each(errors, function (item) {
+                                                _.each(item, function (error) {
+                                                    toastr["error"](error)
                                                 })
-
                                             })
-                                        // alert('Yay. Done!');
-                                    },
-                                    getBranches: function () {
-                                        var company_id = this.form.company_id;
-                                        if (company_id !=null)
+
+                                        })
+                                    // alert('Yay. Done!');
+                                },
+                                getBranches: function () {
+                                    var company_id = this.form.company_id;
+                                    if (company_id != null)
                                         axios.get(`/accounting/ajax/company/${company_id}/branches`).then(response => {
                                             this.branches = response.data.branches;
                                             this.categories = response.data.categories;
                                         });
-                                    },
-                                    getStores: function () {
-                                        var branch_id = this.form.branch_id;
-                                        axios.get(`/accounting/ajax/branch/${branch_id}/stores`).then(response => {
-                                            this.stores = response.data;
-                                        });
-                                    },
-                                    getFaces: function () {
-                                        var branch_id = this.form.branch_id;
-                                        axios.get(`/accounting/ajax/branch/${branch_id}/faces`).then(response => {
-                                            this.faces = response.data;
-                                        });
-                                    },
-                                    getColumns: function () {
-                                        var face_id = this.form.face_id;
-                                        axios.get(`/accounting/ajax/face/${face_id}/columns`).then(response => {
-                                            this.columns = response.data;
-                                        });
-                                    },
-                                    getCells: function () {
-                                        var column_id = this.form.column_id;
-                                        axios.get(`/accounting/ajax/column/${column_id}/cells`).then(response => {
-                                            this.columns = response.data;
-                                        });
-                                    },
-                                    addOffer() {
-                                        this.form.offers.push({
-                                            ...this.offer
-                                        });
-
-                                    },
-                                    deleteSubUnits(index){
-                                        axios.delete('/accounting/ajax/products/sub-units/'+this.form.sub_units[index].id).then(function (resp){
-                                            Swal.fire({
-                                                title:resp.data.message,
-                                                icon:"success"
-                                            })
-                                        })
-                                        this.form.sub_units.splice(index,1)
-
-                                    }
                                 },
+                                getStores: function () {
+                                    var branch_id = this.form.branch_id;
+                                    axios.get(`/accounting/ajax/branch/${branch_id}/stores`).then(response => {
+                                        this.stores = response.data;
+                                    });
+                                },
+                                getFaces: function () {
+                                    var branch_id = this.form.branch_id;
+                                    axios.get(`/accounting/ajax/branch/${branch_id}/faces`).then(response => {
+                                        this.faces = response.data;
+                                    });
+                                },
+                                getColumns: function () {
+                                    var face_id = this.form.face_id;
+                                    axios.get(`/accounting/ajax/face/${face_id}/columns`).then(response => {
+                                        this.columns = response.data;
+                                    });
+                                },
+                                getCells: function () {
+                                    var column_id = this.form.column_id;
+                                    axios.get(`/accounting/ajax/column/${column_id}/cells`).then(response => {
+                                        this.columns = response.data;
+                                    });
+                                },
+                                addOffer() {
+                                    this.form.offers.push({
+                                        ...this.offer
+                                    });
+
+                                },
+                                deleteSubUnits(index) {
+                                    axios.delete('/accounting/ajax/products/sub-units/' + this.form.sub_units[index].id).then(function (resp) {
+                                        Swal.fire({
+                                            title: resp.data.message,
+                                            icon: "success"
+                                        })
+                                    })
+                                    this.form.sub_units.splice(index, 1)
+
+                                }
+                            },
                         }
                     )
                 </script>

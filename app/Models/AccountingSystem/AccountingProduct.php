@@ -111,7 +111,7 @@ class AccountingProduct extends Model
 {
     protected $fillable = ['name', 'en_name', 'description', 'type', 'is_active', 'category_id',
         'column_id', 'bar_code', 'main_unit', 'selling_price', 'purchasing_price', 'min_quantity',
-        'max_quantity', 'expired_at', 'image', 'store_id'
+        'max_quantity', 'expired_at', 'image', 'store_id','price_has_tax'
         , 'size', 'color', 'height', 'width', 'num_days_recession', 'industrial_id', 'quantity', 'unit_price',
         'is_settlement', 'date_settlement', 'settlement_store_id', 'cell_id', 'alert_duration', 'supplier_id', 'account_id','discount'
 
@@ -194,6 +194,11 @@ class AccountingProduct extends Model
     public function account()
     {
         return $this->belongsTo(AccountingAccount::class, 'account_id');
+    }
+
+    public function tax()
+    {
+        return $this->belongsToMany(AccountingTaxBand::class,AccountingProductTax::class,'product_id','tax_band_id');
     }
 
     public function discounts()

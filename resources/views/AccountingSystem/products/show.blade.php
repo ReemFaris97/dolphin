@@ -93,6 +93,10 @@
                         {!! $product->purchasing_price !!}
                     </div>
                     <div class="form-group col-md-3 pull-left">
+                        <label>نسبة الخصم </label>
+                        {!! $product->discount !!}
+                    </div>
+                    <div class="form-group col-md-3 pull-left">
                         <label>الحد الادنى من الكمية </label>
                         {!! $product->min_quantity !!}
                     </div>
@@ -172,19 +176,17 @@
                     <table id="discountTable" class="table datatable-button-init-basic all">
                         <thead>
                             <tr>
-                                <th> نوع الخصم</th>
-                                <th> النسبة</th>
+                                <th> الكمية</th>
+                                <th> الكمية الاضافية</th>
+                                <th> تاريخ الاضافة</th>
                             </tr>
                         </thead>
                         <tbody class="add-discounts">
                             @foreach ($discounts as $discount)
                                 <tr>
-                                    @if ($discount->discount_type == 'quantity')
-                                        <td><label>كميه</label> </td>
-                                    @elseif($discount->discount_type=="percent")
-                                        <td><label>نسبة</label> </td>
-                                    @endif
-                                    <td>{!! $discount->percent !!}</td>
+                                    <td>{{ $discount->quantity }}</td>
+                                    <td>{{ $discount->gift_quantity }}</td>
+                                    <td>{{ $discount->created_at }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
