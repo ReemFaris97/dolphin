@@ -75,14 +75,10 @@
                     </div>
                     <div class="form-group col-md-3 pull-left">
                         <label>الباركود </label>
-                        @if(is_array($product->bar_code))
                        @foreach($product->bar_code as $barcode)
                            {!! $barcode !!}
 @if( ! $loop->last) - @endif
                            @endforeach
-                            @else
-                            {{$product->bar_code}}
-                        @endif
                     </div>
                     <div class="form-group col-md-3 pull-left">
                         <label>سعر البيع </label>
@@ -128,7 +124,10 @@
                             @foreach ($units as $unit)
                                 <tr>
                                     <td>{!! $unit->name !!}</td>
-                                    <td>{!! $unit->bar_code !!}</td>
+                                    <td> @foreach($unit->bar_code as $barcode)
+                                        {!! $barcode !!}
+             @if( ! $loop->last) - @endif
+                                        @endforeach</td>
                                     <td>{!! $unit->main_unit_present !!}</td>
                                     <td>{!! $unit->selling_price !!}</td>
                                     <td>{!! $unit->purchasing_price !!}</td>

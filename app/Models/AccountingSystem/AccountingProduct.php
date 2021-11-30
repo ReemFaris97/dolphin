@@ -3,6 +3,7 @@
 namespace App\Models\AccountingSystem;
 
 use Illuminate\Database\Eloquent\Model;
+use Str;
 
 /**
  * App\Models\AccountingSystem\AccountingProduct
@@ -269,6 +270,10 @@ class AccountingProduct extends Model
 
     public function scopeOfBarcode($builder, $barcode)
     {
+
+
+        $barcode= Str::startsWith($barcode, '"') ?  $barcode:'"'.$barcode;
+        $barcode= Str::endsWith($barcode, '"') ?  $barcode:$barcode.'"';
         $builder->where('bar_code', 'like', "%$barcode%");
         $builder->orwhereHas(
             'barcodes',

@@ -33,12 +33,6 @@ Route::get('test', function () {
     }
 });
 Route::get('/', function () {
-    $a=  AccountingProductSubUnit::all();
-    foreach ($a as $b) {
-        $b->update([
-'bar_code'=>json_encode(explode(' ', $b->bar_code)),
-        ]);
-    }
     return redirect()->route('admin.login');
 });
 

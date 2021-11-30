@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\AccountingSystem\AccountingProduct;
+use Str;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -25,21 +26,27 @@ class AccountingProductsDataTable extends DataTable
                 // $barcode= request()->columns[5]['search']['value'];
 
                 $query->where(function ($builder) use ($barcode) {
+                    $barcode= Str::startsWith($barcode, '"') ?  $barcode:'"'.$barcode;
+                    $barcode= Str::endsWith($barcode, '"') ?  $barcode:$barcode.'"';
                     $builder->where('bar_code', 'like', "%$barcode%");
-                    $builder->orwhereHas(
-                        'barcodes',
-                        fn ($b) => $b->where('barcode', 'like', "%$barcode%")
-                    );
                     $builder->orwhereHas(
                         'sub_units',
                         fn ($b) => $b->where('bar_code', 'like', "%$barcode%")
                     );
                 });
             })
+            ->filterColumn('name', function ($query, $name) {
+                $query->where(
+                    fn ($q) =>$q
+                ->where('name', 'like', "%$name%")
+                ->orWhere('en_name', 'like', "%$name%")
+                );
+            })
             ->addIndexColumn()
             ->smart(false)
             ->addColumn('action', fn ($product) =>view('AccountingSystem.products.actions', ['row'=>$product])->render())
             ->addColumn('qunaitity', fn ($product) =>$product->getTotalQuantities())
+            ->addColumn('barcode', fn ($product) =>($product->bar_code!=null)?current($product->bar_code):null)
             ->addColumn('image', '<img src="{{getimg($image)}}" style="width:100px; height:100px">')
             ->rawColumns(['image', 'action','bar_code'])
             ->escapeColumns([5]);
@@ -106,7 +113,7 @@ class AccountingProductsDataTable extends DataTable
             ->addClass('text-center'),
             Column::computed('qunaitity')->title('الكمية')
             ->addClass('text-center'),
-            Column::make('bar_code')->title('الباركود'),
+            Column::computed('barcode')->title('الباركود'),
             Column::make('main_unit')->title('الوحده الرئيسة'),
             Column::make('selling_price')->title('سعر البيع'),
             Column::make('purchasing_price')->title('سعر الشراء'),
