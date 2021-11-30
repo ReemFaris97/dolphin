@@ -817,7 +817,7 @@
                 margin: 0
             }
 
-  
+
 
         }
     </style>
@@ -825,90 +825,7 @@
 @endsection
 
 @section('content')
-    {{-- <div class="panel panel-flat">
-	<div class="panel-heading">
-		<h5 class="panel-title"> عرض فاتورة {!! $sale->id!!}</h5>
-		<div class="heading-elements">
-			<ul class="icons-list">
-				<li><a data-action="collapse"></a></li>
-				<li><a data-action="reload"></a></li>
-				<li><a data-action="close"></a></li>
-			</ul>
-		</div>
-	</div>
 
-	<div class="panel-body">
-		<div class="form-group col-md-6 pull-left">
-			<label class="label label-info"> اسم الشركة : </label>
-			<span>{!! optional($sale->company)->ar_name !!}</span>
-		</div>
-
-		<div class="form-group col-md-6 pull-left">
-			<label class="label label-info"> اسم الفرع : </label>
-			<span>{!! optional($sale->branch)->ar_name !!}</span>
-		</div>
-
-		<div class="form-group col-md-6 pull-left">
-			<label class="label label-info"> اسم المستودع : </label>
-			<span>{!! optional($sale->store)->ar_name !!}</span>
-		</div>
-
-
-		<div class="form-group col-md-6 pull-left">
-			<label class="label label-info"> تاريخ الفاتورة
-				: </label>
-			<span>{!! $sale->created_at !!}</span>
-		</div>
-		<div class="form-group col-md-6 pull-left">
-			<label class="label label-info"> رقم الفاتوره
-				: </label>
-			<span>{!! $sale->bill_num !!}</span>
-		</div>
-		<div class="form-group col-md-6 pull-left">
-			<label class="label label-info">
-				طريقة الدفع : </label>
-			<span>{!! $sale->id !!}</span>
-		</div>
-
-		<div class="form-group col-md-6 pull-left">
-			<label class="label label-info"> اسم العميل
-				: </label>
-			<span>{!! $sale->client->name !!} </span>
-		</div>
-
-		<div class="clearfix">
-
-		</div>
-
-		<table class="table datatable-button-init-basic">
-			<thead>
-				<tr>
-					<th>#</th>
-					<th> اسم المنتج </th>
-					{{--<th> نوع المنتج </th> --}}
-
-    {{-- <th> الباركود </th>
-					<th> الكمية </th>
-					<th> السعر </th>
-
-
-				</tr>
-			</thead>
-			<tbody>
-				@foreach ($product_items as $row)
-				<tr>
-					<td>{!!$loop->iteration!!}</td>
-					<td>{!! $row->product->name!!}</td>
-					<td>{!! $row->product-> bar_code!!}</td>
-					<td>{!! $row->quantity!!}</td>
-					<td>{!! $row->price!!}</td>
-				</tr>
-				@endforeach
-
-			</tbody>
-		</table> --}}
-
-    {{-- </div> --}}
 
 
 
@@ -1041,7 +958,7 @@
                                         <tr>
                                             <td colspan="2" data-tablesaw-sortable-col data-tablesaw-priority="6"> <i
                                                     class="ti-plus"></i> قيمة الضريبه</td>
-                                            <td colspan="3"> {!! $sale->totalTaxs ?? 0 !!}</td>
+                                            <td colspan="3"> {{number_format($sale->totalTaxs,2) ?? 0}}</td>
                                         </tr>
                                         <tr>
                                             <td colspan="2" data-tablesaw-sortable-col data-tablesaw-priority="6"><i
@@ -1077,8 +994,12 @@
                             <span class="bill-lbl">{!! getsetting('lower_data') !!}</span>
 
                             <div class="end-notice">
-                            <img style="width:30%" src="{{ asset('dashboard/assets/app/media/img/websiteQRCode_noFrame.png') }}">
+{{--                            <img style="width:30%"--}}
+{{--                                 src="{{ asset('dashboard/assets/app/media/img/websiteQRCode_noFrame.png') }}">--}}
+
+                                    {{QrCode::size(100)->generate(route('showInvoice',$sale->uuid))}}
                             </div>
+
                             <div class="end-notice">
                                 <div>شكراً لكم</div>
                                 <div>Thank you </div>
@@ -1104,32 +1025,10 @@
 @section('scripts')
     <script>
             $(".print").click(function() {
-                
                 window.print();
             })
     </script>
-    <script>
-        function Delete(id) {
-            var item_id = id;
-            console.log(item_id);
-            swal({
-                title: "هل أنت متأكد ",
-                text: "هل تريد حذف هذة الشركة ؟",
-                icon: "warning",
-                buttons: ["الغاء", "موافق"],
-                dangerMode: true,
 
-            }).then(function(isConfirm) {
-                if (isConfirm) {
-                    document.getElementById('delete-form' + item_id).submit();
-                } else {
-                    swal("تم االإلفاء", "حذف  الشركة  تم الغاؤه", 'info', {
-                        buttons: 'موافق'
-                    });
-                }
-            });
-        }
-    </script>
 @stop
 
 

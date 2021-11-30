@@ -609,4 +609,11 @@ $credit_account=AccountingAccount::find(getsetting('accounting_id_clients'))??ne
         alert()->success('تم حذف  الفاتوره بنجاح !')->autoclose(5000);
         return back();
     }
+
+    public function showInvoice($uuid)
+    {
+        $sale =AccountingSale::where('uuid',$uuid)->first();
+        $product_items=AccountingSaleItem::whereRelation('sale','uuid', $uuid)->get();
+        return $this->toShow(compact('sale', 'product_items'));
+    }
 }
