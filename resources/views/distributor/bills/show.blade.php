@@ -23,6 +23,7 @@
     </div>
     <div class="m-portlet__body">
         <button type="button" id="print-all">طباعة</button>
+        <button type="button" id="print-11cm"> 11 CM طباعة</button>
         <!--------- start content ---------->
         <div id="print_this">
             <div id="myDivToPrint">
@@ -336,6 +337,93 @@
             </div>
             </div>
         </div>
+        <div id="print_small">
+        <div id="myDivToPrintsmall">
+            <div style="display:flex; justify-content:space-between; padding: 10px 20px 0;">
+                <h3 style="margin: auto 0;">مصنع إبراهيم سليمان العثيم للتعبئة و التغليف</h3>
+                <div class="logo">
+                    <img src="{!! asset('dashboard/assets/demo/demo12/media/img/logo/logo-black.png')!!}" alt="logo">
+                </div>
+            </div>
+            <div class="details-container">
+                <p>التاريخ</p>
+                <p>{{$bill->created_at}}</p>
+            </div>
+            <div class="details-container">
+                <p>نوع الفاتورة</p>
+                <p>فاتورة نقدية</p>
+            </div>
+            <div class="details-container">
+                <p>رقم الفاتورة</p>
+                <p>{{$bill->invoice_number}}</p>
+            </div>
+            <div class="details-container">
+                <p>كود العميل</p>
+                <p>{!!optional(optional($bill->route_trip)->client)->code !!}</p>
+            </div>
+            <div class="details-container">
+                <p>اسم العميل</p>
+                <p>{!!optional(optional($bill->route_trip)->client)->name !!}</p>
+            </div>
+            <div class="details-container">
+                <p>الرقم الضريبي للعميل</p>
+                <p>{!!optional(optional($bill->route_trip)->client)->tax_number !!}</p>
+            </div>
+            <div class="details-container">
+                <p>العنوان</p>
+                <p>{!!optional(optional($bill->route_trip)->client)->address !!}</p>
+            </div>
+            <div class="details-container">
+                <p>هاتف</p>
+                <p>{!!optional(optional($bill->route_trip)->client)->phone !!}</p>
+            </div>
+            <div class="details-container">
+                <p>جوال المندوب</p>
+                <p>{!! optional($bill->route_trip)->route->user->phone ??''!!}</p>
+            </div>
+            <div class="details-container">
+                <p>اسم المندوب</p>
+                <p>{{optional($bill->route_trip)->route->user->name ??''}}</p>
+            </div>
+            <p>........................................................................................................</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>م</th>
+                        <th>اسم الصنف</th>
+                        <th>الوحدة</th>
+                        <th>الكمية</th>
+                        <th>السعر</th>
+                        <th>ضريبة</th>
+                        <th>المبلغ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($bill->products as $value)
+                    <tr>
+                        <td>{!!$loop->iteration!!}</td>
+                        <td class="product-name">{{ $value->product->name }}</td>
+                        <td>@if($bill->is_packages)
+                                كرتونة
+                            @else
+                                حبة     
+                            @endif      
+                        </td>
+                        <td>{{ $value->quantity }}</td>
+                        <td>125.125</td>
+                        {{-- <td>{{ $value->price * $value->quantity }}</td> --}}
+                        <td>125.125</td>
+                        {{-- <td>{{ ($value->price * ((float) getsetting('general_taxs')??0)/100)}}</td> --}}
+                        <td>125.125</td>
+                        {{-- <td>{{ $value->price }}</td> --}}
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <p></p>
+            <p></p>
+        </div>
+        </div>
     </div>
 </div>
     @push('scripts')
@@ -349,6 +437,18 @@
                 win.document.write(`${style}${t}`);
                 win.document.close();
                 setTimeout(() => {win.print()}, 100);
+            });
+        })
+    </script>
+        <script>
+        $(document).ready(function () {
+            $("#print-11cm").on('click', function () {
+                let tt = document.getElementById("print_small").innerHTML;
+                let style2 = `<link rel="stylesheet" type="text/css" href="{{ asset('dashboard/assets/vendors/base/bill-print-11cm.css') }}" >`;
+                let win1 = window.open('', '');
+                win1.document.write(`${style2}${tt}`);
+                win1.document.close();
+                setTimeout(() => {win1.print()}, 100);
             });
         })
     </script>
