@@ -46,6 +46,7 @@ class AccountingProductsDataTable extends DataTable
             ->smart(false)
             ->addColumn('action', fn ($product) =>view('AccountingSystem.products.actions', ['row'=>$product])->render())
             ->addColumn('qunaitity', fn ($product) =>$product->getTotalQuantities())
+            ->addColumn('barcode', fn ($product) =>($product->bar_code!=null)?current($product->bar_code):null)
             ->addColumn('image', '<img src="{{getimg($image)}}" style="width:100px; height:100px">')
             ->rawColumns(['image', 'action','bar_code'])
             ->escapeColumns([5]);
@@ -112,7 +113,7 @@ class AccountingProductsDataTable extends DataTable
             ->addClass('text-center'),
             Column::computed('qunaitity')->title('الكمية')
             ->addClass('text-center'),
-            Column::make('bar_code')->title('الباركود'),
+            Column::computed('barcode')->title('الباركود'),
             Column::make('main_unit')->title('الوحده الرئيسة'),
             Column::make('selling_price')->title('سعر البيع'),
             Column::make('purchasing_price')->title('سعر الشراء'),
