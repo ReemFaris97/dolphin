@@ -71,6 +71,7 @@ class SaleController extends Controller
      */
     public function store(Request $request)
     {
+//        dd($request->all());
         $requests = $request->all();
         if (!$request->client_id) {
             $requests['client_id']=5;
@@ -125,6 +126,7 @@ class SaleController extends Controller
         $merges = $products->zip($qtys, $unit_id);
 
         foreach ($merges as $merge) {
+//            dd($merge);
             $product=AccountingProduct::find($merge['0']);
             if ($merge['2']!='main-'.$product->id) {
                 $unit=AccountingProductSubUnit::where('product_id', $merge['0'])->where('id', $merge['2'])->first();
@@ -138,7 +140,8 @@ class SaleController extends Controller
                 'product_id'=>$merge['0'],
                 'quantity'=> $merge['1'],
                 'price'=>$product->selling_price,
-                'sale_id'=>$sale->id
+                'sale_id'=>$sale->id,
+                'unit_id' => $merge[2]
             ]);
             ///if-main-unit
 
