@@ -183,7 +183,7 @@ class SellPointController extends Controller
 
             $kilo=substr($quantity,0,2);
             $grams=substr($quantity,2);
-            $quantity=$kilo*$grams/10;
+            $quantity=$kilo*$grams*100;
         }
         $product = AccountingProduct::query()->ofBarcode($q)
             ->with('sub_units')->first();
