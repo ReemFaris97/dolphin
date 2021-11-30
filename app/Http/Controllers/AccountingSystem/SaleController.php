@@ -30,6 +30,7 @@ use Carbon\Carbon;
 use Cookie;
 use Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 class SaleController extends Controller
@@ -93,7 +94,7 @@ class SaleController extends Controller
         }
         $requests['store_id']=$user->accounting_store_id;
 
-\DB::beginTransaction();
+        \DB::beginTransaction();
         $sale=AccountingSale::create($requests);
 
         $sale->update([
@@ -135,7 +136,7 @@ class SaleController extends Controller
                 $unit=AccountingProductSubUnit::where('product_id', $merge['0'])->where('id', $merge['2'])->first();
 //                dd($product->sub_units,$merge[2],$unit_id);
                 if ($unit) {
-                    throw_if(($unit->quantity - $merge['1'])<0,ValidationException::withMessages(['sale'=>sprintf("عفوا لايوجد كميات من الوحدة الفرعية %s من المنتج الفرعي %s الكمية المتاحة هي : %s",$unit->name,$product->name,$unit->quantity??0)]));
+                    // throw_if($unit->quantity - $merge['1']<0,ValidationException::withMessages(['client_id'=>sprintf("عفوا لايوجد كميات من الوحدة الفرعية %s من المنتج الفرعي %s الكمية المتاحة هي : %s",$unit->name,$product->name,$unit->quantity)]));
                     $unit->update([
                         'quantity'=>$unit->quantity - $merge['1'],
                     ]);
@@ -145,7 +146,7 @@ class SaleController extends Controller
             $item= AccountingSaleItem::create([
                 'product_id'=>$merge['0'],
                 'quantity'=> $merge['1'],
-                'price'=>$unit->selling_price,
+                'price'=>optional($unit)->selling_price??$product->selling_price,
                 'sale_id'=>$sale->id,
                 'unit_id' => $merge[2]
             ]);
@@ -220,12 +221,13 @@ class SaleController extends Controller
         // if ($sale->payment=='cash') {
         // if (isset($saleAccount)) {
 
+
         //حساب  المبيعات والنقدية
         AccountingEntryAccount::create([
             'entry_id' => $entry->id,
             // 'from_account_id' => getsetting('accounting_id_clients'),
-            'account_id' => getsetting('accounting_id_sales'),
-            // 'account_id'=>getsetting('accounting_id_sales'),
+            // 'account_id' => getsetting('accounting_id_clients'),
+            'account_id'=>getsetting('accounting_id_sales'),
             'amount' => $sale->total,
             'affect'=>'debtor',
         ]);
@@ -295,6 +297,7 @@ class SaleController extends Controller
     {
         $requests = $request->all();
 
+        DB::beginTransaction();
         if (!$request->client_id) {
             $requests['client_id']=5;
         }
@@ -390,6 +393,7 @@ class SaleController extends Controller
             ]);
         }
 
+        DB::commit();
 
         alert()->success('تم اضافة  فاتورة  الاسترجاع  بنجاح !')->autoclose(5000);
         return back();
@@ -632,8 +636,8 @@ class SaleController extends Controller
 
     public function showInvoice($uuid)
     {
-        $sale =AccountingSale::where('uuid',$uuid)->first();
-        $product_items=AccountingSaleItem::whereRelation('sale','uuid', $uuid)->get();
+        $sale =AccountingSale::where('uuid', $uuid)->first();
+        $product_items=AccountingSaleItem::whereRelation('sale', 'uuid', $uuid)->get();
         return $this->toShow(compact('sale', 'product_items'));
     }
 }
