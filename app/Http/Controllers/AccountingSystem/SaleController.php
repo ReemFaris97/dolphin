@@ -30,6 +30,7 @@ use Carbon\Carbon;
 use Cookie;
 use Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 class SaleController extends Controller
@@ -93,7 +94,7 @@ class SaleController extends Controller
         }
         $requests['store_id']=$user->accounting_store_id;
 
-\DB::beginTransaction();
+        \DB::beginTransaction();
         $sale=AccountingSale::create($requests);
 
         $sale->update([
@@ -294,8 +295,9 @@ class SaleController extends Controller
 
     public function store_returns(Request $request)
     {
-        $requests = $request->all();DB::b
+        $requests = $request->all();
 
+        DB::beginTransaction();
         if (!$request->client_id) {
             $requests['client_id']=5;
         }
@@ -391,6 +393,7 @@ class SaleController extends Controller
             ]);
         }
 
+        DB::commit();
 
         alert()->success('تم اضافة  فاتورة  الاسترجاع  بنجاح !')->autoclose(5000);
         return back();
@@ -633,8 +636,8 @@ class SaleController extends Controller
 
     public function showInvoice($uuid)
     {
-        $sale =AccountingSale::where('uuid',$uuid)->first();
-        $product_items=AccountingSaleItem::whereRelation('sale','uuid', $uuid)->get();
+        $sale =AccountingSale::where('uuid', $uuid)->first();
+        $product_items=AccountingSaleItem::whereRelation('sale', 'uuid', $uuid)->get();
         return $this->toShow(compact('sale', 'product_items'));
     }
 }
