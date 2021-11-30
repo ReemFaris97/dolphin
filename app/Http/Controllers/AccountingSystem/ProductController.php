@@ -515,7 +515,7 @@ class ProductController extends Controller
         $storeproduct = AccountingProductStore::where('product_id', $id)->first();
         $store = AccountingStore::find(optional($storeproduct)->store_id ?? 1);
         $cells = AccountingColumnCell::all();
-        $discounts = AccountingProductDiscount::where('product_id', $id)->get();
+        $discounts =$product->discounts;
         $taxs = AccountingProductTax::where('product_id', $id)->get();
         $units = AccountingProductSubUnit::where('product_id', $id)->get();
         return $this->toShow(compact('branches', 'categories', 'product', 'store', 'cells', 'discounts', 'taxs', 'units'));
