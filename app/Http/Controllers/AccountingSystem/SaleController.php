@@ -131,6 +131,7 @@ class SaleController extends Controller
 
         foreach ($merges as $merge) {
 //            dd($merge);
+//            dd($merge,$merges);
             $product=AccountingProduct::find($merge['0']);
             if ($merge['2']!='main-'.$product->id) {
                 $unit=AccountingProductSubUnit::where('product_id', $merge['0'])->where('id', $merge['2'])->first();
