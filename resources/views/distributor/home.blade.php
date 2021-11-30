@@ -149,32 +149,32 @@
                             <!--end::Total Profit-->
                         </a>
                     </div>
-                    <div class="col-md-12 col-lg-6 col-xl-3">
-                        <a href="#">
-                            <!--begin::Total Profit-->
-                            <div class="m-widget24">
-                                <div class="m-widget24__item">
-                                    <h4 class="m-widget24__title">
-                                        المسارات الغير مسلمة
-                                    </h4><br>
-                                    <span class="m-widget24__desc">
-                                    </span>
-                                    <span class="m-widget24__stats m--font-brand">
-                                        {{$data['routes_not_finished_count']}}
-                                    </span>
-                                    <div class="m--space-10"></div>
-                                    <div class="progress m-progress--sm">
-                                        <div class="progress-bar m--bg-brand" role="progressbar" style="width: {{$data['routes_not_finished_count']}}%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <span class="m-widget24__change">
-                                    </span>
-                                    <span class="m-widget24__number">
-                                    </span>
-                                </div>
-                            </div>
-                            <!--end::Total Profit-->
-                        </a>
-                    </div>
+{{--                    <div class="col-md-12 col-lg-6 col-xl-3">--}}
+{{--                        <a href="#">--}}
+{{--                            <!--begin::Total Profit-->--}}
+{{--                            <div class="m-widget24">--}}
+{{--                                <div class="m-widget24__item">--}}
+{{--                                    <h4 class="m-widget24__title">--}}
+{{--                                        المسارات الغير مسلمة--}}
+{{--                                    </h4><br>--}}
+{{--                                    <span class="m-widget24__desc">--}}
+{{--                                    </span>--}}
+{{--                                    <span class="m-widget24__stats m--font-brand">--}}
+{{--                                        {{$data['routes_not_finished_count']}}--}}
+{{--                                    </span>--}}
+{{--                                    <div class="m--space-10"></div>--}}
+{{--                                    <div class="progress m-progress--sm">--}}
+{{--                                        <div class="progress-bar m--bg-brand" role="progressbar" style="width: {{$data['routes_not_finished_count']}}%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>--}}
+{{--                                    </div>--}}
+{{--                                    <span class="m-widget24__change">--}}
+{{--                                    </span>--}}
+{{--                                    <span class="m-widget24__number">--}}
+{{--                                    </span>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            <!--end::Total Profit-->--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
                     <div class="col-md-12 col-lg-6 col-xl-3">
                         <a href="#">
                             <!--begin::Total Profit-->
