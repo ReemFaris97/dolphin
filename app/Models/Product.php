@@ -10,6 +10,66 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * App\Models\Product
+ *
+ * @property int $id
+ * @property string $name
+ * @property int|null $store_id
+ * @property string $quantity_per_unit
+ * @property string|null $min_quantity
+ * @property string|null $max_quantity
+ * @property string $price
+ * @property string $type
+ * @property string|null $bar_code
+ * @property string|null $image
+ * @property string|null $expired_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $code
+ * @property-read \Illuminate\Database\Eloquent\Collection|AccountingProductBarcode[] $barcodes
+ * @property-read int|null $barcodes_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ClientClass[] $client_classes
+ * @property-read int|null $client_classes_count
+ * @property-read mixed $net_price
+ * @property-read mixed $tax_amount
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Image[] $images
+ * @property-read int|null $images_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\SupplierPrice[] $prices
+ * @property-read int|null $prices_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProductQuantity[] $quantities
+ * @property-read int|null $quantities_count
+ * @property-read \App\Models\Store|null $store
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Store[] $stores
+ * @property-read int|null $stores_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|AccountingProductSubUnit[] $sub_units
+ * @property-read int|null $sub_units_count
+ * @method static Builder|Product newModelQuery()
+ * @method static Builder|Product newQuery()
+ * @method static \Illuminate\Database\Query\Builder|Product onlyTrashed()
+ * @method static Builder|Product query()
+ * @method static Builder|Product whereBarCode($value)
+ * @method static Builder|Product whereCode($value)
+ * @method static Builder|Product whereCreatedAt($value)
+ * @method static Builder|Product whereDeletedAt($value)
+ * @method static Builder|Product whereExpiredAt($value)
+ * @method static Builder|Product whereId($value)
+ * @method static Builder|Product whereImage($value)
+ * @method static Builder|Product whereMaxQuantity($value)
+ * @method static Builder|Product whereMinQuantity($value)
+ * @method static Builder|Product whereName($value)
+ * @method static Builder|Product wherePrice($value)
+ * @method static Builder|Product whereQuantityPerUnit($value)
+ * @method static Builder|Product whereStoreId($value)
+ * @method static Builder|Product whereType($value)
+ * @method static Builder|Product whereUpdatedAt($value)
+ * @method static Builder|Product withClassPrice($class_id)
+ * @method static Builder|Product withClientPrice($client_id = null)
+ * @method static \Illuminate\Database\Query\Builder|Product withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Product withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Product extends Model
 {
     use SoftDeletes;

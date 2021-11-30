@@ -9,6 +9,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('companies', 'CompanyController');
     Route::resource('branches', 'BranchController');
+    Route::resource('productionLines', 'ProductionLineController');
     Route::resource('shifts', 'ShiftController');
     Route::resource('users', 'UserController');
     Route::resource('stores', 'StoreController');
@@ -131,10 +132,14 @@ Route::middleware('admin')->group(function () {
     Route::get('/product-barcode/{id}', 'ProductController@barcode')->name('products.barcode');
     Route::get('/print-barcode-view', 'ProductController@print_barcode_view')->name('products.print_barcode_view');
     Route::post('/print/barcode', 'ProductController@print_barcode')->name('products.print_barcode');
-
+    Route::post('/ajax/products','ProductController@storeAjax');
+    Route::put('/ajax/products/{id}','ProductController@updateAjax');
     Route::get('/products-by-ajax', 'ProductController@getProductsByAjax')->name('getProductsByAjax');
     Route::get('/get-product-price/{id}', 'ProductController@getProductPrice')->name('getProductPrice');
 
+    Route::group(['prefix' => 'ajax/products'],function (){
+        Route::delete('sub-units/{subUnit}','Products\ProductController@deleteSubUnits');
+    });
     Route::get('/sell_login', 'SellPointController@sell_login')->name('sells_points.login');
     Route::get('/sell_point/{id}', 'SellPointController@sell_point')->name('sells_points.sells_point');
 

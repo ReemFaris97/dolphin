@@ -29,6 +29,20 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Setting whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Setting whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Setting whereValue($value)
+ * @property string|null $accounting_type
+ * @property string|null $height
+ * @property string|null $display
+ * @property string|null $up
+ * @property string|null $dawn
+ * @property string|null $right
+ * @property string|null $left
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingSetting whereAccountingType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingSetting whereDawn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingSetting whereDisplay($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingSetting whereHeight($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingSetting whereLeft($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingSetting whereRight($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingSetting whereUp($value)
  */
 class AccountingSetting extends Model
 {

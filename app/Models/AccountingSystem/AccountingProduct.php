@@ -4,25 +4,136 @@ namespace App\Models\AccountingSystem;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\AccountingSystem\AccountingProduct
+ *
+ * @property int $id
+ * @property string $name
+ * @property string|null $description
+ * @property string $type
+ * @property int $is_active
+ * @property int|null $category_id
+ * @property int|null $cell_id
+ * @property array|null $bar_code
+ * @property string $main_unit
+ * @property string $selling_price
+ * @property string $purchasing_price
+ * @property string $min_quantity
+ * @property string $max_quantity
+ * @property string|null $expired_at
+ * @property string|null $image
+ * @property string|null $size
+ * @property string|null $color
+ * @property string|null $height
+ * @property string|null $width
+ * @property int|null $num_days_recession
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $store_id
+ * @property int|null $industrial_id
+ * @property string|null $unit_price
+ * @property string|null $quantity
+ * @property string|null $wholesale_price
+ * @property int $is_settlement
+ * @property string $date_settlement
+ * @property int|null $settlement_store_id
+ * @property \App\Models\AccountingSystem\AccountingColumnCell|null $cell
+ * @property int|null $column_id
+ * @property string|null $alert_duration
+ * @property int|null $supplier_id
+ * @property int|null $account_id
+ * @property string|null $en_name
+ * @property-read \App\Models\AccountingSystem\AccountingAccount|null $account
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AccountingSystem\AccountingProductBarcode[] $barcodes
+ * @property-read int|null $barcodes_count
+ * @property-read \App\Models\AccountingSystem\AccountingProductCategory|null $category
+ * @property-read \App\Models\AccountingSystem\AccountingColumnCell|null $cell_product
+ * @property-read \Illuminate\Database\Eloquent\Collection|AccountingProduct[] $components
+ * @property-read int|null $components_count
+ * @property-read mixed $text
+ * @property-read mixed $total_discounts
+ * @property-read mixed $total_taxes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AccountingSystem\AccountingSaleItem[] $items
+ * @property-read int|null $items_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AccountingSystem\AccountingSaleItem[] $sales
+ * @property-read int|null $sales_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AccountingSystem\AccountingSale[] $sold_items
+ * @property-read int|null $sold_items_count
+ * @property-read \App\Models\AccountingSystem\AccountingStore|null $store
+ * @property-read \App\Models\AccountingSystem\AccountingStore|null $storeSettlement
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AccountingSystem\AccountingStore[] $stores
+ * @property-read int|null $stores_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AccountingSystem\AccountingProductSubUnit[] $sub_units
+ * @property-read int|null $sub_units_count
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct ofBarcode($barcode)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct query()
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereAccountId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereAlertDuration($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereBarCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereCell($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereCellId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereColor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereColumnId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereDateSettlement($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereEnName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereExpiredAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereHeight($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereIndustrialId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereIsSettlement($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereMainUnit($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereMaxQuantity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereMinQuantity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereNumDaysRecession($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct wherePurchasingPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereQuantity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereSellingPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereSettlementStoreId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereSize($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereStoreId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereSupplierId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereUnitPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereWholesalePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingProduct whereWidth($value)
+ * @mixin \Eloquent
+ */
 class AccountingProduct extends Model
 {
-    protected $fillable = ['name','en_name','description','type','is_active','category_id',
-    'column_id','bar_code','main_unit','selling_price','purchasing_price','min_quantity',
-    'max_quantity','expired_at','image','store_id'
-    ,'size','color','height','width','num_days_recession','industrial_id','quantity','unit_price',
-    'is_settlement','date_settlement','settlement_store_id','cell_id','alert_duration','supplier_id','account_id'
+    protected $fillable = ['name', 'en_name', 'description', 'type', 'is_active', 'category_id',
+        'column_id', 'bar_code', 'main_unit', 'selling_price', 'purchasing_price', 'min_quantity',
+        'max_quantity', 'expired_at', 'image', 'store_id'
+        , 'size', 'color', 'height', 'width', 'num_days_recession', 'industrial_id', 'quantity', 'unit_price',
+        'is_settlement', 'date_settlement', 'settlement_store_id', 'cell_id', 'alert_duration', 'supplier_id', 'account_id','discount'
 
-];
-    protected $appends = ['total_taxes','total_discounts','text'];
+    ];
+    protected $appends = ['total_taxes', 'total_discounts', 'text'];
+    protected $casts = ['bar_code' => 'json'];
+
+    public function components()
+    {
+        return $this->belongsToMany(AccountingProduct::class, AccountingProductComponent::class, 'product_id', 'component_id');
+    }
 
     public function getTextAttribute()
     {
         return $this->name;
     }
+
     public function cell_product()
     {
         return $this->belongsTo(AccountingColumnCell::class, 'cell_id');
     }
+
     public function cell()
     {
         return $this->belongsTo(AccountingColumnCell::class, 'cell_id');
@@ -76,7 +187,7 @@ class AccountingProduct extends Model
                 //انا اسف والله
             }
         }
-        return $totalQuantity+$this->quantity;
+        return $totalQuantity + $this->quantity;
     }
 
 
@@ -85,13 +196,17 @@ class AccountingProduct extends Model
         return $this->belongsTo(AccountingAccount::class, 'account_id');
     }
 
+    public function discounts()
+    {
+        return $this->hasMany(AccountingProductDiscount::class, 'product_id');
+    }
 
     public function getTotalDiscountsAttribute()
     {
-        $discounts=AccountingProductDiscount::where('product_id', $this->id)->get();
+        $discounts = AccountingProductDiscount::where('product_id', $this->id)->get();
         $total = 0;
         foreach ($discounts as $discount) {
-            $total+=$discount->percent;
+            $total += $discount->percent;
         }
         return $total;
     }

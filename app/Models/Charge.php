@@ -6,6 +6,44 @@ use App\Events\ChargeReceived;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * App\Models\Charge
+ *
+ * @property int $id
+ * @property string $name
+ * @property string|null $description
+ * @property int $worker_id
+ * @property int $supervisor_id
+ * @property string|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $destroyed_at
+ * @property string|null $code
+ * @property string|null $confirmed_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Image[] $images
+ * @property-read int|null $images_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ChargeLog[] $logs
+ * @property-read int|null $logs_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Note[] $notes
+ * @property-read int|null $notes_count
+ * @property-read \App\Models\User $supervisor
+ * @property-read \App\Models\User $worker
+ * @method static \Illuminate\Database\Eloquent\Builder|Charge newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Charge newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Charge query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Charge whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Charge whereConfirmedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Charge whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Charge whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Charge whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Charge whereDestroyedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Charge whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Charge whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Charge whereSupervisorId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Charge whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Charge whereWorkerId($value)
+ * @mixin \Eloquent
+ */
 class Charge extends Model
 {
     protected $fillable = ['name', 'description', 'worker_id', 'supervisor_id', 'destroyed_at', 'code', 'confirmed_at'];

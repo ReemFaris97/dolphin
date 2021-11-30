@@ -4,6 +4,33 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\Notification
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property array $data
+ * @property string|null $type
+ * @property \Illuminate\Support\Carbon|null $read_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $deleted_at
+ * @property int|null $admin_notification_id
+ * @property-read Notification|null $adminNotifications
+ * @method static \Illuminate\Database\Eloquent\Builder|Notification newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Notification newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Notification query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Notification whereAdminNotificationId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Notification whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Notification whereData($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Notification whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Notification whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Notification whereReadAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Notification whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Notification whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Notification whereUserId($value)
+ * @mixin \Eloquent
+ */
 class Notification extends Model
 {
     protected $fillable = ['user_id', 'category_id', 'data', 'type', 'read_at','admin_notification_id'];

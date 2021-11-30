@@ -6,6 +6,66 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\Client
+ *
+ * @property int $id
+ * @property string $name
+ * @property string|null $phone
+ * @property string|null $email
+ * @property string|null $store_name
+ * @property string $address
+ * @property string $lat
+ * @property string $lng
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $image
+ * @property int $is_active
+ * @property string|null $code
+ * @property int|null $route_id
+ * @property int|null $user_id
+ * @property int|null $client_class_id
+ * @property string|null $tax_number
+ * @property string|null $notes
+ * @property string $payment_type
+ * @property-read \App\Models\ClientClass|null $client_class
+ * @property-read mixed $is_blocked
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\TripInventory[] $inventory
+ * @property-read int|null $inventory_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RouteTripReport[] $invoices
+ * @property-read int|null $invoices_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\DistributorTransaction[] $receiver_transactions
+ * @property-read int|null $receiver_transactions_count
+ * @property-read \App\Models\DistributorRoute|null $route
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\DistributorTransaction[] $sender_transactions
+ * @property-read int|null $sender_transactions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RouteTripReport[] $tripsReport
+ * @property-read int|null $trips_report_count
+ * @property-read User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder|Client newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Client newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Client query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereClientClassId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereLat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereLng($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client wherePaymentType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereRouteId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereStoreName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereTaxNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereUserId($value)
+ * @mixin \Eloquent
+ */
 class Client extends Model
 {
     const PAYMENT_CASH = 'cash';

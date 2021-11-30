@@ -32,7 +32,7 @@ class ProductsImport implements ToCollection, WithHeadingRow //, WithChunkReadin
                 'en_name' => $row['alasm_allatyny'],
                 'type' => 'product_expiration',
                 'category_id'=> AccountingProductCategory::query()->firstOrCreate(['ar_name'=>$row['alsnf']])->id,
-                'bar_code' => explode(' ', $row['albarkod'])[0],
+                'bar_code' => json_encode(explode(' ', $row['albarkod'])),
                 'main_unit' => $row['aloahd'],
                 'selling_price' => $row['mbyaa'],
                 'purchasing_price' => $row['shraaa'],

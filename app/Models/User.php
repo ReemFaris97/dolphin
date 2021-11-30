@@ -43,6 +43,175 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
+/**
+ * App\Models\User
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $phone
+ * @property string $email
+ * @property string $password
+ * @property string $image
+ * @property string|null $job
+ * @property string|null $nationality
+ * @property string|null $company_name
+ * @property string|null $blocked_at
+ * @property int $is_admin
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property string|null $remember_token
+ * @property int $is_distributor
+ * @property int $is_supplier
+ * @property string $supplier_type
+ * @property string|null $tax_number
+ * @property string|null $lat
+ * @property string|null $lng
+ * @property int $is_verified
+ * @property int|null $verification_code
+ * @property int|null $parent_user_id
+ * @property int|null $bank_id
+ * @property string|null $bank_account_number
+ * @property string|null $distributor_status
+ * @property string|null $settle_commission
+ * @property string|null $sell_commission
+ * @property string|null $reword_value
+ * @property int|null $store_id
+ * @property int $is_storekeeper
+ * @property int|null $accounting_store_id
+ * @property int $is_saler
+ * @property int|null $is_accountant
+ * @property int|null $delete_product
+ * @property int|null $role_id
+ * @property string|null $hiring_date
+ * @property string|null $salary
+ * @property int|null $title_id
+ * @property int $enable
+ * @property int|null $target
+ * @property string|null $affiliate
+ * @property string|null $address
+ * @property string|null $notes
+ * @property string|null $ordering_coin
+ * @property int $car_id
+ * @property string $holiday_balance
+ * @property-read AccountingStore|null $accounting_store
+ * @property-read \Illuminate\Database\Eloquent\Collection|AccountingAllowance[] $allowances
+ * @property-read int|null $allowances_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|AccountingAttendance[] $attendances
+ * @property-read int|null $attendances_count
+ * @property-read Bank|null $bank
+ * @property-read \Illuminate\Database\Eloquent\Collection|AccountingBonusDiscount[] $bonus_discount
+ * @property-read int|null $bonus_discount_count
+ * @property-read \App\Models\Store $car_store
+ * @property-read \App\Models\Store|null $damaged_store
+ * @property-read \Illuminate\Database\Eloquent\Collection|AccountingDebt[] $debts
+ * @property-read int|null $debts_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|DistributorTransaction[] $distributor_transactions
+ * @property-read int|null $distributor_transactions_count
+ * @property-read mixed $fcm_token_android
+ * @property-read mixed $fcm_token_ios
+ * @property-read mixed $fcm_token_web
+ * @property-read mixed $last_location
+ * @property-read string $type
+ * @property-read \Illuminate\Database\Eloquent\Collection|AccountingHoliday[] $holidays
+ * @property-read int|null $holidays_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|Message[] $messages
+ * @property-read int|null $messages_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|Notification[] $notifications
+ * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
+ * @property-read int|null $permissions_count
+ * @property-read Role|null $role
+ * @property-read \Illuminate\Database\Eloquent\Collection|Role[] $roles
+ * @property-read int|null $roles_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|DistributorRoute[] $routes
+ * @property-read int|null $routes_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|AccountingSalary[] $salaries
+ * @property-read int|null $salaries_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|DistributorTransaction[] $sender_transactions
+ * @property-read int|null $sender_transactions_count
+ * @property-read AccountingStore|null $store
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Store[] $stores
+ * @property-read int|null $stores_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|Charge[] $supervisor_charge
+ * @property-read int|null $supervisor_charge_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|SupplierBill[] $supplierBills
+ * @property-read int|null $supplier_bills_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|SupplierLog[] $supplierLog
+ * @property-read int|null $supplier_log_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|User[] $supplier_staff
+ * @property-read int|null $supplier_staff_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|SupplierTransaction[] $supplier_transactions
+ * @property-read int|null $supplier_transactions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|TaskUser[] $tasks
+ * @property-read int|null $tasks_count
+ * @property-read AccountingJobTitle|null $title
+ * @property-read \Illuminate\Database\Eloquent\Collection|FcmToken[] $tokens
+ * @property-read int|null $tokens_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|RouteTrips[] $trips
+ * @property-read int|null $trips_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|Charge[] $user_charge
+ * @property-read int|null $user_charge_count
+ * @method static Builder|User newModelQuery()
+ * @method static Builder|User newQuery()
+ * @method static Builder|User ofClient($client_id)
+ * @method static \Illuminate\Database\Query\Builder|User onlyTrashed()
+ * @method static Builder|User permission($permissions)
+ * @method static Builder|User query()
+ * @method static Builder|User role($roles, $guard = null)
+ * @method static Builder|User searchByName()
+ * @method static Builder|User whereAccountingStoreId($value)
+ * @method static Builder|User whereAddress($value)
+ * @method static Builder|User whereAffiliate($value)
+ * @method static Builder|User whereBankAccountNumber($value)
+ * @method static Builder|User whereBankId($value)
+ * @method static Builder|User whereBlockedAt($value)
+ * @method static Builder|User whereCarId($value)
+ * @method static Builder|User whereCompanyName($value)
+ * @method static Builder|User whereCreatedAt($value)
+ * @method static Builder|User whereDeleteProduct($value)
+ * @method static Builder|User whereDeletedAt($value)
+ * @method static Builder|User whereDistributorStatus($value)
+ * @method static Builder|User whereEmail($value)
+ * @method static Builder|User whereEnable($value)
+ * @method static Builder|User whereHiringDate($value)
+ * @method static Builder|User whereHolidayBalance($value)
+ * @method static Builder|User whereId($value)
+ * @method static Builder|User whereImage($value)
+ * @method static Builder|User whereIsAccountant($value)
+ * @method static Builder|User whereIsAdmin($value)
+ * @method static Builder|User whereIsDistributor($value)
+ * @method static Builder|User whereIsSaler($value)
+ * @method static Builder|User whereIsStorekeeper($value)
+ * @method static Builder|User whereIsSupplier($value)
+ * @method static Builder|User whereIsVerified($value)
+ * @method static Builder|User whereJob($value)
+ * @method static Builder|User whereLat($value)
+ * @method static Builder|User whereLng($value)
+ * @method static Builder|User whereName($value)
+ * @method static Builder|User whereNationality($value)
+ * @method static Builder|User whereNotes($value)
+ * @method static Builder|User whereOrderingCoin($value)
+ * @method static Builder|User whereParentUserId($value)
+ * @method static Builder|User wherePassword($value)
+ * @method static Builder|User wherePhone($value)
+ * @method static Builder|User whereRememberToken($value)
+ * @method static Builder|User whereRewordValue($value)
+ * @method static Builder|User whereRoleId($value)
+ * @method static Builder|User whereSalary($value)
+ * @method static Builder|User whereSellCommission($value)
+ * @method static Builder|User whereSettleCommission($value)
+ * @method static Builder|User whereStoreId($value)
+ * @method static Builder|User whereSupplierType($value)
+ * @method static Builder|User whereTarget($value)
+ * @method static Builder|User whereTaxNumber($value)
+ * @method static Builder|User whereTitleId($value)
+ * @method static Builder|User whereUpdatedAt($value)
+ * @method static Builder|User whereVerificationCode($value)
+ * @method static \Illuminate\Database\Query\Builder|User withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|User withoutTrashed()
+ * @mixin \Eloquent
+ */
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable, softDeletes, HasRoles, HashPassword, FirebasOperation;

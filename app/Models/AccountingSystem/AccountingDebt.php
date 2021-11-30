@@ -5,6 +5,40 @@ namespace App\Models\AccountingSystem;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\AccountingSystem\AccountingDebt
+ *
+ * @property int $id
+ * @property string $typeable_type
+ * @property int $typeable_id
+ * @property \Illuminate\Support\Carbon $date
+ * @property string $value
+ * @property string|null $reason
+ * @property-read int|null $payments_count
+ * @property \Illuminate\Support\Carbon|null $pay_from
+ * @property string|null $notes
+ * @property int $payed
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AccountingSystem\AccountingDebtPayment[] $payments
+ * @property-read Model|\Eloquent $typeable
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingDebt newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingDebt newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingDebt query()
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingDebt whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingDebt whereDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingDebt whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingDebt whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingDebt wherePayFrom($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingDebt wherePayed($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingDebt wherePaymentsCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingDebt whereReason($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingDebt whereTypeableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingDebt whereTypeableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingDebt whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AccountingDebt whereValue($value)
+ * @mixin \Eloquent
+ */
 class AccountingDebt extends Model
 {
     protected $dates = ['date','pay_from'];

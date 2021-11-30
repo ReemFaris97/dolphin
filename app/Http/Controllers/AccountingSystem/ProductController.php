@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\AccountingSystem;
 
 use App\DataTables\AccountingProductsDataTable;
+use App\Http\Controllers\Controller;
+use App\Imports\AccountingImport;
+use App\Models\AccountingSystem\AccountingAccount;
 use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingBranchFace;
-use App\Models\AccountingSystem\AccountingBranchShift;
 use App\Models\AccountingSystem\AccountingColumnCell;
 use App\Models\AccountingSystem\AccountingCompany;
-
 use App\Models\AccountingSystem\AccountingFaceColumn;
 use App\Models\AccountingSystem\AccountingIndustrial;
 use App\Models\AccountingSystem\AccountingProduct;
@@ -24,17 +25,12 @@ use App\Models\AccountingSystem\AccountingProductTax;
 use App\Models\AccountingSystem\AccountingService;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingSupplier;
-use App\Models\Product;
+use App\Models\AccountingSystem\AccountingTaxBand;
+use App\Traits\Viewable;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Imports\AccountingImport;
-use App\Models\AccountingSystem\AccountingAccount;
-use App\Models\AccountingSystem\AccountingTaxBand;
 use Maatwebsite\Excel\Facades\Excel;
 
-
-use App\Traits\Viewable;
 
 class ProductController extends Controller
 {
@@ -76,13 +72,14 @@ class ProductController extends Controller
         $columns = AccountingFaceColumn::get(['id', 'name as label']);
         $cells = AccountingColumnCell::get(['id', 'name as label']);
 //        $product= AccountingProduct::make();
-        $product = collect(AccountingProduct::make()->getFillable())->mapWithKeys(fn ($c) => [$c => null]);
+        $product = collect(AccountingProduct::make()->getFillable())->mapWithKeys(fn($c) => [$c => null]);
         $product['bar_code'] = [];
         $product['sub_products'] = [];
         $product['components'] = [];
         $product['sub_units'] = [];
         $product['offers'] = [];
         $product['stores'] = [];
+        $product['discount']=0;
         $offer_template = [
             'quantity' => '',
             'gift_quantity' => '',
@@ -321,11 +318,11 @@ class ProductController extends Controller
     public function storeAjax(Request $request)
     {
         $rules = [
-            'product_name' => 'required|string|max:191',
+            'name' => 'required|string|max:191',
             'en_name' => 'required|string',
             'company_id' => 'required',
             'branch_id' => 'required',
-            'store' => 'required',
+//            'store' => 'required',
             'type' => 'required|string|in:store,service,offer,creation,product_expiration',
             'category_id' => 'required|numeric|exists:accounting_product_categories,id',
             'description' => 'nullable|string',
@@ -335,8 +332,8 @@ class ProductController extends Controller
             'bar_code' => 'nullable|',
             'barcodes' => 'nullable|array|barcode_anther:accounting_products,bar_code,bar_code,barcode,',
             'par_codes' => 'nullable|array|barcode_unit:accounting_products,bar_code,bar_code,barcode,',
-            'product_selling_price' => 'required',
-            'product_purchasing_price' => 'required',
+            'selling_price' => 'required',
+            'purchasing_price' => 'required',
             'min_quantity' => 'required|string|numeric',
             'max_quantity' => 'required|string|numeric',
             'expired_at' => 'required_if:type,product_expiration|',
@@ -347,6 +344,7 @@ class ProductController extends Controller
             'width' => 'nullable|string',
             'num_days_recession' => 'nullable|string',
             'cell_id' => 'required',
+            'store_id'=>'required'
           //        dd($inputs);
         ];
         $messsage = [
@@ -359,9 +357,6 @@ class ProductController extends Controller
         $this->validate($request, $rules, $messsage);
 
         $inputs = $request->except('image', 'main_unit_present', 'purchasing_price', 'selling_price', 'component_names', 'qtys', 'main_units');
-        $inputs['name'] = $inputs['product_name'];
-        $inputs['selling_price'] = $inputs['product_selling_price'];
-        $inputs['purchasing_price'] = $inputs['product_purchasing_price'];
 //        dd($inputs);
         if ($request->hasFile('image')) {
             $inputs['image'] = saveImage($request->image, 'photos');
@@ -374,9 +369,6 @@ class ProductController extends Controller
         $product = AccountingProduct::create($inputs);
 
         if (isset($inputs['store_id'])) {
-            $product->update([
-                'store_id' => $inputs['store_id'],
-            ]);
             AccountingProductStore::create([
                 'store_id' => $inputs['store_id'],
                 'product_id' => $product->id,
@@ -392,36 +384,28 @@ class ProductController extends Controller
             }
         }
         ///////  /// / //////subunits Arrays//////////////////////////////
-        $names = collect($request['name']);
-        $par_codes = collect($request['par_codes']);
-        $main_unit_presents = collect($request['main_unit_present']);
-        $selling_price = collect($request['selling_price']);
-        $purchasing_price = collect($request['purchasing_price']);
-        $quantities = collect($request['unit_quantities']);
-        $units = $names->zip($par_codes, $purchasing_price, $selling_price, $main_unit_presents, $quantities);
 
-        foreach ($units as $unit) {
-            $uni = AccountingProductSubUnit::create([
-                'name' => $unit['0'],
-                'bar_code' => $unit['1'],
-                'main_unit_present' => $unit['4'],
-                'selling_price' => $unit['3'],
-                'purchasing_price' => $unit['2'],
-                'quantity' => $unit['5'],
-                'product_id' => $product->id
+        foreach ($request->sub_units as $sub_unit) {
+
+            $unit = $product->sub_units()->UpdateOrCreate(['id' => \Arr::get($sub_unit, 'id')], [
+                'name' => $sub_unit['name'],
+                'bar_code' => $sub_unit['bar_code'],
+                'main_unit_present' => $sub_unit['main_unit_present'],
+                'selling_price' => $sub_unit['selling_price'],
+                'purchasing_price' => $sub_unit['purchasing_price'],
+                'quantity' => $sub_unit['quantity'],
             ]);
-
-
             if (isset($inputs['store_id'])) {
                 AccountingProductStore::create([
                     'store_id' => $inputs['store_id'],
                     'product_id' => $product->id,
-                    'quantity' => $unit['2'] * $unit['5'],
-                    'unit_id' => $uni->id
+                    'quantity' => $unit->main_unit_present * $unit->quantity,
+                    'unit_id' => $unit->id
 
                 ]);
             }
         }
+
         ////////////////////components Arrays////////////////////////////////
 
         $component_names = collect($request['component_names']);
@@ -557,7 +541,6 @@ class ProductController extends Controller
         $units = AccountingProductMainUnit::get(['main_unit as label', 'id']);
         $branches = AccountingBranch::get(['name as label', 'id']);
         $categories = AccountingProductCategory::get(['ar_name as label', 'id']);
-        $products = [];
         $taxs = AccountingTaxBand::get([\DB::raw('CONCAT(name," ",percent," %") as label'), 'id']);
         $suppliers = AccountingSupplier::get(['name as label', 'id']);
         $accounts = AccountingAccount::where('kind', 'sub')->get(['id', \DB::raw("concat(ar_name, ' - ',code) as label")]);
@@ -577,16 +560,19 @@ class ProductController extends Controller
         $cells = AccountingColumnCell::get(['id', 'name as label']);
 //        $product= AccountingProduct::make();
         $product = AccountingProduct::find($id);
-        $product['bar_code'] = array_merge(is_array($product->bar_code) ? $product->bar_code : explode(',', $product->bar_code), $product->barcodes->pluck('barcode')->toArray());
+        $product->load('category.company', 'sub_units');
+//        $product->load('store.model');
+//        dd(json_decode($product->bar_code));
         $product['sub_products'] = AccountingProductComponent::where('product_id', $id)->get();
         $product['components'] = AccountingProductComponent::where('product_id', $id)->get();
         $product['sub_units'] = AccountingProductSubUnit::where('product_id', $id)->get();
-        $product['offers'] = AccountingProductOffer::where('parent_product_id', $id)->get();
+        $product['offers'] = $product->discounts;
 
         $offer_template = [
             'quantity' => '',
             'gift_quantity' => '',
         ];
+
         $unit_template = [
             'name' => null,
             'bar_code' => null,
@@ -715,6 +701,87 @@ class ProductController extends Controller
 
         alert()->success('تم تعديل المنتج  بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.products.index');
+    }
+  public function updateAjax(Request $request, $id)
+    {
+        $product = AccountingProduct::findOrFail($id);
+
+        $rules = [
+
+
+            'description' => 'nullable|string',
+            'category_id' => 'nullable|numeric|exists:accounting_product_categories,id',
+            'bar_code' => 'required|array',
+            'main_unit' => 'required|string',
+            'selling_price' => 'sometimes',
+            'purchasing_price' => 'sometimes',
+            'min_quantity' => 'required|string|numeric',
+            'max_quantity' => 'required|string|numeric',
+            'expired_at' => 'nullable|string|date',
+            'size' => 'nullable|string',
+            'color' => 'nullable|string',
+            'height' => 'nullable|string',
+            'image' => 'nullable|sometimes|mimes:jpg,jpeg,gif,png',
+            'width' => 'nullable|string',
+            'num_days_recession' => 'nullable|string',
+
+
+        ];
+        $this->validate($request, $rules);
+
+        $inputs = $request->except('image', 'main_unit_present', 'purchasing_price', 'selling_price', 'component_names', 'qtys', 'main_units');
+
+        if ($request->hasFile('image')) {
+            $inputs['image'] = saveImage($request->image, 'photos');
+        }
+        $product->update($inputs);
+            if (isset($request['store_id'])) {
+            AccountingProductStore::create([
+                'store_id' => $inputs['store_id'],
+                'product_id' => $product->id,
+            ]);
+        }
+
+        foreach ($request->sub_units as $sub_unit) {
+
+            $unit = $product->sub_units()->UpdateOrCreate(['id' => \Arr::get($sub_unit, 'id')], [
+                'name' => $sub_unit['name'],
+                'bar_code' => $sub_unit['bar_code'],
+                'main_unit_present' => $sub_unit['main_unit_present'],
+                'selling_price' => $sub_unit['selling_price'],
+                'purchasing_price' => $sub_unit['purchasing_price'],
+                'quantity' => $sub_unit['quantity'],
+            ]);
+        }
+
+
+//        dd($request->);
+        foreach ($request->offers as $offer) {
+            $product->discounts()->updateOrCreate([
+                'accounting_product_discounts.id'=>$offer['id']
+            ],[
+                'quantity'=>$offer['quantity'],
+                'gift_quantity'=>$offer['gift_quantity'],
+                'discount_type'=>'quantity']);
+        }
+
+
+        ////////////////////components Arrays////////////////////////////////
+        $component_names = collect($request['component_names']);
+        $qtys = collect($request['qtys']);
+        $main_units = collect($request['main_units']);
+        $components = $component_names->zip($qtys, $main_units);
+        foreach ($components as $component) {
+            AccountingProductComponent::create([
+                'name' => $component['0'],
+                'quantity' => $component['1'],
+                'main_unit' => $component['2'],
+                'product_id' => $product->id
+            ]);
+        }
+
+      return response()->json(['status' => true, 'message' => 'تم التعديل  بنجاح !']);
+
     }
 
     /**
@@ -885,10 +952,11 @@ class ProductController extends Controller
 
     public function getProductsByAjax(Request $request)
     {
+//        dd($request->all());
         $products = AccountingProduct::query()
             ->when($request->search, function ($b) use ($request) {
-                return $b->where('name', 'LIKE', '%' . $request->search . '%')->orWhere('en_name', 'LIKE', '%' . $request->search . '%')->orWhere('description', 'LIKE', '%' . $request->search . '%')->orWhere('bar_code', $request->search);
-            })->paginate(20);
+                return $b->where('name', 'LIKE', $request->search . '%')->orWhere('en_name', 'LIKE', '%' . $request->search . '%')->orWhere('description', 'LIKE', '%' . $request->search)->orWhere('bar_code', $request->search);
+            })->paginate(50);
 
         return response()->json([
             'status' => true,
