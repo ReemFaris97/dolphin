@@ -40,9 +40,22 @@
 						   <div class="form-group col-xs-4 {{ $errors->has('name') ? ' has-error' : '' }} {{$setting->name}} ">
 							   <label> {{$setting->title}} </label>
 							   <div class="form-group col-ms-6 pull-left">
-								   {!! Form::text($setting->name.'[]',$setting->value,['class'=>'form-control'])!!}
+								   {!! Form::text($setting->name,$setting->value,['class'=>'form-control'])!!}
 							   </div>
 						   </div>
+
+
+                           @elseif(
+                           $setting->type == 'select'
+                           )
+                               <div class="form-group col-xs-4
+                                {{ $errors->has($setting->name) ? ' has-error' : '' }}">
+                                   <label> {{$setting->page}} </label>
+                                   <div class="form-group col-ms-6 pull-left">
+                                       {!! Form::select("$setting->name",              \App\Models\AccountingSystem\AccountingAccount::where('kind','!=','main')->pluck('ar_name','id')
+                                       ,$setting->value,['class'=>'form-control','style'=>'100%!important'])!!}
+                                   </div>
+                               </div>
 					   @endif
 				   @endforeach
 				   <div class="clearfix"></div>
@@ -58,5 +71,12 @@
 
 		@endsection
 		@section('scripts')
+<script>
 
+    $("select").select2({
+        dir: "rtl",
+        width: 'resolve' // need to override the changed default
+
+    });
+</script>
 		@endsection
