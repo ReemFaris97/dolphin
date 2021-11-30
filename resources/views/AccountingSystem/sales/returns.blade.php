@@ -409,7 +409,7 @@
                     },
                     success: function (resp) {
                         calcBill(resp.id, resp.id, resp.name, resp.bar_code,
-                            parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits))
+                            parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits),parseInt(resp.quantity))
                         $('#barcode_search').val('')
 
                         /*  if (data.data.length !== 0) {
@@ -474,24 +474,13 @@
 
                             var selectedID = $('select[name="unit_id[' + resp.id + ']"]').val() || null;
 
-                            var alreadyChosen = $(
-                                ".bill-table tbody td select option[value=" +
-                                selectedID + "]");
-                            var repeatedInputVal = $(
-                                ".bill-table tbody td select option[value=" +
-                                selectedID + "]:selected").parents('tr')
-                                .find(
-                                    '.product-quantity').find('input');
+                            var alreadyChosen = $(".bill-table tbody td select option[value=" + selectedID + "]");
+                            var repeatedInputVal = $(".bill-table tbody td select option[value=" + selectedID + "]:selected").parents('tr').find('.product-quantity').find('input');
 
                             if (alreadyChosen.length > 0 && alreadyChosen.is(':selected') && JSON.parse(resp.subunits)[0].id==selectedID) {
-                                repeatedInputVal.val(Number(repeatedInputVal
-                                        .val()) +
-                                    1);
-                                repeatedInputVal.text(repeatedInputVal
-                                    .val());
-                                $('.product-quantity').find('input')
-                                    .trigger(
-                                        'change');
+                                repeatedInputVal.val(Number(repeatedInputVal.val()) + parseInt(resp.quantity));
+                                repeatedInputVal.text(repeatedInputVal.val());
+                                $('.product-quantity').find('input').trigger('change');
                             } else {
                                 calcBill(resp.id, resp.id, resp.name, resp.bar_code, parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits),parseInt(resp.quantity))
 
@@ -876,7 +865,7 @@
                 url: "/accounting/products-single-product/" + e.target.value,
                 success: function (resp) {
                     calcBill(resp.id, resp.id, resp.name, resp.bar_code,
-                        parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits))
+                        parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits),resp.quantity)
                 }
             })
 

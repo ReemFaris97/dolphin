@@ -831,7 +831,7 @@ var is_selected = (i == 0) ? 'selected' : '';
                                 if (alreadyChosen.length > 0 && alreadyChosen.is(':selected') && JSON.parse(resp.subunits)[0].id==selectedID) {
                                     repeatedInputVal.val(Number(repeatedInputVal
                                             .val()) +
-                                        1);
+                                        + parseInt(resp.quantity));
                                     repeatedInputVal.text(repeatedInputVal
                                         .val());
                                     $('.product-quantity').find('input')
