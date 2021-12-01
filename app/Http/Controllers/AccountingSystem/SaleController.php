@@ -114,16 +114,14 @@ class SaleController extends Controller
                 'discount'=>$requests['discount_byPercentage'],
 
             ]);
-        } elseif ($requests['discount_byAmount']!=0&&$requests['discount_byPercentage']==0) {
+        } elseif
+        ($requests['discount_byAmount']!=0&&$requests['discount_byPercentage']==0) {
             $sale->update([
                 'discount_type'=>'amount',
                 'discount'=>$requests['discount_byAmount'],
             ]);
         }
 
-        $products=$requests['product_id'];
-//        dd($products);
-        $quantities=$requests['quantity'];
         $products = collect($requests['product_id']);
         $qtys = collect($requests['quantity']);
         $unit_id = collect($requests['unit_id']);
@@ -203,7 +201,7 @@ class SaleController extends Controller
                 ]);
             }
         } elseif ($sale->payment=='agel') {
-            $client=AccountingClient::find($sale-> client_id);
+            $client=AccountingClient::find($sale->client_id);
             $client->update([
                 'amount'=>$client->amount +$sale->total
             ]);
