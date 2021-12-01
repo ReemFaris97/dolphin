@@ -180,6 +180,10 @@ class SellPointController extends Controller
             $pos = getsetting('code_number');
             $q = '"'.substr($barcode, 0, $pos).'"';
             $quantity = substr($barcode, $pos);
+
+            $kilo=substr($quantity,0,2);
+            $grams=substr($quantity,2);
+            $quantity=($kilo*1000)+$grams/10;
         }
         $product = AccountingProduct::query()->ofBarcode($q)
             ->with('sub_units')->first();

@@ -14,6 +14,7 @@
 use App\Http\Controllers\AccountingSystem\SellPointController;
 use App\Models\AccountingSystem\AccountingAsset;
 use App\Models\AccountingSystem\AccountingAssetDamageLog;
+use App\Models\AccountingSystem\AccountingProductSubUnit;
 use Carbon\Carbon;
 
 Route::get('test', function () {
@@ -71,4 +72,4 @@ Route::group(['prefix' => 'company'], function () {
      return view('distributor.bill');
  });
 
-Route::get('show-invoice/{uuid}','AccountingSystem\SaleController@showInvoice')->name('showInvoice');
+Route::get('show-invoice/{uuid}', 'AccountingSystem\SaleController@showInvoice')->name('showInvoice');

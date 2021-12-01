@@ -17,7 +17,7 @@ class AccountProductStoreImport implements ToCollection, WithHeadingRow
     public function collection(Collection $rows)
     {
         foreach ($rows as $i => $row) {
-
+dd($row);
             $product = AccountingProduct::OfBarcode($row['albarkod'])->orWhere('name', $row['asm_almad'])->first();
             try {
                 AccountingProductStore::create([

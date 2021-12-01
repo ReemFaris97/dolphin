@@ -382,6 +382,7 @@
             mainUnit, productUnits,quantity=1,sub_unit_id='--') {
             rowNum++;
             // alert(productUnits);
+
             let unitName = productUnits.map(a => a.name);
             let unitPrice = productUnits.map(b => b.selling_price);
             var unitId = productUnits.map(c => c.id);
@@ -400,7 +401,7 @@
             var optss = ``;
             for (var i = 0; i < productUnits.length; i++) {
 var is_selected = (i == 0) ? 'selected' : '';
-                optss += '<option data-uni-price="' + Number(unitPrice[i]).toFixed(rondingNumber) + '" value="' + unitId[i] + '" '+is_selected+' > ' + unitName[i] + '</option> ';
+                optss += '<option data-uni-price="' + Math.round(unitPrice[i]*10000)/10000 + '" value="' + unitId[i] + '" '+is_selected+' > ' + unitName[i] + '</option> ';
             }
 
 
@@ -421,13 +422,13 @@ var is_selected = (i == 0) ? 'selected' : '';
 			<td class="unit-total-tax maybe-hidden unit_total_tax_enable" width="100">
 				<input type="number" placeholder="الضريبة" max="" min="0" data-original-tax="${totalTaxes}" value="${totalTaxes}" name="tax[]" class="form-control">
 			</td>
-			<td class="single-unit-price maybe-hidden unit_price_after_enable" width="100">${productPrice.toFixed(rondingNumber)}</td>
-			<td class="single-price-before maybe-hidden">${singlePriceBefore.toFixed(rondingNumber)}</td>
-			<td class="single-price-after maybe-hidden">${singlePriceAfter.toFixed(rondingNumber)}</td>
-			<td class="whole-price-before maybe-hidden">${singlePriceBefore.toFixed(rondingNumber)}</td>
+			<td class="single-unit-price maybe-hidden unit_price_after_enable" width="100">${Math.round(productPrice*10000)/10000}</td>
+			<td class="single-price-before maybe-hidden">${Math.round(singlePriceBefore*10000)/10000}</td>
+			<td class="single-price-after maybe-hidden">${Math.round(singlePriceAfter*10000)/10000}</td>
+			<td class="whole-price-before maybe-hidden">${(Math.round(singlePriceBefore*10000)/10000*parseInt(quantity))}</td>
 			<td class="whole-price-after maybe-hidden total_price_after_enable" width="100">
-                ${Math.round(singlePriceAfter*1000)/1000*parseInt(quantity)}
-                <input  type="hidden" name="price_after_tax[]" value="${Math.round(singlePriceAfter*1000)/1000*parseInt(quantity)}"  class="form-control">
+                ${Math.round(singlePriceAfter*10000)/10000*parseInt(quantity)}
+                <input  type="hidden" name="price_after_tax[]" value="${Math.round(singlePriceAfter*10000)/10000*parseInt(quantity)}"  class="form-control">
             </td>
 			<td class="delete-single-row" width="70">
     @if ($session->user->is_admin == 1)
@@ -502,12 +503,9 @@ var is_selected = (i == 0) ? 'selected' : '';
                     var singlePriceBefore = Number(productPrice);
                     var singlePriceAfter = Number(productPrice);
                 }
-                $(this).parents('.single-row-wrapper').find(".single-unit-price").text(productPrice.toFixed(
-                    rondingNumber));
-                $(this).parents('.single-row-wrapper').find(".single-price-before").text(singlePriceBefore.toFixed(
-                    rondingNumber));
-                $(this).parents('.single-row-wrapper').find(".single-price-after").text(singlePriceAfter.toFixed(
-                    rondingNumber));
+                $(this).parents('.single-row-wrapper').find(".single-unit-price").text(Math.round(productPrice*10000)/10000);
+                $(this).parents('.single-row-wrapper').find(".single-price-before").text(Math.round(singlePriceBefore*10000)/10000);
+                $(this).parents('.single-row-wrapper').find(".single-price-after").text(Math.round(singlePriceAfter*10000)/10000);
                 $(this).parents('.single-row-wrapper').find(".product-quantity input").trigger('change');
             });
             $(".product-quantity input").change(function() {
@@ -519,12 +517,10 @@ var is_selected = (i == 0) ? 'selected' : '';
                 $(".tempDisabled").removeClass("tempDisabled");
                 var wholePriceBefore = Number($(this).parents('.single-row-wrapper').find(".single-price-before")
                     .text()) * Number($(this).val());
-                $(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(
-                    rondingNumber));
+                $(this).parents('.single-row-wrapper').find(".whole-price-before").text(Math.round(wholePriceBefore*10000)/10000);
                 var wholePriceAfter = Number($(this).parents('.single-row-wrapper').find(".single-price-after")
                     .text()) * Number($(this).val());
-                $(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(
-                    rondingNumber));
+                $(this).parents('.single-row-wrapper').find(".whole-price-after").text(Math.round(wholePriceAfter*10000)/10000);
                 $(" input#byAmount , input#byPercentage , input#byCache , input#byNet").val(0)
                 //						$("input#byNet").trigger('change')
             });
@@ -613,7 +609,6 @@ var is_selected = (i == 0) ? 'selected' : '';
             if (repo.loading) {
                 return repo.text;
             }
-            // debugger;
 
             var $container = $(
                 "<div class='select2-result-products-select clearfix'>" +
@@ -642,16 +637,16 @@ var is_selected = (i == 0) ? 'selected' : '';
             preventDiscount();
             var amountBeforeDariba = 0;
             $(".whole-price-before").each(function() {
-                amountBeforeDariba += Number($(this).text());
+                amountBeforeDariba += parseFloat($(this).text());
             });
             var amountAfterDariba = 0;
             $(".whole-price-after").each(function() {
-                amountAfterDariba += Number($(this).text());
+                amountAfterDariba += parseFloat($(this).text());
             });
-            var amountOfDariba = Number(amountAfterDariba) - Number(amountBeforeDariba);
-            $("#amountBeforeDariba span.dynamic-span").html(amountBeforeDariba.toFixed(rondingNumber));
-            $("#amountAfterDariba span.dynamic-span").html(amountAfterDariba.toFixed(rondingNumber));
-            $("#amountOfDariba span.dynamic-span").html(amountOfDariba.toFixed(rondingNumber));
+            var amountOfDariba = parseFloat(amountAfterDariba) - parseFloat(amountBeforeDariba);
+            $("#amountBeforeDariba span.dynamic-span").html(Math.round(amountBeforeDariba*10000)/10000);
+            $("#amountAfterDariba span.dynamic-span").html(Math.round(amountAfterDariba*10000)/10000);
+            $("#amountOfDariba span.dynamic-span").html(Math.round(amountOfDariba*10000)/10000);
             $("#amountOfDariba1").val(amountOfDariba);
             $('#amountAfterDarib1').val(amountAfterDariba);
 
@@ -661,7 +656,7 @@ var is_selected = (i == 0) ? 'selected' : '';
             var total = 0;
 
             if (byAmount == 0 && byPercentage == 0) {
-                $("#demandedAmount span.dynamic-span").html(amountAfterDariba.toFixed(rondingNumber));
+                $("#demandedAmount span.dynamic-span").html(Math.round(amountAfterDariba*10000)/10000);
             } else {
                 $("input#byPercentage").change(function() {
                     if ((Number($(this).val())) > 100) {
@@ -671,7 +666,7 @@ var is_selected = (i == 0) ? 'selected' : '';
                     total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(
                             this)
                         .val()) / 100));
-                    $("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
+                    $("#demandedAmount span.dynamic-span").html(Math.round(total*10000)/10000);
                     $("#total").val(total);
                 });
                 $("input#byAmount").change(function() {
@@ -684,7 +679,7 @@ var is_selected = (i == 0) ? 'selected' : '';
                         $(this).val(0);
                     }
                     total = Number(amountAfterDariba) - (Number($(this).val()));
-                    $("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
+                    $("#demandedAmount span.dynamic-span").html(Math.round(total*10000)/10000);
                     $("#total").val(total);
                 });
             }
@@ -696,7 +691,7 @@ var is_selected = (i == 0) ? 'selected' : '';
                 total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this)
                         .val()) /
                     100));
-                $("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
+                $("#demandedAmount span.dynamic-span").html(Math.round(total*10000)/10000);
                 $("#total").val(total);
             });
             $("input#byAmount").change(function() {
