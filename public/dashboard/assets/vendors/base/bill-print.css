@@ -170,7 +170,7 @@
 .bill-container {
     display: flex;
     flex-direction: column;
-    min-height: 985px;
+    min-height: 973px;
     justify-content: space-between;
     background-color: rgba(255, 255, 255, 0.4);
 }
