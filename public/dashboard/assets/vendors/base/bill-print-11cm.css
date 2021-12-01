@@ -39,4 +39,6 @@ th,td{
 }
 .details-container p:nth-child(2) {
     flex-grow: 4;
+    max-width: 280px;
+
 }
