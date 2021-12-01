@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
-
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingDevice;
 use App\Models\AccountingSystem\AccountingSafe;
@@ -16,17 +15,15 @@ use Illuminate\Http\Request;
 
 class SessionController extends Controller
 {
-
     use Viewable;
-private $viewable = 'AccountingSystem.sessions.';
-      /**
+    private $viewable = 'AccountingSystem.sessions.';
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-
         $sessions=AccountingSession::all();
         return $this->toIndex(compact('sessions'));
     }
@@ -46,8 +43,7 @@ private $viewable = 'AccountingSystem.sessions.';
      */
     public function store(Request $request)
     {
-
-       $inputs= $request->all();
+        $inputs= $request->all();
         $rules = [
             'shift_id'=>'required|numeric|exists:accounting_branch_shifts,id',
             'device_id'=>'required|numeric|exists:accounting_devices,id',
@@ -61,41 +57,36 @@ private $viewable = 'AccountingSystem.sessions.';
             'email.required'=>"ايميل  الكاشير مطلوب",
             'password.required'=>"كلمة المرور مطلوبة",
         ];
-        $this->validate($request,$rules,$messsage);
+        $this->validate($request, $rules, $messsage);
 
 
-      $user=User::where('email',$inputs['email'])->first();
-      if (isset($user)) {
-          $session = AccountingSession::create($inputs);
-          $session->update([
+        $user=User::where('email', $inputs['email'])->first();
+        if (isset($user)) {
+            $session = AccountingSession::create($inputs);
+            $session->update([
               'user_id' => $user->id,
               'start_session' => Carbon::now(),
               'code' => Carbon::now() . "-" . optional($session->shift)->name . "-" . optional($session->device)->code
 
           ]);
-          if ($request->password != null && !\Hash::check($request->password, $user->password)) {
-              return back()->withInput()->withErrors(['password' => 'كلمه المرور  غير صحيحه']);
-          }
-          $device=AccountingDevice::find($inputs['device_id']);
-          $device->update([
+            /*  if ($request->password != null && !\Hash::check($request->password, $user->password)) {
+                 return back()->withInput()->withErrors(['password' => 'كلمه المرور  غير صحيحه']);
+             } */
+            $device=AccountingDevice::find($inputs['device_id']);
+            $device->update([
               'available'=>'0'
           ]);
 
-          alert()->success('تم فتح الجلسة بنجاح !')->autoclose(5000);
+            alert()->success('تم فتح الجلسة بنجاح !')->autoclose(5000);
 
-          $session_id= $session->id;
-          Cookie::queue('session',$session->id);
-          session()->put('store_id',$request->store_id);
-          return \Redirect::route('accounting.sells_points.sells_point', ['id' => $session->id, 'store_id' => $request->store_id])->with('session');
-
-
-      }else{
-          alert()->error('بيانات تسجيل دخول نقطه البيع خاطئة !')->autoclose(5000);
-             return back();
-      }
-
-
-
+            $session_id= $session->id;
+            Cookie::queue('session', $session->id);
+            session()->put('store_id', $request->store_id);
+            return \Redirect::route('accounting.sells_points.sells_point', ['id' => $session->id, 'store_id' => $request->store_id])->with('session');
+        } else {
+            alert()->error('بيانات تسجيل دخول نقطه البيع خاطئة !')->autoclose(5000);
+            return back();
+        }
     }
 
     /**
@@ -106,12 +97,10 @@ private $viewable = 'AccountingSystem.sessions.';
      */
     public function show($id)
     {
-
         $session=AccountingSession::findOrFail($id);
-        $sales=AccountingSale::where('session_id',$id)->get();
+        $sales=AccountingSale::where('session_id', $id)->get();
 
-        return $this->toShow(compact('session','sales'));
-
+        return $this->toShow(compact('session', 'sales'));
     }
 
     /**
@@ -122,7 +111,6 @@ private $viewable = 'AccountingSystem.sessions.';
      */
     public function edit($id)
     {
-
     }
 
     /**
@@ -134,8 +122,6 @@ private $viewable = 'AccountingSystem.sessions.';
      */
     public function update(Request $request, $id)
     {
-
-
     }
 
 
@@ -150,30 +136,27 @@ private $viewable = 'AccountingSystem.sessions.';
 
     public function getbenods($type)
     {
-
-
     }
 
-    public function sessions_close(){
+    public function sessions_close()
+    {
+        $sessions=AccountingSession::where('status', 'closed')->get();
 
-        $sessions=AccountingSession::where('status','closed')->get();
-
-        return view("AccountingSystem.sessions.index_closed_session",compact('sessions'));
-
+        return view("AccountingSystem.sessions.index_closed_session", compact('sessions'));
     }
 
-    public function confirm(Request $request){
-
-       $session=AccountingSession::find($request['session_id']);
-       if(isset($session)){
-        $session->update([
+    public function confirm(Request $request)
+    {
+        $session=AccountingSession::find($request['session_id']);
+        if (isset($session)) {
+            $session->update([
             'status'=>'confirmed',
             'custody'=>$request['custody']
         ]);
-       }
+        }
         $safe=AccountingSafe::find($request['safe_id']);
-        if($safe){
-        $safe->update([
+        if ($safe) {
+            $safe->update([
             'amount'=>$safe->amount+$request['custody']
         ]);
         }
@@ -181,26 +164,22 @@ private $viewable = 'AccountingSystem.sessions.';
         return response()->json([
             'status'=>false,
         ]);
-
     }
 
-    public function close($id){
-
+    public function close($id)
+    {
         $session=AccountingSession::find($id);
         $session->update([
             'status'=>'closed',
         ]);
 
         Cookie::queue(Cookie::forget('session'));
-           $device=AccountingDevice::find($session->device_id);
-           $device->update([
+        $device=AccountingDevice::find($session->device_id);
+        $device->update([
                'available'=>'1'
            ]);
 
         alert()->success('تم اغلاق الجلسه  من  قبل  الكاشير بنجاح !')->autoclose(5000);
         return back();
     }
-
-
-
 }
