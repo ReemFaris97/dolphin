@@ -550,7 +550,7 @@ var is_selected = (i == 0) ? 'selected' : '';
 
         };
 
-        var store_id = $("#store_id").val();
+        var store_id = $("#store_id").val()||1;
         // var store_id = 1;
         // $('#selectID').removeClass('hidden');
         $('#selectID2').select2({
