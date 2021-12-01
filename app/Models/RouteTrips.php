@@ -65,11 +65,11 @@ class RouteTrips extends Model
     protected $appends = ['total'];
 
 
-
     public function route()
     {
         return $this->belongsTo(DistributorRoute::class, 'route_id')->withDefault();
     }
+
     public function client()
     {
         return $this->belongsTo(Client::class, 'client_id')->withDefault();
@@ -79,12 +79,14 @@ class RouteTrips extends Model
     {
         return $this->hasMany(RouteTripReport::class, 'route_trip_id');
     }
+
     public function getCurrentReport()
     {
         return $this->hasOne(RouteTripReport::class, 'route_trip_id')
             ->latest()
             ->whereColumn('round', 'route_trip_reports.round');
     }
+
     public function getLatestReport()
     {
         return $this->hasOne(RouteTripReport::class, 'route_trip_id')->latest();
@@ -95,6 +97,7 @@ class RouteTrips extends Model
     {
         return $this->belongsTo(User::class, 'user_id')->withDefault();
     }
+
     public function images()
     {
         return $this->morphMany(Image::class, 'model');
@@ -124,6 +127,12 @@ class RouteTrips extends Model
         });
     }
 
+    public function scopeOfDistributors(Builder $builder, array $distributors): void
+    {
+        $builder->whereHas('route', function ($route) use ($distributors) {
+            $route->whereIn('user_id', $distributors);
+        });
+    }
 
 
     public function scopeOrderByDistance($q, $lat, $lng)
@@ -150,7 +159,6 @@ class RouteTrips extends Model
     }
 
 
-
     public function steps()
     {
         // $this->total_reports_in_round,
@@ -166,12 +174,12 @@ class RouteTrips extends Model
 
         if (
             $this->total_reports_in_round >= $this->total_inventories_in_round
-            &&!$this->is_last_report_has_images
+            && !$this->is_last_report_has_images
 
-            ) {
+        ) {
             return 'images';
         }
-        if ($this->total_reports_in_round >= $this->total_inventories_in_round &&$this->is_last_report_has_images) {
+        if ($this->total_reports_in_round >= $this->total_inventories_in_round && $this->is_last_report_has_images) {
             return 'finished';
         }
 
@@ -180,15 +188,16 @@ class RouteTrips extends Model
 
     public function getTotalReportsInRoundAttribute()
     {
-        $route_round= $this->route->round;
-        return  $this->reports()->where('round', $route_round)->count();
+        $route_round = $this->route->round;
+        return $this->reports()->where('round', $route_round)->count();
     }
 
     public function getTotalInventoriesInRoundAttribute()
     {
-        $route_round= $this->route->round;
-        return  $this->inventory()->where('type', 'accept')->where('round', $route_round)->count();
+        $route_round = $this->route->round;
+        return $this->inventory()->where('type', 'accept')->where('round', $route_round)->count();
     }
+
     /**
      * count the images of the last report trip
      *

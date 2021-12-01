@@ -1,80 +1,29 @@
-<table class="table table-striped table-bordered table-responsive ">
+<table class="table table-striped table-bordered edit-th-50 table-responsive ">
     <thead>
     <tr>
-        <th rowspan="2"> المندوب</th>
-@foreach($products as $id=>$name)
-        <th colspan="2">{!!$name!!}</th>
-@endforeach
-    </tr>
-    <tr>
-        @foreach($products as $id=>$name)
-
-        <th>الكمية</th>
-        <th> قيمة العملية</th>
-@endforeach
-    </tr>
-    </thead>
-    <tbody>
-@foreach($sales as $sale)
-<tr>
-
-    <td>{!!$sale->first()->name!!}</td>
-    @foreach($products as $id=>$name)
-        <td>{!!$sale->where('product_id',$id)->first()->quantity??0!!}</td>
-        <td>{!!$sale->where('product_id',$id)->first()->price??0!!}</td>
-    @endforeach
-</tr>
-@endforeach
-@foreach($sales_distributors as $distributor)
-<tr>
-
-    <td>{!!$distributor->name!!}</td>
-    @foreach($products as $id=>$name)
-        <td>0</td>
-        <td>0</td>
-    @endforeach
-</tr>
-@endforeach
-</tbody>
-    <tfoot>
-
-</table>
-
-
-<table class="table table-striped table-bordered table-responsive ">
-    <thead>
-    <tr>
-        <th> الصنف</th>
-
-        @foreach($products as $id=>$name)
-
-        <th>الكمية</th>
-        <th> قيمة العملية</th>
+        <th rowspan="2" class="text-center">  </th>
+        @foreach($sales_distributors as $distributor)
+            <th colspan="2">{!!$distributor->name!!}</th>
         @endforeach
     </tr>
-
+    <tr>
+        @foreach($sales_distributors as $name)
+            <th>الكمية</th>
+            <th> قيمة العملية</th>
+        @endforeach
+    </tr>
     </thead>
     <tbody>
-@foreach($sales as $sale)
-<tr>
-
-    <td>{!!$sale->first()->name!!}</td>
-    @foreach($products as $id=>$name)
-        <td>{!!$sale->where('product_id',$id)->first()->quantity??0!!}</td>
-        <td>{!!$sale->where('product_id',$id)->first()->price??0!!}</td>
+    @foreach($sales as $id=>$product_sales_group)
+        <tr>
+            <td>{!!$product_sales_group->first()->product->name!!}</td>
+            @foreach($sales_distributors as $dist)
+                <td>{!!$product_sales_group->where('name',$dist->name)->sum('quantity')??0!!}</td>
+                <td>{!!$product_sales_group->where('name',$dist->name)->sum('price')??0!!}</td>
+            @endforeach
+        </tr>
     @endforeach
-</tr>
-@endforeach
-@foreach($sales_distributors as $distributor)
-<tr>
 
-    <td>{!!$distributor->name!!}</td>
-    @foreach($products as $id=>$name)
-        <td>0</td>
-        <td>0</td>
-    @endforeach
-</tr>
-@endforeach
-</tbody>
-    <tfoot>
+    </tbody>
+
 </table>

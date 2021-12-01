@@ -99,6 +99,21 @@ class TripInventory extends Model
             $q->ofDistributor($distributor);
         });
     }
+
+    public function scopeOfDistributors(Builder $builder, $distributors = null): void
+    {
+        $builder->whereHas('trip', function ($route_trip) use ($distributors) {
+            $route_trip->OfDistributors($distributors);
+        });
+    }
+    public function scopeFilterDistributors(Builder $builder, $distributors = null): void
+    {
+        $builder->when($distributors != null, function ($q) use ($distributors) {
+            $q->ofDistributors($distributors);
+
+
+        });
+    }
     public function scopeFilterRoute(Builder $builder, $route = null): void
     {
         $builder->when($route != null, function ($q) use ($route) {
@@ -118,7 +133,7 @@ class TripInventory extends Model
     public function scopeFilterProduct(Builder $builder, $product = null): void
     {
         $builder->when($product != null, function ($q) use ($product) {
-            $q->whereHas('produdcts', function ($trip) use ($product) {
+            $q->whereHas('products', function ($trip) use ($product) {
                 $trip->where('product_id', $product);
             });
         });

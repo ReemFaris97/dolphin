@@ -328,6 +328,8 @@
 @endsection
 @section('scripts')
     <!--- scroll to the last table row -->
+    <audio src="{{asset('sounds/found.ogg')}}" id="found" ></audio>
+    <audio src="{{asset('sounds/fail.ogg')}}" id="fail" ></audio>
     <script src="//unpkg.com/alpinejs" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
             integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ=="
@@ -406,7 +408,7 @@ var is_selected = (i == 0) ? 'selected' : '';
 
 
 
-            $(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}">
+            $(".bill-table tbody").prepend(`<tr class="single-row-wrapper" id="row${rowNum}">
 			<td class="row-num" width="40">${rowNum}</td>
 			<input type="hidden" name="product_id[]" value="${productId}">
 			<td class="product-name maybe-hidden name_enable">${productName}</td>
@@ -545,6 +547,7 @@ var is_selected = (i == 0) ? 'selected' : '';
                     })
                 }
             })
+
         };
 
         var store_id = $("#store_id").val();
@@ -598,6 +601,7 @@ var is_selected = (i == 0) ? 'selected' : '';
                 method: 'GET',
                 url: "/accounting/products-single-product/" + e.target.value,
                 success: function (resp) {
+                    document.getElementById('found').play();
                     calcBill(resp.id, resp.id, resp.name, resp.bar_code,
                         parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits))
                 }
@@ -813,7 +817,10 @@ var is_selected = (i == 0) ? 'selected' : '';
                         success: function (resp) {
                             if (resp.status===false) {
                                 $('#barcode-error-span').show();
+                                document.getElementById('fail').play();
                             } else {
+                                document.getElementById('found').play();
+
                                 $('#barcode-error-span').hide();
 
                                 var selectedID = $('select[name="unit_id[' + resp.id+'-'+resp.selected_sub_unit + ']"]').val() || null;
