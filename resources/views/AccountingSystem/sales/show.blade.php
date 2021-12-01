@@ -782,7 +782,7 @@
             }
 
             .bill-table-whole-wrapper > tr.bill-table-tr-wrapper.fixed-ta-hd {
-                background: #2ECC71 !important;
+                background: #000000 !important;
                 color: #fff !important;
             }
 
