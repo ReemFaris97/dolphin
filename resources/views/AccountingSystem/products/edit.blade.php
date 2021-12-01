@@ -230,8 +230,14 @@
                                                    v-model="sub_unit.name">
                                         </td>
                                         <td>
-                                            <input type="text"
-                                                   class="form-control" v-model="sub_unit.bar_code">
+
+                                    <v-select
+                                    v-model="sub_unit.bar_code"
+                                        :name="`[sub_units][${index}][bar_code]`"
+                                        :taggable="true"
+                                        :multiple="true"
+                                        :options="[]"
+                                           />
                                         </td>
                                         <td><input type="number"
                                                    class="form-control" v-model="sub_unit.main_unit_present"></td>
