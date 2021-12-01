@@ -96,10 +96,9 @@
                     <label> عهده  الجلسه</label>
                     <input type="text" class="form-control" name="custody">
                 </div>
-
                     <label style="color:black">الخزينة المحول  اليها </label>
                     <select name="safe_id" class="form-control">
-                        @foreach(\App\Models\AccountingSystem\AccountingSafe::where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->where('model_id',optional(optional($row->device)->branch)->id)->where('status','branch')->get()  as  $safe)
+                        @foreach(\App\Models\AccountingSystem\AccountingSafe::where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->where('model_id',optional(optional($row->device)->branch)->id)->where('status','cashier')->get()  as  $safe)
                             <option value="{{$safe->id}}">{{$safe->name}}</option>
                         @endforeach
                     </select>
