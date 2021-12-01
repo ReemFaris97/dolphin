@@ -268,7 +268,7 @@ class AccountingProduct extends Model
         return $quantity;
     }
 
-    public function scopeOfBarcode($builder, ?string $barcode=null)
+    public function scopeOfBarcode($builder, $barcode=null)
     {
 
 
