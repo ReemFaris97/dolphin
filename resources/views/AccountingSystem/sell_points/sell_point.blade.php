@@ -547,7 +547,6 @@ var is_selected = (i == 0) ? 'selected' : '';
                     })
                 }
             })
-            document.getElementById('found').play();
 
         };
 
@@ -602,6 +601,7 @@ var is_selected = (i == 0) ? 'selected' : '';
                 method: 'GET',
                 url: "/accounting/products-single-product/" + e.target.value,
                 success: function (resp) {
+                    document.getElementById('found').play();
                     calcBill(resp.id, resp.id, resp.name, resp.bar_code,
                         parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits))
                 }
@@ -819,6 +819,8 @@ var is_selected = (i == 0) ? 'selected' : '';
                                 $('#barcode-error-span').show();
                                 document.getElementById('fail').play();
                             } else {
+                                document.getElementById('found').play();
+
                                 $('#barcode-error-span').hide();
 
                                 var selectedID = $('select[name="unit_id[' + resp.id+'-'+resp.selected_sub_unit + ']"]').val() || null;
