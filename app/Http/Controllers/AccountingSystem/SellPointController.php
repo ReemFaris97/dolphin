@@ -50,7 +50,7 @@ class   SellPointController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getProductAjex(Request $request, $id)
+    public function getProductAjex(Request $request, $id=null)
     {
         if ($request->id) {
             $products= AccountingProduct::query()
@@ -60,7 +60,7 @@ class   SellPointController extends Controller
                     });
                 })->orwhereHas('barcodes', fn ($b) => $b->where('barcode', 'like', "%$request->search%"))
                 ->orwhereHas('sub_units', fn ($b) => $b->where('bar_code', 'like', "%$request->search%"))
-                ->where('store_id', $id)
+                // ->where('store_id', $id)
                 ->paginate(20);
 
             return response()->json([

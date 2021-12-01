@@ -132,13 +132,13 @@ Route::middleware('admin')->group(function () {
     Route::get('/product-barcode/{id}', 'ProductController@barcode')->name('products.barcode');
     Route::get('/print-barcode-view', 'ProductController@print_barcode_view')->name('products.print_barcode_view');
     Route::post('/print/barcode', 'ProductController@print_barcode')->name('products.print_barcode');
-    Route::post('/ajax/products','ProductController@storeAjax');
-    Route::put('/ajax/products/{id}','ProductController@updateAjax');
+    Route::post('/ajax/products', 'ProductController@storeAjax');
+    Route::put('/ajax/products/{id}', 'ProductController@updateAjax');
     Route::get('/products-by-ajax', 'ProductController@getProductsByAjax')->name('getProductsByAjax');
     Route::get('/get-product-price/{id}', 'ProductController@getProductPrice')->name('getProductPrice');
 
-    Route::group(['prefix' => 'ajax/products'],function (){
-        Route::delete('sub-units/{subUnit}','Products\ProductController@deleteSubUnits');
+    Route::group(['prefix' => 'ajax/products'], function () {
+        Route::delete('sub-units/{subUnit}', 'Products\ProductController@deleteSubUnits');
     });
     Route::get('/sell_login', 'SellPointController@sell_login')->name('sells_points.login');
     Route::get('/sell_point/{id}', 'SellPointController@sell_point')->name('sells_points.sells_point');
@@ -245,7 +245,7 @@ Route::middleware('admin')->group(function () {
 
     Route::post('/subunit', 'ProductController@subunit')->name('subunit');
 
-    Route::get('/productsAjex/{id}', 'SellPointController@getProductAjex')->name('ajaxProducts');
+    Route::get('/productsAjex/{id?}', 'SellPointController@getProductAjex')->name('ajaxProducts');
     Route::get('/products-single-product/{product}', 'SellPointController@selectedProduct')->name('single-product-ajax');
 
     Route::get('/pro_search/{name}', 'SellPointController@pro_search');
@@ -329,8 +329,6 @@ Route::middleware('admin')->group(function () {
         Route::get('branch/{branch}/faces', "AjaxController@getBranchFaces");
         Route::get('face/{face}/columns', "AjaxController@getFaceColumns");
         Route::get('column/{column}/cells', "AjaxController@getColumnCells");
-
-
     });
 
 

@@ -19,17 +19,17 @@ class AccountingProductsDataTable extends DataTable
      * @return \Yajra\DataTables\DataTableAbstract
      */
     public function dataTable($query)
-{
+    {
         return datatables()
             ->eloquent($query)
             ->filterColumn('barcode', function ($query, $barcode) {
                 // $barcode= request()->columns[5]['search']['value'];
 
                 $query->where(function ($builder) use ($barcode) {
-                    $builder->whereJsonContains('bar_code',(string) $barcode);
+                    $builder->whereRaw("JSON_CONTAINS(bar_code,'\"?\"')", $barcode);
                     $builder->orwhereHas(
                         'sub_units',
-                        fn ($b) => $b->whereJsonContains('bar_code',(string) $barcode)
+                        fn ($b) => $b->whereRaw("JSON_CONTAINS(bar_code,'\"?\"')", $barcode)
                     );
                 });
             })
