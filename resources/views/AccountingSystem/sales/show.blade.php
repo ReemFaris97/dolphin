@@ -820,7 +820,7 @@
             }
 
             .bill-table-whole-wrapper > tbody:first-child > tr > th {
-                background: #2ECC71 !important;
+                background: rgb(0 0 0) !important;
                 color: #fff !important
             }
 

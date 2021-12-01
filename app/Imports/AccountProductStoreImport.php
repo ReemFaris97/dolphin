@@ -5,6 +5,7 @@ namespace App\Imports;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingProductSubUnit;
+use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
@@ -13,13 +14,19 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class AccountProductStoreImport implements ToCollection, WithHeadingRow ,WithBatchInserts, WithChunkReading
 {
+    protected Command $command;
+
+    public function __construct($command=null)
+    {
+        $this->command = $command;
+    }
     /**
      * @param Collection $collection
      */
     public function collection(Collection $rows)
     {
-        foreach ($rows as $i => $row) {
-            $product = AccountingProduct::where(fn($q)=>$q->OfBarcode($row['albarkod'])->orWhere('name', $row['asm_almad']))->first();
+        $this->command->withProgressBar($rows, function ($row) {
+            $product = AccountingProduct::where(fn ($q) =>$q->OfBarcode($row['albarkod'])->orWhere('name', $row['asm_almad']))->first();
             try {
                 AccountingProductStore::create([
                     'product_id' => $product->id,
@@ -31,7 +38,7 @@ class AccountProductStoreImport implements ToCollection, WithHeadingRow ,WithBat
             } catch (\Exception $e) {
                 // dd($i, $row);
             }
-        }
+        });
     }
 
     public function batchSize(): int
