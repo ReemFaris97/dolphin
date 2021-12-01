@@ -101,7 +101,7 @@ class AccountingProductsDataTable extends DataTable
             ->addClass('text-center'),
             Column::computed('qunaitity')->title('الكمية')
             ->addClass('text-center'),
-            Column::computed('barcode')->title('الباركود'),
+            Column::make('barcode')->title('الباركود'),
             Column::make('main_unit')->title('الوحده الرئيسة'),
             Column::make('selling_price')->title('سعر البيع'),
             Column::make('purchasing_price')->title('سعر الشراء'),
