@@ -457,14 +457,41 @@
 }
 /******************************** in print **********************/
 @media print {
+    #myDivToPrint header {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left:0;
+        z-index: 9999;
+        overflow: hidden;
+    }
+    tr:nth-child(25) td,tr:nth-child(36n+55) td{
+        padding: 0 0 150px 0 !important;
+        vertical-align: top;
+    }
+
+
+
+
+    #myDivToPrint header  + .row{
+        margin-top: 45px;
+    }
+    #myDivToPrint footer {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        left:0
+    }
+
     body,
     html {
         direction: rtl;
         height: 100%;
         margin: 0 !important;
-        padding: 0 !important;
+        padding: 0 0 0 0 !important;
         overflow-y: auto;
     }
+
 
     .hide-print,
     #print-all {
@@ -502,6 +529,7 @@
         page-break-after: always;
         padding-bottom: 0px;
         background: none;
+        
     }
 
     #myDivToPrint,
