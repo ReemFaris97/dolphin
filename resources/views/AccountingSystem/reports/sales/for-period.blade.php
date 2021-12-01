@@ -31,8 +31,7 @@
                 <div class="yurSections">
                     <div class="row">
                         <div class="col-xs-12">
-                            <form action="" method="post" accept-charset="utf-8">
-                                @csrf
+                            <form action="{{route('accounting.reports.sales_period')}}" method="get" accept-charset="utf-8">
                             <div class="form-group col-sm-3">
                                 <label> الشركة </label>
                                 {!! Form::select("company_id",companies(), request('company_id'),['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الشركة','data-live-search'=>'true','id'=>'company_id'])!!}
@@ -198,21 +197,21 @@
                 </thead>
                 <tbody>
 
-                @php $all_amounts=0; $discounts=0; $total_tax=0; $all_total=0; @endphp
-
+                @php $all_amounts=0; $discounts=0; $total_tax=0; $all_total=0; $sales_count=0; @endphp
                 @foreach($sales as $row)
-                    @php $all_amounts+=$row->all_amounts; $discounts+=$row->discounts; $total_tax+=$row->total_tax; $all_total+=$row->all_total;@endphp
+
+                    @php $all_amounts+=$row->total_amount; $discounts+=0; $total_tax+=$row->total_tax; $all_total+=$row->total_without_taxes;$sales_count++@endphp
 
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
-                        <td>{!! $row->created_at->locale('ar')->toDayDateTimeString() !!}</td>
-                        <td>{!! $row->all_amounts?? 0 !!}</td>
-                        <td>{!! $row->discounts?? 0 !!}</td>
-                        <td>{!! $row->total_tax?? 0 !!}</td>
-                        <td>{!! $row->all_total?? 0 !!}</td>
+                        <td>{!! $row->date_formatted !!}</td>
+                        <td>{!! $row->total_amount !!}</td>
+                        <td>0</td>
+                        <td>{!! $row->total_tax !!}</td>
+                        <td>{!! $row->total_without_taxes !!}</td>
 
                         <td class="text-center td-display-none">
-                            <a href="{{route('accounting.reports.sale_details')}}?date={{ $row->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.reports.sale_details',['date'=>$row->date_formatted])}}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
 
                         </td>
                     </tr>
@@ -230,7 +229,7 @@
                     <td>{{$discounts}}</td>
                     <td>{{$total_tax}}</td>
                     <td>{{$all_total}}  </td>
-                    <td>عدد الفواتير:{{$sales->sum('num')}}</td>
+                    <td>عدد الفواتير:{{$sales_count}}</td>
 
                 </tr>
                 </tfoot>
