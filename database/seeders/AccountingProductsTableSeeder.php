@@ -27,7 +27,7 @@ class AccountingProductsTableSeeder extends Seeder
         DB::table('accounting_product_taxes')->truncate();
         DB::table('accounting_products_subUnits')->truncate();
 
-        Excel::import(new ProductsImport($this->command), 'imports/products2.xlsx');
+        Excel::import(new ProductsImport($this->command), 'imports/products.xlsx');
         $products= AccountingProduct::pluck('id');
         AccountingStore::find(1)->products()->sync($products->toArray());
         DB::commit();
