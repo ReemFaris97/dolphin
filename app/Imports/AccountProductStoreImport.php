@@ -7,9 +7,11 @@ use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingProductSubUnit;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class AccountProductStoreImport implements ToCollection, WithHeadingRow
+class AccountProductStoreImport implements ToCollection, WithHeadingRow ,WithBatchInserts, WithChunkReading
 {
     /**
      * @param Collection $collection
@@ -30,5 +32,15 @@ class AccountProductStoreImport implements ToCollection, WithHeadingRow
                 // dd($i, $row);
             }
         }
+    }
+
+    public function batchSize(): int
+    {
+       return  100;
+    }
+
+    public function chunkSize(): int
+    {
+       return 250;
     }
 }
