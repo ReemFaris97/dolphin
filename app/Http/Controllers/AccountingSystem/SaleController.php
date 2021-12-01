@@ -5,6 +5,7 @@ namespace App\Http\Controllers\AccountingSystem;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingAccount;
 use App\Models\AccountingSystem\AccountingAccountLog;
+use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingClient;
 use App\Models\AccountingSystem\AccountingDevice;
 use App\Models\AccountingSystem\AccountingEntry;
@@ -76,12 +77,12 @@ class SaleController extends Controller
 //        dd($request->all());
         $requests = $request->all();
         if (!$request->client_id) {
-            $requests['client_id']=5;
+            $requests['client_id']=AccountingClient::first()->id;
         }
 
         $user=User::find($requests['user_id']);
         if (isset($user->store->model_type)) {
-            $requests['branch_id']=($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:null;
+            $requests['branch_id']=($user->store->model_type==AccountingBranch::class)?$user->store->model_id:null;
         }
         if (getsetting('automatic_sales')==1) {
             $requests['account_id']=getsetting('accounting_id_sales');
@@ -105,7 +106,7 @@ class SaleController extends Controller
             'debts'=>$requests['reminder'] ,
 //            'payment'=>'agel',
             'total'=>$requests['total'],
-            'branch_id'=>(@$user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?@$user->store->model_id:null,
+            'branch_id'=>(@$user->store->model_type==AccountingBranch::class)?@$user->store->model_id:null,
         ]);
         if ($requests['discount_byPercentage']!=0&&$requests['discount_byAmount']==0) {
             $sale->update([
@@ -132,7 +133,6 @@ class SaleController extends Controller
         foreach ($merges as $merge) {
 //
             $product=AccountingProduct::find($merge['0']);
-
             $unit=AccountingProductSubUnit::where('id', $merge['2'])->first();
             if ($merge['2']!='main-'.$product->id) {
                 if ($unit) {
