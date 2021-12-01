@@ -398,7 +398,7 @@
             padding-bottom: 0px;
             border-bottom: 0px !important;
             color: rgb(255, 255, 255);
-            background: rgb(46, 204, 113);
+            background: rgb(0 0 0);
             display: inline-block;
             border-radius: 5px;
             padding: 5px;
@@ -516,9 +516,11 @@
         span.sml-ser-uni-pr {
             margin-bottom: 5px;
         }
-
+        body{
+            font-weight: bold;
+        }
         .bill-table-tr-wrapper {
-            background: #0aad4f !important;
+            background: #000000 !important;
             color: #fff;
         }
 
@@ -780,7 +782,7 @@
             }
 
             .bill-table-whole-wrapper > tr.bill-table-tr-wrapper.fixed-ta-hd {
-                background: #2ECC71 !important;
+                background: #000000 !important;
                 color: #fff !important;
             }
 
@@ -792,7 +794,7 @@
                 padding-bottom: 0px;
                 border-bottom: 0px !important;
                 color: #fff !important;
-                background: #2ECC71 !important;
+                background: #000000 !important;
             }
 
             .bill-table-tr-wrapper,
@@ -818,7 +820,7 @@
             }
 
             .bill-table-whole-wrapper > tbody:first-child > tr > th {
-                background: #2ECC71 !important;
+                background: rgb(0 0 0) !important;
                 color: #fff !important
             }
 
