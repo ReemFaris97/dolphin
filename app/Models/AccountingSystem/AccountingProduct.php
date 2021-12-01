@@ -199,7 +199,7 @@ class AccountingProduct extends Model
 
     public function tax()
     {
-        return $this->belongsToMany(AccountingTaxBand::class,AccountingProductTax::class,'product_id','tax_band_id');
+        return $this->belongsToMany(AccountingTaxBand::class, AccountingProductTax::class, 'product_id', 'tax_band_id');
     }
 
     public function discounts()
@@ -268,20 +268,17 @@ class AccountingProduct extends Model
         return $quantity;
     }
 
-    public function scopeOfBarcode($builder, $barcode)
+    public function scopeOfBarcode($builder, string $barcode)
     {
 
 
-        $barcode= Str::startsWith($barcode, '"') ?  $barcode:'"'.$barcode;
-        $barcode= Str::endsWith($barcode, '"') ?  $barcode:$barcode.'"';
-        $builder->where('bar_code', 'like', "%$barcode%");
-        $builder->orwhereHas(
-            'barcodes',
-            fn ($b) => $b->where('barcode', 'like', "%$barcode%")
-        );
+        // $barcode= Str::startsWith($barcode, '"') ?  $barcode:'"'.$barcode;
+        // $barcode= Str::endsWith($barcode, '"') ?  $barcode:$barcode.'"';
+        $builder->whereJsonContains('bar_code', "$barcode");
+
         $builder->orwhereHas(
             'sub_units',
-            fn ($b) => $b->where('bar_code', 'like', "%$barcode%")
+            fn ($b) => $b->whereJsonContains('bar_code', "$barcode")
         );
     }
 }
