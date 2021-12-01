@@ -215,8 +215,6 @@
                                 <td>{!!$loop->iteration!!}</td>
                             </tr>
                             @endforeach
-
-
                         </tbody>
                     </table>
                 </div>
@@ -284,9 +282,7 @@
                         </tfoot>
                     </div>
                     </table>
-                <!--- footer -->
-                <footer>
-                    <div class="row">
+                                        <div class="row">
                         <div class="col-3 box1 flexx" style="width:25%">
                                     <p style="text-align:center;">المدفوع كاش</p>
                                     <p style="text-align:center;">{{round($bill->cash,2)}}</p>
@@ -305,6 +301,9 @@
                         </div>
 
                     </div>
+                <!--- footer -->
+                <footer>
+
                     <div class="row">
                         <div class="flexx foot_bg">
                             <div>
@@ -345,6 +344,27 @@
                     <img src="{!! asset('dashboard/assets/demo/demo12/media/img/logo/logo-black.png')!!}" alt="logo">
                 </div>
             </div>
+            <div class="details-container" style="margin-top:10px;">
+                <p>العنوان</p>
+                <p>المملكة العربية السعودية - القصيم - المدينة الصناعية الثانية بالقصيم</p>
+            </div>
+            <div class="details-container">
+                <p>الهاتف</p>
+                <p>0163231301</p>      
+            </div>
+            <div class="details-container">
+                <p>الفاكس</p>
+                <p>0163231301</p>
+            </div>
+            <div class="details-container">
+                <p>الرقم الضريبى</p>
+                <p>300420708200003</p>
+            </div>
+            <div class="details-container">
+                <p>سجل تجارى</p>
+                <p>1131021506</p>
+            </div>
+            <p>........................................................................................................</p>
             <div class="details-container">
                 <p>التاريخ</p>
                 <p>{{$bill->created_at}}</p>
