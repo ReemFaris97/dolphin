@@ -1,4 +1,4 @@
-<table class="table table-striped table-bordered table-responsive ">
+<table class="table table-striped table-bordered edit-th-50 table-responsive ">
     <thead>
     <tr>
         <th rowspan="2" class="text-center">  </th>

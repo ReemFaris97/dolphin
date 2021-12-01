@@ -17,6 +17,7 @@ class SalesController extends Controller
 
     public function index(Request $request)
     {
+
         $requests=request()->all();
         if ($request->has('company_id')) {
             $stores_company = AccountingStore::where('model_id', \request('company_id'))->where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->pluck('id');
@@ -24,11 +25,16 @@ class SalesController extends Controller
             $stores_branch = AccountingStore::whereIn('model_id', $branches)->where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->pluck('id');
             $stores = array_merge(json_decode($stores_branch), json_decode($stores_company));
 
-            $sales = Sale::whereIn('store_id',$stores)->select('id',\DB::raw('DATE(created_at) as date'), \DB::raw('count(*) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'),'created_at');
+            $sales = Sale::query();
 
-         if ($request->has('branch_id') && $request->branch_id != null) {
+//            11/23/2021, 12:13:16 AM
+            $sales->selectRaw("DATE(STR_TO_DATE(date,'%m/%d/%Y, %h:%i:%s %p')) as date_formatted , SUM(total) as total_amount , SUM(totalTaxs) as total_tax, Sum(total - totalTaxs) as total_without_taxes,count(id) sales_count");
+//            dd($sales->get());
+       /*     $sales->whereIn('store_id',$stores)->select('id',\DB::raw('DATE(created_at) as date'), \DB::raw('count(*) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'),'created_at');*/
+
+      /*   if ($request->has('branch_id') && $request->branch_id != null) {
             $sales = $sales->where('branch_id', $request->branch_id);
-         }
+         }*/
 
             if ($request->has('user_id') && $request->user_id != null ) {
                 $sales = $sales->where('user_id', $request->user_id);
@@ -44,8 +50,9 @@ class SalesController extends Controller
                 $sales = $sales->whereBetween('created_at', [Carbon::parse($request->from), Carbon::parse($request->to)]);
             }
 
-            $sales = $sales->groupBy('date')->get();
-         // dd($sales);
+            $sales = $sales->groupBy('date_formatted')->get();
+
+            // dd($sales);
         } else {
             $sales = collect();
         }
@@ -54,7 +61,8 @@ class SalesController extends Controller
 
    public function details()
    {
-      $sales = Sale::whereDate('created_at', request('date'))->get();
+      $sales = Sale::whereRaw("DATE(STR_TO_DATE(`date`,'%m/%d/%Y, %h:%i:%s %p')) = '". request('date')."'")->get();
+//      dd($sales);
       return view('AccountingSystem.reports.sales.sale-details', compact('sales'));
    }
 

@@ -16,7 +16,7 @@ use App\Traits\Viewable;
 use Cookie;
 use Illuminate\Http\Request;
 
-class SellPointController extends Controller
+class   SellPointController extends Controller
 {
     use Viewable;
 //    private $viewable = 'AccountingSystem.sells_points.';
@@ -140,7 +140,7 @@ class SellPointController extends Controller
 
             $kilo=substr($quantity,0,2);
             $grams=substr($quantity,2);
-            $quantity=($kilo*1000)+$grams/10;
+            $quantity=((int)$kilo*1000)+$grams/10;
         }
         $product = AccountingProduct::query()->ofBarcode($q)
             ->with('sub_units')->first();
