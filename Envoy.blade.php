@@ -8,3 +8,8 @@
     php artisan migrate
     php artisan config:Cache
 @endtask
+
+@task('seed_storage')
+    cd /home/alqabedah/dolphin
+  php artisan db:seed UpdateProductsTableSeeder
+@endtask
