@@ -46,8 +46,10 @@ class AccountingProductSubUnit extends Model
     protected $casts = [
         'bar_code' => 'array',
     ];
-    public function scopeOfBarcode($query, string $barcode)
+    public function scopeOfBarcode($query, $barcode=null)
     {
-        $query->whereJsonContains('bar_code', "$barcode");
+        if ($barcode!=null) {
+            $query->whereJsonContains('bar_code', "$barcode");
+        }
     }
 }
