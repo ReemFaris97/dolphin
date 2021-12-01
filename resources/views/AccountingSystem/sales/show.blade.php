@@ -398,7 +398,7 @@
             padding-bottom: 0px;
             border-bottom: 0px !important;
             color: rgb(255, 255, 255);
-            background: rgb(46, 204, 113);
+            background: rgb(0 0 0);
             display: inline-block;
             border-radius: 5px;
             padding: 5px;
@@ -516,9 +516,11 @@
         span.sml-ser-uni-pr {
             margin-bottom: 5px;
         }
-
+        body{
+            font-weight: bold;
+        }
         .bill-table-tr-wrapper {
-            background: #0aad4f !important;
+            background: #000000 !important;
             color: #fff;
         }
 
