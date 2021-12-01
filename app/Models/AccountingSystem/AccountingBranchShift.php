@@ -41,6 +41,6 @@ class AccountingBranchShift extends Model
 
     public function branch()
     {
-        return $this->belongsTo(AccountingBranch::class,'branch_id');
+        return $this->belongsTo(AccountingBranch::class, 'branch_id');
     }
 }

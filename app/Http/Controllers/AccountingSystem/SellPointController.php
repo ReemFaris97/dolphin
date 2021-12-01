@@ -128,49 +128,6 @@ class SellPointController extends Controller
         return view('AccountingSystem.sell_points.login', compact('users', 'devices', 'stores'));
     }
 
-    /**
-     *
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-    }
-
 
     public function barcode_search(Request $request, $q)
     {
@@ -228,23 +185,5 @@ class SellPointController extends Controller
             'total_discounts'=>$product->total_discounts
 
         ]);
-        // ->get();
-        // $products->transform(function ($product) use ($q) {
-        //     $sub_unit=  $product->sub_units->filter(function ($subunit) use ($q) {
-        //         return  Str::contains($subunit->bar_code, $q);
-        //     })->first();
-        //     if ($sub_unit!=null) {
-        //         $product->unit=$sub_unit->id;
-        //     }
-        //     return $product;
-        // });
-        // $selectd_unit_id=optional($products->first())->main_unit??0;
-
-        // return response()->json([
-        //     'status'=>true,
-        //     'data'=>view('AccountingSystem.sell_points.barcodeProducts', compact('products', 'selectd_unit_id')
-
-        //     )->render()
-        // ]);
     }
 }
