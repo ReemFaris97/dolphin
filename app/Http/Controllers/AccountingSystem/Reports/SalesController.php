@@ -61,7 +61,8 @@ class SalesController extends Controller
 
    public function details()
    {
-      $sales = Sale::whereDate('created_at', request('date'))->get();
+      $sales = Sale::whereRaw("DATE(STR_TO_DATE(`date`,'%m/%d/%Y, %h:%i:%s %p')) = '". request('date')."'")->get();
+//      dd($sales);
       return view('AccountingSystem.reports.sales.sale-details', compact('sales'));
    }
 
