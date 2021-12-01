@@ -26,6 +26,8 @@ class AccountProductStoreImport implements ToCollection, WithHeadingRow ,WithBat
     public function collection(Collection $rows)
     {
         $this->command->withProgressBar($rows, function ($row) {
+            if (!is_null($row)){
+
             $product = AccountingProduct::where(fn ($q) =>$q->OfBarcode($row['albarkod'])->orWhere('name', $row['asm_almad']))->first();
             try {
                 AccountingProductStore::create([
@@ -37,6 +39,7 @@ class AccountProductStoreImport implements ToCollection, WithHeadingRow ,WithBat
                 ]);
             } catch (\Exception $e) {
                 // dd($i, $row);
+            }
             }
         });
     }
