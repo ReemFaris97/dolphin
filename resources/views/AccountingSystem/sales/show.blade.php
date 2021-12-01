@@ -794,7 +794,7 @@
                 padding-bottom: 0px;
                 border-bottom: 0px !important;
                 color: #fff !important;
-                background: #2ECC71 !important;
+                background: #000000 !important;
             }
 
             .bill-table-tr-wrapper,
