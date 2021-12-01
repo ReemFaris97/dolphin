@@ -275,11 +275,11 @@ class AccountingProduct extends Model
         // $barcode= Str::startsWith($barcode, '"') ?  $barcode:'"'.$barcode;
         // $barcode= Str::endsWith($barcode, '"') ?  $barcode:$barcode.'"';
         if ($barcode!=null) {
-            $builder->whereJsonContains('bar_code', "$barcode");
+            $builder->whereJsonContains('bar_code', (string)$barcode);
 
             $builder->orwhereHas(
                 'sub_units',
-                fn ($b) => $b->whereJsonContains('bar_code', "$barcode")
+                fn ($b) => $b->whereJsonContains('bar_code', (string) $barcode)
             );
         }
     }
