@@ -12,7 +12,7 @@ use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class AccountProductStoreImport implements ToCollection, WithHeadingRow ,WithBatchInserts, WithChunkReading
+class AccountProductStoreImport implements ToCollection, WithHeadingRow, WithBatchInserts, WithChunkReading
 {
     protected Command $command;
 
@@ -36,18 +36,18 @@ class AccountProductStoreImport implements ToCollection, WithHeadingRow ,WithBat
                     'price' => $row['alsaar_alafrady'],
                 ]);
             } catch (\Exception $e) {
-                dd($i, $row);
+                dd($row);
             }
         });
     }
 
     public function batchSize(): int
     {
-       return  100;
+        return  100;
     }
 
     public function chunkSize(): int
     {
-       return 250;
+        return 250;
     }
 }
