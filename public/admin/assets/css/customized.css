@@ -1811,11 +1811,11 @@ select.form-control.js-example-basic-single {
 
 /*  *****   custome table ************/
 .edit-mabi3at td input{
-	font-size: 22px;
+	font-size: 22px !important;
 	font-weight: bold;
 }
 .edit-mabi3at td {
-	font-size: 22px;
+	font-size: 22px !important;
 	font-weight: bold;
 }
 td.product-name.maybe-hidden.name_enable {
