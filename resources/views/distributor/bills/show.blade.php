@@ -24,7 +24,7 @@
     @include('distributor.bills.bill_temp')
 
 </div>
-    @push('scripts')
+    {{-- @push('scripts')
     <script src="{!! asset('dashboard/assets/vendors/base/jquery-2.1.4.min.js') !!}"></script>
         <script>
         $(document).ready(function () {
@@ -50,6 +50,6 @@
             });
         })
     </script>
-    @endpush
+    @endpush --}}
 
     @endsection
