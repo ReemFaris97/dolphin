@@ -4,7 +4,18 @@ Route::get('/', function () {
     return redirect()->route('accounting.home');
 });
 
+Route::get('fix',function (){
+    $sales_items=\App\Models\AccountingSystem\AccountingSaleItem::all();
+    foreach ($sales_items as $item){
+        $subUnit=$item->product->sub_units->where('selling_price',$item->price)->first();
+        if ($subUnit){
+            $item->update(['unit_id' => $subUnit->id]);
+        }
 
+//        if ()
+    }
+    dd('done fixing');
+});
 Route::middleware('admin')->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('companies', 'CompanyController');
