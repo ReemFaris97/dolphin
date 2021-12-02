@@ -93,7 +93,7 @@
                     <td>{!!$loop->iteration!!}</td>
                     <td>{!! $row-> id!!}</td>
                     <td>{!! $row->created_at!!}</td>
-                    <td>{!! $row->total!!}</td>
+                    <td>{!! $row->amount!!}</td>
 
 
                     <td class="text-center">
