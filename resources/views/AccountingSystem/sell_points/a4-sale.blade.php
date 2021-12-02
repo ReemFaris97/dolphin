@@ -171,10 +171,10 @@
                                 <tbody>
                                 @foreach($sale->items as $value)
                                     <tr>
-                                        <td>{{ $value->price * $value->quantity }}</td>
+                                        <td>{{ (double)$value->price * $value->quantity -($value->price * $value->quantity)*($value->tax)/100}}</td>
                                         <td>
 
-                                            {{ ($value->price * $value->quantity)-($value->price * $value->quantity)*(100-$value->tax)/100 }}
+                                            {{ (double)($value->price * $value->quantity)-($value->price * $value->quantity)*(100-$value->tax)/100 }}
                                         </td>
                                         <td>{{ $value->price }}</td>
                                         <td>{{ $value->quantity }}</td>
