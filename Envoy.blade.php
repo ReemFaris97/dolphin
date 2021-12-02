@@ -3,10 +3,14 @@
 @task('deploy')
     cd /home/alqabedah/dolphin
     git pull origin Develop
+    git stash
     php artisan config:Cache
+    composer install
+    php artisan migrate
 @endtask
 @task('beta')
     cd /home/alqabedah/beta.alqabedah.com/public_html
+    git stash
     git pull origin Develop
     php artisan config:Cache
     composer install
