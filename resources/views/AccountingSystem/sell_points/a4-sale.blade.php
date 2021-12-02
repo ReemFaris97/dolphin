@@ -240,10 +240,10 @@
                                             <h4>المبلغ كتابة:</h4>
                                             <h4>S.R in words:</h4>
                                         </div>
-                                        <p>{{ $sale->CashArabic($sale->total)[0] }}
+                                        <p>{{ $sale->CashArabic($sale->amount)[0] }}
                                             ريال
-                                            {{ $sale->CashArabic($total)[1] ??''}}
-                                            @if($sale->CashArabic($total)[1]!=0)
+                                            {{ $sale->CashArabic($sale->amount)[1] ??''}}
+                                            @if($sale->CashArabic($sale->amount)[1]!=0)
                                                 هللة
                                             @endif
                                             لاغير

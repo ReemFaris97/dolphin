@@ -535,8 +535,9 @@ unit_total_tax_enable
 							<td class="single-price-after maybe-hidden total_taxes_enable" data-sinAft="${singlePriceAfter}" width="70">
 								${netTax}
 							</td>
-							<td class="whole-price-before maybe-hidden ">${singlePriceBefore}</td>
-							<td class="whole-price-after maybe-hidden total_pure_enable" width="70">${singlePriceAfter}</td>
+							<td class="whole-price-before maybe-hidden ">${parseFloat (singlePriceAfter) + parseFloat(netTax)}</td>
+							<td class="whole-price-after maybe-hidden total_pure_enable" width="70">
+                                ${parseFloat (singlePriceAfter) + parseFloat(netTax)}</td>
 
 							<td class="bill-operations-td maybe-hidden operations_enable" width="160">
 
@@ -706,9 +707,18 @@ unit_total_tax_enable
                         $(this).parents('.single-row-wrapper').find(".single-price-after").text(netTax.toFixed(rondingNumber));
                         var wholePriceBefore = Number($(this).parents('.single-row-wrapper').find(".single-price-before input").val()) * Number($(this).parents('.single-row-wrapper').find(".product-quantity input").val());
                         $(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(rondingNumber));
-                        $(this).parents('.single-row-wrapper').find(".whole-price-before").attr('tempPriBef', wholePriceBefore.toFixed(rondingNumber));
-                        var wholePriceAfter = Number($(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft')) * Number($(this).parents('.single-row-wrapper').find(".product-quantity input").val());
-                        $(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(rondingNumber));
+                        $(this).parents('.single-row-wrapper').find(".whole-price-before").attr('tempPriBef', wholePriceBefore.toFixed(rondingNumber))
+                        ;
+                        var wholePriceAfter=(
+                            Number($(this).parents('.single-row-wrapper')
+                        .find(".single-price-after")
+                        .attr('data-sinAft')
+                        )
+                        *
+                        Number(
+                            $(this).parents('.single-row-wrapper').find(".product-quantity input").val())
+                            + netTax.toFixed(rondingNumber));
+                        $(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter+netTax);
                         $(this).parents("tr.single-row-wrapper").find(".product-quantity input").trigger('change');
                     });
                     //**************    Calc while changing quantity input *******************
