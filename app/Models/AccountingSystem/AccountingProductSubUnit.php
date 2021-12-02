@@ -49,7 +49,7 @@ class AccountingProductSubUnit extends Model
     public function scopeOfBarcode($query, $barcode=null)
     {
         if ($barcode!=null) {
-            $query->whereRaw('json_contains(`bar_code`, \'"'.$barcode.'"\')');
+            $query->whereJsonContains('bar_code', (string) $barcode);
         }
     }
 }
