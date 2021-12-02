@@ -113,12 +113,8 @@
                             <input type="hidden" name="bill_date" id="bill_date_val">
                             <input type="hidden" name="client_id" id="client_id_val">
                             <table border="1"
-<<<<<<< HEAD
-                                class="table datatable-button-init-basic finalTb edit-mabi3at mabi3at-bill bill-table
-=======
                                 class="table datatable-button-init-basic finalTb mabi3at-bill bill-table
->>>>>>> 21510ad23094519395e2b9ad8899d4d3e280a892
-                         ace_dark   {{ getsetting('name_enable_sales') == 1 ? 'name_enable' : '' }}
+                        ace_dark   {{ getsetting('name_enable_sales') == 1 ? 'name_enable' : '' }}
                             {{ getsetting('barcode_enable_sales') == 1 ? 'barcode_enable' : '' }}
                             {{ getsetting('unit_enable_sales') == 1 ? 'unit_enable' : '' }}
                             {{ getsetting('quantity_enable_sales') == 1 ? 'quantity_enable' : '' }}
@@ -127,13 +123,8 @@
                                 unit_total_tax_enable">
                                 <thead>
                                     <tr>
-<<<<<<< HEAD
-                                        <th rowspan="1" width="40">م</th>
-                                        <th rowspan="1" class="maybe-hidden name_enable">اسم الصنف</th>
-=======
                                         <th rowspan="2" width="40">م</th>
                                         <th rowspan="2" class="maybe-hidden name_enable">اسم الصنف</th>
->>>>>>> 21510ad23094519395e2b9ad8899d4d3e280a892
                                         <th rowspan="2" class="maybe-hidden barcode_enable" width="140">باركود</th>
                                         <th rowspan="2" class="maybe-hidden unit_enable" width="110">الوحدة</th>
                                         <th rowspan="2" class="maybe-hidden quantity_enable" width="100">الكمية</th>
@@ -461,13 +452,8 @@ var is_selected = (i == 0) ? 'selected' : '';
         </tr>`);
 
             var height = $("tbody").height();
-<<<<<<< HEAD
-            $("tbody").animate({
-                scrollTop: $('tbody').prop("scrollHeight")
-            }, 0);
-=======
+
             $("tbody").animate({ scrollTop: 0 }, "fast");
->>>>>>> 21510ad23094519395e2b9ad8899d4d3e280a892
 
             //	Remove overlay
             $(".tempDisabled").removeClass("tempDisabled");
