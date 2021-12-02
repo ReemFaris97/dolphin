@@ -280,7 +280,7 @@ class AccountingProduct extends Model
 
         $builder->orwhereHas(
             'sub_units',
-            fn ($b) => $b->whereJsonContains('bar_code', $barcode)
+            fn ($b) => $b->whereRaw('json_contains(`bar_code`, \'"'.$barcode.'"\')')
         );
     }
 }
