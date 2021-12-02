@@ -10,7 +10,7 @@ $(function () {
             url: "/accounting/ajax/branches/" +company_id,
             type: "get",
             success(data) {
-                console.log(data);
+              //  console.log(data);
                 branchSelect.empty();
                 branchSelect.append('<option value="">اختر الفرع</option>');
                 data.forEach(branch => {
@@ -29,7 +29,7 @@ $(function () {
             url:"/accounting/ajax/stores-form-company/" + company_id,
             type: "get",
             success(data) {
-                console.log(data);
+              //  console.log(data);
 
                 storeSelect.empty();
                 storeSelect.append('<option value="">اختر المستودع</option>');
@@ -60,7 +60,7 @@ $(function () {
             type: "get",
             data: {company_id: company_id},
             success(data) {
-                console.log(data);
+              //  console.log(data);
 
                 storeSelect.empty();
                 storeSelect.append('<option value="">اختر المستودع</option>');
@@ -81,7 +81,7 @@ $(function () {
             type: "get",
 
             success(data) {
-                console.log(data);
+              //  console.log(data);
 
                 productSelect.empty();
                 productSelect.append('<option value="">اختر الصنف</option>');
@@ -114,7 +114,7 @@ $(function () {
             type: "get",
             data:{category_id:category_id},
             success(data) {
-                console.log(data)
+              //  console.log(data)
 
                 productSelect.empty();
                 productSelect.append('<option value="">اختر الصنف</option>');
