@@ -403,16 +403,7 @@ class SaleController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        $sale = AccountingSale::findOrFail($id);
-        $product_items = AccountingSaleItem::where('sale_id', $id)->get();
-        if (\request('print','7cm')=='7cm'){
-            return view('AccountingSystem.sales.show',compact('sale', 'product_items'));
-        }else{
-            return view('AccountingSystem.sell_points.a4-sale',compact('sale', 'product_items'));
-        }
-    }
+
 
     public function showBill(AccountingSale $bill)
     {
