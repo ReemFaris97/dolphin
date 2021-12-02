@@ -26,10 +26,10 @@ class AccountingProductsDataTable extends DataTable
                 // $barcode= request()->columns[5]['search']['value'];
 
                 $query->where(function ($builder) use ($barcode) {
-                    $builder->whereJsonContains('bar_code', (string) $barcode);
+                    $builder->whereRaw('json_contains(`bar_code`, \'"'.$barcode.'"\')');
                     $builder->orwhereHas(
                         'sub_units',
-                        fn ($b) => $b->whereJsonContains('bar_code', (string) $barcode)
+                        fn ($b) => $b->whereRaw('json_contains(`bar_code`, \'"'.$barcode.'"\')')
                     );
                 });
             })
