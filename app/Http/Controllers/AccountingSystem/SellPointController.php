@@ -16,7 +16,7 @@ use App\Traits\Viewable;
 use Cookie;
 use Illuminate\Http\Request;
 
-class   SellPointController extends Controller
+class SellPointController extends Controller
 {
     use Viewable;
 //    private $viewable = 'AccountingSystem.sells_points.';
@@ -132,14 +132,14 @@ class   SellPointController extends Controller
     public function barcode_search(Request $request, $q)
     {
         $quantity=1;
-        if (str_starts_with($q,getsetting('weight_code'))){
-            $barcode=substr($q,2);
+        if (str_starts_with($q, getsetting('weight_code'))) {
+            $barcode=substr($q, 2);
             $pos = getsetting('code_number');
             $q = '"'.substr($barcode, 0, $pos).'"';
             $quantity = substr($barcode, $pos);
 
-            $kilo=substr($quantity,0,2);
-            $grams=substr($quantity,2);
+            $kilo=substr($quantity, 0, 2);
+            $grams=substr($quantity, 2);
             $quantity=((int)$kilo*1000)+$grams/10;
         }
         $product = AccountingProduct::query()->ofBarcode($q)
