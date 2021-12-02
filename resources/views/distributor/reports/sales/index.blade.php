@@ -178,6 +178,7 @@
         <body>${t}</body></html>`);
             win.document.close();
             win.print();
+            
 
         });
     })
