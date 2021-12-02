@@ -200,7 +200,7 @@
                             @php($tax_amount= $sale->amount -($sale->amount *(100-$tax_percent)/100))
                             @php($total=$sale->amount )
                             <tr>
-                                <th>{{(float) $sale->product_total()}}</th>
+                                <th>{{(float) $sale->product_total()-$tax_amount}}</th>
                                 <th colspan="4">
                                     <div class="flexx">
                                         <p>total</p>
@@ -228,7 +228,7 @@
                                 </th>
                             </tr>
                             <tr>
-                                <th>{{$sale->amount}}</th>
+                                <th>{{$sale->product_total()}}</th>
                                 <th >
                                     <p>net amount</p>
                                     <p>اجمالى الفاتورة</p>
