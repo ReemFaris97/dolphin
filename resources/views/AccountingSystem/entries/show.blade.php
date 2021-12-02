@@ -108,13 +108,13 @@
                                             @foreach ($entry->accounts as $row)
                                                 <tr>
                                                     @if ($row->affect=='debtor')
-                                                        <td>{!! $row->account->ar_name !!}</td>
+                                                        <td>{!! @$row->account->ar_name !!}</td>
                                                         <td></td>
                                                         <td>---</td>
                                                         <td>{!! $row->amount ?? '---' !!}</td>
                                                     @else
                                                         <td></td>
-                                                        <td>{!! $row->account->ar_name !!}</td>
+                                                        <td>{!! @$row->account->ar_name !!}</td>
                                                         <td>{!! $row->amount ?? '---' !!}</td>
                                                         <td> --- </td>
                                                     @endif
