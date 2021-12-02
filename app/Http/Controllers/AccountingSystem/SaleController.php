@@ -145,7 +145,8 @@ class SaleController extends Controller
                 'quantity'=> $merge['1'],
                 'price'=>optional($unit)->selling_price??$product->selling_price,
                 'sale_id'=>$sale->id,
-                'unit_id' => $merge[2]
+                'unit_id' => $merge[2],
+                'tax'=>$product->total_taxes
             ]);
             ///if-main-unit
 
