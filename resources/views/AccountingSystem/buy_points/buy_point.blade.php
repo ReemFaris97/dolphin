@@ -739,7 +739,7 @@ unit_total_tax_enable
                         var wholePriceBefore = Number($(this).parents('.single-row-wrapper').find(".single-price-before input").val()) * Number($(this).val());
                         $(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(rondingNumber));
                         var wholePriceAfter = Number($(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft')) * Number($(this).val());
-                        $(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(rondingNumber));
+                        $(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(rondingNumber)+netTax);
                         $(this).parents('.single-row-wrapper').find(".whole-price-before").attr('tempPriBef', wholePriceBefore.toFixed(rondingNumber));
                         $('.special-discount-modal').trigger('hidden.bs.modal');
                     });
@@ -847,6 +847,7 @@ unit_total_tax_enable
                     //**************    Calc while changing table body ***********************
                     $('#discMod' + rowNum).on('hide.bs.modal', function (e) {
                         var modId = $(this).attr('id');
+                        debugger
                         var onlyModNum = modId.substr(7, modId.length);
                         var theUnitPrice = $('#row' + onlyModNum).find(".single-price-before input").val();
                         var theQuantity = $('#row' + onlyModNum).find(".product-quantity input").val();
@@ -856,6 +857,7 @@ unit_total_tax_enable
                         $('#row' + onlyModNum).find(".product-quantity input").trigger('change');
                     });
                      $('#discMod' + rowNum).on('hidden.bs.modal', function (e) {
+                         debugger
                         var modId = $(this).attr('id');
                         var onlyModNum = modId.substr(7, modId.length);
                         var finalAftDisc = Number($('#row' + onlyModNum).find('.whole-price-before').attr('tempPriBef'));
@@ -901,7 +903,7 @@ unit_total_tax_enable
                                 var newNetTax = $('#row' + onlyModNum).find('.single-price-after').text()
                             }
                             var newWholePriceAfter = Number(finalAftDisc) + Number(newNetTax);
-                            $('#row' + onlyModNum).find('.whole-price-after').text(newWholePriceAfter.toFixed(rondingNumber));
+                            $('#row' + onlyModNum).find('.whole-price-after').text(newWholePriceAfter.toFixed(rondingNumber) +Number(newNetTax).toFixed(rondingNumber));
                             calcInfo();
                         }
                     });
