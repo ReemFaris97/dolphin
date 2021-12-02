@@ -25,13 +25,7 @@ class AccountingProductsDataTable extends DataTable
             ->filterColumn('barcode', function ($query, $barcode) {
                 // $barcode= request()->columns[5]['search']['value'];
 
-                $query->where(function ($builder) use ($barcode) {
-                    $builder->whereRaw('json_contains(`bar_code`, \'"'.$barcode.'"\')');
-                    $builder->orwhereHas(
-                        'sub_units',
-                        fn ($b) => $b->whereRaw('json_contains(`bar_code`, \'"'.$barcode.'"\')')
-                    );
-                });
+                $query->ofBarcode($barcode);
             })
             ->filterColumn('name', function ($query, $name) {
                 $query->where(
