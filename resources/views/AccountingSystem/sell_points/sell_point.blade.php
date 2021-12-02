@@ -449,9 +449,7 @@ var is_selected = (i == 0) ? 'selected' : '';
         </tr>`);
 
             var height = $("tbody").height();
-            $("tbody").animate({
-                scrollTop: $('tbody').prop("scrollHeight")
-            }, 0);
+            $("tbody").animate({ scrollTop: 0 }, "fast");
 
             //	Remove overlay
             $(".tempDisabled").removeClass("tempDisabled");

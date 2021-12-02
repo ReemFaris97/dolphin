@@ -31,8 +31,8 @@
                 <div class="yurSections">
                     <div class="row">
                         <div class="col-xs-12">
-                            <form action="" method="post" accept-charset="utf-8">
-                                @csrf
+                            <form action="{{route('accounting.reports.sales_returns')}}" method="get" accept-charset="utf-8">
+
                             <div class="form-group col-sm-3">
                                 <label> الشركة </label>
                                 {!! Form::select("company_id",companies(), request('company_id'),['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الشركة','data-live-search'=>'true','id'=>'company_id'])!!}
@@ -40,7 +40,8 @@
                             <div class="form-group col-sm-3">
                                 <label> الفرع </label>
                                 {{-- {!! Form::select("branch_id",[],request('branch_id'),['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الفرع','data-live-search'=>'true','id'=>'branch_id'])!!} --}}
-                                <select name="branch_id" data-live-search="true" class="selectpicker form-control inline-control" id="branch_id">
+                                <select name="branch_id" data-live-search="true"
+                                        class="selectpicker form-control inline-control" id="branch_id">
                                     @if(request()->has('branch_id') && request('branch_id') != null)
                                         @php $branch = \App\Models\AccountingSystem\AccountingBranch::find(request('branch_id')); @endphp
                                         <option value="{{ $branch->id }}" selected="">{{ $branch->name }}</option>
@@ -59,7 +60,8 @@
 
                             <div class="form-group col-sm-3">
                                 <label> القائم بالعملية </label>
-                                <select name="user_id" data-live-search="true" class="selectpicker form-control inline-control" id="user_id">
+                                <select name="user_id" data-live-search="true"
+                                        class="selectpicker form-control inline-control" id="user_id">
                                     @if(request()->has('user_id') && request('user_id') != null)
                                         @php $user = App\User::find(request('user_id')); @endphp
                                         <option value="{{ $user->id }}" selected="">{{ $user->name }}</option>
@@ -175,6 +177,7 @@
                 @php $all_amounts=0; $discounts=0; $total_tax=0; $all_total=0; @endphp
 
                 @foreach($sales as $row)
+
                     @php $all_amounts+=$row->all_amounts; $discounts+=$row->discounts; $total_tax+=$row->total_tax; $all_total+=$row->all_total;@endphp
 
                     <tr>
@@ -184,20 +187,15 @@
                         <td>{!! $row->discounts?? 0 !!}</td>
                         <td>{!! $row->total_tax?? 0 !!}</td>
                         <td>{!! $row->all_total?? 0 !!}</td>
-
-
                         <td class="text-center td-display-none">
-                            <a href="{{route('accounting.reports.sales_returns_details')}}?date={{ $row->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
-
+                            <a href="{{route('accounting.reports.sales_returns_details')}}?date={{ $row->date }}"
+                               data-toggle="tooltip" data-original-title="تفاصيل">
+                                <i class="icon-eye text-inverse" style="margin-left: 10px"></i>
+                            </a>
                         </td>
                     </tr>
-
                 @endforeach
-
-
-
                 </tbody>
-
                 <tfoot>
                 <tr>
                     <td>المجموع</td>
@@ -207,7 +205,6 @@
                     <td>{{$total_tax}}</td>
                     <td>{{$all_total}}  </td>
                     <td>عدد الفواتير:{{$sales->sum('num')}}</td>
-
                 </tr>
                 </tfoot>
             </table>
@@ -217,7 +214,6 @@
         	<button class="btn btn-success" id="print-all">طباعة</button>
         </div>
     </div>
-
 
 @endsection
 

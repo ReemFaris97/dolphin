@@ -1796,3 +1796,43 @@ span#removeTaxWrap input {
 .row.customed-singl-section {
     padding: 5px 30px;
 }
+.edit-mabi3at-bill tbody td input{
+	font-size: 18px;
+	font-weight: bold;
+}
+.edit-mabi3at-bill tbody td{
+	font-size: 18px;
+	font-weight: bold;
+}
+select.form-control.js-example-basic-single {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/*  *****   custome table ************/
+.edit-mabi3at td input{
+	font-size: 22px;
+	font-weight: bold;
+}
+.edit-mabi3at td {
+	font-size: 22px;
+	font-weight: bold;
+}
+td.product-name.maybe-hidden.name_enable {
+    width: 170px;
+}
+th.maybe-hidden.name_enable{
+	width: 170px;
+}
+table.finalTb button[type = "submit"] {
+    font-size: 30px;
+}
+
+table.mabi3at-bill tfoot tr th#amountBeforeDariba span.dynamic-span, table.mabi3at-bill tfoot tr th#amountOfDariba span.dynamic-span, table.mabi3at-bill tfoot tr th#amountAfterDariba span.dynamic-span {
+    font-size: 35px !important;
+}
+
+select.form-control.js-example-basic-single {
+    font-weight: bold;
+    font-size: 16px;
+}
