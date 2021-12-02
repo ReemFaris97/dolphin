@@ -889,7 +889,8 @@
 
                                     <div class="one-bill-inpt the-bill-date"
                                          style="direction: ltr;border-bottom: 0px;display:inline-block;width:50%;text-align: center!important;margin-bottom: 0px;padding-bottom:0px;margin-top: 0px;">
-                                        <span class="bill-lbl"><?php echo $sale->date; ?></span>
+
+                                        <span class="bill-lbl"> {!! Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $sale->created_at)->format('d/m/y H:i:s') !!}</span>
                                         <i class="ti-calendar" style="float: none;"></i>
                                     </div>
 
