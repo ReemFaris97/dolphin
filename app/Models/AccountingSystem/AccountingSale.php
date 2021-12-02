@@ -152,7 +152,7 @@ class AccountingSale extends Model
         foreach ($products_item as $key=>$product_id) {
             $product=AccountingProduct::find($product_id);
             try {
-                $cost+=(floatval($product->purchasing_price)??0) * $key;
+                $cost += (floatval($product->purchasing_price)??0) * (floatval($key));
             } catch (\Exception $exception) {
                 // اانا اسف والله
             }
