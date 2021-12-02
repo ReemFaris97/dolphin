@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Http;
+use Spatie\WebhookServer\WebhookCall;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -36,8 +38,13 @@ class Handler extends ExceptionHandler
      */
     public function report(Throwable $exception)
     {
-        parent::report($exception);
-    }
+        if ($this->shouldReport($exception)) {
+            /*
+             * curl -X POST --data-urlencode "payload={\"channel\": \"\", \"username\": \"webhookbot\", \"text\": \"This is posted to #ابو-الدلافين-باك-اند and comes from a bot named webhookbot.\", \"icon_emoji\": \":ghost:\"}" https://hooks.slack.com/services/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*/
+           $hook= Http::post('https://hooks.slack.com/services/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',['username'=>'خازوق جديد','channel'=>'#ابو-الدلافين-باك-اند','text'=>$exception->getMessage().'\n'.$exception->getTraceAsString()]);
+        }
+        return parent::report($exception);    }
+
 
     /**
      * Render an exception into an HTTP response.
