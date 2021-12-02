@@ -156,7 +156,7 @@ class SellPointController extends Controller
             $q->where('id', '!=', $selected_sub_unit->id);
         })
         ->get()
-        ->sortBy(fn ($a) =>dd($a->sub_units),'asc');
+        /* ->sortBy(fn ($a) =>dd($a->sub_units),'asc') */;
         $subunits = collect($units);
 
         $allunits = json_encode($subunits, JSON_UNESCAPED_UNICODE);
