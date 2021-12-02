@@ -888,7 +888,7 @@
 							    	@endif
 									<tr>
 										<th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-user"></i>اسم العميل </th>
-										<td> {!! $sale_return->client->name !!}</td>
+										<td> {!! $sale_return->client->name ?? '' !!}</td>
 									</tr>
 									{{-- <tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-video-clapper"></i> اسم الفرع </td>
