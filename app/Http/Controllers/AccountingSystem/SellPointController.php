@@ -155,7 +155,8 @@ class SellPointController extends Controller
         ->when($selected_sub_unit, function ($q) use ($selected_sub_unit) {
             $q->where('id', '!=', $selected_sub_unit->id);
         })
-        ->get();
+        ->get()
+        ->sortBy(fn ($a) =>dd($a->sub_units),'asc');
         $subunits = collect($units);
 
         $allunits = json_encode($subunits, JSON_UNESCAPED_UNICODE);
@@ -166,9 +167,9 @@ class SellPointController extends Controller
         } else {
             $merged =array_merge(json_decode($mainunits), json_decode($allunits));
         }
-        $lastPrice = \App\Models\AccountingSystem\AccountingPurchaseItem::where('product_id', $product->id)
-            ->latest()
-            ->first();
+        // $lastPrice = \App\Models\AccountingSystem\AccountingPurchaseItem::where('product_id', $product->id)
+        //     ->latest()
+        //     ->first();
         return response()->json([
             'status'=>true,
             'id'=>$product->id,
