@@ -37,7 +37,7 @@ class AccountProductStoreImport implements ToCollection, WithHeadingRow, WithBat
                     'price' => $row['alsaar_alafrady'],
                 ]);
             } catch (\Exception $e) {
-                dd($row);
+                dd($row,$e);
             }
         });
     }
