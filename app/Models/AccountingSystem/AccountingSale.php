@@ -154,8 +154,8 @@ class AccountingSale extends Model
             try {
                 $cost+=(floatval($product->purchasing_price)??0) * $key;
             } catch (\Exception $exception) {
+                // اانا اسف والله
             }
-            // اانا اسف والله
         }
 
         return $cost;
