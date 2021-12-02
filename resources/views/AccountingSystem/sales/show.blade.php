@@ -997,7 +997,7 @@
                                                             class="ti-money"></i>الإجمالي
                                                     </td>
                                                     <td colspan="3"><span
-                                                            class="tot-money">{!! $sale->amount ?? 0 !!}</span></td>
+                                                            class="tot-money">{!! $sale->product_total() ?? 0 !!}</span></td>
                                                 </tr>
 
                                                 <tr>
@@ -1019,7 +1019,7 @@
                                                         data-tablesaw-priority="6"><i
                                                             class="ti-money"></i> المطلوب سداده
                                                     </td>
-                                                    <td colspan="3">{!! $sale->amount ?? 0 !!}</td>
+                                                    <td colspan="3">{!! $sale->product_total() ?? 0 !!}</td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="2" data-tablesaw-sortable-col
@@ -1047,7 +1047,7 @@
                                                         data-tablesaw-priority="6"><i
                                                             class="ti-export"></i>المتبقي
                                                     </th>
-                                                    <td colspan="3">{!! $sale->amount - $sale->payed ?? 0 !!}</td>
+                                                    <td colspan="3">{!! $sale->product_total() - $sale->payed ?? 0 !!}</td>
                                                 </tr>
 
                                                 </tbody>
