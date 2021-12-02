@@ -62,6 +62,7 @@
 </div>
 <!-- /page container -->
 @yield('scripts')
+@stack('scripts')
 <!---  current year -->
 <script>
         document.getElementById("currentYear").innerHTML = new Date().getFullYear();

@@ -32,7 +32,6 @@ use Cookie;
 use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\ValidationException;
 
 class SaleController extends Controller
 {
@@ -401,27 +400,31 @@ class SaleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $sale =AccountingSale::findOrFail($id);
-        $product_items=AccountingSaleItem::where('sale_id', $id)->get();
+        $sale = AccountingSale::findOrFail($id);
+        $product_items = AccountingSaleItem::where('sale_id', $id)->get();
         return $this->toShow(compact('sale', 'product_items'));
     }
 
+    public function showBill(AccountingSale $bill)
+    {
+        return view('AccountingSystem.sell_points.show')->with('bill', $bill);
+    }
 
     public function sale_end(Request $request, $id)
     {
-        $user=User::findOrFail($id);
-        $session=AccountingSession::findOrFail($request['session_id']);
-        $sales_payed_cash=AccountingSale::where('session_id', $request['session_id'])->sum('cash');
-        $sales_payed_network=AccountingSale::where('session_id', $request['session_id'])->sum('network');
-        $sales_payed=AccountingSale::where('session_id', $request['session_id'])->sum('payed');
-        $returns_total=AccountingReturn::where('session_id', $request['session_id'])->sum('total');
+        $user = User::findOrFail($id);
+        $session = AccountingSession::findOrFail($request['session_id']);
+        $sales_payed_cash = AccountingSale::where('session_id', $request['session_id'])->sum('cash');
+        $sales_payed_network = AccountingSale::where('session_id', $request['session_id'])->sum('network');
+        $sales_payed = AccountingSale::where('session_id', $request['session_id'])->sum('payed');
+        $returns_total = AccountingReturn::where('session_id', $request['session_id'])->sum('total');
         $session->update([
-            'end_session'=>Carbon::now(),
+            'end_session' => Carbon::now(),
         ]);
 
         //    dd($session);

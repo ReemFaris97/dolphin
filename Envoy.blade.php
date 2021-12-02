@@ -2,11 +2,15 @@
 
 @task('deploy')
     cd /home/alqabedah/dolphin
-    git stash
     git pull origin Develop
+    php artisan config:Cache
+@endtask
+@task('beta')
+    cd /home/alqabedah/beta.alqabedah.com/public_html
+    git pull origin Develop
+    php artisan config:Cache
     composer install
     php artisan migrate
-    php artisan config:Cache
 @endtask
 
 @task('seed_storage')

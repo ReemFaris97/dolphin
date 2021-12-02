@@ -205,6 +205,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/branch_devices/{id}', 'SafeController@branch_devices');
     Route::post('transactionsafe_store/{id}', 'SafeController@transactionsafe_store')->name('transactionsafe_store');
 
+    Route::get('print-a4-bill/{bill}','SaleController@showBill');
 
     Route::resource('faces', 'FaceController');
     Route::resource('columns', 'ColumnController');
