@@ -143,7 +143,9 @@ class SellPointController extends Controller
             $quantity=((int)$kilo*1000)+$grams/10;
         }
         $product = AccountingProduct::query()->ofBarcode($q)
-            ->with('sub_units')->first();
+            ->with(['sub_units'=>fn ($query) =>$query->ofBarcode($q)])
+            ->withCount(['sub_units'=>fn ($query) =>$query->ofBarcode($q)])
+            ->orderBy('sub_units_count', 'asc')->first();
         if (!$product) {
             return response()->json(['status' => false, 'message' => 'bar code not found']);
         }

@@ -144,7 +144,7 @@
                                     <tr>
                                         <th id="amountBeforeDariba" class="rel-cols" colspan="3">
                                             <span class="colorfulSpan"> المجموع</span>
-                                            <input type="hidden" class="dynamic-input">
+                                            <input type="hidden" class="dynamic-input" value="0">
                                             <span class="dynamic-span">0</span>
                                             <span class="rs"> ر.س </span>
                                         </th>
@@ -155,13 +155,14 @@
                                             </span>
                                             <span class="colorfulSpan"> قيمة الضريبة</span>
                                             <input type="hidden" class="dynamic-input" name="totalTaxs"
-                                                id="amountOfDariba1">
+                                                id="amountOfDariba1" value="0">
                                             <span class="dynamic-span">0</span>
                                             <span class="rs"> ر.س </span>
                                         </th>
                                         <th id="amountAfterDariba" class="rel-cols" colspan="3">
                                             <span class="colorfulSpan">المجموع بعد الضريبة</span>
                                             <input type="hidden" class="dynamic-input" name="amount"
+                                            value="0"
                                                 id="amountAfterDarib1">
                                             <span class="dynamic-span">0</span>
                                             <span class="rs"> ر.س </span>
@@ -196,7 +197,7 @@
                                     </tr>
                                     <tr id="demandedAmount">
                                         <th colspan="2">المطلوب دفعه</th>
-                                        <input type="hidden" name="total" id="total">
+                                        <input type="hidden" name="total" id="total" value="0">
                                         <th colspan="7" id="reminder" class="rel-cols">
                                             <span class="dynamic-span">0</span>
                                             <span class="rs"> ر.س </span>
@@ -209,18 +210,22 @@
                                                 <div class="form-group rel-cols">
                                                     <label for="byCache">كاش</label>
                                                     <input type="number" step="any" id="byCache" placeholder="المدفوع كاش"
-                                                        min="0" class="form-control dynamic-input" name="cash">
+                                                        min="0" class="form-control dynamic-input" name="cash"
+
+                                                        >
                                                     <span class="rs"> ر.س </span>
                                                 </div>
                                                 <span> + </span>
                                                 <div class="form-group rel-cols">
                                                     <label for="byNet">شبكة</label>
                                                     <input type="number" step="any" id="byNet" placeholder="المدفوع شبكة"
-                                                        min="0" class="form-control dynamic-input" name="network">
+                                                        min="0" class="form-control dynamic-input" name="network"
+                                                        >
                                                     <span class="rs"> ر.س </span>
                                                 </div>
                                                 <div class="rel-cols">
-                                                    <input type="hidden" name="payed" id="allPaid1">
+                                                    <input type="hidden" name="payed" id="allPaid1"
+                                                    value="0">
                                                     <span class="dynamic-span" id="allPaid">0</span>
                                                     <span class="rs"> ر.س </span>
                                                 </div>
@@ -233,7 +238,7 @@
                                             <span class="dynamic-span">0</span>
                                             <span class="rs"> ر.س </span>
                                         </th>
-                                        <input type="hidden" class="dynamic-input" id="remainder-inputt" name="reminder">
+                                        <input type="hidden" class="dynamic-input" id="remainder-inputt" name="reminder" value="0">
                                     </tr>
                                     <tr>
                                         <th colspan="9">
@@ -446,7 +451,7 @@ var is_selected = (i == 0) ? 'selected' : '';
             var height = $("tbody").height();
             $("tbody").animate({
                 scrollTop: $('tbody').prop("scrollHeight")
-            }, height);
+            }, 0);
 
             //	Remove overlay
             $(".tempDisabled").removeClass("tempDisabled");
@@ -939,7 +944,10 @@ var is_selected = (i == 0) ? 'selected' : '';
 
         function confirmSubmit(event) {
             var feloos = Number($("tr#remaindedAmount span.dynamic-span").text());
-            if (feloos >= 0) {
+            var feloos = Number($("tr#remaindedAmount span.dynamic-span").text());
+            var cash = Number($('input[name="cash"]').val());
+            var network = Number($('input[name="network"]').val());
+            if (feloos >= 0 && (cash+network)>0) {
                 event.preventDefault();
                 swal({
                         title: "تنبيه !",
