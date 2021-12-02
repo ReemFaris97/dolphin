@@ -114,7 +114,7 @@
                             <input type="hidden" name="client_id" id="client_id_val">
                             <table border="1"
                                 class="table datatable-button-init-basic finalTb mabi3at-bill bill-table
-                         ace_dark   {{ getsetting('name_enable_sales') == 1 ? 'name_enable' : '' }}
+                        ace_dark   {{ getsetting('name_enable_sales') == 1 ? 'name_enable' : '' }}
                             {{ getsetting('barcode_enable_sales') == 1 ? 'barcode_enable' : '' }}
                             {{ getsetting('unit_enable_sales') == 1 ? 'unit_enable' : '' }}
                             {{ getsetting('quantity_enable_sales') == 1 ? 'quantity_enable' : '' }}
@@ -241,8 +241,11 @@
                                         <input type="hidden" class="dynamic-input" id="remainder-inputt" name="reminder" value="0">
                                     </tr>
                                     <tr>
-                                        <th colspan="9">
+                                        <th colspan="5">
                                             <button type="submit"> حفظ [F7] </button>
+                                        </th>
+                                        <th colspan="4">
+                                            <button type="submit"> حفظ [A4] </button>
                                         </th>
                                     </tr>
                                 </tfoot>
@@ -449,6 +452,7 @@ var is_selected = (i == 0) ? 'selected' : '';
         </tr>`);
 
             var height = $("tbody").height();
+
             $("tbody").animate({ scrollTop: 0 }, "fast");
 
             //	Remove overlay
