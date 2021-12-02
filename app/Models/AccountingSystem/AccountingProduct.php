@@ -268,19 +268,19 @@ class AccountingProduct extends Model
         return $quantity;
     }
 
-    public function scopeOfBarcode($builder, $barcode=null)
+    public function scopeOfBarcode($builder, ?string $barcode=null)
     {
 
 
         // $barcode= Str::startsWith($barcode, '"') ?  $barcode:'"'.$barcode;
         // $barcode= Str::endsWith($barcode, '"') ?  $barcode:$barcode.'"';
         if ($barcode!=null) {
-            $builder->whereJsonContains('bar_code', (string)$barcode);
-
-            $builder->orwhereHas(
-                'sub_units',
-                fn ($b) => $b->whereRaw("JSON_CONTAINS(bar_code,'\"?\"')",$barcode)
-            );
+            $builder->whereRaw('json_contains(`bar_code`, \'"70099122020048"\')');
         }
+
+        $builder->orwhereHas(
+            'sub_units',
+            fn ($b) => $b->whereJsonContains('bar_code', $barcode)
+        );
     }
 }
