@@ -1047,7 +1047,7 @@
                                                         data-tablesaw-priority="6"><i
                                                             class="ti-export"></i>المتبقي
                                                     </th>
-                                                    <td colspan="3">{!! $sale->total - $sale->payed ?? 0 !!}</td>
+                                                    <td colspan="3">{!! $sale->amount - $sale->payed ?? 0 !!}</td>
                                                 </tr>
 
                                                 </tbody>
