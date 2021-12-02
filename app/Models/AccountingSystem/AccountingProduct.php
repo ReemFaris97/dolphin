@@ -274,7 +274,7 @@ class AccountingProduct extends Model
         $barcode= Str::endsWith($barcode, '"') ?  $barcode:$barcode.'"';
         $builder->where('bar_code', 'like', "%$barcode%");
         $builder->orwhereHas(
-            'barcodes',
+            'sub_units',
             fn ($b) => $b->where('bar_code', 'like', "%$barcode%")
         );
     }
