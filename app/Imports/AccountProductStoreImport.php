@@ -26,8 +26,9 @@ class AccountProductStoreImport implements ToCollection, WithHeadingRow, WithBat
     public function collection(Collection $rows)
     {
         $this->command->withProgressBar($rows, function ($row) {
-            $product = AccountingProduct::where('name', $row['asm_almad'])->first();
             try {
+            $product = AccountingProduct::where('name', $row['asm_almad'])->first();
+
                 AccountingProductStore::create([
                     'product_id' => $product->id,
                     'store_id' => 1,
