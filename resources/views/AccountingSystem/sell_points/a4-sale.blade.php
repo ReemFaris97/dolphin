@@ -178,7 +178,7 @@
                                         </td>
                                         <td>{{ $value->price }}</td>
                                         <td>{{ $value->quantity }}</td>
-                                        <td> {{$value->unit_type??$value->product->main_unit}}
+                                        <td> {{$value->unit?$value->unit->name:$value->product->main_unit}}
                                         </td>
 
 
@@ -228,7 +228,7 @@
                                 </th>
                             </tr>
                             <tr>
-                                <th>{{$total}}</th>
+                                <th>{{$sale->total}}</th>
                                 <th >
                                     <p>net amount</p>
                                     <p>اجمالى الفاتورة</p>
@@ -240,7 +240,7 @@
                                             <h4>المبلغ كتابة:</h4>
                                             <h4>S.R in words:</h4>
                                         </div>
-                                        <p>{{ $sale->CashArabic($total)[0] }}
+                                        <p>{{ $sale->CashArabic($sale->total)[0] }}
                                             ريال
                                             {{ $sale->CashArabic($total)[1] ??''}}
                                             @if($sale->CashArabic($total)[1]!=0)

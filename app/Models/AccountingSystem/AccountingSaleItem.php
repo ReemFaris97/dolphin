@@ -54,6 +54,10 @@ class AccountingSaleItem extends Model
         return $this->belongsTo(AccountingSale::class,'sale_id');
     }
 
+    public function unit()
+    {
+        return $this->belongsTo(AccountingProductSubUnit::class,'unit_id');
+}
     public function units()
     {
 //        return $this->belongsTo(AccountingProductSubUnit::class,'unit_id');
