@@ -1832,7 +1832,7 @@ table.mabi3at-bill tfoot tr th#amountBeforeDariba span.dynamic-span, table.mabi3
     font-size: 35px !important;
 }
 
-select.form-control.js-example-basic-single {
+select.form-control.js-example-basic-single.edit-select-size {
     font-weight: bold;
     font-size: 16px;
 }
