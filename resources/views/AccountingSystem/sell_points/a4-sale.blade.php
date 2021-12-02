@@ -197,8 +197,8 @@
                         <table class="the_table">
                             <tfoot>
                             @php($tax_percent=(float)(getsetting('general_taxs')) )
-                            @php($tax_amount= $sale->product_total() -($sale->product_total() *(100-$tax_percent)/100))
-                            @php($total=$sale->product_total() )
+                            @php($tax_amount= $sale->amount -($sale->amount *(100-$tax_percent)/100))
+                            @php($total=$sale->amount )
                             <tr>
                                 <th>{{(float) $sale->product_total()}}</th>
                                 <th colspan="4">
@@ -228,7 +228,7 @@
                                 </th>
                             </tr>
                             <tr>
-                                <th>{{$sale->total}}</th>
+                                <th>{{$sale->amount}}</th>
                                 <th >
                                     <p>net amount</p>
                                     <p>اجمالى الفاتورة</p>
@@ -243,8 +243,11 @@
                                         <p>{{ $sale->CashArabic($sale->amount)[0] }}
                                             ريال
                                             {{ $sale->CashArabic($sale->amount)[1] ??''}}
-                                            @if($sale->CashArabic($sale->amount)[1]!=0)
+                                            @if(($sale->amount-(int)$sale->amount)!=0)
+                                                و
+                                            {{$sale->CashArabic($sale->amount-(int)$sale->amount)}}
                                                 هللة
+
                                             @endif
                                             لاغير
                                         </p>
