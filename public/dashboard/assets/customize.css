@@ -241,6 +241,26 @@ table.table-bordered.dataTable tfoot th .form-control::placeholder {
 .row.m-row--col-separator-xl>div:nth-child(2) a .m-widget24 .progress .progress-bar{
     background-color: rgb(192 57 43 / .5)!important;
 }
+/* ========= first modfication 1/12/2021 ===========*/
+.table.table-striped.edit-th-50 thead th {
+    border: 0;
+    width: 50%;
+}
+
+
+
+table.table.table-striped.table-bordered.edit-th-50.table-responsive {
+    width: 100%;
+    direction: rtl;
+}
+table.table.table-striped.table-bordered.edit-th-50 td{
+    padding: 10px;
+}
+table.table.table-striped.table-bordered.edit-th-50 th{
+    padding: 15px 10px;
+}
+/* ========= end modfication 1/12/2021 ===========*/
+/* ================responsive ==============*/
 /***/
 @media screen and (max-width: 767px){
     div.dataTables_wrapper div.dataTables_filter input {
@@ -261,6 +281,15 @@ table.table-bordered.dataTable tfoot th .form-control::placeholder {
         flex: 1 0 50%;
         padding-right:16px;
         padding-left:16px;
+    }
+}
+@media print {
+    table.table.table-striped.table-bordered.edit-th-50 td {
+        padding: 6px !important;
+    }
+    table.table.table-striped.table-bordered.edit-th-50.table-responsive{
+        width: 100% !important;
+        direction: rtl;
     }
 }
 .dataTables_wrapper table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child:before {

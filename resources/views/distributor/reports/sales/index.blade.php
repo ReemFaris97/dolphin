@@ -160,20 +160,30 @@
 @push('scripts')
     <script src="{!! asset('dashboard/assets/vendors/base/jquery-2.1.4.min.js') !!}"></script>
     <script>
-        $(document).ready(function () {
-            $("#print-all").on('click', function () {
-                let t = document.getElementById("print_this").innerHTML;
-                console.log(t);
-                {{-- let style = `<link rel="stylesheet" type="text/css" href="{{ asset('dashboard/assets/vendors/base/bill-print.css') }}" >`; --}}
-                let style = '';
-                let win = window.open('', '');
-                win.document.write(`${style}${t}`);
-                win.document.close();
-                setTimeout(() => {
-                    win.print()
-                }, 100);
-            });
-        })
+    
+
+        $(document).ready(function() {
+        $("#print-all").on('click', function() {
+            let t = document.getElementById("print_this").innerHTML;
+           
+            let style = `<style>table.table.table-striped.table-bordered.edit-th-50.table-responsive{width:100%;direction:rtl}table.table.table-striped.table-bordered.edit-th-50 td{padding:10px}table.table.table-striped.table-bordered.edit-th-50 th{padding:15px 10px}</style>`;
+            let win = window.open('', '');
+            win.document.write(`<html>
+        <head>
+        <title>الفاتورة</title>
+        <link rel="stylesheet" href="{{asset('admin/css/bootstrap-rtl.css')}}">
+        <link rel="stylesheet" href="{{asset('admin/css/print-bill.css')}}">
+        ${style}
+        <head>
+        <body>${t}</body></html>`);
+            win.document.close();
+            win.print();
+
+        });
+    })
+
+</script>
+
     </script>
 @endpush
 @push('scripts')
