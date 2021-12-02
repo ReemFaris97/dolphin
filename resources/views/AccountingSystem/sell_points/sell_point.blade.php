@@ -209,10 +209,7 @@
                                             <div class="inline_divs">
                                                 <div class="form-group rel-cols">
                                                     <label for="byCache">كاش</label>
-                                                    <input type="number" step="any" id="byCache" placeholder="المدفوع كاش"
-                                                        min="0" class="form-control dynamic-input" name="cash"
-
-                                                        >
+                                                    <input type="number" step="any" id="byCache" placeholder="المدفوع كاش" min="0" class="form-control dynamic-input" name="cash">
                                                     <span class="rs"> ر.س </span>
                                                 </div>
                                                 <span> + </span>
@@ -245,8 +242,9 @@
                                             <button type="submit"> حفظ [F7] </button>
                                         </th>
                                         <th colspan="4">
-                                            <button type="submit"> حفظ [A4] </button>
+                                            <button type="submit" onclick="$('#print-a4').val('a4')"> حفظ [A4] </button>
                                         </th>
+                                        {!! Form::hidden('print','7cm',['id'=>'print-a4']) !!}
                                     </tr>
                                 </tfoot>
                             </table>
@@ -681,9 +679,7 @@ var is_selected = (i == 0) ? 'selected' : '';
                     $("#total").val(total);
                 });
                 $("input#byAmount").change(function() {
-                    if ((Number($(this).val())) > Number($(
-                                "#amountAfterDariba span.dynamic-span")
-                            .html())) {
+                    if ((Number($(this).val())) > Number($("#amountAfterDariba span.dynamic-span").html())) {
                         alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' +
                             $(
                                 "#amountAfterDariba span.dynamic-span").html());
@@ -998,7 +994,7 @@ var is_selected = (i == 0) ? 'selected' : '';
         @if (!empty(session()->has('sale_id')))
             @php($sale_id = session()->get('sale_id'))
             window.open(
-            "{{ route('accounting.sales.show', $sale_id) }}",
+            "{{ route('accounting.sales.show', ['sale'=>$sale_id,'print'=>session('print')]) }}",
             "_blank"
             ).print();
         @endif

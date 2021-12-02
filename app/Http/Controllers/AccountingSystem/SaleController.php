@@ -277,7 +277,7 @@ class SaleController extends Controller
 
 //        dd($sale);
         alert()->success('تمت عملية البيع بنجاح !')->autoclose(5000);
-        return back()->with('sale_id', $sale->id);
+        return back()->with('sale_id', $sale->id)->with('print',$request->print);
     }
 
 
@@ -407,7 +407,11 @@ class SaleController extends Controller
     {
         $sale = AccountingSale::findOrFail($id);
         $product_items = AccountingSaleItem::where('sale_id', $id)->get();
-        return $this->toShow(compact('sale', 'product_items'));
+        if (\request('print','7cm')=='7cm'){
+            return view('AccountingSystem.sales.show',compact('sale', 'product_items'));
+        }else{
+            return view('AccountingSystem.sell_points.a4-sale',compact('sale', 'product_items'));
+        }
     }
 
     public function showBill(AccountingSale $bill)
