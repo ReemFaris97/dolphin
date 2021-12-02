@@ -113,7 +113,7 @@
                             <input type="hidden" name="bill_date" id="bill_date_val">
                             <input type="hidden" name="client_id" id="client_id_val">
                             <table border="1"
-                                class="table datatable-button-init-basic finalTb mabi3at-bill bill-table
+                                class="table datatable-button-init-basic finalTb edit-mabi3at mabi3at-bill bill-table
                         ace_dark   {{ getsetting('name_enable_sales') == 1 ? 'name_enable' : '' }}
                             {{ getsetting('barcode_enable_sales') == 1 ? 'barcode_enable' : '' }}
                             {{ getsetting('unit_enable_sales') == 1 ? 'unit_enable' : '' }}
