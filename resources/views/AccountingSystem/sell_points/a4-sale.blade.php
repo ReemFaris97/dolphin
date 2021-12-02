@@ -243,8 +243,11 @@
                                         <p>{{ $sale->CashArabic($sale->amount)[0] }}
                                             ريال
                                             {{ $sale->CashArabic($sale->amount)[1] ??''}}
-                                            @if($sale->CashArabic($sale->amount)[1]!=0)
+                                            @if(($sale->amount-(int)$sale->amount)!=0)
+                                                و
+                                            {{$sale->CashArabic($sale->amount-(int)$sale->amount)}}
                                                 هللة
+
                                             @endif
                                             لاغير
                                         </p>
