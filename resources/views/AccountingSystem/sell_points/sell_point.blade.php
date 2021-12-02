@@ -211,7 +211,7 @@
                                                     <label for="byCache">كاش</label>
                                                     <input type="number" step="any" id="byCache" placeholder="المدفوع كاش"
                                                         min="0" class="form-control dynamic-input" name="cash"
-                                                        value="0"
+
                                                         >
                                                     <span class="rs"> ر.س </span>
                                                 </div>
@@ -220,7 +220,7 @@
                                                     <label for="byNet">شبكة</label>
                                                     <input type="number" step="any" id="byNet" placeholder="المدفوع شبكة"
                                                         min="0" class="form-control dynamic-input" name="network"
-                                                        value="0">
+                                                        >
                                                     <span class="rs"> ر.س </span>
                                                 </div>
                                                 <div class="rel-cols">
@@ -944,7 +944,10 @@ var is_selected = (i == 0) ? 'selected' : '';
 
         function confirmSubmit(event) {
             var feloos = Number($("tr#remaindedAmount span.dynamic-span").text());
-            if (feloos >= 0) {
+            var feloos = Number($("tr#remaindedAmount span.dynamic-span").text());
+            var cash = Number($('input[name="cash"]').val());
+            var network = Number($('input[name="network"]').val());
+            if (feloos >= 0 && (cash+network)>0) {
                 event.preventDefault();
                 swal({
                         title: "تنبيه !",
