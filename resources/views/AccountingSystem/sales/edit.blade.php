@@ -132,7 +132,7 @@
                                         <td class="row-num" width="40">{{ ++$key }}</td>
                                         <input type="hidden" name="product_id_old[]" value="{{ $item->product->id }}">
                                         <td class="product-name maybe-hidden name_enable">{{ $item->product->name  }}</td>
-                                        <td class="product-name maybe-hidden barcode_enable" width="140">{{$item->product->bar_code}}</td>
+                                        <td class="product-name maybe-hidden barcode_enable" width="140">{{implode(' ',$item->product->bar_code)}}</td>
                                         <td class="product-unit maybe-hidden unit_enable" width="110">
                                             <select class="form-control js-example-basic-single" name="unit_id_old[{{$item->product_id}}]">
                                                 @foreach($item->units() as $unit)
@@ -814,8 +814,8 @@
     <script src="{{asset('admin/assets/js/get_store_by_company_and_branchs.js')}}"></script>
     <!---- new design --->
     <script>
-        @if(!empty(\Illuminate\ Support\ Facades\ Session::has('sale_id')))
-        @php($sale_id = \Illuminate\ Support\ Facades\ Session::get('sale_id'))
+        @if(!empty(Session::has('sale_id')))
+        @php($sale_id = Session::get('sale_id'))
         window.open(
             "{{route('accounting.sales.show',$sale_id)}}",
             "_blank"
