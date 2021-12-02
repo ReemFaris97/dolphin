@@ -1019,7 +1019,7 @@
                                                         data-tablesaw-priority="6"><i
                                                             class="ti-money"></i> المطلوب سداده
                                                     </td>
-                                                    <td colspan="3">{!! $sale->total ?? 0 !!}</td>
+                                                    <td colspan="3">{!! $sale->amount ?? 0 !!}</td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="2" data-tablesaw-sortable-col
