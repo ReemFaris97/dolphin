@@ -252,13 +252,83 @@ table.table-bordered.dataTable tfoot th .form-control::placeholder {
 table.table.table-striped.table-bordered.edit-th-50.table-responsive {
     width: 100%;
     direction: rtl;
+    border-collapse: collapse;
 }
 table.table.table-striped.table-bordered.edit-th-50 td{
     padding: 10px;
+    border: 1px solid #dee2e6;
 }
-table.table.table-striped.table-bordered.edit-th-50 th{
+table.table.table-striped.table-bordered.edit-th-50 th {
+    padding: 15px 10px;
+    border: 1px solid #dee2e6;
+  
+}
+.table-bordered td, .table-bordered th {
+    border: 1px solid #dee2e6;
+
+}
+
+table.table.table-striped.table-refuse tr , table.table.table-striped.table-refuse th {
+    width: 100%;
+}
+
+
+
+
+.content-num-visit{
+    display: none;
+}
+.block{
+    display: block;
+}
+.visitss span:nth-child(1){
+    font-weight: bold;
+    font-size: 20px;
+}
+.visitss span:nth-child(2) {
+    font-size: 17px;
+    color: #898989;
+}
+.visitss{
+    width: 33%;
+    text-align: center;
+}
+
+
+
+.table-striped.table-refuse{
+    border-collapse: collapse;
+    width: 100%;
+}
+.table-striped.table-refuse th{
+    text-align: right;
     padding: 15px 10px;
 }
+.table-striped.table-refuse td{
+    text-align: right;
+    padding: 10px;
+}
+
+.dateBackend{
+    display: none;
+  
+}
+.date-from , .date-to{
+    width: 50%;
+    text-align: right;
+    font-size: 15px;
+   
+}
+.date-from span:nth-child(1) , .date-to span:nth-child(1){
+    
+    font-weight: bold;
+}
+.content-num-visit {
+    display: flex;
+    margin-top: 10px;
+    padding: 15px 0;
+}
+
 /* ========= end modfication 1/12/2021 ===========*/
 /* ================responsive ==============*/
 /***/

@@ -116,6 +116,7 @@
                                     </div>
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
                     {{-- <div>
@@ -126,32 +127,61 @@
                         <button type="button" class="btn btn-success" id="print-all">طباعة</button>
                     </div>
                     <div id="print_this">
-                        @include('distributor.reports.sales._table')
+                        <div class="dateBackend">
+                            <div class="date-from">
+                                <span>من : </span>
+                                <span> </span>
+                              
+                            </div>
+                            <div class="date-to">
+                             
+                                <span>الي : </span>
+                                <span> </span>
+                            </div>
+                        </div>
+                        <div id="">
+                            @include('distributor.reports.sales._table')
+                        </div>
+                        <div class="m-content">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h3>أسباب الرفض</h3>
+                                    <table class="table table-striped table-refuse table-bordered table-responsive ">
+                                        <thead>
+                                        <tr>
+                                            <th>السبب</th>
+                                            <th> العدد </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($refuse_reasons as $index => $reason)
+                                            <tr>
+                                                <td>{{$index}}</td>
+                                                <td>{{$reason->count()}}</td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-num-visit">
+                            <div class="visitss">
+                                <div class="block">عدد الزيارات </div>
+                                <div>147</div>
+                            </div>
+                            <div class="visitss">
+                                <div class="block"> اجمالي مرات الرفض </div>
+                                <div>147</div>
+                            </div>
+                            <div class="visitss">
+                                <div class="block">اجمالي المبيعات</div>
+                                <div>147</div>
+                            </div>
+                        </div>
                     </div>
-
                 </div>
-                <div class="row">
-                    <div class="col-12">
-                        <h3>أسباب الرفض</h3>
-                        <table class="table table-striped table-bordered table-responsive ">
-                            <thead>
-                            <tr>
-                                <th>السبب</th>
-                                <th> العدد </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($refuse_reasons as $index => $reason)
-                                <tr>
-                                    <td>{{$index}}</td>
-                                    <td>{{$reason->count()}}</td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>
@@ -166,13 +196,12 @@
         $("#print-all").on('click', function() {
             let t = document.getElementById("print_this").innerHTML;
            
-            let style = `<style>table.table.table-striped.table-bordered.edit-th-50.table-responsive{width:100%;direction:rtl}table.table.table-striped.table-bordered.edit-th-50 td{padding:10px}table.table.table-striped.table-bordered.edit-th-50 th{padding:15px 10px}</style>`;
+            let style = `<style>body {-webkit-print-color-adjust: exact !important; direction:rtl}.table.table-striped.edit-th-50 thead th{border:0;width:50%}table.table.table-striped.table-bordered.edit-th-50.table-responsive{width:100%;direction:rtl;border-collapse:collapse}table.table.table-striped.table-bordered.edit-th-50 td{padding:10px;border:1px solid #dee2e6}table.table.table-striped.table-bordered.edit-th-50 th{padding:15px 10px;border:1px solid #dee2e6}.table-bordered td,.table-bordered th{border:1px solid #dee2e6}.block{display:block}.visitss div:nth-child(1){font-weight:700;font-size:20px;margin-bottom: 7px;}.visitss div:nth-child(2){font-size:17px;color:#898989}.visitss{width:33%;text-align:center}.content-num-visit{display:flex}.table-striped.table-refuse{border-collapse:collapse;width:100%}.table-striped.table-refuse th{text-align:right;padding:15px 10px;background-color:#f1f1f1}.table-striped.table-refuse td{text-align:right;padding:10px}.content-num-visit{display:flex;margin-top:10px;background-color:#f1f1f1;padding:15px 0}.dateBackend{display:flex;margin:15px 0;padding:0 15px}.date-from,.date-to{width:50%;text-align:right;font-size:15px}.date-from span:nth-child(1),.date-to span:nth-child(1){font-weight:700}.content-num-visit{display:flex;margin-top:10px;padding:15px 0}@media print{table.table.table-striped.table-bordered.edit-th-50 td{padding:6px!important}table.table.table-striped.table-bordered.edit-th-50.table-responsive{width:100%!important;direction:rtl}table.table.table-striped.table-bordered.edit-th-50 th{padding:15px 10px;border:1px solid #dee2e6;background-color:#f1f1f1}.content-num-visit{display: flex;margin-top: 15px;}}</style>`;
             let win = window.open('', '');
             win.document.write(`<html>
         <head>
         <title>الفاتورة</title>
-        <link rel="stylesheet" href="{{asset('admin/css/bootstrap-rtl.css')}}">
-        <link rel="stylesheet" href="{{asset('admin/css/print-bill.css')}}">
+        
         ${style}
         <head>
         <body>${t}</body></html>`);

@@ -1,13 +1,14 @@
 <table class="table table-striped table-bordered edit-th-50 table-responsive ">
     <thead>
     <tr>
-        <th rowspan="2" class="text-center">  </th>
+        <!-- <th rowspan="2" class="text-center">  </th> -->
         @foreach($sales_distributors as $distributor)
-            <th colspan="2">{!!$distributor->name!!}</th>
+            <th colspan="3">{!!$distributor->name!!}</th>
         @endforeach
     </tr>
     <tr>
         @foreach($sales_distributors as $name)
+            <th>الصنف</th>
             <th>الكمية</th>
             <th> قيمة العملية</th>
         @endforeach
