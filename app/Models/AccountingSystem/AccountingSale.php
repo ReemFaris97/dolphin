@@ -6,6 +6,7 @@ use App\helper\num_to_ar;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Log;
 
 /**
  * App\Models\AccountingSystem\AccountingSale
@@ -80,10 +81,9 @@ use Illuminate\Support\Str;
  */
 class AccountingSale extends Model
 {
-
     protected static function booted()
     {
-        static::creating(function  ($model)  {
+        static::creating(function ($model) {
             $model->uuid = (string) Str::uuid();
         });
     }
@@ -94,25 +94,25 @@ class AccountingSale extends Model
     protected $appends = ['item_cost'];
     public function client()
     {
-        return $this->belongsTo(AccountingClient::class,'client_id');
+        return $this->belongsTo(AccountingClient::class, 'client_id');
     }
     public function session()
     {
-        return $this->belongsTo(AccountingSession::class,'session_id');
+        return $this->belongsTo(AccountingSession::class, 'session_id');
     }
 
     public function company()
     {
-        return $this->belongsTo(AccountingCompany::class,'company_id');
+        return $this->belongsTo(AccountingCompany::class, 'company_id');
     }
     public function branch()
     {
-        return $this->belongsTo(AccountingBranch::class,'branch_id');
+        return $this->belongsTo(AccountingBranch::class, 'branch_id');
     }
 
     public function store()
     {
-        return $this->belongsTo(AccountingStore::class,'store_id');
+        return $this->belongsTo(AccountingStore::class, 'store_id');
     }
     public function CashArabic($cach)
     {
@@ -135,7 +135,7 @@ class AccountingSale extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function items()
@@ -145,18 +145,19 @@ class AccountingSale extends Model
 
     public function getItemCostAttribute()
     {
-        $products_item=AccountingSaleItem::where('sale_id',$this->id)->pluck('product_id','quantity')->toArray();
+        $products_item=AccountingSaleItem::where('sale_id', $this->id)->pluck('product_id', 'quantity')->toArray();
 
 
         $cost=0;
-        foreach ($products_item as $key=>$product_id){
+        foreach ($products_item as $key=>$product_id) {
             $product=AccountingProduct::find($product_id);
-            $cost+=$product->purchasing_price * $key;
-
+            try {
+                $cost+=(floatval($product->purchasing_price)??0) * $key;
+            } catch (\Exception $exception) {
+            }
+            // اانا اسف والله
         }
 
         return $cost;
     }
-
-
 }
