@@ -190,6 +190,7 @@
                                                             value="0" max="1" id="byAmount"
                                                             class="form-control dynamic-input" name="discount_byAmount">
                                                         <span class="rs"> ر.س </span>
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
@@ -422,7 +423,7 @@ var is_selected = (i == 0) ? 'selected' : '';
 			<td class="product-name maybe-hidden name_enable">${productName}</td>
 			<td class="product-name maybe-hidden barcode_enable" width="140">${productBarCode}</td>
 			<td class="product-unit maybe-hidden unit_enable" width="110">
-				<select class="form-control js-example-basic-single" name="unit_id[${productId}-${sub_unit_id}]">
+				<select class="form-control js-example-basic-single edit-select-size" name="unit_id[${productId}-${sub_unit_id}]">
 					${optss}
 				</select>
 			</td>
