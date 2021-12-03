@@ -190,7 +190,7 @@
                                                             value="0" max="1" id="byAmount"
                                                             class="form-control dynamic-input" name="discount_byAmount">
                                                         <span class="rs"> ر.س </span>
-                                                        
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -986,6 +986,34 @@ var is_selected = (i == 0) ? 'selected' : '';
         }
         $(".finalTb button[type='submit']").click(function(event) {
             confirmSubmit(event)
+        })
+
+        $("#sllForm").submit(function(event) {
+
+var data= $("#sllForm").serialize();
+$.ajax({
+    method: "POST",
+    url :$("#sllForm").attr('action'),
+    data:data,
+    success:function(data){
+        window.location.href = data;
+},
+    error:function(data){
+        if(data.status==422){
+            var errors=data.responseJSON.errors;
+            $.each(errors,function(key,value){
+                swal(value[0], {
+                                icon: "error",
+                                buttons: false
+                            });
+                        })
+                         event.preventDefault();
+                         return false;
+        }
+
+    }
+
+});
         })
     </script>
     <script src="{{ asset('admin/assets/js/get_branch_by_company.js') }}"></script>
