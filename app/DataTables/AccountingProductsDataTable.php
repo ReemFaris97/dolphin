@@ -23,8 +23,6 @@ class AccountingProductsDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->filterColumn('barcode', function ($query, $barcode) {
-                // $barcode= request()->columns[5]['search']['value'];
-
                 $query->ofBarcode($barcode);
             })
             ->filterColumn('name', function ($query, $name) {
