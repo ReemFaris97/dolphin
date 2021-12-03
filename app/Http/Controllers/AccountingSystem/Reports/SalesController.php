@@ -69,12 +69,12 @@ class SalesController extends Controller
     public function byDay(Request $request)
     {
         $requests = request()->all();
-        if ($request->has('company_id')) {
-            $sales = Sale::select('id', \DB::raw('DATE(created_at) as date'), \DB::raw('count(*) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'), 'created_at');
+            $sales = Sale::query();
+            $sales->select('id', \DB::raw('DATE(created_at) as date'), \DB::raw('count(*) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'), 'created_at');
 
-            if ($request->has('branch_id') && $request->branch_id != null) {
+        /*    if ($request->has('branch_id') && $request->branch_id != null) {
                 $sales = $sales->where('branch_id', $request->branch_id);
-            }
+            }*/
 
 
             if ($request->has('user_id') && $request->user_id != null) {
@@ -93,9 +93,7 @@ class SalesController extends Controller
 //          dd($sales);
             $sales = $sales->groupBy('date')->get();
 
-        } else {
-            $sales = collect();
-        }
+
 
         return view('AccountingSystem.reports.sales.day', compact('sales', 'requests'));
 
