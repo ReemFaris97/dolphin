@@ -132,6 +132,9 @@
                                 </div>
                             </div>
                         </div>
+                    @php($tax_percent=(float)(getsetting('general_taxs')) )
+                    @php($tax_amount= $sale->product_total() -($sale->product_total() *100/(100+$tax_percent)))
+                    @php($total=$sale->product_total() )
                         <!--- table---->
                         <div class="bg_logo">
                             <table dir="ltr" class="the_table">
@@ -171,10 +174,11 @@
                                 <tbody>
                                 @foreach($sale->items as $value)
                                     <tr>
-                                        <td>{{ (double)$value->price * $value->quantity -($value->price * $value->quantity)*($value->tax)/100}}</td>
+{{--                                        @dd($value->priceWithoutTax($tax_percent))--}}
+                                        <td>{{ round($value->priceWithoutTax($tax_percent) * $value->quantity,2)}}</td>
                                         <td>
 
-                                            {{ (double)($value->price * $value->quantity)-($value->price * $value->quantity)*(100-$value->tax)/100 }}
+                                            {{ round($value->getTax($tax_percent),2) }}
                                         </td>
                                         <td>{{ $value->price }}</td>
                                         <td>{{ $value->quantity }}</td>
@@ -196,11 +200,9 @@
                     <div class="row">
                         <table class="the_table">
                             <tfoot>
-                            @php($tax_percent=(float)(getsetting('general_taxs')) )
-                            @php($tax_amount= $sale->amount -($sale->amount *(100-$tax_percent)/100))
-                            @php($total=$sale->amount )
+
                             <tr>
-                                <th>{{(float) $sale->product_total()-$tax_amount}}</th>
+                                <th>{{(float) round($sale->product_total()-$tax_amount,4)}}</th>
                                 <th colspan="4">
                                     <div class="flexx">
                                         <p>total</p>
@@ -218,7 +220,7 @@
                             </tr>
 
                             <tr>
-                                <th>{{$tax_amount}}</th>
+                                <th>{{round($tax_amount,4)}}</th>
                                 <th colspan="4">
                                     <div class="flexx">
                                         <p>قيمة القيمة المضافة</p>
