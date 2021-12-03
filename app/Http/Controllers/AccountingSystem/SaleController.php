@@ -397,10 +397,12 @@ DB::commit();
             $store_id=auth()->user()->accounting_store_id;
             $store=AccountingStore::find($store_id);
         } elseif ($returnSale->payment=='agel') {
-            $client=AccountingClient::find($returnSale-> client_id);
+            $client=AccountingClient::find($returnSale->client_id);
+            if($client){
             $client->update([
                 'amount'=>$client->amount -$returnSale->total
             ]);
+        }
         }
 
         DB::commit();

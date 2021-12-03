@@ -426,7 +426,7 @@ unit_total_tax_enable
                 params.page = params.page || 1;
                 /*
                 *     var productBarCode = selectedProduct.data('bar-code');
-        var productPrice = Number(selectedProduct.data('price'));
+        var productPrice = parseFloat(selectedProduct.data('price'));
         var priceHasTax = selectedProduct.data('price-has-tax');
         var totalTaxes = selectedProduct.data('total-taxes');
         var mainUnit = selectedProduct.data('main-unit');
@@ -478,18 +478,18 @@ unit_total_tax_enable
 
         //		Getting prices and taxes Code
         var singlePriceBefore, singlePriceAfter = 0;
-        if (Number(priceHasTax) === 0) {
-            var singlePriceBefore = Number(productPrice);
-            var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
-        } else if (Number(priceHasTax) === 1) {
-            var onllyDariba = Number(productPrice) - (Number(productPrice) * (100 / (100 + Number(totalTaxes))));
-            var singlePriceBefore = Number(productPrice) - Number(onllyDariba);
-            var singlePriceAfter = Number(productPrice);
+        if (parseFloat(priceHasTax) === 0) {
+            var singlePriceBefore = parseFloat(productPrice);
+            var singlePriceAfter = parseFloat(productPrice) + (parseFloat(productPrice) * (parseFloat(totalTaxes) / 100));
+        } else if (parseFloat(priceHasTax) === 1) {
+            var onllyDariba = parseFloat(productPrice) - (parseFloat(productPrice) * (100 / (100 + parseFloat(totalTaxes))));
+            var singlePriceBefore = parseFloat(productPrice) - parseFloat(onllyDariba);
+            var singlePriceAfter = parseFloat(productPrice);
         } else {
-            var singlePriceBefore = Number(productPrice);
-            var singlePriceAfter = Number(productPrice);
+            var singlePriceBefore = parseFloat(productPrice);
+            var singlePriceAfter = parseFloat(productPrice);
         }
-        var netTax = (Number(singlePriceAfter) - Number(singlePriceBefore)).toFixed(rondingNumber);
+        var netTax = (parseFloat(singlePriceAfter) - parseFloat(singlePriceBefore)).toFixed(rondingNumber);
 
         var discountNum = 1;
         var optss = ``;
@@ -684,41 +684,42 @@ unit_total_tax_enable
                         var priceHasTax = $(this).parents("tr.single-row-wrapper").data('ifhastax');
                         var productPrice = selectedUnit.data('uni-price');
                         //		Getting prices and taxes Code
-                        if (Number(priceHasTax) === 0) {
-                            var singlePriceBefore = Number(productPrice);
-                            var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
-                        } else if (Number(priceHasTax) === 1) {
-                            var onllyDariba = Number(productPrice) - (Number(productPrice) * (100 / (100 + Number(totalTaxes))));
-                            var singlePriceBefore = Number(productPrice) - Number(onllyDariba);
-                            var singlePriceAfter = Number(productPrice);
+                        if (parseFloat(priceHasTax) === 0) {
+                            var singlePriceBefore = parseFloat(productPrice);
+                            var singlePriceAfter = parseFloat(productPrice) + (parseFloat(productPrice) * (parseFloat(totalTaxes) / 100));
+                        } else if (parseFloat(priceHasTax) === 1) {
+                            var onllyDariba = parseFloat(productPrice) - (parseFloat(productPrice) * (100 / (100 + parseFloat(totalTaxes))));
+                            var singlePriceBefore = parseFloat(productPrice) - parseFloat(onllyDariba);
+                            var singlePriceAfter = parseFloat(productPrice);
                         } else {
-                            var singlePriceBefore = Number(productPrice);
-                            var singlePriceAfter = Number(productPrice);
+                            var singlePriceBefore = parseFloat(productPrice);
+                            var singlePriceAfter = parseFloat(productPrice);
                         }
                         var theQuantity = $(this).parents("tr.single-row-wrapper").find(".product-quantity input").val();
                         var theUnitPrice = $(this).parents("tr.single-row-wrapper").find(".single-price-before input").val();
                         var theUnitTax = $(this).parents("tr.single-row-wrapper").find(".unit-total-tax input").val();
-                        var quantityXprice = Number(productPrice) * Number(theQuantity);
+                        var quantityXprice = parseFloat(productPrice) * parseFloat(theQuantity);
                         $(this).parents('.single-row-wrapper').find(".unit-price input").val(productPrice);
                         $(this).parents('.single-row-wrapper').find(".quantityXprice").text(quantityXprice.toFixed(rondingNumber));
-                        var netTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
+                        var netTax = (parseFloat(theUnitTax) / 100) * parseFloat(theQuantity) * parseFloat(theUnitPrice);
                         $(this).parents('.single-row-wrapper').find(".single-price-before input").val(singlePriceBefore.toFixed(rondingNumber));
                         $(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft', singlePriceAfter.toFixed(rondingNumber));
                         $(this).parents('.single-row-wrapper').find(".single-price-after").text(netTax.toFixed(rondingNumber));
-                        var wholePriceBefore = Number($(this).parents('.single-row-wrapper').find(".single-price-before input").val()) * Number($(this).parents('.single-row-wrapper').find(".product-quantity input").val());
+                        var wholePriceBefore = parseFloat($(this).parents('.single-row-wrapper').find(".single-price-before input").val()) * parseFloat($(this).parents('.single-row-wrapper').find(".product-quantity input").val());
                         $(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(rondingNumber));
                         $(this).parents('.single-row-wrapper').find(".whole-price-before").attr('tempPriBef', wholePriceBefore.toFixed(rondingNumber))
                         ;
-                        var wholePriceAfter=(
-                            Number($(this).parents('.single-row-wrapper')
+                        var wholePriceAfter=parseFloat(
+                            parseFloat($(this).parents('.single-row-wrapper')
                         .find(".single-price-after")
                         .attr('data-sinAft')
                         )
                         *
-                        Number(
+                        parseFloat(
                             $(this).parents('.single-row-wrapper').find(".product-quantity input").val())
-                            + netTax.toFixed(rondingNumber));
-                        $(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter+netTax);
+                            + parseFloat(netTax).toFixed(rondingNumber));
+
+                        $(this).parents('.single-row-wrapper').find(".whole-price-after").text(parseFloat(parseFloat(wholePriceAfter)+parseFloat(netTax)).toFixed(rondingNumber));
                         $(this).parents("tr.single-row-wrapper").find(".product-quantity input").trigger('change');
                     });
                     //**************    Calc while changing quantity input *******************
@@ -732,65 +733,67 @@ unit_total_tax_enable
                         var theUnitPrice = $(this).parents("tr.single-row-wrapper").find(".single-price-before input").val();
                         var productPrice = $(this).parents("tr.single-row-wrapper").find(".unit-price input").val();
                         var theUnitTax = $(this).parents("tr.single-row-wrapper").find(".unit-total-tax input").val();
-                        var netTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
-                        var quantityXprice = Number(productPrice) * Number(theQuantity);
+                        var netTax = (parseFloat(theUnitTax) / 100) * parseFloat(theQuantity) * parseFloat(theUnitPrice);
+                        var quantityXprice = parseFloat(productPrice) * parseFloat(theQuantity);
                         $(this).parents('.single-row-wrapper').find(".quantityXprice").text(quantityXprice.toFixed(rondingNumber));
                         $(this).parents('.single-row-wrapper').find(".single-price-after").text(netTax.toFixed(rondingNumber));
-                        var wholePriceBefore = Number($(this).parents('.single-row-wrapper').find(".single-price-before input").val()) * Number($(this).val());
+                        var wholePriceBefore = parseFloat($(this).parents('.single-row-wrapper').find(".single-price-before input").val()) * parseFloat($(this).val());
                         $(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(rondingNumber));
-                        var wholePriceAfter = Number($(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft')) * Number($(this).val());
-                        $(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(rondingNumber)+netTax);
+                        var wholePriceAfter = parseFloat($(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft')) * parseFloat($(this).val());
+
+                        $(this).parents('.single-row-wrapper').find(".whole-price-after").text(
+                            parseFloat(parseFloat(wholePriceAfter.toFixed(rondingNumber))+parseFloat(netTax).toFixed(rondingNumber)));
                         $(this).parents('.single-row-wrapper').find(".whole-price-before").attr('tempPriBef', wholePriceBefore.toFixed(rondingNumber));
                         $('.special-discount-modal').trigger('hidden.bs.modal');
                     });
                     //**************    Calc while changing single price input ***************
                     $(".unit-price input").change(function () {
-                        var productPrice = $(this).val();
+                        var productPrice =  parseFloat($(this).val());
                         var priceHasTax = $(this).parents("tr.single-row-wrapper").data('ifhastax');
                         //		Getting prices and taxes Code
-                        if (Number(priceHasTax) === 0) {
-                            var singlePriceBefore = Number(productPrice);
-                            var singlePriceAfter = Number(productPrice) + (Number(productPrice) * (Number(totalTaxes) / 100));
-                        } else if (Number(priceHasTax) === 1) {
-                            var onllyDariba = Number(productPrice) - (Number(productPrice) * (100 / (100 + Number(totalTaxes))));
-                            var singlePriceBefore = Number(productPrice) - Number(onllyDariba);
-                            var singlePriceAfter = Number(productPrice);
+                        if (parseFloat(priceHasTax) === 0) {
+                            var singlePriceBefore = parseFloat(productPrice);
+                            var singlePriceAfter =  parseFloat(parseFloat(productPrice) + (parseFloat(productPrice) * (parseFloat(totalTaxes) / 100)));
+                        } else if (parseFloat(priceHasTax) === 1) {
+                            var onllyDariba = parseFloat( parseFloat(productPrice) - (parseFloat(productPrice) * (100 / (100 + parseFloat(totalTaxes)))));
+                            var singlePriceBefore = parseFloat( parseFloat(productPrice) - parseFloat(onllyDariba));
+                            var singlePriceAfter = parseFloat(productPrice);
                         } else {
-                            var singlePriceBefore = Number(productPrice);
-                            var singlePriceAfter = Number(productPrice);
+                            var singlePriceBefore = parseFloat(productPrice);
+                            var singlePriceAfter = parseFloat(productPrice);
                         }
-                        var theQuantity = $(this).parents("tr.single-row-wrapper").find(".product-quantity input").val();
-                        var theUnitPrice = $(this).parents("tr.single-row-wrapper").find(".single-price-before input").val();
-                        var theUnitTax = $(this).parents("tr.single-row-wrapper").find(".unit-total-tax input").val();
-                        var netTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
-                        var quantityXprice = Number(productPrice) * Number(theQuantity);
+                        var theQuantity = parseFloat( $(this).parents("tr.single-row-wrapper").find(".product-quantity input").val());
+                        var theUnitPrice = parseFloat($(this).parents("tr.single-row-wrapper").find(".single-price-before input").val());
+                        var theUnitTax =  parseFloat($(this).parents("tr.single-row-wrapper").find(".unit-total-tax input").val());
+                        var netTax = parseFloat( (parseFloat(theUnitTax) / 100) * parseFloat(theQuantity) * parseFloat(theUnitPrice));
+                        var quantityXprice = parseFloat( parseFloat(productPrice) * parseFloat(theQuantity));
                         $(".tempDisabled").removeClass("tempDisabled");
                         $(this).parents('.single-row-wrapper').find(".quantityXprice").text(quantityXprice.toFixed(rondingNumber));
                         $(this).parents('.single-row-wrapper').find(".single-price-before input").val(singlePriceBefore.toFixed(rondingNumber));
                         $(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft', singlePriceAfter.toFixed(rondingNumber));
                         $(this).parents('.single-row-wrapper').find(".single-price-after").text(netTax.toFixed(rondingNumber));
-                        var wholePriceBefore = Number($(this).parents('.single-row-wrapper').find(".product-quantity input").val()) * Number($(this).val());
+                        var wholePriceBefore = parseFloat($(this).parents('.single-row-wrapper').find(".product-quantity input").val()) * parseFloat($(this).val());
                         $(this).parents('.single-row-wrapper').find(".whole-price-before").text(wholePriceBefore.toFixed(rondingNumber));
-                        var wholePriceAfter = Number($(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft')) * Number($(this).parents('.single-row-wrapper').find(".product-quantity input").val());
-                        $(this).parents('.single-row-wrapper').find(".whole-price-after").text(wholePriceAfter.toFixed(rondingNumber));
+                        var wholePriceAfter = parseFloat($(this).parents('.single-row-wrapper').find(".single-price-after").attr('data-sinAft')) * parseFloat($(this).parents('.single-row-wrapper').find(".product-quantity input").val());
+                        $(this).parents('.single-row-wrapper').find(".whole-price-after").text((parseFloat(wholePriceAfter)+parseFloat(netTax)).toFixed(rondingNumber));
                         $(this).parents('.single-row-wrapper').find(".whole-price-before").attr('tempPriBef', wholePriceBefore.toFixed(rondingNumber));
                         $(this).parents("tr.single-row-wrapper").find(".product-quantity input").trigger('change');
                     });
 
                     function calcInfo() {
                         var amountBeforeDariba = 0;
-                        $(".whole-price-before").each(function () {
-                            amountBeforeDariba += Number($(this).text());
+                        $(".quantityXprice").each(function () {
+                            amountBeforeDariba += parseFloat($(this).text());
                             $("#amountBeforeDariba1").val(amountBeforeDariba);
                         });
                         var amountAfterDariba = 0;
                         $(".whole-price-after").each(function () {
-                            amountAfterDariba += Number($(this).text());
+                            amountAfterDariba += parseFloat($(this).text());
                         });
                         var amountOfDariba = 0;
                         $("tr.single-row-wrapper").each(function () {
                             var theSingleTax = $(this).find(".single-price-after").text();
-                            amountOfDariba += Number(theSingleTax);
+                            amountOfDariba += parseFloat(theSingleTax);
                         });
                         $("#amountBeforeDariba span.dynamic-span").html(amountBeforeDariba.toFixed(rondingNumber));
                         $("#amountAfterDariba span.dynamic-span").html(amountAfterDariba.toFixed(rondingNumber));
@@ -806,39 +809,40 @@ unit_total_tax_enable
                             $("#demandedAmount1").val(amountAfterDariba);
                         } else {
                             $("input#byPercentage").change(function () {
-                                if ((Number($(this).val())) > 100) {
+                                if ((parseFloat($(this).val())) > 100) {
                                     alert('لا يمكن ان تكون قيم الخصم بالنسبة أكبر من 100% .');
                                     $(this).val(0);
                                 }
-                                total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100));
+                                total =parseFloat( parseFloat(amountAfterDariba) - (parseFloat(amountAfterDariba) * (parseFloat($(this).val()) / 100)));
                                 $("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
                                 $("#demandedAmount1").val(total);
                             });
                             $("input#byAmount").change(function () {
-                                if ((Number($(this).val())) > Number($("#amountAfterDariba span.dynamic-span").html())) {
+                                if ((parseFloat($(this).val())) > parseFloat($("#amountAfterDariba span.dynamic-span").html())) {
                                     alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $("#amountAfterDariba span.dynamic-span").html());
                                     $(this).val(0);
                                 }
-                                total = Number(amountAfterDariba) - (Number($(this).val()));
+                                total = parseFloat( parseFloat(amountAfterDariba) - (parseFloat($(this).val())));
                                 $("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
                                 $("#demandedAmount1").val(total);
                             });
                         }
                         $("input#byPercentage").change(function () {
-                            if ((Number($(this).val())) > 100) {
+                            if ((parseFloat($(this).val())) > 100) {
                                 alert('لا يمكن ان تكون قيم الخصم بالنسبة أكبر من 100% .');
                                 $(this).val(0);
                             }
-                            total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this).val()) / 100));
+                            total =  parseFloat(parseFloat(amountAfterDariba) -
+                             (parseFloat(amountAfterDariba) * (parseFloat($(this).val()) / 100)));
                             $("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
                             $("#demandedAmount1").val(total);
                         });
                         $("input#byAmount").change(function () {
-                            if ((Number($(this).val())) > Number($("#amountAfterDariba span.dynamic-span").html())) {
+                            if ((parseFloat($(this).val())) > parseFloat($("#amountAfterDariba span.dynamic-span").html())) {
                                 alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $("#amountAfterDariba span.dynamic-span").html());
                                 $(this).val(0);
                             }
-                            total = Number(amountAfterDariba) - (Number($(this).val()));
+                            total =  parseFloat(parseFloat(amountAfterDariba) - (parseFloat($(this).val())));
                             $("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
                             $("#demandedAmount1").val(total);
                         });
@@ -847,63 +851,71 @@ unit_total_tax_enable
                     //**************    Calc while changing table body ***********************
                     $('#discMod' + rowNum).on('hide.bs.modal', function (e) {
                         var modId = $(this).attr('id');
-                        debugger
+
                         var onlyModNum = modId.substr(7, modId.length);
-                        var theUnitPrice = $('#row' + onlyModNum).find(".single-price-before input").val();
-                        var theQuantity = $('#row' + onlyModNum).find(".product-quantity input").val();
-                        var theUnitTax = $('#row' + onlyModNum).find(".unit-total-tax input").val();
-                        var theSingleTax = (Number(theUnitTax) / 100) * Number(theQuantity) * Number(theUnitPrice);
+                        var theUnitPrice =  parseFloat($('#row' + onlyModNum).find(".single-price-before input").val());
+                        var theQuantity =  parseFloat($('#row' + onlyModNum).find(".product-quantity input").val());
+                        var theUnitTax = parseFloat( $('#row' + onlyModNum).find(".unit-total-tax input").val());
+                        var theSingleTax = parseFloat( parseFloat( (parseFloat(theUnitTax) / 100) * parseFloat(theQuantity) * parseFloat(theUnitPrice)));
                         $('#row' + onlyModNum).find(".single-price-after").text(theSingleTax.toFixed(rondingNumber));
                         $('#row' + onlyModNum).find(".product-quantity input").trigger('change');
                     });
                      $('#discMod' + rowNum).on('hidden.bs.modal', function (e) {
-                         debugger
                         var modId = $(this).attr('id');
                         var onlyModNum = modId.substr(7, modId.length);
-                        var finalAftDisc = Number($('#row' + onlyModNum).find('.whole-price-before').attr('tempPriBef'));
+                        var finalAftDisc = parseFloat($('#row' + onlyModNum).find('.whole-price-before').attr('tempPriBef'));
                         var rows = $(this).find('.single-special-dis-wrap');
                         for (var i = 0; i < rows.length; i++) {
 
 							if(i === 0){
 								if(($(rows[0]).find('.singleSpecialDiscByVal').val()) != 0){
-		$("tr#row" + onlyModNum).find(".bud1").html(Number($(rows[0]).find('.singleSpecialDiscByVal').val()).toFixed(rondingNumber) + 'ريال')
+		$("tr#row" + onlyModNum).find(".bud1").html(parseFloat($(rows[0]).find('.singleSpecialDiscByVal').val()).toFixed(rondingNumber) + 'ريال')
 									$("tr#row" + onlyModNum).find(".per1").html('---')
 								}
 							}
 							if(i === 1){
 								if(($(rows[1]).find('.singleSpecialDiscByVal').val()) != 0){
-									$("tr#row" + onlyModNum).find(".bud2").html(Number($(rows[1]).find('.singleSpecialDiscByVal').val()).toFixed(rondingNumber) + 'ريال')
+									$("tr#row" + onlyModNum).find(".bud2").html(parseFloat($(rows[1]).find('.singleSpecialDiscByVal').val()).toFixed(rondingNumber) + 'ريال')
 									$("tr#row" + onlyModNum).find(".per2").html('---')
 								}
 							}
 
-                            finalAftDisc -= Number($(rows[i]).find('.singleSpecialDiscByVal').val());
+                            finalAftDisc -= parseFloat($(rows[i]).find('.singleSpecialDiscByVal').val());
 
 							if(i === 0){
-								if(((Number($(rows[0]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc) != 0){
-									$("tr#row" + onlyModNum).find(".per1").html(((Number($(rows[0]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc).toFixed(rondingNumber) + 'ريال')
+								if(((parseFloat($(rows[0]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc) != 0){
+									$("tr#row" + onlyModNum).find(".per1").html(
+                                        parseFloat(
+                                            (parseFloat($(rows[0]).find('.singleSpecialDiscByPer').val()) / 100) * parseFloat(finalAftDisc)).toFixed(rondingNumber) + 'ريال')
 									$("tr#row" + onlyModNum).find(".bud1").html('---')
 								}
 							}
 							if(i === 1){
-								if(((Number($(rows[1]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc) != 0){
-									$("tr#row" + onlyModNum).find(".per2").html(((Number($(rows[1]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc).toFixed(rondingNumber) + 'ريال')
+								if(((parseFloat($(rows[1]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc) != 0){
+									$("tr#row" + onlyModNum).find(".per2").html(parseFloat(
+                                        (parseFloat($(rows[1]).find('.singleSpecialDiscByPer').val()) / 100) * parseFloat(finalAftDisc)).toFixed(rondingNumber) + 'ريال')
 									$("tr#row" + onlyModNum).find(".bud2").html('---')
 								}
 							}
 
 
-                            finalAftDisc -= (Number($(rows[i]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc;
+                            finalAftDisc -= parseFloat(parseFloat(parseFloat($(rows[i]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc);
                             $('#row' + onlyModNum).find('.whole-price-before').text(finalAftDisc.toFixed(rondingNumber));
                             if ($(rows[i]).find(".effectTax").is(":checked")) {
-                                var currentDisc = Number($('#row' + onlyModNum).data('tot-taxes')) / 100;
-                                var newNetTax = Number(currentDisc) * Number(finalAftDisc);
+                                var currentDisc =  parseFloat(parseFloat($('#row' + onlyModNum).data('tot-taxes')) / 100);
+                                var newNetTax =parseFloat (parseFloat(currentDisc) * parseFloat(finalAftDisc));
                                 $('#row' + onlyModNum).find('.single-price-after').text(newNetTax.toFixed(rondingNumber));
                             } else if (!($(rows[i]).find(".effectTax").is(":checked"))) {
-                                var newNetTax = $('#row' + onlyModNum).find('.single-price-after').text()
+                                var newNetTax = parseFloat($('#row' + onlyModNum).find('.single-price-after').text())
                             }
-                            var newWholePriceAfter = Number(finalAftDisc) + Number(newNetTax);
-                            $('#row' + onlyModNum).find('.whole-price-after').text(newWholePriceAfter.toFixed(rondingNumber) +Number(newNetTax).toFixed(rondingNumber));
+                            var newWholePriceAfter = parseFloat(finalAftDisc) + parseFloat(newNetTax);
+
+                            $('#row' + onlyModNum).find('.whole-price-after')
+                            .text(
+                                parseFloat(
+                                    parseFloat(newWholePriceAfter)+parseFloat(newNetTax)
+                                    ).toFixed(rondingNumber)
+                                );
                             calcInfo();
                         }
                     });
@@ -922,16 +934,16 @@ unit_total_tax_enable
                     });
         $("#remove-tax").change(function () {
             if ($(this).is(':checked')) {
-                $(".unit-total-tax input").each(function () {
-                    $(this).val(0);
-                    $(this).trigger('change');
-                    $(this).attr('readonly', 'readonly')
+                $(".unit-total-tax input").each(function (key,value) {
+                    $(value).val(0);
+                    $(value).trigger('change');
+                    $(value).attr('readonly', 'readonly')
                 })
             } else {
-                $(".unit-total-tax input").each(function () {
-                    $(this).val(Number($(this).attr('data-original-tax')));
-                    $(this).trigger('change');
-                    $(this).attr('readonly', false)
+                $(".unit-total-tax input").each(function (key,value) {
+                    $(value).val(parseFloat($(value).attr('data-original-tax')));
+                    $(value).trigger('change');
+                    $(value).attr('readonly', false)
                 })
             }
         })
@@ -964,8 +976,8 @@ unit_total_tax_enable
                             var ProductId = $('#selectID').val();
                             var productName = selectedProduct.data('name');
                             var productLink = selectedProduct.data('link');
-                            var lastPrice = Number(selectedProduct.data('last-price')).toFixed(rondingNumber);
-                            var avgPrice = Number(selectedProduct.data('average')).toFixed(rondingNumber);
+                            var lastPrice = parseFloat(selectedProduct.data('last-price')).toFixed(rondingNumber);
+                            var avgPrice = parseFloat(selectedProduct.data('average')).toFixed(rondingNumber);
                             var barCode = selectedProduct.data('bar-code');
                             var productPrice = selectedProduct.data('price');
                             var priceHasTax = selectedProduct.data('price-has-tax');
@@ -1002,7 +1014,7 @@ unit_total_tax_enable
                         var alreadyChosen = $(".bill-table tbody td select option[value=" + selectedID + "]");
                         var repeatedInputVal = $(".bill-table tbody td select option[value=" + selectedID + "]:selected").parents('tr').find('.product-quantity').find('input');
                         if (alreadyChosen.length > 0 && alreadyChosen.is(':selected')) {
-                            repeatedInputVal.val(Number(repeatedInputVal.val()) + 1);
+                            repeatedInputVal.val(parseFloat(repeatedInputVal.val()) + 1);
                             repeatedInputVal.text(repeatedInputVal.val());
                             $('.product-quantity').find('input').trigger('change');
                         } else {
@@ -1036,7 +1048,7 @@ unit_total_tax_enable
 					var alreadyChosen = $(".bill-table tbody td select option[value=" + selectedID + "]");
 					var repeatedInputVal = $(".bill-table tbody td select option[value=" + selectedID + "]:selected").parents('tr').find('.product-quantity').find('input');
 					if (alreadyChosen.length > 0 && alreadyChosen.is(':selected')) {
-						repeatedInputVal.val(Number(repeatedInputVal.val()) + 1);
+						repeatedInputVal.val(parseFloat(repeatedInputVal.val()) + 1);
 						repeatedInputVal.text(repeatedInputVal.val());
 						$('.product-quantity').find('input').trigger('change');
 					} else {
@@ -1057,8 +1069,8 @@ unit_total_tax_enable
 					var ProductId = $('#selectID2').val();
 					var productName = selectedProduct.data('name');
 					var productLink = selectedProduct.data('link');
-					var lastPrice = Number(selectedProduct.data('last-price')).toFixed(rondingNumber);
-					var avgPrice = Number(selectedProduct.data('average')).toFixed(rondingNumber);
+					var lastPrice = parseFloat(selectedProduct.data('last-price')).toFixed(rondingNumber);
+					var avgPrice = parseFloat(selectedProduct.data('average')).toFixed(rondingNumber);
 					var barCode = selectedProduct.data('bar-code');
 					var productPrice = selectedProduct.data('price');
 					var priceHasTax = selectedProduct.data('price-has-tax');
