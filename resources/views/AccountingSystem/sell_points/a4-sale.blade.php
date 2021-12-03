@@ -213,8 +213,7 @@
                                 <th style="width: 95px;" rowspan="3">
 
                                     {!! QrCode::size(100)->generate(
-                                 url('/api/distributor/bills/print_bill/' .  encrypt($sale->id))
-                                        ); !!}
+                                 route('showInvoice',$sale->uuid)) !!}
                                 </th>
 
                             </tr>
