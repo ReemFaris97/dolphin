@@ -140,7 +140,7 @@ class SaleController extends Controller
                 ->where('unit_id', $merge['2'])
                 ->firstOrNew();
                 if ($unit) {
-                    throw_if($stock->quantity - $merge['1']<0, ValidationException::withMessages(['client_id'=>sprintf("عفوا لايوجد كميات من الوحدة الفرعية %s من المنتج الفرعي %s الكمية المتاحة هي : %s", $unit->name, $product->name, optional($stock)->quantity??0)]));
+                    // throw_if($stock->quantity - $merge['1']<0, ValidationException::withMessages(['client_id'=>sprintf("عفوا لايوجد كميات من الوحدة الفرعية %s من المنتج الفرعي %s الكمية المتاحة هي : %s", $unit->name, $product->name, optional($stock)->quantity??0)]));
                     $unit->update([
                         'quantity'=>$stock->quantity - $merge['1'],
                     ]);
@@ -165,7 +165,7 @@ class SaleController extends Controller
                 ->where('store_id', $user->accounting_store_id)
                 ->where('unit_id', $merge['2'])
                 ->firstOrNew();
-                    throw_if($stock->quantity - $merge['1']<0, ValidationException::withMessages(['client_id'=>sprintf("عفوا لايوجد كميات من الوحدة الفرعية %s من المنتج الفرعي %s الكمية المتاحة هي : %s", $unit->name, $product->name, $stock->quantity)]));
+                    // throw_if($stock->quantity - $merge['1']<0, ValidationException::withMessages(['client_id'=>sprintf("عفوا لايوجد كميات من الوحدة الفرعية %s من المنتج الفرعي %s الكمية المتاحة هي : %s", $unit->name, $product->name, $stock->quantity)]));
 
                     $unit->update([
                         'quantity'=>$stock->quantity - $merge['1'],
@@ -178,7 +178,7 @@ class SaleController extends Controller
                 ->where('store_id', $user->accounting_store_id)
                 ->where('unit_id', $merge['2'])
                 ->firstOrNew();
-                    throw_if($stock->quantity - $merge['1']<0, ValidationException::withMessages(['client_id'=>sprintf("عفوا لايوجد كميات من الوحدة الفرعية %s من المنتج الفرعي %s الكمية المتاحة هي : %s", $unit->name, $product->name, $stock->quantity)]));
+                    // throw_if($stock->quantity - $merge['1']<0, ValidationException::withMessages(['client_id'=>sprintf("عفوا لايوجد كميات من الوحدة الفرعية %s من المنتج الفرعي %s الكمية المتاحة هي : %s", $unit->name, $product->name, $stock->quantity)]));
 
                     if ($productstore->quantity >= 0) {
                         $productstore->update([
@@ -190,10 +190,7 @@ class SaleController extends Controller
                 $productstore=AccountingProductStore::where('store_id', auth()->user()->accounting_store_id)
                 ->where('product_id', $merge['0'])
                 ->where('unit_id', null)->firstOrNew();
-                throw_if($productstore->quantity - $merge['1']<0, ValidationException::withMessages(
-                    ['client_id'=>
-                    sprintf("عفوا لايوجد كميات من الوحدة الفرعية  %s الكمية المتاحة هي : %s", $product->name, $productstore->quantity)]
-                ));
+                // throw_if($productstore->quantity - $merge['1']<0, ValidationException::withMessages(    ['client_id'=>sprintf("عفوا لايوجد كميات من الوحدة الفرعية  %s الكمية المتاحة هي : %s", $product->name, $productstore->quantity)]  ));
 
                 if ($productstore) {
                     if ($productstore->quantity >= 0) {
