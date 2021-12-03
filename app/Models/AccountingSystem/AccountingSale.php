@@ -2,6 +2,7 @@
 
 namespace App\Models\AccountingSystem;
 
+use App\helper\num_to_ar;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -112,6 +113,24 @@ class AccountingSale extends Model
     public function store()
     {
         return $this->belongsTo(AccountingStore::class,'store_id');
+    }
+    public function CashArabic($cach)
+    {
+        $total = explode('.', $cach);
+        $total_in_arabic_rial = new  num_to_ar($total[0], 'male');
+        $total_in_arabic_halla = new  num_to_ar($total[1] ?? 0, 'male');
+        $AllTotal = [$total_in_arabic_rial->convert_number(), $total_in_arabic_halla->convert_number() ?? 0];
+        return $AllTotal;
+    }
+    public function product_total()
+    {
+        $total = 0;
+
+        foreach ($this->items as $item) {
+            $sum = $item->price * $item->quantity;
+            $total += $sum;
+        }
+        return round($total, 2);
     }
 
     public function user()
