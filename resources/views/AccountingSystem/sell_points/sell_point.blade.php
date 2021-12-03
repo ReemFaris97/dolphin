@@ -989,7 +989,7 @@ var is_selected = (i == 0) ? 'selected' : '';
         })
 
         $("#sllForm").submit(function(event) {
-
+/*
 var data= $("#sllForm").serialize();
 $.ajax({
     method: "POST",
@@ -1014,6 +1014,7 @@ $.ajax({
     }
 
 });
+ */
         })
     </script>
     <script src="{{ asset('admin/assets/js/get_branch_by_company.js') }}"></script>
