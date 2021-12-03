@@ -109,10 +109,10 @@
 
                                     ?>
                                     <option value="{{$product->id}}"
-                                            data-main-unit="{{$product->	main_unit}}"
+                                            data-main-unit="{{$product->main_unit}}"
                                             data-name="{{$product->name}}"
                                             data-price="{{$product->selling_price -(($product->selling_price*$product->total_discounts)/100)}}"
-                                            data-bar-code="{{$product->bar_code}}"
+                                            data-bar-code="{{is_array($product->bar_code)?$product->bar_code[0]:$product->bar_code}}"
                                             data-link= "{{route('accounting.products.show',['id'=>$product->id])}}"
                                             data-price-has-tax="{{isset($producttax)? $producttax->price_has_tax : '0' }}"
                                             data-total-taxes="{{ isset($producttax)? $product->total_taxes : '0'}}"
