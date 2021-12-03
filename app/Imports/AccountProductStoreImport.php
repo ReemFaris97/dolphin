@@ -37,8 +37,8 @@ class AccountProductStoreImport implements ToCollection, WithHeadingRow, WithBat
                     [
                     'unit_id' => optional(
                         AccountingProductSubUnit::query()->
-                        where('product_id', $product->id)
-                        ->where(fn ($q) =>$q
+                        where('product_id', optional($product)->id)
+                    ->where(fn ($q) =>$q
                     ->OfBarcode($row['albarkod'])
                     ->orWhere('name', $row['aloahd']))->first()
                     )->id,
