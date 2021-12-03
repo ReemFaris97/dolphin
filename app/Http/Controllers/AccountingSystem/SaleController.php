@@ -287,9 +287,7 @@ class SaleController extends Controller
             'account_amount_after'=>isset($last)?@$last->account_amount_after+ ($sale->total) : $credit_account->amount + ($sale->total),
         ]);
 
-        request()->ajax()?DB::rollBack():DB::commit();
-        ;
-
+DB::commit();
         alert()->success('تمت عملية البيع بنجاح !')->autoclose(5000);
         return back()->with('sale_id', $sale->id)->with('print', $request->print);
     }
