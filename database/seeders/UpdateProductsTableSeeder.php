@@ -16,7 +16,7 @@ class UpdateProductsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('accounting_product_stores')->truncate();
+        // DB::table('accounting_product_stores')->truncate();
         Excel::import(new AccountProductStoreImport($this->command), 'imports/storage.xlsx');
     }
 }
