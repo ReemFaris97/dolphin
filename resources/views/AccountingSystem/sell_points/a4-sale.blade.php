@@ -245,7 +245,7 @@
                                             {{ $sale->CashArabic($sale->amount)[1] ??''}}
                                             @if(($sale->amount-(int)$sale->amount)!=0)
                                                 و
-                                            {{$sale->CashArabic($sale->amount-(int)$sale->amount)}}
+                                            {{$sale->CashArabic($sale->amount-(int)$sale->amount)[1]}}
                                                 هللة
 
                                             @endif
