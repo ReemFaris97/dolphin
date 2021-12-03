@@ -31,7 +31,7 @@ class AccountProductStoreImport implements ToCollection, WithHeadingRow, WithBat
 
                 AccountingProductStore::updateOrcreate(
                     [
-                    'product_id' => $product->id,
+                    'product_id' => optional($product)->id,
                     'store_id' => 1,
                     'price' => $row['alsaar_alafrady'],
                 ],
