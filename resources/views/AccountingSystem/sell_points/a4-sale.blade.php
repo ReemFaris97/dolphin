@@ -197,10 +197,10 @@
                         <table class="the_table">
                             <tfoot>
                             @php($tax_percent=(float)(getsetting('general_taxs')) )
-                            @php($tax_amount= $sale->product_total() -($sale->product_total() *(100-$tax_percent)/100))
-                            @php($total=$sale->product_total() )
+                            @php($tax_amount= $sale->amount -($sale->amount *(100-$tax_percent)/100))
+                            @php($total=$sale->amount )
                             <tr>
-                                <th>{{(float) $sale->product_total()}}</th>
+                                <th>{{(float) $sale->product_total()-$tax_amount}}</th>
                                 <th colspan="4">
                                     <div class="flexx">
                                         <p>total</p>
@@ -228,7 +228,7 @@
                                 </th>
                             </tr>
                             <tr>
-                                <th>{{$sale->total}}</th>
+                                <th>{{$sale->product_total()}}</th>
                                 <th >
                                     <p>net amount</p>
                                     <p>اجمالى الفاتورة</p>
@@ -240,11 +240,14 @@
                                             <h4>المبلغ كتابة:</h4>
                                             <h4>S.R in words:</h4>
                                         </div>
-                                        <p>{{ $sale->CashArabic($sale->total)[0] }}
+                                        <p>{{ $sale->CashArabic($sale->amount)[0] }}
                                             ريال
-                                            {{ $sale->CashArabic($total)[1] ??''}}
-                                            @if($sale->CashArabic($total)[1]!=0)
+                                            {{ $sale->CashArabic($sale->amount)[1] ??''}}
+                                            @if(($sale->amount-(int)$sale->amount)!=0)
+                                                و
+                                            {{$sale->CashArabic($sale->amount-(int)$sale->amount)}}
                                                 هللة
+
                                             @endif
                                             لاغير
                                         </p>
