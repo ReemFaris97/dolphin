@@ -13,7 +13,7 @@
     href="/admin/swiss-721-3-cufonfonts-webfont/style.css"/>
 <style>
 *{
-    font-family:'Swiss 721 Medium Italic';
+    font-family:'Swiss 721 Medium Italic' !important;
     font-weight:normal;
     /* font-size:42px; */
 }
