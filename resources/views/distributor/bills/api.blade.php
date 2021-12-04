@@ -9,6 +9,16 @@
     <link rel="stylesheet" href={!! asset('dashboard/assets/css/main.css') !!}>
     <link href="{!! asset('dashboard/assets/vendors/base/bill-print.css') !!}" rel="stylesheet" type="text/css" />
 
+    <link rel="stylesheet" type="text/css"
+    href="/admin/swiss-721-3-cufonfonts-webfont/style.css"/>
+<style>
+*{
+    font-family:'Swiss 721 Medium Italic';
+    font-weight:normal;
+    font-size:42px;
+}
+
+</style>
 </head>
 
 <body>
