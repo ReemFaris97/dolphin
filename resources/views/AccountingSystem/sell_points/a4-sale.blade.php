@@ -241,16 +241,9 @@
                                             <h4>المبلغ كتابة:</h4>
                                             <h4>S.R in words:</h4>
                                         </div>
-                                        <p>{{ $sale->CashArabic($sale->amount)[0] }}
-                                            ريال
-                                            {{ $sale->CashArabic($sale->amount)[1] ??''}}
-                                            @if(($sale->amount-(int)$sale->amount)!=0)
-                                                و
-                                            {{$sale->CashArabic($sale->amount-(int)$sale->amount)[1]}}
-                                                هللة
-
-                                            @endif
-                                            لاغير
+{{--                                        @dd($sale->CashArabic(5412))--}}
+                                        <p>
+                                            {{\Alkoumi\LaravelArabicTafqeet\Tafqeet::inArabic($sale->product_total())}}
                                         </p>
                                     </div>
                                 </th>
