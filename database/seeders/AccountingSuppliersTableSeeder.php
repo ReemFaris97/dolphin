@@ -17,7 +17,7 @@ class AccountingSuppliersTableSeeder extends Seeder
     public function run()
     {
         //     DB::beginTransaction();
-        DB::table('accounting_suppliers')->truncate();
+        // DB::table('accounting_suppliers')->truncate();
         Excel::import(new SuppliersImport, 'imports/suppliers.xlsx');
 //    DB::commit();
     }
