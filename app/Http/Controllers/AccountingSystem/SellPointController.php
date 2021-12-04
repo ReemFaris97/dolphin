@@ -135,7 +135,7 @@ class SellPointController extends Controller
         if (str_starts_with($q, getsetting('weight_code'))) {
             $barcode=substr($q, 2);
             $pos = getsetting('code_number');
-            $q = '"'.substr($barcode, 0, $pos).'"';
+            $q = substr($barcode, 0, $pos);
             $quantity = substr($barcode, $pos);
 
             $kilo=substr($quantity, 0, 2);
@@ -144,7 +144,7 @@ class SellPointController extends Controller
         } else {
             $barcode=$q;
         }
-        }
+        
 
         $product = AccountingProduct::query()->ofBarcode($q)
             ->with(['sub_units'=>fn ($query) =>$query->ofBarcode($q)])
