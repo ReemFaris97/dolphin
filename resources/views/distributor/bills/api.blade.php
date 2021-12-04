@@ -15,7 +15,7 @@
 *{
     font-family:'Swiss 721 Medium Italic';
     font-weight:normal;
-    font-size:42px;
+    /* font-size:42px; */
 }
 
 </style>
