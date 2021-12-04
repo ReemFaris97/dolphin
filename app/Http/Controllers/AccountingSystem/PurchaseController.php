@@ -74,7 +74,7 @@ class PurchaseController extends Controller
         if ($requests['type']=='purchase') {
             $rules = [
                 'supplier_id'=>'required|numeric|exists:accounting_suppliers,id',
-                     // 'reminder'=>'required|numeric|gt:0',
+                'store_id'=>'required|numeric|exists:accounting_stores,id',
              ];
             $this->validate($request, $rules);
             $user=User::find(auth()->user()->id);
