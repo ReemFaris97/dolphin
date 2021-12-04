@@ -53,7 +53,6 @@ class PurchaseObserver
         if ($purchase->payment=='agel') {
             //حساب  المشتريات و المورد
             $toAccount=$supplier->account;
-            //    dd( $toAccount);
             AccountingEntryAccount::create([
                'entry_id'=>$entry->id,
                'account_id'=>getsetting('accounting_id_purchases'),
@@ -80,7 +79,6 @@ class PurchaseObserver
 
             AccountingEntryAccount::create([
             'entry_id'=>$entry->id,
-
             'account_id'=>getsetting('accounting_id_purchases'),
             'amount'=>$purchase->total,
             'affect'=>'creditor'
