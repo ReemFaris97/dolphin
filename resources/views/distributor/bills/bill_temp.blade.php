@@ -1,6 +1,13 @@
+<style>
+    @media print{
+   .noprint{
+       display:none;
+   }
+}
+</style>
 <div class="m-portlet__body">
-    <button type="button" id="print-all">طباعة</button>
-    <button type="button" id="print-11cm"> 11 CM طباعة</button>
+    <button type="button" id="print-all" class="noprint">طباعة</button>
+    <button type="button" id="print-11cm" class="noprint"> 11 CM طباعة</button>
     <!--------- start content ---------->
     <div id="print_this">
         <div id="myDivToPrint">
@@ -172,13 +179,13 @@
                     <tbody>
                         @foreach($bill->products as $value)
                         <tr>
-                            <td>{{ $value->price * $value->quantity }}</td>
+                            <td>{{ ($value->price * $value->quantity) }}</td>
                             <td>
 
                                 {{ ($value->price * ((float) getsetting('general_taxs')??0)/100)}}
                             </td>
                             <td>{{(float) getsetting('general_taxs')}}%</td>
-                            <td>{{ $value->price }}</td>
+                            <td>{{ ($value->price) }}</td>
                             <td>{{ $value->quantity }}</td>
                             <td>    @if($bill->is_packages)
                                 كرتونة
@@ -198,7 +205,7 @@
 
             </div>
                 <div>
-                <table class="the_table">
+                <table class="the_table" dir="ltr">
                 <tfoot>
                     @php($tax_percent=(float)(getsetting('general_taxs')) /100)
                     @php($tax_amount= round($bill->product_total() * $tax_percent,2))
@@ -407,10 +414,10 @@
                         @endif
                     </td>
                     <td>{{ $value->quantity }}</td>
-                    <td>{{ $value->price * $value->quantity }}</td>
-                    <td>{{ ($value->price * ((float) getsetting('general_taxs')??0)/100)}}</td>
+                    <td>{{ round($value->price * $value->quantity,3) }}</td>
+                    <td>{{round( ($value->price * ((float) getsetting('general_taxs')??0)/100),3)}}</td>
 
-                    <td>{{ $value->price }}</td>
+                    <td>{{ round($value->price,3) }}</td>
                 </tr>
                 @endforeach
             </tbody>
