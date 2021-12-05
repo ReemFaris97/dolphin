@@ -270,12 +270,10 @@ class AccountingProduct extends Model
 
     public function scopeOfBarcode($builder, ?string $barcode=null)
     {
-        $barcode= Str::startsWith($barcode, '"') ?  $barcode:'"'.$barcode;
-        $barcode= Str::endsWith($barcode, '"') ?  $barcode:$barcode.'"';
-        $builder->where('bar_code', 'like', "%$barcode%");
+        $builder->whereJsonContains('bar_code', $barcode);
         $builder->orwhereHas(
             'sub_units',
-            fn ($b) => $b->where('bar_code', 'like', "%$barcode%")
+            fn ($b) => $b->whereJsonContains('bar_code', $barcode)
         );
     }
 }

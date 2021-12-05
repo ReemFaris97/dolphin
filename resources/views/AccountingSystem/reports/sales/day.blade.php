@@ -58,14 +58,15 @@
 
                             <div class="form-group col-sm-3">
                                 <label> القائم بالعملية </label>
-                                <select name="user_id" data-live-search="true" class="selectpicker form-control inline-control" id="user_id">
+                                {!! Form::select('user_id',\App\Models\User::where('is_saler',1)->pluck('name','id'),null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختار الكاشير']) !!}
+                               {{-- <select name="user_id" data-live-search="true" class="selectpicker form-control inline-control" id="user_id">
                                     @if(request()->has('user_id') && request('user_id') != null)
                                         @php $user = App\User::find(request('user_id')); @endphp
                                         <option value="{{ $user->id }}" selected="">{{ $user->name }}</option>
                                     @else
                                         <option value="" selected="" disabled="">القائم بالعملية</option>
                                     @endif
-                                </select>
+                                </select>--}}
                             </div>
 
 
@@ -201,7 +202,7 @@
                         <td>{!! $row->total_tax?? 0 !!}</td>
                         <td>{!! $row->all_total?? 0 !!}</td>
                         <td class="text-center td-display-none">
-                            <a href="{{route('accounting.reports.sale_details')}}?date={{ $row->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.sales.show',$row->id)}}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
 
                         </td>
                     </tr>

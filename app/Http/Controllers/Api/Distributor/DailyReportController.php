@@ -29,10 +29,9 @@ class DailyReportController extends Controller
     {
         $report = RouteTripReport::ofDistributor(auth()->id())->groupBy(DB::raw('Date(created_at)'))->withProductsPrice();
 
-        if (request('from') != null && \request('to')) {
-            $from = Carbon::parse(\request('from'));
-            $to = Carbon::parse(\request('to'));
-
+        if (request('from') != null && \request('to')!=null) {
+            $from = Carbon::parse(\request('from')??date("Y-m-d"));
+            $to = Carbon::parse(\request('to')??date("Y-m-d"));
             $report = $report->whereBetween('created_at', [$from, $to]);
         }
         $report = $report
@@ -45,7 +44,7 @@ class DailyReportController extends Controller
 
     public function productReport(Request $request)
     {
-        $date = Carbon::parse($request->date);
+        $date = Carbon::parse($request->date ?? date("Y-m-d"));
         $report = RouteTripReport::query()
             ->ofDistributor(auth()->id())
             ->whereDate('route_trip_reports.created_at', $date)

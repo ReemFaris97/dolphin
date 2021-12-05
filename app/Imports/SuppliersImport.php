@@ -19,12 +19,13 @@ class SuppliersImport implements ToCollection, WithHeadingRow
     public function collection(Collection $rows)
     {
         Schema::disableForeignKeyConstraints();
-        DB::table('accounting_suppliers')->where('id', '!=', 0)->delete();
+        // DB::table('accounting_suppliers')->where('id', '!=', 0)->delete();
 
         foreach ($rows as $row) {
-            DB::table('accounting_suppliers')->insert([
+            DB::table('accounting_suppliers')->updateOrInsert([
                 'name' => $row['asm_alaamyl'],
                 'email' => $row['mokaa_alantrnt'],
+            ], [
                 'phone' => $this->getPhone($row),
                 'branch_id' => 7,
                 'password' => Hash::make(123456),
@@ -37,7 +38,7 @@ class SuppliersImport implements ToCollection, WithHeadingRow
 
     private function getAccountId($row) : int
     {
-        $mainAcc = AccountingAccount::firstOrCreate(['ar_name' => $row['asm_alhsab']])->id;
+        $mainAcc = AccountingAccount::firstOrCreate(['ar_name' => $row['alhsab_alasl']])->id;
 
         return AccountingAccount::firstOrCreate(['ar_name'=>$row['asm_alhsab']], ['account_id'=>$mainAcc])->id;
     }

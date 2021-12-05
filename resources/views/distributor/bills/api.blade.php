@@ -9,6 +9,16 @@
     <link rel="stylesheet" href={!! asset('dashboard/assets/css/main.css') !!}>
     <link href="{!! asset('dashboard/assets/vendors/base/bill-print.css') !!}" rel="stylesheet" type="text/css" />
 
+    <link rel="stylesheet" type="text/css"
+    href="/admin/swiss-721-3-cufonfonts-webfont/style.css"/>
+<style>
+*{
+    font-family:'Swiss 721 Medium Italic' !important;
+    font-weight:normal;
+    /* font-size:42px; */
+}
+
+</style>
 </head>
 
 <body>
@@ -27,25 +37,34 @@
 
     </div>
 
+    <script src="{!! asset('dashboard/assets/vendors/base/jquery-2.1.4.min.js') !!}"></script>
         <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                document.getElementById('print-all').addEventListener('click', () => {
-                    var mywindow = window.open('', 'PRINT');
-                    mywindow.document.write('<html>');
-                    mywindow.document.write("<link href=\"{!! asset('dashboard/assets/demo/demo12/media/img/logo/logo-black.png')!!}\" rel=\"icon\"><link href=\"{!! asset('dashboard/assets/vendors/base/bill-print.css') !!}\" rel=\"stylesheet\">")
-                    mywindow.document.write('<body >');
-                    mywindow.document.write(document.getElementById('print_this').innerHTML);
-                    mywindow.document.write('</body></html>');
-                    mywindow.document.close(); // necessary for IE >= 10
-                    mywindow.focus(); // necessary for IE >= 10*/
-                    setTimeout(function() {
-                        mywindow.print();
-                        mywindow.document.close();
-                    })
-                    return true;
-                });
-            })
-        </script>
+        $(document).ready(function () {
+            $("#print-all").on('click', function () {
+                let t = document.getElementById("print_this").innerHTML;
+                let style = `<link rel="stylesheet" type="text/css" href="{{ asset('dashboard/assets/vendors/base/bill-print.css') }}" >`;
+                let style3 = `<link rel="stylesheet" type="text/css" href="/admin/swiss-721-3-cufonfonts-webfont/style.css"/>`;
+
+                let win = window.open('', '');
+                win.document.write(`${style} ${style3} ${t}`);
+                win.document.close();
+                setTimeout(() => {win.print()}, 100);
+            });
+        })
+    </script>
+        <script>
+        $(document).ready(function () {
+            $("#print-11cm").on('click', function () {
+                let tt = document.getElementById("print_small").innerHTML;
+                let style2 = `<link rel="stylesheet" type="text/css" href="{{ asset('dashboard/assets/vendors/base/bill-print-11cm.css') }}" >`;
+                let style3 = `<link rel="stylesheet" type="text/css" href="/admin/swiss-721-3-cufonfonts-webfont/style.css"/>`;
+                let win1 = window.open('', '');
+                win1.document.write(`${style2} ${style3} ${tt}`);
+                win1.document.close();
+                setTimeout(() => {win1.print()}, 100);
+            });
+        })
+    </script>
 
 </body>
 

@@ -132,6 +132,9 @@
                                 </div>
                             </div>
                         </div>
+                    @php($tax_percent=(float)(getsetting('general_taxs')) )
+                    @php($tax_amount= $sale->product_total() -($sale->product_total() *100/(100+$tax_percent)))
+                    @php($total=$sale->product_total() )
                         <!--- table---->
                         <div class="bg_logo">
                             <table dir="ltr" class="the_table">
@@ -171,18 +174,15 @@
                                 <tbody>
                                 @foreach($sale->items as $value)
                                     <tr>
-                                        <td>{{ $value->price * $value->quantity }}</td>
+{{--                                        @dd($value->priceWithoutTax($tax_percent))--}}
+                                        <td>{{ round($value->priceWithoutTax($tax_percent) * $value->quantity,2)}}</td>
                                         <td>
 
-                                            {{ ($value->price * ((float) getsetting('general_taxs')??0)/100)}}
+                                            {{ round($value->getTax($tax_percent),2) }}
                                         </td>
                                         <td>{{ $value->price }}</td>
                                         <td>{{ $value->quantity }}</td>
-                                        <td>    @if($sale->is_packages)
-                                                كرتونة
-                                            @else
-                                                حبة
-                                            @endif
+                                        <td> {{$value->unit?$value->unit->name:$value->product->main_unit}}
                                         </td>
 
 
@@ -196,68 +196,62 @@
 
                     </div>
                     <div>
-                        <table class="the_table">
-                                            <tfoot>
-                                                @php($tax_percent=(float)(getsetting('general_taxs')) /100)
-                                                @php($tax_amount= round($sale->total * $tax_percent,2))
-                                                @php($total=$sale->product_total() + $tax_amount)
-                                                    <tr>
-                                                        <th>{{(float) $sale->product_total()}}</th>
-                                                        <th colspan="4">
-                                                            <div class="flexx">
-                                                                <p>total</p>
-                                                                <p>الإجمالى (بدون ضريبة)</p>
-                                                            </div>
-
-                                                        </th>
-                                                        <th style="width: 95px;" rowspan="3">
-
-                                                            {!! QrCode::size(100)->generate(
-                                                         url('/api/distributor/bills/print_bill/' .  encrypt($sale->id))
-                                                                ); !!}
-                                                     </th>
-
-                                                    </tr>
-
-                                                    <tr>
-                                                        <th>{{$tax_amount}}</th>
-                                                        <th colspan="4">
-                                                            <div class="flexx">
-                                                                <p>قيمة القيمة المضافة</p>
-                                                                <p>vat (15%)</p>
-                                                            </div>
-
-                                                        </th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>{{$total}}</th>
-                                                        <th >
-                                                            <p>net amount</p>
-                                                            <p>اجمالى الفاتورة</p>
-                                                        </th>
-
-                                                        <th >
-                                                            <div class="box1">
-                                                                <div class="flexx">
-                                                                    <h4>المبلغ كتابة:</h4>
-                                                                    <h4>S.R in words:</h4>
-                                                                </div>
-                                                                <p>{{ $sale->CashArabic($total)[0] }}
-                                                                    ريال
-                                                                    {{ $sale->CashArabic($total)[1] ??''}}
-                                                                    @if($sale->CashArabic($total)[1]!=0)
-                                                                    هللة
-                                                                        @endif
-                                                                    لاغير
-                                                                </p>
-                                                            </div>
-                                                        </th>
-
-                                                    </tr>
-                                                </tfoot>
-                        </table>
                     </div>
                     <div class="row">
+                        <table class="the_table">
+                            <tfoot>
+
+                            <tr>
+                                <th>{{(float) round($sale->product_total()-$tax_amount,4)}}</th>
+                                <th colspan="4">
+                                    <div class="flexx">
+                                        <p>total</p>
+                                        <p>الإجمالى (بدون ضريبة)</p>
+                                    </div>
+
+                                </th>
+                                <th style="width: 95px;" rowspan="3">
+
+                                    {!! QrCode::size(100)->generate(
+                                 route('showInvoice',$sale->uuid)) !!}
+                                </th>
+
+                            </tr>
+
+                            <tr>
+                                <th>{{round($tax_amount,4)}}</th>
+                                <th colspan="4">
+                                    <div class="flexx">
+                                        <p>قيمة القيمة المضافة</p>
+                                        <p>vat (15%)</p>
+                                    </div>
+
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>{{$sale->product_total()}}</th>
+                                <th >
+                                    <p>net amount</p>
+                                    <p>اجمالى الفاتورة</p>
+                                </th>
+
+                                <th >
+                                    <div class="box1">
+                                        <div class="flexx">
+                                            <h4>المبلغ كتابة:</h4>
+                                            <h4>S.R in words:</h4>
+                                        </div>
+{{--                                        @dd($sale->CashArabic(5412))--}}
+                                        <p>
+                                            {{\Alkoumi\LaravelArabicTafqeet\Tafqeet::inArabic($sale->product_total())}}
+                                        </p>
+                                    </div>
+                                </th>
+
+                            </tr>
+                            </tfoot>
+                        </table>
+
                         <div class="col-3 box1 flexx" style="width:25%">
                             <p style="text-align:center;">المدفوع كاش</p>
                             <p style="text-align:center;">{{round($sale->cash,2)}}</p>
@@ -275,7 +269,10 @@
                             </div>
                         </div>
 
+
                     </div>
+
+
                     <!--- footer -->
                     <footer>
 

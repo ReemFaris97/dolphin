@@ -27,17 +27,26 @@ class AccountProductStoreImport implements ToCollection, WithHeadingRow, WithBat
     {
         $this->command->withProgressBar($rows, function ($row) {
             try {
-            $product = AccountingProduct::where('name', $row['asm_almad'])->first();
-
-                AccountingProductStore::create([
-                    'product_id' => $product->id,
+                $product = AccountingProduct::where('name', $row['asm_almad'])->first();
+                AccountingProductStore::updateOrCreate(
+                    [
+                    'product_id' => optional($product)->id,
                     'store_id' => 1,
-                    'unit_id' => optional(AccountingProductSubUnit::OfBarcode($row['albarkod'])->first())->id,
-                    'quantity' => $row['alkmy'],
-                    'price' => $row['alsaar_alafrady'],
-                ]);
+                    'price' => round($row['alsaar_alafrady'], 2),
+                ],
+                    [
+                    'unit_id' => optional(
+                        AccountingProductSubUnit::query()->
+                        where('product_id', optional($product)->id)
+                    ->where(fn ($q) =>$q
+                    ->OfBarcode($row['albarkod'])
+                    ->orWhere('name', $row['aloahd']))->first()
+                    )->id,
+                    //  'quantity' => $row['alkmy'],
+                ]
+                );
             } catch (\Exception $e) {
-                dd($row,$e);
+                dd($row, $e);
             }
         });
     }

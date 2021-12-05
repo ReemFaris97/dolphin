@@ -66,9 +66,9 @@
             ],
             numpadLayout: [
                 [
-                    ['7'],
-                    ['8'],
-                    ['9']
+                    ['1'],
+                    ['2'],
+                    ['3']
                 ],
                 [
                     ['4'],
@@ -76,9 +76,9 @@
                     ['6']
                 ],
                 [
-                    ['1'],
-                    ['2'],
-                    ['3']
+                    ['7'],
+                    ['8'],
+                    ['9']
                 ],
                 [
                     ['del'],
@@ -86,7 +86,7 @@
                     ['.']
                 ]
             ],
-            numberLayout: [
+            telLayout: [
                 [
                     ['1'],
                     ['2'],
@@ -119,10 +119,10 @@
             trigger: 'focus'
         }, options);
         if (!settings.layout) {
-            if (($(this).attr('type') === 'number' && $(this).hasClass('keyboard-numpad')) || settings.type === 'numpad') {
+            if (($(this).attr('type') === 'tel' && $(this).hasClass('keyboard-numpad')) || settings.type === 'numpad') {
                 settings.layout = settings.numpadLayout;
-            } else if (($(this).attr('type') === 'number') || settings.type === 'number') {
-                settings.layout = settings.numberLayout;
+            } else if (($(this).attr('type') === 'tel') || settings.type === 'tel') {
+                settings.layout = settings.telLayout;
             } else {
                 settings.layout = settings.keyboardLayout;
             }

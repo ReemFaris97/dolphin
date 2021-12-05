@@ -370,3 +370,8 @@ table.table.table-striped.table-refuse tr , table.table.table-striped.table-refu
 .table-bordered th {
     text-align: center;
 }
+@media print {
+    #print-11cm{
+        display: none !important;
+    }
+}

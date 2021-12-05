@@ -43,6 +43,7 @@
 
                         <td class="text-center">
                             <a href="{{route('accounting.sales.show',$row->id)}}" data-toggle="tooltip" data-original-title="عرض الفاتورة"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
+                            <a href="{{route('accounting.sales.show',['sale'=>$row->id,'print'=>'a4'])}}" data-toggle="tooltip" data-original-title="عرض الفاتورة"> <i class="icon-printer text-inverse" style="margin-left: 10px"></i> </a>
                             <a href="{{route('accounting.sales.edit',$row->id)}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
 
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>

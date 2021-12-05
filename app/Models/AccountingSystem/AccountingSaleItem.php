@@ -54,6 +54,18 @@ class AccountingSaleItem extends Model
         return $this->belongsTo(AccountingSale::class,'sale_id');
     }
 
+    public function priceWithoutTax($tax)
+    {
+        return ($this->price*100/(100+$tax));
+    }
+    public function getTax($tax)
+    {
+        return $this->price-($this->price*100/(100+$tax));
+    }
+    public function unit()
+    {
+        return $this->belongsTo(AccountingProductSubUnit::class,'unit_id');
+}
     public function units()
     {
 //        return $this->belongsTo(AccountingProductSubUnit::class,'unit_id');
