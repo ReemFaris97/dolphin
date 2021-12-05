@@ -514,9 +514,12 @@
                         {{-- @dd(Cookie::get('session')) --}}
                         @if (Cookie::get('session'))
                             <li><a href="{{route('accounting.sells_points.sells_point',Cookie::get('session'))}}"><i
-                                        class="icon-eye"></i> نقطه البيع</a></li> @elseif (Cookie::get('session')==Null)
+                                        class="icon-eye"></i> نقطه البيع</a></li>
+                            <li><a href="{{route('accounting.invoices.current',Cookie::get('session'))}}"><i
+                                        class="icon-eye"></i> الفواتير الحالية</a></li> @elseif (Cookie::get('session')==Null)
                             <li><a href="{{route('accounting.sells_points.login')}}"><i class="icon-eye"></i> تسجيل دخول
-                                    نقطة البيع</a></li> @endif </ul>
+                                    نقطة البيع</a></li> @endif
+                    </ul>
                 </li>
             @endcan
             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i
