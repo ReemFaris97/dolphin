@@ -32,5 +32,5 @@ use Illuminate\Database\Eloquent\Model;
 class AccountingProductComponent extends Model
 {
     protected  $table='accounting_product_components';
-    protected $fillable = ['name','product_id','quantity','main_unit'];
+    protected $fillable = ['product_id', 'name', 'quantity', 'main_unit', 'created_at', 'updated_at', 'component_id','is_production','unit_id'];
 }
