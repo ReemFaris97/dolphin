@@ -4,7 +4,7 @@ Route::get('/', function () {
     return redirect()->route('accounting.home');
 });
 
-Route::get('fix',function (){
+/*Route::get('fix',function (){
     $sales_items=\App\Models\AccountingSystem\AccountingSaleItem::all();
     foreach ($sales_items as $item){
         $subUnit=$item->product->sub_units->where('selling_price',$item->price)->first();
@@ -15,7 +15,7 @@ Route::get('fix',function (){
 //        if ()
     }
     dd('done fixing');
-});
+});*/
 Route::middleware('admin')->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('companies', 'CompanyController');
@@ -100,6 +100,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/inventories_band', 'StoreInventroyController@inventories_band')->name('stores.inventories_band');
     Route::get('/show-inventory_band/{id}', 'StoreInventroyController@show_inventory_band')->name('stores.show_inventory_band');
 
+    Route::get('my-invoices','InvoiceController@index')->name('invoices.current');
     //تحويل الاصناف  من  مستودع  الى  اخر/////////////////////////////////////
     Route::get('/transaction', 'StoreTransactionController@transaction_form')->name('stores.transaction');
     Route::post('transactions', 'StoreTransactionController@transactions')->name('stores.transactions');
