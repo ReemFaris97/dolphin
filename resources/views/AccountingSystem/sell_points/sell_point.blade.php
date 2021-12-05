@@ -17,7 +17,12 @@
     <link href="{{ asset('admin/assets/css/customized.css') }}" rel="stylesheet" type="text/css">
 @endsection
 @section('content')
+
     <div id="container">
+        <div>
+            <p><input type="tel" class="keyboard form-control keyboard-numpad" id="number"></p>
+      
+        </div>
         <div class="panel panel-flat">
             <div class="panel-heading">
                 <h5 class="panel-title">
@@ -210,14 +215,14 @@
                                             <div class="inline_divs">
                                                 <div class="form-group rel-cols">
                                                     <label for="byCache">كاش</label>
-                                                    <input type="number" step="any" id="byCache" placeholder="المدفوع كاش" min="0" class="form-control dynamic-input" name="cash">
+                                                    <input type="number" step="any" id="byCache" placeholder="المدفوع كاش" min="0" class="form-control dynamic-input keyboard form-control keyboard-numpad" name="cash">
                                                     <span class="rs"> ر.س </span>
                                                 </div>
                                                 <span> + </span>
                                                 <div class="form-group rel-cols">
                                                     <label for="byNet">شبكة</label>
-                                                    <input type="number" step="any" id="byNet" placeholder="المدفوع شبكة"
-                                                        min="0" class="form-control dynamic-input" name="network"
+                                                    <input  type="number" step="any" id="byNet" placeholder="المدفوع شبكة"
+                                                        min="0" class="form-control dynamic-input keyboard form-control keyboard-numpad" name="network"
                                                         >
                                                     <span class="rs"> ر.س </span>
                                                 </div>
@@ -1068,4 +1073,18 @@ var is_selected = (i == 0) ? 'selected' : '';
             }
         }
     </script>
+    
+
+		<script src="{{asset('admin/assets/js/numric-input.js')}}"></script>
+		<script>
+			$(function(){
+				$('#default').keyboard();
+				$('#byCache').keyboard();
+                $('#byNet').keyboard();
+                $('#number').keyboard();
+				
+				$('#placement').keyboard({placement: 'top'});
+				
+			});
+		</script>
 @endsection
