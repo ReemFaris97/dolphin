@@ -199,12 +199,12 @@ function getsetting($name)
 function getBarcodeDisplay($name)
 {
     $setting =  App\Models\AccountingSystem\AccountingSetting::where('name', $name)->first();
-      return $setting->display ?? '';
+    return $setting->display ?? '';
 }
 function getBarcodeHeight($name)
 {
     $setting =  App\Models\AccountingSystem\AccountingSetting::where('name', $name)->first();
-      return $setting->height ?? '';
+    return $setting->height ?? '';
 }
 
 function products_not_settement($store=null)
@@ -849,7 +849,7 @@ function currency()
 
 function accounts()
 {
-    $accounts=\App\Models\AccountingSystem\AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->where('kind', 'sub')->pluck('code_name', 'id')->toArray();
+    $accounts=\App\Models\AccountingSystem\AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->where('kind', '!=', 'main')->pluck('code_name', 'id')->toArray();
     return $accounts;
 }
 

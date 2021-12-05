@@ -287,7 +287,7 @@ class SaleController extends Controller
             'account_amount_after'=>isset($last)?@$last->account_amount_after+ ($sale->total) : $credit_account->amount + ($sale->total),
         ]);
 
-DB::commit();
+        DB::commit();
         alert()->success('تمت عملية البيع بنجاح !')->autoclose(5000);
         return back()->with('sale_id', $sale->id)->with('print', $request->print);
     }
@@ -398,11 +398,11 @@ DB::commit();
             $store=AccountingStore::find($store_id);
         } elseif ($returnSale->payment=='agel') {
             $client=AccountingClient::find($returnSale->client_id);
-            if($client){
-            $client->update([
+            if ($client) {
+                $client->update([
                 'amount'=>$client->amount -$returnSale->total
             ]);
-        }
+            }
         }
 
         DB::commit();
