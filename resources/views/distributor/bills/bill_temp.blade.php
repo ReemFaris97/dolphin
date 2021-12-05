@@ -440,13 +440,7 @@
         <div class="details-container">
             <p>المبلغ كتابة</p>
             <p>
-                {{ $bill->CashArabic($total)[0] }}
-                ريال
-                {{ $bill->CashArabic($total)[1] ??''}}
-                @if($bill->CashArabic($total)[1]!=0)
-                    هللة
-                @endif
-                    لاغير
+                {{\Alkoumi\LaravelArabicTafqeet\Tafqeet::inArabic($total)}}
             </p>
         </div>
         <div class="details-container">
