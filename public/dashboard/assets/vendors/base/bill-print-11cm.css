@@ -1,42 +1,52 @@
-*{
+* {
     -webkit-print-color-adjust: exact;
 }
-body{
+
+body {
     margin: 0;
     direction: rtl;
 }
+
 p {
     margin: 0;
 }
-#myDivToPrintsmall{
+
+#myDivToPrintsmall {
     display: block;
-    width: 11cm;
+    width: 6cm;
     text-align: center;
     margin: 0 auto;
 
 }
 
-img[alt="logo"]{
+img[alt="logo"] {
     width: 55px;
 }
-table{
+
+table {
     font-size: 13px;
 
 }
-th,td{
-    padding-left:12px
+
+th,
+td {
+    padding-left: 12px
 }
-.details-container{
+
+.details-container {
     display: flex;
     justify-content: space-between;
 }
+
 .details-container p {
     text-align: start;
 }
+
 .details-container p:first-child {
     width: 135px;
 
 }
+
 .details-container p:nth-child(2) {
     flex-grow: 4;
     max-width: 280px;
