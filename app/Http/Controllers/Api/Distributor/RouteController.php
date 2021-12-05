@@ -166,7 +166,10 @@ class RouteController extends Controller
         )
          ->latest()->firstOrFail();
 
-        return view('distributor.bills.api', compact('bill'));
+         return $this->apiResponse(
+            ['msg' => 'تم تسجيل الفاتورة بنجاح',
+             'bill' => url('/api/distributor/bills/print_bill/' . encrypt($bill->id))]
+        );
     }
 
     public function attachImages(Request $request)
