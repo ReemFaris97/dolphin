@@ -107,7 +107,7 @@ class SafeController extends Controller
         $safe = AccountingSafe::findOrFail($id);
         $companies = AccountingCompany::pluck('name', 'id')->toArray();
         $branches = AccountingBranch::pluck('name', 'id')->toArray();
-        return $this->toEdit(compact('safe', 'branches'));
+        return $this->toEdit(compact('safe', 'branches', 'companies'));
     }
 
     /**

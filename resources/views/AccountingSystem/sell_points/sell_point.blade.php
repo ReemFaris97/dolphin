@@ -68,7 +68,7 @@
                             <!-- Nav tabs -->
                             <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
                                 <label> إسم العميل: </label>
-                                {!! Form::select('client', $clients, null, ['class' => 'selectpicker form-control inline-control', 'data-live-search' => 'true', 'id' => 'client_id']) !!}
+                                {!! Form::select('client_id', $clients, null, ['class' => 'selectpicker form-control inline-control', 'data-live-search' => 'true', 'id' => 'client_id']) !!}
                             </div>
                             <div class="form-group block-gp col-md-1" style="margin-top: 3rem;">
                                 <a class="btn btn-success" href="{{route('accounting.clients.create')}}" target="_blank"> +</a>
@@ -1035,10 +1035,7 @@ $.ajax({
     <script>
         @if (!empty(session()->has('sale_id')))
             @php($sale_id = session()->get('sale_id'))
-            window.open(
-            "{{ route('accounting.sales.show', ['sale'=>$sale_id,'print'=>session('print')]) }}",
-            "_blank"
-            ).print();
+            window.open(   "{{ route('accounting.sales.show', ['sale'=>$sale_id,'print'=>session('print')]) }}",  "_blank" ).print();
         @endif
     </script>
     <script>

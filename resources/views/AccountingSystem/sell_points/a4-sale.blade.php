@@ -1,14 +1,6 @@
-<!doctype html>
-<html lang="en" dir="ltr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>طباعة الفاتورة</title>
+
     <link rel="stylesheet" type="text/css" href="{{ asset('dashboard/assets/vendors/base/bill-print.css') }}">
-</head>
-<body>
+
 <div class="m-portlet__body">
     <button type="button" id="print-all">طباعة</button>
     <!--------- start content ---------->
@@ -175,7 +167,8 @@
                                 @foreach($sale->items as $value)
                                     <tr>
 {{--                                        @dd($value->priceWithoutTax($tax_percent))--}}
-                                        <td>{{ round($value->priceWithoutTax($tax_percent) * $value->quantity,2)}}</td>
+                                        <td>{{ round($value->priceWithoutTax($tax_percent) * $value->quantity,2)}}
+                                        </td>
                                         <td>
 
                                             {{ round($value->getTax($tax_percent),2) }}
@@ -328,5 +321,4 @@
     })
 </script>
 
-</body>
-</html>
+
