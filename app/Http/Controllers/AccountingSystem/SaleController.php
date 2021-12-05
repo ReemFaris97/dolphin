@@ -399,10 +399,10 @@ class SaleController extends Controller
             $store=AccountingStore::find($store_id);
         } elseif ($returnSale->payment=='agel') {
             $client=AccountingClient::find($returnSale->client_id);
-            if($client){
+            if ($client) {
                 $client->update([
-                    'amount'=>$client->amount -$returnSale->total
-                ]);
+                'amount'=>$client->amount -$returnSale->total
+            ]);
             }
         }
 
