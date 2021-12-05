@@ -21,7 +21,7 @@
     <div id="container">
         <div>
             <p><input type="tel" class="keyboard form-control keyboard-numpad" id="tel"></p>
-      
+
         </div>
         <div class="panel panel-flat">
             <div class="panel-heading">
@@ -212,11 +212,13 @@
                                     <tr id="paidAmount">
                                         <th colspan="2">المدفوع</th>
                                         <th colspan="7">
-                                     
+
                                             <div class="inline_divs">
                                                 <div class="form-group rel-cols">
                                                     <label for="byCache">كاش</label>
-                                                    <input type="tel" step="any" id="byCache" placeholder="المدفوع كاش" min="0" class="form-control dynamic-input keyboard form-control keyboard-numpad" name="cash">
+                                                    <input type="tel" step="any" id="byCache" placeholder="المدفوع كاش" min="0" class="form-control dynamic-input keyboard form-control keyboard-numpad" name="cash"
+                                                    autocomplete="off"
+                                                    >
                                                     <span class="rs"> ر.س </span>
                                                 </div>
                                                 <span> + </span>
@@ -224,6 +226,7 @@
                                                     <label for="byNet">شبكة</label>
                                                     <input  type="tel" step="any" id="byNet" placeholder="المدفوع شبكة"
                                                         min="0" class="form-control dynamic-input keyboard form-control keyboard-numpad" name="network"
+                                                        autocomplete="off"
                                                         >
                                                     <span class="rs"> ر.س </span>
                                                 </div>
@@ -1103,7 +1106,7 @@ $.ajax({
             }
         }
     </script>
-    
+
 
 		<script src="{{asset('admin/assets/js/numric-input.js')}}"></script>
 		<script>
@@ -1114,11 +1117,11 @@ $.ajax({
               $('#byNet').keyboard({type:'numpad'});
 
                 $('#tel').keyboard();
-				
+
 				$('#placement').keyboard({placement: 'top'});
-				
+
 			});
 
-            
+
 		</script>
 @endsection
