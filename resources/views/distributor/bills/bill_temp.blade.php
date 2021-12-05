@@ -1,9 +1,11 @@
 <style>
-    @media print{
-   .noprint{
-       display:none;
-   }
+
+@media print {
+    .noprint {
+        display: none !important;
+    }
 }
+
 </style>
 <div class="m-portlet__body">
     <button type="button" id="print-all" class="noprint">طباعة</button>
