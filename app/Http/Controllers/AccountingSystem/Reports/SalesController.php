@@ -102,16 +102,16 @@ class SalesController extends Controller
     public function returnsPeriod(Request $request)
     {
          //  dd($request->all());
-        $requests = request()->all();
-        if ($request->has('company_id')) {
-            $sales = AccountingReturn::select('id', \DB::raw('DATE(created_at) as date'), \DB::raw('count(*) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'), 'created_at');
+
+            $sales = AccountingReturn::query();
+            $sales->select('id', \DB::raw('DATE(created_at) as date'), \DB::raw('count(*) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'), 'created_at');
 //            if ($request->has('branch_id') && $request->branch_id != null) {
 //                $sales = $sales->where('branch_id', $request->branch_id);
 //            }
 //         if ($request->has('user_id') && $request->user_id != null ) {
 //            $sales = $sales->where('user_id', $request->user_id);
 //         }
-            $sales = AccountingReturn::query();
+//            $sales = AccountingReturn::query();
             if ($request->has('product_id') && $request->product_id != null) {
                 $sales = $sales->whereHas('items', function ($item) use ($request) {
                     $item->where('product_id', $request->product_id);
@@ -121,11 +121,9 @@ class SalesController extends Controller
                 $sales = $sales->whereBetween('created_at', [Carbon::parse($request->from), Carbon::parse($request->to)]);
             }
             $sales = $sales->groupBy('created_at')->get();
-        } else {
-            $sales = collect();
-        }
 
-        return view('AccountingSystem.reports.sales.returns-period', compact('sales', 'requests'));
+
+        return view('AccountingSystem.reports.sales.returns-period',['sales'=>$sales,'requests'=>$request->all()]);
     }
 
     public function returnsDay(Request $request)
