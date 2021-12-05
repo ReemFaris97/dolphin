@@ -140,7 +140,7 @@
             </div>
             <!--- table---->
             <div class="bg_logo">
-                <table class="the_table">
+                <table class="the_table" dir="ltr">
                     <thead>
                         <tr>
                             <th class="col9">
