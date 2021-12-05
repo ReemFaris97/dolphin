@@ -113,12 +113,15 @@ class SalesController extends Controller
 //         }
 //            $sales = AccountingReturn::query();
             if ($request->has('product_id') && $request->product_id != null) {
-                $sales = $sales->whereHas('items', function ($item) use ($request) {
+                $sales->whereHas('items', function ($item) use ($request) {
                     $item->where('product_id', $request->product_id);
                 });
             }
+            if ($request->has('user_id') && $request->user_id != null) {
+               $sales->where('user_id',$request->user_id);
+            }
             if ($request->has('from') && $request->has('to')) {
-                $sales = $sales->whereBetween('created_at', [Carbon::parse($request->from), Carbon::parse($request->to)]);
+                $sales->whereBetween('created_at', [Carbon::parse($request->from), Carbon::parse($request->to)]);
             }
             $sales = $sales->groupBy('created_at')->get();
 
