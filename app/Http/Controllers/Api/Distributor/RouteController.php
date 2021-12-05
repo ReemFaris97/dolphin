@@ -162,7 +162,7 @@ class RouteController extends Controller
         ->ofDistributor(auth()->id())
         ->when(
             $request->client_id!=null,
-            fn ($q) => $q->where('client_id', $request->client_id)
+            fn ($q) => $q->ofClient($request->client_id)
         )
          ->latest()->firstOrFail();
 
