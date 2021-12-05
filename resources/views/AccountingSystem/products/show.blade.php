@@ -124,10 +124,12 @@
                             @foreach ($units as $unit)
                                 <tr>
                                     <td>{!! $unit->name !!}</td>
-                                    <td> @foreach($unit->bar_code as $barcode)
+                                    <td>
+                                        @foreach((array)$unit->bar_code as $barcode)
                                         {!! $barcode !!}
                                            @if( ! $loop->last) - @endif
-                                        @endforeach</td>
+                                        @endforeach
+                                    </td>
                                     <td>{!! $unit->main_unit_present !!}</td>
                                     <td>{!! $unit->selling_price !!}</td>
                                     <td>{!! $unit->purchasing_price !!}</td>

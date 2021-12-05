@@ -24,13 +24,14 @@ img[alt="logo"] {
 }
 
 table {
-    font-size: 13px;
+    font-size: 11px;
+
 
 }
 
 th,
 td {
-    padding-left: 12px
+    padding-left: 4px
 }
 
 .details-container {
@@ -51,4 +52,17 @@ td {
     flex-grow: 4;
     max-width: 280px;
 
+}
+.details-container p:nth-child(2) {
+    flex-grow: 4;
+    max-width: 280px;
+    white-space: pre-line;
+}
+.smll-size-price{
+    font-size: 12px;
+}
+@media print {
+    .details-container p:nth-child(2) {
+        white-space: pre-line;
+    }
 }
