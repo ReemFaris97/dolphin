@@ -154,6 +154,17 @@ class RouteController extends Controller
     public function print_bill($id)
     {
         $bill = RouteTripReport::find(decrypt(str_replace('.html', '', $id)));
+        return view('distributor.bills.api', compact('bill'));
+    }
+    public function lastBill(Request $request)
+    {
+        $bill = RouteTripReport::query()
+        ->ofDistributor(auth()->id())
+        ->when(
+            $request->client_id!=null,
+            fn ($q) => $q->where('client_id', $request->client_id)
+        )
+         ->latest()->firstOrFail();
 
         return view('distributor.bills.api', compact('bill'));
     }

@@ -17,7 +17,12 @@
     <link href="{{ asset('admin/assets/css/customized.css') }}" rel="stylesheet" type="text/css">
 @endsection
 @section('content')
+
     <div id="container">
+        <div>
+            <p><input type="tel" class="keyboard form-control keyboard-numpad" id="tel"></p>
+
+        </div>
         <div class="panel panel-flat">
             <div class="panel-heading">
                 <h5 class="panel-title">
@@ -74,7 +79,7 @@
                                 <label for="bill_date"> تاريخ الفاتورة </label>
                                 {!! Form::text('__bill_date', null, ['class' => 'inlinedatepicker form-control inline-control', 'placeholder' => ' تاريخ الفاتورة', 'id' => 'bill_date']) !!}
                             </div>
-                            <input type="hidden" value="{{ getsetting('rounding_number') }}" id="ronding-number">
+                            <input type="hidden" value="{{ getsetting('rounding_tel') }}" id="ronding-tel">
                             @if (getsetting('automatic_sales') == 0)
                                 <div class="form-group col-sm-3">
                                     <label> اختر الحساب </label>
@@ -177,7 +182,7 @@
                                                 <div class="form-group">
                                                     <div class="rel-cols">
                                                         <label for="byPercentage">ادخل نسبة الخصم</label>
-                                                        <input type="number" placeholder="النسبة المئوية للخصم" min="0"
+                                                        <input type="tel" placeholder="النسبة المئوية للخصم" min="0"
                                                             value="0" max="100" step="any" id="byPercentage"
                                                             class="form-control dynamic-input" name="discount_byPercentage">
                                                         <span class="rs"> % </span>
@@ -186,7 +191,7 @@
                                                 <div class="form-group">
                                                     <div class="rel-cols">
                                                         <label for="byAmount">ادخل مبلغ الخصم</label>
-                                                        <input type="number" step="any" placeholder="مبلغ الخصم" min="0"
+                                                        <input type="tel" step="any" placeholder="مبلغ الخصم" min="0"
                                                             value="0" max="1" id="byAmount"
                                                             class="form-control dynamic-input" name="discount_byAmount">
                                                         <span class="rs"> ر.س </span>
@@ -207,17 +212,21 @@
                                     <tr id="paidAmount">
                                         <th colspan="2">المدفوع</th>
                                         <th colspan="7">
+
                                             <div class="inline_divs">
                                                 <div class="form-group rel-cols">
                                                     <label for="byCache">كاش</label>
-                                                    <input type="number" step="any" id="byCache" placeholder="المدفوع كاش" min="0" class="form-control dynamic-input" name="cash">
+                                                    <input type="tel" step="any" id="byCache" placeholder="المدفوع كاش" min="0" class="form-control dynamic-input keyboard form-control keyboard-numpad" name="cash"
+                                                    autocomplete="off"
+                                                    >
                                                     <span class="rs"> ر.س </span>
                                                 </div>
                                                 <span> + </span>
                                                 <div class="form-group rel-cols">
                                                     <label for="byNet">شبكة</label>
-                                                    <input type="number" step="any" id="byNet" placeholder="المدفوع شبكة"
-                                                        min="0" class="form-control dynamic-input" name="network"
+                                                    <input  type="tel" step="any" id="byNet" placeholder="المدفوع شبكة"
+                                                        min="0" class="form-control dynamic-input keyboard form-control keyboard-numpad" name="network"
+                                                        autocomplete="off"
                                                         >
                                                     <span class="rs"> ر.س </span>
                                                 </div>
@@ -384,7 +393,7 @@
             $("#bill_date_val").val($(this).val());
         });
 
-        var rondingNumber = $("#ronding-number").val();
+        var rondingNumber = $("#ronding-tel").val();
 
         var rowNum = 0;
         $('#selectID').selectpicker('refresh');
@@ -429,10 +438,10 @@ var is_selected = (i == 0) ? 'selected' : '';
 				</select>
 			</td>
 			<td class="product-quantity maybe-hidden quantity_enable" width="100">
-				<input type="number" placeholder="الكمية" max="" min="1" value="${quantity}" id="sale" name="quantity[]" class="form-control">
+				<input type="tel" placeholder="الكمية" max="" min="1" value="${quantity}" id="sale" name="quantity[]" class="form-control">
 			</td>
 			<td class="unit-total-tax maybe-hidden unit_total_tax_enable" width="100">
-				<input type="number" placeholder="الضريبة" max="" min="0" data-original-tax="${totalTaxes}" value="${totalTaxes}" name="tax[]" class="form-control">
+				<input type="tel" placeholder="الضريبة" max="" min="0" data-original-tax="${totalTaxes}" value="${totalTaxes}" name="tax[]" class="form-control">
 			</td>
 			<td class="single-unit-price maybe-hidden unit_price_after_enable" width="100">${Math.round(productPrice*10000)/10000}</td>
 			<td class="single-price-before maybe-hidden">${Math.round(singlePriceBefore*10000)/10000}</td>
@@ -717,7 +726,7 @@ var is_selected = (i == 0) ? 'selected' : '';
                 $("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
                 $("#total").val(total);
             });
-            $("#byCache , #byNet").change(function() {
+            $("#byCache , #byNet").blur(function() {
                 var allPaid = Number($("#byCache").val()) + Number($("#byNet").val());
                 $("#allPaid").html(allPaid.toFixed(rondingNumber));
                 $("#allPaid1").val(allPaid);
@@ -1100,4 +1109,22 @@ $.ajax({
             }
         }
     </script>
+
+
+		<script src="{{asset('admin/assets/js/numric-input.js')}}"></script>
+		<script>
+			$(function(){
+				$('#default').keyboard();
+				$('#byCache').keyboard();
+              /*   $('#byNet').keyboard(); */
+              $('#byNet').keyboard({type:'numpad'});
+
+                $('#tel').keyboard();
+
+				$('#placement').keyboard({placement: 'top'});
+
+			});
+
+
+		</script>
 @endsection
