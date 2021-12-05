@@ -133,7 +133,7 @@ class SalesController extends Controller
     {
         $requests = request()->all();
             $sales = AccountingReturn::query();
-            $sales->select('id', \DB::raw('DATE(created_at) as date'), \DB::raw('sum(amount) as num'), \DB::raw('count(*) as counter'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'), 'created_at');
+         ;
 
             if ($request->has('branch_id') && $request->branch_id != null) {
                $sales->where('branch_id', $request->branch_id);
@@ -157,7 +157,7 @@ class SalesController extends Controller
                $sales->whereBetween('created_at', [Carbon::parse($request->from), Carbon::parse($request->to)]);
             }
 
-            $sales = $sales->groupBy('date')->get();
+            $sales = $sales->get();
 
         return view('AccountingSystem.reports.sales.returns-day', compact('sales', 'requests'));
     }

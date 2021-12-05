@@ -140,90 +140,50 @@
             </section>
 
 <div id="print-window">
-            <table class="table datatable-button-init-basic">
-                <thead>
-                <tr class="normal-bgc">
-                    @if(isset($requests['company_id']))
-                        <td class="company-imgg-td" colspan="8">
-                            @php $company=\App\Models\AccountingSystem\AccountingCompany::find($requests['company_id'])@endphp
-                            <span><img src="{!!getimg($company->image)!!}" style="width:100px; height:100px"> </span>
-                            <span>{{$company->name}}</span>
-                        </td>
-                    @endif
+    <table class="table datatable-button-init-basic">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th> رقم وكود الفاتورة </th>
+            <th> العميل </th>
+            <th> اسم القائم بالعملية </th>
+            {{-- <th> الإجمالي </th> --}}
+            <th> إجمالي سعر البيع </th>
+            <th> الخصم </th>
+            {{--<th> المدفوع </th>--}}
+            {{--<th> المتبقي </th>--}}
+            <th> لإجمالي بعد الخصم والضريبة </th>
 
-                </tr>
+            <th class="text-center td-display-none">العمليات</th>
+        </tr>
+        </thead>
+        <tbody>
 
-                <tr  class="normal-bgc">
-                    @if(isset($requests['branch_id']))
-                        @php $branch=\App\Models\AccountingSystem\AccountingBranch::find($requests['branch_id']) @endphp
-                        <td class="footTdLbl" colspan="2">الفرع : <span>{{$branch->name}}</span></td>
-                    @endif
+        @foreach($sales as $row)
+            <tr>
+                <td>{!!$loop->iteration!!}</td>
+                <td>{!! $row->bill_num !!}</td>
+                <td>{!! $row->client()->exists() ? $row->client->name : '-' !!}</td>
+                <td>{!! $row->user()->exists() ? $row->user->name : '-' !!}</td>
+                <td>{!! $row->amount?? 0 !!}</td>
+                <td>{!! $row->discount?? 0 !!}</td>
+                {{--<td>{!! $row->payed !!}</td>--}}
+                {{--<td>{!! $row->total - $row->payed !!}</td>--}}
 
-                    @if(isset($requests['store_id']))
-                        @php $store=\App\Models\AccountingSystem\AccountingStore::find($requests['store_id']) @endphp
-                        <td class="footTdLbl" colspan="2">المستودع : <span>{{$store->ar_name}}</span></td>
-                    @endif
+                <td>{!! $row->total?? 0 !!}</td>
 
-                    @if(isset($requests['product_id']))
-                        @php $product=\App\Models\AccountingSystem\AccountingProduct::find($requests['product_id']) @endphp
-                        <td class="footTdLbl" colspan="2">الصنف : <span>{{$product->name}}</span></td>
-                    @endif
+                <td class="text-center td-display-none">
+                    <a href="{{route('accounting.sales.show',$row->id)}}" target="_blank" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
 
-                    @if(isset($requests['date']))
-                        <td class="footTdLbl" colspan="2"> يوم:<span>{{$requests['date']}}</span></td>
-                    @endif
+                </td>
+            </tr>
 
-                </tr>
-                <tr>
-                    <th>#</th>
-                    <th> التاريخ </th>
-                    <th> إجمالي المشتريات </th>
-                    <th> إجمالي الخصومات </th>
-                    <th> إجمالي الضريبة </th>
-                    <th> إجمالي بعد الخصومات والضريبة </th>
-
-                    <th class="text-center td-display-none">العمليات</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                @php $all_amounts=0; $discounts=0; $total_tax=0; $all_total=0; @endphp
-
-                @foreach($sales as $row)
-                    @php $all_amounts+=$row->all_amounts; $discounts+=$row->discounts; $total_tax+=$row->total_tax; $all_total+=$row->all_total;@endphp
-
-                    <tr>
-                        <td>{!!$loop->iteration!!}</td>
-                        <td>{!! $row->created_at->locale('ar')->toDayDateTimeString() !!}</td>
-                        <td>{!! $row->all_amounts?? 0 !!}</td>
-                        <td>{!! $row->discounts?? 0 !!}</td>
-                        <td>{!! $row->total_tax?? 0 !!}</td>
-                        <td>{!! $row->all_total?? 0 !!}</td>
-
-                        <td class="text-center td-display-none">
-                            <a href="{{route('accounting.reports.sales_returns_details')}}?date={{ $row->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
-
-                        </td>
-                    </tr>
-
-                @endforeach
+        @endforeach
 
 
 
-                </tbody>
-                <tfoot>
-                <tr>
-                    <td>المجموع</td>
-                    <td></td>
-                    <td>{{$all_amounts}}</td>
-                    <td>{{$discounts}}</td>
-                    <td>{{$total_tax}}</td>
-                    <td>{{$all_total}}  </td>
-                    <td>عدد الفواتير:{{$sales->sum('counter')}}</td>
-
-                </tr>
-                </tfoot>
-            </table>
+        </tbody>
+    </table>
         	</div>
         </div>
 <div class="row print-wrapper">
