@@ -456,7 +456,7 @@
             <p>{{round($bill->visa,2)}}</p>
         </div>
         <div style="margin-top:20px">
-            {!! QrCode::size(100)->generate(
+            {!! QrCode::size(400)->generate(
                              url('/api/distributor/bills/print_bill/' .  encrypt($bill->id))
                                     ); !!}
         </div>
