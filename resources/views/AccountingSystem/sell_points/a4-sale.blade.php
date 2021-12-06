@@ -167,13 +167,12 @@
                                 @foreach($sale->items as $value)
                                     <tr>
 {{--                                        @dd($value->priceWithoutTax($tax_percent))--}}
-                                        <td>{{ round($value->priceWithoutTax($tax_percent) * $value->quantity,2)}}
-                                        </td>
+                                        <td>{{ round($value->priceWithoutTax($tax_percent) * $value->quantity,2)}}</td>
                                         <td>
 
                                             {{ round($value->getTax($tax_percent),2) }}
                                         </td>
-                                        <td>{{round( $value->priceWithoutTax($tax_percent),2) }}</td>
+                                        <td>{{ $value->price }}</td>
                                         <td>{{ $value->quantity }}</td>
                                         <td> {{$value->unit?$value->unit->name:$value->product->main_unit}}
                                         </td>
@@ -320,5 +319,4 @@
 
     })
 </script>
-
 

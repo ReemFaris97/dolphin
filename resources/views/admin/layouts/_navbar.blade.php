@@ -231,11 +231,11 @@
                                      </div>
                                  </div>
                              </li>--}}
-							
-							
-							
+
+
+
 							<li class="m-nav__item m-topbar__notifications m-dropdown m-dropdown--large m-dropdown--arrow m-dropdown--align-center 	m-dropdown--mobile-full-width"
-                                m-dropdown-toggle="click" m-dropdown-persistent="1" onclick="read_notification('{!! route('admin.notification.read') !!}')" style="padding: 22px 10px 15px;color: #384ad7;">
+                                m-dropdown-toggle="click" m-dropdown-persistent="1" onclick="read_notification('{!! route('admin.notification.read') !!}')" style="padding: 22px 10px 15px">
                                <a class="m-menu__link" data-toggle="modal" data-target="#search_modal">
 								<span class="m-nav__link-icon">
 													<span class="m-nav__link-icon-wrapper"><i
@@ -245,9 +245,9 @@
 												</span>
 							</a>
 							</li>
-							
-							
-							
+
+
+
                             <li class="m-nav__item m-topbar__notifications m-dropdown m-dropdown--large m-dropdown--arrow m-dropdown--align-center 	m-dropdown--mobile-full-width"
                                 m-dropdown-toggle="click" m-dropdown-persistent="1" onclick="read_notification('{!! route('admin.notification.read') !!}')">
                                 <a href="#" class="m-nav__link m-dropdown__toggle" id="m_topbar_notification_icon">
@@ -337,13 +337,13 @@
                                                         class="m-card-user__name m--font-weight-500">{!! Auth::user()->name !!}</span>
 
 
-<span class="fas fa-star " @if(Auth::user()->rate()>=1)style="color:orange" @endif></span>
-<span class="fas fa-star" @if(Auth::user()->rate()>=2 )style="color:orange" @endif></span>
-<span class="fas fa-star" @if(Auth::user()->rate()>=3 )style="color:orange" @endif></span>
-<span class="fas fa-star" @if(Auth::user()->rate()>=4 )style="color:orange" @endif></span>
-<span class="fas fa-star" @if(Auth::user()->rate()>=5 )style="color:orange" @endif></span>
+                                                        <span class="fas fa-star " @if(Auth::user()->rate()>=1)style="color:orange" @endif></span>
+                                                        <span class="fas fa-star" @if(Auth::user()->rate()>=2 )style="color:orange" @endif></span>
+                                                        <span class="fas fa-star" @if(Auth::user()->rate()>=3 )style="color:orange" @endif></span>
+                                                        <span class="fas fa-star" @if(Auth::user()->rate()>=4 )style="color:orange" @endif></span>
+                                                        <span class="fas fa-star" @if(Auth::user()->rate()>=5 )style="color:orange" @endif></span>
 
-                                                    </span>
+                                                        </span>
                                                     <a href="#"
                                                        class="m-card-user__email m--font-weight-300 m-link">{!! Auth::user()->email !!} </a>
                                                 </div>
@@ -368,6 +368,7 @@
 																		</span>
                                                         </a>
                                                     </li>
+                                                   {{--  <a href="/check"><i class="icon-switch2"></i>الرئيسية</a> --}}
 
                                                     <li class="m-nav__separator m-nav__separator--fit">
                                                     </li>

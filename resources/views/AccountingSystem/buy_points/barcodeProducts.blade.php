@@ -40,7 +40,7 @@
        data-name="{{$product->name}}"
        data-price="{{$product->purchasing_price  }}"
        data-main-unit="{{$product->	main_unit}}"
-       data-bar-code="{{$product->bar_code}}" data-link= "{{route('accounting.products.show',$product->id)}}"
+       data-bar-code="{{$product->bar_code[0]??''}}" data-link= "{{route('accounting.products.show',$product->id)}}"
        data-price-has-tax="{{isset($producttax)? $producttax->price_has_tax : '-1' }}"
        data-total-taxes="{{ isset($producttax)? $product->total_taxes : '0'}}"
        data-subunits="{{json_encode($arr,JSON_UNESCAPED_UNICODE)}}"
@@ -49,7 +49,7 @@
        data-last-price="{{$lastPrice->price_after_tax??0 }}"
        data-average="{{($average)??0 }}"
        data-product_expiration="{{($product->type=='product_expiration')? '1':'0' }}">
-        {{$product->name}} - {{$product->bar_code}}
+        {{$product->name}} - {{$product->bar_code[0]??''}}
        </option>
     </select>
     </div>

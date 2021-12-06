@@ -34,10 +34,10 @@
 
 
                 @if($user->rate==null&& $user->rater_id==Auth::user()->id &&$user->worker_finished_at!=null)
-                    <a class="btn btn-primary" data-toggle="modal"
+                    <a title="تقييم" class="btn btn-primary" data-toggle="modal"
                        data-target="#rate_task_{!! $user->id !!}">
                         <i class="fas fa-star"></i>
-                        تقيم
+
                     </a>
                 @endif
                 @if(
