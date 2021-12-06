@@ -245,13 +245,13 @@ class SaleController extends Controller
             // 'from_account_id' => getsetting('accounting_id_clients'),
             // 'account_id' => getsetting('accounting_id_clients'),
             'account_id'=>getsetting('accounting_id_sales'),
-            'amount' => $sale->total,
+            'amount' => $sale->amount,
             'affect'=>'debtor',
         ]);
         AccountingEntryAccount::create([
             'entry_id' => $entry->id,
             'account_id' => getsetting('accounting_id_clients'),
-            'amount' => $sale->total,
+            'amount' => $sale->amount,
             'affect'=>'creditor',
         ]);
 
