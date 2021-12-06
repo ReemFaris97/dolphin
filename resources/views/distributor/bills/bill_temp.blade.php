@@ -439,7 +439,7 @@
         </div>
         <div class="details-container">
             <p>المبلغ كتابة</p>
-            <p>
+            <p class="smll-size-price">
                 {{ $bill->CashArabic($total)[0] }}
                 ريال
                 {{ $bill->CashArabic($total)[1] ??''}}
