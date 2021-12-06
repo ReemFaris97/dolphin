@@ -33,6 +33,12 @@ use Cookie;
 use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Salla\ZATCA\GenerateQrCode;
+use Salla\ZATCA\Tags\InvoiceDate;
+use Salla\ZATCA\Tags\InvoiceTaxAmount;
+use Salla\ZATCA\Tags\InvoiceTotalAmount;
+use Salla\ZATCA\Tags\Seller;
+use Salla\ZATCA\Tags\TaxNumber;
 
 class SaleController extends Controller
 {
@@ -422,10 +428,19 @@ class SaleController extends Controller
     {
         $sale = AccountingSale::findOrFail($id);
         $product_items = AccountingSaleItem::where('sale_id', $id)->get();
-        if (\request('print', '7cm')=='7cm') {
-            return view('AccountingSystem.sales.show', compact('sale', 'product_items'));
+        $tax_percent = (float)(getsetting('general_taxs'));
+        $tax_amount = $sale->product_total() - ($sale->product_total() * 100 / (100 + $tax_percent));
+        $qr = GenerateQrCode::fromArray([
+            new Seller('مؤسسة دلفن التجارية'), // seller name
+            new TaxNumber('300420708200003'), // seller tax number
+            new InvoiceDate($sale->created_at), // invoice date as Zulu ISO8601 @see https://en.wikipedia.org/wiki/ISO_8601
+            new InvoiceTotalAmount($sale->product_total()), // invoice total amount
+            new InvoiceTaxAmount($tax_amount) // invoice tax amount
+        ])->toBase64();
+        if (\request('print', '7cm') == '7cm') {
+            return view('AccountingSystem.sales.show', compact('sale', 'product_items', 'qr'));
         } else {
-            return view('AccountingSystem.sell_points.a4-sale', compact('sale', 'product_items'));
+            return view('AccountingSystem.sell_points.a4-sale', compact('sale', 'product_items', 'qr'));
         }
     }
 
