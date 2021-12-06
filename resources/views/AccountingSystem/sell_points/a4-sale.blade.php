@@ -173,7 +173,7 @@
 
                                             {{ round($value->getTax($tax_percent),2) }}
                                         </td>
-                                        <td>{{ $value->price }}</td>
+                                        <td>{{round( $value->priceWithoutTax($tax_percent),2) }}</td>
                                         <td>{{ $value->quantity }}</td>
                                         <td> {{$value->unit?$value->unit->name:$value->product->main_unit}}
                                         </td>

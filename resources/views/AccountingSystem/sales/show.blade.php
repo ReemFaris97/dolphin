@@ -904,7 +904,7 @@
                                     </div>
                                     <div class="one-bill-inpt the-bill-numbere the-bill-number">
                                         <span>رقم الفاتوره</span>
-                                        {!! $sale->counter_sale !!}
+                                        {!! $sale->id !!}
                                     </div>
 
 
@@ -919,9 +919,9 @@
                                                 <tr>
                                                     <td data-tablesaw-sortable-col data-tablesaw-priority="6"
                                                         colspan="3"><i
-                                                            class="ti-mobile"></i>رقم الفاتوره اليومى
+                                                            class="ti-mobile"></i>رقم الفاتوره
                                                     </td>
-                                                    <td> {!! $sale->daily_number !!}</td>
+                                                    <td> {!! $sale->id !!}</td>
                                                 </tr>
                                             @endif
                                             <tr>
