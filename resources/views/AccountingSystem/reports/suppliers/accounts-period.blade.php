@@ -41,23 +41,28 @@
                                 <label> الفرع </label>
                                 {{-- {!! Form::select("branch_id",[],request('branch_id'),['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الفرع','data-live-search'=>'true','id'=>'branch_id'])!!} --}}
                                 <select name="branch_id" data-live-search="true" class="selectpicker form-control inline-control" id="branch_id">
-                                    @if(request()->has('branch_id') && request('branch_id') != null)
-                                        @php $branch = \App\Models\AccountingSystem\AccountingBranch::find(request('branch_id')); @endphp
-                                        <option value="{{ $branch->id }}" selected="">{{ $branch->name }}</option>
-                                    @else
-                                        <option value="" selected="" disabled="">اختر الفرع</option>
-                                    @endif
+{{--                                    @if(request()->has('branch_id') && request('branch_id') != null)--}}
+{{--                                        @php $branch = \App\Models\AccountingSystem\AccountingBranch::find(request('branch_id')); @endphp--}}
+{{--                                        <option value="{{ $branch->id }}" selected="">{{ $branch->name }}</option>--}}
+{{--                                    @else--}}
+{{--                                        <option value="" selected="" disabled="">اختر الفرع</option>--}}
+{{--                                    @endif--}}
+                                    <option value="" selected="" disabled="">اختر الفرع</option>
+                                    @foreach(branches() as $index=>$branch)
+                                        <option
+                                            value="{{ $index }}" {{$index == request('branch_id') ? 'selected':''}}>{{ $branch }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group col-sm-3">
                                 <label> المورد </label>
-                                <select name="supplier_id" data-live-search="true" class="selectpicker form-control inline-control" id="supplier_id">
-                                    @if(request()->has('supplier_id') && request('supplier_id') != null)
-                                        @php $supplier = \App\Models\AccountingSystem\AccountingSupplier::find(request('supplier_id')); @endphp
-                                        <option value="{{ $supplier->id }}" selected="">{{ $supplier->name }}</option>
-                                    @else
-                                        <option value="" selected="" disabled=""> المورد </option>
-                                    @endif
+                                <select name="supplier_id" data-live-search="true"
+                                        class="selectpicker form-control inline-control" id="supplier_id">
+                                        <option value="" selected="" disabled="">اختر المورد</option>
+                                        @foreach(suppliers() as $index=>$supplier)
+                                            <option
+                                                value="{{ $index }}" {{$index == request('supplier_id') ? 'selected':''}}>{{ $supplier }}</option>
+                                        @endforeach
                                 </select>
                             </div>
 

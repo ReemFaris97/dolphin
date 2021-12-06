@@ -35,7 +35,16 @@
                             </div>
                             <div class="form-group col-sm-3">
                                 <label> الفرع </label>
-                                {!! Form::select("branch_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الفرع','data-live-search'=>'true','id'=>'branch_id'])!!}
+{{--                                {!! Form::select("branch_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الفرع','data-live-search'=>'true','id'=>'branch_id'])!!}--}}
+                                <select name="branch_id" data-live-search="true"
+                                        class="selectpicker form-control inline-control" id="branch_id">
+                                    <option value="" selected="" disabled="">اختر الفرع</option>
+                                    @foreach(branches() as $index=>$branch)
+                                        <option
+                                            value="{{ $index }}"
+                                            {{$index == request('branch_id') ? 'selected':''}}>{{ $branch }}</option>
+                                    @endforeach
+                                </select>
                         </div>
                         </div>
                     </div>
