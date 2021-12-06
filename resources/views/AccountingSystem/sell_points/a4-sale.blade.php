@@ -206,7 +206,7 @@
                                 <th style="width: 95px;" rowspan="3">
 
                                     {!! QrCode::size(100)->generate(
-                                 route('showInvoice',$sale->uuid)) !!}
+                                $qr) !!}
                                 </th>
 
                             </tr>
