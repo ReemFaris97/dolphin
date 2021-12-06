@@ -19,6 +19,7 @@ Route::get('/', function () {
 Route::get('fix-invoice/{sale}',function (\App\Models\AccountingSystem\AccountingSale $sale){
     $inputs=$sale->toArray();
     $inputs['sale_id']=$inputs['id'];
+    $inputs['total']=$sale->product_total();
     $return= \App\Models\AccountingSystem\AccountingReturn::create($inputs);
     foreach ($sale->items as $item) {
         $return->items()->create($item->toArray());
