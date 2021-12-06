@@ -37,8 +37,7 @@ trait TaskOperation
                     unset($user['days'], $user['hours'], $user['minutes']);
                     $task->users()->attach([$user['user_id'] => $user]);
                 }
-
-                event(new TaskCreated(new User(),$task));
+            event(new TaskCreated(new User(),$task));
             DB::commit();
 
 

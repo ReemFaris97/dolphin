@@ -133,7 +133,7 @@
                                 <thead>
                                 <tr>
                                     <th class="col9">
-                                        <p>الإجمالى <br> (بدون ضريبة)</p>
+                                        <p>الإجمالى <br> (شامل ضريبة)</p>
                                         <p></p>
                                     </th>
                                     <th>
@@ -205,7 +205,7 @@
                                 <th style="width: 95px;" rowspan="3">
 
                                     {!! QrCode::size(100)->generate(
-                                 route('showInvoice',$sale->uuid)) !!}
+                                $qr) !!}
                                 </th>
 
                             </tr>
