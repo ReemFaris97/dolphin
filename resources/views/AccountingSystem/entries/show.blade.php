@@ -105,21 +105,34 @@
                                         </thead>
                                         <tbody>
                                             {{-- @dd($logs) --}}
+@php($credit = 0)
+@php($debit = 0)
+
                                             @foreach ($entry->accounts as $row)
                                                 <tr>
                                                     @if ($row->affect=='debtor')
+                                                    @php($debit += $row->amount)
                                                         <td>{!! @$row->account->ar_name !!}</td>
                                                         <td></td>
+                                                        <td>{!! $row->amount ?? '---' !!}</td>
                                                         <td>---</td>
-                                                        <td>{!! $row->amount ?? '---' !!}</td>
-                                                    @else
+                                                    @elseif(($row->affect=='creditor'))
+                                                    @php($credit += $row->amount)
                                                         <td></td>
                                                         <td>{!! @$row->account->ar_name !!}</td>
-                                                        <td>{!! $row->amount ?? '---' !!}</td>
                                                         <td> --- </td>
+                                                        <td>{!! $row->amount ?? '---' !!}</td>
                                                     @endif
                                                 </tr>
                                             @endforeach
+
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td>{!! number_format($debit,2) !!}</td>
+                                                <td> {{ number_format($credit,2)}}</td>
+
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </td>

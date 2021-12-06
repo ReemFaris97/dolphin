@@ -44,7 +44,7 @@ class AccountingEntry extends Model
 
     public function accounts()
     {
-        return $this->hasMany(AccountingEntryAccount::class, 'entry_id');
+        return $this->hasMany(AccountingEntryAccount::class, 'entry_id')->orderBy('affect', 'asc');
     }
     public function accounts_debtor()
     {
