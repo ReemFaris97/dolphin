@@ -144,7 +144,7 @@
 				<input type="number" min="0" name="creditor[]" class="form-control creditor" value="0">
 			</td>
 			<td>
-				<select name="account_id[]" class="form-control">
+				<select name="account_id[]" class="form-control js-example-basic-single">
 					@foreach ($accounts as $account)
 					<option value={{$account->id}}>{{$account->ar_name}} -{{$account->code}}</option>
 					@endforeach
@@ -157,6 +157,8 @@
 				<a href="#" class="delete-it">X</a>
 			</td>
 		</tr>`);
+        $('.js-example-basic-single').select2();
+
 			calc();
 			$('.creditor').change(function(){
 				$(this).parents('tr').find('.debtor').val('0');
