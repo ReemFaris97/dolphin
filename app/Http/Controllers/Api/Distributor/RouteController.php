@@ -164,10 +164,16 @@ class RouteController extends Controller
             $request->client_id!=null,
             fn ($q) => $q->ofClient($request->client_id)
         )
-         ->latest()->firstOrFail();
+         ->latest()->first();
 
+         if($bill==null){
+            return $this->apiResponse(
+                ['msg' => 'لا يوجد فاتوره',
+                 'bill' =>null]
+            );
+         }
          return $this->apiResponse(
-            ['msg' => 'تم تسجيل الفاتورة بنجاح',
+            ['msg' => 'تم ايجاد الفاتورة بنجاح',
              'bill' => url('/api/distributor/bills/print_bill/' . encrypt($bill->id))]
         );
     }
