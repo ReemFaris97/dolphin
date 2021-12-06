@@ -1060,7 +1060,7 @@ justify-content: center;">
                                             {{--                            <img style="width:30%"--}}
                                             {{--                                 src="{{ asset('dashboard/assets/app/media/img/websiteQRCode_noFrame.png') }}">--}}
 
-                                            {{QrCode::size(100)->generate(route('showInvoice',$sale->uuid))}}
+                                            {{QrCode::size(100)->generate($qr)}}
                                         </div>
 
                                         <div class="end-notice">
