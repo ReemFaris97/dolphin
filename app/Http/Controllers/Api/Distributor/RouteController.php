@@ -162,11 +162,20 @@ class RouteController extends Controller
         ->ofDistributor(auth()->id())
         ->when(
             $request->client_id!=null,
-            fn ($q) => $q->where('client_id', $request->client_id)
+            fn ($q) => $q->ofClient($request->client_id)
         )
-         ->latest()->firstOrFail();
+         ->latest()->first();
 
-        return view('distributor.bills.api', compact('bill'));
+         if($bill==null){
+            return $this->apiResponse(
+                ['msg' => 'لا يوجد فاتوره',
+                 'bill' =>null]
+            );
+         }
+         return $this->apiResponse(
+            ['msg' => 'تم ايجاد الفاتورة بنجاح',
+             'bill' => url('/api/distributor/bills/print_bill/' . encrypt($bill->id))]
+        );
     }
 
     public function attachImages(Request $request)
