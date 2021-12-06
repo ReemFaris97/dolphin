@@ -6,7 +6,7 @@
     <!--- start datatable -->
     <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
     <link href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.min.css" rel="stylesheet"
-        type="text/css">
+          type="text/css">
     <link
         href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css"
         rel="stylesheet" type="text/css">
@@ -118,179 +118,179 @@
                             <input type="hidden" name="bill_date" id="bill_date_val">
                             <input type="hidden" name="client_id" id="client_id_val">
                             <table border="1"
-                                class="table datatable-button-init-basic finalTb edit-mabi3at mabi3at-bill bill-table
+                                   class="table datatable-button-init-basic finalTb edit-mabi3at mabi3at-bill bill-table
                         ace_dark   {{ getsetting('name_enable_sales') == 1 ? 'name_enable' : '' }}
-                            {{ getsetting('barcode_enable_sales') == 1 ? 'barcode_enable' : '' }}
-                            {{ getsetting('unit_enable_sales') == 1 ? 'unit_enable' : '' }}
-                            {{ getsetting('quantity_enable_sales') == 1 ? 'quantity_enable' : '' }}
-                            {{ getsetting('unit_price_enable_sales') == 1 ? 'unit_price_after_enable' : '' }}
-                            {{ getsetting('total_price_enable_sales') == 1 ? 'total_price_after_enable' : '' }}
-                                unit_total_tax_enable">
+                                   {{ getsetting('barcode_enable_sales') == 1 ? 'barcode_enable' : '' }}
+                                   {{ getsetting('unit_enable_sales') == 1 ? 'unit_enable' : '' }}
+                                   {{ getsetting('quantity_enable_sales') == 1 ? 'quantity_enable' : '' }}
+                                   {{ getsetting('unit_price_enable_sales') == 1 ? 'unit_price_after_enable' : '' }}
+                                   {{ getsetting('total_price_enable_sales') == 1 ? 'total_price_after_enable' : '' }}
+                                       unit_total_tax_enable">
                                 <thead>
-                                    <tr>
-                                        <th rowspan="2" width="40">م</th>
-                                        <th rowspan="2" class="maybe-hidden name_enable">اسم الصنف</th>
-                                        <th rowspan="2" class="maybe-hidden barcode_enable" width="140">باركود</th>
-                                        <th rowspan="2" class="maybe-hidden unit_enable" width="110">الوحدة</th>
-                                        <th rowspan="2" class="maybe-hidden quantity_enable" width="100">الكمية</th>
-                                        <th rowspan="2" class="maybe-hidden unit_total_tax_enable" width="100">الضريبة %
-                                        </th>
-                                        <th colspan="2" class="maybe-hidden unit_price_after_enable" width="100">سعر الوحدة
-                                        </th>
-                                        <th colspan="2" class="maybe-hidden total_price_after_enable" width="100">صافي
-                                            الإجمالى</th>
-                                        <th rowspan="2" width="70"> حذف </th>
-                                    </tr>
+                                <tr>
+                                    <th rowspan="2" width="40">م</th>
+                                    <th rowspan="2" class="maybe-hidden name_enable">اسم الصنف</th>
+                                    <th rowspan="2" class="maybe-hidden barcode_enable" width="140">باركود</th>
+                                    <th rowspan="2" class="maybe-hidden unit_enable" width="110">الوحدة</th>
+                                    <th rowspan="2" class="maybe-hidden quantity_enable" width="100">الكمية</th>
+                                    <th rowspan="2" class="maybe-hidden unit_total_tax_enable" width="100">الضريبة %
+                                    </th>
+                                    <th colspan="2" class="maybe-hidden unit_price_after_enable" width="100">سعر الوحدة
+                                    </th>
+                                    <th colspan="2" class="maybe-hidden total_price_after_enable" width="100">صافي
+                                        الإجمالى</th>
+                                    <th rowspan="2" width="70"> حذف </th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    <!--						Space For Appended Products-->
+                                <!--						Space For Appended Products-->
                                 </tbody>
                                 <tfoot class="tempDisabled">
-                                    <tr>
-                                        <th id="amountBeforeDariba" class="rel-cols" colspan="3">
-                                            <span class="colorfulSpan"> المجموع</span>
-                                            <input type="hidden" class="dynamic-input" value="0">
-                                            <span class="dynamic-span">0</span>
-                                            <span class="rs"> ر.س </span>
-                                        </th>
-                                        <th id="amountOfDariba" class="rel-cols" colspan="3">
+                                <tr>
+                                    <th id="amountBeforeDariba" class="rel-cols" colspan="3">
+                                        <span class="colorfulSpan"> المجموع</span>
+                                        <input type="hidden" class="dynamic-input" value="0">
+                                        <span class="dynamic-span">0</span>
+                                        <span class="rs"> ر.س </span>
+                                    </th>
+                                    <th id="amountOfDariba" class="rel-cols" colspan="3">
                                             <span id="removeTaxWrap">
                                                 <input type="checkbox" id="remove-tax">
                                                 <label for="remove-tax">معفي ضريبيا</label>
                                             </span>
-                                            <span class="colorfulSpan"> قيمة الضريبة</span>
-                                            <input type="hidden" class="dynamic-input" name="totalTaxs"
-                                                id="amountOfDariba1" value="0">
-                                            <span class="dynamic-span">0</span>
-                                            <span class="rs"> ر.س </span>
-                                        </th>
-                                        <th id="amountAfterDariba" class="rel-cols" colspan="3">
-                                            <span class="colorfulSpan">المجموع بعد الضريبة</span>
-                                            <input type="hidden" class="dynamic-input" name="amount"
-                                            value="0"
-                                                id="amountAfterDarib1">
-                                            <span class="dynamic-span">0</span>
-                                            <span class="rs"> ر.س </span>
-                                        </th>
-                                    </tr>
-                                    <tr id="discountArea">
-                                        <th colspan="2">
-                                            الخصم
-                                        </th>
-                                        <th colspan="7">
-                                            <div class="inline_divs">
-                                                <div class="form-group">
-                                                    <div class="rel-cols">
-                                                        <label for="byPercentage">ادخل نسبة الخصم</label>
-                                                        <input type="tel" placeholder="النسبة المئوية للخصم" min="0"
-                                                            value="0" max="100" step="any" id="byPercentage"
-                                                            class="form-control dynamic-input" name="discount_byPercentage">
-                                                        <span class="rs"> % </span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="rel-cols">
-                                                        <label for="byAmount">ادخل مبلغ الخصم</label>
-                                                        <input type="tel" step="any" placeholder="مبلغ الخصم" min="0"
-                                                            value="0" max="1" id="byAmount"
-                                                            class="form-control dynamic-input" name="discount_byAmount">
-                                                        <span class="rs"> ر.س </span>
-
-                                                    </div>
+                                        <span class="colorfulSpan"> قيمة الضريبة</span>
+                                        <input type="hidden" class="dynamic-input" name="totalTaxs"
+                                               id="amountOfDariba1" value="0">
+                                        <span class="dynamic-span">0</span>
+                                        <span class="rs"> ر.س </span>
+                                    </th>
+                                    <th id="amountAfterDariba" class="rel-cols" colspan="3">
+                                        <span class="colorfulSpan">المجموع بعد الضريبة</span>
+                                        <input type="hidden" class="dynamic-input" name="amount"
+                                               value="0"
+                                               id="amountAfterDarib1">
+                                        <span class="dynamic-span">0</span>
+                                        <span class="rs"> ر.س </span>
+                                    </th>
+                                </tr>
+                                <tr id="discountArea">
+                                    <th colspan="2">
+                                        الخصم
+                                    </th>
+                                    <th colspan="7">
+                                        <div class="inline_divs">
+                                            <div class="form-group">
+                                                <div class="rel-cols">
+                                                    <label for="byPercentage">ادخل نسبة الخصم</label>
+                                                    <input type="tel" placeholder="النسبة المئوية للخصم" min="0"
+                                                           value="0" max="100" step="any" id="byPercentage"
+                                                           class="form-control dynamic-input" name="discount_byPercentage">
+                                                    <span class="rs"> % </span>
                                                 </div>
                                             </div>
-                                        </th>
-                                    </tr>
-                                    <tr id="demandedAmount">
-                                        <th colspan="2">المطلوب دفعه</th>
-                                        <input type="hidden" name="total" id="total" value="0">
-                                        <th colspan="7" id="reminder" class="rel-cols">
-                                            <span class="dynamic-span">0</span>
-                                            <span class="rs"> ر.س </span>
-                                        </th>
-                                    </tr>
-                                    <tr id="paidAmount">
-                                        <th colspan="2">المدفوع</th>
-                                        <th colspan="7">
-
-                                            <div class="inline_divs">
-                                                <div class="form-group rel-cols">
-                                                    <label for="byCache">كاش</label>
-                                                    <input type="tel" step="any" id="byCache" placeholder="المدفوع كاش" min="0" class="form-control dynamic-input keyboard form-control keyboard-numpad" name="cash"
-                                                    autocomplete="off"
-                                                    >
+                                            <div class="form-group">
+                                                <div class="rel-cols">
+                                                    <label for="byAmount">ادخل مبلغ الخصم</label>
+                                                    <input type="tel" step="any" placeholder="مبلغ الخصم" min="0"
+                                                           value="0" max="1" id="byAmount"
+                                                           class="form-control dynamic-input" name="discount_byAmount">
                                                     <span class="rs"> ر.س </span>
+
                                                 </div>
-                                                <span> + </span>
-                                                <div class="form-group rel-cols">
-                                                    <label for="byNet">شبكة</label>
-                                                    <input  type="tel" step="any" id="byNet" placeholder="المدفوع شبكة"
+                                            </div>
+                                        </div>
+                                    </th>
+                                </tr>
+                                <tr id="demandedAmount">
+                                    <th colspan="2">المطلوب دفعه</th>
+                                    <input type="hidden" name="total" id="total" value="0">
+                                    <th colspan="7" id="reminder" class="rel-cols">
+                                        <span class="dynamic-span">0</span>
+                                        <span class="rs"> ر.س </span>
+                                    </th>
+                                </tr>
+                                <tr id="paidAmount">
+                                    <th colspan="2">المدفوع</th>
+                                    <th colspan="7">
+
+                                        <div class="inline_divs">
+                                            <div class="form-group rel-cols">
+                                                <label for="byCache">كاش</label>
+                                                <input type="tel" step="any" id="byCache" placeholder="المدفوع كاش" min="0" class="form-control dynamic-input keyboard form-control keyboard-numpad" name="cash"
+                                                       autocomplete="off"
+                                                >
+                                                <span class="rs"> ر.س </span>
+                                            </div>
+                                            <span> + </span>
+                                            <div class="form-group rel-cols">
+                                                <label for="byNet">شبكة</label>
+                                                <input  type="tel" step="any" id="byNet" placeholder="المدفوع شبكة"
                                                         min="0" class="form-control dynamic-input keyboard form-control keyboard-numpad" name="network"
                                                         autocomplete="off"
-                                                        >
-                                                    <span class="rs"> ر.س </span>
-                                                </div>
-                                                <div class="rel-cols">
-                                                    <input type="hidden" name="payed" id="allPaid1"
-                                                    value="0">
-                                                    <span class="dynamic-span" id="allPaid">0</span>
-                                                    <span class="rs"> ر.س </span>
-                                                </div>
+                                                >
+                                                <span class="rs"> ر.س </span>
                                             </div>
-                                        </th>
-                                    </tr>
-                                    <tr id="remaindedAmount">
-                                        <th colspan="2">المتبقي</th>
-                                        <th colspan="7" class="rel-cols">
-                                            <span class="dynamic-span">0</span>
-                                            <span class="rs"> ر.س </span>
-                                        </th>
-                                        <input type="hidden" class="dynamic-input" id="remainder-inputt" name="reminder" value="0">
-                                    </tr>
-                                    <tr>
-                                        <th colspan="5">
-                                            <button type="submit"> حفظ [F7] </button>
-                                        </th>
-                                        <th colspan="4">
-                                            <button type="submit" onclick="$('#print-a4').val('a4')"> حفظ [A4] </button>
-                                        </th>
-                                        {!! Form::hidden('print','7cm',['id'=>'print-a4']) !!}
-                                    </tr>
+                                            <div class="rel-cols">
+                                                <input type="hidden" name="payed" id="allPaid1"
+                                                       value="0">
+                                                <span class="dynamic-span" id="allPaid">0</span>
+                                                <span class="rs"> ر.س </span>
+                                            </div>
+                                        </div>
+                                    </th>
+                                </tr>
+                                <tr id="remaindedAmount">
+                                    <th colspan="2">المتبقي</th>
+                                    <th colspan="7" class="rel-cols">
+                                        <span class="dynamic-span">0</span>
+                                        <span class="rs"> ر.س </span>
+                                    </th>
+                                    <input type="hidden" class="dynamic-input" id="remainder-inputt" name="reminder" value="0">
+                                </tr>
+                                <tr>
+                                    <th colspan="5">
+                                        <button type="submit"> حفظ [F7] </button>
+                                    </th>
+                                    <th colspan="4">
+                                        <button type="submit" onclick="$('#print-a4').val('a4')"> حفظ [A4] </button>
+                                    </th>
+                                    {!! Form::hidden('print','7cm',['id'=>'print-a4']) !!}
+                                </tr>
                                 </tfoot>
                             </table>
                         </form>
                         <div class="newly-added-2-btns-">
                             @if (auth()->user()->is_saler == 1)
                                 <button type="button" class="btn btn-danger" data-toggle="modal"
-                                    data-target="#exampleModal">
+                                        data-target="#exampleModal">
                                     اغلاق الجلسة [F8]
                                 </button>
                             @endif
                             <a class="btn btn-primary" id="add-mortaga3" target="_blank"
-                                href="{{ route('accounting.sales.returns', $session->id) }}">
+                               href="{{ route('accounting.sales.returns', $session->id) }}">
                                 اضافة فاتورة مرتجع [F9] </a>
                             <a class="btn btn-primary" target="_blank"
-                                href="{{ route('accounting.invoices.current') }}">
+                               href="{{ route('accounting.invoices.current') }}">
                                 الفواتير السابقة</a>
                             <a class="btn btn-warning" id="ta3liik" href="#" target="_blank"> تعليق الفاتورة [F10] </a>
                         </div>
-                        @if ($session->user->is_saler == 1)
-                            <!-- Modal -->
+                    @if ($session->user->is_saler == 1)
+                        <!-- Modal -->
                             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLabel"> اغلاق الجلسة </h5>
                                             <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close">
+                                                    aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body">
                                             <form method="post"
-                                                action="{{ route('accounting.sales.end', $session->user->is_saler) }}"
-                                                id="form1">
+                                                  action="{{ route('accounting.sales.end', $session->user->is_saler) }}"
+                                                  id="form1">
                                                 @csrf
                                                 <input type="hidden" name="session_id" value="{{ $session->id }}">
                                                 <label style="color:black"> الباسورد</label>
@@ -299,22 +299,22 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal">اغلاق</button>
+                                                    data-dismiss="modal">اغلاق</button>
                                             <button type="submit" class="btn btn-primary"
-                                                onclick="document.getElementById('form1').submit()">حفظ</button>
+                                                    onclick="document.getElementById('form1').submit()">حفظ</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         @endif
                         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
-                            aria-labelledby="deleteModalLabel" aria-hidden="true">
+                             aria-labelledby="deleteModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLabel"> إزالة الصنف </h5>
                                         <button type="button" class="close" data-dismiss="modal"
-                                            aria-label="Close">
+                                                aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
@@ -333,7 +333,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-primary confirm_delete"
-                                            id="confirm_delete">تحقق</button>
+                                                id="confirm_delete">تحقق</button>
                                     </div>
                                 </div>
                             </div>
@@ -358,15 +358,15 @@
     <script src="{{ asset('admin/assets/js/jquery.datetimepicker.full.min.js') }}"></script>
     <script src="{{ asset('admin/assets/js/scanner.js') }}"></script>
     <script>
-            $('#sllForm').keydown(function(event){
-                if(event.keyCode == 13) {
-                    event.preventDefault();
-                    return false;
-                }
-            });
-            $('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
-            $('.inlinedatepicker').text(new Date().toLocaleString());
-            $('.inlinedatepicker').val(new Date().toLocaleString());
+        $('#sllForm').keydown(function(event){
+            if(event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            }
+        });
+        $('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
+        $('.inlinedatepicker').text(new Date().toLocaleString());
+        $('.inlinedatepicker').val(new Date().toLocaleString());
         // For preventing user from inserting two methods of discount
         function preventDiscount() {
             $("input#byPercentage").change(function() {
@@ -400,7 +400,7 @@
 
         //	Calculation Function
         function calcBill(selectedProduct, productId, productName, productBarCode, productPrice, priceHasTax, totalTaxes,
-            mainUnit, productUnits,quantity=1,sub_unit_id='--') {
+                          mainUnit, productUnits,quantity=1,sub_unit_id='--') {
             rowNum++;
             // alert(productUnits);
 
@@ -421,7 +421,7 @@
             }
             var optss = ``;
             for (var i = 0; i < productUnits.length; i++) {
-var is_selected = (i == 0) ? 'selected' : '';
+                var is_selected = (i == 0) ? 'selected' : '';
                 optss += '<option data-uni-price="' + Math.round(unitPrice[i]*10000)/10000 + '" value="' + unitId[i] + '" '+is_selected+' > ' + unitName[i] + '</option> ';
             }
 
@@ -429,19 +429,19 @@ var is_selected = (i == 0) ? 'selected' : '';
 
             $(".bill-table tbody").prepend(`<tr class="single-row-wrapper" id="row${rowNum}">
 			<td class="row-num" width="40">${rowNum}</td>
-			<input type="hidden" name="product_id[]" value="${productId}">
+			<input type="hidden" name="cart[${rowNum}][product_id]" value="${productId}">
 			<td class="product-name maybe-hidden name_enable">${productName}</td>
 			<td class="product-name maybe-hidden barcode_enable" width="140">${productBarCode}</td>
 			<td class="product-unit maybe-hidden unit_enable" width="110">
-				<select class="form-control js-example-basic-single edit-select-size" name="unit_id[${productId}-${sub_unit_id}]">
+				<select class="form-control js-example-basic-single edit-select-size" name="cart[${rowNum}][unit_id]">
 					${optss}
 				</select>
 			</td>
 			<td class="product-quantity maybe-hidden quantity_enable" width="100">
-				<input type="tel" placeholder="الكمية" max="" min="1" value="${quantity}" id="sale" name="quantity[]" class="form-control">
+				<input type="tel" placeholder="الكمية" max="" min="1" value="${quantity}" id="sale" name="cart[${rowNum}][quantity]" class="form-control">
 			</td>
 			<td class="unit-total-tax maybe-hidden unit_total_tax_enable" width="100">
-				<input type="tel" placeholder="الضريبة" max="" min="0" data-original-tax="${totalTaxes}" value="${totalTaxes}" name="tax[]" class="form-control">
+				<input type="tel" placeholder="الضريبة" max="" min="0" data-original-tax="${totalTaxes}" value="${totalTaxes}" name="cart[${rowNum}][tax]" class="form-control">
 			</td>
 			<td class="single-unit-price maybe-hidden unit_price_after_enable" width="100">${Math.round(productPrice*10000)/10000}</td>
 			<td class="single-price-before maybe-hidden">${Math.round(singlePriceBefore*10000)/10000}</td>
@@ -449,16 +449,16 @@ var is_selected = (i == 0) ? 'selected' : '';
 			<td class="whole-price-before maybe-hidden">${(Math.round(singlePriceBefore*10000)/10000*parseInt(quantity))}</td>
 			<td class="whole-price-after maybe-hidden total_price_after_enable" width="100">
                 ${Math.round(singlePriceAfter*10000)/10000*parseInt(quantity)}
-                <input  type="hidden" name="price_after_tax[]" value="${Math.round(singlePriceAfter*10000)/10000*parseInt(quantity)}"  class="form-control">
+                <input  type="hidden" name="cart[${rowNum}][price_after_tax]" value="${Math.round(singlePriceAfter*10000)/10000*parseInt(quantity)}"  class="form-control">
             </td>
 			<td class="delete-single-row" width="70">
     @if ($session->user->is_admin == 1)
-        <a href="#"><span class="icon-cross"></span></a>
-    @else
-        <button type="button" class="btn btn-primary in-row-del" data-toggle="modal" data-target="#deleteModal">
-            <span class="icon-cross"></span>
-        </button>
-    @endif
+            <a href="#"><span class="icon-cross"></span></a>
+@else
+            <button type="button" class="btn btn-primary in-row-del" data-toggle="modal" data-target="#deleteModal">
+                <span class="icon-cross"></span>
+            </button>
+@endif
             </td>
         </tr>`);
 
@@ -686,7 +686,7 @@ var is_selected = (i == 0) ? 'selected' : '';
                         $(this).val(100);
                     }
                     total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(
-                            this)
+                        this)
                         .val()) / 100));
                     $("#demandedAmount span.dynamic-span").html(Math.round(total*10000)/10000);
                     $("#total").val(total);
@@ -716,7 +716,7 @@ var is_selected = (i == 0) ? 'selected' : '';
             });
             $("input#byAmount").change(function() {
                 if ((Number($(this).val())) > Number($("#amountAfterDariba span.dynamic-span")
-                        .html())) {
+                    .html())) {
                     alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' +
                         $(
                             "#amountAfterDariba span.dynamic-span").html());
@@ -731,22 +731,22 @@ var is_selected = (i == 0) ? 'selected' : '';
                 $("#allPaid").html(allPaid.toFixed(rondingNumber));
                 $("#allPaid1").val(allPaid);
                 var remaindedAmount = Number(allPaid) - Number($(
-                        "#demandedAmount span.dynamic-span")
+                    "#demandedAmount span.dynamic-span")
                     .html());
                 $("#remaindedAmount span.dynamic-span").html(remaindedAmount.toFixed(
                     rondingNumber));
                 $('#remainder-inputt').val(Math.abs(remaindedAmount));
                 if (remaindedAmount > 0) {
                     $("#remaindedAmount .rel-cols").removeClass("aagel-case").removeClass(
-                            "tmam-case")
+                        "tmam-case")
                         .addClass("motabaqy-case");
                 } else if (remaindedAmount < 0) {
                     $("#remaindedAmount .rel-cols").removeClass("motabaqy-case").removeClass(
-                            "tmam-case")
+                        "tmam-case")
                         .addClass("aagel-case");
                 } else {
                     $("#remaindedAmount .rel-cols").removeClass("motabaqy-case").removeClass(
-                            "aagel-case")
+                        "aagel-case")
                         .addClass("tmam-case");
                 }
             })
@@ -756,163 +756,163 @@ var is_selected = (i == 0) ? 'selected' : '';
 
 
         // $("#store_id").on('change', function() {
-            var store_id = $("#store_id").val();
-            //	For Ajax Search By Product Bar Code
-            $("#barcode_search").scannerDetection({
-                timeBeforeScanTest: 200, // wait for the next character for upto 200ms
-                avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms
-                preventDefault: true,
-                endChar: [13],
-                onComplete: function (barcode, qty) {
-                    validScan = true;
-                    $.ajax({
-                        url: "/accounting/barcode_search_sale/" + barcode,
-                        type: "GET",
-                        delay: 250,
-                        data: {
-                            store_id: store_id,
-                        },
-                        success: function (resp) {
-                            calcBill(resp.id, resp.id, resp.name, resp.bar_code,
-                                parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits))
-                            $('#barcode_search').val('')
+        var store_id = $("#store_id").val();
+        //	For Ajax Search By Product Bar Code
+        $("#barcode_search").scannerDetection({
+            timeBeforeScanTest: 200, // wait for the next character for upto 200ms
+            avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms
+            preventDefault: true,
+            endChar: [13],
+            onComplete: function (barcode, qty) {
+                validScan = true;
+                $.ajax({
+                    url: "/accounting/barcode_search_sale/" + barcode,
+                    type: "GET",
+                    delay: 250,
+                    data: {
+                        store_id: store_id,
+                    },
+                    success: function (resp) {
+                        calcBill(resp.id, resp.id, resp.name, resp.bar_code,
+                            parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits))
+                        $('#barcode_search').val('')
 
-                            /*  if (data.data.length !== 0) {
-                                $('#barcode_search').val('');
-                                $(".tempobar").html(data.data);
-                                var selectedID = $(".tempobar").find('option')
-                                    .data(
-                                        'unit-id');
-                                var alreadyChosen = $(
-                                    ".bill-table tbody td select option[value=" +
-                                    selectedID + "]");
-                                var repeatedInputVal = $(
-                                        ".bill-table tbody td select option[value=" +
-                                        selectedID + "]:selected").parents('tr')
-                                    .find(
-                                        '.product-quantity').find('input');
-                                if (alreadyChosen.length > 0 && alreadyChosen
-                                    .is(
-                                        ':selected')) {
-                                    repeatedInputVal.val(Number(repeatedInputVal
-                                            .val()) +
-                                        1);
-                                    repeatedInputVal.text(repeatedInputVal
-                                        .val());
-                                    $('.product-quantity').find('input')
-                                        .trigger(
-                                            'change');
-                                } else {
-                                    $('#barcode_search').val('');
-                                    rowNum++;
-                                    byBarcode();
-                                    $('.product-quantity').find('input')
-                                        .trigger(
-                                            'change');
-                                }
-                            } */
-
-
-
-
-
-                        }
-                    });
-                },
-                onError: function (string, qty) {
-                    $('#barcode_search').val($('#barcode_search').val() + string);
-                    var barcode = $('#barcode_search').val();
-                    validScan = true;
-                    $.ajax({
-                        url: "/accounting/barcode_search_sale/" + barcode,
-                        type: "GET",
-                        data: {
-                            store_id: store_id,
-                        },
-                        delay: 250,
-                        success: function (resp) {
-                            if (resp.status===false) {
-                                $('#barcode-error-span').show();
-                                document.getElementById('fail').play();
-                            } else {
-                                document.getElementById('found').play();
-
-                                $('#barcode-error-span').hide();
-
-                                var selectedID = $('select[name="unit_id[' + resp.id+'-'+resp.selected_sub_unit + ']"]').val() || null;
-
-                                var alreadyChosen = $(
-                                    ".bill-table tbody td select option[value=" +
-                                    selectedID + "]");
-                                var repeatedInputVal = $(
+                        /*  if (data.data.length !== 0) {
+                            $('#barcode_search').val('');
+                            $(".tempobar").html(data.data);
+                            var selectedID = $(".tempobar").find('option')
+                                .data(
+                                    'unit-id');
+                            var alreadyChosen = $(
+                                ".bill-table tbody td select option[value=" +
+                                selectedID + "]");
+                            var repeatedInputVal = $(
                                     ".bill-table tbody td select option[value=" +
                                     selectedID + "]:selected").parents('tr')
-                                    .find(
-                                        '.product-quantity').find('input');
-
-                                if (alreadyChosen.length > 0 && alreadyChosen.is(':selected') && JSON.parse(resp.subunits)[0].id==selectedID) {
-                                    repeatedInputVal.val(Number(repeatedInputVal
-                                            .val()) +
-                                        + parseInt(resp.quantity));
-                                    repeatedInputVal.text(repeatedInputVal
-                                        .val());
-                                    $('.product-quantity').find('input')
-                                        .trigger(
-                                            'change');
-                                } else {
-                                    calcBill(resp.id, resp.id, resp.name, resp.bar_code, parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits),parseInt(resp.quantity),resp.selected_sub_unit)
-
-                                }
-
-
+                                .find(
+                                    '.product-quantity').find('input');
+                            if (alreadyChosen.length > 0 && alreadyChosen
+                                .is(
+                                    ':selected')) {
+                                repeatedInputVal.val(Number(repeatedInputVal
+                                        .val()) +
+                                    1);
+                                repeatedInputVal.text(repeatedInputVal
+                                    .val());
+                                $('.product-quantity').find('input')
+                                    .trigger(
+                                        'change');
+                            } else {
                                 $('#barcode_search').val('');
+                                rowNum++;
+                                byBarcode();
+                                $('.product-quantity').find('input')
+                                    .trigger(
+                                        'change');
+                            }
+                        } */
+
+
+
+
+
+                    }
+                });
+            },
+            onError: function (string, qty) {
+                $('#barcode_search').val($('#barcode_search').val() + string);
+                var barcode = $('#barcode_search').val();
+                validScan = true;
+                $.ajax({
+                    url: "/accounting/barcode_search_sale/" + barcode,
+                    type: "GET",
+                    data: {
+                        store_id: store_id,
+                    },
+                    delay: 250,
+                    success: function (resp) {
+                        if (resp.status===false) {
+                            $('#barcode-error-span').show();
+                            document.getElementById('fail').play();
+                        } else {
+                            document.getElementById('found').play();
+
+                            $('#barcode-error-span').hide();
+
+                            var selectedID = $('select[name="unit_id[' + resp.id+'-'+resp.selected_sub_unit + ']"]').val() || null;
+
+                            var alreadyChosen = $(
+                                ".bill-table tbody td select option[value=" +
+                                selectedID + "]");
+                            var repeatedInputVal = $(
+                                ".bill-table tbody td select option[value=" +
+                                selectedID + "]:selected").parents('tr')
+                                .find(
+                                    '.product-quantity').find('input');
+
+                            if (alreadyChosen.length > 0 && alreadyChosen.is(':selected') && JSON.parse(resp.subunits)[0].id==selectedID) {
+                                repeatedInputVal.val(Number(repeatedInputVal
+                                        .val()) +
+                                    + parseInt(resp.quantity));
+                                repeatedInputVal.text(repeatedInputVal
+                                    .val());
+                                $('.product-quantity').find('input')
+                                    .trigger(
+                                        'change');
+                            } else {
+                                calcBill(resp.id, resp.id, resp.name, resp.bar_code, parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits),parseInt(resp.quantity),resp.selected_sub_unit)
+
                             }
 
-                            /*  if (data.data.length !== 0) {
-                                 $('#barcode_search').val('');
-                                 $(".tempobar").html(data.data);
-                                 var selectedID = $(".tempobar").find('option')
-                                     .data(
-                                         'unit-id');
-                                 var alreadyChosen = $(
-                                     ".bill-table tbody td select option[value=" +
-                                     selectedID + "]");
-                                 var repeatedInputVal = $(
-                                         ".bill-table tbody td select option[value=" +
-                                         selectedID + "]:selected").parents('tr')
-                                     .find(
-                                         '.product-quantity').find('input');
-                                 if (alreadyChosen.length > 0 && alreadyChosen
-                                     .is(
-                                         ':selected')) {
-                                     repeatedInputVal.val(Number(repeatedInputVal
-                                             .val()) +
-                                         1);
-                                     repeatedInputVal.text(repeatedInputVal
-                                         .val());
-                                     $('.product-quantity').find('input')
-                                         .trigger(
-                                             'change');
-                                 } else {
-                                     $('#barcode_search').val('');
-                                     rowNum++;
-                                     byBarcode();
-                                     $('.product-quantity').find('input')
-                                         .trigger(
-                                             'change');
-                                 }
-                             } */
+
+                            $('#barcode_search').val('');
                         }
-                    });
 
-                }
-            });
+                        /*  if (data.data.length !== 0) {
+                             $('#barcode_search').val('');
+                             $(".tempobar").html(data.data);
+                             var selectedID = $(".tempobar").find('option')
+                                 .data(
+                                     'unit-id');
+                             var alreadyChosen = $(
+                                 ".bill-table tbody td select option[value=" +
+                                 selectedID + "]");
+                             var repeatedInputVal = $(
+                                     ".bill-table tbody td select option[value=" +
+                                     selectedID + "]:selected").parents('tr')
+                                 .find(
+                                     '.product-quantity').find('input');
+                             if (alreadyChosen.length > 0 && alreadyChosen
+                                 .is(
+                                     ':selected')) {
+                                 repeatedInputVal.val(Number(repeatedInputVal
+                                         .val()) +
+                                     1);
+                                 repeatedInputVal.text(repeatedInputVal
+                                     .val());
+                                 $('.product-quantity').find('input')
+                                     .trigger(
+                                         'change');
+                             } else {
+                                 $('#barcode_search').val('');
+                                 rowNum++;
+                                 byBarcode();
+                                 $('.product-quantity').find('input')
+                                     .trigger(
+                                         'change');
+                             }
+                         } */
+                    }
+                });
 
-            // });
+            }
+        });
 
-            function byBarcode() {
-                $(".tempDisabled").removeClass("tempDisabled");
-                $(".tempobar").find('option').prop('selected', true);
+        // });
+
+        function byBarcode() {
+            $(".tempDisabled").removeClass("tempDisabled");
+            $(".tempobar").find('option').prop('selected', true);
             var selectedProduct = $(".tempobar").find('option').prop('selected', true);
             var productId = $('option.ssID').val();
             var productName = selectedProduct.text();
@@ -961,13 +961,13 @@ var is_selected = (i == 0) ? 'selected' : '';
             if (feloos >= 0 && (cash+network)>0) {
                 event.preventDefault();
                 swal({
-                        title: "تنبيه !",
-                        text: "هل أنت متأكد من الحفظ ؟",
-                        icon: "warning",
-                        buttons: true,
-                        dangerMode: true,
-                        buttons: ['لا', 'نعم']
-                    })
+                    title: "تنبيه !",
+                    text: "هل أنت متأكد من الحفظ ؟",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                    buttons: ['لا', 'نعم']
+                })
                     .then((willDelete) => {
                         if (willDelete) {
                             swal("جار الحفظ !", {
@@ -1001,32 +1001,32 @@ var is_selected = (i == 0) ? 'selected' : '';
         })
 
         $("#sllForm").submit(function(event) {
-/*
-var data= $("#sllForm").serialize();
-$.ajax({
-    method: "POST",
-    url :$("#sllForm").attr('action'),
-    data:data,
-    success:function(data){
-        window.location.href = data;
-},
-    error:function(data){
-        if(data.status==422){
-            var errors=data.responseJSON.errors;
-            $.each(errors,function(key,value){
-                swal(value[0], {
-                                icon: "error",
-                                buttons: false
-                            });
-                        })
-                         event.preventDefault();
-                         return false;
-        }
+            /*
+            var data= $("#sllForm").serialize();
+            $.ajax({
+                method: "POST",
+                url :$("#sllForm").attr('action'),
+                data:data,
+                success:function(data){
+                    window.location.href = data;
+            },
+                error:function(data){
+                    if(data.status==422){
+                        var errors=data.responseJSON.errors;
+                        $.each(errors,function(key,value){
+                            swal(value[0], {
+                                            icon: "error",
+                                            buttons: false
+                                        });
+                                    })
+                                     event.preventDefault();
+                                     return false;
+                    }
 
-    }
+                }
 
-});
- */
+            });
+             */
         })
     </script>
     <script src="{{ asset('admin/assets/js/get_branch_by_company.js') }}"></script>
@@ -1034,8 +1034,8 @@ $.ajax({
     <!---- new design --->
     <script>
         @if (!empty(session()->has('sale_id')))
-            @php($sale_id = session()->get('sale_id'))
-            window.open(   "{{ route('accounting.sales.show', ['sale'=>$sale_id,'print'=>session('print')]) }}",  "_blank" ).print();
+        @php($sale_id = session()->get('sale_id'))
+        window.open(   "{{ route('accounting.sales.show', ['sale'=>$sale_id,'print'=>session('print')]) }}",  "_blank" ).print();
         @endif
     </script>
     <script>
@@ -1108,20 +1108,20 @@ $.ajax({
     </script>
 
 
-		<script src="{{asset('admin/assets/js/numric-input.js')}}"></script>
-		<script>
-			$(function(){
-				$('#default').keyboard();
-				$('#byCache').keyboard();
-              /*   $('#byNet').keyboard(); */
-              $('#byNet').keyboard({type:'numpad'});
+    <script src="{{asset('admin/assets/js/numric-input.js')}}"></script>
+    <script>
+        $(function(){
+            $('#default').keyboard();
+            $('#byCache').keyboard();
+            /*   $('#byNet').keyboard(); */
+            $('#byNet').keyboard({type:'numpad'});
 
-                $('#tel').keyboard();
+            $('#tel').keyboard();
 
-				$('#placement').keyboard({placement: 'top'});
+            $('#placement').keyboard({placement: 'top'});
 
-			});
+        });
 
 
-		</script>
+    </script>
 @endsection
