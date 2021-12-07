@@ -51,7 +51,7 @@
                                 <div class="box1">
                                     <div class="flexx">
                                         <h4>رقم الفاتورة</h4>
-                                        <p>{{$sale->bill_num}} </p>
+                                        <p>{{$sale->id}} </p>
                                         <h4>invoice no.</h4>
                                     </div>
 
