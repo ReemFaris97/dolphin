@@ -368,7 +368,10 @@
 																		</span>
                                                         </a>
                                                     </li>
-                                                   {{--  <a href="/check"><i class="icon-switch2"></i>الرئيسية</a> --}}
+                                                    <li class="m-nav__item myNav-color-a">
+                                                        <a href="/check"  class="m-nav__link">  <i class="m-nav__link-icon flaticon-home-1"></i> <span>الرئيسية</span></a>
+                                                    </li>
+
 
                                                     <li class="m-nav__separator m-nav__separator--fit">
                                                     </li>
