@@ -34,6 +34,10 @@
                 </div>
             </div>
         </div>
+        @php($tax_percent=(float)(getsetting('general_taxs')) /100)
+        @php($tax_amount= round($bill->product_total() * $tax_percent,2))
+        @php($total=$bill->product_total() + $tax_amount)
+
         <div id="print_small" style="display: block !important;">
             <div id="myDivToPrintsmall" style="display: block !important;">
                 <div style="display:flex; justify-content:space-between; padding: 10px 20px 0;">
