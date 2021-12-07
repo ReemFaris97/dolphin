@@ -508,7 +508,7 @@ unit_total_tax_enable
 							<td class="product-name maybe-hidden name_enable"><a href="${productLink}" target="_blank" rel="noopener noreferrer">${productName}</a></td>
 							<td class="product-unit maybe-hidden unit_enable" width="70">
 								<select class="form-control js-example-basic-single" name="unit_id[${ProductId}]" >
-									${optss}
+									${optss}product_id
 								</select>
 							</td>
 							<td class="product-quantity maybe-hidden quantity_enable" width="70">
