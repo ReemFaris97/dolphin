@@ -14,12 +14,27 @@
 </div>
 <div class="form-group col-sm-3">
     <label> الفرع </label>
-    {!! Form::select("branch_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الفرع','data-live-search'=>'true','id'=>'branch_id'])!!}
+    <select name="branch_id" data-live-search="true"
+            class="selectpicker form-control inline-control" id="branch_id">
+        <option value="" selected="" disabled="">اختر الفرع</option>
+        @foreach(branches() as $index=>$branch)
+            <option
+                value="{{ $index }}" {{$index == request('branch_id') ? 'selected':''}}>{{ $branch }}</option>
+        @endforeach
+    </select>
 </div>
 
 <div class="form-group col-sm-3">
     <label> المستودع </label>
-    {!! Form::select("store_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر المستودع','data-live-search'=>'true','id'=>'store_id'])!!}
+    <select name="store_id" data-live-search="true" id="store_id"
+            class="selectpicker form-control inline-control">
+        <option selected disabled>اختر المستودع</option>
+        @foreach(allstores() as $store)
+            <option
+                value="{{$index}}"
+                {{$index == request('store_id')?'selected':''}}>{{$store}}</option>
+        @endforeach
+    </select>
 </div>
 <div class="form-group col-sm-3">
     <label> الصنف </label>

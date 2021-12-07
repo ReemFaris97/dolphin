@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
-
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
@@ -41,14 +40,13 @@ class BuyPointController extends Controller
 
     public function getProductAjex(Request $request)
     {
-
         $products =AccountingProduct::query()
                  ->when($request->search, function ($b) use ($request) {
                      return $b->where(function ($q) use ($request) {
                          $q->where('name', 'LIKE', '%' . $request->search . '%')->orWhere('en_name', 'LIKE', '%' . $request->search . '%')->orWhere('description', 'LIKE', '%' . $request->search . '%')->orWhere('bar_code', 'like', '%' . $request->search . '%');
                      });
-                 })->orwhereHas('barcodes', fn($b) => $b->where('barcode', 'like', "%$request->search%"))
-                 ->orwhereHas('sub_units', fn($b) => $b->where('bar_code', 'like', "%$request->search%"))
+                 })->orwhereHas('barcodes', fn ($b) => $b->where('barcode', 'like', "%$request->search%"))
+                 ->orwhereHas('sub_units', fn ($b) => $b->where('bar_code', 'like', "%$request->search%"))
 
             ->when(\request('store_id'), function ($q) {
                 $q->where('store_id', \request('store_id'));
@@ -62,7 +60,6 @@ class BuyPointController extends Controller
             'data' => $products,
 //                'attributes' => view('AccountingSystem.sell_points.product-optionss', ['products' => $products])->render()
         ]);
-
     }
 
     public function selectedProduct(AccountingProduct $product)
@@ -134,7 +131,6 @@ class BuyPointController extends Controller
 
     public function pro_search($q)
     {
-
         $products = AccountingProduct::where('name', 'LIKE', '%' . $q . '%')->get();
 
         return response()->json([
@@ -143,38 +139,17 @@ class BuyPointController extends Controller
         ]);
     }
 
-    public  function barcode_search(Request $request, $q)
+    public function barcode_search(Request $request, $q)
     {
+        $store_product = AccountingProductStore::where('store_id', $request['store_id'])->pluck('product_id', 'id')->toArray();
+$q=       str_replace(' ', '', $q);
+        $products = AccountingProduct::ofBarcode($q)->get();
+        $selectd_unit_id = optional(AccountingProductSubUnit::query()->ofBarcode($q)->first())->id??'main-'.optional($products->first())->id;
 
-        if ($request['store_id'] != null) {
-            $store_product = AccountingProductStore::where('store_id', $request['store_id'])->pluck('product_id', 'id')->toArray();
-
-
-            $products = AccountingProduct::where('bar_code', $q)->orWhereHas('sub_units', function ($b)use ($q) {
-                $b->where('bar_code', 'like', "%$q%");
-            })->get();
-
-            if (!$products->isEmpty()) {
-                $selectd_unit_id = 'main-' . $products[0]->id;
-            } else {
-                $product_unit = AccountingProductSubUnit::where('bar_code', $q)->pluck('product_id');
-                $products = AccountingProduct::whereIn('id', $product_unit)->whereIn('id', $store_product)->get();
-                $unit = AccountingProductSubUnit::where('bar_code', $q)->first();
-                if ($unit)
-                    $selectd_unit_id = $unit->id;
-                else
-                    $selectd_unit_id = 0;
-            }
-            return response()->json([
+        return response()->json([
                 'status' => true,
                 'data' => view('AccountingSystem.buy_points.barcodeProducts', compact('products', 'selectd_unit_id'))->render()
             ]);
-        } else {
-
-            return response()->json([
-                'status' => false,
-            ]);
-        }
     }
     /**
      * Store a newly created resource in storage.
