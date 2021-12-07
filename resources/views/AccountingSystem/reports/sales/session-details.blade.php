@@ -30,11 +30,11 @@
                 <div class="yurSections">
                     <div class="row">
                         <div class="col-xs-12">
-                            <form action="" method="post" accept-charset="utf-8">
+                            <form action="" method="get" accept-charset="utf-8">
                                 @csrf
                             <div class="form-group col-sm-3">
                                 <label> الكاشير </label>
-                                {!! Form::select("user_id",$sellers, request('user_id'),['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الشركة','data-live-search'=>'true','id'=>'user_id'])!!}
+                                {!! Form::select("user_id",$sellers, request('user_id'),['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الكاشير','data-live-search'=>'true','id'=>'user_id'])!!}
                             </div>
 
                             <div class="form-group col-sm-3">
@@ -55,36 +55,90 @@
                     </div>
                 </div>
             </section>
-if(request()->method()=='post')
-<div id="print-window">
+        <div id="print-window">
+            {{-- <h3>المبيعات</h3> --}}
             <table class="table datatable-button-init-basic">
                 <thead>
                 <tr>
+                    <th> الموظف </th>
                     <th> التاريخ </th>
-                    <th> إجمالي تكلفة الاصناف المباعة كمشتريات </th>
-                    <th> إجمالي المببيعات </th>
-                    <th> إجمالي الخصومات </th>
-                    <th> إجمالي  الربح</th>
-                    <th class="td-display-none"> عرض</th>
+                    <th> رقم الفاتوره</th>
+                    <th>النوع</th>
+                    <th>عدد الاصناف</th>
+                    <th>الاجمالى</th>
+
                 </tr>
                 </thead>
                 <tbody>
+                    @foreach($sales as $sale)
                     <tr>
+                        <td>{{@$sale->user->name}}</td>
+                        <td>{{$sale->created_at->format('Y-m-d')}}</td>
+                        <td>{{$sale->id}}</td>
+                        <td>المبيعات</td>
+                        <td>{{$sale->items_count}}</td>
+                        <td>{{$sale->amount}}</td>
+                    </tr>
+                    @endforeach
 
+                    @foreach($returns as $return)
+                    <tr>
+                        <td>{{@$return->user->name}}</td>
+                        <td>{{$return->created_at->format('Y-m-d')}}</td>
+                        <td>{{$return->id}}</td>
+                        <td>مرتجعات</td>
+                        <td>{{$return->items_count}}</td>
+                        <td>{{$return->amount}}</td>
+                    </tr>
+                    @endforeach
+
+                    <tr style="background-color: rgb(235, 234, 234)">
+                        <td   class="text-center" colspan="2" rowspan="2">  المبيعات</td>
+                        <td class="hidden d-none"></td>
+                        <td class="text-center" > الكمية</td>
+
+                        <td  class="text-center">{{$total_sales_item=$sales->sum('items_count')}}</td>
+                        <td class="text-center">المبلغ</td>
+                        <td  class="text-center">
+                            {{$total_sales_amount=$sales->sum('amount')}}
+                        </td>
+                    </tr>
+                    <tr style="background-color: rgb(235, 234, 234)">
+                        <td  class="text-center" >اجمالى الكاش</td>
+                        <td  class="text-center">{{$total_sales_item=$sales->sum('cash')}}</td>
+                        <td class="hidden d-none"></td>
+                        <td class="hidden d-none"></td>
+                        <td class="text-center" >الشبكة</td>
+                        <td  class="text-center">
+                            {{$sales->sum('network')}}
+                        </td>
+                    </tr>
+
+                    <tr style="background-color: rgb(235, 234, 234)">
+                        <td class="text-center" colspan="2">المرتجعات</td>
+                        <td class="hidden d-none"></td>
+                        <td class="text-center">الكمية</td>
+
+                        <td class="text-center">{{$total_returns_item= $returns->sum('items_count')}}</td>
+                        <td class="text-center"> المبلغ</td>
+
+                        <td  class="text-center">{{$total_returns_amount= $returns->sum('amount')}}</td>
+                    </tr>
+
+                    <tr style="background-color: rgb(235, 234, 234)">
+                        <td class="text-center" colspan="2">الاجمالى</td>
+                        <td class="hidden d-none"></td>
+                        <td class="hidden d-none"></td>
+                        <td class="hidden d-none"></td>
+
+                        <td colspan="2" class="text-center">{{ $total_sales_item-$total_returns_item}}</td>
+                        <td colspan="2" class="text-center">{{$total_sales_amount-$total_returns_amount}}</td>
                     </tr>
 
                 </tbody>
-
             </table>
+
         </div>
     </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" defer></script>
-<script>
-// $('.inlinedatepicker').datepicker({
-//     format: 'yyyy-mm-dd',
-// });
-
-
-</script>
 @endsection
