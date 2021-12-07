@@ -207,19 +207,19 @@
 
 
         </tbody>
-  {{--      <tfoot>
+        <tfoot>
         <tr>
             <td>المجموع</td>
             <td></td>
             <td></td>
             <td></td>
+            <td>{{$sales->sum('amount')}}</td>
+            <td>{{$sales->sum('discount')}}</td>
             <td>{{$sales->sum('total')}}</td>
-            <td></td>
-            <td></td>
             <td>عدد الفواتير:{{$sales->count()}}</td>
 
         </tr>
-        </tfoot>--}}
+        </tfoot>
     </table>
         	</div>
         </div>
