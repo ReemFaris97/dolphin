@@ -159,4 +159,14 @@ class AccountingSale extends Model
 
         return $cost;
     }
+
+    public function scopeOfUser($query, $user_id)
+    {
+        return $query->where('user_id', $user_id);
+    }
+
+    public function scopeInPeriod($query, $start, $end)
+    {
+        return $query->whereBetween('created_at', [$start, $end]);
+    }
 }
