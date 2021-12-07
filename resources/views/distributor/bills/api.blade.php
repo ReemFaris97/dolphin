@@ -171,16 +171,22 @@
                     <p>{{round($bill->visa,2)}}</p>
                 </div>
                 <div style="margin-top:20px">
-                    {!! QrCode::size(250)->generate(
-                                     url('/api/distributor/bills/print_bill/' .  encrypt($bill->id))
-                                            ); !!}
-                </div>
-            </div>
-        </div>
 
-    </div>
+                    {!! QrCode::size(100)->generate(
+                                \Salla\ZATCA\GenerateQrCode::fromArray([
+                             new Salla\ZATCA\Tags\Seller('مؤسسة دلفن التجارية'), // seller name
+                             new Salla\ZATCA\Tags\TaxNumber('300420708200003'), // seller tax number
+                             new Salla\ZATCA\Tags\InvoiceDate($bill->created_at), // invoice date as Zulu ISO8601 @see https://en.wikipedia.org/wiki/ISO_8601
+                             new Salla\ZATCA\Tags\InvoiceTotalAmount($total), // invoice total amount
+                             new Salla\ZATCA\Tags\InvoiceTaxAmount($tax_amount) // invoice tax amount
+                         ])->toBase64()); !!}
+              </div>
+          </div>
+      </div>
 
-    <script src="{!! asset('dashboard/assets/vendors/base/jquery-2.1.4.min.js') !!}"></script>
+  </div>
+
+  <script src="{!! asset('dashboard/assets/vendors/base/jquery-2.1.4.min.js') !!}"></script>
         <script>
         $(document).ready(function () {
             $("#print-all").on('click', function () {
