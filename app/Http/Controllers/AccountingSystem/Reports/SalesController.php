@@ -130,26 +130,26 @@ class SalesController extends Controller
     public function returnsDay(Request $request)
     {
         $requests = request()->all();
-        $sales = AccountingReturn::query();
-        ;
+            $sales = AccountingReturn::query();
+         ;
+/*
+            if ($request->has('branch_id') && $request->branch_id != null) {
+               $sales->where('branch_id', $request->branch_id);
+            }*/
 
-        if ($request->has('branch_id') && $request->branch_id != null) {
-            $sales->where('branch_id', $request->branch_id);
-        }
+    /*        if ($request->has('safe_id') && $request->safe_id != null) {
+               $sales->where('safe_id', $request->safe_id);
+            }*/
 
-        if ($request->has('safe_id') && $request->safe_id != null) {
-            $sales->where('safe_id', $request->safe_id);
-        }
-
-        if ($request->has('user_id') && $request->user_id != null) {
-            $sales->where('user_id', $request->user_id);
-        }
-
-        if ($request->has('product_id') && $request->product_id != null) {
-            $sales->whereHas('items', function ($item) use ($request) {
-                $item->where('product_id', $request->product_id);
-            });
-        }
+            if ($request->has('user_id') && $request->user_id != null) {
+               $sales->where('user_id', $request->user_id);
+            }
+/*
+            if ($request->has('product_id') && $request->product_id != null) {
+                $sales->whereHas('items', function ($item) use ($request) {
+                    $item->where('product_id', $request->product_id);
+                });
+            }*/
 
         if ($request->has('from') && $request->has('to')) {
             $sales->whereBetween('created_at', [Carbon::parse($request->from), Carbon::parse($request->to)]);

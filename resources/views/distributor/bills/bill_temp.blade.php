@@ -141,6 +141,7 @@
                             </div>
                         </div>
                         <!--- table---->
+
                         <div class="bg_logo">
                             <table class="the_table" dir="ltr">
                                 <thead>
@@ -269,7 +270,7 @@
                             </tr>
                             </tfoot>
                         </table>
-                    </div>
+
                     <div class="row">
                         <div class="col-3 box1 flexx" style="width:25%">
                             <p style="text-align:center;">المدفوع كاش</p>
@@ -320,6 +321,7 @@
                         <div class="row">
                         </div>
                     </footer>
+                </div>
                 </div>
             </div>
         </div>
