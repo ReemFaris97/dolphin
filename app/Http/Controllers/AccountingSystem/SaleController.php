@@ -406,8 +406,8 @@ class SaleController extends Controller
             $client=AccountingClient::find($returnSale->client_id);
             if ($client) {
                 $client->update([
-                'amount'=>$client->amount -$returnSale->total
-            ]);
+                    'amount'=>$client->amount -$returnSale->total
+                ]);
             }
         }
 
