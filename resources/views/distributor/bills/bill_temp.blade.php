@@ -452,9 +452,17 @@
                 <p>{{round($bill->visa,2)}}</p>
             </div>
             <div style="margin-top:20px">
-                {!! QrCode::size(250)->generate(
-                                 url('/api/distributor/bills/print_bill/' .  encrypt($bill->id))
-                                        ); !!}
+                {!!
+
+GenerateQrCode::fromArray([
+            new Seller('مؤسسة دلفن التجارية'), // seller name
+            new TaxNumber('300420708200003'), // seller tax number
+            new InvoiceDate($bill->created_at), // invoice date as Zulu ISO8601 @see https://en.wikipedia.org/wiki/ISO_8601
+            new InvoiceTotalAmount($total), // invoice total amount
+            new InvoiceTaxAmount($tax_amount) // invoice tax amount
+        ])->toBase64();
+
+              !!}
             </div>
         </div>
     </div>
