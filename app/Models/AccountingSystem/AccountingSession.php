@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class  AccountingSession extends Model
 {
-    protected $fillable = ['device_id','shift_id','user_id','password','code','status','custody','start_session','end_session'];
+    protected $fillable = ['device_id','shift_id','user_id','code','status','custody','start_session','end_session'];
 
 
     public  function shift(){
