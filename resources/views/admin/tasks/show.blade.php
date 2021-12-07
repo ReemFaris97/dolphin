@@ -37,32 +37,32 @@
         </div>
         <h4 style="margin: 15px 30px;">البيانات الأساسية</h4>
         <div style="display:flex; margin: 20px 50px; flex-wrap:wrap;" class="informations">
-                            <p>الاسم :  
+                            <p>الاسم :
                             {!!$task->name!!}</p>
-                            <p>النوع : 
+                            <p>النوع :
                             {!!\App\Models\Task::$types[$task->type]!!}
                             </p>
-                            <p>الوصف : 
+                            <p>الوصف :
                             {!!$task->description!!}
                             </p>
                             @if($task->type=='date')
-                                <p> التاريخ : 
+                                <p> التاريخ :
                                 {!!$task->date->toDateString()!!}
                                 </p>
                             @endif
-                            <p>وقت بدايه المهمه : 
+                            <p>وقت بدايه المهمه :
                             {!!$task->time_from!!}
                             </p>
                             @if($task->type=='depends')
-                                <p> البند : 
+                                <p> البند :
                                 {!!$task->clause->name!!}
                                 </p>
-                                <p> المعادله : 
+                                <p> المعادله :
                                 {!!$task->equation_mark .' ',$task->clause_amount!!}
                                 </p>
                             @endif
-                            @if($task->type=='period')                        
-                                <p>الفتره : 
+                            @if($task->type=='period')
+                                <p>الفتره :
                                     @switch($task->period)
                                         @case(1) يومية @break
                                         @case(30) شهرية @break
@@ -71,14 +71,14 @@
                                 </p>
                             @endif
                             @if($task->type=='after_task'))
-                                <p>المهمه المعتمده عليها : 
+                                <p>المهمه المعتمده عليها :
                                 {!!optional($task->afterTask)->name!!}
                                 </p>
                             @endif
         </div>
         <div class="m-portlet__body">
             <ul class="nav nav-tabs" role="tablist">
-            
+
                 <li class="nav-item">
                     <a class="nav-link active" data-toggle="tab" href="#task_users">المنفذون</a>
                 </li>
@@ -93,7 +93,7 @@
                 </li>
             </ul>
             <div class="tab-content">
-      
+
                 <div class="tab-pane active" id="task_users" role="tabpanel">
                     <table class="table table-striped- table-bordered table-hover table-checkable datatable">
                         <thead>
@@ -135,7 +135,6 @@
                                         <a class="btn btn-info" data-toggle="modal"
                                            data-target="#edit_task_{!! $user->id !!}">
                                             <i class="fas fa-pen"></i>
-                                            تعديل
                                         </a>
                                     @endif
                                     @if($user->rate==null&& $user->rater_id==Auth::user()->id &&$user->finished_at!=null)

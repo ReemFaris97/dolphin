@@ -421,17 +421,14 @@ table.table.table-striped.table-refuse th {
 .table-bordered th {
     text-align: center;
 }
-<<<<<<< HEAD
 @media print {
     #print-11cm{
         display: none !important;
     }
 }
-=======
 
 @media print {
     .noprint {
         display: none !important;
     }
 }
->>>>>>> 12fc8f952b5dcc42b16f4577b64da91f0fd8a11e

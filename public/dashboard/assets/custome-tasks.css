@@ -1,0 +1,44 @@
+.dataTable td:last-child a, table.table-bordered.dataTable td:last-child button {
+    padding: 0;
+    height: 30px;
+    width: 30px;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    font-size: 11px;
+    white-space: normal;
+    display: flex;
+    align-items: center;
+}
+table.table-bordered.dataTable td:last-child a i, table.table-bordered.dataTable td:last-child button i {
+    margin-top: 0;
+    font-size: 12px;
+}
+
+.m-aside-left--minimize .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item>.m-menu__link>.m-menu__link-icon {
+    color: #efeded;
+}
+
+.dataTables_wrapper .dataTable tbody tr {
+    background-color: #f9f9f9;
+}
+.dataTables_wrapper .dataTable tbody tr:nth-child(even){
+    background-color: #f9f9f9;
+}
+.dataTables_wrapper .dataTable tr td {
+    color: #000;
+}
+td.dataTables_empty {
+    background: #29567a;
+    color: #fff !important;
+}
+.m-footer__copyright a:hover , .m-footer__copyright a {
+    color: #0c273c;
+}
+a.m-menu__link{
+    color: #d2d2d2 !important;
+}
+
+/* .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item.m-menu__item--open>.m-menu__link .m-menu__link-icon , .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item.m-menu__item--open>.m-menu__link .m-menu__link-text {
+
+    color: #b1b1b1;
+} */
