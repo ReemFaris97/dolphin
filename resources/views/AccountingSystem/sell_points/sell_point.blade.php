@@ -429,19 +429,19 @@ var is_selected = (i == 0) ? 'selected' : '';
 
             $(".bill-table tbody").prepend(`<tr class="single-row-wrapper" id="row${rowNum}">
 			<td class="row-num" width="40">${rowNum}</td>
-			<input type="hidden" name="product_id[]" value="${productId}">
+			<input type="hidden" name="cart[${rowNum}][product_id]" value="${productId}">
 			<td class="product-name maybe-hidden name_enable">${productName}</td>
 			<td class="product-name maybe-hidden barcode_enable" width="140">${productBarCode}</td>
 			<td class="product-unit maybe-hidden unit_enable" width="110">
-				<select class="form-control js-example-basic-single edit-select-size" name="unit_id[${productId}-${sub_unit_id}]">
+				<select class="form-control js-example-basic-single edit-select-size" name="cart[${rowNum}][unit_id]">
 					${optss}
 				</select>
 			</td>
 			<td class="product-quantity maybe-hidden quantity_enable" width="100">
-				<input type="tel" placeholder="الكمية" max="" min="1" value="${quantity}" id="sale" name="quantity[]" class="form-control">
+				<input type="tel" placeholder="الكمية" max="" min="1" value="${quantity}" id="sale" name="cart[${rowNum}][quantity]" class="form-control">
 			</td>
 			<td class="unit-total-tax maybe-hidden unit_total_tax_enable" width="100">
-				<input type="tel" placeholder="الضريبة" max="" min="0" data-original-tax="${totalTaxes}" value="${totalTaxes}" name="tax[]" class="form-control">
+				<input type="tel" placeholder="الضريبة" max="" min="0" data-original-tax="${totalTaxes}" value="${totalTaxes}" name="cart[${rowNum}][tax]" class="form-control">
 			</td>
 			<td class="single-unit-price maybe-hidden unit_price_after_enable" width="100">${Math.round(productPrice*10000)/10000}</td>
 			<td class="single-price-before maybe-hidden">${Math.round(singlePriceBefore*10000)/10000}</td>
@@ -449,7 +449,7 @@ var is_selected = (i == 0) ? 'selected' : '';
 			<td class="whole-price-before maybe-hidden">${(Math.round(singlePriceBefore*10000)/10000*parseInt(quantity))}</td>
 			<td class="whole-price-after maybe-hidden total_price_after_enable" width="100">
                 ${Math.round(singlePriceAfter*10000)/10000*parseInt(quantity)}
-                <input  type="hidden" name="price_after_tax[]" value="${Math.round(singlePriceAfter*10000)/10000*parseInt(quantity)}"  class="form-control">
+                <input  type="hidden" name="cart[${rowNum}][price_after_tax]" value="${Math.round(singlePriceAfter*10000)/10000*parseInt(quantity)}"  class="form-control">
             </td>
 			<td class="delete-single-row" width="70">
     @if ($session->user->is_admin == 1)
