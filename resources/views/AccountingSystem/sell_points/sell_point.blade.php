@@ -847,10 +847,11 @@
                             var repeatedInputVal = $(
                                 ".bill-table tbody td select option[value=" +
                                 selectedID + "]:selected").parents('tr')
-                                .find(
-                                    '.product-quantity').find('input');
+                                .find('.product-quantity').find('input');
 
                             if (alreadyChosen.length > 0 && alreadyChosen.is(':selected') && JSON.parse(resp.subunits)[0].id==selectedID) {
+                                repeatedInputVal.focus();
+
                                 repeatedInputVal.val(Number(repeatedInputVal
                                         .val()) +
                                     + parseInt(resp.quantity));

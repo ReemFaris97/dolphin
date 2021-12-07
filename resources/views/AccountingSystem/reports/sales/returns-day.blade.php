@@ -154,6 +154,7 @@
         <tbody>
 
         @foreach($sales as $row)
+
             <tr>
                 <td>{!!$loop->iteration!!}</td>
                 <td>{!! $row->bill_num !!}</td>
@@ -177,6 +178,19 @@
 
 
         </tbody>
+  {{--      <tfoot>
+        <tr>
+            <td>المجموع</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{$sales->sum('total')}}</td>
+            <td></td>
+            <td></td>
+            <td>عدد الفواتير:{{$sales->count()}}</td>
+
+        </tr>
+        </tfoot>--}}
     </table>
         	</div>
         </div>
