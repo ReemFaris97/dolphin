@@ -42,3 +42,7 @@ a.m-menu__link{
 
     color: #b1b1b1;
 } */
+.m-nav .m-nav__item>.m-nav__link {
+
+    color: #6f727d;
+}
