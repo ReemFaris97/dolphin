@@ -54,14 +54,17 @@ td {
     max-width: 280px;
 
 }
+
 .details-container p:nth-child(2) {
     flex-grow: 4;
     max-width: 280px;
     white-space: pre-line;
 }
-.smll-size-price{
+
+.smll-size-price {
     font-size: 12px;
 }
+
 @media print {
     .details-container p:nth-child(2) {
         white-space: pre-line;

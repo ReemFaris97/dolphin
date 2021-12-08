@@ -120,7 +120,7 @@ class SellPointController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function sell_login()
     {
@@ -132,6 +132,11 @@ class SellPointController extends Controller
 //        $stores = AccountingStore::whereIn('id', $userstores)->pluck('ar_name', 'id')->toArray();
 //////////////////////////////////////////////////////////
 
+        if(Cookie::get('session')!=null){
+            return  redirect(
+                route('accounting.invoices.current',Cookie::get('session'))
+            );
+        }
         $shift_id = AccountingBranchShift::whereTime('from','<=', now())
                                  ->whereTime('to','>=', now())->first()->id;
         $device_id = AccountingDevice::where('available', 1)->first()->id;
