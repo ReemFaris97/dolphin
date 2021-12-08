@@ -457,7 +457,7 @@
                 <p>{{round($bill->visa,2)}}</p>
             </div>
             <div style="margin-top:20px">
-                {!! QrCode::size(100)->generate(
+                {!! QrCode::size(400)->generate(
                     \Salla\ZATCA\GenerateQrCode::fromArray([
                  new Salla\ZATCA\Tags\Seller('مؤسسة دلفن التجارية'), // seller name
                  new Salla\ZATCA\Tags\TaxNumber('300420708200003'), // seller tax number

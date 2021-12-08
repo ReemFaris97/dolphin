@@ -13,18 +13,19 @@ p {
 
 #myDivToPrintsmall {
     display: block;
-    width: 6cm;
+    width: 24cm;
     text-align: center;
     margin: 0 auto;
+    font-size:30px
 
 }
 
 img[alt="logo"] {
-    width: 55px;
+    width: 150px;
 }
 
 table {
-    font-size: 11px;
+    font-size: 30px;
 
 
 }
