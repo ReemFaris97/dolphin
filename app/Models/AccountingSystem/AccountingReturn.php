@@ -53,37 +53,43 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class AccountingReturn extends Model
 {
-
-
     protected $fillable = ['user_id','sale_id','discount','total','bill_num','session_id','totalTaxs','discount_type','payment'
      , 'amount' ,'branch_id','client_id'];
     protected $table='accounting_sales_returns';
     public function branch()
     {
-        return $this->belongsTo(AccountingBranch::class,'branch_id');
+        return $this->belongsTo(AccountingBranch::class, 'branch_id');
     }
 
     public function session()
     {
-        return $this->belongsTo(AccountingSession::class,'session_id');
+        return $this->belongsTo(AccountingSession::class, 'session_id');
     }
 
 
     public function client()
     {
-        return $this->belongsTo(AccountingClient::class,'client_id');
+        return $this->belongsTo(AccountingClient::class, 'client_id');
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
 
     public function items()
     {
-        return $this->hasMany(AccountingReturnSaleItem::class,'sale_return_id');
+        return $this->hasMany(AccountingReturnSaleItem::class, 'sale_return_id');
     }
 
-}
+    public function scopeOfUser($query, $user_id)
+    {
+        return $query->where('user_id', $user_id);
+    }
 
+    public function scopeInPeriod($query, $start, $end)
+    {
+        return $query->whereBetween('created_at', [$start, $end]);
+    }
+}

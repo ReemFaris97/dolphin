@@ -28,12 +28,12 @@
     $(document).ready(function() {
     var table = $('.table:not(.finalTb)').DataTable( {
         responsive: true,
-         dom: 'Bfrtip',
+        ordering: false,
+        dom: 'Bfrtip',
         buttons: [
 			{ extend: 'copyHtml5', footer: true },
             { extend: 'excelHtml5', footer: true },
             { extend: 'csvHtml5', footer: true },
-            { extend: 'pdfHtml5', footer: true }
         ]
     } );
 } );

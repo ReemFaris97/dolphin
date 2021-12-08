@@ -181,7 +181,11 @@
         </tr>
         </thead>
         <tbody>
-
+@php
+$full_amount=0;
+$full_total=0;
+$full_discount=0;
+@endphp
         @foreach($sales as $row)
 
             <tr>
@@ -189,12 +193,16 @@
                 <td>{!! $row->bill_num !!}</td>
                 <td>{!! $row->client()->exists() ? $row->client->name : '-' !!}</td>
                 <td>{!! $row->user()->exists() ? $row->user->name : '-' !!}</td>
-                <td>{!! $row->amount?? 0 !!}</td>
-                <td>{!! $row->discount?? 0 !!}</td>
+                <td>
+                    @php($full_amount +=$row->amount??0)
+                    {!! $row->amount?? 0 !!}</td>
+                <td>
+                    @php($full_discount += $row->discount?? 0)
+                    {!! $row->discount?? 0 !!}</td>
                 {{--<td>{!! $row->payed !!}</td>--}}
                 {{--<td>{!! $row->total - $row->payed !!}</td>--}}
-
-                <td>{!! $row->total?? 0 !!}</td>
+                    @php($full_total +=$row->total?? 0)
+                <td>{!!$row->total?? 0 !!}</td>
 
                 <td class="text-center td-display-none">
                     <a href="{{route('accounting.sales.show',$row->id)}}" target="_blank" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
@@ -207,17 +215,20 @@
 
 
         </tbody>
-        <tfoot>
+       <tfoot>
         <tr>
-            <td>المجموع</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>{{$sales->sum('amount')}}</td>
-            <td>{{$sales->sum('discount')}}</td>
-            <td>{{$sales->sum('total')}}</td>
-            <td>عدد الفواتير:{{$sales->count()}}</td>
+            <th>#</th>
+            <th> رقم وكود الفاتورة </th>
+            <th> العميل </th>
+            <th> اسم القائم بالعملية </th>
+            {{-- <th> الإجمالي </th> --}}
+            <th>{{$full_amount}} </th>
+            <th> {{$full_discount}} </th>
+            {{--<th> المدفوع </th>--}}
+            {{--<th> المتبقي </th>--}}
+            <th>{{$full_total}} </th>
 
+            <th class="text-center td-display-none">العمليات</th>
         </tr>
         </tfoot>
     </table>
