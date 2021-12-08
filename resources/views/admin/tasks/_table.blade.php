@@ -26,12 +26,12 @@
             <td>
                 @if(auth()->user()->hasPermissionTo('view_tasks'))
                     <a href="{!!route('admin.tasks.show',$task->id)!!}" class="btn btn-info"> <i class="fas fa-eye"></i>
-                        مشاهده</a>
+                      </a>
                 @endif
                     @if(auth()->user()->hasPermissionTo('edit_tasks') && $task->task_users->where('worker_finished_at','!=',null)->count()<=0)
                     <a href="{!!route('admin.tasks.edit',$task->id)!!}" class="btn btn-primary"> <i
                             class="fas fa-pen"></i>
-                        تعديل</a>
+                       </a>
                 @endif
                 @if(auth()->user()->hasPermissionTo('delete_tasks'))
                     <form method="POST" action="{!!route('admin.tasks.destroy',$task->id)!!}">
@@ -39,7 +39,7 @@
                         <button type="submit" class="btn btn-danger"
                                 onclick="if(!confirm('هل انت متاكد من حذف المهمه')) event.preventDefault() ">
                             <i class="fas fa-trash"></i>
-                            حذف
+
                         </button>
                     </form>
                 @endif
@@ -49,14 +49,6 @@
         </tr>
     @endforeach
     </tbody>
-    <tfoot>
-    <tr>
-        <th>#</th>
-        <th>الاسم</th>
-        <th>الوصف</th>
-        <th>التاريخ</th>
-        <th>النوع</th>
-        <th class="noExport">الاعدادت</th>
-    </tfoot>
+
 </table>
 

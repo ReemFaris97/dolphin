@@ -16,6 +16,21 @@ use App\Models\AccountingSystem\AccountingAsset;
 use App\Models\AccountingSystem\AccountingAssetDamageLog;
 use App\Models\AccountingSystem\AccountingProductSubUnit;
 use Carbon\Carbon;
+use Barryvdh\Snappy\PdfWrapper;
+Route::get('test-pdf',function (){
+    $routetrip=\App\Models\RouteTripReport::find(15);
+//return view('distributor.bills.api',['bill'=>$routetrip])->render();
+/*   $pdf=\PDF::loadHTML();
+   return $pdf->stream();*/
+//    PDF::loadHTML()
+//    Barryvdh\Snappy\Facades\SnappyPdf::class
+    $pdf = PDF::setOption('page-height', '20000000mm')->setOption('margin-bottom', 0)->setOption('margin-top',10)
+        ->loadView('distributor.bills.api',['bill'=>$routetrip])->setPaper('a4');
+
+
+    return $pdf->inline();
+
+});
 
 Route::get('test', function () {
 

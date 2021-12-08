@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingDevice;
+use App\Models\AccountingSystem\AccountingSession;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 
 class LoginController extends Controller
 {
@@ -59,13 +62,28 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-//        auth()->user()->update([
-//            'enable'=>1
-//        ]);
+        \DB::beginTransaction();
+        $sessions_opened = AccountingSession::whereUserId(auth()->user()->id)
+            ->whereNull('end_session')->get();
+
+        foreach ($sessions_opened as $session) {
+            $session->update([
+                'end_session' => now(),
+                'status' => 'closed'
+            ]);
+            AccountingDevice::whereId($session->device_id)->update(['available' => 1]);
+        }
+
+        Cookie::queue(Cookie::forget('session'));
+
         $this->guard()->logout();
         $request->session()->invalidate();
+        \DB::commit();
         return $this->loggedOut($request) ?: redirect()->route('admin.login');
     }
+
+
+
 
 //    protected function authenticated(Request $request, $user)
 //    {

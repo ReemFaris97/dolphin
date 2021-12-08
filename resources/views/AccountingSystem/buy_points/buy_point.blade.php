@@ -384,6 +384,7 @@ unit_total_tax_enable
         integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
+
     $(document).ready(function () {
         // For initializing now date
         $('.inlinedatepicker').datetimepicker().datepicker("setDate", new Date());
@@ -431,6 +432,7 @@ unit_total_tax_enable
         var totalTaxes = selectedProduct.data('total-taxes');
         var mainUnit = selectedProduct.data('main-unit');
         var productUnits = selectedProduct.data('subunits');*/
+        debugger;
                 results = _.toArray(_.mapValues(data.data.data, function (obj) {
                     return {
                         id: obj.id,
@@ -457,9 +459,12 @@ unit_total_tax_enable
             method: 'GET',
             url: "/accounting/purchase/products-single-product/" + e.target.value,
             success: function (resp) {
+                rowNum++;
                 calculateBill(resp.id, resp.name, resp.link, parseFloat(resp.last_price),
                     parseFloat(resp.average), resp.bar_code, parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, JSON.parse(resp.subunits), resp.product_expiration)
-            }
+
+
+                }
         })
 
     });
@@ -474,7 +479,7 @@ unit_total_tax_enable
         }
         let unitName = productUnits.map(a => a.name);
         let unitId = productUnits.map(c => c.id);
-        let unitPrice = productUnits.map(b => b.purchasing_price);
+        let unitPrice = productUnits.map(b => parseFloat(b.purchasing_price));
 
         //		Getting prices and taxes Code
         var singlePriceBefore, singlePriceAfter = 0;
@@ -489,7 +494,7 @@ unit_total_tax_enable
             var singlePriceBefore = parseFloat(productPrice);
             var singlePriceAfter = parseFloat(productPrice);
         }
-        var netTax = (parseFloat(singlePriceAfter) - parseFloat(singlePriceBefore)).toFixed(rondingNumber);
+        var netTax = parseFloat(parseFloat(singlePriceAfter) - parseFloat(singlePriceBefore)).toFixed(rondingNumber);
 
         var discountNum = 1;
         var optss = ``;
@@ -503,7 +508,7 @@ unit_total_tax_enable
 							<td class="product-name maybe-hidden name_enable"><a href="${productLink}" target="_blank" rel="noopener noreferrer">${productName}</a></td>
 							<td class="product-unit maybe-hidden unit_enable" width="70">
 								<select class="form-control js-example-basic-single" name="unit_id[${ProductId}]" >
-									${optss}
+									${optss}product_id
 								</select>
 							</td>
 							<td class="product-quantity maybe-hidden quantity_enable" width="70">
@@ -564,6 +569,7 @@ unit_total_tax_enable
 					$("tbody").animate({ scrollTop: $('tbody').prop("scrollHeight")}, height);
 
                     calcInfo();
+
                     $('.popover-op').popover({trigger: "click"});
                     $("#modals-area").append(`<div id="discMod${rowNum}" class="modal fade special-discount-modal" role="dialog">
 					  <div class="modal-dialog">
@@ -573,24 +579,7 @@ unit_total_tax_enable
 							<h4 class="modal-title"> إضافة خصم خاص بالمنتج ${productName} </h4>
 						  </div>
 						  <div class="modal-body">
-							<div class="single-special-dis-wrap clearfix row">
-                                <div class="form-group col-xs-4 ddd-none" >
-								<label>رقم الخصم</label>
-								<input type="text" class="form-control " value=${discountNum} >
-							</div>
-								<div class="form-group col-xs-4">
-									<label>ادخل الخصم بالنسبة</label>
-									<input type="number" step="any" class="form-control singleSpecialDiscByPer" value="0" min="0" placeholder="ادخل الخصم بالنسبة" name="items[${rowNum}][discount_item_percentage][]">
-								</div>
-								<div class="form-group col-xs-4">
-									<label>ادخل الخصم بالمبلغ</label>
-									<input type="number" step="any" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ" name="items[${rowNum}][discount_item_value][]">
-								</div>
-								<div class="form-group col-xs-4">
-									<label>يؤثر في الضريبة <input class="effectTax" type="checkbox" name="items[${rowNum}][discount_item_effectTax][]" value="1"></label>
-								</div>
-							</div>
-							<div class="anotherAddedSpecialDiscounts"></div>
+						<div class="anotherAddedSpecialDiscounts"></div>
 							<div class="row clearfix text-center">
 								<a data-id="${rowNum}" class="appendAnewDiscount btn btn-success">إضافة خصم أخر</a>
 							</div>
@@ -635,7 +624,7 @@ unit_total_tax_enable
                                 $(this).parents('.single-special-dis-wrap').find('.singleSpecialDiscByVal').val(0);
                                 if (($(this).val()) < 0) {
                                     $(this).val(0);
-                                    $(this).text('0');
+                                    $(this).text(0);
                                 }
                             })
                         });
@@ -644,7 +633,7 @@ unit_total_tax_enable
                                 $(this).parents('.single-special-dis-wrap').find('.singleSpecialDiscByPer').val(0);
                                 if (($(this).val()) < 0) {
                                     $(this).val(0);
-                                    $(this).text('0');
+                                    $(this).text(0);
                                 }
                             })
                         });
@@ -682,7 +671,7 @@ unit_total_tax_enable
                         $(".tempDisabled").removeClass("tempDisabled");
                         var selectedUnit = $(this).find(":selected");
                         var priceHasTax = $(this).parents("tr.single-row-wrapper").data('ifhastax');
-                        var productPrice = selectedUnit.data('uni-price');
+                        var productPrice =parseFloat(selectedUnit.data('uni-price'));
                         //		Getting prices and taxes Code
                         if (parseFloat(priceHasTax) === 0) {
                             var singlePriceBefore = parseFloat(productPrice);
@@ -917,6 +906,7 @@ unit_total_tax_enable
                                     ).toFixed(rondingNumber)
                                 );
                             calcInfo();
+                            return ;
                         }
                     });
                     //**************    Calc while changing table body ***********************

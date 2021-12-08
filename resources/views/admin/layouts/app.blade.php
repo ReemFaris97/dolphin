@@ -36,19 +36,20 @@
     <!--begin::Page Vendors Styles -->
     <link href="{!! asset('dashboard/assets/vendors/custom/datatables/datatables.bundle.css')!!}" rel="stylesheet"
           type="text/css"/>
-	
+
 	<!--begin::The Animate Style -->
-    <link href="{!! asset('dashboard/assets/animate.min.css')!!}" rel="stylesheet" type="text/css"/>	
+    <link href="{!! asset('dashboard/assets/animate.min.css')!!}" rel="stylesheet" type="text/css"/>
 	<!--begin::The MAin Style -->
     <link href="{!! asset('dashboard/assets/main.css')!!}" rel="stylesheet" type="text/css"/>
     <!--end::Global Theme Styles -->
 
     <link rel="manifest" href="{!! asset('dashboard/assets/firebase/manifest.json') !!}">
-    
+
     <link href="{!! asset('dashboard/assets/new-style.css')!!}" rel="stylesheet" type="text/css"/>
 
     <link rel="shortcut icon" href="{!! asset('dashboard/assets/demo/demo12/media/img/logo/logo.png')!!}"/>
     <link href="{!! asset('dashboard/assets/customize.css')!!}" rel="stylesheet" type="text/css"/>
+    <link href="{!! asset('dashboard/assets/custome-tasks.css')!!}" rel="stylesheet" type="text/css"/>
 
     @stack('header')
 </head>

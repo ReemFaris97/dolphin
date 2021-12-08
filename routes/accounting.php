@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AccountingSystem\Reports\SalesController;
+
 Route::get('/', function () {
     return redirect()->route('accounting.home');
 });
@@ -16,7 +18,7 @@ Route::get('/', function () {
     }
     dd('done fixing');
 });*/
-Route::get('fix-invoice/{sale}',function (\App\Models\AccountingSystem\AccountingSale $sale){
+Route::get('fix-invoice/{sale}', function (\App\Models\AccountingSystem\AccountingSale $sale) {
     $inputs=$sale->toArray();
     $inputs['sale_id']=$inputs['id'];
     $inputs['total']=$sale->product_total();
@@ -25,7 +27,7 @@ Route::get('fix-invoice/{sale}',function (\App\Models\AccountingSystem\Accountin
         $return->items()->create($item->toArray());
     }
 
-    dd($return,$return->items);
+    dd($return, $return->items);
 });
 Route::middleware('admin')->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
@@ -111,7 +113,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/inventories_band', 'StoreInventroyController@inventories_band')->name('stores.inventories_band');
     Route::get('/show-inventory_band/{id}', 'StoreInventroyController@show_inventory_band')->name('stores.show_inventory_band');
 
-    Route::get('my-invoices','InvoiceController@index')->name('invoices.current');
+    Route::get('my-invoices', 'InvoiceController@index')->name('invoices.current');
     //تحويل الاصناف  من  مستودع  الى  اخر/////////////////////////////////////
     Route::get('/transaction', 'StoreTransactionController@transaction_form')->name('stores.transaction');
     Route::post('transactions', 'StoreTransactionController@transactions')->name('stores.transactions');
@@ -228,7 +230,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/branch_devices/{id}', 'SafeController@branch_devices');
     Route::post('transactionsafe_store/{id}', 'SafeController@transactionsafe_store')->name('transactionsafe_store');
 
-    Route::get('print-a4-bill/{bill}','SaleController@showBill');
+    Route::get('print-a4-bill/{bill}', 'SaleController@showBill');
 
     Route::resource('faces', 'FaceController');
     Route::resource('columns', 'ColumnController');
@@ -329,6 +331,7 @@ Route::middleware('admin')->group(function () {
 
             Route::any('daily-earnings', ['as' => 'daily_earnings', 'uses' => 'SalesController@daily_earnings']);
             Route::any('period-earnings', ['as' => 'period_earnings', 'uses' => 'SalesController@period_earnings']);
+            Route::match(['get','post'], 'sessions', [SalesController::class,'sessionDetails'])->name('sessions_report');
         });
     });
 

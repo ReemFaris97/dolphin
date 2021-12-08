@@ -140,6 +140,14 @@ function allstores()
     return $stores;
 }
 
+function suppliers()
+{
+    $suppliers = \App\Models\AccountingSystem\AccountingSupplier::all()->mapWithKeys(function ($q) {
+        return [$q['id'] => $q['name']];
+    });
+    return $suppliers;
+}
+
 
 function stores_to($id=null)
 {

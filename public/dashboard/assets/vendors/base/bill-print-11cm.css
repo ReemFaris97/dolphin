@@ -13,18 +13,19 @@ p {
 
 #myDivToPrintsmall {
     display: block;
-    width: 6cm;
+    /*width: 24cm;*/
     text-align: center;
     margin: 0 auto;
+    font-size:25px
 
 }
 
 img[alt="logo"] {
-    width: 55px;
+    width: 150px;
 }
 
 table {
-    font-size: 11px;
+    font-size: 30px;
 
 
 }
@@ -35,7 +36,7 @@ td {
 }
 
 .details-container {
-    display: flex;
+    /*display: flex;*/
     justify-content: space-between;
 }
 
@@ -53,11 +54,17 @@ td {
     max-width: 280px;
 
 }
+
 .details-container p:nth-child(2) {
     flex-grow: 4;
     max-width: 280px;
     white-space: pre-line;
 }
+
+.smll-size-price {
+    font-size: 12px;
+}
+
 @media print {
     .details-container p:nth-child(2) {
         white-space: pre-line;

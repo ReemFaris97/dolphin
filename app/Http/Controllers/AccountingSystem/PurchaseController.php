@@ -81,8 +81,8 @@ class PurchaseController extends Controller
             if (getsetting('automatic_purchases')==1) {
                 $requests['account_id']=getsetting('accounting_id_purchases');
             }
-            $requests['branch_id']=(optional($user->store)->model_type=='App\Models\AccountingSystem\AccountingBranch')?optional($user->store)->model_id:null;
-            $requests['company_id']=(optional($user->store)->model_type=='App\Models\AccountingSystem\AccountingCompany')?optional($user->store)->model_id:null;
+            $requests['branch_id']=(optional($user->store)->model_type==AccountingBranch::class)?optional($user->store)->model_id:null;
+            $requests['company_id']=(optional($user->store)->model_type==AccountingCompany::class)?optional($user->store)->model_id:null;
             $requests['store_id']=$request->store_id;
             $purchase=AccountingPurchase::create($requests);
             if ($requests['total']==null) {
@@ -106,7 +106,7 @@ class PurchaseController extends Controller
             $gifts = collect($requests['gifts']);
 
             $merges = $products->zip($qtys, $unit_id, $prices, $itemTax, $gifts);
-            $i=1;
+            $i=0;
 
             foreach ($merges as $merge) {
                 $product=AccountingProduct::find($merge['0']);

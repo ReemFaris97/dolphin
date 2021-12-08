@@ -25,6 +25,7 @@ use App\Models\AccountingSystem\AccountingSaleItem;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingUserPermission;
+use App\Models\Client;
 use App\Models\User;
 use App\Traits\SaleOperation;
 use App\Traits\Viewable;
@@ -131,10 +132,10 @@ class SaleController extends Controller
         /*     $products = collect($requests['product_id']);
              $qtys = collect($requests['quantity']);
              $unit_id = collect($requests['unit_id']);
-     //        dd($unit_id);
+//        dd($unit_id);
              $merges = $products->zip($qtys, $unit_id);*/
         foreach ($request['cart'] as $cart) {
-//dd($cart);
+            //dd($cart);
             $product=AccountingProduct::find($cart['product_id']);
 
             $unit=AccountingProductSubUnit::where('id', $cart['unit_id'])->first();
@@ -313,14 +314,18 @@ class SaleController extends Controller
         $requests = $request->all();
 
         DB::beginTransaction();
-        if (!$request->client_id) {
-            $requests['client_id']=5;
+        if ($request->client!=null) {
+            $requests['client_id']=$request->client;
         }
+        if (!$request->client_id) {
+            $requests['client_id']=Client::latest()->first()->id;
+        }
+
 
         $user=User::find($requests['user_id']);
         $requests['branch_id']=@($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:null;
 
-
+        $requests['user_id']=auth()->id();
         $returnSale=AccountingReturn::create($requests);
 
         if ($requests['total']==null) {
@@ -353,8 +358,6 @@ class SaleController extends Controller
                 'payment'=>'cash'
             ]);
         }
-        $products=$requests['product_id'];
-        $quantities=$requests['quantity'];
         $products = collect($requests['product_id']);
         $qtys = collect($requests['quantity']);
         $unit_id = collect($requests['unit_id']);

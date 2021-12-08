@@ -16,6 +16,7 @@ use App\Models\AccountingSystem\AccountingBranchShift;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Models\AccountingSystem\AccountingSupplier;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -73,16 +74,18 @@ class HomeController extends Controller
         return response()->json($products);
     }
 
-    public function getProductStore($id)
+    public function getProductStore($id, Request $request)
     {
-        $requests= \Request::all();
-
         $store_products = AccountingProductStore::select(['id', 'product_id'])->where('store_id', $id)->pluck('product_id');
-        if ($requests['category_id']) {
-            $products = AccountingProduct::whereIn('id', $store_products)->select(['id', 'name'])->where('category_id', $requests['category_id'])->get();
-        } else {
-            $products = AccountingProduct::whereIn('id', $store_products)->select(['id', 'name'])->get();
-        }
+        $products = AccountingProduct::query()
+            ->whereIn('id', $store_products)
+            ->when(
+                $request->category_id!=null,
+                fn ($query) =>$query->where('category_id', $request->category_id)
+            )
+            ->select(['id', 'name'])
+            ->get();
+
         return response()->json($products);
     }
     public function getUsersByBranch($branch_id)

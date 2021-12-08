@@ -31,9 +31,9 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $old_tasks = Task::old(auth()->id())->with('task_users')->get()->reverse();;
-        $present_tasks = Task::present(auth()->id())->with('task_users')->get()->reverse();
-        $future_tasks = Task::future(auth()->id())->with('task_users')->get()->reverse();
+        $old_tasks = Task::old(auth()->id())->with('task_users')->latest()->get();
+        $present_tasks = Task::present(auth()->id())->with('task_users')->latest()->get();
+        $future_tasks = Task::future(auth()->id())->with('task_users')->latest()->get();
         $page_title = "مهمات النظام";
 
 
@@ -133,7 +133,6 @@ class TaskController extends Controller
         // dd($request->all());
         $this->validate($request,$rules);
         $task = $this->RegisterTask($request);
-
         toast('تم الحفظ بنجاح', 'success', 'top-right');
 
         return redirect()->route('admin.tasks.index');

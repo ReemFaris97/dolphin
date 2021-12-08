@@ -22,6 +22,8 @@ use App\Traits\Distributor\RouteOperation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
+use PDF;
 
 class RouteController extends Controller
 {
@@ -147,6 +149,7 @@ class RouteController extends Controller
         $trip_report = RouteTripReport::latest()->first();
         return $this->apiResponse(
             ['msg' => 'تم تسجيل الفاتورة بنجاح',
+            'client_name'=>$trip_report->total_with_tax,
              'bill' => url('/api/distributor/bills/print_bill/' . encrypt($trip_report->id))]
         );
     }
@@ -154,6 +157,9 @@ class RouteController extends Controller
     public function print_bill($id)
     {
         $bill = RouteTripReport::find(decrypt(str_replace('.html', '', $id)));
+        $pdf = PDF::setOption('margin-bottom', 0)->setOption('margin-top',10)
+            ->loadView('distributor.bills.api',['bill'=>$bill])->setPaper('a4');
+        return $pdf->download(Str::snake("{$bill->product_total()} $bill->created_at").".pdf");
         return view('distributor.bills.api', compact('bill'));
     }
     public function lastBill(Request $request)
@@ -162,11 +168,23 @@ class RouteController extends Controller
         ->ofDistributor(auth()->id())
         ->when(
             $request->client_id!=null,
-            fn ($q) => $q->where('client_id', $request->client_id)
+            fn ($q) => $q->ofClient($request->client_id)
         )
-         ->latest()->firstOrFail();
+         ->latest()->first();
 
-        return view('distributor.bills.api', compact('bill'));
+        if ($bill==null) {
+            return $this->apiResponse(
+                ['msg' => 'لا يوجد فاتوره',
+                'client_name'=>null,
+                 'bill' =>null]
+            );
+        }
+        return $this->apiResponse(
+            ['msg' => 'تم ايجاد الفاتورة بنجاح',
+            'client_name'=>$bill->total_with_tax,
+
+             'bill' => url('/api/distributor/bills/print_bill/' . encrypt($bill->id))]
+        );
     }
 
     public function attachImages(Request $request)
