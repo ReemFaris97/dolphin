@@ -60,7 +60,7 @@ trait RouteOperation
     public function RegisterBill($request, RouteTrips $trip)
     {
         DB::beginTransaction();
-        try {
+
             $transaction = DistributorTransaction::create([
                 'sender_type' => Client::class,
                 'sender_id' => $trip->client_id,
@@ -107,11 +107,7 @@ trait RouteOperation
             DB::commit();
 
             return true;
-        } catch (\Exception $e) {
-            DB::rollback();
-            dd($e);
-            return false;
-        }
+
     }
 
     public function RegisterRouteReport($request)
