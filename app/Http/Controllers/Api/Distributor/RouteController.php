@@ -147,6 +147,7 @@ class RouteController extends Controller
         $trip_report = RouteTripReport::latest()->first();
         return $this->apiResponse(
             ['msg' => 'تم تسجيل الفاتورة بنجاح',
+            'client_name'=>$trip_report->client_name,
              'bill' => url('/api/distributor/bills/print_bill/' . encrypt($trip_report->id))]
         );
     }
@@ -166,13 +167,13 @@ class RouteController extends Controller
         )
          ->latest()->first();
 
-         if($bill==null){
+        if ($bill==null) {
             return $this->apiResponse(
                 ['msg' => 'لا يوجد فاتوره',
                  'bill' =>null]
             );
-         }
-         return $this->apiResponse(
+        }
+        return $this->apiResponse(
             ['msg' => 'تم ايجاد الفاتورة بنجاح',
              'bill' => url('/api/distributor/bills/print_bill/' . encrypt($bill->id))]
         );
