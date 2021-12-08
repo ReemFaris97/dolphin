@@ -13,7 +13,7 @@ p {
 
 #myDivToPrintsmall {
     display: block;
-    width: 11cm;
+    /* width: 11cm; */
     text-align: center;
     margin: 0 auto;
 
