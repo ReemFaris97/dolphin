@@ -723,7 +723,7 @@
                     $(this).val(0);
                 }
                 total = Number(amountAfterDariba) - (Number($(this).val()));
-                $("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
+                $("#demandedAmount span.dynamic-span").html(total);
                 $("#total").val(total);
             });
             $("#byCache , #byNet").blur(function() {
@@ -733,8 +733,7 @@
                 var remaindedAmount = Number(allPaid) - Number($(
                     "#demandedAmount span.dynamic-span")
                     .html());
-                $("#remaindedAmount span.dynamic-span").html(remaindedAmount.toFixed(
-                    rondingNumber));
+                $("#remaindedAmount span.dynamic-span").html(Math.round(remaindedAmount*1000)/1000);
                 $('#remainder-inputt').val(Math.abs(remaindedAmount));
                 if (remaindedAmount > 0) {
                     $("#remaindedAmount .rel-cols").removeClass("aagel-case").removeClass(
