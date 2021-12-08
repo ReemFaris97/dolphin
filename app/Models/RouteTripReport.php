@@ -230,7 +230,14 @@ class RouteTripReport extends Model
         $AllTotal = [$total_in_arabic_rial->convert_number(), $total_in_arabic_halla->convert_number() ?? 0];
         return $AllTotal;
     }
-    public function getClientNameAttribute(){
-       return @$this->route_trip->client->name;
+    public function getClientNameAttribute()
+    {
+        return @$this->route_trip->client->name;
+    }
+    public function getTotalWithTaxAttribute()
+    {
+        $tax_percent=(float)(getsetting('general_taxs')) /100;
+        $tax_amount= round($this->product_total() * $tax_percent, 2);
+        return $$this->product_total() + $tax_amount;
     }
 }

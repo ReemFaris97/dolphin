@@ -147,7 +147,7 @@ class RouteController extends Controller
         $trip_report = RouteTripReport::latest()->first();
         return $this->apiResponse(
             ['msg' => 'تم تسجيل الفاتورة بنجاح',
-            'client_name'=>$trip_report->client_name,
+            'client_name'=>$trip_report->total_with_tax,
              'bill' => url('/api/distributor/bills/print_bill/' . encrypt($trip_report->id))]
         );
     }
@@ -176,7 +176,7 @@ class RouteController extends Controller
         }
         return $this->apiResponse(
             ['msg' => 'تم ايجاد الفاتورة بنجاح',
-            'client_name'=>$bill->client_name,
+            'client_name'=>$bill->total_with_tax,
 
              'bill' => url('/api/distributor/bills/print_bill/' . encrypt($bill->id))]
         );

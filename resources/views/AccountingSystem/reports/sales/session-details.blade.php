@@ -91,6 +91,20 @@
                         <td>{{$return->amount}}</td>
                     </tr>
                     @endforeach
+                      @foreach($returns as $return)
+                    <tr>
+                        <td>{{@$return->user->name}}</td>
+                        <td>{{$return->created_at->format('Y-m-d')}}</td>
+                        <td>{{$return->id}}</td>
+                        <td>مرتجعات</td>
+                        <td>{{$return->items_count}}</td>
+                        <td>{{$return->amount}}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+
+                <tfooter>
+
 
                     <tr style="background-color: rgb(235, 234, 234)">
                         <td   class="text-center" colspan="2" rowspan="2">  المبيعات</td>
@@ -135,7 +149,8 @@
                         <td colspan="2" class="text-center">{{$total_sales_amount-$total_returns_amount}}</td>
                     </tr>
 
-                </tbody>
+
+                </tfooter>
             </table>
 
         </div>
