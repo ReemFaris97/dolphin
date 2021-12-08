@@ -821,7 +821,7 @@ class ProductController extends Controller
     public function getfaces($id)
     {
         $requests = \Request::all();
-        $company_id = $requests['company_id'];
+        $company_id =\Arr::get($requests,'company_id');
         return faces($id, $company_id);
     }
 
