@@ -30,11 +30,11 @@
                 <div class="yurSections">
                     <div class="row">
                         <div class="col-xs-12">
-                            <form action="" method="post" accept-charset="utf-8">
+                            <form action="" method="get" accept-charset="utf-8">
                                 @csrf
                             <div class="form-group col-sm-3">
                                 <label> الكاشير </label>
-                                {!! Form::select("user_id",$sellers, request('user_id'),['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الشركة','data-live-search'=>'true','id'=>'user_id'])!!}
+                                {!! Form::select("user_id",$sellers, request('user_id'),['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الكاشير','data-live-search'=>'true','id'=>'user_id'])!!}
                             </div>
 
                             <div class="form-group col-sm-3">
@@ -108,45 +108,55 @@
 
                     <tr style="background-color: rgb(235, 234, 234)">
                         <td   class="text-center" colspan="2" rowspan="2">  المبيعات</td>
+                        {{-- -------------------------------- --}}
                         <td class="hidden d-none"></td>
-                        <td class="text-center" > الكمية</td>
 
-                        <td  class="text-center">{{$total_sales_item=$sales->sum('items_count')}}</td>
-                        <td class="text-center">المبلغ</td>
-                        <td  class="text-center">
-                            {{$total_sales_amount=$sales->sum('amount')}}
-                        </td>
-                    </tr>
-                    <tr style="background-color: rgb(235, 234, 234)">
-                        <td  class="text-center" >اجمالى الكاش</td>
+                        <td  class="text-center" > الكاش</td>
                         <td  class="text-center">{{$total_sales_item=$sales->sum('cash')}}</td>
-                        <td class="hidden d-none"></td>
-                        <td class="hidden d-none"></td>
+
                         <td class="text-center" >الشبكة</td>
                         <td  class="text-center">
                             {{$sales->sum('network')}}
                         </td>
                     </tr>
+                    <tr style="background-color: rgb(235, 234, 234)">
+                        <td class="hidden d-none"></td>
+                        <td class="hidden d-none"></td>
+                      {{-- ------------------------ --}}
+
+
+                      <td class="text-center hidden d-none" > اجمالى الكمية </td>
+
+                      <td  class="text-center hidden d-none">{{$total_sales_item=$sales->sum('items_count')}}</td>
+                      <td class="text-center">اجمالى الكاش والشبكة</td>
+                      <td  class="text-center">
+                          {{$total_sales_amount=$sales->sum('amount')}}
+                      </td>
+                    </tr>
 
                     <tr style="background-color: rgb(235, 234, 234)">
                         <td class="text-center" colspan="2">المرتجعات</td>
                         <td class="hidden d-none"></td>
-                        <td class="text-center">الكمية</td>
+                        <td class="text-center hidden d-none">اجمالى الكمية</td>
 
-                        <td class="text-center">{{$total_returns_item= $returns->sum('items_count')}}</td>
-                        <td class="text-center"> المبلغ</td>
+                        <td class="text-center hidden d-none">{{$total_returns_item= $returns->sum('items_count')}}</td>
+                        <td class="text-center" colspan="2"> المبلغ</td>
 
-                        <td  class="text-center">{{$total_returns_amount= $returns->sum('amount')}}</td>
+                        <td  class="text-center" colspan="2">{{$total_returns_amount= $returns->sum('amount')}}</td>
                     </tr>
 
                     <tr style="background-color: rgb(235, 234, 234)">
-                        <td class="text-center" colspan="2">الاجمالى</td>
+                        <td class="text-center" colspan="2">الصافى</td>
                         <td class="hidden d-none"></td>
-                        <td class="hidden d-none"></td>
-                        <td class="hidden d-none"></td>
+                        <td class="text-center hidden d-none">
 
-                        <td colspan="2" class="text-center">{{ $total_sales_item-$total_returns_item}}</td>
-                        <td colspan="2" class="text-center">{{$total_sales_amount-$total_returns_amount}}</td>
+
+                        </td>
+
+                        <td  class="text-center" class="text-center hidden d-none" ></td>
+                        <td class="text-center"colspan="2" >صافى المبلغ</td>
+
+                        <td  class="text-center" colspan="2">{{$total_sales_amount-$total_returns_amount}}</td>
                     </tr>
 
 
