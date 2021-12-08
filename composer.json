@@ -25,6 +25,7 @@
         "milon/barcode": "^8.0",
         "orangehill/iseed": "^3.0",
         "realrashid/sweet-alert": "^3.2",
+        "salla/zatca": "^1.0",
         "simplesoftwareio/simple-qrcode": "~4",
         "spatie/laravel-permission": "4.0.0",
         "spatie/laravel-translatable": "^4.5",
