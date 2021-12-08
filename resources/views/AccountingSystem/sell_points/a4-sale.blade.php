@@ -167,7 +167,7 @@
                                 @foreach($sale->items as $value)
                                     <tr>
 {{--                                        @dd($value->priceWithoutTax($tax_percent))--}}
-                                        <td>{{ round($value->priceWithoutTax($tax_percent) * $value->quantity,2)}}
+                                        <td>{{ round($value->price * $value->quantity,2)}}
                                         </td>
                                         <td>
 
