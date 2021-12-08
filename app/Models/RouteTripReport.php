@@ -238,6 +238,6 @@ class RouteTripReport extends Model
     {
         $tax_percent=(float)(getsetting('general_taxs')) /100;
         $tax_amount= round($this->product_total() * $tax_percent, 2);
-        return $$this->product_total() + $tax_amount;
+        return $this->product_total() + $tax_amount;
     }
 }
