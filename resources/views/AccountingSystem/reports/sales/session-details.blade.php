@@ -102,7 +102,7 @@
                         <td class="hidden d-none"></td>
 
                         <td  class="text-center" > الكاش</td>
-                        <td  class="text-center">{{$total_sales_item=$sales->sum('cash')}}</td>
+                        <td  class="text-center">{{$sales->sum('cash')}}</td>
 
                         <td class="text-center" >الشبكة</td>
                         <td  class="text-center">
@@ -125,17 +125,17 @@
                     </tr>
 
                     <tr style="background-color: rgb(235, 234, 234)">
-                        <td class="text-center" colspan="2" rowspan="2">المرتجعات</td>
+                        <td class="text-center" colspan="2" >المرتجعات</td>
                         <td class="hidden d-none"></td>
-                        <td  class="text-center" > الكاش</td>
-                        <td  class="text-center">{{$total_sales_item=$sales->sum('cash')}}</td>
+                        <td class="text-center hidden d-none">اجمالى الكمية</td>
 
-                        <td class="text-center" >الشبكة</td>
-                        <td  class="text-center">
-                            {{$sales->sum('network')}}
-                        </td>
+                        <td class="text-center hidden d-none">{{$total_returns_item= $returns->sum('items_count')}}</td>
+                        <td class="text-center" colspan="3"> المبلغ</td>
+
+                        <td  class="text-center" >{{$total_returns_amount= $returns->sum('amount')}}</td>
+                    </tr> 
                     </tr>
-
+{{--
                     <tr style="background-color: rgb(235, 234, 234)">
                         <td class="hidden d-none" ></td>
                         <td class="hidden d-none"></td>
@@ -145,7 +145,7 @@
                         <td class="text-center" colspan="3"> المبلغ</td>
 
                         <td  class="text-center" >{{$total_returns_amount= $returns->sum('amount')}}</td>
-                    </tr>
+                    </tr> --}}
 
 
                     <tr style="background-color: rgb(235, 234, 234)">
