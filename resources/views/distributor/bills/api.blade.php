@@ -150,7 +150,7 @@
                                 @endif
                             </td>
                             <td>{{ $value->quantity }}</td>
-                            <td>{{ round($value->price,3) }}</td>
+                            <td>{{ round(($value->price * 100 / ((int)$tax+100)),3) }}</td>
                             <td>{{round( ($value->price - ($value->price * 100 / ((int)$tax+100))),3)}}</td>
                             <td>{{ round($value->price * $value->quantity,3) }}</td>
 
