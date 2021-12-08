@@ -30,11 +30,11 @@
                 <div class="yurSections">
                     <div class="row">
                         <div class="col-xs-12">
-                            <form action="" method="get" accept-charset="utf-8">
+                            <form action="" method="post" accept-charset="utf-8">
                                 @csrf
                             <div class="form-group col-sm-3">
                                 <label> الكاشير </label>
-                                {!! Form::select("user_id",$sellers, request('user_id'),['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الكاشير','data-live-search'=>'true','id'=>'user_id'])!!}
+                                {!! Form::select("user_id",$sellers, request('user_id'),['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الشركة','data-live-search'=>'true','id'=>'user_id'])!!}
                             </div>
 
                             <div class="form-group col-sm-3">
