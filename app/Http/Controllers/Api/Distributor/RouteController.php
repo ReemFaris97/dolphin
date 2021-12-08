@@ -22,6 +22,7 @@ use App\Traits\Distributor\RouteOperation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use PDF;
 
 class RouteController extends Controller
 {
@@ -155,6 +156,9 @@ class RouteController extends Controller
     public function print_bill($id)
     {
         $bill = RouteTripReport::find(decrypt(str_replace('.html', '', $id)));
+        $pdf = PDF::setOption('margin-bottom', 0)->setOption('margin-top',10)
+            ->loadView('distributor.bills.api',['bill'=>$bill])->setPaper('a4');
+        return $pdf->inline();
         return view('distributor.bills.api', compact('bill'));
     }
     public function lastBill(Request $request)

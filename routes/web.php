@@ -16,6 +16,17 @@ use App\Models\AccountingSystem\AccountingAsset;
 use App\Models\AccountingSystem\AccountingAssetDamageLog;
 use App\Models\AccountingSystem\AccountingProductSubUnit;
 use Carbon\Carbon;
+use Barryvdh\Snappy\PdfWrapper;
+Route::get('test-pdf',function (){
+    $routetrip=\App\Models\RouteTripReport::find(15);
+//return view('distributor.bills.api',['bill'=>$routetrip])->render();
+/*   $pdf=\PDF::loadHTML();
+   return $pdf->stream();*/
+//    PDF::loadHTML()
+//    Barryvdh\Snappy\Facades\SnappyPdf::class
+
+
+});
 
 Route::get('test', function () {
 
