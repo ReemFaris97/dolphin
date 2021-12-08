@@ -817,14 +817,12 @@ class ProductController extends Controller
         return branches_only($id);
     }
 
-
     public function getfaces($id)
     {
         $requests = \Request::all();
         $company_id =\Arr::get($requests,'company_id');
         return faces($id, $company_id);
     }
-
 
     public function getcolums($id)
     {
