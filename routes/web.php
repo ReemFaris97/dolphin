@@ -24,7 +24,11 @@ Route::get('test-pdf',function (){
    return $pdf->stream();*/
 //    PDF::loadHTML()
 //    Barryvdh\Snappy\Facades\SnappyPdf::class
+    $pdf = PDF::setOption('page-height', '20000000mm')->setOption('margin-bottom', 0)->setOption('margin-top',10)
+        ->loadView('distributor.bills.api',['bill'=>$routetrip])->setPaper('a4');
 
+
+    return $pdf->inline();
 
 });
 

@@ -12,7 +12,7 @@
     <style>
         * {
             font-family: 'Swiss 721 Medium Italic' !important;
-             font-size:42px;
+             font-size:35px;
 
         }
 
@@ -129,13 +129,13 @@
                 <table>
                     <thead>
                     <tr>
-                        <th><p style="margin: 0px 20px">م</p></th>
-                        <th><p style="margin: 0px 20px">اسم الصنف</p></th>
-                        <th><p style="margin: 0px 20px">الوحدة</p></th>
-                        <th><p style="margin: 0px 20px">الكمية</p></th>
-                        <th><p style="margin: 0px 20px">السعر</p></th>
-                        <th><p style="margin: 0px 20px">ضريبة</p></th>
-                        <th><p style="margin: 0px 20px">المبلغ</p></th>
+                        <th><p style="margin: 0px 15px">م</p></th>
+                        <th><p style="margin: 0px 15px">اسم الصنف</p></th>
+                        <th><p style="margin: 0px 15px">الوحدة</p></th>
+                        <th><p style="margin: 0px 15px">الكمية</p></th>
+                        <th><p style="margin: 0px 15px">السعر</p></th>
+                        <th><p style="margin: 0px 15px">ضريبة</p></th>
+                        <th><p style="margin: 0px 15px">المبلغ</p></th>
                     </tr>
                     </thead>
                     <tbody>
