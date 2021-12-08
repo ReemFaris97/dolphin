@@ -170,11 +170,14 @@ class RouteController extends Controller
         if ($bill==null) {
             return $this->apiResponse(
                 ['msg' => 'لا يوجد فاتوره',
+                'client_name'=>null,
                  'bill' =>null]
             );
         }
         return $this->apiResponse(
             ['msg' => 'تم ايجاد الفاتورة بنجاح',
+            'client_name'=>$bill->client_name,
+
              'bill' => url('/api/distributor/bills/print_bill/' . encrypt($bill->id))]
         );
     }
