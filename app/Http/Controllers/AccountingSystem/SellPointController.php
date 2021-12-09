@@ -63,8 +63,8 @@ class SellPointController extends Controller
                     return $b->where(function ($q) use ($request) {
                         $q->where('name', 'LIKE', '%' . $request->search . '%')->orWhere('en_name', 'LIKE', '%' . $request->search . '%')->orWhere('description', 'LIKE', '%' . $request->search . '%')->orWhere('bar_code', 'like', '%' . $request->search . '%');
                     });
-                })->orwhereHas('barcodes', fn($b) => $b->where('barcode', 'like', "%$request->search%"))
-                ->orwhereHas('sub_units', fn($b) => $b->where('bar_code', 'like', "%$request->search%"))
+                })->orwhereHas('barcodes', fn ($b) => $b->where('barcode', 'like', "%$request->search%"))
+                ->orwhereHas('sub_units', fn ($b) => $b->where('bar_code', 'like', "%$request->search%"))
                 // ->where('store_id', $id)
                 ->paginate(20);
 
@@ -130,17 +130,17 @@ class SellPointController extends Controller
 //            ->where('model_type', AccountingStore::class)
 //            ->pluck('model_id', 'id')->toArray();
 //        $stores = AccountingStore::whereIn('id', $userstores)->pluck('ar_name', 'id')->toArray();
-//////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////
 
-        if(Cookie::get('session')!=null){
+        if (Cookie::get('session')!=null) {
             return  redirect(
-                route('accounting.invoices.current',Cookie::get('session'))
+                route('accounting.invoices.current', Cookie::get('session'))
             );
         }
-        $shift_id = AccountingBranchShift::whereTime('from','<=', now())
-                                 ->whereTime('to','>=', now())->first()->id;
-        $device_id = AccountingDevice::where('available', 1)->first()->id;
-        $store_id = optional(AccountingStore::where('user_id',auth()->user()->id)->first())->id??AccountingStore::first()->store_id;
+        $shift_id = optional(AccountingBranchShift::whereTime('from', '<=', now())
+                                 ->whereTime('to', '>=', now())->first())->id??AccountingBranchShift::first()->id;
+        $device_id = optional(AccountingDevice::where('available', 1)->first())->id??AccountingDevice::latest()->first()->id;
+        $store_id = optional(AccountingStore::where('user_id', auth()->user()->id)->first())->id??AccountingStore::first()->store_id;
 
         $params = new FormRequest([
             'shift_id'=>$shift_id,
@@ -149,7 +149,7 @@ class SellPointController extends Controller
         ]);
 
         return App::make(SessionController::class)->store($params);
-      //  return app(SessionController::class)->action('store', $params);
+        //  return app(SessionController::class)->action('store', $params);
 
         //  return view('AccountingSystem.sell_points.login', compact('users', 'devices', 'stores'));
     }
@@ -159,8 +159,8 @@ class SellPointController extends Controller
     {
         $quantity = 1;
         $product = AccountingProduct::query()->ofBarcode($q)
-            ->with(['sub_units' => fn($query) => $query->ofBarcode($q)])
-            ->withCount(['sub_units' => fn($query) => $query->ofBarcode($q)])
+            ->with(['sub_units' => fn ($query) => $query->ofBarcode($q)])
+            ->withCount(['sub_units' => fn ($query) => $query->ofBarcode($q)])
             ->orderBy('sub_units_count', 'asc')->first();
         if (!$product) {
             if (str_starts_with($q, getsetting('weight_code'))) {
@@ -173,11 +173,10 @@ class SellPointController extends Controller
                 $grams = substr($quantity, 2);
                 $quantity = ((int)$kilo * 1000) + $grams / 10;
                 $product = AccountingProduct::query()->ofBarcode($q)
-                    ->with(['sub_units' => fn($query) => $query->ofBarcode($q)])
-                    ->withCount(['sub_units' => fn($query) => $query->ofBarcode($q)])
+                    ->with(['sub_units' => fn ($query) => $query->ofBarcode($q)])
+                    ->withCount(['sub_units' => fn ($query) => $query->ofBarcode($q)])
                     ->orderBy('sub_units_count', 'asc')->first();
             }
-
         }
 
 
