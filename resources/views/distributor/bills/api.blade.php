@@ -155,8 +155,8 @@
                             </td>
                             <td><p style="font-size: 15px; font-weight: bold">{{ $value->quantity }}</p></td>
                             <td><p style="font-size: 15px; font-weight: bold">{{ round($value->price,3) }}</p></td>
-                            <td><p style="font-size: 15px; font-weight: bold">{{round( ($value->price - ($value->price * 100 / ((int)$tax+100))),3)}}</p></td>
-                            <td><p style="font-size: 15px; font-weight: bold">{{ round($value->price * $value->quantity,3) }}</p></td>
+                            <td><p style="font-size: 15px; font-weight: bold">{{$product_tax=round( ($value->price - ($value->price * 100 / ((int)$tax+100))),3)}}</p></td>
+                            <td><p style="font-size: 15px; font-weight: bold">{{ round($value->price * $value->quantity,3)+($product_tax*$value->quantity) }}</p></td>
 
                         </tr>
                     @endforeach
@@ -176,7 +176,7 @@
                     </tr>
                     <tr>
                         <td> <p style="margin: 0px 20px">اجمالى الفاتورة</p></td>
-                        <td> <p style="margin: 0px 20px">{{ $bill->product_total() }}</p></td>
+                        <td> <p style="margin: 0px 20px">{{ $total }}</p></td>
                     </tr>
                     <tr>
                         <td> <p style="margin: 0px 20px">المبلغ كتابة</p></td>
