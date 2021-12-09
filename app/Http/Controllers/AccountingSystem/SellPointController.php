@@ -137,8 +137,8 @@ class SellPointController extends Controller
                 route('accounting.invoices.current', Cookie::get('session'))
             );
         }
-        $shift_id = AccountingBranchShift::whereTime('from', '<=', now())
-                                 ->whereTime('to', '>=', now())->first()->id;
+        $shift_id = optional(AccountingBranchShift::whereTime('from', '<=', now())
+                                 ->whereTime('to', '>=', now())->first())->id??AccountingBranchShift::first()->id;
         $device_id = optional(AccountingDevice::where('available', 1)->first())->id??AccountingDevice::latest()->first()->id;
         $store_id = optional(AccountingStore::where('user_id', auth()->user()->id)->first())->id??AccountingStore::first()->store_id;
 
