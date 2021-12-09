@@ -12,7 +12,7 @@
     <style>
         * {
             font-family: 'Swiss 721 Medium Italic' !important;
-             font-size:25px;
+             font-size:20px;
 
         }
 
@@ -75,11 +75,8 @@
                         <td> <p style="margin: 0px 20px">سجل تجارى</p></td>
                         <td> <p style="margin: 0px 20px">1131021506</p></td>
                     </tr>
-                    </tbody>
-                </table>
-                <p>........................................................................................................</p>
-                <table>
-                    <tbody>
+                    <tr><td >..............................................</td>
+                        <td >..............................................</td></tr>
                     <tr>
                         <td> <p style="margin: 0px 20px">التاريخ</p></td>
                         <td> <p style="margin: 0px 20px">{{$bill->created_at}}</p></td>
@@ -136,13 +133,13 @@
                 <table>
                     <thead>
                     <tr>
-                        <th><p style="margin: 0px 7.5px">م</p></th>
-                        <th><p style="margin: 0px 7.5px">اسم الصنف</p></th>
-                        <th><p style="margin: 0px 7.5px">الوحدة</p></th>
-                        <th><p style="margin: 0px 7.5px">الكمية</p></th>
-                        <th><p style="margin: 0px 7.5px">السعر</p></th>
-                        <th><p style="margin: 0px 7.5px">ضريبة</p></th>
-                        <th><p style="margin: 0px 7.5px">المبلغ</p></th>
+                        <th><p style="margin: 0px 7.5px; font-size: 15px; font-weight: bold">م</p></th>
+                        <th><p style="margin: 0px 7.5px; font-size: 15px; font-weight: bold">اسم الصنف</p></th>
+                        <th><p style="margin: 0px 7.5px; font-size: 15px; font-weight: bold">الوحدة</p></th>
+                        <th><p style="margin: 0px 7.5px; font-size: 15px; font-weight: bold">الكمية</p></th>
+                        <th><p style="margin: 0px 7.5px; font-size: 15px; font-weight: bold">السعر</p></th>
+                        <th><p style="margin: 0px 7.5px; font-size: 15px; font-weight: bold">ضريبة</p></th>
+                        <th><p style="margin: 0px 7.5px; font-size: 15px; font-weight: bold">المبلغ</p></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -201,15 +198,18 @@
 
                 <div>
 
-                    {!! QrCode::size(350)->generate(
+                    {!! QrCode::size(300)->generate(
                                 \Salla\ZATCA\GenerateQrCode::fromArray([
-                             new Salla\ZATCA\Tags\Seller('مؤسسة دلفن التجارية'), // seller name
+                             new Salla\ZATCA\Tags\Seller('مصنع ابراهيم سليمان العثيم للتعبئة و التغليف'), // seller name
                              new Salla\ZATCA\Tags\TaxNumber('300420708200003'), // seller tax number
                              new Salla\ZATCA\Tags\InvoiceDate($bill->created_at), // invoice date as Zulu ISO8601 @see https://en.wikipedia.org/wiki/ISO_8601
                              new Salla\ZATCA\Tags\InvoiceTotalAmount($total), // invoice total amount
                              new Salla\ZATCA\Tags\InvoiceTaxAmount($tax_amount) // invoice tax amount
                          ])->toBase64()); !!}
                 </div>
+
+
+                <br>
             </div>
         </div>
     </div>
