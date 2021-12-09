@@ -146,7 +146,11 @@
                             <td><p style="font-size: 15px; font-weight: bold">{{ $value->quantity }}</p></td>
                             <td><p style="font-size: 15px; font-weight: bold">{{ round($value->price,3) }}</p></td>
                             <td><p style="font-size: 15px; font-weight: bold">{{$product_tax=round( ($value->price * $tax_percent),3)}}</p></td>
-                            <td><p style="font-size: 15px; font-weight: bold">{{ round($value->price * $value->quantity,3) }}</p></td>
+                            <td><p style="font-size: 15px; font-weight: bold">{{
+                             round($value->price * $value->quantity,3)
+                            +
+                            ($product_tax* $value->quantity)
+                            }}</p></td>
 
                         </tr>
                     @endforeach
