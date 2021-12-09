@@ -126,8 +126,6 @@
 
                     </tbody>
                 </table>
-
-                <div style="page-break-after: always"></div>
                 <p>
                     ........................................................................................................</p>
                 <table>
@@ -146,7 +144,7 @@
                     @foreach($bill->products as $value)
                         <tr>
                             <td >{!!$loop->iteration!!}</td>
-                            <td class="product-name"><p style="font-size: 20px; font-weight: bold">{{ $value->product->name }}</p></td>
+                            <td class="product-name"><p style="font-size: 15px; font-weight: bold">{{ $value->product->name }}</p></td>
                             <td><p style="font-size: 15px; font-weight: bold">
                                     @if($bill->is_packages)
                                         كرتونة
