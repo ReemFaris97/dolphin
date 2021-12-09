@@ -16,17 +16,16 @@ use App\Models\AccountingSystem\AccountingAsset;
 use App\Models\AccountingSystem\AccountingAssetDamageLog;
 use Carbon\Carbon;
 
-Route::get('test-pdf',function () {
-    $routetrip = \App\Models\RouteTripReport::findOrFail(116);
-//return view('distributor.bills.api',['bill'=>$routetrip])->render();
+Route::get('test-pdf', function () {
+    $routetrip = \App\Models\RouteTripReport::findOrFail(297);
+    //return view('distributor.bills.api',['bill'=>$routetrip])->render();
     /*   $pdf=\PDF::loadHTML();
        return $pdf->stream();*/
 //    PDF::loadHTML()
 //    Barryvdh\Snappy\Facades\SnappyPdf::class
 
 //    return view('distributor.bills.api',['bill'=>$routetrip]);
-    $pdf = PDF::
-        setOptions([
+    $pdf = PDF::setOptions([
             'margin-top'=>0,
             'margin-bottom'=>0,
             'margin-left'=>0,
@@ -36,9 +35,7 @@ Route::get('test-pdf',function () {
         ])
         ->loadView('distributor.bills.api', ['bill' => $routetrip]);
 
-
     return $pdf->inline();
-
 });
 
 Route::get('test', function () {

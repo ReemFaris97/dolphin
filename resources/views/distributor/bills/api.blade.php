@@ -36,8 +36,8 @@
         </div>
         @php($tax=getsetting('general_taxs'))
         @php($tax_percent=(float)(getsetting('general_taxs')) /100)
-        @php($tax_amount=$bill->product_total()- round($bill->product_total() * 100/ (100+$tax),2))
-        @php($total=$bill->product_total() )
+        @php($tax_amount=round($bill->product_total() * $tax_percent,2))
+        @php($total=$bill->product_total() +$tax_amount )
 
         <div id="print_small" style="display: block !important;">
             <div id="myDivToPrintsmall" style="display: block !important;">
@@ -145,8 +145,8 @@
                             </td>
                             <td><p style="font-size: 15px; font-weight: bold">{{ $value->quantity }}</p></td>
                             <td><p style="font-size: 15px; font-weight: bold">{{ round($value->price,3) }}</p></td>
-                            <td><p style="font-size: 15px; font-weight: bold">{{$product_tax=round( ($value->price - ($value->price * 100 / ((int)$tax+100))),3)}}</p></td>
-                            <td><p style="font-size: 15px; font-weight: bold">{{ round($value->price * $value->quantity,3)+($product_tax*$value->quantity) }}</p></td>
+                            <td><p style="font-size: 15px; font-weight: bold">{{$product_tax=round( ($value->price * $tax_percent),3)}}</p></td>
+                            <td><p style="font-size: 15px; font-weight: bold">{{ round($value->price * $value->quantity,3) }}</p></td>
 
                         </tr>
                     @endforeach
@@ -158,7 +158,7 @@
                     <tbody>
                     <tr>
                         <td> <p style="margin: 0px 20px">الإجمالى (بدون ضريبة)</p></td>
-                        <td> <p style="margin: 0px 20px">{{round( $bill->product_total() * 100/(100+$tax),3)}}</p></td>
+                        <td> <p style="margin: 0px 20px">{{$bill->product_total()}}</p></td>
                     </tr>
                     <tr>
                         <td> <p style="margin: 0px 20px">قيمة القيمة المضافة</p></td>
