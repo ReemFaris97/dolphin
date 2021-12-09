@@ -183,7 +183,8 @@
                                 <tbody>
                                 @foreach($bill->products as $value)
                                     <tr>
-                                        <td>{{ ($value->price * $value->quantity) }}</td>
+                                        <td>{{ ($value->price * $value->quantity)
+                                        +($value->price * ((float) getsetting('general_taxs')??0)/100) }}</td>
                                         <td>
 
                                             {{ ($value->price * ((float) getsetting('general_taxs')??0)/100)}}
@@ -227,7 +228,7 @@
 
                                     {!! QrCode::size(100)->generate(
                                   \Salla\ZATCA\GenerateQrCode::fromArray([
-                               new Salla\ZATCA\Tags\Seller('مؤسسة دلفن التجارية'), // seller name
+                               new Salla\ZATCA\Tags\Seller('مصنع ابراهيم سليمان العثيم للتعبئة و التغليف'), // seller name
                                new Salla\ZATCA\Tags\TaxNumber('300420708200003'), // seller tax number
                                new Salla\ZATCA\Tags\InvoiceDate($bill->created_at), // invoice date as Zulu ISO8601 @see https://en.wikipedia.org/wiki/ISO_8601
                                new Salla\ZATCA\Tags\InvoiceTotalAmount($total), // invoice total amount
@@ -421,9 +422,9 @@
                         </td>
                         <td>{{ $value->quantity }}</td>
                         <td>{{ round($value->price * $value->quantity,3) }}</td>
-                        <td>{{round( ($value->price * ((float) getsetting('general_taxs')??0)/100),3)}}</td>
+                        <td>{{$product_tax= round( ($value->price * ((float) getsetting('general_taxs')??0)/100),3)}}</td>
 
-                        <td>{{ round($value->price,3) }}</td>
+                        <td>{{ round($value->price,3)+$product_tax }}</td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -459,7 +460,7 @@
             <div style="margin-top:20px">
                 {!! QrCode::size(400)->generate(
                     \Salla\ZATCA\GenerateQrCode::fromArray([
-                 new Salla\ZATCA\Tags\Seller('مؤسسة دلفن التجارية'), // seller name
+                 new Salla\ZATCA\Tags\Seller('مصنع ابرهيم العثيم للتعبئة والتغليف'), // seller name
                  new Salla\ZATCA\Tags\TaxNumber('300420708200003'), // seller tax number
                  new Salla\ZATCA\Tags\InvoiceDate($bill->created_at), // invoice date as Zulu ISO8601 @see https://en.wikipedia.org/wiki/ISO_8601
                  new Salla\ZATCA\Tags\InvoiceTotalAmount($total), // invoice total amount
