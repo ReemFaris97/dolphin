@@ -17,7 +17,7 @@ use App\Models\AccountingSystem\AccountingAssetDamageLog;
 use Carbon\Carbon;
 
 Route::get('test-pdf',function () {
-    $routetrip = \App\Models\RouteTripReport::findOrFail(15);
+    $routetrip = \App\Models\RouteTripReport::findOrFail(116);
 //return view('distributor.bills.api',['bill'=>$routetrip])->render();
     /*   $pdf=\PDF::loadHTML();
        return $pdf->stream();*/
@@ -31,7 +31,7 @@ Route::get('test-pdf',function () {
             'margin-bottom'=>0,
             'margin-left'=>0,
             'margin-right'=>0,
-            'page-height'=>270 + ($routetrip->products()->count() * 8),
+            'page-height'=>250 + ($routetrip->products()->count() * 8),
             'page-width'=>110
         ])
         ->loadView('distributor.bills.api', ['bill' => $routetrip]);

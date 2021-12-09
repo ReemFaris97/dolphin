@@ -162,7 +162,7 @@ class RouteController extends Controller
             'margin-bottom'=>0,
             'margin-left'=>0,
             'margin-right'=>0,
-            'page-height'=>270 + ($bill->products()->count() * 8),
+            'page-height'=>250 + ($bill->products()->count() * 8),
             'page-width'=>110
         ])->loadView('distributor.bills.api',['bill'=>$bill]);
         return $pdf->download(Str::snake("{$bill->product_total()} $bill->created_at").".pdf");

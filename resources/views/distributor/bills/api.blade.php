@@ -57,16 +57,6 @@
                     </tr>
                     <tr>
 
-                        <td> <p style="margin: 0px 20px">الهاتف</p></td>
-                        <td> <p style="margin: 0px 20px">0163231301</p></td>
-                    </tr>
-                    <tr>
-
-                        <td> <p style="margin: 0px 20px">الفاكس</p></td>
-                        <td> <p style="margin: 0px 20px">0163231301</p></td>
-                    </tr>
-                    <tr>
-
                         <td> <p style="margin: 0px 20px">الرقم الضريبى</p></td>
                         <td> <p style="margin: 0px 20px">300420708200003</p></td>
                     </tr>
