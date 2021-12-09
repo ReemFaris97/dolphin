@@ -896,8 +896,8 @@
 							<span style="margin-right:5px;text-align:left;"> {!! optional($sale_return->user)->name !!}</span>
 						</div>
 						<div class="one-bill-inpt the-bill-numbere the-bill-number">
-							<span>رقم الفاتوره</span>
-							{!! $sale_return->counter_sale !!}
+							<span>فاتورة مرتجع</span>
+							{!! $sale_return->id !!}
 						</div>
 
 
