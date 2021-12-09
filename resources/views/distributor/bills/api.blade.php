@@ -12,7 +12,7 @@
     <style>
         * {
             font-family: 'Swiss 721 Medium Italic' !important;
-             font-size:35px;
+             font-size:25px;
 
         }
 
@@ -54,6 +54,8 @@
                     <tr>
                         <td> <p style="margin: 0px 20px">العنوان</p></td>
                         <td colspan="3"> <p style="margin: 0px 20px">المملكة العربية السعودية - القصيم - المدينة الصناعية الثانية بالقصيم</p></td>
+                    </tr>
+                    <tr>
 
                         <td> <p style="margin: 0px 20px">الهاتف</p></td>
                         <td> <p style="margin: 0px 20px">0163231301</p></td>
@@ -62,9 +64,13 @@
 
                         <td> <p style="margin: 0px 20px">الفاكس</p></td>
                         <td> <p style="margin: 0px 20px">0163231301</p></td>
+                    </tr>
+                    <tr>
 
                         <td> <p style="margin: 0px 20px">الرقم الضريبى</p></td>
                         <td> <p style="margin: 0px 20px">300420708200003</p></td>
+                    </tr>
+                    <tr>
 
                         <td> <p style="margin: 0px 20px">سجل تجارى</p></td>
                         <td> <p style="margin: 0px 20px">1131021506</p></td>
@@ -124,6 +130,7 @@
                     </tbody>
                 </table>
 
+                <div style="page-break-after: always"></div>
                 <p>
                     ........................................................................................................</p>
                 <table>
