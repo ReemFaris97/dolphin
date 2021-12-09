@@ -147,16 +147,18 @@
                         <tr>
                             <td >{!!$loop->iteration!!}</td>
                             <td class="product-name"><p style="font-size: 20px; font-weight: bold">{{ $value->product->name }}</p></td>
-                            <td>@if($bill->is_packages)
-                                    كرتونة
-                                @else
-                                    حبة
-                                @endif
+                            <td><p style="font-size: 15px; font-weight: bold">
+                                    @if($bill->is_packages)
+                                        كرتونة
+                                    @else
+                                        حبة
+                                    @endif
+                                </p>
                             </td>
-                            <td>{{ $value->quantity }}</td>
-                            <td>{{ round($value->price,3) }}</td>
-                            <td>{{round( ($value->price - ($value->price * 100 / ((int)$tax+100))),3)}}</td>
-                            <td>{{ round($value->price * $value->quantity,3) }}</td>
+                            <td><p style="font-size: 15px; font-weight: bold">{{ $value->quantity }}</p></td>
+                            <td><p style="font-size: 15px; font-weight: bold">{{ round($value->price,3) }}</p></td>
+                            <td><p style="font-size: 15px; font-weight: bold">{{round( ($value->price - ($value->price * 100 / ((int)$tax+100))),3)}}</p></td>
+                            <td><p style="font-size: 15px; font-weight: bold">{{ round($value->price * $value->quantity,3) }}</p></td>
 
                         </tr>
                     @endforeach
