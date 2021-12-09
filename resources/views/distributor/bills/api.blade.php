@@ -196,7 +196,7 @@
 
                     {!! QrCode::size(350)->generate(
                                 \Salla\ZATCA\GenerateQrCode::fromArray([
-                             new Salla\ZATCA\Tags\Seller('مؤسسة دلفن التجارية'), // seller name
+                                    new Salla\ZATCA\Tags\Seller('مصنع ابرهيم العثيم للتعبئة والتغليف'), // seller name
                              new Salla\ZATCA\Tags\TaxNumber('300420708200003'), // seller tax number
                              new Salla\ZATCA\Tags\InvoiceDate($bill->created_at), // invoice date as Zulu ISO8601 @see https://en.wikipedia.org/wiki/ISO_8601
                              new Salla\ZATCA\Tags\InvoiceTotalAmount($total), // invoice total amount
