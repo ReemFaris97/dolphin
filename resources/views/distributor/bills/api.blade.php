@@ -136,20 +136,20 @@
                 <table>
                     <thead>
                     <tr>
-                        <th><p style="margin: 0px 15px">م</p></th>
-                        <th><p style="margin: 0px 15px">اسم الصنف</p></th>
-                        <th><p style="margin: 0px 15px">الوحدة</p></th>
-                        <th><p style="margin: 0px 15px">الكمية</p></th>
-                        <th><p style="margin: 0px 15px">السعر</p></th>
-                        <th><p style="margin: 0px 15px">ضريبة</p></th>
-                        <th><p style="margin: 0px 15px">المبلغ</p></th>
+                        <th><p style="margin: 0px 7.5px">م</p></th>
+                        <th><p style="margin: 0px 7.5px">اسم الصنف</p></th>
+                        <th><p style="margin: 0px 7.5px">الوحدة</p></th>
+                        <th><p style="margin: 0px 7.5px">الكمية</p></th>
+                        <th><p style="margin: 0px 7.5px">السعر</p></th>
+                        <th><p style="margin: 0px 7.5px">ضريبة</p></th>
+                        <th><p style="margin: 0px 7.5px">المبلغ</p></th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($bill->products as $value)
                         <tr>
-                            <td>{!!$loop->iteration!!}</td>
-                            <td class="product-name">{{ $value->product->name }}</td>
+                            <td >{!!$loop->iteration!!}</td>
+                            <td class="product-name"><p style="font-size: 20px; font-weight: bold">{{ $value->product->name }}</p></td>
                             <td>@if($bill->is_packages)
                                     كرتونة
                                 @else
