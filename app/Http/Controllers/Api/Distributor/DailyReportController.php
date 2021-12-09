@@ -44,7 +44,7 @@ class DailyReportController extends Controller
 
     public function productReport(Request $request)
     {
-        $date = Carbon::parse(convert2english($request->date) ?? date("Y-m-d"));
+        $date = Carbon::parse(($request->date) ?? date("Y-m-d"));
         $report = RouteTripReport::query()
             ->ofDistributor(auth()->id())
             ->whereDate('route_trip_reports.created_at', $date)
