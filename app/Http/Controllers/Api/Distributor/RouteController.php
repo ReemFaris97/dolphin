@@ -158,7 +158,7 @@ class RouteController extends Controller
     {
         $bill = RouteTripReport::find(decrypt(str_replace('.html', '', $id)));
         $pdf = PDF::setOption('margin-bottom', 0)->setOption('margin-top',10)
-            ->loadView('distributor.bills.api',['bill'=>$bill])->setPaper('a4');
+            ->loadView('distributor.bills.api',['bill'=>$bill])->setPaper('a6');
         return $pdf->download(Str::snake("{$bill->product_total()} $bill->created_at").".pdf");
         return view('distributor.bills.api', compact('bill'));
     }
