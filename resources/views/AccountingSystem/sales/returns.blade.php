@@ -968,12 +968,7 @@
             ).print();
         @endif
     </script>
-    <script>
-        @if (!empty(session()->has('sale_id')))
-        @php($sale_id = session()->get('sale_id'))
-        window.open(   "{{ route('accounting.sales.show', ['sale'=>$sale_id,'print'=>session('print')]) }}",  "_blank" ).print();
-        @endif
-    </script>
+
     <script>
         //   For Alerting Before closing the window
   /*      window.onbeforeunload = function(e) {
