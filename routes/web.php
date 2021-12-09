@@ -26,7 +26,7 @@ Route::get('test-pdf',function (){
 //    Barryvdh\Snappy\Facades\SnappyPdf::class
 
 //    return view('distributor.bills.api',['bill'=>$routetrip]);
-    $pdf = PDF::setOption('margin-bottom', 0)->setOption('margin-top',0)->setOption('margin-left',0)->setOption('margin-right',0)
+    $pdf = PDF::setOption('margin-bottom', 0)->setOption('margin-top',0)->setOption('margin-left',0)->setOption('margin-right',0)->setOption('page-height',250)->setOption('page-width',100)
         ->loadView('distributor.bills.api',['bill'=>$routetrip])->setPaper('a6');
 
 
