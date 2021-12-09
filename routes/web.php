@@ -17,7 +17,7 @@ use App\Models\AccountingSystem\AccountingAssetDamageLog;
 use App\Models\AccountingSystem\AccountingProductSubUnit;
 use Carbon\Carbon;
 use Barryvdh\Snappy\PdfWrapper;
-Route::get('test-pdf',function ($bill){
+Route::get('test-pdf/{bill}',function ($bill){
     $routetrip=\App\Models\RouteTripReport::findOrFail($bill);
 //return view('distributor.bills.api',['bill'=>$routetrip])->render();
 /*   $pdf=\PDF::loadHTML();
