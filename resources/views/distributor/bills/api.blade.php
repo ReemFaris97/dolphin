@@ -198,7 +198,7 @@
 
                 <div>
 
-                    {!! QrCode::size(300)->generate(
+                    {!! QrCode::size(250)->generate(
                                 \Salla\ZATCA\GenerateQrCode::fromArray([
                              new Salla\ZATCA\Tags\Seller('مصنع ابراهيم سليمان العثيم للتعبئة و التغليف'), // seller name
                              new Salla\ZATCA\Tags\TaxNumber('300420708200003'), // seller tax number
