@@ -872,7 +872,7 @@
 		<div class="col-md-12">
 			<div class="card">
 				<div class="card-body ">
-					<h4 class="card-title">الفاتوره</h4>
+					<h4 class="card-title">فاتورة مرتجع</h4>
 					<div class="container-fluid the-bill-design too-be-topped" id="div-to-print">
 						<div class="one-bill-inpt the-bill-logo text-center the-bill-number" style="border-bottom:4px solid #333;padding-bottom: 0;margin-bottom: 15px">
 							<img src="{{asset('dashboard/assets/app/media/img/logos/20191031163554-شعار رمانة.png')}}">
