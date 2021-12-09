@@ -183,7 +183,8 @@
                                 <tbody>
                                 @foreach($bill->products as $value)
                                     <tr>
-                                        <td>{{ ($value->price * $value->quantity) }}</td>
+                                        <td>{{ ($value->price * $value->quantity)
+                                        +($value->price * ((float) getsetting('general_taxs')??0)/100) }}</td>
                                         <td>
 
                                             {{ ($value->price * ((float) getsetting('general_taxs')??0)/100)}}
@@ -421,9 +422,9 @@
                         </td>
                         <td>{{ $value->quantity }}</td>
                         <td>{{ round($value->price * $value->quantity,3) }}</td>
-                        <td>{{round( ($value->price * ((float) getsetting('general_taxs')??0)/100),3)}}</td>
+                        <td>{{$product_tax= round( ($value->price * ((float) getsetting('general_taxs')??0)/100),3)}}</td>
 
-                        <td>{{ round($value->price,3) }}</td>
+                        <td>{{ round($value->price,3)+$product_tax }}</td>
                     </tr>
                 @endforeach
                 </tbody>
