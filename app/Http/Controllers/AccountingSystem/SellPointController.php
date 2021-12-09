@@ -140,7 +140,7 @@ class SellPointController extends Controller
         $shift_id = AccountingBranchShift::whereTime('from','<=', now())
                                  ->whereTime('to','>=', now())->first()->id;
         $device_id = AccountingDevice::where('available', 1)->first()->id;
-        $store_id = AccountingStore::where('user_id',auth()->user()->id)->first()->id;
+        $store_id = optional(AccountingStore::where('user_id',auth()->user()->id)->first())->id??AccountingStore::first()->store_id;
 
         $params = new FormRequest([
             'shift_id'=>$shift_id,
