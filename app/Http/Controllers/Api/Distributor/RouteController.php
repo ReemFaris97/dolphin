@@ -40,14 +40,14 @@ class RouteController extends Controller
 
     public function currentTrips()
     {
-        $routes = DistributorRoute::with('trips')
+        $routes = DistributorRoute::with(['trips'=>fn ($trips) => $trips->with('client')])
             ->where('user_id', auth()->id())
             ->where(['is_available' => 1])
             ->orderBy('round', 'asc')
             ->orderBy('arrange', 'asc')
             ->get();
 
-        $active_route = DistributorRoute::with('trips')
+        $active_route = DistributorRoute::with(['trips'=>fn ($trips) => $trips->with('client')])
             ->where('user_id', auth()->id())
             ->where(['is_available' => 1])
             ->orderBy('round', 'asc')
