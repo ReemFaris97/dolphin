@@ -54,7 +54,7 @@
                 </td>
                 <input type="hidden" name="products[{{$key}}][product_id]" value="{{$old_product['product_id']}}">
                 <input type="hidden" name="products[{{$key}}][quantity]" value="{{$old_product['quantity']}}">
-                <input type="hidden" name="products[{{$key}}][package]" value="{{$old_product['packages']}}">
+                <input type="hidden" name="products[{{$key}}][package]" value="{{$old_product['package']}}">
                 <input type="hidden" name="products[{{$key}}][units]" value="{{$old_product['units']}}">
                 <input type="hidden" name="products[{{$key}}][unit_per_package]"
                        value="{{$old_product['unit_per_package']}}">
@@ -92,7 +92,7 @@
                     '<td><button onClick="$(this).closest(\'tr\').remove();" class="removeRow btn btn-danger">حذف</button></td>\n' +
                     '<input type="hidden" name="products[' + key + '][product_id]" value="' + product_id + '">' +
                     '<input type="hidden" name="products[' + key + '][quantity]" value="' + quantity + '">' +
-                    '<input type="hidden" name="products[' + key + '][packages]" value="' + $('#product_package').val() + '">' +
+                    '<input type="hidden" name="products[' + key + '][package]" value="' + $('#product_package').val() + '">' +
                     '<input type="hidden" name="products[' + key + '][units]" value="' + $('#product_unit').val() + '">' +
                     '<input type="hidden" name="products[' + key + '][unit_per_package]" value="' + product_unit_per_package + '">' +
                     '<input type="hidden" name="products[' + key + '][product_name]" value="' + product_name + '">' +
