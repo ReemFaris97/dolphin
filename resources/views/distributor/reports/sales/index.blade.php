@@ -142,6 +142,21 @@
                         <div id="">
                             @include('distributor.reports.sales._table')
                         </div>
+                          <div class="content-num-visit">
+                            <div class="visitss">
+                                <div class="block">عدد الزيارات </div>
+                                <div>{{$trips->count()}}</div>
+                            </div>
+                            <div class="visitss">
+                                <div class="block"> اجمالي مرات الرفض </div>
+                                <div>        {{$trips->where('type','refuse')->count()}}</div>
+                            </div>
+                            <div class="visitss">
+                                <div class="block">اجمالي المبيعات</div>
+                                <div>  {{round($total_price,3)}}</div>
+                            </div>
+                        </div>
+
                         <div class="m-content">
                             <div class="row">
                                 <div class="col-12">
@@ -165,6 +180,7 @@
                                 </div>
                             </div>
                         </div>
+
 
                     </div>
                 </div>
