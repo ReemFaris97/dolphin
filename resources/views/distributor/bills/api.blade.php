@@ -82,7 +82,6 @@
                         <td> <p style="margin: 0px 20px">كود العميل</p></td>
                         <td> <p style="margin: 0px 20px">{{optional(optional($bill->route_trip)->client)->code}}</p></td>
                     </tr>
-
                     <tr>
                         <td> <p style="margin: 0px 20px">اسم العميل</p></td>
                         <td> <p style="margin: 0px 20px">{{optional(optional($bill->route_trip)->client)->name}}</p></td>

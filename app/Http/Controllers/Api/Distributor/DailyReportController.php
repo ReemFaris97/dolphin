@@ -46,8 +46,8 @@ class DailyReportController extends Controller
     {
         $date = Carbon::parse(convert2english($request->date) ?? date("Y-m-d"));
         $report = RouteTripReport::query()
-            ->ofDistributor(131)
-            ->whereDate('route_trip_reports.created_at', '2021-12-11')
+            ->ofDistributor(auth()->id())
+            ->whereDate('route_trip_reports.created_at',$date)
             ->groupBy('product_id')
             ->withProductsPrice()
             ->selectRaw('
