@@ -50,7 +50,7 @@ class SaleController extends Controller
 
         $sales = $sales->groupBy('distributor_id')->groupBy('product_id')
             ->groupBy('name')
-            ->selectRaw('name,product_id,sum(price) as price,sum(quantity) as quantity ,sum(quantity_in_package) as quantity_in_package')
+            ->selectRaw('name,product_id,sum(price * quantity) as price,sum(quantity) as quantity ,sum(quantity_in_package) as quantity_in_package')
             ->get();
         $total_price = $sales->sum('price');
         $total_quantity = $sales->sum('quantity');
