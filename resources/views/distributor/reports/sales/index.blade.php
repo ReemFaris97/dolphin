@@ -165,20 +165,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="content-num-visit">
-                            <div class="visitss">
-                                <div class="block">عدد الزيارات </div>
-                                <div>147</div>
-                            </div>
-                            <div class="visitss">
-                                <div class="block"> اجمالي مرات الرفض </div>
-                                <div>147</div>
-                            </div>
-                            <div class="visitss">
-                                <div class="block">اجمالي المبيعات</div>
-                                <div>147</div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
 
