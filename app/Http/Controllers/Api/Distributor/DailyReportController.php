@@ -44,10 +44,10 @@ class DailyReportController extends Controller
 
     public function productReport(Request $request)
     {
-        $date = Carbon::parse(convert2english($request->date) ?? date("Y-m-d"));
+        $date ='2021-12-11'; /* Carbon::parse(convert2english($request->date) ?? date("Y-m-d")) */;
         $report = RouteTripReport::query()
-            ->ofDistributor(auth()->id())
-            ->whereDate('route_trip_reports.created_at',$date)
+            ->ofDistributor(131)
+            ->whereDate('route_trip_reports.created_at', $date)
             ->groupBy('product_id')
             ->withProductsPrice()
             ->selectRaw('
@@ -59,7 +59,8 @@ class DailyReportController extends Controller
             ->addSelect(DB::raw('sum(visa) as total_visa'))
             ->addSelect(DB::raw('sum(total_money) as total_money'))
             ->addSelect(DB::raw('(select name from products where products.id = product_id limit 1 ) as product_name'))
-            ->latest()->get();
+            ->latest()
+            ->get();
         $expenses = Expense::whereDate('date', $date)->sum('amount');
 
         if (request('from') != null && \request('to')) {
@@ -79,7 +80,6 @@ class DailyReportController extends Controller
 
         $tax = AccountingSetting::find(82)->value;
         $report =   $report->map(function ($report) use ($tax) {
-            dd($report);
             $report['products_price'] =(string) round(
                 ($report['products_price']
                 +

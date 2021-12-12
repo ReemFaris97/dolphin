@@ -275,14 +275,14 @@ class RouteController extends Controller
 
     public function store(Request $request)
     {
-        $request['products'] = json_decode($request->products, true);
+        $request['products'] = json_decode($request->products??"", true);
         $rules = [
             'route_id' => 'required|integer|exists:distributor_routes,id',
-            'cash' => 'required|numeric',
+            'cash' => 'null|numeric',
             // 'visa' => 'required|numeric',
-            'expenses' => 'required|numeric',
-            'image' => 'required|mimes:jpg,jpeg,gif,png',
-            'products' => 'required|array',
+            'expenses' => 'nullable|numeric',
+            'image' => 'nullable|mimes:jpg,jpeg,gif,png',
+            'products' => 'nullable|array',
             'products.*.product_id' => 'required|integer|exists:products,id',
             'products.*.quantity' => 'required|integer',
         ];
