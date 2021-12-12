@@ -17,7 +17,7 @@ class ChangColumnNullableToRouteReports extends Migration
             $table->decimal('cash')->nullable()->change();
             $table->decimal('expenses')->nullable()->change();
             $table->string('image')->nullable()->change();
-            // $table->string('visa')->nullable();
+            $table->string('visa')->nullable();
         });
     }
 

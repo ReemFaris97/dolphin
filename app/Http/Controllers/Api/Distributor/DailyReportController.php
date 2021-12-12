@@ -59,6 +59,7 @@ class DailyReportController extends Controller
             ->addSelect(DB::raw('sum(visa) as total_visa'))
             ->addSelect(DB::raw('sum(total_money) as total_money'))
             ->addSelect(DB::raw('(select name from products where products.id = product_id limit 1 ) as product_name'))
+            ->addSelect(DB::raw('sum(if(paid_at is not null,total_money,0)) as total_paid'))
             ->latest()
             ->get();
         $expenses = Expense::whereDate('date', $date)->sum('amount');
@@ -95,7 +96,7 @@ class DailyReportController extends Controller
             'total_cash' => (string) $report->sum('total_cash'),
             'total_visa' => (string) $report->sum('total_visa'),
             'total_money' => (string) $report->sum('total_money'),
-            'total_remaining' =>  (string) (round($report->sum('products_price') - $report->sum('total_money'), 4)),
+            'total_remaining' =>  (string) (round($report->sum('total_money') - $report->sum('total_paid'), 4)),
             'total_quantities' => (string) ($report->sum('products_price') - $expenses),
             'total_expenses' => (string) $expenses
         ]);
