@@ -517,7 +517,8 @@
         /* size: 8cm auto;
       width: 8cm; */
         margin: 0 5px;
-        overflow-y: auto;
+        size: 11cm;
+        /*overflow-y: auto;*/
         width: 100%;
         height: 100%;
         page-break-after: always;
@@ -529,7 +530,7 @@
         page-break-after: always;
         padding-bottom: 0px;
         background: none;
-        
+
     }
 
     #myDivToPrint,
@@ -574,3 +575,75 @@ th div p {
 }
 
 /*# sourceMappingURL=bill-Print.css.map */
+* {
+    -webkit-print-color-adjust: exact;
+}
+
+body {
+    margin: 0;
+    direction: rtl;
+}
+
+p {
+    margin: 0;
+}
+
+#myDivToPrintsmall {
+    display: block;
+    /*width: 24cm;*/
+    text-align: center;
+    margin: 0 auto;
+    font-size:25px
+
+}
+
+img[alt="logo"] {
+    width: 100px;
+}
+
+table {
+    font-size: 25px;
+
+
+}
+
+th,
+td {
+    padding-left: 4px
+}
+
+.details-container {
+    /*display: flex;*/
+    justify-content: space-between;
+}
+
+.details-container p {
+    text-align: start;
+}
+
+.details-container p:first-child {
+    width: 135px;
+
+}
+
+.details-container p:nth-child(2) {
+    flex-grow: 4;
+    max-width: 280px;
+
+}
+
+.details-container p:nth-child(2) {
+    flex-grow: 4;
+    max-width: 280px;
+    white-space: pre-line;
+}
+
+.smll-size-price {
+    font-size: 12px;
+}
+
+@media print {
+    .details-container p:nth-child(2) {
+        white-space: pre-line;
+    }
+}
