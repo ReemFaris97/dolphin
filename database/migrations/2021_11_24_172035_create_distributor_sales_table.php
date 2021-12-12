@@ -23,6 +23,7 @@ class CreateDistributorSalesTable extends Migration
         stores.id AS store_id,
         `route_trip_reports`.`created_at`,
         attached_products.quantity,
+        (attached_products.quantity /products.quantity_per_unit) quantity_in_package,
         attached_products.price
     FROM
         attached_products

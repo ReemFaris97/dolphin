@@ -6,8 +6,7 @@
     <title>{{$bill->client_name}}</title>
     <link rel="icon" href="img/logo.png">
     {{--    <link rel="stylesheet" href={!! asset('dashboard/assets/css/main.css') !!}>--}}
-    <link href="{!! asset('dashboard/assets/vendors/base/bill-print.css') !!}" rel="stylesheet" type="text/css" />
-    <link href="{!! asset('dashboard/assets/vendors/base/bill-print-11cm.css') !!}" rel="stylesheet" type="text/css"/>
+    <link href="{!! asset('dashboard/assets/vendors/base/api-bill.css') !!}" rel="stylesheet" type="text/css" />
 
     <style>
         * {
@@ -36,8 +35,8 @@
         </div>
         @php($tax=getsetting('general_taxs'))
         @php($tax_percent=(float)(getsetting('general_taxs')) /100)
-        @php($tax_amount=$bill->product_total()- round($bill->product_total() * 100/ (100+$tax),2))
-        @php($total=$bill->product_total() )
+        @php($tax_amount=round($bill->product_total() * $tax_percent,2))
+        @php($total=$bill->product_total() +$tax_amount )
 
         <div id="print_small" style="display: block !important;">
             <div id="myDivToPrintsmall" style="display: block !important;">
@@ -54,16 +53,6 @@
                     <tr>
                         <td> <p style="margin: 0px 20px">العنوان</p></td>
                         <td colspan="3"> <p style="margin: 0px 20px">المملكة العربية السعودية - القصيم - المدينة الصناعية الثانية بالقصيم</p></td>
-                    </tr>
-                    <tr>
-
-                        <td> <p style="margin: 0px 20px">الهاتف</p></td>
-                        <td> <p style="margin: 0px 20px">0163231301</p></td>
-                    </tr>
-                    <tr>
-
-                        <td> <p style="margin: 0px 20px">الفاكس</p></td>
-                        <td> <p style="margin: 0px 20px">0163231301</p></td>
                     </tr>
                     <tr>
 
@@ -153,15 +142,14 @@
                                     @endif
                                 </p>
                             </td>
-                            <td><p style="font-size: 15px; font-weight: bold">
-                                {{ $value->quantity }}</p>
-                            </td>
-                            <td><p style="font-size: 15px; font-weight: bold">
-                                {{ round($value->price,3) }}</p></td>
-                            <td><p style="font-size: 15px; font-weight: bold">
-                                {{$product_tax=round( ($value->price - ($value->price * 100 / ((int)$tax+100))),3)}}</p>
-                            </td>
-                            <td><p style="font-size: 15px; font-weight: bold">{{ round($value->price * $value->quantity,3)+$product_tax }}</p></td>
+                            <td><p style="font-size: 15px; font-weight: bold">{{ $value->quantity }}</p></td>
+                            <td><p style="font-size: 15px; font-weight: bold">{{ round($value->price,3) }}</p></td>
+                            <td><p style="font-size: 15px; font-weight: bold">{{$product_tax=round( ($value->price * $tax_percent),3)}}</p></td>
+                            <td><p style="font-size: 15px; font-weight: bold">{{
+                             round($value->price * $value->quantity,3)
+                            +
+                            ($product_tax* $value->quantity)
+                            }}</p></td>
 
                         </tr>
                     @endforeach
@@ -173,7 +161,7 @@
                     <tbody>
                     <tr>
                         <td> <p style="margin: 0px 20px">الإجمالى (بدون ضريبة)</p></td>
-                        <td> <p style="margin: 0px 20px">{{round( $bill->product_total() * 100/(100+$tax),3)}}</p></td>
+                        <td> <p style="margin: 0px 20px">{{$bill->product_total()}}</p></td>
                     </tr>
                     <tr>
                         <td> <p style="margin: 0px 20px">قيمة القيمة المضافة</p></td>
@@ -203,7 +191,7 @@
 
                 <div>
 
-                    {!! QrCode::size(300)->generate(
+                    {!! QrCode::size(250)->generate(
                                 \Salla\ZATCA\GenerateQrCode::fromArray([
                              new Salla\ZATCA\Tags\Seller('مصنع ابراهيم سليمان العثيم للتعبئة و التغليف'), // seller name
                              new Salla\ZATCA\Tags\TaxNumber('300420708200003'), // seller tax number

@@ -14,24 +14,28 @@
 use App\Http\Controllers\AccountingSystem\SellPointController;
 use App\Models\AccountingSystem\AccountingAsset;
 use App\Models\AccountingSystem\AccountingAssetDamageLog;
-use App\Models\AccountingSystem\AccountingProductSubUnit;
 use Carbon\Carbon;
-use Barryvdh\Snappy\PdfWrapper;
-Route::get('test-pdf',function (){
-    $routetrip=\App\Models\RouteTripReport::findOrFail(15);
-//return view('distributor.bills.api',['bill'=>$routetrip])->render();
-/*   $pdf=\PDF::loadHTML();
-   return $pdf->stream();*/
+
+Route::get('test-pdf', function () {
+    $routetrip = \App\Models\RouteTripReport::findOrFail(297);
+    //return view('distributor.bills.api',['bill'=>$routetrip])->render();
+    /*   $pdf=\PDF::loadHTML();
+       return $pdf->stream();*/
 //    PDF::loadHTML()
 //    Barryvdh\Snappy\Facades\SnappyPdf::class
 
 //    return view('distributor.bills.api',['bill'=>$routetrip]);
-    $pdf = PDF::setOption('margin-bottom', 0)->setOption('margin-top',0)->setOption('margin-left',0)->setOption('margin-right',0)->setOption('page-height',250)->setOption('page-width',100)
-        ->loadView('distributor.bills.api',['bill'=>$routetrip])->setPaper('a6');
-
+    $pdf = PDF::setOptions([
+            'margin-top'=>0,
+            'margin-bottom'=>0,
+            'margin-left'=>0,
+            'margin-right'=>0,
+            'page-height'=>250 + ($routetrip->products()->count() * 8),
+            'page-width'=>110
+        ])
+        ->loadView('distributor.bills.api', ['bill' => $routetrip]);
 
     return $pdf->inline();
-
 });
 
 Route::get('test', function () {

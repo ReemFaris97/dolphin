@@ -21,6 +21,7 @@ class TripResource extends JsonResource
             'route_id' => $this->route_id,
             'client' => optional($this->client)->name ?? "",
             'client_payment' => optional($this->client)->payment_type ?? "",
+            'client_image' => url(optional($this->client)->image) ?? "",
             'blocked' => optional($this->client)->is_blocked,
             'lat' => $this->lat,
             'lng' => $this->lng,

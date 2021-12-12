@@ -165,11 +165,12 @@ class RouteTripReport extends Model
             DB::raw(
                 "(
                     select model_id as route_trip,
-                    SUM(price *quantity) as products_price,
-                    SUM(quantity) as total_quantity,
-                    price ,
+                    SUM(`attached_products`.`price` * quantity) as products_price,
+                    SUM(quantity /products.quantity_per_unit) as total_quantity,
+                    `attached_products`.`price` ,
                     product_id
                     from attached_products
+                    left join products on products.id = attached_products.product_id
                     where model_type= 'App\\\\Models\\\\RouteTripReport'
                     group by model_id ,product_id
                 ) as attached_products"
