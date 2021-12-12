@@ -278,7 +278,7 @@ class RouteController extends Controller
         $request['products'] = json_decode($request->products??"", true);
         $rules = [
             'route_id' => 'required|integer|exists:distributor_routes,id',
-            'cash' => 'null|numeric',
+            'cash' => 'nullable|numeric',
             // 'visa' => 'required|numeric',
             'expenses' => 'nullable|numeric',
             'image' => 'nullable|mimes:jpg,jpeg,gif,png',
