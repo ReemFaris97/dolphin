@@ -20,7 +20,7 @@
             <td>{!!$product_sales_group->first()->product->name!!}</td>
             @foreach($sales_distributors as $dist)
                 <td>{!!$product_sales_group->where('name',$dist->name)->sum('quantity_in_package')??0!!}</td>
-                <td>{!!round($product_sales_group->where('name',$dist->name)->sum(fn($p)=>$q->price * $q->quantity),3)??0!!}</td>
+                <td>{!!round($product_sales_group->where('name',$dist->name)->sum(fn($q)=>$q->price * $q->quantity),3)??0!!}</td>
             @endforeach
         </tr>
     @endforeach
