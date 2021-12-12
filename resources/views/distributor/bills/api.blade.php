@@ -6,8 +6,7 @@
     <title>{{$bill->client_name}}</title>
     <link rel="icon" href="img/logo.png">
     {{--    <link rel="stylesheet" href={!! asset('dashboard/assets/css/main.css') !!}>--}}
-    <link href="{!! asset('dashboard/assets/vendors/base/bill-print.css') !!}" rel="stylesheet" type="text/css" />
-    <link href="{!! asset('dashboard/assets/vendors/base/bill-print-11cm.css') !!}" rel="stylesheet" type="text/css"/>
+    <link href="{!! asset('dashboard/assets/vendors/base/api-bill.css') !!}" rel="stylesheet" type="text/css" />
 
     <style>
         * {
