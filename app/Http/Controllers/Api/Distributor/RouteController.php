@@ -8,6 +8,7 @@ use App\Http\Resources\Distributor\ExpensesResource;
 use App\Http\Resources\Distributor\MapRoutesResource;
 use App\Http\Resources\Distributor\RoutesResource;
 use App\Http\Resources\Distributor\TripResource;
+use App\Models\AccountingSystem\AccountingSetting;
 use App\Models\Client;
 use App\Models\DistributorRoute;
 use App\Models\Product;
@@ -58,7 +59,9 @@ class RouteController extends Controller
 
         return $this->apiResponse([
             'active_route' => ($active_route != null) ? new MapRoutesResource($active_route) : null,
-            'routes' => MapRoutesResource::collection($routes)
+            'routes' => MapRoutesResource::collection($routes),
+            'verison'=>            optional(AccountingSetting::find(83))->value
+
         ]);
     }
 

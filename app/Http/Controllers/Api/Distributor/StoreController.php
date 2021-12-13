@@ -24,29 +24,34 @@ use JWTFactory;
 use JWTAuth;
 use Illuminate\Http\Response;
 
-
 class StoreController extends Controller
 {
     use ApiResponses,StoreTransferRequestOperation;
 
 
-    public function index(){
-
+    public function index()
+    {
         $stores = Store::active()->with('totalQuantities')->where('distributor_id', auth()->user()->id)->paginate($this->paginateNumber);
 
         return $this->apiResponse(new StoreResource($stores));
     }
-    public function pendingTransferRequests(){
+    public function pendingTransferRequests()
+    {
         $stores = StoreTransferRequest::where(['distributor_id'=>auth()->user()->id,'is_confirmed'=>0])->paginate($this->paginateNumber);
         return $this->apiResponse(new TransferRequestsResource($stores));
     }
-    public function AcceptTransferRequest(Request  $request,$id){
+    public function AcceptTransferRequest(Request  $request, $id)
+    {
         $store = StoreTransferRequest::query()->find($id);
-            if ($request['signature']!=$store->signature) return $this->SignaturenotFoundResponse();
-            if (!$store) return $this->notFoundResponse();
-            $store->confirmRequest();
-            return $this->apiResponse('تم تأكيد الطلب بنجاح');
+        if ($request['signature']!=$store->signature) {
+            return $this->SignaturenotFoundResponse();
         }
+        if (!$store) {
+            return $this->notFoundResponse();
+        }
+        $store->confirmRequest();
+        return $this->apiResponse('تم تأكيد الطلب بنجاح');
+    }
 
 
 
@@ -61,7 +66,6 @@ class StoreController extends Controller
         $product_quantities = Store::findOrFail($id)->totalQuantities()->paginate();
 
         $products = collect($product_quantities->items())->map(function ($products_quantities) {
-
             $product = $products_quantities->product;
 
             $product['quantity'] = $products_quantities->total_quantity;
@@ -69,12 +73,11 @@ class StoreController extends Controller
         });
         $product_quantities->setCollection($products);
         return $this->apiResponse(new ProductsResource($product_quantities));
-
     }
 
     public function store(Request $request)
     {
-        $request['products'] = json_decode($request->products,TRUE);
+        $request['products'] = json_decode($request->products, true);
         $rules = [
             'distributor_id' => 'required|integer|exists:users,id',
             'products'=>'required',
@@ -84,23 +87,30 @@ class StoreController extends Controller
             'products.*.product_id' =>'required|integer|exists:products,id',
             "products.*.quantity" => "required|integer",
         ];
-        $validation = $this->apiValidation($request,$rules);
-        if ($validation instanceof Response){return $validation;}
-        $distributor_store_exist = Store::Where('distributor_id',$request->distributor_id)->first();
-        if (!$distributor_store_exist) return $this->apiResponse(null, 'المندوب المحدد ليس لديه مستودع', 400);
-        if ($request->distributor_id == auth()->user()->id) return $this->apiResponse(null, 'لا يمكنك ارسال واستقبال الاصناف الى و من نفسك', 400);
-            $request['sender_id'] = auth()->user()->id;
-            $request['is_confirmed']=0;
+        $validation = $this->apiValidation($request, $rules);
+        if ($validation instanceof Response) {
+            return $validation;
+        }
+        $distributor_store_exist = Store::Where('distributor_id', $request->distributor_id)->first();
+        if (!$distributor_store_exist) {
+            return $this->apiResponse(null, 'المندوب المحدد ليس لديه مستودع', 400);
+        }
+        $request['is_confirmed']=0;
+        if ($request->distributor_id == auth()->user()->id) {
+            // return $this->apiResponse(null, 'لا يمكنك ارسال واستقبال الاصناف الى و من نفسك', 400);
+            $request['is_confirmed']=1;
+        }
+        $request['sender_id'] = auth()->user()->id;
+        $request['is_confirmed']=0;
         $this->AddStoreTransferRequest($request);
         return $this->apiResponse('العملية تمت بنجاح');
     }
 
-        public function getTax(){
-            $tax = AccountingSetting::where('name','general_taxs')->first();
-            return $this->apiResponse([
+    public function getTax()
+    {
+        $tax = AccountingSetting::where('name', 'general_taxs')->first();
+        return $this->apiResponse([
                 'value'=>$tax->value
             ]);
-        }
-
-
+    }
 }

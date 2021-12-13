@@ -3,7 +3,6 @@
 
 namespace App\Traits\Distributor;
 
-
 use App\Models\Charge;
 use App\Models\Clause;
 use App\Models\DistributorTransaction;
@@ -32,7 +31,6 @@ trait StoreTransferRequestOperation
      */
     public function AddStoreTransferRequest($request)
     {
-
         DB::beginTransaction();
         try {
             $inputs = $request->all();
@@ -40,12 +38,14 @@ trait StoreTransferRequestOperation
 
             foreach ($request->products??[] as $item) {
                 $product = Product::find($item['product_id']);
-                $request_transfer->products()->create(
-                    [
+                if ($product!=null) {
+                    $request_transfer->products()->create(
+                        [
                         'product_id'=>$product->id,
                         'quantity' => $item['quantity'],
                         'price' => $product->price
-                    ]);
+                    ]
+                    );
 
 
 
@@ -59,8 +59,8 @@ trait StoreTransferRequestOperation
                         'store_transfer_request_id' => $request_transfer->id
                     ]);
 
-                if (isset($request->sender_store_id)) {
-                    ProductQuantity::create([
+                    if (isset($request->sender_store_id)) {
+                        ProductQuantity::create([
                         'product_id' => $product->id,
                         'user_id' => $request->sender_id,
                         'quantity' => $item['quantity'],
@@ -69,8 +69,11 @@ trait StoreTransferRequestOperation
                         'store_id' => $request->sender_store_id,
                         'store_transfer_request_id' => $request_transfer->id
                     ]);
-
+                    }
                 }
+            }
+            if ($request['is_confirmed']==1) {
+                $request_transfer->confirmRequest();
             }
             DB::commit();
             return true;
@@ -119,6 +122,4 @@ trait StoreTransferRequestOperation
 //             return false;
 //         }
     }
-
-
 }
