@@ -9,117 +9,119 @@
                     <div class="bill-container">
                         <div>
                             <!--- header -->
-                            <header>
-                                <div class="hd_inn">
-                                    <div class="hd_txt">
-                                        <h3>مؤسسة دلفن التجارية</h3>
-                                        <h3>Dolphin Trading Corporation</h3>
-                                        <div class="flexx">
+                            <div class="header">
+                                <header>
+                                    <div class="hd_inn">
+                                        <div class="hd_txt">
+                                            <h3>مؤسسة دلفن التجارية</h3>
+                                            <h3>Dolphin Trading Corporation</h3>
+                                            <div class="flexx">
+                                            </div>
+                                        </div>
+                                        <div class="logo">
+                                            <img
+                                                src="{!! asset('dashboard/assets/demo/demo12/media/img/logo/logo-black.png')!!}"
+                                                alt="logo">
                                         </div>
                                     </div>
-                                    <div class="logo">
-                                        <img
-                                            src="{!! asset('dashboard/assets/demo/demo12/media/img/logo/logo-black.png')!!}"
-                                            alt="logo">
+                                </header>
+                                <!---- columns -->
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="box1">
+                                            <div class="flexx">
+                                                <h4>التاريخ</h4>
+                                                <p>{{$sale->date}}</p>
+                                                <h4>date</h4>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="box1">
+                                            <div class="flexx">
+                                                <h4>نوع الفاتورة</h4>
+                                                <p>فاتورة نقدية</p>
+                                                <h4>invoice type</h4>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="box1">
+                                            <div class="flexx">
+                                                <h4>رقم الفاتورة</h4>
+                                                <p>{{$sale->id}} </p>
+                                                <h4>invoice no.</h4>
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
-                            </header>
-                            <!---- columns -->
-                            <div class="row">
-                                <div class="col">
+                                <!---->
+                                <div class="row">
                                     <div class="box1">
                                         <div class="flexx">
-                                            <h4>التاريخ</h4>
-                                            <p>{{$sale->date}}</p>
-                                            <h4>date</h4>
-                                        </div>
+                                    {{--      <div class="box1 third">
+                                                <div class="flexx">
+                                                    <h4>كود العميل</h4>
+                                                    <p>{!!optional(optional($sale->route_trip)->client)->code !!}</p>
+                                                    <h4>cust. code</h4>
+                                                </div>
 
+                                            </div>--}}
+                                            <div class="box1 third">
+                                                <div class="flexx">
+                                                    <h4>اسم العميل</h4>
+                                                    <p>{{@$sale->client->name }}</p>
+                                                    <h4>cust. name</h4>
+                                                </div>
+
+                                            </div>
+                                            <div class="box1 third">
+                                                <div class="flexx ">
+                                                    <h4>الرقم الضريبى للعميل</h4>
+                                                    <p>{{@$sale->client->tax_number }}</p>
+                                                    <h4>Cust. vat No.</h4>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="flexx">
+                                            <div class="box1  third-quater">
+                                                <div class="flexx">
+                                                    <h4>العنوان</h4>
+                                                    <p>{{@$sale->client->address}}</p>
+                                                    <h4>address</h4>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="box1 quater">
+                                                <div class="flexx">
+                                                    <h4>هاتف</h4>
+                                                    <p>{{@$sale->client->phone}}</p>
+                                                    <h4>phone</h4>
+                                                </div>
+
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col">
+                                <!---->
+                                <div class="row">
                                     <div class="box1">
                                         <div class="flexx">
-                                            <h4>نوع الفاتورة</h4>
-                                            <p>فاتورة نقدية</p>
-                                            <h4>invoice type</h4>
-                                        </div>
+                                            <div class="box1 half">
+                                                <div class="flexx">
+                                                    <h4>مدخل الفاتوره</h4>
+                                                    <p>{{@$sale->user->name}} </p>
+                                                    <h4>Representative Name</h4>
+                                                </div>
 
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="box1">
-                                        <div class="flexx">
-                                            <h4>رقم الفاتورة</h4>
-                                            <p>{{$sale->id}} </p>
-                                            <h4>invoice no.</h4>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <!---->
-                            <div class="row">
-                                <div class="box1">
-                                    <div class="flexx">
-                                  {{--      <div class="box1 third">
-                                            <div class="flexx">
-                                                <h4>كود العميل</h4>
-                                                <p>{!!optional(optional($sale->route_trip)->client)->code !!}</p>
-                                                <h4>cust. code</h4>
-                                            </div>
-
-                                        </div>--}}
-                                        <div class="box1 third">
-                                            <div class="flexx">
-                                                <h4>اسم العميل</h4>
-                                                <p>{{@$sale->client->name }}</p>
-                                                <h4>cust. name</h4>
                                             </div>
 
                                         </div>
-                                        <div class="box1 third">
-                                            <div class="flexx ">
-                                                <h4>الرقم الضريبى للعميل</h4>
-                                                <p>{{@$sale->client->tax_number }}</p>
-                                                <h4>Cust. vat No.</h4>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="flexx">
-                                        <div class="box1  third-quater">
-                                            <div class="flexx">
-                                                <h4>العنوان</h4>
-                                                <p>{{@$sale->client->address}}</p>
-                                                <h4>address</h4>
-                                            </div>
-
-
-                                        </div>
-                                        <div class="box1 quater">
-                                            <div class="flexx">
-                                                <h4>هاتف</h4>
-                                                <p>{{@$sale->client->phone}}</p>
-                                                <h4>phone</h4>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!---->
-                            <div class="row">
-                                <div class="box1">
-                                    <div class="flexx">
-                                        <div class="box1 half">
-                                            <div class="flexx">
-                                                <h4>مدخل الفاتوره</h4>
-                                                <p>{{@$sale->user->name}} </p>
-                                                <h4>Representative Name</h4>
-                                            </div>
-
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -127,62 +129,76 @@
                         @php($tax_amount= $sale->product_total() -($sale->product_total() *100/(100+$tax_percent)))
                         @php($total=$sale->product_total() )
                             <!--- table---->
-                            <div class="bg_logo">
-                                <table dir="ltr" class="the_table">
-                                    <thead>
-                                    <tr>
-                                        <th class="col9">
-                                            <p> اجمالي السعر </p>
-                                            <p></p>
-                                        </th>
-                                        <th>
-                                            <p>ضريبة <br> القيمة المضافة</p>
-                                            <p>vat</p>
-                                        </th>
-                                        <th>
-                                            <p>السعر بدون ضريبة<br> القيمة المضافة</p>
-                                            <p>price without vat</p>
-                                        </th>
-                                        <th>
-                                            <p>الكمية</p>
-                                            <p>qty</p>
-                                        </th>
-                                        <th>
-                                            <p>الوحدة</p>
-                                            <p>unit</p>
-                                        </th>
 
-                                        <th>
-                                            <p>إسم الصنف</p>
-                                            <p>product Name</p>
-                                        </th>
-                                        <th>
-                                            <p>المسلسل</p>
-                                            <p>No.</p>
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($sale->items as $value)
-                                        <tr>
-                                    {{--   @dd($value->priceWithoutTax($tax_percent))--}}
-                                            <td>{{ round($value->price * $value->quantity,2)}}
-                                            </td>
-                                            <td>
+                            <table>
+                                <thead><tr><td>
+                                  <div class="header-space">&nbsp;</div>
+                                </td></tr></thead>
+                                <tbody><tr><td>
+                                  <div class="content">
+                                    <div class="bg_logo">
+                                        <table dir="ltr" class="the_table">
+                                            <thead>
+                                            <tr>
+                                                <th class="col9">
+                                                    <p> اجمالي السعر </p>
+                                                    <p></p>
+                                                </th>
+                                                <th>
+                                                    <p>ضريبة <br> القيمة المضافة</p>
+                                                    <p>vat</p>
+                                                </th>
+                                                <th>
+                                                    <p>السعر بدون ضريبة<br> القيمة المضافة</p>
+                                                    <p>price without vat</p>
+                                                </th>
+                                                <th>
+                                                    <p>الكمية</p>
+                                                    <p>qty</p>
+                                                </th>
+                                                <th>
+                                                    <p>الوحدة</p>
+                                                    <p>unit</p>
+                                                </th>
 
-                                                {{ round($value->getTax($tax_percent),2) }}
-                                            </td>
-                                            <td>{{round( $value->priceWithoutTax($tax_percent),2) }}</td>
-                                            <td>{{ $value->quantity }}</td>
-                                            <td> {{$value->unit?$value->unit->name:$value->product->main_unit}}
-                                            </td>
-                                            <td class="product-name">{{ $value->product->name }}</td>
-                                            <td>{!!$loop->iteration!!}</td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
+                                                <th>
+                                                    <p>إسم الصنف</p>
+                                                    <p>product Name</p>
+                                                </th>
+                                                <th>
+                                                    <p>المسلسل</p>
+                                                    <p>No.</p>
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($sale->items as $value)
+                                                <tr>
+                                            {{--   @dd($value->priceWithoutTax($tax_percent))--}}
+                                                    <td>{{ round($value->price * $value->quantity,2)}}
+                                                    </td>
+                                                    <td>
+
+                                                        {{ round($value->getTax($tax_percent),2) }}
+                                                    </td>
+                                                    <td>{{round( $value->priceWithoutTax($tax_percent),2) }}</td>
+                                                    <td>{{ $value->quantity }}</td>
+                                                    <td> {{$value->unit?$value->unit->name:$value->product->main_unit}}
+                                                    </td>
+                                                    <td class="product-name">{{ $value->product->name }}</td>
+                                                    <td>{!!$loop->iteration!!}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                  </div>
+                                </td></tr></tbody>
+                                <tfoot><tr><td>
+                                  <div class="footer-space">&nbsp;</div>
+                                </td></tr></tfoot>
+                              </table>
+
                         </div>
                         <div class="footer">
                             <div class="">
