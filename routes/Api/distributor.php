@@ -12,12 +12,13 @@
 |
 */
 Route::get('/get_tax', 'StoreController@getTax');
+Route::get('/version', 'SettingController@getVersion');
+Route::post( '/version/{version}', 'SettingController@setVersion');
 Route::get('/bills/print_bill/{id}', 'RouteController@print_bill');
 Route::get('bills/last-bill', 'RouteController@lastBill')->middleware('jwt.auth');
 
 
 Route::group(['middleware' => ['jwt.auth']], function () {
-
     Route::resource('transactions', 'TransactionController');
     Route::get('wallet', 'TransactionController@getWallet');
     Route::get('notifications', 'NotificationController@index');
