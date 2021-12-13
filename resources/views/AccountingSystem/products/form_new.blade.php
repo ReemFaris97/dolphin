@@ -249,13 +249,13 @@
                                 <tbody>
                                 <tr v-for="(component,index) in  form.components">
                                     <td>
-                                        <v-select label="name" :filterable="false" :options="components"   v-model="component.name"
+                                        <v-select label="name" :filterable="false" :options="components"   v-model="component.product"
                                                   @search="onSearch">
                                         </v-select>
 
                                     </td>
                                     <td>
-                                        <input type="text" :name="`[component][${index}][quantity]`"
+                                        <input type="text"
                                                class="form-control" v-model="component.quantity">
                                     </td>
                                     <td>
@@ -586,11 +586,11 @@
             /*        {
                         id: "offer",
                         label: "مجموعة اصناف ",
-                    },
+                    },*/
                     {
                         id: "creation",
                         label: "تصنيع",
-                    },*/
+                    },
                     {
                         id: "product_expiration",
                         label: "منتج بتاريخ صلاحيه",

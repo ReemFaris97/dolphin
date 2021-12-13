@@ -409,7 +409,7 @@ class ProductController extends Controller
         }
 
         ////////////////////components Arrays////////////////////////////////
-
+/*
         $component_names = collect($request['component_names']);
         $qtys = collect($request['qtys']);
         $main_units = collect($request['main_units']);
@@ -420,6 +420,14 @@ class ProductController extends Controller
                 'quantity' => $component['1'],
                 'main_unit' => $component['2'],
                 'product_id' => $product->id
+            ]);
+        }*/
+        foreach ($request->components as $component) {
+            $product->components()->attach([
+                $component['product']['id'] => [
+                    'quantity' => $component['quantity'],
+                    'main_unit' => $component['product']['main_unit']
+                ]
             ]);
         }
         /////////////////////////////barcodes_products///////////////////////////////////
