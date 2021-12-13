@@ -32,3 +32,4 @@
 {{-- <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.js"></script> --}}
 
 <script type="text/javascript" src="{{ asset('admin/assets/js/all.min.js') }}"></script>
+<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>

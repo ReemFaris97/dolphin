@@ -34,6 +34,7 @@ Route::middleware('admin')->group(function () {
     Route::resource('companies', 'CompanyController');
     Route::resource('branches', 'BranchController');
     Route::resource('productionLines', 'ProductionLineController');
+    Route::resource('productions', 'ProductionController');
     Route::resource('shifts', 'ShiftController');
     Route::resource('users', 'UserController');
     Route::resource('stores', 'StoreController');
@@ -42,6 +43,8 @@ Route::middleware('admin')->group(function () {
     Route::resource('banks', 'BankController');
     Route::resource('roles', 'roleController');
     Route::resource('backups', 'BackupController');
+
+    Route::get('/production-updateStatus/{id}', 'ProductionController@updateStatus')->name('productions.updateStatus');
 
     Route::get('/user_permissions/{id}', 'UserController@user_permissions')->name('user_permissions.edit');
     Route::patch('/user_permissions/{id}', 'UserController@user_permissions_update')->name('user_permissions.update');
@@ -338,6 +341,7 @@ Route::middleware('admin')->group(function () {
 
     Route::group(['prefix' => 'ajax'], function () {
         Route::get('branches/{id}', 'HomeController@getBranches');
+        Route::get('production-lines/{id}', 'HomeController@getProductionLines');
         Route::get('stores/{id}', 'HomeController@getStores');
         Route::get('categories/{id}', 'HomeController@getCategories');
 

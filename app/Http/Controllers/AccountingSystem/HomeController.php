@@ -8,6 +8,7 @@ use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingProduct;
 
 use App\Models\AccountingSystem\AccountingProductCategory;
+use App\Models\AccountingSystem\AccountingProductionLine;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingBranch as Branch;
@@ -30,6 +31,13 @@ class HomeController extends Controller
         $branches = Branch::select(['id', 'name'])->where('company_id', $id)->get();
         return response()->json($branches);
     }
+
+    public function getProductionLines($id)
+    {
+        $lines = AccountingProductionLine::select(['id', 'name'])->where('accounting_company_id', $id)->get();
+        return response()->json($lines);
+    }
+
 
     public function getCategories($id)
     {

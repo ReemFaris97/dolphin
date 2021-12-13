@@ -175,5 +175,6 @@ return [
         'size'                  => 'الحجم',
         'document_name'                  => 'اسم الوثيقة',
         'tax_number'=>'الرقم الضريبي',
+        'products'=>'الأصناف  ',
     ],
 ];

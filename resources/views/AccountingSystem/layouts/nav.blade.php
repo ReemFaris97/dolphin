@@ -162,15 +162,17 @@
 
 
                     <li class="dropdown-submenu dropdown-submenu-right">
-                        <a href="#" class="dropdown-toggle"  data-toggle="dropdown"> <i
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i
                                 class="icon-list position-left"></i> إدارة خطوط الانتاج <span class="caret"></span> </a>
                         <ul class="dropdown-menu dropdown-menu-right">
                             <li>
-                                <a href="{{route('accounting.productionLines.index')}}"><i class="icon-eye"></i> عرض خطوط
+                                <a href="{{route('accounting.productionLines.index')}}"><i class="icon-eye"></i> عرض
+                                    خطوط
                                     الانتاج</a>
                             </li>
                             <li>
-                                <a href="{{route('accounting.productionLines.create')}}"><i class="icon-add-to-list"></i> اضافة
+                                <a href="{{route('accounting.productionLines.create')}}"><i
+                                        class="icon-add-to-list"></i> اضافة
                                     خط انتاج </a>
                             </li>
                         </ul>
@@ -314,8 +316,8 @@
                             </li>
                         @endcan
                         @can('إدارة المنتجات')
-                            <li class="dropdown-submenu dropdown-submenu-right"><a href="#" class="dropdown-toggle"
-                                                                                   data-toggle="dropdown"> <i
+                            <li class="dropdown-submenu dropdown-submenu-right">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i
                                         class="icon-cart position-left"></i> إدارة الاصناف </a>
                                 <ul class="dropdown-menu dropdown-menu-right">
                                     <li class="dropdown-submenu dropdown-submenu-right"><a href="#"><i
@@ -364,6 +366,21 @@
                                                 </ul>
                                             </li>
                                         </ul>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown-submenu dropdown-submenu-right">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i
+                                        class="icon-cart position-left"></i> التصنيع </a>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li>
+                                        <a href="{{route('accounting.productions.index')}}">
+                                            <i class="icon-eye"></i> عرض أوامر التصنيع</a>
+                                    </li>
+                                    <li class="dropdown-submenu dropdown-submenu-right">
+                                        <a href="{{route('accounting.productions.create')}}"><i
+                                                class="icon-add-to-list"></i> اضافة أمر تصنيع </a>
                                     </li>
                                 </ul>
                             </li>
@@ -516,7 +533,8 @@
                             <li><a href="{{route('accounting.sells_points.sells_point',Cookie::get('session'))}}"><i
                                         class="icon-eye"></i> نقطه البيع</a></li>
                             <li><a href="{{route('accounting.invoices.current',Cookie::get('session'))}}"><i
-                                        class="icon-eye"></i> الفواتير الحالية</a></li> @elseif (Cookie::get('session')==Null)
+                                        class="icon-eye"></i> الفواتير الحالية</a>
+                            </li> @elseif (Cookie::get('session')==Null)
                             <li><a href="{{route('accounting.sells_points.login')}}"><i class="icon-eye"></i> تسجيل دخول
                                     نقطة البيع</a></li> @endif
                     </ul>
@@ -689,27 +707,28 @@
                             class="icon-cabinet position-left"></i> التقارير <span class="caret"></span> </a>
                     <ul class="dropdown-menu dropdown-menu-right">
                         @can('تقارير المبيعات ')
-                        <li class="dropdown-submenu dropdown-submenu-right"><a href="#"><i class="icon-basket"></i>
-                                تقرير المبيعات </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{{route('accounting.reports.sessions_report')}}"><i class="icon-eye"></i>
-تقرير حركه بيع </a></li>
+                            <li class="dropdown-submenu dropdown-submenu-right"><a href="#"><i class="icon-basket"></i>
+                                    تقرير المبيعات </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{route('accounting.reports.sessions_report')}}"><i
+                                                class="icon-eye"></i>
+                                            تقرير حركه بيع </a></li>
 
-                                <li><a href="{{route('accounting.reports.sales_period')}}"><i class="icon-eye"></i>
-                                        خلال فترة زمنية </a></li>
-                                <li><a href="{{route('accounting.reports.sales_day')}}"><i class="icon-eye"></i>
-                                        خلال يوم </a></li>
-                                <li><a href="{{route('accounting.reports.sales_returns')}}"><i class="icon-eye"></i>
-                                        مرتجعات خلال فترة زمنية </a></li>
-                                <li><a href="{{route('accounting.reports.sales_returns_day')}}"><i
-                                            class="icon-eye"></i> مرتجعات خلال يوم </a></li>
-                                <li><a href="{{route('accounting.reports.daily_earnings')}}"><i
-                                            class="icon-eye"></i> تقرير الارباح اليومية </a></li>
-                                <li><a href="{{route('accounting.reports.period_earnings')}}"><i
-                                            class="icon-eye"></i> تقرير أرباح مدة زمنية </a></li>
-                            </ul>
-                        </li>
-                    @endcan
+                                    <li><a href="{{route('accounting.reports.sales_period')}}"><i class="icon-eye"></i>
+                                            خلال فترة زمنية </a></li>
+                                    <li><a href="{{route('accounting.reports.sales_day')}}"><i class="icon-eye"></i>
+                                            خلال يوم </a></li>
+                                    <li><a href="{{route('accounting.reports.sales_returns')}}"><i class="icon-eye"></i>
+                                            مرتجعات خلال فترة زمنية </a></li>
+                                    <li><a href="{{route('accounting.reports.sales_returns_day')}}"><i
+                                                class="icon-eye"></i> مرتجعات خلال يوم </a></li>
+                                    <li><a href="{{route('accounting.reports.daily_earnings')}}"><i
+                                                class="icon-eye"></i> تقرير الارباح اليومية </a></li>
+                                    <li><a href="{{route('accounting.reports.period_earnings')}}"><i
+                                                class="icon-eye"></i> تقرير أرباح مدة زمنية </a></li>
+                                </ul>
+                            </li>
+                        @endcan
                         @can('تقارير المشتريات ')
                             <li class="dropdown-submenu dropdown-submenu-right"><a href="#"><i class="icon-basket"></i>
                                     تقارير المشتريات </a>
