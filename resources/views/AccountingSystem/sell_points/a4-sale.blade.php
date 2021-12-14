@@ -124,7 +124,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <table dir="ltr" class="the_table table-edit">
+                                {{-- <table dir="ltr" class="the_table table-edit">
                                     <thead>
                                         <tr>
                                             <th class="col9">
@@ -158,7 +158,7 @@
                                             </th>
                                         </tr>
                                     </thead>
-                                </table>
+                                </table> --}}
 
 
                             </div>
@@ -175,7 +175,7 @@
                                   <div class="content">
                                     <div class="bg_logo">
                                         <table dir="ltr" class="the_table table-edit">
-                                            {{-- <thead>
+                                            <thead style="display:table-header-group;font-weight:bold">
                                                 <tr>
                                                     <th class="col9">
                                                         <p> اجمالي السعر </p>
@@ -207,7 +207,7 @@
                                                         <p>No.</p>
                                                     </th>
                                                 </tr>
-                                            </thead> --}}
+                                            </thead>
                                             <tbody>
                                             @foreach($sale->items as $value)
                                                 <tr>

@@ -26,27 +26,7 @@
 
 
 }
-table.the_table.table-edit tr td:nth-child(1) , table.the_table.table-edit tr th:nth-child(1){
-width:10% ;
-}
-table.the_table.table-edit tr td:nth-child(2) , table.the_table.table-edit tr th:nth-child(2){
-    width:10% ;
-}
-table.the_table.table-edit tr td:nth-child(3) , table.the_table.table-edit tr th:nth-child(3){
-    width:10% ;
-}
-table.the_table.table-edit tr td:nth-child(4) , table.the_table.table-edit tr th:nth-child(4){
-    width:10% ;
-}
-table.the_table.table-edit tr td:nth-child(5) , table.the_table.table-edit tr th:nth-child(5){
-    width:10% ;
-}
-table.the_table.table-edit tr td:nth-child(6) , table.the_table.table-edit tr th:nth-child(6){
-    width:40% ;
-}
-table.the_table.table-edit tr td:nth-child(7) , table.the_table.table-edit tr th:nth-child(7){
-width: 10%;
-}
+
 @font-face {
     font-family: "ElMessiri-Regular";
     src: url(../fonts/ElMessiri-Regular.ttf);
@@ -632,5 +612,21 @@ th div p {
     }
     body{
         width: 100%;
+        padding-bottom: 24px !important;
+        margin: 0 auto !important;
+    }
+    .footer {
+        background-color: #fff;
     }
 }
+.header, .header-space {
+    height: 164px;
+    z-index: 99;
+    background-color: #fff;
+}
+.footer {
+    background-color: #fff;
+}
+thead {
+      display: table-header-group;
+ }
