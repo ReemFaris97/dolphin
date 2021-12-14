@@ -3,7 +3,7 @@
 }
 .header, .header-space
  {
-  height: 164px;
+  height: 270px;
 }
 .footer, .footer-space {
     height: 190px;
@@ -26,7 +26,27 @@
 
 
 }
-
+table.the_table.table-edit tr td:nth-child(1) , table.the_table.table-edit tr th:nth-child(1){
+width:10% ;
+}
+table.the_table.table-edit tr td:nth-child(2) , table.the_table.table-edit tr th:nth-child(2){
+    width:10% ;
+}
+table.the_table.table-edit tr td:nth-child(3) , table.the_table.table-edit tr th:nth-child(3){
+    width:10% ;
+}
+table.the_table.table-edit tr td:nth-child(4) , table.the_table.table-edit tr th:nth-child(4){
+    width:10% ;
+}
+table.the_table.table-edit tr td:nth-child(5) , table.the_table.table-edit tr th:nth-child(5){
+    width:10% ;
+}
+table.the_table.table-edit tr td:nth-child(6) , table.the_table.table-edit tr th:nth-child(6){
+    width:40% ;
+}
+table.the_table.table-edit tr td:nth-child(7) , table.the_table.table-edit tr th:nth-child(7){
+width: 10%;
+}
 @font-face {
     font-family: "ElMessiri-Regular";
     src: url(../fonts/ElMessiri-Regular.ttf);
@@ -493,7 +513,9 @@
 }
 /******************************** in print **********************/
 @media print {
-
+    #myDivToPrint {
+         border:unset !important;
+    }
 
     .header {
         position: fixed;
@@ -604,3 +626,11 @@ th div p {
 }
 
 /*# sourceMappingURL=bill-Print.css.map */
+@media print {
+    #myDivToPrint {
+         border:0 !important;
+    }
+    body{
+        width: 100%;
+    }
+}
