@@ -604,7 +604,11 @@
 th div p {
     font-size: 13px;
 }
-
+.header, .header-space {
+   
+    z-index: 99;
+    background-color: #fff;
+}
 /*# sourceMappingURL=bill-Print.css.map */
 @media print {
     #myDivToPrint {
@@ -618,12 +622,12 @@ th div p {
     .footer {
         background-color: #fff;
     }
+    .header, .header-space {
+        height: 177px;
+
+    }
 }
-.header, .header-space {
-    height: 164px;
-    z-index: 99;
-    background-color: #fff;
-}
+
 .footer {
     background-color: #fff;
 }
