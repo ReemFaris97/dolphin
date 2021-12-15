@@ -124,6 +124,43 @@
                                         </div>
                                     </div>
                                 </div>
+                                {{-- <table dir="ltr" class="the_table table-edit">
+                                    <thead>
+                                        <tr>
+                                            <th class="col9">
+                                                <p> اجمالي السعر </p>
+                                                <p></p>
+                                            </th>
+                                            <th>
+                                                <p>ضريبة <br> القيمة المضافة</p>
+                                                <p>vat</p>
+                                            </th>
+                                            <th>
+                                                <p>السعر بدون ضريبة<br> القيمة المضافة</p>
+                                                <p>price without vat</p>
+                                            </th>
+                                            <th>
+                                                <p>الكمية</p>
+                                                <p>qty</p>
+                                            </th>
+                                            <th>
+                                                <p>الوحدة</p>
+                                                <p>unit</p>
+                                            </th>
+
+                                            <th>
+                                                <p>إسم الصنف</p>
+                                                <p>product Name</p>
+                                            </th>
+                                            <th>
+                                                <p>المسلسل</p>
+                                                <p>No.</p>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                </table> --}}
+
+
                             </div>
                         @php($tax_percent=(float)(getsetting('general_taxs')) )
                         @php($tax_amount= $sale->product_total() -($sale->product_total() *100/(100+$tax_percent)))
@@ -137,39 +174,39 @@
                                 <tbody><tr><td>
                                   <div class="content">
                                     <div class="bg_logo">
-                                        <table dir="ltr" class="the_table">
-                                            <thead>
-                                            <tr>
-                                                <th class="col9">
-                                                    <p> اجمالي السعر </p>
-                                                    <p></p>
-                                                </th>
-                                                <th>
-                                                    <p>ضريبة <br> القيمة المضافة</p>
-                                                    <p>vat</p>
-                                                </th>
-                                                <th>
-                                                    <p>السعر بدون ضريبة<br> القيمة المضافة</p>
-                                                    <p>price without vat</p>
-                                                </th>
-                                                <th>
-                                                    <p>الكمية</p>
-                                                    <p>qty</p>
-                                                </th>
-                                                <th>
-                                                    <p>الوحدة</p>
-                                                    <p>unit</p>
-                                                </th>
+                                        <table dir="ltr" class="the_table table-edit">
+                                            <thead style="display:table-header-group;font-weight:bold">
+                                                <tr>
+                                                    <th class="col9">
+                                                        <p> اجمالي السعر </p>
+                                                        <p></p>
+                                                    </th>
+                                                    <th>
+                                                        <p>ضريبة <br> القيمة المضافة</p>
+                                                        <p>vat</p>
+                                                    </th>
+                                                    <th>
+                                                        <p>السعر بدون ضريبة<br> القيمة المضافة</p>
+                                                        <p>price without vat</p>
+                                                    </th>
+                                                    <th>
+                                                        <p>الكمية</p>
+                                                        <p>qty</p>
+                                                    </th>
+                                                    <th>
+                                                        <p>الوحدة</p>
+                                                        <p>unit</p>
+                                                    </th>
 
-                                                <th>
-                                                    <p>إسم الصنف</p>
-                                                    <p>product Name</p>
-                                                </th>
-                                                <th>
-                                                    <p>المسلسل</p>
-                                                    <p>No.</p>
-                                                </th>
-                                            </tr>
+                                                    <th>
+                                                        <p>إسم الصنف</p>
+                                                        <p>product Name</p>
+                                                    </th>
+                                                    <th>
+                                                        <p>المسلسل</p>
+                                                        <p>No.</p>
+                                                    </th>
+                                                </tr>
                                             </thead>
                                             <tbody>
                                             @foreach($sale->items as $value)
