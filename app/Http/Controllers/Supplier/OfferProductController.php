@@ -34,7 +34,7 @@ class OfferProductController extends Controller
     public function create()
     {
         $products=Product::all();
-      //  $product=[];
+        //  $product=[];
         return $this->toCreate(compact('products'));
     }
 
@@ -51,7 +51,7 @@ class OfferProductController extends Controller
             'qtys'=>'required|array',
             'prices'=>'required|array',
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
 
         $inputs = $request->all();
         $offer = SupplierOffer::create(['user_id'=>auth()->id()]);
@@ -60,13 +60,11 @@ class OfferProductController extends Controller
         $products = collect($inputs['products']);
         $qtys = collect($inputs['qtys']);
         $prices = collect($inputs['prices']);
-        $merges = $products->zip($qtys,$prices);
+        $merges = $products->zip($qtys, $prices);
 
-       foreach ($merges as $merge)
-
-       {
-          $offerProduct= OfferProduct::create(['product_id'=>$merge['0'],'quantity'=> $merge['1'],'price'=>$merge['2'],'supplier_offer_id'=>$offer->id]);
-       }
+        foreach ($merges as $merge) {
+            $offerProduct= OfferProduct::create(['product_id'=>$merge['0'],'quantity'=> $merge['1'],'price'=>$merge['2'],'supplier_offer_id'=>$offer->id]);
+        }
 
 
 
@@ -97,7 +95,7 @@ class OfferProductController extends Controller
         $supplieroffer= SupplierOffer::findOrFail($id);
         $products=Product::all();
         $supplieroffer->offer_products;
-        return $this->toEdit(compact('supplieroffer','products'));
+        return $this->toEdit(compact('supplieroffer', 'products'));
     }
 
     /**
@@ -116,8 +114,8 @@ class OfferProductController extends Controller
             'phone'=>'required|numeric|unique:users,phone,'.$user->id,
             'email'=>'required|string|unique:users,email,'.$user->id,
         ];
-        $this->validate($request,$rules);
-        $requests = $request->except('image','password');
+        $this->validate($request, $rules);
+        $requests = $request->except('image', 'password');
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'users');
         }
@@ -141,28 +139,24 @@ class OfferProductController extends Controller
      */
     public function destroy($id)
     {
-
-       $dd=  SupplierOffer::find($id);
-    $dd->delete();
+        $dd=  SupplierOffer::find($id);
+        $dd->delete();
         alert()->success('تم الحذف   بنجاح !')->autoclose(5000);
         return back();
     }
 
     public function remove($id)
     {
-
         $dd=  OfferProduct::find($id);
         $dd->delete();
         alert()->success('تم الحذف   بنجاح !')->autoclose(5000);
         return back();
     }
-    public function getAjaxProductQty(Request $request){
+    public function getAjaxProductQty(Request $request)
+    {
         $product = Product::find($request->id);
         return response()->json([
-            'data'=>$product->qty
+            'data'=>$product?->qty??0
         ]);
     }
 }
-
-
-
