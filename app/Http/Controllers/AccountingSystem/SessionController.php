@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AccountingSystem;
 
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingDevice;
+use App\Models\AccountingSystem\AccountingReturn;
 use App\Models\AccountingSystem\AccountingSafe;
 use App\Models\AccountingSystem\AccountingSale;
 use App\Models\AccountingSystem\AccountingSession;
@@ -97,12 +98,30 @@ class SessionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id,Request $request)
     {
         $session=AccountingSession::findOrFail($id);
-        $sales=AccountingSale::where('session_id', $id)->get();
-
-        return $this->toShow(compact('session', 'sales'));
+        $user=$session->user;
+        $sales = AccountingSale::query()
+            ->withCount('items')
+            ->with('user')
+            ->when($request->user_id, fn ($q) =>$q->ofUser($request->user_id))
+            ->when(
+                ($request->from_date!=null&&$request->to_date!=null),
+                fn ($q) =>$q->InPeriod($request->from_date, $request->to_date)
+            )
+            ->get();
+        $returns = AccountingReturn::query()
+            ->withCOunt('items')
+            ->with('user')
+            ->when($request->user_id, fn ($q) =>$q->ofUser($request->user_id))
+            ->when(
+                ($request->from_date!=null&&$request->to_date!=null),
+                fn ($q) =>$q->InPeriod($request->from_date, $request->to_date)
+            )
+            ->withCount(['items'])
+            ->get();
+        return $this->toShow(compact('session', 'sales','returns'));
     }
 
     /**

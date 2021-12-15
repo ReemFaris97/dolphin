@@ -79,41 +79,118 @@
         <table class="table datatable-button-init-basic">
             <thead>
             <tr>
-                <th>#</th>
-                <th> رقم  الفاتورة </th>
-                <th> تاريخ الفاتورة </th>
-                <th> قيمة الفاتورة </th>
-                <th class="text-center">العمليات</th>
+                <th> الموظف </th>
+                <th> التاريخ </th>
+                <th> رقم الفاتوره</th>
+                <th>النوع</th>
+                <th>عدد الاصناف</th>
+                <th>الاجمالى</th>
+                <th>عرض</th>
+
             </tr>
             </thead>
             <tbody>
-
-            @foreach($sales as $row)
+            @foreach($sales as $sale)
                 <tr>
-                    <td>{!!$loop->iteration!!}</td>
-                    <td>{!! $row-> id!!}</td>
-                    <td>{!! $row->created_at!!}</td>
-                    <td>{!! $row->amount!!}</td>
+                    <td>{{@$sale->user->name}}</td>
+                    <td>{{$sale->created_at}}</td>
+                    <td>{{$sale->id}}</td>
+                    <td>المبيعات</td>
+                    <td>{{$sale->items_count}}</td>
+                    <td>{{$sale->amount}}</td>
+                    <td><a href="{{route('accounting.sales.show',$sale)}}" target="_blank"><i class="fa fa-eye"></i></a></td>
+                </tr>
+            @endforeach
+
+            @foreach($returns as $return)
+                <tr>
+                    <td>{{@$return->user->name}}</td>
+                    <td>{{$return->created_at}}</td>
+                    <td>{{$return->id}}</td>
+                    <td>مرتجعات</td>
+                    <td>{{$return->items_count}}</td>
+                    <td>{{$return->amount}}</td>
+                    <td><a href="{{route('accounting.sales.show_return',$return)}}" target="_blank"><i class="fa fa-eye"></i></a></td>
+
+                </tr>
+            @endforeach
+            </tbody>
+
+            <tfooter>
 
 
-                    <td class="text-center">
-                        <a href="{{route('accounting.sales.show',$row->id)}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
-                        <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
+                <tr style="background-color: rgb(235, 234, 234)">
+                    <td   class="text-center" colspan="2" rowspan="2">  المبيعات</td>
+                    {{-- -------------------------------- --}}
+                    <td class="hidden d-none"></td>
 
-                        {!!Form::open( ['route' => ['accounting.sales.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
-                        {!!Form::close() !!}
+                    <td  class="text-center" > الكاش</td>
+                    <td  class="text-center">{{$sales->sum('cash')}}</td>
 
+                    <td class="text-center" >الشبكة</td>
+                    <td  class="text-center">
+                        {{$sales->sum('network')}}
+                    </td>
+                </tr>
+                <tr style="background-color: rgb(235, 234, 234)">
+                    <td class="hidden d-none"></td>
+                    <td class="hidden d-none"></td>
+                    {{-- ------------------------ --}}
+
+
+                    <td class="text-center hidden d-none" > اجمالى الكمية </td>
+
+                    <td  class="text-center hidden d-none">{{$total_sales_item=$sales->sum('items_count')}}</td>
+                    <td class="text-center" colspan="3">اجمالى الكاش والشبكة</td>
+                    <td  class="text-center">
+                        {{$total_sales_amount=$sales->sum('amount')}}
                     </td>
                 </tr>
 
-            @endforeach
+                <tr style="background-color: rgb(235, 234, 234)">
+                    <td class="text-center" colspan="2" >المرتجعات</td>
+                    <td class="hidden d-none"></td>
+                    <td class="text-center hidden d-none">اجمالى الكمية</td>
+
+                    <td class="text-center hidden d-none">{{$total_returns_item= $returns->sum('items_count')}}</td>
+                    <td class="text-center" colspan="3"> المبلغ</td>
+
+                    <td  class="text-center" >{{$total_returns_amount= $returns->sum('amount')}}</td>
+                </tr>
+                </tr>
+                {{--
+                                    <tr style="background-color: rgb(235, 234, 234)">
+                                        <td class="hidden d-none" ></td>
+                                        <td class="hidden d-none"></td>
+                                        <td class="text-center hidden d-none">اجمالى الكمية</td>
+
+                                        <td class="text-center hidden d-none">{{$total_returns_item= $returns->sum('items_count')}}</td>
+                                        <td class="text-center" colspan="3"> المبلغ</td>
+
+                                        <td  class="text-center" >{{$total_returns_amount= $returns->sum('amount')}}</td>
+                                    </tr> --}}
 
 
+                <tr style="background-color: rgb(235, 234, 234)">
+                    <td class="text-center" colspan="2">الصافى</td>
+                    <td class="hidden d-none"></td>
+                    <td class="text-center hidden d-none">
 
-            </tbody>
+
+                    </td>
+
+                    <td  class="text-center" class="text-center hidden d-none" ></td>
+                    <td class="text-center"colspan="2" >صافى المبلغ</td>
+
+                    <td  class="text-center" colspan="2">{{$total_sales_amount-$total_returns_amount}}</td>
+                </tr>
+
+
+            </tfooter>
         </table>
 
-</div>
+
+    </div>
 
 
 @endsection
