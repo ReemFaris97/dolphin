@@ -62,8 +62,8 @@
                                 منتج بتاريخ صلاحيه
                             @endif
                         </td>
-                        <td>{!! implode(' ', optional($row->product)->bar_code)!!}</td>
-                        <td>{!! optional($row->product)->  main_unit!!}</td>
+                        <td>{!! implode(' - ',optional($row->product)->bar_code)!!}</td>
+                        <td>{!! optional($row->product)->main_unit!!}</td>
                         <td>{!! optional($row->product)->  selling_price!!}</td>
                         <td>{!! optional($row->product)->  purchasing_price!!}</td>
                         <td>

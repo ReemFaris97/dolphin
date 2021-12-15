@@ -3,7 +3,7 @@
 }
 .header, .header-space
  {
-  height: 164px;
+  height: 270px;
 }
 .footer, .footer-space {
     height: 190px;
@@ -493,7 +493,9 @@
 }
 /******************************** in print **********************/
 @media print {
-
+    #myDivToPrint {
+         border:unset !important;
+    }
 
     .header {
         position: fixed;
@@ -602,5 +604,33 @@
 th div p {
     font-size: 13px;
 }
-
+.header, .header-space {
+   
+    z-index: 99;
+    background-color: #fff;
+}
 /*# sourceMappingURL=bill-Print.css.map */
+@media print {
+    #myDivToPrint {
+         border:0 !important;
+    }
+    body{
+        width: 100%;
+        padding-bottom: 24px !important;
+        margin: 0 auto !important;
+    }
+    .footer {
+        background-color: #fff;
+    }
+    .header, .header-space {
+        height: 177px;
+
+    }
+}
+
+.footer {
+    background-color: #fff;
+}
+thead {
+      display: table-header-group;
+ }
