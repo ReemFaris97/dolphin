@@ -29,10 +29,10 @@
 
             </form>
 
-            <form action="">
+           {{--  <form action="">
                 <br>
-            <br>
-            <br>
+                <br>
+                <br>
                 <table class="table datatable-button-init-basic validites-table">
                     <thead>
                     <tr>
@@ -74,7 +74,7 @@
                     </tbody>
                 </table>
             </form>
-
+ --}}
         </div>
 
 
