@@ -137,7 +137,7 @@ trait RouteOperation
                 ]
             )->save();
             $report = RouteReport::query()->create($inputs);
-            foreach ($request->products as $item) {
+            foreach ($request->products??[] as $item) {
                 $product = Product::find($item['product_id']);
 
                 $report->products()->create([

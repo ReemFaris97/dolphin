@@ -963,11 +963,12 @@
         @if (!empty(\Illuminate\Support\Facades\Session::has('sale_id')))
             @php($sale_id = \Illuminate\Support\Facades\Session::get('sale_id'))
             window.open(
-            "{{ route('accounting.sales.show', $sale_id) }}",
+            "{{ route('accounting.sales.show_return', $sale_id) }}",
             "_blank"
             ).print();
         @endif
     </script>
+
     <script>
         //   For Alerting Before closing the window
   /*      window.onbeforeunload = function(e) {

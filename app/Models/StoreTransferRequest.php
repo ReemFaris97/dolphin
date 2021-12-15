@@ -100,7 +100,6 @@ class StoreTransferRequest extends Model
 
     public function confirmRequest()
     {
-
         if ($this->sender_store_id != null) {
             $products = $this->products;
             $this->productQuantities()->update(['is_confirmed' => 1]);
@@ -115,7 +114,6 @@ class StoreTransferRequest extends Model
                     'store_transfer_request_id' => $this->id
                 ]);
             }
-
         }
         $this->update(['is_confirmed' => 1]);
     }

@@ -44,25 +44,25 @@ class SessionController extends Controller
      */
     public function store(Request $request)
     {
-       // dd($request->all());
+        // dd($request->all());
         $inputs= $request->all();
-        $rules = [
-            'shift_id'=>'required|numeric|exists:accounting_branch_shifts,id',
-            'device_id'=>'required|numeric|exists:accounting_devices,id',
-//            'email'=>'required',
-//            'password'=>'required|string|max:191',
-            'store_id' => 'required'
-        ];
-        $messsage = [
-            'shift_id.required'=>" اسم الوردية مطلوبة",
-            'device_id.required'=>"اسم الجهاز مطلوب",
-//            'email.required'=>"ايميل  الكاشير مطلوب",
-//            'password.required'=>"كلمة المرور مطلوبة",
-        ];
-        $this->validate($request, $rules, $messsage);
+//         $rules = [
+//             'shift_id'=>'required|numeric|exists:accounting_branch_shifts,id',
+//             'device_id'=>'required|numeric|exists:accounting_devices,id',
+        // //            'email'=>'required',
+        // //            'password'=>'required|string|max:191',
+//             'store_id' => 'required'
+//         ];
+//         $messsage = [
+//             'shift_id.required'=>" اسم الوردية مطلوبة",
+//             'device_id.required'=>"اسم الجهاز مطلوب",
+        // //            'email.required'=>"ايميل  الكاشير مطلوب",
+        // //            'password.required'=>"كلمة المرور مطلوبة",
+//         ];
+//         $this->validate($request, $rules, $messsage);
 
 
-      //  $user=User::where('email', $inputs['email'])->first();
+        //  $user=User::where('email', $inputs['email'])->first();
         $user=User::where('email', auth()->user()->email)->first();
         if (isset($user)) {
             $session = AccountingSession::create($inputs);

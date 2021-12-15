@@ -8,6 +8,7 @@ use App\Http\Resources\Distributor\ExpensesResource;
 use App\Http\Resources\Distributor\MapRoutesResource;
 use App\Http\Resources\Distributor\RoutesResource;
 use App\Http\Resources\Distributor\TripResource;
+use App\Models\AccountingSystem\AccountingSetting;
 use App\Models\Client;
 use App\Models\DistributorRoute;
 use App\Models\Product;
@@ -40,14 +41,14 @@ class RouteController extends Controller
 
     public function currentTrips()
     {
-        $routes = DistributorRoute::with('trips')
+        $routes = DistributorRoute::with(['trips'=>fn ($trips) => $trips->with('client')])
             ->where('user_id', auth()->id())
             ->where(['is_available' => 1])
             ->orderBy('round', 'asc')
             ->orderBy('arrange', 'asc')
             ->get();
 
-        $active_route = DistributorRoute::with('trips')
+        $active_route = DistributorRoute::with(['trips'=>fn ($trips) => $trips->with('client')])
             ->where('user_id', auth()->id())
             ->where(['is_available' => 1])
             ->orderBy('round', 'asc')
@@ -58,7 +59,9 @@ class RouteController extends Controller
 
         return $this->apiResponse([
             'active_route' => ($active_route != null) ? new MapRoutesResource($active_route) : null,
-            'routes' => MapRoutesResource::collection($routes)
+            'routes' => MapRoutesResource::collection($routes),
+            'verison'=>            optional(AccountingSetting::find(83))->value
+
         ]);
     }
 
@@ -80,6 +83,10 @@ class RouteController extends Controller
     public function TripCashes(Request $request, $id)
     {
         $route = DistributorRoute::with(['round_expenses', 'trips'])->find($id);
+        if ($route == null) {
+            return $this->apiResponse(null, Response::HTTP_NOT_FOUND, __('Route not found'));
+        }
+
         $cash = $route->trips->load(['reports' => function ($q) use ($route) {
             $q->where('round', $route->round);
         }])->pluck('reports')->flatten()->sum('cash');
@@ -157,10 +164,14 @@ class RouteController extends Controller
     public function print_bill($id)
     {
         $bill = RouteTripReport::find(decrypt(str_replace('.html', '', $id)));
-        $pdf = PDF::setOption('margin-bottom', 0)->setOption('margin-top',0)
-            ->setOption('page-height',250+($bill->products()->count()*6.7))->setOption('page-width',110)
-            ->setOption('margin-left',0)->setOption('margin-right',0)
-            ->loadView('distributor.bills.api',['bill'=>$bill]);
+        $pdf = PDF::setOptions([
+            'margin-top'=>0,
+            'margin-bottom'=>0,
+            'margin-left'=>0,
+            'margin-right'=>0,
+            'page-height'=>250 + ($bill->products()->count() * 8),
+            'page-width'=>110
+        ])->loadView('distributor.bills.api', ['bill'=>$bill]);
         return $pdf->download(Str::snake("{$bill->product_total()} $bill->created_at").".pdf");
 //        return view('distributor.bills.api', compact('bill'));
     }
@@ -267,14 +278,14 @@ class RouteController extends Controller
 
     public function store(Request $request)
     {
-        $request['products'] = json_decode($request->products, true);
+        $request['products'] = json_decode($request->products??"", true);
         $rules = [
             'route_id' => 'required|integer|exists:distributor_routes,id',
-            'cash' => 'required|numeric',
+            'cash' => 'nullable|numeric',
             // 'visa' => 'required|numeric',
-            'expenses' => 'required|numeric',
-            'image' => 'required|mimes:jpg,jpeg,gif,png',
-            'products' => 'required|array',
+            'expenses' => 'nullable|numeric',
+            'image' => 'nullable|mimes:jpg,jpeg,gif,png',
+            'products' => 'nullable|array',
             'products.*.product_id' => 'required|integer|exists:products,id',
             'products.*.quantity' => 'required|integer',
         ];

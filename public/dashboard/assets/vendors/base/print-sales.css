@@ -1,3 +1,32 @@
+.relative{
+    position: relative;
+}
+.header, .header-space
+ {
+  height: 164px;
+}
+.footer, .footer-space {
+    height: 190px;
+  }
+/* .header, .header-space{
+    height: 130px;
+} */
+.header {
+  position: fixed;
+  top: 40px;
+  left: 0;
+  right: 0;
+}
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+
+
+}
+
 @font-face {
     font-family: "ElMessiri-Regular";
     src: url(../fonts/ElMessiri-Regular.ttf);
@@ -455,33 +484,30 @@
         display: block;
     }
 }
+
+#print-all, #print-11cm{
+    margin: 0 auto;
+}
+.bill-container table {
+    width: 100%;
+}
 /******************************** in print **********************/
 @media print {
-    #myDivToPrint header {
+
+
+    .header {
         position: fixed;
         top: 0;
+        left: 0;
         right: 0;
-        left:0;
-        z-index: 9999;
-        overflow: hidden;
+        z-index: 999;
+        background-color: #fff;
     }
-    tr:nth-child(25) td,tr:nth-child(36n+55) td{
-        padding: 0 0 150px 0 !important;
-        vertical-align: top;
-    }
-
-
-
 
     #myDivToPrint header  + .row{
         margin-top: 45px;
     }
-    #myDivToPrint footer {
-        position: fixed;
-        bottom: 0;
-        right: 0;
-        left:0
-    }
+
 
     body,
     html {
@@ -492,7 +518,9 @@
         overflow-y: auto;
     }
 
-
+    .footer .row {
+        background-color: #fff;
+    }
     .hide-print,
     #print-all {
         display: none;
@@ -529,9 +557,11 @@
         page-break-after: always;
         padding-bottom: 0px;
         background: none;
-        
-    }
 
+    }
+    #myDivToPrint header + .row {
+        margin-top: 0px;
+    }
     #myDivToPrint,
     body {
         /* height:max-content!important; */

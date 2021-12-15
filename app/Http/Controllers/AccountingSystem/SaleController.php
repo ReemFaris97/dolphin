@@ -417,7 +417,7 @@ class SaleController extends Controller
         DB::commit();
 
         alert()->success('تم اضافة  فاتورة  الاسترجاع  بنجاح !')->autoclose(5000);
-        return back();
+        return back()->with('sale_id', $returnSale->id);
     }
 
     /**

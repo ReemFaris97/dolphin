@@ -50,16 +50,16 @@ class SaleController extends Controller
 
         $sales = $sales->groupBy('distributor_id')->groupBy('product_id')
             ->groupBy('name')
-            ->selectRaw('name,product_id,sum(price) as price,sum(quantity) as quantity')
+            ->selectRaw('name,product_id,sum(price * quantity) as price,sum(quantity) as quantity ,sum(quantity_in_package) as quantity_in_package')
             ->get();
         $total_price = $sales->sum('price');
         $total_quantity = $sales->sum('quantity');
 
         $sales = $sales->groupBy('product_id');
-        $sales_distributors = User::where('is_distributor', 1)
+        $sales_distributors = User::latest()->where('is_distributor', 1)
             ->when(
                 $request->user_id != null,
-                fn($builder) => $builder->where('id', $request->user_id)
+                fn ($builder) => $builder->where('id', $request->user_id)
             )
             ->whereNotIn('id', $sales->keys())
             ->get(['id', 'name']);
@@ -73,9 +73,9 @@ class SaleController extends Controller
             ->FilterWithDates($request->from, $request->to)
             ->get();
 
-        $refuse_reasons =  $trips->where('type','refuse')->groupBy('refuse_reason');
+        $refuse_reasons =  $trips->where('type', 'refuse')->groupBy('refuse_reason');
 
-        return view('distributor.reports.sales.index', compact('sales', 'sales_distributors', 'trips', 'total_price','refuse_reasons'));
+        return view('distributor.reports.sales.index', compact('sales', 'sales_distributors', 'trips', 'total_price', 'refuse_reasons'));
     }
 
     /**

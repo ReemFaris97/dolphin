@@ -97,7 +97,7 @@
                                                     <span class="m-widget24__desc">
                                             </span>
                                                     <span class="m-widget24__stats m--font-success">
-                                           {{number_format($total_price,2)}}
+                                           {{round($total_price,3)}}
                                             </span>
                                                     <div class="m--space-10"></div>
                                                     <div class="progress m-progress--sm">
@@ -116,7 +116,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                     </div>
                     {{-- <div>
@@ -131,10 +131,10 @@
                             <div class="date-from">
                                 <span>من : </span>
                                 <span> </span>
-                              
+
                             </div>
                             <div class="date-to">
-                             
+
                                 <span>الي : </span>
                                 <span> </span>
                             </div>
@@ -142,6 +142,21 @@
                         <div id="">
                             @include('distributor.reports.sales._table')
                         </div>
+                          <div class="content-num-visit">
+                            <div class="visitss">
+                                <div class="block">عدد الزيارات </div>
+                                <div>{{$trips->count()}}</div>
+                            </div>
+                            <div class="visitss">
+                                <div class="block"> اجمالي مرات الرفض </div>
+                                <div>        {{$trips->where('type','refuse')->count()}}</div>
+                            </div>
+                            <div class="visitss">
+                                <div class="block">اجمالي المبيعات</div>
+                                <div>  {{round($total_price,3)}}</div>
+                            </div>
+                        </div>
+
                         <div class="m-content">
                             <div class="row">
                                 <div class="col-12">
@@ -165,23 +180,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="content-num-visit">
-                            <div class="visitss">
-                                <div class="block">عدد الزيارات </div>
-                                <div>147</div>
-                            </div>
-                            <div class="visitss">
-                                <div class="block"> اجمالي مرات الرفض </div>
-                                <div>147</div>
-                            </div>
-                            <div class="visitss">
-                                <div class="block">اجمالي المبيعات</div>
-                                <div>147</div>
-                            </div>
-                        </div>
+
+
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -190,24 +193,24 @@
 @push('scripts')
     <script src="{!! asset('dashboard/assets/vendors/base/jquery-2.1.4.min.js') !!}"></script>
     <script>
-    
+
 
         $(document).ready(function() {
         $("#print-all").on('click', function() {
             let t = document.getElementById("print_this").innerHTML;
-           
+
             let style = `<style>body {-webkit-print-color-adjust: exact !important; direction:rtl}.table.table-striped.edit-th-50 thead th{border:0;width:50%}table.table.table-striped.table-bordered.edit-th-50.table-responsive{width:100%;direction:rtl;border-collapse:collapse}table.table.table-striped.table-bordered.edit-th-50 td{padding:10px;border:1px solid #dee2e6}table.table.table-striped.table-bordered.edit-th-50 th{padding:15px 10px;border:1px solid #dee2e6}.table-bordered td,.table-bordered th{border:1px solid #dee2e6}.block{display:block}.visitss div:nth-child(1){font-weight:700;font-size:20px;margin-bottom: 7px;}.visitss div:nth-child(2){font-size:17px;color:#898989}.visitss{width:33%;text-align:center}.content-num-visit{display:flex}.table-striped.table-refuse{border-collapse:collapse;width:100%}.table-striped.table-refuse th{text-align:right;padding:15px 10px;background-color:#f1f1f1}.table-striped.table-refuse td{text-align:right;padding:10px}.content-num-visit{display:flex;margin-top:10px;background-color:#f1f1f1;padding:15px 0}.dateBackend{display:flex;margin:15px 0;padding:0 15px}.date-from,.date-to{width:50%;text-align:right;font-size:15px}.date-from span:nth-child(1),.date-to span:nth-child(1){font-weight:700}.content-num-visit{display:flex;margin-top:10px;padding:15px 0}@media print{table.table.table-striped.table-bordered.edit-th-50 td{padding:6px!important}table.table.table-striped.table-bordered.edit-th-50.table-responsive{width:100%!important;direction:rtl}table.table.table-striped.table-bordered.edit-th-50 th{padding:15px 10px;border:1px solid #dee2e6;background-color:#f1f1f1}.content-num-visit{display: flex;margin-top: 15px;}}</style>`;
             let win = window.open('', '');
             win.document.write(`<html>
         <head>
         <title>الفاتورة</title>
-        
+
         ${style}
         <head>
         <body>${t}</body></html>`);
             win.document.close();
             win.print();
-            
+
 
         });
     })
