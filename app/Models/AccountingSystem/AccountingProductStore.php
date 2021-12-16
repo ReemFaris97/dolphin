@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Models\AccountingSystem;
 
@@ -44,5 +45,52 @@ class AccountingProductStore extends Model
     public function store()
     {
         return $this->belongsTo(AccountingStore::class, 'store_id');
+    }
+
+    /**
+     * add product to store
+     *
+     * @param integer $product_id
+     * @param integer $quantity
+     * @param integer|null $unit_id
+     * @param integer $store_id
+     * @param float $price
+     * @param integer|null $bond_id
+     * @return self
+     */
+    public function addQuantity(int $product_id, int $quantity, ?int $unit_id=null, int $store_id, float $price, ?int $bond_id=null):self
+    {
+        $main_unit_id=  AccountingProductSubUnit::find($unit_id, ['id','main_unit_present'])?->main_unit_present??1;
+        $quantity_in_main_unit=$quantity*$main_unit_id;
+        $price=$price/$main_unit_id;
+        return   self::create([
+            'product_id'=>$product_id,
+            'store_id'=>$store_id,
+            'quantity'=>$quantity_in_main_unit,
+            'bond_id'=>$bond_id,
+            'is_active'=>1,
+            'unit_id'=>null,
+            'price'=>$price
+        ]);
+    }
+
+    /**
+     * sub product to store
+     *
+     * @param integer $product_id
+     * @param integer $quantity
+     * @param integer|null $unit_id
+     * @param integer $store_id
+     * @param float $price
+     * @param integer|null $bond_id
+     * @return self
+     */
+    public function subQuantity(int $quantity, ?int $unit_id=null):void
+    {
+        $main_unit_id=  AccountingProductSubUnit::find($unit_id, ['id','main_unit_present'])?->main_unit_present??1;
+        $quantity_in_main_unit=$quantity*$main_unit_id;
+        $this->update([
+            'quantity'=>$this->quantity-$quantity_in_main_unit,
+        ]);
     }
 }
