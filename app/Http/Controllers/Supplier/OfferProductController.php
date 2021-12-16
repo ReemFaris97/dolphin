@@ -56,7 +56,6 @@ class OfferProductController extends Controller
         $inputs = $request->all();
         $offer = SupplierOffer::create(['user_id'=>auth()->id()]);
         $collection = collect([$inputs]);
-
         $products = collect($inputs['products']);
         $qtys = collect($inputs['qtys']);
         $prices = collect($inputs['prices']);
@@ -105,6 +104,7 @@ class OfferProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
