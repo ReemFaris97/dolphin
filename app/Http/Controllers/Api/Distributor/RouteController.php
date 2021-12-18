@@ -246,7 +246,7 @@ class RouteController extends Controller
             'notes' => 'nullable|string',
             //            'code' => 'nullable|string',
             'client_class_id' => 'required|integer',
-            'tax_number' => 'required|string|min:15',
+            'tax_number' => 'nullable|string|min:15',
         ];
         /*  'notes','code', 'route_id', 'client_class_id', 'tax_number' */
 
