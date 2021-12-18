@@ -70,7 +70,7 @@ Route::get('/check', function () {
 
 
     return view('admin.auth.after-login');
-});
+})->middleware('auth');
 
 //Route::get('/home', 'HomeController@index')->name('home');
 
