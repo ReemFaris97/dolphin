@@ -195,8 +195,66 @@ list-style-type: none;
     color: red;
 }
 
+/* ========== modfication ============*/
+.validites-table{
+    border: 1px solid #ddd ;
+}
+.table.validites-table > tbody > tr > td{
+    border: 1px solid #ddd;
+}
 
-
-
-
-/*wa2fa*/
+/* ============ start modification 15 / 12 / 2021 ============*/
+.switchery1 {
+    width: 18px;
+    height: 18px;
+}
+.table-switch th{
+font-size: 17px;
+font-weight: bold;
+}
+/* .content-table{
+    overflow-x: scroll;
+}  */
+/* ============= end modification 15 / 12 / 2021 =============*/
+.mt-card{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color:#59cc7126;
+}
+.mt-card p , .mt-card label{
+    margin-bottom: 0;
+    color: #000;
+}
+.card-design-contact.align-right{
+    display: flex;
+    justify-content: right;
+}
+.card-design-contact.align-right a {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.card-design-contact.align-right a div {
+    border: 1px solid #2ECC71;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-left: 5px;
+    height: 28px;
+    width: 28px;
+}
+.card-design-contact.align-right a div i{
+    margin-left: 0;
+    font-size: 15px;
+}
+.row.align-center{
+    display: flex;
+    align-items: center;
+    
+}
+.title-size{
+    font-size: 15px;
+    font-weight: bold;
+}

@@ -22,12 +22,33 @@
         <div class="panel-body">
            
            <div class="awesome-card-design">
-           		<img src="{!! getimg($company->image)!!}">
-           		<h3>{!! $company->name !!}</h3>
-           		<div class="card-design-contact">
-           			<a href="tel:{!! $company->phone !!}"><i class="icon-mobile"></i><span>{!! $company->phone !!}</span></a>
-           			<a href="mailto:{!! $company->email !!}"><i class="icon-envelop"></i><span>{!! $company->email !!}</span></a>
-           		</div>
+               <div class="row align-center">
+                   <div class="col-md-6">
+                        <img src="{!! getimg($company->image)!!}">
+                        <h3 class="title-size">{!! $company->name !!}</h3>
+                   </div>
+                   <div class="col-md-6">
+                        <div class="card-design-contact align-right">
+                            <a href="tel:{!! $company->phone !!}"><div><i class="icon-mobile"></div></i><span>{!! $company->phone !!}</span></a>
+                            <a href="mailto:{!! $company->email !!}"><div><i class="icon-envelop"></i></div><span>{!! $company->email !!}</span></a>
+                        </div>
+                   </div>
+               </div>
+           		
+           		
+           		<!-- <div class="card-design-info">
+           			 <p>
+           			 	<label>الرصيد العام لخزائن الشركه : </label>
+                		<span>{!! $company->getGeneralBalances() !!}</span>
+           			 </p>
+           			 <p>
+           			 	<label>الرصيد الفعلى لخزائن الشركه  : </label>
+               			<span>{!! $company->getRealBalances() !!}</span>
+           			 </p>
+           		</div> -->
+           </div>
+           <div class="awesome-card-design mt-card">
+           		
            		<div class="card-design-info">
            			 <p>
            			 	<label>الرصيد العام لخزائن الشركه : </label>
@@ -39,7 +60,34 @@
            			 </p>
            		</div>
            </div>
+           <div class="form-group col-md-12 pull-left">
 
+            <table class="table init-basic">
+                <thead>
+                <tr>
+                    <th>اسم الفرع </th>
+                    <th>جوال الفرع </th>
+                    <th>الرصيد العام للخزنة  </th>
+                    <th>الرصيد الفعلي للخزنة  </th>
+                    <th>عرض الصفحة  </th>
+
+                </tr>
+                </thead>
+                <tbody>
+            
+                <tr>
+                <td>دلفن عنيزة  </td>
+                <td> 0102558265865 </td>
+                <td> 8255 </td>
+                <td>8958</td>
+                <td><a href="#" data-toggle="tooltip" data-original-title="عرض "> <i class="icon-eye" style="margin-left: 10px"></i> </a></td>
+                
+                </tr>
+            
+                </tbody>
+            </table>
+
+</div>
             <h4>عرض الفروع</h4>
             <div class="form-group col-md-12 pull-left">
 				<ol>
