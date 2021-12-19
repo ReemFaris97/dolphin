@@ -429,14 +429,12 @@
                                                                                    data-toggle="dropdown"> <i
                                         class="icon-cabinet position-left"></i> إدارة العملاء </a>
                                 <ul class="dropdown-menu dropdown-menu-right">
-                                    @can('عرض  العملاء')
+
                                         <li><a href="{{route('accounting.clients.index')}}"><i class="icon-eye"></i> عرض
                                                 العملاء</a></li>
-                                    @endcan
-                                    @can('اضافة عميل')
+
                                         <li><a href="{{route('accounting.clients.create')}}"><i
                                                     class="icon-add-to-list"></i> اضافة عميل جديد</a></li>
-                                    @endcan
                                     {{--						<li><a href="{{route('accounting.clients.permiums')}}"><i class="icon-eye"></i>تقسيط مديوينه العملاء</a></li>--}}
                                     {{--						<li><a href="{{route('accounting.clients.offers_copy')}}"><i class="icon-eye"></i> نسخ عروض العملاء</a></li>--}}
                                     {{--						<li class="dropdown-submenu dropdown-submenu-right"> <a href="#"><i class="icon-history"></i> عروض الاسعار </a>--}}
