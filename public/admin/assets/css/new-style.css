@@ -266,3 +266,19 @@ font-weight: bold;
     font-size: 14px;
     margin-bottom: 3px;
 }
+
+.flex-div-content {
+    display: flex;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+.div-content-data-table{
+    padding-top: 20px;
+}
+.flex-div-content {
+
+}
+.flex-div-content div:nth-child(1){
+    font-weight: bold;
+
+}

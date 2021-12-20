@@ -895,59 +895,59 @@
 								<tbody>
 									@foreach($product_items as $key=>$row)
 
-						<tr class="single-row-wrapper">
-							<td class="row-num">{{$loop->iteration}}</td>
-							<td class="product-name maybe-hidden name_enable">{!! $row->product->name!!}</td>
-							<td class="product-unit maybe-hidden unit_enable">
-								@if ($row->unit_type=='main')
+									<tr class="single-row-wrapper">
+										<td class="row-num">{{$loop->iteration}}</td>
+										<td class="product-name maybe-hidden name_enable">{!! $row->product->name!!}</td>
+										<td class="product-unit maybe-hidden unit_enable">
+											@if ($row->unit_type=='main')
 
-									{{$row->product->main_unit}}
-								    @elseif($row->unit_type=='sub')
-									{{optional($row->unit)->name}}
-								@endif
+												{{$row->product->main_unit}}
+												@elseif($row->unit_type=='sub')
+												{{optional($row->unit)->name}}
+											@endif
 
-							</td>
-							<td class="product-quantity maybe-hidden quantity_enable">
-								{{$row->quantity??0}}
-							</td>
-							<td class="single-price-before maybe-hidden unit_price_before_enable">
-								{{$row->price??0}}
-							</td>
-							<td class="single-price-after maybe-hidden unit_price_after_enable">
-								{{$row->tax??0}}
-							</td>
-							<td class="single-price-after maybe-hidden expiration_enable">
-								{{$row->expire_date??'-'}}
-							</td>
-							<td class="single-price-after maybe-hidden unit_price_after_enable">
-								@if($row->allDiscounts()->count() !=0)
+										</td>
+										<td class="product-quantity maybe-hidden quantity_enable">
+											{{$row->quantity??0}}
+										</td>
+										<td class="single-price-before maybe-hidden unit_price_before_enable">
+											{{$row->price??0}}
+										</td>
+										<td class="single-price-after maybe-hidden unit_price_after_enable">
+											{{$row->tax??0}}
+										</td>
+										<td class="single-price-after maybe-hidden expiration_enable">
+											{{$row->expire_date??'-'}}
+										</td>
+										<td class="single-price-after maybe-hidden unit_price_after_enable">
+											@if($row->allDiscounts()->count() !=0)
 
-								@foreach ($row->allDiscounts() as $discount)
-									<span class="single-5asm">
-										@if($discount->discount_type=='percentage')
-										<span>  {{($discount->discount*$row->price)/100??0}} ر.س </span>
-										@elseif($key=='amount')
-										<span>   {{$discount->discount??0}} ر.س </span>
-										@endif
-										|
-                                  	@if($discount->affect_tax=='1')
-										<span>يؤثر فى الضريبة</span>
-									@elseif($discount->affect_tax=='0')
-												<span> لا يؤثر فى الضريبة</span>
-										@endif
-									</span>
-								@endforeach
-									@else
-									-
-								@endif
-                            </td>
-                            <td class="whole-price-before maybe-hidden total_price_before_enable">{{$row->gifts}}</td>
+											@foreach ($row->allDiscounts() as $discount)
+												<span class="single-5asm">
+													@if($discount->discount_type=='percentage')
+													<span>  {{($discount->discount*$row->price)/100??0}} ر.س </span>
+													@elseif($key=='amount')
+													<span>   {{$discount->discount??0}} ر.س </span>
+													@endif
+													|
+												@if($discount->affect_tax=='1')
+													<span>يؤثر فى الضريبة</span>
+												@elseif($discount->affect_tax=='0')
+															<span> لا يؤثر فى الضريبة</span>
+													@endif
+												</span>
+											@endforeach
+												@else
+												-
+											@endif
+										</td>
+										<td class="whole-price-before maybe-hidden total_price_before_enable">{{$row->gifts}}</td>
 
-							<td class="whole-price-before maybe-hidden total_price_before_enable">{{$row->price*$row->quantity}}</td>
-							<td class="whole-price-after maybe-hidden total_price_after_enable">{{$row->price_after_tax*$row->quantity}}</td>
-						</tr>
+										<td class="whole-price-before maybe-hidden total_price_before_enable">{{$row->price*$row->quantity}}</td>
+										<td class="whole-price-after maybe-hidden total_price_after_enable">{{$row->price_after_tax*$row->quantity}}</td>
+									</tr>
 									@endforeach
-									<tr>
+									<!-- <tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-money"></i>الإجمالي</td>
 										<td colspan="7"><span class="tot-money">{!! $purchase->amount+$purchase->totalTaxs??0 !!}</span></td>
 									</tr>
@@ -1010,9 +1010,69 @@
 										@else
 										<td colspan="7">{!! ($purchase->total- $purchase->payed)??0 !!}</td>
 										@endif
-									</tr>
+									</tr> -->
 								</tbody>
 							</table>
+							<div class="row div-content-data-table">
+								<div class="col-xs-6 col-md-4 flex-div-content">
+									<div>الإجمالي :</div>
+									<div>{!! $purchase->amount+$purchase->totalTaxs??0 !!}</div>
+								</div>
+								<div class="col-xs-6 col-md-4 flex-div-content">
+									<div>نوع الخصم :</div>
+									<div>	@if($purchase->discount_type=='percentage')
+											نسبه
+											@else
+											مبلغ
+											@endif</div>
+								</div>
+								<div class="col-xs-6 col-md-4 flex-div-content">
+									<div>قيمه الخصم على الفاتورة :</div>
+									<div>	@if($purchase->discount_type=='percentage')
+											{!! ($purchase->discount* $purchase->amount)/100 ??0 !!}
+												@else
+												{!! $purchase->discount??0 !!}
+											@endif</div>
+								</div>
+								<div class="col-xs-6 col-md-4 flex-div-content">
+									<div>قيمه الضريبه :</div>
+									<div>{!! $purchase->totalTaxs??0 !!}</div>
+								</div>
+								<div class="col-xs-6 col-md-4 flex-div-content">
+									<div>المطلوب سداده	 :</div>
+									<div>{!! $purchase->total ??0 !!}</div>
+								</div>
+								<div class="col-xs-6 col-md-4 flex-div-content">
+									<div>طريقة الدفع	 :</div>
+									<div>@if( $purchase->payment=='cash')
+											نقدى
+											@elseif( $purchase->payment=='agel')
+											اجل
+												@else
+												-
+											@endif</div>
+								</div>
+								<div class="col-xs-6 col-md-4 flex-div-content">
+									<div>المدفوع :</div>
+									<div>
+									@if( $purchase->payment=='cash')
+										<span >{!! $purchase->total??0 !!}</span>
+										@else
+										<span >{!! $purchase->payed ??0 !!}</span>
+										@endif
+									</div>
+								</div>
+								<div class="col-xs-6 col-md-4 flex-div-content">
+									<div>المتبقي:</div>
+									<div>
+									@if( $purchase->payment=='cash')
+										<span>0</span>
+										@else
+										<span>{!! ($purchase->total- $purchase->payed)??0 !!}</span>
+										@endif
+									</div>
+								</div>
+							</div>
 						</div>
 						<span class="bill-lbl">{!!getsetting('lower_data')!!}</span>
 						<!-- <div class="end-notice">
