@@ -35,6 +35,8 @@ Route::middleware('admin')->group(function () {
     Route::resource('branches', 'BranchController');
     Route::resource('productionLines', 'ProductionLineController');
     Route::resource('productions', 'ProductionController');
+    Route::resource('product-recipes', 'ProductRecipeController');
+
     Route::resource('shifts', 'ShiftController');
     Route::resource('users', 'UserController');
     Route::resource('stores', 'StoreController');
@@ -43,6 +45,8 @@ Route::middleware('admin')->group(function () {
     Route::resource('banks', 'BankController');
     Route::resource('roles', 'roleController');
     Route::resource('backups', 'BackupController');
+
+    Route::get('/product-units/{id}', 'ProductRecipeController@getProductUnits')->name('getProductUnits');
 
     Route::get('/production-updateStatus/{id}', 'ProductionController@updateStatus')->name('productions.updateStatus');
 
@@ -163,6 +167,11 @@ Route::middleware('admin')->group(function () {
     Route::post('/ajax/products', 'ProductController@storeAjax');
     Route::put('/ajax/products/{id}', 'ProductController@updateAjax');
     Route::get('/products-by-ajax', 'ProductController@getProductsByAjax')->name('getProductsByAjax');
+    Route::get('/products-creation-by-ajax', 'ProductController@getProductsCreationByAjax')->name('getProductsCreationByAjax');
+
+    Route::get('/products-recipes-by-ajax', 'ProductionController@getProductsCreationRecipesByAjax')->name('getProductsCreationRecipesByAjax');
+
+
     Route::get('/get-product-price/{id}', 'ProductController@getProductPrice')->name('getProductPrice');
 
     Route::group(['prefix' => 'ajax/products'], function () {

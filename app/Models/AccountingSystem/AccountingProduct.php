@@ -276,4 +276,9 @@ class AccountingProduct extends Model
             fn ($b) => $b->whereJsonContains('bar_code', $barcode)
         );
     }
+
+    public function scopeCreation()
+    {
+        return $this->where('type','creation');
+    }
 }

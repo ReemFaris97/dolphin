@@ -944,11 +944,33 @@ class ProductController extends Controller
 
     public function getProductsByAjax(Request $request)
     {
-//        dd($request->all());
         $products = AccountingProduct::query()
             ->when($request->search, function ($b) use ($request) {
-                return $b->where('name', 'LIKE', $request->search . '%')->orWhere('en_name', 'LIKE', '%' . $request->search . '%')->orWhere('description', 'LIKE', '%' . $request->search)->orWhere('bar_code', $request->search);
-            })->paginate(50);
+                return $b->where(fn($q)=>$q
+                    ->where('name', 'LIKE', '%'.$request->search . '%')
+                    ->orWhere('en_name', 'LIKE', '%' . $request->search . '%')
+                    ->orWhere('description', 'LIKE', '%' . $request->search.'%')
+                    ->orWhere('bar_code', 'like',"%$request->search%")
+                );})->paginate(50);
+
+        return response()->json([
+            'status' => true,
+            'has_more' => $products->hasMorePages(),
+            'data' => $products,
+        ]);
+    }
+
+    public function getProductsCreationByAjax(Request $request)
+    {
+      //  $products = AccountingProduct::query()->creation()
+        $products = AccountingProduct::query()
+            ->when($request->search, function ($b) use ($request) {
+                return $b->where(fn($q)=>$q
+                    ->where('name', 'LIKE', '%'.$request->search . '%')
+                    ->orWhere('en_name', 'LIKE', '%' . $request->search . '%')
+                    ->orWhere('description', 'LIKE', '%' . $request->search.'%')
+                    ->orWhere('bar_code', 'like',"%$request->search%")
+            );})->paginate(50);
 
         return response()->json([
             'status' => true,

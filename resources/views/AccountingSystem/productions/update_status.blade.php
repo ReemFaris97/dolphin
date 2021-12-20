@@ -1,4 +1,4 @@
-<form class="form-horizontal فثءف" method="get"
+<form class="form-horizontal  " method="get"
       action="{{route('accounting.productions.updateStatus',$production->id)}}">
     <div class="form-group row ">
         <div class="col-12 ">

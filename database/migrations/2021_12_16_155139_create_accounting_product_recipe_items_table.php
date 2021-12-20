@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAccountingProductionItemsTable extends Migration
+class CreateAccountingProductRecipeItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateAccountingProductionItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('accounting_production_items', function (Blueprint $table) {
+        Schema::create('accounting_product_recipe_items', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('production_id')->nullable();
-            $table->foreign('production_id')->references('id')
-                ->on('accounting_productions')->onDelete('cascade')
+            $table->unsignedBigInteger('recipe_id')->nullable();
+            $table->foreign('recipe_id')->references('id')
+                ->on('accounting_product_recipes')->onDelete('cascade')
                 ->onUpdate('cascade');
 
             $table->unsignedBigInteger('product_id')->nullable();
@@ -44,6 +44,6 @@ class CreateAccountingProductionItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accounting_production_items');
+        Schema::dropIfExists('accounting_product_recipe_items');
     }
 }

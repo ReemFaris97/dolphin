@@ -56,8 +56,8 @@
                     @foreach($production->items as $index=>$item)
                         <tr>
                             <td> {{$index+1}}</td>
-                            <td> {{$item->product->name}}</td>
-                            <td> {{$item->unit->main_unit}}</td>
+                            <td> {{$item->product_recipe->product->name}}</td>
+                            <td> {{$item->unit->name ?? $item->product_recipe->product->main_unit}}</td>
                             <td> {{$item->quantity}}</td>
                         </tr>
                     @endforeach

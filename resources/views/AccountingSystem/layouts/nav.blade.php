@@ -375,6 +375,10 @@
                                         class="icon-cart position-left"></i> التصنيع </a>
                                 <ul class="dropdown-menu dropdown-menu-right">
                                     <li>
+                                        <a href="{{route('accounting.product-recipes.index')}}">
+                                            <i class="icon-eye"></i> مكونات التصنيع    </a>
+                                    </li>
+                                    <li>
                                         <a href="{{route('accounting.productions.index')}}">
                                             <i class="icon-eye"></i> عرض أوامر التصنيع</a>
                                     </li>
