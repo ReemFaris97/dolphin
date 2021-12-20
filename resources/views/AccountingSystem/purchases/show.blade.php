@@ -238,7 +238,7 @@
 		border-bottom: 1px solid;
 		padding-bottom: 7px
 	}
-	.container-fluid.the-bill-design {
+	/* .container-fluid.the-bill-design {
 		padding: 10px 10px 45px 10px;
 		border: 1px solid #dee2e6;
 		border-radius: 5px;
@@ -246,7 +246,7 @@
 		margin: 0 auto;
 		display: table;
 		width: 21cm
-	}
+	} */
 	.newest-chechk input[type=checkbox]:checked+label:after {
 		content: '';
 		position: absolute;
@@ -786,10 +786,11 @@
 		<div class="card">
 			<div class="card-body ">
 				<h4 class="card-title">الفاتوره</h4>
-				<div class="container-fluid the-bill-design too-be-topped" id="div-to-print">
-					<div class="one-bill-inpt the-bill-logo text-center the-bill-number" style="border-bottom:4px solid #333;padding-bottom: 0;margin-bottom: 15px">
+				<div class="container-fluid the-bill-design too-be-topped panel panel-flat" id="div-to-print">
+					<div class="panel-heading"> 
+					<!-- <div class="one-bill-inpt the-bill-logo text-center the-bill-number" style="border-bottom:4px solid #333;padding-bottom: 0;margin-bottom: 15px">
 						<img src="{{asset('dashboard/assets/app/media/img/logos/20191031163554-شعار رمانة.png')}}">
-					</div>
+					</div> -->
 					<div class="one-bill-inpt the-bill-company text-center" style="display:block;width:100%;text-align: center!important;margin-bottom: 0px">
 						<span class="bill-lbl">{!!getsetting('higher_data')!!}</span>
 					</div>
@@ -797,17 +798,17 @@
 						<i class="ti-location-pin"></i>
 						{{-- <span class="bill-lbl">  {!! optional($sale->branch)->ar_name !!}</span> --}}
 					</div>
-					<div class="one-bill-inpt the-bill-date" style="direction: ltr;border-bottom: 0px;display:inline-block;width:50%;text-align: center!important;margin-bottom: 0px;padding-bottom:0px;margin-top: 0px;float:right">
+					<!-- <div class="one-bill-inpt the-bill-date" style="direction: ltr;border-bottom: 0px;display:inline-block;width:50%;text-align: center!important;margin-bottom: 0px;padding-bottom:0px;margin-top: 0px;float:right">
 						<span class="bill-lbl">
 							<?php echo Carbon\Carbon::now()->format('d-m-Y') ?></span>
 						<i class="ti-calendar" style="float: none;"></i>
-					</div>
-					<div class="one-bill-inpt the-bill-date" style="direction: ltr;border-bottom: 0px;display:inline-block;width:50%;text-align: center!important;margin-bottom: 0px;padding-bottom:0px;margin-top: 0px;float:right">
+					</div> -->
+					<!-- <div class="one-bill-inpt the-bill-date" style="direction: ltr;border-bottom: 0px;display:inline-block;width:50%;text-align: center!important;margin-bottom: 0px;padding-bottom:0px;margin-top: 0px;float:right">
 						<span class="bill-lbl">
 							<?php echo Carbon\Carbon::now()->format('g:i a') ?></span>
 						<i class="ti-alarm-clock" style="float: none;"></i>
-					</div>
-					<div class="one-bill-inpt the-cust-name" style="border-bottom: 0px;display:block;width:100%;margin-bottom: 0px;padding-bottom: 0px;border-bottom:1px solid #333!important">
+					</div> 
+				 	<div class="one-bill-inpt the-cust-name" style="border-bottom: 0px;display:block;width:100%;margin-bottom: 0px;padding-bottom: 0px;border-bottom:1px solid #333!important">
 						<i class="ti-user"></i>
 						<span class="bill-lbl" style="float:right;text-align:right;">مدخل الفاتوره : </span>
 						<span style="margin-right:5px;text-align:left;"> {!! auth()->user()->name !!}</span>
@@ -815,16 +816,18 @@
 					<div class="one-bill-inpt the-bill-numbere the-bill-number">
 						<span>رقم الفاتوره</span>
 						{!! $purchase->counter_purchase !!}
-					</div>
-					<div class="flex-col">
-						<table class="tablesaw a-new-table table-hover table table-bordered" data-tablesaw-mode="stack" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
+					</div> -->
+					<div class="flex-col edit-no-fatora">
+						<!-- <table class="tablesaw a-new-table table-hover table table-bordered" data-tablesaw-mode="stack" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
 							<tbody>
 								<tr>
-									<th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-user"></i>اسم المورد </th>
+									<th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-user"></i>
+									اسم المورد </th>
 									<td> {!! optional($purchase->supplier)->name !!}</td>
 								</tr>
 								<tr>
-									<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-mobile"></i> رقم الفاتوره عندالمورد </td>
+									<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-mobile"></i>
+									 رقم الفاتوره عندالمورد </td>
 									<td> {!! $purchase->bill_num !!}</td>
 								</tr>
 								<tr>
@@ -842,7 +845,33 @@
 									</td>
 								</tr>
 							</tbody>
-						</table>
+						</table> -->
+						<div class="row foateer-label">
+							<div class="form-group col-sm-4">
+								<label> اسم المورد </label>
+								<input class="selectpicker form-control inline-control" value="{!! optional($purchase->supplier)->name !!}" type="text" readonly>
+							</div>
+							<div class="form-group col-sm-4">
+								<label> رقم الفاتوره عند المورد  </label>
+								<input class="selectpicker form-control inline-control" value="{!! $purchase->bill_num !!}" type="text" readonly>
+							</div>
+							<div class="form-group col-sm-4">
+								<label> تاريخ الفاتوره   </label>
+								<input class="selectpicker form-control inline-control" value="<?php echo Carbon\Carbon::now()->format('d-m-Y') ?>" type="text" readonly>
+							</div>
+							<div class="form-group col-sm-4">
+								<label> وقت الفاتوره   </label>
+								<input class="selectpicker form-control inline-control" value="<?php echo Carbon\Carbon::now()->format('g:i a') ?>" type="text" readonly>
+							</div>
+							<div class="form-group col-sm-4">
+								<label>طريقة الدفع</label>
+								<input class="selectpicker form-control inline-control" value="@if( $purchase->payment=='cash')نقدى@elseif( $purchase->payment=='agel')اجل@endif" type="text" readonly>
+							</div>
+							<div class="form-group col-sm-4">
+								<label>مدخل الفاتوره :</label>
+								<input class="selectpicker form-control inline-control" value="{!! auth()->user()->name !!}" type="text" readonly>
+							</div>
+						</div>
 						<div class="flex-col mar-top-15">
 							<table class="tablesaw bill-table-whole-wrapper table-bordered table-hover table" data-tablesaw-mode="stack" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
 								<tr class="bill-table-tr-wrapper fixed-ta-hd">
@@ -986,11 +1015,12 @@
 							</table>
 						</div>
 						<span class="bill-lbl">{!!getsetting('lower_data')!!}</span>
-						<div class="end-notice">
+						<!-- <div class="end-notice">
 							<div>شكراً لكم</div>
 							<div>Thank you </div>
-						</div>
+						</div> -->
 					</div>
+				</div>
 				</div>
 			</div>
 		</div>
