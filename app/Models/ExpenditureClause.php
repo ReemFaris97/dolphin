@@ -29,9 +29,13 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ExpenditureClause extends Model
 {
-    protected $fillable = ['name','expenditure_type_id','is_active'];
-    public function type()
+    protected $fillable = ['name','expenditure_type_id','is_active','type','payable_type','payable_id'];
+    public function expenditure_type()
     {
-        return $this->belongsTo(ExpenditureType::class,'expenditure_type_id');
+        return $this->belongsTo(ExpenditureType::class, 'expenditure_type_id');
+    }
+    public function payable()
+    {
+        return $this->morphTo('payable');
     }
 }

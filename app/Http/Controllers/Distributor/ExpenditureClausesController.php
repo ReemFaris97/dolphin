@@ -46,7 +46,10 @@ class ExpenditureClausesController extends Controller
     {
         $rules = [
             'name'=>'required|string|max:191',
-            'expenditure_type_id'=>'required',
+            'expenditure_type_id'=>'nullable|required_if:type,0',
+            'type'=>'required|boolean',
+            'payable_id'=>'required',
+            'payable_type'=>'required',
 
         ];
         $this->validate($request, $rules);

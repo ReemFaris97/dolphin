@@ -8,6 +8,7 @@
     <tr>
         <th>#</th>
         <th >الاسم</th>
+        <th >مصدر الصرف</th>
         <th >نوع المصروف</th>
         <th class="noExport">الاعدادت</th>
     </tr>
@@ -16,9 +17,9 @@
     @foreach($expenditureClauses as $row)
         <tr>
             <td>{!!$loop->iteration!!}</td>
-
             <td>{!!$row->name!!}</td>
-            <td>{!!$row->type->name ?? ''!!}</td>
+            <td>{!!$row?->type?'من المورد':'من المندوب'!!}</td>
+            <td>{!!$row?->payable?->name!!}</td>
             <td>
                 @if ($row->is_active==0)
                     <a href="{{route("distributor.expenditureClauses.active",$row->id)}}" class="btn btn-success circle" title="تفعيل">

@@ -126,7 +126,6 @@
         }
 
         function drawployLine(points){
-            debugger
             const flightPath =     new google.maps.Polyline({
                 path: points,
                 geodesic: true,
