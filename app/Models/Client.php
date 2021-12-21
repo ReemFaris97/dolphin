@@ -115,6 +115,11 @@ class Client extends Model
         return $this->morphMany(DistributorTransaction::class, 'receiver');
     }
 
+    public function trips()
+    {
+        return $this->hasMany(RouteTrips::class, 'client_id');
+    }
+
     public function invoices()
     {
         return $this->hasManyThrough(RouteTripReport::class, RouteTrips::class, 'client_id', 'route_trip_id')->latest();
@@ -128,5 +133,13 @@ class Client extends Model
             ->where('paid_at', null)->exists()
         &&
             $this->payment_type == static::PAYMENT_DEFFERED);
+    }
+
+    public function setImageAttribute($image)
+    {
+        if (!is_null($image) and is_file($image))
+            $this->attributes['image'] = saveImage($image, 'users');
+        else
+            $this->attributes['image'] = $image;
     }
 }

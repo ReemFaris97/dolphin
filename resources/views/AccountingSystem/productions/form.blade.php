@@ -9,12 +9,12 @@
 @endif
 
 <div class="form-group col-md-6 pull-left">
-    <label> اسم الشركة   : </label>
+    <label> اسم الشركة : </label>
     {!! Form::select("company_id",$companies,isset($production) ? $production->company_id:null,['class'=>'form-control js-example-basic-single','required','placeholder'=>' اختر اسم الشركة  ','id'=>'company_id'])!!}
 </div>
 
 <div class="form-group col-md-6 pull-left">
-    <label for="production_line_id">خط الانتاج التابع للشركة  :  </label>
+    <label for="production_line_id">خط الانتاج التابع للشركة : </label>
     <select name="production_line_id" id="production_line_id" class="form-control js-example-basic-single" required>
         @isset($production)
             <option value="{{$production->production_line_id}}">{{$production->production_line->name}}</option>
@@ -54,17 +54,17 @@
                 <select :name="`products[${i}][product_id]`" class="form-control " x-ref="select"
                         x-model="selectedPro" required>
                     <option selected>اختر</option>
-                                        <template x-for="product in creationProducts" :key="product.id">
-                                            <option x-bind:value="product.product_id" x-text="product.product.name"
-                                                    :selected="selectedPro==product.product_id">
-                                            </option>
-                                        </template>
+                    <template x-for="product in creationProducts" :key="product.id">
+                        <option x-bind:value="product.product_id" x-text="product.product.name"
+                                :selected="selectedPro==product.product_id">
+                        </option>
+                    </template>
                 </select>
             </td>
-            <input type="hidden"  x-bind:name="`products[${i}][recipe_id]`" x-model="row_product.recipe_id">
+
             <td>
-                <select x-bind:name="`products[${i}][unit_id]`" class="form-control"   >
-                    <template x-for="unit in product_units" >
+                <select x-bind:name="`products[${i}][unit_id]`" class="form-control">
+                    <template x-for="unit in product_units">
                         <option :value="unit.id" x-text="unit.name"></option>
                     </template>
                 </select>
@@ -74,6 +74,7 @@
                        placeholder="ادخل الكمية" x-on:change="setProduct($event,i,'quantity')"
                        x-model="row_product.quantity" min="1" required>
             </td>
+            <input type="hidden" x-bind:name="`products[${i}][recipe_id]`" x-model="row_product.recipe_id">
             <td>
                 <button class="btn btn-danger" type="button" x-on:click="deleteItem(i)">حذف</button>
             </td>
@@ -89,9 +90,6 @@
         </button>
     </div>
 </div>
-
-
-
 
 
 {{--<button class="btn btn-success mt-3" type="button" id="addProduct"> اضافة صنف--}}

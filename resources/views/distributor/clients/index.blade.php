@@ -31,18 +31,18 @@
                         </span>
                         </a>
                     </li>
-                    <li class="m-portlet__nav-item"></li>
 
                 </ul>
-                {{--  <form class="form-inline" enctype="multipart/form-data" method="get" action="">
-
-                </form>  --}}
             </div>
         </div>
+
         <div class="m-portlet__body">
-            @include('distributor.clients._table')
+            @include('distributor.clients.filter')
+
+            {!!  $dataTable->table()!!}
         </div>
     </div>
+
 @endsection
 
 @push('scripts')
@@ -61,9 +61,10 @@
                     document.getElementById('delete-form'+item_id).submit();
                 }
                 else{
-                    swal("تم االإلفاء", "حذف  المنطقةتم الغاؤه",'info',{buttons:'موافق'});
+                    swal("تم االإلفاء", "حذف  العميل تم الغاؤه",'info',{buttons:'موافق'});
                 }
             });
         }
     </script>
+    {!!$dataTable->scripts()  !!}
 @endpush

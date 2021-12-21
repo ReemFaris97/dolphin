@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Distributor;
 
+use App\DataTables\ClientsDataTable;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -19,16 +20,14 @@ class ClientsController extends Controller
     use Viewable;
     private $viewable = 'distributor.clients.';
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $clients = Client::all()->reverse();
 
-        return $this->toIndex(compact('clients'));
+
+    public function index(ClientsDataTable $dataTable)
+    {
+
+       // $clients = Client::all()->reverse();
+       // return $this->toIndex(compact('clients'));
+        return $dataTable->render('distributor.clients.index');
     }
 
     /**
@@ -137,6 +136,13 @@ class ClientsController extends Controller
         ];
         $this->validate($request, $rules, $messages);
         $user->update($request->all());
+//        if ($request->image) {
+//            if ($user->image) {
+//                $requests['image'] = saveImage($request->image, 'users');
+////                $image = str_replace(url('/') . '/storage/uploads/', '', $product->image);
+////                deleteImage('uploads', $image);
+//            }
+//        }
         toast('تم التعديل بنجاح', 'success', 'top-right');
         return redirect()->route('distributor.clients.index');
     }

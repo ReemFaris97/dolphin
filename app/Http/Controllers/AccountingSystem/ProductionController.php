@@ -87,11 +87,12 @@ class ProductionController extends Controller
         //  $companies = AccountingCompany::pluck('name', 'id')->toArray();
         $companies = AccountingCompany::whereIn('id', $userPermissionsCompany)
             ->pluck('name','id')->toArray();
-        $units = AccountingProductMainUnit::pluck('main_unit', 'id')->toArray();
+       // $units = AccountingProductMainUnit::pluck('main_unit', 'id')->toArray();
         // $products = AccountingProduct::whereType('creation')->get();
-        $products = AccountingProduct::limit(100)->get();
-        $production = AccountingProduction::with('items')->findOrFail($id);
-        return $this->toEdit(compact('units', 'companies','products','production'));
+       // $products = AccountingProduct::limit(100)->get();
+         $production = AccountingProduction::with('items')->findOrFail($id);
+        $creationProducts = AccountingProductRecipe::with('product')->get();
+        return $this->toEdit(compact('production','companies','creationProducts'));
     }
 
 
