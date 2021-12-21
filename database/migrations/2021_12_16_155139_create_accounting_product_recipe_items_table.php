@@ -28,7 +28,7 @@ class CreateAccountingProductRecipeItemsTable extends Migration
 
             $table->unsignedBigInteger('unit_id')->index()->nullable();
             $table->foreign('unit_id')->references('id')
-                ->on('accounting_products_subunits')->onDelete('cascade')
+                ->on('accounting_products_subUnits')->onDelete('cascade')
                 ->onUpdate('cascade');
 
             $table->string('quantity')->nullable();
