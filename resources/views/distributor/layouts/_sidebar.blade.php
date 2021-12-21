@@ -38,25 +38,25 @@
                         {{--                            @endif--}}
                         {{--                            @if(auth()->user()->hasPermissionTo('add_workers'))--}}
                         <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
-                                href="{!! route('distributor.expenditureTypes.create') !!}" class="m-menu__link "><i
+                                href="{!! route('distributor.expenditureTypes.index') !!}" class="m-menu__link "><i
                                     class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
                                     class="m-menu__link-text">أنواع الصرف </span></a></li>
                         <!--*********************************************************************************************-->
 
                         <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
-                                href="{!! route('distributor.expenditureClauses.create') !!}" class="m-menu__link "><i
+                                href="{!! route('distributor.expenditureClauses.index') !!}" class="m-menu__link "><i
                                     class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
                                     class="m-menu__link-text">بنود الصرف </span></a></li>
                         <!--*********************************************************************************************-->
 
                         <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
-                                href="{!! route('distributor.readers.create') !!}" class="m-menu__link "><i
+                                href="{!! route('distributor.readers.index') !!}" class="m-menu__link "><i
                                     class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
                                     class="m-menu__link-text">اسماء العدادات </span></a></li>
                         <!--*********************************************************************************************-->
 
                         <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
-                                href="{!! route('distributor.client-classes.create') !!}" class="m-menu__link "><i
+                                href="{!! route('distributor.client-classes.index') !!}" class="m-menu__link "><i
                                     class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
                                     class="m-menu__link-text">أنواع شرائح الضرائب  </span></a></li>
                         <!--*********************************************************************************************-->
@@ -274,18 +274,12 @@
                                     class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
                                     class="m-menu__link-text">كل العملاء</span></a></li>
 
-                        {{--                            @endif--}}
-                        {{--                            @if(auth()->user()->hasPermissionTo('add_workers'))--}}
-{{--                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a--}}
-{{--                                href="{!! route('distributor.clients.create') !!}" class="m-menu__link "><i--}}
-{{--                                    class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span--}}
-{{--                                    class="m-menu__link-text">إضافة عميل </span></a></li>--}}
+
 
                         <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
                                 href="{!! route('distributor.clients.activation') !!}" class="m-menu__link "><i
                                     class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
                                     class="m-menu__link-text">العملاء  بانتظار التفعيل </span></a></li>
-                        {{--                            @endif--}}
                     </ul>
                 </div>
             </li>
