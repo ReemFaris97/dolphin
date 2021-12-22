@@ -963,7 +963,7 @@ class ProductController extends Controller
     public function getProductsCreationByAjax(Request $request)
     {
       //  $products = AccountingProduct::query()->creation()
-        $products = AccountingProduct::query()
+        $products = AccountingProduct::query()->creation()
             ->when($request->search, function ($b) use ($request) {
                 return $b->where(fn($q)=>$q
                     ->where('name', 'LIKE', '%'.$request->search . '%')
