@@ -33,7 +33,7 @@ class TransactionController extends Controller
             'distributor_id' => 'required|integer|exists:users,id',
             'amount' => 'required|numeric',
             'type' => 'required|in:send,receive',
-            'signature' => 'required|string',
+            'signature' => 'nullable|string',
             'transaction_id' => 'nullable|exists:distributor_transactions,id'
         ];
         $validation = $this->apiValidation($request, $rules);

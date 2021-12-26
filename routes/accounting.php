@@ -342,7 +342,7 @@ Route::middleware('admin')->group(function () {
             Route::any('returns-days', ['as' => 'sales_returns_day', 'uses' => 'SalesController@returnsDay']);
 
             Route::any('daily-earnings', ['as' => 'daily_earnings', 'uses' => 'SalesController@daily_earnings']);
-            Route::any('period-earnings', ['as' => 'period_earnings', 'uses' => 'SalesController@period_earnings']);
+            Route::any('period-earnings',[SalesController::class,'period_earnings'])->name('period_earnings');
             Route::match(['get','post'], 'sessions', [SalesController::class,'sessionDetails'])->name('sessions_report');
         });
     });
