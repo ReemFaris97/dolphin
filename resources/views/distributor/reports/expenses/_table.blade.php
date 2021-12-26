@@ -5,6 +5,8 @@
         <th>#</th>
         <th>   رقم سند المصروف</th>
         <th>اسم المندوب</th>
+        <th> قيمة المصروف</th>
+        <th> طبيعة المصروف</th>
         <th>وقت وتاريخ المصروف</th>
         <th class="noExport">عمليات</th>
     </tr>
@@ -15,7 +17,10 @@
             <td> {!!$loop->iteration!!}</td>
             <td><a href="{{route('distributor.reports.expenses.show',$row->id) }}">{!!$row->sanad_No!!}</a></td>
             <td>{!!$row->distributor->name??'' !!}</td>
+            <td>{!!$row->amount!!}</td>
+            <td>{!!$row->clause->type?'من مورد':'من المندوب'!!}</td>
             <td>{!!$row-> date!!} {!!$row-> time!!}</td>
+
             <td><a href="{{route('distributor.reports.expenses.show',$row->id) }}" class="btn btn-success">عرض</a></td>
 
         </tr>
@@ -23,9 +28,11 @@
     </tbody>
     <tfoot>
     <tr>
-    <th>#</th>
+        <th>#</th>
         <th>   رقم سند المصروف</th>
         <th>اسم المندوب</th>
+        <th> قيمة المصروف</th>
+        <th> طبيعة المصروف</th>
         <th>وقت وتاريخ المصروف</th>
         <th class="noExport">عمليات</th>
     </tr>

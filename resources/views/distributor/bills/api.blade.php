@@ -167,7 +167,7 @@
                         <td> <p style="margin: 0px 20px">{{$tax_amount}}</p></td>
                     </tr>
                     <tr>
-                        <td> <p style="margin: 0px 20px">اجمالى الفاتورة</p></td>
+                        <td> <p style="margin: 0px 20px"> الإجمالي مع الضریبة</p></td>
                         <td> <p style="margin: 0px 20px">{{ $total }}</p></td>
                     </tr>
                     <tr>

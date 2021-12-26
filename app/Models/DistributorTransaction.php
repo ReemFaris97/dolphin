@@ -67,7 +67,11 @@ class DistributorTransaction extends Model
     {
         $builder->where('sender_id', $user_id)->where('sender_type', User::class);
     }
-
+    public function scopeIsTransaction(Builder $builder)
+    {
+        $builder->whereMorphedTo('sender', User::class);
+        $builder->whereMorphedTo('receiver', User::class);
+    }
     public function scopeReceiverUser(Builder $builder, $user_id)
     {
         $builder->where('receiver_id', $user_id)->where('receiver_type', User::class);
@@ -83,7 +87,6 @@ class DistributorTransaction extends Model
                 $q->receiverUser($user_id);
             });
         });
-
     }
     public function scopeWalletOf(Builder $builder, $user_id)
     {
@@ -98,14 +101,12 @@ class DistributorTransaction extends Model
     }
     public function getInvoiceNumberAttribute()
     {
-
         return  str_pad($this->id, 6, 0, STR_PAD_LEFT);
     }
 
     public function amountByType($user)
     {
         if ($user->id == $this->receiver_id  && $this->receiver_type == get_class($user)) {
-
             return $this->amount;
         }
         return $this->amount * -1;

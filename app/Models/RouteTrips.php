@@ -60,7 +60,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class RouteTrips extends Model
 {
-    protected $fillable = ['route_id', 'client_id', 'lat', 'lng', 'address', 'status', 'arrange', 'cash', 'round'];
+    protected $fillable = ['route_id', 'client_id', 'lat', 'lng', 'address', 'status', 'arrange', 'cash', 'round','is_active'];
 
     protected $appends = ['total'];
 

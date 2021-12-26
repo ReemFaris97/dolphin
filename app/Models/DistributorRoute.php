@@ -56,16 +56,18 @@ class DistributorRoute extends Model
 
 
     protected static function boot()
-{
+    {
         parent::boot();
-    static::addGlobalScope('arrange', function (Builder $builder) {
+        static::addGlobalScope('arrange', function (Builder $builder) {
             $builder->orderBy('round', 'asc');
-        $builder->orderBy('arrange', 'asc');
-    });
-}
+            $builder->orderBy('arrange', 'asc');
+        });
+    }
     public function trips()
     {
-        return $this->hasMany(RouteTrips::class, 'route_id')->orderBy('arrange', 'asc');
+        return $this->hasMany(RouteTrips::class, 'route_id')
+        ->where('is_active', 1)
+        ->orderBy('arrange', 'asc');
     }
     public function clients()
     {
@@ -73,20 +75,19 @@ class DistributorRoute extends Model
     }
     public function accepted_trips()
     {
-        return $this->hasMany(RouteTrips::class, 'route_id')->where('status','accepted')->get()->count();
+        return $this->hasMany(RouteTrips::class, 'route_id')->where('status', 'accepted')->get()->count();
     }
     public function refused_trips()
     {
-        return $this->hasMany(RouteTrips::class, 'route_id')->where('status','refused')->get()->count();
+        return $this->hasMany(RouteTrips::class, 'route_id')->where('status', 'refused')->get()->count();
     }
     public function user()
     {
-        return $this->belongsTo(User::class,'user_id')->withDefault();
+        return $this->belongsTo(User::class, 'user_id')->withDefault();
     }
     public function points()
     {
         return $routeTrips = $this->trips();
-
     }
     /**
      * inventory
@@ -107,18 +108,19 @@ class DistributorRoute extends Model
     {
         return $this->hasManyThrough(
             RouteTripReport::class,
-             RouteTrips::class,
-              'route_id',
-             'route_trip_id');
+            RouteTrips::class,
+            'route_id',
+            'route_trip_id'
+        );
     }
 
-    public function expenses(){
-
+    public function expenses()
+    {
         return $this->hasMany(Expense::class, 'distributor_route_id');
     }
 
-    public function round_expenses(){
-
+    public function round_expenses()
+    {
         return $this->expenses()->whereColumn('expenses.round', 'round');
     }
 
@@ -136,11 +138,4 @@ class DistributorRoute extends Model
             'route_trip_id'
         )->whereColumn('route_trips.round', 'route_trip_reports.round');
     }
-
-
 }
-
-
-
-
-

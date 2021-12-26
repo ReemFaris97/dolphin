@@ -21,12 +21,16 @@ class ProductsResource extends ResourceCollection
     {
         return [
             'products' => $this->collection->transform(function ($q) {
+                // if($q->id!=null){
+                //     dd($q);
+                // }
                 return [
                     'id' => $q->id,
                     'name' => $q->name,
-                    'min_quantity' => $q->min_quantity,
-                    'max_quantity' => $q->max_quantity,
-                    'quantity' => $q->quantity ?? 99999999999999999,
+                    'min_quantity' => $q->min_quantity??0,
+                    'max_quantity' => $q->max_quantity??0,
+                    'quantity' => $q->quantity ?? 0,
+                    'quantity_per_package' =>(string) ( $q->quantity/($q->quantity_per_unit??1) ??0),
                 ];
             }),
             'paginate' => [

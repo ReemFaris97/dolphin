@@ -3,7 +3,6 @@
 
 namespace App\Traits\Distributor;
 
-
 use App\Models\Charge;
 use App\Models\Clause;
 use App\Models\DistributorRoute;
@@ -31,7 +30,6 @@ trait ExpenseOperation
         $inputs = $request->all();
 
         if ($request->hasFile('image') && $request->image != null) {
-
             $inputs['image'] = saveImage($request->image, 'photos');
         }
         if ($request->hasFile('reader_image') && $request->reader_image != null) {
@@ -50,8 +48,8 @@ trait ExpenseOperation
         //        $inputs['route_trip_id']=
         \DB::beginTransaction();
         $clause = Expense::create($inputs);
-
-        DistributorTransaction::create([
+        if ($clause->clause->type==0) {
+            DistributorTransaction::create([
             'sender_type' => User::class,
             'sender_id' => auth()->id(),
             'receiver_type' => Expense::class,
@@ -59,6 +57,10 @@ trait ExpenseOperation
             'amount' => $request->amount,
             'received_at' => Carbon::now(),
         ]);
+        } else {
+
+            // TODO:: add the expenses as accounting purcheses
+        }
         \DB::commit();
         return $clause;
     }

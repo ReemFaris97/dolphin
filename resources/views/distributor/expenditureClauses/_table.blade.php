@@ -43,8 +43,9 @@
     <tfoot>
     <tr>
         <th>#</th>
-        <th class="filter">الاسم</th>
-        <th  class="filter">نوع المصروف</th>
+        <th >الاسم</th>
+        <th >مصدر الصرف</th>
+        <th >نوع المصروف</th>
         <th class="noExport">الاعدادت</th>
     </tr>
     </tfoot>

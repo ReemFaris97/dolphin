@@ -2,7 +2,6 @@
 
 namespace App\Traits;
 
-
 use App\Address;
 use App\Models\FcmToken;
 use App\Models\User;
@@ -13,26 +12,32 @@ trait FirebasOperation
     public function getFcmTokenAndroidAttribute()
     {
         $android_token = $this->tokens()->where('device', 'android')->first();
-        if (!$android_token) return "";
+        if (!$android_token) {
+            return "";
+        }
         return $android_token->token;
     }
 
     public function getFcmTokenIosAttribute()
     {
         $ios_token = $this->tokens()->where('device', 'ios')->first();
-        if (!$ios_token) return "";
+        if (!$ios_token) {
+            return "";
+        }
         return $ios_token->token;
     }
 
     public function getFcmTokenWebAttribute()
     {
         $web_token = $this->tokens()->where('device', 'desktop')->get();
-        if (!$web_token) return "";
+        if (!$web_token) {
+            return "";
+        }
         return $web_token->toArray();
     }
 
 
-    function fire($title, $body, $data, $users)
+    public function fire($title, $body, $data, $users)
     {
         $android_tokens = $users->pluck('fcm_token_android');
         $ios_tokens = $users->pluck('fcm_token_ios');
@@ -44,7 +49,7 @@ trait FirebasOperation
     }
 
 
-    function notifyByFirebase($title, $body, $tokens, $data = [], $is_notification = true)
+    public function notifyByFirebase($title, $body, $tokens, $data = [], $is_notification = true)
     {
         $registrationIDs = $tokens;
         $fcmMsg = array(
@@ -84,9 +89,8 @@ trait FirebasOperation
     }
 
 
-    function fcm_server_key()
+    public function fcm_server_key()
     {
         return 'AAAAiTlRmGw:APA91bGRW2y7HH9Z3HrACHeMuP5ZDj9fXkbx-TEyVuDIRrAsJ0NDkkaYqjdwkaIN5YmvAhKVMWOs2jfNvH0l-TxLNeEn8MDkiftAhaXoV0wij4kl-YRuT0PtB_UZC3lz8DIHx8fGO4-D';
-
     }
 }

@@ -3,15 +3,7 @@
 
 namespace App\Traits\Distributor;
 
-
-
-use App\Models\Charge;
-use App\Models\Clause;
-use App\Models\User;
 use App\Models\DistributorTransaction;
-use App\Models\Task;
-use Carbon\Carbon;
-use Illuminate\Support\Arr;
 
 trait DistributorOperation
 {
@@ -22,11 +14,8 @@ trait DistributorOperation
      * @return mixed
      */
     public function AddTransaction($request)
-  {
-      $inputs = $request->all();
-     $clause = DistributorTransaction::create($inputs);
-       return $clause;
-  }
-
-
+    {
+        $inputs = $request->all();
+        return  DistributorTransaction::create($inputs);
+    }
 }

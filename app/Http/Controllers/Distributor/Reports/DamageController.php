@@ -3,22 +3,10 @@
 namespace App\Http\Controllers\Distributor\Reports;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Distributor\ExpenseResource;
-use App\Http\Resources\Distributor\ExpensesResource;
-use App\Http\Resources\Distributor\TransactionResource;
-use App\Models\DistributorRoute;
-use App\Models\DistributorTransaction;
-use App\Models\Expense;
 use App\Models\ProductQuantity;
 use App\Models\Store;
-use App\Traits\ApiResponses;
-use App\Traits\Distributor\DistributorOperation;
-use App\Traits\Distributor\ExpenseOperation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use JWTFactory;
-use JWTAuth;
-use Illuminate\Http\Response;
 
 
 class DamageController extends Controller

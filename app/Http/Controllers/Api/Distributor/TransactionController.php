@@ -9,11 +9,8 @@ use App\Traits\ApiResponses;
 use App\Traits\Distributor\DistributorOperation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use JWTFactory;
-use JWTAuth;
 use Illuminate\Http\Response;
 use App\Models\User;
-
 
 class TransactionController extends Controller
 {
@@ -22,15 +19,16 @@ class TransactionController extends Controller
 
     public function index()
     {
-
-        $transactions = DistributorTransaction::UserTransactions(auth()->id())->latest()
-            ->paginate($this->paginateNumber);
+        $transactions = DistributorTransaction::query()
+                    ->IsTransaction()
+                    ->UserTransactions(auth()->id())
+                    ->latest()
+                    ->paginate($this->paginateNumber);
         return $this->apiResponse(new TransactionResource($transactions));
     }
 
     public function store(Request $request)
     {
-
         $rules = [
             'distributor_id' => 'required|integer|exists:users,id',
             'amount' => 'required|numeric',
@@ -39,6 +37,7 @@ class TransactionController extends Controller
             'transaction_id' => 'nullable|exists:distributor_transactions,id'
         ];
         $validation = $this->apiValidation($request, $rules);
+
         if ($validation instanceof Response) {
             return $validation;
         }
@@ -49,7 +48,6 @@ class TransactionController extends Controller
 
 
         if ($request->type == "send") {
-
             if (auth()->user()->distributor_wallet() < $request->amount) {
                 return $this->apiResponse(
                     null,
@@ -63,7 +61,6 @@ class TransactionController extends Controller
             $request['receiver_id'] = $request->distributor_id;
             $this->AddTransaction($request);
         } else {
-
             $transaction = DistributorTransaction::find($request->transaction_id);
 
             if ($transaction->signature != $request->signature) {
@@ -80,8 +77,6 @@ class TransactionController extends Controller
 
     public function getWallet()
     {
-
         return $this->apiResponse(['walllet' => (string)auth()->user()->distributor_wallet()]);
     }
-
 }
