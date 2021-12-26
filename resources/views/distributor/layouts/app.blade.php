@@ -48,6 +48,9 @@ background-color: #e7eaef !important
     <link href="{!! asset('dashboard/assets/customize.css')!!}" rel="stylesheet" type="text/css"/>
     @include('sweetalert::alert')
 
+
+
+
 </head>
 <!-- end::Head -->
 <!-- begin::Body -->

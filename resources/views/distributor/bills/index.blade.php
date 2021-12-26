@@ -22,8 +22,31 @@
             </div>
         </div>
         <div class="m-portlet__body">
-            @include('distributor.bills._table')
+            {!!  $dataTable->table()!!}
         </div>
     </div>
 @endsection
 
+@push('scripts')
+    <script>
+        function Delete(id) {
+            var item_id=id;
+            swal({
+                title: "هل أنت متأكد ",
+                text: "هل تريد حذف هذا الفاتورة ؟",
+                icon: "warning",
+                buttons: ["الغاء", "موافق"],
+                dangerMode: true,
+
+            }).then(function(isConfirm){
+                if(isConfirm){
+                    document.getElementById('delete-form'+item_id).submit();
+                }
+                else{
+                    swal("تم االإلفاء", "حذف  الفاتورة تم الغاؤه",'info',{buttons:'موافق'});
+                }
+            });
+        }
+    </script>
+    {!!$dataTable->scripts()  !!}
+@endpush

@@ -183,7 +183,7 @@ class RouteTrips extends Model
             return 'finished';
         }
 
-        return 'unkown';
+        return 'unKnown';
     }
 
     public function getTotalReportsInRoundAttribute()

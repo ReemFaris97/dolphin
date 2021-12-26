@@ -48,7 +48,7 @@ class ProductController extends Controller
         // $products =AccountingProduct::latest()->paginate(10);
         return $dataTable->render('AccountingSystem.products.index');
 
-        return $this->toIndex(compact('products'));
+       // return $this->toIndex(compact('products'));
     }
 
     /**
@@ -963,7 +963,7 @@ class ProductController extends Controller
     public function getProductsCreationByAjax(Request $request)
     {
       //  $products = AccountingProduct::query()->creation()
-        $products = AccountingProduct::query()
+        $products = AccountingProduct::query()->creation()
             ->when($request->search, function ($b) use ($request) {
                 return $b->where(fn($q)=>$q
                     ->where('name', 'LIKE', '%'.$request->search . '%')

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Distributor;
 
+use App\DataTables\DistributerBillsDataTable;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -21,18 +22,20 @@ class BillController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(DistributerBillsDataTable $dataTable)
     {
-        $bills = RouteTripReport::with([
-            'inventory',
-            'products',
-            'route_trip' => function ($builder) {
-                $builder->with(['route' => function ($q) {
-                    $q->with('user');
-                }, 'client']);
-            },
-        ])->get()->reverse();
-        return $this->toIndex(compact('bills'));
+//        $bills = RouteTripReport::with([
+//            'inventory',
+//            'products',
+//            'route_trip' => function ($builder) {
+//                $builder->with(['route' => function ($q) {
+//                    $q->with('user');
+//                }, 'client']);
+//            },
+//        ])->get()->reverse();
+//        return $this->toIndex(compact('bills'));
+
+        return $dataTable->render('distributor.bills.index');
     }
 
     /**
