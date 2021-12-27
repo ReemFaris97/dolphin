@@ -23,7 +23,7 @@
 </div>
 
 
-<button class="btn btn-success" type="button" x-on:click="addItem">اضافة مكونات
+<button class="btn btn-success" type="button" x-on:click="addItem">اضافة أصناف
 </button>
 <br>
 <br>

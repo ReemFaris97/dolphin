@@ -5,6 +5,8 @@
 
 use App\Models\AccountingSystem\AccountingAccount;
 use App\Models\AccountingSystem\AccountingStore;
+use App\Models\ClientClass;
+use App\Models\DistributorRoute;
 use App\Models\Message;
 use Carbon\Carbon;
 
@@ -146,6 +148,28 @@ function suppliers()
         return [$q['id'] => $q['name']];
     });
     return $suppliers;
+}
+
+function users()
+{
+    $users = \App\Models\User::all()->mapWithKeys(function ($q) {
+        return [$q['id'] => $q['name']];
+    });
+    return $users;
+}
+function routes()
+{
+    $routes = DistributorRoute::all()->mapWithKeys(function ($q) {
+        return [$q['id'] => $q['name']];
+    });
+    return $routes;
+}
+function classes()
+{
+    $classes= ClientClass::all()->mapWithKeys(function ($q) {
+        return [$q['id'] => $q['name']];
+    });
+    return $classes;
 }
 
 

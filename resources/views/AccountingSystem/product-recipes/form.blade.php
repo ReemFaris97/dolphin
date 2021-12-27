@@ -49,6 +49,13 @@
             <td>
                 <select :name="`recipes[${i}][product_id]`" class="form-control " x-ref="select"
                         x-model="selectedPro" required>
+
+{{--                    <template x-if="row_product.hasOwnProperty('product')">--}}
+                    <option :value="row_product.id"   x-text="row_product.name">
+                        <label x-text="row_product.name"></label>
+                    </option>
+{{--                    </template>--}}
+
 {{--                    <template x-for="product in products" :key="product.id">--}}
 {{--                        <option x-bind:value="product.id" x-text="product.name"--}}
 {{--                                :selected="selectedPro==product.id">--}}

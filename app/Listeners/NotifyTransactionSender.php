@@ -24,7 +24,8 @@ class NotifyTransactionSender
     public function handle(DistributorTransactionReceived $event)
     {
         $title = 'هناك اشعار جديد';
-        $message = "تم استلام المبلغ النقدى  ";
+        $message = $event->transaction->signature . " تم استلام مبلغ نقدى جديد بتوقيع : ";
+
         $type = 'new_transaction_received';
         $data = [
             'item_id' => $event->transaction->id,

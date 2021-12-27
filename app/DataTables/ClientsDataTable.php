@@ -42,17 +42,17 @@ class ClientsDataTable extends DataTable
     {
         $clients = Client::query()->with(['route', 'client_class', 'user', 'trips']);
 
-        $clients->when(\request('user_id'), function ($q) {
+        $clients->when(\request('user_id[]'), function ($q) {
             $q->whereHas('trips',  function ($query) {
                 $query->whereRelation('route','user_id',\request('user_id'));
             });
         });
 
-        $clients->when(\request('route_id'), function ($q) {
+        $clients->when(\request('route_id[]'), function ($q) {
             $q->whereRelation('trips',  'route_id',\request('route_id'));
         });
 
-        $clients->when(\request('class_id'), function ($q) {
+        $clients->when(\request('class_id[]'), function ($q) {
             $q->where('client_class_id', \request('class_id'));
         });
 
