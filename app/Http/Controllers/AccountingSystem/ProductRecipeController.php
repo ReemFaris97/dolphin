@@ -78,7 +78,7 @@ class ProductRecipeController extends Controller
         $units = AccountingProductMainUnit::pluck('main_unit', 'id')->toArray();
         // $products = AccountingProduct::whereType('creation')->get();
         $products = AccountingProduct::limit(100)->get();
-        $product = AccountingProductRecipe::with('items')->findOrFail($id);
+        $product = AccountingProductRecipe::with(['items'=>fn($q)=>$q->with('product')])->findOrFail($id);
         return $this->toEdit(compact('product'));
     }
 

@@ -158,7 +158,6 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Query\Builder|User onlyTrashed()
  * @method static Builder|User permission($permissions)
  * @method static Builder|User query()
- * @method static Builder|User role($roles, $guard = null)
  * @method static Builder|User searchByName()
  * @method static Builder|User whereAccountingStoreId($value)
  * @method static Builder|User whereAddress($value)

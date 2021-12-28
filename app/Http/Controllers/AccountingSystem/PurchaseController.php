@@ -121,7 +121,7 @@ class PurchaseController extends Controller
                      'purchase_id'=>$purchase->id
                  ]);
                 $items=$request->items;
-                foreach ($items as  $key=>$item1) {
+                foreach ($items ??[] as  $key=>$item1) {
                     if ($key==$i) {
                         foreach ($item1 as $ke=>$item2) {
                             if ($ke=='discount_item_percentage') {
