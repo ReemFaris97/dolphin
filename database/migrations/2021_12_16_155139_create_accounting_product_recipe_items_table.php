@@ -13,28 +13,28 @@ class CreateAccountingProductRecipeItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('accounting_product_recipe_items', function (Blueprint $table) {
-            $table->id();
+        // Schema::create('accounting_product_recipe_items', function (Blueprint $table) {
+        //     $table->id();
 
-            $table->unsignedBigInteger('recipe_id')->nullable();
-            $table->foreign('recipe_id')->references('id')
-                ->on('accounting_product_recipes')->onDelete('cascade')
-                ->onUpdate('cascade');
+        //     $table->unsignedBigInteger('recipe_id')->nullable();
+        //     // $table->foreign('recipe_id')->references('id')
+        //     //     ->on('accounting_product_recipes')->onDelete('cascade')
+        //     //     ->onUpdate('cascade');
 
-            $table->unsignedBigInteger('product_id')->nullable();
-            $table->foreign('product_id')->references('id')
-                ->on('accounting_products')->onDelete('cascade')
-                ->onUpdate('cascade');
+        //     $table->unsignedBigInteger('product_id')->nullable();
+        //     $table->foreign('product_id')->references('id')
+        //         ->on('accounting_products')->onDelete('cascade')
+        //         ->onUpdate('cascade');
 
-            $table->unsignedBigInteger('unit_id')->index()->nullable();
-            $table->foreign('unit_id')->references('id')
-                ->on('accounting_products_subUnits')->onDelete('cascade')
-                ->onUpdate('cascade');
+        //     $table->unsignedBigInteger('unit_id')->index()->nullable();
+        //     $table->foreign('unit_id')->references('id')
+        //         ->on('accounting_products_subUnits')->onDelete('cascade')
+        //         ->onUpdate('cascade');
 
-            $table->string('quantity')->nullable();
+        //     $table->string('quantity')->nullable();
 
-            $table->timestamps();
-        });
+        //     $table->timestamps();
+        // });
     }
 
     /**

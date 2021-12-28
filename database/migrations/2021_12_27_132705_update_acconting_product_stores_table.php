@@ -14,8 +14,8 @@ class UpdateAccontingProductStoresTable extends Migration
     public function up()
     {
         Schema::table('accounting_stores', function (Blueprint $table) {
-            $table->nullableMorphs('added_from');
-            $table->boolean('type')->default(0)->comment('0=>add ,1=>remove');
+            // $table->nullableMorphs('added_from');
+            // $table->boolean('type')->default(0)->comment('0=>add ,1=>remove');
         });
     }
 
