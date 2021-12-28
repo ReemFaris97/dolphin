@@ -15,9 +15,9 @@ class AddProductIdToAccountingProductionsTable extends Migration
     {
         Schema::table('accounting_productions', function (Blueprint $table) {
             $table->unsignedBigInteger('product_id')->nullable();
-            $table->foreign('product_id')->references('id')
-                ->on('accounting_products')->onDelete('cascade')
-                ->onUpdate('cascade');
+//            $table->foreign('product_id')->references('id')
+//                ->on('accounting_products')->onDelete('cascade')
+//                ->onUpdate('cascade');
         });
     }
 

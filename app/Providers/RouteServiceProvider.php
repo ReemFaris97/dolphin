@@ -51,6 +51,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapSupplierAdminRoutes();
         $this->mapSupplierRoutes();
         $this->mapAccountingSystemRoutes();
+        $this->mapSuppliersApiRoutes();
         //
     }
 
@@ -161,6 +162,13 @@ class RouteServiceProvider extends ServiceProvider
             ->as('supplier.')
             ->prefix('supplier')
             ->group(base_path('routes/supplier.php'));
+    }
+    protected function mapSuppliersApiRoutes()
+    {
+        Route::middleware(['api','customHandler'])
+            ->as('api.suppliers.')
+            ->prefix('api/suppliers')
+            ->group(base_path('routes/Suppliers/supplier.php'));
     }
 
 
