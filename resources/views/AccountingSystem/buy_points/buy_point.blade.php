@@ -590,11 +590,12 @@ unit_total_tax_enable
 							</div>
                         	<div class="form-group col-xs-4">
 								<label>ادخل الخصم بالنسبة</label>
-								<input type="number" step="any" class="form-control singleSpecialDiscByPer"  min="0" placeholder="ادخل الخصم بالنسبة" name="items[${itemNumber}][discount_item_percentage][${discountNum}]">
+								<input type="number" step="0.1" class="form-control singleSpecialDiscByPer"
+                                min="0" value="0" placeholder="ادخل الخصم بالنسبة" name="items[${itemNumber}][discount_item_percentage][${discountNum}]">
 							</div>
 							<div class="form-group col-xs-4">
 								<label>ادخل الخصم بالمبلغ</label>
-								<input type="number" step="any" class="form-control singleSpecialDiscByVal"  min="0" placeholder="ادخل الخصم بالمبلغ" name="items[${itemNumber}][discount_item_value][${discountNum}]">
+								<input type="number" step="0.1" class="form-control singleSpecialDiscByVal"  min="0" value="0" placeholder="ادخل الخصم بالمبلغ" name="items[${itemNumber}][discount_item_value][${discountNum}]">
 							</div>
 							<div class="form-group col-xs-4">
 								<label>يؤثر في الضريبة <input class="effectTax" type="checkbox" name="items[${rowNum}][discount_item_effectTax][${discountNum}]" value="1"></label>

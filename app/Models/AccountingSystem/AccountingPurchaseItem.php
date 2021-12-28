@@ -53,6 +53,10 @@ class AccountingPurchaseItem extends Model
     {
         return $this->belongsTo(AccountingProduct::class, 'product_id');
     }
+    public function discounts()
+    {
+        return $this->hasMany(AccountingItemDiscount::class, 'item_id')->where('type', 'purchase');
+    }
 
     public function purchase()
     {

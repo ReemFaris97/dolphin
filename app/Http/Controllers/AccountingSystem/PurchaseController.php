@@ -90,7 +90,7 @@ class PurchaseController extends Controller
             $itemTax = collect($request['itemTax']);
             $gifts = collect($requests['gifts']);
             $merges = $products->zip($qtys, $unit_id, $prices, $itemTax, $gifts);
-            $i=0;
+            $i=1;
 
             foreach ($merges as $merge) {
                 $product=AccountingProduct::find($merge['0']);
