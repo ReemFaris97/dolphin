@@ -57,7 +57,6 @@ class PurchaseController extends Controller
     public function store(Request $request)
     {
         $requests = $request->except('user_id');
-         dd($requests);
         if ($requests['type']=='purchase') {
             $rules = [
                 'supplier_id'=>'required|numeric|exists:accounting_suppliers,id',
