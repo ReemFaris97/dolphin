@@ -3,36 +3,23 @@
 namespace App\Http\Controllers\AccountingSystem;
 
 use App\Models\AccountingSystem\AccountingBranch;
-use App\Models\AccountingSystem\AccountingBranchShift;
 use App\Models\AccountingSystem\AccountingCompany;
-
-use App\Models\AccountingSystem\AccountingOffer;
-use App\Models\AccountingSystem\AccountingPackage;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
-use App\Models\AccountingSystem\AccountingSale;
-use App\Models\AccountingSystem\AccountingSaleItem;
 use App\Models\AccountingSystem\AccountingSupplier;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingItemDiscount;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingProductSubUnit;
-use App\Models\AccountingSystem\AccountingProductTax;
 use App\Models\AccountingSystem\AccountingPurchase;
 use App\Models\AccountingSystem\AccountingPurchaseItem;
-use App\Models\AccountingSystem\AccountingPurchaseReturn;
-use App\Models\AccountingSystem\AccountingReturn;
 use App\Models\AccountingSystem\AccountingSafe;
-use App\Models\AccountingSystem\AccountingSession;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingUserPermission;
 use App\Traits\PurchaseOperation;
 use App\Traits\Viewable;
 use App\Models\User;
-use Auth;
-use Carbon\Carbon;
-use Request as GlobalRequest;
 
 class PurchaseController extends Controller
 {
@@ -70,7 +57,7 @@ class PurchaseController extends Controller
     public function store(Request $request)
     {
         $requests = $request->except('user_id');
-        // dd($requests);
+         dd($requests);
         if ($requests['type']=='purchase') {
             $rules = [
                 'supplier_id'=>'required|numeric|exists:accounting_suppliers,id',
@@ -97,14 +84,12 @@ class PurchaseController extends Controller
                  'totalTaxs'=>$requests['totalTaxs'],
              ]);
 
-
             $products = collect($requests['product_id']);
             $qtys = collect($requests['quantity']);
             $unit_id = collect($requests['unit_id']);
             $prices = collect($requests['prices']);
             $itemTax = collect($request['itemTax']);
             $gifts = collect($requests['gifts']);
-
             $merges = $products->zip($qtys, $unit_id, $prices, $itemTax, $gifts);
             $i=0;
 
@@ -123,7 +108,6 @@ class PurchaseController extends Controller
                          'quantity'=>$product->quantity + $merge['1']+$merge['5'],
                      ]);
                 }
-                //            if($product->quantity>0){
                 $item= AccountingPurchaseItem::create([
                      'product_id'=>$merge['0'],
                      'quantity'=> $merge['1'],
@@ -171,22 +155,15 @@ class PurchaseController extends Controller
 
                 $i++;
 
-
-                //update_product_quantity
-
-                ///if-main-unit
-
                 if ($merge['2']!='main-'.$product->id) {
                     $productstore=AccountingProductStore::where('store_id', $request['store_id'])->where('product_id', $merge['0'])->where('unit_id', $merge['2'])->first();
                     if ($productstore) {
                         $productstore->update([
                               'quantity' => $productstore->quantity + $merge['1'],
-
                           ]);
                     }
                 } else {
                     $productstore=AccountingProductStore::where('store_id', $request['store_id'])->where('product_id', $merge['0'])->where('unit_id', null)->first();
-                    //              dd(auth()->user()->accounting_store_id);
                     if ($productstore) {
                         $productstore->update([
                               'quantity' => $productstore->quantity + $merge['1']+$merge['5'],
@@ -232,7 +209,6 @@ class PurchaseController extends Controller
             $this->returns($request);
         } elseif ($requests['type']=='edit') {
         }
-
 
         // alert()->success('تمت عملية الشراء بنجاح !')->autoclose(5000);
         // return back();

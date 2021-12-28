@@ -235,19 +235,6 @@ unit_total_tax_enable
 
                                 <td class="bill-operations-td maybe-hidden operations_enable" width="160">
 
-                                    {{-- <button type="button"
-                                            class="btn btn-primary popover-op"
-                                            role="button"
-                                            data-toggle="popover"
-                                            title="عمليات أخرى"
-                                            data-html="true"
-                                            data-container="body"
-                                            data-toggle="popover"
-                                            data-placement="right"
-                                            data-id="${rowNum}"
-                                            data-content='<div class="lasto-prico">أخر سعر : ${lastPrice}</div><div class="averageo-priceo"> متوسط السعر : ${avgPrice} </div> <div class="showo-producto"><a href="${productLink}" target="_blank" title="عرض المنتح" rel="noopener noreferrer">عرض المنتج</a></div><div class="addo-saleo"><a data-toggle="modal" title="إضافة خصم" data-target="#discMod${rowNum}">إضافة خصم</a></div>'>
-                                            <span class="icon-coin-dollar"></span>
-                                    </button> --}}
                                     <a href="#" title="مسح" class="remove-prod-from-list"><span class="icon-cross"></span></a>
                                 </td>
                             </tr>
@@ -335,7 +322,12 @@ unit_total_tax_enable
 									<span class="colorfulSpan">طريقة الدفع</span>
 									<div class="inline_divs">
 										<div class="form-group rel-cols radiBtnwrap">
-											<input type="radio" checked id="tazaBTaza" name="payment" value="cash" required="" data-parsley-required-message="من فضلك اختر طريقة الدفع"
+											<input type="radio"
+                                            checked
+                                            id="tazaBTaza"
+                                             name="payment" value="cash"
+                                             required=""
+                                             data-parsley-required-message="من فضلك اختر طريقة الدفع"
 >
 											<label for="tazaBTaza">نقدا</label>
 										</div>
@@ -346,7 +338,6 @@ unit_total_tax_enable
 									</div>
 								</th>
 							</tr>
-							{{--<input type="hidden" name="totalTaxs">--}}
 							<tr>
 								<th colspan="9">
 									<button type="submit">حفظ</button>
@@ -432,7 +423,6 @@ unit_total_tax_enable
         var totalTaxes = selectedProduct.data('total-taxes');
         var mainUnit = selectedProduct.data('main-unit');
         var productUnits = selectedProduct.data('subunits');*/
-        debugger;
                 results = _.toArray(_.mapValues(data.data.data, function (obj) {
                     return {
                         id: obj.id,
@@ -496,7 +486,7 @@ unit_total_tax_enable
         }
         var netTax = parseFloat(parseFloat(singlePriceAfter) - parseFloat(singlePriceBefore)).toFixed(rondingNumber);
 
-        var discountNum = 1;
+        var discountNum = 0;
         var optss = ``;
         for (var i = 0; i < productUnits.length; i++) {
                         optss += '<option data-uni-price="' + unitPrice[i] + '" value="' + unitId[i] + '" > ' + unitName[i] + '</option> ';
@@ -596,18 +586,18 @@ unit_total_tax_enable
                         $(this).parent().prev('.anotherAddedSpecialDiscounts').append(`<div class="single-special-dis-wrap clearfix row">
                             <div class="form-group col-xs-4 ddd-none">
 								<label>رقم الخصم</label>
-								<input type="text" class="form-control " value="${discountNum}" >
+								<input type="text" class="form-control" value="${discountNum}" >
 							</div>
                         	<div class="form-group col-xs-4">
 								<label>ادخل الخصم بالنسبة</label>
-								<input type="number" step="any" class="form-control singleSpecialDiscByPer" value="0" min="0" placeholder="ادخل الخصم بالنسبة" name="items[${itemNumber}][discount_item_percentage][]">
+								<input type="number" step="any" class="form-control singleSpecialDiscByPer"  min="0" placeholder="ادخل الخصم بالنسبة" name="items[${itemNumber}][discount_item_percentage][${discountNum}]">
 							</div>
 							<div class="form-group col-xs-4">
 								<label>ادخل الخصم بالمبلغ</label>
-								<input type="number" step="any" class="form-control singleSpecialDiscByVal" value="0" min="0" placeholder="ادخل الخصم بالمبلغ" name="items[${itemNumber}][discount_item_value][]">
+								<input type="number" step="any" class="form-control singleSpecialDiscByVal"  min="0" placeholder="ادخل الخصم بالمبلغ" name="items[${itemNumber}][discount_item_value][${discountNum}]">
 							</div>
 							<div class="form-group col-xs-4">
-								<label>يؤثر في الضريبة <input class="effectTax" type="checkbox" name="items[${rowNum}][discount_item_effectTax][]" value="1"></label>
+								<label>يؤثر في الضريبة <input class="effectTax" type="checkbox" name="items[${rowNum}][discount_item_effectTax][${discountNum}]" value="1"></label>
 
 								</div>
 							<a href="#" class="removeThisSinglSpecDisc"><span class="icon-cross"></span></a>
@@ -851,6 +841,7 @@ unit_total_tax_enable
                     });
                      $('#discMod' + rowNum).on('hidden.bs.modal', function (e) {
                         var modId = $(this).attr('id');
+                        debugger
                         var onlyModNum = modId.substr(7, modId.length);
                         var finalAftDisc = parseFloat($('#row' + onlyModNum).find('.whole-price-before').attr('tempPriBef'));
                         var rows = $(this).find('.single-special-dis-wrap');
@@ -906,7 +897,6 @@ unit_total_tax_enable
                                     ).toFixed(rondingNumber)
                                 );
                             calcInfo();
-                            return ;
                         }
                     });
                     //**************    Calc while changing table body ***********************

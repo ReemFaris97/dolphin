@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountingSystem\Reports\SalesController;
+use App\Http\Controllers\AccountingSystem\Reports\SuppliersController;
 
 Route::get('/', function () {
     return redirect()->route('accounting.home');
@@ -306,13 +307,13 @@ Route::middleware('admin')->group(function () {
     Route::resource('templates', 'TemplateController');
 
     Route::group(['prefix' => 'reports', 'namespace' => 'Reports', 'as' => 'reports.'], function () {
-        Route::any('damaged-products', ['as' => 'damaged-products', 'uses' => 'StoresController@damages']);
-        Route::any('inventory-products', ['as' => 'inventory-products', 'uses' => 'StoresController@inventory']);
-        Route::any('deficiency-products', ['as' => 'deficiency-products', 'uses' => 'StoresController@deficiency']);
-        Route::any('transaction-products', ['as' => 'transaction-products', 'uses' => 'StoresController@transactions']);
-        Route::any('expiration-products', ['as' => 'expiration-products', 'uses' => 'StoresController@expirations']);
-        Route::any('stagnant-products', ['as' => 'stagnant-products', 'uses' => 'StoresController@stagnants']);
-        Route::any('movements-products', ['as' => 'movements-products', 'uses' => 'StoresController@movements']);
+        Route::any('damaged-products', [StoresController::class,'damages'])->name('damaged-products');
+        Route::any('inventory-products', [ StoresController::class,'inventory'])->name('inventory-products');
+        Route::any('deficiency-products', [ StoresController::class,'deficiency'])->name('deficiency-products');
+        Route::any('transaction-products', [ StoresController::class,'transactions'])->name('transaction-products');
+        Route::any('expiration-products', [ StoresController::class,'expirations'])->name('expiration-products');
+        Route::any('stagnant-products', [ StoresController::class,'stagnants'])->name('stagnant-products');
+        Route::any('movements-products', [ StoresController::class,'movements'])->name('movements-products');
 
 
         Route::group(['prefix' => 'suppliers', 'as' => 'suppliers.'], function () {
