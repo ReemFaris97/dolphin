@@ -18,9 +18,10 @@ class ChangeProductIdToAccountingProductionItemsTable extends Migration
             $table->dropColumn('product_id');
 
             $table->unsignedBigInteger('recipe_id')->nullable();
-            // $table->foreign('recipe_id')->references('id')
-            //     ->on('accounting_product_recipes')->onDelete('cascade')
-            //     ->onUpdate('cascade');
+
+//            $table->foreign('recipe_id')->references('id')
+//                ->on('accounting_product_recipes')->onDelete('cascade')
+//                ->onUpdate('cascade');
 
         });
     }

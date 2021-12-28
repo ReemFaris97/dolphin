@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\ApiLocalizationHandler;
+use App\Http\Middleware\CustomExceptionHandlerMiddleware;
 use App\Http\Middleware\DistributorMiddleware;
 use App\Http\Middleware\SupplierMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -72,6 +73,7 @@ class Kernel extends HttpKernel
         'admin'=>AdminMiddleware::class,
         'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class,
         'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class,
+        'customHandler'=>CustomExceptionHandlerMiddleware::class
     ];
 
     /**

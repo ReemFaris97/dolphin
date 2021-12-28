@@ -13,21 +13,21 @@ class CreateAccountingProductRecipesTable extends Migration
      */
     public function up()
     {
-        // Schema::create('accounting_product_recipes', function (Blueprint $table) {
-        //     $table->id();
+         Schema::create('accounting_product_recipes', function (Blueprint $table) {
+             $table->id();
 
-        //     $table->unsignedBigInteger('product_id')->nullable();
-        //     $table->foreign('product_id')->references('id')
-        //         ->on('accounting_products')->onDelete('cascade')
-        //         ->onUpdate('cascade');
+             $table->unsignedBigInteger('product_id')->nullable();
+//             $table->foreign('product_id')->references('id')
+//                 ->on('accounting_products')->onDelete('cascade')
+//                 ->onUpdate('cascade');
 
-        //     $table->unsignedBigInteger('unit_id')->index()->nullable();
-        //     $table->foreign('unit_id')->references('id')
-        //         ->on('accounting_products_subUnits')->onDelete('cascade')
-        //         ->onUpdate('cascade');
+             $table->unsignedBigInteger('unit_id')->index()->nullable();
+//             $table->foreign('unit_id')->references('id')
+//                 ->on('accounting_products_subUnits')->onDelete('cascade')
+//                 ->onUpdate('cascade');
 
-        //     $table->timestamps();
-        // });
+             $table->timestamps();
+         });
     }
 
     /**

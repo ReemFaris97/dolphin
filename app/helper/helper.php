@@ -429,7 +429,29 @@ function uploader($request, $img_name)
     $path = Storage::disk('public')->putFileAs(uploadpath(), $file, $fileName);
     return $path;
 }
+function validate($request,$rules){
+    $validator=Validator::make($request->only(array_keys($rules)),$rules);
 
+}
+
+class responder
+{
+    public static function success($data)
+    {
+        return response()->json(['status' => true, 'data' => $data]);
+    }
+
+    public static function error($data)
+    {
+        return response()->json(['status' => false, 'msg' => $data]);
+    }
+}
+function Fileuploader($value)
+{
+    $path = '/storage/'.\Storage::disk('public')->putFile(uploadpath(), $value);
+
+    return $path;
+}
 
 function routeActive($path, $active = 'active')
 {
