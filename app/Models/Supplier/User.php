@@ -2,8 +2,9 @@
 
 namespace App\Models\Supplier;
 
-use App\Traits\HasImages;
 use App\Models\AccountingSystem\AccountingCompany;
+use App\Models\AccountingSystem\AccountingSupplier;
+use App\Traits\HasImages;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -50,6 +51,16 @@ class User extends Authenticatable implements JWTSubject
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo(AccountingSupplier::class,'supplier_id');
+    }
+
+    public function invoices()
+    {
+        return $this->hasManyThrough(Invoice::class, AccountingSupplier::class,'');
     }
 
 }

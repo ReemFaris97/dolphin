@@ -11,5 +11,6 @@ Route::group(['prefix' => 'auth'],function (){
 
 Route::group(['middleware' => 'auth:supplier'],function (){
    Route::apiResource('products',ProductController::class);
-   Route::get('list/products',[ProductController::class,'list']);
+   Route::get('list/products', [ProductController::class, 'list']);
+    Route::apiResource('invoices', InvoiceController::class);
 });

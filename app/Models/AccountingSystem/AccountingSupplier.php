@@ -2,6 +2,7 @@
 
 namespace App\Models\AccountingSystem;
 
+use App\Models\Supplier\Invoice;
 use App\Traits\HashPassword;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -58,7 +59,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class AccountingSupplier extends Model
 {
     protected $table='accounting_suppliers';
-    
+
     protected $fillable = ['name','email','phone','credit','branch_id','amount','password','image','bank_id',
         'bank_account_number','tax_number','is_active','balance','account_id','phones'
     ];
@@ -79,5 +80,10 @@ class AccountingSupplier extends Model
     public function account()
     {
         return $this->belongsTo(AccountingAccount::class, 'account_id');
+    }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
     }
 }

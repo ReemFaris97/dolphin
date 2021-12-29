@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateAccontingProductStoresTable extends Migration
+class CreateInvoicesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class UpdateAccontingProductStoresTable extends Migration
      */
     public function up()
     {
-        Schema::table('accounting_stores', function (Blueprint $table) {
-            $table->nullableMorphs('added_from');
-            $table->boolean('type')->default(0)->comment('0=>add ,1=>remove')->change()
-            ;
+        Schema::create('suppliers_invoices', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(\App\Models\AccountingSystem\AccountingSupplier::class)->constrained()->cascadeOnDelete();
+            $table->timestamps();
         });
     }
 
@@ -27,6 +27,6 @@ class UpdateAccontingProductStoresTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('invoices');
     }
 }
