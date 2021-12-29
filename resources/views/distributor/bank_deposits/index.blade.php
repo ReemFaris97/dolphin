@@ -1,5 +1,5 @@
 @extends('distributor.layouts.app')
-@section('title')  اسماء شرائح العملاء
+@section('title')  سجل الايداعات البنكية
 @endsection
 
 @section('header')
@@ -37,6 +37,8 @@
             </div>
         </div>
         <div class="m-portlet__body">
+            @include('distributor.bank_deposits.filter')
+
             @include('distributor.bank_deposits._table')
         </div>
     </div>

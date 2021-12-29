@@ -59,6 +59,7 @@ Route::middleware('distributor')->group(function () {
     Route::resource('/expenses', 'ExpensesController');
     Route::resource('banks', 'BankController');
     Route::resource('bank-deposits', 'BankDepositsController');
+    Route::post('confirm-bank-deposits/{id}', 'BankDepositsController@Confirm')->name('bank-deposits.confirm');
     Route::resource('/routes', 'DistributorRoutesController');
     Route::get('/getAjaxWallet/{id}', 'BankDepositsController@getUserWallet')->name('getAjaxWallet');
     Route::get('available_route/{id}', 'DistributorRoutesController@available')->name('routes.available');

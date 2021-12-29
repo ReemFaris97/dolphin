@@ -32,7 +32,7 @@ class CreateUsersTable extends Migration
             $table->string('credit_date')->nullable();
 
             $table->unsignedBigInteger('parent_id')->nullable();
-            $table->foreign('parent_id')->on('suppliers_users')->references('id')->cascadeOnDelete();
+//            $table->foreign('parent_id')->on('suppliers_users')->references('id')->cascadeOnDelete();
             $table->timestamps();
         });
     }

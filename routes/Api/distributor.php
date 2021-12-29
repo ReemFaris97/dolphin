@@ -35,6 +35,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
     Route::get('products_report', 'DailyReportController@productReport');
     Route::resource('daily_reports', 'DailyReportController')->only('store');
     Route::resource('bank_deposits', 'BankDepositsController');
+    Route::get('last-bank-deposit', 'BankDepositsController@userLastDeposit');
     Route::get('cars', 'StoreController@cars');
     Route::get('transfer_requests', 'StoreController@pendingTransferRequests');
     Route::get('transfer_requests/{id}', 'StoreController@AcceptTransferRequest');

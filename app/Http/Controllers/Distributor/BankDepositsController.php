@@ -17,14 +17,21 @@ class BankDepositsController extends Controller
 
     private $viewable = 'distributor.bank_deposits.';
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        $bank_deposits = BankDeposit::latest()->get();
+       // dd(\request()->all());
+        $bank_deposits = BankDeposit::query()->with(['distributor', 'bank'])->latest();
+
+        $bank_deposits->when(\request()->has('confirmed'), function ($q) {
+                $q->where('confirmed', \request('confirmed'));
+        });
+
+        $bank_deposits->when(\request('from') and \request('to'), function ($q) {
+            $q->whereBetween('deposit_date', [\request('from'), \request('to')]);
+        });
+
+        $bank_deposits = $bank_deposits->get();
         return $this->toIndex(compact('bank_deposits'));
     }
 
@@ -133,6 +140,17 @@ class BankDepositsController extends Controller
             'status'=>true,
             'wallet'=>$wallet
         ]);
+    }
+
+    public function Confirm($id)
+    {
+        $bank_deposit = BankDeposit::findOrFail($id);
+        $bank_deposit->update([
+            'confirmed_at'=>now(),
+            'confirmed'=>1
+        ]);
+        toast('تم تأكيد الايداع بنجاح', 'success', 'top-right');
+        return redirect()->route('distributor.bank-deposits.index');
     }
 
 }
