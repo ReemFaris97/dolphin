@@ -1874,3 +1874,18 @@ select.form-control.js-example-basic-single.edit-select-size {
 	border:none;
 }
 /******* end numric number *******/
+
+
+.finalTb tr.single-row-wrapper{
+	background-color: #E6E6E6;
+}
+button.btn.btn-primary.dropdown-toggle.btn-dollar{
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    margin-top: 0px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 0;
+}
