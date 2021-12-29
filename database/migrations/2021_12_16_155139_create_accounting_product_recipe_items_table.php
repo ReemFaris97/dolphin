@@ -13,8 +13,8 @@ class CreateAccountingProductRecipeItemsTable extends Migration
      */
     public function up()
     {
-        // Schema::create('accounting_product_recipe_items', function (Blueprint $table) {
-        //     $table->id();
+         Schema::create('accounting_product_recipe_items', function (Blueprint $table) {
+             $table->id();
 
             $table->unsignedBigInteger('recipe_id')->nullable();
 //            $table->foreign('recipe_id')->references('id')
@@ -31,10 +31,10 @@ class CreateAccountingProductRecipeItemsTable extends Migration
 //                ->on('accounting_products_subUnits')->onDelete('cascade')
 //                ->onUpdate('cascade');
 
-        //     $table->string('quantity')->nullable();
+             $table->string('quantity')->nullable();
 
-        //     $table->timestamps();
-        // });
+             $table->timestamps();
+         });
     }
 
     /**
