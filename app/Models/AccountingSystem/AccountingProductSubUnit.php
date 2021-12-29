@@ -54,10 +54,10 @@ class AccountingProductSubUnit extends Model
     }
     public function quantityInMainUnit($quantity)
     {
-        return $quantity*$this->main_unit_present;
+        return $quantity*($this->main_unit_present??1);
     }
     public function priceInMainUnit($price)
     {
-        return  $price/$this->main_unit_present;
+        return  $price/($this->main_unit_present??1);
     }
 }

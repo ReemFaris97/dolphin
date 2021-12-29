@@ -45,6 +45,12 @@ class AccountingSaleItem extends Model
     protected $fillable = ['product_id','quantity','price','sale_id','price_after_tax','tax','unit_id'];
     protected $table='accounting_sales_items';
 
+    protected static function booted()
+    {
+        static::created(function (AccountingSaleItem $item) {
+            $item->subQuantity();
+        });
+    }
     public function product()
     {
         return $this->belongsTo(AccountingProduct::class, 'product_id');
