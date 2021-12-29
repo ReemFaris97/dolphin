@@ -2,8 +2,10 @@
 
 namespace App\Models\AccountingSystem;
 
+use App\Models\Models\AccountingSystem\AccountingProductStoreLog;
 use App\Traits\HashPassword;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -40,18 +42,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class AccountingSaleItem extends Model
 {
-
-
     protected $fillable = ['product_id','quantity','price','sale_id','price_after_tax','tax','unit_id'];
     protected $table='accounting_sales_items';
 
     public function product()
     {
-        return $this->belongsTo(AccountingProduct::class,'product_id');
+        return $this->belongsTo(AccountingProduct::class, 'product_id');
     }
     public function sale()
     {
-        return $this->belongsTo(AccountingSale::class,'sale_id');
+        return $this->belongsTo(AccountingSale::class, 'sale_id');
     }
 
     public function priceWithoutTax($tax)
@@ -64,20 +64,43 @@ class AccountingSaleItem extends Model
     }
     public function unit()
     {
-        return $this->belongsTo(AccountingProductSubUnit::class,'unit_id');
-}
+        return $this->belongsTo(AccountingProductSubUnit::class, 'unit_id');
+    }
+    /**
+    * @return MorphMany
+    */
+    public function store_quantity_log():MorphMany
+    {
+        return $this->morphMany(AccountingProductStoreLog::class, 'dispatcher');
+    }
+
     public function units()
     {
 //        return $this->belongsTo(AccountingProductSubUnit::class,'unit_id');
 
-        $units=AccountingProductSubUnit::where('product_id',$this->product->id)->get();
+        $units=AccountingProductSubUnit::where('product_id', $this->product->id)->get();
         $subunits= collect($units);
-        $allunits=json_encode($subunits,JSON_UNESCAPED_UNICODE);
-        $mainunits=json_encode(collect([['id'=>'main-'.$this->product->id,'name'=>$this->product->main_unit , 'purchasing_price'=>$this->product->purchasing_price]]),JSON_UNESCAPED_UNICODE);
+        $allunits=json_encode($subunits, JSON_UNESCAPED_UNICODE);
+        $mainunits=json_encode(collect([['id'=>'main-'.$this->product->id,'name'=>$this->product->main_unit , 'purchasing_price'=>$this->product->purchasing_price]]), JSON_UNESCAPED_UNICODE);
         $merged = array_merge(json_decode($mainunits), json_decode($allunits));
 
         return $merged;
-
     }
-
+    public function subQuantity():AccountingProductStoreLog
+    {
+        $main_unit=  AccountingProductSubUnit::where('id', $this->unit_id)->value('main_unit_present')??1;
+        $quantity_in_main_unit=$this->quantity*$main_unit;
+        $price=$this->price/$main_unit;
+        $product_store_id=AccountingProductStore::where('product_id', $this->product_id)->where('store_id', $this->sale->store_id)->firstValue('id');
+        return $this->store_quantity_log()->create(
+            [
+                'accounting_product_store_id'=>$product_store_id,
+                'accounting_product_id'=>$this->product_id,
+                'unit_id'=>null,
+                'price'=>$price,
+                'amount'=>$quantity_in_main_unit,
+                'type'=>'out',
+            ]
+        );
+    }
 }

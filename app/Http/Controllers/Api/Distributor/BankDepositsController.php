@@ -4,21 +4,11 @@ namespace App\Http\Controllers\Api\Distributor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Distributor\BankDepositsResource;
-use App\Http\Resources\Distributor\CarsResource;
-use App\Http\Resources\Distributor\ProductsResource;
-use App\Http\Resources\Distributor\ReportsResource;
-use App\Http\Resources\Distributor\SettingResources;
-use App\Models\AccountingSystem\AccountingSetting;
 use App\Models\BankDeposit;
-use App\Models\DistributorRoute;
-use App\Models\RouteTripReport;
 use App\Traits\ApiResponses;
-use App\Traits\Distributor\DailyReportOperation;
 use Carbon\Carbon;
-use DB;
 use Illuminate\Http\Request;
-use JWTFactory;
-use JWTAuth;
+
 use Illuminate\Http\Response;
 
 

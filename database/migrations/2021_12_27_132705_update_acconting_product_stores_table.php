@@ -13,7 +13,7 @@ class UpdateAccontingProductStoresTable extends Migration
      */
     public function up()
     {
-        Schema::table('accounting_stores', function (Blueprint $table) {
+        Schema::table('accounting_product_stores', function (Blueprint $table) {
             $table->nullableMorphs('added_from');
             $table->boolean('type')->default(0)->comment('0=>add ,1=>remove');
         });
@@ -26,6 +26,9 @@ class UpdateAccontingProductStoresTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('accounting_product_stores', function (Blueprint $table) {
+            $table->dropMorphs('added_from');
+            $table->dropColumn('type');
+        });
     }
 }

@@ -11,11 +11,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingItemDiscount;
 use App\Models\AccountingSystem\AccountingProductStore;
+// use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingProductSubUnit;
 use App\Models\AccountingSystem\AccountingPurchase;
 use App\Models\AccountingSystem\AccountingPurchaseItem;
 use App\Models\AccountingSystem\AccountingSafe;
-use App\Models\AccountingSystem\AccountingStore;
+ use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingUserPermission;
 use App\Traits\PurchaseOperation;
 use App\Traits\Viewable;
@@ -93,26 +94,13 @@ class PurchaseController extends Controller
             $i=1;
 
             foreach ($merges as $merge) {
-                $product=AccountingProduct::find($merge['0']);
-                if ($merge['2']!='main-'.$product->id) {
-                    $unit=AccountingProductSubUnit::where('product_id', $merge['0'])->where('id', $merge['2'])->first();
-
-                    if ($unit) {
-                        $unit->update([
-                             'quantity'=>$unit->quantity + $merge['1']+$merge['5'],
-                         ]);
-                    }
-                } else {
-                    $product->update([
-                         'quantity'=>$product->quantity + $merge['1']+$merge['5'],
-                     ]);
-                }
+                $unit=AccountingProductSubUnit::where('product_id', $merge['0'])->where('id', $merge['2'])->first();
                 $item= AccountingPurchaseItem::create([
                      'product_id'=>$merge['0'],
                      'quantity'=> $merge['1'],
                      'price'=>$merge['3'],
-                     'unit_id'=>($merge['2']!='main-'.$product->id)?$unit->id:null,
-                     'unit_type'=>($merge['2']!='main-'.$product->id)?'sub':'main',
+                     'unit_id'=>$unit?->id,
+                     'unit_type'=>$unit?->id!=null?'sub':'main',
                      'tax'=>$merge['4'],
                      'price_after_tax'=>$merge['3']+$merge['4'],
                      'expire_date'=>isset($requests['expire_date'])?$requests['expire_date']:null,
@@ -126,7 +114,7 @@ class PurchaseController extends Controller
                             if ($ke=='discount_item_percentage') {
                                 foreach ($item2 as $k1 => $value) {
                                     if ($item2[$k1]!=0) {
-                                        $discountItem= AccountingItemDiscount::create([
+                                        AccountingItemDiscount::create([
                                          'discount'=> $item2[$k1],
                                          'discount_type'=>'percentage',
                                          'item_id'=>$item->id,
@@ -138,7 +126,7 @@ class PurchaseController extends Controller
                             } elseif ($ke=='discount_item_value') {
                                 foreach ($item2 as $k1 => $value) {
                                     if ($item2[$k1]!=0) {
-                                        $discountItem= AccountingItemDiscount::create([
+                                        AccountingItemDiscount::create([
                                      'discount'=> $item2[$k1],
                                      'discount_type'=>'amount',
                                      'item_id'=>$item->id,
@@ -154,35 +142,19 @@ class PurchaseController extends Controller
 
                 $i++;
 
-                if ($merge['2']!='main-'.$product->id) {
-                    $productstore=AccountingProductStore::where('store_id', $request['store_id'])->where('product_id', $merge['0'])->where('unit_id', $merge['2'])->first();
-                    if ($productstore) {
-                        $productstore->update([
-                              'quantity' => $productstore->quantity + $merge['1'],
-                          ]);
-                    }
-                } else {
-                    $productstore=AccountingProductStore::where('store_id', $request['store_id'])->where('product_id', $merge['0'])->where('unit_id', null)->first();
-                    if ($productstore) {
-                        $productstore->update([
-                              'quantity' => $productstore->quantity + $merge['1']+$merge['5'],
-                          ]);
-                    }
-                    /////////////discount/////////////////
-                    if ($requests['discount_byPercentage']!=0&&$requests['discount_byAmount']==0) {
-                        $purchase->update([
+                /////////////discount/////////////////
+                if ($requests['discount_byPercentage']!=0&&$requests['discount_byAmount']==0) {
+                    $purchase->update([
                          'discount_type'=>'percentage',
                          'discount'=>$requests['discount_byPercentage'],
                      ]);
-                    } elseif ($requests['discount_byAmount']!=0&&$requests['discount_byPercentage']==0) {
-                        $purchase->update([
+                } elseif ($requests['discount_byAmount']!=0&&$requests['discount_byPercentage']==0) {
+                    $purchase->update([
                          'discount_type'=>'amount',
                          'discount'=>$requests['discount_byAmount'],
                      ]);
-                    }
                 }
             }
-            //        dd($purchase);
             if ($purchase->payment=='cash') {
                 $store_id=$request['store_id'];
                 $store=AccountingStore::find($store_id);
@@ -203,8 +175,6 @@ class PurchaseController extends Controller
 
             return back();
         } elseif ($requests['type']=='return') {
-
-            // $return=AccountingPurchaseReturn::
             $this->returns($request);
         } elseif ($requests['type']=='edit') {
         }
@@ -242,7 +212,6 @@ class PurchaseController extends Controller
 
         $suppliers=AccountingSupplier::pluck('name', 'id')->toArray();
         $safes=AccountingSafe::pluck('name', 'id')->toArray();
-
         $userstores=AccountingUserPermission::where('user_id', auth()->user()->id)->where('model_type', 'App\Models\AccountingSystem\AccountingStore')->pluck('model_id', 'id')->toArray();
         $stores=AccountingStore::whereIn('id', $userstores)->pluck('ar_name', 'id')->toArray();
         if ($userstores) {

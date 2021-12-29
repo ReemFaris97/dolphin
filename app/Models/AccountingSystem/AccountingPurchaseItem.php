@@ -2,8 +2,12 @@
 
 namespace App\Models\AccountingSystem;
 
+use App\Models\Models\AccountingSystem\AccountingProductStoreLog;
 use App\Traits\HashPassword;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -48,6 +52,12 @@ class AccountingPurchaseItem extends Model
     protected $fillable = ['product_id','quantity','price','purchase_id','purchase_return_id','tax','unit_id','price_after_tax','unit_type','expire_date','gifts'];
     protected $table='accounting_purchases_items';
 
+    protected static function booted()
+    {
+        static::created(function (AccountingPurchaseItem $item) {
+            $item->addQuantity();
+        });
+    }
 
     public function product()
     {
@@ -66,6 +76,14 @@ class AccountingPurchaseItem extends Model
     public function unit()
     {
         return $this->belongsTo(AccountingProductSubUnit::class, 'unit_id');
+    }
+    
+    /**
+     * @return MorphMany
+     */
+    public function store_quantity_log():MorphMany
+    {
+        return $this->morphMany(AccountingProductStoreLog::class, 'dispatcher');
     }
 
     public function units()
@@ -108,14 +126,27 @@ class AccountingPurchaseItem extends Model
     }
 
 
-    protected function AddQuantity():AccountingProductStore
+    public function addQuantity():AccountingProductStoreLog
     {
-        return   AccountingProductStore::addQuantity(
-            product_id:$this->product_id,
-            quantity:$this->quantity,
-            unit_id: $this->unit_id,
-            store_id:$this->product()->value('store_id'),
-            price:$this->price_after_tax,
+        $main_unit_id=  AccountingProductSubUnit::where('id', $this->unit_id)->value('main_unit_present')??1;
+        $quantity_in_main_unit=$this->quantity*$main_unit_id;
+        $price=$this->price/$main_unit_id;
+        $product_store_id=AccountingProductStore::firstOrCreate(
+            [
+                'product_id'=>$this->product_id,
+                'store_id'=>$this->purchase->store_id,
+            ],
+            ['quantity'=>0]
+        )->id;
+        return $this->store_quantity_log()->create(
+            [
+                'accounting_product_store_id'=>$product_store_id,
+                'accounting_product_id'=>$this->product_id,
+                'unit_id'=>null,
+                'price'=>$price,
+                'amount'=>$quantity_in_main_unit,
+                'type'=>'in',
+            ]
         );
     }
 }
