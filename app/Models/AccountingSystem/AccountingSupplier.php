@@ -2,6 +2,7 @@
 
 namespace App\Models\AccountingSystem;
 
+use App\Models\Supplier\Bank;
 use App\Models\Supplier\Invoice;
 use App\Traits\HashPassword;
 use Illuminate\Database\Eloquent\Model;
@@ -85,5 +86,10 @@ class AccountingSupplier extends Model
     public function invoices()
     {
         return $this->hasMany(Invoice::class);
+    }
+
+    public function banks()
+    {
+        return $this->hasMany(Bank::class);
     }
 }
