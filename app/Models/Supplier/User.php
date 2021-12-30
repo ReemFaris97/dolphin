@@ -50,7 +50,7 @@ class User extends Authenticatable implements JWTSubject
     public function setImageAttribute($value)
     {
         if (is_file($value))
-            $this->attributes['image'] = uploader($value);
+            $this->attributes['image'] = Fileuploader($value);
         else
             $this->attributes['image'] = $value;
 
@@ -68,7 +68,7 @@ class User extends Authenticatable implements JWTSubject
     public function setCommercialImageAttribute($value)
     {
         if (is_file($value))
-            $this->attributes['imagcommercial_imagee'] = uploader($value);
+            $this->attributes['imagcommercial_imagee'] = Fileuploader($value);
         else
             $this->attributes['commercial_image'] = $value;
 
@@ -85,7 +85,7 @@ class User extends Authenticatable implements JWTSubject
     public function setLicenceImageAttribute($value)
     {
         if (is_file($value))
-            $this->attributes['licence_image'] = uploader($value);
+            $this->attributes['licence_image'] = Fileuploader($value);
         else
             $this->attributes['licence_image'] = $value;
 
