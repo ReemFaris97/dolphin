@@ -535,7 +535,7 @@ unit_total_tax_enable
                                 ${parseFloat (singlePriceAfter) + parseFloat(netTax)}</td>
 
 							<td class="bill-operations-td maybe-hidden operations_enable td-opreation" width="160">
-
+                            <div class="content-opreation-td">
                                 <div class="dropdown">
                                 <button class="btn btn-primary popover-op dropdown-toggle"
 										role="button"						

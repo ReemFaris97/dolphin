@@ -1927,11 +1927,11 @@ button.btn.btn-primary.popover-op.dropdown-toggle {
     margin-top: 0;
 }
 
-td.bill-operations-td.maybe-hidden.operations_enable.td-opreation {
+.content-opreation-td{
     display: flex !important;
     align-items: center;
     justify-content: center;
-    width: 120px;
+   
 }
 .operations_enable.td-opreation a.remove-prod-from-list{
 	margin-top: 0 !important;
