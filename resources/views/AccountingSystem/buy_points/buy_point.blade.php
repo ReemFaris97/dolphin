@@ -531,7 +531,7 @@ unit_total_tax_enable
                     '</option> ';
             }
 
-            $(".bill-table tbody").append(`<tr class="single-row-wrapper" id="row${rowNum}" data-ifhastax="${priceHasTax}" data-tot-taxes="${totalTaxes}">
+                    $(".bill-table tbody").append(`<tr class="single-row-wrapper tr-opreation" id="row${rowNum}" data-ifhastax="${priceHasTax}" data-tot-taxes="${totalTaxes}">
 							<td class="row-num" width="40">${rowNum}</td>
                             <input type="hidden" name="product_id[]" value="${ProductId}">
 							<td class="product-name maybe-hidden name_enable"><a href="${productLink}" target="_blank" rel="noopener noreferrer">${productName}</a></td>
@@ -574,45 +574,12 @@ unit_total_tax_enable
                                 ${parseFloat (singlePriceAfter) + parseFloat(netTax)}</td>
 
 							<td class="bill-operations-td maybe-hidden operations_enable td-opreation" width="160">
-                            <div class="content-opreation-td">
-                                <div class="dropdown">
-                                <button 
-                                class="btn btn-primary popover-op dropdown-toggle"
-										role="button"						
-                                        data-toggle="dropdown"
-										data-id="${rowNum}"
-                                        id="info-button-${rowNum}">
-										<span class="icon-coin-dollar">
-                                        </span>                                 
-                                </button>
-                                <ul class="dropdown-menu drop-menu-popover"
-                                 id="info-box-${rowNum}">
-                                    <li class="dropdown-popover">
-                                    <h3 class="popover-title">عمليات أخرى</h3>
-                                    <div class="popover-content">
-                                    <div class="lasto-prico ">أخر سعر : ${lastPrice}</div>
-                                    <div class="averageo-priceo">
-                                     متوسط السعر : ${avgPrice}
-                                      </div> 
-                                     <div class="showo-producto">
-                                     <a href="${productLink}" target="_blank" title="عرض المنتح" rel="noopener noreferrer">
-                                     عرض المنتج
-                                     </a>
-                                     </div>
-                                     
-                                    </div>
-                                    </li>
-                                    
-                                </ul>
-                                </div>
+                               <div class="content-opreation-td">
+                                    <a href="${productLink}" target="_blank" title="عرض المنتح" rel="noopener noreferrer">عرض المنتج</a>
+                                    <a data-toggle="modal" title="إضافة خصم" data-target="#discMod${rowNum}">إضافة خصم</a>
+                                    <a href="#" title="مسح" class="remove-prod-from-list"><span class="icon-cross"></span></a>
+                               </div>
                                 
-								<a href="#" title="مسح" class="remove-prod-from-list"><span class="icon-cross"></span></a>
-                                
-                                           <a data-toggle="modal" title="إضافة خصم" data-target="#discMod${rowNum}">
-                                           <i class="fas fa-percent"></i>
-                                           
-                                     </a>
-                          
 							</td>
 						</tr>
 					`);
