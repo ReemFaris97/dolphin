@@ -68,7 +68,7 @@ class User extends Authenticatable implements JWTSubject
     public function setCommercialImageAttribute($value)
     {
         if (is_file($value))
-            $this->attributes['imagcommercial_imagee'] = Fileuploader($value);
+            $this->attributes['commercial_image'] = Fileuploader($value);
         else
             $this->attributes['commercial_image'] = $value;
 
