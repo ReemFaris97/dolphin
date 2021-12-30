@@ -55,7 +55,7 @@ Route::get('test', function () {
     }
 });
 Route::get('/', function () {
-    dd(AccountingPurchaseItem::first()->addQuantity());
+    // dd(AccountingPurchaseItem::first()->addQuantityToStorage());
     return redirect()->route('admin.login');
 });
 

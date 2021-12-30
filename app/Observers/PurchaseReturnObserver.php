@@ -57,7 +57,7 @@ class PurchaseReturnObserver
             AccountingEntryAccount::create([
                 'entry_id'=>$entry->id,
                 'from_account_id'=>getsetting('accounting_id_purchases_returns'),
-                'to_account_id'=>$storeAccount->id,
+                'to_account_id'=>$storeAccount?->id,
                 'amount'=>$purchase->total,
             ]);
         } elseif ($purchase->payment=='cash') {

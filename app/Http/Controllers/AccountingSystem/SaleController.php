@@ -283,7 +283,7 @@ class SaleController extends Controller
             'debts'=>$requests['reminder'] ,
             'payment'=>'agel',
             'total'=>$requests['total'],
-            'branch_id'=>@($user->store->model_type=='App\Models\AccountingSystem\AccountingBranch')?$user->store->model_id:null,
+            'branch_id'=>@($user->store->model_type==AccountingBranch::class)?$user->store->model_id:null,
         ]);
         if ($requests['discount_byPercentage']!=0&&$requests['discount_byAmount']==0) {
             $returnSale->update([
@@ -311,39 +311,13 @@ class SaleController extends Controller
             $product=AccountingProduct::find($merge['0']);
             $unit=AccountingProductSubUnit::where('id', $merge['2'])->first();
 
-            if ($merge['2']!='main-'.$product->id) {
-                if ($unit) {
-                    $unit->update([
-                        'quantity'=>$unit->quantity + $merge['1'],
-                    ]);
-                }
-            }
+            
             AccountingReturnSaleItem::create([
                 'product_id'=>$merge['0'],
                 'quantity'=> $merge['1'],
                 'price'=>optional($unit)->selling_price??$product->selling_price,
                 'sale_return_id'=>$returnSale->id
             ]);
-
-            ///if-main-unit
-
-            if ($merge['2']!='main-'.$product->id) {
-                $productstore=AccountingProductStore::where('store_id', auth()->user()->accounting_store_id)->where('product_id', $merge['0'])->where('unit_id', $merge['2'])->first();
-                if ($productstore) {
-                    $productstore->update([
-                        'quantity' => $productstore->quantity + $merge['1'],
-                    ]);
-                }
-            } else {
-                $productstore=AccountingProductStore::where('store_id', auth()->user()->accounting_store_id)->where('product_id', $merge['0'])->where('unit_id', null)->first();
-                if ($productstore) {
-                    if ($productstore) {
-                        $productstore->update([
-                            'quantity' => $productstore->quantity + $merge['1'],
-                        ]);
-                    }
-                }
-            }
         }
 
         if ($returnSale->payment=='cash') {
