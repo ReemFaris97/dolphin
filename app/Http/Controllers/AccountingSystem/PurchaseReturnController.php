@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
-
 use App\Models\AccountingSystem\AccountingProduct;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -36,7 +35,6 @@ class PurchaseReturnController extends Controller
      */
     public function index()
     {
-
         $puchaseReturns = AccountingPurchaseReturn::all();
         return $this->toIndex(compact('puchaseReturns'));
     }
@@ -48,17 +46,16 @@ class PurchaseReturnController extends Controller
      */
     public function create()
     {
-
-        $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
-        $suppliers=AccountingSupplier::pluck('name','id')->toArray();
-        $safes=AccountingSafe::pluck('name','id')->toArray();
+        $categories=AccountingProductCategory::pluck('ar_name', 'id')->toArray();
+        $suppliers=AccountingSupplier::pluck('name', 'id')->toArray();
+        $safes=AccountingSafe::pluck('name', 'id')->toArray();
         // $products=AccountingProduct::all();
-        $userstores=AccountingUserPermission::where('user_id',auth()->user()->id)->where('model_type','App\Models\AccountingSystem\AccountingStore')->pluck('model_id','id')->toArray();
-        $stores=AccountingStore::whereIn('id',$userstores)->pluck('ar_name','id')->toArray();
+        $userstores=AccountingUserPermission::where('user_id', auth()->user()->id)->where('model_type', 'App\Models\AccountingSystem\AccountingStore')->pluck('model_id', 'id')->toArray();
+        $stores=AccountingStore::whereIn('id', $userstores)->pluck('ar_name', 'id')->toArray();
         $products=[];
 
 
-       return  view('AccountingSystem.buy_points.buy_point',compact('categories','suppliers','safes','products','stores'));
+        return  view('AccountingSystem.buy_points.buy_point', compact('categories', 'suppliers', 'safes', 'products', 'stores'));
     }
 
 
@@ -80,12 +77,10 @@ class PurchaseReturnController extends Controller
      */
     public function store(Request $request)
     {
-
     }
 
     public function store_returns(Request $request)
     {
-
         $requests = $request->all();
         $products = $requests['product_id'];
         $quantities = $requests['quantity'];
@@ -105,6 +100,4 @@ class PurchaseReturnController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-
-
 }

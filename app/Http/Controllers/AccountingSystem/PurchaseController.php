@@ -175,7 +175,7 @@ class PurchaseController extends Controller
 
             return back();
         } elseif ($requests['type']=='return') {
-            $this->returns($request);
+            return  $this->returns($request);
         } elseif ($requests['type']=='edit') {
         }
 
