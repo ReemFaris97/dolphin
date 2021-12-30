@@ -110,6 +110,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(AccountingSupplier::class,'supplier_id');
     }
 
+    public function banks()
+    {
+        return $this->supplier->banks();
+    }
+
     public function invoices()
     {
         return $this->hasManyThrough(Invoice::class, AccountingSupplier::class,'');

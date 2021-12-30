@@ -55,12 +55,40 @@ class AuthController extends Controller
         $user=auth()->user();
         $user->update($request->only('fcm_token_android','fcm_token_ios'));
         $user->token=\JWTAuth::fromUser($user);
-        return  \responder::success(new UserResource($user));
+        return \responder::success(new UserResource($user));
 
     }
 
     public function profile()
     {
+        $user = auth()->user();
+        $user->token = \JWTAuth::fromUser($user);
+        return \responder::success(new UserResource($user));
+    }
 
+    public function update(Request $request)
+    {
+        $user = auth()->user();
+        $inputs = $request->validate([
+            'name' => 'sometimes|string',
+            'company_name' => 'sometimes|string',
+            'commercial_number' => 'sometimes|string',
+            'phone' => 'sometimes|phone:sa,eg|unique:suppliers_users,phone,' . $user->id,
+            'email' => 'sometimes|email:dns|unique:suppliers_users,email,' . $user->id,
+            'password' => 'sometimes',
+            'commercial_image' => 'sometimes|image',
+            'licence_image' => 'sometimes|image',
+            'image' => 'sometimes|image',
+            'address' => 'sometimes|string',
+            'lat' => 'sometimes|numeric|max:90|min:-90',
+            'lng' => 'sometimes|numeric|max:180|min:-90',
+            'landline' => 'sometimes|string',
+            'fcm_token_android' => 'required_without:fcm_token_ios',
+            'fcm_token_ios' => 'required_without:fcm_token_android',
+        ]);
+        $user->update($inputs);
+        $user->token = \JWTAuth::fromUser($user);
+
+        return \responder::success(new UserResource($user));
     }
 }

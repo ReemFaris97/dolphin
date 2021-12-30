@@ -13,6 +13,8 @@ class AddColumnsToBankDepositsTable extends Migration
      */
     public function up()
     {
+
+
         Schema::table('bank_deposits', function (Blueprint $table) {
             $table->timestamp('from')->nullable();
             $table->timestamp('to')->nullable();
@@ -29,7 +31,7 @@ class AddColumnsToBankDepositsTable extends Migration
     public function down()
     {
         Schema::table('bank_deposits', function (Blueprint $table) {
-            $table->dropColumn(['from','to','confirmed_at']);
+            $table->dropColumn(['from','to','confirmed_at','confirmed']);
         });
     }
 }
