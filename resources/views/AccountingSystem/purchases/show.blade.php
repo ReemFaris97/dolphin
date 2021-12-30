@@ -238,7 +238,7 @@
 		border-bottom: 1px solid;
 		padding-bottom: 7px
 	}
-	.container-fluid.the-bill-design {
+	/* .container-fluid.the-bill-design {
 		padding: 10px 10px 45px 10px;
 		border: 1px solid #dee2e6;
 		border-radius: 5px;
@@ -246,7 +246,7 @@
 		margin: 0 auto;
 		display: table;
 		width: 21cm
-	}
+	} */
 	.newest-chechk input[type=checkbox]:checked+label:after {
 		content: '';
 		position: absolute;
@@ -786,10 +786,11 @@
 		<div class="card">
 			<div class="card-body ">
 				<h4 class="card-title">الفاتوره</h4>
-				<div class="container-fluid the-bill-design too-be-topped" id="div-to-print">
-					<div class="one-bill-inpt the-bill-logo text-center the-bill-number" style="border-bottom:4px solid #333;padding-bottom: 0;margin-bottom: 15px">
+				<div class="container-fluid the-bill-design too-be-topped panel panel-flat" id="div-to-print">
+					<div class="panel-heading"> 
+					<!-- <div class="one-bill-inpt the-bill-logo text-center the-bill-number" style="border-bottom:4px solid #333;padding-bottom: 0;margin-bottom: 15px">
 						<img src="{{asset('dashboard/assets/app/media/img/logos/20191031163554-شعار رمانة.png')}}">
-					</div>
+					</div> -->
 					<div class="one-bill-inpt the-bill-company text-center" style="display:block;width:100%;text-align: center!important;margin-bottom: 0px">
 						<span class="bill-lbl">{!!getsetting('higher_data')!!}</span>
 					</div>
@@ -797,17 +798,17 @@
 						<i class="ti-location-pin"></i>
 						{{-- <span class="bill-lbl">  {!! optional($sale->branch)->ar_name !!}</span> --}}
 					</div>
-					<div class="one-bill-inpt the-bill-date" style="direction: ltr;border-bottom: 0px;display:inline-block;width:50%;text-align: center!important;margin-bottom: 0px;padding-bottom:0px;margin-top: 0px;float:right">
+					<!-- <div class="one-bill-inpt the-bill-date" style="direction: ltr;border-bottom: 0px;display:inline-block;width:50%;text-align: center!important;margin-bottom: 0px;padding-bottom:0px;margin-top: 0px;float:right">
 						<span class="bill-lbl">
 							<?php echo Carbon\Carbon::now()->format('d-m-Y') ?></span>
 						<i class="ti-calendar" style="float: none;"></i>
-					</div>
-					<div class="one-bill-inpt the-bill-date" style="direction: ltr;border-bottom: 0px;display:inline-block;width:50%;text-align: center!important;margin-bottom: 0px;padding-bottom:0px;margin-top: 0px;float:right">
+					</div> -->
+					<!-- <div class="one-bill-inpt the-bill-date" style="direction: ltr;border-bottom: 0px;display:inline-block;width:50%;text-align: center!important;margin-bottom: 0px;padding-bottom:0px;margin-top: 0px;float:right">
 						<span class="bill-lbl">
 							<?php echo Carbon\Carbon::now()->format('g:i a') ?></span>
 						<i class="ti-alarm-clock" style="float: none;"></i>
-					</div>
-					<div class="one-bill-inpt the-cust-name" style="border-bottom: 0px;display:block;width:100%;margin-bottom: 0px;padding-bottom: 0px;border-bottom:1px solid #333!important">
+					</div> 
+				 	<div class="one-bill-inpt the-cust-name" style="border-bottom: 0px;display:block;width:100%;margin-bottom: 0px;padding-bottom: 0px;border-bottom:1px solid #333!important">
 						<i class="ti-user"></i>
 						<span class="bill-lbl" style="float:right;text-align:right;">مدخل الفاتوره : </span>
 						<span style="margin-right:5px;text-align:left;"> {!! auth()->user()->name !!}</span>
@@ -815,16 +816,18 @@
 					<div class="one-bill-inpt the-bill-numbere the-bill-number">
 						<span>رقم الفاتوره</span>
 						{!! $purchase->counter_purchase !!}
-					</div>
-					<div class="flex-col">
-						<table class="tablesaw a-new-table table-hover table table-bordered" data-tablesaw-mode="stack" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
+					</div> -->
+					<div class="flex-col edit-no-fatora">
+						<!-- <table class="tablesaw a-new-table table-hover table table-bordered" data-tablesaw-mode="stack" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
 							<tbody>
 								<tr>
-									<th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-user"></i>اسم المورد </th>
+									<th data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-user"></i>
+									اسم المورد </th>
 									<td> {!! optional($purchase->supplier)->name !!}</td>
 								</tr>
 								<tr>
-									<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-mobile"></i> رقم الفاتوره عندالمورد </td>
+									<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="3"><i class="ti-mobile"></i>
+									 رقم الفاتوره عندالمورد </td>
 									<td> {!! $purchase->bill_num !!}</td>
 								</tr>
 								<tr>
@@ -842,7 +845,33 @@
 									</td>
 								</tr>
 							</tbody>
-						</table>
+						</table> -->
+						<div class="row foateer-label">
+							<div class="form-group col-sm-4">
+								<label> اسم المورد </label>
+								<input class="selectpicker form-control inline-control" value="{!! optional($purchase->supplier)->name !!}" type="text" readonly>
+							</div>
+							<div class="form-group col-sm-4">
+								<label> رقم الفاتوره عند المورد  </label>
+								<input class="selectpicker form-control inline-control" value="{!! $purchase->bill_num !!}" type="text" readonly>
+							</div>
+							<div class="form-group col-sm-4">
+								<label> تاريخ الفاتوره   </label>
+								<input class="selectpicker form-control inline-control" value="<?php echo Carbon\Carbon::now()->format('d-m-Y') ?>" type="text" readonly>
+							</div>
+							<div class="form-group col-sm-4">
+								<label> وقت الفاتوره   </label>
+								<input class="selectpicker form-control inline-control" value="<?php echo Carbon\Carbon::now()->format('g:i a') ?>" type="text" readonly>
+							</div>
+							<div class="form-group col-sm-4">
+								<label>طريقة الدفع</label>
+								<input class="selectpicker form-control inline-control" value="@if( $purchase->payment=='cash')نقدى@elseif( $purchase->payment=='agel')اجل@endif" type="text" readonly>
+							</div>
+							<div class="form-group col-sm-4">
+								<label>مدخل الفاتوره :</label>
+								<input class="selectpicker form-control inline-control" value="{!! auth()->user()->name !!}" type="text" readonly>
+							</div>
+						</div>
 						<div class="flex-col mar-top-15">
 							<table class="tablesaw bill-table-whole-wrapper table-bordered table-hover table" data-tablesaw-mode="stack" data-tablesaw-sortable data-tablesaw-sortable-switch data-tablesaw-minimap data-tablesaw-mode-switch>
 								<tr class="bill-table-tr-wrapper fixed-ta-hd">
@@ -866,59 +895,59 @@
 								<tbody>
 									@foreach($product_items as $key=>$row)
 
-						<tr class="single-row-wrapper">
-							<td class="row-num">{{$loop->iteration}}</td>
-							<td class="product-name maybe-hidden name_enable">{!! $row->product->name!!}</td>
-							<td class="product-unit maybe-hidden unit_enable">
-								@if ($row->unit_type=='main')
+									<tr class="single-row-wrapper">
+										<td class="row-num">{{$loop->iteration}}</td>
+										<td class="product-name maybe-hidden name_enable">{!! $row->product->name!!}</td>
+										<td class="product-unit maybe-hidden unit_enable">
+											@if ($row->unit_type=='main')
 
-									{{$row->product->main_unit}}
-								    @elseif($row->unit_type=='sub')
-									{{optional($row->unit)->name}}
-								@endif
+												{{$row->product->main_unit}}
+												@elseif($row->unit_type=='sub')
+												{{optional($row->unit)->name}}
+											@endif
 
-							</td>
-							<td class="product-quantity maybe-hidden quantity_enable">
-								{{$row->quantity??0}}
-							</td>
-							<td class="single-price-before maybe-hidden unit_price_before_enable">
-								{{$row->price??0}}
-							</td>
-							<td class="single-price-after maybe-hidden unit_price_after_enable">
-								{{$row->tax??0}}
-							</td>
-							<td class="single-price-after maybe-hidden expiration_enable">
-								{{$row->expire_date??'-'}}
-							</td>
-							<td class="single-price-after maybe-hidden unit_price_after_enable">
-								@if($row->allDiscounts()->count() !=0)
+										</td>
+										<td class="product-quantity maybe-hidden quantity_enable">
+											{{$row->quantity??0}}
+										</td>
+										<td class="single-price-before maybe-hidden unit_price_before_enable">
+											{{$row->price??0}}
+										</td>
+										<td class="single-price-after maybe-hidden unit_price_after_enable">
+											{{$row->tax??0}}
+										</td>
+										<td class="single-price-after maybe-hidden expiration_enable">
+											{{$row->expire_date??'-'}}
+										</td>
+										<td class="single-price-after maybe-hidden unit_price_after_enable">
+											@if($row->allDiscounts()->count() !=0)
 
-								@foreach ($row->allDiscounts() as $discount)
-									<span class="single-5asm">
-										@if($discount->discount_type=='percentage')
-										<span>  {{($discount->discount*$row->price)/100??0}} ر.س </span>
-										@elseif($key=='amount')
-										<span>   {{$discount->discount??0}} ر.س </span>
-										@endif
-										|
-                                  	@if($discount->affect_tax=='1')
-										<span>يؤثر فى الضريبة</span>
-									@elseif($discount->affect_tax=='0')
-												<span> لا يؤثر فى الضريبة</span>
-										@endif
-									</span>
-								@endforeach
-									@else
-									-
-								@endif
-                            </td>
-                            <td class="whole-price-before maybe-hidden total_price_before_enable">{{$row->gifts}}</td>
+											@foreach ($row->allDiscounts() as $discount)
+												<span class="single-5asm">
+													@if($discount->discount_type=='percentage')
+													<span>  {{($discount->discount*$row->price)/100??0}} ر.س </span>
+													@elseif($key=='amount')
+													<span>   {{$discount->discount??0}} ر.س </span>
+													@endif
+													|
+												@if($discount->affect_tax=='1')
+													<span>يؤثر فى الضريبة</span>
+												@elseif($discount->affect_tax=='0')
+															<span> لا يؤثر فى الضريبة</span>
+													@endif
+												</span>
+											@endforeach
+												@else
+												-
+											@endif
+										</td>
+										<td class="whole-price-before maybe-hidden total_price_before_enable">{{$row->gifts}}</td>
 
-							<td class="whole-price-before maybe-hidden total_price_before_enable">{{$row->price*$row->quantity}}</td>
-							<td class="whole-price-after maybe-hidden total_price_after_enable">{{$row->price_after_tax*$row->quantity}}</td>
-						</tr>
+										<td class="whole-price-before maybe-hidden total_price_before_enable">{{$row->price*$row->quantity}}</td>
+										<td class="whole-price-after maybe-hidden total_price_after_enable">{{$row->price_after_tax*$row->quantity}}</td>
+									</tr>
 									@endforeach
-									<tr>
+									<!-- <tr>
 										<td data-tablesaw-sortable-col data-tablesaw-priority="6" colspan="4"><i class="ti-money"></i>الإجمالي</td>
 										<td colspan="7"><span class="tot-money">{!! $purchase->amount+$purchase->totalTaxs??0 !!}</span></td>
 									</tr>
@@ -981,16 +1010,77 @@
 										@else
 										<td colspan="7">{!! ($purchase->total- $purchase->payed)??0 !!}</td>
 										@endif
-									</tr>
+									</tr> -->
 								</tbody>
 							</table>
+							<div class="row div-content-data-table">
+								<div class="col-xs-6 col-md-4 flex-div-content">
+									<div>الإجمالي :</div>
+									<div>{!! $purchase->amount+$purchase->totalTaxs??0 !!}</div>
+								</div>
+								<div class="col-xs-6 col-md-4 flex-div-content">
+									<div>نوع الخصم :</div>
+									<div>	@if($purchase->discount_type=='percentage')
+											نسبه
+											@else
+											مبلغ
+											@endif</div>
+								</div>
+								<div class="col-xs-6 col-md-4 flex-div-content">
+									<div>قيمه الخصم على الفاتورة :</div>
+									<div>	@if($purchase->discount_type=='percentage')
+											{!! ($purchase->discount* $purchase->amount)/100 ??0 !!}
+												@else
+												{!! $purchase->discount??0 !!}
+											@endif</div>
+								</div>
+								<div class="col-xs-6 col-md-4 flex-div-content">
+									<div>قيمه الضريبه :</div>
+									<div>{!! $purchase->totalTaxs??0 !!}</div>
+								</div>
+								<div class="col-xs-6 col-md-4 flex-div-content">
+									<div>المطلوب سداده	 :</div>
+									<div>{!! $purchase->total ??0 !!}</div>
+								</div>
+								<div class="col-xs-6 col-md-4 flex-div-content">
+									<div>طريقة الدفع	 :</div>
+									<div>@if( $purchase->payment=='cash')
+											نقدى
+											@elseif( $purchase->payment=='agel')
+											اجل
+												@else
+												-
+											@endif</div>
+								</div>
+								<div class="col-xs-6 col-md-4 flex-div-content">
+									<div>المدفوع :</div>
+									<div>
+									@if( $purchase->payment=='cash')
+										<span >{!! $purchase->total??0 !!}</span>
+										@else
+										<span >{!! $purchase->payed ??0 !!}</span>
+										@endif
+									</div>
+								</div>
+								<div class="col-xs-6 col-md-4 flex-div-content">
+									<div>المتبقي:</div>
+									<div>
+									@if( $purchase->payment=='cash')
+										<span>0</span>
+										@else
+										<span>{!! ($purchase->total- $purchase->payed)??0 !!}</span>
+										@endif
+									</div>
+								</div>
+							</div>
 						</div>
 						<span class="bill-lbl">{!!getsetting('lower_data')!!}</span>
-						<div class="end-notice">
+						<!-- <div class="end-notice">
 							<div>شكراً لكم</div>
 							<div>Thank you </div>
-						</div>
+						</div> -->
 					</div>
+				</div>
 				</div>
 			</div>
 		</div>

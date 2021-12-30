@@ -1121,7 +1121,13 @@
             $('#placement').keyboard({placement: 'top'});
 
         });
-
-
+    </script>
+    <script>
+    $(document).on("focus", ".single-row-wrapper " , function() {
+            $(this).css('background-color','white');
+        });
+        $(document).on("focusout", ".single-row-wrapper ", function() {
+            $(this).css('background-color','#E6E6E6');
+        });
     </script>
 @endsection

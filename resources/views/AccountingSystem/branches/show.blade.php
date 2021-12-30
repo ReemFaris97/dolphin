@@ -21,12 +21,21 @@
 
         <div class="panel-body">
             <div class="awesome-card-design">
-           		<img src="{!! getimg($branch->image)!!}">
-           		<h3>{!! $branch->name !!} ( {!! $branch->company->name !!} )</h3>
-           		<div class="card-design-contact">
-           			<a href="tel:{!! $branch->phone !!}"><i class="icon-mobile"></i><span>{!! $branch->phone !!}</span></a>
-           			<a href="mailto:{!! $branch->email !!}"><i class="icon-envelop"></i><span>{!! $branch->email !!}</span></a>
-           		</div>
+                <div class="row align-center">
+                    <div class="col-md-6">
+                        <img src="{!! getimg($branch->image)!!}">
+                        <h3 class="title-size">{!! $branch->name !!} ( {!! $branch->company->name !!} )</h3>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-design-contact align-right">
+                            <a href="tel:{!! $branch->phone !!}"><div><i class="icon-mobile"></i></div><span>{!! $branch->phone !!}</span></a>
+                            <a href="mailto:{!! $branch->email !!}"><div><i class="icon-envelop"></i></div><span>{!! $branch->email !!}</span></a>
+                        </div>
+                    </div>
+                </div>
+           </div>
+           <div class="awesome-card-design mt-card">
+           		
            		<div class="card-design-info">
            			 <p>
            			 	<label> الرصيد العام لخزائن الفرع : </label>

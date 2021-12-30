@@ -52,4 +52,12 @@ class AccountingProductSubUnit extends Model
             $builder->whereJsonContains('bar_code', $barcode);
         }
     }
+    public function quantityInMainUnit($quantity)
+    {
+        return $quantity*($this->main_unit_present??1);
+    }
+    public function priceInMainUnit($price)
+    {
+        return  $price/($this->main_unit_present??1);
+    }
 }

@@ -14,6 +14,7 @@
 use App\Http\Controllers\AccountingSystem\SellPointController;
 use App\Models\AccountingSystem\AccountingAsset;
 use App\Models\AccountingSystem\AccountingAssetDamageLog;
+use App\Models\AccountingSystem\AccountingPurchaseItem;
 use Carbon\Carbon;
 
 Route::get('test-pdf', function () {
@@ -54,6 +55,7 @@ Route::get('test', function () {
     }
 });
 Route::get('/', function () {
+    dd(AccountingPurchaseItem::first()->addQuantity());
     return redirect()->route('admin.login');
 });
 

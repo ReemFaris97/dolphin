@@ -20,11 +20,13 @@ class BankDepositsResource extends ResourceCollection
                 return [
                     'id' => $q->id,
                     'type' => $q->type == 'bank_transaction' ? 'تحويل بنكى' : 'مبلغ مباشر',
-                    'deposit_date' => Carbon::parse($q->deposit_date)->toDateString() . ' ' . $q->created_at->toTimeString(),
+                    'deposit_date' => Carbon::parse($q->deposit_date)
+                            ->toDateString() . ' ' . $q->created_at->toTimeString(),
                     'deposit_number' => $q->deposit_number ?? '',
                     'bank' => $q->bank->name ?? '',
                     'amount' => (string)((float)$q->amount ?? 0),
                     'image' => getimg($q->image),
+                    'confirmed_at'=> $q->confirmed_at
                 ];
             }),
             'paginate' => [

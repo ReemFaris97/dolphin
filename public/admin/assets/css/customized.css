@@ -1874,3 +1874,69 @@ select.form-control.js-example-basic-single.edit-select-size {
 	border:none;
 }
 /******* end numric number *******/
+
+
+.finalTb tr.single-row-wrapper{
+	background-color: #E6E6E6;
+}
+button.btn.btn-primary.dropdown-toggle.btn-dollar{
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    margin-top: 0px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 0;
+}
+
+.addo-saleo a, .showo-producto a {
+    background: #8e44ad !important;
+    padding: 5px 10px;
+    color: #fff;
+    border-radius: 5px;
+    margin-top: 5px;
+	width: 86px !important;
+	border-radius: 4px !important;
+	margin-top: 0 !important;
+	height: 28px;
+}
+.showo-producto a {
+    background: #d35400 !important;
+}
+.dropdown-popover{
+	max-width: 800px;
+}
+.popover-content {
+    padding: 15px !important;
+}
+.popover {
+    max-width: 800px !important;
+}
+.dropdown-menu.drop-menu-popover {
+    position: absolute;
+    top: 100%;
+    right: -153px;
+    z-index: 1000;
+	padding: 0 !important;
+}
+.dropdown-menu.drop-menu-popover .popover-title{
+	padding: 5px 15px 0 0;
+}
+button.btn.btn-primary.popover-op.dropdown-toggle {
+    margin-top: 0;
+}
+
+.content-opreation-td{
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+   
+}
+.operations_enable.td-opreation a.remove-prod-from-list{
+	margin-top: 0 !important;
+
+}
+.operations_enable{
+
+}

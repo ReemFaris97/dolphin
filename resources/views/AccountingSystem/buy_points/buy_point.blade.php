@@ -534,21 +534,26 @@ unit_total_tax_enable
 							<td class="whole-price-after maybe-hidden total_pure_enable" width="70">
                                 ${parseFloat (singlePriceAfter) + parseFloat(netTax)}</td>
 
-							<td class="bill-operations-td maybe-hidden operations_enable" width="160">
-
-								<button type="button"
-										class="btn btn-primary popover-op"
-										role="button"
-										data-toggle="popover"
-										title="عمليات أخرى"
-										data-html="true"
-										data-container="body"
-										data-toggle="popover"
-										data-placement="right"
-										data-id="${rowNum}"
-										data-content='<div class="lasto-prico">أخر سعر : ${lastPrice}</div><div class="averageo-priceo"> متوسط السعر : ${avgPrice} </div> <div class="showo-producto"><a href="${productLink}" target="_blank" title="عرض المنتح" rel="noopener noreferrer">عرض المنتج</a></div><div class="addo-saleo"><a data-toggle="modal" title="إضافة خصم" data-target="#discMod${rowNum}">إضافة خصم</a></div>'>
-										<span class="icon-coin-dollar"></span>
-								</button>
+							<td class="bill-operations-td maybe-hidden operations_enable td-opreation" width="160">
+                            <div class="content-opreation-td">
+                                <div class="dropdown">
+                                <button class="btn btn-primary popover-op dropdown-toggle"
+										role="button"						
+                                        data-toggle="dropdown"
+										data-id="${rowNum}">
+										<span class="icon-coin-dollar"></span>                                 
+                                </button>
+                                <ul class="dropdown-menu drop-menu-popover">
+                                    <li class="dropdown-popover ">
+                                    <h3 class="popover-title">عمليات أخرى</h3>
+                                    <div class="popover-content">
+                                    <div class="lasto-prico ">أخر سعر : ${lastPrice}</div><div class="averageo-priceo"> متوسط السعر : ${avgPrice} </div> <div class="showo-producto"><a href="${productLink}" target="_blank" title="عرض المنتح" rel="noopener noreferrer">عرض المنتج</a></div><div class="addo-saleo"><a data-toggle="modal" title="إضافة خصم" data-target="#discMod${rowNum}">إضافة خصم</a></div>
+                                    </div>
+                                    </li>
+                                    
+                                </ul>
+                                </div>
+                                
 								<a href="#" title="مسح" class="remove-prod-from-list"><span class="icon-cross"></span></a>
 							</td>
 						</tr>
@@ -1182,5 +1187,13 @@ function toggleFullscreen(){
     square4.className = "square  square-4--expand";
   }
 }
+</script>
+<script>
+    $(document).on("focus", ".single-row-wrapper " , function() {
+            $(this).css('background-color','white');
+        });
+        $(document).on("focusout", ".single-row-wrapper ", function() {
+            $(this).css('background-color','#E6E6E6');
+        });
 </script>
 @endsection

@@ -15,7 +15,7 @@ use App\Models\AccountingSystem\AccountingOffer;
 use App\Models\AccountingSystem\AccountingPackage;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
-use App\Models\AccountingSystem\AccountingProductStore;
+ use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingProductSubUnit;
 use App\Models\AccountingSystem\AccountingReturn;
 use App\Models\AccountingSystem\AccountingReturnSaleItem;
@@ -140,20 +140,12 @@ class SaleController extends Controller
 
             $unit=AccountingProductSubUnit::where('id', $cart['unit_id'])->first();
 
-            if ($cart['unit_id']!='main-'.$product->id) {
-                $stock=AccountingProductStore::query()
-                    ->where('product_id', $product->id)
-                    ->where('store_id', $user->accounting_store_id)
-                    ->where('unit_id', $cart['unit_id'])
-                    ->firstOrNew();
-                if ($unit) {
-                    // throw_if($stock->quantity - $merge['1']<0, ValidationException::withMessages(['client_id'=>sprintf("عفوا لايوجد كميات من الوحدة الفرعية %s من المنتج الفرعي %s الكمية المتاحة هي : %s", $unit->name, $product->name, optional($stock)->quantity??0)]));
-                    $unit->update([
-                        'quantity'=>$stock->quantity - $cart['quantity'],
-                    ]);
-                }
-            }
-//            dd('stop');
+            $quantiy_in_main_unit=$cart['quantity'] * ($unit->main_unit_present??1);
+            // $stock=AccountingProductStore::query()
+            // ->where('product_id', $product->id)
+            // ->where('store_id', $user->accounting_store_id)
+            // ->firstOrNew();
+            // throw_if($stock->quantity - $quantiy_in_main_unit<0, ValidationException::withMessages(['client_id'=>sprintf("عفوا لايوجد كميات من الوحدة الفرعية %s من المنتج الفرعي %s الكمية المتاحة هي : %s", $unit->name, $product->name, $stock->quantity)]));
             $sale->items()->create([
                 'product_id'=>$product->id,
                 'quantity' =>  $cart['quantity'],
@@ -161,54 +153,6 @@ class SaleController extends Controller
                 'unit_id'=>$cart['unit_id'],
                 'tax'=>$product->total_taxes
             ]);
-
-            ///if-main-unit
-
-            if ($cart['unit_id']!='main-'.$product->id) {
-                $unit=AccountingProductSubUnit::where('id', $cart['unit_id'])->first();
-                if ($unit) {
-                    $stock=AccountingProductStore::query()
-                        ->where('product_id', $product->id)
-                        ->where('store_id', $user->accounting_store_id)
-                        ->where('unit_id', $cart['unit_id'])
-                        ->firstOrNew();
-                    // throw_if($stock->quantity - $merge['1']<0, ValidationException::withMessages(['client_id'=>sprintf("عفوا لايوجد كميات من الوحدة الفرعية %s من المنتج الفرعي %s الكمية المتاحة هي : %s", $unit->name, $product->name, $stock->quantity)]));
-
-                    $unit->update([
-                        'quantity'=>$stock->quantity - $cart['quantity'],
-                    ]);
-                }
-                $productstore=AccountingProductStore::where('store_id', auth()->user()->accounting_store_id)->where('product_id', $product->id)->where('unit_id', $cart['unit_id'])->firstOrNew();
-                if ($productstore) {
-                    $stock=AccountingProductStore::query()
-                        ->where('product_id', $product->id)
-                        ->where('store_id', $user->accounting_store_id)
-                        ->where('unit_id', $cart['unit_id'])
-                        ->firstOrNew();
-                    // throw_if($stock->quantity - $merge['1']<0, ValidationException::withMessages(['client_id'=>sprintf("عفوا لايوجد كميات من الوحدة الفرعية %s من المنتج الفرعي %s الكمية المتاحة هي : %s", $unit->name, $product->name, $stock->quantity)]));
-
-                    if ($productstore->quantity >= 0) {
-                        $productstore->update([
-                            'quantity' => $stock->quantity - $cart['quantity'],
-                        ]);
-                    }
-                }
-            } else {
-                $productstore=AccountingProductStore::where('store_id', auth()->user()->accounting_store_id)
-                    ->where('product_id', $cart['product_id'])
-                    ->whereNull('unit_id')->firstOrNew();
-                // throw_if($productstore->quantity - $merge['1']<0, ValidationException::withMessages(    ['client_id'=>sprintf("عفوا لايوجد كميات من الوحدة الفرعية  %s الكمية المتاحة هي : %s", $product->name, $productstore->quantity)]  ));
-
-                if ($productstore) {
-                    if ($productstore->quantity >= 0) {
-                        if ($productstore) {
-                            $productstore->update([
-                                'quantity' => $productstore->quantity - $cart['quantity'],
-                            ]);
-                        }
-                    }
-                }
-            }
         }
 
         if ($sale->payment=='cash') {
