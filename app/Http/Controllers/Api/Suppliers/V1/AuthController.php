@@ -58,4 +58,9 @@ class AuthController extends Controller
         return  \responder::success(new UserResource($user));
 
     }
+
+    public function profile()
+    {
+
+    }
 }

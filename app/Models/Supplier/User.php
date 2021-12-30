@@ -12,7 +12,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 class User extends Authenticatable implements JWTSubject
 {
     protected $table = 'suppliers_users';
-    use HasFactory, HasImages;
+    use HasFactory;
 
     public function setPasswordAttribute($value)
     {
@@ -38,6 +38,58 @@ class User extends Authenticatable implements JWTSubject
         'address', 'lat', 'lng', 'landline', 'credit_limit', 'credit_date', 'parent_id', 'fcm_token_android', 'fcm_token_ios','supplier_id'];
     protected $images = ['commercial_image', 'licence_image', 'image'];
 
+    public function getImageAttribute($value)
+    {
+        if ($value)
+            return getimg($value);
+        else
+            return  asset('placeholders/logo.png');
+    }
+
+
+    public function setImageAttribute($value)
+    {
+        if (is_file($value))
+            $this->attributes['image'] = uploader($value);
+        else
+            $this->attributes['image'] = $value;
+
+    }
+
+    public function getCommercialImageAttribute($value)
+    {
+        if ($value)
+            return getimg($value);
+        else
+            return  asset('placeholders/logo.png');
+    }
+
+
+    public function setCommercialImageAttribute($value)
+    {
+        if (is_file($value))
+            $this->attributes['imagcommercial_imagee'] = uploader($value);
+        else
+            $this->attributes['commercial_image'] = $value;
+
+    }
+    public function getLicenceImageAttribute($value)
+    {
+        if ($value)
+            return getimg($value);
+        else
+            return  asset('placeholders/logo.png');
+    }
+
+
+    public function setLicenceImageAttribute($value)
+    {
+        if (is_file($value))
+            $this->attributes['licence_image'] = uploader($value);
+        else
+            $this->attributes['licence_image'] = $value;
+
+    }
     public function companies()
     {
         return $this->belongsToMany(AccountingCompany::class, UserCompany::class,'user_id');
