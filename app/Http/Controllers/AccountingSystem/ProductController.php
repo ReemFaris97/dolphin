@@ -209,15 +209,7 @@ class ProductController extends Controller
             ]);
 
 
-            if (isset($inputs['store_id'])) {
-                AccountingProductStore::create([
-                    'store_id' => $inputs['store_id'],
-                    'product_id' => $product->id,
-                    'quantity' => $unit['2'] * $unit['5'],
-                    'unit_id' => $uni->id
 
-                ]);
-            }
         }
         ////////////////////components Arrays////////////////////////////////
 
@@ -371,13 +363,6 @@ class ProductController extends Controller
         $inputs['date_settlement']=now();
         $product = AccountingProduct::create($inputs);
 
-        if (isset($inputs['store_id'])) {
-            AccountingProductStore::create([
-                'store_id' => $inputs['store_id'],
-                'product_id' => $product->id,
-                'quantity' => $inputs['quantity'],
-            ]);
-        }
         if (isset($request['main_unit'])) {
             $main_unit = AccountingProductMainUnit::where('main_unit', $request['main_unit'])->first();
             if (!isset($main_unit)) {
