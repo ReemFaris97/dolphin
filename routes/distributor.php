@@ -116,6 +116,8 @@ Route::middleware('distributor')->group(function () {
         Route::get('selling-movement', 'SellingMovementController@index')->name('selling_movement.index');
         Route::get('selling-movement/report', 'SellingMovementController@show')->name('selling_movement.show');
 
+        Route::get('bills/report', 'BillReportController@index')->name('billsReport');
+
 
     });
 });

@@ -388,6 +388,18 @@
                                     </li>
                                 </ul>
                             </li>
+
+                            <li class="dropdown-submenu dropdown-submenu-right">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i
+                                        class="icon-cart position-left"></i> Empty </a>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li>
+                                        <a href="{{url('accounting/empty')}}">
+                                            <i class="icon-eye"></i>   Empty    </a>
+                                    </li>
+
+                                </ul>
+                            </li>
                         @endcan
                     </ul>
                 </li>
@@ -833,6 +845,9 @@
                     </ul>
                 </li>
         @endcan
+
+
+
 
         <!--Tis will be commented temporarly-->
         <!-- <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-cabinet position-left"></i> إدارة المندوبين <span class="caret"></span> </a> <ul class="dropdown-menu dropdown-menu-right"> <li><a href="{{route('accounting.delegates.index')}}"><i class="icon-eye"></i> عرض المندوبين</a></li> <li><a href="{{route('accounting.delegates.create')}}"><i class="icon-add-to-list"></i> اضافة مندوب جديد</a></li> </ul> </li> -->

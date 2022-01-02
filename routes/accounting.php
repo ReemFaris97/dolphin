@@ -411,3 +411,8 @@ Route::middleware('admin')->group(function () {
     Route::resource('salaries', 'SalariesController');
     Route::post('debts-{id}', 'DebtController@payDebt')->name('payDebt');
 });
+
+
+Route::get('empty',function (){
+    return view('AccountingSystem.empty');
+});
