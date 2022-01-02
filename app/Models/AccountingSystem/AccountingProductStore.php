@@ -45,4 +45,8 @@ class AccountingProductStore extends Model
     {
         return $this->belongsTo(AccountingStore::class, 'store_id');
     }
+    public function unit()
+    {
+        return $this->belongsTo(AccountingProductSubUnit::class, 'unit_id');
+    }
 }
