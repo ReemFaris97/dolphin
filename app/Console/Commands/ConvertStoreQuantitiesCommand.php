@@ -45,11 +45,12 @@ class ConvertStoreQuantitiesCommand extends Command
 
         /** @var \App\Models\AccountingSystem\AccountingProductStore $stoke */
         foreach ($storage_quantities as $stoke) {
-            $stoke->quantity = $stoke->quantity * $stoke->unit->conversion_rate;
-            // $quantity->save();
-            // $bar->advance();
+            $stoke->quantity = $stoke->quantity * ($stoke->unit->main_unit_present??1);
+            $stoke->price = $stoke->price / ($stoke->unit->main_unit_present??1);
+            $stoke->unit_id = null;
+            $stoke->save();
+            $bar->advance();
         }
-            
         $bar->finish();
 
         return self::SUCCESS;
