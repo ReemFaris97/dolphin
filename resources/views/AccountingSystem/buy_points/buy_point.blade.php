@@ -301,11 +301,11 @@ unit_total_tax_enable
                                         </span>
                                         <span class="rs"> ر.س </span>
                                         <!--
-                                                             <span id="removeTaxWrap">
-                                                              <label for="removeTax">معفي من الضريبة</label>
-                                                              <input type="checkbox" id="removeTax">
-                                                             </span>
-                                                    -->
+                                                                 <span id="removeTaxWrap">
+                                                                  <label for="removeTax">معفي من الضريبة</label>
+                                                                  <input type="checkbox" id="removeTax">
+                                                                 </span>
+                                                        -->
                                     </th>
                                     <th id="amountAfterDariba" class="rel-cols" colspan="3">
                                         <span class="colorfulSpan">المجموع بعد الضريبة</span>
