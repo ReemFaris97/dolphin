@@ -1,6 +1,6 @@
 @extends('distributor.layouts.app')
 @section('title')
-    تقرير الفواتير
+    تقرير كشف حساب عميل
 @endsection
 
 @section('breadcrumb') @php($breadcrumbs=[' تقرير الفواتير'=>route('distributor.reports.billsReport'),])

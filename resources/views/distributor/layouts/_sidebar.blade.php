@@ -385,7 +385,7 @@
                         <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
                                 href="{{route('distributor.reports.billsReport')}}" class="m-menu__link "><i
                                     class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
-                                    class="m-menu__link-text">تقرير   الفواتير </span></a>
+                                    class="m-menu__link-text">تقرير   كشف حساب عميل </span></a>
                         </li>
 
 
