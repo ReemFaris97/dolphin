@@ -285,9 +285,10 @@ class ProductController extends Controller
                 foreach ($taxs as $tax) {
                     AccountingProductTax::create([
                         'product_id' => $product->id,
-                        'tax' => $request['tax'],
-                        'price_has_tax' => isset($request['price_has_tax']) ? $request['price_has_tax'] : null,
+                        'tax_value' => AccountingTaxBand::find($tax)->percent,
+                        'price_has_tax' => 1,
                         'tax_band_id' => $tax,
+                        'tax' => $tax,
                     ]);
                 }
             }
@@ -468,8 +469,22 @@ class ProductController extends Controller
             }
         }
         /////////////////////product_taxs//////////////////////////////////////
-        if ( $request['tax']) {
-                $product->tax()->sync($request->taxs);
+        if ($request['tax_band_id']) {
+
+            $taxs = $request['tax_band_id'];
+            AccountingProductTax::where('product_id', $product->id)->delete();
+            foreach ($taxs as $tax) {
+                AccountingProductTax::create([
+                    'product_id' => $product->id,
+                    'tax_value' => AccountingTaxBand::find($tax)->percent,
+                    'price_has_tax' => 1,
+                    'tax_band_id' => $tax,
+                    'tax' => $tax,
+                ]);
+
+            }
+
+
         }
         //////////////////////product_services////////////////////////////
         if (isset($request['service_type'])) {
