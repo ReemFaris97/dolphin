@@ -92,11 +92,7 @@
                                 <div class="yurProdc">
                                     <div class="form-group block-gp">
                                         <label>بحث بإسم الصنف أو الباركود</label>
-                                        {{-- <select class=" form-control  products-select" name="product_id"
-                                            data-live-search="true" placeholder="اختر المنتج" id="selectID">
-                                            <option value=""> حدد المستودع اولا</option>
-                                        </select> --}}
-
+                                    
                                         <select class="form-control" name="products" id="selectID2"></select>
                                     </div>
                                 </div>
