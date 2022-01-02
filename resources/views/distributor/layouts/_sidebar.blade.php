@@ -275,7 +275,6 @@
                                     class="m-menu__link-text">كل العملاء</span></a></li>
 
 
-
                         <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
                                 href="{!! route('distributor.clients.activation') !!}" class="m-menu__link "><i
                                     class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
@@ -285,12 +284,13 @@
             </li>
 
 
-              {{--************************************************************************--}}
+            {{--************************************************************************--}}
             <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
                 aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
                                                                       class="m-menu__link m-menu__toggle"><span
                         class="m-menu__item-here"></span><i
-                        class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-text"> الحسابات والسجلات</span><i
+                        class="m-menu__link-icon flaticon-user"></i><span
+                        class="m-menu__link-text"> الحسابات والسجلات</span><i
                         class="m-menu__ver-arrow la la-angle-right"></i></a>
 
 
@@ -333,59 +333,67 @@
             {{--************************************************************************--}}
 
 
-               {{--            ***********************************************************************************************************--}}
-               <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
-               aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
-                                                                     class="m-menu__link m-menu__toggle"><span
-                       class="m-menu__item-here"></span><i
-                       class="m-menu__link-icon flaticon-user"></i><span
-                       class="m-menu__link-text"> التقارير</span><i
-                       class="m-menu__ver-arrow la la-angle-right"></i></a>
-                   <div class="m-menu__submenu "><span class="m-menu__arrow"></span>
-                       <ul class="m-menu__subnav">
-                           <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true"><span
-                                   class="m-menu__link"><span class="m-menu__item-here"></span><span
-                                       class="m-menu__link-text">تقرير المبيعات</span></span></li>
-                           {{--                            @if(auth()->user()->hasPermissionTo('view_workers'))--}}
-                           <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
-                                   href="{{route('distributor.reports.sales.index')}}" class="m-menu__link "><i
-                                       class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
-                                       class="m-menu__link-text">تقرير المبيعات</span></a></li>
+            {{--            ***********************************************************************************************************--}}
+            <li class="m-menu__item  m-menu__item--submenu {{--m-menu__item--open m-menu__item--expanded--}}"
+                aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:"
+                                                                      class="m-menu__link m-menu__toggle"><span
+                        class="m-menu__item-here"></span><i
+                        class="m-menu__link-icon flaticon-user"></i><span
+                        class="m-menu__link-text"> التقارير</span><i
+                        class="m-menu__ver-arrow la la-angle-right"></i></a>
+                <div class="m-menu__submenu "><span class="m-menu__arrow"></span>
+                    <ul class="m-menu__subnav">
+                        <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true"><span
+                                class="m-menu__link"><span class="m-menu__item-here"></span><span
+                                    class="m-menu__link-text">تقرير المبيعات</span></span></li>
+                        {{--                            @if(auth()->user()->hasPermissionTo('view_workers'))--}}
+                        <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
+                                href="{{route('distributor.reports.sales.index')}}" class="m-menu__link "><i
+                                    class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
+                                    class="m-menu__link-text">تقرير المبيعات</span></a></li>
 
 
-                           <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
-                                   href="{{route('distributor.reports.routes.index')}}" class="m-menu__link "><i
-                                       class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
-                                       class="m-menu__link-text">تقرير  تسليم المسارات </span></a></li>
+                        <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
+                                href="{{route('distributor.reports.routes.index')}}" class="m-menu__link "><i
+                                    class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
+                                    class="m-menu__link-text">تقرير  تسليم المسارات </span></a></li>
 
-                           <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
-                                   href="{{route('distributor.reports.expenses.index')}}" class="m-menu__link "><i
-                                       class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
-                                       class="m-menu__link-text">تقرير المصروفات </span></a></li>
+                        <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
+                                href="{{route('distributor.reports.expenses.index')}}" class="m-menu__link "><i
+                                    class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
+                                    class="m-menu__link-text">تقرير المصروفات </span></a></li>
 
-                           <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
-                                   href="{{route('distributor.reports.store_movement.index')}}" class="m-menu__link "><i
-                                       class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
-                                       class="m-menu__link-text">تقرير حركه المخزون</span></a></li>
-                           <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
-                                   href="{{route('distributor.reports.distributor.index')}}" class="m-menu__link "><i
-                                       class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
-                                       class="m-menu__link-text">تقرير تحركات المندوبين</span></a></li>
-                           <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
-                                   href="{{route('distributor.reports.distributor_movements.index')}}" class="m-menu__link "><i
-                                       class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
-                                       class="m-menu__link-text">تقرير حركات المندوبين</span></a></li>
+                        <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
+                                href="{{route('distributor.reports.store_movement.index')}}" class="m-menu__link "><i
+                                    class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
+                                    class="m-menu__link-text">تقرير حركه المخزون</span></a></li>
+                        <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
+                                href="{{route('distributor.reports.distributor.index')}}" class="m-menu__link "><i
+                                    class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
+                                    class="m-menu__link-text">تقرير تحركات المندوبين</span></a></li>
+                        <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
+                                href="{{route('distributor.reports.distributor_movements.index')}}"
+                                class="m-menu__link "><i
+                                    class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
+                                    class="m-menu__link-text">تقرير حركات المندوبين</span></a></li>
 
-                           <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
-                                   href="{{route('distributor.reports.selling_movement.index')}}" class="m-menu__link "><i
-                                       class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
-                                       class="m-menu__link-text">تقرير حركه البيع </span></a></li>
-                       </ul>
-                   </div>
+                        <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
+                                href="{{route('distributor.reports.selling_movement.index')}}" class="m-menu__link "><i
+                                    class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
+                                    class="m-menu__link-text">تقرير حركه البيع </span></a></li>
+
+                        <li class="m-menu__item  {{--m-menu__item--active--}}" aria-haspopup="true"><a
+                                href="{{route('distributor.reports.billsReport')}}" class="m-menu__link "><i
+                                    class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
+                                    class="m-menu__link-text">تقرير   الفواتير </span></a>
+                        </li>
 
 
+                    </ul>
+                </div>
 
-           </li>
+
+            </li>
 
         </ul>
     </div>

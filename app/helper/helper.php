@@ -157,6 +157,16 @@ function users()
     });
     return $users;
 }
+
+function clients()
+{
+    $clients = \App\Models\Client::all()->mapWithKeys(function ($q) {
+        return [$q['id'] => $q['name']];
+    });
+    return $clients;
+}
+
+
 function routes()
 {
     $routes = DistributorRoute::all()->mapWithKeys(function ($q) {
