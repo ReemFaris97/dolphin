@@ -1930,9 +1930,30 @@ button.btn.btn-primary.popover-op.dropdown-toggle {
 .content-opreation-td{
     display: flex !important;
     align-items: center;
-    justify-content: center;
+    
    
 }
+.content-opreation-td a:nth-child(1) , .content-opreation-td a:nth-child(2){
+	width: 40px !important;
+	height: auto !important;
+	border-radius: 4px !important;
+	
+	text-align: center !important;
+	font-size: 10px ;
+	font-weight: bold;
+	padding: 2px !important;
+}
+.content-opreation-td a:nth-child(1){
+	background-color: #231e32 !important;
+}
+.content-opreation-td a:nth-child(3){
+	width: 28px !important;
+	height: 28px !important;
+}
+.content-opreation-td a{
+	margin-left: 2px !important;
+}
+
 .operations_enable.td-opreation a.remove-prod-from-list{
 	margin-top: 0 !important;
 
