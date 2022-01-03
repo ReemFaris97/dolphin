@@ -1,0 +1,15 @@
+.m-menu__nav {
+    background-color: #45a2c6 !important;
+}
+.m-stack__item.m-brand.m-brand--skin-dark {
+    background: #45a2c6;
+}
+div#m_header_nav, .m-aside-menu .m-menu__nav {
+    background: #45a2c6;
+}
+.m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item>.m-menu__heading .m-menu__link-text, .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item>.m-menu__link .m-menu__link-text {
+    color: #d0e7f0;
+}
+.m-aside-left.m-aside-left--skin-dark {
+    background-color: #45a2c6;
+}
