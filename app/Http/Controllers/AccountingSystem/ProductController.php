@@ -417,7 +417,7 @@ class ProductController extends Controller
                 'product_id' => $product->id
             ]);
         }
-        /////////////////////////////barcodes_products///////////////////////////////////
+        /////////////////////////////barcodes_products//////////////////////////////////
         if (isset($inputs['barcodes'])) {
             $barcodes = $inputs['barcodes'];
             foreach ($barcodes as $barcode) {

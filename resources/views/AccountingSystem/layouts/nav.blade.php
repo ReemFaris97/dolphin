@@ -775,8 +775,7 @@
                                                 class="icon-eye"></i> تقرير الاصناف قاربت على الانتهاء </a></li>
                                     <li><a href="{{route('accounting.reports.stagnant-products')}}"><i
                                                 class="icon-eye"></i> تقرير الاصناف الراكدة </a></li>
-                                    <li><a href="{{route('accounting.reports.movements-products')}}"><i
-                                                class="icon-eye"></i> تقرير حركة صنف </a></li>
+                                  
                                 </ul>
                             </li>
                         @endcan
@@ -801,6 +800,8 @@
                                 </ul>
                             </li>
                         @endcan
+                          <li><a href="{{route('accounting.reports.movements-products')}}"><i
+                                                class="icon-eye"></i> تقرير حركة صنف </a></li>
                     </ul>
                 </li>
             @endcan
