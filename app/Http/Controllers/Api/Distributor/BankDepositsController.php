@@ -72,7 +72,7 @@ class BankDepositsController extends Controller
 
         return [
             'value' => true,
-            'to_date' => $lastDeposit->to->toDateString(),
+            'to_date' => $lastDeposit?->to?->toDateString(),
         ];
     }
 }
