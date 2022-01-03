@@ -119,19 +119,19 @@
                                         <td>{!! $row->price ?? 0 !!}</td>
                                         <td>مشتريات</td>
                                         <td>
-                                            <a href="{{ route('accounting.purchases.show', $row->purchase->id) }}">
-                                                {{ $row->purchase->id }}</a>
+                                            <a href="{{ route('accounting.purchases.show', $row->purchase_id) }}">
+                                                {{ $row->purchase_id }}</a>
                                         </td>
                                         <?php
-                                        $store_product = \App\Models\AccountingSystem\AccountingProductStore::where('product_id', $row->product->id)
-                                            ->where('store_id', $row->purchase->store_id)
+                                        $store_product = \App\Models\AccountingSystem\AccountingProductStore::where('product_id', $row->product?->id)
+                                            ->where('store_id', $row?->purchase?->store_id)
                                             ->first();
                                         ?>
                                         {{-- <td>{!! $store_product->quantity ?? 0 !!}</td> --}}
-                                        <td>{!! optional($row->purchase->branch)->name !!}</td>
-                                        <td>{!! optional($row->purchase->store)->ar_name !!}</td>
-                                        <td>{!! optional($row->purchase->user)->name !!}</td>
-                                        <td>{!! $row->purchase->created_at !!}</td>
+                                        <td>{!! $row->purchase?->branch?->name !!}</td>
+                                        <td>{!! $row->purchase?->store?->ar_name !!}</td>
+                                        <td>{!! $row->purchase?->user?->name !!}</td>
+                                        <td>{!! $row->created_at !!}</td>
                                     </tr>
                                 @endforeach
                                 @php($s_quantities = 0)
@@ -146,18 +146,18 @@
                                         <td>{!! $row->price ?? 0 !!}</td>
                                         <td>مبيعات</td>
                                         <td><a
-                                                href="{{ route('accounting.sales.show', $row->sale->id) }}">{{ $row->sale->id }}</a>
+                                                href="{{ route('accounting.sales.show', $row->sale_id) }}">{{ $row->sale_id }}</a>
                                         </td>
 
                                         <?php
-                                        $store_product = \App\Models\AccountingSystem\AccountingProductStore::where('product_id', $row->product->id)
-                                            ->where('store_id', $row->sale->store_id)
+                                        $store_product = \App\Models\AccountingSystem\AccountingProductStore::where('product_id', $row->product?->id)
+                                            ->where('store_id', $row->sale?->store_id)
                                             ->first(); ?>
                                         {{-- <td>{!! $store_product ? $store_product->quantity : 0 !!}</td> --}}
-                                        <td>{!! optional($row->sale->branch)->name !!}</td>
-                                        <td>{!! optional($row->sale->store)->ar_name !!}</td>
-                                        <td>{!! optional($row->sale->user)->name !!}</td>
-                                        <td>{!! $row->sale->created_at !!}</td>
+                                        <td>{!! $row?->sale?->branch?->name !!}</td>
+                                        <td>{!! $row?->sale?->store?->ar_name !!}</td>
+                                        <td>{!! $row?->sale?->user?->name !!}</td>
+                                        <td>{!! $row->created_at !!}</td>
                                     </tr>
                                 @endforeach
 
@@ -175,15 +175,15 @@
                                         <td>توالف</td>
                                         <td>--</td>
                                         <?php
-                                        $store_product = \App\Models\AccountingSystem\AccountingProductStore::where('product_id', $row->product->id)
-                                            ->where('store_id', $row->damage->store_id)
+                                        $store_product = \App\Models\AccountingSystem\AccountingProductStore::where('product_id', $row?->product?->id)
+                                            ->where('store_id', $row?->damage?->store_id)
                                             ->first(); ?>
 
                                         {{-- <td>{!! $store_product ? $store_product->quantity : 0 !!}</td> --}}
-                                        <td>{!! optional($row->damage->branch)->name !!}</td>
-                                        <td>{!! optional($row->damage->store)->ar_name !!}</td>
-                                        <td>{!! optional($row->damage->user)->name !!}</td>
-                                        <td>{!! $row->damage->created_at !!}</td>
+                                        <td>{!! $row->damage?->branch?->name !!}</td>
+                                        <td>{!! $row->damage?->store?->ar_name !!}</td>
+                                        <td>{!! $row->damage?->user?->name !!}</td>
+                                        <td>{!! $row->created_at !!}</td>
                                     </tr>
 
                                 @endforeach
@@ -201,8 +201,60 @@
                     </tfoot>
                     
                 </table>
+<div>
+<table class="table table-border table-responsive">
+<thead>
+<tr>
+<th>
+البيان
+</th>
+<th>
+العدد
+</th>
+<th>
+اجمالى المبالغ
+</th>
+<th>
+اجمالى الكميات
+</th>
+</tr>
 
-               
+
+</thead>
+
+<tbody>
+<tr>
+<td>
+اجمالى المشتريات
+</td>
+<td>
+{{$purchases->count()}}
+</td>
+<td>
+{{$p_price}}
+</td>
+<td>
+{{$p_quantities}}
+</td>
+</tr>
+<tr>
+        <td>
+             اجمالى المبيعات
+        </td>
+    <td>
+    {{$sales->count()}}
+    </td>
+    <td>
+{{$s_price}}
+</td>
+<td>
+{{$s_quantities}}
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>         
             </div>
         </div>
         <div class="row print-wrapper">
