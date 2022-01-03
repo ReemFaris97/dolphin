@@ -166,16 +166,16 @@ class ProductController extends Controller
         }
         $product = AccountingProduct::create($inputs);
 
-        if (isset($inputs['store_id'])) {
-            $product->update([
-                'store_id' => $inputs['store_id'],
-            ]);
-            AccountingProductStore::create([
-                'store_id' => $inputs['store_id'],
-                'product_id' => $product->id,
-                'quantity' => $inputs['quantity'],
-            ]);
-        }
+        // if (isset($inputs['store_id'])) {
+        //     $product->update([
+        //         'store_id' => $inputs['store_id'],
+        //     ]);
+        //     AccountingProductStore::create([
+        //         'store_id' => $inputs['store_id'],
+        //         'product_id' => $product->id,
+        //         'quantity' => $inputs['quantity'],
+        //     ]);
+        // }
         if (isset($request['main_unit'])) {
             $main_unit = AccountingProductMainUnit::where('main_unit', $request['main_unit'])->first();
             if (!isset($main_unit)) {
@@ -205,15 +205,15 @@ class ProductController extends Controller
             ]);
 
 
-            if (isset($inputs['store_id'])) {
-                AccountingProductStore::create([
-                    'store_id' => $inputs['store_id'],
-                    'product_id' => $product->id,
-                    'quantity' => $unit['2'] * $unit['5'],
-                    'unit_id' => $uni->id
+            // if (isset($inputs['store_id'])) {
+            //     AccountingProductStore::create([
+            //         'store_id' => $inputs['store_id'],
+            //         'product_id' => $product->id,
+            //         'quantity' => $unit['2'] * $unit['5'],
+            //         'unit_id' => $uni->id
 
-                ]);
-            }
+            //     ]);
+            // }
         }
         ////////////////////components Arrays////////////////////////////////
 
@@ -366,13 +366,13 @@ class ProductController extends Controller
         $inputs['date_settlement']=now();
         $product = AccountingProduct::create($inputs);
 
-        if (isset($inputs['store_id'])) {
-            AccountingProductStore::create([
-                'store_id' => $inputs['store_id'],
-                'product_id' => $product->id,
-                'quantity' => $inputs['quantity'],
-            ]);
-        }
+        // if (isset($inputs['store_id'])) {
+        //     AccountingProductStore::create([
+        //         'store_id' => $inputs['store_id'],
+        //         'product_id' => $product->id,
+        //         'quantity' => $inputs['quantity'],
+        //     ]);
+        // }
         if (isset($request['main_unit'])) {
             $main_unit = AccountingProductMainUnit::where('main_unit', $request['main_unit'])->first();
             if (!isset($main_unit)) {
@@ -384,7 +384,7 @@ class ProductController extends Controller
         ///////  /// / //////subunits Arrays//////////////////////////////
 
         foreach ($request->sub_units as $sub_unit) {
-            $unit = $product->sub_units()->UpdateOrCreate(['id' => \Arr::get($sub_unit, 'id')], [
+             $product->sub_units()->UpdateOrCreate(['id' => \Arr::get($sub_unit, 'id')], [
                 'name' => $sub_unit['name'],
                 'bar_code' => $sub_unit['bar_code'],
                 'main_unit_present' => $sub_unit['main_unit_present'],
@@ -392,15 +392,15 @@ class ProductController extends Controller
                 'purchasing_price' => $sub_unit['purchasing_price'],
                 'quantity' => $sub_unit['quantity'],
             ]);
-            if (isset($inputs['store_id'])) {
-                AccountingProductStore::create([
-                    'store_id' => $inputs['store_id'],
-                    'product_id' => $product->id,
-                    'quantity' => $unit->main_unit_present * $unit->quantity,
-                    'unit_id' => $unit->id
+            // if (isset($inputs['store_id'])) {
+            //     AccountingProductStore::create([
+            //         'store_id' => $inputs['store_id'],
+            //         'product_id' => $product->id,
+            //         'quantity' => $unit->main_unit_present * $unit->quantity,
+            //         'unit_id' => $unit->id
 
-                ]);
-            }
+            //     ]);
+            // }
         }
 
         ////////////////////components Arrays////////////////////////////////
@@ -658,12 +658,12 @@ class ProductController extends Controller
             'store_id' => $inputs['store_id'],
 
         ]);
-        if (isset($inputs['store_id'])) {
-            AccountingProductStore::create([
-                'store_id' => $inputs['store_id'],
-                'product_id' => $product->id,
-            ]);
-        }
+        // if (isset($inputs['store_id'])) {
+        //     AccountingProductStore::create([
+        //         'store_id' => $inputs['store_id'],
+        //         'product_id' => $product->id,
+        //     ]);
+        // }
 //        $product->name=$inputs['name_product'];
         ///////  /// / //////subunits Arrays//////////////////////////////
         $names = collect($request['name']);
@@ -735,12 +735,12 @@ class ProductController extends Controller
             $inputs['image'] = saveImage($request->image, 'photos');
         }
         $product->update($inputs);
-        if (isset($request['store_id'])) {
-            AccountingProductStore::create([
-                'store_id' => $inputs['store_id'],
-                'product_id' => $product->id,
-            ]);
-        }
+        // if (isset($request['store_id'])) {
+        //     AccountingProductStore::create([
+        //         'store_id' => $inputs['store_id'],
+        //         'product_id' => $product->id,
+        //     ]);
+        // }
 
         foreach ($request->sub_units as $sub_unit) {
             $unit = $product->sub_units()->UpdateOrCreate(['id' => \Arr::get($sub_unit, 'id')], [
