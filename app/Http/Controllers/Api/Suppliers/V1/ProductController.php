@@ -38,7 +38,13 @@ class ProductController extends Controller
             'image' => 'required|image'
         ]);
         $user = auth()->user();
-        $product = $user->products()->create($inputs);
+        $product = AccountingProduct::ofBarcode($request['barcode'])->first();;
+        if ($product) {
+            $product->suppliers()->attach($user->supplier_id);
+        } else {
+            $product = $user->products()->create($inputs);
+        }
+
 
         return \responder::success(new ProductResource($product));
     }
@@ -90,14 +96,20 @@ class ProductController extends Controller
 
     public function list(Request $request)
     {
-      $products=AccountingProduct::query();
-      $products->when(\request('q'),function ($q){
-         $q->where(function ($q){
-             $query=\request('q');
-             $q->where('name','like','%'.$query.'%')->orWhere('bar_code','like',"%$query%");
-         });
-      });
+        $products = AccountingProduct::query();
+        $products->when(\request('q'), function ($q) {
+            $q->where(function ($q) {
+                $query = \request('q');
+                $q->where('name', 'like', '%' . $query . '%')->orWhere('bar_code', 'like', "%$query%");
+            });
+        });
 
-      return \responder::success(new BaseCollection($products->paginate(50),ProductResource::class));
+        return \responder::success(ProductResource::collection($products->limit(50)->get()));
+    }
+
+    public function myProducts()
+    {
+//        dd(auth()->user()->supplier);
+        return \responder::success(new BaseCollection(auth()->user()->supplier->products()->paginate(20), ProductResource::class));
     }
 }

@@ -19,7 +19,7 @@ class UserResource extends JsonResource
             'name'=>$this->name,
             'company_name'=>$this->company_name,
             'commercial_number'=>$this->commercial_number,
-            'phone'=>$this->phome,
+            'phone'=>$this->phone,
             'email'=>$this->email,
             'commercial_image'=>$this->commercial_image,
             'licence_image'=>$this->licence_image,

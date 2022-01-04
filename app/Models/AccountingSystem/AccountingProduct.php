@@ -2,6 +2,7 @@
 
 namespace App\Models\AccountingSystem;
 
+use App\Models\Supplier\SupplierProduct;
 use Illuminate\Database\Eloquent\Model;
 use Str;
 
@@ -280,5 +281,10 @@ class AccountingProduct extends Model
     public function scopeCreation()
     {
         return $this->where('type','creation');
+    }
+
+    public function suppliers()
+    {
+        return $this->belongsToMany(AccountingSupplier::class, SupplierProduct::class);
     }
 }

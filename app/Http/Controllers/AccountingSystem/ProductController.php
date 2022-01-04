@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
-use App\DataTables\AccountingProductsDataTable;
+use App\DataTables\AccountingSuppliersProductsDataTable;
 use App\Http\Controllers\Controller;
 use App\Imports\AccountingImport;
 use App\Models\AccountingSystem\AccountingAccount;
@@ -43,7 +43,7 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(AccountingProductsDataTable $dataTable)
+    public function index(AccountingSuppliersProductsDataTable $dataTable)
     {
         // $products =AccountingProduct::latest()->paginate(10);
         return $dataTable->render('AccountingSystem.products.index');
@@ -72,8 +72,16 @@ class ProductController extends Controller
         $columns = AccountingFaceColumn::get(['id', 'name as label']);
         $cells = AccountingColumnCell::get(['id', 'name as label']);
 //        $product= AccountingProduct::make();
+
         $product = collect(AccountingProduct::make()->getFillable())->mapWithKeys(fn($c) => [$c => null]);
-        $product['bar_code'] = [];
+        $product['name']=session('name');
+        $product['main_unit']=session('unit');
+        $product['purchasing_price']=session('price');
+        $product['expire_at']=session('expire_at');
+
+        $product['bar_code'] =array_filter( [session('barcode')],fn($q)=> $q!=null);
+//        \Arr::add($product['bar_code'],0,session('barcode'));
+
         $product['sub_products'] = [];
         $product['components'] = [];
         $product['sub_units'] = [];
@@ -647,7 +655,6 @@ class ProductController extends Controller
 //
         $product->update([
             'store_id' => $inputs['store_id'],
-
         ]);
         if (isset($inputs['store_id'])) {
             AccountingProductStore::create([
