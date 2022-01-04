@@ -73,12 +73,14 @@ class ProductController extends Controller
 //        $product= AccountingProduct::make();
 
         $product = collect(AccountingProduct::make()->getFillable())->mapWithKeys(fn($c) => [$c => null]);
-        $product['name']=session('name');
-        $product['main_unit']=session('unit');
-        $product['purchasing_price']=session('price');
-        $product['expire_at']=session('expire_at');
+        $product['name'] = session('name');
+        $product['main_unit'] = session('unit');
+        $product['purchasing_price'] = session('price');
+        $product['expire_at'] = session('expire_at');
+        $product['supplier_id'] = session('accounting_supplier_id');
+        $product['company_id'] = session('accounting_company_id');
 
-        $product['bar_code'] =array_filter( [session('barcode')],fn($q)=> $q!=null);
+        $product['bar_code'] = array_filter([session('barcode')], fn($q) => $q != null);
 //        \Arr::add($product['bar_code'],0,session('barcode'));
 
         $product['sub_products'] = [];
@@ -86,7 +88,7 @@ class ProductController extends Controller
         $product['sub_units'] = [];
         $product['offers'] = [];
         $product['stores'] = [];
-        $product['discount']=0;
+        $product['discount'] = 0;
         $product['price_has_tax']=1;
         $offer_template = [
             'quantity' => '',
@@ -413,7 +415,7 @@ class ProductController extends Controller
         }
 
         ////////////////////components Arrays////////////////////////////////
-
+        $product->suppliers()->attach($request['supplier_id']);
         $component_names = collect($request['component_names']);
         $qtys = collect($request['qtys']);
         $main_units = collect($request['main_units']);
@@ -576,6 +578,7 @@ class ProductController extends Controller
         $product['sub_products'] = AccountingProductComponent::where('product_id', $id)->get();
         $product['components'] = AccountingProductComponent::where('product_id', $id)->get();
         $product['sub_units'] = AccountingProductSubUnit::where('product_id', $id)->get();
+        $product['supplier_id'] = session('accounting_supplier_id');
         $product['offers'] = $product->discounts;
         $product['tax']=$product->tax()->count()==0?0:1;
         $product['taxs']=$product->tax()->pluck('accounting_tax_bands.id');

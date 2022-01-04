@@ -39,6 +39,9 @@ class ProductController extends Controller
             'image' => 'required|image'
         ]);
         $user = auth()->user();
+        $inputs['accounting_supplier_id']=$user->supplier_id;
+        $inputs['accounting_company_id']=$request->headers->get('company_id');
+
         $product = AccountingProduct::ofBarcode($request['barcode'])->first();;
         if ($product) {
             $product->suppliers()->attach($user->supplier_id);
