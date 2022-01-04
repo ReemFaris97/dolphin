@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
+use App\DataTables\AccountingProductsDataTable;
 use App\DataTables\AccountingSuppliersProductsDataTable;
 use App\Http\Controllers\Controller;
 use App\Imports\AccountingImport;
@@ -42,7 +43,7 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(AccountingSuppliersProductsDataTable $dataTable)
+    public function index(AccountingProductsDataTable $dataTable)
     {
         // $products =AccountingProduct::latest()->paginate(10);
         return $dataTable->render('AccountingSystem.products.index');
@@ -664,6 +665,8 @@ class ProductController extends Controller
         if ($request->hasFile('image')) {
             $inputs['image'] = saveImage($request->image, 'photos');
         }
+        $product->suppliers()->attach($request['supplier_id']);
+
         $product->update($inputs);
 //
         $product->update([
@@ -737,6 +740,8 @@ class ProductController extends Controller
             'num_days_recession' => 'nullable|string',
             'tax'=>'required|boolean'
         ];
+        $product->suppliers()->attach($request['supplier_id']);
+
         $this->validate($request, $rules);
 //        dd($request->all());
 
