@@ -17,7 +17,7 @@ class AddColumnsInAccountingSuppliersTable extends Migration
             $table->string('commercial_record')->nullable();
             $table->string('commercial_image')->nullable();
             $table->string('licence_image')->nullable();
-            $table->boolean('is_active')->default(0);
+//            $table->boolean('is_active')->default(0);
         });
     }
 
@@ -29,7 +29,7 @@ class AddColumnsInAccountingSuppliersTable extends Migration
     public function down()
     {
         Schema::table('accounting_suppliers', function (Blueprint $table) {
-            $table->dropColumn('commercial_record','commercial_image','licence_image','is_active');
+            $table->dropColumn('commercial_record','commercial_image','licence_image');
         });
     }
 }
