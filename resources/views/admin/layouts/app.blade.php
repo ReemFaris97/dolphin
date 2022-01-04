@@ -50,6 +50,7 @@
     <link rel="shortcut icon" href="{!! asset('dashboard/assets/demo/demo12/media/img/logo/logo.png')!!}"/>
     <link href="{!! asset('dashboard/assets/customize.css')!!}" rel="stylesheet" type="text/css"/>
     <link href="{!! asset('dashboard/assets/custome-tasks.css')!!}" rel="stylesheet" type="text/css"/>
+    <link href="{!! asset('dashboard/assets/custome-tasks_layout.css')!!}" rel="stylesheet" type="text/css"/>
 
     @stack('header')
 </head>
@@ -78,7 +79,7 @@
         <div class="m-grid__item m-grid__item--fluid m-wrapper">
 
             <!-- BEGIN: Subheader -->
-            <div class="m-subheader ">
+            {{-- <div class="m-subheader ">
                 <div class="d-flex align-items-center">
                     <div class="mr-auto">
                         <h3 class="m-subheader__title m-subheader__title--separator">@yield('title')</h3>
@@ -93,7 +94,7 @@
                     </div>
 
                 </div>
-            </div>
+            </div> --}}
 
             <!-- END: Subheader -->
             <div class="m-content">

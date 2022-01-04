@@ -288,7 +288,7 @@
                                                                             class="m-list-timeline__text">
                                                                             <a
                                                                                 {{--href="
-@if($notification['type']=='charge')
+                            @if($notification['type']=='charge')
                                                                                 {!! route('charges.show',$notification['item_id']) !!}
                                                                             @else
 
@@ -399,6 +399,12 @@
                              </li>--}}
                         </ul>
                     </div>
+                </div>
+                <div class="floatNone"></div>
+                <div class="title-layout">
+                    <h3>
+                        <a href="#"> الفهرس </a> /  <a href="#"> عرض الفروع  </a>
+                    </h3>
                 </div>
 
                 <!-- END: Topbar -->

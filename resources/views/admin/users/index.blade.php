@@ -12,12 +12,16 @@
 @section('content')
 
     <div class="m-portlet m-portlet--mobile">
+        <div class="static-tabs">
+            <a class="links-tabs-active" href="#">كل الفروع</a>
+            <a href="#">اضافة فرع جديد</a>
+        </div>
         <div class="m-portlet__head">
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-title">
-                    <h3 class="m-portlet__head-text">
+                    {{-- <h3 class="m-portlet__head-text">
                         كل الاعضاء
-                    </h3>
+                    </h3> --}}
                 </div>
             </div>
             <div class="m-portlet__head-tools">
