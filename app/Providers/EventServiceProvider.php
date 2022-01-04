@@ -84,6 +84,10 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\MessageCreated::class => [
             \App\Listeners\NotifyMessageReceiver::class,
         ],
+
+        \App\Events\BankDepositConfirmed::class => [
+            \App\Listeners\NotifyDistributorConfirmation::class,
+        ],
     ];
 
     /**

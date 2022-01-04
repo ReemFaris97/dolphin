@@ -31,7 +31,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
-
 class ProductController extends Controller
 {
     use Viewable;
@@ -48,7 +47,7 @@ class ProductController extends Controller
         // $products =AccountingProduct::latest()->paginate(10);
         return $dataTable->render('AccountingSystem.products.index');
 
-       // return $this->toIndex(compact('products'));
+        // return $this->toIndex(compact('products'));
     }
 
     /**
@@ -133,7 +132,6 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         $rules = [
             'product_name' => 'required|string|max:191|product_name:accounting_products,name,category_id,' . $request['product_name'] . ',' . $request['category_id'],
             'en_name' => 'required|string',
@@ -169,7 +167,6 @@ class ProductController extends Controller
         $inputs['name'] = $inputs['product_name'];
         $inputs['selling_price'] = $inputs['product_selling_price'];
         $inputs['purchasing_price'] = $inputs['product_purchasing_price'];
-//        dd($inputs);
         if ($request->hasFile('image')) {
             $inputs['image'] = saveImage($request->image, 'photos');
         }
@@ -178,16 +175,16 @@ class ProductController extends Controller
         }
         $product = AccountingProduct::create($inputs);
 
-        if (isset($inputs['store_id'])) {
-            $product->update([
-                'store_id' => $inputs['store_id'],
-            ]);
-            AccountingProductStore::create([
-                'store_id' => $inputs['store_id'],
-                'product_id' => $product->id,
-                'quantity' => $inputs['quantity'],
-            ]);
-        }
+        // if (isset($inputs['store_id'])) {
+        //     $product->update([
+        //         'store_id' => $inputs['store_id'],
+        //     ]);
+        //     AccountingProductStore::create([
+        //         'store_id' => $inputs['store_id'],
+        //         'product_id' => $product->id,
+        //         'quantity' => $inputs['quantity'],
+        //     ]);
+        // }
         if (isset($request['main_unit'])) {
             $main_unit = AccountingProductMainUnit::where('main_unit', $request['main_unit'])->first();
             if (!isset($main_unit)) {
@@ -217,7 +214,15 @@ class ProductController extends Controller
             ]);
 
 
+            // if (isset($inputs['store_id'])) {
+            //     AccountingProductStore::create([
+            //         'store_id' => $inputs['store_id'],
+            //         'product_id' => $product->id,
+            //         'quantity' => $unit['2'] * $unit['5'],
+            //         'unit_id' => $uni->id
 
+            //     ]);
+            // }
         }
         ////////////////////components Arrays////////////////////////////////
 
@@ -330,7 +335,6 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'main_unit'=>'required',
             'is_active'=>'required',
-
             'bar_code' => 'nullable|',
             'barcodes' => 'nullable|array|barcode_anther:accounting_products,bar_code,bar_code,barcode,',
             'par_codes' => 'nullable|array|barcode_unit:accounting_products,bar_code,bar_code,barcode,',
@@ -371,6 +375,13 @@ class ProductController extends Controller
         $inputs['date_settlement']=now();
         $product = AccountingProduct::create($inputs);
 
+        // if (isset($inputs['store_id'])) {
+        //     AccountingProductStore::create([
+        //         'store_id' => $inputs['store_id'],
+        //         'product_id' => $product->id,
+        //         'quantity' => $inputs['quantity'],
+        //     ]);
+        // }
         if (isset($request['main_unit'])) {
             $main_unit = AccountingProductMainUnit::where('main_unit', $request['main_unit'])->first();
             if (!isset($main_unit)) {
@@ -382,8 +393,7 @@ class ProductController extends Controller
         ///////  /// / //////subunits Arrays//////////////////////////////
 
         foreach ($request->sub_units as $sub_unit) {
-
-            $unit = $product->sub_units()->UpdateOrCreate(['id' => \Arr::get($sub_unit, 'id')], [
+             $product->sub_units()->UpdateOrCreate(['id' => \Arr::get($sub_unit, 'id')], [
                 'name' => $sub_unit['name'],
                 'bar_code' => $sub_unit['bar_code'],
                 'main_unit_present' => $sub_unit['main_unit_present'],
@@ -391,15 +401,15 @@ class ProductController extends Controller
                 'purchasing_price' => $sub_unit['purchasing_price'],
                 'quantity' => $sub_unit['quantity'],
             ]);
-            if (isset($inputs['store_id'])) {
-                AccountingProductStore::create([
-                    'store_id' => $inputs['store_id'],
-                    'product_id' => $product->id,
-                    'quantity' => $unit->main_unit_present * $unit->quantity,
-                    'unit_id' => $unit->id
+            // if (isset($inputs['store_id'])) {
+            //     AccountingProductStore::create([
+            //         'store_id' => $inputs['store_id'],
+            //         'product_id' => $product->id,
+            //         'quantity' => $unit->main_unit_present * $unit->quantity,
+            //         'unit_id' => $unit->id
 
-                ]);
-            }
+            //     ]);
+            // }
         }
 
         ////////////////////components Arrays////////////////////////////////
@@ -656,12 +666,12 @@ class ProductController extends Controller
         $product->update([
             'store_id' => $inputs['store_id'],
         ]);
-        if (isset($inputs['store_id'])) {
-            AccountingProductStore::create([
-                'store_id' => $inputs['store_id'],
-                'product_id' => $product->id,
-            ]);
-        }
+        // if (isset($inputs['store_id'])) {
+        //     AccountingProductStore::create([
+        //         'store_id' => $inputs['store_id'],
+        //         'product_id' => $product->id,
+        //     ]);
+        // }
 //        $product->name=$inputs['name_product'];
         ///////  /// / //////subunits Arrays//////////////////////////////
         $names = collect($request['name']);
@@ -702,7 +712,7 @@ class ProductController extends Controller
         alert()->success('تم تعديل المنتج  بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.products.index');
     }
-  public function updateAjax(Request $request, $id)
+    public function updateAjax(Request $request, $id)
     {
         $product = AccountingProduct::findOrFail($id);
 
@@ -733,15 +743,14 @@ class ProductController extends Controller
             $inputs['image'] = saveImage($request->image, 'photos');
         }
         $product->update($inputs);
-            if (isset($request['store_id'])) {
-            AccountingProductStore::create([
-                'store_id' => $inputs['store_id'],
-                'product_id' => $product->id,
-            ]);
-        }
+        // if (isset($request['store_id'])) {
+        //     AccountingProductStore::create([
+        //         'store_id' => $inputs['store_id'],
+        //         'product_id' => $product->id,
+        //     ]);
+        // }
 
         foreach ($request->sub_units as $sub_unit) {
-
             $unit = $product->sub_units()->UpdateOrCreate(['id' => \Arr::get($sub_unit, 'id')], [
                 'name' => $sub_unit['name'],
                 'bar_code' => $sub_unit['bar_code'],
@@ -757,7 +766,7 @@ class ProductController extends Controller
         foreach ($request->offers as $offer) {
             $product->discounts()->updateOrCreate([
                 'accounting_product_discounts.id'=>$offer['id']
-            ],[
+            ], [
                 'quantity'=>$offer['quantity'],
                 'gift_quantity'=>$offer['gift_quantity'],
                 'discount_type'=>'quantity']);
@@ -778,11 +787,10 @@ class ProductController extends Controller
             ]);
         }
 
-      if ( $request['tax'] ) {
-          $product->tax()->sync($request->taxs);
-      }
-      return response()->json(['status' => true, 'message' => 'تم التعديل  بنجاح !']);
-
+        if ($request['tax']) {
+            $product->tax()->sync($request->taxs);
+        }
+        return response()->json(['status' => true, 'message' => 'تم التعديل  بنجاح !']);
     }
 
     /**
@@ -827,7 +835,7 @@ class ProductController extends Controller
     public function getfaces($id)
     {
         $requests = \Request::all();
-        $company_id =\Arr::get($requests,'company_id');
+        $company_id =\Arr::get($requests, 'company_id');
         return faces($id, $company_id);
     }
 
@@ -953,12 +961,14 @@ class ProductController extends Controller
     {
         $products = AccountingProduct::query()
             ->when($request->search, function ($b) use ($request) {
-                return $b->where(fn($q)=>$q
+                return $b->where(
+                    fn ($q) =>$q
                     ->where('name', 'LIKE', '%'.$request->search . '%')
                     ->orWhere('en_name', 'LIKE', '%' . $request->search . '%')
                     ->orWhere('description', 'LIKE', '%' . $request->search.'%')
-                    ->orWhere('bar_code', 'like',"%$request->search%")
-                );})->paginate(50);
+                    ->orWhere('bar_code', 'like', "%$request->search%")
+                );
+            })->paginate(50);
 
         return response()->json([
             'status' => true,
@@ -969,15 +979,17 @@ class ProductController extends Controller
 
     public function getProductsCreationByAjax(Request $request)
     {
-      //  $products = AccountingProduct::query()->creation()
+        //  $products = AccountingProduct::query()->creation()
         $products = AccountingProduct::query()->creation()
             ->when($request->search, function ($b) use ($request) {
-                return $b->where(fn($q)=>$q
+                return $b->where(
+                    fn ($q) =>$q
                     ->where('name', 'LIKE', '%'.$request->search . '%')
                     ->orWhere('en_name', 'LIKE', '%' . $request->search . '%')
                     ->orWhere('description', 'LIKE', '%' . $request->search.'%')
-                    ->orWhere('bar_code', 'like',"%$request->search%")
-            );})->paginate(50);
+                    ->orWhere('bar_code', 'like', "%$request->search%")
+                );
+            })->paginate(50);
 
         return response()->json([
             'status' => true,

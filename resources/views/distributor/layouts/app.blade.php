@@ -41,11 +41,12 @@
 background-color: #e7eaef !important
 }
     </style>
+    <link href="{!! asset('dashboard/assets/customize.css')!!}" rel="stylesheet" type="text/css"/>
     @stack('header')
 
 
 	<!--Customize Style -->
-    <link href="{!! asset('dashboard/assets/customize.css')!!}" rel="stylesheet" type="text/css"/>
+
     @include('sweetalert::alert')
 
 

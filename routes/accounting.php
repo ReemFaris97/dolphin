@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountingSystem\Reports\SalesController;
+use App\Http\Controllers\AccountingSystem\Reports\StoresController;
 use App\Http\Controllers\AccountingSystem\Reports\SuppliersController;
 
 Route::get('/', function () {
@@ -343,7 +344,7 @@ Route::middleware('admin')->group(function () {
             Route::any('returns-days', ['as' => 'sales_returns_day', 'uses' => 'SalesController@returnsDay']);
 
             Route::any('daily-earnings', ['as' => 'daily_earnings', 'uses' => 'SalesController@daily_earnings']);
-            Route::any('period-earnings',[SalesController::class,'period_earnings'])->name('period_earnings');
+            Route::any('period-earnings', [SalesController::class,'period_earnings'])->name('period_earnings');
             Route::match(['get','post'], 'sessions', [SalesController::class,'sessionDetails'])->name('sessions_report');
         });
     });
@@ -411,4 +412,9 @@ Route::middleware('admin')->group(function () {
     Route::post('debts-{id}', 'DebtController@payDebt')->name('payDebt');
 
     Route::resource('suppliers-products','Suppliers\\SupplierProductController');
+});
+
+
+Route::get('empty',function (){
+    return view('AccountingSystem.empty');
 });

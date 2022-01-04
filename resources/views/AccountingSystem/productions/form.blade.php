@@ -91,33 +91,3 @@
     </div>
 </div>
 
-
-{{--<button class="btn btn-success mt-3" type="button" id="addProduct"> اضافة صنف--}}
-{{--</button> <button class="btn btn-danger" type="button" id="removeProduct">حذف</button>--}}
-{{--<br>--}}
-{{--<br>--}}
-{{--<div class="row productRow">--}}
-{{--    <div class="form-group col-md-4 col-sm-6 col-xs-12">--}}
-{{--        <label>اختر الصنف </label>--}}
-{{--        {!! Form::select("products[product_id]",$products,null,['class'=>'form-control js-example-basic-single','required','placeholder'=>' اختر اسم  المنتج  ','id'=>'product_id'])!!}--}}
-{{--    </div>--}}
-
-{{--    <div class="form-group col-md-4 col-sm-6 col-xs-12">--}}
-{{--        <label>الوحدة</label>--}}
-{{--        <select name="products[unit_id]" id="unit_id" class="form-control js-example-basic-single" required>--}}
-{{--        </select>--}}
-{{--    </div>--}}
-
-{{--    <div class="form-group col-md-4 col-sm-6 col-xs-12">--}}
-{{--        <label>الكمية  </label>--}}
-{{--        {!! Form::number('products[quantity]', null, ['class' => 'form-control', 'placeholder' => 'الكمية','required']) !!}--}}
-{{--    </div>--}}
-{{--</div>--}}
-
-
-{{--<div class="text-center col-md-12">--}}
-{{--    <div class="text-right">--}}
-{{--        <button type="submit" id="register" class="btn btn-success">حفظ <i class="icon-arrow-left13 position-right"></i></button>--}}
-{{--    </div>--}}
-{{--</div>--}}
-

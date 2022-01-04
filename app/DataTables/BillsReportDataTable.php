@@ -9,7 +9,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class DistributerBillsDataTable extends DataTable
+class BillsReportDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -26,29 +26,40 @@ class DistributerBillsDataTable extends DataTable
             ->addColumn('created_at', fn($bill) => $bill->created_at->format('Y-m-d h:m A'))
             ->addColumn('user_name', fn($bill) => optional($bill->route_trip)->route->user->name)
             ->addColumn('total', fn($bill) => $bill->product_total())
-            ->addColumn('bill_status', fn($bill) =>
-            optional($bill->inventory)->type=='accept' ? '<label class="btn btn-success"> تم القبول</label>':'<label class="btn btn-danger"> تم الرفض</label>')
+            ->addColumn('bill_status', fn($bill) => optional($bill->inventory)->type == 'accept' ? '<label class="btn btn-success"> تم القبول</label>' : '<label class="btn btn-danger"> تم الرفض</label>')
             ->addColumn('bill_type', fn($bill) => view('distributor.bills.bill_type', ['row' => $bill])->render())
             ->addColumn('bill_paid', fn($bill) => view('distributor.bills.bill_paid', ['row' => $bill])->render())
-            ->addColumn('action', fn($bill) => view('distributor.bills.actions', ['row' => $bill])->render())
-
-            ->rawColumns(['bill_status', 'bill_type','bill_paid','action']);
+            ->addColumn('action', fn($bill) => view('distributor.reports.bills-report.actions', ['row' => $bill])->render())
+            ->rawColumns(['bill_status', 'bill_type', 'bill_paid', 'action']);
     }
 
-    /**
-     * Get query source of dataTable.
-     *
 
-     */
-    public function query(RouteTripReport $model)
+    public function query()
     {
-        $bills = RouteTripReport::with(['inventory', 'products', 'route_trip' => function ($builder) {
+        $bills = RouteTripReport::query()->with(['inventory', 'products', 'route_trip' => function ($builder) {
             $builder->with(['route' => function ($q) {
                 $q->with('user');
             }, 'client']);
         },
-        ])->latest();
+        ]);
 
+        $bills->when(\request('client_id'), function ($q) {
+            $q->whereHas('route_trip', function ($query) {
+                $query->whereRelation('client', 'client_id', \request('client_id'));
+            });
+        });
+
+        $bills->when(\request('user_id'), function ($q) {
+            $q->whereHas('route_trip', function ($query) {
+                $query->whereRelation('route', 'user_id', \request('user_id'));
+            });
+        });
+
+        $bills->when(\request('from') and \request('to'), function ($q) {
+            $q->whereBetween('created_at', [\request('from'), \request('to')]);
+        });
+
+        // $bills = $bills->latest()->get();
         return $bills;
     }
 
@@ -60,18 +71,18 @@ class DistributerBillsDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('distributerbills-table')
+            ->setTableId('billsreport-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('Bfrtip')
-             ->orderBy(1)
-//            ->buttons(
-//                Button::make('create'),
-//                Button::make('export'),
-//                Button::make('print'),
-//                Button::make('reset'),
-//                Button::make('reload')
-//            )
+            ->orderBy(1)
+//                    ->buttons(
+//                        Button::make('create'),
+//                        Button::make('export'),
+//                        Button::make('print'),
+//                        Button::make('reset'),
+//                        Button::make('reload')
+//                    )
             ;
     }
 
@@ -102,6 +113,6 @@ class DistributerBillsDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'DistributerBills_' . date('YmdHis');
+        return 'BillsReport_' . date('YmdHis');
     }
 }

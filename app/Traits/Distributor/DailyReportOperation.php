@@ -27,28 +27,31 @@ trait DailyReportOperation
     public function RegisterDailyReport($request)
     {
         DB::beginTransaction();
+
         try {
             $inputs = $request->all();
-            if ($request->image != null)
-            {
+            if ($request->image != null) {
                 if ($request->hasFile('image')) {
-                    $inputs['image'] = saveImage($request->image,'users');
+                    $inputs['image'] = saveImage($request->image, 'users');
                 }
             }
 
             $report = DailyReport::create($inputs);
-            foreach ($request->products as $item)
-            {
+
+            foreach ($request->products as $item) {
                 $product = Product::find($item['product_id']);
-                $report->products()->create(['quantity'=> $item['quantity'],
-                'price'=>$product->price]);
+                $report->products()->create([
+                    'quantity' => $item['quantity'],
+                    'price' => $product->price
+                ]);
             }
+
             DB::commit();
 
             return true;
         } catch (\Exception $e) {
             DB::rollback();
-         dd($e);
+            dd($e);
             return false;
         }
     }
