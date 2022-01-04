@@ -19,7 +19,7 @@ class AccountingProductResource extends JsonResource
             'name'=>$this->name,
             'barcode'=>$this->bar_code,
             'bar_codes'=>$this->bar_code,
-            'unit'=>$this->unit,
+            'unit'=>$this->main_unit,
             'price'=>$this->price,
             'image'=>$this->image,
             'notes'=>$this->notes,
