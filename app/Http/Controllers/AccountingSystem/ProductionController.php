@@ -18,7 +18,7 @@ use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
 use Illuminate\Support\Facades\DB;
 
-class ProductionController extends Controller
+class   ProductionController extends Controller
 {
     use Viewable;
 

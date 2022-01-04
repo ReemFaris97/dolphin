@@ -332,7 +332,7 @@
                                                     <i class="icon-add-to-list"></i> اضافة منتج جديد</a>
                                             </li>
                                             <li class="dropdown-submenu dropdown-submenu-right"><a
-                                                    href="{{route('accounting.suppliers-products.create')}}">
+                                                    href="{{route('accounting.suppliers-products.index')}}">
                                                     <i class="icon-add-to-list"></i> الاصناف المقترحة</a>
                                             </li>
                                         </ul>
