@@ -45,8 +45,11 @@
 background-color: #e7eaef !important
 }
     </style>
+
     <link href="{!! asset('dashboard/assets/customize.css')!!}" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" type="text/css" href="{{ asset('dashboard/assets/modfication-css.css') }}">
+
+
     @stack('header')
 
 
@@ -125,7 +128,7 @@ background-color: #e7eaef !important
             </div>
 
             <!-- END: Brand -->
-            <div class="m-stack__item m-stack__item--fluid m-header-head" id="m_header_nav">
+            <div class="m-stack__item m-stack__item--fluid m-header-head flx-content-header" id="m_header_nav">
 
                 <!-- BEGIN: Horizontal Menu -->
                 <button class="m-aside-header-menu-mobile-close  m-aside-header-menu-mobile-close--skin-dark "
@@ -138,7 +141,9 @@ background-color: #e7eaef !important
                 </div>
 
                 <!-- END: Horizontal Menu -->
-
+                {{-- <div class="dectionary-h4">
+                    <h4>الفهرس</h4>
+                </div> --}}
                 <!-- BEGIN: Topbar -->
                 <div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general">
                     <div class="m-stack__item m-topbar__nav-wrapper">
@@ -725,7 +730,7 @@ background-color: #e7eaef !important
                 <div class="d-flex align-items-center">
                     <div class="mr-auto">
                         <h3 class="m-subheader__title m-subheader__title--separator">
-                            @yield('title')
+                           الفهرس
                         </h3>
                         <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                             <li class="m-nav__item m-nav__item--home">
@@ -739,7 +744,7 @@ background-color: #e7eaef !important
                 </div>
             </div>
             <!-- END: Subheader -->
-            <div class="m-content">
+            <div class="m-content m-content-mt0">
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -749,10 +754,330 @@ background-color: #e7eaef !important
                         </ul>
                     </div>
                 @endif
-                @yield('content')
+               {{--  @yield('content') --}}
+               <div >
+                <!-- Accordion -->
+                <div class="accordion js-accordion" data-id="accordion1">
+                    <!-- Accordion item -->
+                    <button type="button" id="accordionOne" class="accordion__button js-accordion__button is-active" aria-expanded="false"  aria-controls="sectionOne" >
+                        ادارة عضويات الادارة :
+                    </button>
+                    <div id="sectionOne" class="accordion__body js-accordion__body" role="region" aria-labelledby="accordionOne">
+                        <div class="content-dectionary">
+                         <div class="smll-content-dectionary">
+                            <div class="row">
+                                <div class="links-dectionary">
+                                    <a href="#">عرض العضويات</a>
+                                </div>
+                                <div class="links-dectionary">
+                                    <a href="#">عرض المسميات الوظيفية</a>
+                                </div>
+                                <div class="links-dectionary">
+                                    <a href="#">عرض رواتب الموظفين</a>
+                                </div>
+                                <div class="links-dectionary">
+                                    <a href="#">اضافة عضو جديد </a>
+                                </div>
+                                <div class="links-dectionary">
+                                    <a href="#"> اضافة مسمي وظيفي</a>
+                                </div>
+                                <div class="links-dectionary">
+                                    <a href="#"> دفع رواتب الموظفين</a>
+                                </div>
+                            </div>
+                         </div>
+                       </div>
+                    </div>
+                    <!--/ Accordion item -->
+                    <!-- Accordion item -->
+                    <button type="button" id="accordionTwo" class="accordion__button js-accordion__button" aria-expanded="false" aria-controls="sectionTwo">  ادارة  الموظفين :</button>
+                    <div id="sectionTwo" class="accordion__body js-accordion__body" role="region" aria-labelledby="accordionTwo">
+                        <div class="content-dectionary">
+                            <div class="smll-content-dectionary">
+
+                                <div class="row">
+                                    <div class="links-dectionary">
+                                        <a href="#"> وثائق الموظفين</a>
+                                    </div>
+                                    <div class="links-dectionary">
+                                        <a href="#">طلبات الاجازات</a>
+                                    </div>
+                                    <div class="links-dectionary">
+                                        <a href="#">السلف</a>
+                                    </div>
+                                    <div class="links-dectionary">
+                                        <a href="#">وثائق الفروع </a>
+                                    </div>
+                                    <div class="links-dectionary">
+                                        <a href="#"> الاجازات </a>
+                                    </div>
+                                    <div class="links-dectionary">
+                                        <a href="#"> البدلات</a>
+                                    </div>
+                                    <div class="links-dectionary">
+                                        <a href="#">الرواتب </a>
+                                    </div>
+                                    <div class="links-dectionary">
+                                        <a href="#">خصومات واضافات</a>
+                                    </div>
+                                    <div class="links-dectionary">
+                                        <a href="#"> الحضور والانصراف</a>
+                                    </div>
+                                </div>
+                           </div>
+                        </div>
+                    </div>
+                    <!--/ Accordion item -->
+                    <!-- Accordion item -->
+                    <button type="button" id="accordionThree" class="accordion__button js-accordion__button" aria-expanded="false" aria-controls="sectionThree">ادارة الشركات :</button>
+                    <div id="sectionThree" class="accordion__body js-accordion__body" role="region" aria-labelledby="accordionThree">
+                        <div class="content-dectionary">
+                            <div class="smll-content-dectionary smll-content-edit-width">
+                                <h4 class="title-dictionary">  ادارة  الشركات :</h4>
+                                <div class="row">
+                                    <div class="links-dectionary">
+                                        <a href="#">عرض الشركات</a>
+                                    </div>
+                                    <div class="links-dectionary">
+                                        <a href="#">اضافة شركة جديدة</a>
+                                    </div>
+
+                                </div>
+                           </div>
+                        </div>
+                    </div>
+                    <!--/ Accordion item -->
+                    <!-- Accordion item -->
+                    <button type="button" id="accordionFour" class="accordion__button js-accordion__button" aria-expanded="false" aria-controls="sectionFour">ادارة فرع الشركة :</button>
+                    <div id="sectionFour" class="accordion__body js-accordion__body" role="region" aria-labelledby="accordionFour">
+                        <div class="content-dectionary">
+                            <div class="smll-content-dectionary smll-content-edit-width">
+                                <div class="row">
+                                    <div class="links-dectionary">
+                                        <a href="#">عرض فروع الشركة</a>
+                                    </div>
+                                    <div class="links-dectionary">
+                                        <a href="#">اضافة  جميع الورديات</a>
+                                    </div>
+                                    <div class="links-dectionary">
+                                        <a href="#">اضافة فرع جديد </a>
+                                    </div>
+                                    <div class="links-dectionary">
+                                        <a href="#">اضافة  وردية جديدة</a>
+                                    </div>
+                                </div>
+                          </div>
+                        </div>
+                    </div>
+                    <!--/ Accordion item -->
+                    <!-- Accordion item -->
+                    <button type="button" id="accordionFive" class="accordion__button js-accordion__button" aria-expanded="false" aria-controls="sectionFive">  ادارة  الخزائن :</button>
+                    <div id="sectionFive" class="accordion__body js-accordion__body" role="region" aria-labelledby="accordionFive">
+                        <div class="content-dectionary">
+                            <div class="smll-content-dectionary smll-content-edit-width">
+                                <div class="row">
+                                    <div class="links-dectionary">
+                                        <a href="#">عرض الخزائن</a>
+                                    </div>
+                                    <div class="links-dectionary">
+                                        <a href="#">اضافة خزينة جديدة</a>
+                                    </div>
+
+                                </div>
+                         </div>
+                    </div>
+                </div>
+                    <!--/ Accordion item -->
+
+
+                <!-- Accordion item -->
+                <button type="button" id="accordionSex" class="accordion__button js-accordion__button" aria-expanded="false" aria-controls="sectionSex"> ادارة الاجهزة :</button>
+                <div id="sectionSex" class="accordion__body js-accordion__body" role="region" aria-labelledby="accordionSex">
+                    <div  class="content-dectionary">
+                        <div class="smll-content-dectionary smll-content-edit-width">
+                            <div class="row">
+                                <div class="links-dectionary">
+                                    <a href="#">عرض الاجهزة</a>
+                                </div>
+                                <div class="links-dectionary">
+                                    <a href="#">اضافة جهاز جديد</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/ Accordion item -->
+
+                <!-- Accordion item -->
+                <button type="button" id="accordionSeven" class="accordion__button js-accordion__button" aria-expanded="false" aria-controls="sectionSeven"> ادارة خطوط الانتاج :</button>
+                <div id="sectionSeven" class="accordion__body js-accordion__body" role="region" aria-labelledby="accordionSeven">
+                    <div  class="content-dectionary">
+                        <div class="smll-content-dectionary smll-content-edit-width">
+                            <div class="row">
+                                <div class="links-dectionary">
+                                    <a href="#">عرض خطوط الانتاج</a>
+                                </div>
+                                <div class="links-dectionary">
+                                    <a href="#">اضافة خط  </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/ Accordion item -->
+
+
+                </div>
+                <!--/ Accordion -->
+            </div>
+            </div>
+
+                <div class="content-dectionary">
+                   <div class="smll-content-dectionary">
+                        <h4 class="title-dictionary">  ادارة عضويات الادارة :</h4>
+                        <div class="row">
+                            <div class="links-dectionary">
+                                <a href="#">عرض العضويات</a>
+                            </div>
+                            <div class="links-dectionary">
+                                <a href="#">عرض المسميات الوظيفية</a>
+                            </div>
+                            <div class="links-dectionary">
+                                <a href="#">عرض رواتب الموظفين</a>
+                            </div>
+                            <div class="links-dectionary">
+                                <a href="#">اضافة عضو جديد </a>
+                            </div>
+                            <div class="links-dectionary">
+                                <a href="#"> اضافة مسمي وظيفي</a>
+                            </div>
+                            <div class="links-dectionary">
+                                <a href="#"> دفع رواتب الموظفين</a>
+                            </div>
+                        </div>
+                   </div>
+
+                   <div class="smll-content-dectionary">
+                        <h4 class="title-dictionary">  ادارة  الموظفين :</h4>
+                        <div class="row">
+                            <div class="links-dectionary">
+                                <a href="#"> وثائق الموظفين</a>
+                            </div>
+                            <div class="links-dectionary">
+                                <a href="#">طلبات الاجازات</a>
+                            </div>
+                            <div class="links-dectionary">
+                                <a href="#">السلف</a>
+                            </div>
+                            <div class="links-dectionary">
+                                <a href="#">وثائق الفروع </a>
+                            </div>
+                            <div class="links-dectionary">
+                                <a href="#"> الاجازات </a>
+                            </div>
+                            <div class="links-dectionary">
+                                <a href="#"> البدلات</a>
+                            </div>
+                            <div class="links-dectionary">
+                                <a href="#">الرواتب </a>
+                            </div>
+                            <div class="links-dectionary">
+                                <a href="#">خصومات واضافات</a>
+                            </div>
+                            <div class="links-dectionary">
+                                <a href="#"> الحضور والانصراف</a>
+                            </div>
+                        </div>
+                   </div>
+                   <div class="smll-content-dectionary smll-content-edit-width">
+                        <h4 class="title-dictionary">  ادارة  الشركات :</h4>
+                        <div class="row">
+                            <div class="links-dectionary">
+                                <a href="#">عرض الشركات</a>
+                            </div>
+                            <div class="links-dectionary">
+                                <a href="#">اضافة شركة جديدة</a>
+                            </div>
+
+                        </div>
+                   </div>
+                   <div class="smll-content-dectionary smll-content-edit-width">
+                        <h4 class="title-dictionary">  ادارة  فرع الشركة :</h4>
+                        <div class="row">
+                            <div class="links-dectionary">
+                                <a href="#">عرض فروع الشركة</a>
+                            </div>
+                            <div class="links-dectionary">
+                                <a href="#">اضافة  جميع الورديات</a>
+                            </div>
+                            <div class="links-dectionary">
+                                <a href="#">اضافة فرع جديد </a>
+                            </div>
+                            <div class="links-dectionary">
+                                <a href="#">اضافة  وردية جديدة</a>
+                            </div>
+                        </div>
+                  </div>
+                  <div class="smll-content-dectionary smll-content-edit-width">
+                        <h4 class="title-dictionary">  ادارة  الخزائن :</h4>
+                        <div class="row">
+                            <div class="links-dectionary">
+                                <a href="#">عرض الخزائن</a>
+                            </div>
+                            <div class="links-dectionary">
+                                <a href="#">اضافة خزينة جديدة</a>
+                            </div>
+
+                        </div>
+                 </div>
+                 <div class="smll-content-dectionary smll-content-edit-width">
+                    <h4 class="title-dictionary">  ادارة  الاجهزة :</h4>
+                    <div class="row">
+                        <div class="links-dectionary">
+                            <a href="#">عرض الاجهزة</a>
+                        </div>
+                        <div class="links-dectionary">
+                            <a href="#">اضافة جهاز جديد</a>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="smll-content-dectionary smll-content-edit-width">
+                    <h4 class="title-dictionary">  ادارة  خطوط الانتاج :</h4>
+                    <div class="row">
+                        <div class="links-dectionary">
+                            <a href="#">عرض خطوط الانتاج</a>
+                        </div>
+                        <div class="links-dectionary">
+                            <a href="#">اضافة خط  </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                </div>
+               </div>
+
+
             </div>
         </div>
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- end:: Body -->
     <!-- begin::Footer -->
 @include('distributor.layouts._footer')
@@ -798,6 +1123,194 @@ background-color: #e7eaef !important
 <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-messaging.js"></script>
 <script src="{!! asset('dashboard/assets/firebase/firebase_scripts.js') !!}"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script>
+        "use strict";
+
+class Accordion {
+    constructor(element, options = {}) {
+        this.accordion = element;
+        this.buttons = null;
+        this.bodies = null;
+        this.options = {
+            activeClassName: "is-active",
+            closeOthers: true,
+            ...options
+        };
+
+        this.handleKeydown = this.handleKeydown.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+        this.handleTransitionend = this.handleTransitionend.bind(this);
+
+        this.init();
+    }
+
+    init() {
+        if (this.accordion.classList.contains("is-init-accordion")) {
+            throw Error("Accordion is already initialized.");
+        }
+
+        this.buttons = [
+            ...this.accordion.querySelectorAll(".js-accordion__button")
+        ];
+        this.bodies = [
+            ...this.accordion.querySelectorAll(".js-accordion__body")
+        ];
+
+        // Handle active accordion item
+        for (const button of this.buttons) {
+            if (!button.classList.contains(this.options.activeClassName))
+                continue;
+            button.setAttribute("aria-expanded", "true");
+            const body = button.nextElementSibling;
+            body.style.display = "block";
+            body.style.maxHeight = "none";
+        }
+
+        // Hide all bodies except the active
+        for (const body of this.bodies) {
+            if (
+                body.previousElementSibling.classList.contains(
+                    this.options.activeClassName
+                )
+            )
+                continue;
+            body.style.display = "none";
+            body.style.maxHeight = "0px";
+        }
+
+        this.addEvents();
+
+        this.accordion.classList.add("is-init-accordion");
+    }
+
+    closeOthers(elException) {
+        for (const button of this.buttons) {
+            if (button === elException) continue;
+            button.classList.remove(this.options.activeClassName);
+            button.setAttribute("aria-expanded", "false");
+            const body = button.nextElementSibling;
+            body.style.maxHeight = `${body.scrollHeight}px`;
+            setTimeout(() => void (body.style.maxHeight = "0px"), 0);
+        }
+    }
+
+    handleKeydown(event) {
+        const target = event.target;
+        const key = event.which.toString();
+
+        if (
+            target.classList.contains("js-accordion__button") &&
+            key.match(/35|36|38|40/)
+        ) {
+            event.preventDefault();
+        } else {
+            return false;
+        }
+
+        switch (key) {
+            case "36":
+                // "Home" key
+                this.buttons[0].focus();
+                break;
+            case "35":
+                // "End" key
+                this.buttons[this.buttons.length - 1].focus();
+                break;
+            case "38":
+                // "Up Arrow" key
+                const prevIndex = this.buttons.indexOf(target) - 1;
+                if (this.buttons[prevIndex]) {
+                    this.buttons[prevIndex].focus();
+                } else {
+                    this.buttons[this.buttons.length - 1].focus();
+                }
+                break;
+            case "40":
+                // "Down Arrow" key
+                const nextIndex = this.buttons.indexOf(target) + 1;
+                if (this.buttons[nextIndex]) {
+                    this.buttons[nextIndex].focus();
+                } else {
+                    this.buttons[0].focus();
+                }
+                break;
+        }
+    }
+
+    handleClick(event) {
+        const button = event.currentTarget;
+        const body = button.nextElementSibling;
+
+        if (this.options.closeOthers) {
+            this.closeOthers(button);
+        }
+
+        // Set height to the active body
+        if (body.style.maxHeight === "none") {
+            body.style.maxHeight = `${body.scrollHeight}px`;
+        }
+
+        if (button.classList.contains(this.options.activeClassName)) {
+            // Close accordion item
+            button.classList.remove(this.options.activeClassName);
+            button.setAttribute("aria-expanded", "false");
+            setTimeout(() => void (body.style.maxHeight = "0px"), 0);
+        } else {
+            // Open accordion item
+            button.classList.add(this.options.activeClassName);
+            button.setAttribute("aria-expanded", "true");
+            body.style.display = "block";
+            body.style.maxHeight = `${body.scrollHeight}px`;
+        }
+    }
+
+    handleTransitionend(event) {
+        const body = event.currentTarget;
+        if (body.style.maxHeight !== "0px") {
+            // Remove the height from the active body
+            body.style.maxHeight = "none";
+        } else {
+            // Hide the active body
+            body.style.display = "none";
+        }
+    }
+
+    addEvents() {
+        this.accordion.addEventListener("keydown", this.handleKeydown);
+        for (const button of this.buttons) {
+            button.addEventListener("click", this.handleClick);
+        }
+        for (const body of this.bodies) {
+            body.addEventListener("transitionend", this.handleTransitionend);
+        }
+    }
+
+    destroy() {
+        this.accordion.removeEventListener("keydown", this.handleKeydown);
+        for (const button of this.buttons) {
+            button.removeEventListener("click", this.handleClick);
+        }
+        for (const body of this.bodies) {
+            body.addEventListener("transitionend", this.handleTransitionend);
+        }
+
+        this.buttons = null;
+        this.bodies = null;
+
+        this.accordion.classList.remove("is-init-accordion");
+    }
+}
+
+// ---
+
+window.addEventListener("DOMContentLoaded", () => {
+    const accordionEls = [...document.querySelectorAll(".js-accordion")];
+    for (const accordionEl of accordionEls) {
+        new Accordion(accordionEl);
+    }
+});
+
+    </script>
 
 <!--end::Global Theme Bundle -->
 </body>

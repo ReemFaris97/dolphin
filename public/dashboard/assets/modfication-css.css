@@ -13,3 +13,144 @@ div#m_header_nav, .m-aside-menu .m-menu__nav {
 .m-aside-left.m-aside-left--skin-dark {
     background-color: #45a2c6;
 }
+.content-dectionary {
+    width: 90%;
+}
+.links-dectionary a {
+    width: 167px !important;
+    background-color: #fff;
+    display: inline-block;
+    padding: 13px 10px;
+    text-align: center;
+    color: #212121;
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px #ddd;
+    transition: all .4s ease-in-out;
+}
+.links-dectionary a:hover{
+    text-decoration: none;
+    transform: translateY(3px);
+    background-color: #45a2c61c;
+}
+.links-dectionary{
+    margin-bottom: 15px;
+    padding: 0 14px
+
+}
+.title-dictionary{
+    color: #212121;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+.smll-content-dectionary {
+    padding: 14px;
+}
+.smll-content-edit-width{
+    width: 80%;
+}
+.m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item>.m-menu__link .m-menu__link-text{
+    color: #dbe8ee;
+}
+div#m_header_nav{
+    background: #f2f3f8;
+}
+.dectionary-h4 h4{
+font-size: 18px;
+}
+/* .flx-content-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.accordion {
+    margin-bottom: 20px;
+    box-shadow: 0 5px 25px 0 rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.accordion__button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0;
+    padding: 15px 20px;
+    width: 100%;
+    font: inherit;
+    font-weight: 500;
+    color: #fff;
+    text-align: left;
+    background: #379;
+    border: 0;
+    border-radius: 0;
+    transition: background 0.3s ease;
+    cursor: pointer;
+    border-bottom: 1px solid #fff;
+}
+
+.accordion__button:after {
+    content: "\002B";
+    display: block;
+    margin-left: 15px;
+    font: inherit;
+    color: #fff;
+}
+
+.accordion__button:hover,
+.accordion__button.is-active {
+    background: #157;
+}
+
+.accordion__button.is-active:after {
+    content: "\2212";
+}
+
+.accordion__button:focus {
+    background: #59b;
+    outline: none;
+}
+
+.accordion__body {
+    /* "max-height" isn't needed, but it's better for the first page draw. */
+    max-height: 0;
+    background: #fff;
+    transition: max-height 0.3s ease;
+    overflow: hidden;
+}
+
+
+/* ================responsive ==============*/
+
+
+@media screen and (max-width: 767px) {
+
+    .content-dectionary {
+        width: 100%;
+    }
+    .links-dectionary {
+        width: 50%;
+        padding: 0 12px;
+    }
+    .links-dectionary a {
+        width: 100% !important;
+        font-size: 11px;
+    }
+}
