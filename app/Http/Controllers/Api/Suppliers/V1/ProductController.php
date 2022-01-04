@@ -105,7 +105,7 @@ class ProductController extends Controller
             });
         });
 
-        return \responder::success(AccountingProductResource::collection($products->limit(50)->get()));
+        return \responder::success(new BaseCollection($products->paginate(20),AccountingProductResource::class));
     }
 
     public function myProducts()
