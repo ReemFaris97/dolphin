@@ -110,6 +110,6 @@ class ProductController extends Controller
     public function myProducts()
     {
 //        dd(auth()->user()->supplier);
-        return \responder::success(new BaseCollection(auth()->user()->supplier->products()->paginate(20), ProductResource::class));
+        return \responder::success(ProductResource::collection(auth()->user()->supplier->products()->get()));
     }
 }
