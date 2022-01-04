@@ -410,6 +410,8 @@ Route::middleware('admin')->group(function () {
     Route::resource('debts', 'DebtController');
     Route::resource('salaries', 'SalariesController');
     Route::post('debts-{id}', 'DebtController@payDebt')->name('payDebt');
+
+    Route::resource('suppliers-products','Suppliers\\SupplierProductController');
 });
 
 

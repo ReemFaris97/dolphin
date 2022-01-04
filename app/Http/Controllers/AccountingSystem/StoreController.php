@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
-use App\DataTables\AccountingProductsDataTable;
+use App\DataTables\AccountingSuppliersProductsDataTable;
 use App\Models\AccountingSystem\AccountingBond;
 use App\Models\AccountingSystem\AccountingBondProduct;
 use App\Models\AccountingSystem\AccountingBranch;
@@ -217,7 +217,7 @@ class StoreController extends Controller
         ]);
     }
 
-    public function store_product(AccountingProductsDataTable $datatable, $id)
+    public function store_product(AccountingSuppliersProductsDataTable $datatable, $id)
     {
         $products_store = AccountingProductStore::query()
             ->where('accounting_product_stores.store_id', $id)->with('product')

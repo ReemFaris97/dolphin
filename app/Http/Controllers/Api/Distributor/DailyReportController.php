@@ -104,15 +104,15 @@ class DailyReportController extends Controller
 
     public function store(Request $request)
     {
-        $request['products'] = json_decode($request->products, true);
+      //  $request['products'] = json_decode($request->products, true);
         $rules = [
             'cash' => 'nullable|numeric',
             'expenses' => 'nullable|numeric',
-            'image' => 'required',
-            'store_id' => 'required|integer|exists:stores,id',
-            'products' => 'required|array',
-            'products.*.product_id' => 'required|integer|exists:products,id',
-            'products.*.quantity' => 'required|integer',
+            'image' => 'nullable',
+            'items.*.store_id' => 'required|integer|exists:stores,id',
+            'items.*.products' => 'required|array',
+            'items.*.products.*.product_id' => 'required|integer|exists:products,id',
+            'items.*.products.*.quantity' => 'required|integer',
         ];
         $validation = $this->apiValidation($request, $rules);
 
@@ -121,6 +121,6 @@ class DailyReportController extends Controller
         }
         $request['user_id'] = auth()->user()->id;
         $this->RegisterDailyReport($request);
-        return $this->apiResponse('تم ملأ التقرير بنجاح');
+        return $this->apiResponse('تم ملئ التقرير بنجاح');
     }
 }

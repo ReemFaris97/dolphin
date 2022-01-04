@@ -4,6 +4,7 @@ namespace App\Models\AccountingSystem;
 
 use App\Models\Supplier\Bank;
 use App\Models\Supplier\Invoice;
+use App\Models\Supplier\SupplierProduct;
 use App\Traits\HashPassword;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -91,5 +92,10 @@ class AccountingSupplier extends Model
     public function banks()
     {
         return $this->hasMany(Bank::class);
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(AccountingProduct::class,SupplierProduct::class);
     }
 }

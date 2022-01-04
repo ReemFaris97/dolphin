@@ -328,8 +328,13 @@
                                             <li><a href="{{route('accounting.products.print_barcode_view')}}"><i
                                                         class="icon-barcode2"></i> طباعة الباركود</a></li>
                                             <li class="dropdown-submenu dropdown-submenu-right"><a
-                                                    href="{{route('accounting.products.create')}}"><i
-                                                        class="icon-add-to-list"></i> اضافة منتج جديد</a></li>
+                                                    href="{{route('accounting.products.create')}}">
+                                                    <i class="icon-add-to-list"></i> اضافة منتج جديد</a>
+                                            </li>
+                                            <li class="dropdown-submenu dropdown-submenu-right"><a
+                                                    href="{{route('accounting.suppliers-products.create')}}">
+                                                    <i class="icon-add-to-list"></i> الاصناف المقترحة</a>
+                                            </li>
                                         </ul>
                                     </li>
                                     <li class="dropdown-submenu dropdown-submenu-right"><a href="#"><i

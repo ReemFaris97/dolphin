@@ -53,7 +53,7 @@
                     </form>
                 </div>
             </div>
-
+            <p class="display-1">الاجمالى : {{number_format($total,2)}}</p>
             {!!  $dataTable->table()!!}
 
         </div>
