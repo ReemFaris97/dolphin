@@ -110,6 +110,11 @@ class ProductController extends Controller
     public function myProducts()
     {
 //        dd(auth()->user()->supplier);
-        return \responder::success(ProductResource::collection(auth()->user()->supplier->products()->get()));
+        return \responder::success(ProductResource::collection(auth()->user()->supplier->products()->when(\request('q'), function ($q) {
+            $q->where(function ($q) {
+                $query = \request('q');
+                $q->where('name', 'like', '%' . $query . '%')->orWhere('bar_code', 'like', "%$query%");
+            });
+        })->get()));
     }
 }
