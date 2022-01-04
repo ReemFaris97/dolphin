@@ -13,7 +13,7 @@ class AddPriceInSuppliersSupplierPrice extends Migration
      */
     public function up()
     {
-        Schema::table('suppliers_supplier_price', function (Blueprint $table) {
+        Schema::table('suppliers_supplier_products', function (Blueprint $table) {
             $table->decimal('price')->nullable();
         });
     }
@@ -25,7 +25,7 @@ class AddPriceInSuppliersSupplierPrice extends Migration
      */
     public function down()
     {
-        Schema::table('suppliers_supplier_price', function (Blueprint $table) {
+        Schema::table('suppliers_supplier_products', function (Blueprint $table) {
             $table->dropColumn('price');
         });
     }
