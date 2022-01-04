@@ -412,6 +412,7 @@ Route::middleware('admin')->group(function () {
     Route::post('debts-{id}', 'DebtController@payDebt')->name('payDebt');
 
     Route::resource('suppliers-products','Suppliers\\SupplierProductController');
+    Route::resource('suppliers-banks','Suppliers\\BankController');
 });
 
 

@@ -780,7 +780,7 @@
                                                 class="icon-eye"></i> تقرير الاصناف قاربت على الانتهاء </a></li>
                                     <li><a href="{{route('accounting.reports.stagnant-products')}}"><i
                                                 class="icon-eye"></i> تقرير الاصناف الراكدة </a></li>
-                                  
+
                                 </ul>
                             </li>
                         @endcan
@@ -811,7 +811,8 @@
                 </li>
             @endcan
             @can(' الاعدادات العامة')
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i
                             class="glyphicon glyphicon-cog	 position-left"></i> إدارة الاعدادات <span
                             class="caret"></span> </a>
                     <ul class="dropdown-menu dropdown-menu-right">
@@ -851,6 +852,19 @@
                     </ul>
                 </li>
         @endcan
+
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i
+                        class="glyphicon glyphicon-cog	 position-left"></i> الموردين <span
+                        class="caret"></span> </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li>
+                        <a href="{{route('accounting.suppliers-banks.index')}}"><i class="glyphicon glyphicon-bill"></i>
+                            بنوك الموردين </a></li>
+
+                        </ul>
+                    </li>
+                </ul>
 
 
 

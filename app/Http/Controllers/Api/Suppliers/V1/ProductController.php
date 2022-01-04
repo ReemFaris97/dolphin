@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Suppliers\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BaseCollection;
+use App\Http\Resources\Suppliers\AccountingProductResource;
 use App\Http\Resources\Suppliers\ProductResource;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\Supplier\Product;
@@ -104,17 +105,17 @@ class ProductController extends Controller
             });
         });
 
-        return \responder::success(ProductResource::collection($products->limit(50)->get()));
+        return \responder::success(AccountingProductResource::collection($products->limit(50)->get()));
     }
 
     public function myProducts()
     {
 //        dd(auth()->user()->supplier);
-        return \responder::success(ProductResource::collection(auth()->user()->supplier->products()->when(\request('q'), function ($q) {
+        return \responder::success(new BaseCollection(auth()->user()->supplier->products()->when(\request('q'), function ($q) {
             $q->where(function ($q) {
                 $query = \request('q');
                 $q->where('name', 'like', '%' . $query . '%')->orWhere('bar_code', 'like', "%$query%");
             });
-        })->get()));
+        })->paginate(20),AccountingProductResource::class));
     }
 }
