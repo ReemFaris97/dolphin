@@ -51,7 +51,7 @@
             <div id="print-window">
 
                 <table class="table datatable-button-init-basic">
-                  
+                  <thead>
                          <tr>
                             <th>#</th>
                             <th> المنتج </th>
@@ -59,22 +59,34 @@
                             <th> اجمالى كمية المبيعات </th>
                             <th> اجمالى فواتير المشتريات </th>
                             <th>اجمالى كمية المشتريات</th>
-                           
                         </tr>
                     </thead>
                     <tbody>
-
+                        @php($total_items_count=0)
+                        @php($total_items_quantity=0)
+                        @php($total_purchase_count=0)
+                        @php($total_purchase_quantity=0)
                                 @foreach ($accounting_products as $product)
                                     <tr>
                                         <td>{!! $loop->iteration !!}</td>
                                         <td>{!! $product->name !!}</td>
-                                        <td>{!! $product->items->count() !!}</td>
+                                        
+                                        <td>
+                                        {!! $product->items->count() !!}
+                                        @php($total_items_count+=$product->items->count()  )
+                                        </td>
                                         <td>
                                         {!! $product->items->sum('quantity') !!}</td>
+                                           @php($total_items_quantity+=$product->items->sum('quantity')  )
                                         <td>
-                                        {!! $product->purchase->count() !!}</td>
+                                        {!! $product->purchase->count() !!}
+                                           @php($total_purchase_count+=$product->purchase->count()  )
+                                        
+                                        </td>
                                         <td>
                                         {!! $product->purchase->sum('quantity') !!}
+                                                                   
+                                         @php($total_purchase_quantity+=$product->purchase->sum('quantity')  )
                                         </td>
                                       </tr>
                                     
@@ -82,10 +94,30 @@
                         
                     </tbody>
                     
-                </table>
-<div>
+                    <tfooter >
+                                    <tr style="background-color: #f5f5f5;">
+                                        <td>---</td>
+                                        <td>الاجمالى</td>
+                                        
+                                        <td>
+                                        {!! $total_items_count !!}
+                                        </td>
+                                        <td>
+                                        {!! $total_items_quantity !!}</td>
+                                        <td>
+                                        {!! $total_purchase_count!!}
+                                        
+                                        </td>
+                                        <td>
+                                        {!! $total_purchase_quantity !!}
+                                                                  
+                                        </td>
+                    
+                                    </tr>
 
-</div>         
+                    </tfooter>
+                </table>
+       
             </div>
         </div>
         <div class="row print-wrapper">
