@@ -339,9 +339,9 @@ class StoresController extends Controller
     {
         $from = request('from');
         $to = request('to');
-        $purchases=[];
-        $sales=[];
-        $damages=[];
+        $purchases=collect([]);
+        $sales=collect([]);
+        $damages=collect([]);
     
         if (\request('product_id') != null) {
             $purchases = AccountingPurchaseItem::query()
