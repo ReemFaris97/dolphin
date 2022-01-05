@@ -13,8 +13,8 @@
 
     <div class="m-portlet m-portlet--mobile">
         <div class="static-tabs">
-            <a class="links-tabs-active" href="#">كل الفروع</a>
-            <a href="#">اضافة فرع جديد</a>
+            <a class="links-tabs-active" href="#">كل الاعضاء</a>
+            <a  href="{!!route('admin.users.create')!!}">اضافة عضو جديد</a>
         </div>
         <div class="m-portlet__head">
             <div class="m-portlet__head-caption">
