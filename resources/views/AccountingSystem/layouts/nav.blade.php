@@ -328,8 +328,13 @@
                                             <li><a href="{{route('accounting.products.print_barcode_view')}}"><i
                                                         class="icon-barcode2"></i> طباعة الباركود</a></li>
                                             <li class="dropdown-submenu dropdown-submenu-right"><a
-                                                    href="{{route('accounting.products.create')}}"><i
-                                                        class="icon-add-to-list"></i> اضافة منتج جديد</a></li>
+                                                    href="{{route('accounting.products.create')}}">
+                                                    <i class="icon-add-to-list"></i> اضافة منتج جديد</a>
+                                            </li>
+                                            <li class="dropdown-submenu dropdown-submenu-right"><a
+                                                    href="{{route('accounting.suppliers-products.create')}}">
+                                                    <i class="icon-add-to-list"></i> الاصناف المقترحة</a>
+                                            </li>
                                         </ul>
                                     </li>
                                     <li class="dropdown-submenu dropdown-submenu-right"><a href="#"><i
@@ -775,8 +780,7 @@
                                                 class="icon-eye"></i> تقرير الاصناف قاربت على الانتهاء </a></li>
                                     <li><a href="{{route('accounting.reports.stagnant-products')}}"><i
                                                 class="icon-eye"></i> تقرير الاصناف الراكدة </a></li>
-                                    <li><a href="{{route('accounting.reports.movements-products')}}"><i
-                                                class="icon-eye"></i> تقرير حركة صنف </a></li>
+
                                 </ul>
                             </li>
                         @endcan
@@ -801,11 +805,14 @@
                                 </ul>
                             </li>
                         @endcan
+                          <li><a href="{{route('accounting.reports.movements-products')}}"><i
+                                                class="icon-eye"></i> تقرير حركة صنف </a></li>
                     </ul>
                 </li>
             @endcan
             @can(' الاعدادات العامة')
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i
                             class="glyphicon glyphicon-cog	 position-left"></i> إدارة الاعدادات <span
                             class="caret"></span> </a>
                     <ul class="dropdown-menu dropdown-menu-right">
@@ -845,6 +852,19 @@
                     </ul>
                 </li>
         @endcan
+
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i
+                        class="glyphicon glyphicon-cog	 position-left"></i> الموردين <span
+                        class="caret"></span> </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li>
+                        <a href="{{route('accounting.suppliers-banks.index')}}"><i class="glyphicon glyphicon-bill"></i>
+                            بنوك الموردين </a></li>
+
+                        </ul>
+                    </li>
+                </ul>
 
 
 

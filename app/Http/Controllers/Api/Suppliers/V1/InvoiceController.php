@@ -12,12 +12,11 @@ class InvoiceController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        return  \responder::success(new BaseCollection(auth()->user()->supplier->invoices()->withSum('items','total')->latest()->paginate(10),
-            InvoiceResource::class));
+        return  \responder::success(new BaseCollection(auth()->user()->supplier->invoices()->withSum('items','total')->latest()->paginate(10), InvoiceResource::class));
     }
 
     /**

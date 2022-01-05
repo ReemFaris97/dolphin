@@ -4,6 +4,7 @@ namespace App\Models\AccountingSystem;
 
 use App\Models\Supplier\Bank;
 use App\Models\Supplier\Invoice;
+use App\Models\Supplier\SupplierProduct;
 use App\Traits\HashPassword;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -62,7 +63,7 @@ class AccountingSupplier extends Model
     protected $table='accounting_suppliers';
 
     protected $fillable = ['name','email','phone','credit','branch_id','amount','password','image','bank_id',
-        'bank_account_number','tax_number','is_active','balance','account_id','phones'
+        'bank_account_number','tax_number','is_active','balance','account_id','phones','commercial_record','commercial_image','licence_image'
     ];
 
 
@@ -91,5 +92,45 @@ class AccountingSupplier extends Model
     public function banks()
     {
         return $this->hasMany(Bank::class);
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(AccountingProduct::class,SupplierProduct::class);
+    }
+
+    public function getCommercialImageAttribute($value)
+    {
+        if ($value)
+            return getimg($value);
+        else
+            return  asset('placeholders/logo.png');
+    }
+
+
+    public function setCommercialImageAttribute($value)
+    {
+        if (is_file($value))
+            $this->attributes['commercial_image'] = Fileuploader($value);
+        else
+            $this->attributes['commercial_image'] = $value;
+
+    }
+    public function getLicenceImageAttribute($value)
+    {
+        if ($value)
+            return getimg($value);
+        else
+            return  asset('placeholders/logo.png');
+    }
+
+
+    public function setLicenceImageAttribute($value)
+    {
+        if (is_file($value))
+            $this->attributes['licence_image'] = Fileuploader($value);
+        else
+            $this->attributes['licence_image'] = $value;
+
     }
 }

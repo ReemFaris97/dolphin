@@ -19,5 +19,6 @@ Route::group(['middleware' => 'auth:supplier'],function (){
         'banks'=>BankController::class
     ]);
     Route::get('list/products', [ProductController::class, 'list']);
+    Route::get('my-products', [ProductController::class, 'myProducts']);
 
 });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Suppliers\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BaseCollection;
+use App\Http\Resources\Suppliers\AccountingProductResource;
 use App\Http\Resources\Suppliers\ProductResource;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\Supplier\Product;
@@ -38,7 +39,16 @@ class ProductController extends Controller
             'image' => 'required|image'
         ]);
         $user = auth()->user();
-        $product = $user->products()->create($inputs);
+        $inputs['accounting_supplier_id']=$user->supplier_id;
+        $inputs['accounting_company_id']=$request->headers->get('company_id');
+
+        $product = AccountingProduct::ofBarcode($request['barcode'])->first();;
+        if ($product) {
+            $product->suppliers()->attach($user->supplier_id);
+        } else {
+            $product = $user->products()->create($inputs);
+        }
+
 
         return \responder::success(new ProductResource($product));
     }
@@ -90,14 +100,25 @@ class ProductController extends Controller
 
     public function list(Request $request)
     {
-      $products=AccountingProduct::query();
-      $products->when(\request('q'),function ($q){
-         $q->where(function ($q){
-             $query=\request('q');
-             $q->where('name','like','%'.$query.'%')->orWhere('bar_code','like',"%$query%");
-         });
-      });
+        $products = AccountingProduct::query();
+        $products->when(\request('q'), function ($q) {
+            $q->where(function ($q) {
+                $query = \request('q');
+                $q->where('name', 'like', '%' . $query . '%')->orWhere('bar_code', 'like', "%$query%");
+            });
+        });
 
-      return \responder::success(new BaseCollection($products->paginate(50),ProductResource::class));
+        return \responder::success(new BaseCollection($products->paginate(20),AccountingProductResource::class));
+    }
+
+    public function myProducts()
+    {
+//        dd(auth()->user()->supplier);
+        return \responder::success(new BaseCollection(auth()->user()->supplier->products()->when(\request('q'), function ($q) {
+            $q->where(function ($q) {
+                $query = \request('q');
+                $q->where('name', 'like', '%' . $query . '%')->orWhere('bar_code', 'like', "%$query%");
+            });
+        })->paginate(20),AccountingProductResource::class));
     }
 }

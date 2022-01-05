@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AccountingSystem;
 
 use App\DataTables\AccountingProductsDataTable;
+use App\DataTables\AccountingSuppliersProductsDataTable;
 use App\Http\Controllers\Controller;
 use App\Imports\AccountingImport;
 use App\Models\AccountingSystem\AccountingAccount;
@@ -70,14 +71,25 @@ class ProductController extends Controller
         $stores = AccountingStore::get(['id', 'ar_name as label']);
         $columns = AccountingFaceColumn::get(['id', 'name as label']);
         $cells = AccountingColumnCell::get(['id', 'name as label']);
-        $product = collect(AccountingProduct::make()->getFillable())->mapWithKeys(fn ($c) => [$c => null]);
-        $product['bar_code'] = [];
+//        $product= AccountingProduct::make();
+
+        $product = collect(AccountingProduct::make()->getFillable())->mapWithKeys(fn($c) => [$c => null]);
+        $product['name'] = session('name');
+        $product['main_unit'] = session('unit');
+        $product['purchasing_price'] = session('price');
+        $product['expire_at'] = session('expire_at');
+        $product['supplier_id'] = session('accounting_supplier_id');
+        $product['company_id'] = session('accounting_company_id');
+
+        $product['bar_code'] = array_filter([session('barcode')], fn($q) => $q != null);
+//        \Arr::add($product['bar_code'],0,session('barcode'));
+
         $product['sub_products'] = [];
         $product['components'] = [];
         $product['sub_units'] = [];
         $product['offers'] = [];
         $product['stores'] = [];
-        $product['discount']=0;
+        $product['discount'] = 0;
         $product['price_has_tax']=1;
         $offer_template = [
             'quantity' => '',
@@ -404,7 +416,7 @@ class ProductController extends Controller
         }
 
         ////////////////////components Arrays////////////////////////////////
-
+        $product->suppliers()->attach($request['supplier_id']);
         $component_names = collect($request['component_names']);
         $qtys = collect($request['qtys']);
         $main_units = collect($request['main_units']);
@@ -417,7 +429,7 @@ class ProductController extends Controller
                 'product_id' => $product->id
             ]);
         }
-        /////////////////////////////barcodes_products///////////////////////////////////
+        /////////////////////////////barcodes_products//////////////////////////////////
         if (isset($inputs['barcodes'])) {
             $barcodes = $inputs['barcodes'];
             foreach ($barcodes as $barcode) {
@@ -567,6 +579,7 @@ class ProductController extends Controller
         $product['sub_products'] = AccountingProductComponent::where('product_id', $id)->get();
         $product['components'] = AccountingProductComponent::where('product_id', $id)->get();
         $product['sub_units'] = AccountingProductSubUnit::where('product_id', $id)->get();
+        $product['supplier_id'] = session('accounting_supplier_id');
         $product['offers'] = $product->discounts;
         $product['tax']=$product->tax()->count()==0?0:1;
         $product['taxs']=$product->tax()->pluck('accounting_tax_bands.id');
@@ -652,11 +665,12 @@ class ProductController extends Controller
         if ($request->hasFile('image')) {
             $inputs['image'] = saveImage($request->image, 'photos');
         }
+        $product->suppliers()->attach($request['supplier_id']);
+
         $product->update($inputs);
 //
         $product->update([
             'store_id' => $inputs['store_id'],
-
         ]);
         // if (isset($inputs['store_id'])) {
         //     AccountingProductStore::create([
@@ -726,6 +740,8 @@ class ProductController extends Controller
             'num_days_recession' => 'nullable|string',
             'tax'=>'required|boolean'
         ];
+        $product->suppliers()->attach($request['supplier_id']);
+
         $this->validate($request, $rules);
 //        dd($request->all());
 
