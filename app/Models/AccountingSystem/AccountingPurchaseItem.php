@@ -3,8 +3,11 @@
 namespace App\Models\AccountingSystem;
 
 use App\Traits\HashPassword;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 /**
  * App\Models\AccountingSystem\AccountingPurchaseItem
@@ -108,4 +111,85 @@ class AccountingPurchaseItem extends Model
         return $total;
     }
 
+
+    // handling qunaitities
+
+    /**
+     * Undocumented function
+     *
+     * @return Collection
+     */
+    public function addQuantityToStorage():Collection
+    {
+        $storage=[$this->getStorageQuantity()];
+        ($this->gifts!=0)?array_push($storage, $this->getGiftsQuantity()):null;
+        return $this->store_quantity_log()->createMany($storage);
+    }
+
+
+    public function getProductStoreId():int
+    {
+        return   AccountingProductStore::firstOrCreate(
+            [
+                'product_id'=>$this->product_id,
+                'store_id'=>$this->purchase->store_id,
+            ],
+            ['quantity'=>0]
+        )->id;
+    }
+    public function getQuantityInMainUnitAttribute():int
+    {
+        return ($this->unit?->main_unit_present??1) *$this->quantity;
+    }
+
+    public function getGiftInMainUnitAttribute():int
+    {
+        return ($this->unit?->main_unit_present??1) *$this->gifts;
+    }
+
+    public function getPriceForMainUnitAttribute():float
+    {
+        return  $this->price / ($this->unit?->main_unit_present??1);
+    }
+
+    
+    /**
+     * convert quantity  to product store log
+     *
+     * @return array
+     */
+    public function getStorageQuantity():array
+    {
+        return [
+            'accounting_product_store_id'=>$this->getProductStoreId(),
+            'accounting_product_id'=>$this->product_id,
+            'unit_id'=>null,
+            'price'=>$this->getPriceForMainUnitAttribute(),
+            'amount'=>$this->getQuantityInMainUnitAttribute(),
+            'type'=>'in',
+        ];
+    }
+
+    /**
+     * convert gift amount to product store log
+     *
+     * @return array
+     */
+    public function getGiftsQuantity():array
+    {
+        return [
+            'accounting_product_store_id'=>$this->getProductStoreId(),
+            'accounting_product_id'=>$this->product_id,
+            'unit_id'=>null,
+            'price'=>0,
+            'amount'=>$this->getGiftInMainUnitAttribute(),
+            'type'=>'in',
+        ];
+    }
+
+
+    public function scopeInPeriod(Builder $query, $start, $end):void
+    {
+        $query->whereBetween(DB::raw('DATE(created_at)'), [$start, $end]);
+    }
 }

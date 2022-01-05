@@ -769,6 +769,8 @@
                         @endcan
                           <li><a href="{{route('accounting.reports.movements-products')}}"><i
                                                 class="icon-eye"></i> تقرير حركة صنف </a></li>
+                          <li><a href="{{route('accounting.reports.general-movements')}}">
+                          <i class="icon-eye"></i> تقرير اجمالى حركات اصناف </a></li>
                     </ul>
                 </li>
             @endcan

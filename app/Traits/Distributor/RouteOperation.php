@@ -164,7 +164,7 @@ trait RouteOperation
         if ($request->hasFile('image')) {
             $requests['image'] = saveImage($request->image, 'users');
         }
-        \DB::beginTransaction();
+        DB::beginTransaction();
         $arr = [];
         foreach ($request->products ?? [] as $product) {
             $arr[] = ProductQuantity::create([
@@ -179,8 +179,8 @@ trait RouteOperation
 
             ]);
         }
-        \DB::commit();
-
+        DB::commit();
+        
         return $arr;
     }
 }

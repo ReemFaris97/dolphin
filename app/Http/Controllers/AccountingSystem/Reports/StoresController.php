@@ -375,9 +375,9 @@ class StoresController extends Controller
             ->when(
                 $request->store_id!=null,
                 fn ($q) =>$q->whereHas(
-                                'sale',
-                                fn ($q) =>$q->where('store_id', $request->store_id)
-                            )
+                    'sale',
+                    fn ($q) =>$q->where('store_id', $request->store_id)
+                )
             )
         ->get();
             $damages = AccountingDamageProduct::query()
@@ -402,4 +402,20 @@ class StoresController extends Controller
 
         return view('AccountingSystem.reports.stores.movementProducts', compact('purchases', 'sales', 'damages'));
     }
+    public function generalMovements(Request $request)
+    {
+        // dd($request->from, $request->to);
+        $accounting_products=AccountingProduct::query()
+        ->haveMovementBetween(
+            $request->from??now()->toDateString(),
+            $request->to??now()->toDateString()
+        )
+        ->get();
+
+        // dd($accounting_products->first());
+        return view('AccountingSystem.reports.stores.generalMovement', compact('accounting_products'));
+    }
 }
+
+
+/* select * from `accounting_products` where ((exists (select * from `accounting_sales_items` where `accounting_products`.`id` = `accounting_sales_items`.`product_id` and DATE(created_at) between '2021-12-02' and '2021-12-02')) or (exists (select * from `accounting_purchases_items` where `accounting_products`.`id` = `accounting_purchases_items`.`product_id` and DATE(created_at) between '2021-12-02' and '2021-12-02')) or (exists (select * from `accounting_damages_products` where `accounting_products`.`id` = `accounting_damages_products`.`product_id` and DATE(created_at) between '2021-12-02' and '2021-12-02'))) */

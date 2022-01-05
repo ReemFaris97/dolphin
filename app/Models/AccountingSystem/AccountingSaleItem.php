@@ -2,9 +2,11 @@
 
 namespace App\Models\AccountingSystem;
 
+use App\Models\Models\AccountingSystem\AccountingProductStoreLog;
 use App\Traits\HashPassword;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 /**
  * App\Models\AccountingSystem\AccountingSaleItem
@@ -79,5 +81,25 @@ class AccountingSaleItem extends Model
         return $merged;
 
     }
-
+    public function subQuantity():AccountingProductStoreLog
+    {
+        $main_unit=  AccountingProductSubUnit::where('id', $this->unit_id)->value('main_unit_present')??1;
+        $quantity_in_main_unit=$this->quantity*$main_unit;
+        $price=$this->price/$main_unit;
+        $product_store_id=AccountingProductStore::where('product_id', $this->product_id)->where('store_id', $this->sale->store_id)->firstValue('id');
+        return $this->store_quantity_log()->create(
+            [
+                'accounting_product_store_id'=>$product_store_id,
+                'accounting_product_id'=>$this->product_id,
+                'unit_id'=>null,
+                'price'=>$price,
+                'amount'=>$quantity_in_main_unit,
+                'type'=>'out',
+            ]
+        );
+    }
+    public function scopeInPeriod($query, $start, $end):void
+    {
+        $query->whereBetween(DB::raw('DATE(created_at)'), [$start, $end]);
+    }
 }

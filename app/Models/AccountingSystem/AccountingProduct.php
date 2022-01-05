@@ -2,8 +2,9 @@
 
 namespace App\Models\AccountingSystem;
 
+use App\Models\Supplier\SupplierProduct;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Str;
 
 /**
  * App\Models\AccountingSystem\AccountingProduct
@@ -217,25 +218,21 @@ class AccountingProduct extends Model
         return $total;
     }
 
-//    public function getDiscountTypeAttribute()
-//    {
-//        $discount=AccountingProductDiscount::where('product_id',$this->id)->first();
-//
-//        return $discount->discount_type;
-//    }
-//
-//    public function getPercentAttribute()
-//    {
-//        $discount = AccountingProductDiscount::where('product_id', $this->id)->first();
-//
-//
-//        return $discount->percent;
-//    }
+
     public function items()
     {
         return $this->hasMany(AccountingSaleItem::class, 'product_id');
     }
 
+    public function purchase()
+    {
+        return $this->hasMany(AccountingPurchaseItem::class, 'product_id');
+    }
+
+    public function damage()
+    {
+        return $this->hasMany(AccountingDamageProduct::class, 'product_id');
+    }
 
     public function quantity()
     {
@@ -276,4 +273,54 @@ class AccountingProduct extends Model
             fn ($b) => $b->whereJsonContains('bar_code', $barcode)
         );
     }
+
+    public function scopeCreation()
+    {
+        return $this->where('type', 'creation');
+    }
+
+    public function suppliers()
+    {
+        return $this->belongsToMany(AccountingSupplier::class, SupplierProduct::class);
+    }
+
+    public function scopeForSales(Builder $builder, $from, $to):void
+    {
+        $builder->whereHas('items', fn ($q) =>$q->inPeriod($from, $to));
+        $builder->with(['items' =>fn ($q) =>$q->inPeriod($from, $to)]);
+    }
+
+    public function scopeForPurchase(Builder $builder, $from, $to):void
+    {
+        $builder->whereHas('purchase', fn ($q) =>$q->inPeriod($from, $to));
+        $builder->with('purchase', fn ($q) =>$q->inPeriod($from, $to));
+    }
+
+    public function scopeForDamage(Builder $builder, $from, $to):void
+    {
+        $builder->whereHas('damage', fn ($q) =>$q->inPeriod($from, $to));
+        $builder->with('damage', fn ($q) =>$q->inPeriod($from, $to));
+    }
+
+    public function scopeHaveMovementBetween(Builder $builder, $from, $to)
+    {
+        $builder->where(fn ($q) =>$q->ForSales($from, $to))   ;
+        $builder->orWhere(fn ($q) =>$q->ForPurchase($from, $to))   ;
+        $builder->orWhere(fn ($q) =>$q->ForDamage($from, $to))   ;
+        $builder->with([
+            'items' =>fn ($q) =>$q->inPeriod($from, $to),
+            'damage' =>fn ($q) =>$q->inPeriod($from, $to),
+            'purchase' =>fn ($q) =>$q->inPeriod($from, $to)
+        ]);
+        // $builder->withCount('items');
+        // $builder->withSum('items', 'quantity');
+        // $builder->withCount('purchase');
+        // $builder->withSum('purchase', 'quantity');
+        // $builder->withCount('damage');
+        // $builder->withSum('damage', 'quantity');
+        // $builder->;
+    }
 }
+
+
+/* select * from `accounting_products` where ((exists (select * from `accounting_sales_items` where `accounting_products`.`id` = `accounting_sales_items`.`product_id` and DATE(created_at) between '2021-12-02' and '2021-12-02')) or (exists (select * from `accounting_purchases_items` where `accounting_products`.`id` = `accounting_purchases_items`.`product_id` and DATE(created_at) between '2021-12-02' and '2021-12-02')) or (exists (select * from `accounting_damages_products` where `accounting_products`.`id` = `accounting_damages_products`.`product_id` and DATE(created_at) between '2021-12-02' and '2021-12-02'))) */
