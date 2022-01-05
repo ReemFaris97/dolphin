@@ -1,0 +1,112 @@
+div#m_header_nav {
+    background-color: #f2f3f8;
+    border-bottom: 1px solid #ddd;
+}
+div#m_header_topbar{
+    position: relative;
+}
+div#m_header_topbar::after , .floatNone{
+    content: '';
+    float: none;
+    clear: both;
+}
+.m-subheader .m-subheader__title {
+    top: unset;
+}
+.title-layout h3 {
+    font-size: 20px;
+    font-weight: 100;
+    font-family: "ElMessir-Medium" !important;
+}
+.title-layout h3 a{
+    color: #000;
+}
+.title-layout h3 a:hover{
+    text-decoration: none;
+}
+
+.title-layout{
+    padding: 0 5px;
+}
+.static-tabs a {
+    background-color: #fff;
+    display: inline-block;
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+    padding: 20px;
+    border-radius: 15px 15px 0 0;
+    color: #000;
+    font-size: 15px;
+}
+
+.m-form__group .form-control {
+    border: 1px solid #979797;
+}
+.m-form__group .form-control {
+    border-radius: 14px!important;
+}
+.select2-container--default.select2-container--focus .select2-selection--multiple, .select2-container--default.select2-container--focus .select2-selection--single, .select2-container--default.select2-container--open .select2-selection--multiple, .select2-container--default.select2-container--open .select2-selection--single {
+    border-radius: 14px!important;
+}
+.select2-container--default .select2-selection--multiple, .select2-container--default .select2-selection--single{
+    border-radius: 14px!important;
+}
+.btn-primary {
+    color: #fff;
+    background-color: #aad58f;
+    border-color: #707070;
+}
+.static-tabs a {
+    background-color: #fff;
+    display: inline-block;
+    height: 100%;
+    width: 140px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border-radius: 15px 15px 0 0;
+    color: #000;
+    font-size: 15px;
+    transition: all .4s ease-in-out;
+}
+.static-tabs a:hover{
+    text-decoration: none;
+    transform: translateY(3px);
+    background-color: #45a2c61c;
+}
+
+.static-tabs {
+    position: absolute;
+    height: 52px;
+    top: -46px;
+    z-index: 0;
+}
+.static-tabs .links-tabs-active{
+    text-decoration: none;
+    transform: translateY(3px);
+    background-color: #45a2c61c;
+}
+.m-portlet .m-portlet__head{
+
+    background-color: #fff;
+}
+.form-relative-white {
+    background-color: #fff;
+    position: relative;
+}
+.m-portlet {
+    position: relative;
+    margin-top: 52px;
+}
+.m-body .m-content{
+    margin-top: 0;
+}
+/*========================= responsive =====================*/
+@media (min-width: 1025px){
+    .m-header--fixed .m-body {
+        padding-top: 100px !important;
+    }
+}
+

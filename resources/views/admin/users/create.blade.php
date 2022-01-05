@@ -12,7 +12,7 @@
             <div class="col-md-12">
                 <!--begin::Portlet-->
                 <div class="m-portlet m-portlet--tab">
-                    <div class="m-portlet__head belong-to-aform">
+                    {{-- <div class="m-portlet__head belong-to-aform">
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-title">
                             <span class="m-portlet__head-icon m--hide">
@@ -23,9 +23,13 @@
                                 </h3>
                             </div>
                         </div>
+                    </div> --}}
+                    <div class="static-tabs">
+                        <a  href="#">كل الفروع</a>
+                        <a class="links-tabs-active" href="#">اضافة فرع جديد</a>
                     </div>
                     <!--begin::Form-->
-                    {!! Form::open(['method'=>'post','route'=>'admin.users.store','files'=>'true','class'=>'parsley-validate-form clearfix m-form m-form--fit m-form--label-align-right'])!!}
+                    {!! Form::open(['method'=>'post','route'=>'admin.users.store','files'=>'true','class'=>'parsley-validate-form clearfix m-form m-form--fit m-form--label-align-right form-relative-white'])!!}
                     @include('admin.users._form')
                     <div class="m-portlet__foot m-portlet__foot--fit full--width">
                         <div class="m-form__actions">

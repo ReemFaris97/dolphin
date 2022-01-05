@@ -33,7 +33,7 @@
 
             <td>
                 @if(auth()->user()->hasPermissionTo('edit_workers'))
-                <a href="{!!route('admin.users.edit',$user->id)!!}" class="btn btn-primary"> <i class="fas fa-pen"></i> تعديل</a>
+                <a href="{!!route('admin.users.edit',$user->id)!!}" class="btn btn-primary" title="تعديل"> <i class="fas fa-pen"></i> </a>
                 @endif
 {{--
                     @if(auth()->user()->hasPermissionTo('delete_workers'))
@@ -54,10 +54,10 @@
                         {{--حظر--}}
                         {{--</button>--}}
                         <button type="submit" class="btn btn-warning"
-								onclick="if(!confirm('هل انت متاكد من حظر العضو')) event.preventDefault() ">
+								onclick="if(!confirm('هل انت متاكد من حظر العضو')) event.preventDefault() " title="حظر">
 
 									<i class="fas fa-skull"></i>
-									حظر
+
 								</button>
 
                         @else
@@ -66,10 +66,10 @@
                                 {{--تفعيل--}}
                                 {{--</button>--}}
                                 <button type="submit" class="btn btn-success"
-										onclick="if(!confirm('هل انت متاكد من تفعيل العضو')) event.preventDefault() ">
+										onclick="if(!confirm('هل انت متاكد من تفعيل العضو')) event.preventDefault() " title="تفعيل">
                         <i class="far fa-thumbs-up"></i>
 
-											تفعيل
+
 										</button>
 
                     @endif
@@ -79,9 +79,9 @@
                     <form method="POST" action="{!!route('admin.users.turn.distributor',$user->id)!!}">
                         @csrf() @method('patch')
                             <button type="submit" class="btn btn-primary"
-                                    onclick="if(!confirm('هل انت متاكد من تحويل الموظف لموزع')) event.preventDefault() ">
+                                    onclick="if(!confirm('هل انت متاكد من تحويل الموظف لموزع')) event.preventDefault() " title="تحويل لموزع">
                                 <i class="far fa-thumbs-up"></i>
-                                تحويل لموزع
+
                             </button>
                     </form>
                     @endif
