@@ -117,6 +117,12 @@ div#m_header_topbar::after , .floatNone{
     color: #575962 ;
 }
 
+.m-portlet__body .nav-tabs .nav-link, .nav-tabs .nav-link {
+    border-color: #ebedf2;
+}
+.row.m-row--no-padding.m-row--col-separator-xl {
+    margin-top: 0;
+}
 
 /*========================= responsive =====================*/
 @media (min-width: 1025px){
@@ -124,4 +130,8 @@ div#m_header_topbar::after , .floatNone{
         padding-top: 100px !important;
     }
 }
-
+@media (max-width: 767px){
+.m-topbar .m-topbar__nav.m-nav {
+    margin: 0;
+}
+}
