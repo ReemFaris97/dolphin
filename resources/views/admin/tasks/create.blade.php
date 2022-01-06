@@ -13,12 +13,13 @@
 
 
 <div class="m-content">
+
     <div class="row">
         <div class="col-md-12">
 
             <!--begin::Portlet-->
             <div class="m-portlet m-portlet--tab">
-                <div class="m-portlet__head belong-to-aform">
+               {{--  <div class="m-portlet__head belong-to-aform">
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
                             <span class="m-portlet__head-icon m--hide">
@@ -30,10 +31,14 @@
                         </div>
                     </div>
                 </div>
-
+ --}}
+            <div class="static-tabs">
+                <a  href="{!! route('admin.tasks.index') !!}">كل مهمات النظام</a>
+                <a class="links-tabs-active" href="{!! route('admin.tasks.create') !!}">اضافة مهمة جديدة  </a>
+            </div>
                 <!--begin::Form-->
 
-                {!! Form::open(['method'=>'post','route'=>'admin.tasks.store','files'=>'true','class'=>'m-form m-form--fit m-form--label-align-right'])!!}
+                {!! Form::open(['method'=>'post','route'=>'admin.tasks.store','files'=>'true','class'=>'m-form m-form--fit m-form--label-align-right form-relative-white'])!!}
     @include('admin.tasks._form')
 
                 <div class="m-portlet__foot m-portlet__foot--fit">

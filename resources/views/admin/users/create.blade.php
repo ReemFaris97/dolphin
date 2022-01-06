@@ -25,8 +25,8 @@
                         </div>
                     </div> --}}
                     <div class="static-tabs">
-                        <a  href="#">كل الفروع</a>
-                        <a class="links-tabs-active" href="#">اضافة فرع جديد</a>
+                        <a  href="#">كل الاعضاء</a>
+                        <a class="links-tabs-active" href="{!!route('admin.users.create')!!}">اضافة عضو جديد</a>
                     </div>
                     <!--begin::Form-->
                     {!! Form::open(['method'=>'post','route'=>'admin.users.store','files'=>'true','class'=>'parsley-validate-form clearfix m-form m-form--fit m-form--label-align-right form-relative-white'])!!}

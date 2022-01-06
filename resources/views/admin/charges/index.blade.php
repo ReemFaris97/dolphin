@@ -12,6 +12,10 @@
 @section('content')
 
 <div class="m-portlet m-portlet--mobile">
+    <div class="static-tabs">
+        <a class="links-tabs-active"  href="{!! route('admin.charges.destruct.index') !!}">كل التوالف</a>
+        <a   href="{!! route('admin.charges.create') !!}">اضافة عهدة  جديدة</a>
+    </div>
     <div class="m-portlet__head">
 
         <div class="m-portlet__head-caption">

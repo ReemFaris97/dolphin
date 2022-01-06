@@ -12,6 +12,11 @@
 @section('content')
 
     <div class="m-portlet m-portlet--mobile">
+
+        <div class="static-tabs">
+            <a class="links-tabs-active"  href="{!! route('admin.clauses.index') !!}">كل البنود</a>
+            <a   href="{!! route('admin.clauses.create') !!}">اضافة بند  جديد</a>
+        </div>
         <div class="m-portlet__head">
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-title">
