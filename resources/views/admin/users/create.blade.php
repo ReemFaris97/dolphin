@@ -25,7 +25,7 @@
                         </div>
                     </div> --}}
                     <div class="static-tabs">
-                        <a  href="#">كل الاعضاء</a>
+                        <a   href="{!! route('admin.users.index') !!}">كل الاعضاء</a>
                         <a class="links-tabs-active" href="{!!route('admin.users.create')!!}">اضافة عضو جديد</a>
                     </div>
                     <!--begin::Form-->
