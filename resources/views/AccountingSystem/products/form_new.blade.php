@@ -106,7 +106,7 @@
                         <label> اسم المورد </label>
                         <div class="row">
                             <div class="col-md-11">
-                                <v-select :options="suppliers" v-model="form.supplier_id"
+                                <v-select :options="suppliers" v-model="form.suppliers" multiple
                                           :reduce="(supplier)=>supplier.id" :required="!form.supplier_id"
                                           {{-- class="form-control" --}} placeholder="اختر اسم المورد للمنتج "/>
                             </div>
