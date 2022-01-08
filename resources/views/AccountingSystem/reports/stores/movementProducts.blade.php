@@ -87,7 +87,7 @@
             <div id="print-window">
 
                 <table class="table datatable-button-init-basic">
-                  
+                  <thead>
                          <tr>
                             <th>#</th>
                             <th> تاريخ اليوم </th>
@@ -187,7 +187,7 @@
                                     </tr>
 
                                 @endforeach
-                        
+
                     </tbody>
                     <tfoot>
                         <tr>
@@ -199,7 +199,7 @@
                             <td colspan="4"></td>
                         </tr>
                     </tfoot>
-                    
+
                 </table>
 <div>
 <table class="table table-border table-responsive">
@@ -254,7 +254,7 @@
 </tbody>
 </table>
 
-</div>         
+</div>
             </div>
         </div>
         <div class="row print-wrapper">

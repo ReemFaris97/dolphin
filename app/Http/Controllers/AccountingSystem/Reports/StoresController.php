@@ -342,7 +342,7 @@ class StoresController extends Controller
         $purchases=collect([]);
         $sales=collect([]);
         $damages=collect([]);
-    
+
         if (\request('product_id') != null) {
             $purchases = AccountingPurchaseItem::query()
            ->where('product_id', $request->product_id)
