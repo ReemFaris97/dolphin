@@ -97,4 +97,13 @@ class AuthController extends Controller
 
         return \responder::success(new UserResource($user));
     }
+
+    public function forget_password(Request $request)
+    {
+        $inputs =$request->validate([
+           'phone'=>'required|phone:sa,eg'
+        ]);
+
+
+    }
 }
