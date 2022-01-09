@@ -4,15 +4,19 @@ namespace App\Models\Supplier;
 
 use App\Models\AccountingSystem\AccountingCompany;
 use App\Models\AccountingSystem\AccountingSupplier;
-use App\Traits\HasImages;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
-    protected $table = 'suppliers_users';
     use HasFactory;
+
+    protected $table = 'suppliers_users';
+
+    protected $fillable = ['name', 'company_name', 'commercial_number', 'phone', 'email', 'password', 'commercial_image', 'licence_image', 'image',
+        'address', 'lat', 'lng', 'landline', 'credit_limit', 'credit_date', 'parent_id', 'fcm_token_android', 'fcm_token_ios', 'supplier_id'];
+    protected $images = ['commercial_image', 'licence_image', 'image'];
 
     public function setPasswordAttribute($value)
     {
@@ -24,6 +28,15 @@ class User extends Authenticatable implements JWTSubject
         return $this->getKey();
     }
 
+    public function parent()
+    {
+        return $this->belongsTo(User::class,'parent_id');
+}
+
+    public function children()
+    {
+        return $this->hasMany(User::class,'parent_id');
+}
     /**
      * Return a key value array, containing any custom claims to be added to the JWT.
      *
@@ -34,9 +47,6 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    protected $fillable = ['name', 'company_name', 'commercial_number', 'phone', 'email', 'password', 'commercial_image', 'licence_image', 'image',
-        'address', 'lat', 'lng', 'landline', 'credit_limit', 'credit_date', 'parent_id', 'fcm_token_android', 'fcm_token_ios','supplier_id'];
-    protected $images = ['commercial_image', 'licence_image', 'image'];
 
     public function getImageAttribute($value)
     {
@@ -117,7 +127,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function invoices()
     {
-        return $this->hasManyThrough(Invoice::class, AccountingSupplier::class,'');
+        return $this->hasManyThrough(Invoice::class, AccountingSupplier::class);
     }
 
 }
