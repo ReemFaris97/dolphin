@@ -115,8 +115,8 @@
 
 {{--                                        </td>--}}
 
-{{--                    </tfooter>--}}
-{{--                </table>--}}
+                    </tfooter>
+                </table>
 
             </div>
         </div>
