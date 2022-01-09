@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Suppliers\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Suppliers\UserResource;
+use App\Models\Supplier\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -57,9 +58,16 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $inputs = $request->validate([
+            'name' => 'required|string',
+            'phone' => 'required|unique:suppliers_users,phone|phone:sa,eg',
+            'email' => 'required|email|unique:suppliers_users,email',
+            'password' => 'required|min:6'
+        ]);
+        $user->update($inputs);
+        return \responder::success(new UserResource($user));
     }
 
     /**
@@ -68,8 +76,12 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        $auth=auth()->user();
+        if ($auth->id() == $user->id or $user->id==$user->parent_id){
+            return \responder::error('عفوا لايمكن المسح يرجي مراجعة المسؤل');
+        }
+        return \responder::success('تم الحذف بنجاح !');
     }
 }
