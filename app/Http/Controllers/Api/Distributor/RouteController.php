@@ -23,6 +23,7 @@ use App\Traits\Distributor\RouteOperation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use PDF;
 
@@ -218,7 +219,11 @@ class RouteController extends Controller
             return $this->apiResponse(null, 'لا يوجد فاتوره لهذه الزياره ', 400);
         }
         foreach ($request->images as $image) {
-            $route_trip_report->images()->create(['image' => saveImage($image, 'users')]);
+            try {
+                $route_trip_report->images()->create(['image' => saveImage($image, 'users')]);
+            } catch (\Exception $e) {
+                Log::error($e->getMessage());
+            }
         }
         // $route_trip->update(['status' => 'accepted']);
         $route_trip->update([
