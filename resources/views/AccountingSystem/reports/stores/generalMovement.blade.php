@@ -28,7 +28,7 @@
                 <div class="yurSections">
                     <div class="row">
                         <div class="col-xs-12">
-                           
+                           {{Form::open(['method'=>"get"])}}
                             <div class="form-group col-sm-3">
                                 <label> من </label>
                                 {!! Form::date('from', null, ['class' => 'form-control', 'placeholder' => 'من', 'id' => 'example-date']) !!}
