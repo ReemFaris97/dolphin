@@ -16,7 +16,8 @@ Route::group(['middleware' => 'auth:supplier'],function (){
     Route::apiResources([
         'invoices'=> InvoiceController::class,
         'products'=>ProductController::class,
-        'banks'=>BankController::class
+        'banks'=>BankController::class,
+        'invoice-items'=>InvoiceItemController::class
     ]);
     Route::get('list/products', [ProductController::class, 'list']);
     Route::get('my-products', [ProductController::class, 'myProducts']);

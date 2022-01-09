@@ -128,8 +128,8 @@
                                     <label> اسم المورد </label>
                                     <div class="row">
                                         <div class="col-md-11">
-                                            <v-select :options="suppliers" v-model="form.supplier_id"
-                                                      :reduce="(supplier)=>supplier.id" :required="!form.supplier_id"
+                                            <v-select :options="suppliers" v-model="form.suppliers" item-text="name" item-value="id" multiple
+                                                      :reduce="(supplier)=>supplier.id" :required="!form.suppliers"
                                                       {{-- class="form-control" --}} placeholder="اختر اسم المورد للمنتج "/>
                                         </div>
                                         <div class="col-md-1">
@@ -632,7 +632,7 @@
                                         id: "offer",
                                         label: "مجموعة اصناف ",
                                     },
-                                    */      
+                                    */
                                     {
                                         id: "creation",
                                         label: "تصنيع",
