@@ -7,6 +7,7 @@ use App\Http\Resources\Suppliers\UserResource;
 use App\Models\AccountingSystem\AccountingSupplier;
 use App\Models\Supplier\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -96,13 +97,46 @@ class AuthController extends Controller
         return \responder::success(new UserResource($user));
     }
 
-    public function forget_password(Request $request)
+    public function forgetPassword(Request $request)
     {
-        $inputs =$request->validate([
-           'phone'=>'required|phone:sa,eg'
+        $request->validate([
+            'phone' => 'required|exists:suppliers_users,phone',
+        ]);
+        $user = User::where('phone', $request->phone);
+        $user->first()->update([
+            'reset_code' => 1234,
+            'reset_at' => now()->toDateTimeString()
         ]);
 
+        return \responder::success(__('reset code sent successfully !'));
+    }
 
+    public function checkCode(Request $request)
+    {
+        $request->validate([
+            'phone' => 'required|exists:suppliers_users,phone',
+            'code' => 'required'
+        ]);
+        $user = User::where('phone', $request->phone)->where('reset_code', $request->code)->exists();
 
+        return \responder::success($user);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'phone' => 'required|exists:suppliers_users,phone',
+            'code' => 'required',
+            'password' => 'required'
+        ]);
+        $user = User::where('phone', $request->phone)->where('reset_code', $request->code)->first();
+        if (!$user) return \responder::error(__('wrong reset code '));
+
+        $user->update([
+            'password' => $request->password,
+            'reset_code' => Str::random(15)
+        ]);
+        $user->token = \JWTAuth::fromUser($user);
+        return \responder::success(new UserResource($user));
     }
 }
