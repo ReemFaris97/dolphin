@@ -19,7 +19,7 @@
             <!--begin::Portlet-->
             <div class="m-portlet m-portlet--tab">
                 <div class="static-tabs">
-                    <a  href="#">كل العهد</a>
+                    <a href="{!! route('admin.charges.destruct.index') !!}">كل العهد</a>
                     <a class="links-tabs-active" href="{!!route('admin.charges.create')!!}">اضافة عهدة جديدة </a>
                 </div>
                 {{-- <div class="m-portlet__head  belong-to-aform">

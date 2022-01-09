@@ -40,7 +40,7 @@
                 </ul>
             </div>
         </div>
-        <div class="m-portlet__body">
+        <div class="m-portlet__body flow-x-scroll">
             @include('admin.users._table')
         </div>
     </div>
