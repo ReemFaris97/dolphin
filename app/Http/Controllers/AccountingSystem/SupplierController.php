@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
+use App\DataTables\AccountingSuppliersDataTable;
 use App\Models\AccountingSystem\AccountingBank;
 use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingBranchFace;
@@ -31,10 +32,12 @@ class SupplierController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(AccountingSuppliersDataTable $dataTable)
     {
-        $suppliers =AccountingSupplier::all()->reverse();
-        return $this->toIndex(compact('suppliers'));
+
+       // $suppliers =AccountingSupplier::all()->reverse();
+       // return $this->toIndex(compact('suppliers'));
+        return $dataTable->render('AccountingSystem.suppliers.index');
     }
 
     /**
