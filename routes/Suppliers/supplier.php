@@ -17,7 +17,8 @@ Route::group(['middleware' => 'auth:supplier'],function (){
         'invoices'=> InvoiceController::class,
         'products'=>ProductController::class,
         'banks'=>BankController::class,
-        'invoice-items'=>InvoiceItemController::class
+        'invoice-items'=>InvoiceItemController::class,
+        'users'=>UserController::class
     ]);
     Route::get('list/products', [ProductController::class, 'list']);
     Route::get('my-products', [ProductController::class, 'myProducts']);
