@@ -73,7 +73,7 @@ class InvoiceController extends Controller
             'items.*.expire_at' => 'nullable|sometimes|date|after:today',
             'items.*.price' => 'required|numeric|gte:1'
         ]);
-        $invoice->items()->create($inputs['items']);
+        $invoice->items()->createMany($inputs['items']);
         return \responder::success(new InvoiceResource($invoice));
 
     }
