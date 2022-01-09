@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
+use App\DataTables\UsersDataTable;
 use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingCompany;
 
@@ -26,10 +27,11 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(UsersDataTable $dataTable)
     {
-        $users = User::all()->reverse();
-        return $this->toIndex(compact('users'));
+      //  $users = User::all()->reverse();
+       // return $this->toIndex(compact('users'));
+        return $dataTable->render('AccountingSystem.users.index');
     }
 
     /**

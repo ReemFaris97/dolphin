@@ -17,15 +17,22 @@ class BankDepositsController extends Controller
 
     private $viewable = 'distributor.bank_deposits.';
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        $bank_deposits = BankDeposit::latest()->get();
-        return $this->toIndex(compact('bank_deposits'));
+        $bank_deposits = BankDeposit::query()->with(['distributor', 'bank'])->latest();
+
+        $bank_deposits->when(\request()->has('confirmed'), function ($q) {
+            $q->where('confirmed', \request('confirmed'));
+        });
+
+        $bank_deposits->when(\request('from') and \request('to'), function ($q) {
+            $q->whereBetween('deposit_date', [\request('from'), \request('to')]);
+        });
+
+        $bank_deposits = $bank_deposits->get();
+        $total = $bank_deposits->sum('amount');
+        return $this->toIndex(compact('bank_deposits', 'total'));
     }
 
     /**
@@ -35,8 +42,8 @@ class BankDepositsController extends Controller
      */
     public function create()
     {
-        $users = User::distributor(1)->pluck('name','id')->toArray();
-        $banks = Bank::pluck('name','id')->toArray();
+        $users = User::distributor(1)->pluck('name', 'id')->toArray();
+        $banks = Bank::pluck('name', 'id')->toArray();
         return $this->toCreate(compact('users', 'banks'));
     }
 
@@ -51,14 +58,14 @@ class BankDepositsController extends Controller
 //dd($request->all());
 //dd(Carbon::now()->format('m/d/Y, h:i:s A'));
         $rules = [
-            'user_id'=>'required|integer|exists:users,id',
-            'bank_id'=>'required_if:type,==,bank_transaction|integer|nullable|exists:banks,id',
-             'deposit_number' => "required_if:type,==',bank_transaction|nullable|string|max:191",
+            'user_id' => 'required|integer|exists:users,id',
+            'bank_id' => 'required_if:type,==,bank_transaction|integer|nullable|exists:banks,id',
+            'deposit_number' => "required_if:type,==,bank_transaction|nullable|string|max:191",
 //             'deposit_date' =>"required|date_format:mm/d/Y, H:i:s A",
             'image' => "required||mimes:jpg,jpeg,gif,png",
         ];
         $this->validate($request, $rules);
-        $request['deposit_date']=Carbon::parse($request['deposit_date']);
+        $request['deposit_date'] = Carbon::parse($request['deposit_date']);
         if ($request->hasFile('image') && $request->image != null) {
             $request['image'] = saveImage($request->image, 'photos');
         }
@@ -125,14 +132,27 @@ class BankDepositsController extends Controller
         toast('تم حذف الايداع بنجاح', 'success', 'top-right');
         return redirect()->route('distributor.bank-deposits.index');
     }
-    public function getUserWallet($id){
 
-       $wallet= User::find($id)->distributor_wallet();
+    public function getUserWallet($id)
+    {
+
+        $wallet = User::find($id)->distributor_wallet();
 
         return response()->json([
-            'status'=>true,
-            'wallet'=>$wallet
+            'status' => true,
+            'wallet' => $wallet
         ]);
+    }
+
+    public function Confirm($id)
+    {
+        $bank_deposit = BankDeposit::findOrFail($id);
+        $bank_deposit->update([
+            'confirmed_at' => now(),
+            'confirmed' => 1
+        ]);
+        toast('تم تأكيد الايداع بنجاح', 'success', 'top-right');
+        return redirect()->route('distributor.bank-deposits.index');
     }
 
 }
