@@ -89,8 +89,6 @@ class AuthController extends Controller
             'lat' => 'sometimes|numeric|max:90|min:-90',
             'lng' => 'sometimes|numeric|max:180|min:-90',
             'landline' => 'sometimes|string',
-            'fcm_token_android' => 'required_without:fcm_token_ios',
-            'fcm_token_ios' => 'required_without:fcm_token_android',
         ]);
         $user->update($inputs);
         $user->token = \JWTAuth::fromUser($user);
@@ -103,6 +101,7 @@ class AuthController extends Controller
         $inputs =$request->validate([
            'phone'=>'required|phone:sa,eg'
         ]);
+
 
 
     }
