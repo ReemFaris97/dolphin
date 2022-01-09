@@ -28,7 +28,7 @@
                 <div class="yurSections">
                     <div class="row">
                         <div class="col-xs-12">
-
+                           {{Form::open(['method'=>"get"])}}
                             <div class="form-group col-sm-3">
                                 <label> من </label>
                                 {!! Form::date('from', null, ['class' => 'form-control', 'placeholder' => 'من', 'id' => 'example-date']) !!}
@@ -56,10 +56,8 @@
                             <th>#</th>
                             <th> المنتج </th>
                             <th> اجمالى  فواتير المبيعات </th>
-                            <th> عدد  فواتير المبيعات </th>
                             <th> اجمالى كمية المبيعات </th>
                             <th> اجمالى فواتير المشتريات </th>
-                            <th> عدد فواتير المشتريات </th>
                             <th>اجمالى كمية المشتريات</th>
                         </tr>
                     </thead>
@@ -72,41 +70,35 @@
                                     <tr>
                                         <td>{!! $loop->iteration !!}</td>
                                         <td>{!! $product->name !!}</td>
-
+                                        
                                         <td>
-                                        {!! $product->items()->sum(DB::raw('price * quantity')) !!}
+                                        {!! $product->items->count() !!}
+                                        @php($total_items_count+=$product->items->count()  )
                                         </td>
                                         <td>
-                                        {!! $product->items()->count() !!}
-                                        @php($total_items_count+=$product->items()->count()  )
+                                        {!! $product->items->sum('quantity') !!}</td>
+                                           @php($total_items_quantity+=$product->items->sum('quantity')  )
+                                        <td>
+                                        {!! $product->purchase->count() !!}
+                                           @php($total_purchase_count+=$product->purchase->count()  )
+                                        
                                         </td>
                                         <td>
-                                        {!! $product->items()->sum('quantity') !!}</td>
-                                           @php($total_items_quantity+=$product->items()->sum('quantity')  )
-                                        <td>
-                                        {!! $product->purchase()->sum(DB::raw('price * quantity')) !!}
-
-                                        </td>   <td>
-                                        {!! $product->purchase()->count() !!}
-                                           @php($total_purchase_count+=$product->purchase()->count()  )
-
-                                        </td>
-                                        <td>
-                                        {!! $product->purchase()->sum('quantity') !!}
-
-                                         @php($total_purchase_quantity+=$product->purchase()->sum('quantity')  )
+                                        {!! $product->purchase->sum('quantity') !!}
+                                                                   
+                                         @php($total_purchase_quantity+=$product->purchase->sum('quantity')  )
                                         </td>
                                       </tr>
-
+                                    
                                 @endforeach
-
+                        
                     </tbody>
-
+                    
                     <tfooter >
                                     <tr style="background-color: #f5f5f5;">
                                         <td>---</td>
                                         <td>الاجمالى</td>
-
+                                        
                                         <td>
                                         {!! $total_items_count !!}
                                         </td>
@@ -114,18 +106,18 @@
                                         {!! $total_items_quantity !!}</td>
                                         <td>
                                         {!! $total_purchase_count!!}
-
+                                        
                                         </td>
                                         <td>
                                         {!! $total_purchase_quantity !!}
-
+                                                                  
                                         </td>
-
+                    
                                     </tr>
 
                     </tfooter>
                 </table>
-
+       
             </div>
         </div>
         <div class="row print-wrapper">
