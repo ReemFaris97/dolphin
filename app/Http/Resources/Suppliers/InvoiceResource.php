@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Suppliers;
 
+use DB;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class InvoiceResource extends JsonResource
@@ -16,7 +17,7 @@ class InvoiceResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'items_sum_total'=>$this->items_sum_total,
+            'items_sum_total'=>$this->items_sum_total??$this->items()->sum('total'),
             'created_at'=>$this->created_at->toDateTimeString(),
             'items'=>InvoiceItemResource::collection($this->items)
         ];
