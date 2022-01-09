@@ -12,6 +12,11 @@
 @section('content')
 
 <div class="m-portlet m-portlet--mobile">
+    <div class="static-tabs">
+        <a class="links-tabs-active" href="{!! route('admin.tasks.index') !!}">كل مهمات النظام</a>
+        <a  href="{!! route('admin.tasks.create') !!}">اضافة مهمة جديدة  </a>
+    </div>
+
     <div class="m-portlet__head">
         <div class="m-portlet__head-caption">
             <div class="m-portlet__head-title">

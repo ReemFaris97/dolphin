@@ -58,23 +58,24 @@ div#m_header_topbar::after , .floatNone{
     border-color: #707070;
 }
 .static-tabs a {
-    background-color: #fff;
+    background-color:#45a2c61c;
+    ;
     display: inline-block;
     height: 100%;
-    width: 140px;
+    width: 175px;
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 12px;
     border-radius: 15px 15px 0 0;
     color: #000;
-    font-size: 15px;
+    font-size: 14px;
     transition: all .4s ease-in-out;
 }
 .static-tabs a:hover{
     text-decoration: none;
     transform: translateY(3px);
-    background-color: #45a2c61c;
+    background-color: #fff;
 }
 
 .static-tabs {
@@ -86,7 +87,7 @@ div#m_header_topbar::after , .floatNone{
 .static-tabs .links-tabs-active{
     text-decoration: none;
     transform: translateY(3px);
-    background-color: #45a2c61c;
+    background-color: #fff;
 }
 .m-portlet .m-portlet__head{
 
@@ -103,10 +104,34 @@ div#m_header_topbar::after , .floatNone{
 .m-body .m-content{
     margin-top: 0;
 }
+
+.m-form__group .form-control:focus {
+    border-radius: 0px!important;
+    box-shadow: 0px 0px 20px rgb(52 73 94 / 60%);
+    box-shadow: unset;
+    background: unset !important;
+    color: inherit !important;
+    border-color: #3D7CAE!important;
+}
+.select2-results__options li {
+    color: #575962 ;
+}
+
+.m-portlet__body .nav-tabs .nav-link, .nav-tabs .nav-link {
+    border-color: #ebedf2;
+}
+.row.m-row--no-padding.m-row--col-separator-xl {
+    margin-top: 0;
+}
+
 /*========================= responsive =====================*/
 @media (min-width: 1025px){
     .m-header--fixed .m-body {
         padding-top: 100px !important;
     }
 }
-
+@media (max-width: 767px){
+.m-topbar .m-topbar__nav.m-nav {
+    margin: 0;
+}
+}

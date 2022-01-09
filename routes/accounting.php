@@ -315,6 +315,7 @@ Route::middleware('admin')->group(function () {
         Route::any('expiration-products', [ StoresController::class,'expirations'])->name('expiration-products');
         Route::any('stagnant-products', [ StoresController::class,'stagnants'])->name('stagnant-products');
         Route::any('movements-products', [ StoresController::class,'movements'])->name('movements-products');
+        Route::get('general-movements', [ StoresController::class,'generalMovements'])->name('general-movements');
 
 
         Route::group(['prefix' => 'suppliers', 'as' => 'suppliers.'], function () {

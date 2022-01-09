@@ -18,7 +18,11 @@
 
             <!--begin::Portlet-->
             <div class="m-portlet m-portlet--tab">
-                <div class="m-portlet__head  belong-to-aform">
+                <div class="static-tabs">
+                    <a  href="#">كل العهد</a>
+                    <a class="links-tabs-active" href="{!!route('admin.charges.create')!!}">اضافة عهدة جديدة </a>
+                </div>
+                {{-- <div class="m-portlet__head  belong-to-aform">
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
                             <span class="m-portlet__head-icon m--hide">
@@ -29,11 +33,11 @@
                             </h3>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
                 <!--begin::Form-->
 
-                {!! Form::open(['method'=>'post','route'=>'admin.charges.store','files'=>'true','class'=>'m-form m-form--fit m-form--label-align-right'])!!}
+                {!! Form::open(['method'=>'post','route'=>'admin.charges.store','files'=>'true','class'=>'m-form m-form--fit m-form--label-align-right form-relative-white'])!!}
 
                 @include('admin.charges._form')
 

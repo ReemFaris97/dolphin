@@ -4,12 +4,14 @@ namespace App\Models\AccountingSystem;
 
 use App\Models\Models\AccountingSystem\AccountingProductStoreLog;
 use App\Traits\HashPassword;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 /**
  * App\Models\AccountingSystem\AccountingPurchaseItem
@@ -200,5 +202,11 @@ class AccountingPurchaseItem extends Model
             'amount'=>$this->getGiftInMainUnitAttribute(),
             'type'=>'in',
         ];
+    }
+
+
+    public function scopeInPeriod(Builder $query, $start, $end):void
+    {
+        $query->whereBetween(DB::raw('DATE(created_at)'), [$start, $end]);
     }
 }

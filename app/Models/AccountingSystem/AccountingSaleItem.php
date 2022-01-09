@@ -7,6 +7,7 @@ use App\Traits\HashPassword;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 /**
  * App\Models\AccountingSystem\AccountingSaleItem
@@ -108,5 +109,9 @@ class AccountingSaleItem extends Model
                 'type'=>'out',
             ]
         );
+    }
+    public function scopeInPeriod($query, $start, $end):void
+    {
+        $query->whereBetween(DB::raw('DATE(created_at)'), [$start, $end]);
     }
 }
