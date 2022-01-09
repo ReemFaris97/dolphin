@@ -123,15 +123,177 @@ div#m_header_topbar::after , .floatNone{
 .row.m-row--no-padding.m-row--col-separator-xl {
     margin-top: 0;
 }
-
+.btn-metal {
+    color: #212529;
+    background-color: #3d7cae;
+    border-color: #3d7cae;
+}
+.btn.btn-secondary {
+    background: #8d8d8d;
+    border-color: #8d8d8d;
+    color: #fff;
+}
+.btn.btn-secondary:hover:not(:disabled){
+    color: #fff;
+    background: #525252;
+    border-color: #525252;
+}
+.btn-metal:hover {
+    color: #212529;
+    background-color: #29567a;
+    border-color: #29567a;
+}
 /*========================= responsive =====================*/
 @media (min-width: 1025px){
     .m-header--fixed .m-body {
         padding-top: 100px !important;
     }
 }
+@media (max-width: 1024px){
+    .m-header--fixed-mobile .m-topbar {
+        margin-top: 0 !important;
+        top: 0 !important;
+    }
+    .m-stack.m-stack--general.m-stack--ver>.m-stack__item {
+        width: 100%;
+    }
+    .title-layout {
+        padding: 5px 12px 0 0;
+    }
+    .m-portlet {
+        margin-top: 104px;
+    }
+
+
+    .m-topbar .m-topbar__nav.m-nav {
+        margin: 0;
+    }
+
+    .static-tabs a {
+        width: 135px;
+        font-size: 13px;
+    }
+    .static-tabs {
+        height: 38px;
+        top: -38px;
+    }
+    .m-topbar .m-topbar__nav.m-nav>.m-nav__item>.m-nav__link .m-topbar__userpic img {
+        height: 40px;
+        width: 40px;
+        border: 1px solid #384ad7;
+    }
+
+    .m-body .m-content {
+        margin-top: 21px
+
+    }
+    .m-body .m-content .m-portlet__head:not(.belong-to-aform) .m-portlet__head-caption .m-portlet__head-title h3.m-portlet__head-text {
+        font-size: 22px !important;
+    }
+    div.dt-buttons > button {
+        padding: 5px 10px;
+        margin: 5px 5px 0 5px;
+        font-size: 12px;
+    }
+    div.dt-buttons {
+        display: flex;
+        justify-content: end;
+        margin-bottom: 0;
+    }
+    .dataTables_wrapper .dataTable {
+        margin: 3px 0 !important;
+    }
+}
+
 @media (max-width: 767px){
 .m-topbar .m-topbar__nav.m-nav {
     margin: 0;
 }
+
+.static-tabs a {
+    width: 135px;
+    font-size: 13px;
+}
+.static-tabs {
+    height: 38px;
+    top: -38px;
+}
+.m-topbar .m-topbar__nav.m-nav>.m-nav__item>.m-nav__link .m-topbar__userpic img {
+    height: 40px;
+    width: 40px;
+    border: 1px solid #384ad7;
+}
+.one-single-emp-wrapper {
+    width: 100%;
+}
+.m-body .m-content {
+    margin-top: 21px
+
+}
+.m-body .m-content .m-portlet__head:not(.belong-to-aform) .m-portlet__head-caption .m-portlet__head-title h3.m-portlet__head-text {
+    font-size: 22px !important;
+}
+div.dt-buttons > button {
+    padding: 5px 10px;
+    margin: 5px 5px 0 5px;
+    font-size: 12px;
+}
+div.dt-buttons {
+    display: flex;
+    justify-content: end;
+    margin-bottom: 0;
+}
+.dataTables_wrapper .dataTable {
+    margin: 3px 0 !important;
+}
+.m-portlet__body .nav-tabs .nav-link {
+    display: block;
+    padding: 0.5rem 5px;
+    font-size: 11px;
+}
+.m-form .m-form__group {
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+.form-group label {
+    display: inline-block;
+    margin-bottom:0;
+}
+.title-layout h3 {
+    font-size: 16px;
+}
+.form-control {
+
+    font-size: 12px;
+}
+.m-form .m-form__actions {
+    padding: 20px;
+}
+
+.m-body .m-content {
+    padding-top: 25px!important;
+
+}
+.m-body .m-content {
+    padding-top: 35px!important;
+}
+td.dataTables_empty {
+    font-size: 12px;
+}
+.m-portlet .m-portlet__head .m-portlet__head-caption .m-portlet__head-title .m-portlet__head-text {
+    font-size: 18px;
+}
+.table thead th {
+
+    font-size: 13px;
+}
+
+}
+@media (max-width: 320px){
+    .m-portlet__body .nav-tabs .nav-link {
+        padding: 0.5rem 3px;
+    }
+    .m-portlet__body .nav-tabs li.nav-item{
+        margin: 0;
+    }
 }

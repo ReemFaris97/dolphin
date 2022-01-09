@@ -354,7 +354,8 @@ class ProductController extends Controller
             'num_days_recession' => 'nullable|string',
             'cell_id' => 'required',
             'store_id'=>'required',
-            'price_has_tax'=>'nullable|boolean'
+            'price_has_tax'=>'nullable|boolean',
+            'suppliers'=>'nullable|array'
           //        dd($inputs);
         ];
         $messsage = [
@@ -416,7 +417,7 @@ class ProductController extends Controller
         }
 
         ////////////////////components Arrays////////////////////////////////
-        $product->suppliers()->attach($request['supplier_id']);
+        $product->suppliers()->attach($request['suppliers']);
         $component_names = collect($request['component_names']);
         $qtys = collect($request['qtys']);
         $main_units = collect($request['main_units']);
@@ -576,6 +577,7 @@ class ProductController extends Controller
         $product->load('category.company', 'sub_units');
 //        $product->load('store.model');
 //        dd(json_decode($product->bar_code));
+        $product['suppliers']=$product->suppliers()->pluck('accounting_suppliers    .id');
         $product['sub_products'] = AccountingProductComponent::where('product_id', $id)->get();
         $product['components'] = AccountingProductComponent::where('product_id', $id)->get();
         $product['sub_units'] = AccountingProductSubUnit::where('product_id', $id)->get();
@@ -587,7 +589,6 @@ class ProductController extends Controller
             'quantity' => '',
             'gift_quantity' => '',
         ];
-
         $unit_template = [
             'name' => null,
             'bar_code' => null,
@@ -740,7 +741,7 @@ class ProductController extends Controller
             'num_days_recession' => 'nullable|string',
             'tax'=>'required|boolean'
         ];
-        $product->suppliers()->attach($request['supplier_id']);
+        $product->suppliers()->attach($request['suppliers']);
 
         $this->validate($request, $rules);
 //        dd($request->all());

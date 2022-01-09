@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Suppliers\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BaseCollection;
 use App\Http\Resources\Suppliers\InvoiceResource;
+use App\Models\Supplier\Invoice;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -73,8 +74,10 @@ class InvoiceController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Invoice $invoice)
     {
-        //
+        $invoice->delete();
+
+        return \responder::success('تم الحذف بنجاح !');
     }
 }
