@@ -287,7 +287,21 @@ td.dataTables_empty {
 
     font-size: 13px;
 }
-
+.dataTables_wrapper .dataTables_paginate .pagination .page-item>.page-link{
+    padding: 0.1rem;
+}
+.dataTables_wrapper .dataTables_paginate .pagination .page-item {
+    margin-right: 0.2rem;
+}
+div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+    padding-left: 0;
+}
+.flow-x-scroll{
+    overflow-x: scroll;
+}
+.form-group.m-form__group{
+    width: 100%;
+}
 }
 @media (max-width: 320px){
     .m-portlet__body .nav-tabs .nav-link {
