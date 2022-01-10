@@ -43,7 +43,7 @@
                             </div>
                                 <div class="form-group col-sm-3">
                                     <label for="to"> الى </label>
-                                    {!! Form::date("to_date",request('to_date'),['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' الفترة من ',"id"=>'to_date'])!!}
+                                    {!! Form::date("to_date",request('to_date'),['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' الفترة الى ',"id"=>'to_date'])!!}
                                 </div>
 
                             <div class="form-group col-sm-12">
@@ -127,8 +127,8 @@
                         <td class=""></td>
                         <td class=" "></td>
                         <td  class="text-center" >{{$total_returns_amount= $returns->sum('amount')}}</td>
-                    </tr> 
-                    
+                    </tr>
+
                     <tr style="background-color: rgb(235, 234, 234)">
                         <td class="text-center">الصافى</td>
                         <td class="hidden d-none"></td>
