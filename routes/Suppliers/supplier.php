@@ -21,10 +21,14 @@ Route::group(['middleware' => 'auth:supplier'],function (){
         'products'=>ProductController::class,
         'banks'=>BankController::class,
         'invoice-items'=>InvoiceItemController::class,
-        'users'=>UserController::class
+        'users'=>UserController::class,
+        'chats'=>ChatController::class
     ]);
     Route::get('list/products', [ProductController::class, 'list']);
     Route::get('my-products', [ProductController::class, 'myProducts']);
+
+    Route::get('purchase-invoices',PurchaseController::class);
+    Route::get('purchase-return-invoices',PurchaseReturnController::class);
 
 
 });
