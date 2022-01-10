@@ -45,16 +45,20 @@ class ClientsDataTable extends DataTable
 
         $clients->when(\request()->has('user_id'), function ($q) {
             $q->whereRelation('trips',  function ($query) {
-                $query->whereRelation('route','user_id',\request('user_id'));
+                $query->whereRelation('route',function ($x){
+                    $x->whereIn('user_id',\request('user_id'));
+                });
             });
         });
 
         $clients->when(\request()->has('route_id'), function ($q) {
-            $q->whereRelation('trips',  'route_id',\request('route_id'));
+            $q->whereRelation('trips', function ($x){
+                $x->whereIn( 'route_id',\request('route_id'));
+            });
         });
 
         $clients->when(\request()->has('class_id'), function ($q) {
-            $q->where('client_class_id', \request('class_id'));
+            $q->whereIn('client_class_id', \request('class_id'));
         });
 
         return $clients;
