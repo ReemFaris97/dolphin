@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers\AccountingSystem\Reports;
 
-use App\DataTables\ImprovedSalesReportDataTable;
+use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingBranch;
-use App\Models\AccountingSystem\AccountingProduct;
-use App\Models\AccountingSystem\AccountingPurchase;
 use App\Models\AccountingSystem\AccountingReturn;
 use App\Models\AccountingSystem\AccountingSale;
+use App\Models\AccountingSystem\AccountingSale as Sale;
 use App\Models\AccountingSystem\AccountingSaleItem;
 use App\Models\AccountingSystem\AccountingStore;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\AccountingSystem\AccountingSale as Sale;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class SalesController extends Controller
@@ -288,6 +285,12 @@ class SalesController extends Controller
 
         $sales->when($request->from and $request->to, function ($q) use ($request) {
             $q->whereBetween('created_at', [$request->from, $request->to]);
+        });
+
+        $sales->when($request->category_id, function ($q) use ($request) {
+            $q->whereHas('product', function ($q) {
+                $q->where('category_id', \request('category_id'));
+            });
         });
 
         $sales = $sales->groupBy('product_id', 'unit_id', 'price')
