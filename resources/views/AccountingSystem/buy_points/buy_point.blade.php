@@ -930,8 +930,7 @@ if (!Number.prototype.$truncate) {
                 var modId = $(this).attr('id');
                 
                 var onlyModNum = modId.substr(7, modId.length);
-                var finalAftDisc = parseFloat($('#row' + onlyModNum).find('.whole-price-before').attr(
-                    'tempPriBef'));
+                var finalAftDisc = parseFloat($('#row' + onlyModNum).find('.quantityXprice').text());
                 var rows = $(this).find('.single-special-dis-wrap');
                             $("tr#row" + onlyModNum).find(".bud1").html('')
                             $("tr#row" + onlyModNum).find(".per1").html('')
@@ -957,12 +956,14 @@ if (!Number.prototype.$truncate) {
                     finalAftDisc -= parseFloat($(rows[i]).find('.singleSpecialDiscByVal').val());
 
                     if (i === 0) {
+                        
                         if (((parseFloat($(rows[0]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc) !=
                             0) {
+                                
                             $("tr#row" + onlyModNum).find(".per1").html(
                                 parseFloat(
                                     (parseFloat($(rows[0]).find('.singleSpecialDiscByPer').val()) / 100) *
-                                    parseFloat(finalAftDisc)).$truncate(rondingNumber) + 'ريال')
+                                    parseFloat( $("tr#row" + onlyModNum).find('.quantityXprice').text())).$truncate(rondingNumber) + 'ريال')
                             $("tr#row" + onlyModNum).find(".bud1").html('---')
                         }
                     }
@@ -971,7 +972,7 @@ if (!Number.prototype.$truncate) {
                             0) {
                             $("tr#row" + onlyModNum).find(".per2").html(parseFloat(
                                 (parseFloat($(rows[1]).find('.singleSpecialDiscByPer').val()) / 100) *
-                                parseFloat(finalAftDisc)).$truncate(rondingNumber) + 'ريال')
+                                parseFloat( $("tr#row" + onlyModNum).find('.quantityXprice').text())).$truncate(rondingNumber) + 'ريال')
                             $("tr#row" + onlyModNum).find(".bud2").html('---')
                         }
                     }
@@ -992,7 +993,7 @@ if (!Number.prototype.$truncate) {
                     $('#row' + onlyModNum).find('.whole-price-after')
                         .text(
                             parseFloat(
-                                parseFloat(newWholePriceAfter) + parseFloat(newNetTax)
+                                parseFloat(newWholePriceAfter) 
                             ).$truncate(rondingNumber)
                         );
                     calcInfo();
