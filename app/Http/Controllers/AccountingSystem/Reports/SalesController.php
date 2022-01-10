@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers\AccountingSystem\Reports;
 
-use App\Http\Controllers\Controller;
+use App\DataTables\ImprovedSalesReportDataTable;
 use App\Models\AccountingSystem\AccountingBranch;
+use App\Models\AccountingSystem\AccountingProduct;
+use App\Models\AccountingSystem\AccountingPurchase;
 use App\Models\AccountingSystem\AccountingReturn;
 use App\Models\AccountingSystem\AccountingSale;
-use App\Models\AccountingSystem\AccountingSale as Sale;
 use App\Models\AccountingSystem\AccountingSaleItem;
 use App\Models\AccountingSystem\AccountingStore;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\AccountingSystem\AccountingSale as Sale;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class SalesController extends Controller
@@ -128,7 +131,8 @@ class SalesController extends Controller
     public function returnsDay(Request $request)
     {
         $requests = request()->all();
-        $sales = AccountingReturn::query();;
+        $sales = AccountingReturn::query();
+        ;
         /*
                     if ($request->input('branch_id') && $request->branch_id != null) {
                        $sales->where('branch_id', $request->branch_id);
@@ -253,19 +257,19 @@ class SalesController extends Controller
         $sales = AccountingSale::query()
             ->withCount('items')
             ->with('user')
-            ->when($request->user_id, fn($q) => $q->ofUser($request->user_id))
+            ->when($request->user_id, fn ($q) => $q->ofUser($request->user_id))
             ->when(
                 ($request->from_date != null && $request->to_date != null),
-                fn($q) => $q->InPeriod($request->from_date, $request->to_date)
+                fn ($q) => $q->InPeriod($request->from_date, $request->to_date)
             )
             ->get();
         $returns = AccountingReturn::query()
             ->withCOunt('items')
             ->with('user')
-            ->when($request->user_id, fn($q) => $q->ofUser($request->user_id))
+            ->when($request->user_id, fn ($q) => $q->ofUser($request->user_id))
             ->when(
                 ($request->from_date != null && $request->to_date != null),
-                fn($q) => $q->InPeriod($request->from_date, $request->to_date)
+                fn ($q) => $q->InPeriod($request->from_date, $request->to_date)
             )
             ->withCount(['items'])
             ->get();
@@ -284,12 +288,6 @@ class SalesController extends Controller
 
         $sales->when($request->from and $request->to, function ($q) use ($request) {
             $q->whereBetween('created_at', [$request->from, $request->to]);
-        });
-
-        $sales->when($request->category_id, function ($q) use ($request) {
-            $q->whereHas('product', function ($q) {
-                $q->where('category_id', \request('category_id'));
-            });
         });
 
         $sales = $sales->groupBy('product_id', 'unit_id', 'price')
