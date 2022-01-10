@@ -410,6 +410,3 @@ class StoresController extends Controller
         return $dataTable->render('AccountingSystem.reports.stores.generalMovement');
     }
 }
-
-
-/* select * from `accounting_products` where ((exists (select * from `accounting_sales_items` where `accounting_products`.`id` = `accounting_sales_items`.`product_id` and DATE(created_at) between '2021-12-02' and '2021-12-02')) or (exists (select * from `accounting_purchases_items` where `accounting_products`.`id` = `accounting_purchases_items`.`product_id` and DATE(created_at) between '2021-12-02' and '2021-12-02')) or (exists (select * from `accounting_damages_products` where `accounting_products`.`id` = `accounting_damages_products`.`product_id` and DATE(created_at) between '2021-12-02' and '2021-12-02'))) */

@@ -306,21 +306,11 @@ class AccountingProduct extends Model
     {
         $builder->where(fn ($q) =>$q->ForSales($from, $to))   ;
         $builder->orWhere(fn ($q) =>$q->ForPurchase($from, $to))   ;
-        $builder->orWhere(fn ($q) =>$q->ForDamage($from, $to))   ;
+        // $builder->orWhere(fn ($q) =>$q->ForDamage($from, $to))   ;
         $builder->with([
             'items' =>fn ($q) =>$q->inPeriod($from, $to),
-            'damage' =>fn ($q) =>$q->inPeriod($from, $to),
+            // 'damage' =>fn ($q) =>$q->inPeriod($from, $to),
             'purchase' =>fn ($q) =>$q->inPeriod($from, $to)
         ]);
-        // $builder->withCount('items');
-        // $builder->withSum('items', 'quantity');
-        // $builder->withCount('purchase');
-        // $builder->withSum('purchase', 'quantity');
-        // $builder->withCount('damage');
-        // $builder->withSum('damage', 'quantity');
-        // $builder->;
     }
 }
-
-
-/* select * from `accounting_products` where ((exists (select * from `accounting_sales_items` where `accounting_products`.`id` = `accounting_sales_items`.`product_id` and DATE(created_at) between '2021-12-02' and '2021-12-02')) or (exists (select * from `accounting_purchases_items` where `accounting_products`.`id` = `accounting_purchases_items`.`product_id` and DATE(created_at) between '2021-12-02' and '2021-12-02')) or (exists (select * from `accounting_damages_products` where `accounting_products`.`id` = `accounting_damages_products`.`product_id` and DATE(created_at) between '2021-12-02' and '2021-12-02'))) */
