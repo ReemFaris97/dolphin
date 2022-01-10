@@ -12,10 +12,7 @@
             {!! Form::text('name',null,['class'=>'form-control m-input '])!!}
         </div>
       --}}
-        <div class="form-group m-form__group">
-            <label> كود تسليم المسار </label>
-            {!! Form::text('received_code',null,['class'=>'form-control m-input '])!!}
-        </div>
+     
         <div class="form-group m-form__group">
             <label>من تاريخ</label>
             {!! Form::date('from',null,['class'=>'form-control m-input'])!!}
