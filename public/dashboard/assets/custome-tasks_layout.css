@@ -231,7 +231,7 @@ div#m_header_topbar::after , .floatNone{
 
 }
 .m-body .m-content .m-portlet__head:not(.belong-to-aform) .m-portlet__head-caption .m-portlet__head-title h3.m-portlet__head-text {
-    font-size: 22px !important;
+    font-size: 16px !important;
 }
 div.dt-buttons > button {
     padding: 5px 10px;
