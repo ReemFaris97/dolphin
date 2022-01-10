@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\AccountingSystem\Reports;
 
+use App\DataTables\ImprovedSalesReportDataTable;
 use App\Models\AccountingSystem\AccountingBranch;
+use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingPurchase;
 use App\Models\AccountingSystem\AccountingReturn;
 use App\Models\AccountingSystem\AccountingSale;
+use App\Models\AccountingSystem\AccountingSaleItem;
 use App\Models\AccountingSystem\AccountingStore;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -92,7 +95,6 @@ class SalesController extends Controller
         $sales = $sales->groupBy('date')->get();
 
 
-
         return view('AccountingSystem.reports.sales.day', compact('sales', 'requests'));
     }
 
@@ -123,14 +125,13 @@ class SalesController extends Controller
         $sales = $sales->groupBy('created_at')->get();
 
 
-        return view('AccountingSystem.reports.sales.returns-period', ['sales'=>$sales,'requests'=>$request->all()]);
+        return view('AccountingSystem.reports.sales.returns-period', ['sales' => $sales, 'requests' => $request->all()]);
     }
 
     public function returnsDay(Request $request)
     {
         $requests = request()->all();
-        $sales = AccountingReturn::query();
-        ;
+        $sales = AccountingReturn::query();;
         /*
                     if ($request->input('branch_id') && $request->branch_id != null) {
                        $sales->where('branch_id', $request->branch_id);
@@ -216,18 +217,18 @@ class SalesController extends Controller
         $sales = AccountingSale::query()
             ->join('accounting_sales_items', 'accounting_sales.id', 'accounting_sales_items.sale_id')
             ->leftJoin('accounting_products', 'accounting_sales_items.product_id', 'accounting_products.id')
-                ->select(
-                    'accounting_sales.id',
-                    DB::raw('DATE(accounting_sales.created_at) as date'),
-                    DB::raw('count(*) as num'),
-                    DB::raw('sum(accounting_sales.total) as all_total'),
-                    DB::raw('sum(accounting_sales_items.price *accounting_sales_items.quantity) as all_amounts'),
-                    DB::raw('sum(accounting_sales_items.price_after_tax *accounting_sales_items.quantity) as all_amounts_after_tax'),
-                    DB::raw('sum(accounting_sales.totalTaxs) as total_tax'),
-                    DB::raw('sum(accounting_sales.discount) as discounts'),
-                    DB::raw('sum(accounting_products.purchasing_price * accounting_sales_items.quantity ) as productPrice'),
-                    'accounting_sales.created_at'
-                );
+            ->select(
+                'accounting_sales.id',
+                DB::raw('DATE(accounting_sales.created_at) as date'),
+                DB::raw('count(*) as num'),
+                DB::raw('sum(accounting_sales.total) as all_total'),
+                DB::raw('sum(accounting_sales_items.price *accounting_sales_items.quantity) as all_amounts'),
+                DB::raw('sum(accounting_sales_items.price_after_tax *accounting_sales_items.quantity) as all_amounts_after_tax'),
+                DB::raw('sum(accounting_sales.totalTaxs) as total_tax'),
+                DB::raw('sum(accounting_sales.discount) as discounts'),
+                DB::raw('sum(accounting_products.purchasing_price * accounting_sales_items.quantity ) as productPrice'),
+                'accounting_sales.created_at'
+            );
         if ($request->input('branch_id') && $request->branch_id != null) {
             $sales = $sales->where('branch_id', $request->branch_id);
         }
@@ -251,26 +252,48 @@ class SalesController extends Controller
 
     public function sessionDetails(Request $request)
     {
-        $sellers=User::where('is_saler', 1)->pluck('name', 'id');
+        $sellers = User::where('is_saler', 1)->pluck('name', 'id');
         $sales = AccountingSale::query()
-        ->withCount('items')
-        ->with('user')
-            ->when($request->user_id, fn ($q) =>$q->ofUser($request->user_id))
+            ->withCount('items')
+            ->with('user')
+            ->when($request->user_id, fn($q) => $q->ofUser($request->user_id))
             ->when(
-                ($request->from_date!=null&&$request->to_date!=null),
-                fn ($q) =>$q->InPeriod($request->from_date, $request->to_date)
+                ($request->from_date != null && $request->to_date != null),
+                fn($q) => $q->InPeriod($request->from_date, $request->to_date)
             )
-        ->get();
+            ->get();
         $returns = AccountingReturn::query()
-        ->withCOunt('items')
-        ->with('user')
-        ->when($request->user_id, fn ($q) =>$q->ofUser($request->user_id))
-        ->when(
-            ($request->from_date!=null&&$request->to_date!=null),
-            fn ($q) =>$q->InPeriod($request->from_date, $request->to_date)
-        )
-        ->withCount(['items'])
-        ->get();
+            ->withCOunt('items')
+            ->with('user')
+            ->when($request->user_id, fn($q) => $q->ofUser($request->user_id))
+            ->when(
+                ($request->from_date != null && $request->to_date != null),
+                fn($q) => $q->InPeriod($request->from_date, $request->to_date)
+            )
+            ->withCount(['items'])
+            ->get();
         return view('AccountingSystem.reports.sales.session-details', compact('sellers', 'sales', 'returns'));
+    }
+
+    public function improvedSales(Request $request)
+  //  public function improvedSales(ImprovedSalesReportDataTable $dataTable)
+    {
+        //        SELECT product_id,sum(quantity),price,(price * sum(quantity)) as total,unit_id FROM `accounting_sales_items` group by product_id ,unit_id, price
+
+        $sales = AccountingSaleItem::query()->with('product', 'unit');
+        $sales->when($request->product_id, function ($q) use ($request) {
+            $q->where('product_id', $request->product_id);
+        });
+
+        $sales->when($request->from and $request->to, function ($q) use ($request) {
+            $q->whereBetween('created_at', [$request->from, $request->to]);
+        });
+
+        $sales = $sales->groupBy('product_id','unit_id','price')
+            ->selectRaw("product_id,sum(quantity) as quantity,price,(price * sum(quantity)) as total,unit_id")
+            ->get();
+
+        return view('AccountingSystem.reports.sales.sales-improved', compact('sales'));
+      //  return $dataTable->render('AccountingSystem.reports.sales.sales-improved');
     }
 }

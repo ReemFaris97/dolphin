@@ -347,6 +347,7 @@ Route::middleware('admin')->group(function () {
             Route::any('daily-earnings', ['as' => 'daily_earnings', 'uses' => 'SalesController@daily_earnings']);
             Route::any('period-earnings', [SalesController::class,'period_earnings'])->name('period_earnings');
             Route::match(['get','post'], 'sessions', [SalesController::class,'sessionDetails'])->name('sessions_report');
+            Route::get('improved-sales', [SalesController::class,'improvedSales'])->name('improvedSales');
         });
     });
 
