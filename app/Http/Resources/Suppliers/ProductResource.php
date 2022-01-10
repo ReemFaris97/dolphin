@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Suppliers;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Arr;
 
 class ProductResource extends JsonResource
 {
@@ -17,7 +18,7 @@ class ProductResource extends JsonResource
         return [
             'id'=>$this->id,
             'name'=>$this->name,
-            'barcode'=>$this->barcode,
+            'barcode'=>Arr::first($this->bar_code),
             'bar_codes'=>$this->bar_code,
             'unit'=>$this->unit,
             'price'=>$this->price,

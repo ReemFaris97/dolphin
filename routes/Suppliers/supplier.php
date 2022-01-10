@@ -9,6 +9,9 @@ Route::group(['prefix' => 'auth'],function (){
     Route::post('login',[AuthController::class,'login']);
     Route::get('profile',[AuthController::class,'profile'])->middleware('auth:supplier');
     Route::put('profile',[AuthController::class,'update'])->middleware('auth:supplier');
+    Route::post('forget-password',[AuthController::class,'forgetPassword']);
+    Route::post('forget-password/check',[AuthController::class,'checkCode']);
+    Route::post('forget-password/reset',[AuthController::class,'resetPassword']);
 });
 
 Route::group(['middleware' => 'auth:supplier'],function (){
@@ -22,5 +25,6 @@ Route::group(['middleware' => 'auth:supplier'],function (){
     ]);
     Route::get('list/products', [ProductController::class, 'list']);
     Route::get('my-products', [ProductController::class, 'myProducts']);
+
 
 });
