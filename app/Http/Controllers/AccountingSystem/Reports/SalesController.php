@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers\AccountingSystem\Reports;
 
-use App\DataTables\ImprovedSalesReportDataTable;
+use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingBranch;
-use App\Models\AccountingSystem\AccountingProduct;
-use App\Models\AccountingSystem\AccountingPurchase;
 use App\Models\AccountingSystem\AccountingReturn;
 use App\Models\AccountingSystem\AccountingSale;
+use App\Models\AccountingSystem\AccountingSale as Sale;
 use App\Models\AccountingSystem\AccountingSaleItem;
 use App\Models\AccountingSystem\AccountingStore;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\AccountingSystem\AccountingSale as Sale;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class SalesController extends Controller
@@ -289,11 +286,17 @@ class SalesController extends Controller
             $q->whereBetween('created_at', [$request->from, $request->to]);
         });
 
-        $sales = $sales->groupBy('product_id','unit_id','price')
+        $sales->when($request->category_id, function ($q) use ($request) {
+            $q->whereHas('product', function ($q) {
+                $q->where('category_id', \request('category_id'));
+            });
+        });
+
+        $sales = $sales->groupBy('product_id', 'unit_id', 'price')
             ->selectRaw("product_id,sum(quantity) as quantity,price,(price * sum(quantity)) as total,unit_id")
             ->get();
 
         return view('AccountingSystem.reports.sales.sales-improved', compact('sales'));
-      //  return $dataTable->render('AccountingSystem.reports.sales.sales-improved');
+        //  return $dataTable->render('AccountingSystem.reports.sales.sales-improved');
     }
 }

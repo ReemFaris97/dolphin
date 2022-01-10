@@ -32,6 +32,12 @@
                         <div class="col-xs-12">
                             <form action="" method="get" accept-charset="utf-8">
                                 <div class="form-group col-sm-3">
+                                    <label> التصنيفات </label>
+                                    {!! Form::select('category_id',\App\Models\AccountingSystem\AccountingProductCategory::pluck('ar_name','id'),null,
+['class'=>'form-control inline-control','id'=>'categories']) !!}
+                                </div>
+
+                                <div class="form-group col-sm-3">
                                     <label> المنتجات </label>
                                     <select class="form-control selectpicker inline-control"
                                             name="product_id" id="products">
