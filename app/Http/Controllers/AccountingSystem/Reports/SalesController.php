@@ -2,26 +2,24 @@
 
 namespace App\Http\Controllers\AccountingSystem\Reports;
 
-use App\DataTables\ImprovedSalesReportDataTable;
+use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingBranch;
-use App\Models\AccountingSystem\AccountingProduct;
-use App\Models\AccountingSystem\AccountingPurchase;
 use App\Models\AccountingSystem\AccountingReturn;
 use App\Models\AccountingSystem\AccountingSale;
+use App\Models\AccountingSystem\AccountingSale as Sale;
 use App\Models\AccountingSystem\AccountingSaleItem;
 use App\Models\AccountingSystem\AccountingStore;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\AccountingSystem\AccountingSale as Sale;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SalesController extends Controller
 {
     public function index(Request $request)
     {
         $requests = request()->all();
-        if ($request->has('company_id')) {
+        if ($request->input('company_id')) {
             $stores_company = AccountingStore::where('model_id', \request('company_id'))->where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->pluck('id');
             $branches = AccountingBranch::where('company_id', \request('company_id'))->pluck('id');
             $stores_branch = AccountingStore::whereIn('model_id', $branches)->where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->pluck('id');
@@ -34,27 +32,25 @@ class SalesController extends Controller
 //            dd($sales->get());
             /*     $sales->whereIn('store_id',$stores)->select('id',\DB::raw('DATE(created_at) as date'), \DB::raw('count(*) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'),'created_at');*/
 
-            /*   if ($request->has('branch_id') && $request->branch_id != null) {
+            /*   if ($request->input('branch_id') && $request->branch_id != null) {
                   $sales = $sales->where('branch_id', $request->branch_id);
                }*/
 
-            if ($request->has('user_id') && $request->user_id != null) {
+            if ($request->input('user_id') && $request->user_id != null) {
                 $sales = $sales->where('user_id', $request->user_id);
             }
 
-            if ($request->has('product_id') && $request->product_id != null) {
+            if ($request->input('product_id') && $request->product_id != null) {
                 $sales = $sales->whereHas('items', function ($item) use ($request) {
                     $item->where('product_id', $request->product_id);
                 });
             }
 
-            if ($request->has('from') && $request->has('to')) {
+            if ($request->input('from') && $request->input('to')) {
                 $sales = $sales->whereBetween('created_at', [Carbon::parse($request->from), Carbon::parse($request->to)]);
             }
 
             $sales = $sales->groupBy('date_formatted')->get();
-
-        // dd($sales);
         } else {
             $sales = collect();
         }
@@ -74,22 +70,22 @@ class SalesController extends Controller
         $sales = Sale::query();
         $sales->select('id', \DB::raw('DATE(created_at) as date'), \DB::raw('count(*) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'), 'created_at');
 
-        /*    if ($request->has('branch_id') && $request->branch_id != null) {
+        /*    if ($request->input('branch_id') && $request->branch_id != null) {
                 $sales = $sales->where('branch_id', $request->branch_id);
             }*/
 
 
-        if ($request->has('user_id') && $request->user_id != null) {
+        if ($request->input('user_id') && $request->user_id != null) {
             $sales = $sales->where('user_id', $request->user_id);
         }
 
-        if ($request->has('product_id') && $request->product_id != null) {
+        if ($request->input('product_id') && $request->product_id != null) {
             $sales = $sales->whereHas('items', function ($item) use ($request) {
                 $item->where('product_id', $request->product_id);
             });
         }
 
-        if ($request->has('date') && $request->date != null) {
+        if ($request->input('date') && $request->date != null) {
             $sales = $sales->whereDate('created_at', Carbon::parse($request->date));
         }
 //          dd($sales);
@@ -105,22 +101,22 @@ class SalesController extends Controller
 
         $sales = AccountingReturn::query();
         $sales->select('id', \DB::raw('DATE(created_at) as date'), \DB::raw('count(*) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'), 'created_at');
-//            if ($request->has('branch_id') && $request->branch_id != null) {
+//            if ($request->input('branch_id') && $request->branch_id != null) {
 //                $sales = $sales->where('branch_id', $request->branch_id);
 //            }
-//         if ($request->has('user_id') && $request->user_id != null ) {
+//         if ($request->input('user_id') && $request->user_id != null ) {
 //            $sales = $sales->where('user_id', $request->user_id);
 //         }
 //            $sales = AccountingReturn::query();
-        if ($request->has('product_id') && $request->product_id != null) {
+        if ($request->input('product_id') && $request->product_id != null) {
             $sales->whereHas('items', function ($item) use ($request) {
                 $item->where('product_id', $request->product_id);
             });
         }
-        if ($request->has('user_id') && $request->user_id != null) {
+        if ($request->input('user_id') && $request->user_id != null) {
             $sales->where('user_id', $request->user_id);
         }
-        if ($request->has('from') && $request->has('to')) {
+        if ($request->input('from') && $request->input('to')) {
             $sales->whereBetween('created_at', [Carbon::parse($request->from), Carbon::parse($request->to)]);
         }
         $sales = $sales->groupBy('created_at')->get();
@@ -138,21 +134,21 @@ class SalesController extends Controller
                        $sales->where('branch_id', $request->branch_id);
                     }*/
 
-    /*        if ($request->has('safe_id') && $request->safe_id != null) {
-               $sales->where('safe_id', $request->safe_id);
-            }*/
+        /*        if ($request->input('safe_id') && $request->safe_id != null) {
+                   $sales->where('safe_id', $request->safe_id);
+                }*/
 
-            if ($request->has('user_id') && $request->user_id != null) {
-               $sales->where('user_id', $request->user_id);
-            }
-/*
-            if ($request->has('product_id') && $request->product_id != null) {
-                $sales->whereHas('items', function ($item) use ($request) {
-                    $item->where('product_id', $request->product_id);
-                });
-            }*/
+        if ($request->input('user_id') && $request->user_id != null) {
+            $sales->where('user_id', $request->user_id);
+        }
+        /*
+                    if ($request->input('product_id') && $request->product_id != null) {
+                        $sales->whereHas('items', function ($item) use ($request) {
+                            $item->where('product_id', $request->product_id);
+                        });
+                    }*/
 
-        if ($request->has('from') && $request->has('to')) {
+        if ($request->input('from') && $request->input('to')) {
             $sales->whereBetween('created_at', [Carbon::parse($request->from), Carbon::parse($request->to)]);
         }
 
@@ -170,7 +166,7 @@ class SalesController extends Controller
     public function daily_earnings(Request $request)
     {
         $requests = request()->all();
-        if ($request->has('company_id')) {
+        if ($request->input('company_id')) {
             $sales = AccountingSale::join('accounting_sales_items', 'accounting_sales.id', 'accounting_sales_items.sale_id')
                 ->select(
                     'accounting_sales.id',
@@ -183,25 +179,25 @@ class SalesController extends Controller
                     \DB::raw('sum(accounting_sales_items.price) as productPrice'),
                     'accounting_sales.created_at'
                 );
-            if ($request->has('branch_id') && $request->branch_id != null) {
+            if ($request->input('branch_id') && $request->branch_id != null) {
                 $sales = $sales->where('branch_id', $request->branch_id);
             }
 
-            if ($request->has('session_id') && $request->session_id != null) {
+            if ($request->input('session_id') && $request->session_id != null) {
                 $sales = $sales->where('session_id', $request->session_id);
             }
 
-            if ($request->has('user_id') && $request->user_id != null) {
+            if ($request->input('user_id') && $request->user_id != null) {
                 $sales = $sales->where('user_id', $request->user_id);
             }
 
-            if ($request->has('product_id') && $request->product_id != null) {
+            if ($request->input('product_id') && $request->product_id != null) {
                 $sales = $sales->whereHas('items', function ($item) use ($request) {
                     $item->where('product_id', $request->product_id);
                 });
             }
 
-            if ($request->has('date') && $request->date != null) {
+            if ($request->input('date') && $request->date != null) {
                 $sales = $sales->whereDate('accounting_sales.created_at', Carbon::parse($request->date));
             }
 //           dd($sales->get());
@@ -246,10 +242,7 @@ class SalesController extends Controller
             $sales = $sales->whereBetween('accounting_sales.created_at', [Carbon::parse($request->from), Carbon::parse($request->to)]);
         }
 
-            $sales = $sales->groupBy('date')->get();
-        } else {
-            $sales = collect();
-        }
+        $sales = $sales->groupBy('date')->get();
 
         return view('AccountingSystem.reports.sales.period-earnings', compact('sales', 'requests'));
     }
@@ -293,11 +286,17 @@ class SalesController extends Controller
             $q->whereBetween('created_at', [$request->from, $request->to]);
         });
 
-        $sales = $sales->groupBy('product_id','unit_id','price')
+        $sales->when($request->category_id, function ($q) use ($request) {
+            $q->whereHas('product', function ($q) {
+                $q->where('category_id', \request('category_id'));
+            });
+        });
+
+        $sales = $sales->groupBy('product_id', 'unit_id', 'price')
             ->selectRaw("product_id,sum(quantity) as quantity,price,(price * sum(quantity)) as total,unit_id")
             ->get();
 
         return view('AccountingSystem.reports.sales.sales-improved', compact('sales'));
-      //  return $dataTable->render('AccountingSystem.reports.sales.sales-improved');
+        //  return $dataTable->render('AccountingSystem.reports.sales.sales-improved');
     }
 }
