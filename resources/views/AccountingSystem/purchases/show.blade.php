@@ -787,7 +787,7 @@
 			<div class="card-body ">
 				<h4 class="card-title">الفاتوره</h4>
 				<div class="container-fluid the-bill-design too-be-topped panel panel-flat" id="div-to-print">
-					<div class="panel-heading"> 
+					<div class="panel-heading">
 					<!-- <div class="one-bill-inpt the-bill-logo text-center the-bill-number" style="border-bottom:4px solid #333;padding-bottom: 0;margin-bottom: 15px">
 						<img src="{{asset('dashboard/assets/app/media/img/logos/20191031163554-شعار رمانة.png')}}">
 					</div> -->
@@ -798,7 +798,7 @@
 						<i class="ti-location-pin"></i>
 					</div>
 					<div class="flex-col edit-no-fatora">
-					
+
 						<div class="row foateer-label">
 							<div class="form-group col-sm-4">
 								<label> اسم المورد </label>
@@ -822,7 +822,7 @@
 							</div>
 							<div class="form-group col-sm-4">
 								<label>مدخل الفاتوره :</label>
-								<input class="selectpicker form-control inline-control" value="{!! $purchase->user->name !!}" type="text" readonly>
+								<input class="selectpicker form-control inline-control" value="{!! $purchase->user?->name !!}" type="text" readonly>
 							</div>
 						</div>
 						<div class="flex-col mar-top-15">

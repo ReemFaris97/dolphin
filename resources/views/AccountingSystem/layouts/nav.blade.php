@@ -425,7 +425,7 @@
 
                                         <li><a href="{{route('accounting.sales.index')}}"><i class="icon-eye"></i> عرض
                                                 الفواتير </a></li>
-                                        <li><a href="{{route('accounting.sales.create')}}"><i class="icon-eye"></i>
+                                        <li><a href="{{route('accounting.sells_points.login')}}"><i class="icon-eye"></i>
                                                 فاتوره بيع </a></li>
 
                                     </ul>
@@ -729,9 +729,16 @@
                             <li class="dropdown-submenu dropdown-submenu-right"><a href="#"><i class="icon-basket"></i>
                                     تقرير المبيعات </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="{{route('accounting.reports.sessions_report')}}"><i
-                                                class="icon-eye"></i>
-                                            تقرير حركه بيع </a></li>
+                                    <li>
+                                        <a href="{{route('accounting.reports.improvedSales')}}"><i class="icon-eye"></i>
+                                            تقرير   المبيعات معدل
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('accounting.reports.sessions_report')}}"><i class="icon-eye"></i>
+                                            تقرير حركه بيع
+                                        </a>
+                                    </li>
 
                                     <li><a href="{{route('accounting.reports.sales_period')}}"><i class="icon-eye"></i>
                                             خلال فترة زمنية </a></li>

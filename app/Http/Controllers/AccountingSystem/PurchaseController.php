@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
+use App\DataTables\AccountingPurchasesDataTable;
 use App\Models\AccountingSystem\AccountingBranch;
 use App\Models\AccountingSystem\AccountingCompany;
 use App\Models\AccountingSystem\AccountingProduct;
@@ -27,16 +28,13 @@ class PurchaseController extends Controller
     use Viewable;
     use PurchaseOperation;
     private $viewable = 'AccountingSystem.purchases.';
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $purchases =AccountingPurchase::all()->reverse();
 
-        return $this->toIndex(compact('purchases'));
+
+    public function index(AccountingPurchasesDataTable $dataTable)
+    {
+      //  $purchases =AccountingPurchase::all()->reverse();
+       // return $this->toIndex(compact('purchases'));
+        return $dataTable->render('AccountingSystem.purchases.index');
     }
 
     /**

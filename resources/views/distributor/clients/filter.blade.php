@@ -6,7 +6,7 @@
             <div class="form-group row ">
                 <div class="col-12 col-md-3">
                     <label class="  control-label">اسم المندوب </label>
-                    {!! Form::select('user_id',users(), request('user_id'),['class' =>'form-control select2'.($errors->has('user_id') ? ' is-invalid' : null)  ]) !!}
+                    {!! Form::select('user_id[]',users(), request('user_id'),['class' =>'form-control select2'.($errors->has('user_id') ? ' is-invalid' : null) ,'multiple'=>'multiple']) !!}
                     @error('user_id')
                     <div class="invalid-feedback" style="color: #ef1010">
                         {{ $message }}
@@ -15,7 +15,7 @@
                 </div>
                 <div class="col-12 col-md-3">
                     <label class="  control-label">اسم المسار</label>
-                    {!! Form::select('route_id',routes(), request('route_id'),['class' =>'form-control select2'.($errors->has('route_id') ? ' is-invalid' : null)  ]) !!}
+                    {!! Form::select('route_id[]',routes(), request('route_id'),['class' =>'form-control select2'.($errors->has('route_id') ? ' is-invalid' : null) , 'multiple'=>'multiple' ]) !!}
                     @error('route_id')
                     <div class="invalid-feedback" style="color: #ef1010">
                         {{ $message }}
@@ -24,7 +24,7 @@
                 </div>
                 <div class="col-12 col-md-3">
                     <label class="  control-label">شِريحة العميل  </label>
-                    {!! Form::select('class_id',classes(), request('class_id'),['class' =>'form-control select2'.($errors->has('class_id') ? ' is-invalid' : null)  ]) !!}
+                    {!! Form::select('class_id[]',classes(), request('class_id'),['class' =>'form-control select2'.($errors->has('class_id') ? ' is-invalid' : null),'multiple'=>'multiple'  ]) !!}
                     @error('class_id')
                     <div class="invalid-feedback" style="color: #ef1010">
                         {{ $message }}

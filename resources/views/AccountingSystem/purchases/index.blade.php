@@ -21,44 +21,47 @@
         </div>
 
         <div class="panel-body">
-            <table class="table datatable-button-init-basic">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th> رقم  الفاتورة </th>
-                    <th> تاريخ الفاتورة </th>
-                    <th> قيمة الفاتورة </th>
-                    <th class="text-center">العمليات</th>
-                </tr>
-                </thead>
-                <tbody>
 
-                @foreach($purchases as $row)
-                    <tr>
-                        <td>{!!$loop->iteration!!}</td>
-                        <td>{!! $row-> id!!}</td>
-                        <td>{!! $row->created_at!!}</td>
-                        <td>{!! $row->total!!}</td>
+            {!!  $dataTable->table()!!}
 
+{{--            <table class="table datatable-button-init-basic">--}}
+{{--                <thead>--}}
+{{--                <tr>--}}
+{{--                    <th>#</th>--}}
+{{--                    <th> رقم  الفاتورة </th>--}}
+{{--                    <th> تاريخ الفاتورة </th>--}}
+{{--                    <th> قيمة الفاتورة </th>--}}
+{{--                    <th class="text-center">العمليات</th>--}}
+{{--                </tr>--}}
+{{--                </thead>--}}
+{{--                <tbody>--}}
 
-                        <td class="text-center">
-                            <a href="{{route('accounting.purchases.show',$row->id)}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
-                            <a href="{{route('accounting.purchases.edit',$row->id)}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
-
-                            <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
-
-                            {!!Form::open( ['route' => ['accounting.purchases.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
-                            {!!Form::close() !!}
-
-                        </td>
-                    </tr>
-
-                @endforeach
+{{--                @foreach($purchases as $row)--}}
+{{--                    <tr>--}}
+{{--                        <td>{!!$loop->iteration!!}</td>--}}
+{{--                        <td>{!! $row-> id!!}</td>--}}
+{{--                        <td>{!! $row->created_at!!}</td>--}}
+{{--                        <td>{!! $row->total!!}</td>--}}
 
 
+{{--                        <td class="text-center">--}}
+{{--                            <a href="{{route('accounting.purchases.show',$row->id)}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>--}}
+{{--                            <a href="{{route('accounting.purchases.edit',$row->id)}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>--}}
 
-                </tbody>
-            </table>
+{{--                            <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>--}}
+
+{{--                            {!!Form::open( ['route' => ['accounting.purchases.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}--}}
+{{--                            {!!Form::close() !!}--}}
+
+{{--                        </td>--}}
+{{--                    </tr>--}}
+
+{{--                @endforeach--}}
+
+
+
+{{--                </tbody>--}}
+{{--            </table>--}}
         </div>
 
     </div>
@@ -67,7 +70,7 @@
 @endsection
 
 @section('scripts')
-
+    {!!$dataTable->scripts()  !!}
     <script>
         function Delete(id) {
             var item_id=id;
