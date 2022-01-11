@@ -160,7 +160,7 @@ class DistributorRoutesController extends Controller
 
     public function closeRouteBluck(Request $request)
     {
-        $this->closeRouteBluck($request->routes_ids);
+        $this->closeRoutes($request->routes_ids);
         toast('تم غلق المسارات ', 'success', 'top-right');
 
         return back();
@@ -169,7 +169,7 @@ class DistributorRoutesController extends Controller
     public function closeRoutes($routes):void
     {
         foreach ($routes as $route_id) {
-            $request=(new Request([], ['route_id'=>$route_id]));
+            $request=(new Request(['route_id'=>$route_id]));
             // $request->fi
             app(RouteController::class)->store($request);
         }
