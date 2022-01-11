@@ -1,7 +1,7 @@
 
 @extends('AccountingSystem.layouts.master')
-@section('title','تقرير  المشتريات معدل  ')
-@section('parent_title','التقارير ')
+@section('title','تقرير  مرتجعات المبيعات معدل  ')
+@section('parent_title','مرتجعات المبيعات ')
 {{-- @section('action', URL::route('accounting.purchases.index')) --}}
 @section('styles')
     <link rel="stylesheet"
