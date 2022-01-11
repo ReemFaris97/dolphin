@@ -770,7 +770,7 @@ if (!Number.prototype.$truncate) {
                     .val());
                 var productPrice = +($(this).parents("tr.single-row-wrapper").find(".unit-price input").val());
                 var theUnitTax =+( $(this).parents("tr.single-row-wrapper").find(".unit-total-tax input").val());
-                var netTax = (parseFloat(theUnitTax) / 100) * parseFloat(theQuantity) * parseFloat(theUnitPrice);
+                var netTax = (parseFloat(theUnitTax) / 100) * parseFloat(theQuantity) * parseFloat(productPrice);
                 var quantityXprice = parseFloat(productPrice) * parseFloat(theQuantity);
                 +($(this).parents('.single-row-wrapper').find(".quantityXprice").text(quantityXprice.$truncate(
                     rondingNumber)));
@@ -995,6 +995,7 @@ if (!Number.prototype.$truncate) {
                     } else if (!($(rows[i]).find(".effectTax").is(":checked"))) {
                         var newNetTax = parseFloat($('#row' + onlyModNum).find('.single-price-after').text())
                     }
+                    debugger
                     var newWholePriceAfter = parseFloat(finalAftDisc) + parseFloat(newNetTax);
 
                     $('#row' + onlyModNum).find('.whole-price-after')
