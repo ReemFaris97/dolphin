@@ -18,6 +18,15 @@ class CreateAccountingProductionItemsTable extends Migration
 
             $table->unsignedBigInteger('production_id')->nullable();
             $table->foreign('production_id')->references('id')
+<<<<<<< HEAD
+                ->on('accounting_productions')->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->unsignedBigInteger('product_id')->nullable();
+            $table->foreign('product_id')->references('id')
+                ->on('accounting_products')->onDelete('cascade')
+                ->onUpdate('cascade');
+=======
                  ->on('accounting_productions')->onDelete('cascade')
                  ->onUpdate('cascade');
 
@@ -25,6 +34,7 @@ class CreateAccountingProductionItemsTable extends Migration
             $table->foreign('product_id')->references('id')
                  ->on('accounting_products')->onDelete('cascade')
                  ->onUpdate('cascade');
+>>>>>>> 06c87c9d7921fde4a7e1777d79c9ba5892bb35e8
 
             $table->unsignedBigInteger('unit_id')->index()->nullable();
             // $table->foreign('unit_id')->references('id')
