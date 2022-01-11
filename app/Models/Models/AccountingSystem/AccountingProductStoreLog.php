@@ -5,6 +5,7 @@ namespace App\Models\Models\AccountingSystem;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductStore;
 use App\Models\AccountingSystem\AccountingProductSubUnit;
+use App\Models\AccountingSystem\AccountingStore;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,7 +21,16 @@ class AccountingProductStoreLog extends Model
 
         
         static::created(function ($log) {
-            $log->type=='in'? $log->product_store->increment('quantity', $log->amount):$log->product_store->decrement('quantity', $log->amount);
+            if ($log->product_store==null) {
+                AccountingProductStore::firstOrCreate(
+                    [
+            'product_id'=>$this->product_id,
+            'store_id'=>request()->store_id??AccountingStore::first()->id,
+        ],
+                    ['quantity'=>0]
+                )->id;
+            }
+            $log->type=='in'? $log->product_store?->increment('quantity', $log->amount):$log->product_store?->decrement('quantity', $log->amount);
         });
     }
     public function product()
