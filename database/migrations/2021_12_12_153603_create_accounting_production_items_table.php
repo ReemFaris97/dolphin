@@ -13,28 +13,28 @@ class CreateAccountingProductionItemsTable extends Migration
      */
     public function up()
     {
-        // Schema::create('accounting_production_items', function (Blueprint $table) {
-        //     $table->id();
+         Schema::create('accounting_production_items', function (Blueprint $table) {
+             $table->id();
 
-        //     $table->unsignedBigInteger('production_id')->nullable();
-        //     $table->foreign('production_id')->references('id')
-        //         ->on('accounting_productions')->onDelete('cascade')
-        //         ->onUpdate('cascade');
+             $table->unsignedBigInteger('production_id')->nullable();
+             $table->foreign('production_id')->references('id')
+                 ->on('accounting_productions')->onDelete('cascade')
+                 ->onUpdate('cascade');
 
-        //     $table->unsignedBigInteger('product_id')->nullable();
-        //     $table->foreign('product_id')->references('id')
-        //         ->on('accounting_products')->onDelete('cascade')
-        //         ->onUpdate('cascade');
+             $table->unsignedBigInteger('product_id')->nullable();
+             $table->foreign('product_id')->references('id')
+                 ->on('accounting_products')->onDelete('cascade')
+                 ->onUpdate('cascade');
 
-        //     $table->unsignedBigInteger('unit_id')->index()->nullable();
-        //     // $table->foreign('unit_id')->references('id')
-        //     //     ->on('accounting_products_subunits')->onDelete('cascade')
-        //     //     ->onUpdate('cascade');
+             $table->unsignedBigInteger('unit_id')->index()->nullable();
+             // $table->foreign('unit_id')->references('id')
+             //     ->on('accounting_products_subunits')->onDelete('cascade')
+             //     ->onUpdate('cascade');
 
-        //     $table->string('quantity')->nullable();
+             $table->string('quantity')->nullable();
 
-        //     $table->timestamps();
-        // });
+             $table->timestamps();
+         });
     }
 
     /**
