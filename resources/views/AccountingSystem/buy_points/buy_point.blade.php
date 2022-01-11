@@ -960,20 +960,27 @@ if (!Number.prototype.$truncate) {
                         if (((parseFloat($(rows[0]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc) !=
                             0) {
                                 
-                            $("tr#row" + onlyModNum).find(".per1").html(
+                                let money=
                                 parseFloat(
                                     (parseFloat($(rows[0]).find('.singleSpecialDiscByPer').val()) / 100) *
-                                    parseFloat( $("tr#row" + onlyModNum).find('.quantityXprice').text())).$truncate(rondingNumber) + 'ريال')
-                            $("tr#row" + onlyModNum).find(".bud1").html('---')
+                                    parseFloat( $("tr#row" + onlyModNum).find('.quantityXprice').text())).$truncate(rondingNumber) + 'ريال';
+                            $("tr#row" + onlyModNum).find(".per1").html(
+                                $(rows[0]).find('.singleSpecialDiscByPer').val()+'%')
+                            $("tr#row" + onlyModNum).find(".bud1").html(money)
                         }
                     }
                     if (i === 1) {
                         if (((parseFloat($(rows[1]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc) !=
                             0) {
-                            $("tr#row" + onlyModNum).find(".per2").html(parseFloat(
-                                (parseFloat($(rows[1]).find('.singleSpecialDiscByPer').val()) / 100) *
-                                parseFloat( $("tr#row" + onlyModNum).find('.quantityXprice').text())).$truncate(rondingNumber) + 'ريال')
-                            $("tr#row" + onlyModNum).find(".bud2").html('---')
+
+  let money=
+                                parseFloat(
+                                    (parseFloat($(rows[1]).find('.singleSpecialDiscByPer').val()) / 100) *
+                                    parseFloat( $("tr#row" + onlyModNum).find('.quantityXprice').text())).$truncate(rondingNumber) + 'ريال';
+                            $("tr#row" + onlyModNum).find(".per2").html(
+                                $(rows[1]).find('.singleSpecialDiscByPer').val()+'%')
+                            $("tr#row" + onlyModNum).find(".bud2").html(money)
+
                         }
                     }
 
