@@ -972,14 +972,15 @@ if (!Number.prototype.$truncate) {
                     if (i === 1) {
                         if (((parseFloat($(rows[1]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc) !=
                             0) {
-                          
-                                let money=
+
+  let money=
                                 parseFloat(
-                                    (parseFloat($(rows[0]).find('.singleSpecialDiscByPer').val()) / 100) *
+                                    (parseFloat($(rows[1]).find('.singleSpecialDiscByPer').val()) / 100) *
                                     parseFloat( $("tr#row" + onlyModNum).find('.quantityXprice').text())).$truncate(rondingNumber) + 'ريال';
-                            $("tr#row" + onlyModNum).find(".per1").html(
-                                $(rows[0]).find('.singleSpecialDiscByPer').val()+'%')
-                            $("tr#row" + onlyModNum).find(".bud1").html(money)
+                            $("tr#row" + onlyModNum).find(".per2").html(
+                                $(rows[1]).find('.singleSpecialDiscByPer').val()+'%')
+                            $("tr#row" + onlyModNum).find(".bud2").html(money)
+
                         }
                     }
 
