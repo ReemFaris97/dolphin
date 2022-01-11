@@ -296,6 +296,7 @@ class RouteController extends Controller
         ];
         $validation = $this->apiValidation($request, $rules);
 
+        
         if ($validation instanceof Response) {
             return $validation;
         }

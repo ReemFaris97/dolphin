@@ -419,10 +419,15 @@ function cells($colum=null)
 
 function saveImage($file, $folder = '/')
 {
-    $fileName = date('YmdHis') . '-' . $file->getClientOriginalName();
-    ;
-    $path = \Storage::disk('public')->putFileAs($folder, $file, $fileName);
-    return 'storage/' . $path;
+    try {
+        $fileName = date('YmdHis') . '-' . optional($file)->getClientOriginalName();
+        ;
+        $path = \Storage::disk('public')->putFileAs($folder, $file, $fileName);
+        return 'storage/' . $path;
+    } catch (Exception $e) {
+        Log::error($e);
+    }
+    return '';
 }
 
 
@@ -439,9 +444,9 @@ function uploader($request, $img_name)
     $path = Storage::disk('public')->putFileAs(uploadpath(), $file, $fileName);
     return $path;
 }
-function validate($request,$rules){
-    $validator=Validator::make($request->only(array_keys($rules)),$rules);
-
+function validate($request, $rules)
+{
+    $validator=Validator::make($request->only(array_keys($rules)), $rules);
 }
 
 class responder
