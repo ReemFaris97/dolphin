@@ -21,8 +21,16 @@ class SpinnersController extends Controller
                 'purchases_returns'=>'100.00',
                 'credit'=>'1000.00'
             ],
-            'permissions'=>[
 
+            'permissions'=> [
+                'bounds',
+                'reports',
+                'invoices',
+                'users',
+                'banks',
+                'products',
+                'offers',
+                '*'
             ]
         ]);
     }
