@@ -5,9 +5,7 @@ namespace App\Models\AccountingSystem;
 use App\Models\Supplier\Bank;
 use App\Models\Supplier\Invoice;
 use App\Models\Supplier\SupplierProduct;
-use App\Traits\HashPassword;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\AccountingSystem\AccountingSupplier
@@ -62,8 +60,8 @@ class AccountingSupplier extends Model
 {
     protected $table='accounting_suppliers';
 
-    protected $fillable = ['name','email','phone','credit','branch_id','amount','password','image','bank_id',
-        'bank_account_number','tax_number','is_active','balance','account_id','phones','commercial_record','commercial_image','licence_image'
+    protected $fillable = ['name', 'email', 'phone', 'credit', 'branch_id', 'amount', 'password', 'image', 'bank_id',
+        'bank_account_number', 'tax_number', 'is_active', 'balance', 'account_id', 'phones', 'commercial_record', 'commercial_image', 'licence_image'
     ];
 
 
@@ -72,13 +70,22 @@ class AccountingSupplier extends Model
         return $this->hasMany(AccountingSupplierCompany::class, 'supplier_id');
     }
 
+    public function purchases()
+    {
+        return $this->hasMany(AccountingPurchase::class, 'supplier_id');
+    }
+    public function purchaseReturns()
+    {
+        return $this->hasMany(AccountingPurchaseReturn::class, 'supplier_id');
+    }
 
     public function balances()
     {
-        $balance=AccountingPurchase::where('supplier_id', $this->id)->where('payment', 'agel')->sum('total');
+        $balance = AccountingPurchase::where('supplier_id', $this->id)->where('payment', 'agel')->sum('total');
 
         return $balance;
     }
+
     public function account()
     {
         return $this->belongsTo(AccountingAccount::class, 'account_id');
