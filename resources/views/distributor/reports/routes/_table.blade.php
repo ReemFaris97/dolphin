@@ -1,3 +1,5 @@
+<form method="post" action="{{route('distributor.close-routes')}}">
+@csrf
 <table class="table table-striped- table-bordered table-hover table-checkable" id="m_table_1">
     <thead>
     <tr>
@@ -35,7 +37,16 @@
 
 
 
-            <td>{{-- <a href="{{route('distributor.reports.routes.show',$row->dr_id) }}" class="btn btn-success">عرض</a> --}}</td>
+            <td>
+            @if($row->finish_report_id==null)
+            <div class="m-checkbox-inline">
+                <label class="m-checkbox">
+                    <input class="md-check" name="routes_ids[]" value="{{$row->dr_id}}" type="checkbox">
+                    <span></span>
+                </label>
+            </div>
+            @endif
+           </td>
 
         </tr>
     @endforeach
@@ -57,3 +68,7 @@
     </tr>
     </tfoot>
 </table>
+
+<button class="btn btn-danger">انهاء </button>
+
+</form>

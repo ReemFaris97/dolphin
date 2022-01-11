@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Distributor;
 
+use App\Http\Controllers\Api\Distributor\RouteController;
 use App\Models\DistributorRoute;
 use App\Models\DistributorTransaction;
 use App\Models\User;
@@ -70,7 +71,6 @@ class DistributorRoutesController extends Controller
             [
                 'route' => DistributorRoute::with("trips")->findOrFail($id)]
         );
-
     }
 
     /**
@@ -107,7 +107,6 @@ class DistributorRoutesController extends Controller
         $route->update($request->all());
         toast('تم تعديل المسار بنجاح', 'success', 'top-right');
         return redirect()->route('distributor.routes.index');
-
     }
 
     /**
@@ -157,5 +156,22 @@ class DistributorRoutesController extends Controller
         ]);
         toast('تم الغاء تفعيل المسار ', 'success', 'top-right');
         return back();
+    }
+
+    public function closeRouteBluck(Request $request)
+    {
+        $this->closeRouteBluck($request->routes_ids);
+        toast('تم غلق المسارات ', 'success', 'top-right');
+
+        return back();
+    }
+
+    public function closeRoutes($routes):void
+    {
+        foreach ($routes as $route_id) {
+            $request=(new Request([], ['route_id'=>$route_id]));
+            // $request->fi
+            app(RouteController::class)->store($request);
+        }
     }
 }

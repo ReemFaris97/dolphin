@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Distributor\Reports\RouteController;
+
 Route::get('/', function () {
     return redirect()->route('distributor.home');
 });
@@ -66,6 +68,7 @@ Route::middleware('distributor')->group(function () {
     Route::get('dis_available_route/{id}', 'DistributorRoutesController@disavailable')->name('routes.dis_available');
     Route::post('/trips/update-arrange', 'TripsController@updateArrange')->name('trips.update-arrange');
     Route::post('/routes/update-arrange', 'DistributorRoutesController@updateArrange')->name('routes.update-arrange');
+    Route::post('finish-routes', ['DistributorRoutesController@closeRouteBluck'])->name('close-routes');
     Route::resource('/trips', 'TripsController');
     Route::resource('/bills', 'BillController');
     Route::post('/pay/{id}', 'BillController@pay')->name('bills.pay');
@@ -117,7 +120,5 @@ Route::middleware('distributor')->group(function () {
         Route::get('selling-movement/report', 'SellingMovementController@show')->name('selling_movement.show');
 
         Route::get('bills/report', 'BillReportController@index')->name('billsReport');
-
-
     });
 });
