@@ -15,6 +15,8 @@ class CreateChatsTable extends Migration
     {
         Schema::create('chats', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(\App\Models\AccountingSystem\AccountingCompany::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(\App\Models\AccountingSystem\AccountingSupplier::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

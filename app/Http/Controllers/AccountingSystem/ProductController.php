@@ -73,7 +73,7 @@ class ProductController extends Controller
         $cells = AccountingColumnCell::get(['id', 'name as label']);
 //        $product= AccountingProduct::make();
 
-        $product = collect(AccountingProduct::make()->getFillable())->mapWithKeys(fn($c) => [$c => null]);
+        $product = collect(AccountingProduct::make()->getFillable())->mapWithKeys(fn ($c) => [$c => null]);
         $product['name'] = session('name');
         $product['main_unit'] = session('unit');
         $product['purchasing_price'] = session('price');
@@ -81,7 +81,7 @@ class ProductController extends Controller
         $product['supplier_id'] = session('accounting_supplier_id');
         $product['company_id'] = session('accounting_company_id');
 
-        $product['bar_code'] = array_filter([session('barcode')], fn($q) => $q != null);
+        $product['bar_code'] = array_filter([session('barcode')], fn ($q) => $q != null);
 //        \Arr::add($product['bar_code'],0,session('barcode'));
 
         $product['sub_products'] = [];
@@ -397,7 +397,7 @@ class ProductController extends Controller
         ///////  /// / //////subunits Arrays//////////////////////////////
 
         foreach ($request->sub_units as $sub_unit) {
-             $product->sub_units()->UpdateOrCreate(['id' => \Arr::get($sub_unit, 'id')], [
+            $product->sub_units()->UpdateOrCreate(['id' => \Arr::get($sub_unit, 'id')], [
                 'name' => $sub_unit['name'],
                 'bar_code' => $sub_unit['bar_code'],
                 'main_unit_present' => $sub_unit['main_unit_present'],
@@ -477,7 +477,6 @@ class ProductController extends Controller
         }
         /////////////////////product_taxs//////////////////////////////////////
         if ($request['tax_band_id']) {
-
             $taxs = $request['tax_band_id'];
             AccountingProductTax::where('product_id', $product->id)->delete();
             foreach ($taxs as $tax) {
@@ -488,10 +487,7 @@ class ProductController extends Controller
                     'tax_band_id' => $tax,
                     'tax' => $tax,
                 ]);
-
             }
-
-
         }
         //////////////////////product_services////////////////////////////
         if (isset($request['service_type'])) {
@@ -577,7 +573,7 @@ class ProductController extends Controller
         $product->load('category.company', 'sub_units');
 //        $product->load('store.model');
 //        dd(json_decode($product->bar_code));
-        $product['suppliers']=$product->suppliers()->pluck('accounting_suppliers    .id');
+        $product['suppliers']=$product->suppliers()->pluck('accounting_suppliers.id');
         $product['sub_products'] = AccountingProductComponent::where('product_id', $id)->get();
         $product['components'] = AccountingProductComponent::where('product_id', $id)->get();
         $product['sub_units'] = AccountingProductSubUnit::where('product_id', $id)->get();
