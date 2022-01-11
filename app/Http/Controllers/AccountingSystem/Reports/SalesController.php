@@ -13,6 +13,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\AccountingSystem\AccountingReturnSaleItem;
 
 class SalesController extends Controller
 {
@@ -297,6 +298,32 @@ class SalesController extends Controller
             ->get();
 
         return view('AccountingSystem.reports.sales.sales-improved', compact('sales'));
+        //  return $dataTable->render('AccountingSystem.reports.sales.sales-improved');
+    }
+
+
+    public function improvedReturnSales(Request $request)
+    {
+        $sales = AccountingReturnSaleItem::query()->with('product', 'unit');
+        $sales->when($request->product_id, function ($q) use ($request) {
+            $q->where('product_id', $request->product_id);
+        });
+
+        $sales->when($request->from and $request->to, function ($q) use ($request) {
+            $q->whereBetween('created_at', [$request->from, $request->to]);
+        });
+
+        $sales->when($request->category_id, function ($q) use ($request) {
+            $q->whereHas('product', function ($q) {
+                $q->where('category_id', \request('category_id'));
+            });
+        });
+
+        $sales = $sales->groupBy('product_id', 'unit_id', 'price')
+            ->selectRaw("product_id,sum(quantity) as quantity,price,(price * sum(quantity)) as total,unit_id")
+            ->get();
+
+        return view('AccountingSystem.reports.sales.return_sales-improved', compact('sales'));
         //  return $dataTable->render('AccountingSystem.reports.sales.sales-improved');
     }
 }
