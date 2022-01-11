@@ -24,7 +24,7 @@ class AccountingProductStoreLog extends Model
             if ($log->product_store==null) {
                 AccountingProductStore::firstOrCreate(
                     [
-            'product_id'=>$this->product_id,
+            'product_id'=>$log->product_id,
             'store_id'=>request()->store_id??AccountingStore::first()->id,
         ],
                     ['quantity'=>0]
