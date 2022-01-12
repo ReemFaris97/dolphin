@@ -63,8 +63,8 @@ class UserController extends Controller
     {
         $inputs = $request->validate([
             'name' => 'sometimes|string',
-            'phone' => 'sometimes|unique:suppliers_users,phone|phone:sa,eg',
-            'email' => 'sometimes|email|unique:suppliers_users,email',
+            'phone' => 'sometimes|phone:sa,eg|unique:suppliers_users,phone,'.$user->id,
+            'email' => 'sometimes|email|unique:suppliers_users,email,'.$user->id,
             'password' => 'sometimes|min:6',
             'permissions'=>'sometimes|array'
 
