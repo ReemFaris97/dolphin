@@ -32,8 +32,8 @@ class PurchaseController extends Controller
 
     public function index(AccountingPurchasesDataTable $dataTable)
     {
-      //  $purchases =AccountingPurchase::all()->reverse();
-       // return $this->toIndex(compact('purchases'));
+        //  $purchases =AccountingPurchase::all()->reverse();
+        // return $this->toIndex(compact('purchases'));
         return $dataTable->render('AccountingSystem.purchases.index');
     }
 
@@ -179,6 +179,25 @@ class PurchaseController extends Controller
 
         // alert()->success('تمت عملية الشراء بنجاح !')->autoclose(5000);
         // return back();
+    }
+
+
+
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function print($id)
+    {
+        $purchase =AccountingPurchase::findOrFail($id);
+        $product_items=AccountingPurchaseItem::where('purchase_id', $id)->get();
+        return view('AccountingSystem.purchases.print', compact(
+            'purchase',
+            'product_items'
+        ));
     }
 
 

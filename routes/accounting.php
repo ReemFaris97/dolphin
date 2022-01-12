@@ -301,6 +301,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/productsAjexPurchase', 'BuyPointController@getProductAjex');
     Route::get('/purchase/products-single-product/{product}', 'BuyPointController@selectedProduct')->name('purchase.single-product-ajax');
 
+    Route::get('purchases/{id}/print', 'PurchaseController@print');
     Route::resource('purchases', 'PurchaseController');
     Route::get('/productReturnPurchase', 'PurchaseReturnController@product');
     Route::get('/backup', 'SettingController@backup')->name('backup');
@@ -414,11 +415,11 @@ Route::middleware('admin')->group(function () {
     Route::resource('salaries', 'SalariesController');
     Route::post('debts-{id}', 'DebtController@payDebt')->name('payDebt');
 
-    Route::resource('suppliers-products','Suppliers\\SupplierProductController');
-    Route::resource('suppliers-banks','Suppliers\\BankController');
+    Route::resource('suppliers-products', 'Suppliers\\SupplierProductController');
+    Route::resource('suppliers-banks', 'Suppliers\\BankController');
 });
 
 
-Route::get('empty',function (){
+Route::get('empty', function () {
     return view('AccountingSystem.empty');
 });
