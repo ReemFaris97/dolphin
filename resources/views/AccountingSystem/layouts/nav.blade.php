@@ -734,6 +734,12 @@
                                             تقرير   المبيعات معدل
                                         </a>
                                     </li>
+
+                                           <li>
+                                        <a href="{{route('accounting.reports.returnimprovedSales')}}"><i class="icon-eye"></i>
+                                            تقرير   مرتجعات المبيعات معدل
+                                        </a>
+                                    </li>
                                     <li>
                                         <a href="{{route('accounting.reports.sessions_report')}}"><i class="icon-eye"></i>
                                             تقرير حركه بيع
