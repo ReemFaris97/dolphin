@@ -1,0 +1,339 @@
+@import url('https://fonts.googleapis.com/css?family=Tajawal');
+
+html,
+body {
+	font-family: 'Tajawal', sans-serif !important;
+}
+
+
+body{
+    direction: rtl;
+    font-family: "Tajawal" !important;
+    line-height: 1.6;
+    margin: 0;
+    -webkit-print-color-adjust: exact !important;
+    font-size: 14px;
+}
+/*==================================*/
+/* ========== component =======*/
+/*==================================*/
+:root {
+    --main-color:#3e4880;;
+    --secondry-color:#3d7cae;
+  }
+
+.block{
+    display: block;
+}
+.align-right{
+    text-align: right;
+}
+.pr-5{
+    padding-right: 5px;
+}
+.plr-10{
+    padding: 10px;
+}
+/*==================================*/
+/* ========== end component =======*/
+/*==================================*/
+
+
+/*==================================*/
+/* ========== start print  =======*/
+/*==================================*/
+.table-bordered {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+.table-bordered th {
+    border: 1px solid var(--secondry-color);
+}
+.table-bordered td {
+    border: 1px solid var(--main-color);
+}
+.header, .header-space {
+    height: 131px;
+}
+.footer, .footer-space {
+  height: 115px;
+}
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font-size: 15px;
+}
+
+
+.content-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fbfbfc;
+    padding: 5px 20px;
+    position: relative;
+}
+.content-header::after{
+    position: absolute;
+    content: '';
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 4px;
+    width: 100%;
+    background-color:var(--secondry-color);
+}
+.content-header img{
+  width: 90px;
+  height: 90px;
+}
+
+
+.parent-table{
+width:90%;
+margin: auto;
+}
+.content-header h3 , .content-header p{
+    margin: 0;
+}
+.content-header .content-div h4 {
+    font-size: 34px;
+    color: var(--main-color);
+}
+.content-header .content-div:nth-child(3) h4 {
+    font-size:24px;
+}
+.content-header p{
+    text-align: center;
+    color: var(--secondry-color);
+}
+
+
+/*======  seconde header ======*/
+.content-seconde-header{
+    display: flex;
+    color:var(--main-color);
+   /*  align-items: center; */
+}
+.content-seconde-header-item{
+    width: 33.33%;
+}
+.content-seconde-header-item:nth-child(2){
+    text-align: center;
+    justify-content: center;
+}
+.content-seconde-header-item:nth-child(2) h4{
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+}
+.content-items{
+    display: flex;
+    align-items: center;
+
+}
+.content-seconde-header-item:nth-child(2) .content-items{
+    justify-content: center;
+}
+.content-items div{
+    margin-left: 5px;
+}
+/*======  end seconde header ======*/
+/* .back-img-opacity{
+    background-image: url("logo.png");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+ */
+.mytable
+{
+    width: 100%;
+}
+table.table-bordered thead{
+    background-color: #fbfbfc;
+    font-size: 13px;
+    color: var(--secondry-color);
+
+}
+table.table-bordered {
+    text-align: center;
+    background-color: #ffffff30;
+
+}
+.report{
+    width: 600px;
+}
+.table-bordered  .net-foot{
+    background-color:#d1d3e2;;
+}
+.notes{
+    color: var(--main-color);
+    margin: 20px 0;
+}
+/* =============================================*/
+/*============== footer ==============*/
+/* =============================================*/
+.content-footer-signature {
+    display: flex;
+    margin: 15px 0;
+    font-size: 14px;
+}
+.content-footer-signature{
+    display: flex;
+    color: var(--main-color);
+    font-size: 13px;
+}
+.content-footer-signature .content-signature{
+width: 20%;
+text-align: center;
+}
+.content-iso-img img{
+width: 30px;
+}
+.last-footer {
+    display: flex;
+
+}
+.last-footer-padding{
+    position: relative;
+    background-color: #d1d3e0;
+    padding: 20px;
+    color: var(--main-color);
+    font-weight: bold;
+}
+.last-footer::after{
+    position: absolute;
+    content: '';
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 4px;
+    width: 100%;
+    background-color:var(--secondry-color);
+}
+.last-footer-location{
+    width: 70%;
+}
+.last-footer-location + div{
+width: 30%;
+}
+.content-iso-img {
+    height: 30px;
+}
+.last-footer p {
+    margin: 0;
+}
+.content-iso-img{
+    text-align: center;
+}
+.content-iso-img + p{
+    text-align: center;
+    color: var(--secondry-color);
+}
+
+.one-bill-inpt.the-bill-company.text-center {
+    text-align: center;
+}
+.one-bill-inpt.the-bill-company.text-center p{
+    margin: 0;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* ===================== start sanad print ===============*/
+.content-footer-signature-sanad{
+    display: flex;
+    color: var(--main-color);
+    font-size: 13px;
+}
+.content-footer-signature-sanad .content-signature{
+width: 33.33%;
+text-align: right;
+}
+.content-footer-signature-sanad .content-signature div.align-center{
+    text-align: center;
+}
+
+.content-item-dots div.content-dots{
+    position: relative;
+}
+.content-footer-signature-sanad .content-signature div.content-dots{
+    position: relative;
+}
+.content-footer-signature-sanad .content-signature div.content-dots::after {
+    content: '..........................................';
+    position: absolute;
+    z-index: -1;
+    right: 61px;
+}
+/* .content-item-dots span:nth-child(2)::after {
+    content: '..........................';
+} */
+h4.align-center.h4-title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    margin: 0;
+    margin-bottom: 8px;
+    color: var(--main-color);
+}
+.content-items.content-item-dots{
+   justify-content: start !important;
+}
+.tbody-poadding{
+    padding: 10px;
+}
+/* ============end sanad print =====================*/
+/* =============================================*/
+/*============== end footer ==============*/
+/* =============================================*/
+
+@media print {
+    @page {
+        margin: 0;
+    }
+    html,
+    body {
+        width: 210mm;
+        /* height: 297mm; */
+        min-height: 100vh;
+        font-size: 14px;
+
+    }
+    body {
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+    body {
+        margin: 0;
+        -webkit-print-color-adjust: exact !important;
+      }
+    .content-header{
+        background-color: #fbfbfc;
+    }
+    .content-header::after{
+        background-color:var(--secondry-color);
+    }
+    .report{
+        width: 600px;
+    }
+    .last-footer {
+        background-color: #d1d3e0;
+    }
+    .last-footer::after{
+        background-color:var(--secondry-color);
+    }
+
+
+
+
+}
