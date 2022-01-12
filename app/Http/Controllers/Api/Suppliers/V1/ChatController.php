@@ -59,7 +59,7 @@ class ChatController extends Controller
         $inputs = $request->validate([
             'message' => 'required|string',
             'attachment' => 'sometimes|nullable|file',
-            'type' => 'in:voice,image,video|required_with:attachment,message',
+            'type' => 'in:voice,image,video,message|required_with:attachment',
             'thumbnail' => 'sometimes|nullable|required_if:type,video'
         ]);
         $inputs['user_type'] = User::class;
