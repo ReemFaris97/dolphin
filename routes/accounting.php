@@ -301,7 +301,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/productsAjexPurchase', 'BuyPointController@getProductAjex');
     Route::get('/purchase/products-single-product/{product}', 'BuyPointController@selectedProduct')->name('purchase.single-product-ajax');
 
-    Route::get('purchases/{id}/print', 'PurchaseController@print');
+    Route::get('purchases/{id}/print', 'PurchaseController@print')->name('purchases.print');
     Route::resource('purchases', 'PurchaseController');
     Route::get('/productReturnPurchase', 'PurchaseReturnController@product');
     Route::get('/backup', 'SettingController@backup')->name('backup');
