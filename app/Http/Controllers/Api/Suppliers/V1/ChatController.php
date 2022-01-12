@@ -21,7 +21,7 @@ class ChatController extends Controller
         $user = auth()->user();
         $chat = Chat::firstOrCreate(['accounting_supplier_id' => $user->supplier_id, 'accounting_company_id' => request()->header('X-company-id')]);
 
-        $messages = $chat->messages()->latest()->paginate(request('limit', 10));
+        $messages = $chat->messages()->with('user.supplier')->latest()->paginate(request('limit', 10));
         return \responder::success(new BaseCollection($messages, MessageResource::class, ['chat_id' => $chat->id]));
     }
 
