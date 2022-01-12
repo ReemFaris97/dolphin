@@ -18,6 +18,7 @@ class User extends Authenticatable implements JWTSubject
         'address', 'lat', 'lng', 'landline', 'credit_limit', 'credit_date','reset_at','reset_code', 'parent_id', 'fcm_token_android', 'fcm_token_ios', 'supplier_id'];
     protected $images = ['commercial_image', 'licence_image', 'image'];
 
+    protected $casts = ['permissions' => 'array'];
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);

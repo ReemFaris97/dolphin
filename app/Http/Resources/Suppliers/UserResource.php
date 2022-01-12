@@ -29,7 +29,8 @@ class UserResource extends JsonResource
             'lng'=>$this->lng,
             'landline'=>$this->landline,
             'companies'=>CompanyResource::collection($this->companies),
-            'token'=>$this->token
+            'token'=>$this->token,
+            'permissions'=>$this->permissions
         ];
     }
 }
