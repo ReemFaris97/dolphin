@@ -202,7 +202,7 @@ unit_total_tax_enable
                                             <td class="row-num" width="40">{{ ++$key }}</td>
                                             <input type="hidden" name="product_id_old[]" value="{{ $row->product_id }}">
                                             <td class="product-name maybe-hidden name_enable"><a
-                                                    href="{{ route('accounting.products.show', ['id' => $row->product_id]) }}"
+                                                    href="{{ route('accounting.products.show', $row->product_id) }}"
                                                     target="_blank"
                                                     rel="noopener noreferrer">{{ $row->product->name }}</a>
                                             </td>
