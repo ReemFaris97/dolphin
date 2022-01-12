@@ -41,6 +41,9 @@ class InvoiceController extends Controller
         $invoice=$supplier->invoices()->Create();
         $invoice->items()->createMany($inputs['items']);
         $invoice->items_sum_total=$invoice->items()->sum('total');
+        activity()
+            ->causedBy(auth()->user())
+            ->log(sprintf('قام %s ب %s',auth()->user()->name,"إضافة عرض سعر رقم {$invoice->id}"));
         return  \responder::success(new InvoiceResource($invoice));
     }
 
@@ -74,6 +77,10 @@ class InvoiceController extends Controller
             'items.*.price' => 'required|numeric|gte:1'
         ]);
         $invoice->items()->createMany($inputs['items']);
+        activity()
+            ->causedBy(auth()->user())
+            ->log(sprintf('قام %s ب %s',auth()->user()->name,"تعديل عرض سعر رقم {$invoice->id}"));
+
         return \responder::success(new InvoiceResource($invoice));
 
     }
@@ -87,6 +94,9 @@ class InvoiceController extends Controller
     public function destroy(Invoice $invoice)
     {
         $invoice->delete();
+        activity()
+            ->causedBy(auth()->user())
+            ->log(sprintf('قام %s ب %s',auth()->user()->name,"حذف عرض سعر رقم {$invoice->id}"));
 
         return \responder::success('تم الحذف بنجاح !');
     }

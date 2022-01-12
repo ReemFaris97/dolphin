@@ -48,6 +48,9 @@ class ProductController extends Controller
         } else {
             $product = $user->products()->create($inputs);
         }
+        activity()
+            ->causedBy(auth()->user())
+            ->log(sprintf('قام %s ب %s',auth()->user()->name,"بإضافة منتج {$product->id}"));
 
 
         return \responder::success(new ProductResource($product));
@@ -83,6 +86,10 @@ class ProductController extends Controller
         ]);
         $user = auth()->user();
         $product->update($inputs);
+        activity()
+            ->causedBy(auth()->user())
+            ->log(sprintf('قام %s ب %s',auth()->user()->name,"تعديل منتج رقم {$product->id}"));
+
         return  \responder::success(new ProductResource($product));
     }
 
@@ -95,6 +102,10 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
+        activity()
+            ->causedBy(auth()->user())
+            ->log(sprintf('قام %s ب %s',auth()->user()->name,"حذف منتج رقم {$product->id}"));
+
         return  \responder::success('تم الحذف بنجاح !');
     }
 

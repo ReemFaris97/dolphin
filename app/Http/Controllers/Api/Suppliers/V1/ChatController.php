@@ -65,7 +65,9 @@ class ChatController extends Controller
         $inputs['user_type'] = User::class;
         $inputs['user_id'] = auth()->id();
         $message = $chat->messages()->create($inputs);
-
+        activity()
+            ->causedBy(auth()->user())
+            ->log(sprintf('قام %s ب %s',auth()->user()->name,"بإرسال رسالة ||  {$message->message}"));
         return \responder::success(new MessageResource($message));
     }
 

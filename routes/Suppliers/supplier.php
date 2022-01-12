@@ -31,4 +31,5 @@ Route::group(['middleware' => 'auth:supplier'],function (){
     Route::get('purchase-return-invoices',PurchaseReturnController::class);
     Route::get('home',HomeController::class );
     Route::get('spinners',SpinnersController::class );
+    Route::get('logs',LogController::class);
 });

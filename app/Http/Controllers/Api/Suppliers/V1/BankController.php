@@ -35,7 +35,9 @@ class BankController extends Controller
         ]);
        $user=auth()->user();
        $bank=$user->supplier->banks()->create($inputs);
-
+        activity()
+            ->causedBy(auth()->user())
+            ->log(sprintf('قام %s ب %s',auth()->user()->name,"إضافة حساب بنكي رقم  {$bank->id}"));
        return  \responder::success(new BankResource($bank));
     }
 
@@ -66,6 +68,10 @@ class BankController extends Controller
         ]);
 
         $bank->update($inputs);
+        activity()
+            ->causedBy(auth()->user())
+            ->log(sprintf("قام %s ب %s",auth()->user()->name," تعديل حساب بنكي رقم {$bank->id}"));
+
         return  \responder::success(new BankResource($bank));
         //
     }
@@ -79,6 +85,9 @@ class BankController extends Controller
     public function destroy(Bank $bank)
     {
         $bank->delete();
+        activity()
+            ->causedBy(auth()->user())
+            ->log(sprintf('قام %s ب %s',auth()->user()->name," حذف حساب بنكي رقم {$bank->id}"));
         return  \responder::success('تم الحذف بنجاح !');
     }
 }

@@ -38,6 +38,10 @@ class UserController extends Controller
         $parent = auth()->user()->parent ?? auth()->user();
         $inputs['supplier_id'] = $parent->supplier_id;
         $user = $parent->children()->create($inputs);
+        activity()
+            ->causedBy(auth()->user())
+            ->log(sprintf('قام %s ب %s',auth()->user()->name,"إضافة موظف {$user->name}"));
+
         return \responder::success(new UserResource($user));
     }
 
@@ -70,6 +74,9 @@ class UserController extends Controller
 
         ]);
         $user->update($inputs);
+        activity()
+            ->causedBy(auth()->user())
+            ->log(sprintf('قام %s ب %s',auth()->user()->name,"تعديل موظف {$user->name}"));
         return \responder::success(new UserResource($user));
     }
 
@@ -85,6 +92,10 @@ class UserController extends Controller
         if ($auth->id() == $user->id or $user->id==$user->parent_id){
             return \responder::error('عفوا لايمكن المسح يرجي مراجعة المسؤل');
         }
+        activity()
+            ->causedBy(auth()->user())
+            ->log(sprintf('قام %s ب %s',auth()->user()->name,"حذف موظف {$user->name}"));
+        $user->delete();
         return \responder::success('تم الحذف بنجاح !');
     }
 }
