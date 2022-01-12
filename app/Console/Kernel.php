@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Http\Controllers\Distributor\DistributorRoutesController;
+use App\Models\DistributorRouteReport;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -40,6 +42,11 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('assetMonthly:cron')
         ->monthlyOn(1, '8:00');
+
+        $schedule->call(function () {
+            $unfinished_report_id= DistributorRouteReport::where('finish_report_id', null)->pluck(['dr_id']);
+            app(DistributorRoutesController::class)->closeRoutes($unfinished_report_id);
+        })->dailyAt('00:00');
     }
 
     /**
