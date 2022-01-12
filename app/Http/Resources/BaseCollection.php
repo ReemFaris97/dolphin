@@ -6,8 +6,10 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class BaseCollection extends ResourceCollection
 {
-    public function __construct($resource, string $collects)
+    private $extra;
+    public function __construct($resource, string $collects, $extra=null)
     {
+        $this->extra = $extra;
         $this->collects = $collects;
         parent::__construct($resource);
     }
@@ -25,6 +27,7 @@ class BaseCollection extends ResourceCollection
                 'current_page' => $this->currentPage(),
                 'total_pages' => $this->lastPage(),
             ],
+            'extra'=>$this->extra
         ];
     }
 }

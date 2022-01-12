@@ -30,7 +30,7 @@ class AuthController extends Controller
             'fcm_token_android' => 'required_without:fcm_token_ios',
             'fcm_token_ios' => 'required_without:fcm_token_android',
             'companies'=>'required|array',
-            'companies.*'=>'required|exists:accounting_companies,id'
+            'companies.*'=>'required|exists:accounting_companies,id',
         ]);
         $supplier =AccountingSupplier::firstOrCreate(['name'=>$request['company_name']],[
             'company_name' => $request['company_name'],
@@ -40,6 +40,7 @@ class AuthController extends Controller
             'commercial_image'=>$request['commercial_image']
         ]);
         $inputs['supplier_id']=$supplier->id;
+        $inputs['permissions']=['*'];
         $user = User::create($inputs);
         $user->companies()->attach($request['companies']);
         $user->token = \JWTAuth::fromUser($user);

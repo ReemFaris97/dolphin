@@ -32,7 +32,8 @@ class UserController extends Controller
             'name' => 'required|string',
             'phone' => 'required|unique:suppliers_users,phone|phone:sa,eg',
             'email' => 'required|email|unique:suppliers_users,email',
-            'password' => 'required|min:6'
+            'password' => 'required|min:6',
+            'permissions'=>'required|array'
         ]);
         $parent = auth()->user()->parent ?? auth()->user();
         $inputs['supplier_id'] = $parent->supplier_id;
@@ -61,10 +62,12 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $inputs = $request->validate([
-            'name' => 'required|string',
-            'phone' => 'required|unique:suppliers_users,phone|phone:sa,eg',
-            'email' => 'required|email|unique:suppliers_users,email',
-            'password' => 'required|min:6'
+            'name' => 'sometimes|string',
+            'phone' => 'sometimes|unique:suppliers_users,phone|phone:sa,eg',
+            'email' => 'sometimes|email|unique:suppliers_users,email',
+            'password' => 'sometimes|min:6',
+            'permissions'=>'sometimes|array'
+
         ]);
         $user->update($inputs);
         return \responder::success(new UserResource($user));
