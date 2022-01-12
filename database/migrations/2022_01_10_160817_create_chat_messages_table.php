@@ -18,7 +18,7 @@ class CreateChatMessagesTable extends Migration
             $table->foreignIdFor(App\Models\Chat\Chat::class)->constrained()->cascadeOnDelete();
             $table->morphs('user');
             $table->text('message');
-            $table->enum('type', ['video', 'image', 'voice'])->nullable();
+            $table->enum('type', ['video', 'image', 'voice','message'])->nullable();
             $table->text('attachment')->nullable();
             $table->timestamps();
         });
