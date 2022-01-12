@@ -15,7 +15,8 @@ class User extends Authenticatable implements JWTSubject
     protected $table = 'suppliers_users';
 
     protected $fillable = ['name', 'company_name', 'commercial_number', 'phone', 'email', 'password', 'commercial_image', 'licence_image', 'image',
-        'address', 'lat', 'lng', 'landline', 'credit_limit', 'credit_date','reset_at','reset_code', 'parent_id', 'fcm_token_android', 'fcm_token_ios', 'supplier_id'];
+        'address', 'lat', 'lng', 'landline', 'credit_limit','permissions', 'credit_date','reset_at','reset_code', 'parent_id', 'fcm_token_android', 'fcm_token_ios',
+'supplier_id'];
     protected $images = ['commercial_image', 'licence_image', 'image'];
 
     protected $casts = ['permissions' => 'array'];
