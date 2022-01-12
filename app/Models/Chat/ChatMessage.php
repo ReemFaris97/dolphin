@@ -2,6 +2,8 @@
 
 namespace App\Models\Chat;
 
+use App\Events\NewMessageEvent;
+use App\Http\Resources\Suppliers\MessageResource;
 use App\Traits\HasImages;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +14,12 @@ class ChatMessage extends Model
 
     protected $fillable = ['chat_id', 'user_type', 'user_id', 'message', 'type', 'attachment', 'thumbnail'];
 
+    public static function booted()
+    {
+        static::created(function (ChatMessage $message) {
+            broadcast(new NewMessageEvent(new MessageResource($message),$message->chat_id))->toOthers();
+        });
+    }
 
     public function user()
     {

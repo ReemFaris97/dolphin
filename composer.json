@@ -28,6 +28,7 @@
         "milon/barcode": "^8.0",
         "orangehill/iseed": "^3.0",
         "propaganistas/laravel-phone": "^4.3",
+        "pusher/pusher-php-server": "^7.0",
         "realrashid/sweet-alert": "^3.2",
         "salla/zatca": "^1.0",
         "simplesoftwareio/simple-qrcode": "~4",
