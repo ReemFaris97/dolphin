@@ -522,6 +522,8 @@
                                     @can('عرض الموردين')
                                         <li><a href="{{route('accounting.suppliers.index')}}"><i class="icon-eye"></i>
                                                 عرض الموردين</a></li>
+                                        <li><a href="{{route('accounting.chats.index')}}"><i class="icon-eye"></i>
+                                                محادثات الموردين</a></li>
                                     @endcan
                                     @can('اضافة مورد')
                                         <li><a href="{{route('accounting.suppliers.create')}}"><i

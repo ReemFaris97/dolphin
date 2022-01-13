@@ -38,7 +38,7 @@ Route::middleware('admin')->group(function () {
     Route::resource('productionLines', 'ProductionLineController');
     Route::resource('productions', 'ProductionController');
     Route::resource('product-recipes', 'ProductRecipeController');
-
+    Route::resource('chats','ChatController');
     Route::resource('shifts', 'ShiftController');
     Route::resource('users', 'UserController');
     Route::resource('stores', 'StoreController');

@@ -28,9 +28,9 @@ class UserResource extends JsonResource
             'lat'=>$this->lat,
             'lng'=>$this->lng,
             'landline'=>$this->landline,
-            'companies'=>CompanyResource::collection($this->companies),
+            'companies'=>CompanyResource::collection(optional($this->companies)),
             'token'=>$this->token,
-            'permissions'=>$this->permissions
+            'permissions'=>is_array($this->permissions)?$this->permissions:[]
         ];
     }
 }
