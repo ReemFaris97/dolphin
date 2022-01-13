@@ -44,6 +44,10 @@ class AuthController extends Controller
         $user = User::create($inputs);
         $user->companies()->attach($request['companies']);
         $user->token = \JWTAuth::fromUser($user);
+        activity()
+            ->causedBy($user)
+            ->log('تسجيل جديد');
+
         return \responder::success(new UserResource($user));
     }
 
@@ -63,6 +67,9 @@ class AuthController extends Controller
         $user=auth()->user();
         $user->update($request->only('fcm_token_android','fcm_token_ios'));
         $user->token=\JWTAuth::fromUser($user);
+        activity()
+            ->causedBy($user)
+            ->log('تسجيل دخول');
         return \responder::success(new UserResource($user));
 
     }
@@ -94,7 +101,9 @@ class AuthController extends Controller
         ]);
         $user->update($inputs);
         $user->token = \JWTAuth::fromUser($user);
-
+        activity()
+            ->causedBy($user)
+            ->log('تعديل الملف الشخصي');
         return \responder::success(new UserResource($user));
     }
 
@@ -108,7 +117,9 @@ class AuthController extends Controller
             'reset_code' => 1234,
             'reset_at' => now()->toDateTimeString()
         ]);
-
+        activity()
+            ->causedBy($user)
+            ->log('طلب استعادة كلمة السر');
         return \responder::success(__('reset code sent successfully !'));
     }
 
@@ -138,6 +149,9 @@ class AuthController extends Controller
             'reset_code' => Str::random(15)
         ]);
         $user->token = \JWTAuth::fromUser($user);
+        activity()
+            ->causedBy($user)
+            ->log('استعاد كلمة السر بنجاح');
         return \responder::success(new UserResource($user));
     }
 }

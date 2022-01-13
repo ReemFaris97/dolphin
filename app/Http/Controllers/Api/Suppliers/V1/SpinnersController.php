@@ -30,6 +30,7 @@ class SpinnersController extends Controller
                 'banks',
                 'products',
                 'offers',
+                'logs',
                 '*'
             ]
         ]);
