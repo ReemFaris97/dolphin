@@ -18,6 +18,8 @@ class LogController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return \responder::success(new BaseCollection(Activity::latest()->paginate(50),LogResource::class));
+        return \responder::success(new BaseCollection(Activity::latest()->when(request('id'),function($q){
+            $q->where('causer_id',request('id'));
+        })->paginate(50),LogResource::class));
     }
 }
