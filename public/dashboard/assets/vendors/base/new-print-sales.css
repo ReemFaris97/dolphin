@@ -613,3 +613,6 @@ th div p {
 #myDivToPrint table{
     direction: rtl;
 }
+.header, .header-space {
+    height: 138px;
+}

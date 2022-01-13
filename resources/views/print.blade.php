@@ -1,9 +1,7 @@
 
 <link rel="stylesheet" type="text/css" href="{{ asset('dashboard/assets/vendors/base/new-print-sales.css') }}">
 <style>
-.header, .header-space {
-    height: 138px;
-}
+
 </style>
 <div class="m-portlet__body">
     <button type="button" id="print-all">طباعة</button>
@@ -18,7 +16,7 @@
                             <header>
                                 <div class="hd_inn">
                                     <div class="hd_txt">
-                                        <h3>مؤسسة دلفن التجارية</h3>
+                                        <h3>مؤسسة الرمانة التجارية</h3>
                                         <h3>Dolphin Trading Corporation</h3>
                                         <div class="flexx">
                                         </div>
