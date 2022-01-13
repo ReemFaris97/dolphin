@@ -94,5 +94,8 @@ Route::group(['prefix' => 'company'], function () {
  Route::get('/thebill', function () {
      return view('distributor.bill');
  });
+ Route::get('/print', function () {
+    return view('print');
+});
 
 Route::get('show-invoice/{uuid}', 'AccountingSystem\SaleController@showInvoice')->name('showInvoice');
