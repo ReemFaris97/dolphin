@@ -272,7 +272,7 @@ unit_total_tax_enable
                                 <tr>
                                     <th id="amountBeforeDariba" class="rel-cols" colspan="3">
                                         <span class="colorfulSpan"> المجموع</span>
-                                        <input type="hidden" class="dynamic-input" id="amountBeforeDariba1" name="amount">
+                                        <input type="hidden" class="dynamic-input" id="amountBeforeDariba1"  name="amount">
                                         <span class="dynamic-span">
                                             @if (Request::is('*/edit'))
                                                 {{ $purchase->amount }}
@@ -288,7 +288,7 @@ unit_total_tax_enable
                                             <label for="remove-tax">معفي ضريبيا</label>
                                         </span>
                                         <span class="colorfulSpan"> قيمة الضريبة</span>
-                                        <input type="hidden" class="dynamic-input" name="totalTaxs" id="amountOfDariba2">
+                                        <input type="hidden" class="dynamic-input" name="totalTaxs"  min="0" id="amountOfDariba2">
                                         <span class="dynamic-span">
                                             @if (Request::is('*/edit'))
                                                 {{ $purchase->tax }}
@@ -306,7 +306,7 @@ unit_total_tax_enable
                                     </th>
                                     <th id="amountAfterDariba" class="rel-cols" colspan="3">
                                         <span class="colorfulSpan">المجموع بعد الضريبة</span>
-                                        <input type="hidden" class="dynamic-input">
+                                        <input type="hidden" class="dynamic-input"  min="0">
                                         <span class="dynamic-span">
                                             @if (Request::is('*/edit'))
                                                 {{ $purchase->total }}
@@ -346,7 +346,7 @@ unit_total_tax_enable
                                     </th>
                                     <th class="rel-cols" colspan="3" id="demandedAmount">
                                         <span class="colorfulSpan">المطلوب دفعه</span>
-                                        <input type="hidden" name="total" id="demandedAmount1">
+                                        <input type="hidden" name="total" id="demandedAmount1" min="0">
                                         <span class="dynamic-span">0</span>
                                         <span class="rs"> ر.س </span>
                                     </th>
@@ -557,10 +557,10 @@ if (!Number.prototype.$truncate) {
 								${dateInpt}
 							</td>
 							<td class="unit-price maybe-hidden unit_price_enable" width="70">
-								<input type="number" class="form-control" step="any" value="${productPrice}" name="">
+								<input type="number" class="form-control" min="0" step="any" value="${productPrice}" name="">
 							</td>
 							<td class="unit-total-tax maybe-hidden unit_total_tax_enable" width="100">
-								<input type="number" placeholder="الضريبة"  data-original-tax="${totalTaxes}" value="${totalTaxes}" name="tax[]" class="form-control">
+								<input type="number" placeholder="الضريبة"  min="0" data-original-tax="${totalTaxes}" value="${totalTaxes}" name="tax[]" class="form-control">
 							</td>
 							<td class="quantityXprice maybe-hidden total_enable" width="70">${productPrice}</td>
 							<td class="whole-product-gifts maybe-hidden gifts_enable" width="70">
@@ -572,7 +572,7 @@ if (!Number.prototype.$truncate) {
 							<td class="whole-product-discounts maybe-hidden discounts_enable bud2" width="95"></td>
 
 							<td class="single-price-before maybe-hidden">
-								<input type="number" class="form-control" step="any" value="${singlePriceBefore}" name="prices[${ProductId}]">
+								<input type="number" class="form-control" step="any" value="${singlePriceBefore}" min="0" name="prices[${ProductId}]">
 							</td>
 
                             <input type="hidden" name="itemTax[${ProductId}]" value="${netTax}">
@@ -995,7 +995,7 @@ if (!Number.prototype.$truncate) {
                     } else if (!($(rows[i]).find(".effectTax").is(":checked"))) {
                         var newNetTax = parseFloat($('#row' + onlyModNum).find('.single-price-after').text())
                     }
-                    debugger
+                    
                     var newWholePriceAfter = parseFloat(finalAftDisc) + parseFloat(newNetTax);
 
                     $('#row' + onlyModNum).find('.whole-price-after')
@@ -1195,6 +1195,7 @@ if (!Number.prototype.$truncate) {
                 })
                 .then((willDelete) => {
                     if (willDelete) {
+                        
                         $("#buyForm").submit();
                     } else {
                         swal({
