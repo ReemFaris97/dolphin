@@ -396,13 +396,20 @@ unit_total_tax_enable
         });
 function truncate(number, index = 2) {
   	// cutting the number
+
+      
     return +number.toString().slice(0, (number.toString().indexOf(".")) + ((rondingNumber ||index) + 1));
 }
 
 if (!Number.prototype.$truncate) {
   Object.defineProperty(Number.prototype, '$truncate', {
     value(precision=2) {
+        
+        if(!Number.isInteger(+this.toString())){
+            
       return +this.toString().slice(0, (this.toString().indexOf(".")) + ((+precision) + 1))
+      }
+      return this
     },
   })
 }
