@@ -182,9 +182,9 @@
                                                     <td>{{$value->price }}</td>
                                                     <td>{{ $value->quantity }}</td>
                                                     <td> 
-                         {{$value->unit?$value->unit->name:$value->product->main_unit}}
+                         {{$value->unit?$value->unit->name:$value?->product?->main_unit}}
                                                     </td>
-                                                    <td class="product-name">{{ $value->product->name }}</td>
+                                                    <td class="product-name">{{ $value?->product?->name }}</td>
                                                     <td>{!!$loop->iteration!!}</td>
                                                 </tr>
                                             @endforeach
