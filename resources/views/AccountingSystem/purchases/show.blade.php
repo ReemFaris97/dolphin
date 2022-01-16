@@ -1125,9 +1125,9 @@
                 </div>
             </div>
         </div>
-        <div class="row justify-content-center width-100-flex">
+        {{-- <div class="row justify-content-center width-100-flex">
             <button class="btn btn-info print col-sm-6 v-lg-print-btn" style="font-size: 26px;">طباعه</button>
-        </div>
+        </div> --}}
         <!-- ============================================================== -->
         <!-- End PAge Content -->
         <!-- ============================================================== -->
