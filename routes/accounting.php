@@ -8,18 +8,6 @@ Route::get('/', function () {
     return redirect()->route('accounting.home');
 });
 
-/*Route::get('fix',function (){
-    $sales_items=\App\Models\AccountingSystem\AccountingSaleItem::all();
-    foreach ($sales_items as $item){
-        $subUnit=$item->product->sub_units->where('selling_price',$item->price)->first();
-        if ($subUnit){
-            $item->update(['unit_id' => $subUnit->id]);
-        }
-
-//        if ()
-    }
-    dd('done fixing');
-});*/
 Route::get('fix-invoice/{sale}', function (\App\Models\AccountingSystem\AccountingSale $sale) {
     $inputs=$sale->toArray();
     $inputs['sale_id']=$inputs['id'];
@@ -195,6 +183,7 @@ Route::middleware('admin')->group(function () {
     Route::resource('categories', 'CategoryController');
     Route::resource('industrials', 'IndustrialController');
     Route::resource('safes', 'SafeController');
+    Route::resource('funds', 'FundController');
     Route::resource('devices', 'DeviceController');
     Route::resource('settings', 'SettingController');
     Route::resource('fiscalYears', 'FiscalYearController');
