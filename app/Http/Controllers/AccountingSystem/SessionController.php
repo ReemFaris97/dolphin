@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
+use App\DataTables\SessionReturnsDataTable;
+use App\DataTables\SessionSalesDataTable;
+use App\DataTables\SessionsDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingDevice;
 use App\Models\AccountingSystem\AccountingReturn;
@@ -23,10 +26,11 @@ class SessionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(SessionsDataTable $dataTable)
     {
-        $sessions=AccountingSession::all();
-        return $this->toIndex(compact('sessions'));
+      //  $sessions=AccountingSession::all();
+      //  return $this->toIndex(compact('sessions'));
+        return $dataTable->render('AccountingSystem.sessions.index');
     }
 
     /**
@@ -94,33 +98,20 @@ class SessionController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function show($id,Request $request)
+    public function show($id,Request $request )
     {
         $session=AccountingSession::findOrFail($id);
-        $user=$session->user;
-        $sales = AccountingSale::query()
+        $sales = AccountingSale::where('session_id',$session->id)
             ->withCount('items')
             ->with('user')
-            ->when($request->user_id, fn ($q) =>$q->ofUser($request->user_id))
-            ->when(
-                ($request->from_date!=null&&$request->to_date!=null),
-                fn ($q) =>$q->InPeriod($request->from_date, $request->to_date)
-            )
             ->get();
-        $returns = AccountingReturn::query()
+        $returns = AccountingReturn::where('session_id',$session->id)
             ->withCOunt('items')
             ->with('user')
-            ->when($request->user_id, fn ($q) =>$q->ofUser($request->user_id))
-            ->when(
-                ($request->from_date!=null&&$request->to_date!=null),
-                fn ($q) =>$q->InPeriod($request->from_date, $request->to_date)
-            )
             ->withCount(['items'])
             ->get();
+
         return $this->toShow(compact('session', 'sales','returns'));
     }
 
