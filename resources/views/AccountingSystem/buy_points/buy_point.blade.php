@@ -594,7 +594,7 @@ if (!Number.prototype.$truncate) {
                                <div class="content-opreation-td">
                                     <a href="${productLink}" target="_blank" title="عرض المنتح" rel="noopener noreferrer">عرض المنتج</a>
                                     <a data-toggle="modal" title="إضافة خصم" data-target="#discMod${rowNum}">إضافة خصم</a>
-                                    <a href="#" title="مسح" class="remove-prod-from-list"><span class="icon-cross"></span></a>
+                                    <a href="#" title="مسح" class="remove-prod-from-list" data-modal="#discMod${rowNum}"><span class="icon-cross"></span></a>
                                </div>
                                 
 							</td>
@@ -1019,6 +1019,7 @@ if (!Number.prototype.$truncate) {
             //**************    Calc while removing a product ************************
             $(".remove-prod-from-list").on('click', function(e) {
                 e.preventDefault();
+                $(this.getAttribute('data-modal')).remove();
                 $(this).parents("tr").remove();
                 calcInfo();
                 var trLen = $(".finalTb  tbody tr").length;

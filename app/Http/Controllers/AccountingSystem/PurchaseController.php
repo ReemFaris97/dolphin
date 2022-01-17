@@ -32,8 +32,6 @@ class PurchaseController extends Controller
 
     public function index(AccountingPurchasesDataTable $dataTable)
     {
-        //  $purchases =AccountingPurchase::all()->reverse();
-        // return $this->toIndex(compact('purchases'));
         return $dataTable->render('AccountingSystem.purchases.index');
     }
 
