@@ -18,11 +18,12 @@ class AccountingDevice extends Model
         parent::booted();
         static::created(function (AccountingDevice $device) {
             $device->fund()->create([
-    'name'=>$device->name,
-    'name_en'=>$device->name,
-    'branch_id'=>$device->model_id,
-
-
+                'name'=>$device->name,
+                'name_en'=>$device->name,
+                'branch_id'=>$device->model_id,
+                'company_id'=>$device->branch?->comapny_id,
+                'is_bank'=>0,
+                'description'=>"Created by Device",
             ]);
         });
     }
