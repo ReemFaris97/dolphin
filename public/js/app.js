@@ -2054,9 +2054,9 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/chat.vue?vue&type=script&lang=js&":
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Chat.vue?vue&type=script&lang=js&":
 /*!***********************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/chat.vue?vue&type=script&lang=js& ***!
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Chat.vue?vue&type=script&lang=js& ***!
   \***********************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -2067,10 +2067,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _send_box__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./send-box */ "./resources/js/components/send-box.vue");
 /* harmony import */ var _message__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./message */ "./resources/js/components/message.vue");
-//
-//
-//
-//
 //
 //
 //
@@ -2140,7 +2136,6 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     sendMessage: function sendMessage(message) {
-      console.log(message);
       this.messages.push(message);
     }
   }
@@ -29792,9 +29787,9 @@ if (typeof this !== 'undefined' && this.Sweetalert2){  this.swal = this.sweetAle
 
 /***/ }),
 
-/***/ "./resources/js/components/chat.vue":
+/***/ "./resources/js/components/Chat.vue":
 /*!******************************************!*\
-  !*** ./resources/js/components/chat.vue ***!
+  !*** ./resources/js/components/Chat.vue ***!
   \******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -29803,8 +29798,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _chat_vue_vue_type_template_id_151b8bba_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./chat.vue?vue&type=template&id=151b8bba&scoped=true& */ "./resources/js/components/chat.vue?vue&type=template&id=151b8bba&scoped=true&");
-/* harmony import */ var _chat_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./chat.vue?vue&type=script&lang=js& */ "./resources/js/components/chat.vue?vue&type=script&lang=js&");
+/* harmony import */ var _Chat_vue_vue_type_template_id_0d66c37a_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Chat.vue?vue&type=template&id=0d66c37a&scoped=true& */ "./resources/js/components/Chat.vue?vue&type=template&id=0d66c37a&scoped=true&");
+/* harmony import */ var _Chat_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Chat.vue?vue&type=script&lang=js& */ "./resources/js/components/Chat.vue?vue&type=script&lang=js&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -29814,19 +29809,19 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 ;
 var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _chat_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _chat_vue_vue_type_template_id_151b8bba_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
-  _chat_vue_vue_type_template_id_151b8bba_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _Chat_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Chat_vue_vue_type_template_id_0d66c37a_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _Chat_vue_vue_type_template_id_0d66c37a_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
-  "151b8bba",
+  "0d66c37a",
   null
   
 )
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/chat.vue"
+component.options.__file = "resources/js/components/Chat.vue"
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
@@ -29909,9 +29904,9 @@ component.options.__file = "resources/js/components/send-box.vue"
 
 /***/ }),
 
-/***/ "./resources/js/components/chat.vue?vue&type=script&lang=js&":
+/***/ "./resources/js/components/Chat.vue?vue&type=script&lang=js&":
 /*!*******************************************************************!*\
-  !*** ./resources/js/components/chat.vue?vue&type=script&lang=js& ***!
+  !*** ./resources/js/components/Chat.vue?vue&type=script&lang=js& ***!
   \*******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -29920,8 +29915,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_chat_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./chat.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/chat.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_chat_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Chat_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Chat.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Chat.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Chat_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
@@ -29957,19 +29952,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/chat.vue?vue&type=template&id=151b8bba&scoped=true&":
+/***/ "./resources/js/components/Chat.vue?vue&type=template&id=0d66c37a&scoped=true&":
 /*!*************************************************************************************!*\
-  !*** ./resources/js/components/chat.vue?vue&type=template&id=151b8bba&scoped=true& ***!
+  !*** ./resources/js/components/Chat.vue?vue&type=template&id=0d66c37a&scoped=true& ***!
   \*************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_chat_vue_vue_type_template_id_151b8bba_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_chat_vue_vue_type_template_id_151b8bba_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Chat_vue_vue_type_template_id_0d66c37a_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Chat_vue_vue_type_template_id_0d66c37a_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_chat_vue_vue_type_template_id_151b8bba_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./chat.vue?vue&type=template&id=151b8bba&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/chat.vue?vue&type=template&id=151b8bba&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Chat_vue_vue_type_template_id_0d66c37a_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Chat.vue?vue&type=template&id=0d66c37a&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Chat.vue?vue&type=template&id=0d66c37a&scoped=true&");
 
 
 /***/ }),
@@ -30008,9 +30003,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/chat.vue?vue&type=template&id=151b8bba&scoped=true&":
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Chat.vue?vue&type=template&id=0d66c37a&scoped=true&":
 /*!****************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/chat.vue?vue&type=template&id=151b8bba&scoped=true& ***!
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Chat.vue?vue&type=template&id=0d66c37a&scoped=true& ***!
   \****************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -30085,96 +30080,133 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _vm._m(0),
-    _vm._v(" "),
-    _c("div", { staticClass: "another-user-box" }, [
-      _vm.message.type == "voice"
-        ? _c(
-            "div",
-            { staticClass: "my-msg my-media" },
-            [
-              _c("vue-plyr", [
-                _c(
-                  "audio",
-                  { attrs: { controls: "", crossorigin: "", playsinline: "" } },
-                  [
-                    _c("source", {
-                      attrs: { src: _vm.message.attachment, type: "audio/mp3" },
-                    }),
-                  ]
-                ),
-              ]),
-            ],
-            1
-          )
-        : _vm.message.type == "video"
-        ? _c(
-            "div",
-            {
-              staticClass: "my-msg my-media",
-              staticStyle: { width: "300px", height: "300px" },
-            },
-            [
-              _c("vue-plyr", [
-                _c(
-                  "video",
-                  {
-                    attrs: {
-                      controls: "",
-                      crossorigin: "",
-                      playsinline: "",
-                      "data-poster": _vm.message.thumbnail,
-                    },
-                  },
-                  [
-                    _c("source", {
-                      attrs: {
-                        size: "240",
-                        src: _vm.message.attachment,
-                        type: "video/mp4",
-                      },
-                    }),
-                  ]
-                ),
-              ]),
-            ],
-            1
-          )
-        : _vm.message.type == "image"
-        ? _c("div", { staticClass: "my-msg my-media" }, [
-            _c("div", [
-              _c(
-                "a",
-                { attrs: { href: _vm.message.attachment, target: "_blank" } },
-                [
-                  _c("img", {
-                    staticClass: "img-lg img-preview img-responsive",
-                    attrs: { src: _vm.message.attachment, alt: "" },
-                  }),
-                ]
-              ),
-            ]),
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.message.user.name
-        ? _c("div", { staticClass: "incoming_msg_img" }, [
-            _vm._v(" " + _vm._s(_vm.message.user.name)),
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _c("div", { staticClass: "received_msg" }, [
-        _c("div", { staticClass: "received_with_msg" }, [
-          _c("p", { staticClass: "text my-msg" }, [
-            _vm._v(_vm._s(_vm.message.message)),
-          ]),
+    _vm.message.is_sender
+      ? _c("div", { staticClass: "another-user-box" }, [
+          _vm.message.user.name
+            ? _c("div", { staticClass: "incoming_msg_img" }, [
+                _vm._v(" " + _vm._s(_vm.message.user.name)),
+              ])
+            : _vm._e(),
           _vm._v(" "),
-          _c("span", { staticClass: "time_date" }, [
-            _vm._v(_vm._s(_vm.created_at)),
+          _c("div", { staticClass: "received_msg" }, [
+            _c("div", { staticClass: "received_with_msg" }, [
+              _vm.message.text
+                ? _c("p", { staticClass: "text my-msg" }, [
+                    _vm._v(_vm._s(_vm.message.text)),
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("span", { staticClass: "time_date" }, [
+                _vm._v(_vm._s(_vm.created_at)),
+              ]),
+            ]),
+          ]),
+        ])
+      : _c("div", { staticClass: "another-user-box-" }, [
+          _vm.message.type == "voice"
+            ? _c(
+                "div",
+                { staticClass: "my-msg my-media" },
+                [
+                  _c("vue-plyr", [
+                    _c(
+                      "audio",
+                      {
+                        attrs: {
+                          controls: "",
+                          crossorigin: "",
+                          playsinline: "",
+                        },
+                      },
+                      [
+                        _c("source", {
+                          attrs: {
+                            src: _vm.message.attachment,
+                            type: "audio/mp3",
+                          },
+                        }),
+                      ]
+                    ),
+                  ]),
+                ],
+                1
+              )
+            : _vm.message.type == "video"
+            ? _c(
+                "div",
+                {
+                  staticClass: "my-msg my-media",
+                  staticStyle: { width: "300px", height: "300px" },
+                },
+                [
+                  _c("vue-plyr", [
+                    _c(
+                      "video",
+                      {
+                        attrs: {
+                          controls: "",
+                          crossorigin: "",
+                          playsinline: "",
+                          "data-poster": _vm.message.thumbnail,
+                        },
+                      },
+                      [
+                        _c("source", {
+                          attrs: {
+                            size: "240",
+                            src: _vm.message.attachment,
+                            type: "video/mp4",
+                          },
+                        }),
+                      ]
+                    ),
+                  ]),
+                ],
+                1
+              )
+            : _vm.message.type == "image"
+            ? _c("div", { staticClass: "my-msg my-media" }, [
+                _c("div", [
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: _vm.message.attachment, target: "_blank" },
+                    },
+                    [
+                      _c("img", {
+                        staticClass: "img-lg img-preview img-responsive",
+                        attrs: { src: _vm.message.attachment, alt: "" },
+                      }),
+                    ]
+                  ),
+                ]),
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c("div", { staticClass: "content-msg-mobile" }, [
+            _c("div", { staticClass: "another-user-box-mobile" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "incoming_msg_img" }, [_vm._v(" test")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "received_msg" }, [
+                _c("div", { staticClass: "received_with_msg" }, [
+                  _vm.message.text
+                    ? _c("p", { staticClass: "text my-msg-mobile" }, [
+                        _vm._v(_vm._s(_vm.message.text)),
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "align-left" }, [
+                    _c("span", { staticClass: "time_date" }, [
+                      _vm._v(_vm._s(_vm.created_at)),
+                    ]),
+                  ]),
+                ]),
+              ]),
+            ]),
           ]),
         ]),
-      ]),
-    ]),
   ])
 }
 var staticRenderFns = [
@@ -30182,33 +30214,13 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "another-user-box-" }, [
-      _c("div", { staticClass: "content-msg-mobile" }, [
-        _c("div", { staticClass: "another-user-box-mobile" }, [
-          _c("div", { staticClass: "my-msg-mobile my-media-mobile" }, [
-            _c("div", [
-              _c("a", { attrs: { href: "", target: "_blank" } }, [
-                _c("img", {
-                  staticClass: "img-lg img-preview img-responsive",
-                  attrs: { alt: "" },
-                }),
-              ]),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "incoming_msg_img" }, [_vm._v(" test")]),
-          _vm._v(" "),
-          _c("div", { staticClass: "received_msg" }, [
-            _c("div", { staticClass: "received_with_msg" }, [
-              _c("p", { staticClass: "text my-msg-mobile" }, [_vm._v("fg")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "align-left" }, [
-                _c("span", { staticClass: "time_date" }, [
-                  _vm._v("2022-01-13 07:06::48"),
-                ]),
-              ]),
-            ]),
-          ]),
+    return _c("div", { staticClass: "my-msg-mobile my-media-mobile" }, [
+      _c("div", [
+        _c("a", { attrs: { href: "", target: "_blank" } }, [
+          _c("img", {
+            staticClass: "img-lg img-preview img-responsive",
+            attrs: { alt: "" },
+          }),
         ]),
       ]),
     ])
@@ -88755,7 +88767,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_vue__;
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var map = {
-	"./chat.vue": "./resources/js/components/chat.vue",
+	"./Chat.vue": "./resources/js/components/Chat.vue",
 	"./message.vue": "./resources/js/components/message.vue",
 	"./send-box.vue": "./resources/js/components/send-box.vue"
 };
@@ -88789,7 +88801,7 @@ webpackContext.id = "./resources/js/components sync recursive \\.vue$/";
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\projects\\\\dolphin-system-new"]],"_development":true,"_from":"axios@0.21.4","_id":"axios@0.21.4","_inBundle":false,"_integrity":"sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"axios@0.21.4","name":"axios","escapedName":"axios","rawSpec":"0.21.4","saveSpec":null,"fetchSpec":"0.21.4"},"_requiredBy":["#DEV:/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.4.tgz","_spec":"0.21.4","_where":"C:\\\\projects\\\\dolphin-system-new","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.14.0"},"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"homepage":"https://axios-http.com","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.4"}');
+module.exports = JSON.parse('{"_from":"axios@^0.21","_id":"axios@0.21.4","_inBundle":false,"_integrity":"sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"range","registry":true,"raw":"axios@^0.21","name":"axios","escapedName":"axios","rawSpec":"^0.21","saveSpec":null,"fetchSpec":"^0.21"},"_requiredBy":["#DEV:/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.4.tgz","_shasum":"c67b90dc0568e5c1cf2b0b858c43ba28e2eda575","_spec":"axios@^0.21","_where":"D:\\\\work\\\\panorama\\\\dolphin","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundleDependencies":false,"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.14.0"},"deprecated":false,"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"homepage":"https://axios-http.com","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.4"}');
 
 /***/ })
 

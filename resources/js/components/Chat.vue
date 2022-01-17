@@ -1,34 +1,29 @@
 <template>
-
-    <div className="">
+    <div class="">
         <!-- Start Row -->
-        <div className="row">
+        <div class="row">
             <!-- Start Column To Chat List -->
             <!-- Start Column View Chat -->
-            <div className="col-lg-12 ">
+            <div class="col-lg-12 ">
                 <!-- Start Chat 1 Content -->
                 <div>
                     <!-- Start View Chat Content -->
-                    <div className="view-chat-content">
+                    <div class="view-chat-content">
                         <div style="overflow-y: scroll; height: 500px" ref="messages">
                             <message v-for="message in messages" :message="message" style=""
                                      :key="'message-'+message.id"/>
                         </div>
-                        <div className="clearfix"></div>
+                        <div class="clearfix"></div>
                         <send-box :chat="chat" @sendMessage="sendMessage"/>
                     </div><!-- End View Chat Content -->
                 </div><!-- End Chat 1 Content -->
-
             </div><!-- End Column View Chat -->
         </div><!-- End Row -->
     </div>
-
 </template>
-
 <script>
 import SendBox from "./send-box";
 import Message from "./message";
-
 export default {
     name: "chat",
     components: {Message, SendBox},
@@ -65,13 +60,10 @@ export default {
             });
         },
         sendMessage(message) {
-            console.log(message)
             this.messages.push(message);
         }
     }
 }
 </script>
-
 <style scoped>
-
 </style>

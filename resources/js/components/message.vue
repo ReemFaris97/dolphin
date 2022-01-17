@@ -15,31 +15,19 @@
         </div>
     -->
 <div>
-    <div class="another-user-box-">
-        <div class="content-msg-mobile">
-            <div  class="another-user-box-mobile">
-                <div class="my-msg-mobile my-media-mobile">
-                    <div>
-                        <a href="" target="_blank">
-                            <img alt="" class="img-lg img-preview img-responsive">
-                        </a>
-                    </div>
-                </div>
-                <div  class="incoming_msg_img"> test</div>
-                <div class="received_msg">
-                    <div class="received_with_msg">
-                        <p  class="text my-msg-mobile">fg</p>
-                        <div class="align-left"><span class="time_date">2022-01-13 07:06::48</span></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-    <div class="another-user-box">
+    <div v-if="message.is_sender" class="another-user-box">
 
+        <div v-if="message.user.name" class="incoming_msg_img"> {{ message.user.name }}</div>
+        <div class="received_msg">
+            <div class="received_with_msg">
+                <p v-if="message.text" class="text my-msg" >{{ message.text }}</p>
+                <span class="time_date">{{ created_at }}</span></div>
+        </div>
+    </div>
 
+    <div v-else class="another-user-box-">
         <div v-if="message.type=='voice'" class="my-msg my-media">
-                <vue-plyr>
+            <vue-plyr>
                 <audio controls crossorigin playsinline>
                     <source
                         :src="message.attachment"
@@ -71,13 +59,25 @@
                 <a :href="message.attachment" target="_blank"><img :src="message.attachment" class="img-lg img-preview img-responsive" alt=""></a>
             </div>
         </div>
-        <div v-if="message.user.name" class="incoming_msg_img"> {{ message.user.name }}</div>
-        <div class="received_msg">
-            <div class="received_with_msg">
-                <p class="text my-msg" >{{ message.message }}</p>
-                <span class="time_date">{{ created_at }}</span></div>
+        <div class="content-msg-mobile">
+            <div  class="another-user-box-mobile">
+                <div class="my-msg-mobile my-media-mobile">
+                    <div>
+                        <a href="" target="_blank">
+                            <img alt="" class="img-lg img-preview img-responsive">
+                        </a>
+                    </div>
+                </div>
+                <div  class="incoming_msg_img"> test</div>
+                <div class="received_msg">
+                    <div class="received_with_msg">
+                        <p v-if="message.text" class="text my-msg-mobile">{{ message.text }}</p>
+                        <div class="align-left"><span class="time_date">{{ created_at }}</span></div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+        </div>
 
 </div>
 </template>
