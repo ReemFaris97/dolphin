@@ -22,7 +22,9 @@ class MessageResource extends JsonResource
             'message'=>$this->message,
             'type'=>$this->type,
             'attachment'=>$this->attachment,
-            'thumbnail'=>$this->thumbnail
+            'thumbnail'=>$this->thumbnail,
+            'is_sender'=>auth()->user()->is($this->user)
+
 
         ];
     }
