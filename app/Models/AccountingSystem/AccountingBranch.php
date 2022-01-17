@@ -68,6 +68,11 @@ class AccountingBranch extends Model
 
         return $this->hasMany(AccountingBranchFace::class,'branch_id');
     }
+    public function funds()
+    {
+
+        return $this->hasMany(AccountingFund::class,'branch_id');
+    }
 
     public function stores()
     {

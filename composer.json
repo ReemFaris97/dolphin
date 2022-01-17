@@ -64,7 +64,8 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Abivia\\Ledger\\": "pkg/ledger/src"
         },
         "classmap": [
             "database/seeders",

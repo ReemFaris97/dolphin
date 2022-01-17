@@ -88,6 +88,13 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\BankDepositConfirmed::class => [
             \App\Listeners\NotifyDistributorConfirmation::class,
         ],
+
+        /** ACCOUNTING EVENTS */
+        \App\Events\Accounting\SaleAdded::class => [
+            \App\Listeners\Accounting\AddSaleTotalToFund::class,
+        ],
+
+        
     ];
 
     /**

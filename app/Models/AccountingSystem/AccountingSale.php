@@ -2,6 +2,7 @@
 
 namespace App\Models\AccountingSystem;
 
+use App\Events\Accounting\SaleAdded;
 use App\helper\num_to_ar;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
@@ -91,6 +92,16 @@ class AccountingSale extends Model
     protected $fillable = ['client_id','total','amount','discount','payment','payed','debts','package_id','session_id','branch_id','company_id','store_id','bill_num','totalTaxs','status','user_id','cash','network','discount_type','counter','daily_number','counter_sale','date','account_id' ];
     protected $table='accounting_sales';
     protected $appends = ['item_cost'];
+   
+
+    /**
+     * The event map for the model.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => SaleAdded::class,
+    ];
     public function client()
     {
         return $this->belongsTo(AccountingClient::class, 'client_id');
@@ -112,6 +123,44 @@ class AccountingSale extends Model
     public function store()
     {
         return $this->belongsTo(AccountingStore::class, 'store_id');
+    }
+    public function fund_transactions()
+    {
+        return $this->morphMany(AccountingFundTransaction::class, 'billable');
+    }
+
+    public function getFundAttribute()
+    {
+        return $this->session?->device?->fund;
+    }
+
+    public function getNetworkFundAttribute()
+    {
+        return $this->session?->device?->branch->funds()->where('type', 1)?->first();
+    }
+
+    public function addCashToFund()
+    {
+        if ($this->cash>0 &&$this->fund!=null) {
+            $this->fund_transactions()->create([
+            'fund_id'=>$this->fund->id,
+            'type'=>'in',
+            'amount'=>$this->cash,
+            'description'=>'added from sales',
+        ]);
+        }
+    }
+
+    public function addNetworkToFund()
+    {
+        if ($this->network>0 &&$this->network_fund!=null) {
+            $this->fund_transactions()->create([
+            'fund_id'=>$this->fund->id,
+            'type'=>'in',
+            'amount'=>$this->network,
+            'description'=>'added from sales',
+        ]);
+        }
     }
     public function CashArabic($cach)
     {

@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Events\Accounting\FundSaved;
 
-
 /**
  * App\Models\AccountingFund
  *
@@ -54,7 +53,7 @@ class AccountingFund extends Model
     protected $guarded = [];
 
 
-      /**
+    /**
      * The event map for the model.
      *
      * @var array
@@ -77,5 +76,9 @@ class AccountingFund extends Model
     public function created_by():BelongsTo
     {
         return $this->morphTo('created_by');
+    }
+    public function transaction()
+    {
+        return $this->morphOne(AccountingFundTransaction::class, 'billable');
     }
 }
