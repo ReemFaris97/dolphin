@@ -328,6 +328,7 @@ input.chat-input-text {
     border: 2px solid #2ecc71;
     padding: 10px;
     border-radius: 5px;
+    padding-left: 65px;
 }
 
 span.time_date {
@@ -340,4 +341,50 @@ text-align: left;
 .incoming_msg_img {
     font-size: 12px;
     font-weight: bold;
+}
+
+.filelabel {
+    width: 25px;
+    border-radius: 5px;
+    display: block;
+    padding: 5px;
+    cursor: pointer;
+    text-align: center;
+    margin: 0;
+    position: absolute;
+    top: 7px;
+    left: 42px;
+    height: 30px;
+}
+.filelabel i {
+    display: block;
+    font-size: 30px;
+    padding-bottom: 5px;
+}
+.filelabel i,
+.filelabel .title {
+  color: grey;
+  transition: 200ms color;
+}
+
+.filelabel:hover i,
+.filelabel:hover .title {
+  color: #1665c4;
+}
+#FileInput{
+    display:none;
+}
+.chatform-content{
+    position: relative;
+}
+
+button.chat-submit {
+    position: absolute;
+    left: 7px;
+    top: 7px;
+    background-color: #2ecc71;
+    border-radius: 7px;
+    color: #fff;
+    width: 30px;
+    height: 30px;
 }

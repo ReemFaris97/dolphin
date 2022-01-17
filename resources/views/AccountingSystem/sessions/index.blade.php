@@ -23,68 +23,71 @@
         </div>
 
         <div class="panel-body">
-            <table class="table datatable-button-init-basic">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th> رقم  الجلسة </th>
-                    <th>  كود الجهاز  </th>
-                    <th>  اسم الوردية </th>
-                    <th>  اسم الكاشير </th>
-                    <th>   بداية الجلسة  </th>
-                    <th>  نهايةالجلسة  </th>
-                    <th>  العهده  </th>
+{{--            <table class="table datatable-button-init-basic">--}}
+{{--                <thead>--}}
+{{--                <tr>--}}
+{{--                    <th>#</th>--}}
+{{--                    <th> رقم  الجلسة </th>--}}
+{{--                    <th>  كود الجهاز  </th>--}}
+{{--                    <th>  اسم الوردية </th>--}}
+{{--                    <th>  اسم الكاشير </th>--}}
+{{--                    <th>   بداية الجلسة  </th>--}}
+{{--                    <th>  نهايةالجلسة  </th>--}}
+{{--                    <th>  العهده  </th>--}}
 
-                    <th>  اغلاق  الجلسه    للكاشير  </th>
-                    <th class="text-center">العمليات</th>
-                </tr>
-                </thead>
-                <tbody>
+{{--                    <th>  اغلاق  الجلسه    للكاشير  </th>--}}
+{{--                    <th class="text-center">العمليات</th>--}}
+{{--                </tr>--}}
+{{--                </thead>--}}
+{{--                <tbody>--}}
 
-                @foreach($sessions as $key=>$row)
+{{--                @foreach($sessions as $key=>$row)--}}
 
-                    <tr>
-                        <td>{!!$loop->iteration!!}</td>
+{{--                    <tr>--}}
+{{--                        <td>{!!$loop->iteration!!}</td>--}}
 
-                        <td>{!! $row->code!!}</td>
-                        <td>{!! optional($row->device)->code!!}</td>
-                        <td>{!! optional($row->shift)->name!!}</td>
-                        <td>{!! optional($row->user)->name!!}</td>
-                        <td>{!! $row->start_session!!}</td>
-                        <td>{!! $row->end_session!!}</td>
-                        <td>{!! $row->custody!!}</td>
-                        {{--<td>--}}
-                             {{--@if($row->status=='open')--}}
-                             {{--<label class="lable lable-success">مفتوحة </label>--}}
-                             {{--@elseif($row->status=='closed')--}}
-                             {{--<label class="lable lable-warning">مغلقة </label>--}}
-                                {{--@else--}}
-                                {{--<label class="lable lable-warning">تم  تاكيد الاغلاق </label>--}}
+{{--                        <td>{!! $row->code!!}</td>--}}
+{{--                        <td>{!! optional($row->device)->code!!}</td>--}}
+{{--                        <td>{!! optional($row->shift)->name!!}</td>--}}
+{{--                        <td>{!! optional($row->user)->name!!}</td>--}}
+{{--                        <td>{!! $row->start_session!!}</td>--}}
+{{--                        <td>{!! $row->end_session!!}</td>--}}
+{{--                        <td>{!! $row->custody!!}</td>--}}
+{{--                        --}}{{--<td>--}}
+{{--                             --}}{{--@if($row->status=='open')--}}
+{{--                             --}}{{--<label class="lable lable-success">مفتوحة </label>--}}
+{{--                             --}}{{--@elseif($row->status=='closed')--}}
+{{--                             --}}{{--<label class="lable lable-warning">مغلقة </label>--}}
+{{--                                --}}{{--@else--}}
+{{--                                --}}{{--<label class="lable lable-warning">تم  تاكيد الاغلاق </label>--}}
 
-                             {{--@endif--}}
-                            {{--</td>--}}
-                        <td>
-                            @if($row->status=='open')
-                            <a href="{{route('accounting.sessions.close',$row->id)}}" data-toggle="tooltip"  class="btn btn-danger" > اغلاق  الجلسه</a>
-                            @elseif($row->status=='closed')
-                                <label class="lable lable-warning">مغلقة </label>
-                            @else
-                                <label class="lable lable-warning">تم  تاكيد الاغلاق  </label>
+{{--                             --}}{{--@endif--}}
+{{--                            --}}{{--</td>--}}
+{{--                        <td>--}}
+{{--                            @if($row->status=='open')--}}
+{{--                            <a href="{{route('accounting.sessions.close',$row->id)}}" data-toggle="tooltip"  class="btn btn-danger" > اغلاق  الجلسه</a>--}}
+{{--                            @elseif($row->status=='closed')--}}
+{{--                                <label class="lable lable-warning">مغلقة </label>--}}
+{{--                            @else--}}
+{{--                                <label class="lable lable-warning">تم  تاكيد الاغلاق  </label>--}}
 
-                            @endif
-                        </td>
-                        <td class="text-center">
-                            <a href="{{route('accounting.sessions.show',$row->id)}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
-                            <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
+{{--                            @endif--}}
+{{--                        </td>--}}
+{{--                        <td class="text-center">--}}
+{{--                            <a href="{{route('accounting.sessions.show',$row->id)}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>--}}
+{{--                            <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>--}}
 
-                            {!!Form::open( ['route' => ['accounting.sessions.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
-                            {!!Form::close() !!}
+{{--                            {!!Form::open( ['route' => ['accounting.sessions.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}--}}
+{{--                            {!!Form::close() !!}--}}
 
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
+{{--                        </td>--}}
+{{--                    </tr>--}}
+{{--                @endforeach--}}
+{{--                </tbody>--}}
+{{--            </table>--}}
+
+            {!!  $dataTable->table()!!}
+
         </div>
 
     </div>
@@ -93,7 +96,6 @@
 @endsection
 
 @section('scripts')
-
     <script>
         function Delete(id) {
             var item_id=id;
@@ -115,4 +117,7 @@
             });
         }
     </script>
-@stop
+
+    {!!$dataTable->scripts()  !!}
+
+@endsection

@@ -1,9 +1,18 @@
 <template>
     <form action="" class="chat-form" v-on:submit.prevent="sendMessage">
         <div class="chatform-content">
-            <button class="sendt-this">
+           <!--  <button class="sendt-this">ثصثص
                 <i class="flaticon-next"></i>
-            </button>
+            </button> -->
+            <label class="filelabel">
+                <i class="fa fa-paperclip">
+                </i>
+                <span class="title">
+
+                </span>
+                <input class="FileUpload1" id="FileInput" name="booking_attachment" type="file"/>
+            </label>
+            <button class="chat-submit" type="submit"> <i class="fas fa-paper-plane"></i></button>
             <input type="text"  v-model="message" placeholder="اكتب رسالتك" class="chat-input-text">
 
         </div>

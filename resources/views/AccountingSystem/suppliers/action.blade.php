@@ -1,6 +1,8 @@
 
     <a href="{{route('accounting.suppliers.show',$row->id)}}" data-toggle="tooltip"
        data-original-title="كشف سداد  ">كشف حساب  </a>
+    <a href="{{route('accounting.supplier-users.index',['supplier_id'=>$row->id])}}" data-toggle="tooltip"
+       data-original-title="الموظفين  ">الموظفين  </a>
     @can('تعديل مورد')
         <a href="{{route('accounting.suppliers.edit',$row->id)}}" data-toggle="tooltip"
            data-original-title="تعديل">تعديل </a>
