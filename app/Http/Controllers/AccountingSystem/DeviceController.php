@@ -51,7 +51,6 @@ class DeviceController extends Controller
         ];
      
         $this->validate($request, $rules);
-
         $requests = $request->all();
         $requests['model_type']=AccountingBranch::class;
 

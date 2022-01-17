@@ -12,7 +12,7 @@
 <div class="form-group col-xs-6 pull-left ">
         <label> اسم الفرع التابع لها الجهاز: </label>
        
-        {!! Form::select("branch_id",$branches,$device->model_id??null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الفرع التابع لها الجهاز '])!!}
+        {!! Form::select("model_id",$branches,$device->model_id??null,['class'=>'form-control js-example-basic-single','placeholder'=>' اختر اسم الفرع التابع لها الجهاز '])!!}
     </div>
 
 

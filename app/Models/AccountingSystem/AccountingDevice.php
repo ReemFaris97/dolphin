@@ -17,14 +17,7 @@ class AccountingDevice extends Model
     {
         parent::booted();
         static::created(function (AccountingDevice $device) {
-            $device->fund()->create([
-                'name'=>$device->name,
-                'name_en'=>$device->name,
-                'branch_id'=>$device->model_id,
-                'company_id'=>$device->branch?->comapny_id,
-                'is_bank'=>0,
-                'description'=>"Created by Device",
-            ]);
+            $device->createFund();
         });
     }
     public function clause()
@@ -41,5 +34,17 @@ class AccountingDevice extends Model
     public function fund()
     {
         return $this->morphOne(AccountingFund::class, 'created_by');
+    }
+
+    public function createFund():AccountingFund
+    {
+        return   $this->fund()->create([
+            'name'=>$this->name,
+            'name_en'=>$this->name,
+            'branch_id'=>$this->model_id,
+            'company_id'=>$this->branch?->company_id,
+            'is_bank'=>0,
+            'description'=>"Created by Device",
+        ]);
     }
 }
