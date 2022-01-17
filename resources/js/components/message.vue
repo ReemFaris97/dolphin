@@ -26,46 +26,44 @@
     </div>
 
     <div v-else class="another-user-box-">
-        <div v-if="message.type=='voice'" class="my-msg my-media">
-            <vue-plyr>
-                <audio controls crossorigin playsinline>
-                    <source
-                        :src="message.attachment"
-                        type="audio/mp3"
-                    />
-                </audio>
-            </vue-plyr>
-        </div>
-        <div v-else-if="message.type=='video'" style="width: 300px;height: 300px" class="my-msg my-media">
-            <vue-plyr >
-                <video
-                    controls
-                    crossorigin
-                    playsinline
-                    :data-poster="message.thumbnail"
-                >
-                    <source
-                        size="240"
-                        :src="message.attachment"
-                        type="video/mp4"
-                    />
 
-                </video>
-            </vue-plyr>
-
-        </div>
-        <div v-else-if="message.type=='image'" class="my-msg my-media">
-            <div>
-                <a :href="message.attachment" target="_blank"><img :src="message.attachment" class="img-lg img-preview img-responsive" alt=""></a>
-            </div>
-        </div>
         <div class="content-msg-mobile">
             <div  class="another-user-box-mobile">
                 <div class="my-msg-mobile my-media-mobile">
                     <div>
-                        <a href="" target="_blank">
-                            <img alt="" class="img-lg img-preview img-responsive">
-                        </a>
+                        <div v-if="message.type=='voice'" class="my-msg my-media">
+                            <vue-plyr>
+                                <audio controls crossorigin playsinline>
+                                    <source
+                                        :src="message.attachment"
+                                        type="audio/mp3"
+                                    />
+                                </audio>
+                            </vue-plyr>
+                        </div>
+                        <div v-else-if="message.type=='video'" style="width: 300px;height: 300px" class="my-msg my-media">
+                            <vue-plyr >
+                                <video
+                                    controls
+                                    crossorigin
+                                    playsinline
+                                    :data-poster="message.thumbnail"
+                                >
+                                    <source
+                                        size="240"
+                                        :src="message.attachment"
+                                        type="video/mp4"
+                                    />
+
+                                </video>
+                            </vue-plyr>
+
+                        </div>
+                        <div v-else-if="message.type=='image'" class="my-msg my-media">
+                            <div>
+                                <a :href="message.attachment" target="_blank"><img :src="message.attachment" class="img-lg img-preview img-responsive" alt=""></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div  class="incoming_msg_img"> test</div>

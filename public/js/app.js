@@ -2109,7 +2109,7 @@ __webpack_require__.r(__webpack_exports__);
 
     this.getMessages();
     Echo.channel('chat-' + this.chat).listen('.NewMessageEvent', function (e) {
-      console.log('tet');
+      e.message.is_sender = false;
 
       _this.messages.push(e.message);
     });
@@ -2156,8 +2156,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_0__);
-//
-//
 //
 //
 //
@@ -30103,89 +30101,95 @@ var render = function () {
           ]),
         ])
       : _c("div", { staticClass: "another-user-box-" }, [
-          _vm.message.type == "voice"
-            ? _c(
-                "div",
-                { staticClass: "my-msg my-media" },
-                [
-                  _c("vue-plyr", [
-                    _c(
-                      "audio",
-                      {
-                        attrs: {
-                          controls: "",
-                          crossorigin: "",
-                          playsinline: "",
-                        },
-                      },
-                      [
-                        _c("source", {
-                          attrs: {
-                            src: _vm.message.attachment,
-                            type: "audio/mp3",
-                          },
-                        }),
-                      ]
-                    ),
-                  ]),
-                ],
-                1
-              )
-            : _vm.message.type == "video"
-            ? _c(
-                "div",
-                {
-                  staticClass: "my-msg my-media",
-                  staticStyle: { width: "300px", height: "300px" },
-                },
-                [
-                  _c("vue-plyr", [
-                    _c(
-                      "video",
-                      {
-                        attrs: {
-                          controls: "",
-                          crossorigin: "",
-                          playsinline: "",
-                          "data-poster": _vm.message.thumbnail,
-                        },
-                      },
-                      [
-                        _c("source", {
-                          attrs: {
-                            size: "240",
-                            src: _vm.message.attachment,
-                            type: "video/mp4",
-                          },
-                        }),
-                      ]
-                    ),
-                  ]),
-                ],
-                1
-              )
-            : _vm.message.type == "image"
-            ? _c("div", { staticClass: "my-msg my-media" }, [
-                _c("div", [
-                  _c(
-                    "a",
-                    {
-                      attrs: { href: _vm.message.attachment, target: "_blank" },
-                    },
-                    [
-                      _c("img", {
-                        staticClass: "img-lg img-preview img-responsive",
-                        attrs: { src: _vm.message.attachment, alt: "" },
-                      }),
-                    ]
-                  ),
-                ]),
-              ])
-            : _vm._e(),
-          _vm._v(" "),
           _c("div", { staticClass: "content-msg-mobile" }, [
             _c("div", { staticClass: "another-user-box-mobile" }, [
-              _vm._m(0),
+              _c("div", { staticClass: "my-msg-mobile my-media-mobile" }, [
+                _c("div", [
+                  _vm.message.type == "voice"
+                    ? _c(
+                        "div",
+                        { staticClass: "my-msg my-media" },
+                        [
+                          _c("vue-plyr", [
+                            _c(
+                              "audio",
+                              {
+                                attrs: {
+                                  controls: "",
+                                  crossorigin: "",
+                                  playsinline: "",
+                                },
+                              },
+                              [
+                                _c("source", {
+                                  attrs: {
+                                    src: _vm.message.attachment,
+                                    type: "audio/mp3",
+                                  },
+                                }),
+                              ]
+                            ),
+                          ]),
+                        ],
+                        1
+                      )
+                    : _vm.message.type == "video"
+                    ? _c(
+                        "div",
+                        {
+                          staticClass: "my-msg my-media",
+                          staticStyle: { width: "300px", height: "300px" },
+                        },
+                        [
+                          _c("vue-plyr", [
+                            _c(
+                              "video",
+                              {
+                                attrs: {
+                                  controls: "",
+                                  crossorigin: "",
+                                  playsinline: "",
+                                  "data-poster": _vm.message.thumbnail,
+                                },
+                              },
+                              [
+                                _c("source", {
+                                  attrs: {
+                                    size: "240",
+                                    src: _vm.message.attachment,
+                                    type: "video/mp4",
+                                  },
+                                }),
+                              ]
+                            ),
+                          ]),
+                        ],
+                        1
+                      )
+                    : _vm.message.type == "image"
+                    ? _c("div", { staticClass: "my-msg my-media" }, [
+                        _c("div", [
+                          _c(
+                            "a",
+                            {
+                              attrs: {
+                                href: _vm.message.attachment,
+                                target: "_blank",
+                              },
+                            },
+                            [
+                              _c("img", {
+                                staticClass:
+                                  "img-lg img-preview img-responsive",
+                                attrs: { src: _vm.message.attachment, alt: "" },
+                              }),
+                            ]
+                          ),
+                        ]),
+                      ])
+                    : _vm._e(),
+                ]),
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "incoming_msg_img" }, [_vm._v(" test")]),
               _vm._v(" "),
@@ -30209,23 +30213,7 @@ var render = function () {
         ]),
   ])
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "my-msg-mobile my-media-mobile" }, [
-      _c("div", [
-        _c("a", { attrs: { href: "", target: "_blank" } }, [
-          _c("img", {
-            staticClass: "img-lg img-preview img-responsive",
-            attrs: { alt: "" },
-          }),
-        ]),
-      ]),
-    ])
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
