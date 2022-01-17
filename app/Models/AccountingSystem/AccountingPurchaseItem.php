@@ -71,6 +71,21 @@ class AccountingPurchaseItem extends Model
         return $this->hasMany(AccountingItemDiscount::class, 'item_id')->where('type', 'purchase');
     }
 
+    public function discounts_amount()
+    {
+        return $this->hasMany(AccountingItemDiscount::class, 'item_id')
+        ->where('type', 'purchase')
+        ->where('amount', 'percentage');
+    }
+
+
+    public function discounts_percent()
+    {
+        return $this->hasMany(AccountingItemDiscount::class, 'item_id')
+        ->where('type', 'purchase')
+        ->where('discount_type', 'percentage');
+    }
+
     public function purchase()
     {
         return $this->belongsTo(AccountingPurchase::class, 'purchase_id');
@@ -204,9 +219,17 @@ class AccountingPurchaseItem extends Model
         ];
     }
 
-
     public function scopeInPeriod(Builder $query, $start, $end):void
     {
         $query->whereBetween(DB::raw('DATE(created_at)'), [$start, $end]);
+    }
+
+    public function getTotalItemDiscountAttribute()
+    {
+        $amount= $this->discounts_amount()->sum('discount');
+   
+        $total_discount_percent=$this->discounts_percent()->sum('discount');
+        $amount+= $this->price *($total_discount_percent/100);
+        return $amount;
     }
 }
