@@ -547,7 +547,7 @@ if (!Number.prototype.$truncate) {
                 optss += '<option data-uni-price="' + unitPrice[i] + '" value="' + unitId[i] + '" > ' + unitName[i] +
                     '</option> ';
             }
-                    $(".bill-table tbody").append(`<tr class="single-row-wrapper tr-opreation" id="row${rowNum}" data-ifhastax="${priceHasTax}" data-tot-taxes="${totalTaxes}">
+                    $(".bill-table tbody").append(`<tr class="single-row-wrapper tr-opreation" id="row${rowNum}" data-if hastax="${priceHasTax}" data-tot-taxes="${totalTaxes}">
 							<td class="row-num" width="40">${rowNum}</td>
                             <input type="hidden" name="product_id[]" value="${ProductId}">
 							<td class="product-name maybe-hidden name_enable"><a href="${productLink}" target="_blank" rel="noopener noreferrer">${productName}</a></td>
