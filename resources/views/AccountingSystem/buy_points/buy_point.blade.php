@@ -337,8 +337,10 @@ unit_total_tax_enable
                                                 <div>
                                                     <label for="byAmount" class="wit-lbl">ادخل مبلغ الخصم</label>
                                                     <input type="number" step="any" placeholder="مبلغ الخصم" min="0"
-                                                        value="0" max="1" id="byAmount" name="discount_byAmount"
-                                                        class="form-control dynamic-input">
+                                                            value="0" 
+                                                            id="byAmount"
+                                                            name="discount_byAmount"
+                                                            class="form-control dynamic-input">
                                                     <span class="rs"> ر.س </span>
                                                 </div>
                                             </div>
