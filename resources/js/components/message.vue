@@ -20,7 +20,7 @@
         <div v-if="message.user.name" class="incoming_msg_img"> {{ message.user.name }}</div>
         <div class="received_msg">
             <div class="received_with_msg">
-                <p v-if="message.text" class="text my-msg" >{{ message.text }}</p>
+                <p v-if="message.message" class="text my-msg" >{{ message.message }}</p>
                 <span class="time_date">{{ created_at }}</span></div>
         </div>
     </div>
@@ -69,7 +69,7 @@
                 <div  class="incoming_msg_img"> test</div>
                 <div class="received_msg">
                     <div class="received_with_msg">
-                        <p v-if="message.text" class="text my-msg-mobile">{{ message.text }}</p>
+                        <p v-if="message.message" class="text my-msg-mobile">{{ message.message }}</p>
                         <div class="align-left"><span class="time_date">{{ created_at }}</span></div>
                     </div>
                 </div>
