@@ -547,18 +547,17 @@ if (!Number.prototype.$truncate) {
                 optss += '<option data-uni-price="' + unitPrice[i] + '" value="' + unitId[i] + '" > ' + unitName[i] +
                     '</option> ';
             }
-
-                    $(".bill-table tbody").append(`<tr class="single-row-wrapper tr-opreation" id="row${rowNum}" data-ifhastax="${priceHasTax}" data-tot-taxes="${totalTaxes}">
+                    $(".bill-table tbody").append(`<tr class="single-row-wrapper tr-opreation" id="row${rowNum}" data-if hastax="${priceHasTax}" data-tot-taxes="${totalTaxes}">
 							<td class="row-num" width="40">${rowNum}</td>
                             <input type="hidden" name="product_id[]" value="${ProductId}">
 							<td class="product-name maybe-hidden name_enable"><a href="${productLink}" target="_blank" rel="noopener noreferrer">${productName}</a></td>
 							<td class="product-unit maybe-hidden unit_enable" width="70">
-								<select class="form-control js-example-basic-single" name="unit_id[${ProductId}]" >
+								<select class="form-control js-example-basic-single" name="unit_id[]" >
 									${optss}product_id
 								</select>
 							</td>
 							<td class="product-quantity maybe-hidden quantity_enable" width="70">
-								<input type="number" placeholder="الكمية" step="1" min="1" value="1" id="sale" class="form-control" name="quantity[${ProductId}]">
+								<input type="number" placeholder="الكمية" step="1" min="1" value="1" id="sale" class="form-control" name="quantity[]">
 							</td>
 							<td class="expiration-date maybe-hidden expiration_enable" width="120">
 								${dateInpt}
@@ -571,7 +570,7 @@ if (!Number.prototype.$truncate) {
 							</td>
 							<td class="quantityXprice maybe-hidden total_enable" width="70">${productPrice}</td>
 							<td class="whole-product-gifts maybe-hidden gifts_enable" width="70">
-								<input type="number" placeholder="الهدايا" step="1" min="0" value="0" class="form-control" name="gifts[${ProductId}]">
+								<input type="number" placeholder="الهدايا" step="1" min="0" value="0" class="form-control" name="gifts[]">
 							</td>
 							<td class="whole-product-discounts maybe-hidden discounts_enable per1" width="95"></td>
 							<td class="whole-product-discounts maybe-hidden discounts_enable bud1" width="95"></td>
@@ -579,10 +578,10 @@ if (!Number.prototype.$truncate) {
 							<td class="whole-product-discounts maybe-hidden discounts_enable bud2" width="95"></td>
 
 							<td class="single-price-before maybe-hidden">
-								<input type="number" class="form-control" step="any" value="${singlePriceBefore}" min="0" name="prices[${ProductId}]">
+								<input type="number" class="form-control" step="any" value="${singlePriceBefore}" min="0" name="prices[]">
 							</td>
 
-                            <input type="hidden" name="itemTax[${ProductId}]" value="${netTax}">
+                            <input type="hidden" name="itemTax[]" value="${netTax}">
 							<td class="single-price-after maybe-hidden total_taxes_enable" data-sinAft="${singlePriceAfter}" width="70">
 								${netTax}
 							</td>
@@ -594,7 +593,7 @@ if (!Number.prototype.$truncate) {
                                <div class="content-opreation-td">
                                     <a href="${productLink}" target="_blank" title="عرض المنتح" rel="noopener noreferrer">عرض المنتج</a>
                                     <a data-toggle="modal" title="إضافة خصم" data-target="#discMod${rowNum}">إضافة خصم</a>
-                                    <a href="#" title="مسح" class="remove-prod-from-list"><span class="icon-cross"></span></a>
+                                    <a href="#" title="مسح" class="remove-prod-from-list" data-modal="#discMod${rowNum}"><span class="icon-cross"></span></a>
                                </div>
                                 
 							</td>
@@ -1019,6 +1018,7 @@ if (!Number.prototype.$truncate) {
             //**************    Calc while removing a product ************************
             $(".remove-prod-from-list").on('click', function(e) {
                 e.preventDefault();
+                $(this.getAttribute('data-modal')).remove();
                 $(this).parents("tr").remove();
                 calcInfo();
                 var trLen = $(".finalTb  tbody tr").length;

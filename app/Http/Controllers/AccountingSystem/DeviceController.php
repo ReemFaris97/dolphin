@@ -3,12 +3,7 @@
 namespace App\Http\Controllers\AccountingSystem;
 
 use App\Models\AccountingSystem\AccountingBranch;
-use App\Models\AccountingSystem\AccountingBranchShift;
-use App\Models\AccountingSystem\AccountingColumnCell;
 use App\Models\AccountingSystem\AccountingCompany;
-
-use App\Models\AccountingSystem\AccountingFaceColumn;
-use App\Models\AccountingSystem\AccountingSafe;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
@@ -25,7 +20,7 @@ class DeviceController extends Controller
      */
     public function index()
     {
-        $devices =AccountingDevice::all()->reverse();
+        $devices =AccountingDevice::latest()->get();
         return $this->toIndex(compact('devices'));
     }
 
@@ -52,32 +47,17 @@ class DeviceController extends Controller
         $rules = [
             'name'=>'required|string|max:191',
             'code'=>'nullable|string|max:191|unique:accounting_devices,code',
-
+            'model_id'=>'required|integer',
         ];
      
         $this->validate($request, $rules);
-
         $requests = $request->all();
+        $requests['model_type']=AccountingBranch::class;
 
 
-        if ($requests['company_id']==null & $requests['branch_id']!=null) {
-            $requests['model_id']= $requests['branch_id'];
-            $requests[ 'model_type']='App\Models\AccountingSystem\AccountingBranch';
-        }
-        if ($requests['branch_id']==null & $requests['company_id']!=null) {
-            $requests[ 'model_id']= $requests['company_id'];
-            $requests[ 'model_type']='App\Models\AccountingSystem\AccountingCompany';
-        }
-        $device=AccountingDevice::create($requests);
-        AccountingSafe::create([
-            'device_id'=>$device->id,
-            'name'=>$device->name,
-            'status'=>'cashier',
-            'model_type'=>$device->model_type='App\Models\AccountingSystem\AccountingBranch'?'App\Models\AccountingSystem\AccountingBranch':'App\Models\AccountingSystem\AccountingCompany',
-            'model_id'=>$device->model_id,
-
-        ]);
-
+      
+        AccountingDevice::create($requests);
+       
         alert()->success('تم اضافة  الجهاز بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.devices.index');
     }
@@ -119,25 +99,14 @@ class DeviceController extends Controller
     {
         $device =AccountingDevice::findOrFail($id);
         $rules = [
-
             'name'=>'required|string|max:191',
-
+            'code'=>'nullable|string|max:191|unique:accounting_devices,code,'.$id,
+            'model_id'=>'required|integer',
         ];
         $this->validate($request, $rules);
         $requests = $request->all();
         $device->update($requests);
-
-
-        if (array_key_exists('company_id', $requests)) {
-            $device->update([
-                'model_id' => $requests['company_id']
-            ]);
-        } elseif (array_key_exists('branch_id', $requests)) {
-            $device->update([
-                'model_id' => $requests['branch_id']
-            ]);
-        }
-        alert()->success('تم تعديل  الصف بنجاح !')->autoclose(5000);
+        alert()->success('تم تعديل  الجهاز بنجاح !')->autoclose(5000);
         return redirect()->route('accounting.devices.index');
     }
 

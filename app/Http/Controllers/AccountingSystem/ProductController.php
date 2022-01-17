@@ -791,10 +791,22 @@ class ProductController extends Controller
                 'product_id' => $product->id
             ]);
         }
-
-        if ($request['tax']) {
-            $product->tax()->sync($request->taxs);
+            $product->tax()->delete($request->taxs);
+        if (isset($request['tax']) & $request['tax'] == 1) {
+            if (isset($request['tax_band_id'])) {
+                $taxs = $request['tax_band_id'];
+                foreach ($taxs as $tax) {
+                    AccountingProductTax::create([
+                        'product_id' => $product->id,
+                        'tax_value' => AccountingTaxBand::find($tax)->percent,
+                        'price_has_tax' => 1,
+                        'tax_band_id' => $tax,
+                        'tax' => $tax,
+                    ]);
+                }
+            }
         }
+        
         return response()->json(['status' => true, 'message' => 'تم التعديل  بنجاح !']);
     }
 
