@@ -1,6 +1,6 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','موظفين الموردين')
-@section('parent_title','موظفين الموردين')
+@section('title','نشاط الموظفين')
+@section('parent_title','نشاط الموظفين')
 @section('action', URL::route('accounting.products.index'))
 
 @section('styles')
@@ -10,7 +10,7 @@
 @section('content')
     <div class="panel panel-flat">
         <div class="panel-heading">
-            <h5 class="panel-title">عرض كل موظفين الموردين
+            <h5 class="panel-title">عرض كل نشاط الموظفين
             </h5>
             <div class="heading-elements">
                 <ul class="icons-list">
@@ -28,34 +28,18 @@
                 <tr>
                     <th>#</th>
 
-                    <th> الاسم</th>
-                    <th> رقم الجوال</th>
-                    <th> البريد</th>
-                    <th> الصلاحيات</th>
-                    <th> النشاطات</th>
+                    <th> التفاصيل</th>
                     <th> تاريخ الانشاء</th>
 
                 </tr>
                 </thead>
                 <tbody>
 
-                @foreach($users as $user)
+                @foreach($logs as $log)
                     <tr>
                         <td>{!!$loop->iteration!!}</td>
-                        <td>{{ $user->name}}</td>
-                        <td>{{ $user->phone}}</td>
-                        <td>{{ $user->email}}</td>
-                        <td>
-                            <ul>
-
-                            @foreach($user->permissions??[] as $permission)
-                                <li style="font-weight: bold">{{$permission}}</li>
-                        @endforeach
-                            </ul>
-
-                        </td>
-                        <td><a href="{{route('accounting.supplier-users.show',$user->id)}}"><i class="fa fa-eye"></i></a></td>
-                        <td>{{ $user->created_at}}</td>
+                        <td>{{ $log->description}}</td>
+                        <td>{{ $log->created_at}}</td>
 
                     </tr>
 
