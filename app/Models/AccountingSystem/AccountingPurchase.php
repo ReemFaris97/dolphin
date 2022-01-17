@@ -114,4 +114,10 @@ class AccountingPurchase extends Model
     {
         return $this->hasMany(AccountingPurchaseItem::class, 'purchase_id');
     }
+   
+
+    public function getTotalDiscountAttribute()
+    {
+        $this->items->sum('total_item_discount');
+    }
 }
