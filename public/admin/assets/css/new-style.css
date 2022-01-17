@@ -328,6 +328,7 @@ input.chat-input-text {
     border: 2px solid #2ecc71;
     padding: 10px;
     border-radius: 5px;
+    padding-left: 65px;
 }
 
 span.time_date {
