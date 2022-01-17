@@ -112,8 +112,8 @@ class AuthController extends Controller
         $request->validate([
             'phone' => 'required|exists:suppliers_users,phone',
         ]);
-        $user = User::where('phone', $request->phone);
-        $user->first()->update([
+        $user = User::where('phone', $request->phone)->first();
+        $user->update([
             'reset_code' => 1234,
             'reset_at' => now()->toDateTimeString()
         ]);
