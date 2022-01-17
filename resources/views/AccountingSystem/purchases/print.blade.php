@@ -1,443 +1,297 @@
-<!DOCTYPE html>
-<html lang="en">
+<link rel="stylesheet" type="text/css" href="{{ asset('dashboard/assets/vendors/base/new-print-sales.css') }}">
+<style>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>  فاتورة</title>
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/assets/css/print-style-table.css') }}">
-</head>
+</style>
+<div class="m-portlet__body">
+    <button type="button" id="print-all">طباعة</button>
+    <!--------- start content ---------->
+    <div id="print_this">
+        <div id="myDivToPrint">
+            <div class="logo-bg">
+                <div class="bill-container">
+                    <div>
+                        <!--- header -->
+                        <div class="header">
+                            <header>
+                                <div class="hd_inn">
+                                    <div class="hd_txt">
+                                        <h3>مؤسسة الرمانة التجارية</h3>
+                                        <h3>Dolphin Trading Corporation</h3>
+                                        <div class="flexx">
+                                        </div>
+                                    </div>
+                                    <div class="logo">
+                                        <img
+                                            src="{!! asset('dashboard/assets/demo/demo12/media/img/logo/logo-black.png')!!}"
+                                            alt="logo">
+                                    </div>
+                                </div>
+                            </header>
+                            <!---- columns -->
+                            <div class="row">
+                                <div class="col">
+                                    <div class="box1">
+                                        <div class="flexx">
+                                            <h4>اسم المورد</h4>
+                                            <p>{{@$purchase->supplier->name }}</p>
+                                            <!-- <h4>date</h4> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="box1">
+                                        <div class="flexx">
+                                            <h4>رقم الفاتورة لدي المورد</h4>
+                                            <p> 5</p>
 
-<body>
-    <table class="parent-table">
-        <thead>
-            <tr>
-                <td>
-                    <div class="header-space">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="box1">
+                                        <div class="flexx">
+                                            <h4>رقم الفاتورة</h4>
+                                            <p>{{$purchase->id}} </p>
+                                            <h4>invoice no.</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!---->
+                            <div class="row">
+                                <div class="col">
+                                    <div class="box1">
+                                        <div class="flexx">
+                                            <h4>التاريخ</h4>
+                                            <p>{{@$purchase->created_at->toDateString()}} </p>
+                                            <h4>date</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="box1">
+                                        <div class="flexx">
+                                            <h4>نوع الفاتورة</h4>
+                                            <p>{{$purchase->payment=='cash'?'كاش':'آجل'}}  </p>
+                                            <h4>invoice type</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="box1">
+                                        <div class="flexx">
+                                            <h4> عدد الاصناف</h4>
+                                            <p> {{count($purchase->items)}} </p>
+                                            <h4>invoice no.</h4>
+                                        </div>
 
-                    </div>
-                </td>
-            </tr>
-        </thead>
-        <tbody class="tbody-poadding">
-            <tr>
-                <td>
-                    <div class="content  back-img-opacity">
-                        <div class="one-bill-inpt the-bill-company text-center" >
-                            <p>اسم المورد : اسم شركة التوريد اللي تمت اضافة الفاتورة عليه</p>
-                            <p>تاريخ الفاتورة: 1 - 9 -2022</p>
-                            <p>عدد الأصناف: 22 </p>
-                            <p>قيمة الفاتورة : 55 </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!---->
+                            <div class="row">
+                                <div class="box1">
+                                    <div class="flexx">
+                                        <div class="box1 half">
+                                            <div class="flexx">
+                                                <h4>مدخل الفاتوره</h4>
+                                                <p>{{@$purchase->user->name}}   </p>
+                                                <h4>Representative Name</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <table class="table-bordered">
-                            <thead style="display:table-header-group;font-weight:bold">
-                                <tr>
-                                    <th>رقم الفاتورة في النظام  </th>
-                                    <th>رقم الفاتورة لدي المورد </th>
-                                    <th>الضريبة  </th>
-                                    <th>الخصم</th>
-                                    <th>الصافي</th>
-                                    <th>طرق الدفع</th>
-                                </tr>
+                        <!--- table---->
+
+                        <table>
+                            <thead>
+                            <tr>
+                                <td>
+                                    <div class="header-space">&nbsp;</div>
+                                </td>
+                            </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
+                            <tr>
+                                <td>
+                                    <div class="content">
+                                        <div class="bg_logo">
 
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
+                                            @php($tax_percent=(float)(getsetting('general_taxs')) )
+                                            @php($tax_amount= $purchase->totalTaxs)
+                                            @php($total=$purchase->total )
 
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
+                                            <table dir="ltr" class="the_table">
+                                                <thead>
+                                                <tr>
+                                                    <th>
+                                                        <p>م</p>
+                                                    </th>
+                                                    <th>
+                                                        <p>إسم الصنف</p>
+                                                    </th>
+                                                    <th>
+                                                        <p>الوحدة</p>
+                                                    </th>
+                                                    <th>
+                                                        <p>الكمية</p>
+                                                    </th>
+                                                    <th>
+                                                        <p>سعر الوحدة</p>
+                                                    </th>
+                                                    <th>
+                                                        <p>الضريبة للوحدة </p>
+                                                    </th>
+                                                    <th>
+                                                        <p>الهدايا </p>
+                                                    </th>
+                                                    <th>
+                                                        <p>الخصومات </p>
+                                                    </th>
+                                                    <th>
+                                                        <p>ضريبة القيمة المضافة </p>
+                                                    </th>
 
-                                </tr>
- <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
+                                                    <th class="col9">
+                                                        <p> اجمالي السعر </p>
+                                                    </th>
 
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
- <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
- <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
- <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
- <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
- <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
- <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
- <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
- <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
- <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2 </td>
-                                    <td>5</td>
-                                    <td> 8</td>
-                                    <td>88</td>
-                                    <td>88</td>
-
-                                </tr>
-
-
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @foreach($purchase->items as $value)
+                                                    <tr>
+                                                        <td>{!!$loop->iteration!!}</td>
+                                                        <td class="product-name">{{ $value?->product?->name }}</td>
+                                                        <td> {{$value->unit?$value->unit->name:$value?->product?->main_unit}}</td>
+                                                        <td>{{ $value->quantity }}</td>
+                                                        <td>{{number_format($value->price,2) }}</td>
+                                                        <td>  {{ $value->tax }} </td>
+                                                        <td> {{ $value->gifts }}</td>
+                                                        <td>  </td>
+                                                        <td>{{ $value->tax }} </td>
+                                                        <td>{{ round($value->price_after_tax )}} </td>
+                                                    </tr>
+                                                @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
                             </tbody>
-
+                            <tfoot>
+                            <tr>
+                                <td>
+                                    <div class="footer-space">&nbsp;</div>
+                                </td>
+                            </tr>
+                            </tfoot>
                         </table>
 
-
                     </div>
-                </td>
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td>
-                    <div class="footer-space">&nbsp;</div>
-                </td>
-            </tr>
-        </tfoot>
-    </table>
-    <div class="header">
+                    <div class="footer">
+                        <div class="">
+                            <table class="the_table">
+                                <tfoot>
+                                <tr>
+                                    <th>{{(float) $purchase->amount}}</th>
+                                    <th colspan="4">
+                                        <div class="flexx">
+                                            <p>total</p>
+                                            <p>الإجمالى (بدون ضريبة)</p>
+                                        </div>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>{{$tax_amount}}</th>
+                                    <th colspan="4">
+                                        <div class="flexx">
+                                            <p>قيمة القيمة المضافة</p>
+                                            <p>vat (15%)</p>
+                                        </div>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>{{$purchase->total}}</th>
+                                    <th>
+                                        <p>net amount</p>
+                                        <p>اجمالى الفاتورة</p>
+                                    </th>
+                                    <th>
+                                        <div class="box1">
+                                            <div class="flexx">
+                                                <h4>المبلغ كتابة:</h4>
+                                                <h4>S.R in words:</h4>
+                                            </div>
+                                            <p>
+                                                {{\Alkoumi\LaravelArabicTafqeet\Tafqeet::inArabic($purchase->total)}}
+                                            </p>
+                                        </div>
+                                    </th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                            <div class="row">
+                                <div class="col-3 box1 flexx" style="width:100%">
+                                    <p style="text-align:center;">المدفوع كاش</p>
+                                        @if ($purchase->payment =='cash')
+                                        <p style="text-align:center;">  {{$purchase->total}}</p>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <!--- footer -->
+                        <footer>
 
-        <div class="content-header">
-            <div class="content-div">
-                <div class="hd_txt">
-                    <h3>مؤسسة دلفن التجارية</h3>
-                    <h3>Dolphin Trading Corporation</h3>
-                    <div class="flexx">
+                            <!-- <div class="row">
+                                <div class="flexx foot_bg">
+                                    <div>
+                                        <h5>المملكة العربية السعودية - القصيم - بريدة - شارع الصباخ
+                                        </h5>
+                                        <div class="sp-arrownd">
+                                            <h5>الهاتف</h5>
+                                            <h5>0163231301</h5>
+                                        </div>
+
+                                    </div>
+                                    <div>
+                                        <h5>الرقم الضريبى vat no.</h5>
+                                        <h5>300420708200003</h5>
+                                        <h5>سجل تجارى c.r</h5>
+                                        <h5>1131021506</h5>
+                                    </div>
+                                    <div>
+                                        <h5> Kingdom of Saudi Arabia - Al-Qassim - Qassim Second Industrial City</h5>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="row">
+                            </div>
+                        </footer>
                     </div>
                 </div>
             </div>
-            <div class="content-div">
-                <img src="{{ asset('dashboard/assets/app/media/img/logos/20191031163554-شعار رمانة.png') }}">
-                {{-- <h4>سند تحويل مواد</h4> --}}
-            </div>
-
         </div>
     </div>
+</div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function() {
+<script src="http://beta.alqabedah.com/dashboard/assets/vendors/base/jquery-2.1.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#print-all").on('click', function () {
             window.print();
 
+            // let t = document.getElementById("print_this").innerHTML;
+            // let style = ``;
+            // let win = window.open('', '');
+            // win.document.write(`${style}${t}`);
+            // win.document.close();
+            // setTimeout(() => {win.print()}, 100);
         });
-    </script>
-</body>
+        // window.print();
 
-</html>
+    })
+</script>

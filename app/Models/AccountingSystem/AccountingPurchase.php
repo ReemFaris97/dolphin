@@ -83,7 +83,6 @@ class AccountingPurchase extends Model
     {
         return $this->belongsTo(AccountingSupplier::class, 'supplier_id');
     }
-
     public function session()
     {
         return $this->belongsTo(AccountingSession::class, 'session_id');
