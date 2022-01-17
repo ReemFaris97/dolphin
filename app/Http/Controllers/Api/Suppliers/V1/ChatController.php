@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\Suppliers\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BaseCollection;
-use App\Http\Resources\Chat\MessageResource;
+use App\Http\Resources\Suppliers\MessageResource;
 use App\Models\Chat\Chat;
 use App\Models\Supplier\User;
 use Illuminate\Http\Request;
