@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Events\Accounting\FundSaved;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * App\Models\AccountingFund
@@ -54,15 +55,16 @@ class AccountingFund extends Model
 
 
     /**
-     * The event map for the model.
+     * The "booting" method of the model.
      *
-     * @var array
+     * @return void
      */
-    protected $dispatchesEvents = [
-        'saved' => FundSaved::class,
-        // 'deleted' => UserDeleted::class,
-    ];
-
+    protected static function booted()
+    {
+        static::addGlobalScope('addBalance', function (Builder $builder) {
+            $builder->WithBalance();
+        });
+    }
     public function branch():BelongsTo
     {
         return $this->belongsTo(AccountingBranch::class, 'branch_id');
@@ -80,5 +82,13 @@ class AccountingFund extends Model
     public function transaction()
     {
         return $this->morphOne(AccountingFundTransaction::class, 'billable');
+    }
+    public function scopeWithBalance(Builder $builder): void
+    {
+        $builder->addSelect([
+                'balance'=>AccountingFundTransaction::query()
+                ->whereColumn('fund_id', 'accounting_funds.id')
+                ->selectRaw("SUM(IF(type=1,amount,amount*-1))")
+                ->limit(1)]);
     }
 }
