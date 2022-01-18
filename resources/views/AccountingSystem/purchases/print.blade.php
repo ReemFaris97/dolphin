@@ -170,7 +170,7 @@
                                                         <td>{{number_format($value->price,2) }}</td>
                                                         <td>  {{ $value->tax }} </td>
                                                         <td> {{ $value->gifts }}</td>
-                                                        <td>  </td>
+                                                        <td> {{$value->total_discount}} </td>
                                                         <td>{{ $value->tax }} </td>
                                                         <td>{{ round($value->price_after_tax )}} </td>
                                                     </tr>
