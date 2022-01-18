@@ -22,6 +22,7 @@ use App\Models\AccountingSystem\AccountingSupplierProduct;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
+use Illuminate\Validation\Rule;
 
 class SupplierController extends Controller
 {

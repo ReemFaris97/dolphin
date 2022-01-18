@@ -78,11 +78,12 @@ class ChatController extends Controller
     {
         $inputs = $request->validate([
             'message' => 'required|string',
+            'attachment' => 'sometimes|nullable|file',
+            'type' => 'in:voice,image,video,message|required_with:attachment',
 
         ]);
         $inputs['user_type'] = \App\Models\User::class;
         $inputs['user_id'] = auth()->id();
-        $inputs['type'] = 'text';
         $message = $chat->messages()->create($inputs);
 
         return \responder::success(['text'=>'تم الارسال بنجاح !','message'=>new \App\Http\Resources\Suppliers\MessageResource($message)]);

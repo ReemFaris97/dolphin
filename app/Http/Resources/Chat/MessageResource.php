@@ -18,7 +18,7 @@ class MessageResource extends JsonResource
         return[
             'id'=>$this->id,
             'chat_id'=>$this->chat_id,
-            'text'=>$this->message,
+            'message'=>$this->message,
             'type'=>$this->type,
             'attachment'=>$this->attachment,
             'created_at'=>$this->created_at->toDateTimeString(),
