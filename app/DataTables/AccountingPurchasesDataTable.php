@@ -22,6 +22,7 @@ class AccountingPurchasesDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('id', fn($invoice) => $invoice->id)
+            ->addColumn('supplier_id', fn($invoice) => $invoice->supplier->name)
             ->addColumn('created_at', fn($invoice) => $invoice->created_at)
             ->addColumn('total', fn($invoice) => $invoice->total)
             ->addColumn('action', fn($invoice) => view('AccountingSystem.purchases.action', ['row' => $invoice])->render())
@@ -71,6 +72,7 @@ class AccountingPurchasesDataTable extends DataTable
     {
         return [
             Column::make('id')->title('رقم الفاتورة')->addClass('text-center'),
+            Column::make('supplier_id')->title('اسم المورد  ')->addClass('text-center'),
             Column::make('created_at')->title('تاريخ الفاتورة')->addClass('text-center'),
             Column::make('total')->title('قيمة الفاتورة')->addClass('text-center'),
             Column::computed('action', 'العمليات')->addClass('text-center')->width(250),
