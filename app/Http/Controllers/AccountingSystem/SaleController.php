@@ -86,7 +86,7 @@ class SaleController extends Controller
         if (!$request->client_id) {
             $requests['client_id']=AccountingClient::first()->id;
         }
-        $session=\App\Models\AccountingSystem\AccountingSession::find($request->session_id);
+        $session=AccountingSession::find($request->session_id);
         $requests['branch_id']=$session->device->model_id;
 
         if (getsetting('automatic_sales')==1) {
@@ -95,9 +95,8 @@ class SaleController extends Controller
 
         $requests['payment']='cash';
 
-        if ($requests['total']==null) {
-            $requests['total']= $requests['amount'];
-        }
+        $requests['total']= $requests['amount'];
+
         $requests['store_id']=$session->store_id??1;
         $request['date']=$requests['bill_date'] ;
         $request['debts']=$requests['reminder'] ;
