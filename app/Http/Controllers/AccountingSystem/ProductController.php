@@ -748,15 +748,10 @@ class ProductController extends Controller
             $inputs['image'] = saveImage($request->image, 'photos');
         }
         $product->update($inputs);
-        // if (isset($request['store_id'])) {
-        //     AccountingProductStore::create([
-        //         'store_id' => $inputs['store_id'],
-        //         'product_id' => $product->id,
-        //     ]);
-        // }
+        
 
         foreach ($request->sub_units ??[]as $sub_unit) {
-            $unit = $product->sub_units()->UpdateOrCreate(['id' => \Arr::get($sub_unit, 'id')], [
+            $product->sub_units()->UpdateOrCreate(['id' => \Arr::get($sub_unit, 'id')], [
                 'name' => $sub_unit['name'],
                 'bar_code' => $sub_unit['bar_code'],
                 'main_unit_present' => $sub_unit['main_unit_present'],
@@ -792,18 +787,15 @@ class ProductController extends Controller
             ]);
         }
         $product->tax()->sync([]);
-        if (isset($request['tax']) & $request['tax'] == 1) {
-            if (isset($request['tax_band_id'])) {
-                $taxs = $request['tax_band_id'];
-                foreach ($taxs ??[]as $tax) {
-                    AccountingProductTax::create([
+        $taxs = $request->taxs;
+        foreach ($taxs ??[]as $tax) {
+            AccountingProductTax::create([
                         'product_id' => $product->id,
                         'tax_value' => AccountingTaxBand::find($tax)->percent,
                         'price_has_tax' => 1,
                         'tax_band_id' => $tax,
                         'tax' => $tax,
                     ]);
-            }
         }
         
         return response()->json(['status' => true, 'message' => 'تم التعديل  بنجاح !']);
