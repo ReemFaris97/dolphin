@@ -118,6 +118,6 @@ class AccountingPurchase extends Model
 
     public function getTotalDiscountAttribute()
     {
-        $this->items->sum('total_item_discount');
+        return $this->items?->sum('total_item_discount');
     }
 }
