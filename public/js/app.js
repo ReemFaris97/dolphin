@@ -30097,9 +30097,9 @@ var render = function () {
           _vm._v(" "),
           _c("div", { staticClass: "received_msg" }, [
             _c("div", { staticClass: "received_with_msg" }, [
-              _vm.message.text
+              _vm.message.message
                 ? _c("p", { staticClass: "text my-msg" }, [
-                    _vm._v(_vm._s(_vm.message.text)),
+                    _vm._v(_vm._s(_vm.message.message)),
                   ])
                 : _vm._e(),
               _vm._v(" "),
@@ -30211,9 +30211,9 @@ var render = function () {
               _vm._v(" "),
               _c("div", { staticClass: "received_msg" }, [
                 _c("div", { staticClass: "received_with_msg" }, [
-                  _vm.message.text
+                  _vm.message.message
                     ? _c("p", { staticClass: "text my-msg-mobile" }, [
-                        _vm._v(_vm._s(_vm.message.text)),
+                        _vm._v(_vm._s(_vm.message.message)),
                       ])
                     : _vm._e(),
                   _vm._v(" "),
