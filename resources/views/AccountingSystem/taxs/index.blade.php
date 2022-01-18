@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-    <div class="panel panel-flat">
+    <div class="panel panel-flat">@
         <div class="panel-heading">
             <h5 class="panel-title">عرض كل الشرائح
             <div class="btn-group beside-btn-title">
@@ -49,12 +49,13 @@
 
 
                         <td class="text-center">
+                        @if($row->id!=1)
                             <a href="{{route('accounting.taxs.edit',$row->id)}}" data-toggle="tooltip" data-original-title="تعديل"> <i class="icon-pencil7 text-inverse" style="margin-left: 10px"></i> </a>
                             <a href="#" onclick="Delete({{$row->id}})" data-toggle="tooltip" data-original-title="حذف"> <i class="icon-trash text-inverse text-danger" style="margin-left: 10px"></i> </a>
 
                             {!!Form::open( ['route' => ['accounting.taxs.destroy',$row->id] ,'id'=>'delete-form'.$row->id, 'method' => 'Delete']) !!}
                             {!!Form::close() !!}
-
+                        @endif
                         </td>
                     </tr>
 
