@@ -45,7 +45,7 @@
                                         <div class="flexx">
                                             <h4>رقم الفاتورة لدي المورد</h4>
                                             <p> 5</p>
-                                          
+
                                         </div>
 
                                     </div>
@@ -123,7 +123,7 @@
                                     <table dir="ltr" class="the_table">
                                         <thead>
                                         <tr>
-                                           
+
                                             <th>
                                                 <p>م</p>
                                             </th>
@@ -151,11 +151,11 @@
                                             <th>
                                                 <p>ضريبة القيمة المضافة </p>
                                             </th>
-                                           
+
                                             <th class="col9">
                                                 <p> اجمالي السعر </p>
                                             </th>
-                                           
+
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -171,8 +171,8 @@
                                                 <td>10.04</td>
                                                 <td>10.04</td>
                                             </tr>
-                                         
-                                                                                                            
+
+
                                          </tbody>
                                     </table>
                                 </div>
@@ -196,7 +196,7 @@
                                             <p>الإجمالى (بدون ضريبة)</p>
                                         </div>
                                     </th>
-                          
+
 
                                 </tr>
                                 <tr>
@@ -222,7 +222,7 @@
                                                 <h4>المبلغ كتابة:</h4>
                                                 <h4>S.R in words:</h4>
                                             </div>
-                                            
+
                                             <p>
                                                 فقط ثمانية و سبعون ريال وأربعة هللات لا غير
                                             </p>
@@ -237,7 +237,7 @@
                                     <p style="text-align:center;">المدفوع كاش</p>
                                     <p style="text-align:center;">0</p>
                                 </div>
-                               
+
                             </div>
                         </div>
                         <!--- footer -->
@@ -252,7 +252,7 @@
                                             <h5>الهاتف</h5>
                                             <h5>0163231301</h5>
                                         </div>
-                                        
+
                                     </div>
                                     <div>
                                         <h5>الرقم الضريبى vat no.</h5>
@@ -275,7 +275,7 @@
     </div>
 </div>
 
-<script src="http://beta.alqabedah.com/dashboard/assets/vendors/base/jquery-2.1.4.min.js"></script>
+<script src="{!! asset('dashboard/assets/vendors/base/jquery-2.1.4.min.js') !!}"></script>
 <script>
     $(document).ready(function () {
         $("#print-all").on('click', function () {
