@@ -78,6 +78,10 @@ class AccountingPurchase extends Model
              ,'safe_id','user_id','company_id','branch_id','discount_type','bill_date','counter','daily_number','counter_purchase','account_id'];
     protected $table='accounting_purchases';
 
+    public function getPdfAttribute()
+    {
+        return route('api.suppliers.purchase.show',$this->id);
+}
 
     public function supplier()
     {
@@ -114,7 +118,7 @@ class AccountingPurchase extends Model
     {
         return $this->hasMany(AccountingPurchaseItem::class, 'purchase_id');
     }
-   
+
 
     public function getTotalDiscountAttribute()
     {

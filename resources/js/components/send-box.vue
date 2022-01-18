@@ -49,7 +49,6 @@ export default {
                     timer: 2000,
                 })
             }
-            console.log(types[file['type']])
             let inputs = new FormData();
             inputs.append('attachment', file);
             inputs.append('type', types[file['type']]);

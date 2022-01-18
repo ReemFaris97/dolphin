@@ -23,7 +23,8 @@ class PurchaseResource extends JsonResource
             'bill_num'=>$this->bill_num,
             'created_at'=>$this->created_at,
             'items_count'=>$this->items_count,
-            'items'=>PurchaseItemResource::collection($this->items)
+            'items'=>PurchaseItemResource::collection($this->items),
+            'pdf'=>$this->pdf
 
 
         ];

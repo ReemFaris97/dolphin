@@ -13,6 +13,8 @@ Route::group(['prefix' => 'auth'],function (){
     Route::post('forget-password/check',[AuthController::class,'checkCode']);
     Route::post('forget-password/reset',[AuthController::class,'resetPassword']);
 });
+Route::get('purchase-invoices/{purchase}',[PurchaseController::class,'show'])->name('purchase.show');
+Route::get('purchase-return-invoices/{purchase-return}',[PurchaseReturnController::class,'show'])->name('purchase-return.show');
 
 Route::group(['middleware' => 'auth:supplier'],function (){
 
@@ -27,8 +29,8 @@ Route::group(['middleware' => 'auth:supplier'],function (){
     Route::get('list/products', [ProductController::class, 'list']);
     Route::get('my-products', [ProductController::class, 'myProducts']);
 
-    Route::get('purchase-invoices',PurchaseController::class);
-    Route::get('purchase-return-invoices',PurchaseReturnController::class);
+    Route::get('purchase-invoices',[PurchaseController::class,'index']);
+    Route::get('purchase-return-invoices',[PurchaseReturnController::class,'index']);
     Route::get('home',HomeController::class );
     Route::get('spinners',SpinnersController::class );
     Route::get('logs',LogController::class);
