@@ -31,7 +31,7 @@
             <div  class="another-user-box-mobile">
                 <div class="my-msg-mobile my-media-mobile">
                     <div>
-                        <div v-if="message.type=='voice'" class="my-msg my-media">
+                        <div v-if="message.type=='voice'" class="">
                             <vue-plyr>
                                 <audio controls crossorigin playsinline>
                                     <source
@@ -41,7 +41,7 @@
                                 </audio>
                             </vue-plyr>
                         </div>
-                        <div v-else-if="message.type=='video'" style="width: 300px;height: 300px" class="my-msg my-media">
+                        <div v-else-if="message.type=='video'" style="width: 100%;height: 300px" class="my-msg-mobile my-media-mobile">
                             <vue-plyr >
                                 <video
                                     controls
@@ -59,7 +59,7 @@
                             </vue-plyr>
 
                         </div>
-                        <div v-else-if="message.type=='image'" class="my-msg my-media">
+                        <div v-else-if="message.type=='image'" class="my-msg-mobile my-media-mobile">
                             <div>
                                 <a :href="message.attachment" target="_blank"><img :src="message.attachment" class="img-lg img-preview img-responsive" alt=""></a>
                             </div>
