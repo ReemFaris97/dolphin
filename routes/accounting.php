@@ -36,6 +36,7 @@ Route::middleware('admin')->group(function () {
     Route::resource('roles', 'roleController');
     Route::resource('backups', 'BackupController');
     Route::resource('supplier-users','Suppliers\UserController');
+    Route::resource('suppliers-invoices','Suppliers\InvoiceController');
     Route::get('/product-units/{id}', 'ProductRecipeController@getProductUnits')->name('getProductUnits');
 
     Route::get('/production-updateStatus/{id}', 'ProductionController@updateStatus')->name('productions.updateStatus');

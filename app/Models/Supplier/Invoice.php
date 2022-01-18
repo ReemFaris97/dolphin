@@ -11,7 +11,7 @@ class Invoice extends Model
     use HasFactory;
 
     protected $table = 'suppliers_invoices';
-    protected $fillable = ['accounting_supplier_id'];
+    protected $fillable = ['accounting_supplier_id','status'];
 
     public function AccountingSupplier()
     {
