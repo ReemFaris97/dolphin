@@ -98,7 +98,7 @@
                                     <label> إسم المورد </label>
                                     {!! Form::select('supplier_id', $suppliers, null, ['class' => 'selectpicker form-control inline-control', 'placeholder' => 'اختر اسم المورد', 'data-live-search' => 'true', 'data-parsley-required-message' => 'من فضلك اختر المورد', 'id' => 'supplier_id', 'required' => '']) !!}
                                 </div>
-                             
+
                                 @if (getsetting('show_supplier_balance') == 1)
 
                                     <div class="form-group col-md-2  pull-left suppliers">
@@ -152,7 +152,7 @@
                         <input type="hidden" name="bill_date" id="bill_date_val">
                         {{-- {{getsetting('free_taxs')}} --}}
                         <table border="1"
-                            class="table finalTb moshtraiat-bill mabi3at-bill bill-table
+                            class="table finalTb moshtraiat-bill edit-mabi3at mabi3at-bill bill-table
 {{ getsetting('name_enable') == 1 ? 'name_enable' : '' }}
 {{ getsetting('barcode_enable') == 1 ? 'barcode_enable' : '' }}
 {{ getsetting('unit_enable') == 1 ? 'unit_enable' : '' }}
@@ -392,21 +392,21 @@ unit_total_tax_enable
                 var ok = $('.parsley-error').length === 0;
                 $('.bs-callout-info').toggleClass('hidden', !ok);
                 $('.bs-callout-warning').toggleClass('hidden', ok);
-            })  
+            })
         });
 function truncate(number, index = 2) {
   	// cutting the number
 
-      
+
     return +number.toString().slice(0, (number.toString().indexOf(".")) + ((rondingNumber ||index) + 1));
 }
 
 if (!Number.prototype.$truncate) {
   Object.defineProperty(Number.prototype, '$truncate', {
     value(precision=2) {
-        
+
         if(!Number.isInteger(+this.toString())){
-            
+
       return +this.toString().slice(0, (this.toString().indexOf(".")) + ((+precision) + 1))
       }
       return this
@@ -595,7 +595,7 @@ if (!Number.prototype.$truncate) {
                                     <a data-toggle="modal" title="إضافة خصم" data-target="#discMod${rowNum}">إضافة خصم</a>
                                     <a href="#" title="مسح" class="remove-prod-from-list" data-modal="#discMod${rowNum}"><span class="icon-cross"></span></a>
                                </div>
-                                
+
 							</td>
 						</tr>
 					`);
@@ -612,7 +612,7 @@ if (!Number.prototype.$truncate) {
                 trigger: "click"
             });
             $("#modals-area").append(`<div id="discMod${rowNum}" class="modal fade special-discount-modal" role="dialog">
-					  <div class="modal-dialog">
+					  <div class="modal-dialog edit-size-of-input">
 						<div class="modal-content">
 						  <div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -934,7 +934,7 @@ if (!Number.prototype.$truncate) {
             });
             $('#discMod' + rowNum).on('hidden.bs.modal', function(e) {
                 var modId = $(this).attr('id');
-                
+
                 var onlyModNum = modId.substr(7, modId.length);
                 var finalAftDisc = parseFloat($('#row' + onlyModNum).find('.quantityXprice').text());
                 var rows = $(this).find('.single-special-dis-wrap');
@@ -962,10 +962,10 @@ if (!Number.prototype.$truncate) {
                     finalAftDisc -= parseFloat($(rows[i]).find('.singleSpecialDiscByVal').val());
 
                     if (i === 0) {
-                        
+
                         if (((parseFloat($(rows[0]).find('.singleSpecialDiscByPer').val()) / 100) * finalAftDisc) !=
                             0) {
-                                
+
                                 let money=
                                 parseFloat(
                                     (parseFloat($(rows[0]).find('.singleSpecialDiscByPer').val()) / 100) *
@@ -1001,13 +1001,13 @@ if (!Number.prototype.$truncate) {
                     } else if (!($(rows[i]).find(".effectTax").is(":checked"))) {
                         var newNetTax = parseFloat($('#row' + onlyModNum).find('.single-price-after').text())
                     }
-                    
+
                     var newWholePriceAfter = parseFloat(finalAftDisc) + parseFloat(newNetTax);
 
                     $('#row' + onlyModNum).find('.whole-price-after')
                         .text(
                             parseFloat(
-                                parseFloat(newWholePriceAfter) 
+                                parseFloat(newWholePriceAfter)
                             ).$truncate(rondingNumber)
                         );
                     calcInfo();
@@ -1202,7 +1202,7 @@ if (!Number.prototype.$truncate) {
                 })
                 .then((willDelete) => {
                     if (willDelete) {
-                        
+
                         $("#buyForm").submit();
                     } else {
                         swal({
