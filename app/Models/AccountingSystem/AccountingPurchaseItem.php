@@ -75,7 +75,7 @@ class AccountingPurchaseItem extends Model
     {
         return $this->hasMany(AccountingItemDiscount::class, 'item_id')
         ->where('type', 'purchase')
-        ->where('amount', 'percentage');
+        ->where('discount_type', 'percentage');
     }
 
 
