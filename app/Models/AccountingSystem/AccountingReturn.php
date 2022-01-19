@@ -92,4 +92,14 @@ class AccountingReturn extends Model
     {
         return $query->whereBetween('created_at', [$start, $end]);
     }
+
+    public function getAmountAttribute()
+    {
+        return  $this->items->sum(fn ($item) =>$item->price*$item->quantity);
+    }
+
+    public function getItemsCountAttribute()
+    {
+        return  $this->items->sum('quantity');
+    }
 }

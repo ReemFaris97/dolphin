@@ -77,7 +77,7 @@
                         <td>{{$sale->id}}</td>
                         <td>المبيعات</td>
                         <td>{{$sale->items_count}}</td>
-                        <td>{{$sale->amount}}</td>
+                        <td>{{$sale->cash + $sale->visa}}</td>
                     </tr>
                     @endforeach
 
@@ -116,7 +116,7 @@
                         {{$sales->sum('network')}}
                         </td>
                          <td  class="text-center">
-                          {{$total_sales_amount=$sales->sum('amount')}}
+                          {{ $total_sales_amount=$sales->sum('cash') + $sales->sum('network')}}
                         </td>
                     </tr>
 

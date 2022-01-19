@@ -102,7 +102,7 @@ class SaleController extends Controller
             $requests['total']= $requests['amount'];
         }
         $requests['store_id']=$user->accounting_store_id;
-
+        $requests['cash']=$requests['cash']>$requests['amount']?$requests['amount']:$requests['cash'];
         \DB::beginTransaction();
         $sale=AccountingSale::create($requests);
 
@@ -265,6 +265,7 @@ class SaleController extends Controller
         $session=AccountingSession::find($request->session_id);
         $requests['branch_id']=$session->device->model_id;
         $requests['store_id']=$session->store_id??1;
+        $requests['cash']=$requests['cash']>$requests['amount']?$requests['amount']:$requests['cash'];
 
         $requests['user_id']=auth()->id();
         if ($requests['discount_byPercentage']!=0&&$requests['discount_byAmount']==0) {
@@ -290,8 +291,6 @@ class SaleController extends Controller
         foreach ($merges as $merge) {
             $product=AccountingProduct::find($merge['0']);
             $unit=AccountingProductSubUnit::where('id', $merge['2'])->first();
-
-            
             AccountingReturnSaleItem::create([
                 'product_id'=>$merge['0'],
                 'quantity'=> $merge['1'],
@@ -301,9 +300,7 @@ class SaleController extends Controller
             ]);
         }
 
-
         DB::commit();
-
         alert()->success('تم اضافة  فاتورة  الاسترجاع  بنجاح !')->autoclose(5000);
         return back()->with('sale_id', $returnSale->id);
     }
@@ -382,7 +379,7 @@ class SaleController extends Controller
         ]);
         $devices=AccountingDevice::where('available', 1)->pluck('name', 'id')->toArray();
         $userstores = AccountingUserPermission::where('user_id', auth()->user()->id)
-            ->where('model_type', 'App\Models\AccountingSystem\AccountingStore')->pluck('model_id', 'id')->toArray();
+            ->where('model_type', AccountingStore::class)->pluck('model_id', 'id')->toArray();
         $stores=AccountingStore::whereIn('id', $userstores)->pluck('ar_name', 'id')->toArray();
         return view('AccountingSystem.sell_points.login', compact('users', 'devices', 'stores'));
     }
@@ -425,7 +422,6 @@ class SaleController extends Controller
     public function update(Request $request, $id)
     {
         $requests=$request->all();
-        // dd($requests);
 
         $sale =AccountingSale::findOrFail($id);
         $sale -> update([
@@ -500,7 +496,7 @@ class SaleController extends Controller
         $categories=AccountingProductCategory::pluck('ar_name', 'id')->toArray();
         $sales_items=AccountingSaleItem::where('sale_id', $id)->pluck('product_id', 'id')->toArray();
         $userstores = AccountingUserPermission::where('user_id', auth()->user()->id)
-            ->where('model_type', 'App\Models\AccountingSystem\AccountingStore')->pluck('model_id', 'id')->toArray();
+            ->where('model_type', AccountingStore::class)->pluck('model_id', 'id')->toArray();
         $stores=AccountingStore::whereIn('id', $userstores)->pluck('ar_name', 'id')->toArray();
 
         $products=[];
