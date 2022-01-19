@@ -38,7 +38,7 @@ class InvoiceController extends Controller
         ]);
         $user = auth()->user();
         $supplier=$user->supplier;
-        $invoice=$supplier->invoices()->Create();
+        $invoice=$supplier->invoices()->Create(['user_id'=>$user->id]);
         $invoice->items()->createMany($inputs['items']);
         $invoice->items_sum_total=$invoice->items()->sum('total');
         activity()

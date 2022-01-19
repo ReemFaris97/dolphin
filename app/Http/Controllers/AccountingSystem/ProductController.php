@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\AccountingSystem;
 
 use App\DataTables\AccountingProductsDataTable;
-use App\DataTables\AccountingSuppliersProductsDataTable;
 use App\Http\Controllers\Controller;
 use App\Imports\AccountingImport;
 use App\Models\AccountingSystem\AccountingAccount;
@@ -27,6 +26,7 @@ use App\Models\AccountingSystem\AccountingService;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingSupplier;
 use App\Models\AccountingSystem\AccountingTaxBand;
+use App\Models\Supplier\Product;
 use App\Traits\Viewable;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -510,6 +510,11 @@ class ProductController extends Controller
 
 //        alert()->success('تم اضافة المنتج بنجاح !')->autoclose(5000);
 //        return redirect()->route('accounting.products.index');
+        $suggested = Product::whereIn('barcode', $request['barcodes'])->first();
+        if ($suggested) {
+            $suggested->supplier->admin()->notify();
+            $suggested->delete();
+        }
         return response()->json(['status' => true, 'message' => 'تم الاضافة بنجاح !']);
     }
 
@@ -806,7 +811,7 @@ class ProductController extends Controller
                 }
             }
         }
-        
+
         return response()->json(['status' => true, 'message' => 'تم التعديل  بنجاح !']);
     }
 

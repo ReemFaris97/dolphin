@@ -5,6 +5,7 @@ namespace App\Models\AccountingSystem;
 use App\Models\Supplier\Bank;
 use App\Models\Supplier\Invoice;
 use App\Models\Supplier\SupplierProduct;
+use App\Models\Supplier\User;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -58,12 +59,16 @@ use Illuminate\Database\Eloquent\Model;
  */
 class AccountingSupplier extends Model
 {
-    protected $table='accounting_suppliers';
+    protected $table = 'accounting_suppliers';
 
     protected $fillable = ['name', 'email', 'phone', 'credit', 'branch_id', 'amount', 'password', 'image', 'bank_id',
         'bank_account_number', 'tax_number', 'is_active', 'balance', 'account_id', 'phones', 'commercial_record', 'commercial_image', 'licence_image'
     ];
 
+    public function admin()
+    {
+        return $this->hasMany(User::class,'supplier_id')->whereNull('parent_id')->first();
+    }
 
     public function companies()
     {
@@ -74,6 +79,7 @@ class AccountingSupplier extends Model
     {
         return $this->hasMany(AccountingPurchase::class, 'supplier_id');
     }
+
     public function purchaseReturns()
     {
         return $this->hasMany(AccountingPurchaseReturn::class, 'supplier_id');
