@@ -60,7 +60,7 @@ export default {
             let data = {
                 message: this.message,
                 "_method": 'PUT',
-                type:'text'
+                type:'message'
             };
             this.sendData(data);
         },

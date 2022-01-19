@@ -103,7 +103,7 @@
                         </div>
                     </div>
                 </div>
-                <div  class="incoming_msg_img"> test</div>
+                <div  class="incoming_msg_img"> {{ message.user.name }}</div>
                 <div class="received_msg">
                     <div class="received_with_msg">
                         <p v-if="message.message" class="text my-msg-mobile">{{ message.message }}</p>
