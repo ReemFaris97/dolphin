@@ -28,7 +28,6 @@ class SalesController extends Controller
 
             $sales = Sale::query();
 
-//            11/23/2021, 12:13:16 AM
             $sales->selectRaw("DATE(STR_TO_DATE(date,'%m/%d/%Y, %h:%i:%s %p')) as date_formatted , SUM(total) as total_amount , SUM(totalTaxs) as total_tax, Sum(total - totalTaxs) as total_without_taxes,count(id) sales_count");
 //            dd($sales->get());
             /*     $sales->whereIn('store_id',$stores)->select('id',\DB::raw('DATE(created_at) as date'), \DB::raw('count(*) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'),'created_at');*/
