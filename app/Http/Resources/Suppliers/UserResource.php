@@ -30,7 +30,8 @@ class UserResource extends JsonResource
             'landline'=>$this->landline,
             'companies'=>CompanyResource::collection(optional($this->companies)),
             'token'=>$this->token,
-            'permissions'=>is_array($this->permissions)?$this->permissions:[]
+            'permissions'=>is_array($this->permissions)?$this->permissions:[],
+            'parent_id'=>$this->parent_id
         ];
     }
 }
