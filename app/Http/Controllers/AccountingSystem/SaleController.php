@@ -106,7 +106,6 @@ class SaleController extends Controller
             $request['discount_type']='amount';
             $request['discount']=$requests['discount_byAmount'];
         }
-        $requests['store_id']=$user->accounting_store_id;
         $requests['cash']=$requests['cash']>$requests['amount']?$requests['amount']:$requests['cash'];
         \DB::beginTransaction();
         $sale=AccountingSale::create($requests);
@@ -470,7 +469,6 @@ class SaleController extends Controller
         $sales=AccountingSale::whereDate('created_at', '>=', Carbon::now()->subDays(getsetting('return_period')))
             ->pluck('id', 'id')->toArray();
         $session=AccountingSession::findOrFail($id);
-//        $session=AccountingSession::find(Cookie::get('session'));
         $clients=AccountingClient::pluck('name', 'id')->toArray();
         $categories=AccountingProductCategory::pluck('ar_name', 'id')->toArray();
         $sales_items=AccountingSaleItem::where('sale_id', $id)->pluck('product_id', 'id')->toArray();
