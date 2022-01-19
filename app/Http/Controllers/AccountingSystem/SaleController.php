@@ -88,52 +88,35 @@ class SaleController extends Controller
             $requests['client_id']=AccountingClient::first()->id;
         }
 
-        $user=User::find($requests['user_id']);
-        if (isset($user->store->model_type)) {
-            $requests['branch_id']=($user->store->model_type==AccountingBranch::class)?$user->store->model_id:null;
-        }
+        $user=auth()->id();
+     
         if (getsetting('automatic_sales')==1) {
             $requests['account_id']=getsetting('accounting_id_sales');
         }
 
         $requests['payment']='cash';
-
-        if ($requests['total']==null) {
-            $requests['total']= $requests['amount'];
+        $session=AccountingSession::find($request->session_id);
+        $requests['branch_id']=$session->device->model_id;
+        $requests['store_id']=$session->store_id??1;
+        $requests['cash']=$requests['cash']>$requests['amount']?$requests['amount']:$requests['cash'];
+        $requests['user_id']=auth()->id();
+        if ($requests['discount_byPercentage']!=0&&$requests['discount_byAmount']==0) {
+            $request['discount_type']='percent';
+            $request['discount']=$requests["discount_byPercentage"];
+        } elseif ($requests['discount_byAmount']!=0&&$requests['discount_byPercentage']==0) {
+            $request['discount_type']='amount';
+            $request['discount']=$requests['discount_byAmount'];
         }
-        $requests['store_id']=$user->accounting_store_id;
+
         $requests['cash']=$requests['cash']>$requests['amount']?$requests['amount']:$requests['cash'];
         \DB::beginTransaction();
         $sale=AccountingSale::create($requests);
 
         $sale->update([
             'bill_num'=>$sale->id."-".$sale->created_at,
-            'user_id'=>$requests['user_id'] ,
-            'date'=>$requests['bill_date'] ,
-            'store_id'=>$user->accounting_store_id,
-            'debts'=>$requests['reminder'] ,
-//            'payment'=>'agel',
-            'total'=>$requests['total'],
-            'branch_id'=>(@$user->store->model_type==AccountingBranch::class)?@$user->store->model_id:null,
-        ]);
-        if ($requests['discount_byPercentage']!=0&&$requests['discount_byAmount']==0) {
-            $sale->update([
-                'discount_type'=>'percentage',
-                'discount'=>$requests['discount_byPercentage'],
-
             ]);
-        } elseif ($requests['discount_byAmount']!=0&&$requests['discount_byPercentage']==0) {
-            $sale->update([
-                'discount_type'=>'amount',
-                'discount'=>$requests['discount_byAmount'],
-            ]);
-        }
 
-        /*     $products = collect($requests['product_id']);
-             $qtys = collect($requests['quantity']);
-             $unit_id = collect($requests['unit_id']);
-//        dd($unit_id);
-             $merges = $products->zip($qtys, $unit_id);*/
+
         foreach ($request['cart'] as $cart) {
             //dd($cart);
             $product=AccountingProduct::find($cart['product_id']);
@@ -155,20 +138,7 @@ class SaleController extends Controller
             ]);
         }
 
-        if ($sale->payment=='cash') {
-            $store_id=auth()->user()->accounting_store_id;
-            $safe=AccountingSafe::where('device_id', $sale->session->device_id)->first();
-            if ($safe) {
-                $safe->update([
-                    'amount' => $safe->amount - $sale->total
-                ]);
-            }
-        } elseif ($sale->payment=='agel') {
-            $client=AccountingClient::find($sale->client_id);
-            $client->update([
-                'amount'=>$client->amount +$sale->total
-            ]);
-        }
+       
         /////////////////////////////////////////Accounts//////////////////////
 
         $entry=AccountingEntry::create([
