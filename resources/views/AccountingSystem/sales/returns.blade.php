@@ -720,8 +720,6 @@
                         var totalTaxes = selectedProduct.data('total-taxes');
                         var mainUnit = selectedProduct.data('main-unit');
                         var productUnits = selectedProduct.data('subunits');
-                        console.log('in select')
-                        console.table(productUnits)
                         calcBill(selectedProduct, productId, productName, productBarCode,
                             productPrice, priceHasTax, totalTaxes, mainUnit, productUnits)
                     });
