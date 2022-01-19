@@ -55,9 +55,9 @@ class SaleController extends Controller
      */
     public function index(AccountingSaleDataTable $dataTable)
     {
+        //        $sales =AccountingSale::all();
+        //        return $this->toIndex(compact('sales'));
         return $dataTable->render('AccountingSystem.sales.index');
-//        $sales =AccountingSale::all();
-//        return $this->toIndex(compact('sales'));
     }
 
     /**
@@ -279,10 +279,6 @@ class SaleController extends Controller
             ]);
         }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> staging
         DB::commit();
         alert()->success('تم اضافة  فاتورة  الاسترجاع  بنجاح !')->autoclose(5000);
         return back()->with('sale_id', $returnSale->id);
