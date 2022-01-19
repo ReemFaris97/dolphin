@@ -27,6 +27,7 @@ use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingSupplier;
 use App\Models\AccountingSystem\AccountingTaxBand;
 use App\Models\Supplier\Product;
+use App\Notifications\SupplierNotification;
 use App\Traits\Viewable;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -512,7 +513,12 @@ class ProductController extends Controller
 //        return redirect()->route('accounting.products.index');
         $suggested = Product::whereIn('barcode', $request['barcodes'])->first();
         if ($suggested) {
-            $suggested->supplier->admin()->notify();
+            $suggested->supplier->admin()->notify(new SupplierNotification([
+                'title'=>'تطبيق الموردين',
+                'body'=>"لقد تم اضافة المنتج المقترح $suggested->name",
+                'type'=>'suggested_product',
+                'model'=>[]
+            ]));
             $suggested->delete();
         }
         return response()->json(['status' => true, 'message' => 'تم الاضافة بنجاح !']);

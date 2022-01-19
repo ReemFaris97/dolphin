@@ -8,6 +8,7 @@ use App\Models\AccountingSystem\AccountingCompany;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
 use App\Models\AccountingSystem\AccountingSupplier;
+use App\Notifications\SupplierNotification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingItemDiscount;
@@ -170,7 +171,14 @@ class PurchaseController extends Controller
             }
 
             alert()->success('تمت عملية الشراء بنجاح !')->autoclose(5000);
-
+            $purchase->supplier->admin()->notify(new SupplierNotification([
+                'title'=>'تطبيق الموردين',
+                'body'=>"انشاء فاتورة مشتريات $purchase->id",
+                'type'=>'price_offer',
+                'model'=>[
+                    'id'=>$purchase->id,
+                ]
+            ]));
             return back();
         } elseif ($requests['type']=='return') {
             return  $this->returns($request);
