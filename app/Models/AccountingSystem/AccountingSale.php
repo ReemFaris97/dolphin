@@ -218,4 +218,14 @@ class AccountingSale extends Model
     {
         return $query->whereBetween('created_at', [$start, $end]);
     }
+
+    /**
+     * fix bug of paid cash is more than total amount of sale for old invoices
+     *
+     * @return float|string
+     */
+    public function getCashAttribute()
+    {
+        return $this->attributes['cash']>$this->attributes['amount']?$this->attributes['amount']:$this->attributes['cash'];
+    }
 }

@@ -28,7 +28,6 @@ class SalesController extends Controller
 
             $sales = Sale::query();
 
-//            11/23/2021, 12:13:16 AM
             $sales->selectRaw("DATE(STR_TO_DATE(date,'%m/%d/%Y, %h:%i:%s %p')) as date_formatted , SUM(total) as total_amount , SUM(totalTaxs) as total_tax, Sum(total - totalTaxs) as total_without_taxes,count(id) sales_count");
 //            dd($sales->get());
             /*     $sales->whereIn('store_id',$stores)->select('id',\DB::raw('DATE(created_at) as date'), \DB::raw('count(*) as num'), \DB::raw('sum(total) as all_total'), \DB::raw('sum(amount) as all_amounts'), \DB::raw('sum(totalTaxs) as total_tax'), \DB::raw('sum(discount) as discounts'),'created_at');*/
@@ -129,7 +128,8 @@ class SalesController extends Controller
     public function returnsDay(Request $request)
     {
         $requests = request()->all();
-        $sales = AccountingReturn::query();;
+        $sales = AccountingReturn::query();
+        ;
         /*
                     if ($request->input('branch_id') && $request->branch_id != null) {
                        $sales->where('branch_id', $request->branch_id);
@@ -251,22 +251,26 @@ class SalesController extends Controller
     public function sessionDetails(Request $request)
     {
         $sellers = User::where('is_saler', 1)->pluck('name', 'id');
+        if (is_null($request->user_id) &&is_null($request->from_date) != null && is_null($request->to_date)) {
+            $sales=$returns=collect([]);
+            return view('AccountingSystem.reports.sales.session-details', compact('sellers', 'sales', 'returns'));
+        }
         $sales = AccountingSale::query()
             ->withCount('items')
             ->with('user')
-            ->when($request->user_id, fn($q) => $q->ofUser($request->user_id))
+            ->when($request->user_id, fn ($q) => $q->ofUser($request->user_id))
             ->when(
                 ($request->from_date != null && $request->to_date != null),
-                fn($q) => $q->InPeriod($request->from_date, $request->to_date)
+                fn ($q) => $q->InPeriod($request->from_date, $request->to_date)
             )
             ->get();
         $returns = AccountingReturn::query()
-            ->withCOunt('items')
+            ->withCount('items')
             ->with('user')
-            ->when($request->user_id, fn($q) => $q->ofUser($request->user_id))
+            ->when($request->user_id!=null, fn ($q) => $q->ofUser($request->user_id))
             ->when(
                 ($request->from_date != null && $request->to_date != null),
-                fn($q) => $q->InPeriod($request->from_date, $request->to_date)
+                fn ($q) => $q->InPeriod($request->from_date, $request->to_date)
             )
             ->withCount(['items'])
             ->get();
@@ -276,8 +280,6 @@ class SalesController extends Controller
     public function improvedSales(Request $request)
   //  public function improvedSales(ImprovedSalesReportDataTable $dataTable)
     {
-        //        SELECT product_id,sum(quantity),price,(price * sum(quantity)) as total,unit_id FROM `accounting_sales_items` group by product_id ,unit_id, price
-
         $sales = AccountingSaleItem::query()->with('product', 'unit');
         $sales->when($request->product_id, function ($q) use ($request) {
             $q->where('product_id', $request->product_id);
@@ -298,7 +300,6 @@ class SalesController extends Controller
             ->get();
 
         return view('AccountingSystem.reports.sales.sales-improved', compact('sales'));
-        //  return $dataTable->render('AccountingSystem.reports.sales.sales-improved');
     }
 
 
@@ -324,6 +325,5 @@ class SalesController extends Controller
             ->get();
 
         return view('AccountingSystem.reports.sales.return_sales-improved', compact('sales'));
-        //  return $dataTable->render('AccountingSystem.reports.sales.sales-improved');
     }
 }

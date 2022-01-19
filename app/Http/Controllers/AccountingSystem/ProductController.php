@@ -791,7 +791,7 @@ class ProductController extends Controller
                 'product_id' => $product->id
             ]);
         }
-            $product->tax()->delete($request->taxs);
+        $product->tax()->sync([]);
         if (isset($request['tax']) & $request['tax'] == 1) {
             if (isset($request['tax_band_id'])) {
                 $taxs = $request['tax_band_id'];
