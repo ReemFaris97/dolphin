@@ -20,7 +20,11 @@ class InvoiceResource extends JsonResource
             'items_sum_total'=>$this->items_sum_total??$this->items()->sum('total'),
             'created_at'=>$this->created_at->toDateTimeString(),
             'items'=>InvoiceItemResource::collection($this->items),
-            'pdf'=>url(),
+            'status'=>$this->status,
+            'user'=>[
+                'name'=>@$this->user->name,
+                'id'=>@$this->user_id,
+            ]
         ];
     }
 }

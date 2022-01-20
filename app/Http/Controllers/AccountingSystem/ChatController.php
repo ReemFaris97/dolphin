@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Chat\MessageResource;
 use App\Models\Chat\Chat;
 use App\Models\Supplier\User;
+use App\Notifications\SupplierNotification;
 use Illuminate\Http\Request;
 
 class ChatController extends Controller
@@ -85,7 +86,14 @@ class ChatController extends Controller
         $inputs['user_type'] = \App\Models\User::class;
         $inputs['user_id'] = auth()->id();
         $message = $chat->messages()->create($inputs);
-
+        $chat->supplier->admin()->notify(new SupplierNotification([
+            'title'=>'تطبيق الموردين',
+            'body'=>"رسالة جديدة | {$inputs['message']}",
+            'type'=>'price_offer',
+            'model'=>[
+                'id'=>$chat->id,
+            ]
+        ]));
         return \responder::success(['text'=>'تم الارسال بنجاح !','message'=>new \App\Http\Resources\Suppliers\MessageResource($message)]);
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AccountingSystem\Suppliers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Supplier\Invoice;
+use App\Notifications\SupplierNotification;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -37,6 +38,14 @@ class InvoiceController extends Controller
             'status'=>'required|in:accept,reject'
         ]);
         $suppliers_invoice->update($inputs);
+        $suppliers_invoice->supplier->admin()->notify(new SupplierNotification([
+            'title'=>'تطبيق الموردين',
+            'body'=>"تحديث علي حالة عرض السعر رقم $suppliers_invoice->id",
+            'type'=>'price_offer',
+            'model'=>[
+                'id'=>$suppliers_invoice->id,
+            ]
+        ]));
         alert()->success('تم التعديل بنجاح !');
         return back();
     }
