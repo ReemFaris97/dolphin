@@ -26,7 +26,8 @@ class AddStoreIdToAccountingSessionsTable extends Migration
     public function down()
     {
         Schema::table('accounting_sessions', function (Blueprint $table) {
-            //
+            $table->dropIndex(['store_id']);
+            $table->dropColumn('store_id');
         });
     }
 }
