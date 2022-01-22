@@ -417,7 +417,7 @@ class ProductController extends Controller
         }
 
         ////////////////////components Arrays////////////////////////////////
-        $product->suppliers()->attach($request['suppliers']);
+        $product->suppliers()->sync($request['suppliers']);
         $component_names = collect($request['component_names']);
         $qtys = collect($request['qtys']);
         $main_units = collect($request['main_units']);
@@ -662,7 +662,7 @@ class ProductController extends Controller
         if ($request->hasFile('image')) {
             $inputs['image'] = saveImage($request->image, 'photos');
         }
-        $product->suppliers()->attach($request['supplier_id']);
+        $product->suppliers()->sync($request['supplier_id']);
 
         $product->update($inputs);
 //
@@ -737,7 +737,7 @@ class ProductController extends Controller
             'num_days_recession' => 'nullable|string',
             'tax'=>'required|boolean'
         ];
-        $product->suppliers()->attach($request['suppliers']);
+        $product->suppliers()->sync($request['suppliers']);
 
         $this->validate($request, $rules);
 //        dd($request->all());
@@ -792,8 +792,8 @@ class ProductController extends Controller
             ]);
         }
         $product->tax()->sync([]);
-        if ($request['tax_band_id']) {
-            $taxs = $request['tax_band_id'];
+        if ($request['taxs']) {
+            $taxs = $request['taxs'];
             foreach ($taxs as $tax) {
                 AccountingProductTax::create([
                         'product_id' => $product->id,
