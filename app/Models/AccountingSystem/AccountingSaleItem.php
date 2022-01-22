@@ -98,7 +98,10 @@ class AccountingSaleItem extends Model
         $main_unit=  AccountingProductSubUnit::where('id', $this->unit_id)->value('main_unit_present')??1;
         $quantity_in_main_unit=$this->quantity*$main_unit;
         $price=$this->price/$main_unit;
-        $product_store_id=AccountingProductStore::where('product_id', $this->product_id)->where('store_id', $this->sale->store_id)->value('id');
+        $product_store_id=AccountingProductStore::query()
+        ->where('product_id', $this->product_id)
+        ->where('store_id', $this->sale->store_id)
+        ->value('id');
         return $this->store_quantity_log()->create(
             [
                 'accounting_product_store_id'=>$product_store_id,
