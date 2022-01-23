@@ -9,6 +9,7 @@ use App\Models\AccountingSystem\AccountingDevice;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
 use App\Models\AccountingSystem\AccountingProductSubUnit;
+use App\Models\AccountingSystem\AccountingSale;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingUserPermission;
@@ -19,6 +20,7 @@ use Cookie;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 
 class SellPointController extends Controller
 {
@@ -65,16 +67,32 @@ class SellPointController extends Controller
                     });
                 })->orwhereHas('barcodes', fn ($b) => $b->where('barcode', 'like', "%$request->search%"))
                 ->orwhereHas('sub_units', fn ($b) => $b->where('bar_code', 'like', "%$request->search%"))
-                // ->where('store_id', $id)
                 ->paginate(20);
 
             return response()->json([
                 'status' => true,
                 'has_more' => $products->hasMorePages(),
                 'data' => $products,
-//                    'attributes' => view('AccountingSystem.sell_points.product-optionss', ['products' => $products])->render()
             ]);
         }
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getSaleAjax(Request $request, $id=null)
+    {
+        $sales=    AccountingSale::query()
+        ->when($request->search, fn ($q) =>$q->where('id', $request->search))
+        ->select(['id',DB::raw('id as name')])
+        ->paginate(20);
+        return response()->json([
+            'status' => true,
+            'has_more' => $sales->hasMorePages(),
+            'data' => $sales,
+        ]);
     }
 
     public function selectedProduct(AccountingProduct $product)
@@ -82,7 +100,6 @@ class SellPointController extends Controller
         $producttax = \App\Models\AccountingSystem\AccountingProductTax::where('product_id', $product->id)->first();
         $units = \App\Models\AccountingSystem\AccountingProductSubUnit::where('product_id', $product->id)->get();
         $subunits = collect($units);
-
         $allunits = json_encode($subunits, JSON_UNESCAPED_UNICODE);
         $mainunits = json_encode(collect([['id' => 'main-' . $product->id, 'name' => $product->main_unit, 'purchasing_price' => $product->purchasing_price, 'product_id' => $product->id, 'bar_code' => $product->bar_code, 'main_unit_present' => 1, 'selling_price' => $product->selling_price, 'created_at' => $product->created_at, 'updated_at' => $product->updated_at, 'quantity' => $product->quantity]]), JSON_UNESCAPED_UNICODE);
         $merged = array_merge(json_decode($mainunits), json_decode($allunits));

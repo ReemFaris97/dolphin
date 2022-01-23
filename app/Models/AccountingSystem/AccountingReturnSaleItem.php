@@ -2,9 +2,11 @@
 
 namespace App\Models\AccountingSystem;
 
-use App\Models\Models\AccountingSystem\AccountingProductStoreLog;
+use App\Models\AccountingSystem\AccountingProductStoreLog;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Validation\ValidationException;
 
 /**
  * App\Models\AccountingSystem\AccountingReturnSaleItem
@@ -64,9 +66,9 @@ class AccountingReturnSaleItem extends Model
     /**
        * @return MorphMany
        */
-    public function store_quantity_log():MorphMany
+    public function store_quantity_log():MorphOne
     {
-        return $this->morphMany(AccountingProductStoreLog::class, 'dispatcher');
+        return $this->morphOne(AccountingProductStoreLog::class, 'dispatcher');
     }
     
     public function addQuantityToStorage():AccountingProductStoreLog
@@ -80,6 +82,18 @@ class AccountingReturnSaleItem extends Model
             $this->product_id
         )->where('store_id', $this->sale->store_id)
         ->value('id');
+        
+        // get the product form sale inovice
+        $item=  $this->sale->sale->items()->where('product_id', $this->product_id)->first();
+        if ($item===null) {
+            toast('المنتج غير موجود بالفاتوره الشراء', 'danger');
+            throw  ValidationException::withMessages(
+                ['product_Id'=>'المنتج غير موجود بالفاتوره الشراء']
+            );
+        }
+
+        $old_log=$item->store_quantity_log;
+       
         return $this->store_quantity_log()->create(
             [
                 'accounting_product_store_id'=>$product_store_id,
@@ -88,7 +102,10 @@ class AccountingReturnSaleItem extends Model
                 'price'=>$price,
                 'amount'=>$quantity_in_main_unit,
                 'type'=>'in',
+                'expired_at'=>$old_log?->expired_at
             ]
         );
     }
+
+   
 }

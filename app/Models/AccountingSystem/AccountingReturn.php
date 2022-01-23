@@ -5,7 +5,6 @@ namespace App\Models\AccountingSystem;
 use App\Traits\HashPassword;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\AccountingSystem\AccountingReturn
@@ -75,6 +74,10 @@ class AccountingReturn extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+    public function sale()
+    {
+        return $this->belongsTo(AccountingSale::class, 'sale_id');
     }
 
 

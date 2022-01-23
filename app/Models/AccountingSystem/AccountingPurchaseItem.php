@@ -2,7 +2,7 @@
 
 namespace App\Models\AccountingSystem;
 
-use App\Models\Models\AccountingSystem\AccountingProductStoreLog;
+use App\Models\AccountingSystem\AccountingProductStoreLog;
 use App\Traits\HashPassword;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;

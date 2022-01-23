@@ -2,10 +2,11 @@
 
 namespace App\Models\AccountingSystem;
 
-use App\Models\Models\AccountingSystem\AccountingProductStoreLog;
+use App\Models\AccountingSystem\AccountingProductStoreLog;
 use App\Traits\HashPassword;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
@@ -76,9 +77,9 @@ class AccountingSaleItem extends Model
     /**
     * @return MorphMany
     */
-    public function store_quantity_log():MorphMany
+    public function store_quantity_log():MorphOne
     {
-        return $this->morphMany(AccountingProductStoreLog::class, 'dispatcher');
+        return $this->morphOne(AccountingProductStoreLog::class, 'dispatcher');
     }
 
     public function units()
@@ -98,14 +99,19 @@ class AccountingSaleItem extends Model
         $main_unit=  AccountingProductSubUnit::where('id', $this->unit_id)->value('main_unit_present')??1;
         $quantity_in_main_unit=$this->quantity*$main_unit;
         $price=$this->price/$main_unit;
-        $product_store_id=AccountingProductStore::where('product_id', $this->product_id)->where('store_id', $this->sale->store_id)->value('id');
+        $product_store=AccountingProductStore::query()->firstOrCreate([
+            'product_id'=>$this->product_id,
+            'store_id'=>$this->sale->store_id,
+        ], ['quantity'=>0]);
+        
         return $this->store_quantity_log()->create(
             [
-                'accounting_product_store_id'=>$product_store_id,
+                'accounting_product_store_id'=>$product_store->id,
                 'accounting_product_id'=>$this->product_id,
                 'unit_id'=>null,
                 'price'=>$price,
                 'amount'=>$quantity_in_main_unit,
+                'expired_at'=>$product_store->expired_at,
                 'type'=>'out',
             ]
         );

@@ -48,33 +48,12 @@
                 </div>
             </div>
             <div class="panel-body">
+                                    <form method="post" id="sllForm" action="{{ route('accounting.sales.store_returns') }}">
+
                 <!----------------  Start Bill Content ----------------->
                 <section class="yourBill">
                     <div class="yurSections">
-                        {{-- @dd(auth()->user()->accounting_store_id) --}}
-                        <!--
-        <div class="row table-upper-options">
-         Nav tabs
-         <div class="col-md-4 col-sm-6 col-xs-12">
-          <div class="form-group">
-           <label> اسم الكاشير: </label>
-           {{-- @dd($session->shift->name) --}}
-                        {{ $session->user->name }}
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="form-group"><label> اسم الوردية: </label>
-                           {{ optional($session->shift)->name }}
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="form-group">
-                                <label> تاريخ بداية الجلسة :</label>
-                                  {{ $session->start_session }}
-                            </div>
-                        </div>
-                    </div>
-    -->
+                        
                         <div class="row table-upper-options">
                             <!-- Nav tabs -->
                             <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
@@ -93,17 +72,7 @@
                                 </div>
 
                             @endif
-                            {{-- <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12"> --}}
-                            {{-- <label>اسم القسم </label> --}}
-                            {{-- {!! Form::select("category_id",$categories,null,['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!} --}}
-                            {{-- </div> --}}
-
-                           {{-- <div class="col-md-4 col-sm-4 col-xs-12">
-                                <div class="form-group block-gp">
-                                    <label> اختر المستودع </label>
-                                    {!! Form::select('store_id', $stores, null, ['class' => 'selectpicker form-control js-example-basic-single category_id', 'id' => 'store_id', 'placeholder' => ' اختر المستودع ', 'data-live-search' => 'true']) !!}
-                                </div>
-                            </div>--}}
+                            
                             {!! Form::hidden('store_id',request('store_id')??session('store_id'),['id'=>'store_id']) !!}
                             <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
                                 <div class="yurProdc">
@@ -114,6 +83,18 @@
                                 </div>
                                 <div class="tempobar"></div>
                             </div>
+
+
+            <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
+                                    <div class="form-group block-gp">
+                                        <label>رقم الفاتورة</label>
+                                {!! Form::text('sale_id', null, ['class' =>'form-control' ,'placeholder' => ' رقم الفاتورة']) !!}
+                                    </div>
+                            </div>
+
+
+
+
                             <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
                                 <label>بحث بالباركود </label>
                                 <input class="form-control" type="text" id="barcode_search">
@@ -121,7 +102,6 @@
                         </div>
                     </div>
                     <div class="result">
-                        <form method="post" id="sllForm" action="{{ route('accounting.sales.store_returns') }}">
                             @csrf
                             <input type="hidden" name="user_id" value="{{ $session->user_id }}">
                             <input type="hidden" name="session_id" value="{{ $session->id }}">
@@ -856,6 +836,40 @@
             // templateSelection: formatRepoSelection,
             delay: 250
         });
+
+          $('#saleID2').select2({
+            ajax: {
+                delay: 250,
+                url: "/accounting/salesAjax",
+                data: function (params) {
+                    var query = {
+                        search: params.term,
+                        page: params.page || 1
+                    }
+                    return query;
+                },
+
+
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+                    results = _.toArray(data.data.data);
+                    debugger
+                    return {
+                        results: results,
+                        pagination: {
+                            more: data.has_more
+                        }
+                    };
+                },
+                cache: true
+            },
+            placeholder: 'Search for a sale',
+            minimumInputLength: 1,
+            // templateResult: formatRepo,
+            // templateSelection: formatRepoSelection,
+            delay: 250
+        });
+        
         $('#selectID2').on('change', function (e) {
             // $('#selectID2').change(function() {
             $.ajax({

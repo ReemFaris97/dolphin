@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Models\AccountingSystem;
+namespace App\Models\AccountingSystem;
 
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductStore;
