@@ -52,7 +52,7 @@ use Illuminate\Support\Facades\DB;
  */
 class AccountingPurchaseItem extends Model
 {
-    protected $fillable = ['product_id','quantity','price','purchase_id','purchase_return_id','tax','unit_id','price_after_tax','unit_type','expire_date','gifts'];
+    protected $fillable = ['product_id','quantity','price','purchase_id','purchase_return_id','tax','unit_id','price_after_tax','unit_type','expired_at','gifts'];
     protected $table='accounting_purchases_items';
 
     protected static function booted()
@@ -155,7 +155,8 @@ class AccountingPurchaseItem extends Model
     {
         $storage=[$this->getStorageQuantity()];
         ($this->gifts!=0)?array_push($storage, $this->getGiftsQuantity()):null;
-        return $this->store_quantity_log()->createMany($storage);
+        $a=$this->store_quantity_log()->createMany($storage);
+        return $a;
     }
 
 
@@ -165,6 +166,7 @@ class AccountingPurchaseItem extends Model
             [
                 'product_id'=>$this->product_id,
                 'store_id'=>$this->purchase->store_id,
+                'expired_at'=>$this->expired_at
             ],
             ['quantity'=>0]
         )->id;
@@ -196,6 +198,7 @@ class AccountingPurchaseItem extends Model
             'accounting_product_store_id'=>$this->getProductStoreId(),
             'accounting_product_id'=>$this->product_id,
             'unit_id'=>null,
+            'expired_at'=>$this->expired_at,
             'price'=>$this->getPriceForMainUnitAttribute(),
             'amount'=>$this->getQuantityInMainUnitAttribute(),
             'type'=>'in',
@@ -212,6 +215,7 @@ class AccountingPurchaseItem extends Model
         return [
             'accounting_product_store_id'=>$this->getProductStoreId(),
             'accounting_product_id'=>$this->product_id,
+            'expired_at'=>$this->expired_at,
             'unit_id'=>null,
             'price'=>0,
             'amount'=>$this->getGiftInMainUnitAttribute(),

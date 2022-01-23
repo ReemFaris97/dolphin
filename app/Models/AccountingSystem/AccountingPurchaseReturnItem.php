@@ -44,7 +44,7 @@ use Illuminate\Support\Collection;
  */
 class AccountingPurchaseReturnItem extends Model
 {
-    protected $fillable = ['product_id','quantity','purchase_return_id','price','unit_id','tax','price_after_tax','unit_type','gifts'];
+    protected $fillable = ['product_id','quantity','purchase_return_id','price','unit_id','tax','price_after_tax','unit_type','gifts','expired_at'];
     protected $table='accounting_purchase_return_items';
 
 
@@ -121,7 +121,8 @@ class AccountingPurchaseReturnItem extends Model
     {
         return   AccountingProductStore::query()
         ->where('product_id', $this->product_id)
-        ->where('store_id', $this->purchase->store_id)->first(['id'])
+        ->where('store_id', $this->purchase->store_id)
+        ->where('expired_at', $this->expired_at)->first(['id'])
         ->id;
     }
     public function getQuantityInMainUnitAttribute():int
@@ -151,6 +152,7 @@ class AccountingPurchaseReturnItem extends Model
             'accounting_product_store_id'=>$this->getProductStoreId(),
             'accounting_product_id'=>$this->product_id,
             'unit_id'=>null,
+            'expired_at'=>$this->expired_at,
             'price'=>$this->getPriceForMainUnitAttribute(),
             'amount'=>$this->getQuantityInMainUnitAttribute(),
             'type'=>'out',
@@ -169,6 +171,7 @@ class AccountingPurchaseReturnItem extends Model
             'accounting_product_id'=>$this->product_id,
             'unit_id'=>null,
             'price'=>0,
+            'expired_at'=>$this->expired_at,
             'amount'=>$this->getGiftInMainUnitAttribute(),
             'type'=>'out',
         ];

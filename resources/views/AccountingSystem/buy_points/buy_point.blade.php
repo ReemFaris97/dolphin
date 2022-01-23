@@ -517,7 +517,7 @@ if (!Number.prototype.$truncate) {
             var dateInpt = '';
             let today = new Date().toISOString().substr(0, 10);
             if (expirationDate == 1) {
-                var dateInpt = '<input type="date" class="expiration form-control" name="expire_date" value="' + today +
+                var dateInpt = '<input type="date" class="expiration form-control" name="expire_date[]" value="' + today +
                     '" , min="' + today + '">';
             } else {
                 var dateInpt = '---';

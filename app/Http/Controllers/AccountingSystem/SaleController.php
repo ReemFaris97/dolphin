@@ -98,8 +98,8 @@ class SaleController extends Controller
         $requests['total']= $requests['amount'];
 
         $requests['store_id']=$session->store_id??1;
-        $request['date']=$requests['bill_date'] ;
-        $request['debts']=$requests['reminder'] ;
+        $requests['date']=$request->bill_date ;
+        $requests['debts']=$request->reminder ;
 
         if ($requests['discount_byPercentage']!=0&&$requests['discount_byAmount']==0) {
         } elseif ($requests['discount_byAmount']!=0&&$requests['discount_byPercentage']==0) {

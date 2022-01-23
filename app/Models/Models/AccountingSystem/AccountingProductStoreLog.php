@@ -26,6 +26,7 @@ class AccountingProductStoreLog extends Model
                     [
             'product_id'=>$log->product_id,
             'store_id'=>request()->store_id??AccountingStore::first()->id,
+            'expired_at'=>$log->expired_at,
         ],
                     ['quantity'=>0]
                 )->id;

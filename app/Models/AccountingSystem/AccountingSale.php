@@ -7,7 +7,6 @@ use App\helper\num_to_ar;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Log;
 
 /**
  * App\Models\AccountingSystem\AccountingSale

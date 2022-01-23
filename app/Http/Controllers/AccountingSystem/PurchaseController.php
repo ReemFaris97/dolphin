@@ -89,7 +89,8 @@ class PurchaseController extends Controller
             $prices = collect($requests['prices']);
             $itemTax = collect($request['itemTax']);
             $gifts = collect($requests['gifts']);
-            $merges = $products->zip($qtys, $unit_id, $prices, $itemTax, $gifts);
+            $expire_date = collect($request->expire_date);
+            $merges = $products->zip($qtys, $unit_id, $prices, $itemTax, $gifts, $expire_date);
             $i=1;
 
             foreach ($merges as $merge) {
@@ -104,6 +105,7 @@ class PurchaseController extends Controller
                      'price_after_tax'=>$merge['3']+$merge['4'],
                      'expire_date'=>isset($requests['expire_date'])?$requests['expire_date']:null,
                      'gifts'=>$merge['5'],
+                     'expired_at'=>$merge['6'],
                      'purchase_id'=>$purchase->id
                  ]);
                 $items=$request->items;
@@ -171,7 +173,7 @@ class PurchaseController extends Controller
             }
 
             alert()->success('تمت عملية الشراء بنجاح !')->autoclose(5000);
-            $purchase->supplier->admin()->notify(new SupplierNotification([
+            $purchase->supplier?->admin()?->notify(new SupplierNotification([
                 'title'=>'تطبيق الموردين',
                 'body'=>"انشاء فاتورة مشتريات $purchase->id",
                 'type'=>'price_offer',
