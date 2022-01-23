@@ -4,7 +4,7 @@ namespace App\Traits;
 
 class FireBase
 {
-    const fcm_server_key = 'AAAAvtBTBr4:APA91bGxj1O9p_WYSo4Fdot9Y6LJEy857lEcU9tXDBO7ON6UKBWPTdmxKr_iEd3ITW2M4NWPwNH60I4e_YeIFDhL8nFBneq3C2_prNxJOu-FuomE68OwKvWwcDFT2pPoRrlqStETseO-';
+    const fcm_server_key = 'AAAAxn4yWE8:APA91bHBtgu1IIKwOGne1eycMZHCfO95zHiNzxQpxQgmDqVPeSdBTQC1LFmAIe1vbEOwwoArex4EiVTaWt_zG90UZimey6dJVt0CNUzWe53jSIK_2CjKzpeTooYj3uDw2MzdgDar0e2W';
 
 
     public static function notification($notifiable, $title, $body, $data)
