@@ -41,7 +41,6 @@ export default {
     created() {
         this.getMessages();
         Echo.channel('chat-' + this.chat).listen('.NewMessageEvent', e => {
-            console.log('tet')
             this.messages.push(e.message);
         });
     },

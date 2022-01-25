@@ -38,7 +38,7 @@ class InvoiceController extends Controller
             'status'=>'required|in:accept,reject'
         ]);
         $suppliers_invoice->update($inputs);
-        $suppliers_invoice->supplier->admin()->notify(new SupplierNotification([
+        $suppliers_invoice->supplier->admin->notify(new SupplierNotification([
             'title'=>'تطبيق الموردين',
             'body'=>"تحديث علي حالة عرض السعر رقم $suppliers_invoice->id",
             'type'=>'price_offer',
