@@ -51,7 +51,7 @@
 
     <div class="form-group col-md-6 pull-left">
         <label>صوره المورد الحالية : </label>
-        <img src="{{getimg($supplier->image)}}" style="width:100px; height:100px">
+        <img src="{{($supplier->image)}}" style="width:100px; height:100px">
     </div>
 @endif
 
@@ -64,7 +64,7 @@
 
     <div class="form-group col-md-6 pull-left">
         <label>صورة السجل التجاري  : </label>
-        <img src="{{getimg($supplier->commercial_image)}}" style="width:100px; height:100px">
+        <img src="{{($supplier->commercial_image)}}" style="width:100px; height:100px">
     </div>
 @endif
 
@@ -77,7 +77,7 @@
 
     <div class="form-group col-md-6 pull-left">
         <label>صورة الرخصة : </label>
-        <img src="{{getimg($supplier->licence_image)}}" style="width:100px; height:100px">
+        <img src="{{($supplier->licence_image)}}" style="width:100px; height:100px">
     </div>
 @endif
 
