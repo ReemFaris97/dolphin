@@ -70,6 +70,10 @@ class AccountingSupplier extends Model
         return $this->hasMany(User::class,'supplier_id')->whereNull('parent_id')->first();
     }
 
+    public function users()
+    {
+        return $this->hasMany(User::class ,'supplier_id' );
+}
     public function companies()
     {
         return $this->hasMany(AccountingSupplierCompany::class, 'supplier_id');

@@ -21,6 +21,8 @@ Route::get('fix-invoice/{sale}', function (\App\Models\AccountingSystem\Accounti
 });
 Route::middleware('admin')->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/suppliers/notifications/{supplier}',[\App\Http\Controllers\AccountingSystem\SupplierController::class,'notification'])->name('suppliers.notification');
+    Route::post('/suppliers/notifications/{supplier}',[\App\Http\Controllers\AccountingSystem\SupplierController::class,'sendNotification']);
     Route::resource('companies', 'CompanyController');
     Route::resource('branches', 'BranchController');
     Route::resource('productionLines', 'ProductionLineController');

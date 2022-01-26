@@ -3,14 +3,10 @@
 namespace App\Http\Controllers\AccountingSystem;
 
 use App\DataTables\AccountingSuppliersDataTable;
+use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingBank;
 use App\Models\AccountingSystem\AccountingBranch;
-use App\Models\AccountingSystem\AccountingBranchFace;
-use App\Models\AccountingSystem\AccountingBranchShift;
 use App\Models\AccountingSystem\AccountingCompany;
-
-use App\Models\AccountingSystem\AccountingDelegate;
-use App\Models\AccountingSystem\AccountingDelegateProduct;
 use App\Models\AccountingSystem\AccountingMoneyClause;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\AccountingSystem\AccountingProductCategory;
@@ -18,11 +14,9 @@ use App\Models\AccountingSystem\AccountingPurchase;
 use App\Models\AccountingSystem\AccountingSafe;
 use App\Models\AccountingSystem\AccountingSupplier;
 use App\Models\AccountingSystem\AccountingSupplierCompany;
-use App\Models\AccountingSystem\AccountingSupplierProduct;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Notifications\SupplierNotification;
 use App\Traits\Viewable;
-use Illuminate\Validation\Rule;
+use Illuminate\Http\Request;
 
 class SupplierController extends Controller
 {
@@ -211,10 +205,27 @@ class SupplierController extends Controller
         return back();
     }
 
-    public  function purchase_order(){
-        $categories=AccountingProductCategory::pluck('ar_name','id')->toArray();
-        $suppliers=AccountingSupplier::pluck('name','id')->toArray();
-        $safes=AccountingSafe::pluck('name','id')->toArray();
-        return  view('AccountingSystem.suppliers.purchase_order',compact('categories','suppliers','safes'));
+    public function purchase_order()
+    {
+        $categories = AccountingProductCategory::pluck('ar_name', 'id')->toArray();
+        $suppliers = AccountingSupplier::pluck('name', 'id')->toArray();
+        $safes = AccountingSafe::pluck('name', 'id')->toArray();
+        return view('AccountingSystem.suppliers.purchase_order', compact('categories', 'suppliers', 'safes'));
+    }
+
+    public function notification(AccountingSupplier $supplier)
+    {
+        return view('AccountingSystem.suppliers.notification', ['supplier' => $supplier]);
+    }
+
+    public function SendNotification(Request $request, AccountingSupplier $supplier)
+    {
+        $request->validate([
+            'title' => 'required',
+            'body' => 'required',
+        ]);
+        \Notification::send($supplier->users, new SupplierNotification(['title' => $request->title, 'body' => $request->body]));
+        alert()->success('تم الارسال بنجاح !');
+        return back();
     }
 }
