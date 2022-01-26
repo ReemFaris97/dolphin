@@ -101,6 +101,7 @@ class AuthController extends Controller
             'tax_number'=>'sometimes|numeric'
         ]);
         $user->update($inputs);
+        $user->supplier->update($inputs);
         $user->token = \JWTAuth::fromUser($user);
         activity()
             ->causedBy($user)
