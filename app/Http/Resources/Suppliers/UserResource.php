@@ -31,7 +31,8 @@ class UserResource extends JsonResource
             'companies'=>CompanyResource::collection(optional($this->companies)),
             'token'=>$this->token,
             'permissions'=>is_array($this->permissions)?$this->permissions:[],
-            'parent_id'=>$this->parent_id
+            'parent_id'=>$this->parent_id,
+            'tax_number'=>$this->tax_number,
         ];
     }
 }
