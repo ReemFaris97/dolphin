@@ -75,6 +75,10 @@ class AccountingSupplier extends Model
         return $this->hasMany(AccountingSupplierCompany::class, 'supplier_id');
     }
 
+    public function supplierCompany()
+    {
+ return $this->belongsToMany(AccountingCompany::class,AccountingSupplierCompany::class);
+}
     public function purchases()
     {
         return $this->hasMany(AccountingPurchase::class, 'supplier_id');

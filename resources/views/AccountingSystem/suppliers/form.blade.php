@@ -60,6 +60,32 @@
     <label>صوره المورد  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
     {!! Form::file("image",null,['class'=>'form-control'])!!}
 </div>
+@if( isset($supplier))
+
+    <div class="form-group col-md-6 pull-left">
+        <label>صورة السجل التجاري  : </label>
+        <img src="{{getimg($supplier->commercial_image)}}" style="width:100px; height:100px">
+    </div>
+@endif
+
+
+<div class="form-group col-md-12 pull-left">
+    <label>صورة السجل التجاري  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+    {!! Form::file("commercial_image",null,['class'=>'form-control'])!!}
+</div>
+@if( isset($supplier))
+
+    <div class="form-group col-md-6 pull-left">
+        <label>صورة الرخصة : </label>
+        <img src="{{getimg($supplier->licence_image)}}" style="width:100px; height:100px">
+    </div>
+@endif
+
+
+<div class="form-group col-md-12 pull-left">
+    <label>صورة الرخصة  </label><span style="color: #ff0000; margin-right: 15px;">اختيارى</span>
+    {!! Form::file("licence_image",null,['class'=>'form-control'])!!}
+</div>
 <div class="clearfix"></div>
 
 <div class="form-group col-md-6 pull-left ">
@@ -89,11 +115,6 @@
 <div class="clearfix"></div>
 
 <div class="form-group col-md-4 pull-left">
-<label>  اختر اسم البنك   </label>
-{!! Form::select("bank_id",$banks,null,['class'=>'form-control selectpicker ', 'placeholder'=>' اختر اسم البنك  '])!!}
-</div>
-
-<div class="form-group col-md-4 pull-left">
     <label>  رقم  الحساب </label>
     {!! Form::text("bank_account_number",null,['class'=>'form-control','placeholder'=>' رقم  الحساب '])!!}
 </div>
@@ -105,7 +126,7 @@
 
 <div class="form-group col-md-4 pull-left">
     <label> اختر  شركات  التورديد   </label>
-    {!! Form::select("company_id[]",$companies,null,['class'=>'form-control selectpicker ' ,'multiple'])!!}
+    {!! Form::select("supplierCompany[]",$companies,null,['class'=>'form-control selectpicker ' ,'multiple'])!!}
 </div>
 
 <div class="text-center col-md-12">

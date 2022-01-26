@@ -47,6 +47,7 @@ class AuthController extends Controller
         $inputs['permissions']=['*'];
         $user = User::create($inputs);
         $user->companies()->attach($request['companies']);
+        $supplier->supplierCompany()->attach($request['companies']);
         $user->token = \JWTAuth::fromUser($user);
         activity()
             ->causedBy($user)
