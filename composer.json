@@ -31,6 +31,7 @@
         "pusher/pusher-php-server": "^7.0",
         "realrashid/sweet-alert": "^3.2",
         "salla/zatca": "^1.0",
+        "sentry/sentry-laravel": "^2.11",
         "simplesoftwareio/simple-qrcode": "~4",
         "spatie/laravel-activitylog": "^4.3",
         "spatie/laravel-permission": "4.0.0",
