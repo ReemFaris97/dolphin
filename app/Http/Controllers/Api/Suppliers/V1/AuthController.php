@@ -98,6 +98,7 @@ class AuthController extends Controller
             'lat' => 'sometimes|numeric|max:90|min:-90',
             'lng' => 'sometimes|numeric|max:180|min:-90',
             'landline' => 'sometimes|string',
+            'tax_number'=>'sometimes|numeric'
         ]);
         $user->update($inputs);
         $user->token = \JWTAuth::fromUser($user);
