@@ -110,8 +110,8 @@
 <div class="clearfix"></div>
 
 <div class="form-group col-md-4 pull-left">
-    <label>  رقم  الحساب </label>
-    {!! Form::text("bank_account_number",null,['class'=>'form-control','placeholder'=>' رقم  الحساب '])!!}
+    <label>  رقم السجل التجاري </label>
+    {!! Form::text("commercial_record",null,['class'=>'form-control','placeholder'=>' رقم  الحساب '])!!}
 </div>
 
 <div class="form-group col-md-4 pull-left">
