@@ -205,7 +205,7 @@
                                 <table class="the_table">
                                     <tfoot>
                                     <tr>
-                                        <th>{{(float) round($sale->product_total()-$tax_amount,4)}}</th>
+                                        <th>{{(float) round($sale->amount- $sale->totalTaxs,4)}}</th>
                                         <th colspan="4">
                                             <div class="flexx">
                                                 <p>total</p>
@@ -220,7 +220,7 @@
 
                                     </tr>
                                     <tr>
-                                        <th>{{round($tax_amount,4)}}</th>
+                                        <th>{{ round($sale->totalTaxs,4)}}</th>
                                         <th colspan="4">
                                             <div class="flexx">
                                                 <p>قيمة القيمة المضافة</p>
@@ -230,7 +230,7 @@
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th>{{$sale->product_total()}}</th>
+                                        <th>{{$sale->amount }}</th>
                                         <th >
                                             <p>net amount</p>
                                             <p>اجمالى الفاتورة</p>
@@ -244,7 +244,7 @@
                                                 </div>
                                                 {{--   @dd($sale->CashArabic(5412))--}}
                                                 <p>
-                                                    {{\Alkoumi\LaravelArabicTafqeet\Tafqeet::inArabic($sale->product_total())}}
+                                                    {{\Alkoumi\LaravelArabicTafqeet\Tafqeet::inArabic($sale->amount)}}
                                                 </p>
                                             </div>
                                         </th>

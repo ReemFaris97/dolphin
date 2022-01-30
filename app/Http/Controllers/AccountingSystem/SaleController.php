@@ -233,7 +233,6 @@ class SaleController extends Controller
 
     public function store_returns(Request $request)
     {
-
         $request->validate([
             'sale_id'=>'required|exists:accounting_sales,id',
             'amount'=>'required',
@@ -254,7 +253,7 @@ class SaleController extends Controller
         $session=AccountingSession::find($request->session_id);
         $requests['branch_id']=$session->device->model_id;
         $requests['store_id']=$session->store_id??1;
-        $requests['cash']=$requests['cash']>$requests['amount']?$requests['amount']:$requests['cash'];
+        // $requests['cash']=$requests['cash']>$requests['amount']?$requests['amount']:$requests['cash'];
 
         if ($requests['discount_byPercentage']!=0&&$requests['discount_byAmount']==0) {
             $request['discount_type']='percent';
