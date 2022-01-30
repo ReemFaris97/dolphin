@@ -204,7 +204,7 @@ unit_total_tax_enable
                                             <td class="product-name maybe-hidden name_enable"><a
                                                     href="{{ route('accounting.products.show', $row->product_id) }}"
                                                     target="_blank"
-                                                    rel="noopener noreferrer">{{ $row->product->name }}</a>
+                                                    rel="noopener noreferrer">{{ $row?->product?->name }}</a>
                                             </td>
                                             <td class="product-unit maybe-hidden unit_enable" width="70">
                                                 <select class="form-control js-example-basic-single"

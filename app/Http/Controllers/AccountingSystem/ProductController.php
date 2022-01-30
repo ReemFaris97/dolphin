@@ -205,7 +205,7 @@ class ProductController extends Controller
         $quantities = collect($request['unit_quantities']);
         $units = $names->zip($par_codes, $purchasing_price, $selling_price, $main_unit_presents, $quantities);
 
-        foreach ($units as $unit) {
+        foreach ($units??[] as $unit) {
             $uni = AccountingProductSubUnit::create([
                 'name' => $unit['0'],
                 'bar_code' => $unit['1'],
@@ -233,7 +233,7 @@ class ProductController extends Controller
         $qtys = collect($request['qtys']);
         $main_units = collect($request['main_units']);
         $components = $component_names->zip($qtys, $main_units);
-        foreach ($components as $component) {
+        foreach ($components??[] as $component) {
             AccountingProductComponent::create([
                 'name' => $component['0'],
                 'quantity' => $component['1'],
@@ -244,7 +244,7 @@ class ProductController extends Controller
         /////////////////////////////barcodes_products///////////////////////////////////
         if (isset($inputs['barcodes'])) {
             $barcodes = $inputs['barcodes'];
-            foreach ($barcodes as $barcode) {
+            foreach ($barcodes ??[]as $barcode) {
                 // dd($offer);
                 AccountingProductBarcode::create([
                     'barcode' => $barcode,
@@ -255,7 +255,7 @@ class ProductController extends Controller
         /////////////////////////////offers _products///////////////////////////////////
         if (isset($inputs['offers'])) {
             $offers = $inputs['offers'];
-            foreach ($offers as $offer) {
+            foreach ($offers ??[] as $offer) {
                 // dd($offer);
                 AccountingProductOffer::create([
                     'child_product_id' => $offer,
@@ -276,7 +276,7 @@ class ProductController extends Controller
                 $gift_quantity = collect($request['gift_quantity']);
                 $qtys_discount = $basic_quantity->zip($gift_quantity);
 
-                foreach ($qtys_discount as $discount) {
+                foreach ($qtys_discount ??[] as $discount) {
                     AccountingProductDiscount::create([
                         'quantity' => $discount['0'],
                         'gift_quantity' => $discount['1'],
@@ -290,7 +290,7 @@ class ProductController extends Controller
         if (isset($request['tax']) & $request['tax'] == 1) {
             if (isset($request['tax_band_id'])) {
                 $taxs = $request['tax_band_id'];
-                foreach ($taxs as $tax) {
+                foreach ($taxs??[] as $tax) {
                     AccountingProductTax::create([
                         'product_id' => $product->id,
                         'tax_value' => AccountingTaxBand::find($tax)->percent,
@@ -308,7 +308,7 @@ class ProductController extends Controller
             $services_price = collect($request['services_price']);
             $services = $services_price->zip($services_code, $service_type);
 
-            foreach ($services as $service) {
+            foreach ($services??[] as $service) {
                 AccountingService::create([
                     'price' => $service['0'],
                     'code' => $service['1'],
@@ -396,7 +396,7 @@ class ProductController extends Controller
         }
         ///////  /// / //////subunits Arrays//////////////////////////////
 
-        foreach ($request->sub_units as $sub_unit) {
+        foreach ($request->sub_units??[] as $sub_unit) {
             $product->sub_units()->UpdateOrCreate(['id' => \Arr::get($sub_unit, 'id')], [
                 'name' => $sub_unit['name'],
                 'bar_code' => $sub_unit['bar_code'],
@@ -422,7 +422,7 @@ class ProductController extends Controller
         $qtys = collect($request['qtys']);
         $main_units = collect($request['main_units']);
         $components = $component_names->zip($qtys, $main_units);
-        foreach ($components as $component) {
+        foreach ($components ??[]as $component) {
             AccountingProductComponent::create([
                 'name' => $component['0'],
                 'quantity' => $component['1'],
@@ -433,7 +433,7 @@ class ProductController extends Controller
         /////////////////////////////barcodes_products//////////////////////////////////
         if (isset($inputs['barcodes'])) {
             $barcodes = $inputs['barcodes'];
-            foreach ($barcodes as $barcode) {
+            foreach ($barcodes??[] as $barcode) {
                 // dd($offer);
                 AccountingProductBarcode::create([
                     'barcode' => $barcode,
@@ -444,7 +444,7 @@ class ProductController extends Controller
         /////////////////////////////offers _products///////////////////////////////////
         if (isset($inputs['offers'])) {
             $offers = $inputs['offers'];
-            foreach ($offers as $offer) {
+            foreach ($offers??[] as $offer) {
                 // dd($offer);
                 AccountingProductOffer::create([
                     'child_product_id' => $offer,
@@ -465,7 +465,7 @@ class ProductController extends Controller
                 $gift_quantity = collect($request['gift_quantity']);
                 $qtys_discount = $basic_quantity->zip($gift_quantity);
 
-                foreach ($qtys_discount as $discount) {
+                foreach ($qtys_discount ??[]as $discount) {
                     AccountingProductDiscount::create([
                         'quantity' => $discount['0'],
                         'gift_quantity' => $discount['1'],
@@ -479,7 +479,7 @@ class ProductController extends Controller
         if ($request['tax_band_id']) {
             $taxs = $request['tax_band_id'];
             AccountingProductTax::where('product_id', $product->id)->delete();
-            foreach ($taxs as $tax) {
+            foreach ($taxs??[] as $tax) {
                 AccountingProductTax::create([
                     'product_id' => $product->id,
                     'tax_value' => AccountingTaxBand::find($tax)->percent,
@@ -496,7 +496,7 @@ class ProductController extends Controller
             $services_price = collect($request['services_price']);
             $services = $services_price->zip($services_code, $service_type);
 
-            foreach ($services as $service) {
+            foreach ($services??[] as $service) {
                 AccountingService::create([
                     'price' => $service['0'],
                     'code' => $service['1'],
@@ -685,7 +685,7 @@ class ProductController extends Controller
         $quantities = collect($request['unit_quantities']);
         $units = $names->zip($par_codes, $purchasing_price, $selling_price, $main_unit_presents, $quantities);
 
-        foreach ($units as $unit) {
+        foreach ($units??[] as $unit) {
             AccountingProductSubUnit::create([
                 'name' => $unit['0'],
                 'bar_code' => $unit['1'],
@@ -702,7 +702,7 @@ class ProductController extends Controller
         $main_units = collect($request['main_units']);
         $components = $component_names->zip($qtys, $main_units);
 
-        foreach ($components as $component) {
+        foreach ($components??[] as $component) {
             AccountingProductComponent::create([
                 'name' => $component['0'],
                 'quantity' => $component['1'],
@@ -755,7 +755,7 @@ class ProductController extends Controller
         //     ]);
         // }
 
-        foreach ($request->sub_units as $sub_unit) {
+        foreach ($request->sub_units ??[]as $sub_unit) {
             $unit = $product->sub_units()->UpdateOrCreate(['id' => \Arr::get($sub_unit, 'id')], [
                 'name' => $sub_unit['name'],
                 'bar_code' => $sub_unit['bar_code'],
@@ -768,7 +768,7 @@ class ProductController extends Controller
 
 
 //        dd($request->);
-        foreach ($request->offers as $offer) {
+        foreach ($request->offers ??[]as $offer) {
             $product->discounts()->updateOrCreate([
                 'accounting_product_discounts.id'=>$offer['id']
             ], [
@@ -783,7 +783,7 @@ class ProductController extends Controller
         $qtys = collect($request['qtys']);
         $main_units = collect($request['main_units']);
         $components = $component_names->zip($qtys, $main_units);
-        foreach ($components as $component) {
+        foreach ($components??[] as $component) {
             AccountingProductComponent::create([
                 'name' => $component['0'],
                 'quantity' => $component['1'],
@@ -792,10 +792,11 @@ class ProductController extends Controller
             ]);
         }
         $product->tax()->sync([]);
-        if ($request['taxs']) {
-            $taxs = $request['taxs'];
-            foreach ($taxs as $tax) {
-                AccountingProductTax::create([
+        if (isset($request['tax']) & $request['tax'] == 1) {
+            if (isset($request['tax_band_id'])) {
+                $taxs = $request['tax_band_id'];
+                foreach ($taxs ??[]as $tax) {
+                    AccountingProductTax::create([
                         'product_id' => $product->id,
                         'tax_value' => AccountingTaxBand::find($tax)->percent,
                         'price_has_tax' => 1,
@@ -877,7 +878,7 @@ class ProductController extends Controller
             $collect1 = collect($stores_company);
 
             $stores_branch = [];
-            foreach ($branches_ids as $branch_id) {
+            foreach ($branches_ids??[] as $branch_id) {
                 $store_branch = AccountingStore::where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->where('model_id', $branch_id)->first();
                 array_push($stores_branch, $store_branch);
             }
@@ -892,7 +893,7 @@ class ProductController extends Controller
 
             $branches_1 = AccountingBranch::where('company_id', $company_id[0])->get();
             $stores_branch = [];
-            foreach ($branches_1 as $branch) {
+            foreach ($branches_1 ??[] as $branch) {
                 $store_branch = AccountingStore::where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->where('model_id', $branch->id)->first();
 
                 array_push($stores_branch, $store_branch);
@@ -932,7 +933,7 @@ class ProductController extends Controller
         $quantity = collect($request['quantity']);
         $merges = $product_id->zip($purchasing_price, $selling_price, $quantity);
 
-        foreach ($merges as $merge) {
+        foreach ($merges ??[]as $merge) {
             $product = AccountingProduct::find($merge[0]);
             $product->update([
                 'quantity' => $merge[3],
