@@ -52,8 +52,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class AccountingReturn extends Model
 {
-    protected $fillable = ['user_id','sale_id','discount','total','bill_num','session_id','totalTaxs','discount_type','payment'
-     , 'amount' ,'branch_id','client_id'];
+    protected $fillable = ['user_id','sale_id','discount','total','bill_num','session_id','totalTaxs','discount_type','payment' , 'amount' ,'branch_id','client_id'];
     protected $table='accounting_sales_returns';
     public function branch()
     {
