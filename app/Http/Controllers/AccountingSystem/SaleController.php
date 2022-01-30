@@ -225,9 +225,19 @@ class SaleController extends Controller
 
     public function store_returns(Request $request)
     {
-        $requests = $request->all();
-
-        DB::beginTransaction();
+        $request->validate([
+            'sale_id'=>'required|exists:accounting_sales,id',
+            'amount'=>'required',
+            'user_id'=>'required',
+            'session_id'=>'required',
+            'bill_date'=>'required',
+            'client_id'=>'required',
+            'shift_id'=>'required',
+            'payed'=>'required',
+            'product_id'=>'required',
+            'unit_id'=>'required',
+            'quantity'=>'required',
+        ]);
         $requests = $request->all();
         if (!$request->client_id) {
             $requests['client_id']=AccountingClient::first()->id;
@@ -235,7 +245,7 @@ class SaleController extends Controller
         $session=AccountingSession::find($request->session_id);
         $requests['branch_id']=$session->device->model_id;
         $requests['store_id']=$session->store_id??1;
-        $requests['cash']=$requests['cash']>$requests['amount']?$requests['amount']:$requests['cash'];
+        // $requests['cash']=$requests['cash']>$requests['amount']?$requests['amount']:$requests['cash'];
 
         $requests['user_id']=auth()->id();
         if ($requests['discount_byPercentage']!=0&&$requests['discount_byAmount']==0) {
