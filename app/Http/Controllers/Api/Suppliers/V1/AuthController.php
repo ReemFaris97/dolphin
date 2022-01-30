@@ -32,7 +32,11 @@ class AuthController extends Controller
             'companies'=>'required|array',
             'companies.*'=>'required|exists:accounting_companies,id',
         ]);
-        $supplier =AccountingSupplier::firstOrCreate(['name'=>$request['company_name']],[
+        $supplier =AccountingSupplier::firstOrCreate(['name'=>$request['company_name'],  'company_name' => $request['company_name'],
+            'commercial_number'=>$request['commercial_number'],
+            'tax_number'=>$request['tax_number'],
+            'license_image'=>$request['license_image'],
+            'commercial_image'=>$request['commercial_image']],[
             'company_name' => $request['company_name'],
             'commercial_number'=>$request['commercial_number'],
             'tax_number'=>$request['tax_number'],
@@ -43,6 +47,7 @@ class AuthController extends Controller
         $inputs['permissions']=['*'];
         $user = User::create($inputs);
         $user->companies()->attach($request['companies']);
+        $supplier->supplierCompany()->attach($request['companies']);
         $user->token = \JWTAuth::fromUser($user);
         activity()
             ->causedBy($user)
@@ -98,8 +103,10 @@ class AuthController extends Controller
             'lat' => 'sometimes|numeric|max:90|min:-90',
             'lng' => 'sometimes|numeric|max:180|min:-90',
             'landline' => 'sometimes|string',
+            'tax_number'=>'sometimes|numeric'
         ]);
         $user->update($inputs);
+        $user->supplier->update($inputs);
         $user->token = \JWTAuth::fromUser($user);
         activity()
             ->causedBy($user)
