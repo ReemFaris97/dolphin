@@ -30,6 +30,7 @@ use App\Models\Supplier\Product;
 use App\Notifications\SupplierNotification;
 use App\Traits\Viewable;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -511,6 +512,7 @@ class ProductController extends Controller
 
 //        alert()->success('تم اضافة المنتج بنجاح !')->autoclose(5000);
 //        return redirect()->route('accounting.products.index');
+try{
         $suggested = Product::whereIn('barcode', $request['barcodes'])->first();
         if ($suggested) {
             $suggested->supplier->admin()->notify(new SupplierNotification([
@@ -521,6 +523,10 @@ class ProductController extends Controller
             ]));
             $suggested->delete();
         }
+    }catch(Exception $e){
+
+    // عديها وحياه ابوك
+    }
         return response()->json(['status' => true, 'message' => 'تم الاضافة بنجاح !']);
     }
 
