@@ -797,7 +797,8 @@ class ProductController extends Controller
                         'tax' => $tax,
                     ]);
         }
-        
+      
+
         return response()->json(['status' => true, 'message' => 'تم التعديل  بنجاح !']);
     }
 
