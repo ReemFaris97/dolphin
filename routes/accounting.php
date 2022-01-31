@@ -36,6 +36,8 @@ Route::middleware('admin')->group(function () {
     Route::resource('taxs', 'TaxsController');
     Route::resource('banks', 'BankController');
     Route::resource('roles', 'roleController');
+    Route::resource('supply-requisitions','SupplyRequisitionController');
+    Route::get('supply-requisitions/product/{product}','SupplyRequisitionController@appendProduct');
     Route::resource('backups', 'BackupController');
     Route::resource('supplier-users','Suppliers\UserController');
     Route::resource('suppliers-invoices','Suppliers\InvoiceController');

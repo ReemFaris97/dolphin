@@ -313,4 +313,6 @@ class AccountingProduct extends Model
             'purchase' =>fn ($q) =>$q->inPeriod($from, $to)
         ]);
     }
+
+
 }

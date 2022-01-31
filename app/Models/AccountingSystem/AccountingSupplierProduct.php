@@ -28,8 +28,7 @@ class AccountingSupplierProduct extends Model
 {
 
 
-    protected $fillable = ['supplier_id','product_id'
-    ];
+    protected $fillable = ['supplier_id','product_id'];
     protected $table='accounting_suppliers_products';
 
 

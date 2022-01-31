@@ -16,8 +16,14 @@ class CreateSupplyRequisitionsTable extends Migration
     {
         Schema::create('supply_requisitions', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(AccountingSupplier::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(\App\Models\AccountingSystem\AccountingCompany::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(\App\Models\AccountingSystem\AccountingSupplier::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(\App\Models\AccountingSystem\AccountingBranch::class)->constrained()->cascadeOnDelete();
+
+            $table->foreignIdFor(\App\Models\User::class, 'creator_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignIdFor(\App\Models\Supplier\User::class, 'approver_id')->nullable()->constrained('suppliers_users')->cascadeOnDelete();
+
+            $table->dateTime('approved_at')->nullable();
 
             $table->timestamps();
         });

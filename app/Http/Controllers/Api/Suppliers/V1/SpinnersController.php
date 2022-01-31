@@ -31,6 +31,7 @@ class SpinnersController extends Controller
                 'products',
                 'offers',
                 'logs',
+                'supply-requisitions',
                 '*'
             ]
         ]);
