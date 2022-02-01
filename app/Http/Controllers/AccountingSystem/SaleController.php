@@ -469,15 +469,15 @@ class SaleController extends Controller
     public function returns($id)
     {
         $sales=AccountingSale::whereDate('created_at', '>=', Carbon::now()->subDays(getsetting('return_period')))
-            ->pluck('id', 'id')->toArray();
+            ->pluck('id', 'id');
         $session=AccountingSession::findOrFail($id);
 //        $session=AccountingSession::find(Cookie::get('session'));
-        $clients=AccountingClient::pluck('name', 'id')->toArray();
-        $categories=AccountingProductCategory::pluck('ar_name', 'id')->toArray();
-        $sales_items=AccountingSaleItem::where('sale_id', $id)->pluck('product_id', 'id')->toArray();
+        $clients=AccountingClient::pluck('name', 'id');
+        $categories=AccountingProductCategory::pluck('ar_name', 'id');
+        $sales_items=AccountingSaleItem::where('sale_id', $id)->pluck('product_id', 'id');
         $userstores = AccountingUserPermission::where('user_id', auth()->user()->id)
-            ->where('model_type', AccountingStore::class)->pluck('model_id', 'id')->toArray();
-        $stores=AccountingStore::whereIn('id', $userstores)->pluck('ar_name', 'id')->toArray();
+            ->where('model_type', AccountingStore::class)->pluck('model_id', 'id');
+        $stores=AccountingStore::whereIn('id', $userstores)->pluck('ar_name', 'id');
 
         $products=[];
 

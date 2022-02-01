@@ -60,11 +60,11 @@
         </ul>
     </div>
 @endif
-                        <div class="row table-upper-options">
+                      <div class="row table-upper-options">
                             <!-- Nav tabs -->
                             <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
                                 <label> إسم العميل: </label>
-                                {!! Form::select('client', $clients, null, ['class' => 'selectpicker form-control inline-control', 'data-live-search' => 'true', 'id' => 'client_id']) !!}
+                                {!! Form::select('client', $clients, $clients?->flip()->first(), ['class' => 'selectpicker form-control inline-control', 'data-live-search' => 'true', 'id' => 'client_id','placeholder'=>'من فضلك اختر العميل']) !!}
                             </div>
                             <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
                                 <label for="bill_date"> تاريخ الفاتورة </label>
@@ -112,7 +112,7 @@
                             <input type="hidden" name="session_id" value="{{ $session->id }}">
                             <input type="hidden" name="shift_id" value="{{ $session->shift_id }}">
                             <input type="hidden" name="bill_date" id="bill_date_val">
-                            <input type="hidden" name="client_id" id="client_id_val">
+                            <input type="hidden" name="client_id" id="client_id_val" value="{{$clients->flip()->first()}}">
                             <table border="1"
                                 class="table datatable-button-init-basic finalTb mabi3at-bill bill-table
                             {{ getsetting('name_enable_sales') == 1 ? 'name_enable' : '' }}
@@ -910,7 +910,7 @@
                     .then((willDelete) => {
                         if (willDelete) {
                             swal("جار الحفظ !", {
-                                icon: "success",
+                                icon: "info",
                                 buttons: false
                             });
                             $("#sllForm").submit();
@@ -918,7 +918,7 @@
                             swal({
                                 title: 'الغاء الحفظ',
                                 text: 'تم إلغاء الحفظ !',
-                                icon: 'success',
+                                icon: 'error',
                                 buttons: false,
                                 timer: 1500
                             });
@@ -940,15 +940,17 @@
         })
     </script>
     <script src="{{ asset('admin/assets/js/get_branch_by_company.js') }}"></script>
-    <script src="{{ asset('admin/assets/js/get_store_by_company_and_branchs.js') }}"></script>
+                    <script src="{{ asset('admin/assets/js/get_store_by_company_and_branchs.js') }}"></script>
     <!---- new design --->
-    <script>
+    <script defer >
         @if (!empty(\Illuminate\Support\Facades\Session::has('sale_id')))
+            
             @php($sale_id = \Illuminate\Support\Facades\Session::get('sale_id'))
             window.open(
             "{{ route('accounting.sales.show_return', $sale_id) }}",
             "_blank"
             ).print();
+         
         @endif
     </script>
 
