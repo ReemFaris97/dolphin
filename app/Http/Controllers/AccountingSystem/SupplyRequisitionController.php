@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingProduct;
 use App\Models\Supplier\User;
 use App\Models\SupplyRequisition;
+use App\Notifications\SupplierNotification;
 use Illuminate\Http\Request;
 
 class SupplyRequisitionController extends Controller
@@ -56,9 +57,7 @@ class SupplyRequisitionController extends Controller
        $inputs['creator_id']=auth()->id();
         $supply_requisition=SupplyRequisition::create($inputs);
         $supply_requisition->items()->createMany($request['products']);
-      $users=  User::where('supplier_id',$request['accounting_supplier_id'])->get();
-      \Notification::send($users,new SupplierNotification(['title'=>'امر توريد جديد','body'=>"لقد تم اضافة امر توريد جديد لكم برقم $supply_requisition->id",
-          'model'=>['id'=>$supply_requisition->id]]));
+
         alert()->success("تم ارسال طلب التوريد بنجاح !");
         return back();
     }
@@ -92,9 +91,14 @@ class SupplyRequisitionController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,SupplyRequisition $supplyRequisition)
     {
-        //
+        $supplyRequisition->update(['approver_id'=>auth()->id(),'approved_at'=>now()]);
+        $users=  User::where('supplier_id',$request['accounting_supplier_id'])->get();
+        \Notification::send($users,new SupplierNotification(['title'=>'امر توريد جديد','body'=>"لقد تم اضافة امر توريد جديد لكم برقم $supplyRequisition->id",
+            'model'=>['id'=>$supplyRequisition->id]]));
+        alert()->success('تم الاعتماد بنجاح !');
+        return back();
     }
 
     /**

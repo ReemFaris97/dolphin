@@ -57,7 +57,13 @@
                                         <td>{{$request->creator->name}}</td>
                                         <td>{{@$request->approver->name}}</td>
                                         <td>{{$request->created_at}}</td>
-                                        <td>{{$request->approved_at}}</td>
+                                        <td>@if($request->approver)
+                                                {{$request->approved_at}}
+                                            @else
+                                                {!! Form::open(['route'=>['accounting.supply-requisitions.update',$request],'method'=>'PUT']) !!}
+                                                <button class="btn btn-primary"><i class="fa fa-check-circle"></i></button>
+                                                {!! Form::close() !!}
+                                               @endif</td>
 
                                         <td class="text-center">
                                             <a href="{{route('accounting.supply-requisitions.show',$request)}}"><i class="fa fa-eye"></i></a>

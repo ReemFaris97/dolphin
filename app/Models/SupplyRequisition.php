@@ -35,7 +35,7 @@ class SupplyRequisition extends Model
 
     public function approver()
     {
-        return $this->belongsTo(\App\Models\Supplier\User::class,'approver_id');
+        return $this->belongsTo(User::class,'approver_id');
     }
 
     public function items()
