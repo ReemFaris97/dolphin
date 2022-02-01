@@ -226,7 +226,7 @@ class SaleController extends Controller
     public function store_returns(Request $request)
     {
         $request->validate([
-            'sale_id'=>'required|exists:accounting_sales,id',
+            // 'sale_id'=>'required|exists:accounting_sales,id',
             'amount'=>'required',
             'user_id'=>'required',
             'session_id'=>'required',

@@ -51,30 +51,15 @@
                 <!----------------  Start Bill Content ----------------->
                 <section class="yourBill">
                     <div class="yurSections">
-                        {{-- @dd(auth()->user()->accounting_store_id) --}}
-                        <!--
-        <div class="row table-upper-options">
-         Nav tabs
-         <div class="col-md-4 col-sm-6 col-xs-12">
-          <div class="form-group">
-           <label> اسم الكاشير: </label>
-           {{-- @dd($session->shift->name) --}}
-                        {{ $session->user->name }}
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="form-group"><label> اسم الوردية: </label>
-                           {{ optional($session->shift)->name }}
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="form-group">
-                                <label> تاريخ بداية الجلسة :</label>
-                                  {{ $session->start_session }}
-                            </div>
-                        </div>
-                    </div>
-    -->
+                        @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
                         <div class="row table-upper-options">
                             <!-- Nav tabs -->
                             <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
