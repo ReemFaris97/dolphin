@@ -81,10 +81,14 @@
                                     </thead>
                                     <tbody id="products-list">
                                     @foreach($supplyRequisition->items as $item)
+                                        <tr>
+
                                         <td>{{$item->product->name}}</td>
                                         <td>{{Arr::first($item->product->bar_code)}}</td>
                                         <td>{{$item->unit}}</td>
                                         <td>{{$item->quantity}}</td>
+                                        </tr>
+
                                     @endforeach
                                     </tbody>
                                 </table>
