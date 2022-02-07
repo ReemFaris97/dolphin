@@ -1,9 +1,6 @@
 <?php
 
-
 namespace App\Traits;
-
-
 
 use App\Models\Charge;
 use App\Models\Clause;
@@ -18,12 +15,11 @@ trait ClauseOperation
      * @return mixed
      */
     public function RegisterClause($request)
-  {
-      $inputs = $request->all();
-     $clause = Clause::create($inputs);
-       return $clause;
-  }
-
+    {
+        $inputs = $request->all();
+        $clause = Clause::create($inputs);
+        return $clause;
+    }
 
     /**
      * Update Clause
@@ -32,7 +28,7 @@ trait ClauseOperation
      * @param $request
      * @return mixed
      */
-    public function UpdateClause($clause,$request)
+    public function UpdateClause($clause, $request)
     {
         $inputs = $request->all();
         return $clause->update($inputs);
@@ -46,31 +42,34 @@ trait ClauseOperation
      */
     public function AddClauseLog($request)
     {
-        dd($request['clauses']);
-        foreach ($request->clauses as $key=>$c)
-        {
+        dd($request["clauses"]);
+        foreach ($request->clauses as $key => $c) {
             $clause = Clause::find($key);
-           if ($clause)
-           {
-               $clause->logs()->create(['amount'=>$c, 'user_id'=>auth()->user()->id,]);
+            if ($clause) {
+                $clause
+                    ->logs()
+                    ->create(["amount" => $c, "user_id" => auth()->user()->id]);
                 Clause::find($key)->update([
-                   'amount'=>$c
-               ]);
-           }
+                    "amount" => $c,
+                ]);
+            }
         }
         return true;
     }
 
-   public function AddClauseLogWithJson($request)
+    public function AddClauseLogWithJson($request)
     {
-        foreach ($request->clauses as $c)
-        {
-            $clause = Clause::find($c['id']);
-           if ($clause)
-           {
-               $clause->logs()->create(['amount'=>$c['value'], 'user_id'=>auth()->user()->id]);
-               $clause->update(['amount'=>$c['value']]);
-           }
+        foreach ($request->clauses as $c) {
+            $clause = Clause::find($c["id"]);
+            if ($clause) {
+                $clause
+                    ->logs()
+                    ->create([
+                        "amount" => $c["value"],
+                        "user_id" => auth()->user()->id,
+                    ]);
+                $clause->update(["amount" => $c["value"]]);
+            }
         }
         return true;
     }

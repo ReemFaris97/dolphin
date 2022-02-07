@@ -23,30 +23,33 @@ class AssetDamageObserver
      */
     public function created(AccountingAssetDamageLog $damageLog)
     {
+        $account = AccountingAccount::where(
+            "asset_id",
+            $damageLog->asset->id
+        )->first();
+        $accounts = AccountingAccount::where(
+            "asset_id",
+            $damageLog->asset->id
+        )->get();
 
-        $account=AccountingAccount::where('asset_id',$damageLog->asset->id)->first();
-        $accounts=AccountingAccount::where('asset_id',$damageLog->asset->id)->get();
-
-        $entry=AccountingEntry::create([
-            'date'=>Carbon::now(),
-            'source'=>'الاصول',
-            'type'=>'automatic',
-            'details'=>'  اضافة هالك'. " ".$damageLog->asset->ar_name,
-            'status'=>'new'
+        $entry = AccountingEntry::create([
+            "date" => Carbon::now(),
+            "source" => "الاصول",
+            "type" => "automatic",
+            "details" => "  اضافة هالك" . " " . $damageLog->asset->ar_name,
+            "status" => "new",
         ]);
-        $account_damage=AccountingAccount::find(getsetting('accounting_damage_asset_id'));
-// dd($account->id +1);
+        $account_damage = AccountingAccount::find(
+            getsetting("accounting_damage_asset_id")
+        );
+        // dd($account->id +1);
 
-      AccountingEntryAccount::create([
-            'entry_id'=>$entry->id,
-            'from_account_id'=>$account_damage->id,
-            'to_account_id'=>$account->id+1,
-            'amount'=>$damageLog->amount,
+        AccountingEntryAccount::create([
+            "entry_id" => $entry->id,
+            "from_account_id" => $account_damage->id,
+            "to_account_id" => $account->id + 1,
+            "amount" => $damageLog->amount,
         ]);
-
-
-
-
     }
 
     /**
@@ -55,5 +58,4 @@ class AssetDamageObserver
      * @param  \App\Task  $task
      * @return void
      */
-
 }

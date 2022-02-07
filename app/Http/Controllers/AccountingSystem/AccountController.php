@@ -28,9 +28,12 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $accounts=AccountingAccount::where('kind', 'main')->get();
+        $accounts = AccountingAccount::where("kind", "main")->get();
 
-        return view("AccountingSystem.charts_accounts.index", compact('accounts'));
+        return view(
+            "AccountingSystem.charts_accounts.index",
+            compact("accounts")
+        );
     }
 
     /**
@@ -40,9 +43,20 @@ class AccountController extends Controller
      */
     public function create()
     {
-        $accounts=AccountingAccount::whereIn('kind', ['main','following_main'])->select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->pluck('code_name', 'id')->toArray();
-        $centers=AccountingCostCenter::where('active', 1)->pluck('name', 'id')->toArray();
-        return view("AccountingSystem.charts_accounts.create", compact('accounts', 'centers'));
+        $accounts = AccountingAccount::whereIn("kind", [
+            "main",
+            "following_main",
+        ])
+            ->select("id", DB::raw("concat(ar_name, ' - ',code) as code_name"))
+            ->pluck("code_name", "id")
+            ->toArray();
+        $centers = AccountingCostCenter::where("active", 1)
+            ->pluck("name", "id")
+            ->toArray();
+        return view(
+            "AccountingSystem.charts_accounts.create",
+            compact("accounts", "centers")
+        );
     }
 
     /**
@@ -54,70 +68,71 @@ class AccountController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'ar_name'=>'required|string|max:50',
-            'en_name'=>'required|string|max:100',
-            'kind'=>'required|in:main,sub,following_main',
-            'status'=>'required|in:debtor,Creditor',
-            'account_id'=>'required_if:kind,sub|required_if:kind,following_main'
+            "ar_name" => "required|string|max:50",
+            "en_name" => "required|string|max:100",
+            "kind" => "required|in:main,sub,following_main",
+            "status" => "required|in:debtor,Creditor",
+            "account_id" =>
+                "required_if:kind,sub|required_if:kind,following_main",
         ];
-        $message=[
-            'en_name.required'=>'اسم الحساب باللغه الانجليزيه مطلوب ',
-            'ar_name.required'=>'اسم الحساب باللغه  العربيه مطلوب',
-            'account_id.required_if'=>'الحساب الرئيسى مطلوب فى حالة نوع الحساب  رئيسى تابع او فرعى',
+        $message = [
+            "en_name.required" => "اسم الحساب باللغه الانجليزيه مطلوب ",
+            "ar_name.required" => "اسم الحساب باللغه  العربيه مطلوب",
+            "account_id.required_if" =>
+                "الحساب الرئيسى مطلوب فى حالة نوع الحساب  رئيسى تابع او فرعى",
         ];
 
         $this->validate($request, $rules, $message);
         $requests = $request->all();
 
-        $account= AccountingAccount::create($requests);
-//          AccountingAccountSetting::create([
-//            'account_id'=>$account->id,
-//             'main_code'=>$account->code,
-//        ]);
+        $account = AccountingAccount::create($requests);
+        //          AccountingAccountSetting::create([
+        //            'account_id'=>$account->id,
+        //             'main_code'=>$account->code,
+        //        ]);
 
-        if (isset($requests['center_id'])) {
-            foreach ($requests['center_id'] as $center_id) {
+        if (isset($requests["center_id"])) {
+            foreach ($requests["center_id"] as $center_id) {
                 AccountingCenterAccount::create([
-                               'account_id'=>$account->id,
-                               'center_id'=>$center_id,
-                        ]);
+                    "account_id" => $account->id,
+                    "center_id" => $center_id,
+                ]);
             }
         }
 
-
         /////الرصيد الافتتاحى
-        if ($account->kind=='sub'&&$account->type == "exist") {
+        if ($account->kind == "sub" && $account->type == "exist") {
             //++++++++++فى حاله  تساوى  طبيعه  الحساب  مع  طبيعه الارصييد الافتتاحى
-            if ($requests['status']==$requests['affect']) {
+            if ($requests["status"] == $requests["affect"]) {
                 AccountingAccountLog::create([
-                        'entry_id'=>null,
-                        'account_id'=>$account->id,
-                        'account_amount_before'=>null,
-                        'another_account_id'=>null,
-                        'amount'=>$requests['openning_balance'],
-                        'account_amount_after'=>$requests['openning_balance'],
-                        'affect'=>$requests['affect'],
-                        'status'=>'opening_balance',
-                    ]);
+                    "entry_id" => null,
+                    "account_id" => $account->id,
+                    "account_amount_before" => null,
+                    "another_account_id" => null,
+                    "amount" => $requests["openning_balance"],
+                    "account_amount_after" => $requests["openning_balance"],
+                    "affect" => $requests["affect"],
+                    "status" => "opening_balance",
+                ]);
             } else {
                 // dd("fdre3wer");
                 AccountingAccountLog::create([
-
-                        'entry_id'=>null,
-                        'account_id'=>$account->id,
-                        'account_amount_before'=>null,
-                        'another_account_id'=>null,
-                        'amount'=>-$requests['openning_balance'],
-                        'account_amount_after'=>-$requests['openning_balance'],
-                        'affect'=>$requests['affect'],
-                        'status'=>'opening_balance',
-
-                    ]);
+                    "entry_id" => null,
+                    "account_id" => $account->id,
+                    "account_amount_before" => null,
+                    "another_account_id" => null,
+                    "amount" => -$requests["openning_balance"],
+                    "account_amount_after" => -$requests["openning_balance"],
+                    "affect" => $requests["affect"],
+                    "status" => "opening_balance",
+                ]);
             }
         }
 
-        alert()->success('تم انشاء حسابا  بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.ChartsAccounts.index');
+        alert()
+            ->success("تم انشاء حسابا  بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.ChartsAccounts.index");
     }
 
     /**
@@ -128,20 +143,49 @@ class AccountController extends Controller
      */
     public function show($id)
     {
-        $account=AccountingAccount::with('allChildrenAccounts')->where('id', $id)->first();
-        $logs=AccountingAccountLog::where('account_id', $id)->where('status', 'entry')->get();
+        $account = AccountingAccount::with("allChildrenAccounts")
+            ->where("id", $id)
+            ->first();
+        $logs = AccountingAccountLog::where("account_id", $id)
+            ->where("status", "entry")
+            ->get();
         // dd($account,$logs);
-        $log_openning_balance=AccountingAccountLog::where('account_id', $id)->where('status', 'opening_balance')->first();
+        $log_openning_balance = AccountingAccountLog::where("account_id", $id)
+            ->where("status", "opening_balance")
+            ->first();
 
-        $postingEntries=AccountingEntry::where('status', 'posted')->pluck('id');
-        $accountLogsForm=AccountingAccountLog::where('account_id', $id)->whereIn('entry_id', $postingEntries)->where('affect', 'debtor')->get();
-        $accountLogsTo=AccountingAccountLog::where('account_id', $id)->whereIn('entry_id', $postingEntries)->where('affect', 'creditor')->get();
-        $centers=AccountingCenterAccount::where('account_id', $id)->get();
-        $asset=AccountingAsset::find($account->asset_id);
-        $custody=AccountingAsset::find($account->asset_id);
-        $payments = AccountingPayment::where('active', '1')->pluck('name', 'id')->toArray();
+        $postingEntries = AccountingEntry::where("status", "posted")->pluck(
+            "id"
+        );
+        $accountLogsForm = AccountingAccountLog::where("account_id", $id)
+            ->whereIn("entry_id", $postingEntries)
+            ->where("affect", "debtor")
+            ->get();
+        $accountLogsTo = AccountingAccountLog::where("account_id", $id)
+            ->whereIn("entry_id", $postingEntries)
+            ->where("affect", "creditor")
+            ->get();
+        $centers = AccountingCenterAccount::where("account_id", $id)->get();
+        $asset = AccountingAsset::find($account->asset_id);
+        $custody = AccountingAsset::find($account->asset_id);
+        $payments = AccountingPayment::where("active", "1")
+            ->pluck("name", "id")
+            ->toArray();
 
-        return view("AccountingSystem.charts_accounts.show", compact('account', 'logs', 'log_openning_balance', 'accountLogsForm', 'accountLogsTo', 'centers', 'asset', 'custody', 'payments'));
+        return view(
+            "AccountingSystem.charts_accounts.show",
+            compact(
+                "account",
+                "logs",
+                "log_openning_balance",
+                "accountLogsForm",
+                "accountLogsTo",
+                "centers",
+                "asset",
+                "custody",
+                "payments"
+            )
+        );
     }
 
     /**
@@ -152,12 +196,21 @@ class AccountController extends Controller
      */
     public function edit($id)
     {
-        $account=AccountingAccount::find($id);
-        $accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->pluck('code_name', 'id')->toArray();
+        $account = AccountingAccount::find($id);
+        $accounts = AccountingAccount::select(
+            "id",
+            DB::raw("concat(ar_name, ' - ',code) as code_name")
+        )
+            ->pluck("code_name", "id")
+            ->toArray();
 
-
-        $centers=AccountingCostCenter::where('active', 1)->pluck('name', 'id')->toArray();
-        return view("AccountingSystem.charts_accounts.edit", compact('account', 'accounts', 'centers'));
+        $centers = AccountingCostCenter::where("active", 1)
+            ->pluck("name", "id")
+            ->toArray();
+        return view(
+            "AccountingSystem.charts_accounts.edit",
+            compact("account", "accounts", "centers")
+        );
     }
 
     /**
@@ -169,57 +222,60 @@ class AccountController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $account=AccountingAccount::find($id);
+        $account = AccountingAccount::find($id);
         $rules = [
-            'ar_name'=>'required|string|max:50',
-            'en_name'=>'required|string|max:100',
-            'kind'=>'required|in:main,sub,following_main',
-            'status'=>'required|in:debtor,Creditor',
+            "ar_name" => "required|string|max:50",
+            "en_name" => "required|string|max:100",
+            "kind" => "required|in:main,sub,following_main",
+            "status" => "required|in:debtor,Creditor",
         ];
-        $message=[
-            'en_name.required'=>'اسم الحساب باللغه الانجليزيه مطلوب ',
-           'ar_name.required'=>'اسم الحساب باللغه  العربيه مطلوب',
-//            'code.required'=>'كود الحساب مطلوب',
-//            'code.numeric'=>'  كود الحساب مطلوب يكون رقما',
+        $message = [
+            "en_name.required" => "اسم الحساب باللغه الانجليزيه مطلوب ",
+            "ar_name.required" => "اسم الحساب باللغه  العربيه مطلوب",
+            //            'code.required'=>'كود الحساب مطلوب',
+            //            'code.numeric'=>'  كود الحساب مطلوب يكون رقما',
         ];
         $this->validate($request, $rules, $message);
         $requests = $request->all();
         $account->update($requests);
-        if ($account->kind=='sub'&&$account->type == "exist") {
-            $logs=AccountingAccountLog::where('account_id', $account->id)->get();
+        if ($account->kind == "sub" && $account->type == "exist") {
+            $logs = AccountingAccountLog::where(
+                "account_id",
+                $account->id
+            )->get();
             foreach ($logs as $log) {
                 $log->delete();
             }
             //++++++++++فى حاله  تساوى  طبيعه  الحساب  مع  طبيعه الارصييد الافتتاحى
-            if ($requests['status']==$requests['affect']) {
+            if ($requests["status"] == $requests["affect"]) {
                 AccountingAccountLog::create([
-                        'entry_id'=>null,
-                        'account_id'=>$account->id,
-                        'account_amount_before'=>null,
-                        'another_account_id'=>null,
-                        'amount'=>$requests['openning_balance'],
-                        'account_amount_after'=>$requests['openning_balance'],
-                        'affect'=>$requests['affect'],
-                        'status'=>'opening_balance',
-                    ]);
+                    "entry_id" => null,
+                    "account_id" => $account->id,
+                    "account_amount_before" => null,
+                    "another_account_id" => null,
+                    "amount" => $requests["openning_balance"],
+                    "account_amount_after" => $requests["openning_balance"],
+                    "affect" => $requests["affect"],
+                    "status" => "opening_balance",
+                ]);
             } else {
                 // dd("fdre3wer");
                 AccountingAccountLog::create([
-
-                        'entry_id'=>null,
-                        'account_id'=>$account->id,
-                        'account_amount_before'=>null,
-                        'another_account_id'=>null,
-                        'amount'=>-$requests['openning_balance'],
-                        'account_amount_after'=>-$requests['openning_balance'],
-                        'affect'=>$requests['affect'],
-                        'status'=>'opening_balance',
-
-                    ]);
+                    "entry_id" => null,
+                    "account_id" => $account->id,
+                    "account_amount_before" => null,
+                    "another_account_id" => null,
+                    "amount" => -$requests["openning_balance"],
+                    "account_amount_after" => -$requests["openning_balance"],
+                    "affect" => $requests["affect"],
+                    "status" => "opening_balance",
+                ]);
             }
         }
-        alert()->success('تم تعديل  الحساب بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.ChartsAccounts.index');
+        alert()
+            ->success("تم تعديل  الحساب بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.ChartsAccounts.index");
     }
 
     /**
@@ -230,27 +286,38 @@ class AccountController extends Controller
      */
     public function destroy($id)
     {
-        $account =AccountingAccount::findOrFail($id);
-        if ($account->kind=='sub') {
-            $entries=AccountingEntryAccount::where('account_id', $id)->get();
+        $account = AccountingAccount::findOrFail($id);
+        if ($account->kind == "sub") {
+            $entries = AccountingEntryAccount::where("account_id", $id)->get();
 
-            if ($entries->count()==0) {
-                $account =AccountingAccount::findOrFail($id);
+            if ($entries->count() == 0) {
+                $account = AccountingAccount::findOrFail($id);
                 $account->delete();
-                alert()->success('تم حذف  الحساب بنجاح !')->autoclose(5000);
-                return redirect()->route('accounting.ChartsAccounts.index');
+                alert()
+                    ->success("تم حذف  الحساب بنجاح !")
+                    ->autoclose(5000);
+                return redirect()->route("accounting.ChartsAccounts.index");
             } else {
-                alert()->warning('لا يمكن حذف الحساب  لوجود قيود!')->autoclose(5000);
+                alert()
+                    ->warning("لا يمكن حذف الحساب  لوجود قيود!")
+                    ->autoclose(5000);
                 return back();
             }
-        } elseif ($account->kind=='main'||$account->kind=='following_main') {
-            if ($account->children->count()==0) {
-                $account =AccountingAccount::findOrFail($id);
+        } elseif (
+            $account->kind == "main" ||
+            $account->kind == "following_main"
+        ) {
+            if ($account->children->count() == 0) {
+                $account = AccountingAccount::findOrFail($id);
                 $account->delete();
-                alert()->success('تم حذف  الحساب بنجاح !')->autoclose(5000);
-                return redirect()->route('accounting.ChartsAccounts.index');
+                alert()
+                    ->success("تم حذف  الحساب بنجاح !")
+                    ->autoclose(5000);
+                return redirect()->route("accounting.ChartsAccounts.index");
             } else {
-                alert()->warning('لا يمكن حذف الحساب  لوجود حسابات   تابعه له!')->autoclose(5000);
+                alert()
+                    ->warning("لا يمكن حذف الحساب  لوجود حسابات   تابعه له!")
+                    ->autoclose(5000);
                 return back();
             }
         }
@@ -258,32 +325,37 @@ class AccountController extends Controller
 
     public function active($id)
     {
-        $account =AccountingAccount::findOrFail($id);
+        $account = AccountingAccount::findOrFail($id);
         $account->update([
-            'active'=>1
+            "active" => 1,
         ]);
-        alert()->success('تم تفعيل  الحساب بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم تفعيل  الحساب بنجاح !")
+            ->autoclose(5000);
         return back();
     }
-
 
     public function dis_active($id)
     {
-        $account =AccountingAccount::findOrFail($id);
+        $account = AccountingAccount::findOrFail($id);
         $account->update([
-            'active'=>0
+            "active" => 0,
         ]);
-        alert()->success('تم الغاء تفعيل  الحساب بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم الغاء تفعيل  الحساب بنجاح !")
+            ->autoclose(5000);
         return back();
     }
 
-
     public function trial_balance(Request $request)
     {
-        if ($request->has('level')) {
-            $accounts=AccountingAccount::where('level', $request['level'])->get();
+        if ($request->has("level")) {
+            $accounts = AccountingAccount::where(
+                "level",
+                $request["level"]
+            )->get();
         } else {
-            $accounts=AccountingAccount::all();
+            $accounts = AccountingAccount::all();
         }
         //     $accountsTransactions=  AccountingAccountLog::where('account_id',51)->select('id',
         //     \DB::raw('count(*) as num'), \DB::raw('IF(affect ="creditor",sum(amount),0) AS creditor_amount'),
@@ -292,6 +364,9 @@ class AccountController extends Controller
         //         $accountsTransactions = $accountsTransactions->whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::parse($request->to)]);
         //     }
         //    dd($accountsTransactions->get());
-        return view("AccountingSystem.charts_accounts.trial_balance", compact('accounts', 'request'));
+        return view(
+            "AccountingSystem.charts_accounts.trial_balance",
+            compact("accounts", "request")
+        );
     }
 }

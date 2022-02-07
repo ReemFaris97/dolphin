@@ -10,6 +10,6 @@ class InvoiceController extends Controller
 {
     public function index(AccountingSaleCurrentDataTable $dataTable)
     {
-        return $dataTable->render('AccountingSystem.sales.index');
+        return $dataTable->render("AccountingSystem.sales.index");
     }
 }

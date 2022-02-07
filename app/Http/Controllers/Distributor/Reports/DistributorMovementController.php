@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Distributor\Reports;
 
-
 use App\Models\RouteReport;
 use App\Models\RouteTripReport;
 use App\Models\RouteTrips;
@@ -18,23 +17,36 @@ class DistributorMovementController extends Controller
 {
     public function __construct()
     {
-        view()->share('distributors', User::query()->where('is_distributor','1')->pluck('name', 'id'));
-
-
+        view()->share(
+            "distributors",
+            User::query()
+                ->where("is_distributor", "1")
+                ->pluck("name", "id")
+        );
     }
     public function index(Request $request)
     {
-
         $query = RouteReport::query();
-        if($request->has('user_id') && $request->user_id != null){
-             $query = $query->where('user_id',$request->user_id);
+        if ($request->has("user_id") && $request->user_id != null) {
+            $query = $query->where("user_id", $request->user_id);
         }
-        if($request->has('from') && $request->has('to')  && $request->to != null  && $request->from != null){
-            $query = $query->whereBetween('created_at',[$request->from,$request->to]);
+        if (
+            $request->has("from") &&
+            $request->has("to") &&
+            $request->to != null &&
+            $request->from != null
+        ) {
+            $query = $query->whereBetween("created_at", [
+                $request->from,
+                $request->to,
+            ]);
         }
-        $routes=$query->orderBy('created_at')->get();
+        $routes = $query->orderBy("created_at")->get();
 
-        return view('distributor.reports.distributor_movements.index',compact('routes'));
+        return view(
+            "distributor.reports.distributor_movements.index",
+            compact("routes")
+        );
     }
 
     /**
@@ -42,12 +54,17 @@ class DistributorMovementController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @throws \Throwable
      */
-    public function show(Request $request,$id)
+    public function show(Request $request, $id)
     {
-        $route=RouteReport::find($id);
-        $trips=TripInventory::with('trip')->whereRouteId($id)
-            ->where('round',$route->round)->get();
+        $route = RouteReport::find($id);
+        $trips = TripInventory::with("trip")
+            ->whereRouteId($id)
+            ->where("round", $route->round)
+            ->get();
 
-        return view('distributor.reports.distributor_movements.show',compact('trips','id','route'));
+        return view(
+            "distributor.reports.distributor_movements.show",
+            compact("trips", "id", "route")
+        );
     }
 }

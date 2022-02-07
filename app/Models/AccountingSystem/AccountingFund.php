@@ -45,14 +45,13 @@ use Illuminate\Database\Eloquent\Builder;
 class AccountingFund extends Model
 {
     use HasFactory;
- 
+
     /**
      * The attributes that aren't mass assignable.
      *
      * @var array
      */
     protected $guarded = [];
-
 
     /**
      * The "booting" method of the model.
@@ -61,34 +60,35 @@ class AccountingFund extends Model
      */
     protected static function booted()
     {
-        static::addGlobalScope('addBalance', function (Builder $builder) {
+        static::addGlobalScope("addBalance", function (Builder $builder) {
             $builder->WithBalance();
         });
     }
-    public function branch():BelongsTo
+    public function branch(): BelongsTo
     {
-        return $this->belongsTo(AccountingBranch::class, 'branch_id');
+        return $this->belongsTo(AccountingBranch::class, "branch_id");
     }
 
-    public function company():BelongsTo
+    public function company(): BelongsTo
     {
-        return $this->belongsTo(AccountingCompany::class, 'company_id');
+        return $this->belongsTo(AccountingCompany::class, "company_id");
     }
 
-    public function created_by():BelongsTo
+    public function created_by(): BelongsTo
     {
-        return $this->morphTo('created_by');
+        return $this->morphTo("created_by");
     }
     public function transaction()
     {
-        return $this->morphOne(AccountingFundTransaction::class, 'billable');
+        return $this->morphOne(AccountingFundTransaction::class, "billable");
     }
     public function scopeWithBalance(Builder $builder): void
     {
         $builder->addSelect([
-                'balance'=>AccountingFundTransaction::query()
-                ->whereColumn('fund_id', 'accounting_funds.id')
+            "balance" => AccountingFundTransaction::query()
+                ->whereColumn("fund_id", "accounting_funds.id")
                 ->selectRaw("SUM(IF(type=1,amount,amount*-1))")
-                ->limit(1)]);
+                ->limit(1),
+        ]);
     }
 }

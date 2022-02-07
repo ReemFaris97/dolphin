@@ -31,5 +31,5 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class AccountingBranchCategory extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['branch_id','category_id'];
+    protected $fillable = ["branch_id", "category_id"];
 }

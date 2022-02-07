@@ -29,8 +29,14 @@ use Illuminate\Database\Eloquent\Model;
  */
 class OfferProduct extends Model
 {
-    protected $fillable = ['supplier_offer_id','product_id','price','quantity'];
-    public function product(){
-        return $this->belongsTo(Product::class,'product_id');
+    protected $fillable = [
+        "supplier_offer_id",
+        "product_id",
+        "price",
+        "quantity",
+    ];
+    public function product()
+    {
+        return $this->belongsTo(Product::class, "product_id");
     }
 }

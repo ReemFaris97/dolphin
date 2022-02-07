@@ -27,17 +27,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class AccountingCenterAccount extends Model
 {
-
-
-    protected $fillable = ['account_id','center_id'];
-    protected $table='accounting_centers_accounts';
-
+    protected $fillable = ["account_id", "center_id"];
+    protected $table = "accounting_centers_accounts";
 
     public function center()
     {
-        return $this->belongsTo(AccountingCostCenter::class,'center_id');
+        return $this->belongsTo(AccountingCostCenter::class, "center_id");
     }
-
-
 }
-

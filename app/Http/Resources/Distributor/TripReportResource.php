@@ -15,14 +15,14 @@ class TripReportResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'invoice_number' => $this->invoice_number,
-            'round' => $this->round,
-            'cash' => $this->cash,
-            'notes' => $this->notes,
-            'expenses' => $this->expenses,
-            'total' => $this->cash - $this->expenses,
-//            'products'=>ProductsResource::collection($this->products->)
+            "id" => $this->id,
+            "invoice_number" => $this->invoice_number,
+            "round" => $this->round,
+            "cash" => $this->cash,
+            "notes" => $this->notes,
+            "expenses" => $this->expenses,
+            "total" => $this->cash - $this->expenses,
+            //            'products'=>ProductsResource::collection($this->products->)
         ];
     }
 }

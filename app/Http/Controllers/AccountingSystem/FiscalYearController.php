@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
-
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingFiscalYear;
@@ -11,7 +10,7 @@ use App\Traits\Viewable;
 class FiscalYearController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.fiscal_years.';
+    private $viewable = "AccountingSystem.fiscal_years.";
     /**
      * Display a listing of the resource.
      *
@@ -19,8 +18,8 @@ class FiscalYearController extends Controller
      */
     public function index()
     {
-        $years =AccountingFiscalYear::all()->reverse();
-        return $this->toIndex(compact('years'));
+        $years = AccountingFiscalYear::all()->reverse();
+        return $this->toIndex(compact("years"));
     }
 
     /**
@@ -42,15 +41,16 @@ class FiscalYearController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name'=>'required|string|max:191',
-
+            "name" => "required|string|max:191",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
 
         AccountingFiscalYear::create($requests);
-        alert()->success('تم اضافة  السنة المالية بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.fiscalYears.index');
+        alert()
+            ->success("تم اضافة  السنة المالية بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.fiscalYears.index");
     }
 
     /**
@@ -72,11 +72,9 @@ class FiscalYearController extends Controller
      */
     public function edit($id)
     {
-        $year =AccountingFiscalYear::findOrFail($id);
+        $year = AccountingFiscalYear::findOrFail($id);
 
-        return $this->toEdit(compact('year'));
-
-
+        return $this->toEdit(compact("year"));
     }
 
     /**
@@ -88,22 +86,18 @@ class FiscalYearController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        $year =AccountingFiscalYear::findOrFail($id);
+        $year = AccountingFiscalYear::findOrFail($id);
         $rules = [
-
-            'name'=>'required|string|max:191',
-
+            "name" => "required|string|max:191",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
 
         $year->update($requests);
-        alert()->success('تم تعديل  السنة المالية بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.fiscalYears.index');
-
-
-
+        alert()
+            ->success("تم تعديل  السنة المالية بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.fiscalYears.index");
     }
 
     /**
@@ -114,11 +108,11 @@ class FiscalYearController extends Controller
      */
     public function destroy($id)
     {
-        $year =AccountingFiscalYear::findOrFail($id);
+        $year = AccountingFiscalYear::findOrFail($id);
         $year->delete();
-        alert()->success('تم حذف  السنه المالية بنجاح !')->autoclose(5000);
-            return back();
-
-
+        alert()
+            ->success("تم حذف  السنه المالية بنجاح !")
+            ->autoclose(5000);
+        return back();
     }
 }

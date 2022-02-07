@@ -18,25 +18,23 @@ use JWTFactory;
 use JWTAuth;
 use Illuminate\Http\Response;
 
-
 class ExpenseController extends Controller
 {
     use ApiResponses, ExpenseOperation;
 
-
     public function index()
     {
+        if (request("from") != null && \request("to")) {
+            $from = Carbon::parse(\request("from"));
+            $to = Carbon::parse(\request("to"));
 
-
-        if (request('from') != null && \request('to')) {
-
-            $from = Carbon::parse(\request('from'));
-            $to = Carbon::parse(\request('to'));
-
-            $expenses = Expense::Where('user_id', auth()->user()->id)->whereBetween('date', [$from, $to])->orderBy('date', 'DESC')
+            $expenses = Expense::Where("user_id", auth()->user()->id)
+                ->whereBetween("date", [$from, $to])
+                ->orderBy("date", "DESC")
                 ->paginate($this->paginateNumber);
         } else {
-            $expenses = Expense::Where('user_id', auth()->user()->id)->orderBy('date', 'DESC')
+            $expenses = Expense::Where("user_id", auth()->user()->id)
+                ->orderBy("date", "DESC")
                 ->paginate($this->paginateNumber);
         }
 
@@ -46,29 +44,37 @@ class ExpenseController extends Controller
     public function store(Request $request)
     {
         $rules = [
-
             //            'distributor_route_id'=> 'required|integer|exists:distributor_routes,id',
-            'expenditure_clause_id' => 'required|integer|exists:expenditure_clauses,id',
-            'expenditure_type_id' => 'required|integer|exists:expenditure_types,id',
-            'date' => 'nullable|date',
-            'time' => 'nullable|string',
-            'image' => 'nullable|mimes:jpg,jpeg,gif,png',
-            'amount' => 'required|numeric',
-            'notes' => 'nullable|string',
-            'reader_name' => 'nullable|string',
-            'reader_number' => 'nullable|string',
-            'reader_image' => 'nullable|mimes:jpg,jpeg,gif,png',
+            "expenditure_clause_id" =>
+                "required|integer|exists:expenditure_clauses,id",
+            "expenditure_type_id" =>
+                "required|integer|exists:expenditure_types,id",
+            "date" => "nullable|date",
+            "time" => "nullable|string",
+            "image" => "nullable|mimes:jpg,jpeg,gif,png",
+            "amount" => "required|numeric",
+            "notes" => "nullable|string",
+            "reader_name" => "nullable|string",
+            "reader_number" => "nullable|string",
+            "reader_image" => "nullable|mimes:jpg,jpeg,gif,png",
         ];
         $validation = $this->apiValidation($request, $rules);
         if ($validation instanceof Response) {
             return $validation;
         }
-        $request['user_id'] = auth()->user()->id;
+        $request["user_id"] = auth()->user()->id;
 
-        if (DistributorRoute::where('user_id', auth()->id())->count() == 0) {
-            return $this->apiResponse(null, ['date' => __("no active route")], 422);
+        if (DistributorRoute::where("user_id", auth()->id())->count() == 0) {
+            return $this->apiResponse(
+                null,
+                ["date" => __("no active route")],
+                422
+            );
         }
         $expense = $this->AddExpense($request);
-        return $this->apiResponse(['msg' => 'العملية تمت بنجاح', 'data' => new ExpenseResource($expense)]);
+        return $this->apiResponse([
+            "msg" => "العملية تمت بنجاح",
+            "data" => new ExpenseResource($expense),
+        ]);
     }
 }

@@ -11,14 +11,25 @@ class PurchaseReturnController extends Controller
 {
     public function index()
     {
-        $user=auth()->user();
-        return \responder::success(new BaseCollection($user->supplier->purchaseReturns()->latest()->withCount('items')->paginate(10),PurchaseResource::class));
-
+        $user = auth()->user();
+        return \responder::success(
+            new BaseCollection(
+                $user->supplier
+                    ->purchaseReturns()
+                    ->latest()
+                    ->withCount("items")
+                    ->paginate(10),
+                PurchaseResource::class
+            )
+        );
     }
 
     public function show($id)
     {
-        $purchase=AccountingPurchaseReturn::findOrFail($id);
-        return view('AccountingSystem.purchases.print')->with('purchase',$purchase);
+        $purchase = AccountingPurchaseReturn::findOrFail($id);
+        return view("AccountingSystem.purchases.print")->with(
+            "purchase",
+            $purchase
+        );
     }
 }

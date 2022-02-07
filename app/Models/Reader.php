@@ -26,6 +26,5 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Reader extends Model
 {
-    protected $fillable = [ 'name','image','is_active'];
-
+    protected $fillable = ["name", "image", "is_active"];
 }

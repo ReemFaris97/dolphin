@@ -12,11 +12,11 @@ class AccountingPurchaseItemObserver
     public function created(AccountingPurchaseItem $item)
     {
         AccountingProductStore::addQuantity(
-            product_id:$item->product_id,
-            quantity:$item->quantity,
+            product_id: $item->product_id,
+            quantity: $item->quantity,
             unit_id: $item->unit_id,
-            store_id:$item->product()->value('store_id'),
-            price:$item->price_after_tax,
+            store_id: $item->product()->value("store_id"),
+            price: $item->price_after_tax
         );
     }
 }

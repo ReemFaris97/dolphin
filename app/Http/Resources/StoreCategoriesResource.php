@@ -15,22 +15,21 @@ class StoreCategoriesResource extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'stores'=>$this->collection->transform(function ($q){
+            "stores" => $this->collection->transform(function ($q) {
                 return [
-                    'id'=>$q->id,
-                    'name'=>$q->name,
+                    "id" => $q->id,
+                    "name" => $q->name,
                 ];
             }),
-//            'paginate'=>[
-//                'total' => $this->total(),
-//                'count' => $this->count(),
-//                'per_page' => $this->perPage(),
-//                'next_page_url'=>$this->nextPageUrl(),
-//                'prev_page_url'=>$this->previousPageUrl(),
-//                'current_page' => $this->currentPage(),
-//                'total_pages' => $this->lastPage()
-//            ]
-
+            //            'paginate'=>[
+            //                'total' => $this->total(),
+            //                'count' => $this->count(),
+            //                'per_page' => $this->perPage(),
+            //                'next_page_url'=>$this->nextPageUrl(),
+            //                'prev_page_url'=>$this->previousPageUrl(),
+            //                'current_page' => $this->currentPage(),
+            //                'total_pages' => $this->lastPage()
+            //            ]
         ];
     }
 }

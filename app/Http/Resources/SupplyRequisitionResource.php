@@ -16,30 +16,30 @@ class SupplyRequisitionResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'=>$this->id,
-            'company'=>[
-                'id'=>$this->accounting_company_id,
-                'company'=>$this->company->name
+            "id" => $this->id,
+            "company" => [
+                "id" => $this->accounting_company_id,
+                "company" => $this->company->name,
             ],
-            'supplier'=>[
-                'id'=>$this->accounting_supplier_id,
-                'name'=>$this->supplier->name
+            "supplier" => [
+                "id" => $this->accounting_supplier_id,
+                "name" => $this->supplier->name,
             ],
-            'branch'=>[
-                'id'=>$this->accounting_branch_id,
-                'name'=>$this->branch->name
+            "branch" => [
+                "id" => $this->accounting_branch_id,
+                "name" => $this->branch->name,
             ],
-            'creator'=>[
-                'id'=>$this->creator_id,
-                'name'=>$this->creator->name
+            "creator" => [
+                "id" => $this->creator_id,
+                "name" => $this->creator->name,
             ],
-            'approver'=>[
-                'id'=>$this->approver_id,
-                'name'=>@$this->approver->name
+            "approver" => [
+                "id" => $this->approver_id,
+                "name" => @$this->approver->name,
             ],
-            'created_at'=>$this->created_at->toDateTimeString(),
-            'approved_at'=>$this->approved_at   ,
-            'items'=>SupplyRequisitionItemResource::collection($this->items)
+            "created_at" => $this->created_at->toDateTimeString(),
+            "approved_at" => $this->approved_at,
+            "items" => SupplyRequisitionItemResource::collection($this->items),
         ];
     }
 }

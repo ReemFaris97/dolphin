@@ -19,10 +19,10 @@ class AccountingSaleCurrentDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('created_at',function ($q){
+            ->editColumn("created_at", function ($q) {
                 return $q->created_at->toDateTimeString();
             })
-            ->addColumn('action', 'AccountingSystem.sales.actions');
+            ->addColumn("action", "AccountingSystem.sales.actions");
     }
 
     /**
@@ -31,13 +31,16 @@ class AccountingSaleCurrentDataTable extends DataTable
      * @param \App\Models\AccountingSale $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function extraQuery($array=null)
+    public function extraQuery($array = null)
     {
-        return  $array;
+        return $array;
     }
     public function query(AccountingSale $model)
     {
-        return $model->newQuery()->where('user_id',auth()->id())->latest();
+        return $model
+            ->newQuery()
+            ->where("user_id", auth()->id())
+            ->latest();
     }
 
     /**
@@ -48,18 +51,18 @@ class AccountingSaleCurrentDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('accountingsale-table')
-            ->addTableClass('finalTb')
+            ->setTableId("accountingsale-table")
+            ->addTableClass("finalTb")
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->dom('Bfrtip')
+            ->dom("Bfrtip")
             ->orderBy(1)
             ->responsive(true)
             ->buttons(
-                Button::make('export'),
-                Button::make('print'),
-                Button::make('reset'),
-                Button::make('reload')
+                Button::make("export"),
+                Button::make("print"),
+                Button::make("reset"),
+                Button::make("reload")
             );
     }
 
@@ -71,14 +74,13 @@ class AccountingSaleCurrentDataTable extends DataTable
     protected function getColumns()
     {
         return [
-
-            Column::make('id')->title('رقم الفاتورة'),
-            Column::make('amount')->title('المبلغ'),
-            Column::make('created_at')->title('تاريخ الانشاء'),
-            Column::computed('action')
+            Column::make("id")->title("رقم الفاتورة"),
+            Column::make("amount")->title("المبلغ"),
+            Column::make("created_at")->title("تاريخ الانشاء"),
+            Column::computed("action")
                 ->exportable(false)
                 ->printable(false)
-                ->addClass('text-center')
+                ->addClass("text-center"),
         ];
     }
 
@@ -89,6 +91,6 @@ class AccountingSaleCurrentDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'AccountingSale_' . date('YmdHis');
+        return "AccountingSale_" . date("YmdHis");
     }
 }

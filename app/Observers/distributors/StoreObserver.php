@@ -7,7 +7,6 @@ use App\Models\Store;
 
 class StoreObserver
 {
-
     /**
      * Handle the Store "creating" event.
      *
@@ -16,7 +15,6 @@ class StoreObserver
      */
     public function created(Store $store)
     {
-
         event(new NewStoreAdded($store));
     }
 }

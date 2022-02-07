@@ -29,7 +29,7 @@ class SupplierNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database',FireBaseChannel::class];
+        return ["database", FireBaseChannel::class];
     }
 
     /**
@@ -45,6 +45,11 @@ class SupplierNotification extends Notification
 
     public function toFireBase($notifiable)
     {
-        FireBase::notification($notifiable,$this->message['title'],$this->message['body'],$this->message);
+        FireBase::notification(
+            $notifiable,
+            $this->message["title"],
+            $this->message["body"],
+            $this->message
+        );
     }
 }

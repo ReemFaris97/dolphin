@@ -15,12 +15,13 @@ class DistributorMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if(!auth()->check()){
-            return redirect()->route('admin.login');
-        }
-        elseif(auth()->user()->is_distributor == 1 & auth()->user()->is_admin == 1){
-
-                return $next($request);
+        if (!auth()->check()) {
+            return redirect()->route("admin.login");
+        } elseif (
+            (auth()->user()->is_distributor == 1) &
+            (auth()->user()->is_admin == 1)
+        ) {
+            return $next($request);
         }
 
         return $next($request);

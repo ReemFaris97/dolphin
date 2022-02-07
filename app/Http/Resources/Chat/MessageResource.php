@@ -15,16 +15,17 @@ class MessageResource extends JsonResource
      */
     public function toArray($request)
     {
-        return[
-            'id'=>$this->id,
-            'chat_id'=>$this->chat_id,
-            'message'=>$this->message,
-            'type'=>$this->type,
-            'attachment'=>$this->attachment,
-            'created_at'=>$this->created_at->toDateTimeString(),
-            'user'=>new UserResource($this->user),
-            'is_sender'=>auth()->user()->is($this->user)
-
+        return [
+            "id" => $this->id,
+            "chat_id" => $this->chat_id,
+            "message" => $this->message,
+            "type" => $this->type,
+            "attachment" => $this->attachment,
+            "created_at" => $this->created_at->toDateTimeString(),
+            "user" => new UserResource($this->user),
+            "is_sender" => auth()
+                ->user()
+                ->is($this->user),
         ];
     }
 }

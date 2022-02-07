@@ -25,10 +25,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class AccountingProductBarcode extends Model
 {
-
-
-    protected $fillable = ['product_id','barcode'];
-    protected $table='accounting_products_barcodes';
-
+    protected $fillable = ["product_id", "barcode"];
+    protected $table = "accounting_products_barcodes";
 }
-

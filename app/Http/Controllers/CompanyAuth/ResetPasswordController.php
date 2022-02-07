@@ -28,8 +28,7 @@ class ResetPasswordController extends Controller
      *
      * @var string
      */
-    public $redirectTo = '/company/home';
-
+    public $redirectTo = "/company/home";
 
     /**
      * Create a new controller instance.
@@ -38,7 +37,7 @@ class ResetPasswordController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('company.guest');
+        $this->middleware("company.guest");
     }
 
     /**
@@ -52,9 +51,10 @@ class ResetPasswordController extends Controller
      */
     public function showResetForm(Request $request, $token = null)
     {
-        return view('company.auth.passwords.reset')->with(
-            ['token' => $token, 'email' => $request->email]
-        );
+        return view("company.auth.passwords.reset")->with([
+            "token" => $token,
+            "email" => $request->email,
+        ]);
     }
 
     /**
@@ -64,7 +64,7 @@ class ResetPasswordController extends Controller
      */
     public function broker()
     {
-        return Password::broker('companies');
+        return Password::broker("companies");
     }
 
     /**
@@ -74,6 +74,6 @@ class ResetPasswordController extends Controller
      */
     protected function guard()
     {
-        return Auth::guard('company');
+        return Auth::guard("company");
     }
 }

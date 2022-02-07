@@ -13,7 +13,7 @@ use App\Traits\Viewable;
 class ShiftController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.AccountingCompanies.shifts.';
+    private $viewable = "AccountingSystem.AccountingCompanies.shifts.";
     /**
      * Display a listing of the resource.
      *
@@ -21,10 +21,9 @@ class ShiftController extends Controller
      */
     public function index()
     {
-        $shifts =auth('accounting_companies')->user()->shifts;
+        $shifts = auth("accounting_companies")->user()->shifts;
 
-        return $this->toIndex(compact('shifts'));
-
+        return $this->toIndex(compact("shifts"));
     }
 
     /**
@@ -34,9 +33,13 @@ class ShiftController extends Controller
      */
     public function create()
     {
-
-        $branches=AccountingBranch::where('company_id',auth('accounting_companies')->user()->id)->pluck('name','id')->toArray();
-        return $this->toCreate(compact('branches'));
+        $branches = AccountingBranch::where(
+            "company_id",
+            auth("accounting_companies")->user()->id
+        )
+            ->pluck("name", "id")
+            ->toArray();
+        return $this->toCreate(compact("branches"));
     }
 
     /**
@@ -48,19 +51,19 @@ class ShiftController extends Controller
     public function store(Request $request)
     {
         $rules = [
-
-            'name'=>'required|string|max:191',
-            'from'=>'required|string',
-            'to'=>'required|string',
-            'branch_id'=>'required|numeric|exists:accounting_branches,id',
-
+            "name" => "required|string|max:191",
+            "from" => "required|string",
+            "to" => "required|string",
+            "branch_id" => "required|numeric|exists:accounting_branches,id",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
 
         AccountingBranchShift::create($requests);
-        alert()->success('تم اضافة  الوردية للفرع  بنجاح !')->autoclose(5000);
-        return redirect()->route('company.shifts.index');
+        alert()
+            ->success("تم اضافة  الوردية للفرع  بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("company.shifts.index");
     }
 
     /**
@@ -82,12 +85,15 @@ class ShiftController extends Controller
      */
     public function edit($id)
     {
-        $shift =AccountingBranchShift::findOrFail($id);
-        $branches=AccountingBranch::where('company_id',auth('accounting_companies')->user()->id)->pluck('name','id')->toArray();
+        $shift = AccountingBranchShift::findOrFail($id);
+        $branches = AccountingBranch::where(
+            "company_id",
+            auth("accounting_companies")->user()->id
+        )
+            ->pluck("name", "id")
+            ->toArray();
 
-        return $this->toEdit(compact('shift','branches'));
-
-
+        return $this->toEdit(compact("shift", "branches"));
     }
 
     /**
@@ -99,22 +105,21 @@ class ShiftController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $shift =AccountingBranchShift::findOrFail($id);
+        $shift = AccountingBranchShift::findOrFail($id);
 
         $rules = [
-            'name'=>'required|string|max:191',
-            'from'=>'required|string',
-            'to'=>'required|string',
-            'branch_id'=>'required|numeric|exists:accounting_branches,id',
+            "name" => "required|string|max:191",
+            "from" => "required|string",
+            "to" => "required|string",
+            "branch_id" => "required|numeric|exists:accounting_branches,id",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
         $shift->update($requests);
-        alert()->success('تم تعديل  الوردية بنجاح !')->autoclose(5000);
-        return redirect()->route('company.shifts.index');
-
-
-
+        alert()
+            ->success("تم تعديل  الوردية بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("company.shifts.index");
     }
 
     /**
@@ -125,11 +130,11 @@ class ShiftController extends Controller
      */
     public function destroy($id)
     {
-        $shift =AccountingBranchShift::findOrFail($id);
+        $shift = AccountingBranchShift::findOrFail($id);
         $shift->delete();
-        alert()->success('تم حذف  الوردية بنجاح !')->autoclose(5000);
-            return back();
-
-
+        alert()
+            ->success("تم حذف  الوردية بنجاح !")
+            ->autoclose(5000);
+        return back();
     }
 }

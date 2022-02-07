@@ -10,13 +10,19 @@ class Bank extends Model
 {
     use HasFactory;
 
-    protected $table = 'suppliers_banks';
-    protected $fillable = ['name', 'iban', 'owner_name', 'accounting_supplier_id'];
+    protected $table = "suppliers_banks";
+    protected $fillable = [
+        "name",
+        "iban",
+        "owner_name",
+        "accounting_supplier_id",
+    ];
 
     public function supplier()
     {
-        return $this->belongsTo(AccountingSupplier::class,'accounting_supplier_id');
+        return $this->belongsTo(
+            AccountingSupplier::class,
+            "accounting_supplier_id"
+        );
     }
-
-
 }

@@ -24,37 +24,39 @@ use JWTAuth;
 use Validator;
 use Illuminate\Http\Response;
 
-
 class ClauseController extends Controller
 {
-    use ApiResponses,ClauseOperation;
+    use ApiResponses, ClauseOperation;
 
-
-    public function index(){
-
-        $clauses = Clause::where('user_id',auth()->user()->id)->where('blocked_at',null)->get();
+    public function index()
+    {
+        $clauses = Clause::where("user_id", auth()->user()->id)
+            ->where("blocked_at", null)
+            ->get();
         return $this->apiResponse(ClausesResource::collection($clauses));
     }
 
-    public function store(Request $request){
-//  $request['clauses'] = json_decode($request->clauses);
-//
-        $inputs=$request->all();
-        $request['clauses']=json_decode($request->clauses,true);
-//        dd($request->all());
+    public function store(Request $request)
+    {
+        //  $request['clauses'] = json_decode($request->clauses);
+        //
+        $inputs = $request->all();
+        $request["clauses"] = json_decode($request->clauses, true);
+        //        dd($request->all());
         $rules = [
-            'clauses' => 'required|array',
-            'clauses.*.id' =>'required|integer|exists:clauses,id',
-            'clauses.*.value' =>'required|',
+            "clauses" => "required|array",
+            "clauses.*.id" => "required|integer|exists:clauses,id",
+            "clauses.*.value" => "required|",
         ];
-        $validation = $this->apiValidation($request,$rules);
+        $validation = $this->apiValidation($request, $rules);
         if ($validation instanceof Response) {
             return $validation;
         }
-        $clauses=$request['clauses'];
-        $result= $this->AddClauseLogWithJson($request);
-        if ($result) return $this->apiResponse('تم ادخال الارقام بنجاح');
-        return $this->apiResponse('عذراً هناك بعض الارقام الغير مفعله');
+        $clauses = $request["clauses"];
+        $result = $this->AddClauseLogWithJson($request);
+        if ($result) {
+            return $this->apiResponse("تم ادخال الارقام بنجاح");
+        }
+        return $this->apiResponse("عذراً هناك بعض الارقام الغير مفعله");
     }
-
 }

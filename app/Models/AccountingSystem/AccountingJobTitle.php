@@ -26,13 +26,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class AccountingJobTitle extends Model
 {
-
-
-    protected $fillable = ['name','active'];
-    protected $table='accounting_job_titles';
-
-
-
-
+    protected $fillable = ["name", "active"];
+    protected $table = "accounting_job_titles";
 }
-

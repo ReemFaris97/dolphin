@@ -59,50 +59,76 @@ use Illuminate\Database\Eloquent\Model;
  */
 class AccountingSupplier extends Model
 {
-    protected $table = 'accounting_suppliers';
+    protected $table = "accounting_suppliers";
 
-    protected $fillable = ['name', 'email', 'phone', 'credit', 'branch_id', 'amount', 'password', 'image', 'bank_id',
-        'bank_account_number', 'tax_number', 'is_active', 'balance', 'account_id', 'phones', 'commercial_record', 'commercial_image', 'licence_image'
+    protected $fillable = [
+        "name",
+        "email",
+        "phone",
+        "credit",
+        "branch_id",
+        "amount",
+        "password",
+        "image",
+        "bank_id",
+        "bank_account_number",
+        "tax_number",
+        "is_active",
+        "balance",
+        "account_id",
+        "phones",
+        "commercial_record",
+        "commercial_image",
+        "licence_image",
     ];
 
     public function admin()
     {
-        return $this->hasMany(User::class,'supplier_id')->whereNull('parent_id')->first();
+        return $this->hasMany(User::class, "supplier_id")
+            ->whereNull("parent_id")
+            ->first();
     }
 
     public function users()
     {
-        return $this->hasMany(User::class ,'supplier_id' );
-}
+        return $this->hasMany(User::class, "supplier_id");
+    }
     public function companies()
     {
-        return $this->hasMany(AccountingSupplierCompany::class, 'supplier_id');
+        return $this->hasMany(AccountingSupplierCompany::class, "supplier_id");
     }
 
     public function supplierCompany()
     {
- return $this->belongsToMany(AccountingCompany::class,AccountingSupplierCompany::class,'company_id','supplier_id');
-}
+        return $this->belongsToMany(
+            AccountingCompany::class,
+            AccountingSupplierCompany::class,
+            "company_id",
+            "supplier_id"
+        );
+    }
     public function purchases()
     {
-        return $this->hasMany(AccountingPurchase::class, 'supplier_id');
+        return $this->hasMany(AccountingPurchase::class, "supplier_id");
     }
 
     public function purchaseReturns()
     {
-        return $this->hasMany(AccountingPurchaseReturn::class, 'supplier_id');
+        return $this->hasMany(AccountingPurchaseReturn::class, "supplier_id");
     }
 
     public function balances()
     {
-        $balance = AccountingPurchase::where('supplier_id', $this->id)->where('payment', 'agel')->sum('total');
+        $balance = AccountingPurchase::where("supplier_id", $this->id)
+            ->where("payment", "agel")
+            ->sum("total");
 
         return $balance;
     }
 
     public function account()
     {
-        return $this->belongsTo(AccountingAccount::class, 'account_id');
+        return $this->belongsTo(AccountingAccount::class, "account_id");
     }
 
     public function invoices()
@@ -117,41 +143,44 @@ class AccountingSupplier extends Model
 
     public function products()
     {
-        return $this->belongsToMany(AccountingProduct::class,SupplierProduct::class);
+        return $this->belongsToMany(
+            AccountingProduct::class,
+            SupplierProduct::class
+        );
     }
 
     public function getCommercialImageAttribute($value)
     {
-        if ($value)
+        if ($value) {
             return getimg($value);
-        else
-            return  asset('placeholders/logo.png');
+        } else {
+            return asset("placeholders/logo.png");
+        }
     }
-
 
     public function setCommercialImageAttribute($value)
     {
-        if (is_file($value))
-            $this->attributes['commercial_image'] = Fileuploader($value);
-        else
-            $this->attributes['commercial_image'] = $value;
-
+        if (is_file($value)) {
+            $this->attributes["commercial_image"] = Fileuploader($value);
+        } else {
+            $this->attributes["commercial_image"] = $value;
+        }
     }
     public function getLicenceImageAttribute($value)
     {
-        if ($value)
+        if ($value) {
             return getimg($value);
-        else
-            return  asset('placeholders/logo.png');
+        } else {
+            return asset("placeholders/logo.png");
+        }
     }
-
 
     public function setLicenceImageAttribute($value)
     {
-        if (is_file($value))
-            $this->attributes['licence_image'] = Fileuploader($value);
-        else
-            $this->attributes['licence_image'] = $value;
-
+        if (is_file($value)) {
+            $this->attributes["licence_image"] = Fileuploader($value);
+        } else {
+            $this->attributes["licence_image"] = $value;
+        }
     }
 }

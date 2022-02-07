@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-
 use App\Http\Controllers\Controller;
 use App\Models\Charge;
 use App\Traits\ChargeOperation;
@@ -14,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 class ChargeController extends Controller
 {
     use Viewable, ChargeOperation;
-    private $viewable = 'admin.charges.';
+    private $viewable = "admin.charges.";
 
     /**
      * Display a listing of the resource.
@@ -23,41 +22,51 @@ class ChargeController extends Controller
      */
     public function index()
     {
-        if (!auth()->user()->hasPermissionTo('view_charges')) {
+        if (
+            !auth()
+                ->user()
+                ->hasPermissionTo("view_charges")
+        ) {
             return abort(401);
         }
 
-        $charges = Charge::where('destroyed_at',null)->get()->reverse();;
+        $charges = Charge::where("destroyed_at", null)
+            ->get()
+            ->reverse();
 
-$page_title = 'كل العهد';
+        $page_title = "كل العهد";
 
-        return $this->toIndex(compact('charges', 'page_title'));
+        return $this->toIndex(compact("charges", "page_title"));
     }
 
     public function UserCharges()
     {
-        $charges = Charge::where('worker_id', \Auth::id())->get()->reverse();
+        $charges = Charge::where("worker_id", \Auth::id())
+            ->get()
+            ->reverse();
 
-        $page_title = 'العهد المسندة الى';
-        return $this->toIndex(compact('charges', 'page_title'));
+        $page_title = "العهد المسندة الى";
+        return $this->toIndex(compact("charges", "page_title"));
     }
 
     public function superVisorCharges()
     {
-
-        $charges = Charge::where('supervisor_id', \Auth::id())->get()->reverse();;
-        $page_title = 'العهد التى قمت بأسنادها';
-        return $this->toIndex(compact('charges', 'page_title'));
+        $charges = Charge::where("supervisor_id", \Auth::id())
+            ->get()
+            ->reverse();
+        $page_title = "العهد التى قمت بأسنادها";
+        return $this->toIndex(compact("charges", "page_title"));
     }
 
     public function getDestruct()
     {
-        $charges = Charge::where('destroyed_at', '!=', null)->get()->reverse();;
-        $page_title = 'التوالف';
+        $charges = Charge::where("destroyed_at", "!=", null)
+            ->get()
+            ->reverse();
+        $page_title = "التوالف";
 
-        return $this->toIndex(compact('charges', 'page_title'));
+        return $this->toIndex(compact("charges", "page_title"));
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -66,11 +75,15 @@ $page_title = 'كل العهد';
      */
     public function create()
     {
-        if (!auth()->user()->hasPermissionTo('assign_charges')) {
+        if (
+            !auth()
+                ->user()
+                ->hasPermissionTo("assign_charges")
+        ) {
             return abort(401);
         }
-        $users = User::pluck('name', 'id');
-        return $this->toCreate(compact('users'));;
+        $users = User::pluck("name", "id");
+        return $this->toCreate(compact("users"));
     }
 
     /**
@@ -81,27 +94,26 @@ $page_title = 'كل العهد';
      */
     public function store(Request $request)
     {
-
-        $request->request->add(['supervisor_id' => auth()->id()]);
+        $request->request->add(["supervisor_id" => auth()->id()]);
         $rules = [
-            'name' => 'required|string|max:191',
-            'description' => 'required|string',
-            'worker_id' => 'required|exists:users,id',
-            'supervisor_id' => 'required|exists:users,id',
-            'images' => 'required|array',
-            'images.*' => 'required|mimes:jpg,jpeg,gif,png',
+            "name" => "required|string|max:191",
+            "description" => "required|string",
+            "worker_id" => "required|exists:users,id",
+            "supervisor_id" => "required|exists:users,id",
+            "images" => "required|array",
+            "images.*" => "required|mimes:jpg,jpeg,gif,png",
         ];
         $messages = [
-            'name.required'=>"الإسم مطلوب",
-            'description.required'=>"الوصف مطلوب",
-            'worker_id.required'=>"إسم الموظف مطلوب",
-            'supervisor_id.required'=>"الإسم مطلوب",
-            'images.required'=>"الصور مطلوبة",
+            "name.required" => "الإسم مطلوب",
+            "description.required" => "الوصف مطلوب",
+            "worker_id.required" => "إسم الموظف مطلوب",
+            "supervisor_id.required" => "الإسم مطلوب",
+            "images.required" => "الصور مطلوبة",
         ];
-        $this->validate($request, $rules,$messages);
+        $this->validate($request, $rules, $messages);
         $this->RegisterCharge($request);
-        toast('تم الاضافه بنجاح', 'success', 'top-right');
-        return redirect()->route('admin.charges.index');
+        toast("تم الاضافه بنجاح", "success", "top-right");
+        return redirect()->route("admin.charges.index");
     }
 
     /**
@@ -112,11 +124,15 @@ $page_title = 'كل العهد';
      */
     public function show($id)
     {
-        if (!auth()->user()->hasPermissionTo('edit_charges')) {
+        if (
+            !auth()
+                ->user()
+                ->hasPermissionTo("edit_charges")
+        ) {
             return abort(401);
         }
         $charge = Charge::find($id);
-        return $this->toShow(compact('charge'));
+        return $this->toShow(compact("charge"));
     }
 
     /**
@@ -128,8 +144,8 @@ $page_title = 'كل العهد';
     public function edit($id)
     {
         $charge = Charge::find($id);
-        $users = User::pluck('name', 'id');
-        return $this->toEdit(compact('users', 'charge'));
+        $users = User::pluck("name", "id");
+        return $this->toEdit(compact("users", "charge"));
     }
 
     /**
@@ -142,11 +158,13 @@ $page_title = 'كل العهد';
     public function update(Request $request, $id)
     {
         $charge = Charge::find($id);
-        if (!$charge) return abort(404);
+        if (!$charge) {
+            return abort(404);
+        }
 
         $this->UpdateCharge($charge, $request);
-        toast('تم التعديل بنجاح', 'success', 'top-right');
-        return redirect()->route('admin.charges.index');
+        toast("تم التعديل بنجاح", "success", "top-right");
+        return redirect()->route("admin.charges.index");
     }
 
     /**
@@ -158,128 +176,147 @@ $page_title = 'كل العهد';
 
     public function getAddLog($id)
     {
-        if (!auth()->user()->hasPermissionTo('assign_charges')) {
+        if (
+            !auth()
+                ->user()
+                ->hasPermissionTo("assign_charges")
+        ) {
             return abort(401);
         }
 
         $charge = Charge::find($id);
-        if (!$charge) return abort(404);
-        $users = User::pluck('name', 'id');
-        return view('admin.charges.addLog', compact('charge', 'users'));
+        if (!$charge) {
+            return abort(404);
+        }
+        $users = User::pluck("name", "id");
+        return view("admin.charges.addLog", compact("charge", "users"));
     }
-
 
     public function addLog(Request $request, $id)
     {
-
         $charge = Charge::find($id);
-        if (!$charge) return abort(404);
+        if (!$charge) {
+            return abort(404);
+        }
         $rules = [
-            'worker_id' => 'required|exists:users,id',
-            'type' => 'required|string|in:transfer,receive',
-            'images' => 'required|array',
-            'images.*' => 'required|mimes:jpg,jpeg,gif,png',
+            "worker_id" => "required|exists:users,id",
+            "type" => "required|string|in:transfer,receive",
+            "images" => "required|array",
+            "images.*" => "required|mimes:jpg,jpeg,gif,png",
         ];
 
         $messages = [
-            'worker_id.required'=>"الإسم مطلوب",
-            'type.required'=>"النوع مطلوب",
-            'images.required'=>"الصور مطلوبة",
+            "worker_id.required" => "الإسم مطلوب",
+            "type.required" => "النوع مطلوب",
+            "images.required" => "الصور مطلوبة",
         ];
 
-        $this->validate($request, $rules,$messages);
+        $this->validate($request, $rules, $messages);
         $this->AddChargeLog($request, $charge);
-        toast('تم اضافة تحديث جديد', 'success', 'top-right');
-        return redirect()->route('admin.charges.index');
-
+        toast("تم اضافة تحديث جديد", "success", "top-right");
+        return redirect()->route("admin.charges.index");
     }
-
 
     public function getAddNotes($id)
     {
         $charge = Charge::find($id);
-        if (!$charge) return abort(404);
-        if ($charge->worker_id != Auth::id() || $charge->supervisor_id != Auth::id()) {
+        if (!$charge) {
+            return abort(404);
+        }
+        if (
+            $charge->worker_id != Auth::id() ||
+            $charge->supervisor_id != Auth::id()
+        ) {
             return abort(403);
         }
-        return view('admin.charges.addNotes', compact('charge'));
+        return view("admin.charges.addNotes", compact("charge"));
     }
-
 
     public function addNotes(Request $request, $id)
     {
         $charge = Charge::find($id);
-        if (!$charge) return abort(404);
+        if (!$charge) {
+            return abort(404);
+        }
         $rules = [
-            'description' => 'required|string',
-            'images' => 'required|array',
-            'images.*' => 'required|image|mimes:jpg,jpeg,gif,png',
+            "description" => "required|string",
+            "images" => "required|array",
+            "images.*" => "required|image|mimes:jpg,jpeg,gif,png",
         ];
 
         $messages = [
-            'description.required'=>" الوصف مطلوب",
-            'images.required'=>"الصور مطلوبة",
+            "description.required" => " الوصف مطلوب",
+            "images.required" => "الصور مطلوبة",
         ];
 
-        $this->validate($request, $rules , $messages);
+        $this->validate($request, $rules, $messages);
         $this->AddChargeNotes($request, $charge);
-        toast('تم اضافة ملاحظه جديد', 'success', 'top-right');
-        return redirect()->route('admin.charges.index');
-
+        toast("تم اضافة ملاحظه جديد", "success", "top-right");
+        return redirect()->route("admin.charges.index");
     }
 
     public function confirmCharge(Request $request)
     {
         $rules = [
-            'code' => 'required|integer|exists:charges,code',
+            "code" => "required|integer|exists:charges,code",
         ];
 
         $this->validate($request, $rules);
         /** @var Charge $charge */
-        $charge = Charge::whereIdAndSupervisorId($request->id, auth()->user()->id)->whereCode($request->code)->first();
-        if (!$charge) return abort(404);
+        $charge = Charge::whereIdAndSupervisorId(
+            $request->id,
+            auth()->user()->id
+        )
+            ->whereCode($request->code)
+            ->first();
+        if (!$charge) {
+            return abort(404);
+        }
         $charge->markAsConfirmed();
 
-        toast('تم التفعيل بنجاح', 'success', 'top-right');
+        toast("تم التفعيل بنجاح", "success", "top-right");
         return response()->json([
-            'status' => true,
-            'title' => "نجاح",
-            'message' => "تم التفعيل بنجاح",
+            "status" => true,
+            "title" => "نجاح",
+            "message" => "تم التفعيل بنجاح",
         ]);
-
     }
-
 
     public function destruct(Request $request)
     {
-        if (!auth()->user()->hasPermissionTo('destroy_charges')) {
+        if (
+            !auth()
+                ->user()
+                ->hasPermissionTo("destroy_charges")
+        ) {
             return abort(401);
         }
 
         $charge = Charge::find($request->id);
-        if (!$charge) return abort(404);
+        if (!$charge) {
+            return abort(404);
+        }
         $charge->markAsDestroyed();
-        toast('تم الإتلاف بنجاح', 'success', 'top-right');
+        toast("تم الإتلاف بنجاح", "success", "top-right");
         return response()->json([
-            'status' => true,
-            'title' => 'نجاح',
-            'message' => "تم الإتلاف بنجاح",
+            "status" => true,
+            "title" => "نجاح",
+            "message" => "تم الإتلاف بنجاح",
         ]);
     }
 
-
     public function destroy($id)
     {
-        if (!auth()->user()->hasPermissionTo('delete_charges')) {
+        if (
+            !auth()
+                ->user()
+                ->hasPermissionTo("delete_charges")
+        ) {
             return abort(401);
         }
         $charge = Charge::find($id);
         $charge->delete();
-        toast('تم الحذف بنجاح', 'success', 'top-right');
-        return redirect()->route('admin.charges.index');
-
+        toast("تم الحذف بنجاح", "success", "top-right");
+        return redirect()->route("admin.charges.index");
     }
 }
-
-
-

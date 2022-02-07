@@ -38,8 +38,15 @@ use Illuminate\Validation\ValidationException;
  */
 class AccountingReturnSaleItem extends Model
 {
-    protected $fillable = ['sale_return_id','product_id','quantity','price','unit_id','unit_type'];
-    protected $table='accounting_sales_returns_item';
+    protected $fillable = [
+        "sale_return_id",
+        "product_id",
+        "quantity",
+        "price",
+        "unit_id",
+        "unit_type",
+    ];
+    protected $table = "accounting_sales_returns_item";
 
     protected static function booted()
     {
@@ -47,65 +54,62 @@ class AccountingReturnSaleItem extends Model
             $item->addQuantityToStorage();
         });
     }
-    
+
     public function sale()
     {
-        return $this->belongsTo(AccountingReturn::class, 'sale_return_id');
+        return $this->belongsTo(AccountingReturn::class, "sale_return_id");
     }
 
     public function unit()
     {
-        return $this->belongsTo(AccountingProductSubUnit::class, 'unit_id');
+        return $this->belongsTo(AccountingProductSubUnit::class, "unit_id");
     }
 
     public function product()
     {
-        return $this->belongsTo(AccountingProduct::class, 'product_id');
+        return $this->belongsTo(AccountingProduct::class, "product_id");
     }
-    
+
     /**
-       * @return MorphMany
-       */
-    public function store_quantity_log():MorphOne
+     * @return MorphMany
+     */
+    public function store_quantity_log(): MorphOne
     {
-        return $this->morphOne(AccountingProductStoreLog::class, 'dispatcher');
+        return $this->morphOne(AccountingProductStoreLog::class, "dispatcher");
     }
-    
-    public function addQuantityToStorage():AccountingProductStoreLog
+
+    public function addQuantityToStorage(): AccountingProductStoreLog
     {
-        $main_unit=$this->unit->main_unit_present??1;
-        $quantity_in_main_unit=$this->quantity*$main_unit;
-        $price=$this->price/$main_unit;
-        $product_store_id=AccountingProductStore::query()->
-        where(
-            'product_id',
-            $this->product_id
-        )->where('store_id', $this->sale->store_id)
-        ->value('id');
-        
+        $main_unit = $this->unit->main_unit_present ?? 1;
+        $quantity_in_main_unit = $this->quantity * $main_unit;
+        $price = $this->price / $main_unit;
+        $product_store_id = AccountingProductStore::query()
+            ->where("product_id", $this->product_id)
+            ->where("store_id", $this->sale->store_id)
+            ->value("id");
+
         // get the product form sale inovice
-        $item=  $this->sale->sale->items()->where('product_id', $this->product_id)->first();
-        if ($item===null) {
-            toast('المنتج غير موجود بالفاتوره الشراء', 'danger');
-            throw  ValidationException::withMessages(
-                ['product_Id'=>'المنتج غير موجود بالفاتوره الشراء']
-            );
+        $item = $this->sale->sale
+            ->items()
+            ->where("product_id", $this->product_id)
+            ->first();
+        if ($item === null) {
+            toast("المنتج غير موجود بالفاتوره الشراء", "danger");
+            throw ValidationException::withMessages([
+                "product_Id" => "المنتج غير موجود بالفاتوره الشراء",
+            ]);
         }
 
-        $old_log=$item->store_quantity_log;
-       
-        return $this->store_quantity_log()->create(
-            [
-                'accounting_product_store_id'=>$product_store_id,
-                'accounting_product_id'=>$this->product_id,
-                'unit_id'=>null,
-                'price'=>$price,
-                'amount'=>$quantity_in_main_unit,
-                'type'=>'in',
-                'expired_at'=>$old_log?->expired_at
-            ]
-        );
-    }
+        $old_log = $item->store_quantity_log;
 
-   
+        return $this->store_quantity_log()->create([
+            "accounting_product_store_id" => $product_store_id,
+            "accounting_product_id" => $this->product_id,
+            "unit_id" => null,
+            "price" => $price,
+            "amount" => $quantity_in_main_unit,
+            "type" => "in",
+            "expired_at" => $old_log?->expired_at,
+        ]);
+    }
 }

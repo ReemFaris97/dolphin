@@ -15,7 +15,7 @@ class TripsController extends Controller
 {
     use Viewable;
 
-    private $viewable = 'distributor.trips.';
+    private $viewable = "distributor.trips.";
 
     /**
      * Display a listing of the resource.
@@ -25,7 +25,7 @@ class TripsController extends Controller
     public function index()
     {
         $trips = RouteTrips::all()->reverse();
-        return $this->toIndex(compact('trips'));
+        return $this->toIndex(compact("trips"));
     }
 
     /**
@@ -35,9 +35,9 @@ class TripsController extends Controller
      */
     public function create()
     {
-        $clients = Client::pluck('name', 'id');
-        $routes = DistributorRoute::pluck('name', 'id');
-        return $this->toCreate(compact('clients', 'routes'));
+        $clients = Client::pluck("name", "id");
+        $routes = DistributorRoute::pluck("name", "id");
+        return $this->toCreate(compact("clients", "routes"));
     }
 
     /**
@@ -49,17 +49,16 @@ class TripsController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'client_id' => 'required|exists:clients,id',
-            'lat' => 'required|string',
-            'lng' => 'required|string',
-            'address' => 'required|string'
+            "client_id" => "required|exists:clients,id",
+            "lat" => "required|string",
+            "lng" => "required|string",
+            "address" => "required|string",
         ];
-
 
         $this->validate($request, $rules);
         RouteTrips::create($request->all());
-        toast('تم التحويل بنجاح', 'success', 'top-right');
-        return redirect()->route('distributor.trips.index');
+        toast("تم التحويل بنجاح", "success", "top-right");
+        return redirect()->route("distributor.trips.index");
     }
 
     /**
@@ -83,9 +82,9 @@ class TripsController extends Controller
     {
         $trip = RouteTrips::findOrFail($id);
         $users = User::whereIsDistributor(1)->get();
-        $clients = Client::pluck('name', 'id');
-        $routes = DistributorRoute::pluck('name', 'id');
-        return $this->toEdit(compact('trip', 'users', 'routes', 'clients'));
+        $clients = Client::pluck("name", "id");
+        $routes = DistributorRoute::pluck("name", "id");
+        return $this->toEdit(compact("trip", "users", "routes", "clients"));
     }
 
     /**
@@ -97,25 +96,22 @@ class TripsController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $trip = RouteTrips::findOrFail($id);
 
         $rules = [
-            'route_id' => 'required|exists:distributor_routes,id',
-            'client_id' => 'required|exists:clients,id',
-            'address' => 'required|string',
-            'lat' => 'required|string',
-            'lng' => 'required|string',
-
+            "route_id" => "required|exists:distributor_routes,id",
+            "client_id" => "required|exists:clients,id",
+            "address" => "required|string",
+            "lat" => "required|string",
+            "lng" => "required|string",
         ];
 
         $this->validate($request, $rules);
         $ee = $trip->update($request->all());
 
-        toast('تم تعديل الرحلة بنجاح', 'success', 'top-right');
+        toast("تم تعديل الرحلة بنجاح", "success", "top-right");
 
-        return redirect()->route('distributor.trips.index');
-
+        return redirect()->route("distributor.trips.index");
     }
 
     /**
@@ -126,34 +122,29 @@ class TripsController extends Controller
      */
     public function destroy($id)
     {
-
         $trip = RouteTrips::findOrFail($id);
         $trip->delete();
-        toast('تم حذف الرحلة بنجاح', 'success', 'top-right');
-        return redirect()->route('distributor.trips.index');
+        toast("تم حذف الرحلة بنجاح", "success", "top-right");
+        return redirect()->route("distributor.trips.index");
     }
-
 
     public function trips()
     {
+        //        $listPos=[
 
-//        $listPos=[
-
-//            ['arriveeLat'=>30.0596185,'arriveeLng'=>31.1884235,'centerLat'=>30.4698986,'centerLng'=>31.2216999,'departLat'=>30.9646566,'departLng'=>31.2362337],
-//
-//            ['arriveeLat'=>31.2591234,'arriveeLng'=>32.3016405,'centerLat'=>30.848808,'centerLng'=>32.291314,'departLat'=>30.2650247,'departLng'=>31.7537283],
-//
-//        ];
+        //            ['arriveeLat'=>30.0596185,'arriveeLng'=>31.1884235,'centerLat'=>30.4698986,'centerLng'=>31.2216999,'departLat'=>30.9646566,'departLng'=>31.2362337],
+        //
+        //            ['arriveeLat'=>31.2591234,'arriveeLng'=>32.3016405,'centerLat'=>30.848808,'centerLng'=>32.291314,'departLat'=>30.2650247,'departLng'=>31.7537283],
+        //
+        //        ];
         $routes = DistributorRoute::whereIsFinished(1)->get();
-        $trips = DistributorRoute::with('points')->get();
+        $trips = DistributorRoute::with("points")->get();
 
-//        $Positions=[];
+        //        $Positions=[];
         $listPos = [];
         $routes = [];
 
-
         foreach ($trips as $key => $trip) {
-
             foreach ($trip->trips as $_key => $point) {
                 $all = $trip->trips;
                 $count = $all->count();
@@ -164,15 +155,16 @@ class TripsController extends Controller
                 } elseif ($point->arrange == $count) {
                     $text = "depart";
                 } else {
-
                     $text = "center" . $point->arrange;
                 }
-                $listPos [$key][$_key] = [$text . 'Lat' => $point->lat, $text . 'Lng' => $point->lng];
+                $listPos[$key][$_key] = [
+                    $text . "Lat" => $point->lat,
+                    $text . "Lng" => $point->lng,
+                ];
 
-//                    $routes[] = $listPos;
+                //                    $routes[] = $listPos;
             }
-//                $listPos=[];
-
+            //                $listPos=[];
         }
         $newRoutes = collect($listPos);
         $routes = [];
@@ -180,22 +172,20 @@ class TripsController extends Controller
             $routes[] = collect($r)->collapse();
         }
 
-//        return $routes ;
+        //        return $routes ;
 
-
-        return view('distributor.trips.map', compact('routes'));
+        return view("distributor.trips.map", compact("routes"));
     }
-
 
     public function updateArrange(Request $request)
     {
         $request->validate([
-            'trips.*.id' => 'required|integer|exists:route_trips,id',
-            'route_id' => 'required|integer|exists:distributor_routes,id'
+            "trips.*.id" => "required|integer|exists:route_trips,id",
+            "route_id" => "required|integer|exists:distributor_routes,id",
         ]);
         \DB::beginTransaction();
         foreach ($request->trips as $index => $trip) {
-            RouteTrips::find($trip['id'])->update(['arrange' => $index]);
+            RouteTrips::find($trip["id"])->update(["arrange" => $index]);
         }
         \DB::commit();
 

@@ -15,9 +15,13 @@ class InboxResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'lat_message' => new MessageResource($this->messages()->latest()->first())
+            "id" => $this->id,
+            "name" => $this->name,
+            "lat_message" => new MessageResource(
+                $this->messages()
+                    ->latest()
+                    ->first()
+            ),
         ];
     }
 }

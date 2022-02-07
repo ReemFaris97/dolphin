@@ -12,7 +12,7 @@ use Illuminate\Validation\ValidationException;
 class DistributorTransactionsController extends Controller
 {
     use Viewable;
-    private $viewable= 'distributor.transactions.';
+    private $viewable = "distributor.transactions.";
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +21,7 @@ class DistributorTransactionsController extends Controller
     public function index()
     {
         $transactions = DistributorTransaction::all()->reverse();
-        return $this->toIndex(compact('transactions'));
+        return $this->toIndex(compact("transactions"));
     }
 
     /**
@@ -31,8 +31,8 @@ class DistributorTransactionsController extends Controller
      */
     public function create()
     {
-        $users = User::whereIsDistributor(1)->pluck('name', 'id');
-        return $this->toCreate(compact('users'));
+        $users = User::whereIsDistributor(1)->pluck("name", "id");
+        return $this->toCreate(compact("users"));
     }
 
     /**
@@ -44,25 +44,31 @@ class DistributorTransactionsController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'sender_id'=>'required|exists:users,id',
-            'receiver_id'=>'required|different:sender_id|exists:users,id',
-            'amount' => 'required|numeric',
-            'signature' => 'required|string',
-           ];
-        $messages = [
-            'receiver_id.different'=>"يجب ان يكون المرسل والمستلم مندوبين مختلفين"
+            "sender_id" => "required|exists:users,id",
+            "receiver_id" => "required|different:sender_id|exists:users,id",
+            "amount" => "required|numeric",
+            "signature" => "required|string",
         ];
-        $this->validate($request,$rules,$messages);
-        if (User::findOrFail($request->sender_id)->distributor_wallet() < $request->amount) {
-            throw ValidationException::withMessages(['amount' => 'الملبغ المطلوب اكبر من الموجود فى المحفظة']);
+        $messages = [
+            "receiver_id.different" =>
+                "يجب ان يكون المرسل والمستلم مندوبين مختلفين",
+        ];
+        $this->validate($request, $rules, $messages);
+        if (
+            User::findOrFail($request->sender_id)->distributor_wallet() <
+            $request->amount
+        ) {
+            throw ValidationException::withMessages([
+                "amount" => "الملبغ المطلوب اكبر من الموجود فى المحفظة",
+            ]);
         }
         $request->merge([
-            'receiver_type' => User::class,
-            'sender_type' => User::class,
+            "receiver_type" => User::class,
+            "sender_type" => User::class,
         ]);
         DistributorTransaction::create($request->all());
-        toast('تم التحويل بنجاح','success','top-right');
-        return redirect()->route('distributor.transactions.index');
+        toast("تم التحويل بنجاح", "success", "top-right");
+        return redirect()->route("distributor.transactions.index");
     }
 
     /**
@@ -85,8 +91,8 @@ class DistributorTransactionsController extends Controller
     public function edit($id)
     {
         $transaction = DistributorTransaction::findOrFail($id);
-        $users = User::whereIsDistributor(1)->pluck('name', 'id');
-        return $this->toEdit(compact('transaction','users'));
+        $users = User::whereIsDistributor(1)->pluck("name", "id");
+        return $this->toEdit(compact("transaction", "users"));
     }
 
     /**
@@ -100,24 +106,23 @@ class DistributorTransactionsController extends Controller
     {
         $transaction = DistributorTransaction::find($id);
         $rules = [
-            'sender_id'=>'required|exists:users,id',
-            'receiver_id'=>'required|different:sender_id|exists:users,id',
-            'amount' => 'required|numeric',
-            'signature' => 'required|string',
-
+            "sender_id" => "required|exists:users,id",
+            "receiver_id" => "required|different:sender_id|exists:users,id",
+            "amount" => "required|numeric",
+            "signature" => "required|string",
         ];
         $messages = [
-            'receiver_id.different'=>"يجب ان يكون المرسل والمستلم مندوبين مختلفين"
+            "receiver_id.different" =>
+                "يجب ان يكون المرسل والمستلم مندوبين مختلفين",
         ];
-        $this->validate($request,$rules,$messages);
+        $this->validate($request, $rules, $messages);
         $request->merge([
-            'receiver_type' => User::class,
-            'sender_type' => User::class,
+            "receiver_type" => User::class,
+            "sender_type" => User::class,
         ]);
         $transaction->update($request->all());
-        toast('تم تعديل التحويل بنجاح','success','top-right');
-        return redirect()->route('distributor.transactions.index');
-
+        toast("تم تعديل التحويل بنجاح", "success", "top-right");
+        return redirect()->route("distributor.transactions.index");
     }
 
     /**
@@ -130,7 +135,7 @@ class DistributorTransactionsController extends Controller
     {
         $transaction = DistributorTransaction::find($id);
         $transaction->delete();
-        toast('تم حذف التحويل بنجاح','success','top-right');
-        return redirect()->route('distributor.transactions.index');
+        toast("تم حذف التحويل بنجاح", "success", "top-right");
+        return redirect()->route("distributor.transactions.index");
     }
 }

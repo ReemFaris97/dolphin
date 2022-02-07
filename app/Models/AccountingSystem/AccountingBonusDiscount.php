@@ -35,9 +35,18 @@ use Illuminate\Database\Eloquent\Model;
  */
 class AccountingBonusDiscount extends Model
 {
-    protected $fillable = ['typeable_id','typeable_type', 'type', 'date', 'value', 'notes','reason'];
+    protected $fillable = [
+        "typeable_id",
+        "typeable_type",
+        "type",
+        "date",
+        "value",
+        "notes",
+        "reason",
+    ];
 
-    public function typeable(){
-        return $this->morphTo('typeable');
+    public function typeable()
+    {
+        return $this->morphTo("typeable");
     }
 }

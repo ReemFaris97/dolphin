@@ -21,7 +21,7 @@ use App\Traits\Viewable;
 class BankController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.banks.';
+    private $viewable = "AccountingSystem.banks.";
     /**
      * Display a listing of the resource.
      *
@@ -29,10 +29,9 @@ class BankController extends Controller
      */
     public function index()
     {
-
-        $banks=AccountingBank::all();
-        $safes=AccountingSafe::all();
-        return $this->toIndex(compact('banks','safes'));
+        $banks = AccountingBank::all();
+        $safes = AccountingSafe::all();
+        return $this->toIndex(compact("banks", "safes"));
     }
 
     /**
@@ -42,12 +41,14 @@ class BankController extends Controller
      */
     public function create()
     {
-        $banks=AccountingBank::all();
-        $safes=AccountingSafe::all();
+        $banks = AccountingBank::all();
+        $safes = AccountingSafe::all();
 
-        $currencies=AccountingCurrency::pluck('ar_name','id')->toArray();
-        $branches=AccountingBranch::pluck('name','id')->toArray();
-        return $this->toCreate(compact('branches','currencies','banks','safes'));
+        $currencies = AccountingCurrency::pluck("ar_name", "id")->toArray();
+        $branches = AccountingBranch::pluck("name", "id")->toArray();
+        return $this->toCreate(
+            compact("branches", "currencies", "banks", "safes")
+        );
     }
 
     /**
@@ -59,22 +60,21 @@ class BankController extends Controller
     public function store(Request $request)
     {
         $rules = [
-
-            'name'=>'required|string',
-            'en_name'=>'required|string',
-            'bank_number'=>'required|string',
-
+            "name" => "required|string",
+            "en_name" => "required|string",
+            "bank_number" => "required|string",
         ];
-        $message=[
-            'en_name.required'=>'اسم البنك باللغه الانجليزيه مطلوب ',
-            'bank_number.required'=>'رمز البنك مطلوب',
+        $message = [
+            "en_name.required" => "اسم البنك باللغه الانجليزيه مطلوب ",
+            "bank_number.required" => "رمز البنك مطلوب",
         ];
-        $this->validate($request,$rules,$message);
+        $this->validate($request, $rules, $message);
         $requests = $request->all();
         AccountingBank::create($requests);
-        alert()->success('تم حفظ البنك  بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم حفظ البنك  بنجاح !")
+            ->autoclose(5000);
         return back();
-
     }
 
     /**
@@ -96,13 +96,12 @@ class BankController extends Controller
      */
     public function edit($id)
     {
+        $bank = AccountingBank::find($id);
 
-        $bank=AccountingBank::find($id);
+        $currencies = AccountingCurrency::pluck("ar_name", "id")->toArray();
+        $branches = AccountingBranch::pluck("name", "id")->toArray();
 
-        $currencies=AccountingCurrency::pluck('ar_name','id')->toArray();
-        $branches=AccountingBranch::pluck('name','id')->toArray();
-
-        return $this->toEdit(compact('bank','currencies','branches'));
+        return $this->toEdit(compact("bank", "currencies", "branches"));
     }
 
     /**
@@ -114,34 +113,31 @@ class BankController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $bank =AccountingBank::findOrFail($id);
+        $bank = AccountingBank::findOrFail($id);
 
         $rules = [
-
-            'name'=>'required|string',
-            'en_name'=>'required|string',
-            'bank_number'=>'required|string',
+            "name" => "required|string",
+            "en_name" => "required|string",
+            "bank_number" => "required|string",
         ];
-        $message=[
-            'en_name.required'=>'اسم البنك باللغه الانجليزيه مطلوب ',
-            'bank_number.required'=>'رمز البنك مطلوب',
+        $message = [
+            "en_name.required" => "اسم البنك باللغه الانجليزيه مطلوب ",
+            "bank_number.required" => "رمز البنك مطلوب",
         ];
-        $this->validate($request,$rules,$message);
+        $this->validate($request, $rules, $message);
         $requests = $request->all();
         $bank->update($requests);
-        $account=AccountingAccount::where('bank_id',$bank->id)->first();
-        if ($account){
-
+        $account = AccountingAccount::where("bank_id", $bank->id)->first();
+        if ($account) {
             $account->update([
-              'ar_name'=>$request['name'],
-              'en_name'=>$request['en_name'],
+                "ar_name" => $request["name"],
+                "en_name" => $request["en_name"],
             ]);
         }
-        alert()->success('تم تعديل  البنك بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.banks.index');
-
-
-
+        alert()
+            ->success("تم تعديل  البنك بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.banks.index");
     }
 
     /**
@@ -152,24 +148,22 @@ class BankController extends Controller
      */
     public function destroy($id)
     {
-        $bank =AccountingBank::findOrFail($id);
+        $bank = AccountingBank::findOrFail($id);
         $bank->delete();
-        alert()->success('تم حذف   البنك  بنجاح !')->autoclose(5000);
-            return back();
-
-
+        alert()
+            ->success("تم حذف   البنك  بنجاح !")
+            ->autoclose(5000);
+        return back();
     }
-
 
     public function getbenods($type)
     {
-
-        $clauses=AccountingMoneyClause::where('type',$type)->get();
+        $clauses = AccountingMoneyClause::where("type", $type)->get();
         return response()->json([
-            'status'=>true,
-            'data'=>view('AccountingSystem.benods.getAjaxBenods')->with('clauses',$clauses)->render()
+            "status" => true,
+            "data" => view("AccountingSystem.benods.getAjaxBenods")
+                ->with("clauses", $clauses)
+                ->render(),
         ]);
-
-
     }
 }

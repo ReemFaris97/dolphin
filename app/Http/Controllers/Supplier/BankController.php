@@ -11,9 +11,8 @@ use App\Traits\Viewable;
 
 class BankController extends Controller
 {
-
     use Viewable;
-    private  $viewable = 'suppliers.banks.';
+    private $viewable = "suppliers.banks.";
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +21,7 @@ class BankController extends Controller
     public function index()
     {
         $banks = Bank::all()->reverse();
-        return $this->toIndex(compact('banks'));
+        return $this->toIndex(compact("banks"));
     }
 
     /**
@@ -32,7 +31,6 @@ class BankController extends Controller
      */
     public function create()
     {
-
         return $this->toCreate();
     }
 
@@ -45,16 +43,17 @@ class BankController extends Controller
     public function store(Request $request)
     {
         $rules = [
-
-            'name'=>'required|string|max:191',
-            'bank_account_number'=>"required|string|max:191",
+            "name" => "required|string|max:191",
+            "bank_account_number" => "required|string|max:191",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         Bank::create($request->all());
-//        toast('تم إضافة البنك بنجاح','success','top-right');
-        alert()->success('تم إضافة البنك    بنجاح !')->autoclose(5000);
+        //        toast('تم إضافة البنك بنجاح','success','top-right');
+        alert()
+            ->success("تم إضافة البنك    بنجاح !")
+            ->autoclose(5000);
 
-        return redirect()->route('supplier.banks.index');
+        return redirect()->route("supplier.banks.index");
     }
 
     /**
@@ -78,7 +77,7 @@ class BankController extends Controller
     {
         $bank = Bank::findOrFail($id);
 
-        return $this->toEdit(compact('bank'));
+        return $this->toEdit(compact("bank"));
     }
 
     /**
@@ -93,16 +92,17 @@ class BankController extends Controller
         $bank = Bank::find($id);
 
         $rules = [
-
-            'name'=>'required|string|max:191',
-            'bank_account_number'=>"required|string|max:191",
+            "name" => "required|string|max:191",
+            "bank_account_number" => "required|string|max:191",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $bank->update($request->all());
-//        toast('تم تعديل البنك بنجاح','success','top-right');
-        alert()->success('تم تعديل البنك    بنجاح !')->autoclose(5000);
+        //        toast('تم تعديل البنك بنجاح','success','top-right');
+        alert()
+            ->success("تم تعديل البنك    بنجاح !")
+            ->autoclose(5000);
 
-        return redirect()->route('supplier.banks.index');
+        return redirect()->route("supplier.banks.index");
     }
 
     /**
@@ -114,8 +114,10 @@ class BankController extends Controller
     public function destroy($id)
     {
         Bank::find($id)->delete();
-        alert()->success('تم حذف البنك    بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم حذف البنك    بنجاح !")
+            ->autoclose(5000);
 
-        return redirect()->route('supplier.banks.index');
+        return redirect()->route("supplier.banks.index");
     }
 }

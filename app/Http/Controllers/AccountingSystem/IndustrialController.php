@@ -16,7 +16,7 @@ use App\Traits\Viewable;
 class IndustrialController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.industrials.';
+    private $viewable = "AccountingSystem.industrials.";
     /**
      * Display a listing of the resource.
      *
@@ -24,8 +24,8 @@ class IndustrialController extends Controller
      */
     public function index()
     {
-        $industrials=AccountingIndustrial::all()->reverse();
-        return $this->toIndex(compact('industrials'));
+        $industrials = AccountingIndustrial::all()->reverse();
+        return $this->toIndex(compact("industrials"));
     }
 
     /**
@@ -35,8 +35,6 @@ class IndustrialController extends Controller
      */
     public function create()
     {
-
-
         return $this->toCreate();
     }
 
@@ -49,17 +47,17 @@ class IndustrialController extends Controller
     public function store(Request $request)
     {
         $rules = [
-
-            'name'=>'required|string|max:191|unique:accounting_product_industrials,name',
-
-
+            "name" =>
+                "required|string|max:191|unique:accounting_product_industrials,name",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
 
         AccountingIndustrial::create($requests);
-        alert()->success('تم اضافة  الشركة المصنعة بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.industrials.index');
+        alert()
+            ->success("تم اضافة  الشركة المصنعة بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.industrials.index");
     }
 
     /**
@@ -81,11 +79,9 @@ class IndustrialController extends Controller
      */
     public function edit($id)
     {
-        $industrial=AccountingIndustrial::findOrFail($id);
+        $industrial = AccountingIndustrial::findOrFail($id);
 
-        return $this->toEdit(compact('industrial'));
-
-
+        return $this->toEdit(compact("industrial"));
     }
 
     /**
@@ -97,22 +93,18 @@ class IndustrialController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $industrial =AccountingIndustrial::findOrFail($id);
+        $industrial = AccountingIndustrial::findOrFail($id);
 
         $rules = [
-
-            'name'=>'required|string|max:191',
-
-
+            "name" => "required|string|max:191",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
         $industrial->update($requests);
-        alert()->success('تم تعديل  العمود بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.industrials.index');
-
-
-
+        alert()
+            ->success("تم تعديل  العمود بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.industrials.index");
     }
 
     /**
@@ -123,9 +115,11 @@ class IndustrialController extends Controller
      */
     public function destroy($id)
     {
-        $industrial =AccountingIndustrial::findOrFail($id);
+        $industrial = AccountingIndustrial::findOrFail($id);
         $industrial->delete();
-        alert()->success('تم حذف  الشركة المصنعة بنجاح !')->autoclose(5000);
-            return back();
+        alert()
+            ->success("تم حذف  الشركة المصنعة بنجاح !")
+            ->autoclose(5000);
+        return back();
     }
 }

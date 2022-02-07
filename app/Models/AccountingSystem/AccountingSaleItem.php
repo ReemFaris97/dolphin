@@ -44,8 +44,16 @@ use Illuminate\Support\Facades\DB;
  */
 class AccountingSaleItem extends Model
 {
-    protected $fillable = ['product_id','quantity','price','sale_id','price_after_tax','tax','unit_id'];
-    protected $table='accounting_sales_items';
+    protected $fillable = [
+        "product_id",
+        "quantity",
+        "price",
+        "sale_id",
+        "price_after_tax",
+        "tax",
+        "unit_id",
+    ];
+    protected $table = "accounting_sales_items";
 
     protected static function booted()
     {
@@ -55,69 +63,85 @@ class AccountingSaleItem extends Model
     }
     public function product()
     {
-        return $this->belongsTo(AccountingProduct::class, 'product_id');
+        return $this->belongsTo(AccountingProduct::class, "product_id");
     }
     public function sale()
     {
-        return $this->belongsTo(AccountingSale::class, 'sale_id');
+        return $this->belongsTo(AccountingSale::class, "sale_id");
     }
 
     public function priceWithoutTax($tax)
     {
-        return ($this->price*100/(100+$tax));
+        return ($this->price * 100) / (100 + $tax);
     }
     public function getTax($tax)
     {
-        return $this->price-($this->price*100/(100+$tax));
+        return $this->price - ($this->price * 100) / (100 + $tax);
     }
     public function unit()
     {
-        return $this->belongsTo(AccountingProductSubUnit::class, 'unit_id');
+        return $this->belongsTo(AccountingProductSubUnit::class, "unit_id");
     }
     /**
-    * @return MorphMany
-    */
-    public function store_quantity_log():MorphOne
+     * @return MorphMany
+     */
+    public function store_quantity_log(): MorphOne
     {
-        return $this->morphOne(AccountingProductStoreLog::class, 'dispatcher');
+        return $this->morphOne(AccountingProductStoreLog::class, "dispatcher");
     }
 
     public function units()
     {
-//        return $this->belongsTo(AccountingProductSubUnit::class,'unit_id');
+        //        return $this->belongsTo(AccountingProductSubUnit::class,'unit_id');
 
-        $units=AccountingProductSubUnit::where('product_id', $this->product->id)->get();
-        $subunits= collect($units);
-        $allunits=json_encode($subunits, JSON_UNESCAPED_UNICODE);
-        $mainunits=json_encode(collect([['id'=>'main-'.$this->product->id,'name'=>$this->product->main_unit , 'purchasing_price'=>$this->product->purchasing_price]]), JSON_UNESCAPED_UNICODE);
+        $units = AccountingProductSubUnit::where(
+            "product_id",
+            $this->product->id
+        )->get();
+        $subunits = collect($units);
+        $allunits = json_encode($subunits, JSON_UNESCAPED_UNICODE);
+        $mainunits = json_encode(
+            collect([
+                [
+                    "id" => "main-" . $this->product->id,
+                    "name" => $this->product->main_unit,
+                    "purchasing_price" => $this->product->purchasing_price,
+                ],
+            ]),
+            JSON_UNESCAPED_UNICODE
+        );
         $merged = array_merge(json_decode($mainunits), json_decode($allunits));
 
         return $merged;
     }
-    public function subQuantity():AccountingProductStoreLog
+    public function subQuantity(): AccountingProductStoreLog
     {
-        $main_unit=  AccountingProductSubUnit::where('id', $this->unit_id)->value('main_unit_present')??1;
-        $quantity_in_main_unit=$this->quantity*$main_unit;
-        $price=$this->price/$main_unit;
-        $product_store=AccountingProductStore::query()->firstOrCreate([
-            'product_id'=>$this->product_id,
-            'store_id'=>$this->sale->store_id,
-        ], ['quantity'=>0]);
-        
-        return $this->store_quantity_log()->create(
+        $main_unit =
+            AccountingProductSubUnit::where("id", $this->unit_id)->value(
+                "main_unit_present"
+            ) ?? 1;
+        $quantity_in_main_unit = $this->quantity * $main_unit;
+        $price = $this->price / $main_unit;
+        $product_store = AccountingProductStore::query()->firstOrCreate(
             [
-                'accounting_product_store_id'=>$product_store->id,
-                'accounting_product_id'=>$this->product_id,
-                'unit_id'=>null,
-                'price'=>$price,
-                'amount'=>$quantity_in_main_unit,
-                'expired_at'=>$product_store->expired_at,
-                'type'=>'out',
-            ]
+                "product_id" => $this->product_id,
+                "store_id" => $this->sale->store_id,
+            ],
+            ["quantity" => 0]
         );
+
+        return $this->store_quantity_log()->create([
+            "accounting_product_store_id" => $product_store->id,
+            "accounting_product_id" => $this->product_id,
+            "unit_id" => null,
+            "price" => $price,
+            "amount" => $quantity_in_main_unit,
+            "expired_at" => $product_store->expired_at,
+            "type" => "out",
+        ]);
     }
-    public function scopeInPeriod($query, $start, $end):void
+    public function scopeInPeriod($query, $start, $end): void
     {
-        $query->whereBetween(DB::raw('DATE(created_at)'), [$start, $end]);
+        $query->whereBetween(DB::raw("DATE(created_at)"), [$start, $end]);
     }
 }

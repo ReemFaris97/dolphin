@@ -12,11 +12,15 @@ use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class AccountProductStoreImport implements ToCollection, WithHeadingRow, WithBatchInserts, WithChunkReading
+class AccountProductStoreImport implements
+    ToCollection,
+    WithHeadingRow,
+    WithBatchInserts,
+    WithChunkReading
 {
     protected Command $command;
 
-    public function __construct($command=null)
+    public function __construct($command = null)
     {
         $this->command = $command;
     }
@@ -27,23 +31,29 @@ class AccountProductStoreImport implements ToCollection, WithHeadingRow, WithBat
     {
         $this->command->withProgressBar($rows, function ($row) {
             try {
-                $product = AccountingProduct::where('name', $row['asm_almad'])->first();
+                $product = AccountingProduct::where(
+                    "name",
+                    $row["asm_almad"]
+                )->first();
                 AccountingProductStore::updateOrCreate(
                     [
-                    'product_id' => optional($product)->id,
-                    'store_id' => 1,
-                    'price' => round($row['alsaar_alafrady'], 2),
-                ],
+                        "product_id" => optional($product)->id,
+                        "store_id" => 1,
+                        "price" => round($row["alsaar_alafrady"], 2),
+                    ],
                     [
-                    'unit_id' => optional(
-                        AccountingProductSubUnit::query()->
-                        where('product_id', optional($product)->id)
-                    ->where(fn ($q) =>$q
-                    ->OfBarcode($row['albarkod'])
-                    ->orWhere('name', $row['aloahd']))->first()
-                    )->id,
-                    //  'quantity' => $row['alkmy'],
-                ]
+                        "unit_id" => optional(
+                            AccountingProductSubUnit::query()
+                                ->where("product_id", optional($product)->id)
+                                ->where(
+                                    fn($q) => $q
+                                        ->OfBarcode($row["albarkod"])
+                                        ->orWhere("name", $row["aloahd"])
+                                )
+                                ->first()
+                        )->id,
+                        //  'quantity' => $row['alkmy'],
+                    ]
                 );
             } catch (\Exception $e) {
                 dd($row, $e);
@@ -53,7 +63,7 @@ class AccountProductStoreImport implements ToCollection, WithHeadingRow, WithBat
 
     public function batchSize(): int
     {
-        return  100;
+        return 100;
     }
 
     public function chunkSize(): int

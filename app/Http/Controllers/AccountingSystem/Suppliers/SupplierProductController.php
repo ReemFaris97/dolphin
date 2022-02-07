@@ -11,26 +11,34 @@ class SupplierProductController extends Controller
 {
     public function index(AccountingSuppliersProductsDataTable $dataTable)
     {
-        return $dataTable->render('AccountingSystem.suppliers-products.index');
+        return $dataTable->render("AccountingSystem.suppliers-products.index");
     }
 
     public function edit($id)
     {
         $product = Product::find($id);
-        $accountingProduct = AccountingProduct::ofBarcode($product->barcode)->first();
-        if ($accountingProduct){
-            $accountingProduct->suppliers()->attach($product->accounting_supplier_id);
-            alert()->success('تم الاضافة بنجاح !');
+        $accountingProduct = AccountingProduct::ofBarcode(
+            $product->barcode
+        )->first();
+        if ($accountingProduct) {
+            $accountingProduct
+                ->suppliers()
+                ->attach($product->accounting_supplier_id);
+            alert()->success("تم الاضافة بنجاح !");
             $product->delete();
-            return back()->with('success','تم الاضافة بنجاح !');
+            return back()->with("success", "تم الاضافة بنجاح !");
         }
-        return redirect()->route('accounting.products.create')->with(Product::find($id)->toArray());
+        return redirect()
+            ->route("accounting.products.create")
+            ->with(Product::find($id)->toArray());
     }
 
     public function destroy($id)
     {
         Product::find($id)->delete();
-        alert()->success('تم الحذف بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم الحذف بنجاح !")
+            ->autoclose(5000);
         return back();
     }
 }

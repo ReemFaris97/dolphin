@@ -13,7 +13,7 @@ use App\Traits\Viewable;
 class ExpenditureTypesController extends Controller
 {
     use Viewable;
-    private $viewable = 'distributor.expenditureTypes.';
+    private $viewable = "distributor.expenditureTypes.";
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +22,7 @@ class ExpenditureTypesController extends Controller
     public function index()
     {
         $expenditureTypes = ExpenditureType::all();
-        return $this->toIndex(compact('expenditureTypes'));
+        return $this->toIndex(compact("expenditureTypes"));
     }
 
     /**
@@ -32,7 +32,6 @@ class ExpenditureTypesController extends Controller
      */
     public function create()
     {
-
         return $this->toCreate();
     }
 
@@ -45,13 +44,12 @@ class ExpenditureTypesController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name'=>'required|string|max:191',
-
+            "name" => "required|string|max:191",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         ExpenditureType::create($request->all());
-        toast('تم الإضافة بنجاح','success','top-right');
-        return redirect()->route('distributor.expenditureTypes.index');
+        toast("تم الإضافة بنجاح", "success", "top-right");
+        return redirect()->route("distributor.expenditureTypes.index");
     }
 
     /**
@@ -73,10 +71,8 @@ class ExpenditureTypesController extends Controller
      */
     public function edit($id)
     {
-        $expenditureType =ExpenditureType::findOrFail($id);
-        return $this->toEdit(compact('expenditureType'));
-
-
+        $expenditureType = ExpenditureType::findOrFail($id);
+        return $this->toEdit(compact("expenditureType"));
     }
 
     /**
@@ -88,18 +84,15 @@ class ExpenditureTypesController extends Controller
      */
     public function update(Request $request, $id)
     {
-       $expenditureType = ExpenditureType::findOrFail($id);
+        $expenditureType = ExpenditureType::findOrFail($id);
 
         $rules = [
-            'name'=>'required|string|max:191',
-
+            "name" => "required|string|max:191",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $expenditureType->update($request->all());
-        toast('تم التعديل بنجاح','success','top-right');
-        return redirect()->route('distributor.expenditureTypes.index');
-
-
+        toast("تم التعديل بنجاح", "success", "top-right");
+        return redirect()->route("distributor.expenditureTypes.index");
     }
 
     /**
@@ -110,24 +103,24 @@ class ExpenditureTypesController extends Controller
      */
     public function destroy($id)
     {
-        $expenditureType  = ExpenditureType::find($id);
+        $expenditureType = ExpenditureType::find($id);
 
         $expenditureType->delete();
-            toast('تم الحذف بنجاح', 'success','top-right');
-            return back();
+        toast("تم الحذف بنجاح", "success", "top-right");
+        return back();
     }
 
     public function changeStatus($id)
     {
-        $item=ExpenditureType::find($id);
+        $item = ExpenditureType::find($id);
         if ($item->is_active == 1) {
-            $item->update(['is_active'=>0]);
-            toast('تم إلغاء التفعيل بنجاح','success','top-right');
-            return redirect()->route('distributor.expenditureTypes.index');
+            $item->update(["is_active" => 0]);
+            toast("تم إلغاء التفعيل بنجاح", "success", "top-right");
+            return redirect()->route("distributor.expenditureTypes.index");
         } else {
-            $item->update(['is_active'=>1]);
-            toast('تم  التفعيل بنجاح','success','top-right');
-            return redirect()->route('distributor.expenditureTypes.index');
+            $item->update(["is_active" => 1]);
+            toast("تم  التفعيل بنجاح", "success", "top-right");
+            return redirect()->route("distributor.expenditureTypes.index");
         }
     }
 }

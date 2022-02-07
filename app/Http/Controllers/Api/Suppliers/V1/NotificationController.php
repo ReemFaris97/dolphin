@@ -17,7 +17,15 @@ class NotificationController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return \responder::success(new BaseCollection(auth()->user()->notifications()->latest()->paginate(request('perPage',20)),
-            NotificationResource::class));
+        return \responder::success(
+            new BaseCollection(
+                auth()
+                    ->user()
+                    ->notifications()
+                    ->latest()
+                    ->paginate(request("perPage", 20)),
+                NotificationResource::class
+            )
+        );
     }
 }

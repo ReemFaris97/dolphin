@@ -19,11 +19,13 @@ class DebtController extends Controller
      */
     public function index()
     {
-        $debts = AccountingDebt::with('typeable','payments')->get()->transform(function($q){
-            $q['all_payments'] = $q->paymentWithPayed();
-            return $q;
-        });
-        return view('AccountingSystem.debts.index',compact('debts'));
+        $debts = AccountingDebt::with("typeable", "payments")
+            ->get()
+            ->transform(function ($q) {
+                $q["all_payments"] = $q->paymentWithPayed();
+                return $q;
+            });
+        return view("AccountingSystem.debts.index", compact("debts"));
     }
 
     /**
@@ -33,8 +35,8 @@ class DebtController extends Controller
      */
     public function create()
     {
-        $users = User::pluck('name','id');
-        return view('AccountingSystem.debts.create',compact('users'));
+        $users = User::pluck("name", "id");
+        return view("AccountingSystem.debts.create", compact("users"));
     }
 
     /**
@@ -46,20 +48,21 @@ class DebtController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'typeable_id'=>'required',
-            'date'=>'required',
-            'reason'=>'required',
-            'payments_count'=>'required',
-            'pay_from'=>'required',
-            'value'=>'required'
+            "typeable_id" => "required",
+            "date" => "required",
+            "reason" => "required",
+            "payments_count" => "required",
+            "pay_from" => "required",
+            "value" => "required",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
-        $requests['typeable_type'] = 'App\Models\User';
+        $requests["typeable_type"] = "App\Models\User";
         AccountingDebt::create($requests);
-        alert()->success('تم اضافة  السلفة بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.debts.index');
-
+        alert()
+            ->success("تم اضافة  السلفة بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.debts.index");
     }
 
     /**
@@ -81,12 +84,12 @@ class DebtController extends Controller
      */
     public function edit($id)
     {
-        $users =User::pluck('name','id');
+        $users = User::pluck("name", "id");
         $debt = AccountingDebt::find($id)->toArray();
-        $debt['date'] = Carbon::parse($debt['date'])->format('Y-m-d');
-        $debt['pay_from'] = Carbon::parse($debt['pay_from'])->format('Y-m-d');
-        $debt = (object)$debt;
-        return view('AccountingSystem.debts.edit',compact('debt','users'));
+        $debt["date"] = Carbon::parse($debt["date"])->format("Y-m-d");
+        $debt["pay_from"] = Carbon::parse($debt["pay_from"])->format("Y-m-d");
+        $debt = (object) $debt;
+        return view("AccountingSystem.debts.edit", compact("debt", "users"));
     }
 
     /**
@@ -98,19 +101,21 @@ class DebtController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $debt=AccountingDebt::findOrFail($id);
+        $debt = AccountingDebt::findOrFail($id);
         $rules = [
-            'typeable_id'=>'required',
-//            'type'=>'required',
-            'value'=>'required',
-            'date'=>'required'
+            "typeable_id" => "required",
+            //            'type'=>'required',
+            "value" => "required",
+            "date" => "required",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
-        $requests['typeable_type'] = 'App\Models\User';
+        $requests["typeable_type"] = "App\Models\User";
         $debt->update($requests);
-        alert()->success('تم تعديل السلفة بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.debts.index');
+        alert()
+            ->success("تم تعديل السلفة بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.debts.index");
     }
 
     /**
@@ -122,13 +127,18 @@ class DebtController extends Controller
     public function destroy($id)
     {
         AccountingDebt::find($id)->delete();
-        alert()->success('تم  الحذف بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم  الحذف بنجاح !")
+            ->autoclose(5000);
         return back();
     }
-    public function payDebt(Request $request,$id){
+    public function payDebt(Request $request, $id)
+    {
         $debt = AccountingDebt::find($id);
         $debt->payments()->create($request->all());
-        alert()->success('تم  التعديل بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم  التعديل بنجاح !")
+            ->autoclose(5000);
         return back();
     }
 }

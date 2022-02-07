@@ -10,10 +10,18 @@ class SupplyRequisitionItem extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['supply_requisition_id', 'accounting_product_id', 'unit', 'quantity'];
+    protected $fillable = [
+        "supply_requisition_id",
+        "accounting_product_id",
+        "unit",
+        "quantity",
+    ];
 
     public function product()
     {
-        return $this->belongsTo(AccountingProduct::class,'accounting_product_id');
+        return $this->belongsTo(
+            AccountingProduct::class,
+            "accounting_product_id"
+        );
     }
 }

@@ -14,7 +14,7 @@ use App\Traits\Viewable;
 class FaceController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.AccountingCompanies.faces.';
+    private $viewable = "AccountingSystem.AccountingCompanies.faces.";
     /**
      * Display a listing of the resource.
      *
@@ -22,8 +22,11 @@ class FaceController extends Controller
      */
     public function index()
     {
-        $faces =AccountingBranchFace::where('company_id',auth('accounting_companies')->user()->id)->get();
-        return $this->toIndex(compact('faces'));
+        $faces = AccountingBranchFace::where(
+            "company_id",
+            auth("accounting_companies")->user()->id
+        )->get();
+        return $this->toIndex(compact("faces"));
     }
 
     /**
@@ -33,8 +36,13 @@ class FaceController extends Controller
      */
     public function create()
     {
-        $branches=AccountingBranch::where('company_id',auth('accounting_companies')->user()->id)->pluck('name','id')->toArray();
-        return $this->toCreate(compact('branches'));
+        $branches = AccountingBranch::where(
+            "company_id",
+            auth("accounting_companies")->user()->id
+        )
+            ->pluck("name", "id")
+            ->toArray();
+        return $this->toCreate(compact("branches"));
     }
 
     /**
@@ -46,18 +54,18 @@ class FaceController extends Controller
     public function store(Request $request)
     {
         $rules = [
+            "name" => "required|string|max:191",
 
-            'name'=>'required|string|max:191',
-
-            'branch_id'=>'required|numeric|exists:accounting_branches,id',
-
+            "branch_id" => "required|numeric|exists:accounting_branches,id",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
 
         AccountingBranchFace::create($requests);
-        alert()->success('تم اضافة   الوجه  بنجاح !')->autoclose(5000);
-        return redirect()->route('company.faces.index');
+        alert()
+            ->success("تم اضافة   الوجه  بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("company.faces.index");
     }
 
     /**
@@ -79,12 +87,10 @@ class FaceController extends Controller
      */
     public function edit($id)
     {
-        $face =AccountingBranchFace::findOrFail($id);
-        $branches=AccountingBranch::pluck('name','id')->toArray();
+        $face = AccountingBranchFace::findOrFail($id);
+        $branches = AccountingBranch::pluck("name", "id")->toArray();
 
-        return $this->toEdit(compact('face','branches'));
-
-
+        return $this->toEdit(compact("face", "branches"));
     }
 
     /**
@@ -96,22 +102,20 @@ class FaceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $face =AccountingBranchFace::findOrFail($id);
+        $face = AccountingBranchFace::findOrFail($id);
 
         $rules = [
+            "name" => "required|string|max:191",
 
-            'name'=>'required|string|max:191',
-
-            'branch_id'=>'required|numeric|exists:accounting_branches,id',
+            "branch_id" => "required|numeric|exists:accounting_branches,id",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
         $face->update($requests);
-        alert()->success('تم تعديل الوجه  بنجاح !')->autoclose(5000);
-        return redirect()->route('company.faces.index');
-
-
-
+        alert()
+            ->success("تم تعديل الوجه  بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("company.faces.index");
     }
 
     /**
@@ -122,11 +126,11 @@ class FaceController extends Controller
      */
     public function destroy($id)
     {
-        $face =AccountingBranchFace::findOrFail($id);
+        $face = AccountingBranchFace::findOrFail($id);
         $face->delete();
-        alert()->success('تم حذف  الوجة بنجاح !')->autoclose(5000);
-            return back();
-
-
+        alert()
+            ->success("تم حذف  الوجة بنجاح !")
+            ->autoclose(5000);
+        return back();
     }
 }

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Traits\Distributor;
 
 use App\Models\DistributorTransaction;
@@ -16,6 +15,6 @@ trait DistributorOperation
     public function AddTransaction($request)
     {
         $inputs = $request->all();
-        return  DistributorTransaction::create($inputs);
+        return DistributorTransaction::create($inputs);
     }
 }

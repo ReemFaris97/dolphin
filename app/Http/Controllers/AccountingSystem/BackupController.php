@@ -15,7 +15,6 @@ use App\Traits\Db_Backup;
 
 class BackupController extends Controller
 {
-
     use Db_Backup;
 
     /**
@@ -25,9 +24,13 @@ class BackupController extends Controller
      */
     public function index()
     {
-
-      $this->EXPORT_DATABASE('127.0.0.1','panoramaq_AccountingSystem','88eYDr4YQsqn','panoramaq_AccountingSystem');
-     return redirect()->back();
+        $this->EXPORT_DATABASE(
+            "127.0.0.1",
+            "panoramaq_AccountingSystem",
+            "88eYDr4YQsqn",
+            "panoramaq_AccountingSystem"
+        );
+        return redirect()->back();
 
         // $disk = Storage::disk(config('laravel-backup.backup.destination.disks')[0]);
 
@@ -48,8 +51,8 @@ class BackupController extends Controller
         // // reverse the backups, so the newest one would be on top
         // $backups = array_reverse($backups);
 
-    //     return view("AccountingSystem.settings.backup")->with(compact('backups'));
-     }
+        //     return view("AccountingSystem.settings.backup")->with(compact('backups'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -60,16 +63,20 @@ class BackupController extends Controller
     {
         try {
             // start the backup process
-            Artisan::call('backup:run --only-db');
+            Artisan::call("backup:run --only-db");
             $output = Artisan::output();
             // dd($output);
             // log the results
-//            Log::info("Backpack\BackupManager -- new backup started from admin interface \r\n" . $output);
+            //            Log::info("Backpack\BackupManager -- new backup started from admin interface \r\n" . $output);
             // return the results as a response to the ajax call
-            alert()->success('تم نسخ بيانات البرنامج  بنجاح !')->autoclose(5000);
+            alert()
+                ->success("تم نسخ بيانات البرنامج  بنجاح !")
+                ->autoclose(5000);
             return redirect()->download();
         } catch (\Exception $e) {
-            alert()->error('لم يتم نسخ بيانات البرنامج  حاول  مره اخرى !')->autoclose(5000);
+            alert()
+                ->error("لم يتم نسخ بيانات البرنامج  حاول  مره اخرى !")
+                ->autoclose(5000);
             return redirect()->back();
         }
     }
@@ -82,19 +89,28 @@ class BackupController extends Controller
      */
     public function download($file_name)
     {
-        $file = config('laravel-backup.backup.name') . '/' . $file_name;
-        $disk = Storage::disk(config('laravel-backup.backup.destination.disks')[0]);
+        $file = config("laravel-backup.backup.name") . "/" . $file_name;
+        $disk = Storage::disk(
+            config("laravel-backup.backup.destination.disks")[0]
+        );
         if ($disk->exists($file)) {
-            $fs = Storage::disk(config('laravel-backup.backup.destination.disks')[0])->getDriver();
+            $fs = Storage::disk(
+                config("laravel-backup.backup.destination.disks")[0]
+            )->getDriver();
             $stream = $fs->readStream($file);
 
-            return \Response::stream(function () use ($stream) {
-                fpassthru($stream);
-            }, 200, [
-                "Content-Type" => $fs->getMimetype($file),
-                "Content-Length" => $fs->getSize($file),
-                "Content-disposition" => "attachment; filename=\"" . basename($file) . "\"",
-            ]);
+            return \Response::stream(
+                function () use ($stream) {
+                    fpassthru($stream);
+                },
+                200,
+                [
+                    "Content-Type" => $fs->getMimetype($file),
+                    "Content-Length" => $fs->getSize($file),
+                    "Content-disposition" =>
+                        "attachment; filename=\"" . basename($file) . "\"",
+                ]
+            );
         } else {
             abort(404, "The backup file doesn't exist.");
         }
@@ -119,9 +135,17 @@ class BackupController extends Controller
      */
     public function delete($file_name)
     {
-        $disk = Storage::disk(config('laravel-backup.backup.destination.disks')[0]);
-        if ($disk->exists(config('laravel-backup.backup.name') . '/' . $file_name)) {
-            $disk->delete(config('laravel-backup.backup.name') . '/' . $file_name);
+        $disk = Storage::disk(
+            config("laravel-backup.backup.destination.disks")[0]
+        );
+        if (
+            $disk->exists(
+                config("laravel-backup.backup.name") . "/" . $file_name
+            )
+        ) {
+            $disk->delete(
+                config("laravel-backup.backup.name") . "/" . $file_name
+            );
             return redirect()->back();
         } else {
             abort(404, "The backup file doesn't exist.");
@@ -137,22 +161,21 @@ class BackupController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $shift =AccountingBranchShift::findOrFail($id);
+        $shift = AccountingBranchShift::findOrFail($id);
 
         $rules = [
-            'name'=>'required|string|max:191',
-            'from'=>'required|string',
-            'to'=>'required|string',
-            'branch_id'=>'required|numeric|exists:accounting_branches,id',
+            "name" => "required|string|max:191",
+            "from" => "required|string",
+            "to" => "required|string",
+            "branch_id" => "required|numeric|exists:accounting_branches,id",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
         $shift->update($requests);
-        alert()->success('تم تعديل  الوردية بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.shifts.index');
-
-
-
+        alert()
+            ->success("تم تعديل  الوردية بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.shifts.index");
     }
 
     /**
@@ -163,11 +186,11 @@ class BackupController extends Controller
      */
     public function destroy($id)
     {
-        $shift =AccountingBranchShift::findOrFail($id);
+        $shift = AccountingBranchShift::findOrFail($id);
         $shift->delete();
-        alert()->success('تم حذف  الوردية بنجاح !')->autoclose(5000);
-            return back();
-
-
+        alert()
+            ->success("تم حذف  الوردية بنجاح !")
+            ->autoclose(5000);
+        return back();
     }
 }

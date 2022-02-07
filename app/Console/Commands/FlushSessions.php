@@ -11,14 +11,14 @@ class FlushSessions extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = "command:name";
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = "Command description";
 
     /**
      * Create a new command instance.

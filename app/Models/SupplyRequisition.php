@@ -11,31 +11,47 @@ use Illuminate\Database\Eloquent\Model;
 class SupplyRequisition extends Model
 {
     use HasFactory;
-    protected $fillable=['accounting_company_id', 'accounting_supplier_id', 'accounting_branch_id', 'creator_id', 'approver_id', 'approved_at'];
+    protected $fillable = [
+        "accounting_company_id",
+        "accounting_supplier_id",
+        "accounting_branch_id",
+        "creator_id",
+        "approver_id",
+        "approved_at",
+    ];
 
     public function company()
     {
-        return $this->belongsTo(AccountingCompany::class,'accounting_company_id');
+        return $this->belongsTo(
+            AccountingCompany::class,
+            "accounting_company_id"
+        );
     }
 
     public function supplier()
     {
-        return $this->belongsTo(AccountingSupplier::class,'accounting_supplier_id');
+        return $this->belongsTo(
+            AccountingSupplier::class,
+            "accounting_supplier_id"
+        );
     }
 
     public function creator()
     {
-        return $this->belongsTo(User::class,'creator_id');
+        return $this->belongsTo(User::class, "creator_id");
     }
 
     public function branch()
     {
-        return $this->belongsTo(AccountingBranch::class,'accounting_branch_id');
+        return $this->belongsTo(
+            AccountingBranch::class,
+            "accounting_branch_id"
+        );
     }
 
     public function approver()
     {
-        return $this->belongsTo(User::class,'approver_id');
+        return $this->belongsTo(User::class, "approver_id");
     }
 
     public function items()

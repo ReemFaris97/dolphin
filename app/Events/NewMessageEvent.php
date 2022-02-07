@@ -21,10 +21,10 @@ class NewMessageEvent implements ShouldBroadcast
      */
     public $message;
     private $chat_id;
-    public function __construct($message,$chat_id)
+    public function __construct($message, $chat_id)
     {
         $this->chat_id = $chat_id;
-        $this->message=$message;
+        $this->message = $message;
     }
 
     /**
@@ -34,10 +34,11 @@ class NewMessageEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new channel('chat-'.$this->chat_id);
+        return new channel("chat-" . $this->chat_id);
     }
 
-    public function broadcastAs(){
+    public function broadcastAs()
+    {
         return "NewMessageEvent";
     }
 }

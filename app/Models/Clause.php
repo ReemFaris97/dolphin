@@ -42,11 +42,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Clause extends Model
 {
-
     use SoftDeletes;
-    protected $fillable = ['name', 'amount','user_id','default_amount','blocked_at'];
+    protected $fillable = [
+        "name",
+        "amount",
+        "user_id",
+        "default_amount",
+        "blocked_at",
+    ];
 
-    protected $appends = ['is_active'];
+    protected $appends = ["is_active"];
     public function logs()
     {
         return $this->hasMany(ClauseLog::class);
@@ -54,13 +59,15 @@ class Clause extends Model
 
     public function getIsActiveAttribute()
     {
-        $log = $this->logs()->whereDate('created_at', Carbon::today())->count();
+        $log = $this->logs()
+            ->whereDate("created_at", Carbon::today())
+            ->count();
 
         return !!!$log;
     }
 
-    public function user(){
-        return $this->belongsTo(User::class,'user_id');
+    public function user()
+    {
+        return $this->belongsTo(User::class, "user_id");
     }
-
 }

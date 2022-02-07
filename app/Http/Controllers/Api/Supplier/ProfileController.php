@@ -12,25 +12,28 @@ class ProfileController extends Controller
 {
     use ApiResponses;
 
-    public function reset_password(Request $request){
-
+    public function reset_password(Request $request)
+    {
         $rules = [
-            'old_password'      =>'required|string',
-            'password'   =>'required|string|max:191',
+            "old_password" => "required|string",
+            "password" => "required|string|max:191",
         ];
-        $validation=$this->apiValidation($request,$rules);
-        if($validation instanceof Response)return $validation;
+        $validation = $this->apiValidation($request, $rules);
+        if ($validation instanceof Response) {
+            return $validation;
+        }
         $user = User::find(auth()->id());
 
-        if(!\Hash::check($request->old_password,$user->password)){
-            return $this->apiResponse("","كلمة المرور القديمة غير صحيحة",false);
-        }
-        else{
-            $user->password  = \Hash::make($request->password);
+        if (!\Hash::check($request->old_password, $user->password)) {
+            return $this->apiResponse(
+                "",
+                "كلمة المرور القديمة غير صحيحة",
+                false
+            );
+        } else {
+            $user->password = \Hash::make($request->password);
             $user->save();
-            return $this->apiResponse("","تم تغيير كلمة المرور بنجاح");
+            return $this->apiResponse("", "تم تغيير كلمة المرور بنجاح");
         }
-
-
     }
 }

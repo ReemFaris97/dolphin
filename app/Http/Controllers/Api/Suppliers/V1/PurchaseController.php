@@ -10,16 +10,27 @@ use Illuminate\Http\Request;
 
 class PurchaseController extends Controller
 {
-
     public function index()
     {
-        $user=auth()->user();
-        return \responder::success(new BaseCollection($user->supplier->purchases()->latest()->withCount('items')->paginate(10),PurchaseResource::class));
+        $user = auth()->user();
+        return \responder::success(
+            new BaseCollection(
+                $user->supplier
+                    ->purchases()
+                    ->latest()
+                    ->withCount("items")
+                    ->paginate(10),
+                PurchaseResource::class
+            )
+        );
     }
 
     public function show($id)
     {
-        $purchase=AccountingPurchase::findOrFail($id);
-        return view('AccountingSystem.purchases.print')->with('purchase',$purchase);
+        $purchase = AccountingPurchase::findOrFail($id);
+        return view("AccountingSystem.purchases.print")->with(
+            "purchase",
+            $purchase
+        );
     }
 }

@@ -14,10 +14,11 @@ class DistributorTransactionObserver
     }
     public function updating(DistributorTransaction $distributorTransaction)
     {
-
-        if ($distributorTransaction->isDirty('received_at') && $distributorTransaction->received_at != null) {
-
+        if (
+            $distributorTransaction->isDirty("received_at") &&
+            $distributorTransaction->received_at != null
+        ) {
             event(new DistributorTransactionReceived($distributorTransaction));
-        };
+        }
     }
 }

@@ -13,7 +13,7 @@ use App\Traits\Viewable;
 class ExpenditureClausesController extends Controller
 {
     use Viewable;
-    private $viewable = 'distributor.expenditureClauses.';
+    private $viewable = "distributor.expenditureClauses.";
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +22,7 @@ class ExpenditureClausesController extends Controller
     public function index()
     {
         $expenditureClauses = ExpenditureClause::all();
-        return $this->toIndex(compact('expenditureClauses'));
+        return $this->toIndex(compact("expenditureClauses"));
     }
 
     /**
@@ -32,8 +32,8 @@ class ExpenditureClausesController extends Controller
      */
     public function create()
     {
-        $expenditure_types=ExpenditureType::pluck('name', 'id');
-        return $this->toCreate(compact('expenditure_types'));
+        $expenditure_types = ExpenditureType::pluck("name", "id");
+        return $this->toCreate(compact("expenditure_types"));
     }
 
     /**
@@ -45,17 +45,16 @@ class ExpenditureClausesController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name'=>'required|string|max:191',
-            'expenditure_type_id'=>'nullable|required_if:type,0',
-            'type'=>'required|boolean',
-            'payable_id'=>'required',
-            'payable_type'=>'required',
-
+            "name" => "required|string|max:191",
+            "expenditure_type_id" => "nullable|required_if:type,0",
+            "type" => "required|boolean",
+            "payable_id" => "required",
+            "payable_type" => "required",
         ];
         $this->validate($request, $rules);
         ExpenditureClause::create($request->all());
-        toast('تم الإضافة بنجاح', 'success', 'top-right');
-        return redirect()->route('distributor.expenditureClauses.index');
+        toast("تم الإضافة بنجاح", "success", "top-right");
+        return redirect()->route("distributor.expenditureClauses.index");
     }
 
     /**
@@ -77,10 +76,10 @@ class ExpenditureClausesController extends Controller
      */
     public function edit($id)
     {
-        $expenditureClause =ExpenditureClause::findOrFail($id);
-        $expenditure_types=ExpenditureType::pluck('name', 'id');
+        $expenditureClause = ExpenditureClause::findOrFail($id);
+        $expenditure_types = ExpenditureType::pluck("name", "id");
 
-        return $this->toEdit(compact('expenditureClause', 'expenditure_types'));
+        return $this->toEdit(compact("expenditureClause", "expenditure_types"));
     }
 
     /**
@@ -95,13 +94,13 @@ class ExpenditureClausesController extends Controller
         $expenditureClause = ExpenditureClause::findOrFail($id);
 
         $rules = [
-            'name'=>'required|string|max:191',
-            'expenditure_type_id'=>'required',
+            "name" => "required|string|max:191",
+            "expenditure_type_id" => "required",
         ];
         $this->validate($request, $rules);
         $expenditureClause->update($request->all());
-        toast('تم التعديل بنجاح', 'success', 'top-right');
-        return redirect()->route('distributor.expenditureClauses.index');
+        toast("تم التعديل بنجاح", "success", "top-right");
+        return redirect()->route("distributor.expenditureClauses.index");
     }
 
     /**
@@ -112,30 +111,28 @@ class ExpenditureClausesController extends Controller
      */
     public function destroy($id)
     {
-        $expenditureClause  = ExpenditureClause::find($id);
+        $expenditureClause = ExpenditureClause::find($id);
 
         $expenditureClause->delete();
-        toast('تم الحذف بنجاح', 'success', 'top-right');
+        toast("تم الحذف بنجاح", "success", "top-right");
         return back();
     }
     public function active($id)
     {
-        $expenditureClause =ExpenditureClause::find($id);
+        $expenditureClause = ExpenditureClause::find($id);
         $expenditureClause->update([
-            'is_active' => '1'
+            "is_active" => "1",
         ]);
-        toast('تم تفعيل البند', 'success', 'top-right');
+        toast("تم تفعيل البند", "success", "top-right");
 
         return back();
     }
 
-
     public function disactive($id)
     {
-        $expenditureClause =ExpenditureClause::find($id);
-        $expenditureClause->update(['is_active' => '0'
-        ]);
-        toast('تم الغاء تفعيل بند الصرف', 'success', 'top-right');
+        $expenditureClause = ExpenditureClause::find($id);
+        $expenditureClause->update(["is_active" => "0"]);
+        toast("تم الغاء تفعيل بند الصرف", "success", "top-right");
 
         return back();
     }

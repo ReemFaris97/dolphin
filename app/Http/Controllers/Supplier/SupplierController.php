@@ -12,7 +12,7 @@ use App\Traits\Viewable;
 class SupplierController extends Controller
 {
     use Viewable;
-    private $viewable = 'suppliers.suppliers.';
+    private $viewable = "suppliers.suppliers.";
     /**
      * Display a listing of the resource.
      *
@@ -20,16 +20,22 @@ class SupplierController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->has('is_verified') && $request->is_verified == 0){
-            $suppliers = User::where('is_supplier',1)->where('parent_user_id','!=',Null)->where('is_verified',0)->get()->reverse();
-        }else{
-            $suppliers = User::where('is_supplier',1)->where('parent_user_id','!=',Null)->where('is_verified',1)->get()->reverse();
+        if ($request->has("is_verified") && $request->is_verified == 0) {
+            $suppliers = User::where("is_supplier", 1)
+                ->where("parent_user_id", "!=", null)
+                ->where("is_verified", 0)
+                ->get()
+                ->reverse();
+        } else {
+            $suppliers = User::where("is_supplier", 1)
+                ->where("parent_user_id", "!=", null)
+                ->where("is_verified", 1)
+                ->get()
+                ->reverse();
         }
 
-        return $this->toIndex(compact('suppliers'));
+        return $this->toIndex(compact("suppliers"));
     }
-
-
 
     /**
      * Show the form for creating a new resource.
@@ -38,9 +44,8 @@ class SupplierController extends Controller
      */
     public function create()
     {
-
-        $banks=Bank::pluck('name','id')->toArray();
-        return $this->toCreate(compact('banks'));
+        $banks = Bank::pluck("name", "id")->toArray();
+        return $this->toCreate(compact("banks"));
     }
 
     /**
@@ -52,27 +57,27 @@ class SupplierController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name'=>'required|string|max:191',
-            'phone'=>'required|numeric|unique:users,phone',
-            'email'=>'required|string|unique:users,email',
-            'password'=>'required|string|confirmed|max:191',
-            'image'=>'nullable|sometimes|image',
-
+            "name" => "required|string|max:191",
+            "phone" => "required|numeric|unique:users,phone",
+            "email" => "required|string|unique:users,email",
+            "password" => "required|string|confirmed|max:191",
+            "image" => "nullable|sometimes|image",
         ];
 
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
 
-        $requests = $request->except('image');
-        if ($request->hasFile('image')) {
-            $requests['image'] = saveImage($request->image, 'users');
+        $requests = $request->except("image");
+        if ($request->hasFile("image")) {
+            $requests["image"] = saveImage($request->image, "users");
         }
-        $requests['is_supplier'] = 1;
-        $requests['is_verified'] = 1;
+        $requests["is_supplier"] = 1;
+        $requests["is_verified"] = 1;
         User::create($requests);
 
-
-        alert()->success('تم الاضافة   بنجاح !')->autoclose(5000);
-        return redirect()->route('supplier.suppliers.index');
+        alert()
+            ->success("تم الاضافة   بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("supplier.suppliers.index");
     }
 
     /**
@@ -84,7 +89,7 @@ class SupplierController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
-        return $this->toShow(compact('user'));
+        return $this->toShow(compact("user"));
     }
 
     /**
@@ -96,8 +101,8 @@ class SupplierController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        $banks=Bank::pluck('name','id')->toArray();
-        return $this->toEdit(compact('user','banks'));
+        $banks = Bank::pluck("name", "id")->toArray();
+        return $this->toEdit(compact("user", "banks"));
     }
 
     /**
@@ -112,25 +117,34 @@ class SupplierController extends Controller
         $user = User::findOrFail($id);
 
         $rules = [
-            'name'=>'required|string|max:191',
-            'phone'=>'required|numeric|unique:users,phone,'.$user->id,
-            'email'=>'required|string|unique:users,email,'.$user->id,
+            "name" => "required|string|max:191",
+            "phone" => "required|numeric|unique:users,phone," . $user->id,
+            "email" => "required|string|unique:users,email," . $user->id,
         ];
-        $this->validate($request,$rules);
-        $requests = $request->except('image','password');
-        if ($request->hasFile('image')) {
-            $requests['image'] = saveImage($request->image, 'users');
+        $this->validate($request, $rules);
+        $requests = $request->except("image", "password");
+        if ($request->hasFile("image")) {
+            $requests["image"] = saveImage($request->image, "users");
         }
 
-        if ($request->password != null && !\Hash::check($request->old_password, $user->password)) {
-            return back()->withInput()->withErrors(['old_password' => 'كلمه المرور القديمه غير صحيحه']);
+        if (
+            $request->password != null &&
+            !\Hash::check($request->old_password, $user->password)
+        ) {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    "old_password" => "كلمه المرور القديمه غير صحيحه",
+                ]);
         }
         $user->fill($requests);
-//        $user->syncPermissions($request->permissions);
+        //        $user->syncPermissions($request->permissions);
         $user->save();
-        alert()->success('تم التعديل   بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم التعديل   بنجاح !")
+            ->autoclose(5000);
 
-        return redirect()->route('supplier.suppliers.index');
+        return redirect()->route("supplier.suppliers.index");
     }
 
     /**
@@ -141,12 +155,14 @@ class SupplierController extends Controller
      */
     public function destroy($id)
     {
-//        if (!auth()->user()->hasPermissionTo('delete_workers')) {
-//            return abort(401);
-//        }
+        //        if (!auth()->user()->hasPermissionTo('delete_workers')) {
+        //            return abort(401);
+        //        }
 
         User::find($id)->forceDelete();
-        alert()->success('تم الحذف   بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم الحذف   بنجاح !")
+            ->autoclose(5000);
 
         return back();
     }
@@ -157,12 +173,16 @@ class SupplierController extends Controller
 
         $blocked_at = $user->blocked_at;
         if ($blocked_at == null) {
-            $user->fill(['blocked_at' => Carbon::now(env('TIME_ZONE','Asia/Riyadh'))]);
+            $user->fill([
+                "blocked_at" => Carbon::now(env("TIME_ZONE", "Asia/Riyadh")),
+            ]);
         } else {
-            $user->fill(['blocked_at' => null]);
+            $user->fill(["blocked_at" => null]);
         }
         $user->save();
-        alert()->success('تم التعديل   بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم التعديل   بنجاح !")
+            ->autoclose(5000);
         return back();
     }
     public function verify($id)
@@ -170,7 +190,9 @@ class SupplierController extends Controller
         $user = User::find($id);
         $user->is_verified = 1;
         $user->save();
-        alert()->success('تم التفعيل  بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم التفعيل  بنجاح !")
+            ->autoclose(5000);
         return back();
     }
 }

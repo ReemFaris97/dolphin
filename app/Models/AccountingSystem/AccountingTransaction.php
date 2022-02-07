@@ -2,7 +2,6 @@
 
 namespace App\Models\AccountingSystem;
 
-
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -36,18 +35,23 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  */
 class AccountingTransaction extends Model
-
 {
-    protected  $table='accounting_transactions';
-    protected $fillable = ['product_id','request_id','quantity','cost','price'];
+    protected $table = "accounting_transactions";
+    protected $fillable = [
+        "product_id",
+        "request_id",
+        "quantity",
+        "cost",
+        "price",
+    ];
 
     public function product()
     {
-        return $this->belongsTo(AccountingProduct::class,'product_id');
+        return $this->belongsTo(AccountingProduct::class, "product_id");
     }
 
     public function request()
     {
-        return $this->belongsTo(AccountingSroreRequest::class,'request_id');
+        return $this->belongsTo(AccountingSroreRequest::class, "request_id");
     }
 }

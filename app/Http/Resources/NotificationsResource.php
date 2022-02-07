@@ -6,8 +6,6 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class NotificationsResource extends ResourceCollection
 {
-
-
     /**
      * Transform the resource collection into an array.
      *
@@ -17,32 +15,31 @@ class NotificationsResource extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'notifications'=>$this->collection->transform(function ($q){
+            "notifications" => $this->collection->transform(function ($q) {
                 return [
-                    'id'=>$q->id,
-                    'type'=>$q->type,
-                    'title'=>"هناك اشعار جديد",
-                    'message'=>$q->data['message'],
-                    'item_id'=>$q->data['item_id'],
+                    "id" => $q->id,
+                    "type" => $q->type,
+                    "title" => "هناك اشعار جديد",
+                    "message" => $q->data["message"],
+                    "item_id" => $q->data["item_id"],
                 ];
             }),
-            'paginate'=>[
-                'total' => $this->total(),
-                'count' => $this->count(),
-                'per_page' => $this->perPage(),
-                'next_page_url'=>$this->nextPageUrl(),
-                'prev_page_url'=>$this->previousPageUrl(),
-                'current_page' => $this->currentPage(),
-                'total_pages' => $this->lastPage()
-            ]
-
+            "paginate" => [
+                "total" => $this->total(),
+                "count" => $this->count(),
+                "per_page" => $this->perPage(),
+                "next_page_url" => $this->nextPageUrl(),
+                "prev_page_url" => $this->previousPageUrl(),
+                "current_page" => $this->currentPage(),
+                "total_pages" => $this->lastPage(),
+            ],
         ];
     }
 
     public function withResponse($request, $response)
     {
         $originalContent = $response->getOriginalContent();
-        unset($originalContent['links'],$originalContent['meta']);
+        unset($originalContent["links"], $originalContent["meta"]);
         $response->setData($originalContent);
     }
 }

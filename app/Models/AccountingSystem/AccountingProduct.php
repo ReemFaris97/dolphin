@@ -111,19 +111,52 @@ use Illuminate\Database\Eloquent\Model;
  */
 class AccountingProduct extends Model
 {
-    protected $fillable = ['name', 'en_name', 'description', 'type', 'is_active', 'category_id',
-        'column_id', 'bar_code', 'main_unit', 'selling_price', 'purchasing_price', 'min_quantity',
-        'max_quantity', 'expired_at', 'image', 'store_id','price_has_tax'
-        , 'size', 'color', 'height', 'width', 'num_days_recession', 'industrial_id', 'quantity', 'unit_price',
-        'is_settlement', 'date_settlement', 'settlement_store_id', 'cell_id', 'alert_duration', 'supplier_id', 'account_id','discount'
-
+    protected $fillable = [
+        "name",
+        "en_name",
+        "description",
+        "type",
+        "is_active",
+        "category_id",
+        "column_id",
+        "bar_code",
+        "main_unit",
+        "selling_price",
+        "purchasing_price",
+        "min_quantity",
+        "max_quantity",
+        "expired_at",
+        "image",
+        "store_id",
+        "price_has_tax",
+        "size",
+        "color",
+        "height",
+        "width",
+        "num_days_recession",
+        "industrial_id",
+        "quantity",
+        "unit_price",
+        "is_settlement",
+        "date_settlement",
+        "settlement_store_id",
+        "cell_id",
+        "alert_duration",
+        "supplier_id",
+        "account_id",
+        "discount",
     ];
-    protected $appends = ['total_taxes', 'total_discounts', 'text'];
-    protected $casts = ['bar_code' => 'json'];
+    protected $appends = ["total_taxes", "total_discounts", "text"];
+    protected $casts = ["bar_code" => "json"];
 
     public function components()
     {
-        return $this->belongsToMany(AccountingProduct::class, AccountingProductComponent::class, 'product_id', 'component_id');
+        return $this->belongsToMany(
+            AccountingProduct::class,
+            AccountingProductComponent::class,
+            "product_id",
+            "component_id"
+        );
     }
 
     public function getTextAttribute()
@@ -133,58 +166,67 @@ class AccountingProduct extends Model
 
     public function cell_product()
     {
-        return $this->belongsTo(AccountingColumnCell::class, 'cell_id');
+        return $this->belongsTo(AccountingColumnCell::class, "cell_id");
     }
 
     public function cell()
     {
-        return $this->belongsTo(AccountingColumnCell::class, 'cell_id');
+        return $this->belongsTo(AccountingColumnCell::class, "cell_id");
     }
     public function store()
     {
-        return $this->belongsTo(AccountingStore::class, 'store_id');
+        return $this->belongsTo(AccountingStore::class, "store_id");
     }
     public function stores()
     {
-        return $this->belongsToMany(AccountingStore::class, 'accounting_product_stores', 'product_id', 'store_id');
+        return $this->belongsToMany(
+            AccountingStore::class,
+            "accounting_product_stores",
+            "product_id",
+            "store_id"
+        );
     }
     public function storeSettlement()
     {
-        return $this->belongsTo(AccountingStore::class, 'settlement_store_id');
+        return $this->belongsTo(AccountingStore::class, "settlement_store_id");
     }
     public function category()
     {
-        return $this->belongsTo(AccountingProductCategory::class, 'category_id');
+        return $this->belongsTo(
+            AccountingProductCategory::class,
+            "category_id"
+        );
     }
     public function barcodes()
     {
-        return $this->hasMany(AccountingProductBarcode::class, 'product_id');
+        return $this->hasMany(AccountingProductBarcode::class, "product_id");
     }
 
     public function ProductComponent()
     {
-//        return $this->belongsToMany(AccountingProduct::class,AccountingProductComponent::class);
+        //        return $this->belongsToMany(AccountingProduct::class,AccountingProductComponent::class);
     }
-
-
 
     public function getTotalTaxesAttribute()
     {
-        $taxs=AccountingProductTax::where('product_id', $this->id)->get();
+        $taxs = AccountingProductTax::where("product_id", $this->id)->get();
         $total = 0;
         foreach ($taxs as $tax) {
-            $total+=optional($tax->Taxband)->percent;
+            $total += optional($tax->Taxband)->percent;
         }
         return $total;
     }
 
     public function getTotalQuantities()
     {
-        $units=AccountingProductSubUnit::where('product_id', $this->id)->get();
+        $units = AccountingProductSubUnit::where(
+            "product_id",
+            $this->id
+        )->get();
         $totalQuantity = 0;
         foreach ($units as $unit) {
             try {
-                $totalQuantity+=$unit->quantity*$unit->main_unit_present;
+                $totalQuantity += $unit->quantity * $unit->main_unit_present;
             } catch (\Exception $e) {
                 //انا اسف والله
             }
@@ -192,25 +234,32 @@ class AccountingProduct extends Model
         return $totalQuantity + $this->quantity;
     }
 
-
     public function account()
     {
-        return $this->belongsTo(AccountingAccount::class, 'account_id');
+        return $this->belongsTo(AccountingAccount::class, "account_id");
     }
 
     public function tax()
     {
-        return $this->belongsToMany(AccountingTaxBand::class, AccountingProductTax::class, 'product_id', 'tax_band_id');
+        return $this->belongsToMany(
+            AccountingTaxBand::class,
+            AccountingProductTax::class,
+            "product_id",
+            "tax_band_id"
+        );
     }
 
     public function discounts()
     {
-        return $this->hasMany(AccountingProductDiscount::class, 'product_id');
+        return $this->hasMany(AccountingProductDiscount::class, "product_id");
     }
 
     public function getTotalDiscountsAttribute()
     {
-        $discounts = AccountingProductDiscount::where('product_id', $this->id)->get();
+        $discounts = AccountingProductDiscount::where(
+            "product_id",
+            $this->id
+        )->get();
         $total = 0;
         foreach ($discounts as $discount) {
             $total += $discount->percent;
@@ -218,101 +267,108 @@ class AccountingProduct extends Model
         return $total;
     }
 
-
     public function items()
     {
-        return $this->hasMany(AccountingSaleItem::class, 'product_id');
+        return $this->hasMany(AccountingSaleItem::class, "product_id");
     }
 
     public function purchase()
     {
-        return $this->hasMany(AccountingPurchaseItem::class, 'product_id');
+        return $this->hasMany(AccountingPurchaseItem::class, "product_id");
     }
 
     public function damage()
     {
-        return $this->hasMany(AccountingDamageProduct::class, 'product_id');
+        return $this->hasMany(AccountingDamageProduct::class, "product_id");
     }
 
     public function quantity()
     {
-        return $this->hasMany(AccountingProductStore::class, 'product_id')->sum('quantity');
+        return $this->hasMany(AccountingProductStore::class, "product_id")->sum(
+            "quantity"
+        );
     }
     public function sold_items()
     {
         return $this->hasManyThrough(
             AccountingSale::class,
             AccountingSaleItem::class,
-            'product_id',
-            'sale_id'
+            "product_id",
+            "sale_id"
         )->latest();
     }
 
     public function sub_units()
     {
-        return $this->hasMany(AccountingProductSubUnit::class, 'product_id');
+        return $this->hasMany(AccountingProductSubUnit::class, "product_id");
     }
 
     public function sales()
     {
-        return $this->hasMany(AccountingSaleItem::class)->whereHas('sale', function ($q) {
-            $q->where('store_id', 1);
-        });
+        return $this->hasMany(AccountingSaleItem::class)->whereHas(
+            "sale",
+            function ($q) {
+                $q->where("store_id", 1);
+            }
+        );
     }
-    public function store_quantity($store_id=null)
+    public function store_quantity($store_id = null)
     {
-        $quantity=AccountingProductStore::where('store_id', $store_id)->where('product_id', $this->id)->sum('quantity');
+        $quantity = AccountingProductStore::where("store_id", $store_id)
+            ->where("product_id", $this->id)
+            ->sum("quantity");
         return $quantity;
     }
 
-    public function scopeOfBarcode($builder, ?string $barcode=null)
+    public function scopeOfBarcode($builder, ?string $barcode = null)
     {
-        $builder->whereJsonContains('bar_code', $barcode);
+        $builder->whereJsonContains("bar_code", $barcode);
         $builder->orwhereHas(
-            'sub_units',
-            fn ($b) => $b->whereJsonContains('bar_code', $barcode)
+            "sub_units",
+            fn($b) => $b->whereJsonContains("bar_code", $barcode)
         );
     }
 
     public function scopeCreation()
     {
-        return $this->where('type', 'creation');
+        return $this->where("type", "creation");
     }
 
     public function suppliers()
     {
-        return $this->belongsToMany(AccountingSupplier::class, SupplierProduct::class);
+        return $this->belongsToMany(
+            AccountingSupplier::class,
+            SupplierProduct::class
+        );
     }
 
-    public function scopeForSales(Builder $builder, $from, $to):void
+    public function scopeForSales(Builder $builder, $from, $to): void
     {
-        $builder->whereHas('items', fn ($q) =>$q->inPeriod($from, $to));
-        $builder->with(['items' =>fn ($q) =>$q->inPeriod($from, $to)]);
+        $builder->whereHas("items", fn($q) => $q->inPeriod($from, $to));
+        $builder->with(["items" => fn($q) => $q->inPeriod($from, $to)]);
     }
 
-    public function scopeForPurchase(Builder $builder, $from, $to):void
+    public function scopeForPurchase(Builder $builder, $from, $to): void
     {
-        $builder->whereHas('purchase', fn ($q) =>$q->inPeriod($from, $to));
-        $builder->with('purchase', fn ($q) =>$q->inPeriod($from, $to));
+        $builder->whereHas("purchase", fn($q) => $q->inPeriod($from, $to));
+        $builder->with("purchase", fn($q) => $q->inPeriod($from, $to));
     }
 
-    public function scopeForDamage(Builder $builder, $from, $to):void
+    public function scopeForDamage(Builder $builder, $from, $to): void
     {
-        $builder->whereHas('damage', fn ($q) =>$q->inPeriod($from, $to));
-        $builder->with('damage', fn ($q) =>$q->inPeriod($from, $to));
+        $builder->whereHas("damage", fn($q) => $q->inPeriod($from, $to));
+        $builder->with("damage", fn($q) => $q->inPeriod($from, $to));
     }
 
     public function scopeHaveMovementBetween(Builder $builder, $from, $to)
     {
-        $builder->where(fn ($q) =>$q->ForSales($from, $to))   ;
-        $builder->orWhere(fn ($q) =>$q->ForPurchase($from, $to))   ;
+        $builder->where(fn($q) => $q->ForSales($from, $to));
+        $builder->orWhere(fn($q) => $q->ForPurchase($from, $to));
         // $builder->orWhere(fn ($q) =>$q->ForDamage($from, $to))   ;
         $builder->with([
-            'items' =>fn ($q) =>$q->inPeriod($from, $to),
+            "items" => fn($q) => $q->inPeriod($from, $to),
             // 'damage' =>fn ($q) =>$q->inPeriod($from, $to),
-            'purchase' =>fn ($q) =>$q->inPeriod($from, $to)
+            "purchase" => fn($q) => $q->inPeriod($from, $to),
         ]);
     }
-
-
 }

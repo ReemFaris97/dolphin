@@ -29,36 +29,39 @@ use JWTAuth;
 use Validator;
 use Illuminate\Http\Response;
 
-
 class SearchController extends Controller
 {
     use ApiResponses;
-    public function chatSearch(){
-        $this->apiValidation(\request(),[
-            'name'=>'required|string',
+    public function chatSearch()
+    {
+        $this->apiValidation(\request(), [
+            "name" => "required|string",
         ]);
-        $users = User::where('id', '!=', auth()->user()->id)->SearchByName()
+        $users = User::where("id", "!=", auth()->user()->id)
+            ->SearchByName()
             ->paginate($this->paginateNumber);
         return $this->apiResponse(new InboxResource($users));
     }
-    public function taskSearch(){
-        $this->apiValidation(\request(),[
-            'name'=>'required|string',
+    public function taskSearch()
+    {
+        $this->apiValidation(\request(), [
+            "name" => "required|string",
         ]);
-        $tasks=Task::query();
-        if(auth()->user()->is_admin) {
+        $tasks = Task::query();
+        if (auth()->user()->is_admin) {
             auth()->user()->id = null;
-        }else{
-            $tasks_ids = User::find(auth()->user()->id)->tasks->pluck('task_id');
-            $tasks=$tasks->whereIn('id',$tasks_ids);
+        } else {
+            $tasks_ids = User::find(auth()->user()->id)->tasks->pluck(
+                "task_id"
+            );
+            $tasks = $tasks->whereIn("id", $tasks_ids);
         }
 
-
-//       dd($tasks_ids);
-        $tasks=$tasks->where(function ($q){
-            $q->where('name','Like','%'.\request('name'));
-               $q->orwhere('name','Like','%'.\request('name').'%');
-              $q->orwhere('name','Like',\request('name'));
+        //       dd($tasks_ids);
+        $tasks = $tasks->where(function ($q) {
+            $q->where("name", "Like", "%" . \request("name"));
+            $q->orwhere("name", "Like", "%" . \request("name") . "%");
+            $q->orwhere("name", "Like", \request("name"));
         });
 
         $tasks = $tasks->paginate($this->paginateNumber);

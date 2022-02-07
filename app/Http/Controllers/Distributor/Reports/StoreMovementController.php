@@ -13,12 +13,12 @@ class StoreMovementController extends Controller
 {
     public function __construct()
     {
-        view()->share('stores', Store::query()->pluck('name', 'id'));
-        view()->share('products', Product::query()->pluck('name', 'id'));
+        view()->share("stores", Store::query()->pluck("name", "id"));
+        view()->share("products", Product::query()->pluck("name", "id"));
     }
     public function index(Request $request)
     {
-        return view('distributor.reports.store_movment_report.index');
+        return view("distributor.reports.store_movment_report.index");
     }
 
     /**
@@ -32,18 +32,20 @@ class StoreMovementController extends Controller
 FilterWithProduct
 FilterWithStore */
 
-
-        return view('distributor.reports.store_movment_report.show', [
-            'store_products' => ProductQuantity::filterWithDates($request->from_date, $request->to_date)
+        return view("distributor.reports.store_movment_report.show", [
+            "store_products" => ProductQuantity::filterWithDates(
+                $request->from_date,
+                $request->to_date
+            )
                 ->FilterWithProduct($request->product_id)
                 ->FilterWithStore($request->store_id)
                 ->with(
-                    'product',
-                    'distributor',
-                    'store',
-                    'store_transfer_request'
-                )->get()
+                    "product",
+                    "distributor",
+                    "store",
+                    "store_transfer_request"
+                )
+                ->get(),
         ]);
     }
-
 }

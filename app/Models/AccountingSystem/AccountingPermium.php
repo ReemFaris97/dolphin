@@ -29,16 +29,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class AccountingPermium extends Model
 {
-
-
-    protected $fillable = ['client_id','amount','Benefit','total','premium_value','premium_period','premium_number'
+    protected $fillable = [
+        "client_id",
+        "amount",
+        "Benefit",
+        "total",
+        "premium_value",
+        "premium_period",
+        "premium_number",
     ];
-    protected $table='accounting_packages';
-
-
+    protected $table = "accounting_packages";
 
     public function client()
     {
-        return $this->belongsTo(AccountingClient::class,'client_id');
+        return $this->belongsTo(AccountingClient::class, "client_id");
     }
 }

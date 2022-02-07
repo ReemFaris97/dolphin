@@ -12,7 +12,7 @@ use App\Traits\Viewable;
 class StoreCategoriesController extends Controller
 {
     use Viewable;
-    private $viewable = 'distributor.storeCategories.';
+    private $viewable = "distributor.storeCategories.";
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +21,7 @@ class StoreCategoriesController extends Controller
     public function index()
     {
         $categories = StoreCategory::all()->reverse();
-        return $this->toIndex(compact('categories'));
+        return $this->toIndex(compact("categories"));
     }
 
     /**
@@ -42,12 +42,11 @@ class StoreCategoriesController extends Controller
      */
     public function store(Request $request)
     {
-//        $rules = ;
-        $this->validate($request,['name'=>'required|string|max:191']);
+        //        $rules = ;
+        $this->validate($request, ["name" => "required|string|max:191"]);
         StoreCategory::create($request->all());
-        toast('تم الاضافه بنجاح', 'success', 'top-right');
-        return redirect()->route('distributor.store_categories.index');
-
+        toast("تم الاضافه بنجاح", "success", "top-right");
+        return redirect()->route("distributor.store_categories.index");
     }
 
     /**
@@ -70,7 +69,7 @@ class StoreCategoriesController extends Controller
     public function edit($id)
     {
         $category = StoreCategory::findOrFail($id);
-        return $this->toEdit(compact('category'));
+        return $this->toEdit(compact("category"));
     }
 
     /**
@@ -83,11 +82,10 @@ class StoreCategoriesController extends Controller
     public function update(Request $request, $id)
     {
         $category = StoreCategory::find($id);
-        $this->validate($request,['name'=>'required|string|max:191']);
+        $this->validate($request, ["name" => "required|string|max:191"]);
         $category->update($request->all());
-        toast('تم التعديل بنجاح','success','top-right');
-        return redirect()->route('distributor.store_categories.index');
-
+        toast("تم التعديل بنجاح", "success", "top-right");
+        return redirect()->route("distributor.store_categories.index");
     }
 
     /**
@@ -99,18 +97,15 @@ class StoreCategoriesController extends Controller
     public function destroy($id)
     {
         $category = StoreCategory::find($id);
-        if($category->stores->count() > 0){
-            toast('لا يمكن حذف نوع لديه مستوعات', 'error', 'top-right');
+        if ($category->stores->count() > 0) {
+            toast("لا يمكن حذف نوع لديه مستوعات", "error", "top-right");
             return back();
-        }else{
+        } else {
             $category->delete();
-            toast('تم الحذف بنجاح', 'success', 'top-right');
+            toast("تم الحذف بنجاح", "success", "top-right");
             return back();
         }
-
     }
-
-
 
     public function block($id)
     {
@@ -118,12 +113,14 @@ class StoreCategoriesController extends Controller
 
         $blocked_at = $store_category->blocked_at;
         if ($blocked_at == null) {
-            $store_category->fill(['blocked_at' => Carbon::now(env('TIME_ZONE', 'Asia/Riyadh'))]);
+            $store_category->fill([
+                "blocked_at" => Carbon::now(env("TIME_ZONE", "Asia/Riyadh")),
+            ]);
         } else {
-            $store_category->fill(['blocked_at' => null]);
+            $store_category->fill(["blocked_at" => null]);
         }
         $store_category->save();
-        toast('تم التعديل', 'success', 'top-right');
+        toast("تم التعديل", "success", "top-right");
         return back();
     }
 }

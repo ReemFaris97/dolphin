@@ -35,8 +35,16 @@ use Illuminate\Support\Str;
  */
 class AccountingProductSubUnit extends Model
 {
-    protected $table='accounting_products_subUnits';
-    protected $fillable = ['name','product_id','bar_code','main_unit_present','selling_price','purchasing_price','quantity'];
+    protected $table = "accounting_products_subUnits";
+    protected $fillable = [
+        "name",
+        "product_id",
+        "bar_code",
+        "main_unit_present",
+        "selling_price",
+        "purchasing_price",
+        "quantity",
+    ];
 
     /**
      * The attributes that should be cast to native types.
@@ -44,20 +52,20 @@ class AccountingProductSubUnit extends Model
      * @var array
      */
     protected $casts = [
-        'bar_code' => 'array',
+        "bar_code" => "array",
     ];
-    public function scopeOfBarcode($builder, $barcode=null)
+    public function scopeOfBarcode($builder, $barcode = null)
     {
-        if ($barcode!=null) {
-            $builder->whereJsonContains('bar_code', $barcode);
+        if ($barcode != null) {
+            $builder->whereJsonContains("bar_code", $barcode);
         }
     }
     public function quantityInMainUnit($quantity)
     {
-        return $quantity*($this->main_unit_present??1);
+        return $quantity * ($this->main_unit_present ?? 1);
     }
     public function priceInMainUnit($price)
     {
-        return  $price/($this->main_unit_present??1);
+        return $price / ($this->main_unit_present ?? 1);
     }
 }

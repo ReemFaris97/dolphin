@@ -28,12 +28,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class SupplierTransaction extends Model
 {
-    protected $guarded = ['id'];
+    protected $guarded = ["id"];
 
-    public function supplier(){
-        return $this->belongsTo(User::class,'supplier_id');
+    public function supplier()
+    {
+        return $this->belongsTo(User::class, "supplier_id");
     }
-
-
-
 }

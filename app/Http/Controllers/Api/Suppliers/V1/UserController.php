@@ -16,7 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $parent=auth()->user()->parent??auth()->user();
+        $parent = auth()->user()->parent ?? auth()->user();
         return \responder::success(UserResource::collection($parent->children));
     }
 
@@ -29,18 +29,24 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $inputs = $request->validate([
-            'name' => 'required|string',
-            'phone' => 'required|unique:suppliers_users,phone|phone:sa,eg',
-            'email' => 'required|email|unique:suppliers_users,email',
-            'password' => 'required|min:6',
-            'permissions'=>'required|array'
+            "name" => "required|string",
+            "phone" => "required|unique:suppliers_users,phone|phone:sa,eg",
+            "email" => "required|email|unique:suppliers_users,email",
+            "password" => "required|min:6",
+            "permissions" => "required|array",
         ]);
         $parent = auth()->user()->parent ?? auth()->user();
-        $inputs['supplier_id'] = $parent->supplier_id;
+        $inputs["supplier_id"] = $parent->supplier_id;
         $user = $parent->children()->create($inputs);
         activity()
             ->causedBy(auth()->user())
-            ->log(sprintf('قام %s ب %s',auth()->user()->name,"إضافة موظف {$user->name}"));
+            ->log(
+                sprintf(
+                    "قام %s ب %s",
+                    auth()->user()->name,
+                    "إضافة موظف {$user->name}"
+                )
+            );
 
         return \responder::success(new UserResource($user));
     }
@@ -66,17 +72,25 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $inputs = $request->validate([
-            'name' => 'sometimes|string',
-            'phone' => 'sometimes|phone:sa,eg|unique:suppliers_users,phone,'.$user->id,
-            'email' => 'sometimes|email|unique:suppliers_users,email,'.$user->id,
-            'password' => 'sometimes|min:6',
-            'permissions'=>'sometimes|array'
-
+            "name" => "sometimes|string",
+            "phone" =>
+                "sometimes|phone:sa,eg|unique:suppliers_users,phone," .
+                $user->id,
+            "email" =>
+                "sometimes|email|unique:suppliers_users,email," . $user->id,
+            "password" => "sometimes|min:6",
+            "permissions" => "sometimes|array",
         ]);
         $user->update($inputs);
         activity()
             ->causedBy(auth()->user())
-            ->log(sprintf('قام %s ب %s',auth()->user()->name,"تعديل موظف {$user->name}"));
+            ->log(
+                sprintf(
+                    "قام %s ب %s",
+                    auth()->user()->name,
+                    "تعديل موظف {$user->name}"
+                )
+            );
         return \responder::success(new UserResource($user));
     }
 
@@ -88,14 +102,20 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $auth=auth()->user();
-        if ($auth->id() == $user->id or $user->id==$user->parent_id){
-            return \responder::error('عفوا لايمكن المسح يرجي مراجعة المسؤل');
+        $auth = auth()->user();
+        if ($auth->id() == $user->id or $user->id == $user->parent_id) {
+            return \responder::error("عفوا لايمكن المسح يرجي مراجعة المسؤل");
         }
         activity()
             ->causedBy(auth()->user())
-            ->log(sprintf('قام %s ب %s',auth()->user()->name,"حذف موظف {$user->name}"));
+            ->log(
+                sprintf(
+                    "قام %s ب %s",
+                    auth()->user()->name,
+                    "حذف موظف {$user->name}"
+                )
+            );
         $user->delete();
-        return \responder::success('تم الحذف بنجاح !');
+        return \responder::success("تم الحذف بنجاح !");
     }
 }

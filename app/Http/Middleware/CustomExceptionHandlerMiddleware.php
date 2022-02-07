@@ -17,12 +17,12 @@ class CustomExceptionHandlerMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-//        dd('asd');
+        //        dd('asd');
         app()->singleton(
             App\Exceptions\Handler::class,
             App\Exceptions\ApiHandler::class
         );
-        auth()->shouldUse('supplier');
+        auth()->shouldUse("supplier");
         return $next($request);
     }
 }

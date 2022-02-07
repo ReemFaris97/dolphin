@@ -22,7 +22,6 @@ use Illuminate\Support\ServiceProvider;
 
 use Illuminate\Database\Eloquent\Relations\Relation;
 
-
 class ModelServiceProvider extends ServiceProvider
 {
     /**
@@ -42,15 +41,13 @@ class ModelServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
         Relation::morphMap([
-            'charges' => 'App\Models\Charge',
-            'tasks' => 'App\Models\Task',
+            "charges" => "App\Models\Charge",
+            "tasks" => "App\Models\Task",
         ]);
         TaskUser::observe(TaskUserObserver::class);
         ClauseLog::observe(clauseLogObserver::class);
         Task::observe(TaskObserver::class);
-
 
         Store::observe(StoreObserver::class);
         StoreTransferRequest::observe(StoreTransferRequestObserver::class);

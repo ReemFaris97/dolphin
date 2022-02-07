@@ -16,7 +16,7 @@ use Illuminate\Validation\Rule;
 class CellController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.cells.';
+    private $viewable = "AccountingSystem.cells.";
     /**
      * Display a listing of the resource.
      *
@@ -24,8 +24,8 @@ class CellController extends Controller
      */
     public function index()
     {
-        $cells =AccountingColumnCell::all()->reverse();
-        return $this->toIndex(compact('cells'));
+        $cells = AccountingColumnCell::all()->reverse();
+        return $this->toIndex(compact("cells"));
     }
 
     /**
@@ -35,8 +35,8 @@ class CellController extends Controller
      */
     public function create()
     {
-        $columns=AccountingFaceColumn::pluck('name', 'id')->toArray();
-        return $this->toCreate(compact('columns'));
+        $columns = AccountingFaceColumn::pluck("name", "id")->toArray();
+        return $this->toCreate(compact("columns"));
     }
 
     /**
@@ -48,17 +48,25 @@ class CellController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name'=>['required','string','max:191',
-            Rule::unique('accounting_column_cells', 'name')->where('column_id', $request->column_id)],
-            'column_id'=>'required|numeric|exists:accounting_face_columns,id',
-
+            "name" => [
+                "required",
+                "string",
+                "max:191",
+                Rule::unique("accounting_column_cells", "name")->where(
+                    "column_id",
+                    $request->column_id
+                ),
+            ],
+            "column_id" => "required|numeric|exists:accounting_face_columns,id",
         ];
         $this->validate($request, $rules);
         $requests = $request->all();
 
         AccountingColumnCell::create($requests);
-        alert()->success('تم اضافة  الصف بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.cells.index');
+        alert()
+            ->success("تم اضافة  الصف بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.cells.index");
     }
 
     /**
@@ -80,10 +88,10 @@ class CellController extends Controller
      */
     public function edit($id)
     {
-        $cell =AccountingColumnCell::findOrFail($id);
-        $columns=AccountingFaceColumn::pluck('name', 'id')->toArray();
+        $cell = AccountingColumnCell::findOrFail($id);
+        $columns = AccountingFaceColumn::pluck("name", "id")->toArray();
 
-        return $this->toEdit(compact('cell', 'columns'));
+        return $this->toEdit(compact("cell", "columns"));
     }
 
     /**
@@ -95,19 +103,26 @@ class CellController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $cell =AccountingColumnCell::findOrFail($id);
+        $cell = AccountingColumnCell::findOrFail($id);
         $rules = [
-
-            'name'=>['required','string','max:191',
-            Rule::unique('accounting_column_cells', 'name')->where('column_id', $request->column_id)->ignore($id)],
-       'column_id'=>'required|numeric|exists:accounting_face_columns,id',
+            "name" => [
+                "required",
+                "string",
+                "max:191",
+                Rule::unique("accounting_column_cells", "name")
+                    ->where("column_id", $request->column_id)
+                    ->ignore($id),
+            ],
+            "column_id" => "required|numeric|exists:accounting_face_columns,id",
         ];
         $this->validate($request, $rules);
         $requests = $request->all();
 
         $cell->update($requests);
-        alert()->success('تم تعديل  الصف بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.cells.index');
+        alert()
+            ->success("تم تعديل  الصف بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.cells.index");
     }
 
     /**
@@ -118,9 +133,11 @@ class CellController extends Controller
      */
     public function destroy($id)
     {
-        $shift =AccountingColumnCell::findOrFail($id);
+        $shift = AccountingColumnCell::findOrFail($id);
         $shift->delete();
-        alert()->success('تم حذف  الخليه بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم حذف  الخليه بنجاح !")
+            ->autoclose(5000);
         return back();
     }
 }

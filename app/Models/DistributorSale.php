@@ -21,10 +21,10 @@ class DistributorSale extends Model
      *
      * @var string
      */
-    protected $table = 'distributors_sales';
+    protected $table = "distributors_sales";
 
-    public  function product(){
+    public function product()
+    {
         return $this->belongsTo(Product::class);
     }
-
 }

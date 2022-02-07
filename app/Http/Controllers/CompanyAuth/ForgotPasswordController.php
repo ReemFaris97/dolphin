@@ -28,7 +28,7 @@ class ForgotPasswordController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('company.guest');
+        $this->middleware("company.guest");
     }
 
     /**
@@ -38,7 +38,7 @@ class ForgotPasswordController extends Controller
      */
     public function showLinkRequestForm()
     {
-        return view('company.auth.passwords.email');
+        return view("company.auth.passwords.email");
     }
 
     /**
@@ -48,6 +48,6 @@ class ForgotPasswordController extends Controller
      */
     public function broker()
     {
-        return Password::broker('companies');
+        return Password::broker("companies");
     }
 }

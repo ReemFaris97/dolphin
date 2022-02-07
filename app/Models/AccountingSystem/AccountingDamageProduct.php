@@ -31,22 +31,20 @@ use Illuminate\Database\Eloquent\Model;
  */
 class AccountingDamageProduct extends Model
 {
-    protected $fillable = ['quantity','product_id','damage_id',];
+    protected $fillable = ["quantity", "product_id", "damage_id"];
 
-
-    protected $table='accounting_damages_products';
-
+    protected $table = "accounting_damages_products";
 
     public function product()
     {
-        return $this->belongsTo(AccountingProduct::class, 'product_id');
+        return $this->belongsTo(AccountingProduct::class, "product_id");
     }
     public function damage()
     {
-        return $this->belongsTo(AccountingDamage::class, 'damage_id');
+        return $this->belongsTo(AccountingDamage::class, "damage_id");
     }
-    public function scopeInPeriod(Builder $query, $start, $end):void
+    public function scopeInPeriod(Builder $query, $start, $end): void
     {
-        $query->whereBetween(DB::raw('DATE(created_at)'), [$start, $end]);
+        $query->whereBetween(DB::raw("DATE(created_at)"), [$start, $end]);
     }
 }

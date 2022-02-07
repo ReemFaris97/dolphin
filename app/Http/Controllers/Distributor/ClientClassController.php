@@ -12,9 +12,8 @@ use Illuminate\Support\Facades\DB;
 
 class ClientClassController extends Controller
 {
-
     use Viewable;
-    private  $viewable = 'distributor.client_classes.';
+    private $viewable = "distributor.client_classes.";
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +23,7 @@ class ClientClassController extends Controller
     {
         $client_classes = ClientClass::all()->reverse();
         // dd($client_classes);
-        return $this->toIndex(compact('client_classes'));
+        return $this->toIndex(compact("client_classes"));
     }
 
     /**
@@ -34,7 +33,6 @@ class ClientClassController extends Controller
      */
     public function create()
     {
-
         return $this->toCreate();
     }
 
@@ -47,31 +45,35 @@ class ClientClassController extends Controller
     public function store(Request $request)
     {
         $rules = [
-
-            'name' => 'required|string|max:191',
-
+            "name" => "required|string|max:191",
         ];
         $this->validate($request, $rules);
 
-        $requests = $request->except('image');
-        if ($request->hasFile('image')) {
-            $requests['image'] = saveImage($request->image, 'users');
+        $requests = $request->except("image");
+        if ($request->hasFile("image")) {
+            $requests["image"] = saveImage($request->image, "users");
         }
 
         DB::beginTransaction();
         /** @var \App\Models\ClientClass  $client_class*/
         $client_class = ClientClass::query()->create($requests);
 
-        $products = Product::query()->whereDoesntHave('client_classes', function (Builder $builder) use ($client_class) {
-            $builder->where('client_class_id', $client_class->id);
-        })->get();
+        $products = Product::query()
+            ->whereDoesntHave("client_classes", function (
+                Builder $builder
+            ) use ($client_class) {
+                $builder->where("client_class_id", $client_class->id);
+            })
+            ->get();
         foreach ($products as $product) {
-            $client_class->products()->attach($product->id, ['price' => $product->price]);
+            $client_class
+                ->products()
+                ->attach($product->id, ["price" => $product->price]);
         }
         DB::commit();
 
-        toast('تم إضافة الشريحة بنجاح', 'success', 'top-right');
-        return redirect()->route('distributor.client-classes.index');
+        toast("تم إضافة الشريحة بنجاح", "success", "top-right");
+        return redirect()->route("distributor.client-classes.index");
     }
 
     /**
@@ -95,7 +97,7 @@ class ClientClassController extends Controller
     {
         $client_class = ClientClass::findOrFail($id);
 
-        return $this->toEdit(compact('client_class'));
+        return $this->toEdit(compact("client_class"));
     }
 
     /**
@@ -110,17 +112,16 @@ class ClientClassController extends Controller
         $client_class = ClientClass::find($id);
 
         $rules = [
-            'name' => 'required|string|max:191',
-
+            "name" => "required|string|max:191",
         ];
         $this->validate($request, $rules);
-        $requests = $request->except('image');
-        if ($request->hasFile('image')) {
-            $requests['image'] = saveImage($request->image, 'users');
+        $requests = $request->except("image");
+        if ($request->hasFile("image")) {
+            $requests["image"] = saveImage($request->image, "users");
         }
         $client_class->update($requests);
-        toast('تم تعديل الشريحة بنجاح', 'success', 'top-right');
-        return redirect()->route('distributor.client-classes.index');
+        toast("تم تعديل الشريحة بنجاح", "success", "top-right");
+        return redirect()->route("distributor.client-classes.index");
     }
 
     /**
@@ -132,21 +133,21 @@ class ClientClassController extends Controller
     public function destroy($id)
     {
         ClientClass::find($id)->delete();
-        toast('تم حذف  بنجاح', 'success', 'top-right');
-        return redirect()->route('distributor.client-classes.index');
+        toast("تم حذف  بنجاح", "success", "top-right");
+        return redirect()->route("distributor.client-classes.index");
     }
 
     public function changeStatus($id)
     {
         $item = ClientClass::find($id);
         if ($item->is_active == 1) {
-            $item->update(['is_active' => 0]);
-            toast('تم إلغاء التفعيل بنجاح', 'success', 'top-right');
-            return redirect()->route('distributor.client-classes.index');
+            $item->update(["is_active" => 0]);
+            toast("تم إلغاء التفعيل بنجاح", "success", "top-right");
+            return redirect()->route("distributor.client-classes.index");
         } else {
-            $item->update(['is_active' => 1]);
-            toast('تم  التفعيل بنجاح', 'success', 'top-right');
-            return redirect()->route('distributor.client-classes.index');
+            $item->update(["is_active" => 1]);
+            toast("تم  التفعيل بنجاح", "success", "top-right");
+            return redirect()->route("distributor.client-classes.index");
         }
     }
 }

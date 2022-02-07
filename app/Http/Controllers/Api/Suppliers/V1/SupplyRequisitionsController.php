@@ -17,9 +17,20 @@ class SupplyRequisitionsController extends Controller
      */
     public function index()
     {
-        $user=auth()->user();
-        $supplyRequisitions=SupplyRequisition::where('accounting_supplier_id',$user->supplier_id)->where('accounting_company_id',\request()->header('x-company-id'))->latest()->paginate(15);
-        return \responder::success(new BaseCollection($supplyRequisitions,SupplyRequisitionResource::class));
+        $user = auth()->user();
+        $supplyRequisitions = SupplyRequisition::where(
+            "accounting_supplier_id",
+            $user->supplier_id
+        )
+            ->where("accounting_company_id", \request()->header("x-company-id"))
+            ->latest()
+            ->paginate(15);
+        return \responder::success(
+            new BaseCollection(
+                $supplyRequisitions,
+                SupplyRequisitionResource::class
+            )
+        );
     }
 
     /**
@@ -30,7 +41,6 @@ class SupplyRequisitionsController extends Controller
      */
     public function store(Request $request)
     {
-
     }
 
     /**
@@ -51,10 +61,17 @@ class SupplyRequisitionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SupplyRequisition $supplyRequisition)
-    {
-        $supplyRequisition->update(['approver_id'=>auth()->id(),'approved_at'=>now()]);
-        return  \responder::success(new SupplyRequisitionResource($supplyRequisition));
+    public function update(
+        Request $request,
+        SupplyRequisition $supplyRequisition
+    ) {
+        $supplyRequisition->update([
+            "approver_id" => auth()->id(),
+            "approved_at" => now(),
+        ]);
+        return \responder::success(
+            new SupplyRequisitionResource($supplyRequisition)
+        );
     }
 
     /**

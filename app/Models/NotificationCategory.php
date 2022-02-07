@@ -24,5 +24,5 @@ use Illuminate\Database\Eloquent\Model;
  */
 class NotificationCategory extends Model
 {
-    protected $fillable =['name'];
+    protected $fillable = ["name"];
 }

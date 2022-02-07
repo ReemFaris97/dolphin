@@ -7,10 +7,8 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class UserCompany extends Pivot
 {
-    protected $table = 'suppliers_user_companies';
+    protected $table = "suppliers_user_companies";
     use HasFactory;
 
-    protected $fillable = ['accounting_company_id', 'user_id'];
-
-
+    protected $fillable = ["accounting_company_id", "user_id"];
 }

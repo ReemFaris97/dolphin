@@ -14,21 +14,21 @@ class AccountingFundTransaction extends Model
      * @var array
      */
     protected $fillable = [
-        'fund_id',
-        'type',
-        'amount',
-        'description',
-        'billable_id',
-        'billable_type',
-        'should_reverse',
+        "fund_id",
+        "type",
+        "amount",
+        "description",
+        "billable_id",
+        "billable_type",
+        "should_reverse",
     ];
 
     public function billable()
     {
-        return $this->morphTo('billable');
+        return $this->morphTo("billable");
     }
     public function transaction()
     {
-        return $this->morphOne(AccountingFundTransaction::class, 'billable');
+        return $this->morphOne(AccountingFundTransaction::class, "billable");
     }
 }

@@ -26,12 +26,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class AccountingSupplierProduct extends Model
 {
-
-
-    protected $fillable = ['supplier_id','product_id'];
-    protected $table='accounting_suppliers_products';
-
-
-
-
+    protected $fillable = ["supplier_id", "product_id"];
+    protected $table = "accounting_suppliers_products";
 }

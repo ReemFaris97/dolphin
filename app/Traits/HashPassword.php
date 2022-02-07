@@ -1,5 +1,5 @@
 <?php
-namespace  App\Traits;
+namespace App\Traits;
 
 use Illuminate\Support\Facades\Hash;
 
@@ -17,7 +17,6 @@ trait HashPassword
                 $user->password = Hash::make($user->password);
             }
         });
-
 
         static::updating(function ($user) {
             if ($user->password != null && Hash::needsRehash($user->password)) {

@@ -14,7 +14,7 @@ use App\Traits\Supplier\SuppliersLogOperations;
 
 class OffersController extends Controller
 {
-    use ApiResponses,OffersOperations ,SuppliersLogOperations;
+    use ApiResponses, OffersOperations, SuppliersLogOperations;
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +22,9 @@ class OffersController extends Controller
      */
     public function index()
     {
-        $offers = SupplierOffer::where('user_id',auth()->id())->orderBy('id','desc')->paginate($this->paginateNumber);
+        $offers = SupplierOffer::where("user_id", auth()->id())
+            ->orderBy("id", "desc")
+            ->paginate($this->paginateNumber);
 
         return $this->apiResponse(new OffersResource($offers));
     }
@@ -45,24 +47,22 @@ class OffersController extends Controller
      */
     public function store(Request $request)
     {
-        $request['products'] = json_decode($request->products,TRUE);
+        $request["products"] = json_decode($request->products, true);
         $rules = [
-            'products'=>'required|array',
-            'products.*.product_id' =>'required|integer|exists:products,id',
+            "products" => "required|array",
+            "products.*.product_id" => "required|integer|exists:products,id",
             "products.*.quantity" => "required|integer",
             "products.*.price" => "required|string",
         ];
-        $validation = $this->apiValidation($request,$rules);
+        $validation = $this->apiValidation($request, $rules);
 
         if ($validation instanceof Response) {
             return $validation;
         }
 
-        $offer =  $this->RegisterOffer($request);
+        $offer = $this->RegisterOffer($request);
         $this->RegisterLog("إضافة عرض");
         return $this->apiResponse(new SingleOfferResource($offer));
-
-
     }
 
     /**
@@ -74,7 +74,9 @@ class OffersController extends Controller
     public function show($id)
     {
         $offer = SupplierOffer::find($id);
-        if(!$offer) return $this->apiResponse(null,"العرض غير متوفر");
+        if (!$offer) {
+            return $this->apiResponse(null, "العرض غير متوفر");
+        }
 
         return $this->apiResponse(new SingleOfferResource($offer));
     }
@@ -100,21 +102,22 @@ class OffersController extends Controller
     public function update(Request $request, $id)
     {
         $offer = SupplierOffer::find($id);
-        if(!$offer) return $this->apiResponse(null,'العرض غير موجود');
+        if (!$offer) {
+            return $this->apiResponse(null, "العرض غير موجود");
+        }
 
-        $request['products'] = json_decode($request->products,TRUE);
+        $request["products"] = json_decode($request->products, true);
         $rules = [
-            'products'=>'required|array',
-            'products.*.product_id' =>'required|integer|exists:products,id',
+            "products" => "required|array",
+            "products.*.product_id" => "required|integer|exists:products,id",
             "products.*.quantity" => "required|integer",
             "products.*.price" => "required|integer",
         ];
-        $validation = $this->apiValidation($request,$rules);
+        $validation = $this->apiValidation($request, $rules);
 
-        $offer =  $this->UpdateOffer($request,$offer);
-        $this->RegisterLog('تعديل عرض');
+        $offer = $this->UpdateOffer($request, $offer);
+        $this->RegisterLog("تعديل عرض");
         return $this->apiResponse(new SingleOfferResource($offer));
-
     }
 
     /**
@@ -126,14 +129,12 @@ class OffersController extends Controller
     public function destroy($id)
     {
         $offer = SupplierOffer::find($id);
-        if($offer){
+        if ($offer) {
             $offer->delete();
             $this->RegisterLog("حذف عرض");
-            return $this->apiResponse('تم حذف العرض بنجاح');
-
-        }
-        else{
-            return $this->apiResponse(null,"العرض غير موجود",404);
+            return $this->apiResponse("تم حذف العرض بنجاح");
+        } else {
+            return $this->apiResponse(null, "العرض غير موجود", 404);
         }
     }
 }

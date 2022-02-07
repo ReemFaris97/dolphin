@@ -15,31 +15,30 @@ class ProductsResource extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'products'=>$this->collection->transform(function ($q){
+            "products" => $this->collection->transform(function ($q) {
                 return [
-                    'id'=>$q->id,
-                    'name'=>$q->name,
-                    'price'=>round($q->price,2),
-                    'bar_code'=>$q->bar_code,
-                    'image'=>$q->image?getimg($q->image):"",
-                    'images' => $q->images->transform(function ($qu){
+                    "id" => $q->id,
+                    "name" => $q->name,
+                    "price" => round($q->price, 2),
+                    "bar_code" => $q->bar_code,
+                    "image" => $q->image ? getimg($q->image) : "",
+                    "images" => $q->images->transform(function ($qu) {
                         return [
-                            'id'=>$qu->id,
-                            'image'=>getimg($qu->image)
+                            "id" => $qu->id,
+                            "image" => getimg($qu->image),
                         ];
                     }),
                 ];
             }),
-            'paginate'=>[
-                'total' => $this->total(),
-                'count' => $this->count(),
-                'per_page' => $this->perPage(),
-                'next_page_url'=>$this->nextPageUrl(),
-                'prev_page_url'=>$this->previousPageUrl(),
-                'current_page' => $this->currentPage(),
-                'total_pages' => $this->lastPage()
-            ]
-
+            "paginate" => [
+                "total" => $this->total(),
+                "count" => $this->count(),
+                "per_page" => $this->perPage(),
+                "next_page_url" => $this->nextPageUrl(),
+                "prev_page_url" => $this->previousPageUrl(),
+                "current_page" => $this->currentPage(),
+                "total_pages" => $this->lastPage(),
+            ],
         ];
     }
 }

@@ -15,25 +15,25 @@ class SingleOfferResource extends JsonResource
     public function toArray($request)
     {
         return [
-            "offers"=>[
-                'id' => $this->id,
-                'user_id' =>(int)$this->user_id,
-                'user_name' =>$this->user->name,
-                'created_at'=>$this->created_at->toDateString(),
-                'products'=>$this->offer_products->transform(function ($q){
+            "offers" => [
+                "id" => $this->id,
+                "user_id" => (int) $this->user_id,
+                "user_name" => $this->user->name,
+                "created_at" => $this->created_at->toDateString(),
+                "products" => $this->offer_products->transform(function ($q) {
                     return [
-                        'supplier_offer_id'=>$q->supplier_offer_id,
-                        'product'=>[
-                            'product_name'=>optional($q->product)->name?$q->product->name:"",
-                            'price'=>$q->price,
-                            'quantity'=>$q->quantity,
+                        "supplier_offer_id" => $q->supplier_offer_id,
+                        "product" => [
+                            "product_name" => optional($q->product)->name
+                                ? $q->product->name
+                                : "",
+                            "price" => $q->price,
+                            "quantity" => $q->quantity,
                         ],
                     ];
                 }),
-                'total_offer'=>$this->totalOffer(),
-
-            ]
-
+                "total_offer" => $this->totalOffer(),
+            ],
         ];
     }
 }

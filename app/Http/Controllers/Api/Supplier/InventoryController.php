@@ -10,11 +10,13 @@ use App\Traits\ApiResponses;
 
 class InventoryController extends Controller
 {
-
     use ApiResponses;
 
-    public function index(){
-        $products = auth()->user()->supplierProductsPaginated();
+    public function index()
+    {
+        $products = auth()
+            ->user()
+            ->supplierProductsPaginated();
         return $this->apiResponse(new InventoryResource($products));
     }
 }

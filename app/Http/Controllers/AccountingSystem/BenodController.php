@@ -17,7 +17,7 @@ use App\Traits\Viewable;
 class BenodController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.benods.';
+    private $viewable = "AccountingSystem.benods.";
     /**
      * Display a listing of the resource.
      *
@@ -25,9 +25,8 @@ class BenodController extends Controller
      */
     public function index()
     {
-
-        $benods=AccountingBenod::all();
-        return $this->toIndex(compact('benods'));
+        $benods = AccountingBenod::all();
+        return $this->toIndex(compact("benods"));
     }
 
     /**
@@ -38,7 +37,6 @@ class BenodController extends Controller
     public function create()
     {
         // $clauses=AccountingMoneyClause::pluck('ar_name','id')->toArray();
-
 
         return $this->toCreate();
     }
@@ -52,22 +50,23 @@ class BenodController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'ar_name'=>'required|string',
-            'desc'=>'nullable|string',
-            'image'=>'nullable|sometimes|mimes:jpg,jpeg,gif,png',
+            "ar_name" => "required|string",
+            "desc" => "nullable|string",
+            "image" => "nullable|sometimes|mimes:jpg,jpeg,gif,png",
         ];
-        $message=[
-            'ar_name.required'=>'اسم البند مطلوب'
+        $message = [
+            "ar_name.required" => "اسم البند مطلوب",
         ];
-        $this->validate($request,$rules);
-        $requests = $request->except('image');
-        if ($request->hasFile('image')) {
-            $requests['image'] = saveImage($request->image, 'photos');
+        $this->validate($request, $rules);
+        $requests = $request->except("image");
+        if ($request->hasFile("image")) {
+            $requests["image"] = saveImage($request->image, "photos");
         }
         AccountingBenod::create($requests);
-        alert()->success('تم تسجيل البيان   بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.benods.index');
-
+        alert()
+            ->success("تم تسجيل البيان   بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.benods.index");
     }
 
     /**
@@ -89,11 +88,9 @@ class BenodController extends Controller
      */
     public function edit($id)
     {
+        $benod = AccountingBenod::find($id);
 
-        $benod=AccountingBenod::find($id);
-
-
-        return $this->toEdit(compact('benod'));
+        return $this->toEdit(compact("benod"));
     }
 
     /**
@@ -105,25 +102,23 @@ class BenodController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $category =AccountingBenod::findOrFail($id);
+        $category = AccountingBenod::findOrFail($id);
 
         $rules = [
-
-            'date'=>'nullable|string',
-            'desc'=>'nullable|string',
-            'image'=>'nullable|sometimes|image',
+            "date" => "nullable|string",
+            "desc" => "nullable|string",
+            "image" => "nullable|sometimes|image",
         ];
-        $this->validate($request,$rules);
-        $requests = $request->except('image');
-        if ($request->hasFile('image')) {
-            $requests['image'] = saveImage($request->image, 'photos');
+        $this->validate($request, $rules);
+        $requests = $request->except("image");
+        if ($request->hasFile("image")) {
+            $requests["image"] = saveImage($request->image, "photos");
         }
         $category->update($requests);
-        alert()->success('تم تعديل  السجل بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.benods.index');
-
-
-
+        alert()
+            ->success("تم تعديل  السجل بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.benods.index");
     }
 
     /**
@@ -134,24 +129,22 @@ class BenodController extends Controller
      */
     public function destroy($id)
     {
-        $benod =AccountingBenod::findOrFail($id);
+        $benod = AccountingBenod::findOrFail($id);
         $benod->delete();
-        alert()->success('تم حذف  سجل البيان بنجاح !')->autoclose(5000);
-            return back();
-
-
+        alert()
+            ->success("تم حذف  سجل البيان بنجاح !")
+            ->autoclose(5000);
+        return back();
     }
-
 
     public function getbenods($type)
     {
-
-        $clauses=AccountingMoneyClause::where('type',$type)->get();
+        $clauses = AccountingMoneyClause::where("type", $type)->get();
         return response()->json([
-            'status'=>true,
-            'data'=>view('AccountingSystem.benods.getAjaxBenods')->with('clauses',$clauses)->render()
+            "status" => true,
+            "data" => view("AccountingSystem.benods.getAjaxBenods")
+                ->with("clauses", $clauses)
+                ->render(),
         ]);
-
-
     }
 }

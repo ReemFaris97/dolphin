@@ -11,7 +11,7 @@ use App\Traits\Viewable;
 class JobTitleController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.job_titles.';
+    private $viewable = "AccountingSystem.job_titles.";
     /**
      * Display a listing of the resource.
      *
@@ -19,9 +19,9 @@ class JobTitleController extends Controller
      */
     public function index()
     {
-        $titles =AccountingJobTitle::all()->reverse();
+        $titles = AccountingJobTitle::all()->reverse();
 
-        return $this->toIndex(compact('titles'));
+        return $this->toIndex(compact("titles"));
     }
 
     /**
@@ -43,13 +43,15 @@ class JobTitleController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name'=>'required|string|max:191|unique:accounting_job_titles,id',
+            "name" => "required|string|max:191|unique:accounting_job_titles,id",
         ];
         $this->validate($request, $rules);
         $requests = $request->all();
         AccountingJobTitle::create($requests);
-        alert()->success('تم اضافة  المسمى الوظيفى بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.jobTitles.index');
+        alert()
+            ->success("تم اضافة  المسمى الوظيفى بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.jobTitles.index");
     }
 
     /**
@@ -71,9 +73,9 @@ class JobTitleController extends Controller
      */
     public function edit($id)
     {
-        $title =AccountingJobTitle::findOrFail($id);
+        $title = AccountingJobTitle::findOrFail($id);
 
-        return $this->toEdit(compact('title'));
+        return $this->toEdit(compact("title"));
     }
 
     /**
@@ -85,18 +87,20 @@ class JobTitleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $title =AccountingJobTitle::findOrFail($id);
+        $title = AccountingJobTitle::findOrFail($id);
         $rules = [
-
-            'name'=>'required|string|max:191|unique:accounting_job_titles,id,'.$id,
-
+            "name" =>
+                "required|string|max:191|unique:accounting_job_titles,id," .
+                $id,
         ];
         $this->validate($request, $rules);
         $requests = $request->all();
 
         $title->update($requests);
-        alert()->success('تم تعديل المسمى الوظيفى بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.jobTitles.index');
+        alert()
+            ->success("تم تعديل المسمى الوظيفى بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.jobTitles.index");
     }
 
     /**
@@ -107,30 +111,35 @@ class JobTitleController extends Controller
      */
     public function destroy($id)
     {
-        $title =AccountingJobTitle::findOrFail($id);
+        $title = AccountingJobTitle::findOrFail($id);
         $title->delete();
-        alert()->success('تم حذف   المسمى الوظيفى بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم حذف   المسمى الوظيفى بنجاح !")
+            ->autoclose(5000);
         return back();
     }
 
     public function active($id)
     {
-        $title =AccountingJobTitle::findOrFail($id);
+        $title = AccountingJobTitle::findOrFail($id);
         $title->update([
-            'active'=>1
+            "active" => 1,
         ]);
-        alert()->success('تم تفعيل  المسمى الوظيفى بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم تفعيل  المسمى الوظيفى بنجاح !")
+            ->autoclose(5000);
         return back();
     }
 
-
     public function dis_active($id)
     {
-        $title =AccountingJobTitle::findOrFail($id);
+        $title = AccountingJobTitle::findOrFail($id);
         $title->update([
-            'active'=>0
+            "active" => 0,
         ]);
-        alert()->success('تم الغاء تفعيل  المسمى الوظيفى بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم الغاء تفعيل  المسمى الوظيفى بنجاح !")
+            ->autoclose(5000);
         return back();
     }
 }

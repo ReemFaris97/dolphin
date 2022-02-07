@@ -12,18 +12,22 @@ use App\Http\Controllers\Controller;
 use App\Traits\Viewable;
 class DailyReportsController extends Controller
 {
-
     use Viewable;
-    private $viewable = 'distributor.dailyReports.';
+    private $viewable = "distributor.dailyReports.";
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request  $request)
+    public function index(Request $request)
     {
-        $dailyReports = DailyReport::FilterWithDates($request->from,$request->to)->get()->reverse();
-        return $this->toIndex(compact('dailyReports'));
+        $dailyReports = DailyReport::FilterWithDates(
+            $request->from,
+            $request->to
+        )
+            ->get()
+            ->reverse();
+        return $this->toIndex(compact("dailyReports"));
     }
 
     /**
@@ -33,9 +37,9 @@ class DailyReportsController extends Controller
      */
     public function create()
     {
-        $users = User::where('is_distributor',1)->get();
+        $users = User::where("is_distributor", 1)->get();
         $stores = Store::all();
-        return $this->toCreate(compact('users','stores'));
+        return $this->toCreate(compact("users", "stores"));
     }
 
     /**
@@ -47,45 +51,38 @@ class DailyReportsController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'user_id'=>"required|numeric|exists:users,id",
-//            'cash'=>"nullable|numeric",
-//            'expenses'=>"nullable|numeric",
-            'image'=>"required|image",
-//            'quantity'=>"required|array|min:1",
-//            'product_id'=>"required|array|min:1",
+            "user_id" => "required|numeric|exists:users,id",
+            //            'cash'=>"nullable|numeric",
+            //            'expenses'=>"nullable|numeric",
+            "image" => "required|image",
+            //            'quantity'=>"required|array|min:1",
+            //            'product_id'=>"required|array|min:1",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $inputs = $request->all();
-//      dd($inputs);
-        if ($request->image != null)
-        {
-            if ($request->hasFile('image')) {
-                $inputs['image'] = saveImage($request->image,'users');
+        //      dd($inputs);
+        if ($request->image != null) {
+            if ($request->hasFile("image")) {
+                $inputs["image"] = saveImage($request->image, "users");
             }
         }
 
         $report = DailyReport::create($inputs);
 
-        $productIds= $request->products
-        ;
-//        $quantities = $request->package;
+        $productIds = $request->products;
+        //        $quantities = $request->package;
 
-        foreach($productIds as $key=>$product_)
-        {
-
-            $product = Product::find($product_['product_id']);
+        foreach ($productIds as $key => $product_) {
+            $product = Product::find($product_["product_id"]);
             $report->products()->create([
-           'quantity'=>$product_['quantity'],
-            'price'=>$product->price
+                "quantity" => $product_["quantity"],
+                "price" => $product->price,
             ]);
         }
 
-
-        toast('تم إضافة العملية بنجاح', 'success','top-right');
-        return redirect()->route('distributor.dailyReports.index');
-
+        toast("تم إضافة العملية بنجاح", "success", "top-right");
+        return redirect()->route("distributor.dailyReports.index");
     }
-
 
     /**
      * Display the specified resource.
@@ -96,7 +93,7 @@ class DailyReportsController extends Controller
     public function show($id)
     {
         return $this->toShow([
-            'report' => DailyReport::findOrFail($id)
+            "report" => DailyReport::findOrFail($id),
         ]);
     }
 
@@ -132,9 +129,7 @@ class DailyReportsController extends Controller
     public function destroy($id)
     {
         DailyReport::find($id)->delete();
-        toast('تم مسح العملية بنجاح', 'success','top-right');
-        return redirect()->route('distributor.dailyReports.index');
-
+        toast("تم مسح العملية بنجاح", "success", "top-right");
+        return redirect()->route("distributor.dailyReports.index");
     }
-
 }

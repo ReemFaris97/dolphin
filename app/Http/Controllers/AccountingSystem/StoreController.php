@@ -30,7 +30,7 @@ class StoreController extends Controller
 {
     use Viewable;
 
-    private $viewable = 'AccountingSystem.stores.';
+    private $viewable = "AccountingSystem.stores.";
 
     /**
      * Display a listing of the resource.
@@ -41,7 +41,7 @@ class StoreController extends Controller
     {
         $stores = AccountingStore::all()->reverse();
         // dd($stores);
-        return $this->toIndex(compact('stores'));
+        return $this->toIndex(compact("stores"));
     }
 
     /**
@@ -51,9 +51,9 @@ class StoreController extends Controller
      */
     public function create()
     {
-        $companies = AccountingCompany::pluck('name', 'id')->toArray();
-        $branches = AccountingBranch::pluck('name', 'id')->toArray();
-        return $this->toCreate(compact('companies', 'branches'));
+        $companies = AccountingCompany::pluck("name", "id")->toArray();
+        $branches = AccountingBranch::pluck("name", "id")->toArray();
+        return $this->toCreate(compact("companies", "branches"));
     }
 
     /**
@@ -64,38 +64,52 @@ class StoreController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request->all());
+        //        dd($request->all());
         $rules = [
-
-            'ar_name' => 'required|string|max:191|store_name:accounting_stores,ar_name,company_id,branch_id,' . $request['ar_name'] . ',' . $request['company_id'] . ',' . $request['branch_id'],
-            'en_name' => 'nullable|string|max:191',
-            'image' => 'nullable|sometimes|mimes:jpg,jpeg,gif,png',
-            'company_id' => 'nullable|numeric|exists:accounting_companies,id',
-
+            "ar_name" =>
+                "required|string|max:191|store_name:accounting_stores,ar_name,company_id,branch_id," .
+                $request["ar_name"] .
+                "," .
+                $request["company_id"] .
+                "," .
+                $request["branch_id"],
+            "en_name" => "nullable|string|max:191",
+            "image" => "nullable|sometimes|mimes:jpg,jpeg,gif,png",
+            "company_id" => "nullable|numeric|exists:accounting_companies,id",
         ];
         $messsage = [
-            'ar_name.store_name' => "اسم المستودع موجود بالفعل بالشركة",
+            "ar_name.store_name" => "اسم المستودع موجود بالفعل بالشركة",
         ];
         $this->validate($request, $rules, $messsage);
-        $requests = $request->except('image');
+        $requests = $request->except("image");
 
-        if ($request->hasFile('image')) {
-            $requests['image'] = saveImage($request->image, 'photos');
+        if ($request->hasFile("image")) {
+            $requests["image"] = saveImage($request->image, "photos");
         }
 
-        if ($requests['company_id'] == null & $requests['branch_id'] != null) {
-            $requests['model_id'] = $requests['branch_id'];
-            $requests['model_type'] = 'App\Models\AccountingSystem\AccountingBranch';
+        if (
+            ($requests["company_id"] == null) &
+            ($requests["branch_id"] != null)
+        ) {
+            $requests["model_id"] = $requests["branch_id"];
+            $requests["model_type"] =
+                "App\Models\AccountingSystem\AccountingBranch";
         }
-        if ($requests['branch_id'] == null & $requests['company_id'] != null) {
-            $requests['model_id'] = $requests['company_id'];
-            $requests['model_type'] = 'App\Models\AccountingSystem\AccountingCompany';
+        if (
+            ($requests["branch_id"] == null) &
+            ($requests["company_id"] != null)
+        ) {
+            $requests["model_id"] = $requests["company_id"];
+            $requests["model_type"] =
+                "App\Models\AccountingSystem\AccountingCompany";
         }
 
         AccountingStore::create($requests);
 
-        alert()->success('تم اضافة  الفرع بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.stores.index');
+        alert()
+            ->success("تم اضافة  الفرع بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.stores.index");
     }
 
     /**
@@ -108,8 +122,7 @@ class StoreController extends Controller
     {
         $store = AccountingStore::findOrFail($id);
 
-
-        return $this->toShow(compact('store'));
+        return $this->toShow(compact("store"));
     }
 
     /**
@@ -121,9 +134,9 @@ class StoreController extends Controller
     public function edit($id)
     {
         $store = AccountingStore::findOrFail($id);
-        $companies = AccountingCompany::pluck('name', 'id')->toArray();
-        $branches = AccountingBranch::pluck('name', 'id')->toArray();
-        return $this->toEdit(compact('store', 'companies', 'branches'));
+        $companies = AccountingCompany::pluck("name", "id")->toArray();
+        $branches = AccountingBranch::pluck("name", "id")->toArray();
+        return $this->toEdit(compact("store", "companies", "branches"));
     }
 
     /**
@@ -138,32 +151,33 @@ class StoreController extends Controller
         $store = AccountingStore::findOrFail($id);
 
         $rules = [
-            'ar_name' => 'required|string|max:191',
-            'en_name' => 'nullable|string|max:191',
-            'image' => 'nullable|sometimes|mimes:jpg,jpeg,gif,png',
-            'company_id' => 'nullable|numeric|exists:accounting_companies,id',
+            "ar_name" => "required|string|max:191",
+            "en_name" => "nullable|string|max:191",
+            "image" => "nullable|sometimes|mimes:jpg,jpeg,gif,png",
+            "company_id" => "nullable|numeric|exists:accounting_companies,id",
         ];
         //   dd($request->all());
         $this->validate($request, $rules);
-        $requests = $request->except('image');
-        if ($request->hasFile('image')) {
-            $requests['image'] = saveImage($request->image, 'photos');
+        $requests = $request->except("image");
+        if ($request->hasFile("image")) {
+            $requests["image"] = saveImage($request->image, "photos");
         }
-
 
         $store->update($requests);
 
-        if (array_key_exists('company_id', $requests)) {
+        if (array_key_exists("company_id", $requests)) {
             $store->update([
-                'model_id' => $requests['company_id']
+                "model_id" => $requests["company_id"],
             ]);
-        } elseif (array_key_exists('branch_id', $requests)) {
+        } elseif (array_key_exists("branch_id", $requests)) {
             $store->update([
-                'model_id' => $requests['branch_id']
+                "model_id" => $requests["branch_id"],
             ]);
         }
-        alert()->success('تم تعديل  المستودع بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.stores.index');
+        alert()
+            ->success("تم تعديل  المستودع بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.stores.index");
     }
 
     /**
@@ -176,51 +190,76 @@ class StoreController extends Controller
     {
         $store = AccountingStore::findOrFail($id);
         $store->delete();
-        alert()->success('تم حذف  المستودع بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم حذف  المستودع بنجاح !")
+            ->autoclose(5000);
         return back();
     }
 
     public function destroy_product($id, Request $request)
     {
-        $store_products = AccountingProductStore::where('product_id', $id)->where('store_id', $request['store_id'])->get();
+        $store_products = AccountingProductStore::where("product_id", $id)
+            ->where("store_id", $request["store_id"])
+            ->get();
         foreach ($store_products as $product) {
             $product->delete();
         }
 
-        alert()->success('تم حذف المنتج من  المستودع بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم حذف المنتج من  المستودع بنجاح !")
+            ->autoclose(5000);
         return back();
     }
 
     public function first_balances()
     {
-        $stores = AccountingStore::pluck('ar_name', 'id')->toArray();
-        $branches = AccountingBranch::pluck('name', 'id')->toArray();
-        $allproducts = AccountingProduct::pluck('name', 'id')->toArray();
-        return view('AccountingSystem.stores.first_balances_report', compact('stores', 'branches', 'allproducts'));
+        $stores = AccountingStore::pluck("ar_name", "id")->toArray();
+        $branches = AccountingBranch::pluck("name", "id")->toArray();
+        $allproducts = AccountingProduct::pluck("name", "id")->toArray();
+        return view(
+            "AccountingSystem.stores.first_balances_report",
+            compact("stores", "branches", "allproducts")
+        );
     }
 
     public function balances_filter(Request $request)
     {
-
-//        dd($request);
+        //        dd($request);
         $inputs = $request->all();
-//        dd($inputs);
-        if ($inputs['status'] == 0) {
-            $stores = AccountingStore::where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->whereIn('model_id', $inputs['branch_id'])->pluck('id')->toArray();
-            $product_quantity = AccountingProductStore::where('product_id', $inputs['product_id'])->whereIn('store_id', $inputs['store_id'])->where('created_at', '>=', $inputs['date'])->sum('quantity');
+        //        dd($inputs);
+        if ($inputs["status"] == 0) {
+            $stores = AccountingStore::where(
+                "model_type",
+                "App\Models\AccountingSystem\AccountingBranch"
+            )
+                ->whereIn("model_id", $inputs["branch_id"])
+                ->pluck("id")
+                ->toArray();
+            $product_quantity = AccountingProductStore::where(
+                "product_id",
+                $inputs["product_id"]
+            )
+                ->whereIn("store_id", $inputs["store_id"])
+                ->where("created_at", ">=", $inputs["date"])
+                ->sum("quantity");
         }
-        $product = AccountingProduct::find($inputs['product_id']);
+        $product = AccountingProduct::find($inputs["product_id"]);
 
         return response()->json([
-            'status' => true,
-            'data' => view('AccountingSystem.stores.single_product')->with('product', $product)->render()
+            "status" => true,
+            "data" => view("AccountingSystem.stores.single_product")
+                ->with("product", $product)
+                ->render(),
         ]);
     }
 
-    public function store_product(AccountingSuppliersProductsDataTable $datatable, $id)
-    {
+    public function store_product(
+        AccountingSuppliersProductsDataTable $datatable,
+        $id
+    ) {
         $products_store = AccountingProductStore::query()
-            ->where('accounting_product_stores.store_id', $id)->with('product')
+            ->where("accounting_product_stores.store_id", $id)
+            ->with("product")
             ->paginate(9);
 
         $store = AccountingStore::findOrFail($id);
@@ -228,67 +267,109 @@ class StoreController extends Controller
         // $all_stores = AccountingStore::all();
         // $storess = $all_stores->except($id);
 
-        return view('AccountingSystem.stores.products', compact('products_store', 'store'));
+        return view(
+            "AccountingSystem.stores.products",
+            compact("products_store", "store")
+        );
     }
 
     public function show_product_details($id, Request $request)
     {
-        $branches = AccountingBranch::pluck('name', 'id')->toArray();
-        $categories = AccountingProductCategory::pluck('ar_name', 'id')->toArray();
+        $branches = AccountingBranch::pluck("name", "id")->toArray();
+        $categories = AccountingProductCategory::pluck(
+            "ar_name",
+            "id"
+        )->toArray();
         $product = AccountingProduct::find($id);
         $products = AccountingProduct::all();
-        $storeproduct = AccountingProductStore::where('product_id', $id)->first();
+        $storeproduct = AccountingProductStore::where(
+            "product_id",
+            $id
+        )->first();
         $store = AccountingStore::find(optional($storeproduct)->store_id ?? 1);
         $cells = AccountingColumnCell::all();
-        $discounts = AccountingProductDiscount::where('product_id', $id)->get();
-        $tax = AccountingProductTax::where('product_id', $id)->first();
+        $discounts = AccountingProductDiscount::where("product_id", $id)->get();
+        $tax = AccountingProductTax::where("product_id", $id)->first();
 
-        $storeproduct_quantity = AccountingProductStore::where('product_id', $id)->where('store_id', $request['store_id'])->sum('quantity');
+        $storeproduct_quantity = AccountingProductStore::where(
+            "product_id",
+            $id
+        )
+            ->where("store_id", $request["store_id"])
+            ->sum("quantity");
 
-        return view('AccountingSystem.stores.show_product_details', compact('branches', 'categories', 'product', 'store', 'cells', 'discounts', 'tax', 'storeproduct_quantity'));
+        return view(
+            "AccountingSystem.stores.show_product_details",
+            compact(
+                "branches",
+                "categories",
+                "product",
+                "store",
+                "cells",
+                "discounts",
+                "tax",
+                "storeproduct_quantity"
+            )
+        );
     }
 
     public function store_products_copy(Request $request, $id)
     {
-        $products_id = AccountingProductStore::where('store_id', $request["store_id"])->pluck('product_id')->toArray();
+        $products_id = AccountingProductStore::where(
+            "store_id",
+            $request["store_id"]
+        )
+            ->pluck("product_id")
+            ->toArray();
 
-//          dd($products_id);
+        //          dd($products_id);
 
         foreach ($products_id as $product_id) {
             AccountingProductStore::create([
-                'store_id' => $id,
-                'product_id' => $product_id
+                "store_id" => $id,
+                "product_id" => $product_id,
             ]);
         }
-        alert()->success('تم نسخ الاصناف  المستودع بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم نسخ الاصناف  المستودع بنجاح !")
+            ->autoclose(5000);
         return back();
     }
 
     public function settlements()
     {
-        $stores = AccountingStore::pluck('ar_name', 'id')->toArray();
+        $stores = AccountingStore::pluck("ar_name", "id")->toArray();
         $products = [];
-        return view('AccountingSystem.stores.settlements', compact('stores', 'products'));
+        return view(
+            "AccountingSystem.stores.settlements",
+            compact("stores", "products")
+        );
     }
 
     public function settlements_index()
     {
-        $settlements = AccountingProduct::where('is_settlement', 1)->get();
+        $settlements = AccountingProduct::where("is_settlement", 1)->get();
 
-        return view('AccountingSystem.stores.settlements_index', compact('settlements'));
+        return view(
+            "AccountingSystem.stores.settlements_index",
+            compact("settlements")
+        );
     }
-
 
     public function settlements_store(Request $request)
     {
-        $store_id = $request['store_id'];
-        $stores = AccountingStore::pluck('ar_name', 'id')->toArray();
-        $product_store = AccountingProductStore::where('store_id', $store_id)->pluck('product_id')->toArray();
-        $products = AccountingProduct::whereIn('id', $product_store)->get();
+        $store_id = $request["store_id"];
+        $stores = AccountingStore::pluck("ar_name", "id")->toArray();
+        $product_store = AccountingProductStore::where("store_id", $store_id)
+            ->pluck("product_id")
+            ->toArray();
+        $products = AccountingProduct::whereIn("id", $product_store)->get();
 
-        return view('AccountingSystem.stores.settlements', compact('stores', 'products'));
+        return view(
+            "AccountingSystem.stores.settlements",
+            compact("stores", "products")
+        );
     }
-
 
     public function getproducts($id)
     {
@@ -305,19 +386,16 @@ class StoreController extends Controller
         return keepers($id);
     }
 
-
     public function stores_to($id)
     {
         return stores_to($id);
     }
 
-
     public function bonds_index()
     {
         $bonds = AccountingBond::all();
-        return view('AccountingSystem.stores.bonds_index', compact('bonds'));
+        return view("AccountingSystem.stores.bonds_index", compact("bonds"));
     }
-
 
     public function inventory_bond(Request $request)
     {
@@ -328,20 +406,29 @@ class StoreController extends Controller
     {
         $bond = AccountingBond::find($id);
 
-        $bondproducts = AccountingBondProduct::where('bond_id', $bond->id)->get();
-        return view('AccountingSystem.stores.show_bond', compact('bond', 'bondproducts'));
+        $bondproducts = AccountingBondProduct::where(
+            "bond_id",
+            $bond->id
+        )->get();
+        return view(
+            "AccountingSystem.stores.show_bond",
+            compact("bond", "bondproducts")
+        );
     }
 
     public function products_entry_form()
     {
         $products = AccountingProduct::all();
-        return view('AccountingSystem.stores.products_entry_form', compact('products'));
+        return view(
+            "AccountingSystem.stores.products_entry_form",
+            compact("products")
+        );
     }
 
     public function products_exchange_form()
     {
         // $products=AccountingProduct::all();
-        return view('AccountingSystem.stores.products_exchange_form');
+        return view("AccountingSystem.stores.products_exchange_form");
     }
 
     public function bond_store(Request $request)
@@ -365,62 +452,72 @@ class StoreController extends Controller
 
         // $this->validate($request,$rules,$massage);
         // dd($request->all());
-        if ($bond->type == 'entry' || $bond->type == 'exchange') {
-            $products_store = AccountingProductStore::where('store_id', $bond->store_id)->get();
-            $quantity = collect($inputs['qtys']);
-            $products = collect($inputs['products']);
-            $prices = collect($inputs['prices']);
+        if ($bond->type == "entry" || $bond->type == "exchange") {
+            $products_store = AccountingProductStore::where(
+                "store_id",
+                $bond->store_id
+            )->get();
+            $quantity = collect($inputs["qtys"]);
+            $products = collect($inputs["products"]);
+            $prices = collect($inputs["prices"]);
             $merges = $products->zip($quantity, $prices);
 
             foreach ($merges as $merge) {
                 AccountingBondProduct::create([
-                    'bond_id' => $bond->id,
-                    'product_id' => $merge[0],
-                    'quantity' => $merge[1],
-                    'price' => $merge[2],
+                    "bond_id" => $bond->id,
+                    "product_id" => $merge[0],
+                    "quantity" => $merge[1],
+                    "price" => $merge[2],
                 ]);
             }
 
             foreach ($products_store as $productstore) {
                 foreach ($merges as $merge) {
                     if ($productstore->product_id == $merge[0]) {
-                        if ($bond->type == 'entry') {
+                        if ($bond->type == "entry") {
                             $productstore->update([
-                                'product_id' => $merge[0],
-                                'quantity' => $productstore->quantity + $merge[1],
-                                'band_id' => $bond->id
+                                "product_id" => $merge[0],
+                                "quantity" =>
+                                    $productstore->quantity + $merge[1],
+                                "band_id" => $bond->id,
                             ]);
-                        } elseif ($bond->type == 'exchange') {
+                        } elseif ($bond->type == "exchange") {
                             $productstore->update([
-                                'product_id' => $merge[0],
-                                'quantity' => $productstore->quantity - $merge[1],
-                                'band_id' => $bond->id
+                                "product_id" => $merge[0],
+                                "quantity" =>
+                                    $productstore->quantity - $merge[1],
+                                "band_id" => $bond->id,
                             ]);
                         }
                     }
                 }
             }
-        } elseif ($bond->type == 'transactions') {
-            $transaction = session('transaction');
+        } elseif ($bond->type == "transactions") {
+            $transaction = session("transaction");
             $bond->update([
-                'store_to' => $transaction['to_store_id'],
-                'store_form' => $transaction['form_store_id'],
+                "store_to" => $transaction["to_store_id"],
+                "store_form" => $transaction["form_store_id"],
             ]);
-            $products_store_to = AccountingProductStore::where('store_id', $bond->store_to)->get();
-            $products_store_form = AccountingProductStore::where('store_id', $bond->store_form)->get();
+            $products_store_to = AccountingProductStore::where(
+                "store_id",
+                $bond->store_to
+            )->get();
+            $products_store_form = AccountingProductStore::where(
+                "store_id",
+                $bond->store_form
+            )->get();
 
-            $quantity = collect($transaction['quantity']);
-            $products = collect($transaction['product_id']);
-            $prices = collect($transaction['price']);
+            $quantity = collect($transaction["quantity"]);
+            $products = collect($transaction["product_id"]);
+            $prices = collect($transaction["price"]);
 
             $merges2 = $products->zip($quantity, $prices);
             foreach ($merges2 as $merge2) {
                 AccountingBondProduct::create([
-                    'bond_id' => $bond->id,
-                    'product_id' => $merge2[0],
-                    'quantity' => $merge2[1],
-                    'price' => $merge2[2],
-
+                    "bond_id" => $bond->id,
+                    "product_id" => $merge2[0],
+                    "quantity" => $merge2[1],
+                    "price" => $merge2[2],
                 ]);
             }
 
@@ -428,9 +525,9 @@ class StoreController extends Controller
                 foreach ($merges2 as $merge1) {
                     if ($productstore->product_id == $merge1[0]) {
                         $productstore->update([
-                            'product_id' => $merge1[0],
-                            'quantity' => $productstore->quantity - $merge1[1],
-                            'band_id' => $bond->id
+                            "product_id" => $merge1[0],
+                            "quantity" => $productstore->quantity - $merge1[1],
+                            "band_id" => $bond->id,
                         ]);
                     }
                 }
@@ -440,66 +537,88 @@ class StoreController extends Controller
                 foreach ($merges2 as $merge1) {
                     if ($productstore->product_id == $merge1[0]) {
                         $productstore->update([
-                            'product_id' => $merge1[0],
-                            'quantity' => $productstore->quantity + $merge1[1],
-                            'band_id' => $bond->id
+                            "product_id" => $merge1[0],
+                            "quantity" => $productstore->quantity + $merge1[1],
+                            "band_id" => $bond->id,
                         ]);
                     }
                 }
             }
         }
 
-        $bondproducts = AccountingBondProduct::where('bond_id', $bond->id)->get();
+        $bondproducts = AccountingBondProduct::where(
+            "bond_id",
+            $bond->id
+        )->get();
         // alert()->success('تم اضافة  السند  بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.stores.show_bond', $bond->id)->with('bond', $bond->id)->with('bondproducts', $bondproducts);
+        return redirect()
+            ->route("accounting.stores.show_bond", $bond->id)
+            ->with("bond", $bond->id)
+            ->with("bondproducts", $bondproducts);
     }
-
 
     public function edit_bond($id)
     {
         $bond = AccountingBond::find($id);
 
-        $bondproducts = AccountingBondProduct::where('bond_id', $id)->get();
+        $bondproducts = AccountingBondProduct::where("bond_id", $id)->get();
 
-        return view('AccountingSystem.stores.products_entry_edit', compact('bond', 'bondproducts'));
+        return view(
+            "AccountingSystem.stores.products_entry_edit",
+            compact("bond", "bondproducts")
+        );
     }
-
 
     public function products_exchange_store(Request $request)
     {
     }
 
-
     public function company_stores($id)
     {
-        $basic_stores = AccountingStore::where('model_id', $id)->where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->where('type', '1')->pluck('ar_name', 'id')->toArray();
-
+        $basic_stores = AccountingStore::where("model_id", $id)
+            ->where(
+                "model_type",
+                "App\Models\AccountingSystem\AccountingCompany"
+            )
+            ->where("type", "1")
+            ->pluck("ar_name", "id")
+            ->toArray();
 
         return response()->json([
-            'status' => true,
-            'data' => view('AccountingSystem.stores.basic_store')->with('basic_stores', $basic_stores)->render()
+            "status" => true,
+            "data" => view("AccountingSystem.stores.basic_store")
+                ->with("basic_stores", $basic_stores)
+                ->render(),
         ]);
     }
 
     public function branch_stores($id)
     {
-        $basic_stores = AccountingStore::where('model_id', $id)->where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->pluck('ar_name', 'id')->toArray();
-
+        $basic_stores = AccountingStore::where("model_id", $id)
+            ->where(
+                "model_type",
+                "App\Models\AccountingSystem\AccountingBranch"
+            )
+            ->pluck("ar_name", "id")
+            ->toArray();
 
         return response()->json([
-            'status' => true,
-            'data' => view('AccountingSystem.stores.basic_store')->with('basic_stores', $basic_stores)->render()
+            "status" => true,
+            "data" => view("AccountingSystem.stores.basic_store")
+                ->with("basic_stores", $basic_stores)
+                ->render(),
         ]);
     }
-
 
     public function active($id)
     {
         $store = AccountingStore::find($id);
         $store->update([
-            'is_active' => '1'
+            "is_active" => "1",
         ]);
-        alert()->success('تم تفعيل  المستودع بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم تفعيل  المستودع بنجاح !")
+            ->autoclose(5000);
         return back();
     }
 
@@ -507,9 +626,11 @@ class StoreController extends Controller
     {
         $store = AccountingStore::find($id);
         $store->update([
-            'is_active' => '0'
+            "is_active" => "0",
         ]);
-        alert()->success('تم الغاءتفعيل  المنتج بالمستودع بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم الغاءتفعيل  المنتج بالمستودع بنجاح !")
+            ->autoclose(5000);
         return back();
     }
 
@@ -517,9 +638,11 @@ class StoreController extends Controller
     {
         $store = AccountingProductStore::find($id);
         $store->update([
-            'is_active' => '1'
+            "is_active" => "1",
         ]);
-        alert()->success('تم تفعيل  المنتج بالمستودع بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم تفعيل  المنتج بالمستودع بنجاح !")
+            ->autoclose(5000);
         return back();
     }
 
@@ -527,23 +650,30 @@ class StoreController extends Controller
     {
         $store = AccountingProductStore::find($id);
         $store->update([
-            'is_active' => '0'
+            "is_active" => "0",
         ]);
-        alert()->success('تم الغاءتفعيل المستودع بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم الغاءتفعيل المستودع بنجاح !")
+            ->autoclose(5000);
         return back();
     }
-
 
     public function cost(Request $request, $id)
     {
         $inventory = AccountingInventory::find($id);
         $inventory->update([
-            'cost_type' => $request['cost_type'],
+            "cost_type" => $request["cost_type"],
         ]);
         // alert()->success('تم الغاءتفعيل المستودع بنجاح !')->autoclose(5000);
-        $inventory_products = AccountingInventoryProduct::where('inventory_id', $id)->get();
+        $inventory_products = AccountingInventoryProduct::where(
+            "inventory_id",
+            $id
+        )->get();
 
-        return view('AccountingSystem.stores.invertory_details', compact('inventory_products', 'inventory'));
+        return view(
+            "AccountingSystem.stores.invertory_details",
+            compact("inventory_products", "inventory")
+        );
     }
 
     public function getProductByStore($id)

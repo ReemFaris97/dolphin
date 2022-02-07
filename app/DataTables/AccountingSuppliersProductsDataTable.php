@@ -23,19 +23,22 @@ class AccountingSuppliersProductsDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->filterColumn('name', function ($query, $name) {
+            ->filterColumn("name", function ($query, $name) {
                 $query->where(
-                    fn ($q) =>$q
-                ->where('name', 'like', "%$name%")
-                ->orWhere('en_name', 'like', "%$name%")
+                    fn($q) => $q
+                        ->where("name", "like", "%$name%")
+                        ->orWhere("en_name", "like", "%$name%")
                 );
             })
             ->addIndexColumn()
             ->smart(false)
 
-            ->addColumn('image', '<img src="{{getimg($image)}}" style="width:100px; height:100px">')
-            ->addColumn('action','AccountingSystem.suppliers-products.actions')
-            ->rawColumns(['image', 'action'])
+            ->addColumn(
+                "image",
+                '<img src="{{getimg($image)}}" style="width:100px; height:100px">'
+            )
+            ->addColumn("action", "AccountingSystem.suppliers-products.actions")
+            ->rawColumns(["image", "action"])
             ->escapeColumns([5]);
     }
 
@@ -58,18 +61,18 @@ class AccountingSuppliersProductsDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('accountingproducts-table')
-                    ->addTableClass('finalTb table datatable-button-init-basic')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->dom('Bfrtip')
-                   ->buttons(
-                        //Button::make('create'),
-                      //  Button::make('export'),
-                        // Button::make('print'),
-                       Button::make('reset'),
-                       Button::make('reload')
-                   ) ;
+            ->setTableId("accountingproducts-table")
+            ->addTableClass("finalTb table datatable-button-init-basic")
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->dom("Bfrtip")
+            ->buttons(
+                //Button::make('create'),
+                //  Button::make('export'),
+                // Button::make('print'),
+                Button::make("reset"),
+                Button::make("reload")
+            );
     }
 
     /**
@@ -80,16 +83,12 @@ class AccountingSuppliersProductsDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::computed('image')->width(60),
-            Column::make('name')->title('الاسم'),
-            Column::make('barcode')->title('الباركود'),
-            Column::make('unit')->title('الوحده '),
-            Column::make('price')->title('سعر البيع'),
-            Column::computed('action', 'الاعدادات')
-            ->addClass('text-center'),
-
-
-
+            Column::computed("image")->width(60),
+            Column::make("name")->title("الاسم"),
+            Column::make("barcode")->title("الباركود"),
+            Column::make("unit")->title("الوحده "),
+            Column::make("price")->title("سعر البيع"),
+            Column::computed("action", "الاعدادات")->addClass("text-center"),
         ];
     }
 
@@ -100,6 +99,6 @@ class AccountingSuppliersProductsDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'AccountingProducts_' . date('YmdHis');
+        return "AccountingProducts_" . date("YmdHis");
     }
 }

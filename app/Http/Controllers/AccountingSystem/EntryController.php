@@ -17,8 +17,8 @@ use Illuminate\Support\Facades\DB;
 
 class EntryController extends Controller
 {
-    use  ManualCreateEntry, Viewable;
-    private $viewable = 'AccountingSystem.entries.';
+    use ManualCreateEntry, Viewable;
+    private $viewable = "AccountingSystem.entries.";
     /**
      * Display a listing of the resource.
      *
@@ -26,9 +26,9 @@ class EntryController extends Controller
      */
     public function index()
     {
-        $entries =AccountingEntry::all()->reverse();
+        $entries = AccountingEntry::all()->reverse();
 
-        return $this->toIndex(compact('entries'));
+        return $this->toIndex(compact("entries"));
     }
 
     /**
@@ -38,9 +38,9 @@ class EntryController extends Controller
      */
     public function create()
     {
-        $accounts=AccountingAccount::get();
-        $branches=AccountingBranch::pluck('name', 'id')->toArray();
-        return $this->toCreate(compact('accounts', 'branches'));
+        $accounts = AccountingAccount::get();
+        $branches = AccountingBranch::pluck("name", "id")->toArray();
+        return $this->toCreate(compact("accounts", "branches"));
     }
 
     /**
@@ -53,12 +53,12 @@ class EntryController extends Controller
     {
         // dd($request->all());
         $rules = [
-            'source'=>'required|string|max:191',
-            'date'=>'required',
-            'amount'=>'required',
-            'type'=>'required',
-        //    'from_account_id'=>'required|exists:accounting_accounts,id',
-        //    'to_account_id'=>'required|exists:accounting_accounts,id',
+            "source" => "required|string|max:191",
+            "date" => "required",
+            "amount" => "required",
+            "type" => "required",
+            //    'from_account_id'=>'required|exists:accounting_accounts,id',
+            //    'to_account_id'=>'required|exists:accounting_accounts,id',
         ];
         // $message=[
         //     'from_account_id.required'=>'اسم الحساب الاول(المدين) مطلوب ',
@@ -66,12 +66,12 @@ class EntryController extends Controller
         // ];
         // $this->validate($request,$rules,$message);
 
-
         $this->ManualCreaAccountingAccountLogteEntry($request);
 
-
-        alert()->success('تم اضافةالقيد اليومى بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.entries.index');
+        alert()
+            ->success("تم اضافةالقيد اليومى بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.entries.index");
     }
 
     /**
@@ -82,9 +82,9 @@ class EntryController extends Controller
      */
     public function show($id)
     {
-        $entry=AccountingEntry::find($id);
-        $logs=AccountingEntryLog::where('entry_id', $id)->get();
-        return view("AccountingSystem.entries.show", compact('entry', 'logs'));
+        $entry = AccountingEntry::find($id);
+        $logs = AccountingEntryLog::where("entry_id", $id)->get();
+        return view("AccountingSystem.entries.show", compact("entry", "logs"));
     }
 
     /**
@@ -95,12 +95,14 @@ class EntryController extends Controller
      */
     public function edit($id)
     {
-        $entry =AccountingEntry::findOrFail($id);
-        $branches=AccountingBranch::pluck('name', 'id')->toArray();
-        $entryAccount=AccountingEntryAccount::where('entry_id', $id)->first();
+        $entry = AccountingEntry::findOrFail($id);
+        $branches = AccountingBranch::pluck("name", "id")->toArray();
+        $entryAccount = AccountingEntryAccount::where("entry_id", $id)->first();
 
-        $accounts=AccountingAccount::get();
-        return $this->toEdit(compact('entry', 'accounts', 'entryAccount', 'branches'));
+        $accounts = AccountingAccount::get();
+        return $this->toEdit(
+            compact("entry", "accounts", "entryAccount", "branches")
+        );
     }
 
     /**
@@ -112,27 +114,28 @@ class EntryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $entry =AccountingEntry::findOrFail($id);
+        $entry = AccountingEntry::findOrFail($id);
         $rules = [
-
-            'source'=>'required|string|max:191',
-            'date'=>'required',
-            'amount'=>'required',
-            'type'=>'required',
-//            'from_account_id'=>'required|numeric|exists:accounting_accounts,id',
-//            'to_account_id'=>'required|numeric|exists:accounting_accounts,id',
+            "source" => "required|string|max:191",
+            "date" => "required",
+            "amount" => "required",
+            "type" => "required",
+            //            'from_account_id'=>'required|numeric|exists:accounting_accounts,id',
+            //            'to_account_id'=>'required|numeric|exists:accounting_accounts,id',
         ];
         $this->validate($request, $rules);
 
         $requests = $request->all();
         $entry->update($requests);
-        $entryAccounts=AccountingEntryAccount::where('entry_id', $id)->get();
+        $entryAccounts = AccountingEntryAccount::where("entry_id", $id)->get();
         foreach ($entryAccounts as $entryAccount) {
             $entryAccount->delete();
         }
         $this->ManualCreateEntry($request);
-        alert()->success('تم تعديل  القيد بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.entries.index');
+        alert()
+            ->success("تم تعديل  القيد بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.entries.index");
     }
 
     /**
@@ -143,99 +146,118 @@ class EntryController extends Controller
      */
     public function destroy($id)
     {
-        $shift =AccountingEntry::findOrFail($id);
+        $shift = AccountingEntry::findOrFail($id);
         $shift->delete();
-        alert()->success('تم حذف القيد بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم حذف القيد بنجاح !")
+            ->autoclose(5000);
         return back();
     }
     public function destroy_account($id)
     {
-        $account =AccountingEntryAccount::findOrFail($id);
+        $account = AccountingEntryAccount::findOrFail($id);
         $account->delete();
-        alert()->success('تم حذف الحساب من القيد بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم حذف الحساب من القيد بنجاح !")
+            ->autoclose(5000);
         return back();
     }
 
     public function filter(Request $request)
     {
-        $requests=request()->all();
+        $requests = request()->all();
 
-        if ($request->has('code')&$request->code!=null) {
-            $entries = AccountingEntry::where('code', $requests['code'])->get();
-        } elseif ($request->has('date')&$request->date!=null) {
-            $entries = AccountingEntry::where('date', $requests['date'])->get();
-        } elseif ($request->has('type')&$request->type!=null) {
-            if ($requests['type']=='manual') {
-                $entries = AccountingEntry::where('type', 'manual')->get();
-            } elseif ($requests['type']=='automatic') {
-                $entries = AccountingEntry::where('type', 'automatic')->get();
+        if ($request->has("code") & ($request->code != null)) {
+            $entries = AccountingEntry::where("code", $requests["code"])->get();
+        } elseif ($request->has("date") & ($request->date != null)) {
+            $entries = AccountingEntry::where("date", $requests["date"])->get();
+        } elseif ($request->has("type") & ($request->type != null)) {
+            if ($requests["type"] == "manual") {
+                $entries = AccountingEntry::where("type", "manual")->get();
+            } elseif ($requests["type"] == "automatic") {
+                $entries = AccountingEntry::where("type", "automatic")->get();
             }
-        } elseif ($request->has('source')&$request->source!=null) {
-            $entries = AccountingEntry::where('source', 'Like', '%'.$requests['source'].'%')->get();
+        } elseif ($request->has("source") & ($request->source != null)) {
+            $entries = AccountingEntry::where(
+                "source",
+                "Like",
+                "%" . $requests["source"] . "%"
+            )->get();
         } else {
             $entries = AccountingEntry::all()->reverse();
         }
-        return $this->toIndex(compact('entries'));
+        return $this->toIndex(compact("entries"));
     }
 
     public function posting($id)
     {
-        $entry=AccountingEntry::find($id);
+        $entry = AccountingEntry::find($id);
         $entry->update([
-            'status'=>'posted'
+            "status" => "posted",
         ]);
 
         foreach ($entry->accounts_debtor() as $account) {
-            $DebatorAccount=AccountingAccount::find($account->account_id);
+            $DebatorAccount = AccountingAccount::find($account->account_id);
             $DebatorAccount->update([
-                'amount'=>$DebatorAccount->amount+$account->amount
+                "amount" => $DebatorAccount->amount + $account->amount,
             ]);
         }
 
         foreach ($entry->accounts_creditor() as $account) {
-            $CreditorAccount=AccountingAccount::find($account->account_id);
+            $CreditorAccount = AccountingAccount::find($account->account_id);
             $CreditorAccount->update([
-                  'amount'=>$CreditorAccount->amount+$account->amount
-              ]);
+                "amount" => $CreditorAccount->amount + $account->amount,
+            ]);
         }
-
 
         foreach ($entry->accounts as $account) {
-            $fromAccount=AccountingAccount::find($account->from_account_id);
-            $toAccount=AccountingAccount::find($account->to_account_id);
+            $fromAccount = AccountingAccount::find($account->from_account_id);
+            $toAccount = AccountingAccount::find($account->to_account_id);
             $fromAccount->update([
-                'amount'=>$fromAccount->amount+$account->amount
+                "amount" => $fromAccount->amount + $account->amount,
             ]);
             $toAccount->update([
-                'amount'=>$toAccount->amount-$account->amount
+                "amount" => $toAccount->amount - $account->amount,
             ]);
 
-            $fromAccountParent=AccountingAccount::find($account->from_account_id);
-            $toAccount=AccountingAccount::find($account->to_account_id);
+            $fromAccountParent = AccountingAccount::find(
+                $account->from_account_id
+            );
+            $toAccount = AccountingAccount::find($account->to_account_id);
             $fromAccount->update([
-                'amount'=>$fromAccount->amount+$account->amount
+                "amount" => $fromAccount->amount + $account->amount,
             ]);
 
             $toAccount->update([
-                'amount'=>$toAccount->amount-$account->amount
+                "amount" => $toAccount->amount - $account->amount,
             ]);
         }
 
-        alert()->success('تم ترحيل القيد بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم ترحيل القيد بنجاح !")
+            ->autoclose(5000);
         return back();
     }
 
     public function toaccounts($id)
     {
-        $acount=AccountingAccount::find($id);
-        $accounts=AccountingAccount::select('id', DB::raw("concat(ar_name, ' - ',code) as code_name"))->where('kind', 'sub')->where('id', '!=', $id)->pluck('code_name', 'id')->toArray();
-        $perent=AccountingAccount::where('id', $acount->account_id)->first();
+        $acount = AccountingAccount::find($id);
+        $accounts = AccountingAccount::select(
+            "id",
+            DB::raw("concat(ar_name, ' - ',code) as code_name")
+        )
+            ->where("kind", "sub")
+            ->where("id", "!=", $id)
+            ->pluck("code_name", "id")
+            ->toArray();
+        $perent = AccountingAccount::where("id", $acount->account_id)->first();
 
         return response()->json([
-            'status'=>true,
-            'perent'=>$perent->ar_name,
-            'data'=>view('AccountingSystem.entries.account')->with('accounts', $accounts)->render()
-
-            ]);
+            "status" => true,
+            "perent" => $perent->ar_name,
+            "data" => view("AccountingSystem.entries.account")
+                ->with("accounts", $accounts)
+                ->render(),
+        ]);
     }
 }

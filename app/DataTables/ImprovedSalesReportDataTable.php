@@ -21,13 +21,14 @@ class ImprovedSalesReportDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('name', fn($sale) => $sale->product->name)
-            ->addColumn('unit', fn($sale) => $sale->unit->name ?? $sale->product->main_unit)
-            ->addColumn('quantity', fn($sale) => $sale->quantity)
-            ->addColumn('price', fn($sale) => $sale->price)
-            ->addColumn('total', fn($sale) => $sale->total)
-
-            ;
+            ->addColumn("name", fn($sale) => $sale->product->name)
+            ->addColumn(
+                "unit",
+                fn($sale) => $sale->unit->name ?? $sale->product->main_unit
+            )
+            ->addColumn("quantity", fn($sale) => $sale->quantity)
+            ->addColumn("price", fn($sale) => $sale->price)
+            ->addColumn("total", fn($sale) => $sale->total);
     }
 
     /**
@@ -36,18 +37,21 @@ class ImprovedSalesReportDataTable extends DataTable
      */
     public function query()
     {
-        $sales = AccountingSaleItem::query()->with('product', 'unit');
+        $sales = AccountingSaleItem::query()->with("product", "unit");
 
-        $sales->when(\request()->has('product_id'), function ($q) {
-            $q->where('product_id', \request('product_id'));
+        $sales->when(\request()->has("product_id"), function ($q) {
+            $q->where("product_id", \request("product_id"));
         });
 
-        $sales->when(\request('from') and \request('to'), function ($q) {
-            $q->whereBetween('created_at', [\request('from'), \request('to')]);
+        $sales->when(\request("from") and \request("to"), function ($q) {
+            $q->whereBetween("created_at", [\request("from"), \request("to")]);
         });
 
-        $sales = $sales->groupBy('product_id', 'unit_id', 'price')
-            ->selectRaw("product_id,sum(quantity) as quantity,price,(price * sum(quantity)) as total,unit_id");
+        $sales = $sales
+            ->groupBy("product_id", "unit_id", "price")
+            ->selectRaw(
+                "product_id,sum(quantity) as quantity,price,(price * sum(quantity)) as total,unit_id"
+            );
 
         return $sales;
     }
@@ -60,21 +64,19 @@ class ImprovedSalesReportDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('improvedsalesreport-table')
-            ->addTableClass('finalTb table datatable-button-init-basic')
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->dom('Bfrtip')
-            ->orderBy(1)
-//                    ->buttons(
-//                        Button::make('create'),
-//                        Button::make('export'),
-//                        Button::make('print'),
-//                        Button::make('reset'),
-//                        Button::make('reload')
-//                    )
-
-            ;
+                ->setTableId("improvedsalesreport-table")
+                ->addTableClass("finalTb table datatable-button-init-basic")
+                ->columns($this->getColumns())
+                ->minifiedAjax()
+                ->dom("Bfrtip")
+                ->orderBy(1);
+            //                    ->buttons(
+            //                        Button::make('create'),
+            //                        Button::make('export'),
+            //                        Button::make('print'),
+            //                        Button::make('reset'),
+            //                        Button::make('reload')
+            //                    )
     }
 
     /**
@@ -85,12 +87,21 @@ class ImprovedSalesReportDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('name')->title('اسم المنتج')->addClass('text-center'),
-            Column::make('unit')->title('الوحدة ')->addClass('text-center'),
-            Column::make('quantity')->title('الكمية')->addClass('text-center'),
-            Column::make('price')->title('السعر')->addClass('text-center'),
-            Column::make('total')->title('الاجمالى')->addClass('text-center'),
-
+            Column::make("name")
+                ->title("اسم المنتج")
+                ->addClass("text-center"),
+            Column::make("unit")
+                ->title("الوحدة ")
+                ->addClass("text-center"),
+            Column::make("quantity")
+                ->title("الكمية")
+                ->addClass("text-center"),
+            Column::make("price")
+                ->title("السعر")
+                ->addClass("text-center"),
+            Column::make("total")
+                ->title("الاجمالى")
+                ->addClass("text-center"),
         ];
     }
 
@@ -101,6 +112,6 @@ class ImprovedSalesReportDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'ImprovedSalesReport_' . date('YmdHis');
+        return "ImprovedSalesReport_" . date("YmdHis");
     }
 }

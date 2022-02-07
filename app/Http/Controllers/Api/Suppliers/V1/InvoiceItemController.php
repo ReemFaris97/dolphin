@@ -12,11 +12,12 @@ class InvoiceItemController extends Controller
     public function update(Request $request, InvoiceItem $invoiceItem)
     {
         $inputs = $request->validate([
-            'price' => 'sometimes|numeric',
-            'unit' => 'sometimes|string',
-            'expired_at' => 'sometimes|date',
-            'quantity' => 'sometimes|numeric',
-            'accounting_product_id' => 'sometimes|exists:accounting_products,id',
+            "price" => "sometimes|numeric",
+            "unit" => "sometimes|string",
+            "expired_at" => "sometimes|date",
+            "quantity" => "sometimes|numeric",
+            "accounting_product_id" =>
+                "sometimes|exists:accounting_products,id",
         ]);
         $invoiceItem->update($inputs);
 
@@ -27,10 +28,10 @@ class InvoiceItemController extends Controller
     {
         $invoice = $invoiceItem->invoice;
         if ($invoice->items()->count() == 1) {
-            return \responder::error('عفوا لا يمكن حذف اخر عنصر في الفاتورة');
+            return \responder::error("عفوا لا يمكن حذف اخر عنصر في الفاتورة");
         }
         $invoiceItem->delete();
-//        if ($invoice)
+        //        if ($invoice)
         return \responder::success(new InvoiceResource($invoice));
     }
 }

@@ -11,22 +11,21 @@ use Illuminate\Database\Eloquent\Model;
 class AccountingProductRecipeItem extends Model
 {
     use HasFactory;
-    protected $table = 'accounting_product_recipe_items';
-    protected $fillable = ['product_id','unit_id','recipe_id','quantity' ];
-
+    protected $table = "accounting_product_recipe_items";
+    protected $fillable = ["product_id", "unit_id", "recipe_id", "quantity"];
 
     public function product()
     {
-        return $this->belongsTo(AccountingProduct::class, 'product_id');
+        return $this->belongsTo(AccountingProduct::class, "product_id");
     }
 
     public function unit()
     {
-        return $this->belongsTo( AccountingProductSubUnit::class, 'unit_id');
+        return $this->belongsTo(AccountingProductSubUnit::class, "unit_id");
     }
 
     public function recipe()
     {
-        return $this->belongsTo(AccountingProductRecipe::class,'recipe_id');
+        return $this->belongsTo(AccountingProductRecipe::class, "recipe_id");
     }
 }

@@ -10,9 +10,8 @@ use App\Traits\Viewable;
 
 class CarsController extends Controller
 {
-
     use Viewable;
-    private  $viewable = 'distributor.cars.';
+    private $viewable = "distributor.cars.";
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +20,7 @@ class CarsController extends Controller
     public function index()
     {
         $cars = DistributorCar::all()->reverse();
-        return $this->toIndex(compact('cars'));
+        return $this->toIndex(compact("cars"));
     }
 
     /**
@@ -31,8 +30,10 @@ class CarsController extends Controller
      */
     public function create()
     {
-        $users = User::whereIsDistributor(1)->get()->reverse();
-        return $this->toCreate(compact('users'));
+        $users = User::whereIsDistributor(1)
+            ->get()
+            ->reverse();
+        return $this->toCreate(compact("users"));
     }
 
     /**
@@ -44,14 +45,14 @@ class CarsController extends Controller
     public function store(Request $request)
     {
         $rules = [
-//            'user_id'=>'required|numeric|exists:users,id|unique:distributor_cars,user_id',
-            'car_name'=>'required|string|max:191',
-            'car_model'=>"required|string|max:191",
+            //            'user_id'=>'required|numeric|exists:users,id|unique:distributor_cars,user_id',
+            "car_name" => "required|string|max:191",
+            "car_model" => "required|string|max:191",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         DistributorCar::create($request->all());
-        toast('تم إضافة السيارة بنجاح','success','top-right');
-        return redirect()->route('distributor.cars.index');
+        toast("تم إضافة السيارة بنجاح", "success", "top-right");
+        return redirect()->route("distributor.cars.index");
     }
 
     /**
@@ -74,8 +75,10 @@ class CarsController extends Controller
     public function edit($id)
     {
         $car = DistributorCar::findOrFail($id);
-        $users = User::whereIsDistributor(1)->get()->reverse();
-        return $this->toEdit(compact('users','car'));
+        $users = User::whereIsDistributor(1)
+            ->get()
+            ->reverse();
+        return $this->toEdit(compact("users", "car"));
     }
 
     /**
@@ -90,14 +93,14 @@ class CarsController extends Controller
         $car = DistributorCar::find($id);
 
         $rules = [
-//            'user_id'=>'required|numeric|exists:users,id|unique:distributor_cars,user_id,'.$id,
-            'car_name'=>'required|string|max:191',
-            'car_model'=>"required|string|max:191",
+            //            'user_id'=>'required|numeric|exists:users,id|unique:distributor_cars,user_id,'.$id,
+            "car_name" => "required|string|max:191",
+            "car_model" => "required|string|max:191",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $car->update($request->all());
-        toast('تم تعديل السيارة بنجاح','success','top-right');
-        return redirect()->route('distributor.cars.index');
+        toast("تم تعديل السيارة بنجاح", "success", "top-right");
+        return redirect()->route("distributor.cars.index");
     }
 
     /**
@@ -109,21 +112,21 @@ class CarsController extends Controller
     public function destroy($id)
     {
         DistributorCar::find($id)->delete();
-        toast('تم حذف السيارة بنجاح','success','top-right');
-        return redirect()->route('distributor.cars.index');
+        toast("تم حذف السيارة بنجاح", "success", "top-right");
+        return redirect()->route("distributor.cars.index");
     }
 
     public function changeStatus($id)
     {
-        $item=DistributorCar::find($id);
+        $item = DistributorCar::find($id);
         if ($item->is_active == 1) {
-            $item->update(['is_active'=>0]);
-            toast('تم إلغاء التفعيل بنجاح','success','top-right');
-            return redirect()->route('distributor.cars.index');
+            $item->update(["is_active" => 0]);
+            toast("تم إلغاء التفعيل بنجاح", "success", "top-right");
+            return redirect()->route("distributor.cars.index");
         } else {
-            $item->update(['is_active'=>1]);
-            toast('تم  التفعيل بنجاح','success','top-right');
-            return redirect()->route('distributor.cars.index');
+            $item->update(["is_active" => 1]);
+            toast("تم  التفعيل بنجاح", "success", "top-right");
+            return redirect()->route("distributor.cars.index");
         }
     }
 }

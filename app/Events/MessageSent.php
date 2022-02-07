@@ -37,6 +37,6 @@ class MessageSent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('dolfin-system');
+        return new PrivateChannel("dolfin-system");
     }
 }

@@ -19,17 +19,20 @@ class NotificationsCategory extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    private $viewable = 'admin.notifications_category.';
+    private $viewable = "admin.notifications_category.";
 
     public function index()
     {
-        if (!auth()->user()->hasPermissionTo('view_emp_notifications')) {
+        if (
+            !auth()
+                ->user()
+                ->hasPermissionTo("view_emp_notifications")
+        ) {
             return abort(401);
         }
         $notifications_category = NotificationCategory::all();
 
-        return $this->toIndex(compact('notifications_category'));
-
+        return $this->toIndex(compact("notifications_category"));
     }
 
     /**
@@ -39,11 +42,14 @@ class NotificationsCategory extends Controller
      */
     public function create()
     {
-        if (!auth()->user()->hasPermissionTo('view_emp_notifications')) {
+        if (
+            !auth()
+                ->user()
+                ->hasPermissionTo("view_emp_notifications")
+        ) {
             return abort(401);
         }
         return $this->toCreate();
-
     }
 
     /**
@@ -58,9 +64,8 @@ class NotificationsCategory extends Controller
 
         NotificationCategory::create($request->all());
 
-        toast('تم الاضافه بنجاح', 'success', 'top-right');
-        return redirect()->route('admin.notifications-category.index');
-
+        toast("تم الاضافه بنجاح", "success", "top-right");
+        return redirect()->route("admin.notifications-category.index");
     }
 
     /**
@@ -71,7 +76,6 @@ class NotificationsCategory extends Controller
      */
     public function show($id)
     {
-
     }
 
     /**
@@ -82,13 +86,16 @@ class NotificationsCategory extends Controller
      */
     public function edit($id)
     {
-        if (!auth()->user()->hasPermissionTo('view_emp_notifications')) {
+        if (
+            !auth()
+                ->user()
+                ->hasPermissionTo("view_emp_notifications")
+        ) {
             return abort(401);
         }
         $notify = NotificationCategory::find($id);
 
-        return $this->toEdit(compact('notify'));
-
+        return $this->toEdit(compact("notify"));
     }
 
     /**
@@ -108,8 +115,8 @@ class NotificationsCategory extends Controller
         $this->validate($request, ["name" => "required|string|min:1|max:255"]);
         $notify->update($request->all());
 
-        toast('تم التعديل بنجاح', 'success', 'top-right');
-        return redirect()->route('admin.notifications-category.index');
+        toast("تم التعديل بنجاح", "success", "top-right");
+        return redirect()->route("admin.notifications-category.index");
     }
 
     /**
@@ -120,21 +127,24 @@ class NotificationsCategory extends Controller
      */
     public function destroy($id)
     {
-        if (!auth()->user()->hasPermissionTo('view_emp_notifications')) {
+        if (
+            !auth()
+                ->user()
+                ->hasPermissionTo("view_emp_notifications")
+        ) {
             return abort(401);
         }
         NotificationCategory::destroy($id);
-        toast('تم الحذف بنجاح', 'success', 'top-right');
+        toast("تم الحذف بنجاح", "success", "top-right");
         return back();
     }
 
     public function readNotifications()
     {
+        Auth::user()
+            ->notifications()
+            ->update(["read_at" => Carbon::now()]);
 
-        Auth::user()->notifications()->update(['read_at' => Carbon::now()]);
-
-        return response()->json(['status' => 1, 'msg' => 'done']);
+        return response()->json(["status" => 1, "msg" => "done"]);
     }
-
-
 }

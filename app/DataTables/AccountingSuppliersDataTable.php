@@ -21,11 +21,21 @@ class AccountingSuppliersDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('name', fn($supplier) => $supplier->name)
-            ->addColumn('balance', fn($supplier) => $supplier->balance)
-            ->addColumn('companies', fn($supplier) => view('AccountingSystem.suppliers.companies', ['row' => $supplier])->render())
-            ->addColumn('action', fn($supplier) => view('AccountingSystem.suppliers.action', ['row' => $supplier])->render())
-            ->rawColumns(['action', 'companies']);
+            ->addColumn("name", fn($supplier) => $supplier->name)
+            ->addColumn("balance", fn($supplier) => $supplier->balance)
+            ->addColumn(
+                "companies",
+                fn($supplier) => view("AccountingSystem.suppliers.companies", [
+                    "row" => $supplier,
+                ])->render()
+            )
+            ->addColumn(
+                "action",
+                fn($supplier) => view("AccountingSystem.suppliers.action", [
+                    "row" => $supplier,
+                ])->render()
+            )
+            ->rawColumns(["action", "companies"]);
     }
 
     /**
@@ -45,20 +55,19 @@ class AccountingSuppliersDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('accountingsuppliers-table')
-            ->addTableClass('finalTb table datatable-button-init-basic')
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->dom('Bfrtip')
-            ->orderBy(1)
-//                    ->buttons(
-//                        Button::make('create'),
-//                        Button::make('export'),
-//                        Button::make('print'),
-//                        Button::make('reset'),
-//                        Button::make('reload')
-//                    )
-            ;
+                ->setTableId("accountingsuppliers-table")
+                ->addTableClass("finalTb table datatable-button-init-basic")
+                ->columns($this->getColumns())
+                ->minifiedAjax()
+                ->dom("Bfrtip")
+                ->orderBy(1);
+            //                    ->buttons(
+            //                        Button::make('create'),
+            //                        Button::make('export'),
+            //                        Button::make('print'),
+            //                        Button::make('reset'),
+            //                        Button::make('reload')
+            //                    )
     }
 
     /**
@@ -69,10 +78,18 @@ class AccountingSuppliersDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('name')->title('اسم المورد')->addClass('text-center'),
-            Column::make('balance')->title('رصيد المورد')->addClass('text-center'),
-            Column::make('companies')->title('الشركات الموردة')->addClass('text-center'),
-            Column::computed('action', 'العمليات')->addClass('text-center')->width(250),
+            Column::make("name")
+                ->title("اسم المورد")
+                ->addClass("text-center"),
+            Column::make("balance")
+                ->title("رصيد المورد")
+                ->addClass("text-center"),
+            Column::make("companies")
+                ->title("الشركات الموردة")
+                ->addClass("text-center"),
+            Column::computed("action", "العمليات")
+                ->addClass("text-center")
+                ->width(250),
         ];
     }
 
@@ -83,6 +100,6 @@ class AccountingSuppliersDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'AccountingSuppliers_' . date('YmdHis');
+        return "AccountingSuppliers_" . date("YmdHis");
     }
 }

@@ -15,32 +15,30 @@ class TransactionResource extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'transactions' => $this->collection->transform(function ($q) {
-                /** @var  \App\Models\DistributorTransaction $q */;
-                return [
-                    'id' => $q->id,
-                    'name' => optional($q->sender)->name,
-                    'amount' => (string)$q->amountByType(auth()->user()),
-                    'date' => optional($q->created_at)->format('Y-m-d') ?? '',
+            "transactions" => $this->collection->transform(function ($q) {
+                /** @var  \App\Models\DistributorTransaction $q */ return [
+                    "id" => $q->id,
+                    "name" => optional($q->sender)->name,
+                    "amount" => (string) $q->amountByType(auth()->user()),
+                    "date" => optional($q->created_at)->format("Y-m-d") ?? "",
                 ];
             }),
-            'paginate' => [
-                'total' => $this->total(),
-                'count' => $this->count(),
-                'per_page' => $this->perPage(),
-                'next_page_url' => $this->nextPageUrl(),
-                'prev_page_url' => $this->previousPageUrl(),
-                'current_page' => $this->currentPage(),
-                'total_pages' => $this->lastPage()
-            ]
-
+            "paginate" => [
+                "total" => $this->total(),
+                "count" => $this->count(),
+                "per_page" => $this->perPage(),
+                "next_page_url" => $this->nextPageUrl(),
+                "prev_page_url" => $this->previousPageUrl(),
+                "current_page" => $this->currentPage(),
+                "total_pages" => $this->lastPage(),
+            ],
         ];
     }
 
     public function withResponse($request, $response)
     {
         $originalContent = $response->getOriginalContent();
-        unset($originalContent['links'], $originalContent['meta']);
+        unset($originalContent["links"], $originalContent["meta"]);
         $response->setData($originalContent);
     }
 }

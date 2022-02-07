@@ -13,5 +13,5 @@ class DistributorRouteReport extends Model
      *
      * @var string
      */
-    protected $table = 'distributor_route_report';
+    protected $table = "distributor_route_report";
 }

@@ -26,7 +26,7 @@ use Request as GlobalRequest;
 class PurchaseReturnController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.purchaseReturns.';
+    private $viewable = "AccountingSystem.purchaseReturns.";
 
     /**
      * Display a listing of the resource.
@@ -36,7 +36,7 @@ class PurchaseReturnController extends Controller
     public function index()
     {
         $puchaseReturns = AccountingPurchaseReturn::all();
-        return $this->toIndex(compact('puchaseReturns'));
+        return $this->toIndex(compact("puchaseReturns"));
     }
 
     /**
@@ -46,28 +46,42 @@ class PurchaseReturnController extends Controller
      */
     public function create()
     {
-        $categories=AccountingProductCategory::pluck('ar_name', 'id')->toArray();
-        $suppliers=AccountingSupplier::pluck('name', 'id')->toArray();
-        $safes=AccountingSafe::pluck('name', 'id')->toArray();
+        $categories = AccountingProductCategory::pluck(
+            "ar_name",
+            "id"
+        )->toArray();
+        $suppliers = AccountingSupplier::pluck("name", "id")->toArray();
+        $safes = AccountingSafe::pluck("name", "id")->toArray();
         // $products=AccountingProduct::all();
-        $userstores=AccountingUserPermission::where('user_id', auth()->user()->id)->where('model_type', 'App\Models\AccountingSystem\AccountingStore')->pluck('model_id', 'id')->toArray();
-        $stores=AccountingStore::whereIn('id', $userstores)->pluck('ar_name', 'id')->toArray();
-        $products=[];
+        $userstores = AccountingUserPermission::where(
+            "user_id",
+            auth()->user()->id
+        )
+            ->where("model_type", "App\Models\AccountingSystem\AccountingStore")
+            ->pluck("model_id", "id")
+            ->toArray();
+        $stores = AccountingStore::whereIn("id", $userstores)
+            ->pluck("ar_name", "id")
+            ->toArray();
+        $products = [];
 
-
-        return  view('AccountingSystem.buy_points.buy_point', compact('categories', 'suppliers', 'safes', 'products', 'stores'));
+        return view(
+            "AccountingSystem.buy_points.buy_point",
+            compact("categories", "suppliers", "safes", "products", "stores")
+        );
     }
-
 
     public function show($id)
     {
         $purchaseReturn = AccountingPurchaseReturn::find($id);
 
-        $product_items = AccountingPurchaseReturnItem::where('purchase_return_id', $id)->get();
+        $product_items = AccountingPurchaseReturnItem::where(
+            "purchase_return_id",
+            $id
+        )->get();
 
-        return $this->toShow(compact('purchaseReturn', 'product_items'));
+        return $this->toShow(compact("purchaseReturn", "product_items"));
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -82,14 +96,14 @@ class PurchaseReturnController extends Controller
     public function store_returns(Request $request)
     {
         $requests = $request->all();
-        $products = $requests['product_id'];
-        $quantities = $requests['quantity'];
+        $products = $requests["product_id"];
+        $quantities = $requests["quantity"];
         $merges = $products->zip($quantities);
         foreach ($merges as $merge) {
             AccountingReturn::create([
-                'product_id' => $merge[0],
-                'quantity' => $merge[1],
-                'user_id' => '',
+                "product_id" => $merge[0],
+                "quantity" => $merge[1],
+                "user_id" => "",
             ]);
         }
     }

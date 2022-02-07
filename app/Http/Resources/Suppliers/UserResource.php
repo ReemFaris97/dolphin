@@ -15,24 +15,28 @@ class UserResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'=>$this->id,
-            'name'=>$this->name,
-            'company_name'=>$this->company_name,
-            'commercial_number'=>$this->commercial_number,
-            'phone'=>$this->phone,
-            'email'=>$this->email,
-            'commercial_image'=>$this->commercial_image,
-            'licence_image'=>$this->licence_image,
-            'image'=>$this->image,
-            'address'=>$this->address,
-            'lat'=>$this->lat,
-            'lng'=>$this->lng,
-            'landline'=>$this->landline,
-            'companies'=>CompanyResource::collection(optional($this->companies)),
-            'token'=>$this->token,
-            'permissions'=>is_array($this->permissions)?$this->permissions:[],
-            'parent_id'=>$this->parent_id,
-            'tax_number'=>$this->tax_number,
+            "id" => $this->id,
+            "name" => $this->name,
+            "company_name" => $this->company_name,
+            "commercial_number" => $this->commercial_number,
+            "phone" => $this->phone,
+            "email" => $this->email,
+            "commercial_image" => $this->commercial_image,
+            "licence_image" => $this->licence_image,
+            "image" => $this->image,
+            "address" => $this->address,
+            "lat" => $this->lat,
+            "lng" => $this->lng,
+            "landline" => $this->landline,
+            "companies" => CompanyResource::collection(
+                optional($this->companies)
+            ),
+            "token" => $this->token,
+            "permissions" => is_array($this->permissions)
+                ? $this->permissions
+                : [],
+            "parent_id" => $this->parent_id,
+            "tax_number" => $this->tax_number,
         ];
     }
 }

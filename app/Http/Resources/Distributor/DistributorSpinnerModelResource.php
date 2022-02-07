@@ -15,11 +15,11 @@ class DistributorSpinnerModelResource extends JsonResource
      */
     public function toArray($request)
     {
-        $has_store = Store::where('distributor_id',$this->id)->first();
+        $has_store = Store::where("distributor_id", $this->id)->first();
         return [
-            'id'=>$this->id,
-            'name'=>$this->name,
-            'has_store'=>$has_store?true:false,
+            "id" => $this->id,
+            "name" => $this->name,
+            "has_store" => $has_store ? true : false,
         ];
     }
 }

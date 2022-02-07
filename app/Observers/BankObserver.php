@@ -17,17 +17,17 @@ class BankObserver
      */
     public function created(AccountingBank $bank)
     {
-        $account=  AccountingAccount::create([
-            'ar_name'=>$bank->name,
-            'en_name'=>$bank->name,
-            'kind'=>'sub',
-            'status'=>'debtor',
-            'active'=>'1',
-            'account_id'=>getsetting('accounting_bank_id'),
-            'bank_id'=>$bank->id,
+        $account = AccountingAccount::create([
+            "ar_name" => $bank->name,
+            "en_name" => $bank->name,
+            "kind" => "sub",
+            "status" => "debtor",
+            "active" => "1",
+            "account_id" => getsetting("accounting_bank_id"),
+            "bank_id" => $bank->id,
         ]);
         $bank->update([
-            'account_id'=>$account->id
+            "account_id" => $account->id,
         ]);
     }
 
@@ -37,5 +37,4 @@ class BankObserver
      * @param  \App\Task  $task
      * @return void
      */
-
 }

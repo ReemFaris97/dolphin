@@ -24,5 +24,5 @@ use Illuminate\Database\Eloquent\Model;
  */
 class AccountingAllowance extends Model
 {
-    protected $fillable=['name','notes'];
+    protected $fillable = ["name", "notes"];
 }

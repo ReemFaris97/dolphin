@@ -20,7 +20,7 @@ use App\Traits\Viewable;
 class SupplierSadadController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.suppliers_sadad.';
+    private $viewable = "AccountingSystem.suppliers_sadad.";
 
     /**
      * Display a listing of the resource.
@@ -29,8 +29,10 @@ class SupplierSadadController extends Controller
      */
     public function index()
     {
-        $clauses = AccountingMoneyClause::where('concerned','supplier')->get()->reverse();
-        return $this->toIndex(compact('clauses'));
+        $clauses = AccountingMoneyClause::where("concerned", "supplier")
+            ->get()
+            ->reverse();
+        return $this->toIndex(compact("clauses"));
     }
 
     /**
@@ -40,11 +42,10 @@ class SupplierSadadController extends Controller
      */
     public function create()
     {
-
-        $safes = AccountingSafe::pluck('name', 'id')->toArray();
-        $suppliers = AccountingSupplier::pluck('name', 'id')->toArray();
-        $benods = AccountingBenod::pluck('ar_name', 'id')->toArray();
-        return $this->toCreate(compact('safes', 'suppliers', 'benods'));
+        $safes = AccountingSafe::pluck("name", "id")->toArray();
+        $suppliers = AccountingSupplier::pluck("name", "id")->toArray();
+        $benods = AccountingBenod::pluck("ar_name", "id")->toArray();
+        return $this->toCreate(compact("safes", "suppliers", "benods"));
     }
 
     /**
@@ -55,55 +56,51 @@ class SupplierSadadController extends Controller
      */
     public function store(Request $request)
     {
-
         // $rules = [
-
 
         // ];
         // $this->validate($request,$rules);
         $requests = $request->all();
 
-        $safe = AccountingSafe::find($requests['safe_id']);
+        $safe = AccountingSafe::find($requests["safe_id"]);
 
         $clause = AccountingMoneyClause::create($requests);
 
         $clause->update([
-            'num'=>mt_rand(),
+            "num" => mt_rand(),
         ]);
 
-        if($clause->concerned == 'supplier'){
-
-        $supplier = AccountingSupplier::find($requests['supplier_id']);
-        if ($clause->type == 'revenue') {
-            //من  المورد  للخزينه رصيد الخزينة  بيزيدالايراااد
-            // فى  حاله  المرتجعات
-            $safe->update([
-                'amount' => $safe->amount + $requests['amount']
-            ]);
-            $supplier->update([
-                'user_id'=>auth()->user()->id,
-                'balance' => $supplier->balance + $requests['amount']
-            ]);
-        } elseif ($clause->type == 'expenses') {
-            // من  الخزنه  للمورد بيقلل رصيد الخزنه مديونيه للمورد كمان هيقل
-            //فى حاله  انشاء  مشترى
+        if ($clause->concerned == "supplier") {
+            $supplier = AccountingSupplier::find($requests["supplier_id"]);
+            if ($clause->type == "revenue") {
+                //من  المورد  للخزينه رصيد الخزينة  بيزيدالايراااد
+                // فى  حاله  المرتجعات
+                $safe->update([
+                    "amount" => $safe->amount + $requests["amount"],
+                ]);
+                $supplier->update([
+                    "user_id" => auth()->user()->id,
+                    "balance" => $supplier->balance + $requests["amount"],
+                ]);
+            } elseif ($clause->type == "expenses") {
+                // من  الخزنه  للمورد بيقلل رصيد الخزنه مديونيه للمورد كمان هيقل
+                //فى حاله  انشاء  مشترى
 
                 $safe->update([
-                    'amount' => $safe->amount - $requests['amount']
+                    "amount" => $safe->amount - $requests["amount"],
                 ]);
-
-
 
                 $supplier->update([
-                    'user_id'=>auth()->user()->id,
-                    'balance' => $supplier->balance - $requests['amount']
+                    "user_id" => auth()->user()->id,
+                    "balance" => $supplier->balance - $requests["amount"],
                 ]);
-//                dd($supplier);
-
+                //                dd($supplier);
+            }
         }
-    }
-        alert()->success('تم اضافة سند  سداد بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.suppliers_sadad.index');
+        alert()
+            ->success("تم اضافة سند  سداد بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.suppliers_sadad.index");
     }
 
     /**
@@ -122,11 +119,13 @@ class SupplierSadadController extends Controller
     public function edit($id)
     {
         $clause = AccountingMoneyClause::findOrFail($id);
-        $safes = AccountingSafe::pluck('name', 'id')->toArray();
-        $clients = AccountingClient::pluck('name', 'id')->toArray();
-        $suppliers = AccountingSupplier::pluck('name', 'id')->toArray();
-        $benods = AccountingBenod::pluck('ar_name', 'id')->toArray();
-        return $this->toEdit(compact('clause', 'safes', 'clients', 'suppliers', 'benods'));
+        $safes = AccountingSafe::pluck("name", "id")->toArray();
+        $clients = AccountingClient::pluck("name", "id")->toArray();
+        $suppliers = AccountingSupplier::pluck("name", "id")->toArray();
+        $benods = AccountingBenod::pluck("ar_name", "id")->toArray();
+        return $this->toEdit(
+            compact("clause", "safes", "clients", "suppliers", "benods")
+        );
     }
 
     /**
@@ -149,8 +148,10 @@ class SupplierSadadController extends Controller
         // $this->validate($request,$rules);
         $requests = $request->all();
         $clause->update($requests);
-        alert()->success('تم تعديل  البند بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.clauses.index');
+        alert()
+            ->success("تم تعديل  البند بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.clauses.index");
     }
 
     /**
@@ -163,24 +164,26 @@ class SupplierSadadController extends Controller
     {
         $clause = AccountingMoneyClause::findOrFail($id);
         $clause->delete();
-        alert()->success('تم حذف  البند بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم حذف  البند بنجاح !")
+            ->autoclose(5000);
         return back();
-
-
     }
-    public function getBalance($id){
-        $supplier=AccountingSupplier::find($id);
+    public function getBalance($id)
+    {
+        $supplier = AccountingSupplier::find($id);
         return response()->json([
-            'status'=>true,
-            'data'=>($supplier->balance)
+            "status" => true,
+            "data" => $supplier->balance,
         ]);
     }
-    public function getNewBalance($amount){
-        $supplier=AccountingSupplier::find($id);
-        $newBalance=$supplier->balance -$amount;
+    public function getNewBalance($amount)
+    {
+        $supplier = AccountingSupplier::find($id);
+        $newBalance = $supplier->balance - $amount;
         return response()->json([
-            'status'=>true,
-            'data'=>($supplier->balance)
+            "status" => true,
+            "data" => $supplier->balance,
         ]);
     }
 }

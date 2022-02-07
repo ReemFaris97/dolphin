@@ -15,7 +15,7 @@ use Illuminate\Validation\Rule;
 class FaceController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.faces.';
+    private $viewable = "AccountingSystem.faces.";
     /**
      * Display a listing of the resource.
      *
@@ -23,8 +23,8 @@ class FaceController extends Controller
      */
     public function index()
     {
-        $faces =AccountingBranchFace::all()->reverse();
-        return $this->toIndex(compact('faces'));
+        $faces = AccountingBranchFace::all()->reverse();
+        return $this->toIndex(compact("faces"));
     }
 
     /**
@@ -34,8 +34,8 @@ class FaceController extends Controller
      */
     public function create()
     {
-        $branches=AccountingBranch::pluck('name', 'id')->toArray();
-        return $this->toCreate(compact('branches'));
+        $branches = AccountingBranch::pluck("name", "id")->toArray();
+        return $this->toCreate(compact("branches"));
     }
 
     /**
@@ -47,19 +47,26 @@ class FaceController extends Controller
     public function store(Request $request)
     {
         $rules = [
+            "name" => [
+                "required",
+                "string",
+                "max:191",
+                Rule::unique("accounting_branch_faces", "name")->where(
+                    "branch_id",
+                    $request->branch_id
+                ),
+            ],
 
-            'name'=>['required','string','max:191',
-            Rule::unique('accounting_branch_faces', 'name')->where('branch_id', $request->branch_id)],
-
-            'branch_id'=>'required|numeric|exists:accounting_branches,id',
-
+            "branch_id" => "required|numeric|exists:accounting_branches,id",
         ];
         $this->validate($request, $rules);
         $requests = $request->all();
 
         AccountingBranchFace::create($requests);
-        alert()->success('تم اضافة   الوجه  بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.faces.index');
+        alert()
+            ->success("تم اضافة   الوجه  بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.faces.index");
     }
 
     /**
@@ -81,10 +88,10 @@ class FaceController extends Controller
      */
     public function edit($id)
     {
-        $face =AccountingBranchFace::findOrFail($id);
-        $branches=AccountingBranch::pluck('name', 'id')->toArray();
+        $face = AccountingBranchFace::findOrFail($id);
+        $branches = AccountingBranch::pluck("name", "id")->toArray();
 
-        return $this->toEdit(compact('face', 'branches'));
+        return $this->toEdit(compact("face", "branches"));
     }
 
     /**
@@ -96,19 +103,26 @@ class FaceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $face =AccountingBranchFace::findOrFail($id);
+        $face = AccountingBranchFace::findOrFail($id);
 
         $rules = [
-
-            'name'=>['required','string','max:191',
-            Rule::unique('accounting_branch_faces', 'name')->ignore($id)->where('branch_id', $request->branch_id)],
-            'branch_id'=>'required|numeric|exists:accounting_branches,id',
+            "name" => [
+                "required",
+                "string",
+                "max:191",
+                Rule::unique("accounting_branch_faces", "name")
+                    ->ignore($id)
+                    ->where("branch_id", $request->branch_id),
+            ],
+            "branch_id" => "required|numeric|exists:accounting_branches,id",
         ];
         $this->validate($request, $rules);
         $requests = $request->all();
         $face->update($requests);
-        alert()->success('تم تعديل الوجه  بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.faces.index');
+        alert()
+            ->success("تم تعديل الوجه  بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.faces.index");
     }
 
     /**
@@ -119,9 +133,11 @@ class FaceController extends Controller
      */
     public function destroy($id)
     {
-        $face =AccountingBranchFace::findOrFail($id);
+        $face = AccountingBranchFace::findOrFail($id);
         $face->delete();
-        alert()->success('تم حذف  الوجة بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم حذف  الوجة بنجاح !")
+            ->autoclose(5000);
         return back();
     }
 }

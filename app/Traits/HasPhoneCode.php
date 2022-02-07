@@ -1,8 +1,8 @@
 <?php
-namespace  App\Traits;
+namespace App\Traits;
 
-
-trait  HasPhoneCode{
+trait HasPhoneCode
+{
     /**
      * Boot the has password trait for a model.
      *
@@ -10,12 +10,8 @@ trait  HasPhoneCode{
      */
     public static function bootHasPhoneCode()
     {
-
         static::creating(function ($user) {
-            $user->mobile_code =  mt_rand(000000, 999999);
+            $user->mobile_code = mt_rand(000000, 999999);
         });
-
-
-
     }
 }

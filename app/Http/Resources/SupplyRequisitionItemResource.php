@@ -15,13 +15,13 @@ class SupplyRequisitionItemResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'product' => [
-                'id' => $this->product->id,
-                'name' => $this->product->name,
+            "id" => $this->id,
+            "product" => [
+                "id" => $this->product->id,
+                "name" => $this->product->name,
             ],
-            'unit' => $this->unit,
-            'quantity' => $this->quantity
+            "unit" => $this->unit,
+            "quantity" => $this->quantity,
         ];
     }
 }

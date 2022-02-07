@@ -8,8 +8,6 @@ use Illuminate\Queue\InteractsWithQueue;
 
 class AddSaleTotalToFund
 {
-   
-
     /**
      * Handle the event.
      *

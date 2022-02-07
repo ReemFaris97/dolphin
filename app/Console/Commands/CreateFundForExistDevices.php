@@ -12,14 +12,14 @@ class CreateFundForExistDevices extends Command
      *
      * @var string
      */
-    protected $signature = 'generate:funds';
+    protected $signature = "generate:funds";
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = "Command description";
 
     /**
      * Create a new command instance.
@@ -38,8 +38,9 @@ class CreateFundForExistDevices extends Command
      */
     public function handle()
     {
-        $devices=AccountingDevice::query()->whereDoesntHave('fund')
-->get();
+        $devices = AccountingDevice::query()
+            ->whereDoesntHave("fund")
+            ->get();
         $this->withProgressBar($devices, function (AccountingDevice $device) {
             $device->createFund();
         });

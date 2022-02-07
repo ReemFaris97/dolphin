@@ -67,23 +67,23 @@ class RouteTripReport extends Model
      * @var array
      */
     protected $fillable = [
-        'route_trip_id',
-        'round',
-        'cash',
-        'notes',
-        'visa',
-        'store_id',
-        'distributor_transaction_id',
-        'expenses',
-        'paid_at',
-        'is_packages',
+        "route_trip_id",
+        "round",
+        "cash",
+        "notes",
+        "visa",
+        "store_id",
+        "distributor_transaction_id",
+        "expenses",
+        "paid_at",
+        "is_packages",
     ];
     /**
      * The attributes that should be mutated to dates.
      *
      * @var array
      */
-    protected $dates = ['created_at', 'updated_at', 'paid_at'];
+    protected $dates = ["created_at", "updated_at", "paid_at"];
     /**
      * The "booting" method of the model.
      *
@@ -97,7 +97,7 @@ class RouteTripReport extends Model
             if (!request()->is_deffered == 1) {
                 $model->paid_at = Carbon::now();
             }
-            $model->is_packages=request()->is_packages??0;
+            $model->is_packages = request()->is_packages ?? 0;
         });
     }
 
@@ -108,7 +108,10 @@ class RouteTripReport extends Model
      */
     public function distributor_transaction(): BelongsTo
     {
-        return $this->belongsTo(DistributorTransaction::class, 'distributor_transaction_id');
+        return $this->belongsTo(
+            DistributorTransaction::class,
+            "distributor_transaction_id"
+        );
     }
 
     /**
@@ -118,22 +121,28 @@ class RouteTripReport extends Model
      */
     public function route_trip(): BelongsTo
     {
-        return $this->belongsTo(RouteTrips::class, 'route_trip_id');
+        return $this->belongsTo(RouteTrips::class, "route_trip_id");
     }
 
     public function store()
     {
-        return $this->belongsTo(store::class, 'store_id')->withDefault();
+        return $this->belongsTo(store::class, "store_id")->withDefault();
     }
 
     public function inventory(): HasOne
     {
-        return $this->hasOne(TripInventory::class, 'trip_id', 'route_trip_id')->whereColumn('trip_inventories.round', 'round');
+        return $this->hasOne(
+            TripInventory::class,
+            "trip_id",
+            "route_trip_id"
+        )->whereColumn("trip_inventories.round", "round");
     }
 
     public function products()
     {
-        return $this->morphMany(AttachedProducts::class, 'model')->with('product');
+        return $this->morphMany(AttachedProducts::class, "model")->with(
+            "product"
+        );
     }
 
     public function product_total()
@@ -149,12 +158,16 @@ class RouteTripReport extends Model
 
     public function images()
     {
-        return $this->morphMany(Image::class, 'model');
+        return $this->morphMany(Image::class, "model");
     }
 
-    public function scopeOfDistributor(Builder $builder, $distributor = null): void
-    {
-        $builder->whereHas('route_trip', function ($route_trip) use ($distributor) {
+    public function scopeOfDistributor(
+        Builder $builder,
+        $distributor = null
+    ): void {
+        $builder->whereHas("route_trip", function ($route_trip) use (
+            $distributor
+        ) {
             $route_trip->OfDistributor($distributor);
         });
     }
@@ -175,13 +188,15 @@ class RouteTripReport extends Model
                     group by model_id ,product_id
                 ) as attached_products"
             ),
-            'attached_products.route_trip',
-            'route_trip_reports.id'
+            "attached_products.route_trip",
+            "route_trip_reports.id"
         );
     }
 
-    public function scopeFilterDistributor(Builder $builder, $distributor = null): void
-    {
+    public function scopeFilterDistributor(
+        Builder $builder,
+        $distributor = null
+    ): void {
         $builder->when($distributor != null, function ($q) use ($distributor) {
             $q->ofDistributor($distributor);
         });
@@ -189,8 +204,8 @@ class RouteTripReport extends Model
 
     public function scopeOfClient(Builder $builder, $client = null): void
     {
-        $builder->whereHas('route_trip', function ($route_trip) use ($client) {
-            $route_trip->where('client_id', $client);
+        $builder->whereHas("route_trip", function ($route_trip) use ($client) {
+            $route_trip->where("client_id", $client);
         });
     }
 
@@ -202,7 +217,7 @@ class RouteTripReport extends Model
     public function scopeOfYear(Builder $builder, $year = null): void
     {
         $builder->when($year != null, function ($q) use ($year) {
-            $q->whereYear('created_at', $year);
+            $q->whereYear("created_at", $year);
         });
     }
 
@@ -214,7 +229,7 @@ class RouteTripReport extends Model
     public function scopeOfMonth(Builder $builder, $month = null): void
     {
         $builder->when($month != null, function ($q) use ($month) {
-            $q->whereMonth('created_at', $month);
+            $q->whereMonth("created_at", $month);
         });
     }
 
@@ -225,10 +240,13 @@ class RouteTripReport extends Model
 
     public function CashArabic($cach)
     {
-        $total = explode('.', $cach);
-        $total_in_arabic_rial = new  num_to_ar($total[0], 'male');
-        $total_in_arabic_halla = new  num_to_ar($total[1] ?? 0, 'male');
-        $AllTotal = [$total_in_arabic_rial->convert_number(), $total_in_arabic_halla->convert_number() ?? 0];
+        $total = explode(".", $cach);
+        $total_in_arabic_rial = new num_to_ar($total[0], "male");
+        $total_in_arabic_halla = new num_to_ar($total[1] ?? 0, "male");
+        $AllTotal = [
+            $total_in_arabic_rial->convert_number(),
+            $total_in_arabic_halla->convert_number() ?? 0,
+        ];
         return $AllTotal;
     }
     public function getClientNameAttribute()
@@ -237,8 +255,8 @@ class RouteTripReport extends Model
     }
     public function getTotalWithTaxAttribute()
     {
-        $tax_percent=(float)(getsetting('general_taxs')) /100;
-        $tax_amount= round($this->product_total() * $tax_percent, 2);
+        $tax_percent = (float) getsetting("general_taxs") / 100;
+        $tax_amount = round($this->product_total() * $tax_percent, 2);
         return $this->product_total() + $tax_amount;
     }
 }

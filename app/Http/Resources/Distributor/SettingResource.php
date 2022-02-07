@@ -14,25 +14,17 @@ class SettingResource extends ResourceCollection
      */
     public function toArray($request)
     {
-
         dd($this);
         return [
-
-
-
-                    'name'=>$this->name,
-                    'value'=>$this->value,
-
-                ];
-
-
-
+            "name" => $this->name,
+            "value" => $this->value,
+        ];
     }
 
     public function withResponse($request, $response)
     {
         $originalContent = $response->getOriginalContent();
-        unset($originalContent['links'],$originalContent['meta']);
+        unset($originalContent["links"], $originalContent["meta"]);
         $response->setData($originalContent);
     }
 }

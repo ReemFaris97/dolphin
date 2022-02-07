@@ -26,5 +26,5 @@ use Illuminate\Database\Eloquent\Model;
  */
 class FcmToken extends Model
 {
-    protected $fillable = ['token','user_id','device',];
+    protected $fillable = ["token", "user_id", "device"];
 }

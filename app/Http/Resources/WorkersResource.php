@@ -15,13 +15,15 @@ class WorkersResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'=>$this->id,
-            'name'=>$this->user->name,
-            'rater'=>isset($this->rater->name)?$this->rater->name:"",
-            'finisher'=>isset($this->finisher->name)?$this->finisher->name:"",
-            'days'=>$this->days,
-            'minutes'=>$this->minutes,
-            'hours'=>$this->hours,
+            "id" => $this->id,
+            "name" => $this->user->name,
+            "rater" => isset($this->rater->name) ? $this->rater->name : "",
+            "finisher" => isset($this->finisher->name)
+                ? $this->finisher->name
+                : "",
+            "days" => $this->days,
+            "minutes" => $this->minutes,
+            "hours" => $this->hours,
         ];
     }
 }

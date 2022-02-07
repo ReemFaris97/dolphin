@@ -46,9 +46,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class AccountingSetting extends Model
 {
-    protected $fillable = ['name', 'type', 'value' , 'page', 'slug', 'title'];
+    protected $fillable = ["name", "type", "value", "page", "slug", "title"];
 
-    protected $table='accounting_settings';
+    protected $table = "accounting_settings";
     // public function value()
     // {
     //     if (app()->getLocale() == 'en')
@@ -56,5 +56,4 @@ class AccountingSetting extends Model
     //     else
     //         return $this->ar_value;
     // }
-
 }

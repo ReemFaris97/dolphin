@@ -19,10 +19,17 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $user=auth()->user();
-//        accounting_supplier_id
-        return \responder::success(new BaseCollection(Product::where('accounting_supplier_id',$user->supplier_id)->whereIsActive(0)->latest()->paginate(20),
-            ProductResource::class));
+        $user = auth()->user();
+        //        accounting_supplier_id
+        return \responder::success(
+            new BaseCollection(
+                Product::where("accounting_supplier_id", $user->supplier_id)
+                    ->whereIsActive(0)
+                    ->latest()
+                    ->paginate(20),
+                ProductResource::class
+            )
+        );
     }
 
     /**
@@ -34,18 +41,18 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $inputs = $request->validate([
-            'name' => 'required|string',
-            'unit' => 'required|string',
-            'barcode' => 'required|string',
-            'price' => 'required|numeric',
-            'notes' => 'nullable|string',
-            'image' => 'required|image'
+            "name" => "required|string",
+            "unit" => "required|string",
+            "barcode" => "required|string",
+            "price" => "required|numeric",
+            "notes" => "nullable|string",
+            "image" => "required|image",
         ]);
         $user = auth()->user();
-        $inputs['accounting_supplier_id']=$user->supplier_id;
-        $inputs['accounting_company_id']=$request->headers->get('company_id');
+        $inputs["accounting_supplier_id"] = $user->supplier_id;
+        $inputs["accounting_company_id"] = $request->headers->get("company_id");
 
-        $product = AccountingProduct::ofBarcode($request['barcode'])->first();;
+        $product = AccountingProduct::ofBarcode($request["barcode"])->first();
         if ($product) {
             $product->suppliers()->attach($user->supplier_id);
         } else {
@@ -53,8 +60,13 @@ class ProductController extends Controller
         }
         activity()
             ->causedBy(auth()->user())
-            ->log(sprintf('قام %s ب %s',auth()->user()->name,"بإضافة منتج {$product->id}"));
-
+            ->log(
+                sprintf(
+                    "قام %s ب %s",
+                    auth()->user()->name,
+                    "بإضافة منتج {$product->id}"
+                )
+            );
 
         return \responder::success(new ProductResource($product));
     }
@@ -80,20 +92,26 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $inputs = $request->validate([
-            'name' => 'sometimes|string',
-            'unit' => 'sometimes|string',
-            'barcode' => 'sometimes|string',
-            'price' => 'sometimes|numeric',
-            'notes' => 'nullable|string',
-            'image' => 'sometimes|image'
+            "name" => "sometimes|string",
+            "unit" => "sometimes|string",
+            "barcode" => "sometimes|string",
+            "price" => "sometimes|numeric",
+            "notes" => "nullable|string",
+            "image" => "sometimes|image",
         ]);
         $user = auth()->user();
         $product->update($inputs);
         activity()
             ->causedBy(auth()->user())
-            ->log(sprintf('قام %s ب %s',auth()->user()->name,"تعديل منتج رقم {$product->id}"));
+            ->log(
+                sprintf(
+                    "قام %s ب %s",
+                    auth()->user()->name,
+                    "تعديل منتج رقم {$product->id}"
+                )
+            );
 
-        return  \responder::success(new ProductResource($product));
+        return \responder::success(new ProductResource($product));
     }
 
     /**
@@ -107,32 +125,60 @@ class ProductController extends Controller
         $product->delete();
         activity()
             ->causedBy(auth()->user())
-            ->log(sprintf('قام %s ب %s',auth()->user()->name,"حذف منتج رقم {$product->id}"));
+            ->log(
+                sprintf(
+                    "قام %s ب %s",
+                    auth()->user()->name,
+                    "حذف منتج رقم {$product->id}"
+                )
+            );
 
-        return  \responder::success('تم الحذف بنجاح !');
+        return \responder::success("تم الحذف بنجاح !");
     }
 
     public function list(Request $request)
     {
         $products = AccountingProduct::query();
-        $products->when(\request('q'), function ($q) {
+        $products->when(\request("q"), function ($q) {
             $q->where(function ($q) {
-                $query = \request('q');
-                $q->where('name', 'like', '%' . $query . '%')->orWhere('bar_code', 'like', "%$query%");
+                $query = \request("q");
+                $q->where("name", "like", "%" . $query . "%")->orWhere(
+                    "bar_code",
+                    "like",
+                    "%$query%"
+                );
             });
         });
 
-        return \responder::success(new BaseCollection($products->paginate(20),AccountingProductResource::class));
+        return \responder::success(
+            new BaseCollection(
+                $products->paginate(20),
+                AccountingProductResource::class
+            )
+        );
     }
 
     public function myProducts()
     {
-//        dd(auth()->user()->supplier);
-        return \responder::success(new BaseCollection(auth()->user()->supplier->products()->when(\request('q'), function ($q) {
-            $q->where(function ($q) {
-                $query = \request('q');
-                $q->where('name', 'like', '%' . $query . '%')->orWhere('bar_code', 'like', "%$query%");
-            });
-        })->paginate(20),AccountingProductResource::class));
+        //        dd(auth()->user()->supplier);
+        return \responder::success(
+            new BaseCollection(
+                auth()
+                    ->user()
+                    ->supplier->products()
+                    ->when(\request("q"), function ($q) {
+                        $q->where(function ($q) {
+                            $query = \request("q");
+                            $q->where(
+                                "name",
+                                "like",
+                                "%" . $query . "%"
+                            )->orWhere("bar_code", "like", "%$query%");
+                        });
+                    })
+                    ->paginate(20),
+                AccountingProductResource::class
+            )
+        );
     }
 }

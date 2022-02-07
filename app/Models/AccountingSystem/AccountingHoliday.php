@@ -24,6 +24,5 @@ use Illuminate\Database\Eloquent\Model;
  */
 class AccountingHoliday extends Model
 {
-    protected $fillable=['name','duration'];
-
+    protected $fillable = ["name", "duration"];
 }

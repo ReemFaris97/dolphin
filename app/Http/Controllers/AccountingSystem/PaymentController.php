@@ -21,7 +21,7 @@ use App\Traits\Viewable;
 class PaymentController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.payments.';
+    private $viewable = "AccountingSystem.payments.";
     /**
      * Display a listing of the resource.
      *
@@ -29,9 +29,8 @@ class PaymentController extends Controller
      */
     public function index()
     {
-
-        $payments=AccountingPayment::all();
-        return $this->toIndex(compact('payments'));
+        $payments = AccountingPayment::all();
+        return $this->toIndex(compact("payments"));
     }
 
     /**
@@ -41,11 +40,11 @@ class PaymentController extends Controller
      */
     public function create()
     {
-        $safes=AccountingSafe::pluck('name','id')->toArray();
-        $banks=AccountingBank::pluck('name','id')->toArray();
-        $payments=AccountingPayment::all();
+        $safes = AccountingSafe::pluck("name", "id")->toArray();
+        $banks = AccountingBank::pluck("name", "id")->toArray();
+        $payments = AccountingPayment::all();
 
-        return $this->toCreate(compact('safes','banks','payments'));
+        return $this->toCreate(compact("safes", "banks", "payments"));
     }
 
     /**
@@ -57,23 +56,22 @@ class PaymentController extends Controller
     public function store(Request $request)
     {
         $rules = [
-
-            'name'=>'required|string',
-            'bank_id'=>'required_if:type,bank',
-             'safe_id'=>'required_if:type,safe'
-
+            "name" => "required|string",
+            "bank_id" => "required_if:type,bank",
+            "safe_id" => "required_if:type,safe",
         ];
-        $message=[
-            'name.required'=>'مسمى خيار الدفع مطلوب ',
-            'bank_id.required_if'=>'اسم البنك  مطلوب ',
-            'safe_id.required_if'=>'اسم الصندوق  مطلوب ',
+        $message = [
+            "name.required" => "مسمى خيار الدفع مطلوب ",
+            "bank_id.required_if" => "اسم البنك  مطلوب ",
+            "safe_id.required_if" => "اسم الصندوق  مطلوب ",
         ];
-        $this->validate($request,$rules,$message);
+        $this->validate($request, $rules, $message);
         $requests = $request->all();
         AccountingPayment::create($requests);
-        alert()->success('تم حفظ خيار الدفع  بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم حفظ خيار الدفع  بنجاح !")
+            ->autoclose(5000);
         return back();
-
     }
 
     /**
@@ -95,12 +93,11 @@ class PaymentController extends Controller
      */
     public function edit($id)
     {
+        $payment = AccountingPayment::find($id);
+        $safes = AccountingSafe::pluck("name", "id")->toArray();
+        $banks = AccountingBank::pluck("name", "id")->toArray();
 
-        $payment=AccountingPayment::find($id);
-        $safes=AccountingSafe::pluck('name','id')->toArray();
-        $banks=AccountingBank::pluck('name','id')->toArray();
-
-        return $this->toEdit(compact('payment','safes','banks'));
+        return $this->toEdit(compact("payment", "safes", "banks"));
     }
 
     /**
@@ -112,24 +109,21 @@ class PaymentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $payment =AccountingPayment::findOrFail($id);
+        $payment = AccountingPayment::findOrFail($id);
 
         $rules = [
-
-            'name'=>'required|string',
-
+            "name" => "required|string",
         ];
-        $message=[
-            'name.required'=>'اسم العملة باللغه الانجليزيه مطلوب ',
+        $message = [
+            "name.required" => "اسم العملة باللغه الانجليزيه مطلوب ",
         ];
-        $this->validate($request,$rules,$message);
+        $this->validate($request, $rules, $message);
         $requests = $request->all();
         $payment->update($requests);
-        alert()->success('تم تعديل  خيار الدفع بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.payments.index');
-
-
-
+        alert()
+            ->success("تم تعديل  خيار الدفع بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.payments.index");
     }
 
     /**
@@ -140,14 +134,11 @@ class PaymentController extends Controller
      */
     public function destroy($id)
     {
-        $payment =AccountingPayment::findOrFail($id);
+        $payment = AccountingPayment::findOrFail($id);
         $payment->delete();
-        alert()->success('تم حذف   خيار الدفع  بنجاح !')->autoclose(5000);
-            return back();
-
-
+        alert()
+            ->success("تم حذف   خيار الدفع  بنجاح !")
+            ->autoclose(5000);
+        return back();
     }
-
-
-
 }

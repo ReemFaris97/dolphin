@@ -26,53 +26,54 @@ use JWTAuth;
 use Validator;
 use Illuminate\Http\Response;
 
-
 class SpinnerController extends Controller
 {
     use ApiResponses;
-
 
     /**
      * Return List of Workers
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
      */
-    public function getAllWorkers(){
+    public function getAllWorkers()
+    {
         $workers = User::all();
         return $this->apiResponse(GeneralModelResource::collection($workers));
     }
-
 
     /**
      * Return List of Notifications Categories
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
      */
-    public function getAllNotificationsCategories(){
+    public function getAllNotificationsCategories()
+    {
         $categories = NotificationCategory::all();
-        return $this->apiResponse(GeneralModelResource::collection($categories));
+        return $this->apiResponse(
+            GeneralModelResource::collection($categories)
+        );
     }
-
 
     /**
      * Return List of Tasks
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
      */
-    public function getAllTasks(){
-        $tasks=Task::query();
-        if (\request('worker_id')!="")
-        {
-            $tasks_ids = User::find(\request('worker_id'))->tasks/*->where('finished_at','!=',Null)*/->pluck('task_id');
+    public function getAllTasks()
+    {
+        $tasks = Task::query();
+        if (\request("worker_id") != "") {
+            $tasks_ids = User::find(\request("worker_id"))
+                ->tasks /*->where('finished_at','!=',Null)*/
+                ->pluck("task_id");
 
-            $tasks = $tasks->whereIn('id',$tasks_ids);
+            $tasks = $tasks->whereIn("id", $tasks_ids);
         }
-        if (\request('current') != "")
-        {
-            $tasks =  $tasks->present();
+        if (\request("current") != "") {
+            $tasks = $tasks->present();
         }
 
-        $tasks=$tasks->get();
+        $tasks = $tasks->get();
         return $this->apiResponse(GeneralModelResource::collection($tasks));
     }
 
@@ -81,10 +82,9 @@ class SpinnerController extends Controller
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
      */
-    public function getAllClauses(){
-        $tasks = Clause::where('blocked_at', null)->get();
+    public function getAllClauses()
+    {
+        $tasks = Clause::where("blocked_at", null)->get();
         return $this->apiResponse(SpinnerClausesResource::collection($tasks));
     }
-
-
 }

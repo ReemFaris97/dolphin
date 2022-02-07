@@ -11,14 +11,14 @@ use Illuminate\Support\Facades\View;
  */
 trait Viewable
 {
-
     /**
      * Redirect to index view.
      *
      * @param array $with
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    private function toIndex(array $with = []) {
+    private function toIndex(array $with = [])
+    {
         return view("{$this->viewable}index", $with);
     }
 
@@ -28,8 +28,9 @@ trait Viewable
      * @param array $with
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    private function toCreate(array $with = []) {
-        return view("{$this->viewable}create",$with);
+    private function toCreate(array $with = [])
+    {
+        return view("{$this->viewable}create", $with);
     }
     /**
      * Redirect to show view.
@@ -38,13 +39,10 @@ trait Viewable
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
 
-
     private function toShow(array $with = [])
     {
-
-        return view("{$this->viewable}show",$with);
+        return view("{$this->viewable}show", $with);
     }
-
 
     /**
      * Redirect to edit view.
@@ -52,8 +50,8 @@ trait Viewable
      * @param array $with
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    private function toEdit(array $with = []) {
-
+    private function toEdit(array $with = [])
+    {
         return view("{$this->viewable}edit", $with);
     }
 }

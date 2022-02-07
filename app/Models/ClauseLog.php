@@ -30,20 +30,17 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ClauseLog extends Model
 {
-    protected $fillable = [ 'user_id', 'clause_id', 'amount'];
+    protected $fillable = ["user_id", "clause_id", "amount"];
 
-
-    protected $casts=['amount'=>'float'];
+    protected $casts = ["amount" => "float"];
 
     public function clause()
     {
-        return $this->belongsTo(Clause::class, 'clause_id');
-
+        return $this->belongsTo(Clause::class, "clause_id");
     }
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User', 'user_id');
-
+        return $this->belongsTo("App\Models\User", "user_id");
     }
 }

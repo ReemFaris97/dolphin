@@ -19,10 +19,21 @@ class ChatController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $chat = Chat::firstOrCreate(['accounting_supplier_id' => $user->supplier_id, 'accounting_company_id' => request()->header('X-company-id')]);
+        $chat = Chat::firstOrCreate([
+            "accounting_supplier_id" => $user->supplier_id,
+            "accounting_company_id" => request()->header("X-company-id"),
+        ]);
 
-        $messages = $chat->messages()->with('user')->latest()->paginate(request('limit', 10));
-        return \responder::success(new BaseCollection($messages, MessageResource::class, ['chat_id' => $chat->id]));
+        $messages = $chat
+            ->messages()
+            ->with("user")
+            ->latest()
+            ->paginate(request("limit", 10));
+        return \responder::success(
+            new BaseCollection($messages, MessageResource::class, [
+                "chat_id" => $chat->id,
+            ])
+        );
     }
 
     /**
@@ -57,17 +68,23 @@ class ChatController extends Controller
     public function update(Request $request, Chat $chat)
     {
         $inputs = $request->validate([
-            'message' => 'required|string',
-            'attachment' => 'sometimes|nullable|file',
-            'type' => 'in:voice,image,video,message|required_with:attachment',
-            'thumbnail' => 'sometimes|nullable|required_if:type,video'
+            "message" => "required|string",
+            "attachment" => "sometimes|nullable|file",
+            "type" => "in:voice,image,video,message|required_with:attachment",
+            "thumbnail" => "sometimes|nullable|required_if:type,video",
         ]);
-        $inputs['user_type'] = User::class;
-        $inputs['user_id'] = auth()->id();
+        $inputs["user_type"] = User::class;
+        $inputs["user_id"] = auth()->id();
         $message = $chat->messages()->create($inputs);
         activity()
             ->causedBy(auth()->user())
-            ->log(sprintf('قام %s ب %s',auth()->user()->name,"بإرسال رسالة ||  {$message->message}"));
+            ->log(
+                sprintf(
+                    "قام %s ب %s",
+                    auth()->user()->name,
+                    "بإرسال رسالة ||  {$message->message}"
+                )
+            );
         return \responder::success(new MessageResource($message));
     }
 
