@@ -93,7 +93,7 @@
                         <td>{!!$sale['discounts']?? 0!!}</td>
                         <td>{!!($sale['all_amounts']-$sale['discounts'] - $sale['productPrice'])?? 0 !!}</td>
                         <td class="text-center td-display-none">
-                            <a href="{{route('accounting.reports.sale_details')}}?date={{ $sale->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
+                            <a href="{{url('accounting.reports.daily')}}?date={{ $sale->date }}" data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse" style="margin-left: 10px"></i> </a>
 
                         </td>
                     </tr>
