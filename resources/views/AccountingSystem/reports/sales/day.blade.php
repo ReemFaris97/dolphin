@@ -138,7 +138,7 @@
                             $total_tax = 0;
                             $all_total = 0;
                         @endphp
-
+@dd($sales)
                         @foreach ($sales as $row)
                             @php
                                 $all_amounts += $row->all_amounts;
