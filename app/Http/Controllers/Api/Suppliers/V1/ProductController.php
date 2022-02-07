@@ -19,7 +19,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return \responder::success(new BaseCollection(auth()->user()->products()->whereIsActive(0)->latest()->paginate(20), ProductResource::class));
+        $user=auth()->user();
+//        accounting_supplier_id
+        return \responder::success(new BaseCollection(Product::where('accounting_supplier_id',$user->supplier_id)->whereIsActive(0)->latest()->paginate(20),
+            ProductResource::class));
     }
 
     /**
