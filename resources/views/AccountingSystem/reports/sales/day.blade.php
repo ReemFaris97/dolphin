@@ -82,7 +82,8 @@
                                         <option value="" selected="" disabled="">اختر القسم</option>
                                         @foreach (productCategories() as $index => $category)
                                             <option value="{{ $index }}"
-                                                {{ $index == request('category_id') ? 'selected' : '' }}>{{ $category }}
+                                                {{ $index == request('category_id') ? 'selected' : '' }}>
+                                                {{ $category }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -138,7 +139,6 @@
                             $total_tax = 0;
                             $all_total = 0;
                         @endphp
-@dd($sales)
                         @foreach ($sales as $row)
                             @php
                                 $all_amounts += $row->all_amounts;
