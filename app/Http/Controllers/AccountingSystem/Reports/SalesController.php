@@ -115,10 +115,6 @@ class SalesController extends Controller
             'created_at'
         );
 
-        /*    if ($request->input('branch_id') && $request->branch_id != null) {
-                $sales = $sales->where('branch_id', $request->branch_id);
-            }*/
-
         if ($request->input('user_id') && $request->user_id != null) {
             $sales = $sales->where('user_id', $request->user_id);
         }
