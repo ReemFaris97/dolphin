@@ -549,7 +549,7 @@
                 <link rel="stylesheet" href="https://unpkg.com/vue-select@latest/dist/vue-select.css">
                 <link rel="stylesheet" href="https://unpkg.com/vue-form-wizard/dist/vue-form-wizard.min.css">
 
-                <script src="https://unpkg.com/vue@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
                 <script src="https://unpkg.com/vue-select@latest"></script>
                 <script src="https://unpkg.com/vue-form-wizard/dist/vue-form-wizard.js"></script>
                 <script
