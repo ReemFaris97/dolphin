@@ -107,7 +107,6 @@ class SalesController extends Controller
         $sales->select(
             'id',
             \DB::raw('DATE(created_at) as date'),
-            \DB::raw('count(*) as num'),
             \DB::raw('total as all_total'),
             \DB::raw('amount as all_amounts'),
             \DB::raw('totalTaxs as total_tax'),
