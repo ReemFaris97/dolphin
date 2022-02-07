@@ -338,8 +338,7 @@ class SalesController extends Controller
                 Carbon::parse($request->to),
             ]);
         }
-
-        $sales = $sales->groupBy('date')->get();
+        $sales = $sales->groupBy(DB::raw('Date(date)'))->get();
 
         return view(
             'AccountingSystem.reports.sales.period-earnings',

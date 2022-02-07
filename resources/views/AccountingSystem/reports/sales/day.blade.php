@@ -30,7 +30,7 @@
                 <div class="yurSections">
                     <div class="row">
                         <div class="col-xs-12">
-                            <form action="" method="post" accept-charset="utf-8">
+                            <form action="" method="get" accept-charset="utf-8">
                                 @csrf
                                 <div class="form-group col-sm-3">
                                     <label> الشركة </label>
@@ -129,7 +129,6 @@
                             <th> إجمالي الضريبة</th>
                             <th> إجمالي بعد الخصومات والضريبة</th>
 
-                            <th class="text-center td-display-none">العمليات</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -154,12 +153,7 @@
                                 <td>{!! $row->discounts ?? 0 !!}</td>
                                 <td>{!! $row->total_tax ?? 0 !!}</td>
                                 <td>{!! $row->all_total ?? 0 !!}</td>
-                                <td class="text-center td-display-none">
-                                    <a href="{{ route('accounting.sales.show', $row->id) }}" data-toggle="tooltip"
-                                        data-original-title="تفاصيل"> <i class="icon-eye text-inverse"
-                                            style="margin-left: 10px"></i> </a>
 
-                                </td>
                             </tr>
 
                         @endforeach
