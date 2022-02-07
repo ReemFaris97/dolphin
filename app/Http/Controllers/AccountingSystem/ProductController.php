@@ -512,8 +512,7 @@ class ProductController extends Controller
 
 //        alert()->success('تم اضافة المنتج بنجاح !')->autoclose(5000);
 //        return redirect()->route('accounting.products.index');
-try{
-        $suggested = Product::whereIn('barcode', $request['barcodes'])->first();
+        $suggested = Product::whereIn('barcode', $request['bar_code'])->first();
         if ($suggested) {
             $suggested->supplier->admin()->notify(new SupplierNotification([
                 'title'=>'تطبيق الموردين',
@@ -523,10 +522,7 @@ try{
             ]));
             $suggested->delete();
         }
-    }catch(Exception $e){
 
-    // عديها وحياه ابوك
-    }
         return response()->json(['status' => true, 'message' => 'تم الاضافة بنجاح !']);
     }
 
@@ -819,7 +815,7 @@ try{
                         'tax' => $tax,
                     ]);
         }
-      
+
 
         return response()->json(['status' => true, 'message' => 'تم التعديل  بنجاح !']);
     }

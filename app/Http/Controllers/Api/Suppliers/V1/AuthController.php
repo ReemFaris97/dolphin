@@ -26,7 +26,7 @@ class AuthController extends Controller
 //            'address' => 'required|string',
 //            'lat' => 'required|numeric|max:90|min:-90',
 //            'lng' => 'required|numeric|max:180|min:-90',
-            'landline' => 'required|string',
+            'landline' => 'sometimes|string',
             'fcm_token_android' => 'required_without:fcm_token_ios',
             'fcm_token_ios' => 'required_without:fcm_token_android',
             'companies'=>'required|array',

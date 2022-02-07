@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Api\Suppliers\V1;
 
 
+use App\Models\SupplyRequisition;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'auth'],function (){
@@ -24,7 +25,8 @@ Route::group(['middleware' => 'auth:supplier'],function (){
         'banks'=>BankController::class,
         'invoice-items'=>InvoiceItemController::class,
         'users'=>UserController::class,
-        'chats'=>ChatController::class
+        'chats'=>ChatController::class,
+        'supply-requisitions'=>SupplyRequisitionsController::class
     ]);
     Route::get('list/products', [ProductController::class, 'list']);
     Route::get('my-products', [ProductController::class, 'myProducts']);

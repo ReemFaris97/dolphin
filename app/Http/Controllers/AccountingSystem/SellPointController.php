@@ -13,9 +13,7 @@ use App\Models\AccountingSystem\AccountingSale;
 use App\Models\AccountingSystem\AccountingSession;
 use App\Models\AccountingSystem\AccountingStore;
 use App\Models\AccountingSystem\AccountingUserPermission;
-use App\Models\User;
 use App\Traits\Viewable;
-use Carbon\Carbon;
 use Cookie;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
@@ -59,14 +57,18 @@ class SellPointController extends Controller
      */
     public function getProductAjex(Request $request, $id = null)
     {
-        if ($request->id) {
             $products = AccountingProduct::query()
                 ->when($request->search, function ($b) use ($request) {
-                    return $b->where(function ($q) use ($request) {
-                        $q->where('name', 'LIKE', '%' . $request->search . '%')->orWhere('en_name', 'LIKE', '%' . $request->search . '%')->orWhere('description', 'LIKE', '%' . $request->search . '%')->orWhere('bar_code', 'like', '%' . $request->search . '%');
+                    $b->where(function ($q) use ($request) {
+                        $q->where('name', 'LIKE', '%' . $request->search . '%')
+                            ->orWhere('en_name', 'LIKE', '%' . $request->search . '%')->orWhere('description', 'LIKE', '%' . $request->search . '%')->orWhere('bar_code', 'like', '%' . $request->search . '%')  ->orwhereHas('barcodes', fn($b) => $b->where('barcode', 'like', "%$request->search%"))
+                            ->orwhereHas('sub_units', fn($b) => $b->where('bar_code', 'like', "%$request->search%"));
                     });
-                })->orwhereHas('barcodes', fn ($b) => $b->where('barcode', 'like', "%$request->search%"))
-                ->orwhereHas('sub_units', fn ($b) => $b->where('bar_code', 'like', "%$request->search%"))
+                })->when(($request->has('supplier_id') and $request->supplier_id), function ($q) {
+                    $q->whereHas('suppliers', function ($q) {
+                        $q->where('accounting_suppliers.id', \request('supplier_id'));
+                    });
+                })
                 ->paginate(20);
 
             return response()->json([
@@ -74,7 +76,7 @@ class SellPointController extends Controller
                 'has_more' => $products->hasMorePages(),
                 'data' => $products,
             ]);
-        }
+
     }
 
     /**
