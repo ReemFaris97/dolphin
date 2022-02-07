@@ -37,15 +37,10 @@
                                 </div>
                                 <div class="form-group col-sm-3">
                                     <label> الفرع </label>
-                                    {{-- {!! Form::select("branch_id",[],request('branch_id'),['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الفرع','data-live-search'=>'true','id'=>'branch_id'])!!} --}}
+                                   
                                     <select name="branch_id" data-live-search="true"
                                             class="selectpicker form-control inline-control" id="branch_id">
-                                        {{--                                    @if(request()->has('branch_id') && request('branch_id') != null)--}}
-                                        {{--                                        @php $branch = \App\Models\AccountingSystem\AccountingBranch::find(request('branch_id')); @endphp--}}
-                                        {{--                                        <option value="{{ $branch->id }}" selected="">{{ $branch->name }}</option>--}}
-                                        {{--                                    @else--}}
-                                        {{--                                        <option value="" selected="" disabled="">اختر الفرع</option>--}}
-                                        {{--                                    @endif--}}
+                                    
                                         <option value="" selected="" disabled="">اختر الفرع</option>
                                         @foreach(branches() as $index=>$branch)
                                             <option
@@ -56,7 +51,7 @@
 
                                 <div class="form-group col-sm-3">
                                     <label> المستودع </label>
-                                    {{--                                    {!! Form::select("store_id",[],null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر المستودع','data-live-search'=>'true','id'=>'store_id'])!!}--}}
+                               
                                     <select name="store_id" data-live-search="true" id="store_id"
                                             class="selectpicker form-control inline-control">
                                         <option selected disabled>اختر المستودع</option>
@@ -72,73 +67,16 @@
                                 <div class="form-group col-sm-3">
                                     <label> القائم بالعملية </label>
                                     {!! Form::select('user_id',\App\Models\User::where('is_saler',1)->pluck('name','id'),null,['class'=>'selectpicker form-control inline-control','placeholder'=>'اختار الكاشير']) !!}
-                                    {{-- <select name="user_id" data-live-search="true" class="selectpicker form-control inline-control" id="user_id">
-                                         @if(request()->has('user_id') && request('user_id') != null)
-                                             @php $user = App\User::find(request('user_id')); @endphp
-                                             <option value="{{ $user->id }}" selected="">{{ $user->name }}</option>
-                                         @else
-                                             <option value="" selected="" disabled="">القائم بالعملية</option>
-                                         @endif
-                                     </select>--}}
+                              
                                 </div>
 
 
-                                <div class="form-group col-sm-3">
-                                    <label> الوردية </label>
-                                    <select name="shift_id" data-live-search="true"
-                                            class="selectpicker form-control inline-control" id="shift_id">
-{{--                                        @if(request()->has('shift_id') && request('shift_id') != null)--}}
-{{--                                            @php $shift = \App\Models\AccountingSystem\AccountingBranchShift::find(request('shift_id')); @endphp--}}
-{{--                                            <option value="{{ $shift->id }}" selected="">{{ $shift->name }}</option>--}}
-{{--                                        @else--}}
-{{--                                            <option value="" selected="" disabled="">اختر الوردية</option>--}}
-{{--                                        @endif--}}
-                                        <option value="" selected="" disabled="">اختر الوردية</option>
-                                        @foreach(shifts() as $index=>$shift)
-                                            <option value="{{$index}}">{{$shift}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group col-sm-3">
-                                    <label> الجلسة </label>
-                                    <select name="session_id" data-live-search="true"
-                                            class="selectpicker form-control inline-control" id="session_id">
-{{--                                        @if(request()->has('session_id') && request('session_id') != null)--}}
-{{--                                            @php $safe = \App\Models\AccountingSystem\AccountingSession::find(request('session_id')); @endphp--}}
-{{--                                            <option value="{{ $safe->id }}" selected="">{{ $safe->code }}</option>--}}
-{{--                                        @else--}}
-{{--                                            <option value="" selected="" disabled="">اختر الجلسة</option>--}}
-{{--                                        @endif--}}
-                                            <option value="" selected="" disabled="">اختر الجلسة</option>
-                                            @foreach(\App\Models\AccountingSystem\AccountingSession::all() as $session)
-                                                <option
-                                                    value="{{$session->id}}" {{$session->id ==request('session_id')?'selected':''}}>{{$session->code}}</option>
-                                            @endforeach
-                                    </select>
-                                </div>
-                                {{--<div class="form-group col-sm-3">--}}
-                                {{--<label> الخزينة </label>--}}
-                                {{--<select name="safe_id" data-live-search="true" class="selectpicker form-control inline-control" id="safe_id">--}}
-                                {{--@if(request()->has('safe_id') && request('safe_id') != null)--}}
-                                {{--@php $safe = \App\Models\AccountingSystem\AccountingSafe::find(request('safe_id')); @endphp--}}
-                                {{--<option value="{{ $safe->id }}" selected="">{{ $safe->name }}</option>--}}
-                                {{--@else--}}
-                                {{--<option value="" selected="" disabled="">اختر الخزينة</option>--}}
-                                {{--@endif--}}
-                                {{--</select>--}}
-                                {{--</div>--}}
                                 <div class="form-group col-sm-3">
                                     <label> القسم </label>
-                                    {{--{!! Form::select("category_id",productCategories(),request('category_id'),['class'=>'selectpicker form-control js-example-basic-single category_id','id'=>'category_id','placeholder'=>' اختر اسم القسم ','data-live-search'=>'true'])!!}--}}
+                                   
                                     <select name="category_id" data-live-search="true"
                                             class="selectpicker form-control inline-control" id="category_id">
-{{--                                        @if(request()->has('category_id') && request('category_id') != null)--}}
-{{--                                            @php $category = \App\Models\AccountingSystem\AccountingProductCategory::find(request('category_id')); @endphp--}}
-{{--                                            <option value="{{ $category->id }}"--}}
-{{--                                                    selected="">{{ $category->name }}</option>--}}
-{{--                                        @else--}}
-{{--                                            <option value="" selected="" disabled="">اختر القسم</option>--}}
-{{--                                        @endif--}}
+
                                         <option value="" selected="" disabled="">اختر القسم</option>
                                         @foreach(productCategories() as $index=>$category)
                                             <option
@@ -193,7 +131,12 @@
                     @php $all_amounts=0; $discounts=0; $total_tax=0; $all_total=0; @endphp
 
                     @foreach($sales as $row)
-                        @php $all_amounts+=$row->all_amounts; $discounts+=$row->discounts; $total_tax+=$row->total_tax; $all_total+=$row->all_total;@endphp
+                        @php 
+                        $all_amounts+=$row->all_amounts;
+                        $discounts+=$row->discounts; 
+                        $total_tax+=$row->total_tax;
+                        $all_total+=$row->all_total;
+                          @endphp
 
                         <tr>
                             <td>{!!$loop->iteration!!}</td>

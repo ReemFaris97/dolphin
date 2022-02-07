@@ -77,7 +77,7 @@
                         <td>{{$sale->id}}</td>
                         <td>المبيعات</td>
                         <td>{{$sale->items_count}}</td>
-                        <td>{{$sale->cash + $sale->visa}}</td>
+                        <td>{{$sale->cash + $sale->network}}</td>
                     </tr>
                     @endforeach
 

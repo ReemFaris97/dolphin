@@ -1,16 +1,17 @@
 @extends('AccountingSystem.layouts.master')
-@section('title','تقرير المبيعات خلال فترة')
-@section('parent_title','التقارير ')
+@section('title', 'تقرير المبيعات خلال فترة')
+@section('parent_title', 'التقارير ')
 {{-- @section('action', URL::route('accounting.purchases.index')) --}}
 
 @section('styles')
     <style>
         /*<link href="
-        {{--asset('admin/assets/css/jquery.datetimepicker.min.css')--}} " rel="stylesheet" type="text/css">*/
+            {{-- asset('admin/assets/css/jquery.datetimepicker.min.css') --}} " rel="stylesheet" type="text/css">*/
 
         .filter {
             margin-bottom: 30px;
         }
+
     </style>
 @endsection
 
@@ -32,20 +33,21 @@
                 <div class="yurSections">
                     <div class="row">
                         <div class="col-xs-12">
-                            <form action="{{route('accounting.reports.sales_period')}}" method="get"
-                                  accept-charset="utf-8">
+                            <form action="{{ route('accounting.reports.sales_period') }}" method="get"
+                                accept-charset="utf-8">
                                 <div class="form-group col-sm-3">
                                     <label> الشركة </label>
-                                    {!! Form::select("company_id",companies(), request('company_id'),['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الشركة','data-live-search'=>'true','id'=>'company_id'])!!}
+                                    {!! Form::select('company_id', companies(), request('company_id'), ['class' => 'selectpicker form-control inline-control', 'placeholder' => 'اختر الشركة', 'data-live-search' => 'true', 'id' => 'company_id']) !!}
                                 </div>
                                 <div class="form-group col-sm-3">
                                     <label> الفرع </label>
                                     <select name="branch_id" data-live-search="true"
-                                            class="selectpicker form-control inline-control" id="branch_id">
+                                        class="selectpicker form-control inline-control" id="branch_id">
                                         <option value="" selected="" disabled="">اختر الفرع</option>
-                                        @foreach(branches() as $index=>$branch)
-                                            <option
-                                                value="{{ $index }}" {{$index == request('branch_id') ? 'selected':''}}>{{ $branch }}</option>
+                                        @foreach (branches() as $index => $branch)
+                                            <option value="{{ $index }}"
+                                                {{ $index == request('branch_id') ? 'selected' : '' }}>{{ $branch }}
+                                            </option>
                                         @endforeach
 
                                     </select>
@@ -54,12 +56,12 @@
                                 <div class="form-group col-sm-3">
                                     <label> المستودع </label>
                                     <select name="store_id" data-live-search="true" id="store_id"
-                                            class="selectpicker form-control inline-control">
+                                        class="selectpicker form-control inline-control">
                                         <option selected disabled>اختر المستودع</option>
-                                        @foreach(allstores() as $store)
-                                            <option
-                                                value="{{$index}}"
-                                                {{$index == request('store_id')?'selected':''}}>{{$store}}</option>
+                                        @foreach (allstores() as $store)
+                                            <option value="{{ $index }}"
+                                                {{ $index == request('store_id') ? 'selected' : '' }}>{{ $store }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -67,23 +69,23 @@
                                 <div class="form-group col-sm-3">
                                     <label> الكاشير </label>
                                     <select name="user_id" data-live-search="true"
-                                            class="selectpicker form-control inline-control" id="user_id">
-                                    @foreach(\App\Models\User::where('is_saler',1)->pluck('name','id') as $id=>$name)
+                                        class="selectpicker form-control inline-control" id="user_id">
+                                        @foreach (\App\Models\User::where('is_saler', 1)->pluck('name', 'id') as $id => $name)
 
-                                            <option value="{{$id}}">{{$name}} </option>
+                                            <option value="{{ $id }}">{{ $name }} </option>
 
-                                    @endforeach
-                                        </select>
+                                        @endforeach
+                                    </select>
                                 </div>
 
 
                                 <div class="form-group col-sm-3">
                                     <label for="from"> الفترة من </label>
-                                    {!! Form::date("from",request('from'),['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' الفترة من ',"id"=>'from'])!!}
+                                    {!! Form::date('from', request('from'), ['class' => 'inlinedatepicker form-control inline-control', 'placeholder' => ' الفترة من ', 'id' => 'from']) !!}
                                 </div>
                                 <div class="form-group col-sm-3">
                                     <label for="to"> الفترة إلي </label>
-                                    {!! Form::date("to",request('to'),['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' الفترة إلي ',"id"=>'to'])!!}
+                                    {!! Form::date('to', request('to'), ['class' => 'inlinedatepicker form-control inline-control', 'placeholder' => ' الفترة إلي ', 'id' => 'to']) !!}
                                 </div>
 
                                 <div class="form-group col-sm-12">
@@ -99,97 +101,103 @@
                 <table class="table datatable-button-init-basic">
                     <thead>
 
-                    <tr class="normal-bgc">
-                        @if(isset($requests['company_id']))
-                            <td class="company-imgg-td" colspan="8">
-                                @php $company=\App\Models\AccountingSystem\AccountingCompany::find($requests['company_id'])@endphp
-                                <span><img src="{!!getimg($company->image)!!}"
-                                           style="width:100px; height:100px"> </span>
-                                <span>{{$company->name}}</span>
-                            </td>
-                        @endif
+                        <tr class="normal-bgc">
+                            @if (isset($requests['company_id']))
+                                <td class="company-imgg-td" colspan="8">
+                                    @php $company=\App\Models\AccountingSystem\AccountingCompany::find($requests['company_id'])@endphp
+                                    <span><img src="{!! getimg($company->image) !!}" style="width:100px; height:100px"> </span>
+                                    <span>{{ $company->name }}</span>
+                                </td>
+                            @endif
 
-                    </tr>
+                        </tr>
 
-                    <tr class="normal-bgc">
-                        @if(isset($requests['branch_id']))
-                            @php $branch=\App\Models\AccountingSystem\AccountingBranch::find($requests['branch_id']) @endphp
-                            <td class="footTdLbl" colspan="2">الفرع : <span>{{$branch->name}}</span></td>
-                        @endif
+                        <tr class="normal-bgc">
+                            @if (isset($requests['branch_id']))
+                                @php $branch=\App\Models\AccountingSystem\AccountingBranch::find($requests['branch_id']) @endphp
+                                <td class="footTdLbl" colspan="2">الفرع : <span>{{ $branch->name }}</span></td>
+                            @endif
 
-                        {{--@if(isset($requests['user_id']))--}}
-                        {{--@php $user=\App\User::find($requests['user_id']) @endphp--}}
-                        {{--<td class="footTdLbl" colspan="2">القائم بالعمليه : <span>{{$user->name}}</span></td>--}}
-                        {{--@endif--}}
+                            {{-- @if (isset($requests['user_id'])) --}}
+                            {{-- @php $user=\App\User::find($requests['user_id']) @endphp --}}
+                            {{-- <td class="footTdLbl" colspan="2">القائم بالعمليه : <span>{{$user->name}}</span></td> --}}
+                            {{-- @endif --}}
 
-                        @if(isset($requests['product_id']))
-                            @php $product=\App\Models\AccountingSystem\AccountingProduct::find($requests['product_id']) @endphp
-                            <td class="footTdLbl" colspan="2">الصنف : <span>{{$product->name}}</span></td>
-                        @endif
-                        {{--@if(isset($requests['session_id']))--}}
-                        {{--@php $session=\App\Models\AccountingSystem\AccountingSession::find($requests['session_id']) @endphp--}}
-                        {{--<td class="footTdLbl" colspan="2">كود الجلسه : <span>{{$session->code}}</span></td>--}}
-                        {{--@endif--}}
+                            @if (isset($requests['product_id']))
+                                @php $product=\App\Models\AccountingSystem\AccountingProduct::find($requests['product_id']) @endphp
+                                <td class="footTdLbl" colspan="2">الصنف : <span>{{ $product->name }}</span></td>
+                            @endif
+                         
+                            @if (isset($requests['from']))
+                                <td class="footTdLbl" colspan="2"> من:<span>{{ $requests['from'] }}</span></td>
+                            @endif
 
-                        @if(isset($requests['from']))
-                            <td class="footTdLbl" colspan="2"> من:<span>{{$requests['from']}}</span></td>
-                        @endif
+                            @if (isset($requests['to']))
+                                <td class="footTdLbl" colspan="2">إلى :<span>{{ $requests['to'] }}</span></td>
+                            @endif
 
-                        @if(isset($requests['to']))
-                            <td class="footTdLbl" colspan="2">إلى :<span>{{$requests['to']}}</span></td>
-                        @endif
+                        </tr>
+                        <tr>
+                            <th>#</th>
+                            <th> التاريخ</th>
+                            <th> إجمالي المبيعات</th>
+                            <th> إجمالي الخصومات</th>
+                            <th> إجمالي الضريبة</th>
+                            <th> إجمالي بعد الخصومات والضريبة</th>
 
-                    </tr>
-                    <tr>
-                        <th>#</th>
-                        <th> التاريخ</th>
-                        <th> إجمالي المبيعات</th>
-                        <th> إجمالي الخصومات</th>
-                        <th> إجمالي الضريبة</th>
-                        <th> إجمالي بعد الخصومات والضريبة</th>
-
-                        <th class="text-center td-display-none">العمليات</th>
-                    </tr>
+                            <th class="text-center td-display-none">العمليات</th>
+                        </tr>
                     </thead>
                     <tbody>
 
-                    @php $all_amounts=0; $discounts=0; $total_tax=0; $all_total=0; $sales_count=0; @endphp
-                    @foreach($sales as $row)
+                        @php
+                            $all_amounts = 0;
+                            $discounts = 0;
+                            $total_tax = 0;
+                            $all_total = 0;
+                            $sales_count = 0;
+                        @endphp
+                        @foreach ($sales as $row)
 
-                        @php $all_amounts+=$row->total_amount; $discounts+=0; $total_tax+=$row->total_tax; $all_total+=$row->total_without_taxes;$sales_count++@endphp
+                            @php$all_amounts += $row->total_amount;
+                                $discounts += 0;
+                                $total_tax += $row->total_tax;
+                                $all_total += $row->total_without_taxes;
+                                $sales_count++;
+                            @endphp
 
-                        <tr>
-                            <td>{!!$loop->iteration!!}</td>
-                            <td>{!! $row->date_formatted !!}</td>
-                            <td>{!! $row->total_amount !!}</td>
-                            <td>0</td>
-                            <td>{!! $row->total_tax !!}</td>
-                            <td>{!! $row->total_without_taxes !!}</td>
+                            <tr>
+                                <td>{!! $loop->iteration !!}</td>
+                                <td>{!! $row->date_formatted !!}</td>
+                                <td>{!! $row->total_amount !!}</td>
+                                <td>0</td>
+                                <td>{!! $row->total_tax !!}</td>
+                                <td>{!! $row->total_without_taxes !!}</td>
 
-                            <td class="text-center td-display-none">
-                                <a href="{{route('accounting.reports.sale_details',['date'=>$row->date_formatted])}}"
-                                   data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse"
-                                                                                          style="margin-left: 10px"></i>
-                                </a>
+                                <td class="text-center td-display-none">
+                                    <a href="{{ route('accounting.reports.sale_details', ['date' => $row->date_formatted]) }}"
+                                        data-toggle="tooltip" data-original-title="تفاصيل"> <i class="icon-eye text-inverse"
+                                            style="margin-left: 10px"></i>
+                                    </a>
 
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
 
-                    @endforeach
+                        @endforeach
 
 
                     </tbody>
                     <tfoot>
-                    <tr>
-                        <td>المجموع</td>
-                        <td></td>
-                        <td>{{$all_amounts}}</td>
-                        <td>{{$discounts}}</td>
-                        <td>{{$total_tax}}</td>
-                        <td>{{$all_total}}  </td>
-                        <td>عدد الفواتير:{{$sales_count}}</td>
+                        <tr>
+                            <td>المجموع</td>
+                            <td></td>
+                            <td>{{ $all_amounts }}</td>
+                            <td>{{ $discounts }}</td>
+                            <td>{{ $total_tax }}</td>
+                            <td>{{ $all_total }} </td>
+                            <td>عدد الفواتير:{{ $sales_count }}</td>
 
-                    </tr>
+                        </tr>
                     </tfoot>
                 </table>
             </div>
