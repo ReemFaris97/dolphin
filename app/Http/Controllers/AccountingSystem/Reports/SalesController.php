@@ -108,10 +108,10 @@ class SalesController extends Controller
             'id',
             \DB::raw('DATE(created_at) as date'),
             \DB::raw('count(*) as num'),
-            \DB::raw('sum(total) as all_total'),
-            \DB::raw('sum(amount) as all_amounts'),
-            \DB::raw('sum(totalTaxs) as total_tax'),
-            \DB::raw('sum(discount) as discounts'),
+            \DB::raw('total as all_total'),
+            \DB::raw('amount as all_amounts'),
+            \DB::raw('totalTaxs as total_tax'),
+            \DB::raw('discount as discounts'),
             'created_at'
         );
 
@@ -136,7 +136,7 @@ class SalesController extends Controller
             );
         }
         //          dd($sales);
-        $sales = $sales->groupBy('date')->get();
+        $sales = $sales->get();
 
         return view(
             'AccountingSystem.reports.sales.day',
