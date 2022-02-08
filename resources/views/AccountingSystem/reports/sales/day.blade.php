@@ -154,7 +154,7 @@
                                 <td>{!! $row->discounts ?? 0 !!}</td>
                                 <td>{!! $row->total_tax ?? 0 !!}</td>
                                 <td>{!! $row->all_total ?? 0 !!}</td>
-                                <td><a href="{{ route('accounting.sales.show', $id) }}" data-toggle="tooltip"
+                                <td><a href="{{ route('accounting.sales.show', $row->id) }}" data-toggle="tooltip"
                                         target="_blank" data-original-title="عرض الفاتورة"> <i class="icon-eye text-inverse"
                                             style="margin-left: 10px"></i> </a> </td>
                             </tr>
