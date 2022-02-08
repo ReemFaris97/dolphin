@@ -130,7 +130,7 @@ class SalesController extends Controller
                 Carbon::parse($request->date)
             );
         } else {
-            $sales = $sales->whereDate('create_at', now());
+            $sales = $sales->whereDate('created_at', now());
         }
         //          dd($sales);
         $sales = $sales->get();
