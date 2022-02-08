@@ -132,7 +132,6 @@ class SalesController extends Controller
         } else {
             $sales = $sales->whereDate('created_at', now());
         }
-        //          dd($sales);
         $sales = $sales->get();
 
         return view(

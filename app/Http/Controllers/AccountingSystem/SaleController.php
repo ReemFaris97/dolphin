@@ -152,7 +152,7 @@ class SaleController extends Controller
             $sale->items()->create([
                 'product_id' => $product->id,
                 'quantity' => $cart['quantity'],
-                'price' => @$unit->selling_price ?? $product->selling_price,
+                'price' =>$cart['price'],
                 'unit_id' => $cart['unit_id'],
                 'tax' => $product->total_taxes,
             ]);
