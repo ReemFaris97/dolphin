@@ -441,7 +441,7 @@
                 
 			</td>
 			<td class="single-unit-price maybe-hidden unit_price_after_enable" width="100">${Math.round(productPrice*10000)/10000}</td>
-            <input type="hidden" value="${Math.round(productPrice*10000)/10000}" name="cart[${rowNum}][price]" />
+            <input type="hidden" value="${Math.round(productPrice*10000)/10000}" name="cart[${rowNum}][price]" class="cart-item-price" />
 			<td class="single-price-before maybe-hidden">${Math.round(singlePriceBefore*10000)/10000}</td>
 			<td class="single-price-after maybe-hidden">${Math.round(singlePriceAfter*10000)/10000}</td>
 			<td class="whole-price-before maybe-hidden">${(Math.round(singlePriceBefore*10000)/10000*parseInt(quantity))}</td>
@@ -525,6 +525,10 @@
                 }
                 $(this).parents('.single-row-wrapper').find(".single-unit-price").text(Math.round(productPrice *
                     10000) / 10000);
+                    
+                $(this).parents('.single-row-wrapper').find(".cart-item-price").val(Math.round(productPrice *
+                    10000) / 10000);
+
                 $(this).parents('.single-row-wrapper').find(".single-price-before").text(Math.round(
                     singlePriceBefore * 10000) / 10000);
                 $(this).parents('.single-row-wrapper').find(".single-price-after").text(Math.round(
