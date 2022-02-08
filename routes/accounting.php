@@ -183,7 +183,7 @@ Route::middleware('admin')->group(function () {
     Route::resource('categories', 'CategoryController');
     Route::resource('industrials', 'IndustrialController');
     Route::resource('safes', 'SafeController');
-    Route::resource('funds', 'FundController');
+    // Route::resource('funds', 'FundController');
     Route::resource('devices', 'DeviceController');
     Route::resource('settings', 'SettingController');
     Route::resource('fiscalYears', 'FiscalYearController');

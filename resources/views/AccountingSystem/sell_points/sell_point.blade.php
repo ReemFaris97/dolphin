@@ -6,10 +6,8 @@
     <!--- start datatable -->
     <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
     <link href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.min.css" rel="stylesheet"
-          type="text/css">
-    <link
-        href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css"
-        rel="stylesheet" type="text/css">
+        type="text/css">
+    <link href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">
     <!--- end datatable -->
     <link href="{{ asset('admin/assets/css/jquery.datetimepicker.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('admin/assets/css/all.css') }}" rel="stylesheet" type="text/css">
@@ -56,9 +54,9 @@
             <div class="panel-body" x-data="{selected:null}">
                 <!----------------  Start Bill Content ----------------->
                 @error('sale')
-                <div class="alert alert-danger">
-                    {{$message}}
-                </div>
+                    <div class="alert alert-danger">
+                        {{ $message }}
+                    </div>
                 @enderror
                 <section class="yourBill">
                     <div class="yurSections">
@@ -71,7 +69,9 @@
                                 {!! Form::select('client_id', $clients, null, ['class' => 'selectpicker form-control inline-control', 'data-live-search' => 'true', 'id' => 'client_id']) !!}
                             </div>
                             <div class="form-group block-gp col-md-1" style="margin-top: 3rem;">
-                                <a class="btn btn-success" href="{{route('accounting.clients.create')}}" target="_blank"> +</a>
+                                <a class="btn btn-success" href="{{ route('accounting.clients.create') }}"
+                                    target="_blank">
+                                    +</a>
 
                             </div>
 
@@ -87,12 +87,12 @@
                                 </div>
 
                             @endif
-                            {!! Form::hidden('store_id',request('store_id')??session('store_id'),['id'=>'store_id']) !!}
+                            {!! Form::hidden('store_id', request('store_id') ?? session('store_id'), ['id' => 'store_id']) !!}
                             <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
                                 <div class="yurProdc">
                                     <div class="form-group block-gp">
                                         <label>بحث بإسم الصنف أو الباركود</label>
-                                    
+
                                         <select class="form-control" name="products" id="selectID2"></select>
                                     </div>
                                 </div>
@@ -101,7 +101,7 @@
                             <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
                                 <label>بحث بالباركود </label>
                                 <input class="form-control" type="text" id="barcode_search">
-                                <span id="barcode-error-span"  class=" has-danger">عفوا لا يوجد منتج</span>
+                                <span id="barcode-error-span" class=" has-danger">عفوا لا يوجد منتج</span>
                             </div>
                         </div>
                     </div>
@@ -114,7 +114,7 @@
                             <input type="hidden" name="bill_date" id="bill_date_val">
                             <input type="hidden" name="client_id" id="client_id_val">
                             <table border="1"
-                                   class="table datatable-button-init-basic finalTb edit-mabi3at mabi3at-bill bill-table
+                                class="table datatable-button-init-basic finalTb edit-mabi3at mabi3at-bill bill-table
                         ace_dark   {{ getsetting('name_enable_sales') == 1 ? 'name_enable' : '' }}
                                    {{ getsetting('barcode_enable_sales') == 1 ? 'barcode_enable' : '' }}
                                    {{ getsetting('unit_enable_sales') == 1 ? 'unit_enable' : '' }}
@@ -123,170 +123,169 @@
                                    {{ getsetting('total_price_enable_sales') == 1 ? 'total_price_after_enable' : '' }}
                                        unit_total_tax_enable">
                                 <thead>
-                                <tr>
-                                    <th rowspan="2" width="40">م</th>
-                                    <th rowspan="2" class="maybe-hidden name_enable">اسم الصنف</th>
-                                    <th rowspan="2" class="maybe-hidden barcode_enable" width="140">باركود</th>
-                                    <th rowspan="2" class="maybe-hidden unit_enable" width="110">الوحدة</th>
-                                    <th rowspan="2" class="maybe-hidden quantity_enable" width="100">الكمية</th>
-                                    <th rowspan="2" class="maybe-hidden unit_total_tax_enable" width="100">الضريبة %
-                                    </th>
-                                    <th colspan="2" class="maybe-hidden unit_price_after_enable" width="100">سعر الوحدة
-                                    </th>
-                                    <th colspan="2" class="maybe-hidden total_price_after_enable" width="100">صافي
-                                        الإجمالى</th>
-                                    <th rowspan="2" width="70"> حذف </th>
-                                </tr>
+                                    <tr>
+                                        <th rowspan="2" width="40">م</th>
+                                        <th rowspan="2" class="maybe-hidden name_enable">اسم الصنف</th>
+                                        <th rowspan="2" class="maybe-hidden barcode_enable" width="140">باركود</th>
+                                        <th rowspan="2" class="maybe-hidden unit_enable" width="110">الوحدة</th>
+                                        <th rowspan="2" class="maybe-hidden quantity_enable" width="100">الكمية</th>
+                                        <th rowspan="2" class="maybe-hidden unit_total_tax_enable" width="100">الضريبة %
+                                        </th>
+                                        <th colspan="2" class="maybe-hidden unit_price_after_enable" width="100">سعر الوحدة
+                                        </th>
+                                        <th colspan="2" class="maybe-hidden total_price_after_enable" width="100">صافي
+                                            الإجمالى</th>
+                                        <th rowspan="2" width="70"> حذف </th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <!--						Space For Appended Products-->
+                                    <!--						Space For Appended Products-->
                                 </tbody>
                                 <tfoot class="tempDisabled">
-                                <tr>
-                                    <th id="amountBeforeDariba" class="rel-cols" colspan="3">
-                                        <span class="colorfulSpan"> المجموع</span>
-                                        <input type="hidden" class="dynamic-input" value="0">
-                                        <span class="dynamic-span">0</span>
-                                        <span class="rs"> ر.س </span>
-                                    </th>
-                                    <th id="amountOfDariba" class="rel-cols" colspan="3">
+                                    <tr>
+                                        <th id="amountBeforeDariba" class="rel-cols" colspan="3">
+                                            <span class="colorfulSpan"> المجموع</span>
+                                            <input type="hidden" class="dynamic-input" value="0">
+                                            <span class="dynamic-span">0</span>
+                                            <span class="rs"> ر.س </span>
+                                        </th>
+                                        <th id="amountOfDariba" class="rel-cols" colspan="3">
                                             <span id="removeTaxWrap">
                                                 <input type="checkbox" id="remove-tax">
                                                 <label for="remove-tax">معفي ضريبيا</label>
                                             </span>
-                                        <span class="colorfulSpan"> قيمة الضريبة</span>
-                                        <input type="hidden" class="dynamic-input" name="totalTaxs"
-                                               id="amountOfDariba1" value="0">
-                                        <span class="dynamic-span">0</span>
-                                        <span class="rs"> ر.س </span>
-                                    </th>
-                                    <th id="amountAfterDariba" class="rel-cols" colspan="3">
-                                        <span class="colorfulSpan">المجموع بعد الضريبة</span>
-                                        <input type="hidden" class="dynamic-input" name="amount"
-                                               value="0"
-                                               id="amountAfterDarib1">
-                                        <span class="dynamic-span">0</span>
-                                        <span class="rs"> ر.س </span>
-                                    </th>
-                                </tr>
-                                <tr id="discountArea">
-                                    <th colspan="2">
-                                        الخصم
-                                    </th>
-                                    <th colspan="7">
-                                        <div class="inline_divs">
-                                            <div class="form-group">
-                                                <div class="rel-cols">
-                                                    <label for="byPercentage">ادخل نسبة الخصم</label>
-                                                    <input type="tel" placeholder="النسبة المئوية للخصم" min="0"
-                                                           value="0" max="100" step="any" id="byPercentage"
-                                                           class="form-control dynamic-input" name="discount_byPercentage">
-                                                    <span class="rs"> % </span>
+                                            <span class="colorfulSpan"> قيمة الضريبة</span>
+                                            <input type="hidden" class="dynamic-input" name="totalTaxs"
+                                                id="amountOfDariba1" value="0">
+                                            <span class="dynamic-span">0</span>
+                                            <span class="rs"> ر.س </span>
+                                        </th>
+                                        <th id="amountAfterDariba" class="rel-cols" colspan="3">
+                                            <span class="colorfulSpan">المجموع بعد الضريبة</span>
+                                            <input type="hidden" class="dynamic-input" name="amount" value="0"
+                                                id="amountAfterDarib1">
+                                            <span class="dynamic-span">0</span>
+                                            <span class="rs"> ر.س </span>
+                                        </th>
+                                    </tr>
+                                    <tr id="discountArea">
+                                        <th colspan="2">
+                                            الخصم
+                                        </th>
+                                        <th colspan="7">
+                                            <div class="inline_divs">
+                                                <div class="form-group">
+                                                    <div class="rel-cols">
+                                                        <label for="byPercentage">ادخل نسبة الخصم</label>
+                                                        <input type="tel" placeholder="النسبة المئوية للخصم" min="0"
+                                                            value="0" max="100" step="any" id="byPercentage"
+                                                            class="form-control dynamic-input" name="discount_byPercentage">
+                                                        <span class="rs"> % </span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="rel-cols">
+                                                        <label for="byAmount">ادخل مبلغ الخصم</label>
+                                                        <input type="tel" step="any" placeholder="مبلغ الخصم" min="0"
+                                                            value="0" max="1" id="byAmount"
+                                                            class="form-control dynamic-input" name="discount_byAmount">
+                                                        <span class="rs"> ر.س </span>
+
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <div class="rel-cols">
-                                                    <label for="byAmount">ادخل مبلغ الخصم</label>
-                                                    <input type="tel" step="any" placeholder="مبلغ الخصم" min="0"
-                                                           value="0" max="1" id="byAmount"
-                                                           class="form-control dynamic-input" name="discount_byAmount">
+                                        </th>
+                                    </tr>
+                                    <tr id="demandedAmount">
+                                        <th colspan="2">المطلوب دفعه</th>
+                                        <input type="hidden" name="total" id="total" value="0">
+                                        <th colspan="7" id="reminder" class="rel-cols">
+                                            <span class="dynamic-span">0</span>
+                                            <span class="rs"> ر.س </span>
+                                        </th>
+                                    </tr>
+                                    <tr id="paidAmount">
+                                        <th colspan="2">المدفوع</th>
+                                        <th colspan="7">
+
+                                            <div class="inline_divs">
+                                                <div class="form-group rel-cols">
+                                                    <label for="byCache">كاش</label>
+                                                    <input type="tel" step="any" id="byCache" placeholder="المدفوع كاش"
+                                                        min="0"
+                                                        class="form-control dynamic-input keyboard form-control keyboard-numpad"
+                                                        name="cash" autocomplete="off">
                                                     <span class="rs"> ر.س </span>
-
+                                                </div>
+                                                <span> + </span>
+                                                <div class="form-group rel-cols">
+                                                    <label for="byNet">شبكة</label>
+                                                    <input type="tel" step="any" id="byNet" placeholder="المدفوع شبكة"
+                                                        min="0"
+                                                        class="form-control dynamic-input keyboard form-control keyboard-numpad"
+                                                        name="network" autocomplete="off">
+                                                    <span class="rs"> ر.س </span>
+                                                </div>
+                                                <div class="rel-cols">
+                                                    <input type="hidden" name="payed" id="allPaid1" value="0">
+                                                    <span class="dynamic-span" id="allPaid">0</span>
+                                                    <span class="rs"> ر.س </span>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </th>
-                                </tr>
-                                <tr id="demandedAmount">
-                                    <th colspan="2">المطلوب دفعه</th>
-                                    <input type="hidden" name="total" id="total" value="0">
-                                    <th colspan="7" id="reminder" class="rel-cols">
-                                        <span class="dynamic-span">0</span>
-                                        <span class="rs"> ر.س </span>
-                                    </th>
-                                </tr>
-                                <tr id="paidAmount">
-                                    <th colspan="2">المدفوع</th>
-                                    <th colspan="7">
-
-                                        <div class="inline_divs">
-                                            <div class="form-group rel-cols">
-                                                <label for="byCache">كاش</label>
-                                                <input type="tel" step="any" id="byCache" placeholder="المدفوع كاش" min="0" class="form-control dynamic-input keyboard form-control keyboard-numpad" name="cash"
-                                                       autocomplete="off"
-                                                >
-                                                <span class="rs"> ر.س </span>
-                                            </div>
-                                            <span> + </span>
-                                            <div class="form-group rel-cols">
-                                                <label for="byNet">شبكة</label>
-                                                <input  type="tel" step="any" id="byNet" placeholder="المدفوع شبكة"
-                                                        min="0" class="form-control dynamic-input keyboard form-control keyboard-numpad" name="network"
-                                                        autocomplete="off"
-                                                >
-                                                <span class="rs"> ر.س </span>
-                                            </div>
-                                            <div class="rel-cols">
-                                                <input type="hidden" name="payed" id="allPaid1"
-                                                       value="0">
-                                                <span class="dynamic-span" id="allPaid">0</span>
-                                                <span class="rs"> ر.س </span>
-                                            </div>
-                                        </div>
-                                    </th>
-                                </tr>
-                                <tr id="remaindedAmount">
-                                    <th colspan="2">المتبقي</th>
-                                    <th colspan="7" class="rel-cols">
-                                        <span class="dynamic-span">0</span>
-                                        <span class="rs"> ر.س </span>
-                                    </th>
-                                    <input type="hidden" class="dynamic-input" id="remainder-inputt" name="reminder" value="0">
-                                </tr>
-                                <tr>
-                                    <th colspan="5">
-                                        <button type="submit"> حفظ [F7] </button>
-                                    </th>
-                                    <th colspan="4">
-                                        <button type="submit" onclick="$('#print-a4').val('a4')"> حفظ [A4] </button>
-                                    </th>
-                                    {!! Form::hidden('print','7cm',['id'=>'print-a4']) !!}
-                                </tr>
+                                        </th>
+                                    </tr>
+                                    <tr id="remaindedAmount">
+                                        <th colspan="2">المتبقي</th>
+                                        <th colspan="7" class="rel-cols">
+                                            <span class="dynamic-span">0</span>
+                                            <span class="rs"> ر.س </span>
+                                        </th>
+                                        <input type="hidden" class="dynamic-input" id="remainder-inputt" name="reminder"
+                                            value="0">
+                                    </tr>
+                                    <tr>
+                                        <th colspan="5">
+                                            <button type="submit"> حفظ [F7] </button>
+                                        </th>
+                                        <th colspan="4">
+                                            <button type="submit" onclick="$('#print-a4').val('a4')"> حفظ [A4] </button>
+                                        </th>
+                                        {!! Form::hidden('print', '7cm', ['id' => 'print-a4']) !!}
+                                    </tr>
                                 </tfoot>
                             </table>
                         </form>
                         <div class="newly-added-2-btns-">
                             @if (auth()->user()->is_saler == 1)
                                 <button type="button" class="btn btn-danger" data-toggle="modal"
-                                        data-target="#exampleModal">
+                                    data-target="#exampleModal">
                                     اغلاق الجلسة [F8]
                                 </button>
                             @endif
                             <a class="btn btn-primary" id="add-mortaga3" target="_blank"
-                               href="{{ route('accounting.sales.returns', $session->id) }}">
+                                href="{{ route('accounting.sales.returns', $session->id) }}">
                                 اضافة فاتورة مرتجع [F9] </a>
-                            <a class="btn btn-primary" target="_blank"
-                               href="{{ route('accounting.invoices.current') }}">
+                            <a class="btn btn-primary" target="_blank" href="{{ route('accounting.invoices.current') }}">
                                 الفواتير السابقة</a>
                             <a class="btn btn-warning" id="ta3liik" href="#" target="_blank"> تعليق الفاتورة [F10] </a>
                         </div>
-                    @if ($session->user->is_saler == 1)
-                        <!-- Modal -->
+                        @if ($session->user->is_saler == 1)
+                            <!-- Modal -->
                             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLabel"> اغلاق الجلسة </h5>
                                             <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
+                                                aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body">
                                             <form method="post"
-                                                  action="{{ route('accounting.sales.end', $session->user->is_saler) }}"
-                                                  id="form1">
+                                                action="{{ route('accounting.sales.end', $session->user->is_saler) }}"
+                                                id="form1">
                                                 @csrf
                                                 <input type="hidden" name="session_id" value="{{ $session->id }}">
                                                 <label style="color:black"> الباسورد</label>
@@ -295,22 +294,22 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">اغلاق</button>
+                                                data-dismiss="modal">اغلاق</button>
                                             <button type="submit" class="btn btn-primary"
-                                                    onclick="document.getElementById('form1').submit()">حفظ</button>
+                                                onclick="document.getElementById('form1').submit()">حفظ</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         @endif
                         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
-                             aria-labelledby="deleteModalLabel" aria-hidden="true">
+                            aria-labelledby="deleteModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLabel"> إزالة الصنف </h5>
                                         <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close">
+                                            aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
@@ -329,7 +328,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-primary confirm_delete"
-                                                id="confirm_delete">تحقق</button>
+                                            id="confirm_delete">تحقق</button>
                                     </div>
                                 </div>
                             </div>
@@ -343,19 +342,19 @@
 @endsection
 @section('scripts')
     <!--- scroll to the last table row -->
-    <audio src="{{asset('sounds/found.ogg')}}" id="found" ></audio>
-    <audio src="{{asset('sounds/fail.ogg')}}" id="fail" ></audio>
+    <audio src="{{ asset('sounds/found.ogg') }}" id="found"></audio>
+    <audio src="{{ asset('sounds/fail.ogg') }}" id="fail"></audio>
     <script src="//unpkg.com/alpinejs" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
-            integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!--- end datatable -->
     <script src="{{ asset('admin/assets/js/jquery.datetimepicker.full.min.js') }}"></script>
     <script src="{{ asset('admin/assets/js/scanner.js') }}"></script>
     <script>
-        $('#sllForm').keydown(function(event){
-            if(event.keyCode == 13) {
+        $('#sllForm').keydown(function(event) {
+            if (event.keyCode == 13) {
                 event.preventDefault();
                 return false;
             }
@@ -396,7 +395,7 @@
 
         //	Calculation Function
         function calcBill(selectedProduct, productId, productName, productBarCode, productPrice, priceHasTax, totalTaxes,
-                          mainUnit, productUnits,quantity=1,sub_unit_id='--') {
+            mainUnit, productUnits, quantity = 1, sub_unit_id = '--') {
             rowNum++;
             // alert(productUnits);
 
@@ -418,7 +417,8 @@
             var optss = ``;
             for (var i = 0; i < productUnits.length; i++) {
                 var is_selected = (i == 0) ? 'selected' : '';
-                optss += '<option data-uni-price="' + Math.round(unitPrice[i]*10000)/10000 + '" value="' + unitId[i] + '" '+is_selected+' > ' + unitName[i] + '</option> ';
+                optss += '<option data-uni-price="' + Math.round(unitPrice[i] * 10000) / 10000 + '" value="' + unitId[i] +
+                    '" ' + is_selected + ' > ' + unitName[i] + '</option> ';
             }
 
 
@@ -438,8 +438,10 @@
 			</td>
 			<td class="unit-total-tax maybe-hidden unit_total_tax_enable" width="100">
 				<input type="tel" placeholder="الضريبة" max="" min="0" data-original-tax="${totalTaxes}" value="${totalTaxes}" name="cart[${rowNum}][tax]" class="form-control">
+                
 			</td>
 			<td class="single-unit-price maybe-hidden unit_price_after_enable" width="100">${Math.round(productPrice*10000)/10000}</td>
+            <input type="hidden" value="${Math.round(productPrice*10000)/10000}" name="cart[${rowNum}][price]" />
 			<td class="single-price-before maybe-hidden">${Math.round(singlePriceBefore*10000)/10000}</td>
 			<td class="single-price-after maybe-hidden">${Math.round(singlePriceAfter*10000)/10000}</td>
 			<td class="whole-price-before maybe-hidden">${(Math.round(singlePriceBefore*10000)/10000*parseInt(quantity))}</td>
@@ -449,18 +451,20 @@
             </td>
 			<td class="delete-single-row" width="70">
     @if ($session->user->is_admin == 1)
-            <a href="#"><span class="icon-cross"></span></a>
-@else
-            <button type="button" class="btn btn-primary in-row-del" data-toggle="modal" data-target="#deleteModal">
-                <span class="icon-cross"></span>
-            </button>
-@endif
+        <a href="#"><span class="icon-cross"></span></a>
+    @else
+        <button type="button" class="btn btn-primary in-row-del" data-toggle="modal" data-target="#deleteModal">
+            <span class="icon-cross"></span>
+        </button>
+    @endif
             </td>
         </tr>`);
 
             var height = $("tbody").height();
 
-            $("tbody").animate({ scrollTop: 0 }, "fast");
+            $("tbody").animate({
+                scrollTop: 0
+            }, "fast");
 
             //	Remove overlay
             $(".tempDisabled").removeClass("tempDisabled");
@@ -519,9 +523,12 @@
                     var singlePriceBefore = Number(productPrice);
                     var singlePriceAfter = Number(productPrice);
                 }
-                $(this).parents('.single-row-wrapper').find(".single-unit-price").text(Math.round(productPrice*10000)/10000);
-                $(this).parents('.single-row-wrapper').find(".single-price-before").text(Math.round(singlePriceBefore*10000)/10000);
-                $(this).parents('.single-row-wrapper').find(".single-price-after").text(Math.round(singlePriceAfter*10000)/10000);
+                $(this).parents('.single-row-wrapper').find(".single-unit-price").text(Math.round(productPrice *
+                    10000) / 10000);
+                $(this).parents('.single-row-wrapper').find(".single-price-before").text(Math.round(
+                    singlePriceBefore * 10000) / 10000);
+                $(this).parents('.single-row-wrapper').find(".single-price-after").text(Math.round(
+                    singlePriceAfter * 10000) / 10000);
                 $(this).parents('.single-row-wrapper').find(".product-quantity input").trigger('change');
             });
             $(".product-quantity input").change(function() {
@@ -533,10 +540,12 @@
                 $(".tempDisabled").removeClass("tempDisabled");
                 var wholePriceBefore = Number($(this).parents('.single-row-wrapper').find(".single-price-before")
                     .text()) * Number($(this).val());
-                $(this).parents('.single-row-wrapper').find(".whole-price-before").text(Math.round(wholePriceBefore*10000)/10000);
+                $(this).parents('.single-row-wrapper').find(".whole-price-before").text(Math.round(
+                    wholePriceBefore * 10000) / 10000);
                 var wholePriceAfter = Number($(this).parents('.single-row-wrapper').find(".single-price-after")
                     .text()) * Number($(this).val());
-                $(this).parents('.single-row-wrapper').find(".whole-price-after").text(Math.round(wholePriceAfter*10000)/10000);
+                $(this).parents('.single-row-wrapper').find(".whole-price-after").text(Math.round(wholePriceAfter *
+                    10000) / 10000);
                 $(" input#byAmount , input#byPercentage , input#byCache , input#byNet").val(0)
                 //						$("input#byNet").trigger('change')
             });
@@ -564,14 +573,14 @@
 
         };
 
-        var store_id = $("#store_id").val()||1;
+        var store_id = $("#store_id").val() || 1;
         // var store_id = 1;
         // $('#selectID').removeClass('hidden');
         $('#selectID2').select2({
             ajax: {
                 delay: 250,
                 url: "/accounting/productsAjex/" + store_id,
-                data: function (params) {
+                data: function(params) {
                     var query = {
                         search: params.term,
                         page: params.page || 1
@@ -580,19 +589,19 @@
                 },
 
 
-                processResults: function (data, params) {
+                processResults: function(data, params) {
                     // parse the results into the format expected by Select2
                     // since we are using custom formatting functions we do not need to
                     // alter the remote JSON data, except to indicate that infinite
                     // scrolling can be used
                     params.page = params.page || 1;
                     /*
-                    *     var productBarCode = selectedProduct.data('bar-code');
-            var productPrice = Number(selectedProduct.data('price'));
-            var priceHasTax = selectedProduct.data('price-has-tax');
-            var totalTaxes = selectedProduct.data('total-taxes');
-            var mainUnit = selectedProduct.data('main-unit');
-            var productUnits = selectedProduct.data('subunits');*/
+                            *     var productBarCode = selectedProduct.data('bar-code');
+                    var productPrice = Number(selectedProduct.data('price'));
+                    var priceHasTax = selectedProduct.data('price-has-tax');
+                    var totalTaxes = selectedProduct.data('total-taxes');
+                    var mainUnit = selectedProduct.data('main-unit');
+                    var productUnits = selectedProduct.data('subunits');*/
                     results = _.toArray(data.data.data);
                     return {
                         results: results,
@@ -609,15 +618,16 @@
             // templateSelection: formatRepoSelection,
             delay: 250
         });
-        $('#selectID2').on('change', function (e) {
+        $('#selectID2').on('change', function(e) {
             // $('#selectID2').change(function() {
             $.ajax({
                 method: 'GET',
                 url: "/accounting/products-single-product/" + e.target.value,
-                success: function (resp) {
+                success: function(resp) {
                     document.getElementById('found').play();
                     calcBill(resp.id, resp.id, resp.name, resp.bar_code,
-                        parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits))
+                        parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp
+                        .main_unit, JSON.parse(resp.subunits))
                 }
             })
 
@@ -662,9 +672,9 @@
                 amountAfterDariba += parseFloat($(this).text());
             });
             var amountOfDariba = parseFloat(amountAfterDariba) - parseFloat(amountBeforeDariba);
-            $("#amountBeforeDariba span.dynamic-span").html(Math.round(amountBeforeDariba*10000)/10000);
-            $("#amountAfterDariba span.dynamic-span").html(Math.round(amountAfterDariba*10000)/10000);
-            $("#amountOfDariba span.dynamic-span").html(Math.round(amountOfDariba*10000)/10000);
+            $("#amountBeforeDariba span.dynamic-span").html(Math.round(amountBeforeDariba * 10000) / 10000);
+            $("#amountAfterDariba span.dynamic-span").html(Math.round(amountAfterDariba * 10000) / 10000);
+            $("#amountOfDariba span.dynamic-span").html(Math.round(amountOfDariba * 10000) / 10000);
             $("#amountOfDariba1").val(amountOfDariba);
             $('#amountAfterDarib1').val(amountAfterDariba);
 
@@ -674,7 +684,7 @@
             var total = 0;
 
             if (byAmount == 0 && byPercentage == 0) {
-                $("#demandedAmount span.dynamic-span").html(Math.round(amountAfterDariba*10000)/10000);
+                $("#demandedAmount span.dynamic-span").html(Math.round(amountAfterDariba * 10000) / 10000);
             } else {
                 $("input#byPercentage").change(function() {
                     if ((Number($(this).val())) > 100) {
@@ -682,20 +692,21 @@
                         $(this).val(100);
                     }
                     total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(
-                        this)
+                            this)
                         .val()) / 100));
-                    $("#demandedAmount span.dynamic-span").html(Math.round(total*10000)/10000);
+                    $("#demandedAmount span.dynamic-span").html(Math.round(total * 10000) / 10000);
                     $("#total").val(total);
                 });
                 $("input#byAmount").change(function() {
-                    if ((Number($(this).val())) > Number($("#amountAfterDariba span.dynamic-span").html())) {
+                    if ((Number($(this).val())) > Number($("#amountAfterDariba span.dynamic-span")
+                            .html())) {
                         alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' +
                             $(
                                 "#amountAfterDariba span.dynamic-span").html());
                         $(this).val(0);
                     }
                     total = Number(amountAfterDariba) - (Number($(this).val()));
-                    $("#demandedAmount span.dynamic-span").html(Math.round(total*10000)/10000);
+                    $("#demandedAmount span.dynamic-span").html(Math.round(total * 10000) / 10000);
                     $("#total").val(total);
                 });
             }
@@ -707,12 +718,12 @@
                 total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this)
                         .val()) /
                     100));
-                $("#demandedAmount span.dynamic-span").html(Math.round(total*10000)/10000);
+                $("#demandedAmount span.dynamic-span").html(Math.round(total * 10000) / 10000);
                 $("#total").val(total);
             });
             $("input#byAmount").change(function() {
                 if ((Number($(this).val())) > Number($("#amountAfterDariba span.dynamic-span")
-                    .html())) {
+                        .html())) {
                     alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' +
                         $(
                             "#amountAfterDariba span.dynamic-span").html());
@@ -727,21 +738,21 @@
                 $("#allPaid").html(allPaid.toFixed(rondingNumber));
                 $("#allPaid1").val(allPaid);
                 var remaindedAmount = Number(allPaid) - Number($(
-                    "#demandedAmount span.dynamic-span")
+                        "#demandedAmount span.dynamic-span")
                     .html());
-                $("#remaindedAmount span.dynamic-span").html(Math.round(remaindedAmount*1000)/1000);
+                $("#remaindedAmount span.dynamic-span").html(Math.round(remaindedAmount * 1000) / 1000);
                 $('#remainder-inputt').val(Math.abs(remaindedAmount));
                 if (remaindedAmount > 0) {
                     $("#remaindedAmount .rel-cols").removeClass("aagel-case").removeClass(
-                        "tmam-case")
+                            "tmam-case")
                         .addClass("motabaqy-case");
                 } else if (remaindedAmount < 0) {
                     $("#remaindedAmount .rel-cols").removeClass("motabaqy-case").removeClass(
-                        "tmam-case")
+                            "tmam-case")
                         .addClass("aagel-case");
                 } else {
                     $("#remaindedAmount .rel-cols").removeClass("motabaqy-case").removeClass(
-                        "aagel-case")
+                            "aagel-case")
                         .addClass("tmam-case");
                 }
             })
@@ -758,7 +769,7 @@
             avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms
             preventDefault: true,
             endChar: [13],
-            onComplete: function (barcode, qty) {
+            onComplete: function(barcode, qty) {
                 validScan = true;
                 $.ajax({
                     url: "/accounting/barcode_search_sale/" + barcode,
@@ -767,9 +778,10 @@
                     data: {
                         store_id: store_id,
                     },
-                    success: function (resp) {
+                    success: function(resp) {
                         calcBill(resp.id, resp.id, resp.name, resp.bar_code,
-                            parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits))
+                            parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp
+                            .main_unit, JSON.parse(resp.subunits))
                         $('#barcode_search').val('')
 
                         /*  if (data.data.length !== 0) {
@@ -814,7 +826,7 @@
                     }
                 });
             },
-            onError: function (string, qty) {
+            onError: function(string, qty) {
                 $('#barcode_search').val($('#barcode_search').val() + string);
                 var barcode = $('#barcode_search').val();
                 validScan = true;
@@ -825,8 +837,8 @@
                         store_id: store_id,
                     },
                     delay: 250,
-                    success: function (resp) {
-                        if (resp.status===false) {
+                    success: function(resp) {
+                        if (resp.status === false) {
                             $('#barcode-error-span').show();
                             document.getElementById('fail').play();
                         } else {
@@ -834,29 +846,34 @@
 
                             $('#barcode-error-span').hide();
 
-                            var selectedID = $('select[name="unit_id[' + resp.id+'-'+resp.selected_sub_unit + ']"]').val() || null;
+                            var selectedID = $('select[name="unit_id[' + resp.id + '-' + resp
+                                .selected_sub_unit + ']"]').val() || null;
 
                             var alreadyChosen = $(
                                 ".bill-table tbody td select option[value=" +
                                 selectedID + "]");
                             var repeatedInputVal = $(
-                                ".bill-table tbody td select option[value=" +
-                                selectedID + "]:selected").parents('tr')
+                                    ".bill-table tbody td select option[value=" +
+                                    selectedID + "]:selected").parents('tr')
                                 .find('.product-quantity').find('input');
 
-                            if (alreadyChosen.length > 0 && alreadyChosen.is(':selected') && JSON.parse(resp.subunits)[0].id==selectedID) {
+                            if (alreadyChosen.length > 0 && alreadyChosen.is(':selected') && JSON
+                                .parse(resp.subunits)[0].id == selectedID) {
                                 repeatedInputVal.focus();
 
                                 repeatedInputVal.val(Number(repeatedInputVal
                                         .val()) +
-                                    + parseInt(resp.quantity));
+                                    +parseInt(resp.quantity));
                                 repeatedInputVal.text(repeatedInputVal
                                     .val());
                                 $('.product-quantity').find('input')
                                     .trigger(
                                         'change');
                             } else {
-                                calcBill(resp.id, resp.id, resp.name, resp.bar_code, parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits),parseInt(resp.quantity),resp.selected_sub_unit)
+                                calcBill(resp.id, resp.id, resp.name, resp.bar_code, parseFloat(resp
+                                        .price), resp.price_has_tax, resp.total_taxes, resp
+                                    .main_unit, JSON.parse(resp.subunits), parseInt(resp
+                                        .quantity), resp.selected_sub_unit)
 
                             }
 
@@ -954,16 +971,16 @@
             var feloos = Number($("tr#remaindedAmount span.dynamic-span").text());
             var cash = Number($('input[name="cash"]').val());
             var network = Number($('input[name="network"]').val());
-            if (feloos >= 0 && (cash+network)>0) {
+            if (feloos >= 0 && (cash + network) > 0) {
                 event.preventDefault();
                 swal({
-                    title: "تنبيه !",
-                    text: "هل أنت متأكد من الحفظ ؟",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                    buttons: ['لا', 'نعم']
-                })
+                        title: "تنبيه !",
+                        text: "هل أنت متأكد من الحفظ ؟",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                        buttons: ['لا', 'نعم']
+                    })
                     .then((willDelete) => {
                         if (willDelete) {
                             swal("جار الحفظ !", {
@@ -1030,8 +1047,9 @@
     <!---- new design --->
     <script>
         @if (!empty(session()->has('sale_id')))
-        @php($sale_id = session()->get('sale_id'))
-        window.open(   "{{ route('accounting.sales.show', ['sale'=>$sale_id,'print'=>session('print')]) }}",  "_blank" ).print();
+            @php($sale_id = session()->get('sale_id'))
+            window.open( "{{ route('accounting.sales.show', ['sale' => $sale_id, 'print' => session('print')]) }}", "_blank"
+            ).print();
         @endif
     </script>
     <script>
@@ -1104,26 +1122,30 @@
     </script>
 
 
-    <script src="{{asset('admin/assets/js/numric-input.js')}}"></script>
+    <script src="{{ asset('admin/assets/js/numric-input.js') }}"></script>
     <script>
-        $(function(){
+        $(function() {
             $('#default').keyboard();
             $('#byCache').keyboard();
             /*   $('#byNet').keyboard(); */
-            $('#byNet').keyboard({type:'numpad'});
+            $('#byNet').keyboard({
+                type: 'numpad'
+            });
 
             $('#tel').keyboard();
 
-            $('#placement').keyboard({placement: 'top'});
+            $('#placement').keyboard({
+                placement: 'top'
+            });
 
         });
     </script>
     <script>
-    $(document).on("focus", ".single-row-wrapper " , function() {
-            $(this).css('background-color','white');
+        $(document).on("focus", ".single-row-wrapper ", function() {
+            $(this).css('background-color', 'white');
         });
         $(document).on("focusout", ".single-row-wrapper ", function() {
-            $(this).css('background-color','#E6E6E6');
+            $(this).css('background-color', '#E6E6E6');
         });
     </script>
 @endsection
