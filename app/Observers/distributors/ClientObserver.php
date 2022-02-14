@@ -7,7 +7,6 @@ use App\Models\Client;
 
 class ClientObserver
 {
-
     /**
      * Handle the User "updating" event.
      *
@@ -16,10 +15,8 @@ class ClientObserver
      */
     public function updating(Client $client)
     {
-
-        if ($client->isDirty('is_active')) {
-
+        if ($client->isDirty("is_active")) {
             event(new ClientActivationChanged($client));
-        };
+        }
     }
 }

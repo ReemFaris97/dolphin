@@ -70,8 +70,28 @@ class AccountingStore extends Model
 {
     use SoftDeletes;
 
-    protected $fillable =['ar_name', 'en_name', 'address', 'image','model_id','model_type','user_id',
-        'code','width','lat','lng','type','status','cost','form','to','basic_store_id','is_active','account_id'];
+    protected $fillable = [
+        "ar_name",
+        "en_name",
+        "address",
+        "image",
+        "model_id",
+        "model_type",
+        "user_id",
+        "code",
+        "width",
+        "lat",
+        "lng",
+        "type",
+        "status",
+        "cost",
+        "form",
+        "to",
+        "basic_store_id",
+        "is_active",
+        "account_id",
+        "expire_date",
+    ];
 
     public function model()
     {
@@ -80,15 +100,16 @@ class AccountingStore extends Model
 
     public function basic()
     {
-        return $this->belongsTo(AccountingStore::class, 'basic_store_id');
+        return $this->belongsTo(AccountingStore::class, "basic_store_id");
     }
 
     public function products()
     {
-        return $this->belongsToMany(AccountingProduct::class, 'accounting_product_stores','store_id','product_id');
+        return $this->belongsToMany(
+            AccountingProduct::class,
+            "accounting_product_stores",
+            "store_id",
+            "product_id"
+        );
     }
-
-
-
-
 }

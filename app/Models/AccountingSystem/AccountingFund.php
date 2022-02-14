@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Events\Accounting\FundSaved;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * App\Models\AccountingFund
@@ -44,7 +45,7 @@ use App\Events\Accounting\FundSaved;
 class AccountingFund extends Model
 {
     use HasFactory;
- 
+
     /**
      * The attributes that aren't mass assignable.
      *
@@ -52,33 +53,42 @@ class AccountingFund extends Model
      */
     protected $guarded = [];
 
-
     /**
-     * The event map for the model.
+     * The "booting" method of the model.
      *
-     * @var array
+     * @return void
      */
-    protected $dispatchesEvents = [
-        'saved' => FundSaved::class,
-        // 'deleted' => UserDeleted::class,
-    ];
-
-    public function branch():BelongsTo
+    protected static function booted()
     {
-        return $this->belongsTo(AccountingBranch::class, 'branch_id');
+        static::addGlobalScope("addBalance", function (Builder $builder) {
+            $builder->WithBalance();
+        });
+    }
+    public function branch(): BelongsTo
+    {
+        return $this->belongsTo(AccountingBranch::class, "branch_id");
     }
 
-    public function company():BelongsTo
+    public function company(): BelongsTo
     {
-        return $this->belongsTo(AccountingCompany::class, 'company_id');
+        return $this->belongsTo(AccountingCompany::class, "company_id");
     }
 
-    public function created_by():BelongsTo
+    public function created_by(): BelongsTo
     {
-        return $this->morphTo('created_by');
+        return $this->morphTo("created_by");
     }
     public function transaction()
     {
-        return $this->morphOne(AccountingFundTransaction::class, 'billable');
+        return $this->morphOne(AccountingFundTransaction::class, "billable");
+    }
+    public function scopeWithBalance(Builder $builder): void
+    {
+        $builder->addSelect([
+            "balance" => AccountingFundTransaction::query()
+                ->whereColumn("fund_id", "accounting_funds.id")
+                ->selectRaw("SUM(IF(type=1,amount,amount*-1))")
+                ->limit(1),
+        ]);
     }
 }

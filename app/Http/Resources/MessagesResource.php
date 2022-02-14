@@ -15,36 +15,36 @@ class MessagesResource extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'inbox'=>$this->collection->values()->transform(function ($q){
+            "inbox" => $this->collection->values()->transform(function ($q) {
                 return [
-                    'id'=>$q->id,
-                    'type'=>$q->type(),
-                    'image'=>getStorageImg($q->image)??"",
-                    'message'=>$q->message??"",
-                    'created_at'=>date('Y-m-d',strtotime($q->created_at)),
-                    'user'=>[
-                        'id'=>$q->user->id,
-                        'name'=>$q->user->name,
-                        'image'=>getStorageImg($q->user->image)??'',
-                    ]
+                    "id" => $q->id,
+                    "type" => $q->type(),
+                    "image" => getStorageImg($q->image) ?? "",
+                    "message" => $q->message ?? "",
+                    "created_at" => date("Y-m-d", strtotime($q->created_at)),
+                    "user" => [
+                        "id" => $q->user->id,
+                        "name" => $q->user->name,
+                        "image" => getStorageImg($q->user->image) ?? "",
+                    ],
                 ];
             }),
-            'paginate'=>[
-                'total' => $this->total(),
-                'count' => $this->count(),
-                'per_page' => $this->perPage(),
-                'next_page_url'=>$this->nextPageUrl(),
-                'prev_page_url'=>$this->previousPageUrl(),
-                'current_page' => $this->currentPage(),
-                'total_pages' => $this->lastPage()
-            ]
+            "paginate" => [
+                "total" => $this->total(),
+                "count" => $this->count(),
+                "per_page" => $this->perPage(),
+                "next_page_url" => $this->nextPageUrl(),
+                "prev_page_url" => $this->previousPageUrl(),
+                "current_page" => $this->currentPage(),
+                "total_pages" => $this->lastPage(),
+            ],
         ];
     }
 
     public function withResponse($request, $response)
     {
         $originalContent = $response->getOriginalContent();
-        unset($originalContent['links'],$originalContent['meta']);
+        unset($originalContent["links"], $originalContent["meta"]);
         $response->setData($originalContent);
     }
 }

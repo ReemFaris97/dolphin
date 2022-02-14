@@ -16,63 +16,68 @@ use App\Traits\Supplier\SuppliersLogOperations;
 
 class EmployeesController extends Controller
 {
-    use ApiResponses, UserOperation , SuppliersLogOperations;
-    public function index(){
-         $employees = User::where('is_supplier',1)->where('parent_user_id',auth()->user()->id)->paginate($this->paginateNumber);
+    use ApiResponses, UserOperation, SuppliersLogOperations;
+    public function index()
+    {
+        $employees = User::where("is_supplier", 1)
+            ->where("parent_user_id", auth()->user()->id)
+            ->paginate($this->paginateNumber);
         return $this->apiResponse(new UsersResource($employees));
     }
 
-    public function getLog($id){
-        $logs = SupplierLog::where('user_id',$id)->paginate($this->paginateNumber);
+    public function getLog($id)
+    {
+        $logs = SupplierLog::where("user_id", $id)->paginate(
+            $this->paginateNumber
+        );
         return $this->apiResponse(new SupplierLogsResource($logs));
     }
 
-    public function store(Request $request){
-
+    public function store(Request $request)
+    {
         $rules = [
-            'name' =>'required|string|max:191',
-            'phone'      =>'required|string|unique:users',
-            'email'      =>'required|email|max:191|unique:users',
-            'password'   =>'required|string|confirmed|max:191',
-            'permissions'=>'required|array',
-            'permissions.*'=>'numeric|exists:permissions,id',
+            "name" => "required|string|max:191",
+            "phone" => "required|string|unique:users",
+            "email" => "required|email|max:191|unique:users",
+            "password" => "required|string|confirmed|max:191",
+            "permissions" => "required|array",
+            "permissions.*" => "numeric|exists:permissions,id",
         ];
 
-        $validation = $this->apiValidation($request,$rules);
+        $validation = $this->apiValidation($request, $rules);
         if ($validation instanceof Response) {
             return $validation;
         }
         $user = $this->RegisterSupplierEmployee($request);
         $this->RegisterLog("إضافة موظف");
         return $this->apiResponse(new UserResource($user));
-
     }
 
-    public function update(Request $request,$id){
+    public function update(Request $request, $id)
+    {
         $user = User::find($id);
-        if(!$user) return $this->apiResponse(null,"المستخدم غير موجود");
+        if (!$user) {
+            return $this->apiResponse(null, "المستخدم غير موجود");
+        }
 
         $rules = [
-            'name' =>'sometimes|string|max:191',
-            'phone'      =>'sometimes|string|unique:users,phone,'. $user->id,
-            "email" => "sometimes|email|min:1|max:255|unique:users,email,".$user->id,
-            'password'   =>'sometimes|string|confirmed|max:191',
-            'permissions'=>'sometimes|array',
-            'permissions.*'=>'numeric|exists:permissions,id',
+            "name" => "sometimes|string|max:191",
+            "phone" => "sometimes|string|unique:users,phone," . $user->id,
+            "email" =>
+                "sometimes|email|min:1|max:255|unique:users,email," . $user->id,
+            "password" => "sometimes|string|confirmed|max:191",
+            "permissions" => "sometimes|array",
+            "permissions.*" => "numeric|exists:permissions,id",
         ];
 
-        $validation = $this->apiValidation($request,$rules);
+        $validation = $this->apiValidation($request, $rules);
         if ($validation instanceof Response) {
             return $validation;
         }
 
-        $user = $this->UpdateSupplierEmployee($request,$user);
+        $user = $this->UpdateSupplierEmployee($request, $user);
         $this->RegisterLog("تعديل موظف");
 
         return $this->apiResponse(new UserResource($user));
-
-
-
-
     }
 }

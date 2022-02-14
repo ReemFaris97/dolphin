@@ -32,7 +32,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middlewareGroups = [
-        'web' => [
+        "web" => [
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
@@ -42,11 +42,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
-        'api' => [
-            'throttle:60,1',
-            'bindings',
-            ApiLocalizationHandler::class
-        ],
+        "api" => ["throttle:60,1", "bindings", ApiLocalizationHandler::class],
     ];
 
     /**
@@ -57,23 +53,24 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'company' => \App\Http\Middleware\RedirectIfNotCompany::class,
-        'company.guest' => \App\Http\Middleware\RedirectIfCompany::class,
-        'auth' => \App\Http\Middleware\Authenticate::class,
-        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
-        'can' => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
-        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'distributor'=>DistributorMiddleware::class,
-        'supplier'=>SupplierMiddleware::class,
-        'admin'=>AdminMiddleware::class,
-        'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class,
-        'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class,
-        'customHandler'=>CustomExceptionHandlerMiddleware::class
+        "company" => \App\Http\Middleware\RedirectIfNotCompany::class,
+        "company.guest" => \App\Http\Middleware\RedirectIfCompany::class,
+        "auth" => \App\Http\Middleware\Authenticate::class,
+        "auth.basic" =>
+            \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        "bindings" => \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        "cache.headers" => \Illuminate\Http\Middleware\SetCacheHeaders::class,
+        "can" => \Illuminate\Auth\Middleware\Authorize::class,
+        "guest" => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        "signed" => \Illuminate\Routing\Middleware\ValidateSignature::class,
+        "throttle" => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        "verified" => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        "distributor" => DistributorMiddleware::class,
+        "supplier" => SupplierMiddleware::class,
+        "admin" => AdminMiddleware::class,
+        "jwt.auth" => \Tymon\JWTAuth\Middleware\GetUserFromToken::class,
+        "jwt.refresh" => \Tymon\JWTAuth\Middleware\RefreshToken::class,
+        "customHandler" => CustomExceptionHandlerMiddleware::class,
     ];
 
     /**

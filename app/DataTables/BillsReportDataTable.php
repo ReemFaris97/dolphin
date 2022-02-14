@@ -21,42 +21,80 @@ class BillsReportDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('invoice_number', fn($bill) => $bill->invoice_number)
-            ->addColumn('client_name', fn($bill) => optional(optional($bill->route_trip)->client)->name)
-            ->addColumn('created_at', fn($bill) => $bill->created_at->format('Y-m-d h:m A'))
-            ->addColumn('user_name', fn($bill) => optional($bill->route_trip)->route->user->name)
-            ->addColumn('total', fn($bill) => $bill->product_total())
-            ->addColumn('bill_status', fn($bill) => optional($bill->inventory)->type == 'accept' ? '<label class="btn btn-success"> تم القبول</label>' : '<label class="btn btn-danger"> تم الرفض</label>')
-            ->addColumn('bill_type', fn($bill) => view('distributor.bills.bill_type', ['row' => $bill])->render())
-            ->addColumn('bill_paid', fn($bill) => view('distributor.bills.bill_paid', ['row' => $bill])->render())
-            ->addColumn('action', fn($bill) => view('distributor.reports.bills-report.actions', ['row' => $bill])->render())
-            ->rawColumns(['bill_status', 'bill_type', 'bill_paid', 'action']);
+            ->addColumn("invoice_number", fn($bill) => $bill->invoice_number)
+            ->addColumn(
+                "client_name",
+                fn($bill) => optional(optional($bill->route_trip)->client)->name
+            )
+            ->addColumn(
+                "created_at",
+                fn($bill) => $bill->created_at->format("Y-m-d h:m A")
+            )
+            ->addColumn(
+                "user_name",
+                fn($bill) => optional($bill->route_trip)->route->user->name
+            )
+            ->addColumn("total", fn($bill) => $bill->product_total())
+            ->addColumn(
+                "bill_status",
+                fn($bill) => optional($bill->inventory)->type == "accept"
+                    ? '<label class="btn btn-success"> تم القبول</label>'
+                    : '<label class="btn btn-danger"> تم الرفض</label>'
+            )
+            ->addColumn(
+                "bill_type",
+                fn($bill) => view("distributor.bills.bill_type", [
+                    "row" => $bill,
+                ])->render()
+            )
+            ->addColumn(
+                "bill_paid",
+                fn($bill) => view("distributor.bills.bill_paid", [
+                    "row" => $bill,
+                ])->render()
+            )
+            ->addColumn(
+                "action",
+                fn($bill) => view("distributor.reports.bills-report.actions", [
+                    "row" => $bill,
+                ])->render()
+            )
+            ->rawColumns(["bill_status", "bill_type", "bill_paid", "action"]);
     }
-
 
     public function query()
     {
-        $bills = RouteTripReport::query()->with(['inventory', 'products', 'route_trip' => function ($builder) {
-            $builder->with(['route' => function ($q) {
-                $q->with('user');
-            }, 'client']);
-        },
+        $bills = RouteTripReport::query()->with([
+            "inventory",
+            "products",
+            "route_trip" => function ($builder) {
+                $builder->with([
+                    "route" => function ($q) {
+                        $q->with("user");
+                    },
+                    "client",
+                ]);
+            },
         ]);
 
-        $bills->when(\request('client_id'), function ($q) {
-            $q->whereHas('route_trip', function ($query) {
-                $query->whereRelation('client', 'client_id', \request('client_id'));
+        $bills->when(\request("client_id"), function ($q) {
+            $q->whereHas("route_trip", function ($query) {
+                $query->whereRelation(
+                    "client",
+                    "client_id",
+                    \request("client_id")
+                );
             });
         });
 
-        $bills->when(\request('user_id'), function ($q) {
-            $q->whereHas('route_trip', function ($query) {
-                $query->whereRelation('route', 'user_id', \request('user_id'));
+        $bills->when(\request("user_id"), function ($q) {
+            $q->whereHas("route_trip", function ($query) {
+                $query->whereRelation("route", "user_id", \request("user_id"));
             });
         });
 
-        $bills->when(\request('from') and \request('to'), function ($q) {
-            $q->whereBetween('created_at', [\request('from'), \request('to')]);
+        $bills->when(\request("from") and \request("to"), function ($q) {
+            $q->whereBetween("created_at", [\request("from"), \request("to")]);
         });
 
         // $bills = $bills->latest()->get();
@@ -71,19 +109,18 @@ class BillsReportDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('billsreport-table')
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->dom('Bfrtip')
-            ->orderBy(1)
-//                    ->buttons(
-//                        Button::make('create'),
-//                        Button::make('export'),
-//                        Button::make('print'),
-//                        Button::make('reset'),
-//                        Button::make('reload')
-//                    )
-            ;
+                ->setTableId("billsreport-table")
+                ->columns($this->getColumns())
+                ->minifiedAjax()
+                ->dom("Bfrtip")
+                ->orderBy(1);
+            //                    ->buttons(
+            //                        Button::make('create'),
+            //                        Button::make('export'),
+            //                        Button::make('print'),
+            //                        Button::make('reset'),
+            //                        Button::make('reload')
+            //                    )
     }
 
     /**
@@ -94,15 +131,33 @@ class BillsReportDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::computed('invoice_number')->title('رقم الفاتورة ')->addClass('text-center'),
-            Column::make('client_name')->title('اسم العميل  ')->addClass('text-center'),
-            Column::make('created_at')->title('تاريخ الفاتورة  ')->addClass('text-center'),
-            Column::make('user_name')->title('اسم المندوب ')->addClass('text-center'),
-            Column::make('total')->title('قيمة الفاتورة   ')->addClass('text-center'),
-            Column::make('bill_status')->title('حالة الفاتورة   ')->addClass('text-center'),
-            Column::make('bill_type')->title('نوع الفاتورة   ')->addClass('text-center'),
-            Column::make('bill_paid')->title('حالة سداد الفاتورة   ')->addClass('text-center'),
-            Column::computed('action', 'الاعدادات')->addClass('text-center')->width(250),
+            Column::computed("invoice_number")
+                ->title("رقم الفاتورة ")
+                ->addClass("text-center"),
+            Column::make("client_name")
+                ->title("اسم العميل  ")
+                ->addClass("text-center"),
+            Column::make("created_at")
+                ->title("تاريخ الفاتورة  ")
+                ->addClass("text-center"),
+            Column::make("user_name")
+                ->title("اسم المندوب ")
+                ->addClass("text-center"),
+            Column::make("total")
+                ->title("قيمة الفاتورة   ")
+                ->addClass("text-center"),
+            Column::make("bill_status")
+                ->title("حالة الفاتورة   ")
+                ->addClass("text-center"),
+            Column::make("bill_type")
+                ->title("نوع الفاتورة   ")
+                ->addClass("text-center"),
+            Column::make("bill_paid")
+                ->title("حالة سداد الفاتورة   ")
+                ->addClass("text-center"),
+            Column::computed("action", "الاعدادات")
+                ->addClass("text-center")
+                ->width(250),
         ];
     }
 
@@ -113,6 +168,6 @@ class BillsReportDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'BillsReport_' . date('YmdHis');
+        return "BillsReport_" . date("YmdHis");
     }
 }

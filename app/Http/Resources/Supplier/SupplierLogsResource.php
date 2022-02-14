@@ -15,24 +15,22 @@ class SupplierLogsResource extends ResourceCollection
     public function toArray($request)
     {
         return [
-            "logs" => $this->collection->transform(function ($q){
+            "logs" => $this->collection->transform(function ($q) {
                 return [
-                    'id' => $q->id,
-                    'log' => $q->log,
-                    'created_at' =>optional($q->created_at)->toDateString(),
+                    "id" => $q->id,
+                    "log" => $q->log,
+                    "created_at" => optional($q->created_at)->toDateString(),
                 ];
             }),
-            'paginate'=>[
-                'total' => $this->total(),
-                'count' => $this->count(),
-                'per_page' => $this->perPage(),
-                'next_page_url'=>$this->nextPageUrl(),
-                'prev_page_url'=>$this->previousPageUrl(),
-                'current_page' => $this->currentPage(),
-                'total_pages' => $this->lastPage()
-            ]
-
-
+            "paginate" => [
+                "total" => $this->total(),
+                "count" => $this->count(),
+                "per_page" => $this->perPage(),
+                "next_page_url" => $this->nextPageUrl(),
+                "prev_page_url" => $this->previousPageUrl(),
+                "current_page" => $this->currentPage(),
+                "total_pages" => $this->lastPage(),
+            ],
         ];
     }
 }

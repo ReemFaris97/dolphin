@@ -15,14 +15,14 @@ class PurchaseItemResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'=>$this->id,
-            'product'=>new ProductResource($this->product),
-            'quantity'=>$this->quantity,
-            'price'=>$this->price,
-            'unit_type'=>$this->unit_type,
-            'expired_at'=>$this->expired_at,
-            'tax'=>$this->tax,
-            'price_after_tax'=>$this->price_after_tax
+            "id" => $this->id,
+            "product" => new ProductResource($this->product),
+            "quantity" => $this->quantity,
+            "price" => $this->price,
+            "unit_type" => $this->unit_type,
+            "expired_at" => $this->expired_at,
+            "tax" => $this->tax,
+            "price_after_tax" => $this->price_after_tax,
         ];
     }
 }

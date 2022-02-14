@@ -32,13 +32,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class ClientClass extends Model
 {
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'is_active'];
+    protected $fillable = ["name", "is_active"];
     /**
      * products relation
      *
@@ -46,7 +45,12 @@ class ClientClass extends Model
      */
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class, 'client_class_products', 'client_class_id', 'product_id')->withPivot('price');
+        return $this->belongsToMany(
+            Product::class,
+            "client_class_products",
+            "client_class_id",
+            "product_id"
+        )->withPivot("price");
     }
     /**
      * clients
@@ -65,7 +69,6 @@ class ClientClass extends Model
      */
     public function scopeActive(Builder $builder): void
     {
-
-        $builder->where('is_active', 1);
+        $builder->where("is_active", 1);
     }
 }

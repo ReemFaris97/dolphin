@@ -41,26 +41,30 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class AccountingBond extends Model
 {
-
-
-    protected $fillable = ['user_id','store_id','bond_num','date','description','type',
-    'total_price','store_to','store_form'];
-    protected $table='accounting_bonds';
+    protected $fillable = [
+        "user_id",
+        "store_id",
+        "bond_num",
+        "date",
+        "description",
+        "type",
+        "total_price",
+        "store_to",
+        "store_form",
+    ];
+    protected $table = "accounting_bonds";
 
     public function store()
     {
-        return $this->belongsTo(AccountingStore::class,'store_id');
+        return $this->belongsTo(AccountingStore::class, "store_id");
     }
 
-
- 
     public function getStoreFrom()
     {
-        return $this->belongsTo(AccountingStore::class,'store_form');
+        return $this->belongsTo(AccountingStore::class, "store_form");
     }
     public function getStoreTo()
     {
-        return $this->belongsTo(AccountingStore::class,'store_to');
+        return $this->belongsTo(AccountingStore::class, "store_to");
     }
 }
-

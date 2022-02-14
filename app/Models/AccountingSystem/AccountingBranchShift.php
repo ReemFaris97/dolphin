@@ -37,10 +37,10 @@ class AccountingBranchShift extends Model
 {
     use SoftDeletes;
 
-    protected $fillable=  [ 'branch_id', 'name', 'from', 'to'];
+    protected $fillable = ["branch_id", "name", "from", "to"];
 
     public function branch()
     {
-        return $this->belongsTo(AccountingBranch::class, 'branch_id');
+        return $this->belongsTo(AccountingBranch::class, "branch_id");
     }
 }

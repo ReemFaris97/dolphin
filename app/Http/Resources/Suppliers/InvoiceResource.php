@@ -16,11 +16,16 @@ class InvoiceResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'=>$this->id,
-            'items_sum_total'=>$this->items_sum_total??$this->items()->sum('total'),
-            'created_at'=>$this->created_at->toDateTimeString(),
-            'items'=>InvoiceItemResource::collection($this->items),
-            'pdf'=>url(),
+            "id" => $this->id,
+            "items_sum_total" =>
+                $this->items_sum_total ?? $this->items()->sum("total"),
+            "created_at" => $this->created_at->toDateTimeString(),
+            "items" => InvoiceItemResource::collection($this->items),
+            "status" => $this->status,
+            "user" => [
+                "name" => @$this->user->name,
+                "id" => @$this->user_id,
+            ],
         ];
     }
 }

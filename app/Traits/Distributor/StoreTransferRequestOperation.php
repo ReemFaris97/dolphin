@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Traits\Distributor;
 
 use App\Models\Charge;
@@ -18,11 +17,6 @@ use Illuminate\Support\Facades\DB;
 
 trait StoreTransferRequestOperation
 {
-
-
-
-
-
     /**
      * Register New Store Request
      *
@@ -36,43 +30,40 @@ trait StoreTransferRequestOperation
             $inputs = $request->all();
             $request_transfer = StoreTransferRequest::create($inputs);
 
-            foreach ($request->products??[] as $item) {
-                $product = Product::find($item['product_id']);
-                if ($product!=null) {
-                    $request_transfer->products()->create(
-                        [
-                        'product_id'=>$product->id,
-                        'quantity' => $item['quantity'],
-                        'price' => $product->price
-                    ]
-                    );
-
-
+            foreach ($request->products ?? [] as $item) {
+                $product = Product::find($item["product_id"]);
+                if ($product != null) {
+                    $request_transfer->products()->create([
+                        "product_id" => $product->id,
+                        "quantity" => $item["quantity"],
+                        "price" => $product->price,
+                    ]);
 
                     ProductQuantity::create([
-                        'product_id' => $product->id,
+                        "product_id" => $product->id,
                         // 'user_id' => $request->sender_id,
-                        'quantity' => $item['quantity'],
-                        'type' => 'in',
-                        'is_confirmed' => 1,
-                        'store_id' => $request->distributor_store_id,
-                        'store_transfer_request_id' => $request_transfer->id
+                        "quantity" => $item["quantity"],
+                        "type" => "in",
+                        "is_confirmed" => 1,
+                        "store_id" => $request->distributor_store_id,
+                        "store_transfer_request_id" => $request_transfer->id,
                     ]);
 
                     if (isset($request->sender_store_id)) {
                         ProductQuantity::create([
-                        'product_id' => $product->id,
-                        'user_id' => $request->sender_id,
-                        'quantity' => $item['quantity'],
-                        'type' => 'out',
-                        'is_confirmed' => 0,
-                        'store_id' => $request->sender_store_id,
-                        'store_transfer_request_id' => $request_transfer->id
-                    ]);
+                            "product_id" => $product->id,
+                            "user_id" => $request->sender_id,
+                            "quantity" => $item["quantity"],
+                            "type" => "out",
+                            "is_confirmed" => 0,
+                            "store_id" => $request->sender_store_id,
+                            "store_transfer_request_id" =>
+                                $request_transfer->id,
+                        ]);
                     }
                 }
             }
-            if ($request['is_confirmed']==1) {
+            if ($request["is_confirmed"] == 1) {
                 $request_transfer->confirmRequest();
             }
             DB::commit();
@@ -83,43 +74,39 @@ trait StoreTransferRequestOperation
             return false;
         }
 
+        //         DB::beginTransaction();
+        //         try {
+        //             $inputs = $request->all();
 
+        //             // $request_transfer = StoreTransferRequest::create($inputs);
+        //             foreach ($request->products ?? [] as $item) {
+        //                 $product = Product::find($item['product_id']);
+        //                 // $request_transfer->products()->create(
+        //                 //     [
+        //                 //         'product_id'=>$product->id,
+        //                 //         'quantity' => $item['quantity'],
+        //                 //         'price' => $product->price
+        //                 //     ]);
 
+        //              //   if (isset($request->sender_store_id)) {
+        //                     ProductQuantity::create([
+        //                         'product_id' => $product->id,
+        //  //                       'user_id' => $request->sender_id,
+        //                         'quantity' => $item['quantity'],
+        //                     'type' => 'in',
+        //                         'is_confirmed' => 0,
+        //                         'store_id' => $request->sender_store_id,
+        //                       //  'store_transfer_request_id' => $request_transfer->id
+        //                     ]);
 
-
-//         DB::beginTransaction();
-//         try {
-//             $inputs = $request->all();
-
-//             // $request_transfer = StoreTransferRequest::create($inputs);
-//             foreach ($request->products ?? [] as $item) {
-//                 $product = Product::find($item['product_id']);
-//                 // $request_transfer->products()->create(
-//                 //     [
-//                 //         'product_id'=>$product->id,
-//                 //         'quantity' => $item['quantity'],
-//                 //         'price' => $product->price
-//                 //     ]);
-
-//              //   if (isset($request->sender_store_id)) {
-//                     ProductQuantity::create([
-//                         'product_id' => $product->id,
-//  //                       'user_id' => $request->sender_id,
-//                         'quantity' => $item['quantity'],
-//                     'type' => 'in',
-//                         'is_confirmed' => 0,
-//                         'store_id' => $request->sender_store_id,
-//                       //  'store_transfer_request_id' => $request_transfer->id
-//                     ]);
-
-//               //  }
-//             }
-//             DB::commit();
-//             return true;
-//         } catch (\Exception $e) {
-//             DB::rollback();
-//             dd($e);
-//             return false;
-//         }
+        //               //  }
+        //             }
+        //             DB::commit();
+        //             return true;
+        //         } catch (\Exception $e) {
+        //             DB::rollback();
+        //             dd($e);
+        //             return false;
+        //         }
     }
 }

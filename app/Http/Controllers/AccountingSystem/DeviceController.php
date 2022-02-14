@@ -12,7 +12,7 @@ use App\Models\AccountingSystem\AccountingDevice;
 class DeviceController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.devices.';
+    private $viewable = "AccountingSystem.devices.";
     /**
      * Display a listing of the resource.
      *
@@ -20,8 +20,8 @@ class DeviceController extends Controller
      */
     public function index()
     {
-        $devices =AccountingDevice::latest()->get();
-        return $this->toIndex(compact('devices'));
+        $devices = AccountingDevice::latest()->get();
+        return $this->toIndex(compact("devices"));
     }
 
     /**
@@ -31,9 +31,9 @@ class DeviceController extends Controller
      */
     public function create()
     {
-        $companies=AccountingCompany::pluck('name', 'id')->toArray();
-        $branches=AccountingBranch::pluck('name', 'id')->toArray();
-        return $this->toCreate(compact('companies', 'branches'));
+        $companies = AccountingCompany::pluck("name", "id")->toArray();
+        $branches = AccountingBranch::pluck("name", "id")->toArray();
+        return $this->toCreate(compact("companies", "branches"));
     }
 
     /**
@@ -45,21 +45,21 @@ class DeviceController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name'=>'required|string|max:191',
-            'code'=>'nullable|string|max:191|unique:accounting_devices,code',
-            'model_id'=>'required|integer',
+            "name" => "required|string|max:191",
+            "code" => "nullable|string|max:191|unique:accounting_devices,code",
+            "model_id" => "required|integer",
         ];
-     
+
         $this->validate($request, $rules);
         $requests = $request->all();
-        $requests['model_type']=AccountingBranch::class;
+        $requests["model_type"] = AccountingBranch::class;
 
-
-      
         AccountingDevice::create($requests);
-       
-        alert()->success('تم اضافة  الجهاز بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.devices.index');
+
+        alert()
+            ->success("تم اضافة  الجهاز بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.devices.index");
     }
 
     /**
@@ -81,11 +81,11 @@ class DeviceController extends Controller
      */
     public function edit($id)
     {
-        $device=AccountingDevice::findOrFail($id);
-        $companies=AccountingCompany::pluck('name', 'id')->toArray();
-        $branches=AccountingBranch::pluck('name', 'id')->toArray();
+        $device = AccountingDevice::findOrFail($id);
+        $companies = AccountingCompany::pluck("name", "id")->toArray();
+        $branches = AccountingBranch::pluck("name", "id")->toArray();
 
-        return $this->toEdit(compact('device', 'branches', 'companies'));
+        return $this->toEdit(compact("device", "branches", "companies"));
     }
 
     /**
@@ -97,17 +97,20 @@ class DeviceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $device =AccountingDevice::findOrFail($id);
+        $device = AccountingDevice::findOrFail($id);
         $rules = [
-            'name'=>'required|string|max:191',
-            'code'=>'nullable|string|max:191|unique:accounting_devices,code,'.$id,
-            'model_id'=>'required|integer',
+            "name" => "required|string|max:191",
+            "code" =>
+                "nullable|string|max:191|unique:accounting_devices,code," . $id,
+            "model_id" => "required|integer",
         ];
         $this->validate($request, $rules);
         $requests = $request->all();
         $device->update($requests);
-        alert()->success('تم تعديل  الجهاز بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.devices.index');
+        alert()
+            ->success("تم تعديل  الجهاز بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.devices.index");
     }
 
     /**
@@ -118,9 +121,11 @@ class DeviceController extends Controller
      */
     public function destroy($id)
     {
-        $device =AccountingDevice::findOrFail($id);
+        $device = AccountingDevice::findOrFail($id);
         $device->delete();
-        alert()->success('تم حذف  الجهاز بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم حذف  الجهاز بنجاح !")
+            ->autoclose(5000);
         return back();
     }
 }

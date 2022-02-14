@@ -12,9 +12,8 @@ use App\Traits\Viewable;
 
 class DiscardsController extends Controller
 {
-
-    use Viewable,DiscardsOperations;
-    private  $viewable = 'suppliers.discards.';
+    use Viewable, DiscardsOperations;
+    private $viewable = "suppliers.discards.";
     /**
      * Display a listing of the resource.
      *
@@ -22,8 +21,8 @@ class DiscardsController extends Controller
      */
     public function index()
     {
-       $suppliers_discards = SupplierDiscard::orderBy('id','desc')->get();
-       return $this->toIndex(compact('suppliers_discards'));
+        $suppliers_discards = SupplierDiscard::orderBy("id", "desc")->get();
+        return $this->toIndex(compact("suppliers_discards"));
     }
 
     /**
@@ -33,8 +32,10 @@ class DiscardsController extends Controller
      */
     public function create()
     {
-        $suppliers = User::where('is_supplier',1)->where('supplier_type','dolphin')->pluck('name', 'id');
-        return $this->toCreate(compact('suppliers'));
+        $suppliers = User::where("is_supplier", 1)
+            ->where("supplier_type", "dolphin")
+            ->pluck("name", "id");
+        return $this->toCreate(compact("suppliers"));
     }
 
     /**
@@ -45,37 +46,39 @@ class DiscardsController extends Controller
      */
     public function store(Request $request)
     {
-
         $rules = [
-            'supplier_id'=>'required|numeric|exists:users,id',
-            'reason'=>'required|string|max:191',
-            'date'=>"required|date",
-            'return_type'=>"required",
-            'products'=>'required|array',
-            'products.*'=>"required|numeric|exists:products,id",
+            "supplier_id" => "required|numeric|exists:users,id",
+            "reason" => "required|string|max:191",
+            "date" => "required|date",
+            "return_type" => "required",
+            "products" => "required|array",
+            "products.*" => "required|numeric|exists:products,id",
         ];
-            if($request->return_type === 'switch'){
-                $rules['switch_products'] ='required|array';
-                $rules['switch_products.*'] ="required|numeric|exists:products,id";
-            }
-            if($request->return_type === 'decrease'){
-                $rules['paid_amount'] = 'required|numeric|min:1';
-            }
-
-            $this->validate($request,$rules);
-            $discard = $this->RegisterDiscard($request);
-            $this->RegisterDiscardProducts($discard,$request,'discard');
-
-        if($request->has('return_type') && $request->return_type == 'switch'){
-                $this->RegisterDiscardProducts($discard,$request,'switch');
+        if ($request->return_type === "switch") {
+            $rules["switch_products"] = "required|array";
+            $rules["switch_products.*"] = "required|numeric|exists:products,id";
+        }
+        if ($request->return_type === "decrease") {
+            $rules["paid_amount"] = "required|numeric|min:1";
         }
 
-        if($request->has('return_type') && $request->return_type=='decrease'){
+        $this->validate($request, $rules);
+        $discard = $this->RegisterDiscard($request);
+        $this->RegisterDiscardProducts($discard, $request, "discard");
+
+        if ($request->has("return_type") && $request->return_type == "switch") {
+            $this->RegisterDiscardProducts($discard, $request, "switch");
+        }
+
+        if (
+            $request->has("return_type") &&
+            $request->return_type == "decrease"
+        ) {
             $this->RegisterTransaction($request);
         }
 
-        toast('تم الحفظ بنجاح', 'success', 'top-right');
-        return redirect()->route('supplier.suppliers-discards.index');
+        toast("تم الحفظ بنجاح", "success", "top-right");
+        return redirect()->route("supplier.suppliers-discards.index");
     }
 
     /**
@@ -87,7 +90,7 @@ class DiscardsController extends Controller
     public function show($id)
     {
         $discard = SupplierDiscard::findOrFail($id);
-        return $this->toShow(compact('discard'));
+        return $this->toShow(compact("discard"));
     }
 
     /**
@@ -122,22 +125,27 @@ class DiscardsController extends Controller
     public function destroy($id)
     {
         $discard = SupplierDiscard::find($id);
-        if($discard){
+        if ($discard) {
             $discard->delete();
         }
-//        toast('تم الحذف بنجاح', 'success', 'top-right');
-        alert()->success('تم حذف المرتجع بنجاح')->autoclose(5000);
-        return redirect()->route('supplier.suppliers-discards.index');
+        //        toast('تم الحذف بنجاح', 'success', 'top-right');
+        alert()
+            ->success("تم حذف المرتجع بنجاح")
+            ->autoclose(5000);
+        return redirect()->route("supplier.suppliers-discards.index");
     }
 
-
-    public function getAjaxSupplierProducts(Request $request){
-       $supplier = User::find($request->id);
-       $products = $supplier->supplierProducts();
-       return response()->json([
-           'status'=>true,
-           'receivables'=>$supplier->TotalOfSupplierReceivables(),
-           'data'=>view('suppliers.discards.supplier_products',compact('products'))->render()
-       ]);
+    public function getAjaxSupplierProducts(Request $request)
+    {
+        $supplier = User::find($request->id);
+        $products = $supplier->supplierProducts();
+        return response()->json([
+            "status" => true,
+            "receivables" => $supplier->TotalOfSupplierReceivables(),
+            "data" => view(
+                "suppliers.discards.supplier_products",
+                compact("products")
+            )->render(),
+        ]);
     }
 }

@@ -24,10 +24,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class AccountingIndustrial extends Model
 {
-
-
-
-    protected $fillable = [ 'name'];
-    protected $table='accounting_product_industrials';
-
+    protected $fillable = ["name"];
+    protected $table = "accounting_product_industrials";
 }

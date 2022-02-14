@@ -35,9 +35,9 @@ class PrivateMessageSent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        $users=[intval($this->message->user_id),$this->message->receiver_id];
+        $users = [intval($this->message->user_id), $this->message->receiver_id];
         sort($users);
-        $channel=$users[0]."_".$users[1];
-        return new PrivateChannel('privatechat.'.$channel);
+        $channel = $users[0] . "_" . $users[1];
+        return new PrivateChannel("privatechat." . $channel);
     }
 }

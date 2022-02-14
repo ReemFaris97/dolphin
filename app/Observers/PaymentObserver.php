@@ -15,13 +15,13 @@ class PaymentObserver
      */
     public function creating(AccountingPayment $payment)
     {
-      if ($payment->active==1){
-          foreach (AccountingPayment::all() as $item){
-              $item->update([
-                  'active'=>0
-              ]);
-          }
-      }
+        if ($payment->active == 1) {
+            foreach (AccountingPayment::all() as $item) {
+                $item->update([
+                    "active" => 0,
+                ]);
+            }
+        }
     }
 
     /**
@@ -30,5 +30,4 @@ class PaymentObserver
      * @param  \App\Task  $task
      * @return void
      */
-
 }

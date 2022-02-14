@@ -1,6 +1,6 @@
 <?php
 
-    namespace App\Models\AccountingSystem;
+namespace App\Models\AccountingSystem;
 
 use App\Traits\HashPassword;
 use App\Notifications\CompanyResetPassword;
@@ -9,26 +9,31 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class
-AccountingCompany extends Authenticatable
+class AccountingCompany extends Authenticatable
 {
-    use Notifiable,HasFactory;
-    use SoftDeletes,HashPassword;
+    use Notifiable, HasFactory;
+    use SoftDeletes, HashPassword;
 
-    protected $guard = 'accounting_companies';
+    protected $guard = "accounting_companies";
 
     protected $fillable = [
-    'name', 'phone', 'password', 'email', 'image','legal_title',
-    'another_title',
-    'license_number',
-    'street',
-    'region',
-    'area',
-    'postal_number'];
+        "name",
+        "phone",
+        "password",
+        "email",
+        "image",
+        "legal_title",
+        "another_title",
+        "license_number",
+        "street",
+        "region",
+        "area",
+        "postal_number",
+    ];
 
     public function branches()
     {
-        return $this->hasMany(AccountingBranch::class, 'company_id');
+        return $this->hasMany(AccountingBranch::class, "company_id");
     }
 
     public function sendPasswordResetNotification($token)
@@ -36,20 +41,16 @@ AccountingCompany extends Authenticatable
         $this->notify(new CompanyResetPassword($token));
     }
 
-
-
     public function shifts()
     {
-
-       // dd("FF");
+        // dd("FF");
         return $this->hasManyThrough(
-            'App\Models\AccountingSystem\AccountingBranchShift',
-            'App\Models\AccountingSystem\AccountingBranch',
-            'company_id',
-            'branch_id'
+            "App\Models\AccountingSystem\AccountingBranchShift",
+            "App\Models\AccountingSystem\AccountingBranch",
+            "company_id",
+            "branch_id"
         );
     }
-
 
     public function stores()
     {
@@ -58,24 +59,43 @@ AccountingCompany extends Authenticatable
 
     public function categories()
     {
-        return $this->hasMany(AccountingProductCategory::class,'company_id');
-}
+        return $this->hasMany(AccountingProductCategory::class, "company_id");
+    }
 
     public function products()
     {
-        $stores= AccountingStore::where('model_id', $this->id)->where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->pluck('id');
-        $products= AccountingProductStore::whereIn('store_id', $stores)->pluck('quantity', 'product_id');
+        $stores = AccountingStore::where("model_id", $this->id)
+            ->where(
+                "model_type",
+                "App\Models\AccountingSystem\AccountingCompany"
+            )
+            ->pluck("id");
+        $products = AccountingProductStore::whereIn("store_id", $stores)->pluck(
+            "quantity",
+            "product_id"
+        );
         return $products;
     }
 
     public function getGeneralBalances()
     {
-        $generalbalances=AccountingSafe::where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->where('model_id', $this->id)->sum('amount');
+        $generalbalances = AccountingSafe::where(
+            "model_type",
+            "App\Models\AccountingSystem\AccountingBranch"
+        )
+            ->where("model_id", $this->id)
+            ->sum("amount");
         return $generalbalances;
     }
     public function getRealBalances()
     {
-        $realbalances=AccountingSafe::where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->where('model_id', $this->id)->where('status', 'branch')->sum('amount');
+        $realbalances = AccountingSafe::where(
+            "model_type",
+            "App\Models\AccountingSystem\AccountingBranch"
+        )
+            ->where("model_id", $this->id)
+            ->where("status", "branch")
+            ->sum("amount");
         return $realbalances;
     }
 }

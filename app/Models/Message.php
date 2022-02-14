@@ -34,8 +34,14 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Message extends Model
 {
-    protected $guarded=[];
-    protected $fillable=['user_id','receiver_id','image','message','channel_id'];
+    protected $guarded = [];
+    protected $fillable = [
+        "user_id",
+        "receiver_id",
+        "image",
+        "message",
+        "channel_id",
+    ];
 
     public function user()
     {
@@ -43,20 +49,23 @@ class Message extends Model
     }
     public function receiver()
     {
-        return $this->belongsTo(User::class, 'receiver_id');
+        return $this->belongsTo(User::class, "receiver_id");
     }
-
 
     function type()
     {
-        if (!is_null($this->message)) return "text";
-        if (substr($this->image,-3) == "3gp") return "voice";
+        if (!is_null($this->message)) {
+            return "text";
+        }
+        if (substr($this->image, -3) == "3gp") {
+            return "voice";
+        }
         return "image";
     }
 
     public function getChannelAttribute()
     {
-        $arr = array_sort($this->only('user_id', 'receiver_id'));
-        return 'privatechat.' . implode('_', $arr);
+        $arr = array_sort($this->only("user_id", "receiver_id"));
+        return "privatechat." . implode("_", $arr);
     }
 }

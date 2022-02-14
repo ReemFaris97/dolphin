@@ -977,26 +977,24 @@
 										</tr>
 										<tr>
 											<td  colspan="2" data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-money"></i> المطلوب سداده</td>
-											<td  colspan="3">{!! $sale_return->total ??0 !!}</td>
+											<td  colspan="3">{!! $sale_return->amount ??0 !!}</td>
 										</tr>
 										<tr>
 											<td  colspan="2" data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-bag"></i> طريقة الدفع</td>
                                             <td  colspan="3">
-                                                @if( $sale_return->payment=='cash')
+                                               
                                                نقدى
-                                                @elseif( $sale_return->payment=='agel')
-                                              اجل
-                                                @endif
+                                               
                                             </td>
 										</tr>
 										<tr>
 											<td  colspan="2" data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-money"></i>المدفوع</td>
-											<td  colspan="3">{!! $sale_return->payed ??0 !!}</td>
+											<td  colspan="3">{!! $sale_return->amount ??0 !!}</td>
 										</tr>
 
 										<tr>
 											<th  colspan="2" data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-export"></i>المتبقي</th>
-											<td  colspan="3">{!! ($sale_return->total - $sale_return->payed )??0 !!}</td>
+											<td  colspan="3">{!! 0 !!}</td>
 										</tr>
 
 									</tbody>

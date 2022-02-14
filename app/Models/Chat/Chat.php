@@ -12,8 +12,8 @@ class Chat extends Model
 {
     use HasFactory;
 
-    protected $fillable=['accounting_company_id','accounting_supplier_id'];
-    protected $touches = ['messages'];
+    protected $fillable = ["accounting_company_id", "accounting_supplier_id"];
+    protected $touches = ["messages"];
 
     public function chatUsers()
     {
@@ -27,17 +27,23 @@ class Chat extends Model
             $names[] = $chatUser->user->name;
         }
 
-        return implode('|', $names);
+        return implode("|", $names);
     }
 
     public function supplier()
     {
-        return $this->belongsTo(AccountingSupplier::class,'accounting_supplier_id');
-}
+        return $this->belongsTo(
+            AccountingSupplier::class,
+            "accounting_supplier_id"
+        );
+    }
     public function company()
     {
-        return $this->belongsTo(AccountingCompany::class,'accounting_company_id');
-}
+        return $this->belongsTo(
+            AccountingCompany::class,
+            "accounting_company_id"
+        );
+    }
     public function messages()
     {
         return $this->hasMany(ChatMessage::class);

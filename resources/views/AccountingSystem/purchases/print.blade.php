@@ -278,7 +278,8 @@
     </div>
 </div>
 
-<script src="http://beta.alqabedah.com/dashboard/assets/vendors/base/jquery-2.1.4.min.js"></script>
+{{--<script src="http://beta.alqabedah.com/dashboard/assets/vendors/base/jquery-2.1.4.min.js"></script>--}}
+<script src="{!! asset('dashboard/assets/vendors/base/jquery-2.1.4.min.js') !!}"></script>
 <script>
     $(document).ready(function () {
         $("#print-all").on('click', function () {

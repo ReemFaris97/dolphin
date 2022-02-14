@@ -17,8 +17,11 @@ class AttendanceController extends Controller
      */
     public function index()
     {
-        $attendances = AccountingAttendance::with('typeable')->get();
-        return view('AccountingSystem.attendances.index',compact('attendances'));
+        $attendances = AccountingAttendance::with("typeable")->get();
+        return view(
+            "AccountingSystem.attendances.index",
+            compact("attendances")
+        );
     }
 
     /**
@@ -28,9 +31,9 @@ class AttendanceController extends Controller
      */
     public function create()
     {
-        $users = User::pluck('name','id');
+        $users = User::pluck("name", "id");
 
-        return view('AccountingSystem.attendances.create',compact('users'));
+        return view("AccountingSystem.attendances.create", compact("users"));
     }
 
     /**
@@ -41,23 +44,23 @@ class AttendanceController extends Controller
      */
     public function store(Request $request)
     {
+        $rules = [
+            "typeable_id" => "required",
+            "type" => "required",
+            "date" => "required",
+        ];
 
-            $rules=[
-                'typeable_id'=>'required',
-                'type'=>'required',
-                'date'=>'required'
-            ];
-
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
 
         $inputs = $request->all();
-//        $inputs['typeable_type'] = 'employee';
-        $inputs['date'] = Carbon::parse($request->date);
+        //        $inputs['typeable_type'] = 'employee';
+        $inputs["date"] = Carbon::parse($request->date);
         $user = User::find($request->typeable_id);
-        $user->attendances()->create($request->only('date'));
-        alert()->success('تم  التسجيل بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.attendances.index');
-
+        $user->attendances()->create($request->only("date"));
+        alert()
+            ->success("تم  التسجيل بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.attendances.index");
     }
 
     /**
@@ -79,11 +82,16 @@ class AttendanceController extends Controller
      */
     public function edit($id)
     {
-        $users = User::pluck('name','id');
+        $users = User::pluck("name", "id");
         $attendance = AccountingAttendance::find($id)->toArray();
-        $attendance['date'] = Carbon::parse($attendance['date'])->format('Y-m-d\TH:i');
-        $attendance = (object)$attendance;
-        return view('AccountingSystem.attendances.edit',compact('attendance','users'));
+        $attendance["date"] = Carbon::parse($attendance["date"])->format(
+            "Y-m-d\TH:i"
+        );
+        $attendance = (object) $attendance;
+        return view(
+            "AccountingSystem.attendances.edit",
+            compact("attendance", "users")
+        );
     }
 
     /**
@@ -97,18 +105,20 @@ class AttendanceController extends Controller
     {
         $attendance = AccountingAttendance::find($id);
 
-            $rules=[
-                'typeable_id'=>'required',
-                'type'=>'required',
-                'date'=>'required'
-            ];
+        $rules = [
+            "typeable_id" => "required",
+            "type" => "required",
+            "date" => "required",
+        ];
 
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
 
         $inputs = $request->all();
-        $inputs['date'] = Carbon::parse($request->date);
+        $inputs["date"] = Carbon::parse($request->date);
         $attendance->update($inputs);
-        alert()->success('تم  تعديل التسجيل بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم  تعديل التسجيل بنجاح !")
+            ->autoclose(5000);
 
         return back();
     }
@@ -121,9 +131,11 @@ class AttendanceController extends Controller
      */
     public function destroy($id)
     {
-        $attendance =AccountingAttendance::findOrFail($id);
+        $attendance = AccountingAttendance::findOrFail($id);
         $attendance->delete();
-        alert()->success('تم حذف  التسجيل بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم حذف  التسجيل بنجاح !")
+            ->autoclose(5000);
         return back();
     }
 }

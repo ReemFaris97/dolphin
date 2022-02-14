@@ -20,36 +20,37 @@ class ProductsResource extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'products' => $this->collection->transform(function ($q) {
+            "products" => $this->collection->transform(function ($q) {
                 // if($q->id!=null){
                 //     dd($q);
                 // }
                 return [
-                    'id' => $q->id,
-                    'name' => $q->name,
-                    'min_quantity' => $q->min_quantity??0,
-                    'max_quantity' => $q->max_quantity??0,
-                    'quantity' => $q->quantity ?? 0,
-                    'quantity_per_package' =>(string) ( $q->quantity/($q->quantity_per_unit??1) ??0),
+                    "id" => $q->id,
+                    "name" => $q->name,
+                    "min_quantity" => $q->min_quantity ?? 0,
+                    "max_quantity" => $q->max_quantity ?? 0,
+                    "quantity" => $q->quantity ?? 0,
+                    "quantity_per_package" =>
+                        (string) ($q->quantity / ($q->quantity_per_unit ?? 1) ??
+                            0),
                 ];
             }),
-            'paginate' => [
-                'total' => $this->total(),
-                'count' => $this->count(),
-                'per_page' => $this->perPage(),
-                'next_page_url' => $this->nextPageUrl(),
-                'prev_page_url' => $this->previousPageUrl(),
-                'current_page' => $this->currentPage(),
-                'total_pages' => $this->lastPage()
-            ]
-
+            "paginate" => [
+                "total" => $this->total(),
+                "count" => $this->count(),
+                "per_page" => $this->perPage(),
+                "next_page_url" => $this->nextPageUrl(),
+                "prev_page_url" => $this->previousPageUrl(),
+                "current_page" => $this->currentPage(),
+                "total_pages" => $this->lastPage(),
+            ],
         ];
     }
 
     public function withResponse($request, $response)
     {
         $originalContent = $response->getOriginalContent();
-        unset($originalContent['links'], $originalContent['meta']);
+        unset($originalContent["links"], $originalContent["meta"]);
         $response->setData($originalContent);
     }
 }

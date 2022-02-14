@@ -11,6 +11,6 @@ class ChatUser extends Model
 
     public function user()
     {
-     return $this->morphTo('user');
+        return $this->morphTo("user");
     }
 }

@@ -16,16 +16,16 @@ class MessageResource extends JsonResource
     {
         //`chat_id`, `user_type`, `user_id`, `message`, `type`, `attachment`
         return [
-            'id'=>$this->id,
-            'chat_id'=>$this->chat_id,
-            'user'=>new UserResource($this->user),
-            'message'=>$this->message,
-            'type'=>$this->type,
-            'attachment'=>$this->attachment,
-            'thumbnail'=>$this->thumbnail,
-            'is_sender'=>auth()->user()->is($this->user)
-
-
+            "id" => $this->id,
+            "chat_id" => $this->chat_id,
+            "user" => new UserResource($this->user),
+            "message" => $this->message,
+            "type" => $this->type,
+            "attachment" => $this->attachment,
+            "thumbnail" => $this->thumbnail,
+            "is_sender" => auth()
+                ->user()
+                ->is($this->user),
         ];
     }
 }

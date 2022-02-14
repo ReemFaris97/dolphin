@@ -48,60 +48,94 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class AccountingBranch extends Model
 {
-    use SoftDeletes,HashPassword;
+    use SoftDeletes, HashPassword;
 
-
-
-    protected $fillable = ['company_id', 'name', 'phone', 'password', 'email', 'image' ,'code'];
+    protected $fillable = [
+        "company_id",
+        "name",
+        "phone",
+        "password",
+        "email",
+        "image",
+        "code",
+    ];
 
     public function company()
     {
-        return $this->belongsTo(AccountingCompany::class,'company_id');
+        return $this->belongsTo(AccountingCompany::class, "company_id");
     }
 
-    public function cells() {
-        return $this->hasManyDeep(AccountingColumnCell::class, [AccountingBranchFace::class, AccountingFaceColumn::class]);
+    public function cells()
+    {
+        return $this->hasManyDeep(AccountingColumnCell::class, [
+            AccountingBranchFace::class,
+            AccountingFaceColumn::class,
+        ]);
     }
 
     public function faces()
     {
-
-        return $this->hasMany(AccountingBranchFace::class,'branch_id');
+        return $this->hasMany(AccountingBranchFace::class, "branch_id");
     }
     public function funds()
     {
-
-        return $this->hasMany(AccountingFund::class,'branch_id');
+        return $this->hasMany(AccountingFund::class, "branch_id");
     }
 
     public function stores()
     {
-        return $this->morphMany(AccountingStore::class, 'model');
+        return $this->morphMany(AccountingStore::class, "model");
     }
 
     public function safes()
     {
-        return $this->morphMany(AccountingSafe::class, 'model');
+        return $this->morphMany(AccountingSafe::class, "model");
     }
 
-    function products(){
-
-        $stores_company= AccountingStore::where('model_id', $this->company->id)->where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->pluck('id');
-        $stores_branch=AccountingStore::where('model_id', $this->id)->where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->pluck('id');
-        $stores = array_merge(json_decode($stores_branch), json_decode($stores_company));
-        $products= AccountingProductStore::whereIn('store_id',$stores)->pluck('quantity', 'product_id');
+    function products()
+    {
+        $stores_company = AccountingStore::where("model_id", $this->company->id)
+            ->where(
+                "model_type",
+                "App\Models\AccountingSystem\AccountingCompany"
+            )
+            ->pluck("id");
+        $stores_branch = AccountingStore::where("model_id", $this->id)
+            ->where(
+                "model_type",
+                "App\Models\AccountingSystem\AccountingBranch"
+            )
+            ->pluck("id");
+        $stores = array_merge(
+            json_decode($stores_branch),
+            json_decode($stores_company)
+        );
+        $products = AccountingProductStore::whereIn("store_id", $stores)->pluck(
+            "quantity",
+            "product_id"
+        );
         return $products;
-
     }
 
-    public  function  getGeneralBalances(){
-        $generalbalances=AccountingSafe::where('model_type','App\Models\AccountingSystem\AccountingBranch')->where('model_id',$this->id)->sum('amount');
+    public function getGeneralBalances()
+    {
+        $generalbalances = AccountingSafe::where(
+            "model_type",
+            "App\Models\AccountingSystem\AccountingBranch"
+        )
+            ->where("model_id", $this->id)
+            ->sum("amount");
         return $generalbalances;
     }
-    public  function  getRealBalances(){
-        $realbalances=AccountingSafe::where('model_type','App\Models\AccountingSystem\AccountingBranch')->where('model_id',$this->id)->where('status','branch')->sum('amount');
+    public function getRealBalances()
+    {
+        $realbalances = AccountingSafe::where(
+            "model_type",
+            "App\Models\AccountingSystem\AccountingBranch"
+        )
+            ->where("model_id", $this->id)
+            ->where("status", "branch")
+            ->sum("amount");
         return $realbalances;
     }
-
-
 }

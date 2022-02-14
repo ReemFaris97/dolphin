@@ -15,12 +15,12 @@ class SupplierMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if(!auth()->check()){
-            return redirect()->route('admin.login');
-        }
-        else{
-            if(auth()->user()->is_supplier == 1)
+        if (!auth()->check()) {
+            return redirect()->route("admin.login");
+        } else {
+            if (auth()->user()->is_supplier == 1) {
                 return $next($request);
+            }
         }
 
         return $next($request);

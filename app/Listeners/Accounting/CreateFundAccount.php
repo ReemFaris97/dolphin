@@ -8,7 +8,6 @@ use Illuminate\Queue\InteractsWithQueue;
 
 class CreateFundAccount
 {
-   
     public function handle(FundSaved $event)
     {
         //

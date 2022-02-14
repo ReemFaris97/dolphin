@@ -16,36 +16,40 @@ class BankDepositsResource extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'BankDeposits' => $this->collection->transform(function ($q) {
+            "BankDeposits" => $this->collection->transform(function ($q) {
                 return [
-                    'id' => $q->id,
-                    'type' => $q->type == 'bank_transaction' ? 'تحويل بنكى' : 'مبلغ مباشر',
-                    'deposit_date' => Carbon::parse($q->deposit_date)
-                            ->toDateString() . ' ' . $q->created_at->toTimeString(),
-                    'deposit_number' => $q->deposit_number ?? '',
-                    'bank' => $q->bank->name ?? '',
-                    'amount' => (string)((float)$q->amount ?? 0),
-                    'image' => getimg($q->image),
-                    'confirmed_at'=> $q->confirmed_at
+                    "id" => $q->id,
+                    "type" =>
+                        $q->type == "bank_transaction"
+                            ? "تحويل بنكى"
+                            : "مبلغ مباشر",
+                    "deposit_date" =>
+                        Carbon::parse($q->deposit_date)->toDateString() .
+                        " " .
+                        $q->created_at->toTimeString(),
+                    "deposit_number" => $q->deposit_number ?? "",
+                    "bank" => $q->bank->name ?? "",
+                    "amount" => (string) ((float) $q->amount ?? 0),
+                    "image" => getimg($q->image),
+                    "confirmed_at" => $q->confirmed_at,
                 ];
             }),
-            'paginate' => [
-                'total' => $this->total(),
-                'count' => $this->count(),
-                'per_page' => $this->perPage(),
-                'next_page_url' => $this->nextPageUrl(),
-                'prev_page_url' => $this->previousPageUrl(),
-                'current_page' => $this->currentPage(),
-                'total_pages' => $this->lastPage()
-            ]
-
+            "paginate" => [
+                "total" => $this->total(),
+                "count" => $this->count(),
+                "per_page" => $this->perPage(),
+                "next_page_url" => $this->nextPageUrl(),
+                "prev_page_url" => $this->previousPageUrl(),
+                "current_page" => $this->currentPage(),
+                "total_pages" => $this->lastPage(),
+            ],
         ];
     }
 
     public function withResponse($request, $response)
     {
         $originalContent = $response->getOriginalContent();
-        unset($originalContent['links'], $originalContent['meta']);
+        unset($originalContent["links"], $originalContent["meta"]);
         $response->setData($originalContent);
     }
 }

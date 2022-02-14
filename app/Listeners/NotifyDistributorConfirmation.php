@@ -10,7 +10,6 @@ use Illuminate\Queue\InteractsWithQueue;
 
 class NotifyDistributorConfirmation
 {
-
     use FirebasOperation;
 
     /**
@@ -21,15 +20,17 @@ class NotifyDistributorConfirmation
      */
     public function handle(BankDepositConfirmed $event)
     {
-        $title = 'تأكيد عملية ايداع';
-        $message = $event->bankDeposit->deposit_number . " تم تأكيد عملية الايداع رقم : ";
-        $type = 'deposit_confirmed';
+        $title = "تأكيد عملية ايداع";
+        $message =
+            $event->bankDeposit->deposit_number .
+            " تم تأكيد عملية الايداع رقم : ";
+        $type = "deposit_confirmed";
 
         $data = [
-            'item_id' => $event->bankDeposit->deposit_number,
-            'message' => $message,
-            'type' => $type,
-            'title' => $title
+            "item_id" => $event->bankDeposit->deposit_number,
+            "message" => $message,
+            "type" => $type,
+            "title" => $title,
         ];
 
         $user = User::whereId($event->bankDeposit->user_id)->first();

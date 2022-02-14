@@ -15,11 +15,11 @@ class ProductsSpinnerModelResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'=>$this->id,
-            'name'=>$this->name,
-            'price'=>(string) $this->price,
-            'quantity_per_unit'=>(int)$this->quantity_per_unit,
-            'quantity' => (int)($this->store_quantity) ?? $this->quantity()
+            "id" => $this->id,
+            "name" => $this->name,
+            "price" => (string) $this->price,
+            "quantity_per_unit" => (int) $this->quantity_per_unit,
+            "quantity" => (int) $this->store_quantity ?? $this->quantity(),
         ];
     }
 }

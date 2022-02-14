@@ -10,24 +10,29 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ChargeReceive
 {
-
     use FirebasOperation;
 
     public function handle(ChargeReceived $event)
     {
-        $title = 'هناك اشعار جديد';
-        $message = ' تم تأكيد استلامك للعهده  '
-            .$event->charge->name.
-            ' من المشرف ';
-        $type = 'charge';
+        $title = "هناك اشعار جديد";
+        $message =
+            " تم تأكيد استلامك للعهده  " . $event->charge->name . " من المشرف ";
+        $type = "charge";
         $data = [
-            'item_id'=>$event->charge->id,
-            'message'=>$message,
-            'type'=>$type,
-            'worker_name' => optional(optional($event->charge)->worker)->name
+            "item_id" => $event->charge->id,
+            "message" => $message,
+            "type" => $type,
+            "worker_name" => optional(optional($event->charge)->worker)->name,
         ];
-        $this->fire($title,$message,$data,User::where('id',$event->charge->worker_id)->get());
-        optional(optional($event->charge)->worker)->sendNotification($data, $type);
+        $this->fire(
+            $title,
+            $message,
+            $data,
+            User::where("id", $event->charge->worker_id)->get()
+        );
+        optional(optional($event->charge)->worker)->sendNotification(
+            $data,
+            $type
+        );
     }
-
 }

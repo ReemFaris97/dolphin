@@ -12,7 +12,7 @@ use App\Http\Controllers\Controller;
 class TemplateController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.templates.';
+    private $viewable = "AccountingSystem.templates.";
     /**
      * Display a listing of the resource.
      *
@@ -20,9 +20,9 @@ class TemplateController extends Controller
      */
     public function index()
     {
-        $templates =AccountingTemplate::groupBy('report_no')->get();
+        $templates = AccountingTemplate::groupBy("report_no")->get();
 
-        return $this->toIndex(compact('templates'));
+        return $this->toIndex(compact("templates"));
     }
 
     /**
@@ -32,8 +32,8 @@ class TemplateController extends Controller
      */
     public function create()
     {
-        $accounts=AccountingAccount::select(['ar_name','id'])->get();
-        return $this->toCreate(compact('accounts'));
+        $accounts = AccountingAccount::select(["ar_name", "id"])->get();
+        return $this->toCreate(compact("accounts"));
     }
 
     /**
@@ -44,50 +44,49 @@ class TemplateController extends Controller
      */
     public function store(Request $request)
     {
-
-        $templates= $request['Nodes'];
-        foreach($templates as $key=>$template){
-            if (str_contains($template['first_account_id'],'x-')===false && str_contains($template['second_account_id'],'x-')=== false ) {
-               $obj[$key]= AccountingTemplate::create([
-                    'first_account_id'=>$template['first_account_id'],
-                    'second_account_id'=>$template['second_account_id'],
-                    'operation'=>$template['operation'],
-                    'result'=>$template['result'],
-                   'report_no'=>$request['report_no'],
+        $templates = $request["Nodes"];
+        foreach ($templates as $key => $template) {
+            if (
+                str_contains($template["first_account_id"], "x-") === false &&
+                str_contains($template["second_account_id"], "x-") === false
+            ) {
+                $obj[$key] = AccountingTemplate::create([
+                    "first_account_id" => $template["first_account_id"],
+                    "second_account_id" => $template["second_account_id"],
+                    "operation" => $template["operation"],
+                    "result" => $template["result"],
+                    "report_no" => $request["report_no"],
                 ]);
-            }
-            elseif(str_contains($template['first_account_id'],'x-')==true && str_contains($template['second_account_id'],'x-')== false ){
-
-                $ref = substr_count( $template['first_account_id'],2);
+            } elseif (
+                str_contains($template["first_account_id"], "x-") == true &&
+                str_contains($template["second_account_id"], "x-") == false
+            ) {
+                $ref = substr_count($template["first_account_id"], 2);
                 AccountingTemplate::create([
-                    'first_account_id'=>null,
-                    'second_account_id'=>$template['second_account_id'],
-                    'operation'=>$template['operation'],
-                    'result'=>$template['result'],
-                    'template_id'=>$obj[$ref]->id,
-                    'report_no'=>$request['report_no'],
-
-
+                    "first_account_id" => null,
+                    "second_account_id" => $template["second_account_id"],
+                    "operation" => $template["operation"],
+                    "result" => $template["result"],
+                    "template_id" => $obj[$ref]->id,
+                    "report_no" => $request["report_no"],
                 ]);
-            }
-            else{
-                $ref = substr_count( $template['second_account_id'],2);
+            } else {
+                $ref = substr_count($template["second_account_id"], 2);
                 AccountingTemplate::create([
-                    'first_account_id'=>$template['first_account_id'],
-                    'second_account_id'=>null,
-                    'operation'=>$template['operation'],
-                    'result'=>$template['result'],
-                    'template_id'=>$obj[$ref]->id,
-                    'report_no'=>$request['report_no'],
+                    "first_account_id" => $template["first_account_id"],
+                    "second_account_id" => null,
+                    "operation" => $template["operation"],
+                    "result" => $template["result"],
+                    "template_id" => $obj[$ref]->id,
+                    "report_no" => $request["report_no"],
                 ]);
-
             }
-
         }
 
-        alert()->success('تم اضافة  البدلات بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.templates.index');
-
+        alert()
+            ->success("تم اضافة  البدلات بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.templates.index");
     }
 
     /**
@@ -109,8 +108,8 @@ class TemplateController extends Controller
      */
     public function edit($id)
     {
-        $allowance =AccountingAllowance::findOrFail($id);
-        return $this->toEdit(compact('allowance'));
+        $allowance = AccountingAllowance::findOrFail($id);
+        return $this->toEdit(compact("allowance"));
     }
 
     /**
@@ -122,16 +121,17 @@ class TemplateController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $allowance =AccountingAllowance::findOrFail($id);
+        $allowance = AccountingAllowance::findOrFail($id);
         $rules = [
-            'name'=>'required|string|max:191',
+            "name" => "required|string|max:191",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
         $allowance->update($requests);
-        alert()->success('تم تعديل البدلات بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.allowances.index');
-
+        alert()
+            ->success("تم تعديل البدلات بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.allowances.index");
     }
 
     /**
@@ -143,7 +143,9 @@ class TemplateController extends Controller
     public function destroy($id)
     {
         AccountingAllowance::find($id)->delete();
-        alert()->success('تم  الحذف بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم  الحذف بنجاح !")
+            ->autoclose(5000);
         return back();
     }
 }

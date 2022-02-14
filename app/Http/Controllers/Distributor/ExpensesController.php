@@ -17,7 +17,7 @@ use App\Traits\Viewable;
 class ExpensesController extends Controller
 {
     use Viewable;
-    private $viewable = 'distributor.expenses.';
+    private $viewable = "distributor.expenses.";
     /**
      * Display a listing of the resource.
      *
@@ -26,7 +26,7 @@ class ExpensesController extends Controller
     public function index()
     {
         $expenses = Expense::all();
-        return $this->toIndex(compact('expenses'));
+        return $this->toIndex(compact("expenses"));
     }
 
     /**
@@ -36,12 +36,19 @@ class ExpensesController extends Controller
      */
     public function create()
     {
-        $expenditure_clauses=ExpenditureClause::pluck('name','id');
-        $expenditure_types=ExpenditureType::pluck('name','id');
-        $readers=Reader::pluck('name','id');
-        $users=User::where('is_distributor',1)->pluck('name','id');
+        $expenditure_clauses = ExpenditureClause::pluck("name", "id");
+        $expenditure_types = ExpenditureType::pluck("name", "id");
+        $readers = Reader::pluck("name", "id");
+        $users = User::where("is_distributor", 1)->pluck("name", "id");
 
-        return $this->toCreate(compact('expenditure_clauses','expenditure_types','users','readers'));
+        return $this->toCreate(
+            compact(
+                "expenditure_clauses",
+                "expenditure_types",
+                "users",
+                "readers"
+            )
+        );
     }
 
     /**
@@ -53,36 +60,42 @@ class ExpensesController extends Controller
     public function store(Request $request)
     {
         $rules = [
-
-            'expenditure_clause_id'=>'required|numeric|exists:expenditure_clauses,id',
-            'expenditure_type_id'=>'required|numeric|exists:expenditure_types,id',
-            'user_id'=>'required|numeric|exists:users,id',
-            'date'=>'required|date',
-            'time'=>'required|string',
-            'amount'=>'required|numeric',
-            'notes'=>'sometimes|string',
-            'image'=>'sometimes|image',
-            'reader_name' => "nullable|string|max:191",
-            'reader_number' => "nullable|numeric",
-            'reader_image' => "nullable|file",
-            'distributor_route_id' => 'required|exists:distributor_routes,id'
+            "expenditure_clause_id" =>
+                "required|numeric|exists:expenditure_clauses,id",
+            "expenditure_type_id" =>
+                "required|numeric|exists:expenditure_types,id",
+            "user_id" => "required|numeric|exists:users,id",
+            "date" => "required|date",
+            "time" => "required|string",
+            "amount" => "required|numeric",
+            "notes" => "sometimes|string",
+            "image" => "sometimes|image",
+            "reader_name" => "nullable|string|max:191",
+            "reader_number" => "nullable|numeric",
+            "reader_image" => "nullable|file",
+            "distributor_route_id" => "required|exists:distributor_routes,id",
         ];
-        $this->validate($request,$rules);
-        $inputs=$request->all();
+        $this->validate($request, $rules);
+        $inputs = $request->all();
 
-        if ($request->hasFile('image')&& $request->image !=null) {
-
-            $inputs['image'] =  saveImage($request->image, 'photos');
+        if ($request->hasFile("image") && $request->image != null) {
+            $inputs["image"] = saveImage($request->image, "photos");
         }
-        if ($request->hasFile('reader_image')&& $request->reader_image !=null) {
-            $inputs['reader_image'] = saveImage($request->reader_image, 'photos');
+        if (
+            $request->hasFile("reader_image") &&
+            $request->reader_image != null
+        ) {
+            $inputs["reader_image"] = saveImage(
+                $request->reader_image,
+                "photos"
+            );
         }
-        $inputs['sanad_No']=mt_rand(1000000, 9999999);
+        $inputs["sanad_No"] = mt_rand(1000000, 9999999);
         $route = DistributorRoute::find($request->distributor_route_id);
-        $inputs['round'] = $route->round;
+        $inputs["round"] = $route->round;
         Expense::create($inputs);
-        toast('تم الإضافة بنجاح','success','top-right');
-        return redirect()->route('distributor.expenses.index');
+        toast("تم الإضافة بنجاح", "success", "top-right");
+        return redirect()->route("distributor.expenses.index");
     }
 
     /**
@@ -93,7 +106,7 @@ class ExpensesController extends Controller
      */
     public function show($id)
     {
-        return $this->toShow(['expense' => Expense::findOrFail($id)]);
+        return $this->toShow(["expense" => Expense::findOrFail($id)]);
     }
 
     /**
@@ -104,15 +117,21 @@ class ExpensesController extends Controller
      */
     public function edit($id)
     {
-        $expense =Expense::findOrFail($id);
-        $expenditure_clauses=ExpenditureClause::pluck('name','id');
-        $expenditure_types=ExpenditureType::pluck('name','id');
-        $users=User::pluck('name','id');
-        $readers=Reader::pluck('name','id');
-        $routes = $expense->distributor->routes()->pluck('name', 'id');
-        return $this->toEdit(compact('expense','users','expenditure_types','expenditure_clauses','readers'));
-
-
+        $expense = Expense::findOrFail($id);
+        $expenditure_clauses = ExpenditureClause::pluck("name", "id");
+        $expenditure_types = ExpenditureType::pluck("name", "id");
+        $users = User::pluck("name", "id");
+        $readers = Reader::pluck("name", "id");
+        $routes = $expense->distributor->routes()->pluck("name", "id");
+        return $this->toEdit(
+            compact(
+                "expense",
+                "users",
+                "expenditure_types",
+                "expenditure_clauses",
+                "readers"
+            )
+        );
     }
 
     /**
@@ -124,27 +143,26 @@ class ExpensesController extends Controller
      */
     public function update(Request $request, $id)
     {
-       $expense = Expense::findOrFail($id);
+        $expense = Expense::findOrFail($id);
         $rules = [
-            'expenditure_clause_id'=>'required|numeric|exists:expenditure_clauses,id',
-            'expenditure_type_id'=>'required|numeric|exists:expenditure_types,id',
+            "expenditure_clause_id" =>
+                "required|numeric|exists:expenditure_clauses,id",
+            "expenditure_type_id" =>
+                "required|numeric|exists:expenditure_types,id",
             // 'user_id'=>'required|numeric|exists:users,id',
-            'date'=>'required|date',
-            'time'=>'required|string',
-            'amount'=>'required|numeric',
-            'notes'=>'sometimes|string',
-            'image'=>'sometimes|image',
-            'reader_name'=>"sometimes|string|max:191",
-            'reader_number'=>"sometimes|numeric",
-            'reader_image'=>"sometimes|image",
-
+            "date" => "required|date",
+            "time" => "required|string",
+            "amount" => "required|numeric",
+            "notes" => "sometimes|string",
+            "image" => "sometimes|image",
+            "reader_name" => "sometimes|string|max:191",
+            "reader_number" => "sometimes|numeric",
+            "reader_image" => "sometimes|image",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $expense->update($request->all());
-        toast('تم التعديل بنجاح','success','top-right');
-        return redirect()->route('distributor.expenses.index');
-
-
+        toast("تم التعديل بنجاح", "success", "top-right");
+        return redirect()->route("distributor.expenses.index");
     }
 
     /**
@@ -157,7 +175,7 @@ class ExpensesController extends Controller
     {
         $expense = Expense::find($id);
         $expense->delete();
-            toast('تم الحذف بنجاح', 'success','top-right');
-            return back();
+        toast("تم الحذف بنجاح", "success", "top-right");
+        return back();
     }
 }

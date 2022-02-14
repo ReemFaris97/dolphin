@@ -23,10 +23,7 @@ class Handler extends ExceptionHandler
      *
      * @var array
      */
-    protected $dontFlash = [
-        'password',
-        'password_confirmation',
-    ];
+    protected $dontFlash = ["password", "password_confirmation"];
 
     /**
      * Report or log an exception.
@@ -38,13 +35,27 @@ class Handler extends ExceptionHandler
      */
     public function report(Throwable $exception)
     {
+        if (app()->bound("sentry") && $this->shouldReport($exception)) {
+            app("sentry")->captureException($exception);
+        }
+
         if ($this->shouldReport($exception)) {
-            if (config('slackhooks.slack_hooks')){
-                $hook= Http::post('https://hooks.slack.com/services/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',['username'=>'خازوق جديد','channel'=>'#ابو-الدلافين-باك-اند','text'=>$exception->getMessage().'\n'.$exception->getTraceAsString()]);
+            if (config("slackhooks.slack_hooks")) {
+                $hook = Http::post(
+                    "https://hooks.slack.com/services/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",
+                    [
+                        "username" => "خازوق جديد",
+                        "channel" => "#ابو-الدلافين-باك-اند",
+                        "text" =>
+                            $exception->getMessage() .
+                            '\n' .
+                            $exception->getTraceAsString(),
+                    ]
+                );
             }
         }
-        return parent::report($exception);    }
-
+        return parent::report($exception);
+    }
 
     /**
      * Render an exception into an HTTP response.

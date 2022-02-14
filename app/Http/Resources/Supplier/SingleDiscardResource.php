@@ -15,20 +15,20 @@ class SingleDiscardResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'=>$this->id,
-            'user_name'=>$this->user->name,
-            'supplier_id'=>$this->supplier_id,
-            'reason'=>$this->reason,
-            'return_type'=>$this->return_type,
-            'date'=>$this->date,
-            'total'=>$this->total(),
-            'products'=>$this->discard_products->transform(function($pro){
+            "id" => $this->id,
+            "user_name" => $this->user->name,
+            "supplier_id" => $this->supplier_id,
+            "reason" => $this->reason,
+            "return_type" => $this->return_type,
+            "date" => $this->date,
+            "total" => $this->total(),
+            "products" => $this->discard_products->transform(function ($pro) {
                 return [
-                    'discard_id'=>$pro->discard_id,
-                    'product_name'=>$pro->product->name,
-                    'quantity'=>$pro->quanitity,
-                    'price'=>(float)$pro->price,
-                    'type'=>$pro->type,
+                    "discard_id" => $pro->discard_id,
+                    "product_name" => $pro->product->name,
+                    "quantity" => $pro->quanitity,
+                    "price" => (float) $pro->price,
+                    "type" => $pro->type,
                 ];
             }),
         ];

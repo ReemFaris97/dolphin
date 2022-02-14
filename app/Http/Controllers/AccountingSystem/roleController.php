@@ -22,9 +22,9 @@ class roleController extends Controller
      */
     public function index()
     {
-        $roles =Role::orderBy('id','DESC')->get();
+        $roles = Role::orderBy("id", "DESC")->get();
 
-        return view('AccountingSystem.roles.index',compact('roles'));
+        return view("AccountingSystem.roles.index", compact("roles"));
     }
 
     /**
@@ -34,11 +34,9 @@ class roleController extends Controller
      */
     public function create()
     {
+        $permission = Permission::where("ar_name", "-")->get();
 
-        $permission = Permission::where('ar_name','-')->get();
-
-        return view('AccountingSystem.roles.create',compact('permission'));
-
+        return view("AccountingSystem.roles.create", compact("permission"));
     }
 
     /**
@@ -50,17 +48,16 @@ class roleController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:roles,name',
-            'permission' => 'required',
+            "name" => "required|unique:roles,name",
+            "permission" => "required",
         ]);
-        $role = Role::create(['name' => $request->input('name')]);
-        $role->syncPermissions($request->input('permission'));
+        $role = Role::create(["name" => $request->input("name")]);
+        $role->syncPermissions($request->input("permission"));
 
-
-
-        alert()->success('The role was added successfully !!')->autoclose(5000);
+        alert()
+            ->success("The role was added successfully !!")
+            ->autoclose(5000);
         return back();
-
     }
 
     /**
@@ -71,7 +68,6 @@ class roleController extends Controller
      */
     public function show($id)
     {
-
     }
 
     /**
@@ -83,23 +79,32 @@ class roleController extends Controller
     public function edit($id)
     {
         $role = Role::find($id);
-        $permission = Permission::where('ar_name','-')->get();
-        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
-            ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
+        $permission = Permission::where("ar_name", "-")->get();
+        $rolePermissions = DB::table("role_has_permissions")
+            ->where("role_has_permissions.role_id", $id)
+            ->pluck(
+                "role_has_permissions.permission_id",
+                "role_has_permissions.permission_id"
+            )
             ->all();
 
-
-
-        foreach ($role->users as $user)
-        {
-            DB::table('model_has_permissions')->where('model_id',$user->id)->delete();
+        foreach ($role->users as $user) {
+            DB::table("model_has_permissions")
+                ->where("model_id", $user->id)
+                ->delete();
 
             $user->assignRole(Role::find($id));
-            $user->syncPermissions(Role::find($id)->permissions()->pluck('id'));
-
+            $user->syncPermissions(
+                Role::find($id)
+                    ->permissions()
+                    ->pluck("id")
+            );
         }
-        return view('AccountingSystem.roles.edit',compact('role','permission','rolePermissions'));
- }
+        return view(
+            "AccountingSystem.roles.edit",
+            compact("role", "permission", "rolePermissions")
+        );
+    }
 
     /**
      * Update the specified resource in storage.
@@ -111,16 +116,18 @@ class roleController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required',
-            'permission' => 'required',
+            "name" => "required",
+            "permission" => "required",
         ]);
         $role = Role::find($id);
-        $role->name = $request->input('name');
+        $role->name = $request->input("name");
         $role->save();
-        $role->syncPermissions($request->input('permission'));
+        $role->syncPermissions($request->input("permission"));
 
-        alert()->success('تم  تعديل  الصلاحية بنجاح')->autoclose(5000);
-        return redirect('accounting/roles');
+        alert()
+            ->success("تم  تعديل  الصلاحية بنجاح")
+            ->autoclose(5000);
+        return redirect("accounting/roles");
     }
 
     /**
@@ -130,11 +137,12 @@ class roleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    { //dd($id);
-        $role=Role::find($id);
+    {
+        //dd($id);
+        $role = Role::find($id);
 
         $role->delete();
-            alert()->success(' تم حذف الصلاحية بنجاح');
-            return back();
+        alert()->success(" تم حذف الصلاحية بنجاح");
+        return back();
     }
 }

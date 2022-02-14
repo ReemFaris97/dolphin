@@ -34,9 +34,10 @@ class StoreCategory extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name','blocked_at'];
+    protected $fillable = ["name", "blocked_at"];
 
-    public function stores(){
+    public function stores()
+    {
         return $this->hasMany(Store::class);
     }
 }

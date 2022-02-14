@@ -15,7 +15,7 @@ use App\Traits\Viewable;
 class CategoryController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.AccountingCompanies.categories.';
+    private $viewable = "AccountingSystem.AccountingCompanies.categories.";
     /**
      * Display a listing of the resource.
      *
@@ -23,8 +23,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories =AccountingProductCategory::all()->reverse();
-        return $this->toIndex(compact('categories'));
+        $categories = AccountingProductCategory::all()->reverse();
+        return $this->toIndex(compact("categories"));
     }
 
     /**
@@ -34,8 +34,6 @@ class CategoryController extends Controller
      */
     public function create()
     {
-
-
         return $this->toCreate();
     }
 
@@ -48,24 +46,22 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $rules = [
-
-            'ar_name'=>'required|string|max:191',
-            'en_name'=>'nullable|string|max:191',
-            'ar_description'=>'nullable|string',
-            'en_description'=>'nullable|string',
-            'image'=>'nullable|sometimes|image',
-
-
-
+            "ar_name" => "required|string|max:191",
+            "en_name" => "nullable|string|max:191",
+            "ar_description" => "nullable|string",
+            "en_description" => "nullable|string",
+            "image" => "nullable|sometimes|image",
         ];
-        $this->validate($request,$rules);
-        $requests = $request->except('image');
-        if ($request->hasFile('image')) {
-            $requests['image'] = saveImage($request->image, 'photos');
+        $this->validate($request, $rules);
+        $requests = $request->except("image");
+        if ($request->hasFile("image")) {
+            $requests["image"] = saveImage($request->image, "photos");
         }
         AccountingProductCategory::create($requests);
-        alert()->success('تم اضافة  تصنيف القسم  بنجاح !')->autoclose(5000);
-        return redirect()->route('company.categories.index');
+        alert()
+            ->success("تم اضافة  تصنيف القسم  بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("company.categories.index");
     }
 
     /**
@@ -87,11 +83,9 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category =AccountingProductCategory::findOrFail($id);
+        $category = AccountingProductCategory::findOrFail($id);
 
-        return $this->toEdit(compact('category'));
-
-
+        return $this->toEdit(compact("category"));
     }
 
     /**
@@ -103,26 +97,25 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $category =AccountingProductCategory::findOrFail($id);
+        $category = AccountingProductCategory::findOrFail($id);
 
         $rules = [
-            'ar_name'=>'required|string|max:191',
-            'en_name'=>'nullable|string|max:191',
-            'ar_description'=>'nullable|string',
-            'en_description'=>'nullable|string',
-            'image'=>'nullable|sometimes|image',
+            "ar_name" => "required|string|max:191",
+            "en_name" => "nullable|string|max:191",
+            "ar_description" => "nullable|string",
+            "en_description" => "nullable|string",
+            "image" => "nullable|sometimes|image",
         ];
-        $this->validate($request,$rules);
-        $requests = $request->except('image');
-        if ($request->hasFile('image')) {
-            $requests['image'] = saveImage($request->image, 'photos');
+        $this->validate($request, $rules);
+        $requests = $request->except("image");
+        if ($request->hasFile("image")) {
+            $requests["image"] = saveImage($request->image, "photos");
         }
         $category->update($requests);
-        alert()->success('تم تعديل  القسم بنجاح !')->autoclose(5000);
-        return redirect()->route('company.categories.index');
-
-
-
+        alert()
+            ->success("تم تعديل  القسم بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("company.categories.index");
     }
 
     /**
@@ -133,11 +126,11 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category =AccountingProductCategory::findOrFail($id);
+        $category = AccountingProductCategory::findOrFail($id);
         $category->delete();
-        alert()->success('تم حذف  التصنيف بنجاح !')->autoclose(5000);
-            return back();
-
-
+        alert()
+            ->success("تم حذف  التصنيف بنجاح !")
+            ->autoclose(5000);
+        return back();
     }
 }

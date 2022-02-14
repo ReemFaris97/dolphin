@@ -14,8 +14,6 @@ class NotifyDistributorWithNewRoute
 {
     use FirebasOperation;
 
-
-
     /**
      * Handle the event.
      *
@@ -24,19 +22,17 @@ class NotifyDistributorWithNewRoute
      */
     public function handle(EventsDistributorRouteAdded $event)
     {
-
-        $title = 'هناك اشعار جديد';
+        $title = "هناك اشعار جديد";
         $message = "تم اضافه مسار جديد";
-        $type = 'new_distributor_route';
+        $type = "new_distributor_route";
         $data = [
-            'item_id' => $event->route->id,
-            'message' => $message,
-            'type' => $type,
-            'title' => $title
-
+            "item_id" => $event->route->id,
+            "message" => $message,
+            "type" => $type,
+            "title" => $title,
         ];
 
-        $users = User::where('id', $event->route->user_id)->get();
+        $users = User::where("id", $event->route->user_id)->get();
         $this->fire($title, $message, $data, $users);
         /** @var  \App\Models\User $user  */
 

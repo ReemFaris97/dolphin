@@ -17,7 +17,7 @@ use App\Traits\Viewable;
 class DelegateController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.delegates.';
+    private $viewable = "AccountingSystem.delegates.";
     /**
      * Display a listing of the resource.
      *
@@ -25,8 +25,8 @@ class DelegateController extends Controller
      */
     public function index()
     {
-        $delegates =AccountingDelegate::all()->reverse();
-        return $this->toIndex(compact('delegates'));
+        $delegates = AccountingDelegate::all()->reverse();
+        return $this->toIndex(compact("delegates"));
     }
 
     /**
@@ -36,9 +36,8 @@ class DelegateController extends Controller
      */
     public function create()
     {
-
-        $products=AccountingProduct::pluck('name','id')->toArray();
-        return $this->toCreate(compact('products'));
+        $products = AccountingProduct::pluck("name", "id")->toArray();
+        return $this->toCreate(compact("products"));
     }
 
     /**
@@ -50,26 +49,23 @@ class DelegateController extends Controller
     public function store(Request $request)
     {
         $rules = [
-
-            'name'=>'required|string|max:191',
-
-
+            "name" => "required|string|max:191",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
 
-        $delegate=AccountingDelegate::create($requests);
-        foreach ($requests['product_id'] as $product_id){
-                AccountingDelegateProduct::create([
-                    'product_id'=>$product_id,
-                    'delegate_id'=>$delegate->id
-                ]);
-
+        $delegate = AccountingDelegate::create($requests);
+        foreach ($requests["product_id"] as $product_id) {
+            AccountingDelegateProduct::create([
+                "product_id" => $product_id,
+                "delegate_id" => $delegate->id,
+            ]);
         }
 
-
-        alert()->success('تم اضافة   المندوب  بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.delegates.index');
+        alert()
+            ->success("تم اضافة   المندوب  بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.delegates.index");
     }
 
     /**
@@ -91,13 +87,10 @@ class DelegateController extends Controller
      */
     public function edit($id)
     {
-        $delegate =AccountingDelegate::findOrFail($id);
-        $products=AccountingProduct::pluck('name','id')->toArray();
+        $delegate = AccountingDelegate::findOrFail($id);
+        $products = AccountingProduct::pluck("name", "id")->toArray();
 
-
-        return $this->toEdit(compact('delegate','products'));
-
-
+        return $this->toEdit(compact("delegate", "products"));
     }
 
     /**
@@ -109,21 +102,18 @@ class DelegateController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $delegate =AccountingDelegate::findOrFail($id);
+        $delegate = AccountingDelegate::findOrFail($id);
 
         $rules = [
-
-            'name'=>'required|string|max:191',
-
+            "name" => "required|string|max:191",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
         $delegate->update($requests);
-        alert()->success('تم  تعديل  المندوب  بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.delegates.index');
-
-
-
+        alert()
+            ->success("تم  تعديل  المندوب  بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.delegates.index");
     }
 
     /**
@@ -134,11 +124,11 @@ class DelegateController extends Controller
      */
     public function destroy($id)
     {
-        $delegate =AccountingDelegate::findOrFail($id);
+        $delegate = AccountingDelegate::findOrFail($id);
         $delegate->delete();
-        alert()->success('تم حذف  المندوب بنجاح !')->autoclose(5000);
-            return back();
-
-
+        alert()
+            ->success("تم حذف  المندوب بنجاح !")
+            ->autoclose(5000);
+        return back();
     }
 }

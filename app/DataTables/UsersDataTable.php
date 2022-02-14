@@ -21,14 +21,21 @@ class UsersDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('name', fn($user) => $user->name)
-            ->addColumn('phone', fn($user) => $user->phone)
-            ->addColumn('email', fn($user) => $user->email)
-            ->addColumn('email', fn($user) => $user->email)
-            ->addColumn('image',  '<img src="{{asset($image)}}" style="width:100px; height:100px">')
-            ->addColumn('action', fn($user) => view('AccountingSystem.users.action', ['row' => $user])->render())
-            ->rawColumns(['action','image']);
-
+            ->addColumn("name", fn($user) => $user->name)
+            ->addColumn("phone", fn($user) => $user->phone)
+            ->addColumn("email", fn($user) => $user->email)
+            ->addColumn("email", fn($user) => $user->email)
+            ->addColumn(
+                "image",
+                '<img src="{{asset($image)}}" style="width:100px; height:100px">'
+            )
+            ->addColumn(
+                "action",
+                fn($user) => view("AccountingSystem.users.action", [
+                    "row" => $user,
+                ])->render()
+            )
+            ->rawColumns(["action", "image"]);
     }
 
     /**
@@ -50,20 +57,19 @@ class UsersDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('users-table')
-            ->addTableClass('finalTb table datatable-button-init-basic')
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->dom('Bfrtip')
-            ->orderBy(1)
-//            ->buttons(
-//                Button::make('create'),
-//                Button::make('export'),
-//                Button::make('print'),
-//                Button::make('reset'),
-//                Button::make('reload')
-//            )
-            ;
+                ->setTableId("users-table")
+                ->addTableClass("finalTb table datatable-button-init-basic")
+                ->columns($this->getColumns())
+                ->minifiedAjax()
+                ->dom("Bfrtip")
+                ->orderBy(1);
+            //            ->buttons(
+            //                Button::make('create'),
+            //                Button::make('export'),
+            //                Button::make('print'),
+            //                Button::make('reset'),
+            //                Button::make('reload')
+            //            )
     }
 
     /**
@@ -74,11 +80,21 @@ class UsersDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('name')->title('اسم العضو')->addClass('text-center'),
-            Column::make('phone')->title('  جوال العضو')->addClass('text-center'),
-            Column::make('email')->title('ايميل العضو  ')->addClass('text-center'),
-            Column::computed('image')->title('صورة العضو  ')->addClass('text-center'),
-            Column::computed('action', 'العمليات')->addClass('text-center')->width(250),
+            Column::make("name")
+                ->title("اسم العضو")
+                ->addClass("text-center"),
+            Column::make("phone")
+                ->title("  جوال العضو")
+                ->addClass("text-center"),
+            Column::make("email")
+                ->title("ايميل العضو  ")
+                ->addClass("text-center"),
+            Column::computed("image")
+                ->title("صورة العضو  ")
+                ->addClass("text-center"),
+            Column::computed("action", "العمليات")
+                ->addClass("text-center")
+                ->width(250),
         ];
     }
 
@@ -89,6 +105,6 @@ class UsersDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Users_' . date('YmdHis');
+        return "Users_" . date("YmdHis");
     }
 }

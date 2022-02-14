@@ -15,7 +15,9 @@ class BankController extends Controller
      */
     public function index()
     {
-        return  view('AccountingSystem.suppliers.banks.index')->with(['banks'=>Bank::all()]);
+        return view("AccountingSystem.suppliers.banks.index")->with([
+            "banks" => Bank::all(),
+        ]);
     }
 
     /**

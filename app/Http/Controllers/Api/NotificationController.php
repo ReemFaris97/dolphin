@@ -18,7 +18,6 @@ use JWTAuth;
 use Validator;
 use Illuminate\Http\Response;
 
-
 class NotificationController extends Controller
 {
     use ApiResponses;
@@ -26,7 +25,9 @@ class NotificationController extends Controller
     public function getNotificationsCategories()
     {
         $notifications = NotificationCategory::paginate($this->paginateNumber);
-        return $this->apiResponse(new NotificationsCategoriesResource($notifications));
+        return $this->apiResponse(
+            new NotificationsCategoriesResource($notifications)
+        );
     }
 
     /**
@@ -34,24 +35,30 @@ class NotificationController extends Controller
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
      */
-    public function getAllNotificationsByCategory(){
-        $notifications = Notification::whereUserId(auth()->user()->id)->orderby('id','desc')->paginate($this->paginateNumber);
+    public function getAllNotificationsByCategory()
+    {
+        $notifications = Notification::whereUserId(auth()->user()->id)
+            ->orderby("id", "desc")
+            ->paginate($this->paginateNumber);
         return $this->apiResponse(new NotificationsResource($notifications));
     }
 
-
     public function DeleteAllNotifications()
     {
-        auth()->user()->notifications()->delete();
-        return $this->apiResponse('تم الحذف بنجاح');
+        auth()
+            ->user()
+            ->notifications()
+            ->delete();
+        return $this->apiResponse("تم الحذف بنجاح");
     }
 
     public function destroy($id)
     {
         $notification = DatabaseNotification::find($id);
-        if (!$notification) return $this->notFoundResponse();
+        if (!$notification) {
+            return $this->notFoundResponse();
+        }
         $notification->delete();
-        return $this->apiResponse('تم الحذف بنجاح');
+        return $this->apiResponse("تم الحذف بنجاح");
     }
-
 }

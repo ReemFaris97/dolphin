@@ -15,10 +15,10 @@ class ClausesResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'=>$this->id,
-            'name'=>$this->name,
-            'amount'=>$this->amount,
-            'is_active'=>$this->is_active,
+            "id" => $this->id,
+            "name" => $this->name,
+            "amount" => $this->amount,
+            "is_active" => $this->is_active,
         ];
     }
 }

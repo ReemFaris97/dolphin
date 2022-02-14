@@ -18,7 +18,7 @@ use App\Traits\Viewable;
 class FundController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.funds.';
+    private $viewable = "AccountingSystem.funds.";
     /**
      * Display a listing of the resource.
      *
@@ -26,9 +26,11 @@ class FundController extends Controller
      */
     public function index()
     {
-        $funds = AccountingFund::query()->latest()->get();
+        $funds = AccountingFund::query()
+            ->latest()
+            ->get();
 
-        return $this->toIndex(compact('funds'));
+        return $this->toIndex(compact("funds"));
     }
 
     /**
@@ -38,9 +40,9 @@ class FundController extends Controller
      */
     public function create()
     {
-        $companies = AccountingCompany::pluck('name', 'id')->toArray();
-        $branches = AccountingBranch::pluck('name', 'id')->toArray();
-        return $this->toCreate(compact('companies', 'branches'));
+        $companies = AccountingCompany::pluck("name", "id")->toArray();
+        $branches = AccountingBranch::pluck("name", "id")->toArray();
+        return $this->toCreate(compact("companies", "branches"));
     }
 
     /**
@@ -51,18 +53,33 @@ class FundController extends Controller
      */
     public function store(Request $request)
     {
-        $inputs=$request->validate([
-            'name'=>['required','string','max:255'],
-            'name_en'=>['required','string','max:255'],
-            'company_id'=>['nullable','integer','exists:accounting_companies,id'],
-            'branch_id'=>['nullable','integer','exists:accounting_branches,id'],
-            'is_bank'=>['nullable','boolean'],
-            'bank_account_number'=>['nullable','string','required_if:is_bank,==,1','max:100'],
-            'description'=>['nullable','string'],
-          ]);
+        $inputs = $request->validate([
+            "name" => ["required", "string", "max:255"],
+            "name_en" => ["required", "string", "max:255"],
+            "company_id" => [
+                "nullable",
+                "integer",
+                "exists:accounting_companies,id",
+            ],
+            "branch_id" => [
+                "nullable",
+                "integer",
+                "exists:accounting_branches,id",
+            ],
+            "is_bank" => ["nullable", "boolean"],
+            "bank_account_number" => [
+                "nullable",
+                "string",
+                "required_if:is_bank,==,1",
+                "max:100",
+            ],
+            "description" => ["nullable", "string"],
+        ]);
         AccountingFund::create($inputs);
-        alert()->success('تم اضافة الخزينة بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.funds.index');
+        alert()
+            ->success("تم اضافة الخزينة بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.funds.index");
     }
 
     /**
@@ -76,9 +93,9 @@ class FundController extends Controller
         $fund = AccountingFund::findOrFail($id);
         //branch_all_funds
         //حسبى الله ونعم والوكيل فى اللى كتب الكود
-        $funds= AccountingFund::where('id', '!=', $id)->get();
+        $funds = AccountingFund::where("id", "!=", $id)->get();
 
-        return $this->toShow(compact('transactions', 'fund', 'funds'));
+        return $this->toShow(compact("transactions", "fund", "funds"));
     }
 
     /**
@@ -90,9 +107,9 @@ class FundController extends Controller
     public function edit($id)
     {
         $fund = AccountingFund::findOrFail($id);
-        $companies = AccountingCompany::pluck('name', 'id');
-        $branches = AccountingBranch::pluck('name', 'id');
-        return $this->toEdit(compact('fund', 'branches', 'companies'));
+        $companies = AccountingCompany::pluck("name", "id");
+        $branches = AccountingBranch::pluck("name", "id");
+        return $this->toEdit(compact("fund", "branches", "companies"));
     }
 
     /**
@@ -105,19 +122,34 @@ class FundController extends Controller
     public function update(Request $request, $id)
     {
         $fund = AccountingFund::findOrFail($id);
-        $inputs=$request->validate([
-            'name'=>['required','string','max:255'],
-            'name_en'=>['required','string','max:255'],
-            'company_id'=>['nullable','integer','exists:accounting_companies,id'],
-            'branch_id'=>['nullable','integer','exists:accounting_branches,id'],
-            'is_bank'=>['nullable','boolean'],
-            'bank_account_number'=>['nullable','string','required_if:is_bank,==,1','max:100'],
-            'description'=>['nullable','string'],
-          ]);
+        $inputs = $request->validate([
+            "name" => ["required", "string", "max:255"],
+            "name_en" => ["required", "string", "max:255"],
+            "company_id" => [
+                "nullable",
+                "integer",
+                "exists:accounting_companies,id",
+            ],
+            "branch_id" => [
+                "nullable",
+                "integer",
+                "exists:accounting_branches,id",
+            ],
+            "is_bank" => ["nullable", "boolean"],
+            "bank_account_number" => [
+                "nullable",
+                "string",
+                "required_if:is_bank,==,1",
+                "max:100",
+            ],
+            "description" => ["nullable", "string"],
+        ]);
         $fund->update($inputs);
 
-        alert()->success('تم تعديل الخزينة  بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.funds.index');
+        alert()
+            ->success("تم تعديل الخزينة  بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.funds.index");
     }
 
     /**
@@ -129,7 +161,9 @@ class FundController extends Controller
     public function destroy($id)
     {
         AccountingFund::destroy($id);
-        alert()->success('تم حذف  الخزينة بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم حذف  الخزينة بنجاح !")
+            ->autoclose(5000);
         return back();
     }
 }

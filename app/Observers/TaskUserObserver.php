@@ -13,29 +13,31 @@ class TaskUserObserver
 {
     public function updating(TaskUser $taskUser)
     {
-        if ($taskUser->isDirty('user_id')) {
+        if ($taskUser->isDirty("user_id")) {
             $new_user_id = $taskUser->user_id;
-            $old_user_id = $taskUser->getOriginal('user_id');
+            $old_user_id = $taskUser->getOriginal("user_id");
             $task_id = $taskUser->task_id;
-            TaskLog::create(compact('new_user_id', 'old_user_id', 'task_id'));
+            TaskLog::create(compact("new_user_id", "old_user_id", "task_id"));
             event(new TaskTransfered(new User(), $taskUser));
         }
-        if ($taskUser->isDirty('rate')) {
+        if ($taskUser->isDirty("rate")) {
             $taskUser->rated_at = Carbon::now();
         }
 
         /*->where('worker_finished_at','!=',null)*/
-        if ($taskUser->isDirty('worker_finished_at')) {
-
+        if ($taskUser->isDirty("worker_finished_at")) {
             ////start task after  task
             //  dd($taskUser->task_id);
-            $depends_tasks = Task::where('after_task_id', $taskUser->task_id)
-                ->update(
-                    ['date' => $taskUser->worker_finished_at, 'time_from' => $taskUser->worker_finished_at]
-                );
+            $depends_tasks = Task::where(
+                "after_task_id",
+                $taskUser->task_id
+            )->update([
+                "date" => $taskUser->worker_finished_at,
+                "time_from" => $taskUser->worker_finished_at,
+            ]);
             ////start period   task
 
-            if ($taskUser->task->type == 'period') {
+            if ($taskUser->task->type == "period") {
                 $task = $taskUser->task;
                 $users = $taskUser->task->task_users;
                 $task->date = $task->date->addDays($task->period);
@@ -50,15 +52,7 @@ class TaskUserObserver
                     $user->worker_finished_at = null;
                     TaskUser::create($user->toArray());
                 }
-
-
-            };
-
-
+            }
         }
-
-
     }
-
-
 }

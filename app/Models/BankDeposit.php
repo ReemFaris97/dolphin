@@ -42,57 +42,68 @@ class BankDeposit extends Model
     protected static function booted()
     {
         self::created(function (BankDeposit $bankDeposit) {
-            if ($bankDeposit->type != 'bank_transaction') {
-                $bankDeposit->transaction()->create(
-                    [
-                        'sender_type' => User::class,
-                        'sender_id' => $bankDeposit->user_id,
-                        'amount' => $bankDeposit->amount,
-                        'received_at' => Carbon::now(),
-                        'signature' => \Str::random(5),
-                    ]
-                );
+            if ($bankDeposit->type != "bank_transaction") {
+                $bankDeposit->transaction()->create([
+                    "sender_type" => User::class,
+                    "sender_id" => $bankDeposit->user_id,
+                    "amount" => $bankDeposit->amount,
+                    "received_at" => Carbon::now(),
+                    "signature" => \Str::random(5),
+                ]);
             }
         });
 
         self::updated(function (BankDeposit $bankDeposit) {
-            if ( $bankDeposit->type == 'bank_transaction' && $bankDeposit->isDirty("confirmed_at") ) {
-                    $bankDeposit->transaction()->create(
-                        [
-                            'sender_type' => User::class,
-                            'sender_id' => $bankDeposit->user_id,
-                            'amount' => $bankDeposit->amount,
-                            'received_at' => Carbon::now(),
-                            'signature' => \Str::random(5),
-                        ]
-                    );
+            if (
+                $bankDeposit->type == "bank_transaction" &&
+                $bankDeposit->isDirty("confirmed_at")
+            ) {
+                $bankDeposit->transaction()->create([
+                    "sender_type" => User::class,
+                    "sender_id" => $bankDeposit->user_id,
+                    "amount" => $bankDeposit->amount,
+                    "received_at" => Carbon::now(),
+                    "signature" => \Str::random(5),
+                ]);
 
-                    BankDepositConfirmed::dispatch($bankDeposit);
+                BankDepositConfirmed::dispatch($bankDeposit);
             }
-
         });
     }
 
-    protected $fillable = ['deposit_number', 'deposit_date', 'bank_id', 'user_id', 'amount', 'image', 'type',
-        'from', 'to', 'confirmed_at', 'confirmed'];
+    protected $fillable = [
+        "deposit_number",
+        "deposit_date",
+        "bank_id",
+        "user_id",
+        "amount",
+        "image",
+        "type",
+        "from",
+        "to",
+        "confirmed_at",
+        "confirmed",
+    ];
 
-    protected $dates = ['deposit_date', 'from', 'to', 'confirmed_at'];
+    protected $dates = ["deposit_date", "from", "to", "confirmed_at"];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function distributor()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, "user_id");
     }
 
     public function transaction()
     {
-        return $this->morphOne(DistributorTransaction::class, 'receiver');
+        return $this->morphOne(DistributorTransaction::class, "receiver");
     }
 
     public function bank()
     {
-        return $this->belongsTo(Bank::class, 'bank_id')->withDefault(new Bank);
+        return $this->belongsTo(Bank::class, "bank_id")->withDefault(
+            new Bank()
+        );
     }
 }

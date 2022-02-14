@@ -16,23 +16,24 @@ class SpinnersController extends Controller
     public function __invoke(Request $request)
     {
         return \responder::success([
-            'statistics'=>[
-                'purchases'=>"100.00",
-                'purchases_returns'=>'100.00',
-                'credit'=>'1000.00'
+            "statistics" => [
+                "purchases" => "100.00",
+                "purchases_returns" => "100.00",
+                "credit" => "1000.00",
             ],
 
-            'permissions'=> [
-                'bounds',
-                'reports',
-                'invoices',
-                'users',
-                'banks',
-                'products',
-                'offers',
-                'logs',
-                '*'
-            ]
+            "permissions" => [
+                "bounds",
+                "reports",
+                "invoices",
+                "users",
+                "banks",
+                "products",
+                "offers",
+                "logs",
+                "supply-requisitions",
+                "*",
+            ],
         ]);
     }
 }

@@ -21,19 +21,18 @@ class NotifyTransactionReceiver
      */
     public function handle(DistributorTransactionAdded $event)
     {
-        $title = 'هناك اشعار جديد';
-        $message =  " تم تحويل مبلغ نقدى جديد . برجاء الاستلام ";
-        $type = 'new_transaction_added';
+        $title = "هناك اشعار جديد";
+        $message = " تم تحويل مبلغ نقدى جديد . برجاء الاستلام ";
+        $type = "new_transaction_added";
         $data = [
-            'item_id' => $event->transaction->id,
-            'message' => $message,
-            'type' => $type,
-            'title' => $title
+            "item_id" => $event->transaction->id,
+            "message" => $message,
+            "type" => $type,
+            "title" => $title,
         ];
 
         if ($event->transaction->receiver_type == User::class) {
-            $users = User::where('id', $event->transaction->receiver_id)
-                ->get();
+            $users = User::where("id", $event->transaction->receiver_id)->get();
             $this->fire($title, $message, $data, $users);
             /** @var  \App\Models\User $user  */
 

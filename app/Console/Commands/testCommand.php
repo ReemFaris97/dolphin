@@ -11,14 +11,14 @@ class testCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'abdullah';
+    protected $signature = "abdullah";
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = "Command description";
 
     /**
      * Create a new command instance.

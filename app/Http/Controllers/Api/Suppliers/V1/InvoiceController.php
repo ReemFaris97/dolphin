@@ -17,7 +17,17 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        return  \responder::success(new BaseCollection(auth()->user()->supplier->invoices()->withSum('items','total')->latest()->paginate(10), InvoiceResource::class));
+        return \responder::success(
+            new BaseCollection(
+                auth()
+                    ->user()
+                    ->supplier->invoices()
+                    ->withSum("items", "total")
+                    ->latest()
+                    ->paginate(10),
+                InvoiceResource::class
+            )
+        );
     }
 
     /**
@@ -29,22 +39,29 @@ class InvoiceController extends Controller
     public function store(Request $request)
     {
         $inputs = $request->validate([
-            'items' => 'required|array',
-            'items.*.accounting_product_id' => 'required|exists:accounting_products,id',
-            'items.*.quantity' => 'required|int|gte:1',
-            'items.*.unit' => 'required|string',
-            'items.*.expire_at' => 'nullable|sometimes|date|after:today',
-            'items.*.price'=>'required|numeric|gte:1'
+            "items" => "required|array",
+            "items.*.accounting_product_id" =>
+                "required|exists:accounting_products,id",
+            "items.*.quantity" => "required|int|gte:1",
+            "items.*.unit" => "required|string",
+            "items.*.expire_at" => "nullable|sometimes|date|after:today",
+            "items.*.price" => "required|numeric|gte:1",
         ]);
         $user = auth()->user();
-        $supplier=$user->supplier;
-        $invoice=$supplier->invoices()->Create();
-        $invoice->items()->createMany($inputs['items']);
-        $invoice->items_sum_total=$invoice->items()->sum('total');
+        $supplier = $user->supplier;
+        $invoice = $supplier->invoices()->Create(["user_id" => $user->id]);
+        $invoice->items()->createMany($inputs["items"]);
+        $invoice->items_sum_total = $invoice->items()->sum("total");
         activity()
             ->causedBy(auth()->user())
-            ->log(sprintf('قام %s ب %s',auth()->user()->name,"إضافة عرض سعر رقم {$invoice->id}"));
-        return  \responder::success(new InvoiceResource($invoice));
+            ->log(
+                sprintf(
+                    "قام %s ب %s",
+                    auth()->user()->name,
+                    "إضافة عرض سعر رقم {$invoice->id}"
+                )
+            );
+        return \responder::success(new InvoiceResource($invoice));
     }
 
     /**
@@ -69,20 +86,26 @@ class InvoiceController extends Controller
     {
         //
         $inputs = $request->validate([
-            'items' => 'required|array',
-            'items.*.accounting_product_id' => 'required|exists:accounting_products,id',
-            'items.*.quantity' => 'required|int|gte:1',
-            'items.*.unit' => 'required|string',
-            'items.*.expire_at' => 'nullable|sometimes|date|after:today',
-            'items.*.price' => 'required|numeric|gte:1'
+            "items" => "required|array",
+            "items.*.accounting_product_id" =>
+                "required|exists:accounting_products,id",
+            "items.*.quantity" => "required|int|gte:1",
+            "items.*.unit" => "required|string",
+            "items.*.expire_at" => "nullable|sometimes|date|after:today",
+            "items.*.price" => "required|numeric|gte:1",
         ]);
-        $invoice->items()->createMany($inputs['items']);
+        $invoice->items()->createMany($inputs["items"]);
         activity()
             ->causedBy(auth()->user())
-            ->log(sprintf('قام %s ب %s',auth()->user()->name,"تعديل عرض سعر رقم {$invoice->id}"));
+            ->log(
+                sprintf(
+                    "قام %s ب %s",
+                    auth()->user()->name,
+                    "تعديل عرض سعر رقم {$invoice->id}"
+                )
+            );
 
         return \responder::success(new InvoiceResource($invoice));
-
     }
 
     /**
@@ -96,8 +119,14 @@ class InvoiceController extends Controller
         $invoice->delete();
         activity()
             ->causedBy(auth()->user())
-            ->log(sprintf('قام %s ب %s',auth()->user()->name,"حذف عرض سعر رقم {$invoice->id}"));
+            ->log(
+                sprintf(
+                    "قام %s ب %s",
+                    auth()->user()->name,
+                    "حذف عرض سعر رقم {$invoice->id}"
+                )
+            );
 
-        return \responder::success('تم الحذف بنجاح !');
+        return \responder::success("تم الحذف بنجاح !");
     }
 }

@@ -12,9 +12,8 @@ use App\Traits\Viewable;
 
 class ReasonRefuseDistributorController extends Controller
 {
-
     use Viewable;
-    private  $viewable = 'distributor.refuse_reasons.';
+    private $viewable = "distributor.refuse_reasons.";
     /**
      * Display a listing of the resource.
      *
@@ -23,8 +22,8 @@ class ReasonRefuseDistributorController extends Controller
     public function index()
     {
         $refuses = ReasonRefuseDistributor::all();
-       // dd($refuse);
-        return $this->toIndex(compact('refuses'));
+        // dd($refuse);
+        return $this->toIndex(compact("refuses"));
     }
 
     /**
@@ -34,7 +33,6 @@ class ReasonRefuseDistributorController extends Controller
      */
     public function create()
     {
-
         return $this->toCreate();
     }
 
@@ -47,19 +45,17 @@ class ReasonRefuseDistributorController extends Controller
     public function store(Request $request)
     {
         $rules = [
-
-            'name'=>'required|string|max:191',
-
+            "name" => "required|string|max:191",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
 
-        $requests = $request->except('image');
-        if ($request->hasFile('image')) {
-            $requests['image'] = saveImage($request->image, 'users');
+        $requests = $request->except("image");
+        if ($request->hasFile("image")) {
+            $requests["image"] = saveImage($request->image, "users");
         }
         ReasonRefuseDistributor::create($requests);
-        toast('تم إضافة سبب الرفض بنجاح','success','top-right');
-        return redirect()->route('distributor.refuses.index');
+        toast("تم إضافة سبب الرفض بنجاح", "success", "top-right");
+        return redirect()->route("distributor.refuses.index");
     }
 
     /**
@@ -83,7 +79,7 @@ class ReasonRefuseDistributorController extends Controller
     {
         $refuse = ReasonRefuseDistributor::findOrFail($id);
 
-        return $this->toEdit(compact('refuse'));
+        return $this->toEdit(compact("refuse"));
     }
 
     /**
@@ -95,21 +91,19 @@ class ReasonRefuseDistributorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $reader= ReasonRefuseDistributor::find($id);
+        $reader = ReasonRefuseDistributor::find($id);
 
         $rules = [
-
-            'name'=>'required|string|max:191',
-
+            "name" => "required|string|max:191",
         ];
-        $this->validate($request,$rules);
-        $requests = $request->except('image');
-        if ($request->hasFile('image')) {
-            $requests['image'] = saveImage($request->image, 'users');
+        $this->validate($request, $rules);
+        $requests = $request->except("image");
+        if ($request->hasFile("image")) {
+            $requests["image"] = saveImage($request->image, "users");
         }
         $reader->update($requests);
-        toast('تم تعديل  سبب الرفض بنجاح','success','top-right');
-        return redirect()->route('distributor.refuses.index');
+        toast("تم تعديل  سبب الرفض بنجاح", "success", "top-right");
+        return redirect()->route("distributor.refuses.index");
     }
 
     /**
@@ -121,21 +115,21 @@ class ReasonRefuseDistributorController extends Controller
     public function destroy($id)
     {
         ReasonRefuseDistributor::find($id)->delete();
-        toast('تم حذف سبب الرفض بنجاح','success','top-right');
-        return redirect()->route('distributor.refuses.index');
+        toast("تم حذف سبب الرفض بنجاح", "success", "top-right");
+        return redirect()->route("distributor.refuses.index");
     }
 
     public function changeStatus($id)
     {
-        $item=ReasonRefuseDistributor::find($id);
+        $item = ReasonRefuseDistributor::find($id);
         if ($item->is_active == 1) {
-            $item->update(['is_active'=>0]);
-            toast('تم إلغاء التفعيل بنجاح','success','top-right');
-            return redirect()->route('distributor.refuse.index');
+            $item->update(["is_active" => 0]);
+            toast("تم إلغاء التفعيل بنجاح", "success", "top-right");
+            return redirect()->route("distributor.refuse.index");
         } else {
-            $item->update(['is_active'=>1]);
-            toast('تم  التفعيل بنجاح','success','top-right');
-            return redirect()->route('distributor.refuses.index');
+            $item->update(["is_active" => 1]);
+            toast("تم  التفعيل بنجاح", "success", "top-right");
+            return redirect()->route("distributor.refuses.index");
         }
     }
 }

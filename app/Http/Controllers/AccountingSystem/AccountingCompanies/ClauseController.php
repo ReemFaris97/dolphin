@@ -16,7 +16,7 @@ use App\Traits\Viewable;
 class ClauseController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.AccountingCompanies.clauses.';
+    private $viewable = "AccountingSystem.AccountingCompanies.clauses.";
     /**
      * Display a listing of the resource.
      *
@@ -24,8 +24,8 @@ class ClauseController extends Controller
      */
     public function index()
     {
-        $clauses =AccountingMoneyClause::all()->reverse();
-        return $this->toIndex(compact('clauses'));
+        $clauses = AccountingMoneyClause::all()->reverse();
+        return $this->toIndex(compact("clauses"));
     }
 
     /**
@@ -35,8 +35,6 @@ class ClauseController extends Controller
      */
     public function create()
     {
-
-
         return $this->toCreate();
     }
 
@@ -49,22 +47,19 @@ class ClauseController extends Controller
     public function store(Request $request)
     {
         $rules = [
-
-            'ar_name'=>'required|string|max:191',
-            'en_name'=>'nullable|string|max:191',
-            'ar_description'=>'nullable|string',
-            'en_description'=>'nullable|string',
-
-
-
-
+            "ar_name" => "required|string|max:191",
+            "en_name" => "nullable|string|max:191",
+            "ar_description" => "nullable|string",
+            "en_description" => "nullable|string",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
 
         AccountingMoneyClause::create($requests);
-        alert()->success('تم اضافة  البند   بنجاح !')->autoclose(5000);
-        return redirect()->route('company.clauses.index');
+        alert()
+            ->success("تم اضافة  البند   بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("company.clauses.index");
     }
 
     /**
@@ -86,11 +81,9 @@ class ClauseController extends Controller
      */
     public function edit($id)
     {
-        $clause =AccountingMoneyClause::findOrFail($id);
+        $clause = AccountingMoneyClause::findOrFail($id);
 
-        return $this->toEdit(compact('clause'));
-
-
+        return $this->toEdit(compact("clause"));
     }
 
     /**
@@ -102,24 +95,22 @@ class ClauseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $clause =AccountingMoneyClause::findOrFail($id);
+        $clause = AccountingMoneyClause::findOrFail($id);
 
         $rules = [
-            'ar_name'=>'required|string|max:191',
-            'en_name'=>'nullable|string|max:191',
-            'ar_description'=>'nullable|string',
-            'en_description'=>'nullable|string',
-
+            "ar_name" => "required|string|max:191",
+            "en_name" => "nullable|string|max:191",
+            "ar_description" => "nullable|string",
+            "en_description" => "nullable|string",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
 
         $clause->update($requests);
-        alert()->success('تم تعديل  البند بنجاح !')->autoclose(5000);
-        return redirect()->route('company.clauses.index');
-
-
-
+        alert()
+            ->success("تم تعديل  البند بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("company.clauses.index");
     }
 
     /**
@@ -130,11 +121,11 @@ class ClauseController extends Controller
      */
     public function destroy($id)
     {
-        $clause =AccountingMoneyClause::findOrFail($id);
+        $clause = AccountingMoneyClause::findOrFail($id);
         $clause->delete();
-        alert()->success('تم حذف  البند بنجاح !')->autoclose(5000);
-            return back();
-
-
+        alert()
+            ->success("تم حذف  البند بنجاح !")
+            ->autoclose(5000);
+        return back();
     }
 }

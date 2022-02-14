@@ -13,8 +13,6 @@ class NotifyDistributorWithNewActivationStatus
 {
     use FirebasOperation;
 
-
-
     /**
      * Handle the event.
      *
@@ -23,21 +21,21 @@ class NotifyDistributorWithNewActivationStatus
      */
     public function handle(ClientActivationChanged $event)
     {
-        $title = 'هناك اشعار جديد';
+        $title = "هناك اشعار جديد";
         $message = "تم تغير تفعيل عميل";
-        $type = 'client_activation';
+        $type = "client_activation";
         $data = [
-            'item_id' => $event->client->id,
-            'message' => $message,
-            'type' => $type,
-            'title' => $title
+            "item_id" => $event->client->id,
+            "message" => $message,
+            "type" => $type,
+            "title" => $title,
         ];
 
-
-        $users = User::where('is_distributor', 1)
-        ->whereHas('trips', function ($trip) use ($event) {
-            $trip->where('client_id', $event->client->id);
-        })->get();
+        $users = User::where("is_distributor", 1)
+            ->whereHas("trips", function ($trip) use ($event) {
+                $trip->where("client_id", $event->client->id);
+            })
+            ->get();
 
         $this->fire($title, $message, $data, $users);
         /** @var  \App\Models\User $user  */

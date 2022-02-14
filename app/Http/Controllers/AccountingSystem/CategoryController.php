@@ -13,7 +13,7 @@ use Mockery\CountValidator\Exact;
 class CategoryController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.categories.';
+    private $viewable = "AccountingSystem.categories.";
     /**
      * Display a listing of the resource.
      *
@@ -21,8 +21,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories =AccountingProductCategory::all()->reverse();
-        return $this->toIndex(compact('categories'));
+        $categories = AccountingProductCategory::all()->reverse();
+        return $this->toIndex(compact("categories"));
     }
 
     /**
@@ -32,8 +32,6 @@ class CategoryController extends Controller
      */
     public function create()
     {
-
-
         return $this->toCreate();
     }
 
@@ -46,28 +44,30 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $rules = [
-
-            'ar_name'=>'required|string|max:191|category_name:accounting_product_categories,ar_name,company_id,'.$request['ar_name'].','.$request['company_id'],
-            'en_name'=>'nullable|string|max:191',
-            'ar_description'=>'nullable|string',
-            'en_description'=>'nullable|string',
-            'image'=>'nullable|sometimes|mimes:jpg,jpeg,gif,png',
-            'company_id'=>'required|numeric|exists:accounting_companies,id',
-
-
-
+            "ar_name" =>
+                "required|string|max:191|category_name:accounting_product_categories,ar_name,company_id," .
+                $request["ar_name"] .
+                "," .
+                $request["company_id"],
+            "en_name" => "nullable|string|max:191",
+            "ar_description" => "nullable|string",
+            "en_description" => "nullable|string",
+            "image" => "nullable|sometimes|mimes:jpg,jpeg,gif,png",
+            "company_id" => "required|numeric|exists:accounting_companies,id",
         ];
         $messsage = [
-            'ar_name.category_name'=>"اسم التصنيف  موجود بالفعل بالشركة",
+            "ar_name.category_name" => "اسم التصنيف  موجود بالفعل بالشركة",
         ];
-        $this->validate($request,$rules,$messsage);
-        $requests = $request->except('image');
-        if ($request->hasFile('image')) {
-            $requests['image'] = saveImage($request->image, 'photos');
+        $this->validate($request, $rules, $messsage);
+        $requests = $request->except("image");
+        if ($request->hasFile("image")) {
+            $requests["image"] = saveImage($request->image, "photos");
         }
         AccountingProductCategory::create($requests);
-        alert()->success('تم اضافة  تصنيف القسم  بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.categories.index');
+        alert()
+            ->success("تم اضافة  تصنيف القسم  بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.categories.index");
     }
 
     /**
@@ -89,11 +89,9 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category =AccountingProductCategory::findOrFail($id);
+        $category = AccountingProductCategory::findOrFail($id);
 
-        return $this->toEdit(compact('category'));
-
-
+        return $this->toEdit(compact("category"));
     }
 
     /**
@@ -105,28 +103,26 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $category =AccountingProductCategory::findOrFail($id);
+        $category = AccountingProductCategory::findOrFail($id);
 
         $rules = [
-            'ar_name'=>'required|string|max:191',
-            'en_name'=>'nullable|string|max:191',
-            'ar_description'=>'nullable|string',
-            'en_description'=>'nullable|string',
-            'image'=>'nullable|sometimes|mimes:jpg,jpeg,gif,png',
-            'company_id'=>'required|numeric|exists:accounting_companies,id',
-
+            "ar_name" => "required|string|max:191",
+            "en_name" => "nullable|string|max:191",
+            "ar_description" => "nullable|string",
+            "en_description" => "nullable|string",
+            "image" => "nullable|sometimes|mimes:jpg,jpeg,gif,png",
+            "company_id" => "required|numeric|exists:accounting_companies,id",
         ];
-        $this->validate($request,$rules);
-        $requests = $request->except('image');
-        if ($request->hasFile('image')) {
-            $requests['image'] = saveImage($request->image, 'photos');
+        $this->validate($request, $rules);
+        $requests = $request->except("image");
+        if ($request->hasFile("image")) {
+            $requests["image"] = saveImage($request->image, "photos");
         }
         $category->update($requests);
-        alert()->success('تم تعديل  القسم بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.categories.index');
-
-
-
+        alert()
+            ->success("تم تعديل  القسم بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.categories.index");
     }
 
     /**
@@ -137,23 +133,22 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category =AccountingProductCategory::findOrFail($id);
+        $category = AccountingProductCategory::findOrFail($id);
         $category->delete();
-        alert()->success('تم حذف  التصنيف بنجاح !')->autoclose(5000);
-            return back();
-
-
+        alert()
+            ->success("تم حذف  التصنيف بنجاح !")
+            ->autoclose(5000);
+        return back();
     }
 
-    public function importViewCategory(){
-
-        return view('AccountingSystem.products.importViewCategory');
-
+    public function importViewCategory()
+    {
+        return view("AccountingSystem.products.importViewCategory");
     }
 
     public function importCategory()
     {
-       FacadesExcel:: import(new AccountingImport,request()->file('file'));
+        FacadesExcel::import(new AccountingImport(), request()->file("file"));
         return back();
     }
 }

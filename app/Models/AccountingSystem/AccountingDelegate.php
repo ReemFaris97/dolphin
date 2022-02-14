@@ -30,13 +30,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class AccountingDelegate extends Model
 {
-
-
-    protected $fillable = ['name','email','phone','commission'
-    ];
-    protected $table='accounting_delegates';
-
-
-
-
+    protected $fillable = ["name", "email", "phone", "commission"];
+    protected $table = "accounting_delegates";
 }

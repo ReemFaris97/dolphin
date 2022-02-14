@@ -15,7 +15,7 @@ class BillController extends Controller
 {
     use Viewable;
 
-    private $viewable = 'distributor.bills.';
+    private $viewable = "distributor.bills.";
 
     /**
      * Display a listing of the resource.
@@ -24,18 +24,18 @@ class BillController extends Controller
      */
     public function index(DistributerBillsDataTable $dataTable)
     {
-//        $bills = RouteTripReport::with([
-//            'inventory',
-//            'products',
-//            'route_trip' => function ($builder) {
-//                $builder->with(['route' => function ($q) {
-//                    $q->with('user');
-//                }, 'client']);
-//            },
-//        ])->get()->reverse();
-//        return $this->toIndex(compact('bills'));
+        //        $bills = RouteTripReport::with([
+        //            'inventory',
+        //            'products',
+        //            'route_trip' => function ($builder) {
+        //                $builder->with(['route' => function ($q) {
+        //                    $q->with('user');
+        //                }, 'client']);
+        //            },
+        //        ])->get()->reverse();
+        //        return $this->toIndex(compact('bills'));
 
-        return $dataTable->render('distributor.bills.index');
+        return $dataTable->render("distributor.bills.index");
     }
 
     /**
@@ -68,26 +68,29 @@ class BillController extends Controller
     public function show($id)
     {
         return $this->toShow([
-            'bill' => RouteTripReport::with([
-                'inventory',
-                'route_trip' => function ($builder) {
-                    $builder->with(['route' => function ($q) {
-                        $q->with('user');
-                    }, 'client']);
+            "bill" => RouteTripReport::with([
+                "inventory",
+                "route_trip" => function ($builder) {
+                    $builder->with([
+                        "route" => function ($q) {
+                            $q->with("user");
+                        },
+                        "client",
+                    ]);
                 },
-            ])->findOrFail($id)
+            ])->findOrFail($id),
         ]);
     }
 
     public function details($id)
     {
-        return view('distributor.bills.bill', [
-            'bill' => RouteTripReport::with([
-                'inventory' => function ($q) {
-                    $q->with('images');
+        return view("distributor.bills.bill", [
+            "bill" => RouteTripReport::with([
+                "inventory" => function ($q) {
+                    $q->with("images");
                 },
-                'images',
-            ])->findOrFail($id)
+                "images",
+            ])->findOrFail($id),
         ]);
     }
 
@@ -100,7 +103,7 @@ class BillController extends Controller
     public function destroy($id)
     {
         RouteTripReport::findOrFail($id)->delete();
-        toast('تم الحذف بنجاح', 'success', 'top-right');
+        toast("تم الحذف بنجاح", "success", "top-right");
         return back();
     }
 
@@ -114,17 +117,19 @@ class BillController extends Controller
 
         $item = RouteTripReport::find($id);
         if ($item->product_total() != $total) {
-            toast('المبلغ يجب ان يكون مساويا لقيمه الفاتوره', 'success', 'top-right');
+            toast(
+                "المبلغ يجب ان يكون مساويا لقيمه الفاتوره",
+                "success",
+                "top-right"
+            );
             return back();
         }
-        $item->update(
-            [
-                'paid_at' => Carbon::now(),
-                'cash' => $request->cash,
-                'visa' => $request->visa
-            ]
-        );
-        toast('تم الدفع بنجاح', 'success', 'top-right');
-        return redirect()->route('distributor.bills.index');
+        $item->update([
+            "paid_at" => Carbon::now(),
+            "cash" => $request->cash,
+            "visa" => $request->visa,
+        ]);
+        toast("تم الدفع بنجاح", "success", "top-right");
+        return redirect()->route("distributor.bills.index");
     }
 }

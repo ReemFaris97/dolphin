@@ -33,5 +33,5 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class AccountingService extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['product_id','code','price','type'];
+    protected $fillable = ["product_id", "code", "price", "type"];
 }

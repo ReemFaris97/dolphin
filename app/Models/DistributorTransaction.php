@@ -52,29 +52,42 @@ class DistributorTransaction extends Model
 {
     use SoftDeletes;
     // protected $fillable = ['sender_id', 'receiver_id', 'amount','is_received','signature'];
-    protected $fillable = ['sender_type', 'sender_id', 'receiver_type', 'receiver_id', 'amount', 'received_at', 'signature','confirmed_at'];
+    protected $fillable = [
+        "sender_type",
+        "sender_id",
+        "receiver_type",
+        "receiver_id",
+        "amount",
+        "received_at",
+        "signature",
+        "confirmed_at",
+    ];
 
     public function sender()
     {
-        return $this->morphTo('sender');
+        return $this->morphTo("sender");
     }
 
     public function receiver()
     {
-        return $this->morphTo('receiver');
+        return $this->morphTo("receiver");
     }
     public function scopeSenderUser(Builder $builder, $user_id)
     {
-        $builder->where('sender_id', $user_id)->where('sender_type', User::class);
+        $builder
+            ->where("sender_id", $user_id)
+            ->where("sender_type", User::class);
     }
     public function scopeIsTransaction(Builder $builder)
     {
-        $builder->whereMorphedTo('sender', User::class);
-        $builder->whereMorphedTo('receiver', User::class);
+        $builder->whereMorphedTo("sender", User::class);
+        $builder->whereMorphedTo("receiver", User::class);
     }
     public function scopeReceiverUser(Builder $builder, $user_id)
     {
-        $builder->where('receiver_id', $user_id)->where('receiver_type', User::class);
+        $builder
+            ->where("receiver_id", $user_id)
+            ->where("receiver_type", User::class);
     }
 
     public function scopeUserTransactions(Builder $builder, $user_id)
@@ -90,27 +103,40 @@ class DistributorTransaction extends Model
     }
     public function scopeWalletOf(Builder $builder, $user_id)
     {
-        $builder->select('*');
+        $builder->select("*");
 
-        $builder->addSelect(DB::raw("CASE
-            WHEN sender_type = 'App\\\\Models\\\\User' And sender_id=" . $user_id . "
+        $builder->addSelect(
+            DB::raw(
+                "CASE
+            WHEN sender_type = 'App\\\\Models\\\\User' And sender_id=" .
+                    $user_id .
+                    "
             THEN (`amount` * -1)
-            WHEN receiver_type = 'App\\\\Models\\\\User' And receiver_id=" . $user_id ." AND   confirmed_at IS NOT NULL
+            WHEN receiver_type = 'App\\\\Models\\\\User' And receiver_id=" .
+                    $user_id .
+                    " AND   confirmed_at IS NOT NULL
             THEN  `amount`
-            WHEN receiver_type = 'App\\\\Models\\\\User' And receiver_id=" . $user_id ." AND sender_type='App\\\\Models\\\\Client'
+            WHEN receiver_type = 'App\\\\Models\\\\User' And receiver_id=" .
+                    $user_id .
+                    " AND sender_type='App\\\\Models\\\\Client'
             THEN  `amount`
             ELSE 0
         END
-        as balance"))/* ->limit(1) */;
+        as balance"
+            ) /* ->limit(1) */
+        );
     }
     public function getInvoiceNumberAttribute()
     {
-        return  str_pad($this->id, 6, 0, STR_PAD_LEFT);
+        return str_pad($this->id, 6, 0, STR_PAD_LEFT);
     }
 
     public function amountByType($user)
     {
-        if ($user->id == $this->receiver_id  && $this->receiver_type == get_class($user)) {
+        if (
+            $user->id == $this->receiver_id &&
+            $this->receiver_type == get_class($user)
+        ) {
             return $this->amount;
         }
         return $this->amount * -1;

@@ -14,14 +14,18 @@ class BanksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getBanksSpinner(){
-        $banks = Bank::all()->map(function ($q){
-            return ['id'=>$q->id,'name'=>$q->name,'bank_account_number'=>$q->bank_account_number];
+    public function getBanksSpinner()
+    {
+        $banks = Bank::all()->map(function ($q) {
+            return [
+                "id" => $q->id,
+                "name" => $q->name,
+                "bank_account_number" => $q->bank_account_number,
+            ];
         });
 
         return $this->apiResponse($banks);
     }
-
 
     public function index()
     {

@@ -27,6 +27,4 @@ class BankDepositConfirmed
         //
         $this->bankDeposit = $bankDeposit;
     }
-
-
 }

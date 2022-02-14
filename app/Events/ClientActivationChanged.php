@@ -15,7 +15,6 @@ class ClientActivationChanged
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-
     public $client;
 
     /**

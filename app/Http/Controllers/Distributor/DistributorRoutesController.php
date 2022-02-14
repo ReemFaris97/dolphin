@@ -14,7 +14,7 @@ class DistributorRoutesController extends Controller
 {
     use Viewable;
 
-    private $viewable = 'distributor.routes.';
+    private $viewable = "distributor.routes.";
 
     /**
      * Display a listing of the resource.
@@ -24,7 +24,7 @@ class DistributorRoutesController extends Controller
     public function index()
     {
         $routes = DistributorRoute::all()->reverse();
-        return $this->toIndex(compact('routes'));
+        return $this->toIndex(compact("routes"));
     }
 
     /**
@@ -34,8 +34,8 @@ class DistributorRoutesController extends Controller
      */
     public function create()
     {
-        $users = User::where('is_distributor', '1')->pluck('name', 'id');
-        return $this->toCreate(compact('users'));
+        $users = User::where("is_distributor", "1")->pluck("name", "id");
+        return $this->toCreate(compact("users"));
     }
 
     /**
@@ -47,16 +47,15 @@ class DistributorRoutesController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'user_id' => 'required|exists:users,id',
-            'name' => 'required|string',
-//            'is_active' => 'required|numeric',
-
+            "user_id" => "required|exists:users,id",
+            "name" => "required|string",
+            //            'is_active' => 'required|numeric',
         ];
 
         $this->validate($request, $rules);
         DistributorRoute::create($request->all());
-        toast('تم المسار بنجاح', 'success', 'top-right');
-        return redirect()->route('distributor.routes.index');
+        toast("تم المسار بنجاح", "success", "top-right");
+        return redirect()->route("distributor.routes.index");
     }
 
     /**
@@ -67,10 +66,9 @@ class DistributorRoutesController extends Controller
      */
     public function show($id)
     {
-        return $this->toShow(
-            [
-                'route' => DistributorRoute::with("trips")->findOrFail($id)]
-        );
+        return $this->toShow([
+            "route" => DistributorRoute::with("trips")->findOrFail($id),
+        ]);
     }
 
     /**
@@ -82,8 +80,8 @@ class DistributorRoutesController extends Controller
     public function edit($id)
     {
         $route = DistributorRoute::findOrFail($id);
-        $users = User::whereIsDistributor(1)->pluck('name', 'id');
-        return $this->toEdit(compact('route', 'users'));
+        $users = User::whereIsDistributor(1)->pluck("name", "id");
+        return $this->toEdit(compact("route", "users"));
     }
 
     /**
@@ -97,16 +95,15 @@ class DistributorRoutesController extends Controller
     {
         $route = DistributorRoute::find($id);
         $rules = [
-            'user_id' => 'required|exists:users,id',
-            'name' => 'required|string',
-//            'is_active' => 'required|numeric',
-
+            "user_id" => "required|exists:users,id",
+            "name" => "required|string",
+            //            'is_active' => 'required|numeric',
         ];
 
         $this->validate($request, $rules);
         $route->update($request->all());
-        toast('تم تعديل المسار بنجاح', 'success', 'top-right');
-        return redirect()->route('distributor.routes.index');
+        toast("تم تعديل المسار بنجاح", "success", "top-right");
+        return redirect()->route("distributor.routes.index");
     }
 
     /**
@@ -119,19 +116,19 @@ class DistributorRoutesController extends Controller
     {
         $route = DistributorRoute::find($id);
         $route->delete();
-        toast('تم حذف التحويل بنجاح', 'success', 'top-right');
-        return redirect()->route('distributor.routes.index');
+        toast("تم حذف التحويل بنجاح", "success", "top-right");
+        return redirect()->route("distributor.routes.index");
     }
 
     public function updateArrange(Request $request)
     {
         $request->validate([
-            'routes.*.id' => 'required|integer|exists:distributor_routes,id',
-            'user_id' => 'required|integer|exists:users,id'
+            "routes.*.id" => "required|integer|exists:distributor_routes,id",
+            "user_id" => "required|integer|exists:users,id",
         ]);
         \DB::beginTransaction();
         foreach ($request->routes as $index => $route) {
-            DistributorRoute::find($route['id'])->update(['arrange' => $index]);
+            DistributorRoute::find($route["id"])->update(["arrange" => $index]);
         }
         \DB::commit();
 
@@ -139,37 +136,35 @@ class DistributorRoutesController extends Controller
     }
     public function available($id)
     {
-        $route =DistributorRoute::find($id);
+        $route = DistributorRoute::find($id);
         $route->update([
-            'is_available' => '1'
+            "is_available" => "1",
         ]);
-        toast('تم تفعيل المسار', 'success', 'top-right');
+        toast("تم تفعيل المسار", "success", "top-right");
 
         return back();
     }
 
-
     public function disavailable($id)
     {
-        $route =DistributorRoute::find($id);
-        $route->update(['is_available' => '0'
-        ]);
-        toast('تم الغاء تفعيل المسار ', 'success', 'top-right');
+        $route = DistributorRoute::find($id);
+        $route->update(["is_available" => "0"]);
+        toast("تم الغاء تفعيل المسار ", "success", "top-right");
         return back();
     }
 
     public function closeRouteBluck(Request $request)
     {
         $this->closeRoutes($request->routes_ids);
-        toast('تم غلق المسارات ', 'success', 'top-right');
+        toast("تم غلق المسارات ", "success", "top-right");
 
         return back();
     }
 
-    public function closeRoutes($routes):void
+    public function closeRoutes($routes): void
     {
         foreach ($routes as $route_id) {
-            $request=(new Request(['route_id'=>$route_id]));
+            $request = new Request(["route_id" => $route_id]);
             // $request->fi
             app(RouteController::class)->store($request);
         }

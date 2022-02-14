@@ -15,32 +15,31 @@ class NotesResource extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'notes'=>$this->collection->transform(function ($q){
+            "notes" => $this->collection->transform(function ($q) {
                 return [
-                    'id'=>$q->id,
-                    'description'=>$q->description,
-                    'user_name'=>$q->user->name,
-                    'date'=>$q->created_at->format('Y-m-d'),
-                    'image'=>ImageResource::collection($q->images),
+                    "id" => $q->id,
+                    "description" => $q->description,
+                    "user_name" => $q->user->name,
+                    "date" => $q->created_at->format("Y-m-d"),
+                    "image" => ImageResource::collection($q->images),
                 ];
             }),
-            'paginate'=>[
-                'total' => $this->total(),
-                'count' => $this->count(),
-                'per_page' => $this->perPage(),
-                'next_page_url'=>$this->nextPageUrl(),
-                'prev_page_url'=>$this->previousPageUrl(),
-                'current_page' => $this->currentPage(),
-                'total_pages' => $this->lastPage()
-            ]
-
+            "paginate" => [
+                "total" => $this->total(),
+                "count" => $this->count(),
+                "per_page" => $this->perPage(),
+                "next_page_url" => $this->nextPageUrl(),
+                "prev_page_url" => $this->previousPageUrl(),
+                "current_page" => $this->currentPage(),
+                "total_pages" => $this->lastPage(),
+            ],
         ];
     }
 
     public function withResponse($request, $response)
     {
         $originalContent = $response->getOriginalContent();
-        unset($originalContent['links'],$originalContent['meta']);
+        unset($originalContent["links"], $originalContent["meta"]);
         $response->setData($originalContent);
     }
 }

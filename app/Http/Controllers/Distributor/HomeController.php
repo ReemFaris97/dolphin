@@ -20,18 +20,37 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $routes = DistributorRoute::whereDate('created_at', Carbon::today())
-            ->where('is_active', 1)->count();
+        $routes = DistributorRoute::whereDate("created_at", Carbon::today())
+            ->where("is_active", 1)
+            ->count();
 
-        $trips_count = RouteTrips::whereDate('created_at', Carbon::today())->count();
+        $trips_count = RouteTrips::whereDate(
+            "created_at",
+            Carbon::today()
+        )->count();
 
-        $refused_count = TripInventory::whereDate('created_at', Carbon::today())->whereType('refuse')->count();
+        $refused_count = TripInventory::whereDate("created_at", Carbon::today())
+            ->whereType("refuse")
+            ->count();
 
-        $daily_reports_count = DailyReport::whereDate('created_at', Carbon::today())->count();
+        $daily_reports_count = DailyReport::whereDate(
+            "created_at",
+            Carbon::today()
+        )->count();
 
-        $total =  RouteTripReport::whereDate('created_at', Carbon::today())->sum('total_money');
+        $total = RouteTripReport::whereDate("created_at", Carbon::today())->sum(
+            "total_money"
+        );
 
-        return view('distributor.home', compact('routes','trips_count',
-            'refused_count','daily_reports_count','total'));
+        return view(
+            "distributor.home",
+            compact(
+                "routes",
+                "trips_count",
+                "refused_count",
+                "daily_reports_count",
+                "total"
+            )
+        );
     }
 }

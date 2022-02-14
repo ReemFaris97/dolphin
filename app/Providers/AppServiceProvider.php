@@ -54,7 +54,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //don't remove this line if you are using migrations
-        Schema::defaultStringLength('191');
+        Schema::defaultStringLength("191");
     }
 
     /**
@@ -65,7 +65,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Paginator::useBootstrap();
-        \Config::set('app.timezone', env('TIME_ZONE', 'Asia/Riyadh'));
+        \Config::set("app.timezone", env("TIME_ZONE", "Asia/Riyadh"));
 
         AccountingSale::observe(SaleObserver::class);
         AccountingPurchase::observe(PurchaseObserver::class);
@@ -83,132 +83,285 @@ class AppServiceProvider extends ServiceProvider
         AccountingAssetDamageLog::observe(AssetDamageObserver::class);
         AccountingClient::observe(ClientObsever::class);
 
-        Validator::extend('branch_name', function ($attribute, $value, $parameters) {
-            $count= AccountingBranch::where($parameters[1], $parameters[3])->
-                where($parameters[2], $parameters[4])->count()===0;
+        Validator::extend("branch_name", function (
+            $attribute,
+            $value,
+            $parameters
+        ) {
+            $count =
+                AccountingBranch::where($parameters[1], $parameters[3])
+                    ->where($parameters[2], $parameters[4])
+                    ->count() === 0;
 
             return $count;
         });
 
-        Validator::extend('store_name', function ($attribute, $value, $parameters) {
-            if ($parameters[5]=="") {
-                $count = AccountingStore::where($parameters[1], $parameters[4])->where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->
-                   where('model_id', $parameters[6])->count() === 0;
+        Validator::extend("store_name", function (
+            $attribute,
+            $value,
+            $parameters
+        ) {
+            if ($parameters[5] == "") {
+                $count =
+                    AccountingStore::where($parameters[1], $parameters[4])
+                        ->where(
+                            "model_type",
+                            "App\Models\AccountingSystem\AccountingBranch"
+                        )
+                        ->where("model_id", $parameters[6])
+                        ->count() === 0;
                 return $count;
-            } elseif ($parameters[6]=="") {
-                $count = AccountingStore::where($parameters[1], $parameters[4])->where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->
-                   where('model_id', $parameters[5])->count() === 0;
+            } elseif ($parameters[6] == "") {
+                $count =
+                    AccountingStore::where($parameters[1], $parameters[4])
+                        ->where(
+                            "model_type",
+                            "App\Models\AccountingSystem\AccountingCompany"
+                        )
+                        ->where("model_id", $parameters[5])
+                        ->count() === 0;
                 return $count;
             }
         });
-        Validator::extend('device_type', function ($attribute, $value, $parameters) {
-            $count = AccountingDevice::where($parameters[1], $parameters[4])->where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->
-                    where('model_id', $parameters[6])->count() === 0;
+        Validator::extend("device_type", function (
+            $attribute,
+            $value,
+            $parameters
+        ) {
+            $count =
+                AccountingDevice::where($parameters[1], $parameters[4])
+                    ->where(
+                        "model_type",
+                        "App\Models\AccountingSystem\AccountingBranch"
+                    )
+                    ->where("model_id", $parameters[6])
+                    ->count() === 0;
             return $count;
         });
 
-        Validator::extend('device_name', function ($attribute, $value, $parameters) {
-            if ($parameters[5]=="") {
-                $count = AccountingDevice::where($parameters[1], $parameters[4])->where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->
-                    where('model_id', $parameters[6])->count() === 0;
+        Validator::extend("device_name", function (
+            $attribute,
+            $value,
+            $parameters
+        ) {
+            if ($parameters[5] == "") {
+                $count =
+                    AccountingDevice::where($parameters[1], $parameters[4])
+                        ->where(
+                            "model_type",
+                            "App\Models\AccountingSystem\AccountingBranch"
+                        )
+                        ->where("model_id", $parameters[6])
+                        ->count() === 0;
                 return $count;
-            } elseif ($parameters[6]=="") {
-                $count = AccountingDevice::where($parameters[1], $parameters[4])->where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->
-                    where('model_id', $parameters[5])->count() === 0;
+            } elseif ($parameters[6] == "") {
+                $count =
+                    AccountingDevice::where($parameters[1], $parameters[4])
+                        ->where(
+                            "model_type",
+                            "App\Models\AccountingSystem\AccountingCompany"
+                        )
+                        ->where("model_id", $parameters[5])
+                        ->count() === 0;
                 return $count;
             }
         });
-        Validator::extend('device_code', function ($attribute, $value, $parameters) {
-            if ($parameters[5]=="") {
-                $count = AccountingDevice::where($parameters[1], $parameters[4])->where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->
-                    where('model_id', $parameters[6])->count() === 0;
+        Validator::extend("device_code", function (
+            $attribute,
+            $value,
+            $parameters
+        ) {
+            if ($parameters[5] == "") {
+                $count =
+                    AccountingDevice::where($parameters[1], $parameters[4])
+                        ->where(
+                            "model_type",
+                            "App\Models\AccountingSystem\AccountingBranch"
+                        )
+                        ->where("model_id", $parameters[6])
+                        ->count() === 0;
                 return $count;
-            } elseif ($parameters[6]=="") {
-                $count = AccountingDevice::where($parameters[1], $parameters[4])->where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->
-                    where('model_id', $parameters[5])->count() === 0;
+            } elseif ($parameters[6] == "") {
+                $count =
+                    AccountingDevice::where($parameters[1], $parameters[4])
+                        ->where(
+                            "model_type",
+                            "App\Models\AccountingSystem\AccountingCompany"
+                        )
+                        ->where("model_id", $parameters[5])
+                        ->count() === 0;
                 return $count;
             }
         });
 
-        Validator::extend('safe_name', function ($attribute, $value, $parameters) {
-            if ($parameters[5]=="") {
-                $count = AccountingSafe::where($parameters[1], $parameters[4])->where('model_type', 'App\Models\AccountingSystem\AccountingBranch')->
-                    where('model_id', $parameters[6])->count() === 0;
+        Validator::extend("safe_name", function (
+            $attribute,
+            $value,
+            $parameters
+        ) {
+            if ($parameters[5] == "") {
+                $count =
+                    AccountingSafe::where($parameters[1], $parameters[4])
+                        ->where(
+                            "model_type",
+                            "App\Models\AccountingSystem\AccountingBranch"
+                        )
+                        ->where("model_id", $parameters[6])
+                        ->count() === 0;
                 return $count;
-            } elseif ($parameters[6]=="") {
-                $count = AccountingSafe::where($parameters[1], $parameters[4])->where('model_type', 'App\Models\AccountingSystem\AccountingCompany')->
-                    where('model_id', $parameters[5])->count() === 0;
+            } elseif ($parameters[6] == "") {
+                $count =
+                    AccountingSafe::where($parameters[1], $parameters[4])
+                        ->where(
+                            "model_type",
+                            "App\Models\AccountingSystem\AccountingCompany"
+                        )
+                        ->where("model_id", $parameters[5])
+                        ->count() === 0;
                 return $count;
             }
         });
 
-        Validator::extend('category_name', function ($attribute, $value, $parameters) {
-            $count= AccountingProductCategory::where($parameters[1], $parameters[3])->
-                where($parameters[2], $parameters[4])->count()===0;
+        Validator::extend("category_name", function (
+            $attribute,
+            $value,
+            $parameters
+        ) {
+            $count =
+                AccountingProductCategory::where($parameters[1], $parameters[3])
+                    ->where($parameters[2], $parameters[4])
+                    ->count() === 0;
             return $count;
         });
 
-
-
-        Validator::extend('supplier_name', function ($attribute, $value, $parameters) {
-            $count= AccountingSupplier::where($parameters[1], $parameters[3])->
-                where($parameters[2], $parameters[4])->count()===0;
-
-            return $count;
-        });
-
-        Validator::extend('product_name', function ($attribute, $value, $parameters) {
-            $count= AccountingProduct::where($parameters[1], $parameters[3])->
-                where($parameters[2], $parameters[4])->count()===0;
+        Validator::extend("supplier_name", function (
+            $attribute,
+            $value,
+            $parameters
+        ) {
+            $count =
+                AccountingSupplier::where($parameters[1], $parameters[3])
+                    ->where($parameters[2], $parameters[4])
+                    ->count() === 0;
 
             return $count;
         });
-        Validator::extend('barcode_name', function ($attribute, $value, $parameters) {
-            $product= AccountingProduct::where($parameters[1], $parameters[4])->count();
 
-            $productsubunit= AccountingProductSubUnit::where($parameters[2], $parameters[4])->count();
-            $productbarcode= AccountingProductBarcode::where($parameters[3], $parameters[4])->count();
-            if ($product===0&$productsubunit===0&$productbarcode===0) {
+        Validator::extend("product_name", function (
+            $attribute,
+            $value,
+            $parameters
+        ) {
+            $count =
+                AccountingProduct::where($parameters[1], $parameters[3])
+                    ->where($parameters[2], $parameters[4])
+                    ->count() === 0;
+
+            return $count;
+        });
+        Validator::extend("barcode_name", function (
+            $attribute,
+            $value,
+            $parameters
+        ) {
+            $product = AccountingProduct::where(
+                $parameters[1],
+                $parameters[4]
+            )->count();
+
+            $productsubunit = AccountingProductSubUnit::where(
+                $parameters[2],
+                $parameters[4]
+            )->count();
+            $productbarcode = AccountingProductBarcode::where(
+                $parameters[3],
+                $parameters[4]
+            )->count();
+            if (
+                ($product === 0) &
+                ($productsubunit === 0) &
+                ($productbarcode === 0)
+            ) {
                 return true;
             } else {
                 return false;
             }
         });
 
-        Validator::extend('barcode_anther', function ($attribute, $value, $parameters) {
-//            dd($value);
-            $product= AccountingProduct::where($parameters[1], $value)->count();
+        Validator::extend("barcode_anther", function (
+            $attribute,
+            $value,
+            $parameters
+        ) {
+            //            dd($value);
+            $product = AccountingProduct::where(
+                $parameters[1],
+                $value
+            )->count();
 
-            $productsubunit= AccountingProductSubUnit::where($parameters[2], $value)->count();
-            $productbarcode= AccountingProductBarcode::where($parameters[3], $value)->count();
-            if ($product===0&$productsubunit===0&$productbarcode===0) {
+            $productsubunit = AccountingProductSubUnit::where(
+                $parameters[2],
+                $value
+            )->count();
+            $productbarcode = AccountingProductBarcode::where(
+                $parameters[3],
+                $value
+            )->count();
+            if (
+                ($product === 0) &
+                ($productsubunit === 0) &
+                ($productbarcode === 0)
+            ) {
                 return true;
             } else {
                 return false;
             }
         });
 
-        Validator::extend('barcode_unit', function ($attribute, $value, $parameters) {
-//            dd($value);
-            $product= AccountingProduct::where($parameters[1], $value)->count();
+        Validator::extend("barcode_unit", function (
+            $attribute,
+            $value,
+            $parameters
+        ) {
+            //            dd($value);
+            $product = AccountingProduct::where(
+                $parameters[1],
+                $value
+            )->count();
 
-            $productsubunit= AccountingProductSubUnit::where($parameters[2], $value)->count();
-            $productbarcode= AccountingProductBarcode::where($parameters[3], $value)->count();
-            if ($product===0&$productsubunit===0&$productbarcode===0) {
+            $productsubunit = AccountingProductSubUnit::where(
+                $parameters[2],
+                $value
+            )->count();
+            $productbarcode = AccountingProductBarcode::where(
+                $parameters[3],
+                $value
+            )->count();
+            if (
+                ($product === 0) &
+                ($productsubunit === 0) &
+                ($productbarcode === 0)
+            ) {
                 return true;
             } else {
                 return false;
             }
         });
 
-
-        Validator::extend('date_format', function ($attribute, $value, $formats) {
+        Validator::extend("date_format", function (
+            $attribute,
+            $value,
+            $formats
+        ) {
             //dd($attribute);
             foreach ($formats as $format) {
                 $parsed = date_parse_from_format($format, $value);
                 //dd($value,$format,$parsed);
                 // validation success
-                if ($parsed['error_count'] === 0 && $parsed['warning_count'] === 0) {
+                if (
+                    $parsed["error_count"] === 0 &&
+                    $parsed["warning_count"] === 0
+                ) {
                     return true;
                 }
             }

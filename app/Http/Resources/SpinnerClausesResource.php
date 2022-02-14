@@ -15,9 +15,9 @@ class SpinnerClausesResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'=>$this->id,
-            'name'=>$this->name,
-            'amount'=>$this->amount,
+            "id" => $this->id,
+            "name" => $this->name,
+            "amount" => $this->amount,
         ];
     }
 }

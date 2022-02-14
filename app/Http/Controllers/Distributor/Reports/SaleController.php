@@ -21,49 +21,63 @@ class SaleController extends Controller
 {
     public function __construct()
     {
-        view()->share('distributors', User::query()->where('is_distributor', '1')->pluck('name', 'id'));
-        view()->share('clients', Client::query()->pluck('name', 'id'));
-        view()->share('routes', DistributorRoute::query()->pluck('name', 'id'));
-        view()->share('products', Product::query()->pluck('name', 'id'));
+        view()->share(
+            "distributors",
+            User::query()
+                ->where("is_distributor", "1")
+                ->pluck("name", "id")
+        );
+        view()->share("clients", Client::query()->pluck("name", "id"));
+        view()->share("routes", DistributorRoute::query()->pluck("name", "id"));
+        view()->share("products", Product::query()->pluck("name", "id"));
     }
 
     public function index(Request $request)
     {
-        $sales = DistributorSale::query()->with('product');
+        $sales = DistributorSale::query()->with("product");
 
-        if ($request->has('user_id') && $request->user_id != null) {
-            $sales = $sales->whereIn('distributor_id', $request->user_id);
+        if ($request->has("user_id") && $request->user_id != null) {
+            $sales = $sales->whereIn("distributor_id", $request->user_id);
         }
-        if ($request->has('client_id') && $request->client_id != null) {
-            $sales = $sales->where('client_id', $request->client_id);
+        if ($request->has("client_id") && $request->client_id != null) {
+            $sales = $sales->where("client_id", $request->client_id);
         }
-        if ($request->has('product_id') && $request->product_id != null) {
-            $sales = $sales->where('product_id', $request->product_id);
+        if ($request->has("product_id") && $request->product_id != null) {
+            $sales = $sales->where("product_id", $request->product_id);
         }
-        if ($request->input('from') != null && $request->input('to') != null) {
-            $sales = $sales->whereBetween('created_at', [$request->from, $request->to]);
+        if ($request->input("from") != null && $request->input("to") != null) {
+            $sales = $sales->whereBetween("created_at", [
+                $request->from,
+                $request->to,
+            ]);
         }
-        if ($request->input('from') != null && $request->input('to') != null) {
-            $sales = $sales->whereBetween('created_at', [$request->from, $request->to]);
+        if ($request->input("from") != null && $request->input("to") != null) {
+            $sales = $sales->whereBetween("created_at", [
+                $request->from,
+                $request->to,
+            ]);
         }
 
-
-        $sales = $sales->groupBy('distributor_id')->groupBy('product_id')
-            ->groupBy('name')
-            ->selectRaw('name,product_id,sum(price * quantity) as price,sum(quantity) as quantity ,sum(quantity_in_package) as quantity_in_package')
+        $sales = $sales
+            ->groupBy("distributor_id")
+            ->groupBy("product_id")
+            ->groupBy("name")
+            ->selectRaw(
+                "name,product_id,sum(price * quantity) as price,sum(quantity) as quantity ,sum(quantity_in_package) as quantity_in_package"
+            )
             ->get();
-        $total_price = $sales->sum('price');
-        $total_quantity = $sales->sum('quantity');
+        $total_price = $sales->sum("price");
+        $total_quantity = $sales->sum("quantity");
 
-        $sales = $sales->groupBy('product_id');
-        $sales_distributors = User::latest()->where('is_distributor', 1)
+        $sales = $sales->groupBy("product_id");
+        $sales_distributors = User::latest()
+            ->where("is_distributor", 1)
             ->when(
                 $request->user_id != null,
-                fn ($builder) => $builder->where('id', $request->user_id)
+                fn($builder) => $builder->where("id", $request->user_id)
             )
-            ->whereNotIn('id', $sales->keys())
-            ->get(['id', 'name']);
-
+            ->whereNotIn("id", $sales->keys())
+            ->get(["id", "name"]);
 
         $trips = TripInventory::query()
             ->filterDistributors($request->user_id)
@@ -73,9 +87,20 @@ class SaleController extends Controller
             ->FilterWithDates($request->from, $request->to)
             ->get();
 
-        $refuse_reasons =  $trips->where('type', 'refuse')->groupBy('refuse_reason');
+        $refuse_reasons = $trips
+            ->where("type", "refuse")
+            ->groupBy("refuse_reason");
 
-        return view('distributor.reports.sales.index', compact('sales', 'sales_distributors', 'trips', 'total_price', 'refuse_reasons'));
+        return view(
+            "distributor.reports.sales.index",
+            compact(
+                "sales",
+                "sales_distributors",
+                "trips",
+                "total_price",
+                "refuse_reasons"
+            )
+        );
     }
 
     /**
@@ -86,14 +111,17 @@ class SaleController extends Controller
     public function show(Request $request, $id)
     {
         $bill = RouteTripReport::with([
-            'inventory',
-            'route_trip' => function ($builder) {
-                $builder->with(['route' => function ($q) {
-                    $q->with('user');
-                }, 'client']);
+            "inventory",
+            "route_trip" => function ($builder) {
+                $builder->with([
+                    "route" => function ($q) {
+                        $q->with("user");
+                    },
+                    "client",
+                ]);
             },
         ])->findOrFail($id);
 
-        return view('distributor.reports.sales.show', compact('bill'));
+        return view("distributor.reports.sales.show", compact("bill"));
     }
 }

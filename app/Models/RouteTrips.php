@@ -60,93 +60,115 @@ use Illuminate\Database\Eloquent\Model;
  */
 class RouteTrips extends Model
 {
-    protected $fillable = ['route_id', 'client_id', 'lat', 'lng', 'address', 'status', 'arrange', 'cash', 'round','is_active'];
+    protected $fillable = [
+        "route_id",
+        "client_id",
+        "lat",
+        "lng",
+        "address",
+        "status",
+        "arrange",
+        "cash",
+        "round",
+        "is_active",
+    ];
 
-    protected $appends = ['total'];
-
+    protected $appends = ["total"];
 
     public function route()
     {
-        return $this->belongsTo(DistributorRoute::class, 'route_id')->withDefault();
+        return $this->belongsTo(
+            DistributorRoute::class,
+            "route_id"
+        )->withDefault();
     }
 
     public function client()
     {
-        return $this->belongsTo(Client::class, 'client_id')->withDefault();
+        return $this->belongsTo(Client::class, "client_id")->withDefault();
     }
 
     public function reports()
     {
-        return $this->hasMany(RouteTripReport::class, 'route_trip_id');
+        return $this->hasMany(RouteTripReport::class, "route_trip_id");
     }
 
     public function getCurrentReport()
     {
-        return $this->hasOne(RouteTripReport::class, 'route_trip_id')
+        return $this->hasOne(RouteTripReport::class, "route_trip_id")
             ->latest()
-            ->whereColumn('round', 'route_trip_reports.round');
+            ->whereColumn("round", "route_trip_reports.round");
     }
 
     public function getLatestReport()
     {
-        return $this->hasOne(RouteTripReport::class, 'route_trip_id')->latest();
+        return $this->hasOne(RouteTripReport::class, "route_trip_id")->latest();
     }
-
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id')->withDefault();
+        return $this->belongsTo(User::class, "user_id")->withDefault();
     }
 
     public function images()
     {
-        return $this->morphMany(Image::class, 'model');
+        return $this->morphMany(Image::class, "model");
     }
 
     public function products()
     {
-        return $this->morphMany(AttachedProducts::class, 'model');
+        return $this->morphMany(AttachedProducts::class, "model");
     }
 
     public function inventory()
     {
-        return $this->hasOne(TripInventory::class, 'trip_id');
+        return $this->hasOne(TripInventory::class, "trip_id");
     }
 
     public function LastInventory()
     {
-        return $this->hasOne(TripInventory::class, 'trip_id')
-            ->whereColumn('round', 'trip_inventories.round')
+        return $this->hasOne(TripInventory::class, "trip_id")
+            ->whereColumn("round", "trip_inventories.round")
             ->latest();
     }
 
     public function scopeOfDistributor(Builder $builder, $distributor): void
     {
-        $builder->whereHas('route', function ($route) use ($distributor) {
-            $route->where('user_id', $distributor);
+        $builder->whereHas("route", function ($route) use ($distributor) {
+            $route->where("user_id", $distributor);
         });
     }
 
-    public function scopeOfDistributors(Builder $builder, array $distributors): void
-    {
-        $builder->whereHas('route', function ($route) use ($distributors) {
-            $route->whereIn('user_id', $distributors);
+    public function scopeOfDistributors(
+        Builder $builder,
+        array $distributors
+    ): void {
+        $builder->whereHas("route", function ($route) use ($distributors) {
+            $route->whereIn("user_id", $distributors);
         });
     }
-
 
     public function scopeOrderByDistance($q, $lat, $lng)
     {
         $circle_radius_kilometer = 6371;
         $circle_radius_mile = 3959;
-        $haversine = " (" . $circle_radius_kilometer . " * acos(cos(radians(" . $lat . "))
+        $haversine =
+            " (" .
+            $circle_radius_kilometer .
+            " * acos(cos(radians(" .
+            $lat .
+            "))
                     * cos(radians(`lat`))
                     * cos(radians(`lng`)
-                    - radians(" . $lng . "))
-                    + sin(radians(" . $lat . "))
+                    - radians(" .
+            $lng .
+            "))
+                    + sin(radians(" .
+            $lat .
+            "))
                     * sin(radians(`lat`))))";
 
-        return $q->orderBy(\DB::raw($haversine), 'asc'); // 1 kilometer
+        return $q->orderBy(\DB::raw($haversine), "asc"); // 1 kilometer
     }
 
     public function getStatusAttribute()
@@ -155,9 +177,8 @@ class RouteTrips extends Model
             return optional($this->LastInventory)->type;
         }
 
-        return 'pending';
+        return "pending";
     }
-
 
     public function steps()
     {
@@ -165,37 +186,46 @@ class RouteTrips extends Model
         // $this->total_inventories_in_round;
 
         if ($this->total_inventories_in_round === 0) {
-            return 'inventory';
+            return "inventory";
         }
 
         if ($this->total_reports_in_round < $this->total_inventories_in_round) {
-            return 'bill';
+            return "bill";
         }
 
         if (
-            $this->total_reports_in_round >= $this->total_inventories_in_round
-            && !$this->is_last_report_has_images
-
+            $this->total_reports_in_round >=
+                $this->total_inventories_in_round &&
+            !$this->is_last_report_has_images
         ) {
-            return 'images';
+            return "images";
         }
-        if ($this->total_reports_in_round >= $this->total_inventories_in_round && $this->is_last_report_has_images) {
-            return 'finished';
+        if (
+            $this->total_reports_in_round >=
+                $this->total_inventories_in_round &&
+            $this->is_last_report_has_images
+        ) {
+            return "finished";
         }
 
-        return 'unKnown';
+        return "unKnown";
     }
 
     public function getTotalReportsInRoundAttribute()
     {
         $route_round = $this->route->round;
-        return $this->reports()->where('round', $route_round)->count();
+        return $this->reports()
+            ->where("round", $route_round)
+            ->count();
     }
 
     public function getTotalInventoriesInRoundAttribute()
     {
         $route_round = $this->route->round;
-        return $this->inventory()->where('type', 'accept')->where('round', $route_round)->count();
+        return $this->inventory()
+            ->where("type", "accept")
+            ->where("round", $route_round)
+            ->count();
     }
 
     /**
@@ -207,7 +237,6 @@ class RouteTrips extends Model
     {
         return optional($this->getLatestReport)->images->count() > 0;
     }
-
 
     public function getTotalAttribute()
     {

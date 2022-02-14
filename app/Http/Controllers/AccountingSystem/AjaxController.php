@@ -14,23 +14,33 @@ class AjaxController
 {
     public function getcompanyBranches(AccountingCompany $company)
     {
-        return ['branches' => $company
-            ->branches()
-            ->get(['name as label', 'id']), 'categories' => $company->categories()->get(['ar_name as label', 'id'])];
+        return [
+            "branches" => $company->branches()->get(["name as label", "id"]),
+            "categories" => $company
+                ->categories()
+                ->get(["ar_name as label", "id"]),
+        ];
     }
 
     public function getBranchStores(AccountingBranch $branch)
     {
         return AccountingStore::where(function ($q) use ($branch) {
-            $q->where('model_type', AccountingBranch::class)->where('model_id', $branch->id);
-        })->orWhere(function ($q) use ($branch) {
-            $q->where('model_type', AccountingCompany::class)->where('model_id', $branch->company_id);
-
-        })->get(['ar_name as label', 'id']);
+            $q->where("model_type", AccountingBranch::class)->where(
+                "model_id",
+                $branch->id
+            );
+        })
+            ->orWhere(function ($q) use ($branch) {
+                $q->where("model_type", AccountingCompany::class)->where(
+                    "model_id",
+                    $branch->company_id
+                );
+            })
+            ->get(["ar_name as label", "id"]);
         return AccountingBranch::query()
             ->find($branch)
             ->stores()
-            ->get(['ar_name as label', 'id']);
+            ->get(["ar_name as label", "id"]);
     }
 
     public function getBranchFaces($branch)
@@ -38,20 +48,20 @@ class AjaxController
         return AccountingBranch::query()
             ->find($branch)
             ->faces()
-            ->get(['name as label','id']);
+            ->get(["name as label", "id"]);
     }
     public function getFaceColumns($face)
     {
         return AccountingBranchFace::query()
-        ->find($face)
-           ->columns()
-            ->get(['name as label','id']);
+            ->find($face)
+            ->columns()
+            ->get(["name as label", "id"]);
     }
     public function getColumnCells($column)
     {
         return AccountingFaceColumn::query()
-        ->find($column)
-           ->cells()
-            ->get(['name as label','id']);
+            ->find($column)
+            ->cells()
+            ->get(["name as label", "id"]);
     }
 }

@@ -12,7 +12,7 @@ use App\Traits\Viewable;
 class CompanyController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.companies.';
+    private $viewable = "AccountingSystem.companies.";
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +21,7 @@ class CompanyController extends Controller
     public function index()
     {
         $companies = AccountingCompany::all()->reverse();
-        return $this->toIndex(compact('companies'));
+        return $this->toIndex(compact("companies"));
     }
 
     /**
@@ -31,7 +31,6 @@ class CompanyController extends Controller
      */
     public function create()
     {
-
         return $this->toCreate();
     }
 
@@ -44,20 +43,22 @@ class CompanyController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name'=>'required|string|max:191',
-            'phone'=>'required|numeric|unique:accounting_companies,phone',
-            'email'=>'required|string|unique:accounting_companies,email',
-            'password'=>'required|string|max:191',
-            'image'=>'nullable|sometimes|mimes:jpg,jpeg,gif,png',
+            "name" => "required|string|max:191",
+            "phone" => "required|numeric|unique:accounting_companies,phone",
+            "email" => "required|string|unique:accounting_companies,email",
+            "password" => "required|string|max:191",
+            "image" => "nullable|sometimes|mimes:jpg,jpeg,gif,png",
         ];
-        $this->validate($request,$rules);
-        $requests = $request->except('image');
-        if ($request->hasFile('image')) {
-            $requests['image'] = saveImage($request->image, 'photos');
+        $this->validate($request, $rules);
+        $requests = $request->except("image");
+        if ($request->hasFile("image")) {
+            $requests["image"] = saveImage($request->image, "photos");
         }
         AccountingCompany::create($requests);
-        alert()->success('تم اضافة  الشركة بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.companies.index');
+        alert()
+            ->success("تم اضافة  الشركة بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.companies.index");
     }
 
     /**
@@ -68,9 +69,9 @@ class CompanyController extends Controller
      */
     public function show($id)
     {
-        $company =AccountingCompany::findOrFail($id);
-        $branches=AccountingBranch::where('company_id',$id)->get();
-        return $this->toShow(compact('company','branches'));
+        $company = AccountingCompany::findOrFail($id);
+        $branches = AccountingBranch::where("company_id", $id)->get();
+        return $this->toShow(compact("company", "branches"));
     }
 
     /**
@@ -81,11 +82,9 @@ class CompanyController extends Controller
      */
     public function edit($id)
     {
-        $company =AccountingCompany::findOrFail($id);
+        $company = AccountingCompany::findOrFail($id);
 
-        return $this->toEdit(compact('company'));
-
-
+        return $this->toEdit(compact("company"));
     }
 
     /**
@@ -97,26 +96,28 @@ class CompanyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $company =AccountingCompany::findOrFail($id);
+        $company = AccountingCompany::findOrFail($id);
 
         $rules = [
-
-            'name'=>'required|string|max:191',
-            'phone'=>'required|numeric|unique:accounting_companies,phone,'.$company->id,
-            'email'=>'required|string|unique:accounting_companies,email,'.$company->id,
-            'image'=>'nullable|sometimes|mimes:jpg,jpeg,gif,png'
+            "name" => "required|string|max:191",
+            "phone" =>
+                "required|numeric|unique:accounting_companies,phone," .
+                $company->id,
+            "email" =>
+                "required|string|unique:accounting_companies,email," .
+                $company->id,
+            "image" => "nullable|sometimes|mimes:jpg,jpeg,gif,png",
         ];
-        $this->validate($request,$rules);
-        $requests = $request->except('image');
-        if ($request->hasFile('image')) {
-            $requests['image'] = saveImage($request->image, 'photos');
+        $this->validate($request, $rules);
+        $requests = $request->except("image");
+        if ($request->hasFile("image")) {
+            $requests["image"] = saveImage($request->image, "photos");
         }
         $company->update($requests);
-        alert()->success('تم تعديل  الشركة بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.companies.index');
-
-
-
+        alert()
+            ->success("تم تعديل  الشركة بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.companies.index");
     }
 
     /**
@@ -127,11 +128,11 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
-        $company =AccountingCompany::findOrFail($id);
+        $company = AccountingCompany::findOrFail($id);
         $company->delete();
-        alert()->success('تم حذف  الشركة بنجاح !')->autoclose(5000);
-            return back();
-
-
+        alert()
+            ->success("تم حذف  الشركة بنجاح !")
+            ->autoclose(5000);
+        return back();
     }
 }

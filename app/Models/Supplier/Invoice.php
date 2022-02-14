@@ -10,8 +10,8 @@ class Invoice extends Model
 {
     use HasFactory;
 
-    protected $table = 'suppliers_invoices';
-    protected $fillable = ['accounting_supplier_id'];
+    protected $table = "suppliers_invoices";
+    protected $fillable = ["accounting_supplier_id", "status", "user_id "];
 
     public function AccountingSupplier()
     {
@@ -20,6 +20,11 @@ class Invoice extends Model
 
     public function items()
     {
-        return $this->hasMany(InvoiceItem::class,'invoice_id');
+        return $this->hasMany(InvoiceItem::class, "invoice_id");
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, "user_id");
     }
 }

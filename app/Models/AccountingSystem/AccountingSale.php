@@ -7,7 +7,6 @@ use App\helper\num_to_ar;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Log;
 
 /**
  * App\Models\AccountingSystem\AccountingSale
@@ -89,10 +88,34 @@ class AccountingSale extends Model
         });
     }
 
-    protected $fillable = ['client_id','total','amount','discount','payment','payed','debts','package_id','session_id','branch_id','company_id','store_id','bill_num','totalTaxs','status','user_id','cash','network','discount_type','counter','daily_number','counter_sale','date','account_id' ];
-    protected $table='accounting_sales';
-    protected $appends = ['item_cost'];
-   
+    protected $fillable = [
+        "client_id",
+        "total",
+        "amount",
+        "discount",
+        "payment",
+        "payed",
+        "debts",
+        "package_id",
+        "session_id",
+        "branch_id",
+        "company_id",
+        "store_id",
+        "bill_num",
+        "totalTaxs",
+        "status",
+        "user_id",
+        "cash",
+        "network",
+        "discount_type",
+        "counter",
+        "daily_number",
+        "counter_sale",
+        "date",
+        "account_id",
+    ];
+    protected $table = "accounting_sales";
+    protected $appends = ["item_cost"];
 
     /**
      * The event map for the model.
@@ -100,33 +123,33 @@ class AccountingSale extends Model
      * @var array
      */
     protected $dispatchesEvents = [
-        'created' => SaleAdded::class,
+        "created" => SaleAdded::class,
     ];
     public function client()
     {
-        return $this->belongsTo(AccountingClient::class, 'client_id');
+        return $this->belongsTo(AccountingClient::class, "client_id");
     }
     public function session()
     {
-        return $this->belongsTo(AccountingSession::class, 'session_id');
+        return $this->belongsTo(AccountingSession::class, "session_id");
     }
 
     public function company()
     {
-        return $this->belongsTo(AccountingCompany::class, 'company_id');
+        return $this->belongsTo(AccountingCompany::class, "company_id");
     }
     public function branch()
     {
-        return $this->belongsTo(AccountingBranch::class, 'branch_id');
+        return $this->belongsTo(AccountingBranch::class, "branch_id");
     }
 
     public function store()
     {
-        return $this->belongsTo(AccountingStore::class, 'store_id');
+        return $this->belongsTo(AccountingStore::class, "store_id");
     }
     public function fund_transactions()
     {
-        return $this->morphMany(AccountingFundTransaction::class, 'billable');
+        return $this->morphMany(AccountingFundTransaction::class, "billable");
     }
 
     public function getFundAttribute()
@@ -136,38 +159,44 @@ class AccountingSale extends Model
 
     public function getNetworkFundAttribute()
     {
-        return $this->session?->device?->branch->funds()->where('type', 1)?->first();
+        return $this->session?->device?->branch
+            ->funds()
+            ->where("type", 1)
+            ?->first();
     }
 
     public function addCashToFund()
     {
-        if ($this->cash>0 &&$this->fund!=null) {
+        if ($this->cash > 0 && $this->fund != null) {
             $this->fund_transactions()->create([
-            'fund_id'=>$this->fund->id,
-            'type'=>'in',
-            'amount'=>$this->cash,
-            'description'=>'added from sales',
-        ]);
+                "fund_id" => $this->fund->id,
+                "type" => "in",
+                "amount" => $this->cash,
+                "description" => "added from sales",
+            ]);
         }
     }
 
     public function addNetworkToFund()
     {
-        if ($this->network>0 &&$this->network_fund!=null) {
+        if ($this->network > 0 && $this->network_fund != null) {
             $this->fund_transactions()->create([
-            'fund_id'=>$this->fund->id,
-            'type'=>'in',
-            'amount'=>$this->network,
-            'description'=>'added from sales',
-        ]);
+                "fund_id" => $this->fund->id,
+                "type" => "in",
+                "amount" => $this->network,
+                "description" => "added from sales",
+            ]);
         }
     }
     public function CashArabic($cach)
     {
-        $total = explode('.', $cach);
-        $total_in_arabic_rial = new  num_to_ar($total[0], 'male');
-        $total_in_arabic_halla = new  num_to_ar($total[1] ?? 0, 'male');
-        $AllTotal = [$total_in_arabic_rial->convert_number(), $total_in_arabic_halla->convert_number() ?? 0];
+        $total = explode(".", $cach);
+        $total_in_arabic_rial = new num_to_ar($total[0], "male");
+        $total_in_arabic_halla = new num_to_ar($total[1] ?? 0, "male");
+        $AllTotal = [
+            $total_in_arabic_rial->convert_number(),
+            $total_in_arabic_halla->convert_number() ?? 0,
+        ];
         return $AllTotal;
     }
     public function product_total()
@@ -183,24 +212,27 @@ class AccountingSale extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, "user_id");
     }
 
     public function items()
     {
-        return $this->hasMany(AccountingSaleItem::class, 'sale_id');
+        return $this->hasMany(AccountingSaleItem::class, "sale_id");
     }
 
     public function getItemCostAttribute()
     {
-        $products_item=AccountingSaleItem::where('sale_id', $this->id)->pluck('product_id', 'quantity')->toArray();
+        $products_item = AccountingSaleItem::where("sale_id", $this->id)
+            ->pluck("product_id", "quantity")
+            ->toArray();
 
-
-        $cost=0;
-        foreach ($products_item as $key=>$product_id) {
-            $product=AccountingProduct::find($product_id);
+        $cost = 0;
+        foreach ($products_item as $key => $product_id) {
+            $product = AccountingProduct::find($product_id);
             try {
-                $cost += (floatval($product->purchasing_price)??0) * (floatval($key));
+                $cost +=
+                    (floatval($product->purchasing_price) ?? 0) *
+                    floatval($key);
             } catch (\Exception $exception) {
                 // اانا اسف والله
             }
@@ -211,11 +243,23 @@ class AccountingSale extends Model
 
     public function scopeOfUser($query, $user_id)
     {
-        return $query->where('user_id', $user_id);
+        return $query->where("user_id", $user_id);
     }
 
     public function scopeInPeriod($query, $start, $end)
     {
-        return $query->whereBetween('created_at', [$start, $end]);
+        return $query->whereBetween("created_at", [$start, $end]);
+    }
+
+    /**
+     * fix bug of paid cash is more than total amount of sale for old invoices
+     *
+     * @return float|string
+     */
+    public function getCashAttribute()
+    {
+        return $this->attributes["cash"] > $this->attributes["amount"]
+            ? $this->attributes["amount"]
+            : $this->attributes["cash"];
     }
 }

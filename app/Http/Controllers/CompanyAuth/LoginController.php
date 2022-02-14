@@ -21,7 +21,7 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;/* , LogsoutGuard {
+    use AuthenticatesUsers; /* , LogsoutGuard {
         LogsoutGuard::logout insteadof AuthenticatesUsers;
     } */
 
@@ -30,7 +30,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    public $redirectTo = '/company/home';
+    public $redirectTo = "/company/home";
 
     /**
      * Create a new controller instance.
@@ -39,7 +39,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('company.guest', ['except' => 'logout']);
+        $this->middleware("company.guest", ["except" => "logout"]);
     }
 
     /**
@@ -49,7 +49,7 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
-        return view('AccountingSystem.AccountingCompanies.auth.login');
+        return view("AccountingSystem.AccountingCompanies.auth.login");
     }
 
     /**
@@ -59,6 +59,6 @@ class LoginController extends Controller
      */
     protected function guard()
     {
-        return Auth::guard('accounting_companies');
+        return Auth::guard("accounting_companies");
     }
 }

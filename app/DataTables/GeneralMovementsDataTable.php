@@ -21,11 +21,14 @@ class GeneralMovementsDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('name', fn($row) => $row->name)
-            ->addColumn('items_count', fn($row) => $row->items->count())
-            ->addColumn('items_sum', fn($row) => $row->items->sum('quantity'))
-            ->addColumn('purchases_count', fn($row) => $row->purchase->count())
-            ->addColumn('purchases_sum', fn($row) => $row->purchase->sum('quantity'));
+            ->addColumn("name", fn($row) => $row->name)
+            ->addColumn("items_count", fn($row) => $row->items->count())
+            ->addColumn("items_sum", fn($row) => $row->items->sum("quantity"))
+            ->addColumn("purchases_count", fn($row) => $row->purchase->count())
+            ->addColumn(
+                "purchases_sum",
+                fn($row) => $row->purchase->sum("quantity")
+            );
     }
 
     /**
@@ -36,7 +39,11 @@ class GeneralMovementsDataTable extends DataTable
     {
         $accounting_products = AccountingProduct::query();
 
-        $accounting_products->haveMovementBetween(\request('from') ?? now()->toDateString(), \request('to') ?? now()->toDateString())
+        $accounting_products
+            ->haveMovementBetween(
+                \request("from") ?? now()->toDateString(),
+                \request("to") ?? now()->toDateString()
+            )
             ->get();
 
         return $accounting_products;
@@ -50,20 +57,19 @@ class GeneralMovementsDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('generalmovements-table')
-            ->addTableClass('finalTb table datatable-button-init-basic')
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->dom('Bfrtip')
-            ->orderBy(1)
-//            ->buttons(
-//                Button::make('create'),
-//                Button::make('export'),
-//                Button::make('print'),
-//                Button::make('reset'),
-//                Button::make('reload')
-//            )
-            ;
+                ->setTableId("generalmovements-table")
+                ->addTableClass("finalTb table datatable-button-init-basic")
+                ->columns($this->getColumns())
+                ->minifiedAjax()
+                ->dom("Bfrtip")
+                ->orderBy(1);
+            //            ->buttons(
+            //                Button::make('create'),
+            //                Button::make('export'),
+            //                Button::make('print'),
+            //                Button::make('reset'),
+            //                Button::make('reload')
+            //            )
     }
 
     /**
@@ -74,11 +80,21 @@ class GeneralMovementsDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('name')->title('المنتج')->addClass('text-center'),
-            Column::make('items_count')->title('  اجمالى  فواتير المبيعات  ')->addClass('text-center'),
-            Column::make('items_sum')->title('اجمالى كمية المبيعات')->addClass('text-center'),
-            Column::make('purchases_count')->title('اجمالى فواتير المشتريات')->addClass('text-center'),
-            Column::make('purchases_sum')->title('اجمالى كمية المشتريات')->addClass('text-center'),
+            Column::make("name")
+                ->title("المنتج")
+                ->addClass("text-center"),
+            Column::make("items_count")
+                ->title("  اجمالى  فواتير المبيعات  ")
+                ->addClass("text-center"),
+            Column::make("items_sum")
+                ->title("اجمالى كمية المبيعات")
+                ->addClass("text-center"),
+            Column::make("purchases_count")
+                ->title("اجمالى فواتير المشتريات")
+                ->addClass("text-center"),
+            Column::make("purchases_sum")
+                ->title("اجمالى كمية المشتريات")
+                ->addClass("text-center"),
         ];
     }
 
@@ -89,6 +105,6 @@ class GeneralMovementsDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'GeneralMovements_' . date('YmdHis');
+        return "GeneralMovements_" . date("YmdHis");
     }
 }

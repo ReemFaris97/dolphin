@@ -9,16 +9,19 @@ class AccountingProductionLine extends Model
 {
     use HasFactory;
 
-    protected $table = 'accounting_production_lines';
-    protected $fillable = ['accounting_company_id', 'name', 'account_id'];
+    protected $table = "accounting_production_lines";
+    protected $fillable = ["accounting_company_id", "name", "account_id"];
 
     public function company()
     {
-        return $this->belongsTo(AccountingCompany::class, 'accounting_company_id');
+        return $this->belongsTo(
+            AccountingCompany::class,
+            "accounting_company_id"
+        );
     }
 
     public function account()
     {
-        return $this->belongsTo(AccountingAccount::class, 'account_id');
+        return $this->belongsTo(AccountingAccount::class, "account_id");
     }
 }

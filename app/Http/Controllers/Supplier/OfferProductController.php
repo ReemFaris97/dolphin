@@ -14,7 +14,7 @@ use App\Traits\Viewable;
 class OfferProductController extends Controller
 {
     use Viewable;
-    private $viewable = 'suppliers.offers.';
+    private $viewable = "suppliers.offers.";
     /**
      * Display a listing of the resource.
      *
@@ -23,7 +23,7 @@ class OfferProductController extends Controller
     public function index()
     {
         $offers = SupplierOffer::all()->reverse();
-        return $this->toIndex(compact('offers'));
+        return $this->toIndex(compact("offers"));
     }
 
     /**
@@ -33,9 +33,9 @@ class OfferProductController extends Controller
      */
     public function create()
     {
-        $products=Product::all();
+        $products = Product::all();
         //  $product=[];
-        return $this->toCreate(compact('products'));
+        return $this->toCreate(compact("products"));
     }
 
     /**
@@ -47,29 +47,34 @@ class OfferProductController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'products'=>'required|array',
-            'qtys'=>'required|array',
-            'prices'=>'required|array',
+            "products" => "required|array",
+            "qtys" => "required|array",
+            "prices" => "required|array",
         ];
         $this->validate($request, $rules);
 
         $inputs = $request->all();
-        $offer = SupplierOffer::create(['user_id'=>auth()->id()]);
+        $offer = SupplierOffer::create(["user_id" => auth()->id()]);
         $collection = collect([$inputs]);
-        $products = collect($inputs['products']);
-        $qtys = collect($inputs['qtys']);
-        $prices = collect($inputs['prices']);
+        $products = collect($inputs["products"]);
+        $qtys = collect($inputs["qtys"]);
+        $prices = collect($inputs["prices"]);
         $merges = $products->zip($qtys, $prices);
 
         foreach ($merges as $merge) {
-            $offerProduct= OfferProduct::create(['product_id'=>$merge['0'],'quantity'=> $merge['1'],'price'=>$merge['2'],'supplier_offer_id'=>$offer->id]);
+            $offerProduct = OfferProduct::create([
+                "product_id" => $merge["0"],
+                "quantity" => $merge["1"],
+                "price" => $merge["2"],
+                "supplier_offer_id" => $offer->id,
+            ]);
         }
 
+        alert()
+            ->success("تم  اضافة   بنجاح !")
+            ->autoclose(5000);
 
-
-        alert()->success('تم  اضافة   بنجاح !')->autoclose(5000);
-
-        return redirect()->route('supplier.offers.index');
+        return redirect()->route("supplier.offers.index");
     }
 
     /**
@@ -91,10 +96,10 @@ class OfferProductController extends Controller
      */
     public function edit($id)
     {
-        $supplieroffer= SupplierOffer::findOrFail($id);
-        $products=Product::all();
+        $supplieroffer = SupplierOffer::findOrFail($id);
+        $products = Product::all();
         $supplieroffer->offer_products;
-        return $this->toEdit(compact('supplieroffer', 'products'));
+        return $this->toEdit(compact("supplieroffer", "products"));
     }
 
     /**
@@ -104,31 +109,40 @@ class OfferProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    
+
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
 
         $rules = [
-            'name'=>'required|string|max:191',
-            'phone'=>'required|numeric|unique:users,phone,'.$user->id,
-            'email'=>'required|string|unique:users,email,'.$user->id,
+            "name" => "required|string|max:191",
+            "phone" => "required|numeric|unique:users,phone," . $user->id,
+            "email" => "required|string|unique:users,email," . $user->id,
         ];
         $this->validate($request, $rules);
-        $requests = $request->except('image', 'password');
-        if ($request->hasFile('image')) {
-            $requests['image'] = saveImage($request->image, 'users');
+        $requests = $request->except("image", "password");
+        if ($request->hasFile("image")) {
+            $requests["image"] = saveImage($request->image, "users");
         }
 
-        if ($request->password != null && !\Hash::check($request->old_password, $user->password)) {
-            return back()->withInput()->withErrors(['old_password' => 'كلمه المرور القديمه غير صحيحه']);
+        if (
+            $request->password != null &&
+            !\Hash::check($request->old_password, $user->password)
+        ) {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    "old_password" => "كلمه المرور القديمه غير صحيحه",
+                ]);
         }
         $user->fill($requests);
-//        $user->syncPermissions($request->permissions);
+        //        $user->syncPermissions($request->permissions);
         $user->save();
-        alert()->success('تم تعديل   بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم تعديل   بنجاح !")
+            ->autoclose(5000);
 
-        return redirect()->route('supplier.suppliers.index');
+        return redirect()->route("supplier.suppliers.index");
     }
 
     /**
@@ -139,24 +153,28 @@ class OfferProductController extends Controller
      */
     public function destroy($id)
     {
-        $dd=  SupplierOffer::find($id);
+        $dd = SupplierOffer::find($id);
         $dd->delete();
-        alert()->success('تم الحذف   بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم الحذف   بنجاح !")
+            ->autoclose(5000);
         return back();
     }
 
     public function remove($id)
     {
-        $dd=  OfferProduct::find($id);
+        $dd = OfferProduct::find($id);
         $dd->delete();
-        alert()->success('تم الحذف   بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم الحذف   بنجاح !")
+            ->autoclose(5000);
         return back();
     }
     public function getAjaxProductQty(Request $request)
     {
         $product = Product::find($request->id);
         return response()->json([
-            'data'=>$product?->qty??0
+            "data" => $product?->qty ?? 0,
         ]);
     }
 }

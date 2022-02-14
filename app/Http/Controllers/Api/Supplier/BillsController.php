@@ -19,7 +19,9 @@ class BillsController extends Controller
      */
     public function index()
     {
-        $bills =SupplierBill::where('supplier_id',auth()->id())->orderByDesc('created_at')->paginate($this->paginateNumber);
+        $bills = SupplierBill::where("supplier_id", auth()->id())
+            ->orderByDesc("created_at")
+            ->paginate($this->paginateNumber);
         return $this->apiResponse(new BillsResource($bills));
     }
 
@@ -53,9 +55,14 @@ class BillsController extends Controller
     public function show($id)
     {
         $bill = SupplierBill::find($id);
-        if(!$bill) return $this->apiResponse(null,'الفاتورة غير متوفرة حالياً',false);
+        if (!$bill) {
+            return $this->apiResponse(
+                null,
+                "الفاتورة غير متوفرة حالياً",
+                false
+            );
+        }
         return $this->apiResponse(new SingleBillResource($bill));
-
     }
 
     /**

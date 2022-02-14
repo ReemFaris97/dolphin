@@ -15,9 +15,9 @@ class LastTasks extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'=>$this->id,
-            'task_name'=>$this->task->name,
-            'finished_at'=>date('H:i:s',strtotime($this->finished_at)),
+            "id" => $this->id,
+            "task_name" => $this->task->name,
+            "finished_at" => date("H:i:s", strtotime($this->finished_at)),
         ];
     }
 }

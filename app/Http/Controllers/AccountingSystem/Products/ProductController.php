@@ -11,6 +11,9 @@ class ProductController extends Controller
     public function deleteSubUnits(AccountingProductSubUnit $subUnit)
     {
         $subUnit->delete();
-        return response()->json(['status'=>true,'message'=>'تم الحذف بنجاح !']);
+        return response()->json([
+            "status" => true,
+            "message" => "تم الحذف بنجاح !",
+        ]);
     }
 }

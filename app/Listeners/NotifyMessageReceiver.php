@@ -11,7 +11,6 @@ class NotifyMessageReceiver
 {
     use FirebasOperation;
 
-
     /**
      * Handle the event.
      *
@@ -20,15 +19,14 @@ class NotifyMessageReceiver
      */
     public function handle(MessageCreated $event)
     {
-        $title = 'هناك رساله جديدة ';
+        $title = "هناك رساله جديدة ";
         $message = $event->message->message;
-        $type = 'new_message';
+        $type = "new_message";
         $data = [
-            'item_id' => $event->message->user_id,
-            'message' => $message,
-            'type' => $type,
-            'title' => $title
-
+            "item_id" => $event->message->user_id,
+            "message" => $message,
+            "type" => $type,
+            "title" => $title,
         ];
         $users = $event->message->receiver()->get();
         $this->fire($title, $message, $data, $users);

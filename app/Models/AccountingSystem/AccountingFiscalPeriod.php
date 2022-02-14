@@ -37,15 +37,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class AccountingFiscalPeriod extends Model
 {
-
-
-    protected $fillable = ['year_id','name','from','to','status','type','duration'];
-    protected $table='accounting_fiscal_periods';
+    protected $fillable = [
+        "year_id",
+        "name",
+        "from",
+        "to",
+        "status",
+        "type",
+        "duration",
+    ];
+    protected $table = "accounting_fiscal_periods";
     public function year()
     {
-        return $this->belongsTo(AccountingFiscalYear::class,'year_id');
+        return $this->belongsTo(AccountingFiscalYear::class, "year_id");
     }
-
-
 }
-

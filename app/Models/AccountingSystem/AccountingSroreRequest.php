@@ -34,23 +34,27 @@ use Illuminate\Database\Eloquent\Model;
  */
 class AccountingSroreRequest extends Model
 {
-    protected $fillable = ['user_id','status','refused_reason','store_form','store_to','bond_id'];
+    protected $fillable = [
+        "user_id",
+        "status",
+        "refused_reason",
+        "store_form",
+        "store_to",
+        "bond_id",
+    ];
 
-
-    protected  $table='accounting_stores_requests';
+    protected $table = "accounting_stores_requests";
 
     public function getStoreFrom()
     {
-        return $this->belongsTo(AccountingStore::class,'store_form');
+        return $this->belongsTo(AccountingStore::class, "store_form");
     }
     public function getStoreTo()
     {
-        return $this->belongsTo(AccountingStore::class,'store_to');
+        return $this->belongsTo(AccountingStore::class, "store_to");
     }
     public function user()
     {
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class, "user_id");
     }
 }
-
-

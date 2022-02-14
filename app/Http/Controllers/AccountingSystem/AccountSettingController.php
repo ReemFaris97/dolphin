@@ -16,7 +16,6 @@ class AccountSettingController extends Controller
      */
     public function index()
     {
-
     }
 
     /**
@@ -26,11 +25,12 @@ class AccountSettingController extends Controller
      */
     public function create()
     {
-
-        $accounts=AccountingAccountSetting::all();
-        $chart_accounts=AccountingAccount::all();
-        return view('AccountingSystem.settings.accounts_setting',compact('accounts','chart_accounts'));
-
+        $accounts = AccountingAccountSetting::all();
+        $chart_accounts = AccountingAccount::all();
+        return view(
+            "AccountingSystem.settings.accounts_setting",
+            compact("accounts", "chart_accounts")
+        );
     }
 
     /**
@@ -75,18 +75,19 @@ class AccountSettingController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        $account=AccountingAccountSetting::find($id);
-        $inputs=$request->all();
+        $account = AccountingAccountSetting::find($id);
+        $inputs = $request->all();
         $account->update([
-            'automatic'=>$inputs['automatic']??$account->automatic,
-            'main_code'=>$inputs['main_code']??$account->main_code,
-            'increased_number'=>$inputs['increased_number']??$account->increased_number,
-            'status'=>$inputs['status']??$account->status,
+            "automatic" => $inputs["automatic"] ?? $account->automatic,
+            "main_code" => $inputs["main_code"] ?? $account->main_code,
+            "increased_number" =>
+                $inputs["increased_number"] ?? $account->increased_number,
+            "status" => $inputs["status"] ?? $account->status,
         ]);
-        alert()->success('تم تكويد الحساب بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم تكويد الحساب بنجاح !")
+            ->autoclose(5000);
         return back();
-
     }
 
     /**

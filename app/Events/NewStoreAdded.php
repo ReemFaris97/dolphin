@@ -24,7 +24,6 @@ class NewStoreAdded
      */
     public function __construct(Store $store)
     {
-
         $this->store = $store;
     }
 }

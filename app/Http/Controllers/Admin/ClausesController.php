@@ -14,7 +14,7 @@ use Carbon\Carbon;
 class ClausesController extends Controller
 {
     use ClauseOperation, Viewable;
-    protected $viewable = 'admin.clauses.';
+    protected $viewable = "admin.clauses.";
 
     /**
      * Display a listing of the resource.
@@ -23,8 +23,8 @@ class ClausesController extends Controller
      */
     public function index()
     {
-        $clauses = Clause::all()->reverse();;
-        return $this->toIndex(compact('clauses'));
+        $clauses = Clause::all()->reverse();
+        return $this->toIndex(compact("clauses"));
     }
 
     /**
@@ -34,14 +34,14 @@ class ClausesController extends Controller
      */
     public function create()
     {
-        $users = \App\Models\User::with('roles')->get();
-        $users = $users->filter(function ($user, $key) {
-            return $user->hasPermissionTo('insert_numbers');
-        })->pluck('name','id');
+        $users = \App\Models\User::with("roles")->get();
+        $users = $users
+            ->filter(function ($user, $key) {
+                return $user->hasPermissionTo("insert_numbers");
+            })
+            ->pluck("name", "id");
 
-
-        return $this->toCreate(compact('users'));
-
+        return $this->toCreate(compact("users"));
     }
 
     /**
@@ -53,26 +53,25 @@ class ClausesController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name' => 'required|string|max:191',
-            'amount' => "required|numeric|min:1",
-            'user_id' => 'required|exists:users,id',
-            'default_amount'=>'required|numeric|min:1',
+            "name" => "required|string|max:191",
+            "amount" => "required|numeric|min:1",
+            "user_id" => "required|exists:users,id",
+            "default_amount" => "required|numeric|min:1",
         ];
         $messsage = [
-            'name.required'=>"الإسم مطلوب",
-            'amount.required'=>"الكمية مطلوبة",
-            'amount.numeric'=>"الكمية يجب ان تكون رقم صحيح",
-            'default_amount.required'=>"الكمية الإفتراضية مطلوبة",
-            'default_amount.numeric'=>"الكمية الإفتراضية يجب ان تكون رقم صحيح",
+            "name.required" => "الإسم مطلوب",
+            "amount.required" => "الكمية مطلوبة",
+            "amount.numeric" => "الكمية يجب ان تكون رقم صحيح",
+            "default_amount.required" => "الكمية الإفتراضية مطلوبة",
+            "default_amount.numeric" =>
+                "الكمية الإفتراضية يجب ان تكون رقم صحيح",
         ];
 
-
-        $this->validate($request, $rules,$messsage);
+        $this->validate($request, $rules, $messsage);
         $this->RegisterClause($request);
-        toast('تم الحفظ بنجاح', 'success', 'top-right');
+        toast("تم الحفظ بنجاح", "success", "top-right");
 
-        return redirect()->route('admin.clauses.index');
-
+        return redirect()->route("admin.clauses.index");
     }
 
     /**
@@ -83,12 +82,13 @@ class ClausesController extends Controller
      */
     public function show($id)
     {
-        $clause = Clause::find($id)->load('logs');
-//        return $clause->logs->load('user');
-        if (!$clause) return abort(404);
-        $users = User::pluck('name', 'id');
-        return $this->toShow(compact('users','clause'));
-
+        $clause = Clause::find($id)->load("logs");
+        //        return $clause->logs->load('user');
+        if (!$clause) {
+            return abort(404);
+        }
+        $users = User::pluck("name", "id");
+        return $this->toShow(compact("users", "clause"));
     }
 
     /**
@@ -100,10 +100,11 @@ class ClausesController extends Controller
     public function edit($id)
     {
         $clause = Clause::find($id);
-        $users = User::pluck('name', 'id');
-        if (!$clause) return abort(404);
-        return $this->toEdit(compact('clause','users'));
-
+        $users = User::pluck("name", "id");
+        if (!$clause) {
+            return abort(404);
+        }
+        return $this->toEdit(compact("clause", "users"));
     }
 
     /**
@@ -116,21 +117,21 @@ class ClausesController extends Controller
     public function update(Request $request, $id)
     {
         $clause = Clause::find($id);
-        if (!$clause) return abort(404);
+        if (!$clause) {
+            return abort(404);
+        }
 
         $rules = [
-            'name' => 'required|string|max:191',
-            'amount' => "required|numeric|min:1",
-            'user_id' => 'required|exists:users,id',
-            'default_amount'=>'required|numeric|min:1',
-
+            "name" => "required|string|max:191",
+            "amount" => "required|numeric|min:1",
+            "user_id" => "required|exists:users,id",
+            "default_amount" => "required|numeric|min:1",
         ];
 
         $this->validate($request, $rules);
         $this->UpdateClause($clause, $request);
-        toast('تم التعديل بنجاح', 'success', 'top-right');
-        return redirect()->route('admin.clauses.index');
-
+        toast("تم التعديل بنجاح", "success", "top-right");
+        return redirect()->route("admin.clauses.index");
     }
 
     /**
@@ -142,85 +143,104 @@ class ClausesController extends Controller
     public function destroy($id)
     {
         Clause::destroy($id);
-        toast('تم الحذف بنجاح', 'success', 'top-right');
+        toast("تم الحذف بنجاح", "success", "top-right");
         return back();
     }
 
     public function getAddLog($id)
     {
-
-        if (!auth()->user()->hasPermissionTo('insert_numbers')) {
+        if (
+            !auth()
+                ->user()
+                ->hasPermissionTo("insert_numbers")
+        ) {
             return abort(401);
         }
 
         $clause = Clause::find($id);
-        if (!$clause) return abort(404);
-        return view('admin.clauses.addLog', compact('clause'));
+        if (!$clause) {
+            return abort(404);
+        }
+        return view("admin.clauses.addLog", compact("clause"));
     }
 
     public function AddLog(Request $request, $id)
     {
         $clause = Clause::find($id);
-        if (!$clause) return abort(404);
-        $rules = ['amount' => "required|numeric|min:1"];
+        if (!$clause) {
+            return abort(404);
+        }
+        $rules = ["amount" => "required|numeric|min:1"];
 
         $this->validate($request, $rules);
         $inputs = $request->all();
-        $inputs['user_id'] = auth()->id();
+        $inputs["user_id"] = auth()->id();
         DB::beginTransaction();
         $clause->logs()->create($inputs);
-        $clause->fill(['amount'=> $request->amount]);
+        $clause->fill(["amount" => $request->amount]);
         $clause->save();
         DB::commit();
-        toast('تم اضافة تحديث جديد', 'success', 'top-right');
-        return redirect()->route('admin.clauses.index');
+        toast("تم اضافة تحديث جديد", "success", "top-right");
+        return redirect()->route("admin.clauses.index");
     }
 
-    public function userClauses(){
-
-        $clauses = Clause::where('user_id',auth()->id())->where('blocked_at',null)->get()->reverse();
+    public function userClauses()
+    {
+        $clauses = Clause::where("user_id", auth()->id())
+            ->where("blocked_at", null)
+            ->get()
+            ->reverse();
         $page_title = "البنود المسنده الى ";
-        return $this->toIndex(compact('clauses', 'page_title'));
+        return $this->toIndex(compact("clauses", "page_title"));
     }
 
-    public function block($id){
+    public function block($id)
+    {
         $clause = Clause::find($id);
 
         $blocked_at = $clause->blocked_at;
         if ($blocked_at == null) {
-            $clause->fill(['blocked_at' => Carbon::now(env('TIME_ZONE','Asia/Riyadh'))]);
+            $clause->fill([
+                "blocked_at" => Carbon::now(env("TIME_ZONE", "Asia/Riyadh")),
+            ]);
         } else {
-            $clause->fill(['blocked_at' => null]);
+            $clause->fill(["blocked_at" => null]);
         }
         $clause->save();
-        toast('تم التعديل', 'success', 'top-right');
+        toast("تم التعديل", "success", "top-right");
         return back();
-
     }
 
-    public function getEnterNumbersPage(){
-        $clauses = Clause::where('user_id',auth()->id())->where('blocked_at',null)->get()->reverse();
-        return view('admin.clauses.enter_numbers',compact('clauses'));
+    public function getEnterNumbersPage()
+    {
+        $clauses = Clause::where("user_id", auth()->id())
+            ->where("blocked_at", null)
+            ->get()
+            ->reverse();
+        return view("admin.clauses.enter_numbers", compact("clauses"));
     }
-    public function postChangeNunmbers(Request $request){
-
+    public function postChangeNunmbers(Request $request)
+    {
         $ids = $request->ids;
         $amounts = $request->amounts;
         for ($i = 0; $i < count($request->ids ?? []); $i++) {
             $clause = Clause::find($ids[$i]);
-            if($clause){
-                if($amounts[$i] != null){
-                    $clause->logs()->create(['amount'=>$amounts[$i], 'user_id'=>auth()->id(),]);
+            if ($clause) {
+                if ($amounts[$i] != null) {
+                    $clause
+                        ->logs()
+                        ->create([
+                            "amount" => $amounts[$i],
+                            "user_id" => auth()->id(),
+                        ]);
                     Clause::find($ids[$i])->update([
-                        'amount'=>$amounts[$i]
+                        "amount" => $amounts[$i],
                     ]);
                 }
-
             }
         }
 
-        toast('تم التعديل', 'success', 'top-right');
+        toast("تم التعديل", "success", "top-right");
         return back();
     }
-
 }

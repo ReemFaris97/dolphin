@@ -13,8 +13,6 @@ class NotifyDistributorWithNewStore
 {
     use FirebasOperation;
 
-
-
     /**
      * Handle the event.
      *
@@ -23,18 +21,20 @@ class NotifyDistributorWithNewStore
      */
     public function handle(NewStoreAdded $event)
     {
-        $title = 'هناك اشعار جديد';
+        $title = "هناك اشعار جديد";
         $message = "تم اضافه مستودع جديد";
-        $type = 'new_store';
+        $type = "new_store";
         $data = [
-            'item_id' => $event->store->id,
-            'message' => $message,
-            'type' => $type,
-            'title' => $title
-
+            "item_id" => $event->store->id,
+            "message" => $message,
+            "type" => $type,
+            "title" => $title,
         ];
-        if ($event->store->for_distributor == 1 && $event->store->distributor_id != null) {
-            $users = User::where('id', $event->store->distributor_id)->get();
+        if (
+            $event->store->for_distributor == 1 &&
+            $event->store->distributor_id != null
+        ) {
+            $users = User::where("id", $event->store->distributor_id)->get();
 
             $this->fire($title, $message, $data, $users);
             /** @var  \App\Models\User $user  */

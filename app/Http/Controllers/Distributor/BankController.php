@@ -13,7 +13,7 @@ class BankController extends Controller
 {
     use Viewable;
 
-    private $viewable = 'distributor.banks.';
+    private $viewable = "distributor.banks.";
 
     /**
      * Display a listing of the resource.
@@ -23,7 +23,7 @@ class BankController extends Controller
     public function index()
     {
         $banks = Bank::all()->reverse();
-        return $this->toIndex(compact('banks'));
+        return $this->toIndex(compact("banks"));
     }
 
     /**
@@ -44,12 +44,11 @@ class BankController extends Controller
      */
     public function store(Request $request)
     {
-//        $rules = ;
-        $this->validate($request, ['name' => 'required|string|max:191']);
+        //        $rules = ;
+        $this->validate($request, ["name" => "required|string|max:191"]);
         Bank::create($request->all());
-        toast('تم الاضافه بنجاح', 'success', 'top-right');
-        return redirect()->route('distributor.banks.index');
-
+        toast("تم الاضافه بنجاح", "success", "top-right");
+        return redirect()->route("distributor.banks.index");
     }
 
     /**
@@ -72,7 +71,7 @@ class BankController extends Controller
     public function edit($id)
     {
         $bank = Bank::findOrFail($id);
-        return $this->toEdit(compact('bank'));
+        return $this->toEdit(compact("bank"));
     }
 
     /**
@@ -85,11 +84,10 @@ class BankController extends Controller
     public function update(Request $request, $id)
     {
         $bank = Bank::find($id);
-        $this->validate($request, ['name' => 'required|string|max:191']);
+        $this->validate($request, ["name" => "required|string|max:191"]);
         $bank->update($request->all());
-        toast('تم التعديل بنجاح', 'success', 'top-right');
-        return redirect()->route('distributor.banks.index');
-
+        toast("تم التعديل بنجاح", "success", "top-right");
+        return redirect()->route("distributor.banks.index");
     }
 
     /**
@@ -102,10 +100,7 @@ class BankController extends Controller
     {
         Bank::destroy($id);
         return back();
-
-
     }
-
 
     /*
         public function block($id)

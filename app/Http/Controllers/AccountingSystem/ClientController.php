@@ -18,7 +18,7 @@ use App\Traits\Viewable;
 class ClientController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.clients.';
+    private $viewable = "AccountingSystem.clients.";
     /**
      * Display a listing of the resource.
      *
@@ -26,8 +26,8 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients =AccountingClient::all()->reverse();
-        return $this->toIndex(compact('clients'));
+        $clients = AccountingClient::all()->reverse();
+        return $this->toIndex(compact("clients"));
     }
 
     /**
@@ -37,7 +37,6 @@ class ClientController extends Controller
      */
     public function create()
     {
-
         return $this->toCreate();
     }
 
@@ -50,24 +49,22 @@ class ClientController extends Controller
     public function store(Request $request)
     {
         $rules = [
-
-            'name'=>'required|string|max:191',
-            'phone'=>'nullable|numeric|unique:accounting_clients,phone',
-            'email'=>'nullable|string|unique:accounting_clients,email',
-            'tax_number'=>'required'
-
-
-
+            "name" => "required|string|max:191",
+            "phone" => "nullable|numeric|unique:accounting_clients,phone",
+            "email" => "nullable|string|unique:accounting_clients,email",
+            "tax_number" => "required",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
-            if (getsetting('automatic_clients')==1){
-                $requests['account_id']=getsetting('accounting_id_clients');
-            }
+        if (getsetting("automatic_clients") == 1) {
+            $requests["account_id"] = getsetting("accounting_id_clients");
+        }
 
         AccountingClient::create($requests);
-        alert()->success('تم اضافة  العميل بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.clients.index');
+        alert()
+            ->success("تم اضافة  العميل بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.clients.index");
     }
 
     /**
@@ -89,11 +86,9 @@ class ClientController extends Controller
      */
     public function edit($id)
     {
-        $client =AccountingClient::findOrFail($id);
+        $client = AccountingClient::findOrFail($id);
 
-        return $this->toEdit(compact('client'));
-
-
+        return $this->toEdit(compact("client"));
     }
 
     /**
@@ -105,19 +100,21 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $client =AccountingClient::findOrFail($id);
+        $client = AccountingClient::findOrFail($id);
         $rules = [
-
-            'name'=>'required|string|max:191',
-            'phone'=>'nullable|numeric|unique:accounting_clients,phone,'.$client->id,
-            'tax_number'=>'required'
-
+            "name" => "required|string|max:191",
+            "phone" =>
+                "nullable|numeric|unique:accounting_clients,phone," .
+                $client->id,
+            "tax_number" => "required",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
         $client->update($requests);
-        alert()->success('تم تعديل  العميل بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.clients.index');
+        alert()
+            ->success("تم تعديل  العميل بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.clients.index");
     }
 
     /**
@@ -128,67 +125,66 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        $client =AccountingClient::findOrFail($id);
+        $client = AccountingClient::findOrFail($id);
         $client->delete();
-        alert()->success('تم حذف  العميل بنجاح !')->autoclose(5000);
-            return back();
+        alert()
+            ->success("تم حذف  العميل بنجاح !")
+            ->autoclose(5000);
+        return back();
     }
 
-    public function  permiums()
+    public function permiums()
     {
-        $clients=AccountingClient::pluck('name','id')->toArray();
-        return view("AccountingSystem.clients.permiums",compact('clients'));
-
+        $clients = AccountingClient::pluck("name", "id")->toArray();
+        return view("AccountingSystem.clients.permiums", compact("clients"));
     }
 
-    public function  permium_store(Request $request)
+    public function permium_store(Request $request)
     {
-        $inputs=$request->all();
+        $inputs = $request->all();
         AccountingPermium::create([$inputs]);
-        alert()->success('تم تقسيط مديونيه   العميل بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم تقسيط مديونيه   العميل بنجاح !")
+            ->autoclose(5000);
 
         return back();
-
-
     }
 
-
-    public function  offer_copy()
+    public function offer_copy()
     {
-        $clients=AccountingClient::pluck('name','id')->toArray();
+        $clients = AccountingClient::pluck("name", "id")->toArray();
 
-        return view("AccountingSystem.clients.offers_copy",compact('clients'));
-
-
+        return view("AccountingSystem.clients.offers_copy", compact("clients"));
     }
 
-    public function  copy(Request $request)
+    public function copy(Request $request)
     {
-        $inputs=$request->all();
+        $inputs = $request->all();
 
-        $first_client_id =$inputs['first_client_id'];
-        $second_client_id=$inputs['second_client_id'];
-        $packages=AccountingPackage::where('client_id',$first_client_id)->get();
-            foreach ($packages as $package)
-            {
-                $newpackage= New AccountingPackage();
-                $newpackage= $package->replicate();
-                $newpackage->client_id=$second_client_id;
-                $newpackage->save();
-            }
-        alert()->success('تم نسخ عروض    العميل بنجاح !')->autoclose(5000);
+        $first_client_id = $inputs["first_client_id"];
+        $second_client_id = $inputs["second_client_id"];
+        $packages = AccountingPackage::where(
+            "client_id",
+            $first_client_id
+        )->get();
+        foreach ($packages as $package) {
+            $newpackage = new AccountingPackage();
+            $newpackage = $package->replicate();
+            $newpackage->client_id = $second_client_id;
+            $newpackage->save();
+        }
+        alert()
+            ->success("تم نسخ عروض    العميل بنجاح !")
+            ->autoclose(5000);
         return back();
-
-
     }
 
-
-    public function getClient($id){
-        $client=AccountingClient::find($id);
+    public function getClient($id)
+    {
+        $client = AccountingClient::find($id);
         return response()->json([
-            'status'=>true,
-            'data'=>($client->balance)
+            "status" => true,
+            "data" => $client->balance,
         ]);
     }
-
 }

@@ -16,7 +16,7 @@ class DistributorsController extends Controller
 {
     use Viewable;
 
-    private $viewable = 'distributor.distributors.';
+    private $viewable = "distributor.distributors.";
 
     /**
      * Display a listing of the resource.
@@ -25,8 +25,10 @@ class DistributorsController extends Controller
      */
     public function index()
     {
-        $distributors = User::where('is_distributor', 1)->get()->reverse();
-        return $this->toIndex(compact('distributors'));
+        $distributors = User::where("is_distributor", 1)
+            ->get()
+            ->reverse();
+        return $this->toIndex(compact("distributors"));
     }
 
     /**
@@ -37,7 +39,7 @@ class DistributorsController extends Controller
     public function create()
     {
         $cars = DistributorCar::Available()->get();
-        return $this->toCreate(compact('cars'));
+        return $this->toCreate(compact("cars"));
     }
 
     /**
@@ -50,38 +52,36 @@ class DistributorsController extends Controller
     {
         //   dd($request->all());
         $rules = [
-            'name' => 'required|string|max:191',
-            'phone' => 'required|numeric|unique:users,phone',
-            'email' => 'required|string|unique:users,email',
-            'password' => 'required|string|confirmed|max:191',
-            'image' => 'nullable|mimes:jpg,jpeg,gif,png',
-            'target' => 'nullable|integer',
-            'affiliate' => 'nullable|numeric',
-            'address' => 'nullable|string',
-            'notes' => 'nullable|string',
-            'car_id' => 'required|numeric|exists:distributor_cars,id|unique:users,car_id,',
-
-
+            "name" => "required|string|max:191",
+            "phone" => "required|numeric|unique:users,phone",
+            "email" => "required|string|unique:users,email",
+            "password" => "required|string|confirmed|max:191",
+            "image" => "nullable|mimes:jpg,jpeg,gif,png",
+            "target" => "nullable|integer",
+            "affiliate" => "nullable|numeric",
+            "address" => "nullable|string",
+            "notes" => "nullable|string",
+            "car_id" =>
+                "required|numeric|exists:distributor_cars,id|unique:users,car_id,",
         ];
 
         $this->validate($request, $rules);
 
-        $requests = $request->except('image');
-        if ($request->hasFile('image')) {
-            $requests['image'] = saveImage($request->image, 'users');
+        $requests = $request->except("image");
+        if ($request->hasFile("image")) {
+            $requests["image"] = saveImage($request->image, "users");
         }
-        $requests['is_distributor'] = 1;
+        $requests["is_distributor"] = 1;
         $car = DistributorCar::find($request->car_id);
         \DB::beginTransaction();
         $user = User::query()->create($requests);
         if ($car) {
             $user->createCarStore($car->id);
-
         }
         $user->createDamageStore();
         DB::commit();
-        toast('تم الاضافه بنجاح', 'success', 'top-right');
-        return redirect()->route('distributor.distributors.index');
+        toast("تم الاضافه بنجاح", "success", "top-right");
+        return redirect()->route("distributor.distributors.index");
     }
 
     /**
@@ -92,9 +92,8 @@ class DistributorsController extends Controller
      */
     public function show($id)
     {
-
         return $this->toShow([
-            'user' => User::with('routes')->findOrFail($id)
+            "user" => User::with("routes")->findOrFail($id),
         ]);
     }
 
@@ -115,7 +114,7 @@ class DistributorsController extends Controller
         if ($user->car_id != null) {
             $cars = $cars->push($car->car);
         }
-        return $this->toEdit(compact('user', 'user', 'cars'));
+        return $this->toEdit(compact("user", "user", "cars"));
     }
 
     /**
@@ -131,33 +130,42 @@ class DistributorsController extends Controller
         $user = User::query()->findOrFail($id);
 
         $rules = [
-            'name' => 'required|string|max:191',
-            'phone' => 'required|numeric|unique:users,phone,' . $user->id,
-            'email' => 'required|string|unique:users,email,' . $user->id,
-            'image' => 'nullable|sometimes|image',
-            'car_id' => 'required|numeric|exists:distributor_cars,id|unique:users,car_id,' . $id,
-            'target' => 'nullable|integer',
-            'affiliate' => 'nullable|numeric',
-            'address' => 'nullable|string',
-            'notes' => 'nullable|string',
+            "name" => "required|string|max:191",
+            "phone" => "required|numeric|unique:users,phone," . $user->id,
+            "email" => "required|string|unique:users,email," . $user->id,
+            "image" => "nullable|sometimes|image",
+            "car_id" =>
+                "required|numeric|exists:distributor_cars,id|unique:users,car_id," .
+                $id,
+            "target" => "nullable|integer",
+            "affiliate" => "nullable|numeric",
+            "address" => "nullable|string",
+            "notes" => "nullable|string",
         ];
         $this->validate($request, $rules);
-        $requests = $request->except('image', 'password');
-        if ($request->hasFile('image')) {
-            $requests['image'] = saveImage($request->image, 'users');
+        $requests = $request->except("image", "password");
+        if ($request->hasFile("image")) {
+            $requests["image"] = saveImage($request->image, "users");
         }
 
-        if ($request->password != null && !\Hash::check($request->old_password, $user->password)) {
-            return back()->withInput()->withErrors(['old_password' => 'كلمه المرور القديمه غير صحيحه']);
+        if (
+            $request->password != null &&
+            !\Hash::check($request->old_password, $user->password)
+        ) {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    "old_password" => "كلمه المرور القديمه غير صحيحه",
+                ]);
         }
-//dd($requests);
+        //dd($requests);
         $user->fill($requests);
-//        $user->syncPermissions($request->permissions);
+        //        $user->syncPermissions($request->permissions);
         $user->save();
         $user->updateCarStore($request->car_id);
 
-        toast('تم التعديل بنجاح', 'success', 'top-right');
-        return redirect()->route('distributor.distributors.index');
+        toast("تم التعديل بنجاح", "success", "top-right");
+        return redirect()->route("distributor.distributors.index");
     }
 
     /**
@@ -166,15 +174,14 @@ class DistributorsController extends Controller
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public
-    function destroy($id)
+    public function destroy($id)
     {
-//        if (!auth()->user()->hasPermissionTo('delete_workers')) {
-//            return abort(401);
-//        }
+        //        if (!auth()->user()->hasPermissionTo('delete_workers')) {
+        //            return abort(401);
+        //        }
 
         User::find($id)->forceDelete();
-        toast('تم الحذف', 'success', 'top-right');
+        toast("تم الحذف", "success", "top-right");
         return back();
     }
 
@@ -184,12 +191,12 @@ class DistributorsController extends Controller
 
         $blocked_at = $user->blocked_at;
         if ($blocked_at == null) {
-            $user->fill(['blocked_at' => Carbon::now()]);
+            $user->fill(["blocked_at" => Carbon::now()]);
         } else {
-            $user->fill(['blocked_at' => null]);
+            $user->fill(["blocked_at" => null]);
         }
         $user->save();
-        toast('تم التعديل', 'success', 'top-right');
+        toast("تم التعديل", "success", "top-right");
         return back();
     }
 }

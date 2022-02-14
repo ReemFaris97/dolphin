@@ -876,8 +876,15 @@
                         class="caret"></span> </a>
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li>
+                        <a href="{{route('accounting.supply-requisitions.index')}}"><i class="glyphicon glyphicon-bill"></i>
+                            طلبات التوريد </a></li>
+                    <li>
+                    <li>
                         <a href="{{route('accounting.suppliers-banks.index')}}"><i class="glyphicon glyphicon-bill"></i>
                             بنوك الموردين </a></li>
+                    <li>
+                        <a href="{{route('accounting.suppliers-invoices.index')}}"><i class="glyphicon glyphicon-bill"></i>
+                            عروض الاسعار </a></li>
 
                         </ul>
                     </li>

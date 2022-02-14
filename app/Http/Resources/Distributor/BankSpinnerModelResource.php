@@ -16,10 +16,9 @@ class BankSpinnerModelResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'=>$this->id,
-            'name'=>$this->name,
-            'bank_account_number'=>$this->bank_account_number,
-
+            "id" => $this->id,
+            "name" => $this->name,
+            "bank_account_number" => $this->bank_account_number,
         ];
     }
 }

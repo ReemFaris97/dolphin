@@ -21,7 +21,7 @@ use App\Traits\Supplier\SuppliersLogOperations;
 
 class ProductsController extends Controller
 {
-    use ApiResponses , ProductsOperations, SuppliersLogOperations;
+    use ApiResponses, ProductsOperations, SuppliersLogOperations;
     /**
      * Display a listing of the resource.
      *
@@ -29,15 +29,24 @@ class ProductsController extends Controller
      */
     public function index()
     {
-
-       $products = auth()->user()->supplierProductsPaginated();
+        $products = auth()
+            ->user()
+            ->supplierProductsPaginated();
         return $this->apiResponse(new SupplierProductsResource($products));
     }
 
-    public function productsList(){
-        $products =auth()->user()->supplierProducts()->map(function($q){
-            return ['id'=>$q->id,'name'=>$q->name,'price'=>$q->authSupplierPrice()];
-        });
+    public function productsList()
+    {
+        $products = auth()
+            ->user()
+            ->supplierProducts()
+            ->map(function ($q) {
+                return [
+                    "id" => $q->id,
+                    "name" => $q->name,
+                    "price" => $q->authSupplierPrice(),
+                ];
+            });
         return $this->apiResponse($products);
     }
 
@@ -59,52 +68,60 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->has('product_id') && $request->product_id != null){
+        if ($request->has("product_id") && $request->product_id != null) {
             $rules = [
-                'product_id'=>'required|numeric|exists:products,id',
-                'price'=>'required|numeric',
+                "product_id" => "required|numeric|exists:products,id",
+                "price" => "required|numeric",
             ];
-            $validation = $this->apiValidation($request,$rules);
+            $validation = $this->apiValidation($request, $rules);
 
             if ($validation instanceof Response) {
                 return $validation;
             }
 
-            $result=  $this->assignProductToUser($request->product_id,$request->price,$request->expired_at);
-            if($result == false) {
-                return $this->apiResponse("","هذا المنتج تم تعيينه من قبل",false);
+            $result = $this->assignProductToUser(
+                $request->product_id,
+                $request->price,
+                $request->expired_at
+            );
+            if ($result == false) {
+                return $this->apiResponse(
+                    "",
+                    "هذا المنتج تم تعيينه من قبل",
+                    false
+                );
             }
             $this->RegisterLog("إضافة منتج");
             return $this->apiResponse("تم تعيين المنتج بنجاح");
-        }else{
-
+        } else {
             $rules = [
-                'name'=>"required|string|max:191",
-                'store_id'=>'nullable|numeric|exists:stores,id',
-                'quantity_per_unit'=>'required|numeric',
-//                'min_quantity'=>'required|numeric|lt:max_quantity',
-//                'max_quantity'=>'required|numeric|gt:min_quantity',
-                'price'=>'required|numeric',
-                'bar_code'=>'required|string|unique:products,bar_code',
-                'expired_at'=>'required|date|after_or_equal:today',
-                'image' => 'required|mimes:jpg,jpeg,gif,png',
-                'images'=>"nullable|array",
-                'images.*'=>'image',
+                "name" => "required|string|max:191",
+                "store_id" => "nullable|numeric|exists:stores,id",
+                "quantity_per_unit" => "required|numeric",
+                //                'min_quantity'=>'required|numeric|lt:max_quantity',
+                //                'max_quantity'=>'required|numeric|gt:min_quantity',
+                "price" => "required|numeric",
+                "bar_code" => "required|string|unique:products,bar_code",
+                "expired_at" => "required|date|after_or_equal:today",
+                "image" => "required|mimes:jpg,jpeg,gif,png",
+                "images" => "nullable|array",
+                "images.*" => "image",
             ];
 
-            $validation = $this->apiValidation($request,$rules);
+            $validation = $this->apiValidation($request, $rules);
 
             if ($validation instanceof Response) {
                 return $validation;
             }
             $product = $this->RegisterProduct($request);
-            $this->assignProductToUser($product->id,$request->price,$request->expired_at);
+            $this->assignProductToUser(
+                $product->id,
+                $request->price,
+                $request->expired_at
+            );
             $this->RegisterLog("إضافة منتج");
             return $this->apiResponse(new SingleProduct($product));
         }
-
-
-
     }
 
     /**
@@ -116,10 +133,15 @@ class ProductsController extends Controller
     public function show($id)
     {
         $product = Product::find($id);
-        if(!$product) return $this->apiResponse(null,'عفواً هذا المنتج غير متوفر',false);
+        if (!$product) {
+            return $this->apiResponse(
+                null,
+                "عفواً هذا المنتج غير متوفر",
+                false
+            );
+        }
 
         return $this->apiResponse(new SingleProduct($product));
-
     }
 
     /**
@@ -142,25 +164,29 @@ class ProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
-            $rules = [
-                'price'=>'required|numeric',
-            ];
+        $rules = [
+            "price" => "required|numeric",
+        ];
 
-            $validation = $this->apiValidation($request,$rules);
-            if ($validation instanceof Response) {
-                return $validation;
-            }
+        $validation = $this->apiValidation($request, $rules);
+        if ($validation instanceof Response) {
+            return $validation;
+        }
 
-            $productPrice = SupplierPrice::where('id',$id)->where('user_id',auth()->id())->first();
-            if(!$productPrice) return $this->apiResponse(null,'لم يتم تعيين المنتج لديك',false);
-            else{
-                $productPrice->update(['price'=>$request->price,'expired_at'=>Carbon::parse($request->expired_at)]);
-            }
+        $productPrice = SupplierPrice::where("id", $id)
+            ->where("user_id", auth()->id())
+            ->first();
+        if (!$productPrice) {
+            return $this->apiResponse(null, "لم يتم تعيين المنتج لديك", false);
+        } else {
+            $productPrice->update([
+                "price" => $request->price,
+                "expired_at" => Carbon::parse($request->expired_at),
+            ]);
+        }
 
-            $this->RegisterLog("تعديل سعر منتج");
-            return $this->apiResponse(null,'تم تعديل المنتج بنجاح');
-
-
+        $this->RegisterLog("تعديل سعر منتج");
+        return $this->apiResponse(null, "تم تعديل المنتج بنجاح");
     }
 
     /**
@@ -172,39 +198,42 @@ class ProductsController extends Controller
     public function destroy($id)
     {
         $product = SupplierPrice::find($id);
-        if($product){
+        if ($product) {
             $product->delete();
             $this->RegisterLog("حذف منتج");
-            return $this->apiResponse('تم حذف المنتج بنجاح');
-        }
-        else{
-            return $this->apiResponse(null,"المنتج غير موجود",false);
+            return $this->apiResponse("تم حذف المنتج بنجاح");
+        } else {
+            return $this->apiResponse(null, "المنتج غير موجود", false);
         }
     }
 
-
-    public function getAllStores($id){
-        $stores = Store::where('store_category_id',$id)->get()->map(function($q){
-            return ['id'=>$q->id,'name'=>$q->name];
-        });
+    public function getAllStores($id)
+    {
+        $stores = Store::where("store_category_id", $id)
+            ->get()
+            ->map(function ($q) {
+                return ["id" => $q->id, "name" => $q->name];
+            });
         return $this->apiResponse($stores);
     }
 
-    public function getStoresCategories(){
-        $categories = StoreCategory::all()->map(function($q){
-            return ['id'=>$q->id,'name'=>$q->name];
+    public function getStoresCategories()
+    {
+        $categories = StoreCategory::all()->map(function ($q) {
+            return ["id" => $q->id, "name" => $q->name];
         });
         return $this->apiResponse($categories);
     }
 
-
-    public function search(Request $request){
-
-        $products = Product::where(function ($q)use ($request) {
-            $q->where('name','Like','%'.$request->text.'%')
-                ->orWhere('name','Like','%'.$request->text)
-                ->orWhere('name','Like',$request->text.'%');
-        })->where('type','supplier')->get();
+    public function search(Request $request)
+    {
+        $products = Product::where(function ($q) use ($request) {
+            $q->where("name", "Like", "%" . $request->text . "%")
+                ->orWhere("name", "Like", "%" . $request->text)
+                ->orWhere("name", "Like", $request->text . "%");
+        })
+            ->where("type", "supplier")
+            ->get();
 
         return $this->apiResponse($products);
     }

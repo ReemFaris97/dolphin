@@ -13,7 +13,7 @@ use App\Traits\Viewable;
 class BranchController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.branches.';
+    private $viewable = "AccountingSystem.branches.";
     /**
      * Display a listing of the resource.
      *
@@ -21,8 +21,8 @@ class BranchController extends Controller
      */
     public function index()
     {
-        $branches =AccountingBranch::all()->reverse();
-        return $this->toIndex(compact('branches'));
+        $branches = AccountingBranch::all()->reverse();
+        return $this->toIndex(compact("branches"));
     }
 
     /**
@@ -32,9 +32,8 @@ class BranchController extends Controller
      */
     public function create()
     {
-
-        $companies=AccountingCompany::pluck('name','id')->toArray();
-        return $this->toCreate(compact('companies'));
+        $companies = AccountingCompany::pluck("name", "id")->toArray();
+        return $this->toCreate(compact("companies"));
     }
 
     /**
@@ -46,27 +45,31 @@ class BranchController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name'=>'required|string|max:191|branch_name:accounting_branches,name,company_id,'.$request['name'].','.$request['company_id'],
-            'phone'=>'required|numeric|unique:accounting_branches,phone',
-            'email'=>'required|string|unique:accounting_branches,email',
-            'password'=>'required|string|max:191',
-            'image'=>'nullable|sometimes|mimes:jpg,jpeg,gif,png',
-            'company_id'=>'required|numeric|exists:accounting_companies,id',
-
+            "name" =>
+                "required|string|max:191|branch_name:accounting_branches,name,company_id," .
+                $request["name"] .
+                "," .
+                $request["company_id"],
+            "phone" => "required|numeric|unique:accounting_branches,phone",
+            "email" => "required|string|unique:accounting_branches,email",
+            "password" => "required|string|max:191",
+            "image" => "nullable|sometimes|mimes:jpg,jpeg,gif,png",
+            "company_id" => "required|numeric|exists:accounting_companies,id",
         ];
         $messsage = [
-            'name.branch_name'=>"اسم الفرع موجود بالفعل بالشركة",
-                  ];
-        $this->validate($request,$rules,$messsage);
-        $requests = $request->except('image');
+            "name.branch_name" => "اسم الفرع موجود بالفعل بالشركة",
+        ];
+        $this->validate($request, $rules, $messsage);
+        $requests = $request->except("image");
 
-
-        if ($request->hasFile('image')) {
-            $requests['image'] = saveImage($request->image, 'photos');
+        if ($request->hasFile("image")) {
+            $requests["image"] = saveImage($request->image, "photos");
         }
         AccountingBranch::create($requests);
-        alert()->success('تم اضافة  الفرع بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.branches.index');
+        alert()
+            ->success("تم اضافة  الفرع بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.branches.index");
     }
 
     /**
@@ -77,9 +80,9 @@ class BranchController extends Controller
      */
     public function show($id)
     {
-        $branch =AccountingBranch::findOrFail($id);
-        $shifts=AccountingBranchShift::where('branch_id',$id)->get();
-        return $this->toShow(compact('branch','shifts'));
+        $branch = AccountingBranch::findOrFail($id);
+        $shifts = AccountingBranchShift::where("branch_id", $id)->get();
+        return $this->toShow(compact("branch", "shifts"));
     }
 
     /**
@@ -90,12 +93,10 @@ class BranchController extends Controller
      */
     public function edit($id)
     {
-        $branch =AccountingBranch::findOrFail($id);
-        $companies=AccountingCompany::pluck('name','id')->toArray();
+        $branch = AccountingBranch::findOrFail($id);
+        $companies = AccountingCompany::pluck("name", "id")->toArray();
 
-        return $this->toEdit(compact('branch','companies'));
-
-
+        return $this->toEdit(compact("branch", "companies"));
     }
 
     /**
@@ -107,24 +108,29 @@ class BranchController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $branch =AccountingBranch::findOrFail($id);
+        $branch = AccountingBranch::findOrFail($id);
 
         $rules = [
-
-            'name'=>'required|string|max:191',
-            'phone'=>'required|numeric|unique:accounting_branches,phone,'.$branch->id,
-            'email'=>'required|string|unique:accounting_branches,email,'.$branch->id,
-            'image'=>'nullable|sometimes|image',
-            'company_id'=>'required|numeric|exists:accounting_companies,id',
+            "name" => "required|string|max:191",
+            "phone" =>
+                "required|numeric|unique:accounting_branches,phone," .
+                $branch->id,
+            "email" =>
+                "required|string|unique:accounting_branches,email," .
+                $branch->id,
+            "image" => "nullable|sometimes|image",
+            "company_id" => "required|numeric|exists:accounting_companies,id",
         ];
-        $this->validate($request,$rules);
-        $requests = $request->except('image');
-        if ($request->hasFile('image')) {
-            $requests['image'] = saveImage($request->image, 'photos');
+        $this->validate($request, $rules);
+        $requests = $request->except("image");
+        if ($request->hasFile("image")) {
+            $requests["image"] = saveImage($request->image, "photos");
         }
         $branch->update($requests);
-        alert()->success('تم تعديل  الفرع بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.branches.index');
+        alert()
+            ->success("تم تعديل  الفرع بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.branches.index");
     }
 
     /**
@@ -135,11 +141,11 @@ class BranchController extends Controller
      */
     public function destroy($id)
     {
-        $branch =AccountingBranch::findOrFail($id);
+        $branch = AccountingBranch::findOrFail($id);
         $branch->delete();
-        alert()->success('تم حذف  الفرع بنجاح !')->autoclose(5000);
-            return back();
-
-
+        alert()
+            ->success("تم حذف  الفرع بنجاح !")
+            ->autoclose(5000);
+        return back();
     }
 }

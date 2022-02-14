@@ -7,7 +7,7 @@ use App\Models\Supplier\User;
 use Illuminate\Http\Request;
 use Spatie\Activitylog\Models\Activity;
 
-class  UserController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,12 @@ class  UserController extends Controller
      */
     public function index()
     {
-        return view('AccountingSystem.suppliers.users.index')->with('users', User::when(request('supplier_id'), function ($q) {
-            $q->where('supplier_id', request('supplier_id'));
-        })->get());
+        return view("AccountingSystem.suppliers.users.index")->with(
+            "users",
+            User::when(request("supplier_id"), function ($q) {
+                $q->where("supplier_id", request("supplier_id"));
+            })->get()
+        );
     }
 
     /**
@@ -50,9 +53,12 @@ class  UserController extends Controller
      */
     public function show($id)
     {
-        return view('AccountingSystem.suppliers.users.logs')->with('logs',Activity::where(['causer_id'=>$id,'causer_type'=>User::class])
-        ->latest()->get
-        ());
+        return view("AccountingSystem.suppliers.users.logs")->with(
+            "logs",
+            Activity::where(["causer_id" => $id, "causer_type" => User::class])
+                ->latest()
+                ->get()
+        );
     }
 
     /**

@@ -16,13 +16,24 @@ class DocumentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public $types = ['employee' => User::class, 'branch' => AccountingBranch::class];
+    public $types = [
+        "employee" => User::class,
+        "branch" => AccountingBranch::class,
+    ];
 
     public function index($type)
     {
-        $newType = ($type == 'employee' ? 'App\Models\User' : 'App\Models\AccountingSystem\AccountingBranch');
-        $documents = AccountingDocument::with('documentable')->where('documentable_type', $newType)->get();
-        return view('AccountingSystem.documents.index', compact('documents', 'type'));
+        $newType =
+            $type == "employee"
+                ? "App\Models\User"
+                : "App\Models\AccountingSystem\AccountingBranch";
+        $documents = AccountingDocument::with("documentable")
+            ->where("documentable_type", $newType)
+            ->get();
+        return view(
+            "AccountingSystem.documents.index",
+            compact("documents", "type")
+        );
     }
 
     /**
@@ -32,17 +43,25 @@ class DocumentController extends Controller
      */
     public function create($type)
     {
-        if ($type == 'employee') {
-            $query = '$data["targets"] = ' . $this->types[$type] . '::get(["id","name"]);';
+        if ($type == "employee") {
+            $query =
+                '$data["targets"] = ' .
+                $this->types[$type] .
+                '::get(["id","name"]);';
         } else {
-            $query = '$data["targets"] = ' . $this->types[$type] . '::get(["id","name"]);';
+            $query =
+                '$data["targets"] = ' .
+                $this->types[$type] .
+                '::get(["id","name"]);';
         }
-        $data['type'] = $type;
+        $data["type"] = $type;
         eval($query);
-        if (request()->has('parent')) {
-            $data['document'] = AccountingDocument::with('documentable')->find(request('parent'));
+        if (request()->has("parent")) {
+            $data["document"] = AccountingDocument::with("documentable")->find(
+                request("parent")
+            );
         }
-        return view('AccountingSystem.documents.create', $data);
+        return view("AccountingSystem.documents.create", $data);
     }
 
     /**
@@ -53,30 +72,34 @@ class DocumentController extends Controller
      */
     public function store(Request $request, $type)
     {
-
         $rules = [
-            'document_name' => 'required',
-            'document_number' => 'required',
-            'documentable_id' => 'required',
-            'start_date' => 'required|date|before:end_date',
-            'end_date' => 'required',
-            'notes' => 'nullable',
-            'document' => 'required|file'
+            "document_name" => "required",
+            "document_number" => "required",
+            "documentable_id" => "required",
+            "start_date" => "required|date|before:end_date",
+            "end_date" => "required",
+            "notes" => "nullable",
+            "document" => "required|file",
         ];
 
         $this->validate($request, $rules);
         $requests = $request->all();
 
-        $inputs = $request->except('_token');
+        $inputs = $request->except("_token");
 
-        $inputs['documentable_type'] = ($type == 'employee' ? 'App\Models\User' : 'App\Models\AccountingSystem\AccountingBranch');
-        if ($request->file('document')) {
-            $inputs['document'] = saveImage($request['document'], 'document');
+        $inputs["documentable_type"] =
+            $type == "employee"
+                ? "App\Models\User"
+                : "App\Models\AccountingSystem\AccountingBranch";
+        if ($request->file("document")) {
+            $inputs["document"] = saveImage($request["document"], "document");
         }
         AccountingDocument::create($inputs);
 
-        alert()->success('تم اضافة الوئيقة بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.documents.index', $type);
+        alert()
+            ->success("تم اضافة الوئيقة بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.documents.index", $type);
     }
 
     /**
@@ -87,7 +110,6 @@ class DocumentController extends Controller
      */
     public function show($id)
     {
-
     }
 
     /**
@@ -100,14 +122,19 @@ class DocumentController extends Controller
     {
         $document = AccountingDocument::find($id);
 
-        if ($type == 'employee') {
-            $query = '$targets = ' . $this->types[$type] . '::get(["id","name"]);';
+        if ($type == "employee") {
+            $query =
+                '$targets = ' . $this->types[$type] . '::get(["id","name"]);';
         } else {
-            $query = '$targets = ' . $this->types[$type] . '::get(["id","name"]);';
+            $query =
+                '$targets = ' . $this->types[$type] . '::get(["id","name"]);';
         }
         eval($query);
 
-        return view('AccountingSystem.documents.edit', compact('type', 'targets', 'document'));
+        return view(
+            "AccountingSystem.documents.edit",
+            compact("type", "targets", "document")
+        );
     }
 
     /**
@@ -120,25 +147,27 @@ class DocumentController extends Controller
     public function update(Request $request, $type, $id)
     {
         $request->validate([
-            'document_name' => 'required',
-            'document_number' => 'required',
-            'documentable_id' => 'required',
-            'start_date' => 'required|date|before:end_date',
-            'end_date' => 'required',
-            'notes' => 'nullable',
+            "document_name" => "required",
+            "document_number" => "required",
+            "documentable_id" => "required",
+            "start_date" => "required|date|before:end_date",
+            "end_date" => "required",
+            "notes" => "nullable",
         ]);
         $document = AccountingDocument::find($id);
-//        dd($document);
-        $inputs = $request->except('_token');
-        if ($request->file('document')) {
-            $inputs['document'] = saveImage($request['document'], 'document');
+        //        dd($document);
+        $inputs = $request->except("_token");
+        if ($request->file("document")) {
+            $inputs["document"] = saveImage($request["document"], "document");
         } else {
-            unset($inputs['document']);
+            unset($inputs["document"]);
         }
 
         $document->update($inputs);
-        alert()->success('تم اضافة  الوثيقة بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.documents.index', $type);
+        alert()
+            ->success("تم اضافة  الوثيقة بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.documents.index", $type);
     }
 
     /**
@@ -150,7 +179,9 @@ class DocumentController extends Controller
     public function destroy($type, $id)
     {
         AccountingDocument::find($id)->delete();
-        alert()->success('تم  الحذف بنجاح !')->autoclose(5000);
+        alert()
+            ->success("تم  الحذف بنجاح !")
+            ->autoclose(5000);
         return back();
     }
 }

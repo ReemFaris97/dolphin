@@ -31,31 +31,20 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        ChargeCreated::class => [
-            ChargeCode::class,
-        ],
-        ChargeReceived::class => [
-            ChargeReceive::class,
-        ],
-       TaskCreated::class => [
-           TaskReceive::class,
+        ChargeCreated::class => [ChargeCode::class],
+        ChargeReceived::class => [ChargeReceive::class],
+        TaskCreated::class => [
+            TaskReceive::class,
             TaskFinish::class,
             TaskRate::class,
         ],
-       TaskFinished::class => [
-            \App\Listeners\TaskFinished::class,
-        ],
+        TaskFinished::class => [\App\Listeners\TaskFinished::class],
         WorkerTaskFinished::class => [
             WorkerTaskFinish::class,
             WorkerTaskRate::class,
-            ],
-        TaskRated::class => [
-            \App\Listeners\TaskRated::class,
-
         ],
-        TaskTransfered::class => [
-            \App\Listeners\TaskTransfer::class,
-        ],
+        TaskRated::class => [\App\Listeners\TaskRated::class],
+        TaskTransfered::class => [\App\Listeners\TaskTransfer::class],
 
         \App\Events\StoreTransferRequestAdded::class => [
             \App\Listeners\NotifyTransferRequestReceiver::class,
@@ -93,8 +82,6 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\Accounting\SaleAdded::class => [
             \App\Listeners\Accounting\AddSaleTotalToFund::class,
         ],
-
-        
     ];
 
     /**

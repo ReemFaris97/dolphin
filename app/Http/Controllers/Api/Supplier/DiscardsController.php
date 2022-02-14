@@ -19,13 +19,20 @@ class DiscardsController extends Controller
      */
     public function index()
     {
-        $discards = SupplierDiscard::where('supplier_id',auth()->id())->paginate($this->paginateNumber);
+        $discards = SupplierDiscard::where(
+            "supplier_id",
+            auth()->id()
+        )->paginate($this->paginateNumber);
         return $this->apiResponse(new DiscardsResources($discards));
     }
 
-    public function filteredDiscards(Request $request){
-
-        $discards = SupplierDiscard::where('supplier_id',auth()->id())->whereBetween('date',[Carbon::parse($request->from),Carbon::parse($request->to)])
+    public function filteredDiscards(Request $request)
+    {
+        $discards = SupplierDiscard::where("supplier_id", auth()->id())
+            ->whereBetween("date", [
+                Carbon::parse($request->from),
+                Carbon::parse($request->to),
+            ])
             ->paginate($this->paginateNumber);
         return $this->apiResponse(new DiscardsResources($discards));
     }
@@ -60,7 +67,13 @@ class DiscardsController extends Controller
     public function show($id)
     {
         $discard = SupplierDiscard::find($id);
-        if(!$discard) return $this->apiResponse(null,'بيانات هذا المرتجع غير متوافرة او غير موجود',false);
+        if (!$discard) {
+            return $this->apiResponse(
+                null,
+                "بيانات هذا المرتجع غير متوافرة او غير موجود",
+                false
+            );
+        }
         return $this->apiResponse(new SingleDiscardResource($discard));
     }
 

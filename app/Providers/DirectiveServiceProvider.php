@@ -25,9 +25,5 @@ class DirectiveServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
-
-
-
     }
 }

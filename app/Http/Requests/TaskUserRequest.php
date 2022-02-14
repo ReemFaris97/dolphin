@@ -24,12 +24,12 @@ class TaskUserRequest extends FormRequest
     public function rules()
     {
         return [
-            "user_id" => 'required|integer|exists:users,id',
+            "user_id" => "required|integer|exists:users,id",
             "days" => "required|integer",
             "hours" => "required|integer",
             "minutes" => "required|integer",
             "rater_id" => "required|integer|exists:users,id",
-            "finisher_id" =>"required|integer|exists:users,id",
+            "finisher_id" => "required|integer|exists:users,id",
         ];
     }
 }

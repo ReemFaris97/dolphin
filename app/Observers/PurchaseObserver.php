@@ -14,9 +14,9 @@ class PurchaseObserver
     public function creating(AccountingPurchase $purchase)
     {
         try {
-
-
-            $exiss = AccountingPurchase::whereDate('created_at', date('Y-m-d'))->latest()->first();
+            $exiss = AccountingPurchase::whereDate("created_at", date("Y-m-d"))
+                ->latest()
+                ->first();
             if (!is_null($exiss)) {
                 $count = $exiss->daily_number ?? 1;
                 $purchase->daily_number = $count + 1;
@@ -24,7 +24,6 @@ class PurchaseObserver
                 $purchase->daily_number = 1;
             }
         } catch (\Exception $e) {
-
         }
     }
 
@@ -33,7 +32,7 @@ class PurchaseObserver
         try {
             $supplier = AccountingSupplier::find($purchase->supplier_id);
             if ($supplier) {
-                if ($purchase->payment == 'agel') {
+                if ($purchase->payment == "agel") {
                     $balance = $purchase->total;
                     $supplier->balance = +$balance;
 
@@ -42,62 +41,66 @@ class PurchaseObserver
                     $log->supplier_id = $supplier->id;
                     $log->purchase_id = $purchase->id;
                     $log->amount = $purchase->total;
-                    $log->status = 'creditor';
-                    $log->type = 'مشتريات';
+                    $log->status = "creditor";
+                    $log->type = "مشتريات";
                     $log->new_balance = round($supplier->balance, 2);
                     $log->save();
-//                dd($log);
+                    //                dd($log);
                 }
             }
             $entry = AccountingEntry::create([
-                'date' => $purchase->created_at,
-                'source' => 'مشتريات',
-                'type' => 'automatic',
-                'details' => 'فاتوره مشتريات' . $purchase->bill_num,
-                'status' => 'new'
+                "date" => $purchase->created_at,
+                "source" => "مشتريات",
+                "type" => "automatic",
+                "details" => "فاتوره مشتريات" . $purchase->bill_num,
+                "status" => "new",
             ]);
 
-            if ($purchase->payment == 'agel') {
+            if ($purchase->payment == "agel") {
                 //حساب  المشتريات و المورد
                 $toAccount = $supplier->account;
                 AccountingEntryAccount::create([
-                    'entry_id' => $entry->id,
-                    'account_id' => getsetting('accounting_id_purchases'),
-                    'amount' => $purchase->total,
-                    'affect' => 'debtor'
+                    "entry_id" => $entry->id,
+                    "account_id" => getsetting("accounting_id_purchases"),
+                    "amount" => $purchase->total,
+                    "affect" => "debtor",
                 ]);
 
                 AccountingEntryAccount::create([
-                    'entry_id' => $entry->id,
-                    'account_id' => $toAccount->id,
-                    'amount' => $purchase->total,
-                    'affect' => 'creditor'
+                    "entry_id" => $entry->id,
+                    "account_id" => $toAccount->id,
+                    "amount" => $purchase->total,
+                    "affect" => "creditor",
                 ]);
 
                 //حساب  المشتريات والمخزون
-//           dd($purchase->store_id);
-                $storeAccount = AccountingAccount::where('store_id', $purchase->store_id)->first() ?? new AccountingAccount();
+                //           dd($purchase->store_id);
+                $storeAccount =
+                    AccountingAccount::where(
+                        "store_id",
+                        $purchase->store_id
+                    )->first() ?? new AccountingAccount();
                 AccountingEntryAccount::create([
-                    'entry_id' => $entry->id,
-                    'account_id' => $storeAccount->id,
-                    'amount' => $purchase->total,
-                    'affect' => 'debtor'
+                    "entry_id" => $entry->id,
+                    "account_id" => $storeAccount->id,
+                    "amount" => $purchase->total,
+                    "affect" => "debtor",
                 ]);
 
                 AccountingEntryAccount::create([
-                    'entry_id' => $entry->id,
-                    'account_id' => getsetting('accounting_id_purchases'),
-                    'amount' => $purchase->total,
-                    'affect' => 'creditor'
+                    "entry_id" => $entry->id,
+                    "account_id" => getsetting("accounting_id_purchases"),
+                    "amount" => $purchase->total,
+                    "affect" => "creditor",
                 ]);
-            } elseif ($purchase->payment == 'cash') {
+            } elseif ($purchase->payment == "cash") {
                 //حساب  المشتريات والنقدية
                 AccountingEntryAccount::create([
-                    'entry_id' => $entry->id,
-                    'account_id' => getsetting('accounting_id_purchases'),
+                    "entry_id" => $entry->id,
+                    "account_id" => getsetting("accounting_id_purchases"),
                     //    'to_account_id'=>getsetting('accounting_id_cash'),
-                    'amount' => $purchase->total,
-                    'affect' => 'debtor'
+                    "amount" => $purchase->total,
+                    "affect" => "debtor",
                 ]);
 
                 //    AccountingEntryAccount::create([
@@ -108,25 +111,28 @@ class PurchaseObserver
                 // ]);
                 //حساب  المشتريات والمخزون
 
-                $storeAccount = AccountingAccount::where('store_id', $purchase->store_id)->first() ?? new AccountingAccount();
+                $storeAccount =
+                    AccountingAccount::where(
+                        "store_id",
+                        $purchase->store_id
+                    )->first() ?? new AccountingAccount();
                 AccountingEntryAccount::create([
-                    'entry_id' => $entry->id,
+                    "entry_id" => $entry->id,
                     //    'from_account_id'=>$storeAccount->id,
-                    'account_id' => getsetting('accounting_id_purchases'),
-                    'amount' => $purchase->total,
-                    'affect' => 'creditor',
+                    "account_id" => getsetting("accounting_id_purchases"),
+                    "amount" => $purchase->total,
+                    "affect" => "creditor",
                 ]);
 
                 AccountingEntryAccount::create([
-                    'entry_id' => $entry->id,
-                    'account_id' => $storeAccount->id,
+                    "entry_id" => $entry->id,
+                    "account_id" => $storeAccount->id,
                     // 'account_id'=>getsetting('accounting_id_purchases'),
-                    'amount' => $purchase->total,
-                    'affect' => 'debtor',
+                    "amount" => $purchase->total,
+                    "affect" => "debtor",
                 ]);
             }
         } catch (\Exception $e) {
-
         }
     }
 }

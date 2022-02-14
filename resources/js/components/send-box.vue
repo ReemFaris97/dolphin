@@ -49,7 +49,6 @@ export default {
                     timer: 2000,
                 })
             }
-            console.log(types[file['type']])
             let inputs = new FormData();
             inputs.append('attachment', file);
             inputs.append('type', types[file['type']]);
@@ -61,7 +60,7 @@ export default {
             let data = {
                 message: this.message,
                 "_method": 'PUT',
-                type:'text'
+                type:'message'
             };
             this.sendData(data);
         },

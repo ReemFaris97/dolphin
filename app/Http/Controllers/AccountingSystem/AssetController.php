@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\AccountingSystem;
 
-
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingSystem\AccountingAccount;
@@ -17,7 +16,7 @@ use DB;
 class AssetController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.assetss.';
+    private $viewable = "AccountingSystem.assetss.";
     /**
      * Display a listing of the resource.
      *
@@ -25,10 +24,11 @@ class AssetController extends Controller
      */
     public function index()
     {
+        $assets = AccountingAsset::where("type", "asset")
+            ->get()
+            ->reverse();
 
-        $assets=AccountingAsset::where('type','asset')->get()->reverse();
-
-        return $this->toIndex(compact('assets'));
+        return $this->toIndex(compact("assets"));
     }
 
     /**
@@ -38,11 +38,18 @@ class AssetController extends Controller
      */
     public function create()
     {
-
-        $currencies=AccountingCurrency::pluck('ar_name','id')->toArray();
-        $payments = AccountingPayment::where('active','1')->pluck('name','id')->toArray();
-        $accounts=AccountingAccount::select('id',DB::raw("concat(ar_name, ' - ',code) as code_name"))->where('kind','!=','sub')->pluck('code_name','id')->toArray();
-        return $this->toCreate(compact('currencies','payments','accounts'));
+        $currencies = AccountingCurrency::pluck("ar_name", "id")->toArray();
+        $payments = AccountingPayment::where("active", "1")
+            ->pluck("name", "id")
+            ->toArray();
+        $accounts = AccountingAccount::select(
+            "id",
+            DB::raw("concat(ar_name, ' - ',code) as code_name")
+        )
+            ->where("kind", "!=", "sub")
+            ->pluck("code_name", "id")
+            ->toArray();
+        return $this->toCreate(compact("currencies", "payments", "accounts"));
     }
 
     /**
@@ -54,15 +61,16 @@ class AssetController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name'=>'required|string|max:191',
-
+            "name" => "required|string|max:191",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
 
         AccountingAsset::create($requests);
-        alert()->success('تم اضافة  الاصل بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.assets.index');
+        alert()
+            ->success("تم اضافة  الاصل بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.assets.index");
     }
 
     /**
@@ -84,11 +92,9 @@ class AssetController extends Controller
      */
     public function edit($id)
     {
-        $asset =AccountingAsset::findOrFail($id);
+        $asset = AccountingAsset::findOrFail($id);
 
-        return $this->toEdit(compact('asset'));
-
-
+        return $this->toEdit(compact("asset"));
     }
 
     /**
@@ -100,16 +106,17 @@ class AssetController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $asset =AccountingAsset::findOrFail($id);
+        $asset = AccountingAsset::findOrFail($id);
         $rules = [
-            'name'=>'required|string|max:191',
+            "name" => "required|string|max:191",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
         $requests = $request->all();
         $asset->update($requests);
-        alert()->success('تم تعديل لاصل بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.assets.index');
-
+        alert()
+            ->success("تم تعديل لاصل بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.assets.index");
     }
 
     /**
@@ -120,13 +127,11 @@ class AssetController extends Controller
      */
     public function destroy($id)
     {
-        $asset =AccountingAsset::findOrFail($id);
+        $asset = AccountingAsset::findOrFail($id);
         $asset->delete();
-        alert()->success('تم حذف  الاصل بنجاح !')->autoclose(5000);
-            return back();
-
-
+        alert()
+            ->success("تم حذف  الاصل بنجاح !")
+            ->autoclose(5000);
+        return back();
     }
-
-
 }

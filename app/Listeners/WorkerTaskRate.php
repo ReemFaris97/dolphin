@@ -12,27 +12,26 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 class WorkerTaskRate
 {
-
     use FirebasOperation;
 
     public function handle(WorkerTaskFinished $event)
     {
-        $title = 'هناك اشعار جديد';
-        $message = ' تم أداء المهمة   '
-            . $event->task->name .
-            'برجاء تقيمها';
-        $type = 'rate_task';
+        $title = "هناك اشعار جديد";
+        $message = " تم أداء المهمة   " . $event->task->name . "برجاء تقيمها";
+        $type = "rate_task";
         $data = [
-            'item_id' => $event->task->id,
-            'message' => $message,
-            'type' => $type,
+            "item_id" => $event->task->id,
+            "message" => $message,
+            "type" => $type,
         ];
         if ($event->task->currentTask()->rater_id != null) {
-
-            $this->fire($title, $message, $data, User::where('id', $event->task->currentTask()->rater_id)->get());
+            $this->fire(
+                $title,
+                $message,
+                $data,
+                User::where("id", $event->task->currentTask()->rater_id)->get()
+            );
             $event->task->currentTask()->rater->sendNotification($data, $type);
         }
-
     }
-
 }

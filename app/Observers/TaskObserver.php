@@ -15,7 +15,6 @@ class TaskObserver
     public function creating(Task $task)
     {
         $task->user_id = auth()->user()->id;
-
     }
 
     /**
@@ -24,5 +23,4 @@ class TaskObserver
      * @param  \App\Task  $task
      * @return void
      */
-
 }

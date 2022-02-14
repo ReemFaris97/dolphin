@@ -15,34 +15,32 @@ class SupplierProductsResource extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'products'=>$this->collection->transform(function ($q){
+            "products" => $this->collection->transform(function ($q) {
                 return [
-
-                    'id'=>$q->id,
-                    'price_id'=>$q->authSupplierPriceId(),
-                    'name'=>$q->name,
-                    'price'=>$q->authSupplierPrice(),
-                    'bar_code'=>$q->bar_code,
-                    'image'=>$q->image?getimg($q->image):"",
-                    'expired_at'=>$q->authSupplierProductExpireDate(),
-                    'images' => $q->images->transform(function ($qu){
+                    "id" => $q->id,
+                    "price_id" => $q->authSupplierPriceId(),
+                    "name" => $q->name,
+                    "price" => $q->authSupplierPrice(),
+                    "bar_code" => $q->bar_code,
+                    "image" => $q->image ? getimg($q->image) : "",
+                    "expired_at" => $q->authSupplierProductExpireDate(),
+                    "images" => $q->images->transform(function ($qu) {
                         return [
-                            'id'=>$qu->id,
-                            'image'=>getimg($qu->image)
+                            "id" => $qu->id,
+                            "image" => getimg($qu->image),
                         ];
                     }),
                 ];
             }),
-            'paginate'=>[
-                'total' => $this->total(),
-                'count' => $this->count(),
-                'per_page' => $this->perPage(),
-                'next_page_url'=>$this->nextPageUrl(),
-                'prev_page_url'=>$this->previousPageUrl(),
-                'current_page' => $this->currentPage(),
-                'total_pages' => $this->lastPage()
-            ]
-
+            "paginate" => [
+                "total" => $this->total(),
+                "count" => $this->count(),
+                "per_page" => $this->perPage(),
+                "next_page_url" => $this->nextPageUrl(),
+                "prev_page_url" => $this->previousPageUrl(),
+                "current_page" => $this->currentPage(),
+                "total_pages" => $this->lastPage(),
+            ],
         ];
     }
 }

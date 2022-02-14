@@ -24,7 +24,7 @@ class ChargeRequest extends FormRequest
     public function rules()
     {
         return [
-            //
-        ];
+                //
+            ];
     }
 }

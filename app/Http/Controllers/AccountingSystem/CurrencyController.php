@@ -19,7 +19,7 @@ use App\Traits\Viewable;
 class CurrencyController extends Controller
 {
     use Viewable;
-    private $viewable = 'AccountingSystem.currencies.';
+    private $viewable = "AccountingSystem.currencies.";
     /**
      * Display a listing of the resource.
      *
@@ -27,9 +27,8 @@ class CurrencyController extends Controller
      */
     public function index()
     {
-
-        $currencies=AccountingCurrency::all();
-        return $this->toIndex(compact('currencies'));
+        $currencies = AccountingCurrency::all();
+        return $this->toIndex(compact("currencies"));
     }
 
     /**
@@ -39,8 +38,6 @@ class CurrencyController extends Controller
      */
     public function create()
     {
-
-
         return $this->toCreate();
     }
 
@@ -53,20 +50,19 @@ class CurrencyController extends Controller
     public function store(Request $request)
     {
         $rules = [
-
-            'ar_name'=>'required|string',
-            'en_name'=>'required|string',
-
+            "ar_name" => "required|string",
+            "en_name" => "required|string",
         ];
-        $message=[
-            'en_name.required'=>'اسم العملة باللغه الانجليزيه مطلوب ',
+        $message = [
+            "en_name.required" => "اسم العملة باللغه الانجليزيه مطلوب ",
         ];
-        $this->validate($request,$rules,$message);
+        $this->validate($request, $rules, $message);
         $requests = $request->all();
         AccountingCurrency::create($requests);
-        alert()->success('تم حفظ العملة  بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.currencies.index');
-
+        alert()
+            ->success("تم حفظ العملة  بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.currencies.index");
     }
 
     /**
@@ -88,11 +84,9 @@ class CurrencyController extends Controller
      */
     public function edit($id)
     {
+        $currency = AccountingCurrency::find($id);
 
-        $currency=AccountingCurrency::find($id);
-
-
-        return $this->toEdit(compact('currency'));
+        return $this->toEdit(compact("currency"));
     }
 
     /**
@@ -104,24 +98,22 @@ class CurrencyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $currency =AccountingCurrency::findOrFail($id);
+        $currency = AccountingCurrency::findOrFail($id);
 
         $rules = [
-
-            'ar_name'=>'required|string',
-            'en_name'=>'required|string',
+            "ar_name" => "required|string",
+            "en_name" => "required|string",
         ];
-        $message=[
-            'en_name.required'=>'اسم العملة باللغه الانجليزيه مطلوب ',
+        $message = [
+            "en_name.required" => "اسم العملة باللغه الانجليزيه مطلوب ",
         ];
-        $this->validate($request,$rules,$message);
+        $this->validate($request, $rules, $message);
         $requests = $request->all();
         $currency->update($requests);
-        alert()->success('تم تعديل  البنك بنجاح !')->autoclose(5000);
-        return redirect()->route('accounting.currencies.index');
-
-
-
+        alert()
+            ->success("تم تعديل  البنك بنجاح !")
+            ->autoclose(5000);
+        return redirect()->route("accounting.currencies.index");
     }
 
     /**
@@ -132,14 +124,11 @@ class CurrencyController extends Controller
      */
     public function destroy($id)
     {
-        $currency =AccountingCurrency::findOrFail($id);
+        $currency = AccountingCurrency::findOrFail($id);
         $currency->delete();
-        alert()->success('تم حذف   العملة  بنجاح !')->autoclose(5000);
-            return back();
-
-
+        alert()
+            ->success("تم حذف   العملة  بنجاح !")
+            ->autoclose(5000);
+        return back();
     }
-
-
-
 }

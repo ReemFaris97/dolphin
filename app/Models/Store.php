@@ -59,14 +59,28 @@ class Store extends Model
 {
     use SoftDeletes, HasTranslations;
 
-    public $translatable = ['name'];
+    public $translatable = ["name"];
 
-    protected $fillable = ['name', 'store_category_id', 'distributor_id', 'is_active', 'notes', 'for_distributor', 'has_car', 'car_id', 'for_damaged'];
-
+    protected $fillable = [
+        "name",
+        "store_category_id",
+        "distributor_id",
+        "is_active",
+        "notes",
+        "for_distributor",
+        "has_car",
+        "car_id",
+        "for_damaged",
+    ];
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'product_quantities', 'store_id', 'product_id')->distinct();
+        return $this->belongsToMany(
+            Product::class,
+            "product_quantities",
+            "store_id",
+            "product_id"
+        )->distinct();
     }
 
     public function ProductQuantity()
@@ -81,30 +95,32 @@ class Store extends Model
 
     public function car()
     {
-        return $this->belongsTo(DistributorCar::class, 'car_id');
+        return $this->belongsTo(DistributorCar::class, "car_id");
     }
 
     public function distributor()
     {
-        return $this->belongsTo(User::class, 'distributor_id')
-            ->withDefault(new User);
+        return $this->belongsTo(User::class, "distributor_id")->withDefault(
+            new User()
+        );
     }
 
     public function category()
     {
-        return $this->belongsTo(StoreCategory::class, 'store_category_id')->withDefault(new StoreCategory);
+        return $this->belongsTo(
+            StoreCategory::class,
+            "store_category_id"
+        )->withDefault(new StoreCategory());
     }
 
     public function scopeActive(Builder $builder): void
     {
-        $builder->where('is_active', 1);
+        $builder->where("is_active", 1);
     }
 
     public function scopeOfDistributor(Builder $builder, $distributor_id): void
     {
-        $builder->where('for_distributor', 1);
-        $builder->where('distributor_id', $distributor_id);
+        $builder->where("for_distributor", 1);
+        $builder->where("distributor_id", $distributor_id);
     }
-
-
 }

@@ -22,23 +22,39 @@ class AccountingProductsDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->filterColumn('barcode', function ($query, $barcode) {
+            ->filterColumn("barcode", function ($query, $barcode) {
                 $query->ofBarcode($barcode);
             })
-            ->filterColumn('name', function ($query, $name) {
+            ->filterColumn("name", function ($query, $name) {
                 $query->where(
-                    fn ($q) =>$q
-                ->where('name', 'like', "%$name%")
-                ->orWhere('en_name', 'like', "%$name%")
+                    fn($q) => $q
+                        ->where("name", "like", "%$name%")
+                        ->orWhere("en_name", "like", "%$name%")
                 );
             })
             ->addIndexColumn()
             ->smart(false)
-            ->addColumn('action', fn ($product) =>view('AccountingSystem.products.actions', ['row'=>$product])->render())
-            ->addColumn('qunaitity', fn ($product) =>$product->getTotalQuantities())
-            ->addColumn('barcode', fn ($product) =>($product->bar_code!=null)?current($product->bar_code):null)
-            ->addColumn('image', '<img src="{{getimg($image)}}" style="width:100px; height:100px">')
-            ->rawColumns(['image', 'action','bar_code'])
+            ->addColumn(
+                "action",
+                fn($product) => view("AccountingSystem.products.actions", [
+                    "row" => $product,
+                ])->render()
+            )
+            ->addColumn(
+                "qunaitity",
+                fn($product) => $product->getTotalQuantities()
+            )
+            ->addColumn(
+                "barcode",
+                fn($product) => $product->bar_code != null
+                    ? current($product->bar_code)
+                    : null
+            )
+            ->addColumn(
+                "image",
+                '<img src="{{getimg($image)}}" style="width:100px; height:100px">'
+            )
+            ->rawColumns(["image", "action", "bar_code"])
             ->escapeColumns([5]);
     }
 
@@ -61,18 +77,18 @@ class AccountingProductsDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('accountingproducts-table')
-                    ->addTableClass('finalTb table datatable-button-init-basic')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->dom('Bfrtip')
-                   ->buttons(
-                        //Button::make('create'),
-                      //  Button::make('export'),
-                        // Button::make('print'),
-                       Button::make('reset'),
-                       Button::make('reload')
-                   ) ;
+            ->setTableId("accountingproducts-table")
+            ->addTableClass("finalTb table datatable-button-init-basic")
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->dom("Bfrtip")
+            ->buttons(
+                //Button::make('create'),
+                //  Button::make('export'),
+                // Button::make('print'),
+                Button::make("reset"),
+                Button::make("reload")
+            );
     }
 
     /**
@@ -83,25 +99,21 @@ class AccountingProductsDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::computed('image')
-            ->width(60),
-            Column::make('name')->title('الاسم'),
-            Column::make('en_name')->title('الاسم بالانجليزية'),
-            Column::computed('type')
-            ->addClass('text-center'),
-            Column::computed('qunaitity')->title('الكمية')
-            ->addClass('text-center'),
-            Column::make('barcode')->title('الباركود'),
-            Column::make('main_unit')->title('الوحده الرئيسة'),
-            Column::make('selling_price')->title('سعر البيع'),
-            Column::make('purchasing_price')->title('سعر الشراء'),
-            Column::computed('action', 'الاعدادات')
-            // ->exportable(false)
-            // ->printable(false)
-            ->addClass('text-center'),
-
-
-
+            Column::computed("image")->width(60),
+            Column::make("name")->title("الاسم"),
+            Column::make("en_name")->title("الاسم بالانجليزية"),
+            Column::computed("type")->addClass("text-center"),
+            Column::computed("qunaitity")
+                ->title("الكمية")
+                ->addClass("text-center"),
+            Column::make("barcode")->title("الباركود"),
+            Column::make("main_unit")->title("الوحده الرئيسة"),
+            Column::make("selling_price")->title("سعر البيع"),
+            Column::make("purchasing_price")->title("سعر الشراء"),
+            Column::computed("action", "الاعدادات")
+                // ->exportable(false)
+                // ->printable(false)
+                ->addClass("text-center"),
         ];
     }
 
@@ -112,6 +124,6 @@ class AccountingProductsDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'AccountingProducts_' . date('YmdHis');
+        return "AccountingProducts_" . date("YmdHis");
     }
 }

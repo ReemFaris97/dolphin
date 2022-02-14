@@ -16,8 +16,8 @@ class BankController extends Controller
      */
     public function index()
     {
-        $user=auth()->user();
-        return  \responder::success(BankResource::collection($user->banks));
+        $user = auth()->user();
+        return \responder::success(BankResource::collection($user->banks));
     }
 
     /**
@@ -28,17 +28,23 @@ class BankController extends Controller
      */
     public function store(Request $request)
     {
-       $inputs= $request->validate([
-            'name'=>'required|string',
-            'owner_name'=>'required|string',
-            'iban'=>'required|string'
+        $inputs = $request->validate([
+            "name" => "required|string",
+            "owner_name" => "required|string",
+            "iban" => "required|string",
         ]);
-       $user=auth()->user();
-       $bank=$user->supplier->banks()->create($inputs);
+        $user = auth()->user();
+        $bank = $user->supplier->banks()->create($inputs);
         activity()
             ->causedBy(auth()->user())
-            ->log(sprintf('قام %s ب %s',auth()->user()->name,"إضافة حساب بنكي رقم  {$bank->id}"));
-       return  \responder::success(new BankResource($bank));
+            ->log(
+                sprintf(
+                    "قام %s ب %s",
+                    auth()->user()->name,
+                    "إضافة حساب بنكي رقم  {$bank->id}"
+                )
+            );
+        return \responder::success(new BankResource($bank));
     }
 
     /**
@@ -61,18 +67,24 @@ class BankController extends Controller
      */
     public function update(Request $request, Bank $bank)
     {
-        $inputs=$request->validate([
-            'name'=>'sometimes|string',
-            'owner_name'=>'sometimes|string',
-            'iban'=>'sometimes|string'
+        $inputs = $request->validate([
+            "name" => "sometimes|string",
+            "owner_name" => "sometimes|string",
+            "iban" => "sometimes|string",
         ]);
 
         $bank->update($inputs);
         activity()
             ->causedBy(auth()->user())
-            ->log(sprintf("قام %s ب %s",auth()->user()->name," تعديل حساب بنكي رقم {$bank->id}"));
+            ->log(
+                sprintf(
+                    "قام %s ب %s",
+                    auth()->user()->name,
+                    " تعديل حساب بنكي رقم {$bank->id}"
+                )
+            );
 
-        return  \responder::success(new BankResource($bank));
+        return \responder::success(new BankResource($bank));
         //
     }
 
@@ -87,7 +99,13 @@ class BankController extends Controller
         $bank->delete();
         activity()
             ->causedBy(auth()->user())
-            ->log(sprintf('قام %s ب %s',auth()->user()->name," حذف حساب بنكي رقم {$bank->id}"));
-        return  \responder::success('تم الحذف بنجاح !');
+            ->log(
+                sprintf(
+                    "قام %s ب %s",
+                    auth()->user()->name,
+                    " حذف حساب بنكي رقم {$bank->id}"
+                )
+            );
+        return \responder::success("تم الحذف بنجاح !");
     }
 }

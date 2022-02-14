@@ -11,9 +11,8 @@ use App\Traits\Viewable;
 
 class ReaderController extends Controller
 {
-
     use Viewable;
-    private  $viewable = 'distributor.readers.';
+    private $viewable = "distributor.readers.";
     /**
      * Display a listing of the resource.
      *
@@ -22,8 +21,8 @@ class ReaderController extends Controller
     public function index()
     {
         $readers = Reader::all()->reverse();
-       // dd($readers);
-        return $this->toIndex(compact('readers'));
+        // dd($readers);
+        return $this->toIndex(compact("readers"));
     }
 
     /**
@@ -33,7 +32,6 @@ class ReaderController extends Controller
      */
     public function create()
     {
-
         return $this->toCreate();
     }
 
@@ -46,19 +44,17 @@ class ReaderController extends Controller
     public function store(Request $request)
     {
         $rules = [
-
-            'name'=>'required|string|max:191',
-
+            "name" => "required|string|max:191",
         ];
-        $this->validate($request,$rules);
+        $this->validate($request, $rules);
 
-        $requests = $request->except('image');
-        if ($request->hasFile('image')) {
-            $requests['image'] = saveImage($request->image, 'users');
+        $requests = $request->except("image");
+        if ($request->hasFile("image")) {
+            $requests["image"] = saveImage($request->image, "users");
         }
         Reader::create($requests);
-        toast('تم إضافة العداد بنجاح','success','top-right');
-        return redirect()->route('distributor.readers.index');
+        toast("تم إضافة العداد بنجاح", "success", "top-right");
+        return redirect()->route("distributor.readers.index");
     }
 
     /**
@@ -82,7 +78,7 @@ class ReaderController extends Controller
     {
         $reader = Reader::findOrFail($id);
 
-        return $this->toEdit(compact('reader'));
+        return $this->toEdit(compact("reader"));
     }
 
     /**
@@ -94,21 +90,19 @@ class ReaderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $reader= Reader::find($id);
+        $reader = Reader::find($id);
 
         $rules = [
-
-            'name'=>'required|string|max:191',
-
+            "name" => "required|string|max:191",
         ];
-        $this->validate($request,$rules);
-        $requests = $request->except('image');
-        if ($request->hasFile('image')) {
-            $requests['image'] = saveImage($request->image, 'users');
+        $this->validate($request, $rules);
+        $requests = $request->except("image");
+        if ($request->hasFile("image")) {
+            $requests["image"] = saveImage($request->image, "users");
         }
         $reader->update($requests);
-        toast('تم تعديل  العداد بنجاح','success','top-right');
-        return redirect()->route('distributor.readers.index');
+        toast("تم تعديل  العداد بنجاح", "success", "top-right");
+        return redirect()->route("distributor.readers.index");
     }
 
     /**
@@ -120,21 +114,21 @@ class ReaderController extends Controller
     public function destroy($id)
     {
         Reader::find($id)->delete();
-        toast('تم حذف العداد بنجاح','success','top-right');
-        return redirect()->route('distributor.readers.index');
+        toast("تم حذف العداد بنجاح", "success", "top-right");
+        return redirect()->route("distributor.readers.index");
     }
 
     public function changeStatus($id)
     {
-        $item=Reader::find($id);
+        $item = Reader::find($id);
         if ($item->is_active == 1) {
-            $item->update(['is_active'=>0]);
-            toast('تم إلغاء التفعيل بنجاح','success','top-right');
-            return redirect()->route('distributor.readers.index');
+            $item->update(["is_active" => 0]);
+            toast("تم إلغاء التفعيل بنجاح", "success", "top-right");
+            return redirect()->route("distributor.readers.index");
         } else {
-            $item->update(['is_active'=>1]);
-            toast('تم  التفعيل بنجاح','success','top-right');
-            return redirect()->route('distributor.readers.index');
+            $item->update(["is_active" => 1]);
+            toast("تم  التفعيل بنجاح", "success", "top-right");
+            return redirect()->route("distributor.readers.index");
         }
     }
 }
