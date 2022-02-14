@@ -855,6 +855,9 @@
 
 
         }
+        table.tablesaw.bill-table-whole-wrapper.table-bordered.table-hover.table{
+            font-size: 11px
+        }
     </style>
 
 </head>
@@ -971,6 +974,9 @@
                                                         data-tablesaw-priority="persist">المنتج
                                                     </th>
                                                     <th scope="col" class="fixed-ta-hd" data-tablesaw-sortable-col
+                                                    data-tablesaw-priority="persist">الوحدة
+                                                </th>
+                                                    <th scope="col" class="fixed-ta-hd" data-tablesaw-sortable-col
                                                         data-tablesaw-priority="persist">الكمية
                                                     </th>
                                                     <th scope="col" class="fixed-ta-hd" data-tablesaw-sortable-col
@@ -986,6 +992,7 @@
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>{!! optional($row->product)->name !!}</td>
+                                                        <td>كرتونة</td>
                                                         <td>{{ $row->quantity }}</td>
                                                         <td>{!! $row->price !!}</td>
                                                         <td>{!! $row->price * $row->quantity !!}</td>

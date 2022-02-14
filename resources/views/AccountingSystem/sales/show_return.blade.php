@@ -855,6 +855,24 @@
 
 
         }
+        table.tablesaw.a-new-table.table-hover.table.table-bordered.finalTb{
+            font-size: 11px
+        }
+        .finalTb th{
+
+             font-size: unset
+}
+        table.tablesaw.bill-table-whole-wrapper.table-bordered.table-hover.table.finalTb td{
+            font-size: 11px !important
+        }
+        table.tablesaw.bill-table-whole-wrapper.table-bordered.table-hover.table.finalTb{
+            font-size: 11px
+        }
+        .finalTb {
+            width: 100% !important;
+            table-layout: auto;
+
+        }
     </style>
 
 </head>
@@ -947,6 +965,7 @@
 									<tr class="bill-table-tr-wrapper fixed-ta-hd">
 										<th scope="col" data-tablesaw-sortable-col data-tablesaw-sortable-default-col data-tablesaw-priority="persist">م</th>
 										<th scope="col" class="fixed-ta-hd" data-tablesaw-sortable-col data-tablesaw-priority="persist">المنتج</th>
+                                        <th scope="col" class="fixed-ta-hd" data-tablesaw-sortable-col data-tablesaw-priority="persist">الوحدة</th>
 										<th scope="col" class="fixed-ta-hd" data-tablesaw-sortable-col data-tablesaw-priority="persist">الكمية</th>
 										<th scope="col" class="fixed-ta-hd" data-tablesaw-sortable-col data-tablesaw-priority="persist">السعر</th>
 										<th scope="col" class="fixed-ta-hd" data-tablesaw-sortable-col data-tablesaw-priority="persist">إجمالي السعر</th>
@@ -957,6 +976,7 @@
 										<tr>
 											<td>{{$loop->iteration}}</td>
 											<td>{!!$row->product->name!!}</td>
+											<td>علبة</td>
 											<td>{{$row->quantity}}</td>
 											<td>{!!$row->price !!}</td>
 											<td>{!!$row->price *$row->quantity !!}</td>
@@ -964,27 +984,27 @@
                                         @endforeach
 										<tr>
 											<td colspan="2" data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-money"></i>الإجمالي</td>
-											<td colspan="3"><span class="tot-money">{!! $sale_return->amount??0 !!}</span></td>
+											<td colspan="4"><span class="tot-money">{!! $sale_return->amount??0 !!}</span></td>
 										</tr>
 
 										<tr>
 											<td  colspan="2" data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-minus"></i>الخصم</td>
-											<td  colspan="3">{!! $sale_return->discount ??0 !!}</td>
+											<td  colspan="4">{!! $sale_return->discount ??0 !!}</td>
 										</tr>
 										<tr>
 											<td  colspan="2" data-tablesaw-sortable-col data-tablesaw-priority="6"> <i class="ti-plus"></i> قيمة الضريبه</td>
-											<td  colspan="3">	{!! $sale_return->totalTaxs ??0 !!}</td>
+											<td  colspan="4">	{!! $sale_return->totalTaxs ??0 !!}</td>
 										</tr>
 										<tr>
 											<td  colspan="2" data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-money"></i> المطلوب سداده</td>
-											<td  colspan="3">{!! $sale_return->amount ??0 !!}</td>
+											<td  colspan="4">{!! $sale_return->amount ??0 !!}</td>
 										</tr>
 										<tr>
 											<td  colspan="2" data-tablesaw-sortable-col data-tablesaw-priority="6"><i class="ti-bag"></i> طريقة الدفع</td>
-                                            <td  colspan="3">
-                                               
+                                            <td  colspan="4">
+
                                                نقدى
-                                               
+
                                             </td>
 										</tr>
 										<tr>
