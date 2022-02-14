@@ -857,6 +857,7 @@
         }
         table.tablesaw.bill-table-whole-wrapper.table-bordered.table-hover.table{
             font-size: 11px
+
         }
     </style>
 
@@ -1003,7 +1004,7 @@
                                                         data-tablesaw-priority="6"><i
                                                             class="ti-money"></i>الإجمالي
                                                     </td>
-                                                    <td colspan="3"><span
+                                                    <td colspan="4"><span
                                                             class="tot-money">{!! $sale->product_total() ?? 0 !!}</span></td>
                                                 </tr>
 
@@ -1012,28 +1013,28 @@
                                                         data-tablesaw-priority="6"><i
                                                             class="ti-minus"></i>الخصم
                                                     </td>
-                                                    <td colspan="3">{!! $sale->discount ?? 0 !!}</td>
+                                                    <td colspan="4">{!! $sale->discount ?? 0 !!}</td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="2" data-tablesaw-sortable-col
                                                         data-tablesaw-priority="6"><i
                                                             class="ti-plus"></i> قيمة الضريبه
                                                     </td>
-                                                    <td colspan="3"> {{number_format($sale->totalTaxs,2) ?? 0}}</td>
+                                                    <td colspan="4"> {{number_format($sale->totalTaxs,2) ?? 0}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="2" data-tablesaw-sortable-col
                                                         data-tablesaw-priority="6"><i
                                                             class="ti-money"></i> المطلوب سداده
                                                     </td>
-                                                    <td colspan="3">{!! $sale->product_total() ?? 0 !!}</td>
+                                                    <td colspan="4">{!! $sale->product_total() ?? 0 !!}</td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="2" data-tablesaw-sortable-col
                                                         data-tablesaw-priority="6"><i
                                                             class="ti-bag"></i> طريقة الدفع
                                                     </td>
-                                                    <td colspan="3">
+                                                    <td colspan="4">
                                                         @if ($sale->payment == 'cash')
                                                             نقدى
                                                         @elseif( $sale->payment=='agel')
@@ -1046,7 +1047,7 @@
                                                         data-tablesaw-priority="6"><i
                                                             class="ti-money"></i>المدفوع
                                                     </td>
-                                                    <td colspan="3">{!! $sale->payed ?? 0 !!}</td>
+                                                    <td colspan="4">{!! $sale->payed ?? 0 !!}</td>
                                                 </tr>
 
                                                 <tr>
@@ -1054,7 +1055,7 @@
                                                         data-tablesaw-priority="6"><i
                                                             class="ti-export"></i>المتبقي
                                                     </th>
-                                                    <td colspan="3">{!! $sale->product_total() - $sale->payed ?? 0 !!}</td>
+                                                    <td colspan="4">{!! $sale->product_total() - $sale->payed ?? 0 !!}</td>
                                                 </tr>
 
                                                 </tbody>
