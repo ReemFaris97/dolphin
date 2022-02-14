@@ -8,7 +8,7 @@
     <link href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.min.css" rel="stylesheet"
         type="text/css">
     <link href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css
-    " rel="stylesheet" type="text/css">
+        " rel="stylesheet" type="text/css">
     <!--- end datatable -->
     <link href="{{ asset('admin/assets/css/jquery.datetimepicker.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('admin/assets/css/all.css') }}" rel="stylesheet" type="text/css">
@@ -48,60 +48,59 @@
                 </div>
             </div>
             <div class="panel-body">
-                                    <form method="post" id="sllForm" action="{{ route('accounting.sales.store_returns') }}">
+                <form method="post" id="sllForm" action="{{ route('accounting.sales.store_returns') }}">
 
-                <!----------------  Start Bill Content ----------------->
-                <section class="yourBill">
-                    <div class="yurSections">
-                        
-                        <div class="row table-upper-options">
-                            <!-- Nav tabs -->
-                            <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
-                                <label> إسم العميل: </label>
-                                {!! Form::select('client', $clients, null, ['class' => 'selectpicker form-control inline-control', 'data-live-search' => 'true', 'id' => 'client_id']) !!}
-                            </div>
-                            <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
-                                <label for="bill_date"> تاريخ الفاتورة </label>
-                                {!! Form::text('__bill_date', null, ['class' => 'inlinedatepicker form-control inline-control', 'placeholder' => ' تاريخ الفاتورة', 'id' => 'bill_date']) !!}
-                            </div>
-                            <input type="hidden" value="{{ getsetting('rounding_number') }}" id="ronding-number">
-                            @if (getsetting('automatic_sales') == 0)
-                                <div class="form-group col-sm-3">
-                                    <label> اختر الحساب </label>
-                                    {!! Form::select('account_id', accounts(), null, ['class' => 'form-control', 'placeholder' => ' اختر الحساب']) !!}
+                    <!----------------  Start Bill Content ----------------->
+                    <section class="yourBill">
+                        <div class="yurSections">
+
+                            <div class="row table-upper-options">
+                                <!-- Nav tabs -->
+                                <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
+                                    <label> إسم العميل: </label>
+                                    {!! Form::select('client', $clients, null, ['class' => 'selectpicker form-control inline-control', 'data-live-search' => 'true', 'id' => 'client_id']) !!}
                                 </div>
-
-                            @endif
-                            
-                            {!! Form::hidden('store_id',request('store_id')??session('store_id'),['id'=>'store_id']) !!}
-                            <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
-                                <div class="yurProdc">
-                                    <div class="form-group block-gp">
-                                        <label>بحث بإسم الصنف أو الباركود</label>
-                                        <select class="form-control" name="products" id="selectID2"></select>
+                                <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
+                                    <label for="bill_date"> تاريخ الفاتورة </label>
+                                    {!! Form::text('__bill_date', null, ['class' => 'inlinedatepicker form-control inline-control', 'placeholder' => ' تاريخ الفاتورة', 'id' => 'bill_date']) !!}
+                                </div>
+                                <input type="hidden" value="{{ getsetting('rounding_number') }}" id="ronding-number">
+                                @if (getsetting('automatic_sales') == 0)
+                                    <div class="form-group col-sm-3">
+                                        <label> اختر الحساب </label>
+                                        {!! Form::select('account_id', accounts(), null, ['class' => 'form-control', 'placeholder' => ' اختر الحساب']) !!}
                                     </div>
+                                @endif
+
+                                {!! Form::hidden('store_id', request('store_id') ?? session('store_id'), ['id' => 'store_id']) !!}
+                                <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
+                                    <div class="yurProdc">
+                                        <div class="form-group block-gp">
+                                            <label>بحث بإسم الصنف أو الباركود</label>
+                                            <select class="form-control" name="products" id="selectID2"></select>
+                                        </div>
+                                    </div>
+                                    <div class="tempobar"></div>
                                 </div>
-                                <div class="tempobar"></div>
-                            </div>
 
 
-            <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
+                                <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
                                     <div class="form-group block-gp">
                                         <label>رقم الفاتورة</label>
-                                {!! Form::text('sale_id', null, ['class' =>'form-control' ,'placeholder' => ' رقم الفاتورة']) !!}
+                                        {!! Form::text('sale_id', null, ['class' => 'form-control', 'placeholder' => ' رقم الفاتورة']) !!}
                                     </div>
-                            </div>
+                                </div>
 
 
 
 
-                            <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
-                                <label>بحث بالباركود </label>
-                                <input class="form-control" type="text" id="barcode_search">
+                                <div class="form-group block-gp col-md-4 col-sm-4 col-xs-12">
+                                    <label>بحث بالباركود </label>
+                                    <input class="form-control" type="text" id="barcode_search">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="result">
+                        <div class="result">
                             @csrf
                             <input type="hidden" name="user_id" value="{{ $session->user_id }}">
                             <input type="hidden" name="session_id" value="{{ $session->id }}">
@@ -237,94 +236,90 @@
                                     </tr>
                                 </tfoot>
                             </table>
-                        </form>
-                        <div class="newly-added-2-btns-">
-                            @if (auth()->user()->is_saler == 1)
-                                <button type="button" class="btn btn-danger" data-toggle="modal"
-                                    data-target="#exampleModal">
-                                    اغلاق الجلسة [F8]
-                                </button>
-                            @endif
-                            <a class="btn btn-primary" id="add-mortaga3"
-                                href="{{ route('accounting.sales.returns', $session->id) }}">
-                                اضافة فاتورة مرتجع [F9] </a>
-                            <a class="btn btn-warning" id="ta3liik" href="#" target="_blank"> تعليق الفاتورة [F10] </a>
-                        </div>
-                        @if ($session->user->is_saler == 1)
-                            <!-- Modal -->
-                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel"> اغلاق الجلسة </h5>
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form method="post"
-                                                action="{{ route('accounting.sales.end', $session->user->is_saler) }}"
-                                                id="form1">
-                                                @csrf
-                                                <input type="hidden" name="session_id" value="{{ $session->id }}">
-                                                <label style="color:black"> الباسورد</label>
-                                                <input type="password" name="password" class="form-control">
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal">اغلاق</button>
-                                            <button type="submit" class="btn btn-primary"
-                                                onclick="document.getElementById('form1').submit()">حفظ</button>
-                                        </div>
-                                    </div>
+                </form>
+                <div class="newly-added-2-btns-">
+                    @if (auth()->user()->is_saler == 1)
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                            اغلاق الجلسة [F8]
+                        </button>
+                    @endif
+                    <a class="btn btn-primary" id="add-mortaga3"
+                        href="{{ route('accounting.sales.returns', $session->id) }}">
+                        اضافة فاتورة مرتجع [F9] </a>
+                    <a class="btn btn-warning" id="ta3liik" href="#" target="_blank"> تعليق الفاتورة [F10] </a>
+                </div>
+                @if ($session->user->is_saler == 1)
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel"> اغلاق الجلسة </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
                                 </div>
-                            </div>
-                        @endif
-                        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
-                            aria-labelledby="deleteModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel"> إزالة الصنف </h5>
-                                        <button type="button" class="close" data-dismiss="modal"
-                                            aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form method="post" action="#" id="form5">
-                                            @csrf
-                                            <div class="col-md-12">
-                                                <label style="color:black"> البريد الإلكتروني</label>
-                                                <input type="email" name="" class="form-control" id="email">
-                                            </div>
-                                            <div class="col-md-12">
-                                                <label style="color:black"> الباسورد</label>
-                                                <input type="password" name="" class="form-control" id="password">
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary confirm_delete"
-                                            id="confirm_delete">تحقق</button>
-                                    </div>
+                                <div class="modal-body">
+                                    <form method="post"
+                                        action="{{ route('accounting.sales.end', $session->user->is_saler) }}"
+                                        id="form1">
+                                        @csrf
+                                        <input type="hidden" name="session_id" value="{{ $session->id }}">
+                                        <label style="color:black"> الباسورد</label>
+                                        <input type="password" name="password" class="form-control">
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+                                    <button type="submit" class="btn btn-primary"
+                                        onclick="document.getElementById('form1').submit()">حفظ</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section>
-                <!----------------  End Bill Content ----------------->
+                @endif
+                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel"> إزالة الصنف </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="post" action="#" id="form5">
+                                    @csrf
+                                    <div class="col-md-12">
+                                        <label style="color:black"> البريد الإلكتروني</label>
+                                        <input type="email" name="" class="form-control" id="email">
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label style="color:black"> الباسورد</label>
+                                        <input type="password" name="" class="form-control" id="password">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary confirm_delete"
+                                    id="confirm_delete">تحقق</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            </section>
+            <!----------------  End Bill Content ----------------->
         </div>
+    </div>
     </div>
 @endsection
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
-            integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!--- scroll to the last table row -->
     <script>
         $('table').on('DOMSubtreeModified', 'tbody', function() {
@@ -378,7 +373,7 @@
             avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms
             preventDefault: true,
             endChar: [13],
-            onComplete: function (barcode, qty) {
+            onComplete: function(barcode, qty) {
                 validScan = true;
                 $.ajax({
                     url: "/accounting/barcode_search_sale/" + barcode,
@@ -387,9 +382,10 @@
                     data: {
                         store_id: store_id,
                     },
-                    success: function (resp) {
+                    success: function(resp) {
                         calcBill(resp.id, resp.id, resp.name, resp.bar_code,
-                            parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits),parseInt(resp.quantity))
+                            parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp
+                            .main_unit, JSON.parse(resp.subunits), parseInt(resp.quantity))
                         $('#barcode_search').val('')
 
                         /*  if (data.data.length !== 0) {
@@ -434,7 +430,7 @@
                     }
                 });
             },
-            onError: function (string, qty) {
+            onError: function(string, qty) {
                 $('#barcode_search').val($('#barcode_search').val() + string);
                 var barcode = $('#barcode_search').val();
                 validScan = true;
@@ -446,23 +442,32 @@
                         store_id: store_id,
                     },
                     delay: 250,
-                    success: function (resp) {
-                        if (resp.status===false) {
+                    success: function(resp) {
+                        if (resp.status === false) {
                             $('#barcode-error-span').show();
                         } else {
                             $('#barcode-error-span').hide();
 
-                            var selectedID = $('select[name="unit_id[' + resp.id + ']"]').val() || null;
+                            var selectedID = $('select[name="unit_id[' + resp.id + ']"]').val() ||
+                                null;
 
-                            var alreadyChosen = $(".bill-table tbody td select option[value=" + selectedID + "]");
-                            var repeatedInputVal = $(".bill-table tbody td select option[value=" + selectedID + "]:selected").parents('tr').find('.product-quantity').find('input');
+                            var alreadyChosen = $(".bill-table tbody td select option[value=" +
+                                selectedID + "]");
+                            var repeatedInputVal = $(".bill-table tbody td select option[value=" +
+                                selectedID + "]:selected").parents('tr').find(
+                                '.product-quantity').find('input');
 
-                            if (alreadyChosen.length > 0 && alreadyChosen.is(':selected') && JSON.parse(resp.subunits)[0].id==selectedID) {
-                                repeatedInputVal.val(Number(repeatedInputVal.val()) + parseInt(resp.quantity));
+                            if (alreadyChosen.length > 0 && alreadyChosen.is(':selected') && JSON
+                                .parse(resp.subunits)[0].id == selectedID) {
+                                repeatedInputVal.val(Number(repeatedInputVal.val()) + parseInt(resp
+                                    .quantity));
                                 repeatedInputVal.text(repeatedInputVal.val());
                                 $('.product-quantity').find('input').trigger('change');
                             } else {
-                                calcBill(resp.id, resp.id, resp.name, resp.bar_code, parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits),parseInt(resp.quantity))
+                                calcBill(resp.id, resp.id, resp.name, resp.bar_code, parseFloat(resp
+                                        .price), resp.price_has_tax, resp.total_taxes, resp
+                                    .main_unit, JSON.parse(resp.subunits), parseInt(resp
+                                        .quantity))
 
                             }
 
@@ -509,8 +514,9 @@
 
             }
         });
+
         function calcBill(selectedProduct, productId, productName, productBarCode, productPrice, priceHasTax, totalTaxes,
-            mainUnit, productUnits,quantity=1) {
+            mainUnit, productUnits, quantity = 1) {
             rowNum++;
             let unitName = productUnits.map(a => a.name);
             let unitPrice = productUnits.map(b => b.selling_price);
@@ -540,7 +546,7 @@
 			<input type="hidden" name="product_id[]" value="${productId}">
 			<td class="product-name maybe-hidden name_enable">${productName}</td>
 			<td class="product-unit maybe-hidden unit_enable" width="110">
-				<select class="form-control js-example-basic-single" name="unit_id[${productId}]">
+				<select class="form-control js-example-basic-single" name="unit_id[]">
 					${optss}
 				</select>
 			</td>
@@ -738,13 +744,13 @@
                         $(this).val(100);
                     }
                     total = Number(amountAfterDariba) - (Number(amountAfterDariba) * (Number($(this)
-                    .val()) / 100));
+                        .val()) / 100));
                     $("#demandedAmount span.dynamic-span").html(total.toFixed(rondingNumber));
                     $("#total").val(total);
                 });
                 $("input#byAmount").change(function() {
                     if ((Number($(this).val())) > Number($("#amountAfterDariba span.dynamic-span")
-                    .html())) {
+                            .html())) {
                         alert('عفوا , لا يمكن ان تكون كمية الخصم أكبر من المجموع بعد الضريبة : ' + $(
                             "#amountAfterDariba span.dynamic-span").html());
                         $(this).val(0);
@@ -779,7 +785,7 @@
                 $("#allPaid").html(allPaid.toFixed(rondingNumber));
                 $("#allPaid1").val(allPaid);
                 var remaindedAmount = Number(allPaid) - Number($("#demandedAmount span.dynamic-span")
-                .html());
+                    .html());
                 $("#remaindedAmount span.dynamic-span").html(remaindedAmount.toFixed(rondingNumber));
                 $('#remainder-inputt').val(Math.abs(remaindedAmount));
                 if (remaindedAmount > 0) {
@@ -798,7 +804,7 @@
             ajax: {
                 delay: 250,
                 url: "/accounting/productsAjex/" + store_id,
-                data: function (params) {
+                data: function(params) {
                     var query = {
                         search: params.term,
                         page: params.page || 1
@@ -807,19 +813,19 @@
                 },
 
 
-                processResults: function (data, params) {
+                processResults: function(data, params) {
                     // parse the results into the format expected by Select2
                     // since we are using custom formatting functions we do not need to
                     // alter the remote JSON data, except to indicate that infinite
                     // scrolling can be used
                     params.page = params.page || 1;
                     /*
-                    *     var productBarCode = selectedProduct.data('bar-code');
-            var productPrice = Number(selectedProduct.data('price'));
-            var priceHasTax = selectedProduct.data('price-has-tax');
-            var totalTaxes = selectedProduct.data('total-taxes');
-            var mainUnit = selectedProduct.data('main-unit');
-            var productUnits = selectedProduct.data('subunits');*/
+                        *     var productBarCode = selectedProduct.data('bar-code');
+                var productPrice = Number(selectedProduct.data('price'));
+                var priceHasTax = selectedProduct.data('price-has-tax');
+                var totalTaxes = selectedProduct.data('total-taxes');
+                var mainUnit = selectedProduct.data('main-unit');
+                var productUnits = selectedProduct.data('subunits');*/
                     results = _.toArray(data.data.data);
                     return {
                         results: results,
@@ -837,11 +843,11 @@
             delay: 250
         });
 
-          $('#saleID2').select2({
+        $('#saleID2').select2({
             ajax: {
                 delay: 250,
                 url: "/accounting/salesAjax",
-                data: function (params) {
+                data: function(params) {
                     var query = {
                         search: params.term,
                         page: params.page || 1
@@ -850,7 +856,7 @@
                 },
 
 
-                processResults: function (data, params) {
+                processResults: function(data, params) {
                     params.page = params.page || 1;
                     results = _.toArray(data.data.data);
                     debugger
@@ -869,19 +875,21 @@
             // templateSelection: formatRepoSelection,
             delay: 250
         });
-        
-        $('#selectID2').on('change', function (e) {
+
+        $('#selectID2').on('change', function(e) {
             // $('#selectID2').change(function() {
             $.ajax({
                 method: 'GET',
                 url: "/accounting/products-single-product/" + e.target.value,
-                success: function (resp) {
+                success: function(resp) {
                     calcBill(resp.id, resp.id, resp.name, resp.bar_code,
-                        parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp.main_unit, JSON.parse(resp.subunits),resp.quantity)
+                        parseFloat(resp.price), resp.price_has_tax, resp.total_taxes, resp
+                        .main_unit, JSON.parse(resp.subunits), resp.quantity)
                 }
             })
 
         });
+
         function byBarcode() {
             $(".tempDisabled").removeClass("tempDisabled");
             $(".tempobar").find('option').prop('selected', true);
@@ -900,7 +908,7 @@
                 mainUnit, productUnits)
         }
         $(document).keydown(function(event) {
-            if (event.which == 118 ) { //F7 حفظ
+            if (event.which == 118) { //F7 حفظ
                 confirmSubmit(event);
                 return false;
             }
@@ -983,14 +991,14 @@
 
     <script>
         //   For Alerting Before closing the window
-  /*      window.onbeforeunload = function(e) {
-            e = e || window.event;
-            if (e) {
-                e.returnValue = 'هل انت متأكد من مغادرة الصفحة ؟!';
-            }
-            return 'هل انت متأكد من مغادرة الصفحة ؟!';
-        };
-*/
+        /*      window.onbeforeunload = function(e) {
+                e = e || window.event;
+                if (e) {
+                    e.returnValue = 'هل انت متأكد من مغادرة الصفحة ؟!';
+                }
+                return 'هل انت متأكد من مغادرة الصفحة ؟!';
+            };
+    */
         function refreshTime() {
             var today = new Date();
             var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
