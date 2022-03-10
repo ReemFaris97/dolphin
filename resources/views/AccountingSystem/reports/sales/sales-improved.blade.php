@@ -82,8 +82,8 @@
                     <tbody>
                     @foreach($sales as $sale)
                         <tr>
-                            <td>{{@$sale->product->name}}</td>
-                            <td>{{$sale->unit->name ?? $sale->product->main_unit}}</td>
+                            <td>{{@$sale?->product?->name}}</td>
+                            <td>{{@$sale?->unit?->name ?? @$sale?->product?->main_unit}}</td>
                             <td>{{$sale->quantity}}</td>
                             <td>{{$sale->price}}</td>
                             <td>{{$sale->total}}</td>
