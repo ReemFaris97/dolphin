@@ -34,7 +34,7 @@
                                 <div class="form-group col-sm-3">
                                     <label> التصنيفات </label>
                                     {!! Form::select('category_id',\App\Models\AccountingSystem\AccountingProductCategory::pluck('ar_name','id'),null,
-['class'=>'form-control inline-control','id'=>'categories']) !!}
+['class'=>'form-control inline-control','id'=>'categories','placeholder'=>'اختر']) !!}
                                 </div>
 
                                 <div class="form-group col-sm-3">
@@ -82,8 +82,8 @@
                     <tbody>
                     @foreach($sales as $sale)
                         <tr>
-                            <td>{{@$sale->product->name}}</td>
-                            <td>{{$sale->unit->name ?? $sale->product->main_unit}}</td>
+                            <td>{{@$sale?->product?->name}}</td>
+                            <td>{{@$sale?->unit?->name ?? @$sale?->product?->main_unit}}</td>
                             <td>{{$sale->quantity}}</td>
                             <td>{{$sale->price}}</td>
                             <td>{{$sale->total}}</td>
