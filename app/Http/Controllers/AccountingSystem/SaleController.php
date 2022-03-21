@@ -482,41 +482,11 @@ class SaleController extends Controller
     {
         $sale = AccountingSale::findOrFail($id);
         $clients = AccountingClient::pluck("name", "id")->toArray();
-
-        $userstores = AccountingUserPermission::where(
-            "user_id",
-            auth()->user()->id
-        )
-            ->where("model_type", "App\Models\AccountingSystem\AccountingStore")
-            ->pluck("model_id", "id")
-            ->toArray();
-        $stores = AccountingStore::whereIn("id", $userstores)
-            ->pluck("ar_name", "id")
-            ->toArray();
-        if ($userstores) {
-            $store_product = AccountingProductStore::whereIn(
-                "store_id",
-                $userstores
-            )
-                ->pluck("product_id", "id")
-                ->toArray();
-            $products = AccountingProduct::whereIn("id", $store_product)->get();
-        } else {
-            $products = [];
-        }
-
-        $product_items = AccountingSaleItem::where("sale_id", $id)->get();
-        $session = AccountingSession::findOrFail($sale->session_id);
-
         return view(
             "AccountingSystem.sales.edit",
             compact(
                 "sale",
                 "clients",
-                "products",
-                "product_items",
-                "session",
-                "stores"
             )
         );
     }
@@ -530,29 +500,14 @@ class SaleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $requests = $request->all();
-
+         $request->validate(['client_id'=>['required','integer']]);
         $sale = AccountingSale::findOrFail($id);
-        $sale->update([
-            "bill_num" => $sale->id . "-" . $sale->created_at,
-            "user_id" => $requests["user_id"],
-            "date" => $requests["bill_date"],
-            "debts" => $requests["reminder"],
-            "totalTaxs" => $requests["totalTaxs"],
-            "amount" => $requests["amount"],
-            "total" => $requests["total"],
-            "cash" => $requests["cash"],
-            "network" => $requests["network"],
-            "payed" => $requests["payed"],
-        ]);
-
-        $this->createItem($request, $sale);
-        $this->editItem($request, $sale);
+        $sale->update($request->all());
 
         alert()
             ->success("تمت تعديل  الفاتوره بنجاح !")
             ->autoclose(5000);
-        return back()->with("sale_id", $sale->id);
+        return redirect()->route('accounting.sales.index');
     }
 
     /**
