@@ -10,6 +10,20 @@
         margin-bottom: 30px;
     }
 </style>
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script defer>
+        window.onload = (event) => {
+
+            flatpickr('.flatpickr', {
+                enableTime: true,
+                time_24hr: true,
+                dateFormat: "Y-m-d H:i",
+            });
+        };
+    </script>
+
 @endsection
 
 @section('content')
@@ -37,13 +51,14 @@
                                 {!! Form::select("user_id",$sellers, request('user_id'),['class'=>'selectpicker form-control inline-control','placeholder'=>'اختر الكاشير','data-live-search'=>'true','id'=>'user_id'])!!}
                             </div>
 
-                            <div class="form-group col-sm-3">
-                                <label for="from_date"> من </label>
-                                {!! Form::date("from_date",request('from_date'),['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' الفترة من ',"id"=>'from_date'])!!}
-                            </div>
+                                 <div class="form-group col-sm-3">
+                                    <label for="from_date"> من </label>
+                                    {!! Form::text('from_date', request('from_date'), ['class' => 'flatpickr form-control inline-control', 'placeholder' => ' الفترة من ', 'id' => 'from_date']) !!}
+                                </div>
+
                                 <div class="form-group col-sm-3">
                                     <label for="to"> الى </label>
-                                    {!! Form::date("to_date",request('to_date'),['class'=>'inlinedatepicker form-control inline-control','placeholder'=>' الفترة الى ',"id"=>'to_date'])!!}
+                                     {!! Form::text('to_date', request('to_date'), ['class' => 'flatpickr form-control inline-control', 'placeholder' => ' الفترة الى ', 'id' => 'to_date']) !!}
                                 </div>
 
                             <div class="form-group col-sm-12">
