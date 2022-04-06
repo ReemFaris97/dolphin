@@ -75,7 +75,6 @@
                     <th> اسم المنتج </th>
                     <th> نوع المنتج </th>
 
-                    <th>  الباركود </th>
 
                     <th>الكمية الاساسية </th>
 
@@ -104,8 +103,7 @@
                             @endif
 
                         </td>
-                        <td>{!! $row-> bar_code!!}</td>
-                        <td>{!! $row->  quantity!!}</td>
+                        <td>{!! $row->quantity!!}</td>
 
                         <td>
                             @if ($row->status==0)
