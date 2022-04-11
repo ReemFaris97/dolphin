@@ -128,13 +128,13 @@
                                 {{ $total_sales_item = $sales->sum('items_count') }}
                             </td>
                             <td class="text-center">
-                                {{ $sales->sum('cash')  - $sales->sum('debts')}}
+                                {{ $sales->sum('cash') - $sales->sum('debts') }}
                             </td>
                             <td class="text-center">
                                 {{ $sales->sum('network') }}
                             </td>
                             <td class="text-center">
-                                {{ $total_sales_amount = $sales->sum('cash') + $sales->sum('network') }}
+                                {{ $total_sales_amount = $sales->sum('cash') + $sales->sum('network') - $sales->sum('debts') }}
                             </td>
                         </tr>
 
