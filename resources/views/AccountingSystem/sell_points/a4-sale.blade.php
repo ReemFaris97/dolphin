@@ -39,7 +39,7 @@
                                     <div class="box1">
                                         <div class="flexx">
                                             <h4>نوع الفاتورة</h4>
-                                            <p>فاتورة نقدية</p>
+                                            <p>فاتورة ضريبية</p>
                                             <h4>invoice type</h4>
                                         </div>
 
