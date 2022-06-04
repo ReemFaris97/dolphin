@@ -545,7 +545,7 @@
 			<input type="hidden" name="product_id[]" value="${productId}">
 			<td class="product-name maybe-hidden name_enable">${productName}</td>
 			<td class="product-unit maybe-hidden unit_enable" width="110">
-				<select class="form-control js-example-basic-single" name="unit_id[${productId}]">
+				<select class="form-control js-example-basic-single" name="unit_id[]">
 					${optss}
 				</select>
 			</td>
@@ -944,13 +944,13 @@
     <!---- new design --->
     <script defer >
         @if (!empty(\Illuminate\Support\Facades\Session::has('sale_id')))
-            
+
             @php($sale_id = \Illuminate\Support\Facades\Session::get('sale_id'))
             window.open(
             "{{ route('accounting.sales.show_return', $sale_id) }}",
             "_blank"
             ).print();
-         
+
         @endif
     </script>
 
