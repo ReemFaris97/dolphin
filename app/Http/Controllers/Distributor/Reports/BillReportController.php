@@ -20,7 +20,6 @@ class BillReportController extends Controller
             }, 'client']);
         },
         ]);
-
         $bills->when(\request('client_id'), function ($q) {
             $q->whereHas('route_trip', function ($query) {
                 $query->whereRelation('client', 'client_id', \request('client_id'));
@@ -37,12 +36,14 @@ class BillReportController extends Controller
             $q->whereBetween('created_at', [\request('from'), \request('to')]);
         });
 
-
         $total = 0;
-        foreach ($bills->get() as $bill) {
-            foreach ($bill->products as $product) {
+        if(!empty(array_filter(request()->all()))){
+        foreach ($bills->get(['id']) as $bill) {
+            foreach ($bill->products()->get(['id','price','quantity']) as $product) {
                 $total += $product->price * $product->quantity;
             }
+        }
+            
         }
         return $dataTable->render('distributor.reports.bills-report.index', ['total' => $total]);
     }
